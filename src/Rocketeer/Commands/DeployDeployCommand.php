@@ -25,6 +25,12 @@ class DeployDeployCommand extends BaseDeployCommand
 	 */
 	public function fire()
 	{
+		// Setup if necessary
+		if (!$this->isSetup()) {
+			$this->call('deploy:setup');
+		}
+
+		// Update current release
 		$this->getReleasesManager()->updateCurrentRelease(time());
 
 		$this->remote->run($this->getTasks());
@@ -41,19 +47,42 @@ class DeployDeployCommand extends BaseDeployCommand
 		$currentReleasePath = $this->getReleasesManager()->getCurrentReleasePath();
 
 		return array(
+			// Clone release and update symlink
 			$this->cloneRelease(),
 			$this->removeFolder('current'),
 			$this->updateSymlink(),
 
+			// Run composer
 			$this->gotoFolder($currentReleasePath),
 			$this->runComposer(),
-			$this->runBower(),
-			$this->runBasset(),
+
+			// Set permissions
 			"chmod -R +x " .$currentReleasePath.'/app',
 			"chmod -R +x " .$currentReleasePath.'/public',
 			"chown -R www-data:www-data " .$currentReleasePath.'/app',
 			"chown -R www-data:www-data " .$currentReleasePath.'/public',
 		);
+	}
+
+	////////////////////////////////////////////////////////////////////
+	/////////////////////////////// HELPERS ////////////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Check if the remote server is set up
+	 *
+	 * @return boolean
+	 */
+	protected function isSetup()
+	{
+		$isSetup = null;
+		$this->remote->run(array(
+			'cd '.$this->getRocketeer()->getHomeFolder(),
+		), function($remoteFolder) use (&$isSetup) {
+			$isSetup = !str_contains($remoteFolder, 'no such file or directory');
+		});
+
+		return $isSetup;
 	}
 
 }
