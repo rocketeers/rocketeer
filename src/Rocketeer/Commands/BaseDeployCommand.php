@@ -148,33 +148,7 @@ abstract class BaseDeployCommand extends Command
 	 */
 	protected function runComposer()
 	{
-		$this->info('Running Composer');
-
 		return 'composer install';
-	}
-
-	/**
-	 * Run Bower on the folder
-	 *
-	 * @return string
-	 */
-	protected function runBower()
-	{
-		$this->info('Installing Bower components');
-
-		return 'bower install';
-	}
-
-	/**
-	 * Run Basset on the folder
-	 *
-	 * @return string
-	 */
-	protected function runBasset()
-	{
-		$this->info('Building Basset collections');
-
-		return 'php artisan basset:build -f --env=production';
 	}
 
 	////////////////////////////////////////////////////////////////////
