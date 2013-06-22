@@ -15,6 +15,13 @@ class Rocketeer
 	protected $app;
 
 	/**
+	 * The Rocketeer version
+	 *
+	 * @var string
+	 */
+	public static $version = '0.1.0';
+
+	/**
 	 * Build a new ReleasesManager
 	 *
 	 * @param Container $app

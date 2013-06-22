@@ -6,24 +6,6 @@ use Illuminate\Console\Command;
 abstract class BaseDeployCommand extends Command
 {
 
-	// Command attributes -------------------------------------------- /
-
-	/**
-	 * The console command name.
-	 *
-	 * @var string
-	 */
-	protected $name = 'deploy';
-
-	/**
-	 * The console command description.
-	 *
-	 * @var string
-	 */
-	protected $description = 'Your interface to deploying your projects';
-
-	// Remote attributes --------------------------------------------- /
-
 	/**
 	 * The current release ID
 	 *
