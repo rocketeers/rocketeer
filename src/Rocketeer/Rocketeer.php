@@ -1,18 +1,18 @@
 <?php
 namespace Rocketeer;
 
-use Illuminate\Container\Container;
+use Illuminate\Config\Repository;
 use Illuminate\Support\Str;
 
 class Rocketeer
 {
 
 	/**
-	 * The IoC Container
+	 * The Config Repository
 	 *
-	 * @var Container
+	 * @var Repository
 	 */
-	protected $app;
+	protected $config;
 
 	/**
 	 * The Rocketeer version
@@ -24,11 +24,11 @@ class Rocketeer
 	/**
 	 * Build a new ReleasesManager
 	 *
-	 * @param Container $app
+	 * @param Repository $config
 	 */
-	public function __construct(Container $app)
+	public function __construct(Repository $config)
 	{
-		$this->app = $app;
+		$this->config = $config;
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -42,7 +42,7 @@ class Rocketeer
 	 */
 	public function getApplicationName()
 	{
-		return $this->app['config']->get('rocketeer::remote.application_name');
+		return $this->config->get('rocketeer::remote.application_name');
 	}
 
 	/**
@@ -53,7 +53,7 @@ class Rocketeer
 	public function getGitRepository()
 	{
 		// Get credentials
-		$repository = $this->app['config']->get('rocketeer::git');
+		$repository = $this->config->get('rocketeer::git');
 		$username   = $repository['username'];
 		$password   = $repository['password'];
 		$repository = $repository['repository'];
@@ -94,7 +94,7 @@ class Rocketeer
 	 */
 	public function getHomeFolder()
 	{
-		$rootDirectory = $this->app['config']->get('rocketeer::remote.root_directory');
+		$rootDirectory = $this->config->get('rocketeer::remote.root_directory');
 		$rootDirectory = Str::finish($rootDirectory, '/');
 
 		return $rootDirectory.$this->getApplicationName();

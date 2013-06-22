@@ -1,15 +1,15 @@
 <?php
 namespace Rocketeer;
 
-use Illuminate\Container\Container;
+use Illuminate\Filesystem\Filesystem;
 
 class DeploymentsManager
 {
 
 	/**
-	 * The IoC Container
+	 * The Filesystem instance
 	 *
-	 * @var Container
+	 * @var Filesystem
 	 */
 	protected $app;
 
@@ -18,9 +18,9 @@ class DeploymentsManager
 	 *
 	 * @param Container $app
 	 */
-	public function __construct(Container $app)
+	public function __construct(Filesystem $files)
 	{
-		$this->app = $app;
+		$this->files = $files;
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -66,7 +66,7 @@ class DeploymentsManager
 	 */
 	protected function updateDeploymentsFile($data)
 	{
-		$this->app['files']->put($this->getDeploymentsFilePath(), json_encode($data));
+		$this->files->put($this->getDeploymentsFilePath(), json_encode($data));
 	}
 
 	/**
@@ -80,7 +80,7 @@ class DeploymentsManager
 		if (!file_exists($deployments)) return null;
 
 		// Get and parse file
-		$deployments = $this->app['files']->get($deployments);
+		$deployments = $this->files->get($deployments);
 		$deployments = json_decode($deployments, true);
 
 		return $deployments;

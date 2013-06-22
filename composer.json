@@ -17,6 +17,10 @@
 		"php": ">=5.3.0",
 		"illuminate/support": "4.1.x"
 	},
+	"require-dev": {
+		"illuminate/container": "4.1.x",
+		"mockery/mockery": "dev-master"
+	},
 	"autoload": {
 		"psr-0": {
 			"Rocketeer": "src/"

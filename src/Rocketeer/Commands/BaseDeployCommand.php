@@ -40,7 +40,9 @@ abstract class BaseDeployCommand extends Command
 	 */
 	public function fire()
 	{
-		$this->remote->run($this->getTasks());
+		$this->remote->run(
+			$this->getTasks()
+		);
 	}
 
 	/**

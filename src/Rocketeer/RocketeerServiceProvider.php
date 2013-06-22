@@ -34,7 +34,7 @@ class RocketeerServiceProvider extends ServiceProvider
 	protected function registerClasses()
 	{
 		$this->app->bind('rocketeer.rocketeer', function($app) {
-			return new Rocketeer($app);
+			return new Rocketeer($app['config']);
 		});
 
 		$this->app->bind('rocketeer.releases', function($app) {
@@ -42,7 +42,7 @@ class RocketeerServiceProvider extends ServiceProvider
 		});
 
 		$this->app->bind('rocketeer.deployments', function($app) {
-			return new DeploymentsManager($app);
+			return new DeploymentsManager($app['files']);
 		});
 	}
 
