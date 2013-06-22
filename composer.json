@@ -1,6 +1,12 @@
 {
 	"name": "anahkiasen/rocketeer",
 	"description": "Rocketeer provides a fast and easy to deploy your Laravel projects",
+	"license": "MIT",
+	"keywords": [
+		"laravel",
+		"deployment",
+		"ssh"
+	],
 	"authors": [
 		{
 			"name": "Maxime Fabre",
