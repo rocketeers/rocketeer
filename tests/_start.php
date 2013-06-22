@@ -30,8 +30,12 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 			return $files;
 		});
 
-		$this->app->bind('rocketeer', function($app) {
+		$this->app->bind('rocketeer.rocketeer', function($app) {
 			return new Rocketeer\Rocketeer($app['config']);
+		});
+
+		$this->app->bind('rocketeer.releases', function($app) {
+			return new Rocketeer\ReleasesManager($app);
 		});
 
 		$this->app->bind('rocketeer.deployments', function($app) {
@@ -66,7 +70,7 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 	{
 		$files = Mockery::mock('Illuminate\Filesystem\Filesystem');
 		$files->shouldReceive('exists')->andReturn(true);
-		$files->shouldReceive('get')->andReturn('{"foo":"bar"}');
+		$files->shouldReceive('get')->andReturn('{"foo":"bar", "current_release": 1371935884}');
 		$files->shouldReceive('put');
 
 		return $files;
