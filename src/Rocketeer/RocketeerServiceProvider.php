@@ -42,7 +42,7 @@ class RocketeerServiceProvider extends ServiceProvider
 		});
 
 		$this->app->bind('rocketeer.deployments', function($app) {
-			return new DeploymentsManager($app['files']);
+			return new DeploymentsManager($app['files'], $app['path.storage']);
 		});
 	}
 

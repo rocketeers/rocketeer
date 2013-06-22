@@ -14,13 +14,22 @@ class DeploymentsManager
 	protected $app;
 
 	/**
+	 * The path to the deployments file
+	 *
+	 * @var string
+	 */
+	protected $deploymentsFilepath;
+
+	/**
 	 * Build a new ReleasesManager
 	 *
-	 * @param Container $app
+	 * @param Filesystem $files
+	 * @param string     $storage Path to the storage folder
 	 */
-	public function __construct(Filesystem $files)
+	public function __construct(Filesystem $files, $storage)
 	{
-		$this->files = $files;
+		$this->files               = $files;
+		$this->deploymentsFilepath = $storage.'/meta/deployments.json';
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -66,7 +75,7 @@ class DeploymentsManager
 	 */
 	protected function updateDeploymentsFile($data)
 	{
-		$this->files->put($this->getDeploymentsFilePath(), json_encode($data));
+		$this->files->put($this->deploymentsFilepath, json_encode($data));
 	}
 
 	/**
@@ -76,23 +85,16 @@ class DeploymentsManager
 	 */
 	protected function getDeploymentsFile()
 	{
-		$deployments = $this->getDeploymentsFilePath();
-		if (!file_exists($deployments)) return null;
+		// Cancel if the file doesn't exist
+		if (!$this->files->exists($this->deploymentsFilepath)) {
+			return null;
+		}
 
 		// Get and parse file
-		$deployments = $this->files->get($deployments);
+		$deployments = $this->files->get($this->deploymentsFilepath);
 		$deployments = json_decode($deployments, true);
 
 		return $deployments;
 	}
 
-	/**
-	 * Get the path to the deployments file
-	 *
-	 * @return string
-	 */
-	protected function getDeploymentsFilePath()
-	{
-		return $this->app->make('path.storage').'/meta/deployments.json';
-	}
 }

@@ -23,8 +23,16 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 			return $me->getConfig();
 		});
 
+		$this->app->singleton('files', function() use ($me) {
+			return $me->getFiles();
+		});
+
 		$this->app->bind('rocketeer', function($app) {
 			return new Rocketeer\Rocketeer($app['config']);
+		});
+
+		$this->app->bind('rocketeer.deployments', function($app) {
+			return new Rocketeer\DeploymentsManager($app['files'], 'app/storage');
 		});
 	}
 
@@ -32,6 +40,11 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 	///////////////////////////// DEPENDENCIES /////////////////////////
 	////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Mock the Config component
+	 *
+	 * @return Mockery
+	 */
 	protected function getConfig()
 	{
 		$config = Mockery::mock('Illuminate\Config\Repository');
@@ -39,6 +52,21 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 		$config->shouldReceive('get')->with('rocketeer::remote.root_directory')->andReturn('/home/www/');
 
 		return $config;
+	}
+
+	/**
+	 * Mock the Filesystem component
+	 *
+	 * @return Mockery
+	 */
+	protected function getFiles()
+	{
+		$files = Mockery::mock('Illuminate\Filesystem\Filesystem');
+		$files->shouldReceive('exists')->andReturn(true);
+		$files->shouldReceive('get')->andReturn('{"foo":"bar"}');
+		$files->shouldReceive('put');
+
+		return $files;
 	}
 
 }
