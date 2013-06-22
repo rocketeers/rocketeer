@@ -61,8 +61,7 @@ class DeployCleanupCommand extends DeployCommand
 		), function($folders, $remote) use (&$releases) {
 			$releases = explode(PHP_EOL, $folders);
 			$releases = array_filter($releases);
-
-			sort($releases);
+			rsort($releases);
 		});
 
 		return $releases;
