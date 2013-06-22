@@ -1,4 +1,4 @@
-Rocketeer
+Rocketeer [![Build Status](https://travis-ci.org/Anahkiasen/rocketeer.png?branch=master)](https://travis-ci.org/Anahkiasen/rocketeer)
 =========
 
 ## Setup
