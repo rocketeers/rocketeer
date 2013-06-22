@@ -1,6 +1,9 @@
 <?php
 namespace Rocketeer\Commands;
 
+/**
+ * Set up the remote server for deployment
+ */
 class DeploySetupCommand extends BaseDeployCommand
 {
 
@@ -16,7 +19,7 @@ class DeploySetupCommand extends BaseDeployCommand
 	 *
 	 * @var string
 	 */
-	protected $description = 'Set up the website for deployment';
+	protected $description = 'Set up the remote server for deployment';
 
 	/**
 	 * Execute the console command.

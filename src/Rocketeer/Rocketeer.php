@@ -4,6 +4,10 @@ namespace Rocketeer;
 use Illuminate\Config\Repository;
 use Illuminate\Support\Str;
 
+/**
+ * Handles interaction between the User provided informations
+ * and the various Rocketeer components
+ */
 class Rocketeer
 {
 

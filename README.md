@@ -25,7 +25,10 @@ Then publish the config :
 artisan config:publish anahkiasen/rocketeer
 ```
 
-And you're good to go. Simply edit the config file with the relevant informations.
+Now before you go all crazy and deploy on everything you find you have to files to set up :
+
+- The first one is the `app/config/remote.php` file, this will set up the **Remote** Laravel component, use it to provide the connection informations for the various servers you want to deploy to
+- Then the `app/config/packages/anahkiasen/rocketeer/config.php` file, where you'll provide more concrete deployment-related informations – see the example file below for what it might look like if you're feeling a little lost
 
 ## Using Rocketeer
 

@@ -3,6 +3,9 @@ namespace Rocketeer;
 
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * Bind the various Rocketeer classes to Laravel
+ */
 class RocketeerServiceProvider extends ServiceProvider
 {
 

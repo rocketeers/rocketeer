@@ -29,8 +29,11 @@ abstract class BaseDeployCommand extends Command
 	{
 		parent::__construct();
 
+		// Get the connection to use
+		$connections = $app['config']->get('rocketeer::connections');
+
 		$this->laravel = $app;
-		$this->remote  = $app['remote']->into('production');
+		$this->remote  = $app['remote']->into($connections);
 	}
 
 	/**

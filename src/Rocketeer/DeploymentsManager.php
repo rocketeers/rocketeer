@@ -3,6 +3,10 @@ namespace Rocketeer;
 
 use Illuminate\Filesystem\Filesystem;
 
+/**
+ * Handles the Deployments repository that stores static data
+ * about the state of the remote servers
+ */
 class DeploymentsManager
 {
 
@@ -57,7 +61,7 @@ class DeploymentsManager
 	public function setValue($key, $value)
 	{
 		$deployments = $this->getDeploymentsFile();
-		$deployments[$key] = $value;
+		array_set($deployments, $key, $value);
 
 		$this->updateDeploymentsFile($deployments);
 	}

@@ -1,5 +1,14 @@
 <?php return array(
 
+	// Remote access
+	//
+	// You can either use a single connection or an array of connections
+	// For this configure your app/remote.php file
+	//////////////////////////////////////////////////////////////////////
+
+	// The remote connection(s) to deploy to
+	'connections' => 'production',
+
 	// Git Repository
 	//////////////////////////////////////////////////////////////////////
 
