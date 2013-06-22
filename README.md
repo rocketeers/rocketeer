@@ -29,5 +29,5 @@ And you're good to go. Simply edit the config file with the relevant information
 
 For now, Rocketeer comes with two main commands :
 
-`artisan deploy:setup` will create the relevant folders on your remote connection (ie, `current` and `releases` _ala_ Capistrano).
-`artisan deploy:deploy` will deploy the current version of the repository as a release, make it the current one, and execute whatever tasks you configured Rocketeer to do afterwards.
+- `artisan deploy:setup` will create the relevant folders on your remote connection (ie, `current` and `releases` _ala_ Capistrano).
+- `artisan deploy:deploy` will deploy the current version of the repository as a release, make it the current one, and execute whatever tasks you configured Rocketeer to do afterwards.
