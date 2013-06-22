@@ -5,7 +5,7 @@
 
 	'git' => array(
 
-		// The HTTPS adress to your Git Repository
+		// The SSH/HTTPS adress to your Git Repository
 		'repository' => 'https://github.com/vendor/website.git',
 
 		// Its credentials
