@@ -28,7 +28,7 @@
 		'application_name' => 'application',
 
 		// The number of releases to keep at all times
-		'releases' => 4,
+		'keep_releases' => 4,
 	),
 
 	// Tasks

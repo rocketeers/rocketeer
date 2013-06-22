@@ -58,7 +58,7 @@ class ReleasesManager
 	 */
 	public function getDeprecatedReleases()
 	{
-		$maxReleases = $this->app['config']->get('rocketeer::remote.releases');
+		$maxReleases = $this->app['config']->get('rocketeer::remote.keep_releases');
 		$releases    = $this->app['rocketeer.releases']->getReleases();
 
 		return array_slice($releases, $maxReleases);
