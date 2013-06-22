@@ -2,8 +2,9 @@
 namespace Rocketeer\Commands;
 
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
+use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 abstract class DeployCommand extends Command
 {
@@ -108,22 +109,20 @@ abstract class DeployCommand extends Command
 	////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Set the correct permissions on the current release folder
-	 */
-	protected function setPermissions()
-	{
-		return array(
-		);
-	}
-
-	/**
 	 * Get the Git repository
 	 *
 	 * @return string
 	 */
 	protected function getRepository()
 	{
-		return $this->laravel['config']->get('remote.git.repository');
+		// Get credentials
+		$repository  = $this->laravel['config']->get('rocketeer::git');
+		$credentials = $repository['username'].':'.$repository['password'];
+
+		// Add credentials if HTTPS
+		$repository = str_replace('https://', 'https://'.$credentials, $repository['repository']);
+
+		return $repository;
 	}
 
 	/**
@@ -276,7 +275,10 @@ abstract class DeployCommand extends Command
 	 */
 	protected function getPath()
 	{
-		return '/home/www/'.$this->argument('website');
+		$rootDirectory = $this->laravel['config']->get('rocketeer::remote.root_directory');
+		$rootDirectory = Str::finish($rootDirectory, '/');
+
+		return $rootDirectory.$this->argument('website');
 	}
 
 }
