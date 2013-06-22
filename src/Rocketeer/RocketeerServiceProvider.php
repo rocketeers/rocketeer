@@ -51,6 +51,10 @@ class RocketeerServiceProvider extends ServiceProvider
 	 */
 	protected function registerCommands()
 	{
+		$this->app->bind('deploy',  function($app) {
+			return new Commands\DeployCommand($app);
+		});
+
 		$this->app->bind('deploy.setup',  function($app) {
 			return new Commands\DeploySetupCommand($app);
 		});
@@ -71,7 +75,7 @@ class RocketeerServiceProvider extends ServiceProvider
 			return new Commands\DeployCurrentCommand($app);
 		});
 
-		$this->commands('deploy.setup', 'deploy.deploy', 'deploy.cleanup', 'deploy.rollback', 'deploy.current');
+		$this->commands('deploy', 'deploy.setup', 'deploy.deploy', 'deploy.cleanup', 'deploy.rollback', 'deploy.current');
 	}
 
 	/**
