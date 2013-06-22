@@ -1,7 +1,7 @@
 <?php
 namespace Rocketeer\Commands;
 
-class DeployCleanupCommand extends DeployCommand
+class DeployCleanupCommand extends BaseDeployCommand
 {
 
 	/**
@@ -28,7 +28,7 @@ class DeployCleanupCommand extends DeployCommand
 		// Get deprecated releases and create commands
 		$trash = $this->getReleasesManager()->getDeprecatedReleases();
 		foreach ($trash as &$release) {
-			$release = $this->removeFolder($this->getReleasesPath().'/'.$release);
+			$release = $this->removeFolder($this->getReleasesManager()->getReleasesPath().'/'.$release);
 		}
 
 		if (empty($trash)) {

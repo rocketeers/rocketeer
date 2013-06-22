@@ -1,7 +1,9 @@
 <?php
 namespace Rocketeer\Commands;
 
-class DeployRollbackCommand extends DeployCommand
+use Symfony\Component\Console\Input\InputArgument;
+
+class DeployRollbackCommand extends BaseDeployCommand
 {
 
 	/**
@@ -19,12 +21,17 @@ class DeployRollbackCommand extends DeployCommand
 	protected $description = 'Rollback to the previous release, or to a specific one';
 
 	/**
-	 * Execute the console command.
+	 * The tasks to execute
 	 *
-	 * @return void
+	 * @return array
 	 */
-	public function fire()
+	protected function tasks()
 	{
+		$rollback = $this->getRollbackRelease();
+
+		return array(
+			$this->updateSymlink($rollback),
+		);
 	}
 
 	/**
@@ -35,9 +42,31 @@ class DeployRollbackCommand extends DeployCommand
 	protected function getArguments()
 	{
 		return array(
-			array('application', InputArgument::OPTIONAL, 'The name of the application to deploy.'),
-			array('release',     InputArgument::OPTIONAL, 'The release to rollback to'),
+			array('release', InputArgument::OPTIONAL, 'The release to rollback to'),
 		);
+	}
+
+	////////////////////////////////////////////////////////////////////
+	/////////////////////////////// HELPERS ////////////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Get the release to rollback to
+	 *
+	 * @return string
+	 */
+	protected function getRollbackRelease()
+	{
+		$release = $this->argument('release');
+		if (!$release) {
+			$releases = $this->getReleasesManager()->getReleases();
+			$current  = $this->getReleasesManager()->getCurrentRelease();
+
+			$key     = array_search($releases, $current);
+			$release = array_get($releases, $key + 1, $current);
+		}
+
+		return $release;
 	}
 
 }

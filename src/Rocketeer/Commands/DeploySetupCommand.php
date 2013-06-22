@@ -1,7 +1,7 @@
 <?php
 namespace Rocketeer\Commands;
 
-class DeploySetupCommand extends DeployCommand
+class DeploySetupCommand extends BaseDeployCommand
 {
 
 	/**

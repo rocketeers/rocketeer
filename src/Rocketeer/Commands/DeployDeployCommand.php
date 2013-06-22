@@ -1,7 +1,7 @@
 <?php
 namespace Rocketeer\Commands;
 
-class DeployDeployCommand extends DeployCommand
+class DeployDeployCommand extends BaseDeployCommand
 {
 
 	/**
@@ -54,23 +54,6 @@ class DeployDeployCommand extends DeployCommand
 			"chown -R www-data:www-data " .$currentReleasePath.'/app',
 			"chown -R www-data:www-data " .$currentReleasePath.'/public',
 		);
-	}
-
-	////////////////////////////////////////////////////////////////////
-	/////////////////////////////// HELPERS ////////////////////////////
-	////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Update the current symlink
-	 *
-	 * @return string
-	 */
-	protected function updateSymlink()
-	{
-		$currentReleasePath = $this->getReleasesManager()->getCurrentReleasePath();
-		$currentFolder      = $this->getRocketeer()->getFolder('current');
-
-		return sprintf('ln -s %s %s', $currentReleasePath, $currentFolder);
 	}
 
 }

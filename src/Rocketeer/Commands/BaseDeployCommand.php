@@ -6,7 +6,7 @@ use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
-abstract class DeployCommand extends Command
+abstract class BaseDeployCommand extends Command
 {
 
 	// Command attributes -------------------------------------------- /
@@ -129,6 +129,22 @@ abstract class DeployCommand extends Command
 	}
 
 	/**
+	 * Update the current symlink
+	 *
+	 * @return string
+	 */
+	protected function updateSymlink($release = null)
+	{
+		// If the release is specified, update to make it the current one
+		$release = $this->getReleasesManager()->updateCurrentRelease($release);
+
+		$currentReleasePath = $this->getReleasesManager()->getCurrentReleasePath();
+		$currentFolder      = $this->getRocketeer()->getFolder('current');
+
+		return sprintf('ln -s %s %s', $currentReleasePath, $currentFolder);
+	}
+
+	/**
 	 * Run Composer on the folder
 	 *
 	 * @return string
@@ -213,7 +229,10 @@ abstract class DeployCommand extends Command
 	 *
 	 * @return array
 	 */
-	abstract protected function tasks();
+	protected function tasks()
+	{
+		return array();
+	}
 
 	/**
 	 * Get the tasks to execute
