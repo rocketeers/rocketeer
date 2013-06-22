@@ -26,7 +26,7 @@ class DeployDeployCommand extends BaseDeployCommand
 	public function fire()
 	{
 		// Setup if necessary
-		if (!$this->isSetup()) {
+		if (!$this->getDeploymentsManager()->getValue('is_setup')) {
 			$this->call('deploy:setup');
 		}
 
@@ -62,27 +62,6 @@ class DeployDeployCommand extends BaseDeployCommand
 			"chown -R www-data:www-data " .$currentReleasePath.'/app',
 			"chown -R www-data:www-data " .$currentReleasePath.'/public',
 		);
-	}
-
-	////////////////////////////////////////////////////////////////////
-	/////////////////////////////// HELPERS ////////////////////////////
-	////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Check if the remote server is set up
-	 *
-	 * @return boolean
-	 */
-	protected function isSetup()
-	{
-		$isSetup = false;
-		$this->remote->run(array(
-			'cd '.$this->getRocketeer()->getHomeFolder(),
-		), function($remoteFolder) use (&$isSetup) {
-			$isSetup = (bool) !str_contains($remoteFolder, 'no such file or directory');
-		});
-
-		return $isSetup;
 	}
 
 }

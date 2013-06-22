@@ -105,6 +105,16 @@ abstract class BaseDeployCommand extends Command
 		return $this->laravel['rocketeer.releases'];
 	}
 
+	/**
+	 * Get the DeploymentsManager instance
+	 *
+	 * @return DeploymentsManager
+	 */
+	protected function getDeploymentsManager()
+	{
+		return $this->laravel['rocketeer.deployments'];
+	}
+
 	////////////////////////////////////////////////////////////////////
 	//////////////////////////////// TASKS /////////////////////////////
 	////////////////////////////////////////////////////////////////////

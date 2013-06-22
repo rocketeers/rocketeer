@@ -27,6 +27,9 @@ class DeploySetupCommand extends BaseDeployCommand
 	{
 		$this->remote->run($this->getTasks());
 
+		// Set setup to true
+		$this->getDeploymentsManager()->setValue('is_setup', true);
+
 		// Create confirmation message
 		$application = $this->getRocketeer()->getApplicationName();
 		$homeFolder  = $this->getRocketeer()->getHomeFolder();

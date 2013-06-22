@@ -40,6 +40,10 @@ class RocketeerServiceProvider extends ServiceProvider
 		$this->app->bind('rocketeer.releases', function($app) {
 			return new ReleasesManager($app);
 		});
+
+		$this->app->bind('rocketeer.deployments', function($app) {
+			return new DeploymentsManager($app);
+		});
 	}
 
 	/**

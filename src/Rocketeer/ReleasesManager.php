@@ -99,9 +99,7 @@ class ReleasesManager
 	 */
 	public function getCurrentRelease()
 	{
-		$deployments = $this->getDeploymentsFile();
-
-		return $deployments ? $deployments['current_release'] : 0;
+		return $this->app['rocketeer.deployments']->getValue('current_release');
 	}
 
 	/**
@@ -113,52 +111,7 @@ class ReleasesManager
 	 */
 	public function updateCurrentRelease($release)
 	{
-		$this->updateDeploymentsFile(array(
-			'current_release' => $release,
-		));
-	}
-
-	////////////////////////////////////////////////////////////////////
-	/////////////////////////// DEPLOYMENTS FILE ///////////////////////
-	////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Update the deployments file
-	 *
-	 * @param array $data
-	 *
-	 * @return void
-	 */
-	protected function updateDeploymentsFile($data)
-	{
-		$this->app['files']->put($this->getDeploymentsFilePath(), json_encode($data));
-	}
-
-	/**
-	 * Get the contents of the deployments file
-	 *
-	 * @return array
-	 */
-	protected function getDeploymentsFile()
-	{
-		$deployments = $this->getDeploymentsFilePath();
-		if (!file_exists($deployments)) return null;
-
-		// Get and parse file
-		$deployments = $this->app['files']->get($deployments);
-		$deployments = json_decode($deployments, true);
-
-		return $deployments;
-	}
-
-	/**
-	 * Get the path to the deployments file
-	 *
-	 * @return string
-	 */
-	protected function getDeploymentsFilePath()
-	{
-		return $this->app->make('path.storage').'/meta/deployments.json';
+		$this->app['rocketeer.deployments']->setValue('current_release', $release);
 	}
 
 }
