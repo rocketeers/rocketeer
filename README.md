@@ -7,6 +7,17 @@ Rocketeer provides a fast and easy to set-up way to deploy your Laravel projects
 
 **Rocketeer requires Laravel 4.1 as it uses the new _illuminate/remote_ component***.
 
+### With Package Installer
+
+Simply do this :
+
+```
+artisan package:install anahkiasen/rocketeer
+artisan config:publish anahkiasen/rocketeer
+```
+
+### Manually
+
 To use it, add the following to your `composer.json` file :
 
 ```json
@@ -24,6 +35,8 @@ Then publish the config :
 ```
 artisan config:publish anahkiasen/rocketeer
 ```
+
+### Additional steps
 
 Now before you go all crazy and deploy on everything you find you have to files to set up :
 
