@@ -41,6 +41,8 @@ class DeployDeployCommand extends DeployCommand
 			"chown -R www-data:www-data " .$this->getCurrentRelease().'/app',
 			"chown -R www-data:www-data " .$this->getCurrentRelease().'/public',
 		));
+
+		$this->call('deploy.cleanup');
 	}
 
 }

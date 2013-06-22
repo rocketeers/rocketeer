@@ -26,6 +26,9 @@
 
 		// The default name of the application to deploy
 		'application_name' => 'application',
+
+		// The number of releases to keep at all times
+		'releases' => 4,
 	),
 
 	// Tasks

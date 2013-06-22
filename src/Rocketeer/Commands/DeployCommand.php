@@ -52,7 +52,7 @@ abstract class DeployCommand extends Command
 
 		$this->laravel        = $app;
 		$this->currentRelease = time();
-		$this->remote         = $this->laravel['remote']->into('production');
+		$this->remote         = $app['remote']->into('production');
 	}
 
 	/**

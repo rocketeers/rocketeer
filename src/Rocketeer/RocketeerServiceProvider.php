@@ -21,10 +21,10 @@ class RocketeerServiceProvider extends ServiceProvider
 	public function register()
 	{
 		// Register config file
-    $this->app['config']->package('anahkiasen/rocketeer', __DIR__.'/../config');
+		$this->app['config']->package('anahkiasen/rocketeer', __DIR__.'/../config');
 
-    // Register commands
-    $this->registerCommands();
+		// Register commands
+		$this->registerCommands();
 	}
 
 	/**
@@ -32,15 +32,19 @@ class RocketeerServiceProvider extends ServiceProvider
 	 */
 	protected function registerCommands()
 	{
-    $this->app->bind('deploy.setup',  function($app) {
-    	return new Commands\DeploySetupCommand($app);
-    });
+		$this->app->bind('deploy.setup',  function($app) {
+			return new Commands\DeploySetupCommand($app);
+		});
 
-    $this->app->bind('deploy.deploy', function($app) {
-    	return new Commands\DeployDeployCommand($app);
-    });
+		$this->app->bind('deploy.deploy', function($app) {
+			return new Commands\DeployDeployCommand($app);
+		});
 
-    $this->commands('deploy.setup', 'deploy.deploy');
+		$this->app->bind('deploy.cleanup', function($app) {
+			return new Commands\DeployCleanupCommand($app);
+		});
+
+		$this->commands('deploy.setup', 'deploy.deploy', 'deploy.cleanup');
 	}
 
 	/**
