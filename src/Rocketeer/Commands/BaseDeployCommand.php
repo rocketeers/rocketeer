@@ -133,7 +133,9 @@ abstract class BaseDeployCommand extends Command
 	protected function updateSymlink($release = null)
 	{
 		// If the release is specified, update to make it the current one
-		$release = $this->getReleasesManager()->updateCurrentRelease($release);
+		if ($release) {
+			$release = $this->getReleasesManager()->updateCurrentRelease($release);
+		}
 
 		$currentReleasePath = $this->getReleasesManager()->getCurrentReleasePath();
 		$currentFolder      = $this->getRocketeer()->getFolder('current');

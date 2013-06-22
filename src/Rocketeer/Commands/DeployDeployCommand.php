@@ -75,11 +75,11 @@ class DeployDeployCommand extends BaseDeployCommand
 	 */
 	protected function isSetup()
 	{
-		$isSetup = null;
+		$isSetup = false;
 		$this->remote->run(array(
 			'cd '.$this->getRocketeer()->getHomeFolder(),
 		), function($remoteFolder) use (&$isSetup) {
-			$isSetup = !str_contains($remoteFolder, 'no such file or directory');
+			$isSetup = (bool) !str_contains($remoteFolder, 'no such file or directory');
 		});
 
 		return $isSetup;
