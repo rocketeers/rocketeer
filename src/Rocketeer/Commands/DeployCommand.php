@@ -50,9 +50,18 @@ abstract class DeployCommand extends Command
 	{
 		parent::__construct();
 
-		$this->laravel        = $app;
-		$this->currentRelease = time();
-		$this->remote         = $app['remote']->into('production');
+		$this->laravel = $app;
+		$this->remote  = $app['remote']->into('production');
+	}
+
+	/**
+	 * Run the tasks
+	 *
+	 * @return void
+	 */
+	public function fire()
+	{
+		$this->remote->run($this->getTasks());
 	}
 
 	/**
@@ -62,9 +71,7 @@ abstract class DeployCommand extends Command
 	 */
 	protected function getArguments()
 	{
-		return array(
-			array('application', InputArgument::OPTIONAL, 'The name of the application to deploy.'),
-		);
+		return array();
 	}
 
 	/**
@@ -82,36 +89,23 @@ abstract class DeployCommand extends Command
 	////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Get the name of the application to deploy
+	 * Get the Rocketeer instance
 	 *
-	 * @return string
+	 * @return Rocketeer
 	 */
-	protected function getApplicationName()
+	protected function getRocketeer()
 	{
-		return $this->argument('application') ?: $this->laravel['config']->get('rocketeer::remote.application_name');
+		return $this->laravel['rocketeer.rocketeer'];
 	}
 
 	/**
-	 * Get the Git repository
+	 * Get the ReleasesManager instance
 	 *
-	 * @return string
+	 * @return ReleasesManager
 	 */
-	protected function getRepository()
+	protected function getReleasesManager()
 	{
-		// Get credentials
-		$repository = $this->laravel['config']->get('rocketeer::git');
-		$username   = $repository['username'];
-		$password   = $repository['password'];
-		$repository = $repository['repository'];
-
-		// Add credentials if HTTPS
-		if (str_contains($repository, 'https://'.$username)) {
-			$repository = str_replace($username.'@', $username.':'.$password.'@', $repository);
-		} else {
-			$repository = str_replace('https://', 'https://'.$username.':'.$password.'@', $repository);
-		}
-
-		return $repository;
+		return $this->laravel['rocketeer.releases'];
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -125,10 +119,13 @@ abstract class DeployCommand extends Command
 	 */
 	protected function cloneRelease()
 	{
-		$branch = $this->laravel['config']->get('rocketeer::git.branch');
-		$this->info('Cloning repository in "releases/'.$this->currentRelease.'"');
+		$branch      = $this->laravel['config']->get('rocketeer::git.branch');
+		$repository  = $this->getRocketeer()->getGitRepository();
+		$releasePath = $this->getReleasesManager()->getCurrentReleasePath();
 
-		return 'git clone -b ' .$branch. ' ' .$this->getRepository(). ' ' .$this->getReleasesPath().'/'.$this->currentRelease;
+		$this->info('Cloning repository in "' .$releasePath. '"');
+
+		return sprintf('git clone -b %s %s %s', $branch, $repository, $releasePath);
 	}
 
 	/**
@@ -178,9 +175,9 @@ abstract class DeployCommand extends Command
 	 *
 	 * @return string
 	 */
-	protected function cd($folder = null)
+	protected function gotoFolder($folder = null)
 	{
-		return 'cd '.$this->getFolder($folder);
+		return 'cd '.$this->getRocketeer()->getFolder($folder);
 	}
 
 	/**
@@ -192,7 +189,7 @@ abstract class DeployCommand extends Command
 	 */
 	protected function removeFolder($folder = null)
 	{
-		return 'rm -rf '.$this->getFolder($folder);
+		return 'rm -rf '.$this->getRocketeer()->getFolder($folder);
 	}
 
 	/**
@@ -204,73 +201,48 @@ abstract class DeployCommand extends Command
 	 */
 	protected function createFolder($folder = null)
 	{
-		return 'mkdir '.$this->getFolder($folder);
-	}
-
-	/**
-	 * Update the current symlink
-	 *
-	 * @return string
-	 */
-	protected function updateSymlink()
-	{
-		return 'ln -s '.$this->getCurrentRelease(). ' ' .$this->getFolder('current');
+		return 'mkdir '.$this->getRocketeer()->getFolder($folder);
 	}
 
 	////////////////////////////////////////////////////////////////////
-	//////////////////////////////// PATHS /////////////////////////////
+	//////////////////////////////// TASKS /////////////////////////////
 	////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Get the path to the current release
+	 * Define here the tasks the command should execute
 	 *
-	 * @return string
+	 * @return array
 	 */
-	protected function getCurrentRelease()
+	abstract protected function tasks();
+
+	/**
+	 * Get the tasks to execute
+	 *
+	 * @return array
+	 */
+	protected function getTasks()
 	{
-		return $this->getReleasesPath().'/'.$this->currentRelease;
+		return array_merge($this->getBeforeTasks(), $this->tasks(), $this->getAfterTasks());
 	}
 
 	/**
-	 * Get the path to the releases folder
+	 * Return the tasks the User defined to be executed before this command
 	 *
-	 * @return string
+	 * @return array
 	 */
-	protected function getReleasesPath()
+	protected function getBeforeTasks()
 	{
-		return $this->getFolder('releases');
+		return (array) $this->laravel['config']->get('rocketeer::tasks.before.'.$this->name);
 	}
 
 	/**
-	 * Get the path to a folder
+	 * Return the tasks the User defined to be executed after this command
 	 *
-	 * @param  strng $folder
-	 *
-	 * @return string
+	 * @return array
 	 */
-	protected function getFolder($folder = null)
+	protected function getAfterTasks()
 	{
-		if (!str_contains($folder, $this->getBasePath())) {
-			$base = $this->getBasePath();
-			if ($folder) $base .= '/'.$folder;
-		} else {
-			$base = $folder;
-		}
-
-		return $base;
-	}
-
-	/**
-	 * Get the path to the remote folder
-	 *
-	 * @return string
-	 */
-	protected function getBasePath()
-	{
-		$rootDirectory = $this->laravel['config']->get('rocketeer::remote.root_directory');
-		$rootDirectory = Str::finish($rootDirectory, '/');
-
-		return $rootDirectory.$this->getApplicationName();
+		return (array) $this->laravel['config']->get('rocketeer::tasks.after.'.$this->name);
 	}
 
 }

@@ -25,14 +25,31 @@ class DeploySetupCommand extends DeployCommand
 	 */
 	public function fire()
 	{
-		$this->remote->run(array(
+		$this->remote->run($this->getTasks());
+
+		// Create confirmation message
+		$application = $this->getRocketeer()->getApplicationName();
+		$homeFolder  = $this->getRocketeer()->getHomeFolder();
+
+		$this->info(sprintf('Successfully setup "%s" at "%s"', $application, $homeFolder));
+	}
+
+	/**
+	 * The tasks to execute
+	 *
+	 * @return array
+	 */
+	protected function tasks()
+	{
+		return array(
+			// Remove existing installation
 			$this->removeFolder(),
+
+			// Create base folder and subfolders
 			$this->createFolder(),
 			$this->createFolder('releases'),
 			$this->createFolder('current'),
-		));
-
-		$this->info('Successfully setup "'.$this->getApplicationName(). '" at "'.$this->getBasePath().'"');
+		);
 	}
 
 }

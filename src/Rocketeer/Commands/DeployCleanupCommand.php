@@ -19,52 +19,25 @@ class DeployCleanupCommand extends DeployCommand
 	protected $description = 'Clean up old releases from the server';
 
 	/**
-	 * Execute the console command.
+	 * The tasks to execute
 	 *
-	 * @return void
+	 * @return array
 	 */
-	public function fire()
+	protected function tasks()
 	{
-		$maxReleases = $this->laravel['config']->get('rocketeer::remote.releases');
-
-		// Create commands
-		$trash = array_slice($this->getReleases(), $maxReleases);
+		// Get deprecated releases and create commands
+		$trash = $this->getReleasesManager()->getDeprecatedReleases();
 		foreach ($trash as &$release) {
 			$release = $this->removeFolder($this->getReleasesPath().'/'.$release);
 		}
 
-		// Remove old releases
-		if (!empty($trash)) {
-			$this->info('Removing '.sizeof($trash). ' releases from the server');
-			$this->remote->run($trash);
+		if (empty($trash)) {
+			$this->info('No releases to prune from the server');
+			return array();
 		} else {
-			$this->info('No releases to clean from the server');
+			$this->info('Removing '.sizeof($trash). ' releases from the server');
+			return $trash;
 		}
-	}
-
-	////////////////////////////////////////////////////////////////////
-	/////////////////////////////// HELPERS ////////////////////////////
-	////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Get the existing releases on the server
-	 *
-	 * @return array
-	 */
-	protected function getReleases()
-	{
-		$releases = array();
-
-		$this->remote->run(array(
-			'cd '.$this->getReleasesPath(),
-			'ls',
-		), function($folders, $remote) use (&$releases) {
-			$releases = explode(PHP_EOL, $folders);
-			$releases = array_filter($releases);
-			rsort($releases);
-		});
-
-		return $releases;
 	}
 
 }

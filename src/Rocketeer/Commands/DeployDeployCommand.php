@@ -19,30 +19,58 @@ class DeployDeployCommand extends DeployCommand
 	protected $description = 'Deploy the website.';
 
 	/**
-	 * Execute the console command.
+	 * Execute the tasks
 	 *
-	 * @return void
+	 * @return array
 	 */
 	public function fire()
 	{
-		$this->remote->run(array(
+		$this->getReleasesManager()->updateCurrentRelease(time());
+
+		$this->remote->run($this->getTasks());
+		$this->call('deploy:cleanup');
+	}
+
+	/**
+	 * The tasks to execute
+	 *
+	 * @return array
+	 */
+	public function tasks()
+	{
+		$currentReleasePath = $this->getReleasesManager()->getCurrentReleasePath();
+
+		return array(
 			$this->cloneRelease(),
 			$this->removeFolder('current'),
 			$this->updateSymlink(),
-		));
 
-		$this->remote->run(array(
-			$this->cd($this->getCurrentRelease()),
+			$this->gotoFolder($currentReleasePath),
 			$this->runComposer(),
 			$this->runBower(),
 			$this->runBasset(),
-			"chmod -R +x " .$this->getCurrentRelease().'/app',
-			"chmod -R +x " .$this->getCurrentRelease().'/public',
-			"chown -R www-data:www-data " .$this->getCurrentRelease().'/app',
-			"chown -R www-data:www-data " .$this->getCurrentRelease().'/public',
-		));
+			"chmod -R +x " .$currentReleasePath.'/app',
+			"chmod -R +x " .$currentReleasePath.'/public',
+			"chown -R www-data:www-data " .$currentReleasePath.'/app',
+			"chown -R www-data:www-data " .$currentReleasePath.'/public',
+		);
+	}
 
-		$this->call('deploy:cleanup');
+	////////////////////////////////////////////////////////////////////
+	/////////////////////////////// HELPERS ////////////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Update the current symlink
+	 *
+	 * @return string
+	 */
+	protected function updateSymlink()
+	{
+		$currentReleasePath = $this->getReleasesManager()->getCurrentReleasePath();
+		$currentFolder      = $this->getRocketeer()->getFolder('current');
+
+		return sprintf('ln -s %s %s', $currentReleasePath, $currentFolder);
 	}
 
 }

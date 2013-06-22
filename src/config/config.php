@@ -37,6 +37,19 @@
 	// Here you can define custom tasks to execute after certain actions
 	'tasks' => array(
 
+		// Tasks to execute before commands
+		'before' => array(
+			'deploy:setup'   => array(),
+			'deploy:deploy'  => array(),
+			'deploy:cleanup' => array(),
+		),
+
+		// Tasks to execute after commands
+		'after' => array(
+			'deploy:setup'   => array(),
+			'deploy:deploy'  => array(),
+			'deploy:cleanup' => array(),
+		),
 	),
 
 );
