@@ -44,54 +44,54 @@ deploy
 ```php
 <?php return array(
 
-	// Git Repository
-	//////////////////////////////////////////////////////////////////////
+  // Git Repository
+  //////////////////////////////////////////////////////////////////////
 
-	'git' => array(
+  'git' => array(
 
-		// The SSH/HTTPS adress to your Git Repository
-		'repository' => 'https://bitbucket.org/myUsername/facebook.git',
+    // The SSH/HTTPS adress to your Git Repository
+    'repository' => 'https://bitbucket.org/myUsername/facebook.git',
 
-		// Its credentials
-		'username'   => 'myUsername',
-		'password'   => 'myPassword',
+    // Its credentials
+    'username'   => 'myUsername',
+    'password'   => 'myPassword',
 
-		// The branch to deploy
-		'branch'     => 'master',
-	),
+    // The branch to deploy
+    'branch'     => 'master',
+  ),
 
-	// Remote server
-	//////////////////////////////////////////////////////////////////////
+  // Remote server
+  //////////////////////////////////////////////////////////////////////
 
-	'remote' => array(
+  'remote' => array(
 
-		// The root directory where your applications will be deployed
-		'root_directory'   => '/home/www/',
+    // The root directory where your applications will be deployed
+    'root_directory'   => '/home/www/',
 
-		// The default name of the application to deploy
-		'application_name' => 'facebook',
+    // The default name of the application to deploy
+    'application_name' => 'facebook',
 
-		// The number of releases to keep at all times
-		'releases' => 4,
-	),
+    // The number of releases to keep at all times
+    'releases' => 4,
+  ),
 
-	// Tasks
-	//////////////////////////////////////////////////////////////////////
+  // Tasks
+  //////////////////////////////////////////////////////////////////////
 
-	// Here you can define custom tasks to execute after certain actions
-	'tasks' => array(
+  // Here you can define custom tasks to execute after certain actions
+  'tasks' => array(
 
-		// Tasks to execute before commands
-		'before' => array(),
+    // Tasks to execute before commands
+    'before' => array(),
 
-		// Tasks to execute after commands
-		'after' => array(
-			'deploy:deploy'  => array(
-				'bower install',
-				'php artisan basset:build'
-			),
-		),
-	),
+    // Tasks to execute after commands
+    'after' => array(
+      'deploy:deploy'  => array(
+        'bower install',
+        'php artisan basset:build'
+      ),
+    ),
+  ),
 
 );
 ```
