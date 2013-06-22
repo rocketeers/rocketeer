@@ -93,13 +93,31 @@ class ReleasesManager
 	////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Get the path to the current release
+	 * Get the current release
 	 *
 	 * @return string
 	 */
 	public function getCurrentRelease()
 	{
 		return $this->app['rocketeer.deployments']->getValue('current_release');
+	}
+
+	/**
+	 * Get the release before the current one
+	 *
+	 * @return string
+	 */
+	public function getPreviousRelease()
+	{
+		// Get all releases and the current one
+		$releases = $this->getReleases();
+		$current  = $this->getCurrentRelease();
+
+		// Get the one before that, or default to current
+		$key     = array_search($releases, $current);
+		$release = array_get($releases, $key + 1, $current);
+
+		return $release;
 	}
 
 	/**

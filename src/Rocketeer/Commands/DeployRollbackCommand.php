@@ -57,16 +57,7 @@ class DeployRollbackCommand extends BaseDeployCommand
 	 */
 	protected function getRollbackRelease()
 	{
-		$release = $this->argument('release');
-		if (!$release) {
-			$releases = $this->getReleasesManager()->getReleases();
-			$current  = $this->getReleasesManager()->getCurrentRelease();
-
-			$key     = array_search($releases, $current);
-			$release = array_get($releases, $key + 1, $current);
-		}
-
-		return $release;
+		return $this->argument('release') ?: $this->getReleasesManager()->getPreviousRelease();
 	}
 
 }
