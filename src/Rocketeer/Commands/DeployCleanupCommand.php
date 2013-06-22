@@ -33,8 +33,13 @@ class DeployCleanupCommand extends DeployCommand
 			$release = $this->removeFolder($this->getReleasesPath().'/'.$release);
 		}
 
-		$this->info('Removing '.sizeof($trash). ' releases from the server');
-		$this->remote->run($trash);
+		// Remove old releases
+		if (!empty($trash)) {
+			$this->info('Removing '.sizeof($trash). ' releases from the server');
+			$this->remote->run($trash);
+		} else {
+			$this->info('No releases to clean from the server');
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////
