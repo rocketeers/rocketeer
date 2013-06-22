@@ -1,0 +1,156 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Rocketeer by Anahkiasen</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Rocketeer</h1>
+        <p>Rocketeer provides a fast and easy way to deploy your Laravel projects</p>
+        <p class="view"><a href="https://github.com/Anahkiasen/rocketeer">View the Project on GitHub <small>Anahkiasen/rocketeer</small></a></p>
+        <ul>
+          <li><a href="https://github.com/Anahkiasen/rocketeer/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/Anahkiasen/rocketeer/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/Anahkiasen/rocketeer">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a name="rocketeer-" class="anchor" href="#rocketeer-"><span class="octicon octicon-link"></span></a>Rocketeer <a href="https://travis-ci.org/Anahkiasen/rocketeer"><img src="https://travis-ci.org/Anahkiasen/rocketeer.png?branch=master" alt="Build Status"></a>
+</h1>
+
+<h2>
+<a name="setup" class="anchor" href="#setup"><span class="octicon octicon-link"></span></a>Setup</h2>
+
+<p>Rocketeer provides a fast and easy to set-up way to deploy your Laravel projects.</p>
+
+<p><strong>Rocketeer requires Laravel 4.1 as it uses the new <em>illuminate/remote</em> component</strong>*.</p>
+
+<h3>
+<a name="with-package-installer" class="anchor" href="#with-package-installer"><span class="octicon octicon-link"></span></a>With Package Installer</h3>
+
+<p>Simply do this :</p>
+
+<pre><code>artisan package:install anahkiasen/rocketeer
+artisan config:publish anahkiasen/rocketeer
+</code></pre>
+
+<h3>
+<a name="manually" class="anchor" href="#manually"><span class="octicon octicon-link"></span></a>Manually</h3>
+
+<p>To use it, add the following to your <code>composer.json</code> file :</p>
+
+<div class="highlight"><pre><span class="s2">"anahkiasen/rocketeer"</span><span class="err">:</span> <span class="s2">"dev-master"</span>
+</pre></div>
+
+<p>And this line to the <code>providers</code> array in your <code>app/config/app.php</code> file :</p>
+
+<div class="highlight"><pre><span class="s1">'Rocketeer\RocketeerServiceProvider'</span><span class="p">,</span>
+</pre></div>
+
+<p>Then publish the config :</p>
+
+<pre><code>artisan config:publish anahkiasen/rocketeer
+</code></pre>
+
+<h3>
+<a name="additional-steps" class="anchor" href="#additional-steps"><span class="octicon octicon-link"></span></a>Additional steps</h3>
+
+<p>Now before you go all crazy and deploy on everything you find you have to files to set up :</p>
+
+<ul>
+<li>The first one is the <code>app/config/remote.php</code> file, this will set up the <strong>Remote</strong> Laravel component, use it to provide the connection informations for the various servers you want to deploy to</li>
+<li>Then the <code>app/config/packages/anahkiasen/rocketeer/config.php</code> file, where you'll provide more concrete deployment-related informations – see the example file below for what it might look like if you're feeling a little lost</li>
+</ul><h2>
+<a name="using-rocketeer" class="anchor" href="#using-rocketeer"><span class="octicon octicon-link"></span></a>Using Rocketeer</h2>
+
+<p>The available commands in Rocketeer are :</p>
+
+<pre><code>deploy
+  deploy:setup                Set up the website for deployment
+  deploy:deploy               Deploy the website.
+  deploy:cleanup              Clean up old releases from the server
+  deploy:current              Displays what the current release is
+  deploy:rollback {release}   Rollback to a specific release
+  deploy:rollback             Rollback to the previous release
+  deploy:teardown             Removes the remote applications and existing caches
+</code></pre>
+
+<h2>
+<a name="example-config-file" class="anchor" href="#example-config-file"><span class="octicon octicon-link"></span></a>Example config file</h2>
+
+<div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span> <span class="k">return</span> <span class="k">array</span><span class="p">(</span>
+
+  <span class="c1">// Git Repository</span>
+  <span class="c1">//////////////////////////////////////////////////////////////////////</span>
+
+  <span class="s1">'git'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+
+    <span class="c1">// The SSH/HTTPS adress to your Git Repository</span>
+    <span class="s1">'repository'</span> <span class="o">=&gt;</span> <span class="s1">'https://bitbucket.org/myUsername/facebook.git'</span><span class="p">,</span>
+
+    <span class="c1">// Its credentials</span>
+    <span class="s1">'username'</span>   <span class="o">=&gt;</span> <span class="s1">'myUsername'</span><span class="p">,</span>
+    <span class="s1">'password'</span>   <span class="o">=&gt;</span> <span class="s1">'myPassword'</span><span class="p">,</span>
+
+    <span class="c1">// The branch to deploy</span>
+    <span class="s1">'branch'</span>     <span class="o">=&gt;</span> <span class="s1">'master'</span><span class="p">,</span>
+  <span class="p">),</span>
+
+  <span class="c1">// Remote server</span>
+  <span class="c1">//////////////////////////////////////////////////////////////////////</span>
+
+  <span class="s1">'remote'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+
+    <span class="c1">// The root directory where your applications will be deployed</span>
+    <span class="s1">'root_directory'</span>   <span class="o">=&gt;</span> <span class="s1">'/home/www/'</span><span class="p">,</span>
+
+    <span class="c1">// The default name of the application to deploy</span>
+    <span class="s1">'application_name'</span> <span class="o">=&gt;</span> <span class="s1">'facebook'</span><span class="p">,</span>
+
+    <span class="c1">// The number of releases to keep at all times</span>
+    <span class="s1">'releases'</span> <span class="o">=&gt;</span> <span class="mi">4</span><span class="p">,</span>
+  <span class="p">),</span>
+
+  <span class="c1">// Tasks</span>
+  <span class="c1">//////////////////////////////////////////////////////////////////////</span>
+
+  <span class="c1">// Here you can define custom tasks to execute after certain actions</span>
+  <span class="s1">'tasks'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+
+    <span class="c1">// Tasks to execute before commands</span>
+    <span class="s1">'before'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(),</span>
+
+    <span class="c1">// Tasks to execute after commands</span>
+    <span class="s1">'after'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+      <span class="s1">'deploy:deploy'</span>  <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">'bower install'</span><span class="p">,</span>
+        <span class="s1">'php artisan basset:build'</span>
+      <span class="p">),</span>
+    <span class="p">),</span>
+  <span class="p">),</span>
+
+<span class="p">);</span>
+</pre></div>
+      </section>
+    </div>
+    <footer>
+      <p>Project maintained by <a href="https://github.com/Anahkiasen">Anahkiasen</a></p>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
