@@ -11,6 +11,9 @@
 		// Its credentials
 		'username'   => 'foo',
 		'password'   => 'bar',
+
+		// The branch to deploy
+		'branch'     => 'master',
 	),
 
 	// Remote server
@@ -19,7 +22,18 @@
 	'remote' => array(
 
 		// The root directory where your applications will be deployed
-		'root_directory' => '/home/www/',
+		'root_directory'   => '/home/www/',
+
+		// The default name of the application to deploy
+		'application_name' => 'application',
+	),
+
+	// Tasks
+	//////////////////////////////////////////////////////////////////////
+
+	// Here you can define custom tasks to execute after certain actions
+	'tasks' => array(
+
 	),
 
 );

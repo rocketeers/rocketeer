@@ -9,6 +9,8 @@ use Symfony\Component\Console\Input\InputOption;
 abstract class DeployCommand extends Command
 {
 
+	// Command attributes -------------------------------------------- /
+
 	/**
 	 * The console command name.
 	 *
@@ -22,6 +24,8 @@ abstract class DeployCommand extends Command
 	 * @var string
 	 */
 	protected $description = 'Your interface to deploying your projects';
+
+	// Remote attributes --------------------------------------------- /
 
 	/**
 	 * The current release ID
@@ -52,37 +56,6 @@ abstract class DeployCommand extends Command
 	}
 
 	/**
-	 * Define the tasks
-	 */
-	protected function defineTasks()
-	{
-		// Create Tasks
-		$this->remote->define('cloneRelease', array(
-			$this->cloneRelease(),
-			$this->removeFolder('current'),
-			$this->updateSymlink(),
-		));
-
-		$this->remote->define('setupRelease', array(
-			$this->cd($this->getCurrentRelease()),
-			$this->runComposer(),
-			$this->runBower(),
-			$this->runBasset(),
-			"chmod -R +x " .$this->getCurrentRelease().'/app',
-			"chmod -R +x " .$this->getCurrentRelease().'/public',
-			"chown -R www-data:www-data " .$this->getCurrentRelease().'/app',
-			"chown -R www-data:www-data " .$this->getCurrentRelease().'/public',
-		));
-
-		$this->remote->define('setupFolders', array(
-			$this->removeFolder(),
-			$this->createFolder(),
-			$this->createFolder('releases'),
-			$this->createFolder('current'),
-		));
-	}
-
-	/**
 	 * Get the console command arguments.
 	 *
 	 * @return array
@@ -90,7 +63,7 @@ abstract class DeployCommand extends Command
 	protected function getArguments()
 	{
 		return array(
-			array('website', InputArgument::REQUIRED, 'The website to deploy.'),
+			array('application', InputArgument::OPTIONAL, 'The name of the application to deploy.'),
 		);
 	}
 
@@ -109,6 +82,16 @@ abstract class DeployCommand extends Command
 	////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Get the name of the application to deploy
+	 *
+	 * @return string
+	 */
+	protected function getApplicationName()
+	{
+		return $this->argument('application') ?: $this->laravel['config']->get('rocketeer::remote.application_name');
+	}
+
+	/**
 	 * Get the Git repository
 	 *
 	 * @return string
@@ -116,14 +99,24 @@ abstract class DeployCommand extends Command
 	protected function getRepository()
 	{
 		// Get credentials
-		$repository  = $this->laravel['config']->get('rocketeer::git');
-		$credentials = $repository['username'].':'.$repository['password'];
+		$repository = $this->laravel['config']->get('rocketeer::git');
+		$username   = $repository['username'];
+		$password   = $repository['password'];
+		$repository = $repository['repository'];
 
 		// Add credentials if HTTPS
-		$repository = str_replace('https://', 'https://'.$credentials, $repository['repository']);
+		if (str_contains($repository, 'https://'.$username)) {
+			$repository = str_replace($username.'@', $username.':'.$password.'@', $repository);
+		} else {
+			$repository = str_replace('https://', 'https://'.$username.':'.$password.'@', $repository);
+		}
 
 		return $repository;
 	}
+
+	////////////////////////////////////////////////////////////////////
+	//////////////////////////////// TASKS /////////////////////////////
+	////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Clone the repo into a release folder
@@ -132,7 +125,10 @@ abstract class DeployCommand extends Command
 	 */
 	protected function cloneRelease()
 	{
-		return 'git clone ' .$this->getRepository(). ' ' .$this->getReleasesPath().'/'.$this->currentRelease;
+		$branch = $this->laravel['config']->get('rocketeer::git.branch');
+		$this->info('Cloning repository in "releases/'.$this->currentRelease.'"');
+
+		return 'git clone -b ' .$branch. ' ' .$this->getRepository(). ' ' .$this->getReleasesPath().'/'.$this->currentRelease;
 	}
 
 	/**
@@ -142,6 +138,8 @@ abstract class DeployCommand extends Command
 	 */
 	protected function runComposer()
 	{
+		$this->info('Running Composer');
+
 		return 'composer install';
 	}
 
@@ -152,6 +150,8 @@ abstract class DeployCommand extends Command
 	 */
 	protected function runBower()
 	{
+		$this->info('Installing Bower components');
+
 		return 'bower install';
 	}
 
@@ -162,6 +162,8 @@ abstract class DeployCommand extends Command
 	 */
 	protected function runBasset()
 	{
+		$this->info('Building Basset collections');
+
 		return 'php artisan basset:build -f --env=production';
 	}
 
@@ -215,16 +217,6 @@ abstract class DeployCommand extends Command
 		return 'ln -s '.$this->getCurrentRelease(). ' ' .$this->getFolder('current');
 	}
 
-	/**
-	 * Clean up old releases
-	 *
-	 * @return string
-	 */
-	protected function cleanReleases()
-	{
-		return null;
-	}
-
 	////////////////////////////////////////////////////////////////////
 	//////////////////////////////// PATHS /////////////////////////////
 	////////////////////////////////////////////////////////////////////
@@ -258,8 +250,8 @@ abstract class DeployCommand extends Command
 	 */
 	protected function getFolder($folder = null)
 	{
-		if (!str_contains($folder, $this->getPath())) {
-			$base = $this->getPath();
+		if (!str_contains($folder, $this->getBasePath())) {
+			$base = $this->getBasePath();
 			if ($folder) $base .= '/'.$folder;
 		} else {
 			$base = $folder;
@@ -273,12 +265,12 @@ abstract class DeployCommand extends Command
 	 *
 	 * @return string
 	 */
-	protected function getPath()
+	protected function getBasePath()
 	{
 		$rootDirectory = $this->laravel['config']->get('rocketeer::remote.root_directory');
 		$rootDirectory = Str::finish($rootDirectory, '/');
 
-		return $rootDirectory.$this->argument('website');
+		return $rootDirectory.$this->getApplicationName();
 	}
 
 }

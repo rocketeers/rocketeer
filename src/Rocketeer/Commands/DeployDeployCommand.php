@@ -25,10 +25,22 @@ class DeployDeployCommand extends DeployCommand
 	 */
 	public function fire()
 	{
-		$this->defineTasks();
+		$this->remote->run(array(
+			$this->cloneRelease(),
+			$this->removeFolder('current'),
+			$this->updateSymlink(),
+		));
 
-		$this->remote->task('cloneRelease');
-		$this->remote->task('setupRelease');
+		$this->remote->run(array(
+			$this->cd($this->getCurrentRelease()),
+			$this->runComposer(),
+			$this->runBower(),
+			$this->runBasset(),
+			"chmod -R +x " .$this->getCurrentRelease().'/app',
+			"chmod -R +x " .$this->getCurrentRelease().'/public',
+			"chown -R www-data:www-data " .$this->getCurrentRelease().'/app',
+			"chown -R www-data:www-data " .$this->getCurrentRelease().'/public',
+		));
 	}
 
 }
