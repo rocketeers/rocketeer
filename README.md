@@ -3,7 +3,7 @@ Rocketeer
 
 ## Setup
 
-Rocketeer provides a fast and easy to set-up way to deploy your Laravel projects. **Rocketeer required Laravel 4.1***.
+Rocketeer provides a fast and easy to set-up way to deploy your Laravel projects. **Rocketeer requires Laravel 4.1***.
 
 To use it, add the following to your `composer.json` file :
 
