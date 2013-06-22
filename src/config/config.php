@@ -24,7 +24,7 @@
 		// The root directory where your applications will be deployed
 		'root_directory'   => '/home/www/',
 
-		// The default name of the application to deploy
+		// The name of the application to deploy
 		'application_name' => 'application',
 
 		// The number of releases to keep at all times

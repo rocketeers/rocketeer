@@ -2,7 +2,6 @@
 namespace Rocketeer\Commands;
 
 use DateTime;
-use Symfony\Component\Console\Input\InputArgument;
 
 class DeployCurrentCommand extends BaseDeployCommand
 {
