@@ -79,13 +79,25 @@ class ReleasesManager
 	}
 
 	/**
+	 * Get the path to a release
+	 *
+	 * @param  integer $release
+	 *
+	 * @return string
+	 */
+	public function getPathToRelease($release)
+	{
+		return $this->getReleasesPath().'/'.$release;
+	}
+
+	/**
 	 * Get the path to the current release
 	 *
 	 * @return string
 	 */
 	public function getCurrentReleasePath()
 	{
-		return $this->getReleasesPath().'/'.$this->getCurrentRelease();
+		return $this->getPathToRelease($this->getCurrentRelease());
 	}
 
 	////////////////////////////////////////////////////////////////////

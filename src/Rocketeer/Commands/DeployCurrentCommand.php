@@ -1,7 +1,7 @@
 <?php
 namespace Rocketeer\Commands;
 
-use DateTime;
+use Carbon\Carbon;
 
 class DeployCurrentCommand extends BaseDeployCommand
 {
@@ -29,13 +29,14 @@ class DeployCurrentCommand extends BaseDeployCommand
 	{
 		$currentRelease = $this->getReleasesManager()->getCurrentRelease();
 		if (!$currentRelease) {
-			$this->error('No release has yet been deployed');
-		} else {
-			$date    = new DateTime('@'.$currentRelease);
-			$message = sprintf('The current release is %s (deployed at %s)', $currentRelease, $date->format('Y-m-d H:i:s'));
-
-			$this->comment($message);
+			return $this->error('No release has yet been deployed');
 		}
+
+		// Create message
+		$date    = Carbon::createFromTimestamp($currentRelease)->toDateTimeString();
+		$message = sprintf('The current release is <info>%s</info> (deployed at <comment>%s</comment>)', $currentRelease, $date);
+
+		$this->line($message);
 	}
 
 }

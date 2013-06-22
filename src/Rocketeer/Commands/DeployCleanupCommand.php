@@ -28,16 +28,17 @@ class DeployCleanupCommand extends BaseDeployCommand
 		// Get deprecated releases and create commands
 		$trash = $this->getReleasesManager()->getDeprecatedReleases();
 		foreach ($trash as &$release) {
-			$release = $this->removeFolder($this->getReleasesManager()->getReleasesPath().'/'.$release);
+			$release = $this->removeFolder($this->getReleasesManager()->getPathToRelease($release));
 		}
 
+		// If no releases to prune
 		if (empty($trash)) {
 			$this->info('No releases to prune from the server');
 			return array();
-		} else {
-			$this->info('Removing '.sizeof($trash). ' releases from the server');
-			return $trash;
 		}
+
+		$this->info('Removing '.sizeof($trash). ' releases from the server');
+		return $trash;
 	}
 
 }
