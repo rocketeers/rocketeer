@@ -21,7 +21,7 @@ class RocketeerServiceProvider extends ServiceProvider
 	public function register()
 	{
 		// Register config file
-    $this->app['config']->package('anahkiasen/rocketeer', __DIR__.'/../../config');
+    $this->app['config']->package('anahkiasen/rocketeer', __DIR__.'/../config');
 
     // Register commands
     $this->registerCommands();
