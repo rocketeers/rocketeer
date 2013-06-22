@@ -27,7 +27,14 @@ And you're good to go. Simply edit the config file with the relevant information
 
 ## Using Rocketeer
 
-For now, Rocketeer comes with two main commands :
+The available commands in Rocketeer are :
 
-- `artisan deploy:setup` will create the relevant folders on your remote connection (ie, `current` and `releases` _ala_ Capistrano).
-- `artisan deploy:deploy` will deploy the current version of the repository as a release, make it the current one, and execute whatever tasks you configured Rocketeer to do afterwards.
+```
+deploy
+  deploy:setup                Set up the website for deployment
+  deploy:deploy               Deploy the website.
+  deploy:cleanup              Clean up old releases from the server
+  deploy:current              Displays what the current release is
+  deploy:rollback {release}   Rollback to a specific release
+  deploy:rollback             Rollback to the previous release
+```
