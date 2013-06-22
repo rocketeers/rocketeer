@@ -41,12 +41,13 @@ abstract class DeployCommand extends Command
 	 *
 	 * @return void
 	 */
-	public function __construct()
+	public function __construct($app)
 	{
 		parent::__construct();
 
+		$this->laravel        = $app;
 		$this->currentRelease = time();
-		$this->remote = SSH::into('production');
+		$this->remote         = $this->laravel['remote']->into('production');
 	}
 
 	/**
@@ -66,10 +67,10 @@ abstract class DeployCommand extends Command
 			$this->runComposer(),
 			$this->runBower(),
 			$this->runBasset(),
-	    "chmod -R +x " .$this->getCurrentRelease().'/app',
-	    "chmod -R +x " .$this->getCurrentRelease().'/public',
-	    "chown -R www-data:www-data " .$this->getCurrentRelease().'/app',
-	    "chown -R www-data:www-data " .$this->getCurrentRelease().'/public',
+			"chmod -R +x " .$this->getCurrentRelease().'/app',
+			"chmod -R +x " .$this->getCurrentRelease().'/public',
+			"chown -R www-data:www-data " .$this->getCurrentRelease().'/app',
+			"chown -R www-data:www-data " .$this->getCurrentRelease().'/public',
 		));
 
 		$this->remote->define('setupFolders', array(
@@ -111,8 +112,8 @@ abstract class DeployCommand extends Command
 	 */
 	protected function setPermissions()
 	{
-    return array(
-    );
+		return array(
+		);
 	}
 
 	/**
@@ -122,7 +123,7 @@ abstract class DeployCommand extends Command
 	 */
 	protected function getRepository()
 	{
-		return Config::get('remote.git.repository');
+		return $this->laravel['config']->get('remote.git.repository');
 	}
 
 	/**
