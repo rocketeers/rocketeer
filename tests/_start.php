@@ -16,15 +16,18 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
-		$me = $this;
 		$this->app = new Container;
 
-		$this->app->singleton('config', function() use ($me) {
-			return $me->getConfig();
+		// Get the Mockery instances
+		$config = $this->getConfig();
+		$files  = $this->getFiles();
+
+		$this->app->singleton('config', function() use ($config) {
+			return $config;
 		});
 
-		$this->app->singleton('files', function() use ($me) {
-			return $me->getFiles();
+		$this->app->singleton('files', function() use ($files) {
+			return $files;
 		});
 
 		$this->app->bind('rocketeer', function($app) {
