@@ -55,6 +55,7 @@ deploy
   deploy:current              Displays what the current release is
   deploy:rollback {release}   Rollback to a specific release
   deploy:rollback             Rollback to the previous release
+  deploy:teardown             Removes the remote applications and existing caches
 ```
 
 ## Example config file

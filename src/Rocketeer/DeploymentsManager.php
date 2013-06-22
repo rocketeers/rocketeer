@@ -101,4 +101,14 @@ class DeploymentsManager
 		return $deployments;
 	}
 
+	/**
+	 * Deletes the deployments file
+	 *
+	 * @return boolean
+	 */
+	public function deleteDeploymentsFile()
+	{
+		return $this->files->delete($this->deploymentsFilepath);
+	}
+
 }
