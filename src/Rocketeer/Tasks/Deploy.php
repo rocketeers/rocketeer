@@ -11,13 +11,26 @@ class Deploy extends Task
 	 */
 	public function execute()
 	{
-		// Remove remote folders
-		$this->removeFolder();
+		// Setup if necessary
+		if (!$this->deploymentsManager->getValue('is_setup')) {
+			$this->command->call('deploy:setup');
+		}
 
-		// Remove deployments file
-		$this->deploymentsManager->deleteDeploymentsFile();
+		// Update current release
+		$this->releasesManager->updateCurrentRelease(time());
 
-		$this->command->info('The application was successfully removed from the remote servers');
+		// Clone release and update symlink
+		$this->cloneRelease();
+		$this->removeFolder('current');
+		$this->updateSymlink();
+
+		// Run composer
+		$this->gotoFolder($this->releasesManager->getCurrentReleasePath());
+		$this->runComposer();
+
+		// Set permissions
+		$this->setPermissions('app');
+		$this->setPermissions('public');
 	}
 
 }

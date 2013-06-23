@@ -147,6 +147,37 @@ abstract class Task
 		return $this->run(sprintf('ln -s %s %s', $currentReleasePath, $currentFolder));
 	}
 
+	/**
+	 * Set a folder as web-writable
+	 *
+	 * @param string $folder
+	 *
+	 * @return  string
+	 */
+	protected function setPermissions($folder)
+	{
+		$folder = $this->releasesManager->getCurrentReleasePath().'/'.$folder;
+
+		$output  = $this->run('chmod -R +x ' .$folder);
+		$output .= $this->run('chown -R www-data:www-data ' .$folder);
+
+		return $output;
+	}
+
+	////////////////////////////////////////////////////////////////////
+	//////////////////////////////// VENDOR ////////////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Run Composer on the folder
+	 *
+	 * @return string
+	 */
+	protected function runComposer()
+	{
+		return $this->run('composer install');
+	}
+
 	////////////////////////////////////////////////////////////////////
 	/////////////////////////////// FOLDERS ////////////////////////////
 	////////////////////////////////////////////////////////////////////

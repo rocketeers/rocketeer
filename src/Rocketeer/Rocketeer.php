@@ -79,7 +79,7 @@ class Rocketeer
 	 */
 	public function getGitBranch()
 	{
-		return $this->app['config']->get('rocketeer::git.branch');
+		return $this->config->get('rocketeer::git.branch');
 	}
 
 	////////////////////////////////////////////////////////////////////

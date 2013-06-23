@@ -113,19 +113,5 @@ abstract class BaseDeployCommand extends Command
 		return $this->laravel['rocketeer.deployments'];
 	}
 
-	////////////////////////////////////////////////////////////////////
-	//////////////////////////////// TASKS /////////////////////////////
-	////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Run Composer on the folder
-	 *
-	 * @return string
-	 */
-	protected function runComposer()
-	{
-		return 'composer install';
-	}
-
 
 }
