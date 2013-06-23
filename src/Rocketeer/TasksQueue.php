@@ -217,13 +217,17 @@ class TasksQueue
 	 */
 	protected function addSurroundingTask($task, $surroundingTask, $position)
 	{
+		// Create array if it doesn't exist
+		if (!array_key_exists($task, $this->tasks[$position])) {
+			$this->tasks[$position][$task] = array();
+		}
+
+		// Add Task to Tasks
 		if (is_array($surroundingTask)) {
 			$this->tasks[$position][$task] = array_merge($this->tasks[$position][$task], $surroundingTask);
 		} else {
 			$this->tasks[$position][$task][] = $surroundingTask;
 		}
-
-		return $this;
 	}
 
 	/**

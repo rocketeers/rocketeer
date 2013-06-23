@@ -10,6 +10,7 @@
 ### 0.2.0
 
 - The core of Rocketeer's actions is now split into a system of Tasks for flexibility
+- Added a `Rocketeer` facade to easily add tasks via `before` and `after` (see Tasks docs)
 
 ### 0.1.1
 
