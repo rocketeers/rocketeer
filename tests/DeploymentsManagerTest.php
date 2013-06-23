@@ -10,7 +10,7 @@ class DeploymentsManagerTest extends RocketeerTests
 
 	public function tearDown()
 	{
-		$deployments = array('foo' => 'bar', 'current_release' => 1371935884);
+		$deployments = array('foo' => 'bar', 'current_release' => 2000000000);
 		$this->app['files']->put(__DIR__.'/meta/deployments.json', json_encode($deployments));
 	}
 

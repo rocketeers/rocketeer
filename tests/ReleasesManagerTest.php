@@ -4,17 +4,51 @@ class ReleasesManagerTest extends RocketeerTests
 
 	public function testCanGetCurrentRelease()
 	{
-		$this->assertEquals(1371935884, $this->app['rocketeer.releases']->getCurrentRelease());
+		$currentRelease = $this->app['rocketeer.releases']->getCurrentRelease();
+
+		$this->assertEquals(2000000000, $currentRelease);
 	}
 
 	public function testCanGetReleasesPath()
 	{
-		$this->assertEquals('/home/www/foobar/releases', $this->app['rocketeer.releases']->getReleasesPath());
+		$releasePath = $this->app['rocketeer.releases']->getReleasesPath();
+
+		$this->assertEquals('/home/www/foobar/releases', $releasePath);
 	}
 
 	public function testCanGetCurrentReleaseFolder()
 	{
-		$this->assertEquals('/home/www/foobar/releases/1371935884', $this->app['rocketeer.releases']->getCurrentReleasePath());
+		$currentReleasePath = $this->app['rocketeer.releases']->getCurrentReleasePath();
+
+		$this->assertEquals('/home/www/foobar/releases/2000000000', $currentReleasePath);
+	}
+
+	public function testCanGetReleases()
+	{
+		$releases = $this->app['rocketeer.releases']->getReleases();
+
+		$this->assertEquals(array(1 => 1000000000, 0 => 2000000000), $releases);
+	}
+
+	public function testCanGetDeprecatedReleases()
+	{
+		$releases = $this->app['rocketeer.releases']->getDeprecatedReleases();
+
+		$this->assertEquals(array(1000000000), $releases);
+	}
+
+	public function testCanGetPreviousRelease()
+	{
+		$currentRelease = $this->app['rocketeer.releases']->getPreviousRelease();
+
+		$this->assertEquals(1000000000, $currentRelease);
+	}
+
+	public function testCanUpdateCurrentRelease()
+	{
+		$this->app['rocketeer.releases']->updateCurrentRelease(3000000000);
+
+		$this->assertEquals(3000000000, $this->app['rocketeer.deployments']->getValue('current_release'));
 	}
 
 }

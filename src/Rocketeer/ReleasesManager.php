@@ -42,7 +42,7 @@ class ReleasesManager
 		$this->app['remote']->run(array(
 			'cd '.$this->getReleasesPath(),
 			'ls',
-		), function($folders, $remote) use (&$releases) {
+		), function($folders) use (&$releases) {
 			$releases = explode(PHP_EOL, $folders);
 			$releases = array_filter($releases);
 			rsort($releases);
@@ -126,7 +126,7 @@ class ReleasesManager
 		$current  = $this->getCurrentRelease();
 
 		// Get the one before that, or default to current
-		$key     = array_search($releases, $current);
+		$key     = array_search($current, $releases);
 		$release = array_get($releases, $key + 1, $current);
 
 		return $release;
