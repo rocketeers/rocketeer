@@ -91,7 +91,7 @@ class DeploymentsManager
 	{
 		// Cancel if the file doesn't exist
 		if (!$this->files->exists($this->deploymentsFilepath)) {
-			return null;
+			return array();
 		}
 
 		// Get and parse file

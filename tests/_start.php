@@ -1,5 +1,6 @@
 <?php
 use Illuminate\Container\Container;
+use Illuminate\Filesystem\Filesystem;
 
 abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 {
@@ -20,14 +21,13 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 
 		// Get the Mockery instances
 		$config = $this->getConfig();
-		$files  = $this->getFiles();
 
 		$this->app->singleton('config', function() use ($config) {
 			return $config;
 		});
 
-		$this->app->singleton('files', function() use ($files) {
-			return $files;
+		$this->app->singleton('files', function() {
+			return new Filesystem;
 		});
 
 		$this->app->bind('rocketeer.rocketeer', function($app) {
@@ -39,7 +39,7 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 		});
 
 		$this->app->bind('rocketeer.deployments', function($app) {
-			return new Rocketeer\DeploymentsManager($app['files'], 'app/storage');
+			return new Rocketeer\DeploymentsManager($app['files'], __DIR__);
 		});
 	}
 
@@ -59,21 +59,6 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 		$config->shouldReceive('get')->with('rocketeer::remote.root_directory')->andReturn('/home/www/');
 
 		return $config;
-	}
-
-	/**
-	 * Mock the Filesystem component
-	 *
-	 * @return Mockery
-	 */
-	protected function getFiles()
-	{
-		$files = Mockery::mock('Illuminate\Filesystem\Filesystem');
-		$files->shouldReceive('exists')->andReturn(true);
-		$files->shouldReceive('get')->andReturn('{"foo":"bar", "current_release": 1371935884}');
-		$files->shouldReceive('put');
-
-		return $files;
 	}
 
 }
