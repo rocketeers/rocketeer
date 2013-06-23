@@ -1,4 +1,6 @@
 <?php
+include '_start.php';
+
 class DeploymentsManagerTest extends RocketeerTests
 {
 

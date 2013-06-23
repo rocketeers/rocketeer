@@ -36,6 +36,11 @@ class RocketeerTest extends RocketeerTests
 		$this->assertEquals('https://foobar:bar@github.com/Anahkiasen/rocketeer.git', $this->app['rocketeer.rocketeer']->getGitRepository());
 	}
 
+	public function testCanGetGitBranch()
+	{
+		$this->assertEquals('master', $this->app['rocketeer.rocketeer']->getGitBranch());
+	}
+
 	public function testCanGetApplicationName()
 	{
 		$this->assertEquals('foobar', $this->app['rocketeer.rocketeer']->getApplicationName());
