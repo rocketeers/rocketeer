@@ -6,6 +6,11 @@
 
 ### Changelog
 
+### 0.1.1
+
+- Fixed a bug where the commands would try to connect to the remote hosts on construct
+- Fixed ReleasesManager::getPreviousRelease returning the wrong release
+
 ### 0.1.0
 
 - Add `deploy:teardown` to remove the application from remote servers
