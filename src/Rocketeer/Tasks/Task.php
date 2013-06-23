@@ -70,7 +70,7 @@ abstract class Task
 	 *
 	 * @return string
 	 */
-	public function getName()
+	public function getSlug()
 	{
 		$name = get_class($this);
 		$name = str_replace('\\', '/', $name);
@@ -114,7 +114,7 @@ abstract class Task
 	 *
 	 * @return string The Task's output
 	 */
-	protected function executeTask($task)
+	public function executeTask($task)
 	{
 		$task = new $task($this->rocketeer, $this->releasesManager, $this->deploymentsManager, $this->remote, $this->command);
 
@@ -130,7 +130,7 @@ abstract class Task
 	 *
 	 * @return string
 	 */
-	protected function cloneRelease()
+	public function cloneRelease()
 	{
 		$branch      = $this->rocketeer->getGitBranch();
 		$repository  = $this->rocketeer->getGitRepository();
@@ -148,7 +148,7 @@ abstract class Task
 	 *
 	 * @return string
 	 */
-	protected function updateSymlink($release = null)
+	public function updateSymlink($release = null)
 	{
 		// If the release is specified, update to make it the current one
 		if ($release) {
@@ -168,7 +168,7 @@ abstract class Task
 	 *
 	 * @return  string
 	 */
-	protected function setPermissions($folder)
+	public function setPermissions($folder)
 	{
 		$folder = $this->releasesManager->getCurrentReleasePath().'/'.$folder;
 
@@ -187,7 +187,7 @@ abstract class Task
 	 *
 	 * @return string
 	 */
-	protected function runComposer()
+	public function runComposer()
 	{
 		return $this->run('composer install');
 	}
@@ -203,7 +203,7 @@ abstract class Task
 	 *
 	 * @return string
 	 */
-	protected function gotoFolder($folder = null)
+	public function gotoFolder($folder = null)
 	{
 		return $this->run('cd '.$this->rocketeer->getFolder($folder));
 	}
@@ -215,7 +215,7 @@ abstract class Task
 	 *
 	 * @return string The task
 	 */
-	protected function createFolder($folder = null)
+	public function createFolder($folder = null)
 	{
 		return $this->run('mkdir '.$this->rocketeer->getFolder($folder));
 	}
@@ -227,7 +227,7 @@ abstract class Task
 	 *
 	 * @return string The task
 	 */
-	protected function removeFolder($folder = null)
+	public function removeFolder($folder = null)
 	{
 		return $this->run('rm -rf '.$this->rocketeer->getFolder($folder));
 	}

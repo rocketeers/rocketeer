@@ -35,7 +35,38 @@ class TasksQueue
 	 */
 	public function __construct($app)
 	{
-		$this->app = $app;
+		$this->app   = $app;
+		$this->tasks = $app['config']->get('rocketeer::tasks');
+	}
+
+	////////////////////////////////////////////////////////////////////
+	////////////////////////// PUBLIC INTERFACE ////////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Execute a Task before another one
+	 *
+	 * @param  string $beforeTask
+	 * @param  Task   $task
+	 *
+	 * @return void
+	 */
+	public function before($beforeTask, $task)
+	{
+		$this->tasks['before'][$subject][] = $actor;
+	}
+
+	/**
+	 * Execute a Task after another one
+	 *
+	 * @param  string $afterTask
+	 * @param  Task   $task
+	 *
+	 * @return void
+	 */
+	public function after($afterTask, $task)
+	{
+		$this->tasks['after'][$subject][] = $actor;
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -158,7 +189,7 @@ class TasksQueue
 	 */
 	public function getBefore(Task $task)
 	{
-		return (array) $this->app['config']->get('rocketeer::tasks.before.deploy:'.$task->getName());
+		return $this->getSurroundingTasks($task, 'before');
 	}
 
 	/**
@@ -170,7 +201,27 @@ class TasksQueue
 	 */
 	public function getAfter(Task $task)
 	{
-		return (array) $this->app['config']->get('rocketeer::tasks.after.deploy:'.$task->getName());
+		return $this->getSurroundingTasks($task, 'after');
+	}
+
+	/**
+	 * Get the tasks surrounding another Task
+	 *
+	 * @param  Task   $task
+	 * @param  string $position     before|after
+	 *
+	 * @return array
+	 */
+	protected function getSurroundingTasks(Task $task, $position)
+	{
+		$key = get_class($task);
+		if (array_key_exists($key, $this->tasks[$position])) {
+			$tasks = array_get($this->tasks, $position.'.'.$key);
+		} else {
+			$tasks = array_get($this->tasks, $position.'.'.$task->getSlug());
+		}
+
+		return (array) $tasks;
 	}
 
 	////////////////////////////////////////////////////////////////////

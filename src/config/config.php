@@ -46,18 +46,18 @@
 	// Here you can define custom tasks to execute after certain actions
 	'tasks' => array(
 
-		// Tasks to execute before commands
+		// Tasks to execute before the core Rocketeer Tasks
 		'before' => array(
-			'deploy:setup'   => array(),
-			'deploy:deploy'  => array(),
-			'deploy:cleanup' => array(),
+			'setup'   => array(),
+			'deploy'  => array(),
+			'cleanup' => array(),
 		),
 
-		// Tasks to execute after commands
+		// Tasks to execute after the core Rocketeer Tasks
 		'after' => array(
-			'deploy:setup'   => array(),
-			'deploy:deploy'  => array(),
-			'deploy:cleanup' => array(),
+			'setup'   => array(),
+			'deploy'  => array(),
+			'cleanup' => array(),
 		),
 	),
 

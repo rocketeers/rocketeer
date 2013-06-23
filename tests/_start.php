@@ -70,8 +70,14 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 		$config->shouldReceive('get')->with('rocketeer::git.branch')->andReturn('master');
 		$config->shouldReceive('get')->with('rocketeer::connections')->andReturn('production');
 
-		$config->shouldReceive('get')->with('rocketeer::tasks.before.deploy:deploy')->andReturn(array('before', 'foobar'));
-		$config->shouldReceive('get')->with('rocketeer::tasks.after.deploy:deploy')->andReturn(array('after', 'foobar'));
+		$config->shouldReceive('get')->with('rocketeer::tasks')->andReturn(array(
+			'before' => array(
+				'deploy' => array('before', 'foobar'),
+			),
+			'after' => array(
+				'Rocketeer\Tasks\Deploy' => array('after', 'foobar'),
+			),
+		));
 
 		return $config;
 	}

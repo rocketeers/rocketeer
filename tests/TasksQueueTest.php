@@ -13,10 +13,16 @@ class TasksQueueTest extends RocketeerTests
 	{
 		$task   = $this->tasksQueue()->buildTask('Rocketeer\Tasks\Deploy');
 		$before = $this->tasksQueue()->getBefore($task);
-		$after  = $this->tasksQueue()->getAfter($task);
 
 		$this->assertEquals(array('before', 'foobar'), $before);
-		$this->assertEquals(array('after',  'foobar'), $after);
+	}
+
+	public function testCanGetBeforeOrAfterAnotherTaskBySlug()
+	{
+		$task   = $this->tasksQueue()->buildTask('Rocketeer\Tasks\Deploy');
+		$after  = $this->tasksQueue()->getAfter($task);
+
+		$this->assertEquals(array('after', 'foobar'), $after);
 	}
 
 	public function testCanBuildTaskFromString()
