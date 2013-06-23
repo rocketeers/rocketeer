@@ -46,47 +46,27 @@ class TasksQueue
 	/**
 	 * Execute a Task before another one
 	 *
-	 * @param  string $beforeTask
-	 * @param  Task   $task
+	 * @param  string $task
+	 * @param  Task   $surroundingTask
 	 *
 	 * @return void
 	 */
-	public function before($beforeTask, $task)
+	public function before($task, $surroundingTask)
 	{
-		var_dump($this->tasks);
-
-		if (is_array($task)) {
-			array_merge($this->tasks['before'][$beforeTask], $task);
-		} else {
-			$this->tasks['before'][$beforeTask][] = $task;
-		}
-
-		var_dump($this->tasks);
-
-		return $this;
+		$this->addSurroundingTask($task, $surroundingTask, 'before');
 	}
 
 	/**
 	 * Execute a Task after another one
 	 *
-	 * @param  string $afterTask
-	 * @param  Task   $task
+	 * @param  string $task
+	 * @param  Task   $surroundingTask
 	 *
 	 * @return void
 	 */
-	public function after($afterTask, $task)
+	public function after($task, $surroundingTask)
 	{
-		var_dump($this->tasks);
-
-		if (is_array($task)) {
-			array_merge($this->tasks['before'][$beforeTask], $task);
-		} else {
-			$this->tasks['after'][$afterTask][] = $task;
-		}
-
-		var_dump($this->tasks);
-
-		return $this;
+		$this->addSurroundingTask($task, $surroundingTask, 'after');
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -200,6 +180,10 @@ class TasksQueue
 		return new $task($this->getRocketeer(), $this->getReleasesManager(), $this->getDeploymentsManager(), $this->getRemote(), $this->getCommand());
 	}
 
+	////////////////////////////////////////////////////////////////////
+	///////////////////////////// SURROUNDINGS /////////////////////////
+	////////////////////////////////////////////////////////////////////
+
 	/**
 	 * Get the tasks to execute before a Task
 	 *
@@ -222,6 +206,24 @@ class TasksQueue
 	public function getAfter(Task $task)
 	{
 		return $this->getSurroundingTasks($task, 'after');
+	}
+
+	/**
+	 * Add a Task to surround another Task
+	 *
+	 * @param Task   $task
+	 * @param mixed  $surroundingTask
+	 * @param string $position        before|after
+	 */
+	protected function addSurroundingTask($task, $surroundingTask, $position)
+	{
+		if (is_array($surroundingTask)) {
+			$this->tasks[$position][$task] = array_merge($this->tasks[$position][$task], $surroundingTask);
+		} else {
+			$this->tasks[$position][$task][] = $surroundingTask;
+		}
+
+		return $this;
 	}
 
 	/**
