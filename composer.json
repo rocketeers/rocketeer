@@ -20,7 +20,8 @@
 	"require-dev": {
 		"illuminate/container": "4.1.x",
 		"illuminate/filesystem": "4.1.x",
-		"mockery/mockery": "dev-master"
+		"mockery/mockery": "dev-master",
+		"nesbot/carbon": "dev-master"
 	},
 	"autoload": {
 		"psr-0": {

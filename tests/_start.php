@@ -21,11 +21,20 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 	protected $server;
 
 	/**
+	 * The path to the local deployments file
+	 *
+	 * @var string
+	 */
+	protected $deploymentsFile;
+
+	/**
 	 * Set up the tests
 	 */
 	public function setUp()
 	{
-		$this->server = __DIR__.'/server/foobar';
+		// Setup local server
+		$this->server          = __DIR__.'/server/foobar';
+		$this->deploymentsFile = __DIR__.'/meta/deployments.json';
 
 		$this->app = new Container;
 
@@ -60,13 +69,36 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 
 	public function tearDown()
 	{
+		// Recreate deployments file
 		$deployments = array('foo' => 'bar', 'current_release' => 2000000000);
-		$this->app['files']->put(__DIR__.'/meta/deployments.json', json_encode($deployments));
+		$this->app['files']->put($this->deploymentsFile, json_encode($deployments));
+
+		// Recreate altered local server
+		$folders = array('current', 'releases/1000000000', 'releases/2000000000');
+		foreach ($folders as $folder) {
+			$folder = $this->server.'/'.$folder;
+			if (!file_exists($folder)) {
+				$this->app['files']->makeDirectory($folder, 0777, true);
+				file_put_contents($folder.'/.gitkeep', '');
+			}
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////
 	/////////////////////////////// HELPERS ////////////////////////////
 	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Get Task instance
+	 *
+	 * @param  string $task
+	 *
+	 * @return Task
+	 */
+	protected function task($task)
+	{
+		return $this->tasksQueue()->buildTask('Rocketeer\Tasks\\'.$task);
+	}
 
 	/**
 	 * Get TasksQueue instance
@@ -90,7 +122,8 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 	protected function getCommand()
 	{
 		$command = Mockery::mock('Illuminate\Console\Command');
-		$command->shouldReceive('info');
+		$command->shouldReceive('line')->andReturnUsing(function($message) { return $message; });
+		$command->shouldReceive('info')->andReturnUsing(function($message) { return $message; });
 
 		return $command;
 	}

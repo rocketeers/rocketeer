@@ -2,25 +2,31 @@
 class TasksTest extends RocketeerTests
 {
 
-	public function tearDown()
-	{
-		// Recreate altered local server
-		$folders = array('current', 'releases/1000000000', 'releases/2000000000');
-		foreach ($folders as $folder) {
-			$folder = $this->server.'/'.$folder;
-			if (!file_exists($folder)) {
-				$this->app['files']->makeDirectory($folder, 0777, true);
-				file_put_contents($folder.'/.gitkeep', '');
-			}
-		}
-	}
-
 	public function testCanCleanupServer()
 	{
-		$cleanup = $this->tasksQueue()->buildTask('Rocketeer\Tasks\Cleanup');
-		$cleanup->execute();
+		$cleanup = $this->task('Cleanup');
+		$output  = $cleanup->execute();
 
-		$this->assertFalse(file_exists($this->server.'/releases/1000000000'));
+		$this->assertFileNotExists($this->server.'/releases/1000000000');
+		$this->assertEquals('Removing 1 release from the server', $output);
+
+		$output = $cleanup->execute();
+		$this->assertEquals('No releases to prune from the server', $output);
+	}
+
+	public function testCanGetCurrentRelease()
+	{
+		$current = $this->task('CurrentRelease')->execute();
+
+		$this->assertTrue(str_contains($current, '2000000000'));
+	}
+
+	public function testCanTeardownServer()
+	{
+		$output = $this->task('Teardown')->execute();
+
+		$this->assertFileNotExists($this->deploymentsFile);
+		$this->assertFileNotExists($this->server);
 	}
 
 }

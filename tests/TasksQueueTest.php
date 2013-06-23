@@ -11,7 +11,7 @@ class TasksQueueTest extends RocketeerTests
 
 	public function testCanGetTasksBeforeOrAfterAnotherTask()
 	{
-		$task   = $this->tasksQueue()->buildTask('Rocketeer\Tasks\Deploy');
+		$task   = $this->task('Deploy');
 		$before = $this->tasksQueue()->getBefore($task);
 
 		$this->assertEquals(array('before', 'foobar'), $before);
@@ -19,7 +19,7 @@ class TasksQueueTest extends RocketeerTests
 
 	public function testCanAddTasksViaFacade()
 	{
-		$task   = $this->tasksQueue()->buildTask('Rocketeer\Tasks\Deploy');
+		$task   = $this->task('Deploy');
 		$before = $this->tasksQueue()->getBefore($task);
 
 		$this->tasksQueue()->before('deploy', 'composer install');
@@ -30,7 +30,7 @@ class TasksQueueTest extends RocketeerTests
 
 	public function testCanAddMultipleTasksViaFacade()
 	{
-		$task   = $this->tasksQueue()->buildTask('Rocketeer\Tasks\Deploy');
+		$task   = $this->task('Deploy');
 		$after = $this->tasksQueue()->getAfter($task);
 
 		$this->tasksQueue()->after('Rocketeer\Tasks\Deploy', array(
@@ -44,7 +44,7 @@ class TasksQueueTest extends RocketeerTests
 
 	public function testCanAddSurroundTasksToNonExistingTasks()
 	{
-		$task   = $this->tasksQueue()->buildTask('Rocketeer\Tasks\Setup');
+		$task   = $this->task('Setup');
 		$this->tasksQueue()->after('setup', 'composer install');
 
 		$after = array('composer install');
@@ -53,7 +53,7 @@ class TasksQueueTest extends RocketeerTests
 
 	public function testCanGetBeforeOrAfterAnotherTaskBySlug()
 	{
-		$task   = $this->tasksQueue()->buildTask('Rocketeer\Tasks\Deploy');
+		$task   = $this->task('Deploy');
 		$after  = $this->tasksQueue()->getAfter($task);
 
 		$this->assertEquals(array('after', 'foobar'), $after);
