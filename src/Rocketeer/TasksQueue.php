@@ -53,7 +53,11 @@ class TasksQueue
 	 */
 	public function before($beforeTask, $task)
 	{
-		$this->tasks['before'][$subject][] = $actor;
+		if (is_array($task)) {
+			return array_merge($this->tasks['before'][$beforeTask], $task);
+		} else {
+			return $this->tasks['before'][$beforeTask][] = $actor;
+		}
 	}
 
 	/**
@@ -66,7 +70,11 @@ class TasksQueue
 	 */
 	public function after($afterTask, $task)
 	{
-		$this->tasks['after'][$subject][] = $actor;
+		if (is_array($task)) {
+			return array_merge($this->tasks['before'][$beforeTask], $task);
+		} else {
+			return $this->tasks['after'][$afterTask][] = $actor;
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -214,10 +222,14 @@ class TasksQueue
 	 */
 	protected function getSurroundingTasks(Task $task, $position)
 	{
+		// First we look for the fully qualified class name
 		$key = get_class($task);
 		if (array_key_exists($key, $this->tasks[$position])) {
 			$tasks = array_get($this->tasks, $position.'.'.$key);
-		} else {
+		}
+
+		// Then for the class slug
+		else {
 			$tasks = array_get($this->tasks, $position.'.'.$task->getSlug());
 		}
 
