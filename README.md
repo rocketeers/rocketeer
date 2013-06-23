@@ -5,76 +5,53 @@ Rocketeer provides a fast and easy way to set-up and deploy your Laravel project
 
 ## Using Rocketeer
 
-- [Getting Started](docs/Getting-started.md)
-
-## Using Rocketeer
+I recommend you checkout this [Getting Started](https://github.com/Anahkiasen/rocketeer/wiki/Getting-started) guide before anything. It will get you quickly set up to use Rocketeer.
 
 The available commands in Rocketeer are :
 
 ```
 deploy
-  deploy:setup               Set up the website for deployment
-  deploy:deploy              Deploy the website.
-  deploy:cleanup             Clean up old releases from the server
-  deploy:current             Displays what the current release is
-  deploy:rollback {release}  Rollback to a specific release
-  deploy:rollback            Rollback to the previous release
-  deploy:teardown            Removes the remote applications and existing caches
+	deploy:setup               Set up the website for deployment
+	deploy:deploy              Deploy the website.
+	deploy:cleanup             Clean up old releases from the server
+	deploy:current             Displays what the current release is
+	deploy:rollback {release}  Rollback to a specific release
+	deploy:rollback            Rollback to the previous release
+	deploy:teardown            Removes the remote applications and existing caches
 ```
 
-## Example config file
+## Tasks
+
+An important concept in Rocketeer is Tasks : most of the commands you see right above are Tasks : **Setup**, **Deploy**, etc.
+Now, the core of Rocketeer is you can hook into any of those Tasks to peform additional actions, for this you'll use the `before` and `after` arrays of Rocketeer's config file.
+
+A task can be three things :
+- A simple one-line command, like `composer install`
+- A closure, given access to Rocketeer's core helpers to perform more advanced actions
+- And finally a class, extending the `Rocketeer\Tasks\Task` class
+
+So the three kind of tasks above could be seen in your config file :
 
 ```php
-<?php return array(
+'before' => array(
+	'deploy:setup' => array(
 
-  // Git Repository
-  //////////////////////////////////////////////////////////////////////
+		// Commands
+		'composer install',
 
-  'git' => array(
+		// Closures
+		function($task) {
+			$task->rocketeer->goTo('releases/134781354');
+			$tests = $task->run('phpunit');
 
-    // The SSH/HTTPS adress to your Git Repository
-    'repository' => 'https://bitbucket.org/myUsername/facebook.git',
+			if ($tests) {
+				$task->command->info('Tests ran perfectly dude !');
+			} else {
+				$task->command->error('Aw man, tests failed and stuff')
+			}
+		},
 
-    // Its credentials
-    'username'   => 'myUsername',
-    'password'   => 'myPassword',
-
-    // The branch to deploy
-    'branch'     => 'master',
-  ),
-
-  // Remote server
-  //////////////////////////////////////////////////////////////////////
-
-  'remote' => array(
-
-    // The root directory where your applications will be deployed
-    'root_directory'   => '/home/www/',
-
-    // The default name of the application to deploy
-    'application_name' => 'facebook',
-
-    // The number of releases to keep at all times
-    'releases' => 4,
-  ),
-
-  // Tasks
-  //////////////////////////////////////////////////////////////////////
-
-  // Here you can define custom tasks to execute after certain actions
-  'tasks' => array(
-
-    // Tasks to execute before commands
-    'before' => array(),
-
-    // Tasks to execute after commands
-    'after' => array(
-      'deploy:deploy'  => array(
-        'bower install',
-        'php artisan basset:build'
-      ),
-    ),
-  ),
-
-);
+		// Actual Tasks classes
+		'MyNamespace\MyTaskClass',
+	),
 ```
