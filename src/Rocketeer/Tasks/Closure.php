@@ -1,7 +1,7 @@
 <?php
 namespace Rocketeer\Tasks;
 
-use Closure as ClosureObject;
+use Closure as AnonymousFunction;
 
 /**
  * A task formatted as a Closure
@@ -21,7 +21,7 @@ class Closure extends Task
 	 *
 	 * @param  Closure $closure
 	 */
-	public function setClosure(ClosureObject $closure)
+	public function setClosure(AnonymousFunction $closure)
 	{
 		$this->closure = $closure;
 	}

@@ -107,6 +107,20 @@ abstract class Task
 		return $output;
 	}
 
+	/**
+	 * Execute a Task
+	 *
+	 * @param  string $task
+	 *
+	 * @return string The Task's output
+	 */
+	protected function executeTask($task)
+	{
+		$task = new $task($this->rocketeer, $this->releasesManager, $this->deploymentsManager, $this->remote, $this->command);
+
+		return $task->execute();
+	}
+
 	////////////////////////////////////////////////////////////////////
 	//////////////////////////////// TASKS /////////////////////////////
 	////////////////////////////////////////////////////////////////////

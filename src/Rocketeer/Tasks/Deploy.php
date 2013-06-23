@@ -13,7 +13,7 @@ class Deploy extends Task
 	{
 		// Setup if necessary
 		if (!$this->deploymentsManager->getValue('is_setup')) {
-			$this->command->call('deploy:setup');
+			$this->executeTask('Rocketeer\Tasks\Setup');
 		}
 
 		// Update current release
