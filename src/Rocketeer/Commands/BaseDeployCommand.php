@@ -37,6 +37,18 @@ abstract class BaseDeployCommand extends Command
 	}
 
 	/**
+	 * Fire a Tasks Queue
+	 *
+	 * @param  array $tasks
+	 *
+	 * @return [type] [description]
+	 */
+	protected function fireTasksQueue($tasks)
+	{
+		return $this->laravel['rocketeer.tasks']->run($tasks, $this);
+	}
+
+	/**
 	 * Get the console command arguments.
 	 *
 	 * @return array

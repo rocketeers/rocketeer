@@ -2,6 +2,8 @@
 namespace Rocketeer\Commands;
 
 use Illuminate\Support\Str;
+use Rocketeer\TasksQueue;
+use Rocketeer\Tasks\Cleanup;
 
 /**
  * Clean up old releases from the server
@@ -28,26 +30,11 @@ class DeployCleanupCommand extends BaseDeployCommand
 	 *
 	 * @return array
 	 */
-	protected function tasks()
+	public function fire()
 	{
-		// Get deprecated releases and create commands
-		$trash = $this->getReleasesManager()->getDeprecatedReleases();
-		foreach ($trash as &$release) {
-			$release = $this->removeFolder($this->getReleasesManager()->getPathToRelease($release));
-		}
-
-		// If no releases to prune
-		if (empty($trash)) {
-			$this->info('No releases to prune from the server');
-			return array();
-		}
-
-		// Print message
-		$trash   = sizeof($trash);
-		$message = sprintf('Removing %d %s from the server', $trash, Str::plural('release', $trash));
-		$this->info($message);
-
-		return $trash;
+		return $this->fireTasksQueue(array(
+			'Rocketeer\Tasks\Cleanup',
+		));
 	}
 
 }
