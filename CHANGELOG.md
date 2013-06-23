@@ -8,6 +8,10 @@
 
 ### Changelog
 
+### 0.2.0
+
+- The core of Rocketeer's actions is now split into a system of Tasks for flexibility
+
 ### 0.1.1
 
 - Fixed a bug where the commands would try to connect to the remote hosts on construct

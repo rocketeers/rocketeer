@@ -27,16 +27,25 @@ class Closure extends Task
 	}
 
 	/**
+	 * Get the Task's Closure
+	 *
+	 * @return Closure
+	 */
+	public function getClosure()
+	{
+		return $this->closure;
+	}
+
+	/**
 	 * Run the Task
 	 *
 	 * @return  void
 	 */
 	public function execute()
 	{
-		if ($this->closure) {
-			$closure = $this->closure;
-			return $closure($this);
-		}
+		$closure = $this->closure;
+
+		return $closure($this);
 	}
 
 }

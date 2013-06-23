@@ -22,9 +22,16 @@ class TasksQueue
 	protected $remote;
 
 	/**
-	 * Build a new TasksQueue instance
+	 * The command executing the TasksQueue
 	 *
-	 * @param array $tasks A list of tasks
+	 * @var Command
+	 */
+	protected $command;
+
+	/**
+	 * Build a new TasksQueue Instance
+	 *
+	 * @param Container $app
 	 */
 	public function __construct($app)
 	{
@@ -54,15 +61,12 @@ class TasksQueue
 		$this->command = $command;
 		$queue = $this->buildQueue($tasks);
 
+		// Finally we execute the Tasks
 		foreach ($queue as $task) {
-			// Build the tasks provided as Closures/strings
-			if (!($task instanceof Task)) {
-				$task = $this->buildTaskFromClosure($task);
-			}
-
-			// Finally we execute the Task
 			$task->execute();
 		}
+
+		return $queue;
 	}
 
 	/**
@@ -76,13 +80,13 @@ class TasksQueue
 	 *
 	 * @return array
 	 */
-	protected function buildQueue(array $tasks)
+	public function buildQueue(array $tasks)
 	{
 		$queue = array();
 		foreach ($tasks as $task) {
 
 			// If we provided a Closure or a string command, add straight to queue
-			if (!class_exists($task)) {
+			if ($task instanceof Closure or !class_exists($task)) {
 				$queue[] = $task;
 				continue;
 			}
@@ -90,6 +94,13 @@ class TasksQueue
 			// Else build class and add to queue
 			$task  = $this->buildTask($task);
 			$queue = array_merge($queue, $this->getBefore($task), array($task), $this->getAfter($task));
+		}
+
+		// Build the tasks provided as Closures/strings
+		foreach ($queue as &$task) {
+			if (!($task instanceof Task)) {
+				$task = $this->buildTaskFromClosure($task);
+			}
 		}
 
 		return $queue;
@@ -102,7 +113,7 @@ class TasksQueue
 	 *
 	 * @return Task
 	 */
-	protected function buildTaskFromClosure($task)
+	public function buildTaskFromClosure($task)
 	{
 		// If the User provided a string to execute
 		if (is_string($task)) {
@@ -133,7 +144,7 @@ class TasksQueue
 	 *
 	 * @return Task
 	 */
-	protected function buildTask($task)
+	public function buildTask($task)
 	{
 		return new $task($this->getRocketeer(), $this->getReleasesManager(), $this->getDeploymentsManager(), $this->getRemote(), $this->getCommand());
 	}
@@ -145,7 +156,7 @@ class TasksQueue
 	 *
 	 * @return array
 	 */
-	protected function getBefore(Task $task)
+	public function getBefore(Task $task)
 	{
 		return (array) $this->app['config']->get('rocketeer::tasks.before.deploy:'.$task->getName());
 	}
@@ -157,7 +168,7 @@ class TasksQueue
 	 *
 	 * @return array
 	 */
-	protected function getAfter(Task $task)
+	public function getAfter(Task $task)
 	{
 		return (array) $this->app['config']->get('rocketeer::tasks.after.deploy:'.$task->getName());
 	}

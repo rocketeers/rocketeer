@@ -56,7 +56,7 @@ abstract class Task
 	 * @param Connection      $remote
 	 * @param Command         $command
 	 */
-	public function __construct(Rocketeer $rocketeer, ReleasesManager $releasesManager, DeploymentsManager $deploymentsManager, Connection $remote, Command $command)
+	public function __construct(Rocketeer $rocketeer, ReleasesManager $releasesManager, DeploymentsManager $deploymentsManager, Connection $remote, $command)
 	{
 		$this->releasesManager    = $releasesManager;
 		$this->deploymentsManager = $deploymentsManager;
