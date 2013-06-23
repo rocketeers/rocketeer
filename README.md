@@ -5,7 +5,7 @@ Rocketeer [![Build Status](https://travis-ci.org/Anahkiasen/rocketeer.png?branch
 
 Rocketeer provides a fast and easy to set-up way to deploy your Laravel projects.
 
-**Rocketeer requires Laravel 4.1 as it uses the new _illuminate/remote_ component***.
+**Rocketeer requires Laravel 4.1 as it uses the new _illuminate/remote_ component**.
 
 ### With Package Installer
 
@@ -49,13 +49,13 @@ The available commands in Rocketeer are :
 
 ```
 deploy
-  deploy:setup                Set up the website for deployment
-  deploy:deploy               Deploy the website.
-  deploy:cleanup              Clean up old releases from the server
-  deploy:current              Displays what the current release is
-  deploy:rollback {release}   Rollback to a specific release
-  deploy:rollback             Rollback to the previous release
-  deploy:teardown             Removes the remote applications and existing caches
+  deploy:setup               Set up the website for deployment
+  deploy:deploy              Deploy the website.
+  deploy:cleanup             Clean up old releases from the server
+  deploy:current             Displays what the current release is
+  deploy:rollback {release}  Rollback to a specific release
+  deploy:rollback            Rollback to the previous release
+  deploy:teardown            Removes the remote applications and existing caches
 ```
 
 ## Example config file

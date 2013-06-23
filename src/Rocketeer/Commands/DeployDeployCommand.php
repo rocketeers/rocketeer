@@ -19,6 +19,13 @@ class DeployDeployCommand extends BaseDeployCommand
 	protected $description = 'Deploy the website.';
 
 	/**
+	 * The path to the current release
+	 *
+	 * @var string
+	 */
+	protected $currentReleasePath;
+
+	/**
 	 * Execute the tasks
 	 *
 	 * @return array
@@ -32,8 +39,14 @@ class DeployDeployCommand extends BaseDeployCommand
 
 		// Update current release
 		$this->getReleasesManager()->updateCurrentRelease(time());
+		$this->currentReleasePath = $this->getReleasesManager()->getCurrentReleasePath();
 
-		$this->remote->run($this->getTasks());
+		// Run outstanding tasks
+		$this->remote->run(
+			$this->getTasks()
+		);
+
+		// Cleanup old releases
 		$this->call('deploy:cleanup');
 	}
 
@@ -44,8 +57,6 @@ class DeployDeployCommand extends BaseDeployCommand
 	 */
 	public function tasks()
 	{
-		$currentReleasePath = $this->getReleasesManager()->getCurrentReleasePath();
-
 		return array(
 			// Clone release and update symlink
 			$this->cloneRelease(),
@@ -53,15 +64,36 @@ class DeployDeployCommand extends BaseDeployCommand
 			$this->updateSymlink(),
 
 			// Run composer
-			$this->gotoFolder($currentReleasePath),
+			$this->gotoFolder($this->currentReleasePath),
 			$this->runComposer(),
 
 			// Set permissions
-			"chmod -R +x " .$currentReleasePath.'/app',
-			"chmod -R +x " .$currentReleasePath.'/public',
-			"chown -R www-data:www-data " .$currentReleasePath.'/app',
-			"chown -R www-data:www-data " .$currentReleasePath.'/public',
+			$this->setPermissions('app'),
+			$this->setPermissions('public'),
+			$this->setGroup('app'),
+			$this->setGroup('public'),
 		);
+	}
+
+	////////////////////////////////////////////////////////////////////
+	/////////////////////////////// HELPERS ////////////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Set a folder as web-writable
+	 *
+	 * @param string $folder
+	 *
+	 * @return  string
+	 */
+	protected function setPermissions($folder)
+	{
+		return "chmod -R +x " .$this->currentReleasePath.'/'.$folder;
+	}
+
+	protected function setGroup($folder)
+	{
+		return "chown -R www-data:www-data " .$this->currentReleasePath.'/'.$folder;
 	}
 
 }
