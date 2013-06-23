@@ -1,6 +1,8 @@
 <?php
 namespace Rocketeer\Commands;
 
+use Illuminate\Support\Str;
+
 /**
  * Clean up old releases from the server
  */
@@ -40,7 +42,11 @@ class DeployCleanupCommand extends BaseDeployCommand
 			return array();
 		}
 
-		$this->info('Removing '.sizeof($trash). ' releases from the server');
+		// Print message
+		$trash   = sizeof($trash);
+		$message = sprintf('Removing %d %s from the server', $trash, Str::plural('release', $trash));
+		$this->info($message);
+
 		return $trash;
 	}
 

@@ -21,11 +21,9 @@ abstract class BaseDeployCommand extends Command
 	 *
 	 * @param Container $app The application Container
 	 */
-	public function __construct($app)
+	public function __construct()
 	{
 		parent::__construct();
-
-		$this->laravel = $app;
 	}
 
 	/**
