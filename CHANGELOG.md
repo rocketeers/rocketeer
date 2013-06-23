@@ -1,8 +1,6 @@
 ### Roadmap
 
-- Split the actual tasks (deploy, cleanup, etc) from their commands for easier testing and reuse
-- Custom tasks as classes that allow you to use Rocketeer's helpers
-- Create tasks with callbacks to allow things like running tests and cancelling deploy if tests fail
+- Allow the adding of custom tasks to the CLI (like `deploy:mytask`)
 
 ------------
 
