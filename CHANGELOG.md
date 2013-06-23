@@ -1,13 +1,12 @@
-# Roadmap
+### Roadmap
 
 - Custom tasks as classes that allow you to use Rocketeer's helpers
 
 ------------
 
-# Rocketeer Changelog
+### Changelog
 
-0.1.0
------
+### 0.1.0
 
 - Add `deploy:teardown` to remove the application from remote servers
 - Add support for the connections defined in the remote config file
