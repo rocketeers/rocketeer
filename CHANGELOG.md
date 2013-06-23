@@ -1,3 +1,9 @@
+# Roadmap
+
+- Custom tasks as classes that allow you to use Rocketeer's helpers
+
+------------
+
 # Rocketeer Changelog
 
 0.1.0
