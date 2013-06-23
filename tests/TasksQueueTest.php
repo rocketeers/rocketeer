@@ -17,6 +17,18 @@ class TasksQueueTest extends RocketeerTests
 		$this->assertEquals(array('before', 'foobar'), $before);
 	}
 
+	public function testCanAddTasksViaFacade()
+	{
+		$task   = $this->tasksQueue()->buildTask('Rocketeer\Tasks\Deploy');
+		$before = $this->tasksQueue()->getBefore($task);
+
+		$this->tasksQueue()->before('deploy', 'composer install');
+
+		$newBefore = array_merge($before, array('composer install'));
+		var_dump($this->tasksQueue()->getBefore('deploy'));
+		$this->assertEquals($newBefore, $this->tasksQueue()->getBefore($task));
+	}
+
 	public function testCanGetBeforeOrAfterAnotherTaskBySlug()
 	{
 		$task   = $this->tasksQueue()->buildTask('Rocketeer\Tasks\Deploy');

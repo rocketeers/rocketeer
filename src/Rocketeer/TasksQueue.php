@@ -53,11 +53,17 @@ class TasksQueue
 	 */
 	public function before($beforeTask, $task)
 	{
+		var_dump($this->tasks);
+
 		if (is_array($task)) {
-			return array_merge($this->tasks['before'][$beforeTask], $task);
+			array_merge($this->tasks['before'][$beforeTask], $task);
 		} else {
-			return $this->tasks['before'][$beforeTask][] = $actor;
+			$this->tasks['before'][$beforeTask][] = $task;
 		}
+
+		var_dump($this->tasks);
+
+		return $this;
 	}
 
 	/**
@@ -70,11 +76,17 @@ class TasksQueue
 	 */
 	public function after($afterTask, $task)
 	{
+		var_dump($this->tasks);
+
 		if (is_array($task)) {
-			return array_merge($this->tasks['before'][$beforeTask], $task);
+			array_merge($this->tasks['before'][$beforeTask], $task);
 		} else {
-			return $this->tasks['after'][$afterTask][] = $actor;
+			$this->tasks['after'][$afterTask][] = $task;
 		}
+
+		var_dump($this->tasks);
+
+		return $this;
 	}
 
 	////////////////////////////////////////////////////////////////////
