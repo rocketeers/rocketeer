@@ -19,6 +19,11 @@
   <filter>
     <whitelist>
       <directory>src/Rocketeer</directory>
+      <exclude>
+      	<file>src/Rocketeer/RocketeerServiceProvider.php</file>
+		  	<directory>src/Rocketeer/Commands</directory>
+		  	<directory>src/Rocketeer/Facades</directory>
+      </exclude>
     </whitelist>
   </filter>
 

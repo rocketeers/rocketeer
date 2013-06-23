@@ -69,6 +69,30 @@ class TasksQueue
 		$this->addSurroundingTask($task, $surroundingTask, 'after');
 	}
 
+	/**
+	 * Get the tasks to execute before a Task
+	 *
+	 * @param  Task   $task
+	 *
+	 * @return array
+	 */
+	public function getBefore(Task $task)
+	{
+		return $this->getSurroundingTasks($task, 'before');
+	}
+
+	/**
+	 * Get the tasks to execute after a Task
+	 *
+	 * @param  Task   $task
+	 *
+	 * @return array
+	 */
+	public function getAfter(Task $task)
+	{
+		return $this->getSurroundingTasks($task, 'after');
+	}
+
 	////////////////////////////////////////////////////////////////////
 	//////////////////////////////// QUEUE /////////////////////////////
 	////////////////////////////////////////////////////////////////////
@@ -177,36 +201,18 @@ class TasksQueue
 	 */
 	public function buildTask($task)
 	{
-		return new $task($this->getRocketeer(), $this->getReleasesManager(), $this->getDeploymentsManager(), $this->getRemote(), $this->getCommand());
+		return new $task(
+			$this->getRocketeer(),
+			$this->getReleasesManager(),
+			$this->getDeploymentsManager(),
+			$this->getRemote(),
+			$this->getCommand()
+		);
 	}
 
 	////////////////////////////////////////////////////////////////////
 	///////////////////////////// SURROUNDINGS /////////////////////////
 	////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Get the tasks to execute before a Task
-	 *
-	 * @param  Task   $task
-	 *
-	 * @return array
-	 */
-	public function getBefore(Task $task)
-	{
-		return $this->getSurroundingTasks($task, 'before');
-	}
-
-	/**
-	 * Get the tasks to execute after a Task
-	 *
-	 * @param  Task   $task
-	 *
-	 * @return array
-	 */
-	public function getAfter(Task $task)
-	{
-		return $this->getSurroundingTasks($task, 'after');
-	}
 
 	/**
 	 * Add a Task to surround another Task
