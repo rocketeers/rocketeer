@@ -33,10 +33,11 @@ class TasksQueue
 	 *
 	 * @param Container $app
 	 */
-	public function __construct($app)
+	public function __construct($app, $command = null)
 	{
-		$this->app   = $app;
-		$this->tasks = $app['config']->get('rocketeer::tasks');
+		$this->app     = $app;
+		$this->tasks   = $app['config']->get('rocketeer::tasks');
+		$this->command = $command;
 	}
 
 	////////////////////////////////////////////////////////////////////

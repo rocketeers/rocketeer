@@ -25,7 +25,7 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
-		$this->server = __DIR__.'/server';
+		$this->server = __DIR__.'/server/foobar';
 
 		$this->app = new Container;
 
@@ -48,10 +48,13 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 		// Rocketeer classes ------------------------------------------- /
 
 		$this->app = RocketeerServiceProvider::bindClasses($this->app);
-		//$this->app = RocketeerServiceProvider::bindCommands($this->app);
 
 		$this->app->bind('rocketeer.deployments', function($app) {
 			return new Rocketeer\DeploymentsManager($app['files'], __DIR__);
+		});
+
+		$this->app->singleton('rocketeer.tasks', function($app) {
+			return new Rocketeer\TasksQueue($app, $this->getCommand());
 		});
 	}
 
@@ -62,8 +65,35 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 	}
 
 	////////////////////////////////////////////////////////////////////
+	/////////////////////////////// HELPERS ////////////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Get TasksQueue instance
+	 *
+	 * @return TasksQueue
+	 */
+	protected function tasksQueue()
+	{
+		return $this->app['rocketeer.tasks'];
+	}
+
+	////////////////////////////////////////////////////////////////////
 	///////////////////////////// DEPENDENCIES /////////////////////////
 	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Mock the Command class
+	 *
+	 * @return Mockery
+	 */
+	protected function getCommand()
+	{
+		$command = Mockery::mock('Illuminate\Console\Command');
+		$command->shouldReceive('info');
+
+		return $command;
+	}
 
 	/**
 	 * Mock the Config component

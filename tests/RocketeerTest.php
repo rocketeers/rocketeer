@@ -48,12 +48,12 @@ class RocketeerTest extends RocketeerTests
 
 	public function testCanGetHomeFolder()
 	{
-		$this->assertEquals($this->server.'/foobar', $this->app['rocketeer.rocketeer']->getHomeFolder());
+		$this->assertEquals($this->server.'', $this->app['rocketeer.rocketeer']->getHomeFolder());
 	}
 
 	public function testCanGetAnyFolder()
 	{
-		$this->assertEquals($this->server.'/foobar/current', $this->app['rocketeer.rocketeer']->getFolder('current'));
+		$this->assertEquals($this->server.'/current', $this->app['rocketeer.rocketeer']->getFolder('current'));
 	}
 
 }

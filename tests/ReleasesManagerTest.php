@@ -13,14 +13,14 @@ class ReleasesManagerTest extends RocketeerTests
 	{
 		$releasePath = $this->app['rocketeer.releases']->getReleasesPath();
 
-		$this->assertEquals($this->server.'/foobar/releases', $releasePath);
+		$this->assertEquals($this->server.'/releases', $releasePath);
 	}
 
 	public function testCanGetCurrentReleaseFolder()
 	{
 		$currentReleasePath = $this->app['rocketeer.releases']->getCurrentReleasePath();
 
-		$this->assertEquals($this->server.'/foobar/releases/2000000000', $currentReleasePath);
+		$this->assertEquals($this->server.'/releases/2000000000', $currentReleasePath);
 	}
 
 	public function testCanGetReleases()
