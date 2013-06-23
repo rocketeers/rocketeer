@@ -28,11 +28,11 @@ class DeployRollbackCommand extends BaseDeployCommand
 	 *
 	 * @return array
 	 */
-	protected function tasks()
+	public function fire()
 	{
-		return array(
-			$this->updateSymlink($this->getRollbackRelease()),
-		);
+		return $this->fireTasksQueue(array(
+			'Rocketeer\Tasks\Rollback',
+		));
 	}
 
 	/**
@@ -45,20 +45,6 @@ class DeployRollbackCommand extends BaseDeployCommand
 		return array(
 			array('release', InputArgument::OPTIONAL, 'The release to rollback to'),
 		);
-	}
-
-	////////////////////////////////////////////////////////////////////
-	/////////////////////////////// HELPERS ////////////////////////////
-	////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Get the release to rollback to
-	 *
-	 * @return integer
-	 */
-	protected function getRollbackRelease()
-	{
-		return $this->argument('release') ?: $this->getReleasesManager()->getPreviousRelease();
 	}
 
 }

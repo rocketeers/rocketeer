@@ -28,15 +28,9 @@ class DeployTeardownCommand extends BaseDeployCommand
 	 */
 	public function fire()
 	{
-		// Remove remote folders
-		$this->getRemote()->run(array(
-			$this->removeFolder(),
+		return $this->fireTasksQueue(array(
+			'Rocketeer\Tasks\Teardown',
 		));
-
-		// Remove deployments file
-		$this->getDeploymentsManager()->deleteDeploymentsFile();
-
-		$this->info('The application was successfully removed from the remote servers');
 	}
 
 }

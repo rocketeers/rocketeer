@@ -89,7 +89,7 @@ class TasksQueue
 			}
 
 			// Else build class and add to queue
-			$task  = new $task($this->getRocketeer(), $this->getReleasesManager(), $this->getRemote(), $this->getCommand());
+			$task  = $this->buildTask($task);
 			$queue = array_merge($queue, $this->getBefore($task), array($task), $this->getAfter($task));
 		}
 
@@ -120,11 +120,23 @@ class TasksQueue
 
 		// Build the ClosureTask
 		if (isset($closure)) {
-			$task = new Tasks\Closure($this->getRocketeer(), $this->getReleasesManager(), $this->getRemote(), $this->getCommand());
+			$task = $this->buildTask('Rocketeer\Tasks\Closure');
 			$task->setClosure($closure);
 		}
 
 		return $task;
+	}
+
+	/**
+	 * Build a Task from its name
+	 *
+	 * @param  string $task
+	 *
+	 * @return Task
+	 */
+	protected function buildTask($task)
+	{
+		return new $task($this->getRocketeer(), $this->getReleasesManager(), $this->getDeploymentsManager(), $this->getRemote(), $this->getCommand());
 	}
 
 	/**

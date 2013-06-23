@@ -3,6 +3,7 @@ namespace Rocketeer\Tasks;
 
 use Illuminate\Console\Command;
 use Illuminate\Remote\Connection;
+use Rocketeer\DeploymentsManager;
 use Rocketeer\ReleasesManager;
 use Rocketeer\Rocketeer;
 
@@ -18,6 +19,13 @@ abstract class Task
 	 * @var ReleasesManager
 	 */
 	public $releasesManager;
+
+	/**
+	 * The Deployments Manager instance
+	 *
+	 * @var DeploymentsManager
+	 */
+	public $deploymentsManager;
 
 	/**
 	 * The Rocketeer instance
@@ -48,12 +56,13 @@ abstract class Task
 	 * @param Connection      $remote
 	 * @param Command         $command
 	 */
-	public function __construct(Rocketeer $rocketeer, ReleasesManager $releasesManager, Connection $remote, Command $command)
+	public function __construct(Rocketeer $rocketeer, ReleasesManager $releasesManager, DeploymentsManager $deploymentsManager, Connection $remote, Command $command)
 	{
-		$this->releasesManager = $releasesManager;
-		$this->rocketeer       = $rocketeer;
-		$this->remote          = $remote;
-		$this->command         = $command;
+		$this->releasesManager    = $releasesManager;
+		$this->deploymentsManager = $deploymentsManager;
+		$this->rocketeer          = $rocketeer;
+		$this->remote             = $remote;
+		$this->command            = $command;
 	}
 
 	/**
@@ -96,6 +105,46 @@ abstract class Task
 		});
 
 		return $output;
+	}
+
+	////////////////////////////////////////////////////////////////////
+	//////////////////////////////// TASKS /////////////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Clone the repo into a release folder
+	 *
+	 * @return string
+	 */
+	protected function cloneRelease()
+	{
+		$branch      = $this->rocketeer->getGitBranch();
+		$repository  = $this->rocketeer->getGitRepository();
+		$releasePath = $this->releasesManager->getCurrentReleasePath();
+
+		$this->command->info('Cloning repository in "' .$releasePath. '"');
+
+		return $this->run(sprintf('git clone -b %s %s %s', $branch, $repository, $releasePath));
+	}
+
+	/**
+	 * Update the current symlink
+	 *
+	 * @param integer $release A release to mark as current
+	 *
+	 * @return string
+	 */
+	protected function updateSymlink($release = null)
+	{
+		// If the release is specified, update to make it the current one
+		if ($release) {
+			$this->releasesManager->updateCurrentRelease($release);
+		}
+
+		$currentReleasePath = $this->releasesManager->getCurrentReleasePath();
+		$currentFolder      = $this->rocketeer->getFolder('current');
+
+		return $this->run(sprintf('ln -s %s %s', $currentReleasePath, $currentFolder));
 	}
 
 	////////////////////////////////////////////////////////////////////
