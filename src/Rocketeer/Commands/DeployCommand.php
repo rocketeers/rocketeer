@@ -1,13 +1,12 @@
 <?php
 namespace Rocketeer\Commands;
 
-use Illuminate\Console\Command;
 use Rocketeer\Rocketeer;
 
 /**
  * Your interface to deploying your projects
  */
-class DeployCommand extends Command
+class DeployCommand extends BaseDeployCommand
 {
 
 	/**
