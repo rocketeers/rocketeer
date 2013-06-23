@@ -79,7 +79,6 @@ class TasksQueue
 	protected function buildQueue(array $tasks)
 	{
 		$queue = array();
-
 		foreach ($tasks as $task) {
 
 			// If we provided a Closure or a string command, add straight to queue

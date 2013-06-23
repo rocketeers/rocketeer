@@ -1,8 +1,6 @@
 <?php
 namespace Rocketeer\Commands;
 
-use Illuminate\Support\Str;
-use Rocketeer\TasksQueue;
 use Rocketeer\Tasks\Cleanup;
 
 /**
