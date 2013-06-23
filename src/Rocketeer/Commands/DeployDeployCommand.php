@@ -1,6 +1,9 @@
 <?php
 namespace Rocketeer\Commands;
 
+/**
+ * Deploy the website
+ */
 class DeployDeployCommand extends BaseDeployCommand
 {
 
@@ -17,13 +20,6 @@ class DeployDeployCommand extends BaseDeployCommand
 	 * @var string
 	 */
 	protected $description = 'Deploy the website.';
-
-	/**
-	 * The path to the current release
-	 *
-	 * @var string
-	 */
-	protected $currentReleasePath;
 
 	/**
 	 * Execute the tasks

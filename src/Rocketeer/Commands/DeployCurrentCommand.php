@@ -1,8 +1,6 @@
 <?php
 namespace Rocketeer\Commands;
 
-use Carbon\Carbon;
-
 /**
  * Displays what the current release is
  */
@@ -30,17 +28,9 @@ class DeployCurrentCommand extends BaseDeployCommand
 	 */
 	public function fire()
 	{
-		// Check if a release has been deployed already
-		$currentRelease = $this->getReleasesManager()->getCurrentRelease();
-		if (!$currentRelease) {
-			return $this->error('No release has yet been deployed');
-		}
-
-		// Create message
-		$date    = Carbon::createFromTimestamp($currentRelease)->toDateTimeString();
-		$message = sprintf('The current release is <info>%s</info> (deployed at <comment>%s</comment>)', $currentRelease, $date);
-
-		$this->line($message);
+		return $this->fireTasksQueue(array(
+			'Rocketeer\Tasks\CurrentRelease',
+		));
 	}
 
 }

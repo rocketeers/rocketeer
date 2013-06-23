@@ -1,8 +1,6 @@
 <?php
 namespace Rocketeer\Commands;
 
-use Rocketeer\Tasks\Cleanup;
-
 /**
  * Clean up old releases from the server
  */
