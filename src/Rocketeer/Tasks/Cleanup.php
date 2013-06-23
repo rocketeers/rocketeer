@@ -1,6 +1,8 @@
 <?php
 namespace Rocketeer\Tasks;
 
+use Illuminate\Support\Str;
+
 class Cleanup extends Task
 {
 
