@@ -1,6 +1,7 @@
 <?php
 namespace Rocketeer;
 
+use Illuminate\Container\Container;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -26,61 +27,9 @@ class RocketeerServiceProvider extends ServiceProvider
 		// Register config file
 		$this->app['config']->package('anahkiasen/rocketeer', __DIR__.'/../config');
 
-		// Register commands
-		$this->registerClasses();
-		$this->registerCommands();
-	}
-
-	/**
-	 * Register the Rocketeer classes
-	 */
-	protected function registerClasses()
-	{
-		$this->app->bind('rocketeer.rocketeer', function($app) {
-			return new Rocketeer($app['config']);
-		});
-
-		$this->app->bind('rocketeer.releases', function($app) {
-			return new ReleasesManager($app);
-		});
-
-		$this->app->bind('rocketeer.deployments', function($app) {
-			return new DeploymentsManager($app['files'], $app['path.storage']);
-		});
-	}
-
-	/**
-	 * Register the Rocketeer commands
-	 */
-	protected function registerCommands()
-	{
-		$this->app->bind('deploy',  function($app) {
-			return new Commands\DeployCommand($app);
-		});
-
-		$this->app->bind('deploy.setup',  function($app) {
-			return new Commands\DeploySetupCommand($app);
-		});
-
-		$this->app->bind('deploy.deploy', function($app) {
-			return new Commands\DeployDeployCommand($app);
-		});
-
-		$this->app->bind('deploy.cleanup', function($app) {
-			return new Commands\DeployCleanupCommand($app);
-		});
-
-		$this->app->bind('deploy.rollback', function($app) {
-			return new Commands\DeployRollbackCommand($app);
-		});
-
-		$this->app->bind('deploy.teardown', function($app) {
-			return new Commands\DeployTeardownCommand($app);
-		});
-
-		$this->app->bind('deploy.current', function($app) {
-			return new Commands\DeployCurrentCommand($app);
-		});
+		// Register classes and commands
+		$this->app = static::bindClasses($this->app);
+		$this->app = static::bindCommands($this->app);
 
 		$this->commands('deploy', 'deploy.setup', 'deploy.deploy', 'deploy.cleanup', 'deploy.rollback', 'deploy.teardown', 'deploy.current');
 	}
@@ -93,6 +42,74 @@ class RocketeerServiceProvider extends ServiceProvider
 	public function provides()
 	{
 		return array('rocketeer');
+	}
+
+	////////////////////////////////////////////////////////////////////
+	/////////////////////////// CLASS BINDINGS /////////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Bind the Rocketeer classes to the Container
+	 *
+	 * @param  Container $app
+	 *
+	 * @return Container
+	 */
+	public static function bindClasses(Container $app)
+	{
+		$app->bind('rocketeer.rocketeer', function($app) {
+			return new Rocketeer($app['config']);
+		});
+
+		$app->bind('rocketeer.releases', function($app) {
+			return new ReleasesManager($app);
+		});
+
+		$app->bind('rocketeer.deployments', function($app) {
+			return new DeploymentsManager($app['files'], $app['path.storage']);
+		});
+
+		return $app;
+	}
+
+	/**
+	 * Bind the commands to the Container
+	 *
+	 * @param  Container $app
+	 *
+	 * @return Container
+	 */
+	public static function bindCommands(Container $app)
+	{
+		$app->bind('deploy',  function($app) {
+			return new Commands\DeployCommand($app);
+		});
+
+		$app->bind('deploy.setup',  function($app) {
+			return new Commands\DeploySetupCommand($app);
+		});
+
+		$app->bind('deploy.deploy', function($app) {
+			return new Commands\DeployDeployCommand($app);
+		});
+
+		$app->bind('deploy.cleanup', function($app) {
+			return new Commands\DeployCleanupCommand($app);
+		});
+
+		$app->bind('deploy.rollback', function($app) {
+			return new Commands\DeployRollbackCommand($app);
+		});
+
+		$app->bind('deploy.teardown', function($app) {
+			return new Commands\DeployTeardownCommand($app);
+		});
+
+		$app->bind('deploy.current', function($app) {
+			return new Commands\DeployCurrentCommand($app);
+		});
+
+		return $app;
 	}
 
 }

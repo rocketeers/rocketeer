@@ -23,7 +23,7 @@ class Rocketeer
 	 *
 	 * @var string
 	 */
-	public static $version = '0.1.0';
+	const VERSION = '0.1.0';
 
 	/**
 	 * Build a new ReleasesManager

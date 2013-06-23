@@ -18,8 +18,6 @@ abstract class BaseDeployCommand extends Command
 
 	/**
 	 * Create a new Command instance
-	 *
-	 * @param Container $app The application Container
 	 */
 	public function __construct()
 	{
@@ -217,7 +215,7 @@ abstract class BaseDeployCommand extends Command
 	 *
 	 * @return array
 	 */
-	protected function getTasks()
+	public function getTasks()
 	{
 		return array_merge($this->getBeforeTasks(), $this->tasks(), $this->getAfterTasks());
 	}

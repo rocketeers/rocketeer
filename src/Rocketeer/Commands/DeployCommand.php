@@ -31,7 +31,7 @@ class DeployCommand extends Command
 	 */
 	public function fire()
 	{
-		$this->line('<info>Rocketeer</info> version <comment>'.Rocketeer::$version.'</comment>');
+		$this->line('<info>Rocketeer</info> version <comment>'.Rocketeer::VERSION.'</comment>');
 	}
 
 }

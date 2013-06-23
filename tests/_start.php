@@ -1,6 +1,7 @@
 <?php
 use Illuminate\Container\Container;
 use Illuminate\Filesystem\Filesystem;
+use Rocketeer\RocketeerServiceProvider;
 
 abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 {
@@ -35,13 +36,10 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 			return new Filesystem;
 		});
 
-		$this->app->bind('rocketeer.rocketeer', function($app) {
-			return new Rocketeer\Rocketeer($app['config']);
-		});
+		// Rocketeer classes ------------------------------------------- /
 
-		$this->app->bind('rocketeer.releases', function($app) {
-			return new Rocketeer\ReleasesManager($app);
-		});
+		$this->app = RocketeerServiceProvider::bindClasses($this->app);
+		//$this->app = RocketeerServiceProvider::bindCommands($this->app);
 
 		$this->app->bind('rocketeer.deployments', function($app) {
 			return new Rocketeer\DeploymentsManager($app['files'], __DIR__);
