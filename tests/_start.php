@@ -14,10 +14,19 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 	protected $app;
 
 	/**
+	 * The path to the local fake server
+	 *
+	 * @var string
+	 */
+	protected $server;
+
+	/**
 	 * Set up the tests
 	 */
 	public function setUp()
 	{
+		$this->server = __DIR__.'/server';
+
 		$this->app = new Container;
 
 		// Get the Mockery instances
@@ -65,7 +74,7 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 	{
 		$config = Mockery::mock('Illuminate\Config\Repository');
 		$config->shouldReceive('get')->with('rocketeer::remote.application_name')->andReturn('foobar');
-		$config->shouldReceive('get')->with('rocketeer::remote.root_directory')->andReturn('/home/www/');
+		$config->shouldReceive('get')->with('rocketeer::remote.root_directory')->andReturn(__DIR__.'/server/');
 		$config->shouldReceive('get')->with('rocketeer::remote.keep_releases')->andReturn(1);
 		$config->shouldReceive('get')->with('rocketeer::git.branch')->andReturn('master');
 		$config->shouldReceive('get')->with('rocketeer::connections')->andReturn('production');
@@ -92,7 +101,10 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 		$remote = Mockery::mock('Illuminate\Remote\Connection');
 		$remote->shouldReceive('into')->andReturn(Mockery::self());
 		$remote->shouldReceive('run')->andReturnUsing(function($tasks, $callback) {
-			$callback('1000000000'.PHP_EOL.'2000000000');
+			$task = implode(' && ', $tasks);
+			$output = shell_exec($task);
+
+			$callback($output);
 		});
 
 		return $remote;

@@ -61,7 +61,7 @@ class TasksQueueTest extends RocketeerTests
 
 	public function testCanBuildTaskFromString()
 	{
-		$string = 'I love ducks';
+		$string = 'echo "I love ducks"';
 
 		$string = $this->tasksQueue()->buildTaskFromClosure($string);
 		$this->assertInstanceOf('Rocketeer\Tasks\Closure', $string);
@@ -70,16 +70,15 @@ class TasksQueueTest extends RocketeerTests
 		$this->assertInstanceOf('Closure', $closure);
 
 		$closureReflection = new ReflectionFunction($closure);
-		$this->assertEquals(array('stringTask' => 'I love ducks'), $closureReflection->getStaticVariables());
+		$this->assertEquals(array('stringTask' => 'echo "I love ducks"'), $closureReflection->getStaticVariables());
 
-		// This is a weird test but it makes sense. Trust me I'm, well, not an engineer
-		$this->assertEquals('1000000000'.PHP_EOL.'2000000000', $string->execute());
+		$this->assertEquals('I love ducks'.PHP_EOL, $string->execute());
 	}
 
 	public function testCanBuildTaskFromClosure()
 	{
 		$originalClosure = function($task) {
-			return $task->getCommand()->info('I love ducks');
+			return $task->getCommand()->info('echo "I love ducks"');
 		};
 
 		$closure = $this->tasksQueue()->buildTaskFromClosure($originalClosure);
