@@ -1,5 +1,7 @@
 <?php
-namespace Illuminate\Support\Facades;
+namespace Rocketeer\Facades;
+
+use Illuminate\Support\Facades\Facade;
 
 class Rocketeer extends Facade
 {
