@@ -27,10 +27,8 @@ class DeployRollbackCommand extends BaseDeployCommand
 	 */
 	protected function tasks()
 	{
-		$rollback = $this->getRollbackRelease();
-
 		return array(
-			$this->updateSymlink($rollback),
+			$this->updateSymlink($this->getRollbackRelease()),
 		);
 	}
 

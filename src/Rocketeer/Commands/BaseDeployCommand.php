@@ -3,15 +3,11 @@ namespace Rocketeer\Commands;
 
 use Illuminate\Console\Command;
 
+/**
+ * A basic deploy command with helpers
+ */
 abstract class BaseDeployCommand extends Command
 {
-
-	/**
-	 * The current release ID
-	 *
-	 * @var integer
-	 */
-	protected $currentRelease;
 
 	/**
 	 * The remote connection
@@ -21,9 +17,9 @@ abstract class BaseDeployCommand extends Command
 	protected $remote;
 
 	/**
-	 * Create a new command instance.
+	 * Create a new Command instance
 	 *
-	 * @return void
+	 * @param Container $app The application Container
 	 */
 	public function __construct($app)
 	{
@@ -124,6 +120,8 @@ abstract class BaseDeployCommand extends Command
 
 	/**
 	 * Update the current symlink
+	 *
+	 * @param integer $release A release to mark as current
 	 *
 	 * @return string
 	 */

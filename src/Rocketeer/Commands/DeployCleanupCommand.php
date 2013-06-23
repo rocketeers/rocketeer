@@ -1,6 +1,9 @@
 <?php
 namespace Rocketeer\Commands;
 
+/**
+ * Clean up old releases from the server
+ */
 class DeployCleanupCommand extends BaseDeployCommand
 {
 
