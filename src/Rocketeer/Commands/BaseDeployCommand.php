@@ -25,11 +25,7 @@ abstract class BaseDeployCommand extends Command
 	{
 		parent::__construct();
 
-		// Get the connection to use
-		$connections = $app['config']->get('rocketeer::connections');
-
 		$this->laravel = $app;
-		$this->remote  = $app['remote']->into($connections);
 	}
 
 	/**
@@ -39,7 +35,7 @@ abstract class BaseDeployCommand extends Command
 	 */
 	public function fire()
 	{
-		$this->remote->run(
+		$this->getRemote()->run(
 			$this->getTasks()
 		);
 	}
@@ -67,6 +63,22 @@ abstract class BaseDeployCommand extends Command
 	////////////////////////////////////////////////////////////////////
 	/////////////////////////////// HELPERS ////////////////////////////
 	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Get the Remote connection
+	 *
+	 * @return Connection
+	 */
+	protected function getRemote()
+	{
+		// Setup remote connection
+		if (!$this->remote) {
+			$connections  = $this->laravel['config']->get('rocketeer::connections');
+			$this->remote = $this->laravel['remote']->into($connections);
+		}
+
+		return $this->remote;
+	}
 
 	/**
 	 * Get the Rocketeer instance

@@ -29,7 +29,7 @@ class DeployTeardownCommand extends BaseDeployCommand
 	public function fire()
 	{
 		// Remove remote folders
-		$this->remote->run(array(
+		$this->getRemote()->run(array(
 			$this->removeFolder(),
 		));
 

@@ -28,7 +28,9 @@ class DeploySetupCommand extends BaseDeployCommand
 	 */
 	public function fire()
 	{
-		$this->remote->run($this->getTasks());
+		$this->getRemote()->run(
+			$this->getTasks()
+		);
 
 		// Set setup to true
 		$this->getDeploymentsManager()->setValue('is_setup', true);

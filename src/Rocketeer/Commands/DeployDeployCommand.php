@@ -42,7 +42,7 @@ class DeployDeployCommand extends BaseDeployCommand
 		$this->currentReleasePath = $this->getReleasesManager()->getCurrentReleasePath();
 
 		// Run outstanding tasks
-		$this->remote->run(
+		$this->getRemote()->run(
 			$this->getTasks()
 		);
 
