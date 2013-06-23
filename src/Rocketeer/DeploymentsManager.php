@@ -15,7 +15,7 @@ class DeploymentsManager
 	 *
 	 * @var Filesystem
 	 */
-	protected $app;
+	protected $files;
 
 	/**
 	 * The path to the deployments file

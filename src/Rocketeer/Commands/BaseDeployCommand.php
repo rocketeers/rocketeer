@@ -129,7 +129,7 @@ abstract class BaseDeployCommand extends Command
 	{
 		// If the release is specified, update to make it the current one
 		if ($release) {
-			$release = $this->getReleasesManager()->updateCurrentRelease($release);
+			$this->getReleasesManager()->updateCurrentRelease($release);
 		}
 
 		$currentReleasePath = $this->getReleasesManager()->getCurrentReleasePath();

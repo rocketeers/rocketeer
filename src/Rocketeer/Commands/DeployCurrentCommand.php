@@ -3,6 +3,9 @@ namespace Rocketeer\Commands;
 
 use Carbon\Carbon;
 
+/**
+ * Displays what the current release is
+ */
 class DeployCurrentCommand extends BaseDeployCommand
 {
 
@@ -27,6 +30,7 @@ class DeployCurrentCommand extends BaseDeployCommand
 	 */
 	public function fire()
 	{
+		// Check if a release has been deployed already
 		$currentRelease = $this->getReleasesManager()->getCurrentRelease();
 		if (!$currentRelease) {
 			return $this->error('No release has yet been deployed');

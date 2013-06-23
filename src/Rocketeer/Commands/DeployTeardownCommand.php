@@ -1,6 +1,9 @@
 <?php
 namespace Rocketeer\Commands;
 
+/**
+ * Removes the remote applications and existing caches
+ */
 class DeployTeardownCommand extends BaseDeployCommand
 {
 
@@ -25,10 +28,12 @@ class DeployTeardownCommand extends BaseDeployCommand
 	 */
 	public function fire()
 	{
+		// Remove remote folders
 		$this->remote->run(array(
 			$this->removeFolder(),
 		));
 
+		// Remove deployments file
 		$this->getDeploymentsManager()->deleteDeploymentsFile();
 
 		$this->info('The application was successfully removed from the remote servers');

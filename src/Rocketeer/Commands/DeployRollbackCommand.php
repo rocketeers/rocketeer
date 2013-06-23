@@ -3,6 +3,9 @@ namespace Rocketeer\Commands;
 
 use Symfony\Component\Console\Input\InputArgument;
 
+/**
+ * Rollback to the previous release, or to a specific one
+ */
 class DeployRollbackCommand extends BaseDeployCommand
 {
 
@@ -51,7 +54,7 @@ class DeployRollbackCommand extends BaseDeployCommand
 	/**
 	 * Get the release to rollback to
 	 *
-	 * @return string
+	 * @return integer
 	 */
 	protected function getRollbackRelease()
 	{
