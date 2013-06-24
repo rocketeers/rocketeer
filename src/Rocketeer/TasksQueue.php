@@ -2,10 +2,18 @@
 namespace Rocketeer;
 
 use Closure;
+use Illuminate\Container\Container;
 use Rocketeer\Tasks\Task;
 
 class TasksQueue
 {
+
+	/**
+	 * The IoC Container
+	 *
+	 * @var Container
+	 */
+	protected $app;
 
 	/**
 	 * A list of Tasks to execute
@@ -33,7 +41,7 @@ class TasksQueue
 	 *
 	 * @param Container $app
 	 */
-	public function __construct($app, $command = null)
+	public function __construct(Container $app, $command = null)
 	{
 		$this->app     = $app;
 		$this->tasks   = $app['config']->get('rocketeer::tasks');
@@ -219,7 +227,7 @@ class TasksQueue
 	/**
 	 * Add a Task to surround another Task
 	 *
-	 * @param Task   $task
+	 * @param string $task
 	 * @param mixed  $surroundingTask
 	 * @param string $position        before|after
 	 */
