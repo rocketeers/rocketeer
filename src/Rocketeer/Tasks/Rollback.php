@@ -28,7 +28,7 @@ class Rollback extends Task
 	 */
 	protected function getRollbackRelease()
 	{
-		return $this->command->argument('release') ?: $this->releasesManager->getPreviousRelease();
+		return array_get($this->command->argument(), 'release', $this->releasesManager->getPreviousRelease());
 	}
 
 }

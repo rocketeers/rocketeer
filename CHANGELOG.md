@@ -8,8 +8,10 @@
 
 ### 0.2.1
 
-- Added `runForCurrentRelease` Task helper
-- Fixed a bug where Task::run would only return the last line of the command's output
+- Added **Task::runForCurrentRelease** Task helper
+- Fixed a bug where **Task::run** would only return the last line of the command's output
+- Added **Task::runTests** methods to run the PHPUnit tests of the application
+- Integrated **Task::runTests** in the **Deploy** task under the `--tests` flag ; failing tests will cancel deploy and rollback
 
 ### 0.2.0
 
@@ -19,7 +21,7 @@
 ### 0.1.1
 
 - Fixed a bug where the commands would try to connect to the remote hosts on construct
-- Fixed ReleasesManager::getPreviousRelease returning the wrong release
+- Fixed **ReleasesManager::getPreviousRelease** returning the wrong release
 
 ### 0.1.0
 

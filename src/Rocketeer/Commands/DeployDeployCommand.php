@@ -1,6 +1,8 @@
 <?php
 namespace Rocketeer\Commands;
 
+use Symfony\Component\Console\Input\InputOption;
+
 /**
  * Deploy the website
  */
@@ -33,5 +35,17 @@ class DeployDeployCommand extends BaseDeployCommand
 			'Rocketeer\Tasks\Cleanup',
 		));
 	}
+
+  /**
+   * Get the console command options.
+   *
+   * @return array
+   */
+  protected function getOptions()
+  {
+    return array(
+      array('phpunit', 'p', InputOption::VALUE_NONE, 'Runs the tests on deploy')
+    );
+  }
 
 }

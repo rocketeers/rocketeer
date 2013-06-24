@@ -108,6 +108,7 @@ abstract class Task
 		});
 
 		// Print output
+		$output = trim($output);
 		if ($this->command->option('verbose')) {
 			print $output;
 		}
@@ -144,6 +145,28 @@ abstract class Task
 		return $task->execute();
 	}
 
+	/**
+	 * Get a binary
+	 *
+	 * @param  string $binary       The name of the binary
+	 * @param  string $fallback     A fallback location
+	 *
+	 * @return string
+	 */
+	public function which($binary, $fallback = null)
+	{
+		$location = $this->run('which '.$binary);
+		if ($location == $binary. ' not found') {
+			if ($this->run('which ' .$fallback) != $fallback. ' not found') {
+				return $fallback;
+			}
+
+			return false;
+		}
+
+		return $location;
+	}
+
 	////////////////////////////////////////////////////////////////////
 	//////////////////////////////// TASKS /////////////////////////////
 	////////////////////////////////////////////////////////////////////
@@ -155,21 +178,24 @@ abstract class Task
 	 */
 	public function runTests()
 	{
-		$phpunit = __DIR__.'/../../../../../bin/phpunit';
-		if (!file_exists($phpunit)) return true;
+		// Look for PHPUnit
+		$phpunit = $this->which('phpunit', $this->releasesManager->getCurrentReleasePath().'/vendor/bin/phpunit');
+		if (!$phpunit) return true;
 
 		// Run PHPUnit
 		$this->command->info('Running tests...');
 		$output = $this->runForCurrentRelease(array(
-			'vendor/bin/phpunit',
+			$phpunit. ' --stop-on-failure',
 		));
 
-		$output = str_contains($output, 'OK');
-		if ($output) {
+		$testsSucceeded = str_contains($output, 'OK');
+		if ($testsSucceeded) {
 			$this->command->info('Tests ran with success');
+		} else {
+			print $output;
 		}
 
-		return $output;
+		return $testsSucceeded;
 	}
 
 	/**

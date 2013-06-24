@@ -119,7 +119,8 @@ class TasksQueue
 
 		// Finally we execute the Tasks
 		foreach ($queue as $task) {
-			$task->execute();
+			$state = $task->execute();
+			if (!$state) return $queue;
 		}
 
 		return $queue;
