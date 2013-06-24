@@ -19,7 +19,7 @@ class Closure extends Task
 	/**
 	 * Create a Task from a Closure
 	 *
-	 * @param  Closure $closure
+	 * @param  AnonymousFunction $closure
 	 */
 	public function setClosure(AnonymousFunction $closure)
 	{

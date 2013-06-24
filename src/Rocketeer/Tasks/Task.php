@@ -51,10 +51,11 @@ abstract class Task
 	/**
 	 * Build a new Task
 	 *
-	 * @param Rocketeer       $rocketeer
-	 * @param ReleasesManager $releasesManager
-	 * @param Connection      $remote
-	 * @param Command         $command
+	 * @param Rocketeer          $rocketeer
+	 * @param ReleasesManager    $releasesManager
+	 * @param DeploymentsManager $deploymentsManager
+	 * @param Connection         $remote
+	 * @param Command|null       $command
 	 */
 	public function __construct(Rocketeer $rocketeer, ReleasesManager $releasesManager, DeploymentsManager $deploymentsManager, Connection $remote, $command)
 	{
@@ -100,7 +101,7 @@ abstract class Task
 	public function run($tasks)
 	{
 		$output = null;
-		$tasks   = (array) $tasks;
+		$tasks  = (array) $tasks;
 
 		// Run tasks
 		$this->remote->run($tasks, function($results) use (&$output) {

@@ -3,6 +3,9 @@ namespace Rocketeer\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
+/**
+ * A Facade for the TasksQueue class
+ */
 class Rocketeer extends Facade
 {
 

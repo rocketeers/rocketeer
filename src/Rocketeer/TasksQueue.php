@@ -39,7 +39,8 @@ class TasksQueue
 	/**
 	 * Build a new TasksQueue Instance
 	 *
-	 * @param Container $app
+	 * @param Container    $app
+	 * @param Command|null $command
 	 */
 	public function __construct(Container $app, $command = null)
 	{
