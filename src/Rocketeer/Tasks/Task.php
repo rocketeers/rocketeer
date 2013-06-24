@@ -108,7 +108,9 @@ abstract class Task
 		});
 
 		// Print output
+		if ($this->command->option('verbose')) {
 		print $output;
+		}
 
 		return $output;
 	}
