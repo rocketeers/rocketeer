@@ -174,9 +174,11 @@ abstract class Task
 	/**
 	 * Run the application's tests
 	 *
+	 * @param string $arguments Additional arguments to pass to PHPUnit
+	 *
 	 * @return boolean
 	 */
-	public function runTests()
+	public function runTests($arguments = null)
 	{
 		// Look for PHPUnit
 		$phpunit = $this->which('phpunit', $this->releasesManager->getCurrentReleasePath().'/vendor/bin/phpunit');
@@ -185,7 +187,7 @@ abstract class Task
 		// Run PHPUnit
 		$this->command->info('Running tests...');
 		$output = $this->runForCurrentRelease(array(
-			$phpunit. ' --stop-on-failure',
+			$phpunit. ' --stop-on-failure '.$arguments,
 		));
 
 		$testsSucceeded = str_contains($output, 'OK') or str_contains($output, 'No tests executed');

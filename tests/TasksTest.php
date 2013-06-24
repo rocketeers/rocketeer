@@ -8,7 +8,7 @@ class TasksTest extends RocketeerTests
 		$output  = $cleanup->execute();
 
 		$this->assertFileNotExists($this->server.'/releases/1000000000');
-		$this->assertEquals('Removing 1 release from the server', $output);
+		$this->assertEquals('Removing <success>1 release</success> from the server', $output);
 
 		$output = $cleanup->execute();
 		$this->assertEquals('No releases to prune from the server', $output);
@@ -64,9 +64,21 @@ class TasksTest extends RocketeerTests
 		$this->assertFileExists($releasePath);
 		$this->assertFileExists($releasePath.'/.git');
 		$this->assertFileExists($releasePath.'/vendor');
+	}
+
+	public function testCanRunTests()
+	{
+		$release = glob($this->server.'/releases/*');
+		$release = basename($release[1]);
+
+		$task = $this->task('Deploy');
+		$task->releasesManager->updateCurrentRelease($release);
+		$tests = $task->runTests('tests/DeploymentsManagerTest.php');
 
 		$this->app['files']->delete($this->server.'/current');
 		$this->app['files']->deleteDirectory($this->server);
+
+		$this->assertTrue($tests);
 	}
 
 }
