@@ -39,8 +39,9 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 		$this->app = new Container;
 
 		// Get the Mockery instances
-		$config = $this->getConfig();
-		$remote = $this->getRemote();
+		$command = $this->getCommand();
+		$config  = $this->getConfig();
+		$remote  = $this->getRemote();
 
 		$this->app->singleton('config', function() use ($config) {
 			return $config;
@@ -62,8 +63,8 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 			return new Rocketeer\DeploymentsManager($app['files'], __DIR__);
 		});
 
-		$this->app->singleton('rocketeer.tasks', function($app) {
-			return new Rocketeer\TasksQueue($app, $this->getCommand());
+		$this->app->singleton('rocketeer.tasks', function($app) use($command) {
+			return new Rocketeer\TasksQueue($app, $command);
 		});
 	}
 
