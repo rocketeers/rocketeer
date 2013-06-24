@@ -7,7 +7,7 @@
 
 ### Changelog
 
-### 0.2.1
+### 0.3.0
 
 - Added **Task::runInFolder** to run tasks in a specific folder
 - Added **Task::runForCurrentRelease** Task helper
