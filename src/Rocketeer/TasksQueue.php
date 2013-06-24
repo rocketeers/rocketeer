@@ -124,7 +124,7 @@ class TasksQueue
 	public function run(array $tasks, $command = null)
 	{
 		$this->command = $command;
-		$queue = $this->buildQueue($tasks);
+		$queue         = $this->buildQueue($tasks);
 
 		// Finally we execute the Tasks
 		foreach ($queue as $task) {

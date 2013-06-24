@@ -101,6 +101,7 @@ class TasksTest extends RocketeerTests
 		$task = $this->task('Deploy');
 		$command = $this->getCommand(false);
 		$command->shouldReceive('option')->with('verbose')->andReturn(true);
+		$command->shouldReceive('option')->with('pretend')->andReturn(false);
 		$task->command = $command;
 
 		ob_start();
@@ -108,6 +109,17 @@ class TasksTest extends RocketeerTests
 		$output = ob_get_clean();
 
 		$this->assertContains('tests', $output);
+	}
+
+	public function testCanPretendToRunTasks()
+	{
+		$task = $this->task('Cleanup');
+		$command = $this->getCommand(false);
+		$command->shouldReceive('option')->with('pretend')->andReturn(true);
+		$task->command = $command;
+
+		$output = $task->run('ls');
+		$this->assertEquals('ls', $output);
 	}
 
 }
