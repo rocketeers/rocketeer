@@ -147,6 +147,24 @@ abstract class Task
 	////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Run the application's tests
+	 *
+	 * @return boolean
+	 */
+	public function runTests()
+	{
+		$phpunit = __DIR__.'/../../../../../bin/phpunit';
+		if (!file_exists($phpunit)) return true;
+
+		// Run PHPUnit
+		$output = $this->runForCurrentRelease(array(
+			'vendor/bin/phpunit',
+		));
+
+		return str_contains($output, 'OK');
+	}
+
+	/**
 	 * Clone the repo into a release folder
 	 *
 	 * @return string

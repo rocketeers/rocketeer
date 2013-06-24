@@ -27,6 +27,11 @@ class Deploy extends Task
 
 		// Run composer
 		$this->runComposer();
+		if (!$this->runTests()) {
+			$this->executeTask('Rocketeer\Tasks\Rollback');
+
+			return $this->command->error('Tests failed, rolling back to previous release');
+		}
 
 		// Set permissions
 		$this->setPermissions('app');
