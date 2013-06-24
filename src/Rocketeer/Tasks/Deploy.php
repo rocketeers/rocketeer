@@ -27,7 +27,7 @@ class Deploy extends Task
 
 		// Run composer
 		$this->runComposer();
-		if ($this->command->option('phpunit')) {
+		if ($this->command->option('tests')) {
 			if (!$this->runTests()) {
 				$this->executeTask('Rocketeer\Tasks\Rollback');
 

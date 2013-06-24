@@ -188,7 +188,7 @@ abstract class Task
 			$phpunit. ' --stop-on-failure',
 		));
 
-		$testsSucceeded = str_contains($output, 'OK');
+		$testsSucceeded = str_contains($output, 'OK') or str_contains($output, 'No tests executed');
 		if ($testsSucceeded) {
 			$this->command->info('Tests ran with success');
 		} else {
