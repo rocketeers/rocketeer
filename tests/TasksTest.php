@@ -81,4 +81,17 @@ class TasksTest extends RocketeerTests
 		$this->assertTrue($tests);
 	}
 
+	public function testCanGetBinaryWithFallback()
+	{
+		$task = $this->task('Deploy');
+
+		$grep = $task->which('grep');
+		$this->assertEquals('/usr/bin/grep', $grep);
+
+		$grep = $task->which('grsdg', '/usr/bin/grep');
+		$this->assertEquals('/usr/bin/grep', $grep);
+
+		$this->assertFalse($task->which('fdsf'));
+	}
+
 }

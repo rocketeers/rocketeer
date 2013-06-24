@@ -156,8 +156,8 @@ abstract class Task
 	public function which($binary, $fallback = null)
 	{
 		$location = $this->run('which '.$binary);
-		if ($location == $binary. ' not found') {
-			if ($this->run('which ' .$fallback) != $fallback. ' not found') {
+		if (!$location or $location == $binary. ' not found') {
+			if (!is_null($fallback) and $this->run('which ' .$fallback) != $fallback. ' not found') {
 				return $fallback;
 			}
 

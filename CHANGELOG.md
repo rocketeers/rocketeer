@@ -1,6 +1,7 @@
 ### Roadmap
 
 - Allow the adding of custom tasks to the CLI (like `deploy:mytask`)
+- Add `--pretend` option to console commands to only display the commands that would be executed
 
 ------------
 
