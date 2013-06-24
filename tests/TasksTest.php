@@ -70,15 +70,17 @@ class TasksTest extends RocketeerTests
 	{
 		$release = glob($this->server.'/releases/*');
 		$release = basename($release[1]);
-
 		$task = $this->task('Deploy');
 		$task->releasesManager->updateCurrentRelease($release);
+
 		$tests = $task->runTests('tests/DeploymentsManagerTest.php');
+		$this->assertTrue($tests);
+
+		$tests = $task->runTests('--fail');
+		$this->assertFalse($tests);
 
 		$this->app['files']->delete($this->server.'/current');
 		$this->app['files']->deleteDirectory($this->server);
-
-		$this->assertTrue($tests);
 	}
 
 	public function testCanGetBinaryWithFallback()

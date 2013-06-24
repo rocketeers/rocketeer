@@ -117,18 +117,31 @@ abstract class Task
 	}
 
 	/**
+	 * Run actions in a folder
+	 *
+	 * @param  string        $folder
+	 * @param  string|array  $tasks
+	 *
+	 * @return string
+	 */
+	public function runInFolder($folder = null, $tasks = array())
+	{
+		$tasks = (array) $tasks;
+		array_unshift($tasks, 'cd '.$this->rocketeer->getFolder($folder));
+
+		return $this->run($tasks);
+	}
+
+	/**
 	 * Run actions in the current release's folder
 	 *
-	 * @param  string|array $tasks        One or more tasks
+	 * @param  string|array $tasks One or more tasks
 	 *
 	 * @return string
 	 */
 	public function runForCurrentRelease($tasks)
 	{
-		$tasks = (array) $tasks;
-		array_unshift($tasks, 'cd '.$this->releasesManager->getCurrentReleasePath());
-
-		return $this->run($tasks);
+		return $this->runInFolder($this->releasesManager->getCurrentReleasePath(), $tasks);
 	}
 
 	/**
@@ -275,18 +288,6 @@ abstract class Task
 	////////////////////////////////////////////////////////////////////
 	/////////////////////////////// FOLDERS ////////////////////////////
 	////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Go into a folder
-	 *
-	 * @param  string $folder
-	 *
-	 * @return string
-	 */
-	public function gotoFolder($folder = null)
-	{
-		return $this->run('cd '.$this->rocketeer->getFolder($folder));
-	}
 
 	/**
 	 * Create a folder in the application's folder

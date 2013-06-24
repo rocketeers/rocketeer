@@ -9,6 +9,7 @@
 
 ### 0.2.1
 
+- Added **Task::runInFolder** to run tasks in a specific folder
 - Added **Task::runForCurrentRelease** Task helper
 - Fixed a bug where **Task::run** would only return the last line of the command's output
 - Added **Task::runTests** methods to run the PHPUnit tests of the application
