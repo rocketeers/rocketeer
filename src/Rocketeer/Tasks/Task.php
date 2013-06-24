@@ -109,7 +109,7 @@ abstract class Task
 
 		// Print output
 		if ($this->command->option('verbose')) {
-		print $output;
+			print $output;
 		}
 
 		return $output;
@@ -159,11 +159,17 @@ abstract class Task
 		if (!file_exists($phpunit)) return true;
 
 		// Run PHPUnit
+		$this->command->info('Running tests...');
 		$output = $this->runForCurrentRelease(array(
 			'vendor/bin/phpunit',
 		));
 
-		return str_contains($output, 'OK');
+		$output = str_contains($output, 'OK');
+		if ($output) {
+			$this->command->info('Tests ran with success');
+		}
+
+		return $output;
 	}
 
 	/**
@@ -232,6 +238,8 @@ abstract class Task
 	 */
 	public function runComposer()
 	{
+		$this->command->info('Installing Composer dependencies');
+
 		return $this->runForCurrentRelease('composer install');
 	}
 
