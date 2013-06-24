@@ -26,7 +26,6 @@ class Deploy extends Task
 		$this->updateSymlink();
 
 		// Run composer
-		$this->gotoFolder($this->releasesManager->getCurrentReleasePath());
 		$this->runComposer();
 
 		// Set permissions

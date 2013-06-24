@@ -93,14 +93,17 @@ abstract class Task
 	/**
 	 * Run actions on the remote server and gather the ouput
 	 *
-	 * @param  string $task
+	 * @param  string $tasks One or more tasks
 	 *
 	 * @return string
 	 */
-	public function run($task)
+	public function run($tasks)
 	{
 		$output = null;
-		$this->remote->run(array($task), function($results) use (&$output) {
+		$tasks   = (array) $tasks;
+
+		$this->remote->run($tasks, function($results) use (&$output) {
+			print $output;
 			$output = $results;
 		});
 
@@ -189,7 +192,10 @@ abstract class Task
 	 */
 	public function runComposer()
 	{
-		return $this->run('composer install');
+		return $this->run(array(
+			'cd '.$this->releasesManager->getCurrentReleasePath(),
+			'composer install'
+		));
 	}
 
 	////////////////////////////////////////////////////////////////////

@@ -63,6 +63,7 @@ class TasksTest extends RocketeerTests
 		$releasePath = $this->server.'/releases/'.$release;
 		$this->assertFileExists($releasePath);
 		$this->assertFileExists($releasePath.'/.git');
+		$this->assertFileExists($releasePath.'/vendor');
 
 		$this->app['files']->delete($this->server.'/current');
 		$this->app['files']->deleteDirectory($this->server);
