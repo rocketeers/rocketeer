@@ -244,6 +244,7 @@ abstract class Task
 	public function setPermissions($folder)
 	{
 		$folder = $this->releasesManager->getCurrentReleasePath().'/'.$folder;
+		$this->command->comment('Setting permissions for '.$folder);
 
 		$output  = $this->run(array(
 			'chmod -R +x ' .$folder,
@@ -264,7 +265,7 @@ abstract class Task
 	 */
 	public function runComposer()
 	{
-		$this->command->info('Installing Composer dependencies');
+		$this->command->comment('Installing Composer dependencies');
 
 		return $this->runForCurrentRelease('composer install');
 	}

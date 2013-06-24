@@ -21,14 +21,14 @@ class Cleanup extends Task
 
 		// If no releases to prune
 		if (empty($trash)) {
-			return $this->command->info('No releases to prune from the server');
+			return $this->command->comment('No releases to prune from the server');
 		}
 
 		// Create final message
 		$trash   = sizeof($trash);
-		$message = sprintf('Removing %d %s from the server', $trash, Str::plural('release', $trash));
+		$message = sprintf('Removing <success>%d %s</success> from the server', $trash, Str::plural('release', $trash));
 
-		return $this->command->info($message);
+		return $this->command->line($message);
 	}
 
 }
