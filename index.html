@@ -69,6 +69,219 @@
 Now, the core of Rocketeer is you can hook into any of those Tasks to peform additional actions, for this you'll use the <code>before</code> and <code>after</code> arrays of Rocketeer's config file.</p>
 
 <p>You can read more about Tasks and what you can do with them <a href="https://github.com/Anahkiasen/rocketeer/wiki/Tasks">in the wiki</a>.</p>
+
+<h1>
+<a name="setup" class="anchor" href="#setup"><span class="octicon octicon-link"></span></a>Setup</h1>
+
+<p>Before anything : <strong>Rocketeer requires Laravel 4.1 as it uses the new <em>illuminate/remote</em> component</strong>.
+Now if you fit that requirement, you're good to go. There are two ways to setup Rocketeer :</p>
+
+<h2>
+<a name="adding-the-package" class="anchor" href="#adding-the-package"><span class="octicon octicon-link"></span></a>Adding the package</h2>
+
+<h3>
+<a name="with-package-installer" class="anchor" href="#with-package-installer"><span class="octicon octicon-link"></span></a>With Package Installer</h3>
+
+<p>Simply do this :</p>
+
+<pre><code>artisan package:install anahkiasen/rocketeer
+artisan config:publish anahkiasen/rocketeer
+</code></pre>
+
+<h3>
+<a name="manually" class="anchor" href="#manually"><span class="octicon octicon-link"></span></a>Manually</h3>
+
+<p>To use it, add the following to your <code>composer.json</code> file :</p>
+
+<div class="highlight"><pre><span class="s2">"anahkiasen/rocketeer"</span><span class="err">:</span> <span class="s2">"dev-master"</span>
+</pre></div>
+
+<p>And this line to the <code>providers</code> array in your <code>app/config/app.php</code> file :</p>
+
+<div class="highlight"><pre><span class="s1">'Rocketeer\RocketeerServiceProvider'</span><span class="p">,</span>
+</pre></div>
+
+<p>And this line to the <code>aliases</code> array in your <code>app/config/app.php</code> file :</p>
+
+<div class="highlight"><pre><span class="s1">'Rocketeer'</span> <span class="o">=&gt;</span> <span class="s1">'Rocketeer\Facades\Rocketeer'</span><span class="p">,</span>
+</pre></div>
+
+<p>Then publish the config :</p>
+
+<pre><code>artisan config:publish anahkiasen/rocketeer
+</code></pre>
+
+<h2>
+<a name="configuration" class="anchor" href="#configuration"><span class="octicon octicon-link"></span></a>Configuration</h2>
+
+<p>There are two files to configure in order to use Rocketeer.</p>
+
+<h3>
+<a name="appconfigremotephp" class="anchor" href="#appconfigremotephp"><span class="octicon octicon-link"></span></a>app/config/remote.php</h3>
+
+<p>This first one is fairly easy : there are a lot of stuff but if you're familiar with them and/or only have one server to deploy to, you can ignore most of it.
+What you want to edit basically is those three lines :</p>
+
+<div class="highlight"><pre>  <span class="s1">'production'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">'host'</span>     <span class="o">=&gt;</span> <span class="s1">'myserver.fr'</span><span class="p">,</span>
+    <span class="s1">'username'</span> <span class="o">=&gt;</span> <span class="s1">'myusername'</span><span class="p">,</span>
+    <span class="s1">'password'</span> <span class="o">=&gt;</span> <span class="s1">'mypassword'</span><span class="p">,</span>
+    <span class="s1">'key'</span>      <span class="o">=&gt;</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="p">),</span>
+</pre></div>
+
+<h3>
+<a name="appconfigpackagesanahkiasenrocketeerconfigphp" class="anchor" href="#appconfigpackagesanahkiasenrocketeerconfigphp"><span class="octicon octicon-link"></span></a>app/config/packages/anahkiasen/rocketeer/config.php</h3>
+
+<p>Now this one is a little more... well there is a lot more to it, but trust me it's pretty straightforward. Take your time to read the comments about what each of the configuration option mean.
+To get you started here is an example config file to make you picture a little more what goes into each field :</p>
+
+<div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span> <span class="k">return</span> <span class="k">array</span><span class="p">(</span>
+
+  <span class="c1">// Remote access</span>
+  <span class="c1">//</span>
+  <span class="c1">// You can either use a single connection or an array of connections</span>
+  <span class="c1">// For this configure your app/remote.php file</span>
+  <span class="c1">//////////////////////////////////////////////////////////////////////</span>
+
+  <span class="c1">// The remote connection(s) to deploy to</span>
+  <span class="s1">'connections'</span> <span class="o">=&gt;</span> <span class="s1">'production'</span><span class="p">,</span>
+
+  <span class="c1">// Git Repository</span>
+  <span class="c1">//////////////////////////////////////////////////////////////////////</span>
+
+  <span class="s1">'git'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+
+    <span class="c1">// The SSH/HTTPS adress to your Git Repository</span>
+    <span class="s1">'repository'</span> <span class="o">=&gt;</span> <span class="s1">'https://bitbucket.org/myUsername/facebook.git'</span><span class="p">,</span>
+
+    <span class="c1">// Its credentials</span>
+    <span class="s1">'username'</span>   <span class="o">=&gt;</span> <span class="s1">'myUsername'</span><span class="p">,</span>
+    <span class="s1">'password'</span>   <span class="o">=&gt;</span> <span class="s1">'myPassword'</span><span class="p">,</span>
+
+    <span class="c1">// The branch to deploy</span>
+    <span class="s1">'branch'</span>     <span class="o">=&gt;</span> <span class="s1">'master'</span><span class="p">,</span>
+  <span class="p">),</span>
+
+  <span class="c1">// Remote server</span>
+  <span class="c1">//////////////////////////////////////////////////////////////////////</span>
+
+  <span class="s1">'remote'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+
+    <span class="c1">// The root directory where your applications will be deployed</span>
+    <span class="s1">'root_directory'</span>   <span class="o">=&gt;</span> <span class="s1">'/home/www/'</span><span class="p">,</span>
+
+    <span class="c1">// The default name of the application to deploy</span>
+    <span class="s1">'application_name'</span> <span class="o">=&gt;</span> <span class="s1">'facebook'</span><span class="p">,</span>
+
+    <span class="c1">// The number of releases to keep at all times</span>
+    <span class="s1">'releases'</span> <span class="o">=&gt;</span> <span class="mi">4</span><span class="p">,</span>
+  <span class="p">),</span>
+
+  <span class="c1">// Tasks</span>
+  <span class="c1">//////////////////////////////////////////////////////////////////////</span>
+
+  <span class="c1">// Here you can define custom tasks to execute after certain actions</span>
+  <span class="s1">'tasks'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+
+    <span class="c1">// Tasks to execute before commands</span>
+    <span class="s1">'before'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(),</span>
+
+    <span class="c1">// Tasks to execute after commands</span>
+    <span class="s1">'after'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+      <span class="s1">'deploy:deploy'</span>  <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">'bower install'</span><span class="p">,</span>
+        <span class="s1">'php artisan basset:build'</span>
+      <span class="p">),</span>
+    <span class="p">),</span>
+  <span class="p">),</span>
+
+<span class="p">);</span>
+</pre></div>
+
+<h1>
+<a name="tasks-1" class="anchor" href="#tasks-1"><span class="octicon octicon-link"></span></a>Tasks</h1>
+
+<p>An important concept in Rocketeer is Tasks : most of the commands you see right above are using predefined Tasks underneath : <strong>Rocketeer\Tasks\Setup</strong>, <strong>Rocketeer\Tasks\Deploy</strong>, etc.
+Now, the core of Rocketeer is you can hook into any of those Tasks to peform additional actions, for this you'll use the <code>before</code> and <code>after</code> arrays of Rocketeer's config file.</p>
+
+<h2>
+<a name="the-different-types-of-tasks" class="anchor" href="#the-different-types-of-tasks"><span class="octicon octicon-link"></span></a>The different types of tasks</h2>
+
+<p>A task can be three things :</p>
+
+<ul>
+<li>A simple one-line command, like <code>composer install</code>
+</li>
+<li>A closure, giving you access to Rocketeer's core helpers to perform more advanced actions</li>
+<li>And finally a class, extending the <code>Rocketeer\Tasks\Task</code> class, giving you full at-home control</li>
+</ul><p>Each level gives you a little more control and comfort – this is intentional, if you need more control than what Closures give you, then you probably need a class.</p>
+
+<p>So the three kind of tasks above could be seen in your config file :</p>
+
+<div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+<span class="s1">'after'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+  <span class="s1">'Setup'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+
+    <span class="c1">// Commands</span>
+    <span class="s1">'composer install'</span><span class="p">,</span>
+
+    <span class="c1">// Closures</span>
+    <span class="k">function</span><span class="p">(</span><span class="nv">$task</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nv">$task</span><span class="o">-&gt;</span><span class="na">rocketeer</span><span class="o">-&gt;</span><span class="na">gotoFolder</span><span class="p">(</span><span class="s1">'releases/134781354'</span><span class="p">);</span>
+      <span class="nv">$tests</span> <span class="o">=</span> <span class="nv">$task</span><span class="o">-&gt;</span><span class="na">run</span><span class="p">(</span><span class="s1">'phpunit'</span><span class="p">);</span>
+
+      <span class="k">if</span> <span class="p">(</span><span class="nv">$tests</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$task</span><span class="o">-&gt;</span><span class="na">command</span><span class="o">-&gt;</span><span class="na">info</span><span class="p">(</span><span class="s1">'Tests ran perfectly dude !'</span><span class="p">);</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nv">$task</span><span class="o">-&gt;</span><span class="na">command</span><span class="o">-&gt;</span><span class="na">error</span><span class="p">(</span><span class="s1">'Aw man, tests failed and stuff'</span><span class="p">)</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+
+    <span class="c1">// Actual Tasks classes</span>
+    <span class="s1">'MyNamespace\MyTaskClass'</span><span class="p">,</span>
+  <span class="p">),</span>
+</pre></div>
+
+<div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+<span class="k">namespace</span> <span class="nx">MyNamespace</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">MyTaskClass</span> <span class="k">extends</span> <span class="nx">Rocketeer\Tasks\Task</span>
+<span class="p">{</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">execute</span><span class="p">()</span>
+  <span class="p">{</span>
+    <span class="nv">$currentReleasePath</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">releasesManager</span><span class="o">-&gt;</span><span class="na">getCurrentReleasePath</span><span class="p">();</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">rocketeer</span><span class="o">-&gt;</span><span class="na">gotoFolder</span><span class="p">(</span><span class="nv">$currentReleasePath</span><span class="p">);</span>
+    <span class="nv">$tests</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">run</span><span class="p">(</span><span class="s1">'phpunit'</span><span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$tests</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">command</span><span class="o">-&gt;</span><span class="na">info</span><span class="p">(</span><span class="s1">'Tests ran perfectly dude !'</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">command</span><span class="o">-&gt;</span><span class="na">error</span><span class="p">(</span><span class="s1">'Aw man, tests failed and stuff'</span><span class="p">)</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<h2>
+<a name="defining-your-tasks" class="anchor" href="#defining-your-tasks"><span class="octicon octicon-link"></span></a>Defining your tasks</h2>
+
+<p>As seen above, you can define tasks in the config file, but as your tasks get bigger this may become cumbersome. So before you start putting everything into classes, you can use Rocketeer's facade to define your tasks :</p>
+
+<div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+<span class="nx">Rocketeer</span><span class="o">::</span><span class="na">before</span><span class="p">(</span><span class="s1">'deploy'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$task</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nv">$task</span><span class="o">-&gt;</span><span class="na">command</span><span class="o">-&gt;</span><span class="na">info</span><span class="p">(</span><span class="s1">'Sup guys'</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nx">Rocketeer</span><span class="o">::</span><span class="na">after</span><span class="p">(</span><span class="s1">'deploy'</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+  <span class="s1">'composer install'</span><span class="p">,</span>
+  <span class="s1">'bower install'</span>
+<span class="p">));</span>
+
+<span class="nx">Rocketeer</span><span class="o">::</span><span class="na">after</span><span class="p">(</span><span class="s1">'deploy'</span><span class="p">,</span> <span class="s1">'MyClass'</span><span class="p">);</span>
+</pre></div>
+
+<p>You give as first argument the name of the fully-qualified name of the Task you'd like to act on, and then your task.</p>
       </section>
       <footer>
         <p>Project maintained by <a href="https://github.com/Anahkiasen">Anahkiasen</a></p>
