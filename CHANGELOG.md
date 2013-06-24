@@ -6,6 +6,10 @@
 
 ### Changelog
 
+### 0.2.1
+
+- Added `runForCurrentRelease` Task helper
+
 ### 0.2.0
 
 - The core of Rocketeer's actions is now split into a system of Tasks for flexibility

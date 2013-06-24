@@ -89,7 +89,7 @@ class Rocketeer
 	/**
 	 * Get the path to a folder
 	 *
-	 * @param  strng $folder
+	 * @param  string $folder
 	 *
 	 * @return string
 	 */

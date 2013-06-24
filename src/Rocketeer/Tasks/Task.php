@@ -93,7 +93,7 @@ abstract class Task
 	/**
 	 * Run actions on the remote server and gather the ouput
 	 *
-	 * @param  string $tasks One or more tasks
+	 * @param  string|array $tasks One or more tasks
 	 *
 	 * @return string
 	 */
@@ -102,12 +102,30 @@ abstract class Task
 		$output = null;
 		$tasks   = (array) $tasks;
 
+		// Run tasks
 		$this->remote->run($tasks, function($results) use (&$output) {
-			print $output;
 			$output = $results;
 		});
 
+		// Print output
+		print $output;
+
 		return $output;
+	}
+
+	/**
+	 * Run actions in the current release's folder
+	 *
+	 * @param  string|array $tasks        One or more tasks
+	 *
+	 * @return string
+	 */
+	public function runForCurrentRelease($tasks)
+	{
+		$tasks = (array) $tasks;
+		array_unshift($tasks, 'cd '.$this->releasesManager->getCurrentReleasePath());
+
+		return $this->run($tasks);
 	}
 
 	/**
@@ -175,8 +193,10 @@ abstract class Task
 	{
 		$folder = $this->releasesManager->getCurrentReleasePath().'/'.$folder;
 
-		$output  = $this->run('chmod -R +x ' .$folder);
-		$output .= $this->run('chown -R www-data:www-data ' .$folder);
+		$output  = $this->run(array(
+			'chmod -R +x ' .$folder,
+			'chown -R www-data:www-data ' .$folder,
+		));
 
 		return $output;
 	}
@@ -192,10 +212,7 @@ abstract class Task
 	 */
 	public function runComposer()
 	{
-		return $this->run(array(
-			'cd '.$this->releasesManager->getCurrentReleasePath(),
-			'composer install'
-		));
+		return $this->runForCurrentRelease('composer install');
 	}
 
 	////////////////////////////////////////////////////////////////////

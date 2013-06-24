@@ -47,8 +47,8 @@ class TasksQueue
 	/**
 	 * Execute a Task before another one
 	 *
-	 * @param  string $task
-	 * @param  Task   $surroundingTask
+	 * @param  string                $task
+	 * @param  string|Closure|Task   $surroundingTask
 	 *
 	 * @return void
 	 */
@@ -60,8 +60,8 @@ class TasksQueue
 	/**
 	 * Execute a Task after another one
 	 *
-	 * @param  string $task
-	 * @param  Task   $surroundingTask
+	 * @param  string                $task
+	 * @param  string|Closure|Task   $surroundingTask
 	 *
 	 * @return void
 	 */
