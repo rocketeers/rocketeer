@@ -44,7 +44,7 @@ class DeployDeployCommand extends BaseDeployCommand
   protected function getOptions()
   {
     return array(
-      array('phpunit', 'p', InputOption::VALUE_NONE, 'Runs the tests on deploy')
+      array('tests', 't', InputOption::VALUE_NONE, 'Runs the tests on deploy')
     );
   }
 
