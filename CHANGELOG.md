@@ -1,7 +1,6 @@
 ### Roadmap
 
 - Allow the adding of custom tasks to the CLI (like `deploy:mytask`)
-- Ability to define tasks via some sort of custom facade, `Task::after('Rocketeer\Tasks\Cleanup', 'MyClass')`
 
 ------------
 
