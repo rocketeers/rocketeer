@@ -1,5 +1,11 @@
 {
-  "providers": [
-    "Rocketeer\RocketeerServiceProvider"
-  ],
+	"providers": [
+		"Rocketeer\RocketeerServiceProvider"
+	],
+	"aliases": [
+		{
+			"alias": "Rocketeer",
+			"facade": "Rocketeer\Facades\Rocketeer"
+		}
+	]
 }
