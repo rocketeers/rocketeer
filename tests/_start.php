@@ -122,6 +122,7 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 	protected function getCommand()
 	{
 		$command = Mockery::mock('Illuminate\Console\Command');
+		$command->shouldReceive('error')->andReturnUsing(function($message) { return $message; });
 		$command->shouldReceive('line')->andReturnUsing(function($message) { return $message; });
 		$command->shouldReceive('info')->andReturnUsing(function($message) { return $message; });
 		$command->shouldReceive('argument');
