@@ -1,11 +1,14 @@
 ### Roadmap
 
 - Allow the adding of custom tasks to the CLI (like `deploy:mytask`)
-- Add `--pretend` option to console commands to only display the commands that would be executed
 
 ------------
 
 ### Changelog
+
+### 0.3.1
+
+- Added `--pretend` flag on all commands to print out a list of the commands that would have been executed instead of running them
 
 ### 0.3.0
 
