@@ -43,9 +43,9 @@ class DeployDeployCommand extends BaseDeployCommand
    */
   protected function getOptions()
   {
-    return array(
+  	return array_merge(parent::getOptions(), array(
       array('tests', 't', InputOption::VALUE_NONE, 'Runs the tests on deploy')
-    );
+  	));
   }
 
 }

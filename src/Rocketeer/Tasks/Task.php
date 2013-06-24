@@ -103,6 +103,11 @@ abstract class Task
 		$output = null;
 		$tasks  = (array) $tasks;
 
+		// Log the commands for pretend
+		if ($this->command->option('pretend')) {
+			return $this->command->line(implode(PHP_EOL, $tasks));
+		}
+
 		// Run tasks
 		$this->remote->run($tasks, function($results) use (&$output) {
 			$output .= $results;
