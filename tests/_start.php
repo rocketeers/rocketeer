@@ -127,6 +127,7 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 		$command->shouldReceive('line')->andReturnUsing(function($message) { return $message; });
 		$command->shouldReceive('info')->andReturnUsing(function($message) { return $message; });
 		$command->shouldReceive('argument');
+		$command->shouldReceive('option');
 
 		return $command;
 	}

@@ -72,7 +72,7 @@ class TasksQueueTest extends RocketeerTests
 		$closureReflection = new ReflectionFunction($closure);
 		$this->assertEquals(array('stringTask' => 'echo "I love ducks"'), $closureReflection->getStaticVariables());
 
-		$this->assertEquals('I love ducks'.PHP_EOL, $string->execute());
+		$this->assertEquals('I love ducks', $string->execute());
 	}
 
 	public function testCanBuildTaskFromClosure()
