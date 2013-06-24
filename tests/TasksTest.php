@@ -96,4 +96,18 @@ class TasksTest extends RocketeerTests
 		$this->assertFalse($task->which('fdsf'));
 	}
 
+	public function testCanDisplayOutputOfCommandsIfVerbose()
+	{
+		$task = $this->task('Deploy');
+		$command = $this->getCommand(false);
+		$command->shouldReceive('option')->with('verbose')->andReturn(true);
+		$task->command = $command;
+
+		ob_start();
+			$task->run('ls');
+		$output = ob_get_clean();
+
+		$this->assertContains('tests', $output);
+	}
+
 }

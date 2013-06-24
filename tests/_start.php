@@ -120,7 +120,7 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 	 *
 	 * @return Mockery
 	 */
-	protected function getCommand()
+	protected function getCommand($option = true)
 	{
 		$command = Mockery::mock('Illuminate\Console\Command');
 		$command->shouldReceive('comment')->andReturnUsing(function($message) { return $message; });
@@ -128,7 +128,7 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 		$command->shouldReceive('line')->andReturnUsing(function($message) { return $message; });
 		$command->shouldReceive('info')->andReturnUsing(function($message) { return $message; });
 		$command->shouldReceive('argument');
-		$command->shouldReceive('option');
+		if ($option) $command->shouldReceive('option');
 
 		return $command;
 	}
