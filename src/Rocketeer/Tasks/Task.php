@@ -104,7 +104,7 @@ abstract class Task
 
 		// Run tasks
 		$this->remote->run($tasks, function($results) use (&$output) {
-			$output = $results;
+			$output .= $results;
 		});
 
 		// Print output

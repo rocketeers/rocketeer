@@ -9,6 +9,7 @@
 ### 0.2.1
 
 - Added `runForCurrentRelease` Task helper
+- Fixed a bug where Task::run would only return the last line of the command's output
 
 ### 0.2.0
 
