@@ -52,7 +52,7 @@ class TasksTest extends RocketeerTests
 	public function testCanDeployToServer()
 	{
 		$this->app['config']->shouldReceive('get')->with('rocketeer::git')->andReturn(array(
-			'repository' => 'git@github.com:Anahkiasen/rocketeer.git',
+			'repository' => 'git://github.com/Anahkiasen/rocketeer.git',
 			'username'   => '',
 			'password'   => '',
 		));
