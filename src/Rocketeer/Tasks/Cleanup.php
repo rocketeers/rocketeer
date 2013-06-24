@@ -26,7 +26,7 @@ class Cleanup extends Task
 
 		// Create final message
 		$trash   = sizeof($trash);
-		$message = sprintf('Removing <success>%d %s</success> from the server', $trash, Str::plural('release', $trash));
+		$message = sprintf('Removing <info>%d %s</info> from the server', $trash, Str::plural('release', $trash));
 
 		return $this->command->line($message);
 	}
