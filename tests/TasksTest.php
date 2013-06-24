@@ -46,4 +46,23 @@ class TasksTest extends RocketeerTests
 		$this->assertFileExists($this->server.'/releases');
 	}
 
+	public function testCanDeployToServer()
+	{
+		$this->app['config']->shouldReceive('get')->with('rocketeer::git')->andReturn(array(
+			'repository' => 'git@github.com:Anahkiasen/rocketeer.git',
+			'username'   => '',
+			'password'   => '',
+		));
+
+		$output  = $this->task('Deploy')->execute();
+		$release = substr($output, -10);
+
+		$releasePath = $this->server.'/releases/'.$release;
+		$this->assertFileExists($releasePath);
+		$this->assertFileExists($releasePath.'/.git');
+
+		$this->app['files']->delete($this->server.'/current');
+		$this->app['files']->deleteDirectory($this->server);
+	}
+
 }

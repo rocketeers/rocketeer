@@ -17,7 +17,8 @@ class Deploy extends Task
 		}
 
 		// Update current release
-		$this->releasesManager->updateCurrentRelease(time());
+		$release = time();
+		$this->releasesManager->updateCurrentRelease($release);
 
 		// Clone release and update symlink
 		$this->cloneRelease();
@@ -31,6 +32,8 @@ class Deploy extends Task
 		// Set permissions
 		$this->setPermissions('app');
 		$this->setPermissions('public');
+
+		return $this->command->info('Successfully deployed release '.$release);
 	}
 
 }
