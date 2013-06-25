@@ -26,7 +26,9 @@ abstract class BaseDeployCommand extends Command
 	 */
 	protected function fireTasksQueue($tasks)
 	{
-		$tasks = (array) $tasks;
+		if (!is_array($tasks)) {
+			$tasks = array($tasks);
+		}
 
 		return $this->laravel['rocketeer.tasks']->run($tasks, $this);
 	}

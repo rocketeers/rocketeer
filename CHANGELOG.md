@@ -7,11 +7,12 @@
 
 ### 0.4.0 (develop)
 
-- [x] Add Task::listContents and Task::fileExists
+- [x] Add **Task::listContents** and **Task::fileExists**
 - [x] Add a `deploy:check` Task that checks if the server is ready to receive a Laravel app
-- [x] Make Task::runComposer take into account a local `composer.phar`
+- [x] Make **Task::runComposer** take into account a local `composer.phar`
 - [x] Add Task helper to run outstanding migrations
-- [ ] Ability to create custom tasks integrated in the CLI
+- [x] Add ability to create custom tasks integrated in the CLI
+- [x] Add **Rocketeer::add** method on the facade to register custom Tasks
 
 ### 0.3.2 (stable)
 

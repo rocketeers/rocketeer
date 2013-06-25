@@ -32,6 +32,11 @@ class RocketeerServiceProvider extends ServiceProvider
 		$this->app = static::bindCommands($this->app);
 
 		$this->commands('deploy', 'deploy.check', 'deploy.setup', 'deploy.deploy', 'deploy.cleanup', 'deploy.rollback', 'deploy.teardown', 'deploy.current');
+
+		$userCommands = $this->bindUserCommands();
+		foreach ($userCommands as $command) {
+			$this->commands($command);
+		}
 	}
 
 	/**
@@ -118,6 +123,29 @@ class RocketeerServiceProvider extends ServiceProvider
 		});
 
 		return $app;
+	}
+
+	/**
+	 * Register the User-defined commands with Laravel
+	 *
+	 * @return array
+	 */
+	public function bindUserCommands()
+	{
+		// Custom tasks
+		$tasks = $this->app['config']->get('rocketeer::tasks.custom');
+		foreach ($tasks as &$task) {
+			$task    = $this->app['rocketeer.tasks']->buildTask($task);
+			$command = 'deploy.'.$task->getSlug();
+
+			$this->app->bind($command, function($app) use ($task) {
+				return new Commands\DeployCustomCommand($task);
+			});
+
+			$task = $command;
+		}
+
+		return $tasks;
 	}
 
 }

@@ -23,6 +23,13 @@ abstract class Task
 	protected $app;
 
 	/**
+	 * The TasksQueue instance
+	 *
+	 * @var TasksQueue
+	 */
+	protected $tasksQueue;
+
+	/**
 	 * The Releases Manager instance
 	 *
 	 * @var ReleasesManager
@@ -44,13 +51,6 @@ abstract class Task
 	public $rocketeer;
 
 	/**
-	 * The TasksQueue instance
-	 *
-	 * @var TasksQueue
-	 */
-	protected $tasksQueue;
-
-	/**
 	 * The Remote instance
 	 *
 	 * @var Connection
@@ -63,6 +63,13 @@ abstract class Task
 	 * @var Command
 	 */
 	public $command;
+
+	/**
+	 * A description of what the Task does
+	 *
+	 * @var string
+	 */
+	public $description;
 
 	/**
 	 * Build a new Task
@@ -93,6 +100,16 @@ abstract class Task
 		$name = basename($name);
 
 		return strtolower($name);
+	}
+
+	/**
+	 * Get what the Task does
+	 *
+	 * @return string
+	 */
+	public function getDescription()
+	{
+		return $this->description;
 	}
 
 	/**
