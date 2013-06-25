@@ -1,6 +1,8 @@
 <?php
 namespace Rocketeer;
 
+use App;
+use Artisan;
 use Closure;
 use Illuminate\Container\Container;
 use Rocketeer\Tasks\Task;
@@ -52,6 +54,23 @@ class TasksQueue
 	////////////////////////////////////////////////////////////////////
 	////////////////////////// PUBLIC INTERFACE ////////////////////////
 	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Register a custom Task with Rocketeer
+	 *
+	 * @param Task|string    $task
+	 *
+	 * @return Container
+	 */
+	public function add($task)
+	{
+		// Build Task if necessary
+		if (is_string($task)) {
+			$task = $this->buildTask($task);
+		}
+
+		Artisan::add(new Commands\DeployCustomCommand($task));
+	}
 
 	/**
 	 * Execute a Task before another one
