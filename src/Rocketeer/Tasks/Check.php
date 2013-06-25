@@ -50,7 +50,7 @@ class Check extends Task
 	 */
 	public function checkComposer()
 	{
-		return $this->which('composer');
+		return $this->getComposer();
 	}
 
 	/**

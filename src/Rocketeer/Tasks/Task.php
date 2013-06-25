@@ -300,7 +300,22 @@ abstract class Task
 	{
 		$this->command->comment('Installing Composer dependencies');
 
-		return $this->runForCurrentRelease('composer install');
+		return $this->runForCurrentRelease($this->getComposer(). ' install');
+	}
+
+	/**
+	 * Get the Composer binary
+	 *
+	 * @return string
+	 */
+	public function getComposer()
+	{
+		$composer = $this->which('composer');
+		if (!$composer and file_exists($this->app['path.base'].'/composer.phar')) {
+			$composer = 'composer.phar';
+		}
+
+		return $composer;
 	}
 
 	////////////////////////////////////////////////////////////////////
