@@ -1,7 +1,6 @@
 <?php
 namespace Rocketeer;
 
-use App;
 use Artisan;
 use Closure;
 use Illuminate\Container\Container;
@@ -239,7 +238,7 @@ class TasksQueue
 		return new $task(
 			$this->app,
 			$this,
-			$this->getCommand()
+			$this->command
 		);
 	}
 
@@ -291,66 +290,6 @@ class TasksQueue
 		}
 
 		return (array) $tasks;
-	}
-
-	////////////////////////////////////////////////////////////////////
-	////////////////////////////// INSTANCES ///////////////////////////
-	////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Get the command executing the Task
-	 *
-	 * @return Command
-	 */
-	protected function getCommand()
-	{
-		return $this->command;
-	}
-
-	/**
-	 * Get the Remote connection
-	 *
-	 * @return Connection
-	 */
-	protected function getRemote()
-	{
-		// Setup remote connection
-		if (!$this->remote) {
-			$connections  = $this->app['config']->get('rocketeer::connections');
-			$this->remote = $this->app['remote']->into($connections);
-		}
-
-		return $this->remote;
-	}
-
-	/**
-	 * Get the Rocketeer instance
-	 *
-	 * @return Rocketeer
-	 */
-	protected function getRocketeer()
-	{
-		return $this->app['rocketeer.rocketeer'];
-	}
-
-	/**
-	 * Get the ReleasesManager instance
-	 *
-	 * @return ReleasesManager
-	 */
-	protected function getReleasesManager()
-	{
-		return $this->app['rocketeer.releases'];
-	}
-
-	/**
-	 * Get the DeploymentsManager instance
-	 *
-	 * @return DeploymentsManager
-	 */
-	protected function getDeploymentsManager()
-	{
-		return $this->app['rocketeer.deployments'];
 	}
 
 }

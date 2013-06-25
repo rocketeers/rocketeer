@@ -2,6 +2,10 @@
 class TasksTest extends RocketeerTests
 {
 
+	////////////////////////////////////////////////////////////////////
+	//////////////////////////////// TASKS /////////////////////////////
+	////////////////////////////////////////////////////////////////////
+
 	public function testCanCleanupServer()
 	{
 		$cleanup = $this->task('Cleanup');
@@ -66,17 +70,20 @@ class TasksTest extends RocketeerTests
 		$this->assertFileExists($releasePath.'/vendor');
 	}
 
+	////////////////////////////////////////////////////////////////////
+	/////////////////////////////// HELPERS ////////////////////////////
+	////////////////////////////////////////////////////////////////////
+
 	public function testCanRunTests()
 	{
 		$release = glob($this->server.'/releases/*');
 		$release = basename($release[1]);
-		$task = $this->task('Deploy');
-		$task->releasesManager->updateCurrentRelease($release);
+		$this->task->releasesManager->updateCurrentRelease($release);
 
-		$tests = $task->runTests('tests/DeploymentsManagerTest.php');
+		$tests = $this->task->runTests('tests/DeploymentsManagerTest.php');
 		$this->assertTrue($tests);
 
-		$tests = $task->runTests('--fail');
+		$tests = $this->task->runTests('--fail');
 		$this->assertFalse($tests);
 
 		$this->app['files']->delete($this->server.'/current');
@@ -85,27 +92,24 @@ class TasksTest extends RocketeerTests
 
 	public function testCanGetBinaryWithFallback()
 	{
-		$task = $this->task('Deploy');
-
-		$grep = $task->which('grep');
+		$grep = $this->task->which('grep');
 		$this->assertTrue(in_array($grep, array('/bin/grep', '/usr/bin/grep')));
 
-		$grep = $task->which('grsdg', '/usr/bin/grep');
+		$grep = $this->task->which('grsdg', '/usr/bin/grep');
 		$this->assertEquals('/usr/bin/grep', $grep);
 
-		$this->assertFalse($task->which('fdsf'));
+		$this->assertFalse($this->task->which('fdsf'));
 	}
 
 	public function testCanDisplayOutputOfCommandsIfVerbose()
 	{
-		$task = $this->task('Deploy');
 		$command = $this->getCommand(false);
 		$command->shouldReceive('option')->with('verbose')->andReturn(true);
 		$command->shouldReceive('option')->with('pretend')->andReturn(false);
-		$task->command = $command;
+		$this->task->command = $command;
 
 		ob_start();
-			$task->run('ls');
+			$this->task->run('ls');
 		$output = ob_get_clean();
 
 		$this->assertContains('tests', $output);
@@ -113,13 +117,26 @@ class TasksTest extends RocketeerTests
 
 	public function testCanPretendToRunTasks()
 	{
-		$task = $this->task('Cleanup');
 		$command = $this->getCommand(false);
 		$command->shouldReceive('option')->with('pretend')->andReturn(true);
-		$task->command = $command;
+		$this->task->command = $command;
 
-		$output = $task->run('ls');
+		$output = $this->task->run('ls');
 		$this->assertEquals('ls', $output);
+	}
+
+	public function testCanListContentsOfAFolder()
+	{
+		$contents = $this->task->listContents($this->server);
+
+		$this->assertEquals(array('current', 'releases'), $contents);
+	}
+
+	public function testCanCheckIfFileExists()
+	{
+		$exists = $this->task->fileExists($this->server.'/current');
+
+		$this->assertTrue($exists);
 	}
 
 }

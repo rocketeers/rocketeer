@@ -28,6 +28,13 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 	protected $deploymentsFile;
 
 	/**
+	 * A dummy Task to use for helpers tests
+	 *
+	 * @var Task
+	 */
+	protected $task;
+
+	/**
 	 * Set up the tests
 	 */
 	public function setUp()
@@ -66,6 +73,9 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 		$this->app->singleton('rocketeer.tasks', function($app) use ($command) {
 			return new Rocketeer\TasksQueue($app, $command);
 		});
+
+		// Bind dummy Task
+		$this->task = $this->task('Cleanup');
 	}
 
 	public function tearDown()
@@ -96,8 +106,12 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 	 *
 	 * @return Task
 	 */
-	protected function task($task)
+	protected function task($task = null)
 	{
+		if (!$task) {
+			return $this->task;
+		}
+
 		return $this->tasksQueue()->buildTask('Rocketeer\Tasks\\'.$task);
 	}
 
