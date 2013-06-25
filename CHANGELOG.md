@@ -6,6 +6,10 @@
 
 ### Changelog
 
+### 0.3.2
+
+- Fixed wrong tag used in `deploy:cleanup`
+
 ### 0.3.1
 
 - Added `--pretend` flag on all commands to print out a list of the commands that would have been executed instead of running them
