@@ -4,7 +4,7 @@
 
 - Ability to select which severs a Task executes on, on a per-task basis
 
-### 0.4.0 (develop)
+### 0.4.0 (stable)
 
 - **Add ability to share files and folders between releases**
 - **Add ability to create custom tasks integrated in the CLI**
@@ -14,7 +14,7 @@
 - Add `Rocketeer::add` method on the facade to register custom Tasks
 - Fix `Task::runComposer` not taking into account a local `composer.phar`
 
-### 0.3.2 (stable)
+### 0.3.2
 
 - Fixed wrong tag used in `deploy:cleanup`
 
