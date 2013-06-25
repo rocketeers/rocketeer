@@ -296,6 +296,36 @@ abstract class Task
 	////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Get the contents of a directory
+	 *
+	 * @param  string $directory
+	 *
+	 * @return array
+	 */
+	public function listContents($directory)
+	{
+		$contents = $this->run(array('cd '.$folder, 'ls'));
+		$contents = explode(PHP_EOL, $contents);
+
+		return $contents;
+	}
+
+	/**
+	 * Check if a file exists
+	 *
+	 * @param  string $file Path to the file
+	 *
+	 * @return boolean
+	 */
+	public function fileExists($file)
+	{
+		$folder = dirname($file);
+		$file   = basename($file);
+
+		return in_array($file, $this->listContents($folder));
+	}
+
+	/**
 	 * Create a folder in the application's folder
 	 *
 	 * @param  string $folder       The folder to create
