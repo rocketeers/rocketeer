@@ -203,35 +203,6 @@ abstract class Task
 	////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Run the application's tests
-	 *
-	 * @param string $arguments Additional arguments to pass to PHPUnit
-	 *
-	 * @return boolean
-	 */
-	public function runTests($arguments = null)
-	{
-		// Look for PHPUnit
-		$phpunit = $this->which('phpunit', $this->releasesManager->getCurrentReleasePath().'/vendor/bin/phpunit');
-		if (!$phpunit) return true;
-
-		// Run PHPUnit
-		$this->command->info('Running tests...');
-		$output = $this->runForCurrentRelease(array(
-			$phpunit. ' --stop-on-failure '.$arguments,
-		));
-
-		$testsSucceeded = str_contains($output, 'OK') or str_contains($output, 'No tests executed');
-		if ($testsSucceeded) {
-			$this->command->info('Tests ran with success');
-		} else {
-			print $output;
-		}
-
-		return $testsSucceeded;
-	}
-
-	/**
 	 * Clone the repo into a release folder
 	 *
 	 * @return string
@@ -288,7 +259,7 @@ abstract class Task
 	}
 
 	////////////////////////////////////////////////////////////////////
-	//////////////////////////////// VENDOR ////////////////////////////
+	//////////////////////// LARAVEL-SPECIFIC TASKS ////////////////////
 	////////////////////////////////////////////////////////////////////
 
 	/**
@@ -316,6 +287,50 @@ abstract class Task
 		}
 
 		return $composer;
+	}
+
+	/**
+	 * Run any outstanding migrations
+	 *
+	 * @param boolean $seed Whether the database should also be seeded
+	 *
+	 * @return string
+	 */
+	public function runMigrations($seed = false)
+	{
+		$seed = $seed ? ' --seed' : null;
+		$this->command->comment('Running outstanding migrations');
+
+		return $this->runForCurrentRelease('php artisan migrate'.$seed);
+	}
+
+	/**
+	 * Run the application's tests
+	 *
+	 * @param string $arguments Additional arguments to pass to PHPUnit
+	 *
+	 * @return boolean
+	 */
+	public function runTests($arguments = null)
+	{
+		// Look for PHPUnit
+		$phpunit = $this->which('phpunit', $this->releasesManager->getCurrentReleasePath().'/vendor/bin/phpunit');
+		if (!$phpunit) return true;
+
+		// Run PHPUnit
+		$this->command->info('Running tests...');
+		$output = $this->runForCurrentRelease(array(
+			$phpunit. ' --stop-on-failure '.$arguments,
+		));
+
+		$testsSucceeded = str_contains($output, 'OK') or str_contains($output, 'No tests executed');
+		if ($testsSucceeded) {
+			$this->command->info('Tests ran with success');
+		} else {
+			print $output;
+		}
+
+		return $testsSucceeded;
 	}
 
 	////////////////////////////////////////////////////////////////////

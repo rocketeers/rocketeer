@@ -40,6 +40,9 @@ class Deploy extends Task
 		$this->setPermissions('app');
 		$this->setPermissions('public');
 
+		// Run migrations
+		$this->runMigrations($this->command->option('seed'));
+
 		return $this->command->info('Successfully deployed release '.$release);
 	}
 
