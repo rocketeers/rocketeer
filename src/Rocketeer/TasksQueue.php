@@ -6,6 +6,9 @@ use Closure;
 use Illuminate\Container\Container;
 use Rocketeer\Tasks\Task;
 
+/**
+ * Handles the registering of Tasks and their execution
+ */
 class TasksQueue
 {
 
