@@ -12,7 +12,7 @@ class Setup extends Task
 	public function execute()
 	{
 		// Remove existing installation
-		$this->removeFolder();
+		$this->executeTask('Teardown');
 
 		// Create base folder and subfolders
 		$this->createFolder();
@@ -26,7 +26,7 @@ class Setup extends Task
 		$application = $this->rocketeer->getApplicationName();
 		$homeFolder  = $this->rocketeer->getHomeFolder();
 
-		$this->command->info(sprintf('Successfully setup "%s" at "%s"', $application, $homeFolder));
+		return $this->command->info(sprintf('Successfully setup "%s" at "%s"', $application, $homeFolder));
 	}
 
 }

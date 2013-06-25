@@ -159,6 +159,12 @@ abstract class Task
 	 */
 	public function executeTask($task)
 	{
+		// Shortcut for calling Rocketeer Tasks
+		if (class_exists('Rocketeer\Tasks\\'.$task)) {
+			$task = 'Rocketeer\Tasks\\'.$task;
+		}
+
+		// Create instance of the Task
 		$task = new $task($this->rocketeer, $this->releasesManager, $this->deploymentsManager, $this->remote, $this->command);
 
 		return $task->execute();

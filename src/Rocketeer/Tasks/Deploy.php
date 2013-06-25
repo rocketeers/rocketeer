@@ -12,8 +12,8 @@ class Deploy extends Task
 	public function execute()
 	{
 		// Setup if necessary
-		if (!$this->deploymentsManager->getValue('is_setup')) {
-			$this->executeTask('Rocketeer\Tasks\Setup');
+		if (!$this->deploymentsManager->isSetup()) {
+			$this->executeTask('Setup');
 		}
 
 		// Update current release
@@ -29,7 +29,7 @@ class Deploy extends Task
 		$this->runComposer();
 		if ($this->command->option('tests')) {
 			if (!$this->runTests()) {
-				$this->executeTask('Rocketeer\Tasks\Rollback');
+				$this->executeTask('Rollback');
 
 				$this->command->error('Tests failed, rolling back to previous release');
 				return false;
