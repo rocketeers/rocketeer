@@ -1,12 +1,16 @@
-### Roadmap
-
-- Allow the adding of custom tasks to the CLI (like `deploy:mytask`)
-
-------------
-
 ### Changelog
 
-### 0.3.2
+### 0.4.0 (develop)
+
+- [x] Add Task::listContents and Task::fileExists
+- [x] Add a `deploy:check` Task that checks if the server is ready to receive a Laravel app
+- [ ] Make Task::runComposer take into account a local `composer.phar`
+- [ ] Ability to create custom tasks integrated in the CLI
+- [ ] Ability to select which severs a Task executes on, on a per-task basis
+- [ ] Add Task helper to run outstanding migrations
+- [ ] Add ability to share files between releases
+
+### 0.3.2 (stable)
 
 - Fixed wrong tag used in `deploy:cleanup`
 

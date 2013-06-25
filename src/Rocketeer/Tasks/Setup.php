@@ -11,6 +11,11 @@ class Setup extends Task
 	 */
 	public function execute()
 	{
+		// Check if requirments are met
+		if (!$this->executeTask('Check')) {
+			return false;
+		}
+
 		// Remove existing installation
 		$this->executeTask('Teardown');
 

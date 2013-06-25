@@ -31,7 +31,7 @@ class RocketeerServiceProvider extends ServiceProvider
 		$this->app = static::bindClasses($this->app);
 		$this->app = static::bindCommands($this->app);
 
-		$this->commands('deploy', 'deploy.setup', 'deploy.deploy', 'deploy.cleanup', 'deploy.rollback', 'deploy.teardown', 'deploy.current');
+		$this->commands('deploy', 'deploy.check', 'deploy.setup', 'deploy.deploy', 'deploy.cleanup', 'deploy.rollback', 'deploy.teardown', 'deploy.current');
 	}
 
 	/**
@@ -85,11 +85,15 @@ class RocketeerServiceProvider extends ServiceProvider
 	 */
 	public static function bindCommands(Container $app)
 	{
-		$app->bind('deploy',  function($app) {
+		$app->bind('deploy', function($app) {
 			return new Commands\DeployCommand($app);
 		});
 
-		$app->bind('deploy.setup',  function($app) {
+		$app->bind('deploy.check', function($app) {
+			return new Commands\DeployCheckCommand($app);
+		});
+
+		$app->bind('deploy.setup', function($app) {
 			return new Commands\DeploySetupCommand($app);
 		});
 
