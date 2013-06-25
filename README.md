@@ -26,3 +26,12 @@ An important concept in Rocketeer is Tasks : most of the commands you see right 
 Now, the core of Rocketeer is you can hook into any of those Tasks to peform additional actions, for this you'll use the `before` and `after` arrays of Rocketeer's config file.
 
 You can read more about Tasks and what you can do with them [in the wiki](https://github.com/Anahkiasen/rocketeer/wiki/Tasks).
+
+## Why not Capistrano ?
+
+That's a question that's been asked to me, why not simply use Capistrano ? I've used Capistrano in the past, it does everything you want it to do, that's a given.
+
+But, it remains a Ruby package and one that's tightly coupled to Rails in some ways; Rocketeer makes it so that you don't have Ruby files hanging around your app. That way you configure it once and can use it wherever you want in the realm of Laravel, even outside of the deploy routine.
+It's also meant to be a lot easier to apprehend, for first-time users or novices, Capistrano is a lot to take at once – Rocketeer aims to be as simple as possible by providing smart defaults and speeding up the time between installing it and first hitting `deploy`.
+
+It's also more though out for the PHP world – although you can configure Capistrano to run Composer and PHPUnit, that's not something it expects from the get go, while those tasks that are a part of every Laravel developper are integrated in Rocketeer's core deploy process.
