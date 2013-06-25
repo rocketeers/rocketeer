@@ -28,9 +28,7 @@ class DeployTeardownCommand extends BaseDeployCommand
 	 */
 	public function fire()
 	{
-		return $this->fireTasksQueue(array(
-			'Rocketeer\Tasks\Teardown',
-		));
+		return $this->fireTasksQueue('Rocketeer\Tasks\Teardown');
 	}
 
 }

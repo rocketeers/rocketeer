@@ -28,9 +28,7 @@ class DeploySetupCommand extends BaseDeployCommand
 	 */
 	public function fire()
 	{
-		return $this->fireTasksQueue(array(
-			'Rocketeer\Tasks\Setup',
-		));
+		return $this->fireTasksQueue('Rocketeer\Tasks\Setup');
 	}
 
 }

@@ -28,9 +28,7 @@ class DeployCleanupCommand extends BaseDeployCommand
 	 */
 	public function fire()
 	{
-		return $this->fireTasksQueue(array(
-			'Rocketeer\Tasks\Cleanup',
-		));
+		return $this->fireTasksQueue('Rocketeer\Tasks\Cleanup');
 	}
 
 }

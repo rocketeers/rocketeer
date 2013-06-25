@@ -28,9 +28,7 @@ class DeployCurrentCommand extends BaseDeployCommand
 	 */
 	public function fire()
 	{
-		return $this->fireTasksQueue(array(
-			'Rocketeer\Tasks\CurrentRelease',
-		));
+		return $this->fireTasksQueue('Rocketeer\Tasks\CurrentRelease');
 	}
 
 }

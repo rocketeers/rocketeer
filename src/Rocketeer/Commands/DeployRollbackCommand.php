@@ -30,9 +30,7 @@ class DeployRollbackCommand extends BaseDeployCommand
 	 */
 	public function fire()
 	{
-		return $this->fireTasksQueue(array(
-			'Rocketeer\Tasks\Rollback',
-		));
+		return $this->fireTasksQueue('Rocketeer\Tasks\Rollback');
 	}
 
 	/**
