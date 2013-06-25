@@ -2,8 +2,8 @@
 
 ### 0.x.x (roadmap)
 
-- [ ] Add ability to share files between releases
-- [ ] Ability to select which severs a Task executes on, on a per-task basis
+- Add ability to share files between releases
+- Ability to select which severs a Task executes on, on a per-task basis
 
 ### 0.4.0 (develop)
 
