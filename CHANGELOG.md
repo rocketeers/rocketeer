@@ -7,12 +7,12 @@
 
 ### 0.4.0 (develop)
 
-- Add **Task::listContents** and **Task::fileExists**
+- Add `Task::listContents` and `Task::fileExists` helpers
 - Add a `deploy:check` Task that checks if the server is ready to receive a Laravel app
-- Make **Task::runComposer** take into account a local `composer.phar`
 - Add Task helper to run outstanding migrations
 - Add ability to create custom tasks integrated in the CLI
-- Add **Rocketeer::add** method on the facade to register custom Tasks
+- Add `Rocketeer::add` method on the facade to register custom Tasks
+- Fix `Task::runComposer` not taking into account a local `composer.phar`
 
 ### 0.3.2 (stable)
 
@@ -24,11 +24,11 @@
 
 ### 0.3.0
 
-- Added **Task::runInFolder** to run tasks in a specific folder
-- Added **Task::runForCurrentRelease** Task helper
-- Fixed a bug where **Task::run** would only return the last line of the command's output
-- Added **Task::runTests** methods to run the PHPUnit tests of the application
-- Integrated **Task::runTests** in the **Deploy** task under the `--tests` flag ; failing tests will cancel deploy and rollback
+- Added `Task::runInFolder` to run tasks in a specific folder
+- Added `Task::runForCurrentRelease` Task helper
+- Fixed a bug where `Task::run` would only return the last line of the command's output
+- Added `Task::runTests` methods to run the PHPUnit tests of the application
+- Integrated `Task::runTests` in the `Deploy` task under the `--tests` flag ; failing tests will cancel deploy and rollback
 
 ### 0.2.0
 
@@ -38,7 +38,7 @@
 ### 0.1.1
 
 - Fixed a bug where the commands would try to connect to the remote hosts on construct
-- Fixed **ReleasesManager::getPreviousRelease** returning the wrong release
+- Fixed `ReleasesManager::getPreviousRelease` returning the wrong release
 
 ### 0.1.0
 
