@@ -2,11 +2,11 @@
 
 ### 0.x.x (roadmap)
 
-- Add ability to share files between releases
 - Ability to select which severs a Task executes on, on a per-task basis
 
 ### 0.4.0 (develop)
 
+- **Add ability to share files and folders between releases**
 - **Add ability to create custom tasks integrated in the CLI**
 - **Add a `deploy:check` Task that checks if the server is ready to receive a Laravel app**
 - Add `Task::listContents` and `Task::fileExists` helpers

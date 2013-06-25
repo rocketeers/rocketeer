@@ -82,6 +82,16 @@ class Rocketeer
 		return $this->config->get('rocketeer::git.branch');
 	}
 
+	/**
+	 * Get an array of folders and files to share between releases
+	 *
+	 * @return array
+	 */
+	public function getShared()
+	{
+		return (array) $this->config->get('rocketeer::remote.shared');
+	}
+
 	////////////////////////////////////////////////////////////////////
 	//////////////////////////////// PATHS /////////////////////////////
 	////////////////////////////////////////////////////////////////////

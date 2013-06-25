@@ -253,7 +253,7 @@ abstract class Task
 		$currentReleasePath = $this->releasesManager->getCurrentReleasePath();
 		$currentFolder      = $this->rocketeer->getFolder('current');
 
-		return $this->run(sprintf('ln -s %s %s', $currentReleasePath, $currentFolder));
+		return $this->symlink($currentReleasePath, $currentFolder);
 	}
 
 	/**
@@ -356,6 +356,40 @@ abstract class Task
 	////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Symlinks two folders
+	 *
+	 * @param  string $folder   The original folder
+	 * @param  string $symlink  The folder that will symlink to it
+	 *
+	 * @return string
+	 */
+	public function symlink($folder, $symlink)
+	{
+		// Remove existing folder or file if existing
+		$this->run('rm -rf '.$symlink);
+
+		return $this->run(sprintf('ln -s %s %s', $folder, $symlink));
+	}
+
+	/**
+	 * Move a file
+	 *
+	 * @param  string $from
+	 * @param  string $to
+	 *
+	 * @return string
+	 */
+	public function move($from, $to)
+	{
+		$folder = dirname($to);
+		if (!$this->fileExists($folder)) {
+			$this->createFolder($folder, true);
+		}
+
+		return $this->run(sprintf('mv %s %s', $from, $to));
+	}
+
+	/**
 	 * Get the contents of a directory
 	 *
 	 * @param  string $directory
@@ -387,13 +421,16 @@ abstract class Task
 	/**
 	 * Create a folder in the application's folder
 	 *
-	 * @param  string $folder       The folder to create
+	 * @param  string  $folder       The folder to create
+	 * @param  boolean $recursive
 	 *
 	 * @return string The task
 	 */
-	public function createFolder($folder = null)
+	public function createFolder($folder = null, $recursive = false)
 	{
-		return $this->run('mkdir '.$this->rocketeer->getFolder($folder));
+		$recursive = $recursive ? '-p ' : null;
+
+		return $this->run('mkdir '.$recursive.$this->rocketeer->getFolder($folder));
 	}
 
 	/**

@@ -22,7 +22,6 @@ class Deploy extends Task
 
 		// Clone release and update symlink
 		$this->cloneRelease();
-		$this->removeFolder('current');
 		$this->updateSymlink();
 
 		// Run composer
@@ -42,6 +41,20 @@ class Deploy extends Task
 
 		// Run migrations
 		$this->runMigrations($this->command->option('seed'));
+
+		// Synchronize shared folders and files
+		$sharedFolder   = $this->rocketeer->getFolder('shared');
+		$currentRelease = $this->releasesManager->getCurrentReleasePath();
+		foreach ($this->rocketeer->getShared() as $file) {
+			$sharedFile  = $sharedFolder.'/'.$file;
+			$currentFile = $currentRelease.'/'.$file;
+
+			if (!$this->fileExists($sharedFile)) {
+				$this->move($currentFile, $sharedFile);
+			}
+
+			$this->symlink($sharedFile, $currentFile);
+		}
 
 		return $this->command->info('Successfully deployed release '.$release);
 	}

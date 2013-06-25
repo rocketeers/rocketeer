@@ -38,6 +38,10 @@
 
 		// The number of releases to keep at all times
 		'keep_releases'    => 4,
+
+		// Here you may define a list of folders/file that need to be shared
+		// between releases (example, `app/database/production.sqlite`)
+		'shared'           => array(),
 	),
 
 	// Tasks

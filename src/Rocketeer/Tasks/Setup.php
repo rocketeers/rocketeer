@@ -23,6 +23,7 @@ class Setup extends Task
 		$this->createFolder();
 		$this->createFolder('releases');
 		$this->createFolder('current');
+		$this->createFolder('shared');
 
 		// Set setup to true
 		$this->deploymentsManager->setValue('is_setup', true);
