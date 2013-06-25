@@ -379,10 +379,9 @@ abstract class Task
 	 */
 	public function fileExists($file)
 	{
-		$folder = dirname($file);
-		$file   = basename($file);
+		$exists = $this->run('if [ -e ' .$file. ' ]; then print "true"; fi');
 
-		return in_array($file, $this->listContents($folder));
+		return $exists == 'true';
 	}
 
 	/**
