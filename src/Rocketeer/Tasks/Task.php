@@ -2,16 +2,25 @@
 namespace Rocketeer\Tasks;
 
 use Illuminate\Console\Command;
+use Illuminate\Container\Container;
 use Illuminate\Remote\Connection;
 use Rocketeer\DeploymentsManager;
 use Rocketeer\ReleasesManager;
 use Rocketeer\Rocketeer;
+use Rocketeer\TasksQueue;
 
 /**
  * A Task to execute on the remote servers
  */
 abstract class Task
 {
+
+	/**
+	 * The IoC Container
+	 *
+	 * @var Container
+	 */
+	protected $app;
 
 	/**
 	 * The Releases Manager instance
@@ -35,6 +44,13 @@ abstract class Task
 	public $rocketeer;
 
 	/**
+	 * The TasksQueue instance
+	 *
+	 * @var TasksQueue
+	 */
+	protected $tasks;
+
+	/**
 	 * The Remote instance
 	 *
 	 * @var Connection
@@ -51,18 +67,16 @@ abstract class Task
 	/**
 	 * Build a new Task
 	 *
-	 * @param Rocketeer          $rocketeer
-	 * @param ReleasesManager    $releasesManager
-	 * @param DeploymentsManager $deploymentsManager
-	 * @param Connection         $remote
-	 * @param Command|null       $command
+	 * @param Container    $app
+	 * @param Command|null $command
 	 */
-	public function __construct(Rocketeer $rocketeer, ReleasesManager $releasesManager, DeploymentsManager $deploymentsManager, Connection $remote, $command)
+	public function __construct(Container $app, TasksQueue $tasks, $command)
 	{
-		$this->releasesManager    = $releasesManager;
-		$this->deploymentsManager = $deploymentsManager;
-		$this->rocketeer          = $rocketeer;
-		$this->remote             = $remote;
+		$this->releasesManager    = $app['rocketeer.releases'];
+		$this->deploymentsManager = $app['rocketeer.deployments'];
+		$this->rocketeer          = $app['rocketeer.rocketeer'];
+		$this->remote             = $app['remote'];
+		$this->tasksQueue         = $tasks;
 		$this->command            = $command;
 	}
 
@@ -159,15 +173,7 @@ abstract class Task
 	 */
 	public function executeTask($task)
 	{
-		// Shortcut for calling Rocketeer Tasks
-		if (class_exists('Rocketeer\Tasks\\'.$task)) {
-			$task = 'Rocketeer\Tasks\\'.$task;
-		}
-
-		// Create instance of the Task
-		$task = new $task($this->rocketeer, $this->releasesManager, $this->deploymentsManager, $this->remote, $this->command);
-
-		return $task->execute();
+		return $this->tasksQueue->buildTask($task)->execute();
 	}
 
 	/**

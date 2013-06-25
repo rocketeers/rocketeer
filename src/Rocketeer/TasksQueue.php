@@ -212,11 +212,14 @@ class TasksQueue
 	 */
 	public function buildTask($task)
 	{
+		// Shortcut for calling Rocketeer Tasks
+		if (class_exists('Rocketeer\Tasks\\'.$task)) {
+			$task = 'Rocketeer\Tasks\\'.$task;
+		}
+
 		return new $task(
-			$this->getRocketeer(),
-			$this->getReleasesManager(),
-			$this->getDeploymentsManager(),
-			$this->getRemote(),
+			$this->app,
+			$this,
 			$this->getCommand()
 		);
 	}
