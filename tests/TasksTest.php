@@ -8,7 +8,7 @@ class TasksTest extends RocketeerTests
 		$output  = $cleanup->execute();
 
 		$this->assertFileNotExists($this->server.'/releases/1000000000');
-		$this->assertEquals('Removing <success>1 release</success> from the server', $output);
+		$this->assertEquals('Removing <info>1 release</info> from the server', $output);
 
 		$output = $cleanup->execute();
 		$this->assertEquals('No releases to prune from the server', $output);
@@ -88,7 +88,7 @@ class TasksTest extends RocketeerTests
 		$task = $this->task('Deploy');
 
 		$grep = $task->which('grep');
-		$this->assertEquals('/usr/bin/grep', $grep);
+		$this->assertTrue(in_array($grep, array('/bin/grep', '/usr/bin/grep')));
 
 		$grep = $task->which('grsdg', '/usr/bin/grep');
 		$this->assertEquals('/usr/bin/grep', $grep);
