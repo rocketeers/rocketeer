@@ -48,7 +48,7 @@ abstract class Task
 	 *
 	 * @var TasksQueue
 	 */
-	protected $tasks;
+	protected $tasksQueue;
 
 	/**
 	 * The Remote instance
@@ -68,15 +68,16 @@ abstract class Task
 	 * Build a new Task
 	 *
 	 * @param Container    $app
+	 * @param TasksQueue   $tasksQueue
 	 * @param Command|null $command
 	 */
-	public function __construct(Container $app, TasksQueue $tasks, $command)
+	public function __construct(Container $app, TasksQueue $tasksQueue, $command)
 	{
 		$this->releasesManager    = $app['rocketeer.releases'];
 		$this->deploymentsManager = $app['rocketeer.deployments'];
 		$this->rocketeer          = $app['rocketeer.rocketeer'];
 		$this->remote             = $app['remote'];
-		$this->tasksQueue         = $tasks;
+		$this->tasksQueue         = $tasksQueue;
 		$this->command            = $command;
 	}
 
@@ -346,7 +347,7 @@ abstract class Task
 	 */
 	public function listContents($directory)
 	{
-		$contents = $this->run(array('cd '.$folder, 'ls'));
+		$contents = $this->run(array('cd '.$directory, 'ls'));
 		$contents = explode(PHP_EOL, $contents);
 
 		return $contents;

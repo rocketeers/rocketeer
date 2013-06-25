@@ -3,7 +3,6 @@
 ### 0.x.x (roadmap)
 
 - [ ] Add ability to share files between releases
-- [ ] Ability to create custom tasks integrated in the CLI
 - [ ] Ability to select which severs a Task executes on, on a per-task basis
 
 ### 0.4.0 (develop)
@@ -12,6 +11,7 @@
 - [x] Add a `deploy:check` Task that checks if the server is ready to receive a Laravel app
 - [x] Make Task::runComposer take into account a local `composer.phar`
 - [x] Add Task helper to run outstanding migrations
+- [ ] Ability to create custom tasks integrated in the CLI
 
 ### 0.3.2 (stable)
 

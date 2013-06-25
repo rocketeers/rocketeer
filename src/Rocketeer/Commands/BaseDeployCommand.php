@@ -20,7 +20,7 @@ abstract class BaseDeployCommand extends Command
 	/**
 	 * Fire a Tasks Queue
 	 *
-	 * @param  array $tasks
+	 * @param  string|array $tasks
 	 *
 	 * @return mixed
 	 */
