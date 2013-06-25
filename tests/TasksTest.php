@@ -65,6 +65,7 @@ class TasksTest extends RocketeerTests
 		$release = substr($output, -10);
 
 		$releasePath = $this->server.'/releases/'.$release;
+		$this->assertFileExists($this->server.'/shared/tests/meta/deployments.json');
 		$this->assertFileExists($releasePath);
 		$this->assertFileExists($releasePath.'/.git');
 		$this->assertFileExists($releasePath.'/vendor');
@@ -74,6 +75,9 @@ class TasksTest extends RocketeerTests
 	/////////////////////////////// HELPERS ////////////////////////////
 	////////////////////////////////////////////////////////////////////
 
+	/**
+	 * @depends testCanDeployToServer
+	 */
 	public function testCanRunTests()
 	{
 		$release = glob($this->server.'/releases/*');
@@ -87,7 +91,7 @@ class TasksTest extends RocketeerTests
 		$this->assertFalse($tests);
 
 		$this->app['files']->delete($this->server.'/current');
-		$this->app['files']->deleteDirectory($this->server);
+		system('rm -rf '.$this->server);
 	}
 
 	public function testCanGetBinaryWithFallback()
@@ -129,14 +133,13 @@ class TasksTest extends RocketeerTests
 	{
 		$contents = $this->task->listContents($this->server);
 
-		$this->assertEquals(array('current', 'releases'), $contents);
+		$this->assertEquals(array('current', 'releases', 'shared'), $contents);
 	}
 
 	public function testCanCheckIfFileExists()
 	{
-		$exists = $this->task->fileExists($this->server.'/current');
-
-		$this->assertTrue($exists);
+		$this->assertTrue($this->task->fileExists($this->server));
+		$this->assertFalse($this->task->fileExists($this->server.'/nope'));
 	}
 
 }

@@ -85,7 +85,7 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 		$this->app['files']->put($this->deploymentsFile, json_encode($deployments));
 
 		// Recreate altered local server
-		$folders = array('current', 'releases/1000000000', 'releases/2000000000');
+		$folders = array('current', 'shared', 'releases/1000000000', 'releases/2000000000');
 		foreach ($folders as $folder) {
 			$folder = $this->server.'/'.$folder;
 			if (!file_exists($folder)) {
@@ -158,6 +158,7 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 		$config->shouldReceive('get')->with('rocketeer::remote.application_name')->andReturn('foobar');
 		$config->shouldReceive('get')->with('rocketeer::remote.root_directory')->andReturn(__DIR__.'/server/');
 		$config->shouldReceive('get')->with('rocketeer::remote.keep_releases')->andReturn(1);
+		$config->shouldReceive('get')->with('rocketeer::remote.shared')->andReturn(array('tests/meta'));
 		$config->shouldReceive('get')->with('rocketeer::git.branch')->andReturn('master');
 		$config->shouldReceive('get')->with('rocketeer::connections')->andReturn('production');
 

@@ -413,7 +413,7 @@ abstract class Task
 	 */
 	public function fileExists($file)
 	{
-		$exists = $this->run('if [ -e ' .$file. ' ]; then print "true"; fi');
+		$exists = $this->run('if [ -e ' .$file. ' ]; then echo "true"; fi');
 
 		return $exists == 'true';
 	}
