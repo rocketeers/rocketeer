@@ -133,7 +133,7 @@ class RocketeerServiceProvider extends ServiceProvider
 	public function bindUserCommands()
 	{
 		// Custom tasks
-		$tasks = $this->app['config']->get('rocketeer::tasks.custom');
+		$tasks = (array) $this->app['config']->get('rocketeer::tasks.custom');
 		foreach ($tasks as &$task) {
 			$task    = $this->app['rocketeer.tasks']->buildTask($task);
 			$command = 'deploy.'.$task->getSlug();
