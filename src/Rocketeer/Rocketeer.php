@@ -35,6 +35,18 @@ class Rocketeer
 		$this->config = $config;
 	}
 
+	/**
+	 * Get an option from the config file
+	 *
+	 * @param  string $option
+	 *
+	 * @return mixed
+	 */
+	public function getOption($option)
+	{
+		return $this->config->get('rocketeer::'.$option);
+	}
+
 	////////////////////////////////////////////////////////////////////
 	///////////////////////////// APPLICATION //////////////////////////
 	////////////////////////////////////////////////////////////////////
@@ -46,7 +58,7 @@ class Rocketeer
 	 */
 	public function getApplicationName()
 	{
-		return $this->config->get('rocketeer::remote.application_name');
+		return $this->getOption('remote.application_name');
 	}
 
 	/**
@@ -57,7 +69,7 @@ class Rocketeer
 	public function getGitRepository()
 	{
 		// Get credentials
-		$repository = $this->config->get('rocketeer::git');
+		$repository = $this->getOption('git');
 		$username   = $repository['username'];
 		$password   = $repository['password'];
 		$repository = $repository['repository'];
@@ -79,7 +91,7 @@ class Rocketeer
 	 */
 	public function getGitBranch()
 	{
-		return $this->config->get('rocketeer::git.branch');
+		return $this->getOption('git.branch');
 	}
 
 	/**
@@ -89,7 +101,7 @@ class Rocketeer
 	 */
 	public function getShared()
 	{
-		return (array) $this->config->get('rocketeer::remote.shared');
+		return (array) $this->getOption('remote.shared');
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -118,7 +130,7 @@ class Rocketeer
 	 */
 	public function getHomeFolder()
 	{
-		$rootDirectory = $this->config->get('rocketeer::remote.root_directory');
+		$rootDirectory = $this->getOption('remote.root_directory');
 		$rootDirectory = Str::finish($rootDirectory, '/');
 
 		return $rootDirectory.$this->getApplicationName();
