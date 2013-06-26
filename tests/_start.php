@@ -155,6 +155,9 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 	protected function getConfig()
 	{
 		$config = Mockery::mock('Illuminate\Config\Repository');
+		$config->shouldReceive('get')->with('database.default')->andReturn('mysql');
+		$config->shouldReceive('get')->with('cache.driver')->andReturn('file');
+		$config->shouldReceive('get')->with('session.driver')->andReturn('file');
 		$config->shouldReceive('get')->with('rocketeer::remote.application_name')->andReturn('foobar');
 		$config->shouldReceive('get')->with('rocketeer::remote.root_directory')->andReturn(__DIR__.'/server/');
 		$config->shouldReceive('get')->with('rocketeer::remote.keep_releases')->andReturn(1);
