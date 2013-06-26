@@ -80,6 +80,7 @@ abstract class Task
 	 */
 	public function __construct(Container $app, TasksQueue $tasksQueue, $command)
 	{
+		$this->app                = $app;
 		$this->releasesManager    = $app['rocketeer.releases'];
 		$this->deploymentsManager = $app['rocketeer.deployments'];
 		$this->rocketeer          = $app['rocketeer.rocketeer'];
