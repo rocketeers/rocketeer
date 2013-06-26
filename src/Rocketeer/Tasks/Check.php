@@ -11,6 +11,13 @@ class Check extends Task
 	 */
 	protected $extensions = array();
 
+	 /**
+	 * A description of what the Task does
+	 *
+	 * @var string
+	 */
+	public $description = 'Check if the server is ready to receive the application';
+
 	/**
 	 * Run the Task
 	 *

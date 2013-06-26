@@ -20,14 +20,20 @@ class DeployCustomCommand extends BaseDeployCommand
 	/**
 	 * Build a new custom command
 	 *
-	 * @param Task $task
+	 * @param Task   $task
+	 * @param string $name  A name for the command
 	 */
-	public function __construct(Task $task)
+	public function __construct(Task $task, $name = null)
 	{
 		parent::__construct();
 
-		$this->task = $task;
-		$this->setName('deploy:'.$task->getSlug());
+		// Set Task
+		$this->task          = $task;
+		$this->task->command = $this;
+
+		// Set name and description
+		$name = $name ?: $task->getSlug();
+		$this->setName('deploy:'.$name);
 		$this->setDescription($task->getDescription());
 	}
 
@@ -38,7 +44,7 @@ class DeployCustomCommand extends BaseDeployCommand
 	 */
 	public function fire()
 	{
-		return $this->fireTasksQueue(get_class($this->task));
+		return $this->fireTasksQueue($this->task);
 	}
 
 }

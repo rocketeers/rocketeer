@@ -4,6 +4,13 @@ namespace Rocketeer\Tasks;
 class Teardown extends Task
 {
 
+	 /**
+	 * A description of what the Task does
+	 *
+	 * @var string
+	 */
+	public $description = 'Removes the remote applications and existing caches';
+
 	/**
 	 * Run the Task
 	 *

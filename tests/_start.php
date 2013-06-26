@@ -36,6 +36,8 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Set up the tests
+	 *
+	 * @return void
 	 */
 	public function setUp()
 	{
@@ -69,7 +71,8 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 
 		// Rocketeer classes ------------------------------------------- /
 
-		$this->app = RocketeerServiceProvider::bindClasses($this->app);
+		$serviceProvider = new RocketeerServiceProvider($this->app);
+		$this->app = $serviceProvider->bindClasses($this->app);
 
 		$this->app->bind('rocketeer.deployments', function($app) {
 			return new Rocketeer\DeploymentsManager($app['files'], __DIR__);
@@ -83,6 +86,11 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 		$this->task = $this->task('Cleanup');
 	}
 
+	/**
+	 * Recreate placeholder server
+	 *
+	 * @return void
+	 */
 	public function tearDown()
 	{
 		// Recreate deployments file

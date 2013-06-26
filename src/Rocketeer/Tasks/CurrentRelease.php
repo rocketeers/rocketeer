@@ -6,6 +6,13 @@ use Carbon\Carbon;
 class CurrentRelease extends Task
 {
 
+	 /**
+	 * A description of what the Task does
+	 *
+	 * @var string
+	 */
+	public $description = 'Displays what the current release is';
+
 	/**
 	 * Run the Task
 	 *
