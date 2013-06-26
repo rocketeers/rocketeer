@@ -1,0 +1,62 @@
+// Container
+//
+//////////////////////////////////////////////////////////////////////
+
+.layout-buttons {
+	@extend %main-column;
+	background-color: lighten(black, 95);
+	@extend %reset-margins;
+	padding: 1rem 0;
+	margin: 1rem auto;
+	text-align: center;
+}
+
+$inner-padding: 2rem;
+
+.layout-container {
+	@extend %main-column;
+	padding: 2rem 0 1rem;
+	padding-top: 0;
+
+	section {
+		@extend %reset-margins;
+		background-color: white;
+		border-left: .5rem solid $color-accent;
+		padding: $inner-padding;
+		padding-top: 0;
+		margin-bottom: 0;
+
+		h1:first-child {
+			width: 100%;
+			@extend %reset-margins;
+			@include box-shadow(0 .15em 0 rgba(black, .1));
+			@include box-sizing(content-box);
+			background-color: $color-accent;
+			color: white;
+			font-weight: 300;
+			margin-bottom: 2rem;
+			margin-left: -($inner-padding * 2);
+			padding: 0.5rem ($inner-padding + 2rem) 0.75rem;
+		}
+	}
+
+	p {
+		font-size: 1rem;
+		line-height: $line-height;
+		margin: 1rem 0;
+		padding: 0;
+	}
+
+	@include at-breakpoint(0 $tablet) {
+		section {
+			padding: 1rem;
+			padding-top: 0;
+
+			h1:first-child {
+				padding: 0.5rem 1rem;
+				margin-left: -1rem;
+				margin-bottom: 1rem;
+			}
+		}
+	}
+}

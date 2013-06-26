@@ -1,0 +1,44 @@
+// Header
+//
+//////////////////////////////////////////////////////////////////////
+
+.layout-header {
+	@extend %transition;
+	@extend %reset-margins;
+	background: white image-url('rocket.svg') 10% 10% fixed no-repeat;
+	background-size: 25rem;
+	padding: 11rem 0;
+	text-align: center;
+
+	h1 {
+		@extend %reset-margins;
+		color: lighten($color-base, 10);
+		font-size: 5rem;
+		font-weight: 300;
+		line-height: $line-height;
+		text-shadow: 0 .05em 0 rgba(black, .05);
+
+		small {
+			color: lighten(black, 80);
+			display: block;
+			line-height: 1;
+			margin: auto;
+		}
+	}
+
+	@include at-breakpoint(0 $desktop) {
+		padding: 5rem 0;
+
+		h1 {
+			font-size: 3rem;
+		}
+		small {
+			font-size: 1rem;
+			max-width: 60%;
+		}
+	}
+
+	@include at-breakpoint($desktop $wide) {
+		padding: 7rem 0;
+	}
+}

@@ -1,0 +1,12 @@
+// Layout
+//
+//////////////////////////////////////////////////////////////////////
+
+body {
+	background-color: $color-base;
+	background-image: image-url('square_bg.png');
+}
+
+@import "layout/header";
+@import "layout/container";
+@import "layout/footer";

@@ -1,10 +1,10 @@
 @import url(../../components/rainbow/themes/tomorrow-night.css);
-/* line 20, /Users/anahkiasen/Sites/_github/rocketeer/assets/sass/styles.scss */
-body, html, .layout-header, .layout-header h1, .layout-buttons {
+/* line 5, /Users/anahkiasen/Sites/_github/rocketeer/assets/sass/_patterns.scss */
+body, html, .layout-header, .layout-header h1, .layout-buttons, .layout-container section, .layout-container section h1:first-child {
   margin: 0;
   padding: 0; }
 
-/* line 25, /Users/anahkiasen/Sites/_github/rocketeer/assets/sass/styles.scss */
+/* line 10, /Users/anahkiasen/Sites/_github/rocketeer/assets/sass/_patterns.scss */
 .layout-buttons, .layout-container, .layout-footer {
   *zoom: 1;
   max-width: 59em;
@@ -13,7 +13,8 @@ body, html, .layout-header, .layout-header h1, .layout-buttons {
   padding-right: 1em;
   margin-left: auto;
   margin-right: auto;
-  max-width: 65%;
+  width: 90%;
+  max-width: 90rem;
   -webkit-box-shadow: 0 0 0 1rem rgba(0, 0, 0, 0.05);
   -moz-box-shadow: 0 0 0 1rem rgba(0, 0, 0, 0.05);
   box-shadow: 0 0 0 1rem rgba(0, 0, 0, 0.05); }
@@ -22,106 +23,159 @@ body, html, .layout-header, .layout-header h1, .layout-buttons {
     content: "";
     display: table;
     clear: both; }
+  @media (max-width: 50em) {
+    /* line 10, /Users/anahkiasen/Sites/_github/rocketeer/assets/sass/_patterns.scss */
+    .layout-buttons, .layout-container, .layout-footer {
+      width: 95%; } }
 
-/* line 35, /Users/anahkiasen/Sites/_github/rocketeer/assets/sass/styles.scss */
+/* line 105, /Applications/LiveReload.app/Contents/Resources/SASS.lrplugin/lib/compass/frameworks/compass/stylesheets/compass/typography/_vertical_rhythm.scss */
+html {
+  font-size: 100%;
+  line-height: 1.5em; }
+
+@media (max-width: 50em) {
+  /* line 105, /Applications/LiveReload.app/Contents/Resources/SASS.lrplugin/lib/compass/frameworks/compass/stylesheets/compass/typography/_vertical_rhythm.scss */
+  html {
+    font-size: 87.5%;
+    line-height: 1.5em; } }
+/* line 10, /Users/anahkiasen/Sites/_github/rocketeer/assets/sass/_scaffolding.scss */
 body, html {
   font-family: "Lato", Helvetica, Arial, sans-serif;
   line-height: 1.25; }
 
-/* line 41, /Users/anahkiasen/Sites/_github/rocketeer/assets/sass/styles.scss */
-p {
-  font-size: 1rem;
-  line-height: 1.25;
-  margin: 1rem 0;
-  padding-right: 2rem; }
-
-/* line 48, /Users/anahkiasen/Sites/_github/rocketeer/assets/sass/styles.scss */
+/* line 19, /Users/anahkiasen/Sites/_github/rocketeer/assets/sass/_scaffolding.scss */
 pre {
-  padding: .75rem;
-  max-width: 90%; }
+  padding: .75rem; }
+  @media (max-width: 50em) {
+    /* line 19, /Users/anahkiasen/Sites/_github/rocketeer/assets/sass/_scaffolding.scss */
+    pre {
+      line-height: 1.2; }
+      /* line 24, /Users/anahkiasen/Sites/_github/rocketeer/assets/sass/_scaffolding.scss */
+      pre code {
+        font-size: 0.75rem; } }
 
-/* line 53, /Users/anahkiasen/Sites/_github/rocketeer/assets/sass/styles.scss */
+/* line 30, /Users/anahkiasen/Sites/_github/rocketeer/assets/sass/_scaffolding.scss */
+p {
+  text-align: justify; }
+
+/* line 34, /Users/anahkiasen/Sites/_github/rocketeer/assets/sass/_scaffolding.scss */
 a {
-  color: #9b59b6; }
+  color: #34495e; }
 
-/* line 57, /Users/anahkiasen/Sites/_github/rocketeer/assets/sass/styles.scss */
+/* line 41, /Users/anahkiasen/Sites/_github/rocketeer/assets/sass/_scaffolding.scss */
 h1, h2, h3, h4 {
   line-height: 1.25; }
 
-/* line 61, /Users/anahkiasen/Sites/_github/rocketeer/assets/sass/styles.scss */
+/* line 45, /Users/anahkiasen/Sites/_github/rocketeer/assets/sass/_scaffolding.scss */
+h1 {
+  font-size: 2rem; }
+
+/* line 49, /Users/anahkiasen/Sites/_github/rocketeer/assets/sass/_scaffolding.scss */
 h2 {
-  color: #9b59b6; }
+  font-size: 1.75rem;
+  color: #34495e; }
 
-/* line 65, /Users/anahkiasen/Sites/_github/rocketeer/assets/sass/styles.scss */
+/* line 54, /Users/anahkiasen/Sites/_github/rocketeer/assets/sass/_scaffolding.scss */
 h3 {
-  color: #713b87; }
+  font-size: 1.5rem;
+  color: #222f3d; }
 
-/* line 73, /Users/anahkiasen/Sites/_github/rocketeer/assets/sass/styles.scss */
+/* line 5, /Users/anahkiasen/Sites/_github/rocketeer/assets/sass/_layout.scss */
 body {
-  background-color: #9b59b6;
+  background-color: #34495e;
   background-image: url('../img/square_bg.png?1339701544'); }
 
-/* line 78, /Users/anahkiasen/Sites/_github/rocketeer/assets/sass/styles.scss */
+/* line 5, /Users/anahkiasen/Sites/_github/rocketeer/assets/sass/layout/_header.scss */
 .layout-header {
-  padding: 11rem 0;
-  text-align: center;
-  background-color: white;
-  background-image: url('../img/rocket.svg?1372247070');
-  background-repeat: no-repeat;
+  background: white url('../img/rocket.svg?1372247070') 10% 10% fixed no-repeat;
   background-size: 25rem;
-  background-position: 10% 10%;
-  background-attachment: fixed; }
-  /* line 89, /Users/anahkiasen/Sites/_github/rocketeer/assets/sass/styles.scss */
+  padding: 11rem 0;
+  text-align: center; }
+  /* line 13, /Users/anahkiasen/Sites/_github/rocketeer/assets/sass/layout/_header.scss */
   .layout-header h1 {
+    color: #46627f;
     font-size: 5rem;
     font-weight: 300;
-    color: #9b59b6;
-    text-shadow: 0 0.05em 0 rgba(0, 0, 0, 0.05);
-    line-height: 1.25; }
-    /* line 97, /Users/anahkiasen/Sites/_github/rocketeer/assets/sass/styles.scss */
+    line-height: 1.25;
+    text-shadow: 0 0.05em 0 rgba(0, 0, 0, 0.05); }
+    /* line 21, /Users/anahkiasen/Sites/_github/rocketeer/assets/sass/layout/_header.scss */
     .layout-header h1 small {
-      line-height: 1;
+      color: #cccccc;
       display: block;
-      color: #cccccc; }
+      line-height: 1;
+      margin: auto; }
+  @media (max-width: 60em) {
+    /* line 5, /Users/anahkiasen/Sites/_github/rocketeer/assets/sass/layout/_header.scss */
+    .layout-header {
+      padding: 5rem 0; }
+      /* line 32, /Users/anahkiasen/Sites/_github/rocketeer/assets/sass/layout/_header.scss */
+      .layout-header h1 {
+        font-size: 3rem; }
+      /* line 35, /Users/anahkiasen/Sites/_github/rocketeer/assets/sass/layout/_header.scss */
+      .layout-header small {
+        font-size: 1rem;
+        max-width: 60%; } }
+  @media (min-width: 60em) and (max-width: 75em) {
+    /* line 5, /Users/anahkiasen/Sites/_github/rocketeer/assets/sass/layout/_header.scss */
+    .layout-header {
+      padding: 7rem 0; } }
 
-/* line 105, /Users/anahkiasen/Sites/_github/rocketeer/assets/sass/styles.scss */
+/* line 5, /Users/anahkiasen/Sites/_github/rocketeer/assets/sass/layout/_container.scss */
 .layout-buttons {
   background-color: #f2f2f2;
   padding: 1rem 0;
   margin: 1rem auto;
   text-align: center; }
 
-/* line 114, /Users/anahkiasen/Sites/_github/rocketeer/assets/sass/styles.scss */
+/* line 16, /Users/anahkiasen/Sites/_github/rocketeer/assets/sass/layout/_container.scss */
 .layout-container {
   padding: 2rem 0 1rem;
   padding-top: 0; }
-  /* line 119, /Users/anahkiasen/Sites/_github/rocketeer/assets/sass/styles.scss */
+  /* line 21, /Users/anahkiasen/Sites/_github/rocketeer/assets/sass/layout/_container.scss */
   .layout-container section {
     background-color: white;
-    border-left: 0.5rem solid #713b87;
-    padding: 0 0 2rem 2rem;
-    margin-bottom: 2rem; }
-    /* line 125, /Users/anahkiasen/Sites/_github/rocketeer/assets/sass/styles.scss */
-    .layout-container section:last-child {
-      margin-bottom: 0; }
-    /* line 129, /Users/anahkiasen/Sites/_github/rocketeer/assets/sass/styles.scss */
+    border-left: 0.5rem solid #222f3d;
+    padding: 2rem;
+    padding-top: 0;
+    margin-bottom: 0; }
+    /* line 29, /Users/anahkiasen/Sites/_github/rocketeer/assets/sass/layout/_container.scss */
     .layout-container section h1:first-child {
-      background-color: #713b87;
-      color: white;
-      font-weight: 300;
-      padding: .5rem .5rem .75rem;
-      margin-left: -2rem;
-      margin-bottom: 2rem;
+      width: 100%;
       -webkit-box-shadow: 0 0.15em 0 rgba(0, 0, 0, 0.1);
       -moz-box-shadow: 0 0.15em 0 rgba(0, 0, 0, 0.1);
-      box-shadow: 0 0.15em 0 rgba(0, 0, 0, 0.1); }
+      box-shadow: 0 0.15em 0 rgba(0, 0, 0, 0.1);
+      -webkit-box-sizing: content-box;
+      -moz-box-sizing: content-box;
+      box-sizing: content-box;
+      background-color: #222f3d;
+      color: white;
+      font-weight: 300;
+      margin-bottom: 2rem;
+      margin-left: -4rem;
+      padding: 0.5rem 4rem 0.75rem; }
+  /* line 43, /Users/anahkiasen/Sites/_github/rocketeer/assets/sass/layout/_container.scss */
+  .layout-container p {
+    font-size: 1rem;
+    line-height: 1.25;
+    margin: 1rem 0;
+    padding: 0; }
+  @media (max-width: 50em) {
+    /* line 51, /Users/anahkiasen/Sites/_github/rocketeer/assets/sass/layout/_container.scss */
+    .layout-container section {
+      padding: 1rem;
+      padding-top: 0; }
+      /* line 55, /Users/anahkiasen/Sites/_github/rocketeer/assets/sass/layout/_container.scss */
+      .layout-container section h1:first-child {
+        padding: 0.5rem 1rem;
+        margin-left: -1rem;
+        margin-bottom: 1rem; } }
 
-/* line 141, /Users/anahkiasen/Sites/_github/rocketeer/assets/sass/styles.scss */
+/* line 5, /Users/anahkiasen/Sites/_github/rocketeer/assets/sass/layout/_footer.scss */
 .layout-footer {
-  background-color: white;
-  color: #713b87;
-  font-weight: bold;
-  text-align: center;
-  font-size: 1rem;
   padding: 4rem 0;
-  line-height: 1.25; }
+  background-color: white;
+  color: #222f3d;
+  font-size: 1rem;
+  font-weight: bold;
+  line-height: 1.25;
+  text-align: center; }

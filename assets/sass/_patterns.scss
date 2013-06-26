@@ -1,0 +1,19 @@
+// Patterns
+//
+//////////////////////////////////////////////////////////////////////
+
+%reset-margins {
+	margin: 0;
+	padding: 0;
+}
+
+%main-column {
+	@include container;
+	width: 90%;
+	max-width: 90rem;
+	@include box-shadow(0 0 0 1rem rgba(black, .05));
+
+	@include at-breakpoint(0 $tablet) {
+		width: 95%;
+	}
+}

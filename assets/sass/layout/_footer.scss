@@ -1,0 +1,21 @@
+// Footer
+//
+//////////////////////////////////////////////////////////////////////
+
+.layout-footer {
+
+	// Structure
+	@extend %main-column;
+	padding: 4rem 0;
+
+	// Appearance
+	background-color: white;
+
+	// Text
+	color: $color-accent;
+	font-size: 1rem;
+	font-weight: bold;
+	line-height: $line-height;
+	text-align: center;
+
+}

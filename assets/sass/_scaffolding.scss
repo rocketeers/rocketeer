@@ -1,0 +1,57 @@
+// Scaffolding
+//
+//////////////////////////////////////////////////////////////////////
+
+@include establish-baseline(16px);
+@include at-breakpoint(0 $tablet) {
+	@include establish-baseline(14px);
+}
+
+body, html {
+	@extend %reset-margins;
+	font-family: $font-sans;
+	line-height: $line-height;
+}
+
+// Core styles
+//////////////////////////////////////////////////////////////////////
+
+pre {
+	padding: .75rem;
+
+	@include at-breakpoint(0 $tablet) {
+		line-height: 1.2;
+		code {
+			font-size: 0.75rem;
+		}
+	}
+}
+
+p {
+	text-align: justify;
+}
+
+a {
+	color: $color-base;
+}
+
+// Titles
+//////////////////////////////////////////////////////////////////////
+
+h1, h2, h3, h4 {
+	line-height: $line-height;
+}
+
+h1 {
+	font-size: 2rem;
+}
+
+h2 {
+	font-size: 1.75rem;
+	color: $color-base;
+}
+
+h3 {
+	font-size: 1.5rem;
+	color: $color-accent;
+}
