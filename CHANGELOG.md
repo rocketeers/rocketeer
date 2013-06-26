@@ -3,11 +3,13 @@
 ### 0.x.x (roadmap)
 
 - Ability to select which severs a Task executes on, on a per-task basis
+- Add a `deploy:test` command
 
 ### 0.4.1 (develop)
 
 - Add a `deploy:update` task that updates the remote server without doing a new release
 - The `deploy:check` command now checks PHP extensions for the cache/database/session drivers you set
+- Rocketeer now share logs by default between releases
 
 ### 0.4.0 (stable)
 

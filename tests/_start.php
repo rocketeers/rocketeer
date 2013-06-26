@@ -50,6 +50,11 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 		$config  = $this->getConfig();
 		$remote  = $this->getRemote();
 
+		// Laravel classes --------------------------------------------- /
+
+		$this->app['path.base']    = '/src';
+		$this->app['path.storage'] = '/src/storage';
+
 		$this->app->singleton('config', function() use ($config) {
 			return $config;
 		});

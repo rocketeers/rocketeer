@@ -127,17 +127,18 @@ abstract class Task
 	/**
 	 * Run actions on the remote server and gather the ouput
 	 *
-	 * @param  string|array $tasks One or more tasks
+	 * @param  string|array $tasks  One or more tasks
+	 * @param  boolean      $silent Whether the command should stay silent no matter what
 	 *
 	 * @return string
 	 */
-	public function run($tasks)
+	public function run($tasks, $silent = false)
 	{
 		$output = null;
 		$tasks  = (array) $tasks;
 
 		// Log the commands for pretend
-		if ($this->command->option('pretend')) {
+		if ($this->command->option('pretend') and !$silent) {
 			return $this->command->line(implode(PHP_EOL, $tasks));
 		}
 
@@ -437,7 +438,7 @@ abstract class Task
 	 */
 	public function fileExists($file)
 	{
-		$exists = $this->run('if [ -e ' .$file. ' ]; then echo "true"; fi');
+		$exists = $this->run('if [ -e ' .$file. ' ]; then echo "true"; fi', true);
 
 		return $exists == 'true';
 	}

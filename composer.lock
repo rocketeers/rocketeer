@@ -206,12 +206,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "1.2.0"
+                "reference": "244ef48e8a7b94fa8c9f527d6cdb4ad2eb34aa96"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/1.2.0",
-                "reference": "1.2.0",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/244ef48e8a7b94fa8c9f527d6cdb4ad2eb34aa96",
+                "reference": "244ef48e8a7b94fa8c9f527d6cdb4ad2eb34aa96",
                 "shasum": ""
             },
             "require": {
@@ -241,7 +241,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2012-10-15 00:41:18"
+            "time": "2013-06-26 03:40:32"
         },
         {
             "name": "symfony/finder",

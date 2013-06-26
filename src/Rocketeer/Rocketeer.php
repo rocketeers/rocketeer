@@ -1,7 +1,7 @@
 <?php
 namespace Rocketeer;
 
-use Illuminate\Config\Repository;
+use Illuminate\Container\Container;
 use Illuminate\Support\Str;
 
 /**
@@ -12,11 +12,11 @@ class Rocketeer
 {
 
 	/**
-	 * The Config Repository
+	 * The IoC Container
 	 *
-	 * @var Repository
+	 * @var Container
 	 */
-	protected $config;
+	protected $app;
 
 	/**
 	 * The Rocketeer version
@@ -28,11 +28,11 @@ class Rocketeer
 	/**
 	 * Build a new ReleasesManager
 	 *
-	 * @param Repository $config
+	 * @param Container $app
 	 */
-	public function __construct(Repository $config)
+	public function __construct(Container $app)
 	{
-		$this->config = $config;
+		$this->app = $app;
 	}
 
 	/**
@@ -44,7 +44,7 @@ class Rocketeer
 	 */
 	public function getOption($option)
 	{
-		return $this->config->get('rocketeer::'.$option);
+		return $this->app['config']->get('rocketeer::'.$option);
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -101,7 +101,16 @@ class Rocketeer
 	 */
 	public function getShared()
 	{
-		return (array) $this->getOption('remote.shared');
+		// Get path to logs
+		$base = $this->app['path.base'];
+		$logs = $this->app['path.storage'].'/logs';
+		$logs = str_replace($base, null, $logs);
+
+		// Add logs to shared folders
+		$shared = (array) $this->getOption('remote.shared');
+		$shared[] = trim($logs, '/');
+
+		return $shared;
 	}
 
 	////////////////////////////////////////////////////////////////////
