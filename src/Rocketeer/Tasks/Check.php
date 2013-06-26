@@ -30,7 +30,7 @@ class Check extends Task
 
 		// Check PHP
 		if (!$this->checkPhpVersion()) {
-			$errors[] = $this->command->error('The version of PHP on the server does not match Larvel\'s requirements');
+			$errors[] = $this->command->error('The version of PHP on the server does not match Laravel\'s requirements');
 		}
 
 		// Check MCrypt
