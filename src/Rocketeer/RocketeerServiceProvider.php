@@ -31,7 +31,7 @@ class RocketeerServiceProvider extends ServiceProvider
 		$this->app = static::bindClasses($this->app);
 		$this->app = static::bindCommands($this->app);
 
-		$this->commands('deploy', 'deploy.check', 'deploy.setup', 'deploy.deploy', 'deploy.cleanup', 'deploy.rollback', 'deploy.teardown', 'deploy.update', 'deploy.current');
+		$this->commands('deploy', 'deploy.check', 'deploy.setup', 'deploy.deploy', 'deploy.cleanup', 'deploy.test', 'deploy.rollback', 'deploy.teardown', 'deploy.update', 'deploy.current');
 
 		$userCommands = $this->bindUserCommands();
 		foreach ($userCommands as $command) {
@@ -99,6 +99,7 @@ class RocketeerServiceProvider extends ServiceProvider
 			'rollback',
 			'cleanup',
 			'current',
+			'test',
 			'teardown',
 		);
 

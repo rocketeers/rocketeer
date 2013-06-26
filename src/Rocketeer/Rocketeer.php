@@ -75,7 +75,7 @@ class Rocketeer
 		$repository = $repository['repository'];
 
 		// Add credentials if HTTPS
-		if (str_contains($repository, 'https://'.$username)) {
+		if (Str::contains($repository, 'https://'.$username)) {
 			$repository = str_replace($username.'@', $username.':'.$password.'@', $repository);
 		} else {
 			$repository = str_replace('https://', 'https://'.$username.':'.$password.'@', $repository);

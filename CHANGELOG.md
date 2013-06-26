@@ -3,13 +3,14 @@
 ### 0.x.x (roadmap)
 
 - Ability to select which severs a Task executes on, on a per-task basis
-- Add a `deploy:test` command
 
 ### 0.4.1 (develop)
 
-- Add a `deploy:update` task that updates the remote server without doing a new release
+- **Add a `deploy:update` task that updates the remote server without doing a new release**
+- **Add a `deploy:test` to run the tests on the server**
 - The `deploy:check` command now checks PHP extensions for the cache/database/session drivers you set
 - Rocketeer now share logs by default between releases
+- Added a `$silent` flag to make a `Task::run` call silent no matter what
 
 ### 0.4.0 (stable)
 

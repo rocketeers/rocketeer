@@ -4,6 +4,7 @@ namespace Rocketeer\Tasks;
 use Illuminate\Console\Command;
 use Illuminate\Container\Container;
 use Illuminate\Remote\Connection;
+use Illuminate\Support\Str;
 use Rocketeer\DeploymentsManager;
 use Rocketeer\ReleasesManager;
 use Rocketeer\Rocketeer;
@@ -149,7 +150,7 @@ abstract class Task
 
 		// Print output
 		$output = trim($output);
-		if ($this->command->option('verbose')) {
+		if ($this->command->option('verbose') and !$silent) {
 			print $output;
 		}
 
@@ -166,7 +167,7 @@ abstract class Task
 	 */
 	public function runInFolder($folder = null, $tasks = array())
 	{
-		$tasks = (array) $tasks;
+		if (!is_array($tasks)) $tasks = array($tasks);
 		array_unshift($tasks, 'cd '.$this->rocketeer->getFolder($folder));
 
 		return $this->run($tasks);
@@ -206,9 +207,9 @@ abstract class Task
 	 */
 	public function which($binary, $fallback = null)
 	{
-		$location = $this->run('which '.$binary);
+		$location = $this->run('which '.$binary, true);
 		if (!$location or $location == $binary. ' not found') {
-			if (!is_null($fallback) and $this->run('which ' .$fallback) != $fallback. ' not found') {
+			if (!is_null($fallback) and $this->run('which ' .$fallback, true) != $fallback. ' not found') {
 				return $fallback;
 			}
 
@@ -366,10 +367,10 @@ abstract class Task
 			$phpunit. ' --stop-on-failure '.$arguments,
 		));
 
-		$testsSucceeded = str_contains($output, 'OK') or str_contains($output, 'No tests executed');
+		$testsSucceeded = Str::contains($output, 'OK') or Str::contains($output, 'No tests executed');
 		if ($testsSucceeded) {
 			$this->command->info('Tests ran with success');
-		} else {
+		} elseif (!$this->command->option('verbose')) {
 			print $output;
 		}
 
