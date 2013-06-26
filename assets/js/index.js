@@ -1,5 +1,5 @@
 (function() {
-  require(['jquery', 'marked', 'rainbow', 'rainbow-generic', 'rainbow-php'], function(jquery, marked) {
+  require(['jquery', 'marked', 'rainbow', 'rainbow-generic', 'rainbow-php'], function(jquery, marked, rainbow) {
 
   	/**
   	 * Parses a Markdown file and returns HTML
@@ -23,12 +23,17 @@
         url: file,
         success: function(file) {
         	var file = '<section>' + parse(file) + '</section>';
-        	$('pre code', file).addClass('lang-php');
 
           $('.layout-container').append(file);
+
+          $('pre').each(function(pre) {
+            var content = $(pre).html();
+            return Rainbow.color(content, 'php', function(highlighted) {
+              return $(pre).html(highlighted);
+            });
+          });
         }
       });
   	});
-
   });
 }).call(this);
