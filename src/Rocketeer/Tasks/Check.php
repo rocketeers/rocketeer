@@ -5,6 +5,13 @@ class Check extends Task
 {
 
 	/**
+	 * The PHP extensions loaded on server
+	 *
+	 * @var array
+	 */
+	protected $extensions = array();
+
+	/**
 	 * Run the Task
 	 *
 	 * @return  void
@@ -12,7 +19,7 @@ class Check extends Task
 	public function execute()
 	{
 		$errors    = array();
-		$extension = 'The %s extension does not seem to be present on the server';
+		$extension = 'The %s extension does not seem to be loaded on the server';
 
 		// Check PHP
 		if (!$this->checkPhpVersion()) {
@@ -133,10 +140,12 @@ class Check extends Task
 	 */
 	public function checkPhpExtension($extension)
 	{
-		$hasExtension = $this->run('php -m | grep '.$extension);
-		$hasExtension = explode(PHP_EOL, $hasExtension);
+		if (!$this->extensions) {
+			$extensions       = $this->run('php -m');
+			$this->extensions = explode(PHP_EOL, $extensions);
+		}
 
-		return in_array($extension, $hasExtension);
+		return in_array($extension, $this->extensions);
 	}
 
 }
