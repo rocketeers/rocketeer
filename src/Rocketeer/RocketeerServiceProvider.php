@@ -31,7 +31,7 @@ class RocketeerServiceProvider extends ServiceProvider
 		$this->app = static::bindClasses($this->app);
 		$this->app = static::bindCommands($this->app);
 
-		$this->commands('deploy', 'deploy.check', 'deploy.setup', 'deploy.deploy', 'deploy.cleanup', 'deploy.rollback', 'deploy.teardown', 'deploy.current');
+		$this->commands('deploy', 'deploy.check', 'deploy.setup', 'deploy.deploy', 'deploy.cleanup', 'deploy.rollback', 'deploy.teardown', 'deploy.update', 'deploy.current');
 
 		$userCommands = $this->bindUserCommands();
 		foreach ($userCommands as $command) {
@@ -90,37 +90,28 @@ class RocketeerServiceProvider extends ServiceProvider
 	 */
 	public static function bindCommands(Container $app)
 	{
-		$app->bind('deploy', function($app) {
-			return new Commands\DeployCommand($app);
-		});
+		$commands = array(
+			'',
+			'check',
+			'setup',
+			'deploy',
+			'update',
+			'rollback',
+			'cleanup',
+			'current',
+			'teardown',
+		);
 
-		$app->bind('deploy.check', function($app) {
-			return new Commands\DeployCheckCommand($app);
-		});
+		foreach ($commands as $command) {
+			// Get class and command
+			$class = 'Rocketeer\Commands\Deploy'.ucfirst($command).'Command';
+			$slug  = trim('deploy.'.$command, '.');
 
-		$app->bind('deploy.setup', function($app) {
-			return new Commands\DeploySetupCommand($app);
-		});
-
-		$app->bind('deploy.deploy', function($app) {
-			return new Commands\DeployDeployCommand($app);
-		});
-
-		$app->bind('deploy.cleanup', function($app) {
-			return new Commands\DeployCleanupCommand($app);
-		});
-
-		$app->bind('deploy.rollback', function($app) {
-			return new Commands\DeployRollbackCommand($app);
-		});
-
-		$app->bind('deploy.teardown', function($app) {
-			return new Commands\DeployTeardownCommand($app);
-		});
-
-		$app->bind('deploy.current', function($app) {
-			return new Commands\DeployCurrentCommand($app);
-		});
+			// Bind class
+			$app->bind($slug, function($app) use ($class) {
+				return new $class($app);
+			});
+		}
 
 		return $app;
 	}
