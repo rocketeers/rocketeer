@@ -3,6 +3,8 @@
 ### 0.x.x (roadmap)
 
 - Ability to select which severs a Task executes on, on a per-task basis
+- Add a `deploy:update` task that updates the remote server without doing a new release
+- Add tests in `deploy:check` for the correct DB extension according to the value of `database.default`
 
 ### 0.4.0 (stable)
 
