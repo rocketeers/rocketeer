@@ -15,6 +15,7 @@ deploy
 	deploy:cleanup             Clean up old releases from the server
 	deploy:current             Displays what the current release is
 	deploy:deploy              Deploy the website.
+	deploy:update              Updates the remote server without doing a new release
 	deploy:rollback            Rollback to the previous release, or to a specific one
 	deploy:rollback {release}  Rollback to a specific release
 	deploy:setup               Set up the remote server for deployment
