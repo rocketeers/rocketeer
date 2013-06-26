@@ -1,0 +1,150 @@
+@import "../../components/rainbow/themes/tomorrow-night.css";
+@import "compass";
+@import "susy";
+
+// Variables
+//
+//////////////////////////////////////////////////////////////////////
+
+$font-sans    : "Lato", Helvetica, Arial, sans-serif;
+
+$line-height  : 1.25;
+
+$color-base   : rgb(155, 89, 182);
+$color-accent : darken($color-base, 15);
+
+// Patterns
+//
+//////////////////////////////////////////////////////////////////////
+
+%reset-margins {
+	margin: 0;
+	padding: 0;
+}
+
+%main-column {
+	@include container;
+	max-width: 65%;
+	@include box-shadow(0 0 0 1rem rgba(black, .05));
+}
+
+// Scaffolding
+//
+//////////////////////////////////////////////////////////////////////
+
+body, html {
+	@extend %reset-margins;
+	font-family: $font-sans;
+	line-height: $line-height;
+}
+
+p {
+	font-size: 1rem;
+	line-height: $line-height;
+	margin: 1rem 0;
+	padding-right: 2rem;
+}
+
+pre {
+	padding: .75rem;
+	max-width: 90%;
+}
+
+a {
+	color: $color-base;
+}
+
+h1, h2, h3, h4 {
+	line-height: $line-height;
+}
+
+h2 {
+	color: $color-base;
+}
+
+h3 {
+	color: $color-accent;
+}
+
+// Layout
+//
+//////////////////////////////////////////////////////////////////////
+
+body {
+	background-color: $color-base;
+	background-image: image-url('square_bg.png');
+}
+
+.layout-header {
+	@extend %reset-margins;
+	padding: 11rem 0;
+	text-align: center;
+	background-color: white;
+	background-image: image-url('rocket.svg');
+	background-repeat: no-repeat;
+	background-size: 25rem;
+	background-position: 10% 10%;
+	background-attachment: fixed;
+
+	h1 {
+		@extend %reset-margins;
+		font-size: 5rem;
+		font-weight: 300;
+		color: $color-base;
+		text-shadow: 0 .05em 0 rgba(black, .05);
+		line-height: $line-height;
+
+		small {
+			line-height: 1;
+			display: block;
+			color: lighten(black, 80);
+		}
+	}
+}
+
+.layout-buttons {
+	@extend %main-column;
+	background-color: lighten(black, 95);
+	@extend %reset-margins;
+	padding: 1rem 0;
+	margin: 1rem auto;
+	text-align: center;
+}
+
+.layout-container {
+	@extend %main-column;
+	padding: 2rem 0 1rem;
+	padding-top: 0;
+
+	section {
+		background-color: white;
+		border-left: .5rem solid $color-accent;
+		padding: 0 0 2rem 2rem;
+		margin-bottom: 2rem;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+
+		h1:first-child {
+			background-color: $color-accent;
+			color: white;
+			font-weight: 300;
+			padding: .5rem .5rem .75rem;
+			margin-left: -2rem;
+			margin-bottom: 2rem;
+			@include box-shadow(0 .15em 0 rgba(black, .1));
+		}
+	}
+}
+
+.layout-footer {
+	@extend %main-column;
+	background-color: white;
+	color: $color-accent;
+	font-weight: bold;
+	text-align: center;
+	font-size: 1rem;
+	padding: 4rem 0;
+	line-height: $line-height;
+}

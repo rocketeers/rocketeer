@@ -1,0 +1,6 @@
+[submodule "wiki"]
+	path = wiki
+	url = https://github.com/Anahkiasen/rocketeer.wiki.git
+[submodule "rocketeer"]
+	path = rocketeer
+	url = https://github.com/Anahkiasen/rocketeer.git
