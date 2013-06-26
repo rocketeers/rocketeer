@@ -43,17 +43,9 @@ class Deploy extends Task
 		$this->runMigrations($this->command->option('seed'));
 
 		// Synchronize shared folders and files
-		$sharedFolder   = $this->rocketeer->getFolder('shared');
 		$currentRelease = $this->releasesManager->getCurrentReleasePath();
 		foreach ($this->rocketeer->getShared() as $file) {
-			$sharedFile  = $sharedFolder.'/'.$file;
-			$currentFile = $currentRelease.'/'.$file;
-
-			if (!$this->fileExists($sharedFile)) {
-				$this->move($currentFile, $sharedFile);
-			}
-
-			$this->symlink($sharedFile, $currentFile);
+			$this->share($currentRelease.'/'.$file);
 		}
 
 		return $this->command->info('Successfully deployed release '.$release);

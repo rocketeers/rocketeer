@@ -258,6 +258,29 @@ abstract class Task
 	}
 
 	/**
+	 * Share a file or folder between releases
+	 *
+	 * @param  string $file Path to the file in a release folder
+	 *
+	 * @return string
+	 */
+	public function share($file)
+	{
+		// Get path to current file and shared file
+		$currentFile = $file;
+		$sharedFile  = preg_replace('#releases/[0-9]+/#', 'shared/', $currentFile);
+
+		// If no instance of the shared file exists, use current one
+		if (!$this->fileExists($sharedFile)) {
+			$this->move($currentFile, $sharedFile);
+		}
+
+		$this->command->comment('Sharing file '.$currentFile);
+
+		return $this->symlink($sharedFile, $currentFile);
+	}
+
+	/**
 	 * Set a folder as web-writable
 	 *
 	 * @param string $folder
