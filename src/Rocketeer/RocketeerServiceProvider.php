@@ -140,7 +140,7 @@ class RocketeerServiceProvider extends ServiceProvider
 			// Else create a fake one
 			else {
 				$this->app->bind($command, function($app) use ($taskInstance, $slug) {
-					return new Commands\DeployCustomCommand($taskInstance, $slug);
+					return new Commands\DeployTaskCommand($taskInstance, $slug);
 				});
 			}
 

@@ -5,9 +5,9 @@ use Rocketeer\Rocketeer;
 use Rocketeer\Tasks\Task;
 
 /**
- * A basic custom command for Users
+ * A basic command that only runs one Task
  */
-class DeployCustomCommand extends BaseDeployCommand
+class DeployTaskCommand extends BaseDeployCommand
 {
 
 	/**
