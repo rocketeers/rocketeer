@@ -97,7 +97,7 @@ class RocketeerServiceProvider extends ServiceProvider
 	{
 		// Base commands
 		$tasks = array(
-			''         => 'Deploy',
+			''         => '',
 			'check'    => 'Check',
 			'setup'    => 'Setup',
 			'deploy'   => 'Deploy',
