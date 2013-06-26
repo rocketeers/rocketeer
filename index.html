@@ -4,40 +4,28 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>Rocketeer by Anahkiasen</title>
+
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="javascripts/main.js"></script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <script src="javascripts/scale.fix.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
   </head>
   <body>
-
+    <div class="wrapper">
       <header>
         <h1>Rocketeer</h1>
         <p>Rocketeer provides a fast and easy way to deploy your Laravel projects</p>
+        <p class="view"><a href="https://github.com/Anahkiasen/rocketeer">View the Project on GitHub <small>Anahkiasen/rocketeer</small></a></p>
+        <ul>
+          <li><a href="https://github.com/Anahkiasen/rocketeer/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/Anahkiasen/rocketeer/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/Anahkiasen/rocketeer">View On <strong>GitHub</strong></a></li>
+        </ul>
       </header>
-
-      <div id="banner">
-        <span id="logo"></span>
-
-        <a href="https://github.com/Anahkiasen/rocketeer" class="button fork"><strong>View On GitHub</strong></a>
-        <div class="downloads">
-          <span>Downloads:</span>
-          <ul>
-            <li><a href="https://github.com/Anahkiasen/rocketeer/zipball/master" class="button">ZIP</a></li>
-            <li><a href="https://github.com/Anahkiasen/rocketeer/tarball/master" class="button">TAR</a></li>
-          </ul>
-        </div>
-      </div><!-- end banner -->
-
-    <div class="wrapper">
-      <nav>
-        <ul></ul>
-      </nav>
       <section>
         <h1>
 <a name="rocketeer---" class="anchor" href="#rocketeer---"><span class="octicon octicon-link"></span></a>Rocketeer <a href="https://travis-ci.org/Anahkiasen/rocketeer"><img src="https://travis-ci.org/Anahkiasen/rocketeer.png?branch=master" alt="Build Status"></a> <a href="https://packagist.org/packages/anahkiasen/rocketeer"><img src="https://poser.pugx.org/anahkiasen/rocketeer/v/stable.png" alt="Latest Stable Version"></a> <a href="https://packagist.org/packages/anahkiasen/rocketeer"><img src="https://poser.pugx.org/anahkiasen/rocketeer/downloads.png" alt="Total Downloads"></a>
@@ -53,12 +41,13 @@
 <p>The available commands in Rocketeer are :</p>
 
 <pre><code>deploy
-    deploy:setup               Set up the website for deployment
-    deploy:deploy              Deploy the website.
+    deploy:check               Check if the server is ready to receive the application
     deploy:cleanup             Clean up old releases from the server
     deploy:current             Displays what the current release is
+    deploy:deploy              Deploy the website.
+    deploy:rollback            Rollback to the previous release, or to a specific one
     deploy:rollback {release}  Rollback to a specific release
-    deploy:rollback            Rollback to the previous release
+    deploy:setup               Set up the remote server for deployment
     deploy:teardown            Removes the remote applications and existing caches
 </code></pre>
 
@@ -76,7 +65,7 @@ Now, the core of Rocketeer is you can hook into any of those Tasks to peform add
 <p>That's a question that's been asked to me, why not simply use Capistrano ? I've used Capistrano in the past, it does everything you want it to do, that's a given.</p>
 
 <p>But, it remains a Ruby package and one that's tightly coupled to Rails in some ways; Rocketeer makes it so that you don't have Ruby files hanging around your app. That way you configure it once and can use it wherever you want in the realm of Laravel, even outside of the deploy routine.
-It's also meant to be a lot easier to apprehend, for first-time users or novices, Capistrano is a lot to take at once – Rocketeer aims to be as simple as possible by providing smart defaults and speeding up the time between installing it and first hitting <code>deploy</code>.</p>
+It's also meant to be a lot easier to comprehend, for first-time users or novices, Capistrano is a lot to take at once – Rocketeer aims to be as simple as possible by providing smart defaults and speeding up the time between installing it and first hitting <code>deploy</code>.</p>
 
 <p>It's also more though out for the PHP world – although you can configure Capistrano to run Composer and PHPUnit, that's not something it expects from the get go, while those tasks that are a part of every Laravel developper are integrated in Rocketeer's core deploy process.</p>
 
@@ -186,6 +175,12 @@ To get you started here is an example config file to make you picture a little m
 
     <span class="c1">// The number of releases to keep at all times</span>
     <span class="s1">'releases'</span> <span class="o">=&gt;</span> <span class="mi">4</span><span class="p">,</span>
+
+    <span class="c1">// A list of folders/file to be shared between releases</span>
+    <span class="s1">'shared'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+      <span class="s1">'public/img/users'</span><span class="p">,</span>
+      <span class="s1">'app/database/production.sqlite'</span><span class="p">,</span>
+    <span class="p">),</span>
   <span class="p">),</span>
 
   <span class="c1">// Tasks</span>
@@ -204,6 +199,9 @@ To get you started here is an example config file to make you picture a little m
         <span class="s1">'php artisan basset:build'</span>
       <span class="p">),</span>
     <span class="p">),</span>
+
+    <span class="c1">// Custom Tasks to register with Rocketeer</span>
+    <span class="s1">'custom'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(),</span>
   <span class="p">),</span>
 
 <span class="p">);</span>
@@ -213,10 +211,8 @@ To get you started here is an example config file to make you picture a little m
 <a name="tasks-1" class="anchor" href="#tasks-1"><span class="octicon octicon-link"></span></a>Tasks</h1>
 
 <p>An important concept in Rocketeer is Tasks : most of the commands you see right above are using predefined Tasks underneath : <strong>Rocketeer\Tasks\Setup</strong>, <strong>Rocketeer\Tasks\Deploy</strong>, etc.
-Now, the core of Rocketeer is you can hook into any of those Tasks to peform additional actions, for this you'll use the <code>before</code> and <code>after</code> arrays of Rocketeer's config file.</p>
-
-<h2>
-<a name="the-different-types-of-tasks" class="anchor" href="#the-different-types-of-tasks"><span class="octicon octicon-link"></span></a>The different types of tasks</h2>
+Now, the core of Rocketeer is you can hook into any of those Tasks to peform additional actions, for this you'll use the <code>before</code> and <code>after</code> arrays of Rocketeer's config file.
+You can also add Tasks to Rocketeer to use directly via Artisan.</p>
 
 <p>A task can be three things :</p>
 
@@ -224,22 +220,32 @@ Now, the core of Rocketeer is you can hook into any of those Tasks to peform add
 <li>A simple one-line command, like <code>composer install</code>
 </li>
 <li>A closure, giving you access to Rocketeer's core helpers to perform more advanced actions</li>
-<li>And finally a class, extending the <code>Rocketeer\Tasks\Task</code> class, giving you full at-home control</li>
+<li>And finally a class, extending the <code>Rocketeer\Tasks\Task</code> class, giving you full at-home control. All custom-made Tasks must have at least an <code>execute</code> method. And that's all.</li>
 </ul><p>Each level gives you a little more control and comfort – this is intentional, if you need more control than what Closures give you, then you probably need a class.</p>
 
-<p>So the three kind of tasks above could be seen in your config file :</p>
+<hr><h2>
+<a name="hooking-into-rocketeers-tasks" class="anchor" href="#hooking-into-rocketeers-tasks"><span class="octicon octicon-link"></span></a>Hooking into Rocketeer's Tasks</h2>
+
+<p>What most user will do is hook into the existing Rocketeer's Tasks to do things before or after. There is two ways to do that :</p>
+
+<h3>
+<a name="defining-tasks-in-the-config-file" class="anchor" href="#defining-tasks-in-the-config-file"><span class="octicon octicon-link"></span></a>Defining Tasks in the config file</h3>
+
+<p>You can hook into any task via the <code>tasks</code> array in Rocketeer's config file. The syntax is pretty basic, here you can see an example with the three types of Tasks mentionned above :</p>
 
 <div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="s1">'after'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-  <span class="s1">'Setup'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+  <span class="s1">'setup'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
 
     <span class="c1">// Commands</span>
     <span class="s1">'composer install'</span><span class="p">,</span>
 
+    <span class="c1">// Actual Tasks classes</span>
+    <span class="s1">'MyNamespace\MyTaskClass'</span><span class="p">,</span>
+
     <span class="c1">// Closures</span>
     <span class="k">function</span><span class="p">(</span><span class="nv">$task</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nv">$task</span><span class="o">-&gt;</span><span class="na">rocketeer</span><span class="o">-&gt;</span><span class="na">gotoFolder</span><span class="p">(</span><span class="s1">'releases/134781354'</span><span class="p">);</span>
-      <span class="nv">$tests</span> <span class="o">=</span> <span class="nv">$task</span><span class="o">-&gt;</span><span class="na">run</span><span class="p">(</span><span class="s1">'phpunit'</span><span class="p">);</span>
+      <span class="nv">$tests</span> <span class="o">=</span> <span class="nv">$task</span><span class="o">-&gt;</span><span class="na">runForCurrentRelease</span><span class="p">(</span><span class="s1">'phpunit --coverage-html=tests/coverage'</span><span class="p">);</span>
 
       <span class="k">if</span> <span class="p">(</span><span class="nv">$tests</span><span class="p">)</span> <span class="p">{</span>
         <span class="nv">$task</span><span class="o">-&gt;</span><span class="na">command</span><span class="o">-&gt;</span><span class="na">info</span><span class="p">(</span><span class="s1">'Tests ran perfectly dude !'</span><span class="p">);</span>
@@ -247,36 +253,14 @@ Now, the core of Rocketeer is you can hook into any of those Tasks to peform add
         <span class="nv">$task</span><span class="o">-&gt;</span><span class="na">command</span><span class="o">-&gt;</span><span class="na">error</span><span class="p">(</span><span class="s1">'Aw man, tests failed and stuff'</span><span class="p">)</span>
       <span class="p">}</span>
     <span class="p">},</span>
-
-    <span class="c1">// Actual Tasks classes</span>
-    <span class="s1">'MyNamespace\MyTaskClass'</span><span class="p">,</span>
   <span class="p">),</span>
+<span class="cp">?&gt;</span><span class="x"></span>
 </pre></div>
 
-<div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
-<span class="k">namespace</span> <span class="nx">MyNamespace</span><span class="p">;</span>
+<h3>
+<a name="defining-tasks-using-the-facade" class="anchor" href="#defining-tasks-using-the-facade"><span class="octicon octicon-link"></span></a>Defining Tasks using the facade</h3>
 
-<span class="k">class</span> <span class="nc">MyTaskClass</span> <span class="k">extends</span> <span class="nx">Rocketeer\Tasks\Task</span>
-<span class="p">{</span>
-  <span class="k">public</span> <span class="k">function</span> <span class="nf">execute</span><span class="p">()</span>
-  <span class="p">{</span>
-    <span class="nv">$currentReleasePath</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">releasesManager</span><span class="o">-&gt;</span><span class="na">getCurrentReleasePath</span><span class="p">();</span>
-    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">rocketeer</span><span class="o">-&gt;</span><span class="na">gotoFolder</span><span class="p">(</span><span class="nv">$currentReleasePath</span><span class="p">);</span>
-    <span class="nv">$tests</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">run</span><span class="p">(</span><span class="s1">'phpunit'</span><span class="p">);</span>
-
-    <span class="k">if</span> <span class="p">(</span><span class="nv">$tests</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">command</span><span class="o">-&gt;</span><span class="na">info</span><span class="p">(</span><span class="s1">'Tests ran perfectly dude !'</span><span class="p">);</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-      <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">command</span><span class="o">-&gt;</span><span class="na">error</span><span class="p">(</span><span class="s1">'Aw man, tests failed and stuff'</span><span class="p">)</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-
-<h2>
-<a name="defining-your-tasks" class="anchor" href="#defining-your-tasks"><span class="octicon octicon-link"></span></a>Defining your tasks</h2>
-
-<p>As seen above, you can define tasks in the config file, but as your tasks get bigger this may become cumbersome. So before you start putting everything into classes, you can use Rocketeer's facade to define your tasks :</p>
+<p>Rocketeer also provides you with a facade to use, if you don't want to put stuff in the config file :</p>
 
 <div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="nx">Rocketeer</span><span class="o">::</span><span class="na">before</span><span class="p">(</span><span class="s1">'deploy'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$task</span><span class="p">)</span> <span class="p">{</span>
@@ -289,15 +273,196 @@ Now, the core of Rocketeer is you can hook into any of those Tasks to peform add
 <span class="p">));</span>
 
 <span class="nx">Rocketeer</span><span class="o">::</span><span class="na">after</span><span class="p">(</span><span class="s1">'deploy'</span><span class="p">,</span> <span class="s1">'MyClass'</span><span class="p">);</span>
+<span class="cp">?&gt;</span><span class="x"></span>
 </pre></div>
 
-<p>You give as first argument the name of the fully-qualified name of the Task you'd like to act on, and then your task.</p>
+<p>You give as first argument the name of the name of the Task you'd like to act on, and then your task.</p>
+
+<h2>
+<a name="creating-your-own-tasks" class="anchor" href="#creating-your-own-tasks"><span class="octicon octicon-link"></span></a>Creating your own Tasks</h2>
+
+<p>Sometimes you have things to do that don't fit in with the existing Tasks Rocketeer provides. That's why you can create your own tasks, here is an example one. As you can see it's pretty easy.</p>
+
+<div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+<span class="k">class</span> <span class="nc">Migrate</span> <span class="k">extends</span> <span class="nx">Rocketeer\Tasks\Task</span>
+<span class="p">{</span>
+
+  <span class="sd">/**</span>
+<span class="sd">   * Description of the Task</span>
+<span class="sd">   *</span>
+<span class="sd">   * @var string</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="nv">$description</span> <span class="o">=</span> <span class="s1">'Migrates the database'</span><span class="p">;</span>
+
+  <span class="sd">/**</span>
+<span class="sd">   * Executes the Task</span>
+<span class="sd">   *</span>
+<span class="sd">   * @return void</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">execute</span><span class="p">()</span>
+  <span class="p">{</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">command</span><span class="o">-&gt;</span><span class="na">info</span><span class="p">(</span><span class="s1">'Running migrations'</span><span class="p">);</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">runMigrations</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+
+<h3>
+<a name="registering-your-custom-task" class="anchor" href="#registering-your-custom-task"><span class="octicon octicon-link"></span></a>Registering your custom Task</h3>
+
+<p>Now that the class is created, you need to register it with Rocketeer. As with the hooks, you can either do that via the config file, in the <code>tasks.custom</code> array :</p>
+
+<div class="highlight"><pre><span class="s1">'custom'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+  <span class="s1">'Migrate'</span><span class="p">,</span>
+<span class="p">),</span>
+</pre></div>
+
+<p>Or via the facade in your <code>app/start/artisan.php</code> file :</p>
+
+<div class="highlight"><pre><span class="nx">Rocketeer</span><span class="o">::</span><span class="na">add</span><span class="p">(</span><span class="s1">'Migrate'</span><span class="p">);</span>
+</pre></div>
+
+<p>And there you go, tadah !</p>
+
+<p><img src="http://i.imgur.com/jwdQ2Ly.png" alt="artisan"></p>
+
+<hr><h2>
+<a name="writing-tasks" class="anchor" href="#writing-tasks"><span class="octicon octicon-link"></span></a>Writing Tasks</h2>
+
+<h3>
+<a name="core-methods" class="anchor" href="#core-methods"><span class="octicon octicon-link"></span></a>Core methods</h3>
+
+<p>The core methods of any Task is the <code>run</code> method, this is the one that lies at the bottom of nearly every other helper.
+It just runs commands on the remote server, and returns the output.</p>
+
+<div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+<span class="nv">$return</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">run</span><span class="p">(</span><span class="s1">'composer install'</span><span class="p">);</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+
+<p>You can also pass it an array of commands to execute. Now, note this because it's important : every call to <code>run</code> is self contained. Meaning this :</p>
+
+<div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+<span class="c1">// Returns /</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">run</span><span class="p">(</span><span class="s1">'cd first-folder'</span><span class="p">);</span>
+<span class="nv">$folder</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">run</span><span class="p">(</span><span class="s1">'pwd'</span><span class="p">);</span>
+
+<span class="c1">// Returns /first-folder/</span>
+<span class="nv">$folder</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">run</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+  <span class="s1">'cd first-folder'</span><span class="p">,</span>
+  <span class="s1">'pwd'</span><span class="p">,</span>
+<span class="p">));</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+
+<p>To automate running tasks in folders, two helpers exist : <code>runInFolder</code> and <code>runForCurrentRelease</code>. The first one will run one or more tasks in a folder, while the other one will run one or more tasks in the current release's folder.</p>
+
+<div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">run</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+  <span class="s1">'cd /home/www/website/releases/123456789'</span><span class="p">,</span>
+  <span class="s1">'ls'</span><span class="p">,</span>
+<span class="p">));</span>
+
+<span class="c1">// Is the same as</span>
+
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">runInFolder</span><span class="p">(</span><span class="s1">'releases/123456789'</span><span class="p">,</span> <span class="s1">'ls'</span><span class="p">);</span>
+
+<span class="c1">// Is the same as</span>
+
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">runForCurrentRelease</span><span class="p">(</span><span class="s1">'ls'</span><span class="p">);</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+
+<h3>
+<a name="folder-helpers" class="anchor" href="#folder-helpers"><span class="octicon octicon-link"></span></a>Folder helpers</h3>
+
+<p>A few folder/file-manipulation methods are also present, they're very basic and just abstract low-level bash commands but, hey, they're good to have :</p>
+
+<div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">move</span><span class="p">(</span><span class="s1">'folder/file.php'</span><span class="p">,</span> <span class="s1">'new-folder/file.php'</span><span class="p">);</span>
+<span class="nv">$array</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">listContents</span><span class="p">(</span><span class="s1">'folder'</span><span class="p">);</span>
+<span class="nv">$boolean</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">fileExists</span><span class="p">(</span><span class="s1">'file.php'</span><span class="p">);</span>
+<span class="nv">$boolean</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">fileExists</span><span class="p">(</span><span class="s1">'folder'</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createFolder</span><span class="p">(</span><span class="s1">'folder'</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">removeFolder</span><span class="p">(</span><span class="s1">'folder'</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">symlink</span><span class="p">(</span><span class="s1">'folder-a'</span><span class="p">,</span> <span class="s1">'folder-b'</span><span class="p">);</span>
+<span class="nv">$phpunit</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">which</span><span class="p">(</span><span class="s1">'phpunit'</span><span class="p">,</span> <span class="s1">'vendor/bin/phpunit'</span><span class="p">);</span> <span class="c1">// Second argument is fallback</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+
+<h3>
+<a name="tasks-related-methods" class="anchor" href="#tasks-related-methods"><span class="octicon octicon-link"></span></a>Tasks-related methods</h3>
+
+<p>Some methods are used by other Rocketeer tasks and can be used by you to create your own. All of them are relative to the current release.</p>
+
+<div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+<span class="c1">// Run tests</span>
+<span class="nv">$boolean</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">runTests</span><span class="p">();</span>
+<span class="nv">$boolean</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">runTests</span><span class="p">(</span><span class="s1">'--stop-on-failure'</span><span class="p">);</span>
+
+<span class="c1">// Run migrations</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">runMigrations</span><span class="p">();</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">runMigrations</span><span class="p">(</span><span class="k">true</span><span class="p">);</span> <span class="c1">// Seeds the database too</span>
+
+<span class="c1">// Run Composer</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">runComposer</span><span class="p">();</span>
+
+<span class="c1">// Set folders as web-writtable</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">setPermissions</span><span class="p">(</span><span class="s1">'app'</span><span class="p">);</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+
+<h3>
+<a name="external-methods" class="anchor" href="#external-methods"><span class="octicon octicon-link"></span></a>External methods</h3>
+
+<p>Tasks also have access to the other classes of Rocketeer. You can call other tasks :</p>
+
+<div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">executeTask</span><span class="p">(</span><span class="s1">'Rollback'</span><span class="p">);</span>
+</pre></div>
+
+<p>And call other classes's methods. There are five main classes surrounding Tasks which you'll like want to use :</p>
+
+<ul>
+<li>The <strong>Command</strong> is the command executing the Task. You'll use it to display messages and fetch options and arguments</li>
+<li>The <strong>Releases Manager</strong> handles releases and their paths</li>
+<li>The <strong>Deployments Manager</strong> keeps up to date the <code>deployments.json</code> file which tracks the remote server's state</li>
+<li>The <strong>Remote</strong> is your entry point to the server, it's the class the <code>run</code> method uses</li>
+<li>The <strong>Rocketeer</strong> classes handles informations provided by the User (config and stuff)</li>
+</ul><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">releasesManager</span><span class="o">-&gt;</span><span class="na">getCurrentRelease</span><span class="p">();</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">releasesManager</span><span class="o">-&gt;</span><span class="na">getPathToRelease</span><span class="p">(</span><span class="s1">'123456789'</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">releasesManager</span><span class="o">-&gt;</span><span class="na">getPreviousRelease</span><span class="p">();</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">releasesManager</span><span class="o">-&gt;</span><span class="na">getReleases</span><span class="p">();</span>
+
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">deploymentsManager</span><span class="o">-&gt;</span><span class="na">setValue</span><span class="p">(</span><span class="s1">'key'</span><span class="p">,</span> <span class="s1">'value'</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">deploymentsManager</span><span class="o">-&gt;</span><span class="na">getValue</span><span class="p">(</span><span class="s1">'key'</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">deploymentsManager</span><span class="o">-&gt;</span><span class="na">getDeploymentsFile</span><span class="p">();</span>
+
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">rocketeer</span><span class="o">-&gt;</span><span class="na">getHomeFolder</span><span class="p">();</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">rocketeer</span><span class="o">-&gt;</span><span class="na">getApplicationName</span><span class="p">();</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">rocketeer</span><span class="o">-&gt;</span><span class="na">getGitRepository</span><span class="p">();</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">rocketeer</span><span class="o">-&gt;</span><span class="na">getOption</span><span class="p">(</span><span class="s1">'remote.shared'</span><span class="p">);</span>
+
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">command</span><span class="o">-&gt;</span><span class="na">argument</span><span class="p">(</span><span class="s1">'argument'</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">command</span><span class="o">-&gt;</span><span class="na">option</span><span class="p">(</span><span class="s1">'verbose'</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">command</span><span class="o">-&gt;</span><span class="na">info</span><span class="p">(</span><span class="s1">'It works !'</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">command</span><span class="o">-&gt;</span><span class="na">error</span><span class="p">(</span><span class="s1">'It does not work !'</span><span class="p">);</span>
+
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">remote</span><span class="o">-&gt;</span><span class="na">run</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+  <span class="s1">'cd folder'</span><span class="p">,</span> <span class="s1">'ls'</span><span class="p">,</span>
+<span class="p">));</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+
+<p>This is not all of it of course, you can check out these classes's sources for a full documented list of the methods available.</p>
       </section>
-      <footer>
-        <p>Project maintained by <a href="https://github.com/Anahkiasen">Anahkiasen</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
-      </footer>
     </div>
+    <footer>
+      <p>Project maintained by <a href="https://github.com/Anahkiasen">Anahkiasen</a></p>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
     
   </body>
