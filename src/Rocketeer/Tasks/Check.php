@@ -19,7 +19,7 @@ class Check extends Task
 	 *
 	 * @var string
 	 */
-	public $description = 'Check if the server is ready to receive the application';
+	protected $description = 'Check if the server is ready to receive the application';
 
 	/**
 	 * Run the Task

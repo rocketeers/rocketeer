@@ -12,7 +12,7 @@ class Update extends Task
 	 *
 	 * @var string
 	 */
-	public $description = 'Update the remote server without doing a new release';
+	protected $description = 'Update the remote server without doing a new release';
 
 	/**
 	 * Run the Task

@@ -12,7 +12,7 @@ class Teardown extends Task
 	 *
 	 * @var string
 	 */
-	public $description = 'Remove the remote applications and existing caches';
+	protected $description = 'Remove the remote applications and existing caches';
 
 	/**
 	 * Run the Task

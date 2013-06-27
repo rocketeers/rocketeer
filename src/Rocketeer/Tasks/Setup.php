@@ -12,7 +12,7 @@ class Setup extends Task
 	 *
 	 * @var string
 	 */
-	public $description = 'Set up the remote server for deployment';
+	protected $description = 'Set up the remote server for deployment';
 
 	/**
 	 * Run the Task

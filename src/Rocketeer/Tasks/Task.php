@@ -70,7 +70,7 @@ abstract class Task
 	 *
 	 * @var string
 	 */
-	public $description;
+	protected $description;
 
 	/**
 	 * Build a new Task

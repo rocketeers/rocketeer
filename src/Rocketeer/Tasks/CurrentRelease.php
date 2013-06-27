@@ -14,7 +14,7 @@ class CurrentRelease extends Task
 	 *
 	 * @var string
 	 */
-	public $description = 'Display what the current release is';
+	protected $description = 'Display what the current release is';
 
 	/**
 	 * Run the Task

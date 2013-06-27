@@ -14,7 +14,7 @@ class Cleanup extends Task
 	 *
 	 * @var string
 	 */
-	public $description = 'Clean up old releases from the server';
+	protected $description = 'Clean up old releases from the server';
 
 	/**
 	 * Run the Task
