@@ -62,11 +62,14 @@ class Rocketeer
 		$password   = $repository['password'];
 		$repository = $repository['repository'];
 
-		// Add credentials if HTTPS
-		if (str_contains($repository, 'https://'.$username)) {
-			$repository = str_replace($username.'@', $username.':'.$password.'@', $repository);
-		} else {
-			$repository = str_replace('https://', 'https://'.$username.':'.$password.'@', $repository);
+		// Add credentials only if given in config
+		if($username == null || $password == null) {
+			// Add credentials if HTTPS
+			if (str_contains($repository, 'https://'.$username)) {
+				$repository = str_replace($username.'@', $username.':'.$password.'@', $repository);
+			} else {
+				$repository = str_replace('https://', 'https://'.$username.':'.$password.'@', $repository);
+			}
 		}
 
 		return $repository;
