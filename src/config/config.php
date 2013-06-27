@@ -17,7 +17,7 @@
 		// The SSH/HTTPS adress to your Git Repository
 		'repository' => 'https://github.com/vendor/website.git',
 
-		// Its credentials
+		// Its credentials – you can leave those empty if you're using SSH
 		'username'   => 'foo',
 		'password'   => 'bar',
 

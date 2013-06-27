@@ -7,8 +7,8 @@ class RocketeerTest extends RocketeerTests
 		$repository = 'git@github.com:Anahkiasen/rocketeer.git';
 		$this->app['config']->shouldReceive('get')->with('rocketeer::git')->andReturn(array(
 			'repository' => $repository,
-			'username'   => 'foobar',
-			'password'   => 'bar',
+			'username'   => '',
+			'password'   => '',
 		));
 
 		$this->assertEquals($repository, $this->app['rocketeer.rocketeer']->getGitRepository());
@@ -34,6 +34,17 @@ class RocketeerTest extends RocketeerTests
 		));
 
 		$this->assertEquals('https://foobar:bar@github.com/Anahkiasen/rocketeer.git', $this->app['rocketeer.rocketeer']->getGitRepository());
+	}
+
+	public function testCanUseHttpsRepositoryWithoutCredentials()
+	{
+		$this->app['config']->shouldReceive('get')->with('rocketeer::git')->andReturn(array(
+			'repository' => 'https://github.com/Anahkiasen/rocketeer.git',
+			'username'   => '',
+			'password'   => '',
+		));
+
+		$this->assertEquals('https://github.com/Anahkiasen/rocketeer.git', $this->app['rocketeer.rocketeer']->getGitRepository());
 	}
 
 	public function testCanGetGitBranch()
