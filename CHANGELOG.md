@@ -3,6 +3,7 @@
 ### 0.x.x (roadmap)
 
 - Ability to select which severs a Task executes on, on a per-task basis
+- Add compatibility to Laravel 4.0
 
 ### 0.4.1 (develop)
 
