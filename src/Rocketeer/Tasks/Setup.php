@@ -1,6 +1,9 @@
 <?php
 namespace Rocketeer\Tasks;
 
+/**
+ * Set up the remote server for deployment
+ */
 class Setup extends Task
 {
 

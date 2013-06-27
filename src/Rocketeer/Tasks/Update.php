@@ -1,6 +1,9 @@
 <?php
 namespace Rocketeer\Tasks;
 
+/**
+ * Update the remote server without doing a new release
+ */
 class Update extends Task
 {
 
@@ -9,7 +12,7 @@ class Update extends Task
 	 *
 	 * @var string
 	 */
-	public $description = 'Updates the remote server without doing a new release';
+	public $description = 'Update the remote server without doing a new release';
 
 	/**
 	 * Run the Task

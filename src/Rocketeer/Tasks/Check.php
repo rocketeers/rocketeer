@@ -1,6 +1,9 @@
 <?php
 namespace Rocketeer\Tasks;
 
+/**
+ * Check if the server is ready to receive the application
+ */
 class Check extends Task
 {
 

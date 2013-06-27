@@ -1,6 +1,9 @@
 <?php
 namespace Rocketeer\Tasks;
 
+/**
+ * Deploy the website
+ */
 class Deploy extends Task
 {
 

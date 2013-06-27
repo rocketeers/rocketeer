@@ -1,6 +1,9 @@
 <?php
 namespace Rocketeer\Tasks;
 
+/**
+ * Run the tests on the server and displays the ouput
+ */
 class Test extends Task
 {
 

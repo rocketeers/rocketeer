@@ -3,6 +3,9 @@ namespace Rocketeer\Tasks;
 
 use Illuminate\Support\Str;
 
+/**
+ * Clean up old releases from the server
+ */
 class Cleanup extends Task
 {
 

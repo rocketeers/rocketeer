@@ -1,6 +1,9 @@
 <?php
 namespace Rocketeer\Tasks;
 
+/**
+ * Rollback to the previous release, or to a specific one
+ */
 class Rollback extends Task
 {
 

@@ -3,6 +3,9 @@ namespace Rocketeer\Tasks;
 
 use Carbon\Carbon;
 
+/**
+ * Display what the current release is
+ */
 class CurrentRelease extends Task
 {
 
@@ -11,7 +14,7 @@ class CurrentRelease extends Task
 	 *
 	 * @var string
 	 */
-	public $description = 'Displays what the current release is';
+	public $description = 'Display what the current release is';
 
 	/**
 	 * Run the Task

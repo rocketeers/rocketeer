@@ -7,7 +7,7 @@ use Rocketeer\Tasks\Task;
 /**
  * A basic command that only runs one Task
  */
-class DeployTaskCommand extends BaseDeployCommand
+class BaseTaskCommand extends BaseDeployCommand
 {
 
 	/**
