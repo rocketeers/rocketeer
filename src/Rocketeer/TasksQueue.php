@@ -4,6 +4,7 @@ namespace Rocketeer;
 use Artisan;
 use Closure;
 use Illuminate\Container\Container;
+use Rocketeer\Commands\BaseTaskCommand;
 use Rocketeer\Tasks\Task;
 
 /**
@@ -71,7 +72,7 @@ class TasksQueue
 			$task = $this->buildTask($task);
 		}
 
-		Artisan::add(new Commands\DeployCustomCommand($task));
+		$this->app['artisan']->add(new BaseTaskCommand($task));
 	}
 
 	/**
