@@ -15,11 +15,12 @@
 	],
 	"require": {
 		"php": ">=5.3.0",
-		"illuminate/support": "4.1.x"
+		"illuminate/support": "~4",
+		"illuminate/remote": "~4"
 	},
 	"require-dev": {
-		"illuminate/container": "4.1.x",
-		"illuminate/filesystem": "4.1.x",
+		"illuminate/container": "~4",
+		"illuminate/filesystem": "~4",
 		"mockery/mockery": "dev-master",
 		"nesbot/carbon": "dev-master"
 	},

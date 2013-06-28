@@ -42,6 +42,12 @@ class RocketeerServiceProvider extends ServiceProvider
 	 */
 	public function boot()
 	{
+		// Copy the remote file for Laravel 4.0 users
+		$config = $this->app['path.app'].'/config/remote.php';
+		if (!file_exsits($config)) {
+			$this->app['files']->copy(__DIR__.'/../config/remote.php', $config);
+		}
+
 		// Register classes and commands
 		$this->app = $this->bindClasses($this->app);
 		$this->app = $this->bindCommands($this->app);
