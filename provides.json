@@ -1,6 +1,5 @@
 {
 	"providers": [
-		"Illuminate\Remote\RemoteServiceProvider",
 		"Rocketeer\RocketeerServiceProvider"
 	],
 	"aliases": [
