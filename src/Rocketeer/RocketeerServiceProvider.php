@@ -33,7 +33,15 @@ class RocketeerServiceProvider extends ServiceProvider
 	{
 		// Register config file
 		$this->app['config']->package('anahkiasen/rocketeer', __DIR__.'/../config');
+	}
 
+	/**
+	 * Bind classes and commands
+	 *
+	 * @return void
+	 */
+	public function boot()
+	{
 		// Register classes and commands
 		$this->app = $this->bindClasses($this->app);
 		$this->app = $this->bindCommands($this->app);
