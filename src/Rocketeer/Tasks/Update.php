@@ -22,14 +22,19 @@ class Update extends Task
 	public function execute()
 	{
 		// Update repository
-		$this->command->info('Pulling changes');
-		$this->runForCurrentRelease('git pull');
+		$this->updateRepository();
 
 		// Recompile dependencies and stuff
 		$this->runComposer();
 
+		// Set permissions
+		$this->setPermissions('app');
+		$this->setPermissions('public');
+
 		// Run migrations
 		$this->runMigrations();
+
+		$this->command->info('Successfully updated application');
 	}
 
 }

@@ -228,7 +228,7 @@ abstract class Task
 	 *
 	 * @return string
 	 */
-	public function cloneRelease()
+	public function cloneRepository()
 	{
 		$branch      = $this->rocketeer->getGitBranch();
 		$repository  = $this->rocketeer->getGitRepository();
@@ -237,6 +237,21 @@ abstract class Task
 		$this->command->info('Cloning repository in "' .$releasePath. '"');
 
 		return $this->run(sprintf('git clone -b %s %s %s', $branch, $repository, $releasePath));
+	}
+
+	/**
+	 * Update the current release
+	 *
+	 * @return string
+	 */
+	public function updateRepository()
+	{
+		$this->command->info('Pulling changes');
+
+		return $this->runForCurrentRelease(array(
+			'git reset --hard',
+			'git pull'
+		));
 	}
 
 	/**

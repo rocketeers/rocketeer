@@ -27,7 +27,7 @@ class Deploy extends Task
 		$this->releasesManager->updateCurrentRelease($release);
 
 		// Clone release and update symlink
-		$this->cloneRelease();
+		$this->cloneRepository();
 		$this->updateSymlink();
 
 		// Run composer

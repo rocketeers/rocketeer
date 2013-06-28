@@ -261,7 +261,9 @@ class TasksQueue
 	{
 		// Recursive call
 		if (is_array($task)) {
-			foreach ($task as $t) $this->addSurroundingTask($t, $surroundingTask, $position);
+			foreach ($task as $t) {
+				$this->addSurroundingTask($t, $surroundingTask, $position);
+			}
 			return;
 		}
 
