@@ -11,6 +11,7 @@
 - **Add a `deploy:test` to run the tests on the server**
 - The `deploy:check` command now checks PHP extensions for the cache/database/session drivers you set
 - Rocketeer now share logs by default between releases
+- Add ability to specify an array of Tasks in Rocketeer::before|after
 - Added a `$silent` flag to make a `Task::run` call silent no matter what
 - Rocketeer now displays how long the deploy took
 

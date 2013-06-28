@@ -259,6 +259,12 @@ class TasksQueue
 	 */
 	protected function addSurroundingTask($task, $surroundingTask, $position)
 	{
+		// Recursive call
+		if (is_array($task)) {
+			foreach ($task as $t) $this->addSurroundingTask($t, $surroundingTask, $position);
+			return;
+		}
+
 		// Create array if it doesn't exist
 		if (!array_key_exists($task, $this->tasks[$position])) {
 			$this->tasks[$position][$task] = array();
