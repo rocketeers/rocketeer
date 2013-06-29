@@ -155,6 +155,8 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 		$command->shouldReceive('line')->andReturnUsing(function($message) { return $message; });
 		$command->shouldReceive('info')->andReturnUsing(function($message) { return $message; });
 		$command->shouldReceive('argument');
+		$command->shouldReceive('ask');
+		$command->shouldReceive('secret');
 		if ($option) $command->shouldReceive('option');
 
 		return $command;
@@ -176,6 +178,7 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 		$config->shouldReceive('get')->with('rocketeer::remote.keep_releases')->andReturn(1);
 		$config->shouldReceive('get')->with('rocketeer::remote.shared')->andReturn(array('tests/meta'));
 		$config->shouldReceive('get')->with('rocketeer::git.branch')->andReturn('master');
+		$config->shouldReceive('get')->with('rocketeer::git.repository')->andReturn('https://github.com/Anahkiasen/rocketeer.git');
 		$config->shouldReceive('get')->with('rocketeer::connections')->andReturn('production');
 
 		$config->shouldReceive('get')->with('rocketeer::tasks')->andReturn(array(
