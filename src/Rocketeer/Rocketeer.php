@@ -62,16 +62,42 @@ class Rocketeer
 	}
 
 	/**
+	 * Whether the repository used is using SSH or HTTPS
+	 *
+	 * @return boolean
+	 */
+	public function usesSsh()
+	{
+		return str_contains($this->getOption('git.repository'), 'git@');
+	}
+
+	/**
+	 * Whether credentials were provided by the User or if we
+	 * need to prompt for them
+	 *
+	 * @return boolean
+	 */
+	public function hasCredentials()
+	{
+		$credentials = $this->getOption('git');
+
+		return $credentials['username'] or $credentials['password'];
+	}
+
+	/**
 	 * Get the Git repository
+	 *
+	 * @param  string $username
+	 * @param  string $password
 	 *
 	 * @return string
 	 */
-	public function getGitRepository()
+	public function getGitRepository($username = null, $password = null)
 	{
 		// Get credentials
 		$repository = $this->getOption('git');
-		$username   = $repository['username'];
-		$password   = $repository['password'];
+		$username   = $username ?: $repository['username'];
+		$password   = $password ?: $repository['password'];
 		$repository = $repository['repository'];
 
 		// Add credentials if possible

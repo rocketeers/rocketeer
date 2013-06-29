@@ -23,9 +23,8 @@ class Deploy extends Task
 		$release = time();
 		$this->releasesManager->updateCurrentRelease($release);
 
-		// Clone release and update symlink
-		$this->cloneRepository();
-		$this->updateSymlink();
+		// Clone Git repository
+		$this->cloneGitRepository();
 
 		// Run composer
 		$this->runComposer();
@@ -51,6 +50,28 @@ class Deploy extends Task
 		}
 
 		return $this->command->info('Successfully deployed release '.$release);
+	}
+
+	/**
+	 * Clone Git repository
+	 *
+	 * @return void
+	 */
+	protected function cloneGitRepository()
+	{
+		// Get Git credentials
+		if (!$this->rocketeer->hasCredentials() and !$this->rocketeer->usesSsh()) {
+			$username   = $this->command->ask('What is your Git username ?');
+			$password   = $this->command->secret('And your password ?');
+			$repository = $this->rocketeer->getGitRepository($username, $password);
+		} else {
+			$repository = $this->rocketeer->getGitRepository();
+		}
+
+		// Clone release and update symlink
+		$branch = $this->rocketeer->getGitBranch();
+		$this->cloneRepository($repository, $branch);
+		$this->updateSymlink();
 	}
 
 	/**

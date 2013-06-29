@@ -33,6 +33,9 @@ class Update extends Deploy
 		// Run migrations
 		$this->runMigrations();
 
+		// Clear cache
+		$this->runForCurrentRelease('php artisan cache:clear');
+
 		$this->command->info('Successfully updated application');
 	}
 

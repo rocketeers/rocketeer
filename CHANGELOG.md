@@ -9,6 +9,7 @@
 
 - **Add a `deploy:update` task that updates the remote server without doing a new release**
 - **Add a `deploy:test` to run the tests on the server**
+- **Rocketeer can now prompt for Git credentials if you don't want to store them in the config**
 - The `deploy:check` command now checks PHP extensions for the cache/database/session drivers you set
 - Rocketeer now share logs by default between releases
 - Add ability to specify an array of Tasks in Rocketeer::before|after

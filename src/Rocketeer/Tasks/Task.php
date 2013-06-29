@@ -226,14 +226,14 @@ abstract class Task
 	/**
 	 * Clone the repo into a release folder
 	 *
+	 * @param string $repository The repository to clone
+	 * @param string $branch     The branch to clone
+	 *
 	 * @return string
 	 */
-	public function cloneRepository()
+	public function cloneRepository($repository, $branch = 'master')
 	{
-		$branch      = $this->rocketeer->getGitBranch();
-		$repository  = $this->rocketeer->getGitRepository();
 		$releasePath = $this->releasesManager->getCurrentReleasePath();
-
 		$this->command->info('Cloning repository in "' .$releasePath. '"');
 
 		return $this->run(sprintf('git clone -b %s %s %s', $branch, $repository, $releasePath));
