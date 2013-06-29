@@ -19,9 +19,6 @@ class Deploy extends Task
 			$this->executeTask('Setup');
 		}
 
-		// Start timer
-		$timerStart = microtime(true);
-
 		// Update current release
 		$release = time();
 		$this->releasesManager->updateCurrentRelease($release);
@@ -53,7 +50,7 @@ class Deploy extends Task
 			$this->share($currentRelease.'/'.$file);
 		}
 
-		return $this->command->info('Successfully deployed release '.$release. ' in '.round(microtime(true) - $timerStart, 4). 's');
+		return $this->command->info('Successfully deployed release '.$release);
 	}
 
 	/**
