@@ -74,11 +74,21 @@ class Rocketeer
 		$password   = $repository['password'];
 		$repository = $repository['repository'];
 
-		// Add credentials if HTTPS
-		if (Str::contains($repository, 'https://'.$username)) {
-			$repository = str_replace($username.'@', $username.':'.$password.'@', $repository);
-		} else {
-			$repository = str_replace('https://', 'https://'.$username.':'.$password.'@', $repository);
+		// Add credentials if possible
+		if ($username or $password) {
+
+			// Build credentials chain
+			$credentials = $username;
+			if ($password) $credentials .= ':'.$password;
+			$credentials .= '@';
+
+			// Add them in chain
+			if (Str::contains($repository, 'https://'.$username)) {
+				$repository = str_replace($username.'@', $credentials, $repository);
+			} else {
+				$repository = str_replace('https://', 'https://'.$credentials, $repository);
+			}
+
 		}
 
 		return $repository;
