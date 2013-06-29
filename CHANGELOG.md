@@ -5,7 +5,7 @@
 - Ability to select which severs a Task executes on, on a per-task basis
 - Add compatibility to Laravel 4.0
 
-### 0.4.1 (develop)
+### 0.5.0 (stable)
 
 - **Add a `deploy:update` task that updates the remote server without doing a new release**
 - **Add a `deploy:test` to run the tests on the server**
@@ -13,9 +13,9 @@
 - Rocketeer now share logs by default between releases
 - Add ability to specify an array of Tasks in Rocketeer::before|after
 - Added a `$silent` flag to make a `Task::run` call silent no matter what
-- Rocketeer now displays how long the deploy took
+- Rocketeer now displays how long the task took
 
-### 0.4.0 (stable)
+### 0.4.0
 
 - **Add ability to share files and folders between releases**
 - **Add ability to create custom tasks integrated in the CLI**
