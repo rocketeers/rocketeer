@@ -42,8 +42,7 @@ class Deploy extends Task
 		}
 
 		// Set permissions
-		$this->setPermissions('app');
-		$this->setPermissions('public');
+		$this->setApplicationPermissions();
 
 		// Run migrations
 		$this->runMigrations($this->command->option('seed'));
@@ -55,6 +54,16 @@ class Deploy extends Task
 		}
 
 		return $this->command->info('Successfully deployed release '.$release. ' in '.round(microtime(true) - $timerStart, 4). 's');
+	}
+
+	/**
+	 * Set permissions for the folders used by the application
+	 */
+	protected function setApplicationPermissions()
+	{
+		$this->setPermissions('app/database/production.sqlite');
+		$this->setPermissions('app/storage');
+		$this->setPermissions('public');
 	}
 
 }

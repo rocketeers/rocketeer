@@ -174,13 +174,15 @@ class TasksQueue
 		foreach ($tasks as $task) {
 
 			// If we provided a Closure or a string command, add straight to queue
-			if ($task instanceof Closure or is_object($task) or !class_exists($task)) {
+			if ($task instanceof Closure or (is_string($task) and !class_exists($task))) {
 				$queue[] = $task;
 				continue;
 			}
 
 			// Else build class and add to queue
-			$task  = $this->buildTask($task);
+			if (!($task instanceof Task)) {
+				$task  = $this->buildTask($task);
+			}
 			$queue = array_merge($queue, $this->getBefore($task), array($task), $this->getAfter($task));
 		}
 

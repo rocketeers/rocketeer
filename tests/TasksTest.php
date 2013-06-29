@@ -69,7 +69,7 @@ class TasksTest extends RocketeerTests
 		));
 
 		$output  = $this->task('Deploy')->execute();
-		$release = substr($output, -10);
+		$release = $this->app['rocketeer.releases']->getCurrentRelease();
 
 		$releasePath = $this->server.'/releases/'.$release;
 		$this->assertFileExists($this->server.'/shared/tests/meta/deployments.json');

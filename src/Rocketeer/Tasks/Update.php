@@ -4,7 +4,7 @@ namespace Rocketeer\Tasks;
 /**
  * Update the remote server without doing a new release
  */
-class Update extends Task
+class Update extends Deploy
 {
 
 	 /**
@@ -28,8 +28,7 @@ class Update extends Task
 		$this->runComposer();
 
 		// Set permissions
-		$this->setPermissions('app');
-		$this->setPermissions('public');
+		$this->setApplicationPermissions();
 
 		// Run migrations
 		$this->runMigrations();
