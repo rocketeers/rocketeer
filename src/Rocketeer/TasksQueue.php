@@ -1,7 +1,6 @@
 <?php
 namespace Rocketeer;
 
-use Artisan;
 use Closure;
 use Illuminate\Container\Container;
 use Rocketeer\Commands\BaseTaskCommand;
