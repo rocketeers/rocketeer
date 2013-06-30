@@ -18,6 +18,13 @@ class RocketeerServiceProvider extends ServiceProvider
 	protected $defer = false;
 
 	/**
+	 * The commands to register
+	 *
+	 * @var array
+	 */
+	protected $commands;
+
+	/**
 	 * Register the service provider.
 	 *
 	 * @return void
@@ -26,15 +33,21 @@ class RocketeerServiceProvider extends ServiceProvider
 	{
 		// Register config file
 		$this->app['config']->package('anahkiasen/rocketeer', __DIR__.'/../config');
+	}
 
+	/**
+	 * Bind classes and commands
+	 *
+	 * @return void
+	 */
+	public function boot()
+	{
 		// Register classes and commands
-		$this->app = static::bindClasses($this->app);
-		$this->app = static::bindCommands($this->app);
+		$this->app = $this->bindClasses($this->app);
+		$this->app = $this->bindCommands($this->app);
 
-		$this->commands('deploy', 'deploy.check', 'deploy.setup', 'deploy.deploy', 'deploy.cleanup', 'deploy.rollback', 'deploy.teardown', 'deploy.current');
-
-		$userCommands = $this->bindUserCommands();
-		foreach ($userCommands as $command) {
+		// Add commands to Artisan
+		foreach ($this->commands as $command) {
 			$this->commands($command);
 		}
 	}
@@ -60,10 +73,10 @@ class RocketeerServiceProvider extends ServiceProvider
 	 *
 	 * @return Container
 	 */
-	public static function bindClasses(Container $app)
+	public function bindClasses(Container $app)
 	{
 		$app->bind('rocketeer.rocketeer', function($app) {
-			return new Rocketeer($app['config']);
+			return new Rocketeer($app);
 		});
 
 		$app->bind('rocketeer.releases', function($app) {
@@ -88,64 +101,60 @@ class RocketeerServiceProvider extends ServiceProvider
 	 *
 	 * @return Container
 	 */
-	public static function bindCommands(Container $app)
+	public function bindCommands(Container $app)
 	{
-		$app->bind('deploy', function($app) {
-			return new Commands\DeployCommand($app);
-		});
+		// Base commands
+		$tasks = array(
+			''         => '',
+			'check'    => 'Check',
+			'setup'    => 'Setup',
+			'deploy'   => 'Deploy',
+			'update'   => 'Update',
+			'rollback' => 'Rollback',
+			'cleanup'  => 'Cleanup',
+			'current'  => 'CurrentRelease',
+			'test'     => 'Test',
+			'teardown' => 'Teardown',
+		);
 
-		$app->bind('deploy.check', function($app) {
-			return new Commands\DeployCheckCommand($app);
-		});
+		// Add User commands
+		$userTasks = (array) $this->app['config']->get('rocketeer::tasks.custom');
+		$tasks     = array_merge($tasks, $userTasks);
 
-		$app->bind('deploy.setup', function($app) {
-			return new Commands\DeploySetupCommand($app);
-		});
+		// Bind the commands
+		foreach ($tasks as $slug => $task) {
 
-		$app->bind('deploy.deploy', function($app) {
-			return new Commands\DeployDeployCommand($app);
-		});
+			// Check if we have an actual command to use
+			$commandClass = 'Rocketeer\Commands\Deploy'.$task.'Command';
+			$fakeCommand  = !class_exists($commandClass);
 
-		$app->bind('deploy.cleanup', function($app) {
-			return new Commands\DeployCleanupCommand($app);
-		});
+			// Build command slug
+			if ($fakeCommand) {
+				$taskInstance = $this->app['rocketeer.tasks']->buildTask($task);
+				if (is_numeric($slug)) $slug = $taskInstance->getSlug();
+			}
 
-		$app->bind('deploy.rollback', function($app) {
-			return new Commands\DeployRollbackCommand($app);
-		});
+			// Add command to array
+			$command = trim('deploy.'.$slug, '.');
+			$this->commands[] = $command;
 
-		$app->bind('deploy.teardown', function($app) {
-			return new Commands\DeployTeardownCommand($app);
-		});
+			// Look for an existing command
+			if (!$fakeCommand) {
+				$this->app->bind($command, function($app) use ($commandClass) {
+					return new $commandClass;
+				});
+			}
 
-		$app->bind('deploy.current', function($app) {
-			return new Commands\DeployCurrentCommand($app);
-		});
+			// Else create a fake one
+			else {
+				$this->app->bind($command, function($app) use ($taskInstance, $slug) {
+					return new Commands\BaseTaskCommand($taskInstance, $slug);
+				});
+			}
 
-		return $app;
-	}
-
-	/**
-	 * Register the User-defined commands with Laravel
-	 *
-	 * @return array
-	 */
-	public function bindUserCommands()
-	{
-		// Custom tasks
-		$tasks = (array) $this->app['config']->get('rocketeer::tasks.custom');
-		foreach ($tasks as &$task) {
-			$task    = $this->app['rocketeer.tasks']->buildTask($task);
-			$command = 'deploy.'.$task->getSlug();
-
-			$this->app->bind($command, function($app) use ($task) {
-				return new Commands\DeployCustomCommand($task);
-			});
-
-			$task = $command;
 		}
 
-		return $tasks;
+		return $app;
 	}
 
 }

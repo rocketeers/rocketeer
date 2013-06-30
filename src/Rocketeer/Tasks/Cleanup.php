@@ -1,10 +1,21 @@
 <?php
 namespace Rocketeer\Tasks;
 
+use Rocketeer\Tasks\Abstracts\Task;
 use Illuminate\Support\Str;
 
+/**
+ * Clean up old releases from the server
+ */
 class Cleanup extends Task
 {
+
+	 /**
+	 * A description of what the Task does
+	 *
+	 * @var string
+	 */
+	protected $description = 'Clean up old releases from the server';
 
 	/**
 	 * Run the Task

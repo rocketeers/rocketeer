@@ -2,6 +2,13 @@
 class TasksTest extends RocketeerTests
 {
 
+	public function testCanGetDescription()
+	{
+		$task = $this->task('Setup');
+
+		$this->assertNotNull($task->getDescription());
+	}
+
 	////////////////////////////////////////////////////////////////////
 	//////////////////////////////// TASKS /////////////////////////////
 	////////////////////////////////////////////////////////////////////
@@ -56,13 +63,13 @@ class TasksTest extends RocketeerTests
 	public function testCanDeployToServer()
 	{
 		$this->app['config']->shouldReceive('get')->with('rocketeer::git')->andReturn(array(
-			'repository' => 'git://github.com/Anahkiasen/rocketeer.git',
+			'repository' => 'https://github.com/Anahkiasen/rocketeer.git',
 			'username'   => '',
 			'password'   => '',
 		));
 
 		$output  = $this->task('Deploy')->execute();
-		$release = substr($output, -10);
+		$release = $this->app['rocketeer.releases']->getCurrentRelease();
 
 		$releasePath = $this->server.'/releases/'.$release;
 		$this->assertFileExists($this->server.'/shared/tests/meta/deployments.json');
@@ -92,6 +99,16 @@ class TasksTest extends RocketeerTests
 
 		$this->app['files']->delete($this->server.'/current');
 		system('rm -rf '.$this->server);
+	}
+
+	public function testCanUpdateRepository()
+	{
+		$output = $this->task->updateRepository();
+		$matcher = str_contains($output, 'up-to-date')
+			? 'Already up-to-date'
+			: 'Current branch develop is up to date';
+
+		$this->assertContains($matcher, $output);
 	}
 
 	public function testCanGetBinaryWithFallback()

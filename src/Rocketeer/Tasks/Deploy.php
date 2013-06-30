@@ -1,6 +1,11 @@
 <?php
 namespace Rocketeer\Tasks;
 
+use Rocketeer\Tasks\Abstracts\Task;
+
+/**
+ * Deploy the website
+ */
 class Deploy extends Task
 {
 
@@ -20,9 +25,8 @@ class Deploy extends Task
 		$release = time();
 		$this->releasesManager->updateCurrentRelease($release);
 
-		// Clone release and update symlink
-		$this->cloneRelease();
-		$this->updateSymlink();
+		// Clone Git repository
+		$this->cloneGitRepository();
 
 		// Run composer
 		$this->runComposer();
@@ -36,27 +40,50 @@ class Deploy extends Task
 		}
 
 		// Set permissions
-		$this->setPermissions('app');
-		$this->setPermissions('public');
+		$this->setApplicationPermissions();
 
 		// Run migrations
 		$this->runMigrations($this->command->option('seed'));
 
 		// Synchronize shared folders and files
-		$sharedFolder   = $this->rocketeer->getFolder('shared');
 		$currentRelease = $this->releasesManager->getCurrentReleasePath();
 		foreach ($this->rocketeer->getShared() as $file) {
-			$sharedFile  = $sharedFolder.'/'.$file;
-			$currentFile = $currentRelease.'/'.$file;
-
-			if (!$this->fileExists($sharedFile)) {
-				$this->move($currentFile, $sharedFile);
-			}
-
-			$this->symlink($sharedFile, $currentFile);
+			$this->share($currentRelease.'/'.$file);
 		}
 
 		return $this->command->info('Successfully deployed release '.$release);
+	}
+
+	/**
+	 * Clone Git repository
+	 *
+	 * @return void
+	 */
+	protected function cloneGitRepository()
+	{
+		// Get Git credentials
+		if (!$this->rocketeer->hasCredentials() and !$this->rocketeer->usesSsh()) {
+			$username   = $this->command->ask('What is your Git username ?');
+			$password   = $this->command->secret('And your password ?');
+			$repository = $this->rocketeer->getGitRepository($username, $password);
+		} else {
+			$repository = $this->rocketeer->getGitRepository();
+		}
+
+		// Clone release and update symlink
+		$branch = $this->rocketeer->getGitBranch();
+		$this->cloneRepository($repository, $branch);
+		$this->updateSymlink();
+	}
+
+	/**
+	 * Set permissions for the folders used by the application
+	 */
+	protected function setApplicationPermissions()
+	{
+		$this->setPermissions('app/database/production.sqlite');
+		$this->setPermissions('app/storage');
+		$this->setPermissions('public');
 	}
 
 }

@@ -17,13 +17,6 @@ class DeployCommand extends BaseDeployCommand
 	protected $name = 'deploy';
 
 	/**
-	 * The console command description.
-	 *
-	 * @var string
-	 */
-	protected $description = 'Your interface to deploying your projects';
-
-	/**
 	 * Displays the current version
 	 *
 	 * @return string

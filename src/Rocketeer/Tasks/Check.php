@@ -1,8 +1,27 @@
 <?php
 namespace Rocketeer\Tasks;
 
+use Rocketeer\Tasks\Abstracts\Task;
+
+/**
+ * Check if the server is ready to receive the application
+ */
 class Check extends Task
 {
+
+	/**
+	 * The PHP extensions loaded on server
+	 *
+	 * @var array
+	 */
+	protected $extensions = array();
+
+	 /**
+	 * A description of what the Task does
+	 *
+	 * @var string
+	 */
+	protected $description = 'Check if the server is ready to receive the application';
 
 	/**
 	 * Run the Task
@@ -11,21 +30,35 @@ class Check extends Task
 	 */
 	public function execute()
 	{
-		$errors = array();
+		$errors    = array();
+		$extension = 'The %s extension does not seem to be loaded on the server';
 
 		// Check PHP
 		if (!$this->checkPhpVersion()) {
-			$errors[] = $this->command->error('The version of PHP on the server does not match Larvel\'s requirements');
+			$errors[] = $this->command->error('The version of PHP on the server does not match Laravel\'s requirements');
 		}
 
 		// Check MCrypt
 		if (!$this->checkPhpExtension('mcrypt')) {
-			$errors[] = $this->command->error('MCrypt is not installed on the remote server');
+			$errors[] = $this->command->error(sprintf($extension, 'mcrypt'));
 		}
 
 		// Check Composer
 		if (!$this->checkComposer()) {
 			$errors[] = $this->command->error('Composer does not seem to be present on the server');
+		}
+
+		// Check database
+		$database = $this->app['config']->get('database.default');
+		if (!$this->checkDatabaseExtension($database)) {
+			$errors[] = $this->command->error(sprintf($extension, $database));
+		}
+
+		// Check Cache/Session driver
+		$cache   = $this->app['config']->get('cache.driver');
+		$session = $this->app['config']->get('session.driver');
+		if (!$this->checkCacheDriver($cache) or !$this->checkCacheDriver($session)) {
+			$errors[] = $this->command->error(sprintf($extension, $cache));
 		}
 
 		// Return false if any error
@@ -66,6 +99,51 @@ class Check extends Task
 	}
 
 	/**
+	 * Check the presence of the correct database PHP extension
+	 *
+	 * @param  string $database
+	 *
+	 * @return boolean
+	 */
+	public function checkDatabaseExtension($database)
+	{
+		switch ($database) {
+			case 'sqlite':
+				return $this->checkPhpExtension('pdo_sqlite');
+
+			case 'mysql':
+				return $this->checkPhpExtension('mysql') and $this->checkPhpExtension('pdo_mysql');
+
+			default:
+				return true;
+		}
+	}
+
+	/**
+	 * Check the presence of the correct cache PHP extension
+	 *
+	 * @param  string $cache
+	 *
+	 * @return boolean
+	 */
+	public function checkCacheDriver($cache)
+	{
+		switch ($cache) {
+			case 'memcached':
+				return $this->checkPhpExtension('memcached');
+
+			case 'apc':
+				return $this->checkPhpExtension('apc');
+
+			case 'redis':
+				return $this->checkPhpExtension('redis');
+
+			default:
+				return true;
+		}
+	}
+
+	/**
 	 * Check the presence of a PHP extension
 	 *
 	 * @param  string $extension    The extension
@@ -74,9 +152,12 @@ class Check extends Task
 	 */
 	public function checkPhpExtension($extension)
 	{
-		$hasExtension = $this->run('php -m | grep '.$extension);
+		if (!$this->extensions) {
+			$extensions       = $this->run('php -m');
+			$this->extensions = explode(PHP_EOL, $extensions);
+		}
 
-		return $hasExtension == $extension;
+		return in_array($extension, $this->extensions);
 	}
 
 }

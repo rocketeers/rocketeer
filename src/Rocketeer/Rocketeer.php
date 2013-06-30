@@ -1,7 +1,7 @@
 <?php
 namespace Rocketeer;
 
-use Illuminate\Config\Repository;
+use Illuminate\Container\Container;
 use Illuminate\Support\Str;
 
 /**
@@ -12,27 +12,39 @@ class Rocketeer
 {
 
 	/**
-	 * The Config Repository
+	 * The IoC Container
 	 *
-	 * @var Repository
+	 * @var Container
 	 */
-	protected $config;
+	protected $app;
 
 	/**
 	 * The Rocketeer version
 	 *
 	 * @var string
 	 */
-	const VERSION = '0.4.0';
+	const VERSION = '0.5.0';
 
 	/**
 	 * Build a new ReleasesManager
 	 *
-	 * @param Repository $config
+	 * @param Container $app
 	 */
-	public function __construct(Repository $config)
+	public function __construct(Container $app)
 	{
-		$this->config = $config;
+		$this->app = $app;
+	}
+
+	/**
+	 * Get an option from the config file
+	 *
+	 * @param  string $option
+	 *
+	 * @return mixed
+	 */
+	public function getOption($option)
+	{
+		return $this->app['config']->get('rocketeer::'.$option);
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -46,27 +58,63 @@ class Rocketeer
 	 */
 	public function getApplicationName()
 	{
-		return $this->config->get('rocketeer::remote.application_name');
+		return $this->getOption('remote.application_name');
+	}
+
+	/**
+	 * Whether the repository used is using SSH or HTTPS
+	 *
+	 * @return boolean
+	 */
+	public function usesSsh()
+	{
+		return str_contains($this->getOption('git.repository'), 'git@');
+	}
+
+	/**
+	 * Whether credentials were provided by the User or if we
+	 * need to prompt for them
+	 *
+	 * @return boolean
+	 */
+	public function hasCredentials()
+	{
+		$credentials = $this->getOption('git');
+
+		return $credentials['username'] or $credentials['password'];
 	}
 
 	/**
 	 * Get the Git repository
 	 *
+	 * @param  string $username
+	 * @param  string $password
+	 *
 	 * @return string
 	 */
-	public function getGitRepository()
+	public function getGitRepository($username = null, $password = null)
 	{
 		// Get credentials
-		$repository = $this->config->get('rocketeer::git');
-		$username   = $repository['username'];
-		$password   = $repository['password'];
+		$repository = $this->getOption('git');
+		$username   = $username ?: $repository['username'];
+		$password   = $password ?: $repository['password'];
 		$repository = $repository['repository'];
 
-		// Add credentials if HTTPS
-		if (str_contains($repository, 'https://'.$username)) {
-			$repository = str_replace($username.'@', $username.':'.$password.'@', $repository);
-		} else {
-			$repository = str_replace('https://', 'https://'.$username.':'.$password.'@', $repository);
+		// Add credentials if possible
+		if ($username or $password) {
+
+			// Build credentials chain
+			$credentials = $username;
+			if ($password) $credentials .= ':'.$password;
+			$credentials .= '@';
+
+			// Add them in chain
+			if (Str::contains($repository, 'https://'.$username)) {
+				$repository = str_replace($username.'@', $credentials, $repository);
+			} else {
+				$repository = str_replace('https://', 'https://'.$credentials, $repository);
+			}
+
 		}
 
 		return $repository;
@@ -79,7 +127,7 @@ class Rocketeer
 	 */
 	public function getGitBranch()
 	{
-		return $this->config->get('rocketeer::git.branch');
+		return $this->getOption('git.branch');
 	}
 
 	/**
@@ -89,7 +137,16 @@ class Rocketeer
 	 */
 	public function getShared()
 	{
-		return (array) $this->config->get('rocketeer::remote.shared');
+		// Get path to logs
+		$base = $this->app['path.base'];
+		$logs = $this->app['path.storage'].'/logs';
+		$logs = str_replace($base, null, $logs);
+
+		// Add logs to shared folders
+		$shared = (array) $this->getOption('remote.shared');
+		$shared[] = trim($logs, '/');
+
+		return $shared;
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -118,7 +175,7 @@ class Rocketeer
 	 */
 	public function getHomeFolder()
 	{
-		$rootDirectory = $this->config->get('rocketeer::remote.root_directory');
+		$rootDirectory = $this->getOption('remote.root_directory');
 		$rootDirectory = Str::finish($rootDirectory, '/');
 
 		return $rootDirectory.$this->getApplicationName();
