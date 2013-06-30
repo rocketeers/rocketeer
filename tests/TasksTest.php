@@ -104,8 +104,11 @@ class TasksTest extends RocketeerTests
 	public function testCanUpdateRepository()
 	{
 		$output = $this->task->updateRepository();
+		$matcher = str_contains($output, 'up-to-date')
+			? 'Already up-to-date'
+			: 'Current branch develop is up to date';
 
-		$this->assertContains('Current branch develop is up to date', $output);
+		$this->assertContains($matcher, $output);
 	}
 
 	public function testCanGetBinaryWithFallback()
