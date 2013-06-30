@@ -26,11 +26,17 @@ abstract class BaseDeployCommand extends Command
 	 */
 	protected function fireTasksQueue($tasks)
 	{
+		// Start timer
+		$timerStart = microtime(true);
+
+		// Convert tasks to array if necessary
 		if (!is_array($tasks)) {
 			$tasks = array($tasks);
 		}
 
-		return $this->laravel['rocketeer.tasks']->run($tasks, $this);
+		// Run tasks and display timer
+		$output = $this->laravel['rocketeer.tasks']->run($tasks, $this);
+		$this->line('Execution time: <comment>'.round(microtime(true) - $timerStart, 4). 's</comment>');
 	}
 
   /**

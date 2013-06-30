@@ -1,4 +1,4 @@
-/vendor
-composer.phar
 .DS_Store
+composer.phar
 tests/coverage
+vendor

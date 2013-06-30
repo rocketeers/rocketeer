@@ -1,8 +1,20 @@
 <?php
 namespace Rocketeer\Tasks;
 
+use Rocketeer\Tasks\Abstracts\Task;
+
+/**
+ * Set up the remote server for deployment
+ */
 class Setup extends Task
 {
+
+	 /**
+	 * A description of what the Task does
+	 *
+	 * @var string
+	 */
+	protected $description = 'Set up the remote server for deployment';
 
 	/**
 	 * Run the Task

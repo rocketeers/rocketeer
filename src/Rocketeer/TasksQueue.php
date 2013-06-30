@@ -1,10 +1,10 @@
 <?php
 namespace Rocketeer;
 
-use Artisan;
 use Closure;
 use Illuminate\Container\Container;
-use Rocketeer\Tasks\Task;
+use Rocketeer\Commands\BaseTaskCommand;
+use Rocketeer\Tasks\Abstracts\Task;
 
 /**
  * Handles the registering of Tasks and their execution
@@ -71,7 +71,7 @@ class TasksQueue
 			$task = $this->buildTask($task);
 		}
 
-		Artisan::add(new Commands\DeployCustomCommand($task));
+		$this->app['artisan']->add(new BaseTaskCommand($task));
 	}
 
 	/**
@@ -173,13 +173,15 @@ class TasksQueue
 		foreach ($tasks as $task) {
 
 			// If we provided a Closure or a string command, add straight to queue
-			if ($task instanceof Closure or is_object($task) or !class_exists($task)) {
+			if ($task instanceof Closure or (is_string($task) and !class_exists($task))) {
 				$queue[] = $task;
 				continue;
 			}
 
 			// Else build class and add to queue
-			$task  = $this->buildTask($task);
+			if (!($task instanceof Task)) {
+				$task  = $this->buildTask($task);
+			}
 			$queue = array_merge($queue, $this->getBefore($task), array($task), $this->getAfter($task));
 		}
 
@@ -258,6 +260,14 @@ class TasksQueue
 	 */
 	protected function addSurroundingTask($task, $surroundingTask, $position)
 	{
+		// Recursive call
+		if (is_array($task)) {
+			foreach ($task as $t) {
+				$this->addSurroundingTask($t, $surroundingTask, $position);
+			}
+			return;
+		}
+
 		// Create array if it doesn't exist
 		if (!array_key_exists($task, $this->tasks[$position])) {
 			$this->tasks[$position][$task] = array();

@@ -1,8 +1,20 @@
 <?php
 namespace Rocketeer\Tasks;
 
+use Rocketeer\Tasks\Abstracts\Task;
+
+/**
+ * Remove the remote applications and existing caches
+ */
 class Teardown extends Task
 {
+
+	 /**
+	 * A description of what the Task does
+	 *
+	 * @var string
+	 */
+	protected $description = 'Remove the remote applications and existing caches';
 
 	/**
 	 * Run the Task

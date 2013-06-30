@@ -7,7 +7,7 @@
 	//////////////////////////////////////////////////////////////////////
 
 	// The remote connection(s) to deploy to
-	'connections' => 'production',
+	'connections' => array('production'),
 
 	// Git Repository
 	//////////////////////////////////////////////////////////////////////
@@ -17,7 +17,7 @@
 		// The SSH/HTTPS adress to your Git Repository
 		'repository' => 'https://github.com/vendor/website.git',
 
-		// Its credentials
+		// Its credentials – you can leave those empty if you're using SSH
 		'username'   => 'foo',
 		'password'   => 'bar',
 
@@ -48,7 +48,7 @@
 	// Here you can define in the `before` and `after` array, Tasks to execute
 	// before or after the core Rocketeer Tasks. You can either put a simple command,
 	// a closure which receives a $task object, or the name of a class extending
-	// the Rocketeer\Tasks\Task class
+	// the Rocketeer\Tasks\Abstracts\Task class
 	//
 	// In the `custom` array you can list custom Tasks classes to be added
 	// to Rocketeer. Those will then be available in Artisan

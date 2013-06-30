@@ -1,10 +1,21 @@
 <?php
 namespace Rocketeer\Tasks;
 
+use Rocketeer\Tasks\Abstracts\Task;
 use Carbon\Carbon;
 
+/**
+ * Display what the current release is
+ */
 class CurrentRelease extends Task
 {
+
+	 /**
+	 * A description of what the Task does
+	 *
+	 * @var string
+	 */
+	protected $description = 'Display what the current release is';
 
 	/**
 	 * Run the Task
