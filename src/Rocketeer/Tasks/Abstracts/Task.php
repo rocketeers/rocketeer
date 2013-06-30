@@ -16,43 +16,11 @@ abstract class Task extends Bash
 {
 
 	/**
-	 * The Releases Manager instance
-	 *
-	 * @var ReleasesManager
-	 */
-	public $releasesManager;
-
-	/**
-	 * The Deployments Manager instance
-	 *
-	 * @var DeploymentsManager
-	 */
-	public $deploymentsManager;
-
-	/**
 	 * A description of what the Task does
 	 *
 	 * @var string
 	 */
 	protected $description;
-
-	/**
-	 * Build a new Task
-	 *
-	 * @param Container    $app
-	 * @param TasksQueue   $tasksQueue
-	 * @param Command|null $command
-	 */
-	public function __construct(Container $app, TasksQueue $tasksQueue, $command)
-	{
-		$this->app                = $app;
-		$this->releasesManager    = $app['rocketeer.releases'];
-		$this->deploymentsManager = $app['rocketeer.deployments'];
-		$this->rocketeer          = $app['rocketeer.rocketeer'];
-		$this->remote             = $app['remote'];
-		$this->tasksQueue         = $tasksQueue;
-		$this->command            = $command;
-	}
 
 	/**
 	 * Get the basic name of the Task

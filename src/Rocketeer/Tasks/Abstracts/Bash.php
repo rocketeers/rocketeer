@@ -29,6 +29,20 @@ class Bash
 	protected $tasksQueue;
 
 	/**
+	 * The Releases Manager instance
+	 *
+	 * @var ReleasesManager
+	 */
+	public $releasesManager;
+
+	/**
+	 * The Deployments Manager instance
+	 *
+	 * @var DeploymentsManager
+	 */
+	public $deploymentsManager;
+
+	/**
 	 * The Rocketeer instance
 	 *
 	 * @var Rocketeer
@@ -58,8 +72,12 @@ class Bash
 	 */
 	public function __construct(Container $app, TasksQueue $tasksQueue, $command)
 	{
+		$this->app                = $app;
+		$this->releasesManager    = $app['rocketeer.releases'];
+		$this->deploymentsManager = $app['rocketeer.deployments'];
 		$this->rocketeer          = $app['rocketeer.rocketeer'];
 		$this->remote             = $app['remote'];
+		$this->tasksQueue         = $tasksQueue;
 		$this->command            = $command;
 	}
 
