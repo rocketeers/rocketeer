@@ -11,15 +11,16 @@ The available commands in Rocketeer are :
 
 ```
 deploy
-	deploy:check               Check if the server is ready to receive the application
-	deploy:cleanup             Clean up old releases from the server
-	deploy:current             Displays what the current release is
-	deploy:deploy              Deploy the website.
-	deploy:update              Updates the remote server without doing a new release
-	deploy:rollback            Rollback to the previous release, or to a specific one
+  deploy:check               Check if the server is ready to receive the application
+  deploy:cleanup             Clean up old releases from the server
+  deploy:current             Display what the current release is
+  deploy:deploy              Deploy the website.
+  deploy:rollback            Rollback to the previous release, or to a specific one
 	deploy:rollback {release}  Rollback to a specific release
-	deploy:setup               Set up the remote server for deployment
-	deploy:teardown            Removes the remote applications and existing caches
+  deploy:setup               Set up the remote server for deployment
+  deploy:teardown            Remove the remote applications and existing caches
+  deploy:test                Run the tests on the server and displays the ouput
+  deploy:update              Update the remote server without doing a new release
 ```
 
 ## Tasks
