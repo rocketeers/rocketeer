@@ -1,9 +1,8 @@
 <?php
-namespace Rocketeer\Tasks\Abstract;
+namespace Rocketeer\Tasks\Abstracts;
 
 use Illuminate\Console\Command;
 use Illuminate\Container\Container;
-use Illuminate\Remote\Connection;
 use Illuminate\Support\Str;
 use Rocketeer\DeploymentsManager;
 use Rocketeer\ReleasesManager;

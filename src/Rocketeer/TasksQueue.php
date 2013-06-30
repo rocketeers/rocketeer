@@ -4,7 +4,7 @@ namespace Rocketeer;
 use Closure;
 use Illuminate\Container\Container;
 use Rocketeer\Commands\BaseTaskCommand;
-use Rocketeer\Tasks\Abstract\Task;
+use Rocketeer\Tasks\Abstracts\Task;
 
 /**
  * Handles the registering of Tasks and their execution

@@ -1,7 +1,7 @@
 <?php
 namespace Rocketeer\Tasks;
 
-use Abstract\Task;
+use Rocketeer\Tasks\Abstracts\Task;
 
 /**
  * Rollback to the previous release, or to a specific one

@@ -1,5 +1,11 @@
 <?php
-namespace Rocketeer\Tasks\Abstract;
+namespace Rocketeer\Tasks\Abstracts;
+
+use Illuminate\Console\Command;
+use Illuminate\Container\Container;
+use Illuminate\Remote\Connection;
+use Rocketeer\Rocketeer;
+use Rocketeer\TasksQueue;
 
 /**
  * A bash Bash helper to execute commands

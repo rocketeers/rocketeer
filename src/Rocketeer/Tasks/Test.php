@@ -1,7 +1,7 @@
 <?php
 namespace Rocketeer\Tasks;
 
-use Abstract\Task;
+use Rocketeer\Tasks\Abstracts\Task;
 
 /**
  * Run the tests on the server and displays the ouput

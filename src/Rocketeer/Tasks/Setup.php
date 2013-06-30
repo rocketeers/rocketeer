@@ -1,7 +1,7 @@
 <?php
 namespace Rocketeer\Tasks;
 
-use Abstract\Task;
+use Rocketeer\Tasks\Abstracts\Task;
 
 /**
  * Set up the remote server for deployment
