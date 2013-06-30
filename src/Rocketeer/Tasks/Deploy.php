@@ -1,6 +1,8 @@
 <?php
 namespace Rocketeer\Tasks;
 
+use Abstract\Task;
+
 /**
  * Deploy the website
  */

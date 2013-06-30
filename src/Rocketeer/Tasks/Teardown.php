@@ -1,6 +1,8 @@
 <?php
 namespace Rocketeer\Tasks;
 
+use Abstract\Task;
+
 /**
  * Remove the remote applications and existing caches
  */

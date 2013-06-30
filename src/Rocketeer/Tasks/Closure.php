@@ -1,6 +1,7 @@
 <?php
 namespace Rocketeer\Tasks;
 
+use Abstract\Task;
 use Closure as AnonymousFunction;
 
 /**

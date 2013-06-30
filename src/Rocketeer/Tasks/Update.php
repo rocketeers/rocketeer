@@ -1,6 +1,8 @@
 <?php
 namespace Rocketeer\Tasks;
 
+use Abstract\Task;
+
 /**
  * Update the remote server without doing a new release
  */

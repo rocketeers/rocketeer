@@ -1,6 +1,8 @@
 <?php
 namespace Rocketeer\Tasks;
 
+use Abstract\Task;
+
 /**
  * Check if the server is ready to receive the application
  */
