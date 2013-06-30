@@ -1,13 +1,7 @@
 <?php
 namespace Rocketeer\Tasks\Abstracts;
 
-use Illuminate\Console\Command;
-use Illuminate\Container\Container;
 use Illuminate\Support\Str;
-use Rocketeer\DeploymentsManager;
-use Rocketeer\ReleasesManager;
-use Rocketeer\Rocketeer;
-use Rocketeer\TasksQueue;
 
 /**
  * A Task to execute on the remote servers
