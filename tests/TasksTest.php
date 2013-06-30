@@ -101,6 +101,13 @@ class TasksTest extends RocketeerTests
 		system('rm -rf '.$this->server);
 	}
 
+	public function testCanUpdateRepository()
+	{
+		$output = $this->task->updateRepository();
+
+		$this->assertContains('Current branch develop is up to date', $output);
+	}
+
 	public function testCanGetBinaryWithFallback()
 	{
 		$grep = $this->task->which('grep');
