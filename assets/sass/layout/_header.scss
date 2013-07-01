@@ -3,7 +3,7 @@
 //////////////////////////////////////////////////////////////////////
 
 .layout-header {
-	@extend %transition;
+	@include transition(padding .3s);
 	@extend %reset-margins;
 	background: white image-url('rocket.svg') 10% 10% fixed no-repeat;
 	background-size: 25rem;

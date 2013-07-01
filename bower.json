@@ -3,6 +3,6 @@
   "dependencies": {
     "marked": "latest",
     "jquery": "1.10.*",
-    "rainbow": "https://github.com/ccampbell/rainbow.git#~1.1.9"
+    "rainbow": "latest"
   }
 }
