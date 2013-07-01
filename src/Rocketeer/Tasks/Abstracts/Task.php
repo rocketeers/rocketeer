@@ -243,7 +243,7 @@ abstract class Task extends Bash
 			$phpunit. ' --stop-on-failure '.$arguments,
 		));
 
-		$testsSucceeded = Str::contains($output, 'OK') or Str::contains($output, 'No tests executed');
+		$testsSucceeded = $this->remote->status() == 0;
 		if ($testsSucceeded) {
 			$this->command->info('Tests ran with success');
 		} elseif (!$this->command->option('verbose')) {

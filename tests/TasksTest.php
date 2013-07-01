@@ -91,10 +91,18 @@ class TasksTest extends RocketeerTests
 		$release = basename($release[1]);
 		$this->task->releasesManager->updateCurrentRelease($release);
 
+		// Passing tests
+		$remote = clone $this->app['remote'];
+		$remote->shouldReceive('status')->andReturn(0);
+		$this->task->remote = $remote;
 		$tests = $this->task->runTests('tests/DeploymentsManagerTest.php');
 		$this->assertTrue($tests);
 
-		$tests = $this->task->runTests('--fail');
+		// Failing tests
+		$remote = clone $this->app['remote'];
+		$remote->shouldReceive('status')->andReturn(1);
+		$this->task->remote = $remote;
+		$tests = $this->task->runTests();
 		$this->assertFalse($tests);
 
 		$this->app['files']->delete($this->server.'/current');
