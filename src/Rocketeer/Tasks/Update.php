@@ -33,8 +33,8 @@ class Update extends Deploy
 		$this->setApplicationPermissions();
 
 		// Run migrations
-		if ($this->option('migrate')) {
-			$this->runMigrations($this->option('seed'));
+		if ($this->command->option('migrate')) {
+			$this->runMigrations($this->command->option('seed'));
 		}
 
 		// Clear cache
