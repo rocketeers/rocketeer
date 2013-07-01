@@ -43,7 +43,9 @@ class Deploy extends Task
 		$this->setApplicationPermissions();
 
 		// Run migrations
-		$this->runMigrations($this->command->option('seed'));
+		if ($this->option('migrate')) {
+			$this->runMigrations($this->option('seed'));
+		}
 
 		// Synchronize shared folders and files
 		$currentRelease = $this->releasesManager->getCurrentReleasePath();
