@@ -3,9 +3,9 @@
 ### 0.x.x (roadmap)
 
 - [x] Migrations are now under a `--migrate` flag
-- [ ] Implement multistage strategy
-- [ ] Ability to select which severs a Task executes on, on a per-task basis
-- [ ] Add compatibility to Laravel 4.0
+- [ ] Implement multistage strategy
+- [ ] Ability to select which severs a Task executes on, on a per-task basis
+- [ ] Add compatibility to Laravel 4.0
 
 ### 0.5.0 (stable)
 
