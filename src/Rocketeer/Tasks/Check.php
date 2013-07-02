@@ -83,6 +83,8 @@ class Check extends Task
 	 */
 	public function checkComposer()
 	{
+		$this->command->comment('Checking presence of Composer');
+
 		return $this->getComposer();
 	}
 
@@ -93,6 +95,7 @@ class Check extends Task
 	 */
 	public function checkPhpVersion()
 	{
+		$this->command->comment('Checking PHP version');
 		$version = $this->run('php -r "print PHP_VERSION;"');
 
 		return version_compare($version, '5.3.7', '>=');
@@ -152,6 +155,8 @@ class Check extends Task
 	 */
 	public function checkPhpExtension($extension)
 	{
+		$this->command->comment('Checking presence of '.$extension. ' extension');
+
 		if (!$this->extensions) {
 			$extensions       = $this->run('php -m');
 			$this->extensions = explode(PHP_EOL, $extensions);
