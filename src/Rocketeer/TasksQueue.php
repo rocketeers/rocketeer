@@ -147,8 +147,27 @@ class TasksQueue
 		$this->command = $command;
 		$queue         = $this->buildQueue($tasks);
 
-		// Finally we execute the Tasks
+		// Check if we provided a stage
+		$stage  = $this->command->option('stage');
+		$stages = $this->app['rocketeer.rocketeer']->getStages();
+		if ($stage and in_array($stage, $stages)) {
+			$stages = array($stage);
+		}
+
+		// Run the Tasks on each stage
+		foreach ($stages as $stage) {
+			$this->app['rocketeer.rocketeer']->setStage($stage);
+
+			foreach ($queue as $task) {
+				if (!$task->usesStages()) continue;
+				$state = $task->execute();
+				if ($state === false) return $queue;
+			}
+		}
+
+		// Run the standalone tasks
 		foreach ($queue as $task) {
+			if ($task->usesStages()) continue;
 			$state = $task->execute();
 			if ($state === false) return $queue;
 		}

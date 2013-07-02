@@ -17,6 +17,13 @@ class Teardown extends Task
 	protected $description = 'Remove the remote applications and existing caches';
 
 	/**
+	 * Whether the Task needs to be run on each stage or globally
+	 *
+	 * @var boolean
+	 */
+	public $usesStages = false;
+
+	/**
 	 * Run the Task
 	 *
 	 * @return  void

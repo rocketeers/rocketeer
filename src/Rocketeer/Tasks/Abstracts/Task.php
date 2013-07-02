@@ -17,6 +17,17 @@ abstract class Task extends Bash
 	protected $description;
 
 	/**
+	 * Whether the Task needs to be run on each stage or globally
+	 *
+	 * @var boolean
+	 */
+	public $usesStages = true;
+
+	////////////////////////////////////////////////////////////////////
+	///////////////////////////// CORE METHODS /////////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Get the basic name of the Task
 	 *
 	 * @return string
@@ -60,6 +71,18 @@ abstract class Task extends Bash
 	{
 		return $this->fileExists($this->rocketeer->getFolder('current'));
 	}
+
+	/**
+	 * Check if the Task uses stages
+	 *
+	 * @return boolean
+	 */
+	public function usesStages()
+	{
+		return $this->usesStages;
+	}
+
+	/**
 	 * Run actions in the current release's folder
 	 *
 	 * @param  string|array $tasks One or more tasks

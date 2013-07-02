@@ -19,6 +19,13 @@ class Rocketeer
 	protected $app;
 
 	/**
+	 * The current stage
+	 *
+	 * @var string
+	 */
+	protected $stage;
+
+	/**
 	 * The Rocketeer version
 	 *
 	 * @var string
@@ -48,6 +55,42 @@ class Rocketeer
 	}
 
 	////////////////////////////////////////////////////////////////////
+	//////////////////////////////// STAGES ////////////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Execute the Task on a particular stage
+	 *
+	 * @param  string $stage
+	 *
+	 * @return void
+	 */
+	public function setStage($stage)
+	{
+		$this->stage = $stage;
+	}
+
+	/**
+	 * Get the current stage
+	 *
+	 * @return string
+	 */
+	public function getStage()
+	{
+		return $this->stage;
+	}
+
+	/**
+	 * Get the stages of the application
+	 *
+	 * @return array
+	 */
+	public function getStages()
+	{
+		return $this->getOption('stages');
+	}
+
+	////////////////////////////////////////////////////////////////////
 	///////////////////////////// APPLICATION //////////////////////////
 	////////////////////////////////////////////////////////////////////
 
@@ -60,6 +103,29 @@ class Rocketeer
 	{
 		return $this->getOption('remote.application_name');
 	}
+
+	/**
+	 * Get an array of folders and files to share between releases
+	 *
+	 * @return array
+	 */
+	public function getShared()
+	{
+		// Get path to logs
+		$base = $this->app['path.base'];
+		$logs = $this->app['path.storage'].'/logs';
+		$logs = str_replace($base, null, $logs);
+
+		// Add logs to shared folders
+		$shared = (array) $this->getOption('remote.shared');
+		$shared[] = trim($logs, '/');
+
+		return $shared;
+	}
+
+	////////////////////////////////////////////////////////////////////
+	/////////////////////////// GIT REPOSITORY /////////////////////////
+	////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Whether the repository used is using SSH or HTTPS
@@ -130,25 +196,6 @@ class Rocketeer
 		return $this->getOption('git.branch');
 	}
 
-	/**
-	 * Get an array of folders and files to share between releases
-	 *
-	 * @return array
-	 */
-	public function getShared()
-	{
-		// Get path to logs
-		$base = $this->app['path.base'];
-		$logs = $this->app['path.storage'].'/logs';
-		$logs = str_replace($base, null, $logs);
-
-		// Add logs to shared folders
-		$shared = (array) $this->getOption('remote.shared');
-		$shared[] = trim($logs, '/');
-
-		return $shared;
-	}
-
 	////////////////////////////////////////////////////////////////////
 	//////////////////////////////// PATHS /////////////////////////////
 	////////////////////////////////////////////////////////////////////
@@ -163,6 +210,7 @@ class Rocketeer
 	public function getFolder($folder = null)
 	{
 		$base   = $this->getHomeFolder().'/';
+		if ($folder and $this->stage) $base .= $this->stage.'/';
 		$folder = str_replace($base, null, $folder);
 
 		return $base.$folder;

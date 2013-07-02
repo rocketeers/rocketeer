@@ -75,7 +75,7 @@ class RocketeerServiceProvider extends ServiceProvider
 	 */
 	public function bindClasses(Container $app)
 	{
-		$app->bind('rocketeer.rocketeer', function($app) {
+		$app->singleton('rocketeer.rocketeer', function($app) {
 			return new Rocketeer($app);
 		});
 

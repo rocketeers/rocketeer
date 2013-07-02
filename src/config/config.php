@@ -9,6 +9,12 @@
 	// The remote connection(s) to deploy to
 	'connections' => array('production'),
 
+	// The multiples stages of your application
+	// Adding entries to this array will split the remote folder in stages
+	// Like /var/www/yourapp/staging and /var/www/yourapp/production
+	// If you don't know what this option does, leave this empty
+	'stages'      => array('staging', 'production'),
+
 	// Git Repository
 	//////////////////////////////////////////////////////////////////////
 
@@ -17,7 +23,10 @@
 		// The SSH/HTTPS adress to your Git Repository
 		'repository' => 'https://github.com/vendor/website.git',
 
-		// Its credentials – you can leave those empty if you're using SSH
+		// The repository credentials : you can leave those empty
+		// if you're using SSH or if your repository is public
+		// In other cases you can leave this empty too, and you will
+		// be prompted for the credentials on deploy
 		'username'   => 'foo',
 		'password'   => 'bar',
 
@@ -34,12 +43,16 @@
 		'root_directory'   => '/home/www/',
 
 		// The name of the application to deploy
+		// This will create a folder of the same name in the root directory
+		// configured above
 		'application_name' => 'application',
 
 		// The number of releases to keep at all times
 		'keep_releases'    => 4,
 
 		// A list of folders/file to be shared between releases
+		// Use this to list folders that need to keep their state, like
+		// user uploaded data, file-based databases, etc.
 		'shared'           => array(),
 	),
 
