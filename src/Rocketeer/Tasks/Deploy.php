@@ -17,7 +17,8 @@ class Deploy extends Task
 	public function execute()
 	{
 		// Setup if necessary
-		if (!$this->deploymentsManager->isSetup()) {
+		if (!$this->isSetup()) {
+			$this->command->error('Server is not ready, running Setup task');
 			$this->executeTask('Setup');
 		}
 
@@ -48,12 +49,26 @@ class Deploy extends Task
 		}
 
 		// Synchronize shared folders and files
+		$this->syncSharedFolders();
+
+		return $this->command->info('Successfully deployed release '.$release);
+	}
+
+	////////////////////////////////////////////////////////////////////
+	/////////////////////////////// HELPERS ////////////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Sync the requested folders and files
+	 *
+	 * @return void
+	 */
+	protected function syncSharedFolders()
+	{
 		$currentRelease = $this->releasesManager->getCurrentReleasePath();
 		foreach ($this->rocketeer->getShared() as $file) {
 			$this->share($currentRelease.'/'.$file);
 		}
-
-		return $this->command->info('Successfully deployed release '.$release);
 	}
 
 	/**

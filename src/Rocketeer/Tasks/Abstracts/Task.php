@@ -52,6 +52,14 @@ abstract class Task extends Bash
 	////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Check if the remote server is setup
+	 *
+	 * @return boolean
+	 */
+	public function isSetup()
+	{
+		return $this->fileExists($this->rocketeer->getFolder('current'));
+	}
 	 * Run actions in the current release's folder
 	 *
 	 * @param  string|array $tasks One or more tasks
