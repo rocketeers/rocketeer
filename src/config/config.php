@@ -13,7 +13,7 @@
 	// Adding entries to this array will split the remote folder in stages
 	// Like /var/www/yourapp/staging and /var/www/yourapp/production
 	// If you don't know what this option does, leave this empty
-	'stages'      => array('staging', 'production'),
+	'stages'      => array(),
 
 	// Git Repository
 	//////////////////////////////////////////////////////////////////////

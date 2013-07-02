@@ -116,7 +116,7 @@ class TasksQueueTest extends RocketeerTests
 			function($task) {
 				print 'JOEY DOESNT SHARE FOOD';
 			}
-		));
+		), $this->getCommand());
 	}
 
 }

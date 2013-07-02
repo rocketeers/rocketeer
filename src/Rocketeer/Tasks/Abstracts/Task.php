@@ -79,7 +79,9 @@ abstract class Task extends Bash
 	 */
 	public function usesStages()
 	{
-		return $this->usesStages;
+		$stages = $this->rocketeer->getStages();
+
+		return $this->usesStages and !empty($stages);
 	}
 
 	/**
