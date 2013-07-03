@@ -155,17 +155,36 @@ class TasksQueue
 		}
 
 		// Run the Tasks on each stage
-		foreach ($stages as $stage) {
-			foreach ($queue as $task) {
-				$currentStage = $task->usesStages() ? $stage : null;
-				$this->app['rocketeer.rocketeer']->setStage($currentStage);
-
-				$state = $task->execute();
-				if ($state === false) return $queue;
+		if (!empty($stages)) {
+			foreach ($stages as $stage) {
+				$state = $this->runQueue($queue, $stage);
 			}
+		} else {
+			$state = $this->runQueue($queue);
 		}
 
-		return $queue;
+		return $state ? $queue : $state;
+	}
+
+	/**
+	 * Run the queue, taking into account the stage
+	 *
+	 * @param  array $tasks
+	 * @param  string $stage
+	 *
+	 * @return boolean
+	 */
+	protected function runQueue($tasks, $stage = null)
+	{
+		foreach ($tasks as $task) {
+			$currentStage = $task->usesStages() ? $stage : null;
+			$this->app['rocketeer.rocketeer']->setStage($currentStage);
+
+			$state = $task->execute();
+			if ($state === false) return $queue;
+		}
+
+		return true;
 	}
 
 	/**

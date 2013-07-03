@@ -180,7 +180,8 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 		$config->shouldReceive('get')->with('rocketeer::git.branch')->andReturn('master');
 		$config->shouldReceive('get')->with('rocketeer::git.repository')->andReturn('https://github.com/Anahkiasen/rocketeer.git');
 		$config->shouldReceive('get')->with('rocketeer::connections')->andReturn('production');
-		$config->shouldReceive('get')->with('rocketeer::stages')->andReturn(array());
+		$config->shouldReceive('get')->with('rocketeer::stages.stages')->andReturn(array());
+		$config->shouldReceive('get')->with('rocketeer::stages.default')->andReturn(null);
 
 		$config->shouldReceive('get')->with('rocketeer::tasks')->andReturn(array(
 			'before' => array(
