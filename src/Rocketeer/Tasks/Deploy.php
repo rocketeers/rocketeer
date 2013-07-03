@@ -51,6 +51,9 @@ class Deploy extends Task
 		// Synchronize shared folders and files
 		$this->syncSharedFolders();
 
+		// Update symlink
+		$this->updateSymlink();
+
 		return $this->command->info('Successfully deployed release '.$release);
 	}
 
@@ -90,7 +93,6 @@ class Deploy extends Task
 		// Clone release and update symlink
 		$branch = $this->rocketeer->getGitBranch();
 		$this->cloneRepository($repository, $branch);
-		$this->updateSymlink();
 	}
 
 	/**
