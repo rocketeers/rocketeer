@@ -4,6 +4,7 @@ namespace Rocketeer\Tasks\Abstracts;
 use Illuminate\Console\Command;
 use Illuminate\Container\Container;
 use Illuminate\Remote\Connection;
+use Illuminate\Support\Str;
 use Rocketeer\Rocketeer;
 use Rocketeer\TasksQueue;
 
@@ -88,23 +89,23 @@ class Bash
 	/**
 	 * Run actions on the remote server and gather the ouput
 	 *
-	 * @param  string|array $tasks  One or more tasks
-	 * @param  boolean      $silent Whether the command should stay silent no matter what
+	 * @param  string|array $commands  One or more commands
+	 * @param  boolean      $silent    Whether the command should stay silent no matter what
 	 *
 	 * @return string
 	 */
-	public function run($tasks, $silent = false)
+	public function run($commands, $silent = false)
 	{
-		$output = null;
-		$tasks  = (array) $tasks;
+		$output   = null;
+		$commands = $this->processCommands($commands);
 
 		// Log the commands for pretend
 		if ($this->command->option('pretend') and !$silent) {
-			return $this->command->line(implode(PHP_EOL, $tasks));
+			return $this->command->line(implode(PHP_EOL, $commands));
 		}
 
-		// Run tasks
-		$this->remote->run($tasks, function($results) use (&$output) {
+		// Run commands
+		$this->remote->run($commands, function($results) use (&$output) {
 			$output .= $results;
 		});
 
@@ -118,7 +119,7 @@ class Bash
 	}
 
 	/**
-	 * Run actions in a folder
+	 * Run commands in a folder
 	 *
 	 * @param  string        $folder
 	 * @param  string|array  $tasks
@@ -247,6 +248,35 @@ class Bash
 	public function removeFolder($folder = null)
 	{
 		return $this->run('rm -rf '.$this->rocketeer->getFolder($folder));
+	}
+
+	////////////////////////////////////////////////////////////////////
+	/////////////////////////////// HELPERS ////////////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Process an array of commands
+	 *
+	 * @param  array  $commands
+	 *
+	 * @return array
+	 */
+	protected function processCommands($commands)
+	{
+		// Get stage and cast commands to array
+		$stage = $this->rocketeer->getStage();
+		if (!is_array($commands)) {
+			$commands = array($commands);
+		}
+
+		// Process commands
+		foreach ($commands as &$command) {
+			if (Str::startsWith($command, 'php artisan') and $stage) {
+				$command .= ' --env='.$stage;
+			}
+		}
+
+		return $commands;
 	}
 
 }
