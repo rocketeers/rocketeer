@@ -257,7 +257,7 @@ class Bash
 	/**
 	 * Process an array of commands
 	 *
-	 * @param  array  $commands
+	 * @param  string|array  $commands
 	 *
 	 * @return array
 	 */

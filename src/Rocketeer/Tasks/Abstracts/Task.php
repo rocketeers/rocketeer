@@ -1,8 +1,6 @@
 <?php
 namespace Rocketeer\Tasks\Abstracts;
 
-use Illuminate\Support\Str;
-
 /**
  * A Task to execute on the remote servers
  */
