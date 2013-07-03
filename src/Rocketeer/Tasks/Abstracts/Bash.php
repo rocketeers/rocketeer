@@ -160,15 +160,20 @@ class Bash
 	/**
 	 * Check the status of the last run command, return an error if any
 	 *
-	 * @param  string $error        The message to display
+	 * @param  string $error        The message to display on error
 	 * @param  string $output       The command's output
+	 * @param  string $success      The message to display on success
 	 *
 	 * @return boolean|string
 	 */
-	protected function checkStatus($error, $output = null)
+	protected function checkStatus($error, $output = null, $success = null)
 	{
 		// If all went well
 		if ($this->remote->status() == 0) {
+			if ($success) {
+				$this->command->comment($success);
+			}
+
 			return $output;
 		}
 

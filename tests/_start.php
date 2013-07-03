@@ -101,11 +101,13 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 		$folders = array('current', 'shared', 'releases/1000000000', 'releases/2000000000');
 		foreach ($folders as $folder) {
 			$folder = $this->server.'/'.$folder;
-			if (!file_exists($folder)) {
-				$this->app['files']->makeDirectory($folder, 0777, true);
-				file_put_contents($folder.'/.gitkeep', '');
-			}
+
+			$this->app['files']->deleteDirectory($folder);
+			$this->app['files']->delete($folder);
+			$this->app['files']->makeDirectory($folder, 0777, true);
+			file_put_contents($folder.'/.gitkeep', '');
 		}
+
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -204,6 +206,7 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 	{
 		$remote = Mockery::mock('Illuminate\Remote\Connection');
 		$remote->shouldReceive('into')->andReturn(Mockery::self());
+		$remote->shouldReceive('status')->andReturn(0)->byDefault();
 		$remote->shouldReceive('run')->andReturnUsing(function($tasks, $callback) {
 			$task = implode(' && ', $tasks);
 			$output = shell_exec($task);
