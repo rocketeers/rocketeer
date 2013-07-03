@@ -121,9 +121,24 @@ abstract class Task extends Bash
 	public function cloneRepository($repository, $branch = 'master')
 	{
 		$releasePath = $this->releasesManager->getCurrentReleasePath();
-		$this->command->info('Cloning repository in "' .$releasePath. '"');
 
-		return $this->run(sprintf('git clone -b %s %s %s', $branch, $repository, $releasePath));
+		$output = $this->run(sprintf('git clone -b %s %s %s', $branch, $repository, $releasePath));
+		$status = $this->remote->status();
+
+		// Return message according to status
+		switch ($status) {
+			case 0:
+				$this->command->info('Cloned repository in "' .$releasePath. '"');
+				return $output;
+
+			case 128:
+			default:
+				$this->command->error('Rocketeer was unable to clone the repository');
+				print $output.PHP_EOL;
+				return false;
+		}
+
+		return $output;
 	}
 
 	/**

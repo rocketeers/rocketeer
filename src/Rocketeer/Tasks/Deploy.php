@@ -27,14 +27,14 @@ class Deploy extends Task
 		$this->releasesManager->updateCurrentRelease($release);
 
 		// Clone Git repository
-		$this->cloneGitRepository();
+		if (!$this->cloneGitRepository()) {
+			return false;
+		}
 
 		// Run composer
 		$this->runComposer();
 		if ($this->command->option('tests')) {
 			if (!$this->runTests()) {
-				$this->executeTask('Rollback');
-
 				$this->command->error('Tests failed, rolling back to previous release');
 				return false;
 			}
@@ -90,13 +90,15 @@ class Deploy extends Task
 			$repository = $this->rocketeer->getGitRepository();
 		}
 
-		// Clone release and update symlink
+		// Clone release
 		$branch = $this->rocketeer->getGitBranch();
-		$this->cloneRepository($repository, $branch);
+		return $this->cloneRepository($repository, $branch);
 	}
 
 	/**
 	 * Set permissions for the folders used by the application
+	 *
+	 * @return  void
 	 */
 	protected function setApplicationPermissions()
 	{

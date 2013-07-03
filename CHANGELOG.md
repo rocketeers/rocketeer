@@ -9,8 +9,9 @@
 - **Add multistage strategy**
 - **Add compatibility to Laravel 4.0**
 - Migrations are now under a `--migrate` flag
-- Fix a delay where the `current` symlink would get updated before the complete end of the deploy
 - If the `git.branch` option is empty, Rocketeer will now use the current Git branch
+- Fix a delay where the `current` symlink would get updated before the complete end of the deploy
+- Fix deploy not being canceled on failure to clone
 
 ### 0.5.0 (stable)
 
