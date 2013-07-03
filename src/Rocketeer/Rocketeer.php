@@ -193,7 +193,11 @@ class Rocketeer
 	 */
 	public function getGitBranch()
 	{
-		return $this->getOption('git.branch');
+		exec('git rev-parse --abbrev-ref HEAD', $fallback);
+		$fallback = trim($fallback[0]) ?: 'master';
+		$branch   = $this->getOption('git.branch') ?: $fallback;
+
+		return $branch;
 	}
 
 	////////////////////////////////////////////////////////////////////
