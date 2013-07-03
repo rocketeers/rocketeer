@@ -31,8 +31,12 @@ class Deploy extends Task
 			return false;
 		}
 
-		// Run composer
-		$this->runComposer();
+		// Run Composer
+		if (!$this->runComposer()) {
+			return false;
+		}
+
+		// Run tests
 		if ($this->command->option('tests')) {
 			if (!$this->runTests()) {
 				$this->command->error('Tests failed, rolling back to previous release');

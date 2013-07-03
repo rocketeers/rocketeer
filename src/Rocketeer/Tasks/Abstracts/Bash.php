@@ -157,6 +157,28 @@ class Bash
 		return $location;
 	}
 
+	/**
+	 * Check the status of the last run command, return an error if any
+	 *
+	 * @param  string $error        The message to display
+	 * @param  string $output       The command's output
+	 *
+	 * @return boolean|string
+	 */
+	protected function checkStatus($error, $output = null)
+	{
+		// If all went well
+		if ($this->remote->status() == 0) {
+			return $output;
+		}
+
+		// Else
+		$this->command->error($error);
+		print $output.PHP_EOL;
+
+		return false;
+	}
+
 	////////////////////////////////////////////////////////////////////
 	/////////////////////////////// FOLDERS ////////////////////////////
 	////////////////////////////////////////////////////////////////////

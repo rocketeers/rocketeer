@@ -122,23 +122,10 @@ abstract class Task extends Bash
 	{
 		$releasePath = $this->releasesManager->getCurrentReleasePath();
 
+		$this->command->info('Cloning repository in "' .$releasePath. '"');
 		$output = $this->run(sprintf('git clone -b %s %s %s', $branch, $repository, $releasePath));
-		$status = $this->remote->status();
 
-		// Return message according to status
-		switch ($status) {
-			case 0:
-				$this->command->info('Cloned repository in "' .$releasePath. '"');
-				return $output;
-
-			case 128:
-			default:
-				$this->command->error('Rocketeer was unable to clone the repository');
-				print $output.PHP_EOL;
-				return false;
-		}
-
-		return $output;
+		return $this->checkStatus('Unable to clone the repository', $output);
 	}
 
 	/**
@@ -218,6 +205,7 @@ abstract class Task extends Bash
 
 		$output  = $this->run(array(
 			'chmod -R +x ' .$folder,
+			'chmod -R g+s ' .$folder,
 			'chown -R www-data:www-data ' .$folder,
 		));
 
@@ -236,8 +224,10 @@ abstract class Task extends Bash
 	public function runComposer()
 	{
 		$this->command->comment('Installing Composer dependencies');
+		$output = $this->runForCurrentRelease($this->getComposer(). ' install');
+		$status = $this->remote->status();
 
-		return $this->runForCurrentRelease($this->getComposer(). ' install');
+		return $this->checkStatus('Composer could not install dependencies', $output);
 	}
 
 	/**
