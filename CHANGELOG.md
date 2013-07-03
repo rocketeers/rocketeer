@@ -3,13 +3,13 @@
 ### 0.x.x (roadmap)
 
 - Ability to select which severs a Task executes on, on a per-task basis
-- Add compatibility to Laravel 4.0
 
 ### 0.5.1 (develop)
 
-- [x] Migrations are now under a `--migrate` flag
-- [x] Fix a delay where the `current` symlink would get updated before the complete end of the deploy
-- [x] Implement multistage strategy
+- Migrations are now under a `--migrate` flag
+- Fix a delay where the `current` symlink would get updated before the complete end of the deploy
+- Implement multistage strategy
+- Add compatibility to Laravel 4.0
 
 ### 0.5.0 (stable)
 

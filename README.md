@@ -2,6 +2,7 @@ Rocketeer [![Build Status](https://travis-ci.org/Anahkiasen/rocketeer.png?branch
 =========
 
 Rocketeer provides a fast and easy way to set-up and deploy your Laravel projects. **Rocketeer requires Laravel 4.1 as it uses the new _illuminate/remote_ component**.
+It can be used on Laravel 4.0 but requires a tiny-bit more setup, see the getting started guide for more informations.
 
 ## Using Rocketeer
 
