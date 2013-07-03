@@ -3,21 +3,21 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "22be7fda6b19c2f2302770a2e17f6f68",
+    "hash": "ce1e3294bcc0a7f5b337e637fcd13913",
     "packages": [
         {
             "name": "illuminate/support",
-            "version": "dev-master",
+            "version": "4.0.x-dev",
             "target-dir": "Illuminate/Support",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "46002c0c74b461b4f159e8e23d2536cf115e10db"
+                "reference": "b7305f8b7f4d6c87c5bb8dd3926400578a33fc9c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/46002c0c74b461b4f159e8e23d2536cf115e10db",
-                "reference": "46002c0c74b461b4f159e8e23d2536cf115e10db",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/b7305f8b7f4d6c87c5bb8dd3926400578a33fc9c",
+                "reference": "b7305f8b7f4d6c87c5bb8dd3926400578a33fc9c",
                 "shasum": ""
             },
             "require": {
@@ -31,7 +31,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.1-dev"
+                    "dev-master": "4.0-dev"
                 }
             },
             "autoload": {
@@ -52,23 +52,23 @@
                     "email": "taylorotwell@gmail.com"
                 }
             ],
-            "time": "2013-06-20 20:50:44"
+            "time": "2013-06-25 17:18:51"
         }
     ],
     "packages-dev": [
         {
             "name": "illuminate/container",
-            "version": "dev-master",
+            "version": "4.0.x-dev",
             "target-dir": "Illuminate/Container",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/container.git",
-                "reference": "908a2e4ac315c58317b2197c3f057e94bcbf869a"
+                "reference": "v4.0.5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/container/zipball/908a2e4ac315c58317b2197c3f057e94bcbf869a",
-                "reference": "908a2e4ac315c58317b2197c3f057e94bcbf869a",
+                "url": "https://api.github.com/repos/illuminate/container/zipball/v4.0.5",
+                "reference": "v4.0.5",
                 "shasum": ""
             },
             "require": {
@@ -80,7 +80,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.1-dev"
+                    "dev-master": "4.0-dev"
                 }
             },
             "autoload": {
@@ -98,25 +98,25 @@
                     "email": "taylorotwell@gmail.com"
                 }
             ],
-            "time": "2013-05-28 18:31:39"
+            "time": "2013-05-28 00:50:14"
         },
         {
             "name": "illuminate/filesystem",
-            "version": "dev-master",
+            "version": "4.0.x-dev",
             "target-dir": "Illuminate/Filesystem",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/filesystem.git",
-                "reference": "6f6448af26ee0f14ed265cab36f8fd1cacb46811"
+                "reference": "v4.0.5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/filesystem/zipball/6f6448af26ee0f14ed265cab36f8fd1cacb46811",
-                "reference": "6f6448af26ee0f14ed265cab36f8fd1cacb46811",
+                "url": "https://api.github.com/repos/illuminate/filesystem/zipball/v4.0.5",
+                "reference": "v4.0.5",
                 "shasum": ""
             },
             "require": {
-                "illuminate/support": "4.1.x",
+                "illuminate/support": "4.0.x",
                 "php": ">=5.3.0",
                 "symfony/finder": "2.3.x"
             },
@@ -126,7 +126,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.1-dev"
+                    "dev-master": "4.0-dev"
                 }
             },
             "autoload": {
@@ -144,7 +144,7 @@
                     "email": "taylorotwell@gmail.com"
                 }
             ],
-            "time": "2013-06-13 04:24:12"
+            "time": "2013-06-13 03:54:04"
         },
         {
             "name": "mockery/mockery",
@@ -250,12 +250,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Finder.git",
-                "reference": "efe739e6599b3f43610a4005818a364fbdd67ce8"
+                "reference": "71ced0f8fa27461da26c245ddf6b0e49a6a6c2c4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Finder/zipball/efe739e6599b3f43610a4005818a364fbdd67ce8",
-                "reference": "efe739e6599b3f43610a4005818a364fbdd67ce8",
+                "url": "https://api.github.com/repos/symfony/Finder/zipball/71ced0f8fa27461da26c245ddf6b0e49a6a6c2c4",
+                "reference": "71ced0f8fa27461da26c245ddf6b0e49a6a6c2c4",
                 "shasum": ""
             },
             "require": {
@@ -288,7 +288,7 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "http://symfony.com",
-            "time": "2013-06-13 07:51:49"
+            "time": "2013-07-01 12:17:23"
         }
     ],
     "aliases": [
