@@ -87,7 +87,7 @@ class Rocketeer
 	 */
 	public function getStages()
 	{
-		return $this->getOption('stages');
+		return $this->getOption('stages.stages');
 	}
 
 	////////////////////////////////////////////////////////////////////
