@@ -95,11 +95,11 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 	public function tearDown()
 	{
 		// Recreate deployments file
-		$deployments = array('foo' => 'bar', 'current_release' => 2000000000);
+		$deployments = array('foo' => 'bar', 'current_release' => 20000000000000);
 		$this->app['files']->put($this->deploymentsFile, json_encode($deployments));
 
 		// Recreate altered local server
-		$folders = array('current', 'shared', 'releases', 'releases/1000000000', 'releases/2000000000');
+		$folders = array('current', 'shared', 'releases', 'releases/10000000000000', 'releases/20000000000000');
 		foreach ($folders as $folder) {
 			$folder = $this->server.'/'.$folder;
 

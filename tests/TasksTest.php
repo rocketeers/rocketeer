@@ -18,7 +18,7 @@ class TasksTest extends RocketeerTests
 		$cleanup = $this->task('Cleanup');
 		$output  = $cleanup->execute();
 
-		$this->assertFileNotExists($this->server.'/releases/1000000000');
+		$this->assertFileNotExists($this->server.'/releases/10000000000000');
 		$this->assertEquals('Removing <info>1 release</info> from the server', $output);
 
 		$output = $cleanup->execute();
@@ -28,7 +28,7 @@ class TasksTest extends RocketeerTests
 	public function testCanGetCurrentRelease()
 	{
 		$current = $this->task('CurrentRelease')->execute();
-		$this->assertContains('2000000000', $current);
+		$this->assertContains('20000000000000', $current);
 
 		$this->app['rocketeer.server']->setValue('current_release', 0);
 		$current = $this->task('CurrentRelease')->execute();
@@ -47,7 +47,7 @@ class TasksTest extends RocketeerTests
 	{
 		$output = $this->task('Rollback')->execute();
 
-		$this->assertEquals(1000000000, $this->app['rocketeer.releases']->getCurrentRelease());
+		$this->assertEquals(10000000000000, $this->app['rocketeer.releases']->getCurrentRelease());
 	}
 
 	public function testCanSetupServer()
