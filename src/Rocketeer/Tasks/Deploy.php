@@ -28,19 +28,19 @@ class Deploy extends Task
 
 		// Clone Git repository
 		if (!$this->cloneGitRepository()) {
-			return false;
+			return $this->cancel();
 		}
 
 		// Run Composer
 		if (!$this->runComposer()) {
-			return false;
+			return $this->cancel();
 		}
 
 		// Run tests
 		if ($this->command->option('tests')) {
 			if (!$this->runTests()) {
-				$this->command->error('Tests failed, rolling back to previous release');
-				return false;
+				$this->command->error('Tests failed');
+				return $this->cancel();
 			}
 		}
 
@@ -64,6 +64,18 @@ class Deploy extends Task
 	////////////////////////////////////////////////////////////////////
 	/////////////////////////////// HELPERS ////////////////////////////
 	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Cancel deploy
+	 *
+	 * @return false
+	 */
+	protected function cancel()
+	{
+		$this->executeTask('Rollback');
+
+		return false;
+	}
 
 	/**
 	 * Sync the requested folders and files
