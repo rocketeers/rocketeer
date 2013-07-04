@@ -48,9 +48,9 @@ class Server
 	 */
 	public function getSeparator()
 	{
-		return $this->getValue('directory_separator', function() {
-			$separator = $this->app['rocketeer.bash']->runRemoteCommands('php -r "echo DIRECTORY_SEPARATOR;"');
-			$this->setValue('directory_separator', $separator);
+		return $this->getValue('directory_separator', function($server) {
+			$separator = $server->app['rocketeer.bash']->runRemoteCommands('php -r "echo DIRECTORY_SEPARATOR;"');
+			$server->setValue('directory_separator', $separator);
 
 			return $separator;
 		});
@@ -63,9 +63,9 @@ class Server
 	 */
 	public function getLineEndings()
 	{
-		return $this->getValue('line_endings', function() {
-			$endings = $this->app['rocketeer.bash']->runRemoteCommands('php -r "echo PHP_EOL;"');
-			$this->setValue('line_endings', $endings);
+		return $this->getValue('line_endings', function($server) {
+			$endings = $server->app['rocketeer.bash']->runRemoteCommands('php -r "echo PHP_EOL;"');
+			$server->setValue('line_endings', $endings);
 
 			return $endings;
 		});
@@ -89,7 +89,7 @@ class Server
 
 		// Get fallback value
 		if (is_null($value)) {
-			return is_callable($fallback) ? $fallback() : $fallback;
+			return is_callable($fallback) ? $fallback($this) : $fallback;
 		}
 
 		return $value;
