@@ -158,8 +158,7 @@ class Check extends Task
 		$this->command->comment('Checking presence of '.$extension. ' extension');
 
 		if (!$this->extensions) {
-			$extensions       = $this->run('php -m');
-			$this->extensions = explode(PHP_EOL, $extensions);
+			$this->extensions = $this->run('php -m', true, true);
 		}
 
 		return in_array($extension, $this->extensions);

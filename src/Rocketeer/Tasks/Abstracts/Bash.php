@@ -91,10 +91,11 @@ class Bash
 	 *
 	 * @param  string|array $commands  One or more commands
 	 * @param  boolean      $silent    Whether the command should stay silent no matter what
+	 * @param  boolean      $array     Whether the output should be returned as an array
 	 *
-	 * @return string
+	 * @return string|array
 	 */
-	public function run($commands, $silent = false)
+	public function run($commands, $silent = false, $array = false)
 	{
 		$output   = null;
 		$commands = $this->processCommands($commands);
@@ -114,6 +115,12 @@ class Bash
 		$output = trim($output);
 		if ($this->command->option('verbose') and !$silent) {
 			print $output;
+		}
+
+		// Explode output if necessary
+		if ($array) {
+			$endings = Str::contains("\r\n", $output) ? "\r\n" : "\n";
+			$output  = explode($endings, $output);
 		}
 
 		return $output;
@@ -231,10 +238,7 @@ class Bash
 	 */
 	public function listContents($directory)
 	{
-		$contents = $this->run(array('cd '.$directory, 'ls'));
-		$contents = explode(PHP_EOL, $contents);
-
-		return $contents;
+		return $this->run('ls '.$directory, false, true);
 	}
 
 	/**
