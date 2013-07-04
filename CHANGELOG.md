@@ -11,7 +11,8 @@
 - Migrations are now under a `--migrate` flag
 - If the `git.branch` option is empty, Rocketeer will now use the current Git branch
 - Fix a delay where the `current` symlink would get updated before the complete end of the deploy
-- Fix deploy not being canceled on failure to clone
+- Fix errors with Git and Composer not canceling deploy
+- Fix a problem with line endings on Windows servers
 
 ### 0.5.0 (stable)
 
