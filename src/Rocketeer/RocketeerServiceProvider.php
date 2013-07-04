@@ -83,8 +83,8 @@ class RocketeerServiceProvider extends ServiceProvider
 			return new ReleasesManager($app);
 		});
 
-		$app->bind('rocketeer.deployments', function($app) {
-			return new DeploymentsManager($app, $app['path.storage']);
+		$app->bind('rocketeer.server', function($app) {
+			return new Server($app, $app['path.storage']);
 		});
 
 		$app->bind('rocketeer.bash', function($app) {

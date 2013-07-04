@@ -73,7 +73,7 @@ class Bash
 	{
 		$this->app                = $app;
 		$this->releasesManager    = $app['rocketeer.releases'];
-		$this->deploymentsManager = $app['rocketeer.deployments'];
+		$this->deploymentsManager = $app['rocketeer.server'];
 		$this->rocketeer          = $app['rocketeer.rocketeer'];
 		$this->remote             = $app['remote'];
 		$this->tasksQueue         = $tasksQueue ?: $app['rocketeer.tasks'];

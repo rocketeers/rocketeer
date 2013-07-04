@@ -48,7 +48,7 @@ class ReleasesManagerTest extends RocketeerTests
 	{
 		$this->app['rocketeer.releases']->updateCurrentRelease(3000000000);
 
-		$this->assertEquals(3000000000, $this->app['rocketeer.deployments']->getValue('current_release'));
+		$this->assertEquals(3000000000, $this->app['rocketeer.server']->getValue('current_release'));
 	}
 
 }

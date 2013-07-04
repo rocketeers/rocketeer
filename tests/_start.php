@@ -74,7 +74,7 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 		$serviceProvider = new RocketeerServiceProvider($this->app);
 		$this->app = $serviceProvider->bindClasses($this->app);
 
-		$this->app->bind('rocketeer.deployments', function($app) {
+		$this->app->bind('rocketeer.server', function($app) {
 			return new Rocketeer\DeploymentsManager($app, __DIR__);
 		});
 

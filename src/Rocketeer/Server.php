@@ -4,10 +4,9 @@ namespace Rocketeer;
 use Illuminate\Container\Container;
 
 /**
- * Handles the Deployments repository that stores static data
- * about the state of the remote servers
+ * Provids and persists informations about the remote server
  */
-class DeploymentsManager
+class Server
 {
 
 	/**
@@ -18,18 +17,11 @@ class DeploymentsManager
 	protected $app;
 
 	/**
-	 * The Filesystem instance
-	 *
-	 * @var Filesystem
-	 */
-	protected $files;
-
-	/**
-	 * The path to the deployments file
+	 * The path to the storage file
 	 *
 	 * @var string
 	 */
-	protected $deploymentsFilepath;
+	protected $repository;
 
 	/**
 	 * Build a new ReleasesManager
@@ -39,9 +31,8 @@ class DeploymentsManager
 	 */
 	public function __construct(Container $app, $storage)
 	{
-		$this->app                 = $app;
-		$this->files               = $app['files'];
-		$this->deploymentsFilepath = $storage.'/meta/deployments.json';
+		$this->app        = $app;
+		$this->repository = $storage.'/meta/deployments.json';
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -92,7 +83,7 @@ class DeploymentsManager
 	 */
 	public function getValue($key, $fallback = null)
 	{
-		$value = array_get($this->getDeploymentsFile(), $key, null);
+		$value = array_get($this->getRepository(), $key, null);
 
 		// Get fallback value
 		if (is_null($value)) {
@@ -110,14 +101,14 @@ class DeploymentsManager
 	 */
 	public function setValue($key, $value)
 	{
-		$deployments = $this->getDeploymentsFile();
+		$deployments = $this->getRepository();
 		array_set($deployments, $key, $value);
 
-		$this->updateDeploymentsFile($deployments);
+		$this->updateRepository($deployments);
 	}
 
 	////////////////////////////////////////////////////////////////////
-	////////////////////////// DEPLOYMENTS FILE ////////////////////////
+	////////////////////////// REPOSITORY FILE /////////////////////////
 	////////////////////////////////////////////////////////////////////
 
 	/**
@@ -127,9 +118,9 @@ class DeploymentsManager
 	 *
 	 * @return void
 	 */
-	protected function updateDeploymentsFile($data)
+	protected function updateRepository($data)
 	{
-		$this->files->put($this->deploymentsFilepath, json_encode($data));
+		$this->app['files']->put($this->repository, json_encode($data));
 	}
 
 	/**
@@ -137,15 +128,15 @@ class DeploymentsManager
 	 *
 	 * @return array
 	 */
-	protected function getDeploymentsFile()
+	protected function getRepository()
 	{
 		// Cancel if the file doesn't exist
-		if (!$this->files->exists($this->deploymentsFilepath)) {
+		if (!$this->app['files']->exists($this->repository)) {
 			return array();
 		}
 
 		// Get and parse file
-		$deployments = $this->files->get($this->deploymentsFilepath);
+		$deployments = $this->app['files']->get($this->repository);
 		$deployments = json_decode($deployments, true);
 
 		return $deployments;
@@ -156,9 +147,9 @@ class DeploymentsManager
 	 *
 	 * @return boolean
 	 */
-	public function deleteDeploymentsFile()
+	public function deleteRepository()
 	{
-		return $this->files->delete($this->deploymentsFilepath);
+		return $this->app['files']->delete($this->repository);
 	}
 
 }

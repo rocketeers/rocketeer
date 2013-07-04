@@ -106,7 +106,7 @@ class ReleasesManager
 	 */
 	public function getCurrentRelease()
 	{
-		return $this->app['rocketeer.deployments']->getValue('current_release');
+		return $this->app['rocketeer.server']->getValue('current_release');
 	}
 
 	/**
@@ -136,7 +136,7 @@ class ReleasesManager
 	 */
 	public function updateCurrentRelease($release)
 	{
-		$this->app['rocketeer.deployments']->setValue('current_release', $release);
+		$this->app['rocketeer.server']->setValue('current_release', $release);
 	}
 
 }
