@@ -43,7 +43,7 @@ class Setup extends Task
 		$this->createStages();
 
 		// Set setup to true
-		$this->deploymentsManager->setValue('is_setup', true);
+		$this->server->setValue('is_setup', true);
 
 		// Create confirmation message
 		$application = $this->rocketeer->getApplicationName();
