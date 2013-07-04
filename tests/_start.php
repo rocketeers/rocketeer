@@ -98,7 +98,7 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 		$this->app['files']->put($this->deploymentsFile, json_encode($deployments));
 
 		// Recreate altered local server
-		$folders = array('current', 'shared', 'releases/1000000000', 'releases/2000000000');
+		$folders = array('current', 'shared', 'releases', 'releases/1000000000', 'releases/2000000000');
 		foreach ($folders as $folder) {
 			$folder = $this->server.'/'.$folder;
 
