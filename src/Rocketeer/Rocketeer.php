@@ -134,7 +134,7 @@ class Rocketeer
 	 */
 	public function usesSsh()
 	{
-		return str_contains($this->getOption('git.repository'), 'git@');
+		return Str::contains($this->getOption('git.repository'), 'git@');
 	}
 
 	/**
