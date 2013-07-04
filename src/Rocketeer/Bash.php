@@ -7,8 +7,7 @@ use Illuminate\Remote\Connection;
 use Illuminate\Support\Str;
 
 /**
- * A bash Bash helper to execute commands
- * on the remote server
+ * An helper to execute commands on the remote server
  */
 class Bash
 {
@@ -28,11 +27,11 @@ class Bash
 	public $releasesManager;
 
 	/**
-	 * The Deployments Manager instance
+	 * The Server instance
 	 *
-	 * @var DeploymentsManager
+	 * @var Server
 	 */
-	public $deploymentsManager;
+	public $server;
 
 	/**
 	 * The Rocketeer instance
@@ -63,12 +62,12 @@ class Bash
 	 */
 	public function __construct(Container $app, $command = null)
 	{
-		$this->app                = $app;
-		$this->releasesManager    = $app['rocketeer.releases'];
-		$this->deploymentsManager = $app['rocketeer.server'];
-		$this->rocketeer          = $app['rocketeer.rocketeer'];
-		$this->remote             = $app['remote'];
-		$this->command            = $command;
+		$this->app             = $app;
+		$this->releasesManager = $app['rocketeer.releases'];
+		$this->server          = $app['rocketeer.server'];
+		$this->rocketeer       = $app['rocketeer.rocketeer'];
+		$this->remote          = $app['remote'];
+		$this->command         = $command;
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -286,7 +285,7 @@ class Bash
 
 		// Explode output if necessary
 		if ($array) {
-			$output = explode($this->deploymentsManager->getLineEndings(), $output);
+			$output = explode($this->server->getLineEndings(), $output);
 			$output = array_filter($output);
 		}
 
@@ -315,7 +314,7 @@ class Bash
 	protected function processCommands($commands)
 	{
 		$stage     = $this->rocketeer->getStage();
-		$separator = $this->deploymentsManager->getSeparator();
+		$separator = $this->server->getSeparator();
 
 		// Cast commands to array
 		if (!is_array($commands)) {
