@@ -1,7 +1,7 @@
 <?php
 namespace Rocketeer;
 
-use Illuminate\Filesystem\Filesystem;
+use Illuminate\Container\Container;
 
 /**
  * Handles the Deployments repository that stores static data
@@ -9,6 +9,13 @@ use Illuminate\Filesystem\Filesystem;
  */
 class DeploymentsManager
 {
+
+	/**
+	 * The IoC Container
+	 *
+	 * @var Container
+	 */
+	protected $app;
 
 	/**
 	 * The Filesystem instance
@@ -27,13 +34,48 @@ class DeploymentsManager
 	/**
 	 * Build a new ReleasesManager
 	 *
-	 * @param Filesystem $files
+	 * @param Container  $app
 	 * @param string     $storage Path to the storage folder
 	 */
-	public function __construct(Filesystem $files, $storage)
+	public function __construct(Container $app, $storage)
 	{
-		$this->files               = $files;
+		$this->app                 = $app;
+		$this->files               = $app['files'];
 		$this->deploymentsFilepath = $storage.'/meta/deployments.json';
+	}
+
+	////////////////////////////////////////////////////////////////////
+	/////////////////////////// REMOTE VARIABLES ///////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Get the directory separators
+	 *
+	 * @return string
+	 */
+	public function getSeparator()
+	{
+		return $this->getValue('directory_separator', function() {
+			$separator = $this->app['rocketeer.bash']->runRemoteCommands('php -r "echo DIRECTORY_SEPARATOR;"');
+			$this->setValue('directory_separator', $separator);
+
+			return $separator;
+		});
+	}
+
+	/**
+	 * Get the remote line endings
+	 *
+	 * @return string
+	 */
+	public function getLineEndings()
+	{
+		return $this->getValue('line_endings', function() {
+			$endings = $this->app['rocketeer.bash']->runRemoteCommands('php -r "echo PHP_EOL;"');
+			$this->setValue('line_endings', $endings);
+
+			return $endings;
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -43,13 +85,21 @@ class DeploymentsManager
 	/**
 	 * Get a value from the deployments file
 	 *
-	 * @param  string $key
+	 * @param  string         $key
+	 * @param  Closure|string $fallback
 	 *
 	 * @return mixed
 	 */
-	public function getValue($key)
+	public function getValue($key, $fallback = null)
 	{
-		return array_get($this->getDeploymentsFile(), $key, false);
+		$value = array_get($this->getDeploymentsFile(), $key, null);
+
+		// Get fallback value
+		if (is_null($value)) {
+			return is_callable($fallback) ? $fallback() : $fallback;
+		}
+
+		return $value;
 	}
 
 	/**

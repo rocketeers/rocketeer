@@ -1,6 +1,8 @@
 <?php
 namespace Rocketeer\Tasks\Abstracts;
 
+use Rocketeer\Bash;
+
 /**
  * A Task to execute on the remote servers
  */

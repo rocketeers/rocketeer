@@ -1,12 +1,10 @@
 <?php
-namespace Rocketeer\Tasks\Abstracts;
+namespace Rocketeer;
 
 use Illuminate\Console\Command;
 use Illuminate\Container\Container;
 use Illuminate\Remote\Connection;
 use Illuminate\Support\Str;
-use Rocketeer\Rocketeer;
-use Rocketeer\TasksQueue;
 
 /**
  * A bash Bash helper to execute commands
@@ -71,14 +69,14 @@ class Bash
 	 * @param TasksQueue   $tasksQueue
 	 * @param Command|null $command
 	 */
-	public function __construct(Container $app, TasksQueue $tasksQueue, $command)
+	public function __construct(Container $app, TasksQueue $tasksQueue = null, $command = null)
 	{
 		$this->app                = $app;
 		$this->releasesManager    = $app['rocketeer.releases'];
 		$this->deploymentsManager = $app['rocketeer.deployments'];
 		$this->rocketeer          = $app['rocketeer.rocketeer'];
 		$this->remote             = $app['remote'];
-		$this->tasksQueue         = $tasksQueue;
+		$this->tasksQueue         = $tasksQueue ?: $app['rocketeer.tasks'];
 		$this->command            = $command;
 	}
 
@@ -97,30 +95,21 @@ class Bash
 	 */
 	public function run($commands, $silent = false, $array = false)
 	{
-		$output   = null;
 		$commands = $this->processCommands($commands);
 
 		// Log the commands for pretend
-		if ($this->command->option('pretend') and !$silent) {
+		if ($this->getOption('pretend') and !$silent) {
 			$this->command->line(implode(PHP_EOL, $commands));
 			return true;
 		}
 
-		// Run commands
-		$this->remote->run($commands, function($results) use (&$output) {
-			$output .= $results;
-		});
+		// Get output
+		$output = $this->runRemoteCommands($commands, $array);
+		$output = is_array($output) ? array_filter($output) : trim($output);
 
-		// Print output
-		$output = trim($output);
-		if ($this->command->option('verbose') and !$silent) {
-			print $output;
-		}
-
-		// Explode output if necessary
-		if ($array) {
-			$endings = Str::contains("\r\n", $output) ? "\r\n" : "\n";
-			$output  = explode($endings, $output);
+		// Print if necessary
+		if ($this->getOption('verbose') and !$silent) {
+			print is_array($output) ? implode(PHP_EOL, $output) : $output;
 		}
 
 		return $output;
@@ -287,6 +276,45 @@ class Bash
 	////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Run a raw command, without any processing, and
+	 * get its output as a string or array
+	 *
+	 * @param  string|array $commands
+	 * @param  boolean      $array     Whether the output should be returned as an array
+	 *
+	 * @return string
+	 */
+	public function runRemoteCommands($commands, $array = false)
+	{
+		$output = null;
+
+		// Run commands
+		$this->remote->run($commands, function($results) use (&$output) {
+			$output .= $results;
+		});
+
+		// Explode output if necessary
+		if ($array) {
+			$output = explode($this->deploymentsManager->getLineEndings(), $output);
+			$output = array_filter($output);
+		}
+
+		return $output;
+	}
+
+	/**
+	 * Get an option from the Command
+	 *
+	 * @param  string $option
+	 *
+	 * @return string
+	 */
+	protected function getOption($option)
+	{
+		return $this->command ? $this->command->option($option) : null;
+	}
+
+	/**
 	 * Process an array of commands
 	 *
 	 * @param  string|array  $commands
@@ -295,17 +323,27 @@ class Bash
 	 */
 	protected function processCommands($commands)
 	{
-		// Get stage and cast commands to array
-		$stage = $this->rocketeer->getStage();
+		$stage     = $this->rocketeer->getStage();
+		$separator = $this->deploymentsManager->getSeparator();
+
+		// Cast commands to array
 		if (!is_array($commands)) {
 			$commands = array($commands);
 		}
 
 		// Process commands
 		foreach ($commands as &$command) {
+
+			// Replace directory separators
+			if ($separator !== '/') {
+				$command = str_replace('/', $separator, $command);
+			}
+
+			// Add stage flag
 			if (Str::startsWith($command, 'php artisan') and $stage) {
 				$command .= ' --env='.$stage;
 			}
+
 		}
 
 		return $commands;

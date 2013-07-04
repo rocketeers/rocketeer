@@ -75,7 +75,7 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 		$this->app = $serviceProvider->bindClasses($this->app);
 
 		$this->app->bind('rocketeer.deployments', function($app) {
-			return new Rocketeer\DeploymentsManager($app['files'], __DIR__);
+			return new Rocketeer\DeploymentsManager($app, __DIR__);
 		});
 
 		$this->app->singleton('rocketeer.tasks', function($app) use ($command) {
@@ -204,15 +204,18 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 	 */
 	protected function getRemote()
 	{
-		$remote = Mockery::mock('Illuminate\Remote\Connection');
-		$remote->shouldReceive('into')->andReturn(Mockery::self());
-		$remote->shouldReceive('status')->andReturn(0)->byDefault();
-		$remote->shouldReceive('run')->andReturnUsing(function($tasks, $callback) {
-			$task = implode(' && ', $tasks);
+		$run = function($task, $callback) {
+			if (is_array($task)) $task = implode(' && ', $task);
 			$output = shell_exec($task);
 
 			$callback($output);
-		});
+		};
+
+		$remote = Mockery::mock('Illuminate\Remote\Connection');
+		$remote->shouldReceive('into')->andReturn(Mockery::self());
+		$remote->shouldReceive('status')->andReturn(0)->byDefault();
+		$remote->shouldReceive('run')->andReturnUsing($run);
+		$remote->shouldReceive('runRemoteCommands')->andReturnUsing($run);
 
 		return $remote;
 	}

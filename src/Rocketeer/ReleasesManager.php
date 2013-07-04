@@ -2,7 +2,6 @@
 namespace Rocketeer;
 
 use Illuminate\Container\Container;
-use Illuminate\Support\Str;
 
 /**
  * Handles the managing and cleaning of releases
@@ -41,18 +40,7 @@ class ReleasesManager
 		$releases = null;
 
 		// Get releases on server
-		$this->app['remote']->run(array(
-			'ls '.$this->getReleasesPath(),
-		), function($release) use (&$releases) {
-			$releases .= $release;
-		});
-
-		// Transform to array
-		$endings  = Str::contains("\r\n", $releases) ? "\r\n" : "\n";
-		$releases = explode($endings, $releases);
-
-		// Filter and sort
-		$releases = array_filter($releases);
+		$releases = $this->app['rocketeer.bash']->listContents($this->getReleasesPath());
 		rsort($releases);
 
 		return $releases;
