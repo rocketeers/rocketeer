@@ -23,7 +23,7 @@ class Deploy extends Task
 		}
 
 		// Update current release
-		$release = time();
+		$release = date('YmdHis');
 		$this->releasesManager->updateCurrentRelease($release);
 
 		// Clone Git repository
