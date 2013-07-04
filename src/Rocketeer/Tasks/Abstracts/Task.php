@@ -227,7 +227,6 @@ abstract class Task extends Bash
 	{
 		$this->command->comment('Installing Composer dependencies');
 		$output = $this->runForCurrentRelease($this->getComposer(). ' install');
-		$status = $this->remote->status();
 
 		return $this->checkStatus('Composer could not install dependencies', $output);
 	}

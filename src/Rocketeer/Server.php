@@ -79,7 +79,7 @@ class Server
 	 * Get a value from the deployments file
 	 *
 	 * @param  string         $key
-	 * @param  Closure|string $fallback
+	 * @param  \Closure|string $fallback
 	 *
 	 * @return mixed
 	 */
