@@ -4,7 +4,7 @@ namespace Rocketeer;
 use Illuminate\Container\Container;
 
 /**
- * Handles the managing and cleaning of releases
+ * Provides informations and actions around releases
  */
 class ReleasesManager
 {
@@ -37,8 +37,6 @@ class ReleasesManager
 	 */
 	public function getReleases()
 	{
-		$releases = null;
-
 		// Get releases on server
 		$releases = $this->app['rocketeer.bash']->listContents($this->getReleasesPath());
 		rsort($releases);

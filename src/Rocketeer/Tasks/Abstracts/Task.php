@@ -105,7 +105,7 @@ abstract class Task extends Bash
 	 */
 	public function executeTask($task)
 	{
-		return $this->tasksQueue->buildTask($task)->execute();
+		return $this->app['rocketeer.tasks']->buildTask($task)->execute();
 	}
 
 	////////////////////////////////////////////////////////////////////

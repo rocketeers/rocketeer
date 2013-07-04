@@ -133,9 +133,6 @@ class TasksQueue
 	 *
 	 * Here we will actually process the queue to take into account the
 	 * various ways to hook into the queue : Tasks, Closures and Commands
-	 * We will proceed gradually – transform the string commands into Closures
-	 * Then transform the Closures into Tasks
-	 * That way in the end we have an uniform queue of Tasks
 	 *
 	 * @param  array   $tasks        An array of tasks
 	 * @param  Command $command      The command executing the tasks
@@ -213,6 +210,7 @@ class TasksQueue
 			if (!($task instanceof Task)) {
 				$task  = $this->buildTask($task);
 			}
+
 			$queue = array_merge($queue, $this->getBefore($task), array($task), $this->getAfter($task));
 		}
 
@@ -273,7 +271,6 @@ class TasksQueue
 
 		return new $task(
 			$this->app,
-			$this,
 			$this->command
 		);
 	}
@@ -296,6 +293,7 @@ class TasksQueue
 			foreach ($task as $t) {
 				$this->addSurroundingTask($t, $surroundingTask, $position);
 			}
+
 			return;
 		}
 
@@ -341,14 +339,15 @@ class TasksQueue
 	////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Get the stage to execute Tasks
+	 * Get the stage to execute Tasks in
 	 * If null, execute on all stages
 	 *
 	 * @return string
 	 */
 	protected function getStage()
 	{
-		$stage = $this->command->option('stage') ?: $this->app['rocketeer.rocketeer']->getOption('stages.default');
+		$defaultStage = $this->app['rocketeer.rocketeer']->getOption('stages.default');
+		$stage = $this->command->option('stage') ?: $defaultStage;
 
 		// Return all stages if "all"
 		if ($stage == 'all') {
