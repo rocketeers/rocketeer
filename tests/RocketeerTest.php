@@ -11,7 +11,7 @@ class RocketeerTest extends RocketeerTests
 			'password'   => '',
 		));
 
-		$this->assertEquals($repository, $this->app['rocketeer.rocketeer']->getGitRepository());
+		$this->assertEquals($repository, $this->app['rocketeer.rocketeer']->getRepository());
 	}
 
 	public function testCanUseHttpsRepository()
@@ -22,7 +22,7 @@ class RocketeerTest extends RocketeerTests
 			'password'   => 'bar',
 		));
 
-		$this->assertEquals('https://foobar:bar@github.com/Anahkiasen/rocketeer.git', $this->app['rocketeer.rocketeer']->getGitRepository());
+		$this->assertEquals('https://foobar:bar@github.com/Anahkiasen/rocketeer.git', $this->app['rocketeer.rocketeer']->getRepository());
 	}
 
 	public function testCanUseHttpsRepositoryWithUsernameProvided()
@@ -33,7 +33,7 @@ class RocketeerTest extends RocketeerTests
 			'password'   => 'bar',
 		));
 
-		$this->assertEquals('https://foobar:bar@github.com/Anahkiasen/rocketeer.git', $this->app['rocketeer.rocketeer']->getGitRepository());
+		$this->assertEquals('https://foobar:bar@github.com/Anahkiasen/rocketeer.git', $this->app['rocketeer.rocketeer']->getRepository());
 	}
 
 	public function testCanUseHttpsRepositoryWithOnlyUsernameProvided()
@@ -44,7 +44,7 @@ class RocketeerTest extends RocketeerTests
 			'password'   => '',
 		));
 
-		$this->assertEquals('https://foobar@github.com/Anahkiasen/rocketeer.git', $this->app['rocketeer.rocketeer']->getGitRepository());
+		$this->assertEquals('https://foobar@github.com/Anahkiasen/rocketeer.git', $this->app['rocketeer.rocketeer']->getRepository());
 	}
 
 	public function testCanUseHttpsRepositoryWithoutCredentials()
@@ -55,12 +55,12 @@ class RocketeerTest extends RocketeerTests
 			'password'   => '',
 		));
 
-		$this->assertEquals('https://github.com/Anahkiasen/rocketeer.git', $this->app['rocketeer.rocketeer']->getGitRepository());
+		$this->assertEquals('https://github.com/Anahkiasen/rocketeer.git', $this->app['rocketeer.rocketeer']->getRepository());
 	}
 
-	public function testCanGetGitBranch()
+	public function testCangetRepositoryBranch()
 	{
-		$this->assertEquals('master', $this->app['rocketeer.rocketeer']->getGitBranch());
+		$this->assertEquals('master', $this->app['rocketeer.rocketeer']->getRepositoryBranch());
 	}
 
 	public function testCanGetApplicationName()

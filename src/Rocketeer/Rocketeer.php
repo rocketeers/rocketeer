@@ -158,7 +158,7 @@ class Rocketeer
 	 *
 	 * @return string
 	 */
-	public function getGitRepository($username = null, $password = null)
+	public function getRepository($username = null, $password = null)
 	{
 		// Get credentials
 		$repository = $this->getOption('git');
@@ -191,7 +191,7 @@ class Rocketeer
 	 *
 	 * @return string
 	 */
-	public function getGitBranch()
+	public function getRepositoryBranch()
 	{
 		exec('git rev-parse --abbrev-ref HEAD', $fallback);
 		$fallback = trim($fallback[0]) ?: 'master';

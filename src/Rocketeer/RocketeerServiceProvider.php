@@ -44,6 +44,7 @@ class RocketeerServiceProvider extends ServiceProvider
 	{
 		// Register classes and commands
 		$this->app = $this->bindClasses($this->app);
+		$this->app = $this->bindScm($this->app);
 		$this->app = $this->bindCommands($this->app);
 
 		// Add commands to Artisan
@@ -93,6 +94,26 @@ class RocketeerServiceProvider extends ServiceProvider
 
 		$app->singleton('rocketeer.tasks', function($app) {
 			return new TasksQueue($app);
+		});
+
+		return $app;
+	}
+
+	/**
+	 * Bind the SCM instance
+	 *
+	 * @param  Container $app
+	 *
+	 * @return Container
+	 */
+	public function bindScm(Container $app)
+	{
+		// Currently only one
+		$scm = 'git';
+		$scm = 'Rocketeer\Scm\\'.ucfirst($scm);
+
+		$app->bind('rocketeer.scm', function($app) use ($scm) {
+			return new $scm($app);
 		});
 
 		return $app;

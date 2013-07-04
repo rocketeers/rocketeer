@@ -125,7 +125,7 @@ abstract class Task extends Bash
 		$releasePath = $this->releasesManager->getCurrentReleasePath();
 
 		$this->command->info('Cloning repository in "' .$releasePath. '"');
-		$output = $this->run(sprintf('git clone -b %s %s %s', $branch, $repository, $releasePath));
+		$output = $this->run($this->scm->checkout($releasePath));
 
 		return $this->checkStatus('Unable to clone the repository', $output);
 	}
@@ -140,11 +140,11 @@ abstract class Task extends Bash
 	public function updateRepository($reset = true)
 	{
 		$this->command->info('Pulling changes');
-		$tasks = array('git pull');
+		$tasks = array($this->scm->update());
 
 		// Reset if requested
 		if ($reset) {
-			array_unshift($tasks, 'git reset --hard');
+			array_unshift($tasks, $this->scm->reset());
 		}
 
 		return $this->runForCurrentRelease($tasks);

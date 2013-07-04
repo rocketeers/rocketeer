@@ -34,6 +34,13 @@ class Bash
 	public $server;
 
 	/**
+	 * The SCM
+	 *
+	 * @var Scm
+	 */
+	public $scm;
+
+	/**
 	 * The Rocketeer instance
 	 *
 	 * @var Rocketeer
@@ -66,6 +73,7 @@ class Bash
 		$this->releasesManager = $app['rocketeer.releases'];
 		$this->server          = $app['rocketeer.server'];
 		$this->rocketeer       = $app['rocketeer.rocketeer'];
+		$this->scm             = $app['rocketeer.scm'];
 		$this->remote          = $app['remote'];
 		$this->command         = $command;
 	}

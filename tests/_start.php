@@ -73,6 +73,7 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 
 		$serviceProvider = new RocketeerServiceProvider($this->app);
 		$this->app = $serviceProvider->bindClasses($this->app);
+		$this->app = $serviceProvider->bindScm($this->app);
 
 		$this->app->bind('rocketeer.server', function($app) {
 			return new Rocketeer\Server($app, __DIR__);
@@ -172,19 +173,26 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 	protected function getConfig()
 	{
 		$config = Mockery::mock('Illuminate\Config\Repository');
+
+		// Drivers
 		$config->shouldReceive('get')->with('database.default')->andReturn('mysql');
 		$config->shouldReceive('get')->with('cache.driver')->andReturn('file');
 		$config->shouldReceive('get')->with('session.driver')->andReturn('file');
+
+		// Rocketeer
 		$config->shouldReceive('get')->with('rocketeer::remote.application_name')->andReturn('foobar');
 		$config->shouldReceive('get')->with('rocketeer::remote.root_directory')->andReturn(__DIR__.'/server/');
 		$config->shouldReceive('get')->with('rocketeer::remote.keep_releases')->andReturn(1);
 		$config->shouldReceive('get')->with('rocketeer::remote.shared')->andReturn(array('tests/meta'));
-		$config->shouldReceive('get')->with('rocketeer::git.branch')->andReturn('master');
-		$config->shouldReceive('get')->with('rocketeer::git.repository')->andReturn('https://github.com/Anahkiasen/rocketeer.git');
 		$config->shouldReceive('get')->with('rocketeer::connections')->andReturn('production');
 		$config->shouldReceive('get')->with('rocketeer::stages.stages')->andReturn(array());
 		$config->shouldReceive('get')->with('rocketeer::stages.default')->andReturn(null);
 
+		// SCM
+		$config->shouldReceive('get')->with('rocketeer::git.branch')->andReturn('master');
+		$config->shouldReceive('get')->with('rocketeer::git.repository')->andReturn('https://github.com/Anahkiasen/rocketeer.git');
+
+		// Tasks
 		$config->shouldReceive('get')->with('rocketeer::tasks')->andReturn(array(
 			'before' => array(
 				'deploy' => array('before', 'foobar'),

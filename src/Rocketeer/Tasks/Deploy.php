@@ -101,13 +101,13 @@ class Deploy extends Task
 		if (!$this->rocketeer->hasCredentials() and !$this->rocketeer->usesSsh()) {
 			$username   = $this->command->ask('What is your Git username ?');
 			$password   = $this->command->secret('And your password ?');
-			$repository = $this->rocketeer->getGitRepository($username, $password);
+			$repository = $this->rocketeer->getRepository($username, $password);
 		} else {
-			$repository = $this->rocketeer->getGitRepository();
+			$repository = $this->rocketeer->getRepository();
 		}
 
 		// Clone release
-		$branch = $this->rocketeer->getGitBranch();
+		$branch = $this->rocketeer->getRepositoryBranch();
 		return $this->cloneRepository($repository, $branch);
 	}
 
