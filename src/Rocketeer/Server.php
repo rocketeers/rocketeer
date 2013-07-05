@@ -53,7 +53,7 @@ class Server
 		return $this->getValue('apache', function($server) use ($bash) {
 
 			// Get Apache envvars
-			$apache = $bash->runRemoteCommands('find /etc -name "apache*" -type d', true);
+			$apache = $bash->runRemoteCommands('find /etc -maxdepth 1 -name "apache*" -type d', true);
 			$apache = end($apache);
 			$envvars  = $bash->run("find $apache -name 'envvars'");
 			if (!$envvars) $envvars = $bash->run("find /usr/sbin -name 'envvars'");
