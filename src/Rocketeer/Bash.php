@@ -333,8 +333,8 @@ class Bash
 		foreach ($commands as &$command) {
 
 			// Replace directory separators
-			if ($separator !== '/') {
-				$command = str_replace('/', $separator, $command);
+			if (DIRECTORY_SEPARATOR !== $separator) {
+				$command = str_replace(DIRECTORY_SEPARATOR, $separator, $command);
 			}
 
 			// Add stage flag
