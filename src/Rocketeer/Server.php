@@ -53,7 +53,7 @@ class Server
 		return $this->getValue('apache', function($server) use ($bash) {
 
 			// Get Apache envvars
-			$credentials = $bash->runRemoteCommands('find /etc -name "envvars" -print | xargs grep -i -e "export APACHE_RUN_USER=" -e "export APACHE_RUN_GROUP="', true);
+			$credentials = $bash->runRemoteCommands('find /etc -name "envvars" -print | xargs grep -e "export APACHE_RUN_USER=" -e "export APACHE_RUN_GROUP="', true);
 			$username    = $credentials[0];
 			$group       = $credentials[1];
 
