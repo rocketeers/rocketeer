@@ -12,7 +12,7 @@
 - If the `git.branch` option is empty, Rocketeer will now use the current Git branch
 - Fix a delay where the `current` symlink would get updated before the complete end of the deploy
 - Fix errors with Git and Composer not canceling deploy
-- Fix some compatibility problems with Windows Server
+- Fix some compatibility problems with Windows
 - Fix Apache username and group using `www-data` by default
 
 ### 0.5.0 (stable)
