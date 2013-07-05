@@ -53,7 +53,8 @@ class Server
 		return $this->getValue('apache', function($server) use ($bash) {
 
 			// Get Apache envvars
-			$envvars  = $bash->run("find / -name 'envvars'");
+			$envvars  = $bash->run("find /etc -name 'envvars'");
+			if (!$envvars) $envvars = $bash->run("find /usr/sbin -name 'envvars'");
 			$username = $bash->run('cat '.$envvars. ' | grep APACHE_RUN_USER');
 			$group    = $bash->run('cat '.$envvars. ' | grep APACHE_RUN_GROUP');
 

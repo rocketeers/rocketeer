@@ -201,7 +201,7 @@ abstract class Task extends Bash
 	{
 		$folder = $this->releasesManager->getCurrentReleasePath().'/'.$folder;
 		$this->command->comment('Setting permissions for '.$folder);
-		$apache = $this->rocketeer->getApacheCredentials();
+		$apache = $this->server->getApacheCredentials();
 
 		$output  = $this->run(array(
 			'chmod -R +x ' .$folder,
