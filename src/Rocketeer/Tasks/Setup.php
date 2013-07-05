@@ -47,9 +47,9 @@ class Setup extends Task
 
 		// Get server informations
 		$this->command->comment('Getting some informations about the server');
-		$this->rocketeer->getApacheCredentials();
-		$this->rocketeer->getSeparator();
-		$this->rocketeer->getLineEndings();
+		$this->server->getApacheCredentials();
+		$this->server->getSeparator();
+		$this->server->getLineEndings();
 
 		// Create confirmation message
 		$application = $this->rocketeer->getApplicationName();
