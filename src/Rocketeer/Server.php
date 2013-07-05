@@ -55,7 +55,7 @@ class Server
 			// Get Apache envvars
 			$apache = $bash->runRemoteCommands('find /etc -name "apache*" -type d', true);
 			$apache = end($apache);
-			$envvars  = $bash->run("find /etc/$apache -name 'envvars'");
+			$envvars  = $bash->run("find $apache -name 'envvars'");
 			if (!$envvars) $envvars = $bash->run("find /usr/sbin -name 'envvars'");
 			$username = $bash->run('cat '.$envvars. ' | grep APACHE_RUN_USER');
 			$group    = $bash->run('cat '.$envvars. ' | grep APACHE_RUN_GROUP');
