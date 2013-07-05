@@ -85,15 +85,7 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 
 		// Bind dummy Task
 		$this->task = $this->task('Cleanup');
-	}
 
-	/**
-	 * Recreate placeholder server
-	 *
-	 * @return void
-	 */
-	public function tearDown()
-	{
 		// Recreate deployments file
 		$deployments = array(
 			"foo"                 => "bar",
