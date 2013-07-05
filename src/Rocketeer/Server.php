@@ -59,16 +59,8 @@ class Server
 			$group    = $bash->run('cat '.$envvars. ' | grep APACHE_RUN_GROUP');
 
 			// Get username and group
-			if ($username and $group) {
-				$username = explode('=', $username)[1];
-				$group    = explode('=', $group)[1];
-			}
-
-			// Fallbacks
-			if (!$username or !$group) {
-				$username = $username ?: 'www-data';
-				$group    = $group ?: 'www-data';
-			}
+			$username = array_get(explode('=', $username), '1', 'www-data');
+			$group    = array_get(explode('=', $group), '1', 'www-data');
 
 			// Save
 			$credentials = compact('username', 'group');
