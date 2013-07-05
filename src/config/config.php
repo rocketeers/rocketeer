@@ -9,12 +9,15 @@
 	// The remote connection(s) to deploy to
 	'connections' => array('production'),
 
-	// Git Repository
+	// SCM repository
 	//////////////////////////////////////////////////////////////////////
 
-	'git' => array(
+	'scm' => array(
 
-		// The SSH/HTTPS adress to your Git Repository
+		// The SCM used (supported: "git")
+		'scm' => 'git',
+
+		// The SSH/HTTPS adress to your repository
 		'repository' => 'https://github.com/vendor/website.git',
 
 		// The repository credentials : you can leave those empty
@@ -30,8 +33,8 @@
 
 	// Stages
 	//
-	// The multiples stages of your application – if you don't know
-	// what this does, then you don't need it
+	// The multiples stages of your application
+	// if you don't know what this does, then you don't need it
 	//////////////////////////////////////////////////////////////////////
 
 	'stages' => array(

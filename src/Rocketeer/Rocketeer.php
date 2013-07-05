@@ -134,7 +134,7 @@ class Rocketeer
 	 */
 	public function usesSsh()
 	{
-		return Str::contains($this->getOption('git.repository'), 'git@');
+		return Str::contains($this->getOption('scm.repository'), 'git@');
 	}
 
 	/**
@@ -145,7 +145,7 @@ class Rocketeer
 	 */
 	public function hasCredentials()
 	{
-		$credentials = $this->getOption('git');
+		$credentials = $this->getOption('scm');
 
 		return $credentials['username'] or $credentials['password'];
 	}
@@ -161,7 +161,7 @@ class Rocketeer
 	public function getRepository($username = null, $password = null)
 	{
 		// Get credentials
-		$repository = $this->getOption('git');
+		$repository = $this->getOption('scm');
 		$username   = $username ?: $repository['username'];
 		$password   = $password ?: $repository['password'];
 		$repository = $repository['repository'];
@@ -190,9 +190,9 @@ class Rocketeer
 	 */
 	public function getRepositoryBranch()
 	{
-		exec('git rev-parse --abbrev-ref HEAD', $fallback);
+		exec($this->app['rocketeer.scm']->currentBranch(), $fallback);
 		$fallback = trim($fallback[0]) ?: 'master';
-		$branch   = $this->getOption('git.branch') ?: $fallback;
+		$branch   = $this->getOption('scm.branch') ?: $fallback;
 
 		return $branch;
 	}

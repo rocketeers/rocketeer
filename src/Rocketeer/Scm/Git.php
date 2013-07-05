@@ -31,13 +31,23 @@ class Git implements Scm
 	////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Get the current state of the repository
+	 * Get the current state
 	 *
 	 * @return string
 	 */
-	public function current()
+	public function currentState()
 	{
 		return 'git rev-parse HEAD';
+	}
+
+	/**
+	 * Get the current branch
+	 *
+	 * @return string
+	 */
+	public function currentBranch()
+	{
+		return 'git rev-parse --abbrev-ref HEAD';
 	}
 
 	////////////////////////////////////////////////////////////////////

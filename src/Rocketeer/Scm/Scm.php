@@ -8,11 +8,18 @@ interface Scm
 {
 
 	/**
-	 * Get the current state of the repository
+	 * Get the current state
 	 *
 	 * @return string
 	 */
-	public function current();
+	public function currentState();
+
+	/**
+	 * Get the current branch
+	 *
+	 * @return string
+	 */
+	public function currentBranch();
 
 	/**
 	 * Clone a repository

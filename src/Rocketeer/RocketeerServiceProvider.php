@@ -109,7 +109,7 @@ class RocketeerServiceProvider extends ServiceProvider
 	public function bindScm(Container $app)
 	{
 		// Currently only one
-		$scm = 'git';
+		$scm = $this->app['rocketeer.rocketeer']->getOption('scm.scm');
 		$scm = 'Rocketeer\Scm\\'.ucfirst($scm);
 
 		$app->bind('rocketeer.scm', function($app) use ($scm) {

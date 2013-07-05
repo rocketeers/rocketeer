@@ -27,7 +27,7 @@ class Deploy extends Task
 		$this->releasesManager->updateCurrentRelease($release);
 
 		// Clone Git repository
-		if (!$this->cloneGitRepository()) {
+		if (!$this->cloneScmRepository()) {
 			return $this->cancel();
 		}
 
@@ -95,11 +95,11 @@ class Deploy extends Task
 	 *
 	 * @return void
 	 */
-	protected function cloneGitRepository()
+	protected function cloneScmRepository()
 	{
 		// Get Git credentials
 		if (!$this->rocketeer->hasCredentials() and !$this->rocketeer->usesSsh()) {
-			$username   = $this->command->ask('What is your Git username ?');
+			$username   = $this->command->ask('What is your SCM username ?');
 			$password   = $this->command->secret('And your password ?');
 			$repository = $this->rocketeer->getRepository($username, $password);
 		} else {
