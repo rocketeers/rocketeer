@@ -42,6 +42,42 @@ class Server
 	////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Get the Apache username and group
+	 *
+	 * @return string
+	 */
+	public function getApacheCredentials()
+	{
+		$bash = $this->app['rocketeer.bash'];
+
+		return $this->getValue('apache', function($server) use ($bash) {
+
+			// Get Apache envvars
+			$envvars  = $bash->run("find / -name 'envvars'");
+			$username = $bash->run('cat '.$envvars. ' | grep APACHE_RUN_USER');
+			$group    = $bash->run('cat '.$envvars. ' | grep APACHE_RUN_GROUP');
+
+			// Get username and group
+			if ($username and $group) {
+				$username = explode('=', $username)[1];
+				$group    = explode('=', $group)[1];
+			}
+
+			// Fallbacks
+			if (!$username or !$group) {
+				$username = $username ?: 'www-data';
+				$group    = $group ?: 'www-data';
+			}
+
+			// Save
+			$credentials = compact('username', 'group');
+			$server->setValue('apache', $credentials);
+
+			return $credentials;
+		});
+	}
+
+	/**
 	 * Get the directory separators
 	 *
 	 * @return string

@@ -45,6 +45,12 @@ class Setup extends Task
 		// Set setup to true
 		$this->server->setValue('is_setup', true);
 
+		// Get server informations
+		$this->command->comment('Getting some informations about the server');
+		$this->rocketeer->getApacheCredentials();
+		$this->rocketeer->getSeparator();
+		$this->rocketeer->getLineEndings();
+
 		// Create confirmation message
 		$application = $this->rocketeer->getApplicationName();
 		$homeFolder  = $this->rocketeer->getHomeFolder();

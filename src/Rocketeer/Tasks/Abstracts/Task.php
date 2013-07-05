@@ -115,12 +115,9 @@ abstract class Task extends Bash
 	/**
 	 * Clone the repo into a release folder
 	 *
-	 * @param string $repository The repository to clone
-	 * @param string $branch     The branch to clone
-	 *
 	 * @return string
 	 */
-	public function cloneRepository($repository, $branch = 'master')
+	public function cloneRepository()
 	{
 		$releasePath = $this->releasesManager->getCurrentReleasePath();
 
@@ -204,11 +201,12 @@ abstract class Task extends Bash
 	{
 		$folder = $this->releasesManager->getCurrentReleasePath().'/'.$folder;
 		$this->command->comment('Setting permissions for '.$folder);
+		$apache = $this->rocketeer->getApacheCredentials();
 
 		$output  = $this->run(array(
 			'chmod -R +x ' .$folder,
 			'chmod -R g+s ' .$folder,
-			'chown -R www-data:www-data ' .$folder,
+			sprintf('chown -R %s:%s %s', $apache['username'], $apache['group'], $folder),
 		));
 
 		return $output;

@@ -175,12 +175,9 @@ class Rocketeer
 			$credentials .= '@';
 
 			// Add them in chain
-			if (Str::contains($repository, 'https://'.$username)) {
-				$repository = str_replace($username.'@', $credentials, $repository);
-			} else {
-				$repository = str_replace('https://', 'https://'.$credentials, $repository);
-			}
-
+			$repository = Str::contains($repository, 'https://'.$username)
+				? str_replace($username.'@', $credentials, $repository)
+				: str_replace('https://', 'https://'.$credentials, $repository);
 		}
 
 		return $repository;

@@ -13,6 +13,7 @@
 - Fix a delay where the `current` symlink would get updated before the complete end of the deploy
 - Fix errors with Git and Composer not canceling deploy
 - Fix some compatibility problems with Windows Server
+- Fix Apache username and group using `www-data` by default
 
 ### 0.5.0 (stable)
 
