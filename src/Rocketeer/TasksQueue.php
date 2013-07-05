@@ -237,7 +237,7 @@ class TasksQueue
 		if (is_string($task)) {
 			$stringTask = $task;
 			$closure = function($task) use ($stringTask) {
-				return $task->run($stringTask);
+				return $task->runForCurrentRelease($stringTask);
 			};
 		}
 
