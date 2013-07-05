@@ -179,6 +179,7 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 		$config->shouldReceive('get')->with('session.driver')->andReturn('file');
 
 		// Rocketeer
+		$config->shouldReceive('get')->with('rocketeer::remote.apache')->andReturn(array('user' => 'www-data', 'group' => 'www-data'));
 		$config->shouldReceive('get')->with('rocketeer::remote.application_name')->andReturn('foobar');
 		$config->shouldReceive('get')->with('rocketeer::remote.root_directory')->andReturn(__DIR__.'/server/');
 		$config->shouldReceive('get')->with('rocketeer::remote.keep_releases')->andReturn(1);
@@ -188,8 +189,9 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 		$config->shouldReceive('get')->with('rocketeer::stages.default')->andReturn(null);
 
 		// SCM
-		$config->shouldReceive('get')->with('rocketeer::git.branch')->andReturn('master');
-		$config->shouldReceive('get')->with('rocketeer::git.repository')->andReturn('https://github.com/Anahkiasen/rocketeer.git');
+		$config->shouldReceive('get')->with('rocketeer::scm.scm')->andReturn('git');
+		$config->shouldReceive('get')->with('rocketeer::scm.branch')->andReturn('master');
+		$config->shouldReceive('get')->with('rocketeer::scm.repository')->andReturn('https://github.com/Anahkiasen/rocketeer.git');
 
 		// Tasks
 		$config->shouldReceive('get')->with('rocketeer::tasks')->andReturn(array(

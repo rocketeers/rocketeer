@@ -5,7 +5,7 @@ class RocketeerTest extends RocketeerTests
 	public function testCanUseSshRepository()
 	{
 		$repository = 'git@github.com:Anahkiasen/rocketeer.git';
-		$this->app['config']->shouldReceive('get')->with('rocketeer::git')->andReturn(array(
+		$this->app['config']->shouldReceive('get')->with('rocketeer::scm')->andReturn(array(
 			'repository' => $repository,
 			'username'   => '',
 			'password'   => '',
@@ -16,7 +16,7 @@ class RocketeerTest extends RocketeerTests
 
 	public function testCanUseHttpsRepository()
 	{
-		$this->app['config']->shouldReceive('get')->with('rocketeer::git')->andReturn(array(
+		$this->app['config']->shouldReceive('get')->with('rocketeer::scm')->andReturn(array(
 			'repository' => 'https://github.com/Anahkiasen/rocketeer.git',
 			'username'   => 'foobar',
 			'password'   => 'bar',
@@ -27,7 +27,7 @@ class RocketeerTest extends RocketeerTests
 
 	public function testCanUseHttpsRepositoryWithUsernameProvided()
 	{
-		$this->app['config']->shouldReceive('get')->with('rocketeer::git')->andReturn(array(
+		$this->app['config']->shouldReceive('get')->with('rocketeer::scm')->andReturn(array(
 			'repository' => 'https://foobar@github.com/Anahkiasen/rocketeer.git',
 			'username'   => 'foobar',
 			'password'   => 'bar',
@@ -38,7 +38,7 @@ class RocketeerTest extends RocketeerTests
 
 	public function testCanUseHttpsRepositoryWithOnlyUsernameProvided()
 	{
-		$this->app['config']->shouldReceive('get')->with('rocketeer::git')->andReturn(array(
+		$this->app['config']->shouldReceive('get')->with('rocketeer::scm')->andReturn(array(
 			'repository' => 'https://foobar@github.com/Anahkiasen/rocketeer.git',
 			'username'   => 'foobar',
 			'password'   => '',
@@ -49,7 +49,7 @@ class RocketeerTest extends RocketeerTests
 
 	public function testCanUseHttpsRepositoryWithoutCredentials()
 	{
-		$this->app['config']->shouldReceive('get')->with('rocketeer::git')->andReturn(array(
+		$this->app['config']->shouldReceive('get')->with('rocketeer::scm')->andReturn(array(
 			'repository' => 'https://github.com/Anahkiasen/rocketeer.git',
 			'username'   => '',
 			'password'   => '',
