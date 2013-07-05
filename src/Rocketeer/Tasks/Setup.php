@@ -47,7 +47,6 @@ class Setup extends Task
 
 		// Get server informations
 		$this->command->comment('Getting some informations about the server');
-		// $this->server->getApacheCredentials();
 		$this->server->getSeparator();
 		$this->server->getLineEndings();
 

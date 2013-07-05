@@ -201,12 +201,12 @@ abstract class Task extends Bash
 	{
 		$folder = $this->releasesManager->getCurrentReleasePath().'/'.$folder;
 		$this->command->comment('Setting permissions for '.$folder);
-		$apache = $this->server->getApacheCredentials();
+		$apache = $this->rocketeer->getOption('remote.apache');
 
 		$output  = $this->run(array(
 			'chmod -R +x ' .$folder,
 			'chmod -R g+s ' .$folder,
-			sprintf('chown -R %s:%s %s', $apache['username'], $apache['group'], $folder),
+			sprintf('chown -R %s:%s %s', $apache['user'], $apache['group'], $folder),
 		));
 
 		return $output;
