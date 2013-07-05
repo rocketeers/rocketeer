@@ -53,17 +53,14 @@ class Server
 		return $this->getValue('apache', function($server) use ($bash) {
 
 			// Get Apache envvars
+			print $bash->runRemoteCommands('ls /etc -l');
 			$apache = $bash->runRemoteCommands('find /etc -maxdepth 1 -name "apache*" -type d', true);
-			print $apache;
 			$apache = end($apache);
-			print $apache;
 			$envvars  = $bash->run("find $apache -name 'envvars'");
-			print $envvars;
 			if (!$envvars) $envvars = $bash->run("find /usr/sbin -name 'envvars'");
-			print $envvars;
 			$username = $bash->run('cat '.$envvars. ' | grep APACHE_RUN_USER');
 			$group    = $bash->run('cat '.$envvars. ' | grep APACHE_RUN_GROUP');
-			print $username;
+
 			// Get username and group
 			$username = array_get(explode('=', $username), '1', 'www-data');
 			$group    = array_get(explode('=', $group), '1', 'www-data');
