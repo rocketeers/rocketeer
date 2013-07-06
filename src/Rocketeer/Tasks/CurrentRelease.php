@@ -31,8 +31,9 @@ class CurrentRelease extends Task
 		}
 
 		// Create message
-		$date    = Carbon::createFromTimestamp($currentRelease)->toDateTimeString();
-		$message = sprintf('The current release is <info>%s</info> (deployed at <comment>%s</comment>)', $currentRelease, $date);
+		$date    = Carbon::createFromFormat('YmdHis', $currentRelease)->toDateTimeString();
+		$state   = $this->runForCurrentRelease($this->scm->currentState());
+		$message = sprintf('The current release is <info>%s</info> (<comment>%s</comment> deployed at <comment>%s</comment>)', $currentRelease, $state, $date);
 
 		return $this->command->line($message);
 	}

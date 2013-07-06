@@ -1,7 +1,7 @@
 <?php
 namespace Rocketeer\Tasks\Abstracts;
 
-use Illuminate\Support\Str;
+use Rocketeer\Bash;
 
 /**
  * A Task to execute on the remote servers
@@ -15,6 +15,17 @@ abstract class Task extends Bash
 	 * @var string
 	 */
 	protected $description;
+
+	/**
+	 * Whether the Task needs to be run on each stage or globally
+	 *
+	 * @var boolean
+	 */
+	public $usesStages = true;
+
+	////////////////////////////////////////////////////////////////////
+	///////////////////////////// CORE METHODS /////////////////////////
+	////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Get the basic name of the Task
@@ -52,6 +63,28 @@ abstract class Task extends Bash
 	////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Check if the remote server is setup
+	 *
+	 * @return boolean
+	 */
+	public function isSetup()
+	{
+		return $this->fileExists($this->rocketeer->getFolder('current'));
+	}
+
+	/**
+	 * Check if the Task uses stages
+	 *
+	 * @return boolean
+	 */
+	public function usesStages()
+	{
+		$stages = $this->rocketeer->getStages();
+
+		return $this->usesStages and !empty($stages);
+	}
+
+	/**
 	 * Run actions in the current release's folder
 	 *
 	 * @param  string|array $tasks One or more tasks
@@ -72,7 +105,7 @@ abstract class Task extends Bash
 	 */
 	public function executeTask($task)
 	{
-		return $this->tasksQueue->buildTask($task)->execute();
+		return $this->app['rocketeer.tasks']->buildTask($task)->execute();
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -82,17 +115,16 @@ abstract class Task extends Bash
 	/**
 	 * Clone the repo into a release folder
 	 *
-	 * @param string $repository The repository to clone
-	 * @param string $branch     The branch to clone
-	 *
 	 * @return string
 	 */
-	public function cloneRepository($repository, $branch = 'master')
+	public function cloneRepository()
 	{
 		$releasePath = $this->releasesManager->getCurrentReleasePath();
-		$this->command->info('Cloning repository in "' .$releasePath. '"');
 
-		return $this->run(sprintf('git clone -b %s %s %s', $branch, $repository, $releasePath));
+		$this->command->info('Cloning repository in "' .$releasePath. '"');
+		$output = $this->run($this->scm->checkout($releasePath));
+
+		return $this->checkStatus('Unable to clone the repository', $output);
 	}
 
 	/**
@@ -105,11 +137,11 @@ abstract class Task extends Bash
 	public function updateRepository($reset = true)
 	{
 		$this->command->info('Pulling changes');
-		$tasks = array('git pull');
+		$tasks = array($this->scm->update());
 
 		// Reset if requested
 		if ($reset) {
-			array_unshift($tasks, 'git reset --hard');
+			array_unshift($tasks, $this->scm->reset());
 		}
 
 		return $this->runForCurrentRelease($tasks);
@@ -169,10 +201,12 @@ abstract class Task extends Bash
 	{
 		$folder = $this->releasesManager->getCurrentReleasePath().'/'.$folder;
 		$this->command->comment('Setting permissions for '.$folder);
+		$apache = $this->rocketeer->getOption('remote.apache');
 
 		$output  = $this->run(array(
 			'chmod -R +x ' .$folder,
-			'chown -R www-data:www-data ' .$folder,
+			'chmod -R g+s ' .$folder,
+			sprintf('chown -R %s:%s %s', $apache['user'], $apache['group'], $folder),
 		));
 
 		return $output;
@@ -190,8 +224,9 @@ abstract class Task extends Bash
 	public function runComposer()
 	{
 		$this->command->comment('Installing Composer dependencies');
+		$output = $this->runForCurrentRelease($this->getComposer(). ' install');
 
-		return $this->runForCurrentRelease($this->getComposer(). ' install');
+		return $this->checkStatus('Composer could not install dependencies', $output);
 	}
 
 	/**
@@ -243,14 +278,7 @@ abstract class Task extends Bash
 			$phpunit. ' --stop-on-failure '.$arguments,
 		));
 
-		$testsSucceeded = Str::contains($output, 'OK') or Str::contains($output, 'No tests executed');
-		if ($testsSucceeded) {
-			$this->command->info('Tests ran with success');
-		} elseif (!$this->command->option('verbose')) {
-			print $output;
-		}
-
-		return $testsSucceeded;
+		return $this->checkStatus('Tests failed', $output, 'Tests passed successfully');
 	}
 
 }

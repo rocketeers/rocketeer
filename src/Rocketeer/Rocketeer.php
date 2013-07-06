@@ -19,11 +19,18 @@ class Rocketeer
 	protected $app;
 
 	/**
+	 * The current stage
+	 *
+	 * @var string
+	 */
+	protected $stage;
+
+	/**
 	 * The Rocketeer version
 	 *
 	 * @var string
 	 */
-	const VERSION = '0.5.0';
+	const VERSION = '0.6.0';
 
 	/**
 	 * Build a new ReleasesManager
@@ -48,6 +55,42 @@ class Rocketeer
 	}
 
 	////////////////////////////////////////////////////////////////////
+	//////////////////////////////// STAGES ////////////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Execute the Task on a particular stage
+	 *
+	 * @param  string $stage
+	 *
+	 * @return void
+	 */
+	public function setStage($stage)
+	{
+		$this->stage = $stage;
+	}
+
+	/**
+	 * Get the current stage
+	 *
+	 * @return string
+	 */
+	public function getStage()
+	{
+		return $this->stage;
+	}
+
+	/**
+	 * Get the stages of the application
+	 *
+	 * @return array
+	 */
+	public function getStages()
+	{
+		return $this->getOption('stages.stages');
+	}
+
+	////////////////////////////////////////////////////////////////////
 	///////////////////////////// APPLICATION //////////////////////////
 	////////////////////////////////////////////////////////////////////
 
@@ -59,75 +102,6 @@ class Rocketeer
 	public function getApplicationName()
 	{
 		return $this->getOption('remote.application_name');
-	}
-
-	/**
-	 * Whether the repository used is using SSH or HTTPS
-	 *
-	 * @return boolean
-	 */
-	public function usesSsh()
-	{
-		return str_contains($this->getOption('git.repository'), 'git@');
-	}
-
-	/**
-	 * Whether credentials were provided by the User or if we
-	 * need to prompt for them
-	 *
-	 * @return boolean
-	 */
-	public function hasCredentials()
-	{
-		$credentials = $this->getOption('git');
-
-		return $credentials['username'] or $credentials['password'];
-	}
-
-	/**
-	 * Get the Git repository
-	 *
-	 * @param  string $username
-	 * @param  string $password
-	 *
-	 * @return string
-	 */
-	public function getGitRepository($username = null, $password = null)
-	{
-		// Get credentials
-		$repository = $this->getOption('git');
-		$username   = $username ?: $repository['username'];
-		$password   = $password ?: $repository['password'];
-		$repository = $repository['repository'];
-
-		// Add credentials if possible
-		if ($username or $password) {
-
-			// Build credentials chain
-			$credentials = $username;
-			if ($password) $credentials .= ':'.$password;
-			$credentials .= '@';
-
-			// Add them in chain
-			if (Str::contains($repository, 'https://'.$username)) {
-				$repository = str_replace($username.'@', $credentials, $repository);
-			} else {
-				$repository = str_replace('https://', 'https://'.$credentials, $repository);
-			}
-
-		}
-
-		return $repository;
-	}
-
-	/**
-	 * Get the Git branch
-	 *
-	 * @return string
-	 */
-	public function getGitBranch()
-	{
-		return $this->getOption('git.branch');
 	}
 
 	/**
@@ -150,6 +124,80 @@ class Rocketeer
 	}
 
 	////////////////////////////////////////////////////////////////////
+	/////////////////////////// GIT REPOSITORY /////////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Whether the repository used is using SSH or HTTPS
+	 *
+	 * @return boolean
+	 */
+	public function usesSsh()
+	{
+		return Str::contains($this->getOption('scm.repository'), 'git@');
+	}
+
+	/**
+	 * Whether credentials were provided by the User or if we
+	 * need to prompt for them
+	 *
+	 * @return boolean
+	 */
+	public function hasCredentials()
+	{
+		$credentials = $this->getOption('scm');
+
+		return $credentials['username'] or $credentials['password'];
+	}
+
+	/**
+	 * Get the Git repository
+	 *
+	 * @param  string $username
+	 * @param  string $password
+	 *
+	 * @return string
+	 */
+	public function getRepository($username = null, $password = null)
+	{
+		// Get credentials
+		$repository = $this->getOption('scm');
+		$username   = $username ?: $repository['username'];
+		$password   = $password ?: $repository['password'];
+		$repository = $repository['repository'];
+
+		// Add credentials if possible
+		if ($username or $password) {
+
+			// Build credentials chain
+			$credentials = $username;
+			if ($password) $credentials .= ':'.$password;
+			$credentials .= '@';
+
+			// Add them in chain
+			$repository = Str::contains($repository, 'https://'.$username)
+				? str_replace($username.'@', $credentials, $repository)
+				: str_replace('https://', 'https://'.$credentials, $repository);
+		}
+
+		return $repository;
+	}
+
+	/**
+	 * Get the Git branch
+	 *
+	 * @return string
+	 */
+	public function getRepositoryBranch()
+	{
+		exec($this->app['rocketeer.scm']->currentBranch(), $fallback);
+		$fallback = trim($fallback[0]) ?: 'master';
+		$branch   = $this->getOption('scm.branch') ?: $fallback;
+
+		return $branch;
+	}
+
+	////////////////////////////////////////////////////////////////////
 	//////////////////////////////// PATHS /////////////////////////////
 	////////////////////////////////////////////////////////////////////
 
@@ -163,6 +211,7 @@ class Rocketeer
 	public function getFolder($folder = null)
 	{
 		$base   = $this->getHomeFolder().'/';
+		if ($folder and $this->stage) $base .= $this->stage.'/';
 		$folder = str_replace($base, null, $folder);
 
 		return $base.$folder;

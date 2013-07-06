@@ -44,6 +44,7 @@ class RocketeerServiceProvider extends ServiceProvider
 	{
 		// Register classes and commands
 		$this->app = $this->bindClasses($this->app);
+		$this->app = $this->bindScm($this->app);
 		$this->app = $this->bindCommands($this->app);
 
 		// Add commands to Artisan
@@ -75,7 +76,7 @@ class RocketeerServiceProvider extends ServiceProvider
 	 */
 	public function bindClasses(Container $app)
 	{
-		$app->bind('rocketeer.rocketeer', function($app) {
+		$app->singleton('rocketeer.rocketeer', function($app) {
 			return new Rocketeer($app);
 		});
 
@@ -83,12 +84,36 @@ class RocketeerServiceProvider extends ServiceProvider
 			return new ReleasesManager($app);
 		});
 
-		$app->bind('rocketeer.deployments', function($app) {
-			return new DeploymentsManager($app['files'], $app['path.storage']);
+		$app->bind('rocketeer.server', function($app) {
+			return new Server($app);
+		});
+
+		$app->bind('rocketeer.bash', function($app) {
+			return new Bash($app);
 		});
 
 		$app->singleton('rocketeer.tasks', function($app) {
 			return new TasksQueue($app);
+		});
+
+		return $app;
+	}
+
+	/**
+	 * Bind the SCM instance
+	 *
+	 * @param  Container $app
+	 *
+	 * @return Container
+	 */
+	public function bindScm(Container $app)
+	{
+		// Currently only one
+		$scm = $this->app['rocketeer.rocketeer']->getOption('scm.scm');
+		$scm = 'Rocketeer\Scm\\'.ucfirst($scm);
+
+		$app->bind('rocketeer.scm', function($app) use ($scm) {
+			return new $scm($app);
 		});
 
 		return $app;

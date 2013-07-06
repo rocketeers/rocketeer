@@ -133,9 +133,6 @@ class TasksQueue
 	 *
 	 * Here we will actually process the queue to take into account the
 	 * various ways to hook into the queue : Tasks, Closures and Commands
-	 * We will proceed gradually – transform the string commands into Closures
-	 * Then transform the Closures into Tasks
-	 * That way in the end we have an uniform queue of Tasks
 	 *
 	 * @param  array   $tasks        An array of tasks
 	 * @param  Command $command      The command executing the tasks
@@ -147,13 +144,44 @@ class TasksQueue
 		$this->command = $command;
 		$queue         = $this->buildQueue($tasks);
 
-		// Finally we execute the Tasks
-		foreach ($queue as $task) {
-			$state = $task->execute();
-			if ($state === false) return $queue;
+		// Check if we provided a stage
+		$stage  = $this->getStage();
+		$stages = $this->app['rocketeer.rocketeer']->getStages();
+		if ($stage and in_array($stage, $stages)) {
+			$stages = array($stage);
 		}
 
-		return $queue;
+		// Run the Tasks on each stage
+		if (!empty($stages)) {
+			foreach ($stages as $stage) {
+				$state = $this->runQueue($queue, $stage);
+			}
+		} else {
+			$state = $this->runQueue($queue);
+		}
+
+		return $state ? $queue : $state;
+	}
+
+	/**
+	 * Run the queue, taking into account the stage
+	 *
+	 * @param  array $tasks
+	 * @param  string $stage
+	 *
+	 * @return boolean
+	 */
+	protected function runQueue($tasks, $stage = null)
+	{
+		foreach ($tasks as $task) {
+			$currentStage = $task->usesStages() ? $stage : null;
+			$this->app['rocketeer.rocketeer']->setStage($currentStage);
+
+			$state = $task->execute();
+			if ($state === false) return false;
+		}
+
+		return true;
 	}
 
 	/**
@@ -182,6 +210,7 @@ class TasksQueue
 			if (!($task instanceof Task)) {
 				$task  = $this->buildTask($task);
 			}
+
 			$queue = array_merge($queue, $this->getBefore($task), array($task), $this->getAfter($task));
 		}
 
@@ -208,7 +237,7 @@ class TasksQueue
 		if (is_string($task)) {
 			$stringTask = $task;
 			$closure = function($task) use ($stringTask) {
-				return $task->run($stringTask);
+				return $task->runForCurrentRelease($stringTask);
 			};
 		}
 
@@ -242,7 +271,6 @@ class TasksQueue
 
 		return new $task(
 			$this->app,
-			$this,
 			$this->command
 		);
 	}
@@ -265,6 +293,7 @@ class TasksQueue
 			foreach ($task as $t) {
 				$this->addSurroundingTask($t, $surroundingTask, $position);
 			}
+
 			return;
 		}
 
@@ -303,6 +332,29 @@ class TasksQueue
 		}
 
 		return (array) $tasks;
+	}
+
+	////////////////////////////////////////////////////////////////////
+	//////////////////////////////// STAGES ////////////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Get the stage to execute Tasks in
+	 * If null, execute on all stages
+	 *
+	 * @return string
+	 */
+	protected function getStage()
+	{
+		$defaultStage = $this->app['rocketeer.rocketeer']->getOption('stages.default');
+		$stage = $this->command->option('stage') ?: $defaultStage;
+
+		// Return all stages if "all"
+		if ($stage == 'all') {
+			$stage = null;
+		}
+
+		return $stage;
 	}
 
 }

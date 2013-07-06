@@ -4,7 +4,7 @@ namespace Rocketeer;
 use Illuminate\Container\Container;
 
 /**
- * Handles the managing and cleaning of releases
+ * Provides informations and actions around releases
  */
 class ReleasesManager
 {
@@ -37,16 +37,9 @@ class ReleasesManager
 	 */
 	public function getReleases()
 	{
-		$releases = array();
-
-		$this->app['remote']->run(array(
-			'cd '.$this->getReleasesPath(),
-			'ls',
-		), function($folders) use (&$releases) {
-			$releases = explode(PHP_EOL, $folders);
-			$releases = array_filter($releases);
-			rsort($releases);
-		});
+		// Get releases on server
+		$releases = $this->app['rocketeer.bash']->listContents($this->getReleasesPath());
+		rsort($releases);
 
 		return $releases;
 	}
@@ -111,7 +104,7 @@ class ReleasesManager
 	 */
 	public function getCurrentRelease()
 	{
-		return $this->app['rocketeer.deployments']->getValue('current_release');
+		return $this->app['rocketeer.server']->getValue('current_release');
 	}
 
 	/**
@@ -141,7 +134,7 @@ class ReleasesManager
 	 */
 	public function updateCurrentRelease($release)
 	{
-		$this->app['rocketeer.deployments']->setValue('current_release', $release);
+		$this->app['rocketeer.server']->setValue('current_release', $release);
 	}
 
 }

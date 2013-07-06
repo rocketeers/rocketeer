@@ -9,20 +9,42 @@
 	// The remote connection(s) to deploy to
 	'connections' => array('production'),
 
-	// Git Repository
+	// SCM repository
 	//////////////////////////////////////////////////////////////////////
 
-	'git' => array(
+	'scm' => array(
 
-		// The SSH/HTTPS adress to your Git Repository
+		// The SCM used (supported: "git")
+		'scm' => 'git',
+
+		// The SSH/HTTPS adress to your repository
 		'repository' => 'https://github.com/vendor/website.git',
 
-		// Its credentials – you can leave those empty if you're using SSH
+		// The repository credentials : you can leave those empty
+		// if you're using SSH or if your repository is public
+		// In other cases you can leave this empty too, and you will
+		// be prompted for the credentials on deploy
 		'username'   => 'foo',
 		'password'   => 'bar',
 
 		// The branch to deploy
 		'branch'     => 'master',
+	),
+
+	// Stages
+	//
+	// The multiples stages of your application
+	// if you don't know what this does, then you don't need it
+	//////////////////////////////////////////////////////////////////////
+
+	'stages' => array(
+
+		// Adding entries to this array will split the remote folder in stages
+		// Like /var/www/yourapp/staging and /var/www/yourapp/production
+		'stages' => array(),
+
+		// The default stage to execute tasks on when --stage is not provided
+		'default' => '',
 	),
 
 	// Remote server
@@ -34,13 +56,24 @@
 		'root_directory'   => '/home/www/',
 
 		// The name of the application to deploy
+		// This will create a folder of the same name in the root directory
+		// configured above
 		'application_name' => 'application',
 
 		// The number of releases to keep at all times
 		'keep_releases'    => 4,
 
 		// A list of folders/file to be shared between releases
-		'shared'           => array(),
+		// Use this to list folders that need to keep their state, like
+		// user uploaded data, file-based databases, etc.
+		'shared' => array(),
+
+		// The Apache user and group
+		// This is used for setting folders as web-writable
+		'apache' => array(
+			'user'  => 'www-data',
+			'group' => 'www-data',
+		),
 	),
 
 	// Tasks

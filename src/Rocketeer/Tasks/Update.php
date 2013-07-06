@@ -33,7 +33,9 @@ class Update extends Deploy
 		$this->setApplicationPermissions();
 
 		// Run migrations
-		$this->runMigrations();
+		if ($this->command->option('migrate')) {
+			$this->runMigrations($this->command->option('seed'));
+		}
 
 		// Clear cache
 		$this->runForCurrentRelease('php artisan cache:clear');

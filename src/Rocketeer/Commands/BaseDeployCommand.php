@@ -35,7 +35,7 @@ abstract class BaseDeployCommand extends Command
 		}
 
 		// Run tasks and display timer
-		$output = $this->laravel['rocketeer.tasks']->run($tasks, $this);
+		$this->laravel['rocketeer.tasks']->run($tasks, $this);
 		$this->line('Execution time: <comment>'.round(microtime(true) - $timerStart, 4). 's</comment>');
 	}
 
@@ -47,7 +47,8 @@ abstract class BaseDeployCommand extends Command
   protected function getOptions()
   {
     return array(
-      array('pretend', 'p', InputOption::VALUE_NONE, 'Returns an array of commands to be executed instead of actually executing them')
+      array('pretend', 'p', InputOption::VALUE_NONE,     'Returns an array of commands to be executed instead of actually executing them'),
+      array('stage',   'S', InputOption::VALUE_REQUIRED, 'The stage to execute the Task in')
     );
   }
 

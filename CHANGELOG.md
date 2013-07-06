@@ -3,9 +3,22 @@
 ### 0.x.x (roadmap)
 
 - Ability to select which severs a Task executes on, on a per-task basis
-- Add compatibility to Laravel 4.0
 
-### 0.5.0 (stable)
+### 0.6.0 (stable)
+
+- **Add multistage strategy**
+- **Add compatibility to Laravel 4.0**
+- Migrations are now under a `--migrate` flag
+- Split Git from the SCM implementation (**requires a config update**)
+- Releases are now named as `YmdHis` instead of `time()`
+- If the `scm.branch` option is empty, Rocketeer will now use the current Git branch
+- Fix a delay where the `current` symlink would get updated before the complete end of the deploy
+- Fix errors with Git and Composer not canceling deploy
+- Fix some compatibility problems with Windows
+- Fix a bug where string tasks would not be run in latest release folder
+- Fix Apache username and group using `www-data` by default
+
+### 0.5.0
 
 - **Add a `deploy:update` task that updates the remote server without doing a new release**
 - **Add a `deploy:test` to run the tests on the server**

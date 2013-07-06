@@ -4,9 +4,9 @@ namespace Rocketeer\Commands;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
- * Deploy the website
+ * Update the remote server without doing a new release
  */
-class DeployDeployCommand extends BaseDeployCommand
+class DeployUpdateCommand extends BaseDeployCommand
 {
 
 	/**
@@ -14,14 +14,14 @@ class DeployDeployCommand extends BaseDeployCommand
 	 *
 	 * @var string
 	 */
-	protected $name = 'deploy:deploy';
+	protected $name = 'deploy:update';
 
 	/**
 	 * The console command description.
 	 *
 	 * @var string
 	 */
-	protected $description = 'Deploy the website.';
+	protected $description = 'Update the remote server without doing a new release.';
 
 	/**
 	 * Execute the tasks
@@ -30,10 +30,7 @@ class DeployDeployCommand extends BaseDeployCommand
 	 */
 	public function fire()
 	{
-		return $this->fireTasksQueue(array(
-			'Rocketeer\Tasks\Deploy',
-			'Rocketeer\Tasks\Cleanup',
-		));
+		return $this->fireTasksQueue('Rocketeer\Tasks\Update');
 	}
 
   /**
@@ -44,7 +41,6 @@ class DeployDeployCommand extends BaseDeployCommand
   protected function getOptions()
   {
   	return array_merge(parent::getOptions(), array(
-      array('tests',   't', InputOption::VALUE_NONE, 'Runs the tests on deploy'),
       array('migrate', 'm', InputOption::VALUE_NONE, 'Run the migrations'),
       array('seed',    's', InputOption::VALUE_NONE, 'Seed the database after migrating the database'),
   	));

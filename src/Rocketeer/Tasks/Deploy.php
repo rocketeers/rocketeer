@@ -17,25 +17,30 @@ class Deploy extends Task
 	public function execute()
 	{
 		// Setup if necessary
-		if (!$this->deploymentsManager->isSetup()) {
+		if (!$this->isSetup()) {
+			$this->command->error('Server is not ready, running Setup task');
 			$this->executeTask('Setup');
 		}
 
 		// Update current release
-		$release = time();
+		$release = date('YmdHis');
 		$this->releasesManager->updateCurrentRelease($release);
 
 		// Clone Git repository
-		$this->cloneGitRepository();
+		if (!$this->cloneScmRepository()) {
+			return $this->cancel();
+		}
 
-		// Run composer
-		$this->runComposer();
+		// Run Composer
+		if (!$this->runComposer()) {
+			return $this->cancel();
+		}
+
+		// Run tests
 		if ($this->command->option('tests')) {
 			if (!$this->runTests()) {
-				$this->executeTask('Rollback');
-
-				$this->command->error('Tests failed, rolling back to previous release');
-				return false;
+				$this->command->error('Tests failed');
+				return $this->cancel();
 			}
 		}
 
@@ -43,15 +48,46 @@ class Deploy extends Task
 		$this->setApplicationPermissions();
 
 		// Run migrations
-		$this->runMigrations($this->command->option('seed'));
+		if ($this->command->option('migrate')) {
+			$this->runMigrations($this->command->option('seed'));
+		}
 
 		// Synchronize shared folders and files
+		$this->syncSharedFolders();
+
+		// Update symlink
+		$this->updateSymlink();
+
+		return $this->command->info('Successfully deployed release '.$release);
+	}
+
+	////////////////////////////////////////////////////////////////////
+	/////////////////////////////// HELPERS ////////////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Cancel deploy
+	 *
+	 * @return false
+	 */
+	protected function cancel()
+	{
+		$this->executeTask('Rollback');
+
+		return false;
+	}
+
+	/**
+	 * Sync the requested folders and files
+	 *
+	 * @return void
+	 */
+	protected function syncSharedFolders()
+	{
 		$currentRelease = $this->releasesManager->getCurrentReleasePath();
 		foreach ($this->rocketeer->getShared() as $file) {
 			$this->share($currentRelease.'/'.$file);
 		}
-
-		return $this->command->info('Successfully deployed release '.$release);
 	}
 
 	/**
@@ -59,25 +95,26 @@ class Deploy extends Task
 	 *
 	 * @return void
 	 */
-	protected function cloneGitRepository()
+	protected function cloneScmRepository()
 	{
 		// Get Git credentials
 		if (!$this->rocketeer->hasCredentials() and !$this->rocketeer->usesSsh()) {
-			$username   = $this->command->ask('What is your Git username ?');
+			$username   = $this->command->ask('What is your SCM username ?');
 			$password   = $this->command->secret('And your password ?');
-			$repository = $this->rocketeer->getGitRepository($username, $password);
+			$repository = $this->rocketeer->getRepository($username, $password);
 		} else {
-			$repository = $this->rocketeer->getGitRepository();
+			$repository = $this->rocketeer->getRepository();
 		}
 
-		// Clone release and update symlink
-		$branch = $this->rocketeer->getGitBranch();
-		$this->cloneRepository($repository, $branch);
-		$this->updateSymlink();
+		// Clone release
+		$branch = $this->rocketeer->getRepositoryBranch();
+		return $this->cloneRepository($repository, $branch);
 	}
 
 	/**
 	 * Set permissions for the folders used by the application
+	 *
+	 * @return  void
 	 */
 	protected function setApplicationPermissions()
 	{
