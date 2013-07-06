@@ -142,10 +142,10 @@ class Server
 		}
 
 		// Get and parse file
-		$deployments = $this->app['files']->get($this->repository);
-		$deployments = json_decode($deployments, true);
+		$repository = $this->app['files']->get($this->repository);
+		$repository = json_decode($repository, true);
 
-		return $deployments;
+		return $repository;
 	}
 
 	/**
