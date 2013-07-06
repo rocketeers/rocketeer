@@ -133,13 +133,9 @@ class Check extends Task
 	{
 		switch ($cache) {
 			case 'memcached':
-				return $this->checkPhpExtension('memcached');
-
 			case 'apc':
-				return $this->checkPhpExtension('apc');
-
 			case 'redis':
-				return $this->checkPhpExtension('redis');
+				return $this->checkPhpExtension($cache);
 
 			default:
 				return true;
