@@ -1,4 +1,5 @@
 <?php
+
 class TasksQueueTest extends RocketeerTests
 {
 

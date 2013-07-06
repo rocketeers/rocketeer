@@ -160,7 +160,7 @@ class Bash
 	 *
 	 * @return boolean|string
 	 */
-	protected function checkStatus($error, $output = null, $success = null)
+	public function checkStatus($error, $output = null, $success = null)
 	{
 		// If all went well
 		if ($this->remote->status() == 0) {

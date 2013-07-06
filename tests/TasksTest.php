@@ -1,4 +1,5 @@
 <?php
+
 class TasksTest extends RocketeerTests
 {
 
@@ -121,17 +122,6 @@ class TasksTest extends RocketeerTests
 		$this->assertContains($matcher, $output);
 	}
 
-	public function testCanGetBinaryWithFallback()
-	{
-		$grep = $this->task->which('grep');
-		$this->assertTrue(in_array($grep, array('/bin/grep', '/usr/bin/grep')));
-
-		$grep = $this->task->which('grsdg', '/usr/bin/grep');
-		$this->assertEquals('/usr/bin/grep', $grep);
-
-		$this->assertFalse($this->task->which('fdsf'));
-	}
-
 	public function testCanDisplayOutputOfCommandsIfVerbose()
 	{
 		$command = $this->getCommand(false);
@@ -154,19 +144,6 @@ class TasksTest extends RocketeerTests
 
 		$output = $this->task->run('ls');
 		$this->assertTrue($output);
-	}
-
-	public function testCanListContentsOfAFolder()
-	{
-		$contents = $this->task->listContents($this->server);
-
-		$this->assertEquals(array('current', 'releases', 'shared'), $contents);
-	}
-
-	public function testCanCheckIfFileExists()
-	{
-		$this->assertTrue($this->task->fileExists($this->server));
-		$this->assertFalse($this->task->fileExists($this->server.'/nope'));
 	}
 
 }

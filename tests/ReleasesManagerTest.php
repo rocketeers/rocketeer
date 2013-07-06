@@ -1,5 +1,4 @@
 <?php
-include '_start.php';
 
 class ReleasesManagerTest extends RocketeerTests
 {
