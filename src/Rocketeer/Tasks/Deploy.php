@@ -122,5 +122,4 @@ class Deploy extends Task
 		$this->setPermissions('app/storage');
 		$this->setPermissions('public');
 	}
-
 }

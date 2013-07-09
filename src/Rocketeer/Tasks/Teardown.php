@@ -38,5 +38,4 @@ class Teardown extends Task
 
 		$this->command->info('The application was successfully removed from the remote servers');
 	}
-
 }

@@ -38,7 +38,7 @@ class TasksTest extends RocketeerTests
 
 	public function testCanTeardownServer()
 	{
-		$output = $this->task('Teardown')->execute();
+		$this->task('Teardown')->execute();
 
 		$this->assertFileNotExists($this->deploymentsFile);
 		$this->assertFileNotExists($this->server);
@@ -46,7 +46,7 @@ class TasksTest extends RocketeerTests
 
 	public function testCanRollbackRelease()
 	{
-		$output = $this->task('Rollback')->execute();
+		$this->task('Rollback')->execute();
 
 		$this->assertEquals(10000000000000, $this->app['rocketeer.releases']->getCurrentRelease());
 	}
@@ -54,7 +54,7 @@ class TasksTest extends RocketeerTests
 	public function testCanSetupServer()
 	{
 		$this->app['files']->deleteDirectory($this->server);
-		$output = $this->task('Setup')->execute();
+		$this->task('Setup')->execute();
 
 		$this->assertFileExists($this->server);
 		$this->assertFileExists($this->server.'/current');
@@ -69,7 +69,7 @@ class TasksTest extends RocketeerTests
 			'password'   => '',
 		));
 
-		$output  = $this->task('Deploy')->execute();
+		$this->task('Deploy')->execute();
 		$release = $this->app['rocketeer.releases']->getCurrentRelease();
 
 		$releasePath = $this->server.'/releases/'.$release;
@@ -145,5 +145,4 @@ class TasksTest extends RocketeerTests
 		$output = $this->task->run('ls');
 		$this->assertTrue($output);
 	}
-
 }

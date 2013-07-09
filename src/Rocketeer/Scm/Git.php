@@ -88,5 +88,4 @@ class Git implements Scm
 	{
 		return 'git pull';
 	}
-
 }

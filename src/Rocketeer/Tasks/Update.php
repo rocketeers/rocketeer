@@ -42,5 +42,4 @@ class Update extends Deploy
 
 		$this->command->info('Successfully updated application');
 	}
-
 }

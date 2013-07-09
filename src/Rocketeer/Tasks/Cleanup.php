@@ -41,5 +41,4 @@ class Cleanup extends Task
 
 		return $this->command->line($message);
 	}
-
 }

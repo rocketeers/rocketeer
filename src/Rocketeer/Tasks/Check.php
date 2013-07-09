@@ -159,5 +159,4 @@ class Check extends Task
 
 		return in_array($extension, $this->extensions);
 	}
-
 }

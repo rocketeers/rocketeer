@@ -178,7 +178,9 @@ class TasksQueue
 			$this->app['rocketeer.rocketeer']->setStage($currentStage);
 
 			$state = $task->execute();
-			if ($state === false) return false;
+			if ($state === false) {
+				return false;
+			}
 		}
 
 		return true;
@@ -236,13 +238,12 @@ class TasksQueue
 		// If the User provided a string to execute
 		if (is_string($task)) {
 			$stringTask = $task;
-			$closure = function($task) use ($stringTask) {
+			$closure = function ($task) use ($stringTask) {
 				return $task->runForCurrentRelease($stringTask);
 			};
-		}
 
 		// If the User provided a Closure
-		elseif ($task instanceof Closure) {
+		} elseif ($task instanceof Closure) {
 			$closure = $task;
 		}
 
@@ -324,10 +325,9 @@ class TasksQueue
 		$key = get_class($task);
 		if (array_key_exists($key, $this->tasks[$position])) {
 			$tasks = array_get($this->tasks, $position.'.'.$key);
-		}
 
 		// Then for the class slug
-		else {
+		} else {
 			$tasks = array_get($this->tasks, $position.'.'.$task->getSlug());
 		}
 
@@ -356,5 +356,4 @@ class TasksQueue
 
 		return $stage;
 	}
-
 }

@@ -79,7 +79,7 @@ class TasksQueueTest extends RocketeerTests
 		$closure = $string->getClosure();
 		$this->assertInstanceOf('Closure', $closure);
 
-		$closureReflection = new ReflectionFunction($closure);
+		$closureReflection = new ReflectionFunction ($closure);
 		$this->assertEquals(array('stringTask' => 'echo "I love ducks"'), $closureReflection->getStaticVariables());
 
 		$this->assertEquals('I love ducks', $string->execute());
@@ -87,7 +87,7 @@ class TasksQueueTest extends RocketeerTests
 
 	public function testCanBuildTaskFromClosure()
 	{
-		$originalClosure = function($task) {
+		$originalClosure = function ($task) {
 			return $task->getCommand()->info('echo "I love ducks"');
 		};
 
@@ -98,7 +98,14 @@ class TasksQueueTest extends RocketeerTests
 
 	public function testCanBuildQueue()
 	{
-		$queue = array('foobar', function($task) { return 'lol'; }, 'Rocketeer\Tasks\Deploy');
+		$queue = array(
+			'foobar',
+			function ($task) {
+				return 'lol';
+			},
+			'Rocketeer\Tasks\Deploy'
+		);
+
 		$queue = $this->tasksQueue()->buildQueue($queue);
 
 		$this->assertInstanceOf('Rocketeer\Tasks\Closure', $queue[0]);
@@ -114,10 +121,9 @@ class TasksQueueTest extends RocketeerTests
 	{
     $this->expectOutputString('JOEY DOESNT SHARE FOOD');
 		$this->tasksQueue()->run(array(
-			function($task) {
+			function ($task) {
 				print 'JOEY DOESNT SHARE FOOD';
 			}
 		), $this->getCommand());
 	}
-
 }

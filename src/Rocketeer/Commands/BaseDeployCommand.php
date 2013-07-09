@@ -51,5 +51,4 @@ abstract class BaseDeployCommand extends Command
       array('stage',   'S', InputOption::VALUE_REQUIRED, 'The stage to execute the Task in')
     );
   }
-
 }

@@ -44,5 +44,4 @@ class DeployRollbackCommand extends BaseDeployCommand
 			array('release', InputArgument::OPTIONAL, 'The release to rollback to'),
 		);
 	}
-
 }

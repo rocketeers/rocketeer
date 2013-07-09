@@ -170,8 +170,7 @@ class Rocketeer
 		if ($username or $password) {
 
 			// Build credentials chain
-			$credentials = $username;
-			if ($password) $credentials .= ':'.$password;
+			$credentials  = $password ? $username.':'.$password : $username;
 			$credentials .= '@';
 
 			// Add them in chain
@@ -211,7 +210,9 @@ class Rocketeer
 	public function getFolder($folder = null)
 	{
 		$base   = $this->getHomeFolder().'/';
-		if ($folder and $this->stage) $base .= $this->stage.'/';
+		if ($folder and $this->stage) {
+			$base .= $this->stage.'/';
+		}
 		$folder = str_replace($base, null, $folder);
 
 		return $base.$folder;
@@ -229,5 +230,4 @@ class Rocketeer
 
 		return $rootDirectory.$this->getApplicationName();
 	}
-
 }

@@ -46,5 +46,4 @@ class BaseTaskCommand extends BaseDeployCommand
 	{
 		return $this->fireTasksQueue($this->task);
 	}
-
 }

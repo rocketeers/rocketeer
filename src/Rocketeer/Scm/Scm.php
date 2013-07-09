@@ -43,5 +43,4 @@ interface Scm
 	 * @return string
 	 */
 	public function update();
-
 }

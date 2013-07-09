@@ -78,5 +78,4 @@ class RocketeerTest extends RocketeerTests
 	{
 		$this->assertEquals($this->server.'/current', $this->app['rocketeer.rocketeer']->getFolder('current'));
 	}
-
 }

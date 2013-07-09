@@ -25,5 +25,4 @@ class DeployCommand extends BaseDeployCommand
 	{
 		$this->line('<info>Rocketeer</info> version <comment>'.Rocketeer::VERSION.'</comment>');
 	}
-
 }

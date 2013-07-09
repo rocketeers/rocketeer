@@ -37,5 +37,4 @@ class CurrentRelease extends Task
 
 		return $this->command->line($message);
 	}
-
 }

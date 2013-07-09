@@ -270,7 +270,9 @@ abstract class Task extends Bash
 	{
 		// Look for PHPUnit
 		$phpunit = $this->which('phpunit', $this->releasesManager->getCurrentReleasePath().'/vendor/bin/phpunit');
-		if (!$phpunit) return true;
+		if (!$phpunit) {
+			return true;
+		}
 
 		// Run PHPUnit
 		$this->command->info('Running tests...');
@@ -280,5 +282,4 @@ abstract class Task extends Bash
 
 		return $this->checkStatus('Tests failed', $output, 'Tests passed successfully');
 	}
-
 }

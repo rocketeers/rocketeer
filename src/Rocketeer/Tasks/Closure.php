@@ -48,5 +48,4 @@ class Closure extends Task
 
 		return $closure($this);
 	}
-
 }
