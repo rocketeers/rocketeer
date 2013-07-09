@@ -204,7 +204,7 @@ abstract class Task extends Bash
 		$apache = $this->rocketeer->getOption('remote.apache');
 
 		$output  = $this->run(array(
-			'chmod -R +x ' .$folder,
+			'chmod -R 775 ' .$folder,
 			'chmod -R g+s ' .$folder,
 			sprintf('chown -R %s:%s %s', $apache['user'], $apache['group'], $folder),
 		));
