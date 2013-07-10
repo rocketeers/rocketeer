@@ -136,5 +136,4 @@ class ReleasesManager
 	{
 		$this->app['rocketeer.server']->setValue('current_release', $release);
 	}
-
 }

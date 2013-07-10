@@ -45,5 +45,4 @@ class DeployUpdateCommand extends BaseDeployCommand
       array('seed',    's', InputOption::VALUE_NONE, 'Seed the database after migrating the database'),
   	));
   }
-
 }

@@ -51,5 +51,4 @@ class ReleasesManagerTest extends RocketeerTests
 
 		$this->assertEquals(30000000000000, $this->app['rocketeer.server']->getValue('current_release'));
 	}
-
 }

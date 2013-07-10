@@ -41,5 +41,4 @@ class BashTest extends RocketeerTests
 		$status = $this->task->checkStatus(null);
 		$this->assertNull($status);
 	}
-
 }

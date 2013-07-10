@@ -70,7 +70,9 @@ class Setup extends Task
 	{
 		// Get stages
 		$stages = $this->rocketeer->getStages();
-		if (empty($stages)) $stages = array(null);
+		if (empty($stages)) {
+			$stages = array(null);
+		}
 
 		// Create folders
 		foreach ($stages as $stage) {
@@ -80,5 +82,4 @@ class Setup extends Task
 			$this->createFolder('shared', true);
 		}
 	}
-
 }

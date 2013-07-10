@@ -123,7 +123,12 @@ class Bash
 	 */
 	public function runInFolder($folder = null, $tasks = array())
 	{
-		if (!is_array($tasks)) $tasks = array($tasks);
+		// Convert to array
+		if (!is_array($tasks)) {
+			$tasks = array($tasks);
+		}
+
+		// Prepend folder
 		array_unshift($tasks, 'cd '.$this->rocketeer->getFolder($folder));
 
 		return $this->run($tasks);
@@ -287,7 +292,7 @@ class Bash
 		$output = null;
 
 		// Run commands
-		$this->remote->run($commands, function($results) use (&$output) {
+		$this->remote->run($commands, function ($results) use (&$output) {
 			$output .= $results;
 		});
 
@@ -346,5 +351,4 @@ class Bash
 
 		return $commands;
 	}
-
 }

@@ -32,5 +32,4 @@ class ServerTest extends RocketeerTests
 
 		$this->assertEquals(null, $this->app['rocketeer.server']->getValue('foo'));
 	}
-
 }

@@ -204,7 +204,7 @@ abstract class Task extends Bash
 		$apache = $this->rocketeer->getOption('remote.apache');
 
 		$output  = $this->run(array(
-			'chmod -R +x ' .$folder,
+			'chmod -R 775 ' .$folder,
 			'chmod -R g+s ' .$folder,
 			sprintf('chown -R %s:%s %s', $apache['user'], $apache['group'], $folder),
 		));
@@ -270,7 +270,9 @@ abstract class Task extends Bash
 	{
 		// Look for PHPUnit
 		$phpunit = $this->which('phpunit', $this->releasesManager->getCurrentReleasePath().'/vendor/bin/phpunit');
-		if (!$phpunit) return true;
+		if (!$phpunit) {
+			return true;
+		}
 
 		// Run PHPUnit
 		$this->command->info('Running tests...');
@@ -280,5 +282,4 @@ abstract class Task extends Bash
 
 		return $this->checkStatus('Tests failed', $output, 'Tests passed successfully');
 	}
-
 }

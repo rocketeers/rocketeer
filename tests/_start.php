@@ -57,15 +57,15 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 		$this->app['path.base']    = '/src';
 		$this->app['path.storage'] = '/src/storage';
 
-		$this->app->singleton('config', function() use ($config) {
+		$this->app->singleton('config', function () use ($config) {
 			return $config;
 		});
 
-		$this->app->singleton('remote', function() use ($remote) {
+		$this->app->singleton('remote', function () use ($remote) {
 			return $remote;
 		});
 
-		$this->app->singleton('files', function() {
+		$this->app->singleton('files', function () {
 			return new Filesystem;
 		});
 
@@ -75,11 +75,11 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 		$this->app = $serviceProvider->bindClasses($this->app);
 		$this->app = $serviceProvider->bindScm($this->app);
 
-		$this->app->bind('rocketeer.server', function($app) {
+		$this->app->bind('rocketeer.server', function ($app) {
 			return new Rocketeer\Server($app, __DIR__);
 		});
 
-		$this->app->singleton('rocketeer.tasks', function($app) use ($command) {
+		$this->app->singleton('rocketeer.tasks', function ($app) use ($command) {
 			return new Rocketeer\TasksQueue($app, $command);
 		});
 
@@ -151,15 +151,21 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 	 */
 	protected function getCommand($option = true)
 	{
+		$message = function ($message) {
+			return $message;
+		};
+
 		$command = Mockery::mock('Illuminate\Console\Command');
-		$command->shouldReceive('comment')->andReturnUsing(function($message) { return $message; });
-		$command->shouldReceive('error')->andReturnUsing(function($message) { return $message; });
-		$command->shouldReceive('line')->andReturnUsing(function($message) { return $message; });
-		$command->shouldReceive('info')->andReturnUsing(function($message) { return $message; });
+		$command->shouldReceive('comment')->andReturnUsing($message);
+		$command->shouldReceive('error')->andReturnUsing($message);
+		$command->shouldReceive('line')->andReturnUsing($message);
+		$command->shouldReceive('info')->andReturnUsing($message);
 		$command->shouldReceive('argument');
 		$command->shouldReceive('ask');
 		$command->shouldReceive('secret');
-		if ($option) $command->shouldReceive('option');
+		if ($option) {
+			$command->shouldReceive('option');
+		}
 
 		return $command;
 	}
@@ -213,8 +219,10 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 	 */
 	protected function getRemote()
 	{
-		$run = function($task, $callback) {
-			if (is_array($task)) $task = implode(' && ', $task);
+		$run = function ($task, $callback) {
+			if (is_array($task)) {
+				$task = implode(' && ', $task);
+			}
 			$output = shell_exec($task);
 
 			$callback($output);
@@ -228,5 +236,4 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 
 		return $remote;
 	}
-
 }

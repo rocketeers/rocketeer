@@ -18,5 +18,4 @@ class Rocketeer extends Facade
 	{
 		return 'rocketeer.tasks';
 	}
-
 }

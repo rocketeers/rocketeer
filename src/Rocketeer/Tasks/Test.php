@@ -20,5 +20,4 @@ class Test extends Task
 		$this->command->info('Testing the application');
 		$this->runTests();
 	}
-
 }

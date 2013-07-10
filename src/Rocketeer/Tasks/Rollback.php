@@ -35,5 +35,4 @@ class Rollback extends Task
 	{
 		return array_get($this->command->argument(), 'release', $this->releasesManager->getPreviousRelease());
 	}
-
 }

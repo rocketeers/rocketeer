@@ -76,23 +76,23 @@ class RocketeerServiceProvider extends ServiceProvider
 	 */
 	public function bindClasses(Container $app)
 	{
-		$app->singleton('rocketeer.rocketeer', function($app) {
+		$app->singleton('rocketeer.rocketeer', function ($app) {
 			return new Rocketeer($app);
 		});
 
-		$app->bind('rocketeer.releases', function($app) {
+		$app->bind('rocketeer.releases', function ($app) {
 			return new ReleasesManager($app);
 		});
 
-		$app->bind('rocketeer.server', function($app) {
+		$app->bind('rocketeer.server', function ($app) {
 			return new Server($app);
 		});
 
-		$app->bind('rocketeer.bash', function($app) {
+		$app->bind('rocketeer.bash', function ($app) {
 			return new Bash($app);
 		});
 
-		$app->singleton('rocketeer.tasks', function($app) {
+		$app->singleton('rocketeer.tasks', function ($app) {
 			return new TasksQueue($app);
 		});
 
@@ -112,7 +112,7 @@ class RocketeerServiceProvider extends ServiceProvider
 		$scm = $this->app['rocketeer.rocketeer']->getOption('scm.scm');
 		$scm = 'Rocketeer\Scm\\'.ucfirst($scm);
 
-		$app->bind('rocketeer.scm', function($app) use ($scm) {
+		$app->bind('rocketeer.scm', function ($app) use ($scm) {
 			return new $scm($app);
 		});
 
@@ -156,7 +156,9 @@ class RocketeerServiceProvider extends ServiceProvider
 			// Build command slug
 			if ($fakeCommand) {
 				$taskInstance = $this->app['rocketeer.tasks']->buildTask($task);
-				if (is_numeric($slug)) $slug = $taskInstance->getSlug();
+				if (is_numeric($slug)) {
+					$slug = $taskInstance->getSlug();
+				}
 			}
 
 			// Add command to array
@@ -165,14 +167,13 @@ class RocketeerServiceProvider extends ServiceProvider
 
 			// Look for an existing command
 			if (!$fakeCommand) {
-				$this->app->bind($command, function($app) use ($commandClass) {
+				$this->app->bind($command, function ($app) use ($commandClass) {
 					return new $commandClass;
 				});
-			}
 
 			// Else create a fake one
-			else {
-				$this->app->bind($command, function($app) use ($taskInstance, $slug) {
+			} else {
+				$this->app->bind($command, function ($app) use ($taskInstance, $slug) {
 					return new Commands\BaseTaskCommand($taskInstance, $slug);
 				});
 			}
@@ -181,5 +182,4 @@ class RocketeerServiceProvider extends ServiceProvider
 
 		return $app;
 	}
-
 }
