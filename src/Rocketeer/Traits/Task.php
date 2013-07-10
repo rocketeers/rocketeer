@@ -1,5 +1,5 @@
 <?php
-namespace Rocketeer\Tasks\Abstracts;
+namespace Rocketeer\Traits;
 
 use Rocketeer\Bash;
 

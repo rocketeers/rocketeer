@@ -4,7 +4,7 @@ namespace Rocketeer\Scm;
 /**
  * The interface for all SCMs
  */
-interface Scm
+interface ScmInterface
 {
 	/**
 	 * Check if the SCM is available

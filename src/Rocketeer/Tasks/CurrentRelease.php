@@ -1,7 +1,7 @@
 <?php
 namespace Rocketeer\Tasks;
 
-use Rocketeer\Tasks\Abstracts\Task;
+use Rocketeer\Traits\Task;
 use Carbon\Carbon;
 
 /**

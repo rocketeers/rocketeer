@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "1613f0fecd258a5fab083d0570ff360fcfd4ca0c"
+                "reference": "c5175eabb5e992096d8853d438aed072fca1e7bb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/1613f0fecd258a5fab083d0570ff360fcfd4ca0c",
-                "reference": "1613f0fecd258a5fab083d0570ff360fcfd4ca0c",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/c5175eabb5e992096d8853d438aed072fca1e7bb",
+                "reference": "c5175eabb5e992096d8853d438aed072fca1e7bb",
                 "shasum": ""
             },
             "require": {
@@ -52,7 +52,7 @@
                     "email": "taylorotwell@gmail.com"
                 }
             ],
-            "time": "2013-07-09 02:35:44"
+            "time": "2013-07-09 13:05:22"
         }
     ],
     "packages-dev": [

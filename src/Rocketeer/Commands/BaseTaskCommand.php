@@ -2,7 +2,7 @@
 namespace Rocketeer\Commands;
 
 use Rocketeer\Rocketeer;
-use Rocketeer\Tasks\Abstracts\Task;
+use Rocketeer\Traits\Task;
 
 /**
  * A basic command that only runs one Task

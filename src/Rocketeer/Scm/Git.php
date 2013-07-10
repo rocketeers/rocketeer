@@ -2,36 +2,19 @@
 namespace Rocketeer\Scm;
 
 use Illuminate\Container\Container;
+use Rocketeer\Traits\Scm;
 
 /**
  * The Git SCM
  */
-class Git implements Scm
+class Git extends Scm implements ScmInterface
 {
-
-	/**
-	 * The IoC Container
-	 *
-	 * @var Container
-	 */
-	protected $app;
-
 	/**
 	 * The core binary
 	 *
 	 * @var string
 	 */
 	public $binary = 'git';
-
-	/**
-	 * Build a new Git instance
-	 *
-	 * @param Container $app
-	 */
-	public function __construct($app)
-	{
-		$this->app = $app;
-	}
 
 	////////////////////////////////////////////////////////////////////
 	///////////////////////////// INFORMATIONS /////////////////////////
@@ -44,7 +27,7 @@ class Git implements Scm
 	 */
 	public function check()
 	{
-		return $this->binary. ' --version';
+		return $this->getCommand('--version');
 	}
 
 	/**
@@ -54,7 +37,7 @@ class Git implements Scm
 	 */
 	public function currentState()
 	{
-		return $this->binary. ' rev-parse HEAD';
+		return $this->getCommand('rev-parse HEAD');
 	}
 
 	/**
@@ -64,7 +47,7 @@ class Git implements Scm
 	 */
 	public function currentBranch()
 	{
-		return $this->binary. ' rev-parse --abbrev-ref HEAD';
+		return $this->getCommand('rev-parse --abbrev-ref HEAD');
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -83,7 +66,7 @@ class Git implements Scm
 		$branch     = $this->app['rocketeer.rocketeer']->getRepositoryBranch();
 		$repository = $this->app['rocketeer.rocketeer']->getRepository();
 
-		return sprintf($this->binary. ' clone -b %s %s %s', $branch, $repository, $destination);
+		return sprintf($this->getCommand('clone -b %s %s %s'), $branch, $repository, $destination);
 	}
 
 	/**
@@ -93,7 +76,7 @@ class Git implements Scm
 	 */
 	public function reset()
 	{
-		return $this->binary. ' reset --hard';
+		return $this->getCommand('reset --hard');
 	}
 
 	/**
@@ -103,6 +86,6 @@ class Git implements Scm
 	 */
 	public function update()
 	{
-		return $this->binary. ' pull';
+		return $this->getCommand('pull');
 	}
 }

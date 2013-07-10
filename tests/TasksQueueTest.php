@@ -7,7 +7,7 @@ class TasksQueueTest extends RocketeerTests
 	{
 		$task = $this->tasksQueue()->buildTask('Rocketeer\Tasks\Deploy');
 
-		$this->assertInstanceOf('Rocketeer\Tasks\Abstracts\Task', $task);
+		$this->assertInstanceOf('Rocketeer\Traits\Task', $task);
 	}
 
 	public function testCanGetTasksBeforeOrAfterAnotherTask()
