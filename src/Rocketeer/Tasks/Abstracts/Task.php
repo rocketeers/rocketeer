@@ -238,7 +238,7 @@ abstract class Task extends Bash
 	{
 		$composer = $this->which('composer');
 		if (!$composer and file_exists($this->app['path.base'].'/composer.phar')) {
-			$composer = 'composer.phar';
+			$composer = 'php composer.phar';
 		}
 
 		return $composer;
