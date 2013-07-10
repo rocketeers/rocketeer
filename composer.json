@@ -18,6 +18,7 @@
 		"illuminate/support": "~4"
 	},
 	"require-dev": {
+		"illuminate/console": "~4",
 		"illuminate/container": "~4",
 		"illuminate/filesystem": "~4",
 		"mockery/mockery": "dev-master",

@@ -71,7 +71,7 @@ class TasksQueue
 			$task = $this->buildTask($task);
 		}
 
-		$this->app['artisan']->add(new BaseTaskCommand($task));
+		return $this->app['artisan']->add(new BaseTaskCommand($task));
 	}
 
 	/**

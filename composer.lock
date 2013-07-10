@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "f7618c164c61dea624b9dd2ab41b9ee6",
+    "hash": "84b89db1572019517583c6e0fc006907",
     "packages": [
         {
             "name": "illuminate/support",
@@ -56,6 +56,50 @@
         }
     ],
     "packages-dev": [
+        {
+            "name": "illuminate/console",
+            "version": "dev-master",
+            "target-dir": "Illuminate/Console",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/illuminate/console.git",
+                "reference": "cb44b57a58a655b340332da4f06f892b52d5d8fe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/illuminate/console/zipball/cb44b57a58a655b340332da4f06f892b52d5d8fe",
+                "reference": "cb44b57a58a655b340332da4f06f892b52d5d8fe",
+                "shasum": ""
+            },
+            "require": {
+                "symfony/console": "2.3.*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Illuminate\\Console": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylorotwell@gmail.com"
+                }
+            ],
+            "time": "2013-05-28 18:31:39"
+        },
         {
             "name": "illuminate/container",
             "version": "dev-master",
@@ -242,6 +286,59 @@
                 "time"
             ],
             "time": "2013-06-26 03:40:32"
+        },
+        {
+            "name": "symfony/console",
+            "version": "2.3.x-dev",
+            "target-dir": "Symfony/Component/Console",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/Console.git",
+                "reference": "68fda7fc4351e9dad8beef70470050aea752d780"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/68fda7fc4351e9dad8beef70470050aea752d780",
+                "reference": "68fda7fc4351e9dad8beef70470050aea752d780",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "symfony/event-dispatcher": "~2.1"
+            },
+            "suggest": {
+                "symfony/event-dispatcher": ""
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Symfony\\Component\\Console\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Console Component",
+            "homepage": "http://symfony.com",
+            "time": "2013-07-01 12:24:43"
         },
         {
             "name": "symfony/finder",

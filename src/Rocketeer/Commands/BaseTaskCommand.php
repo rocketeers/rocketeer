@@ -18,6 +18,13 @@ class BaseTaskCommand extends BaseDeployCommand
 	protected $name = 'deploy.custom';
 
 	/**
+	 * The Task to execute on fire
+	 *
+	 * @var Task
+	 */
+	protected $task;
+
+	/**
 	 * Build a new custom command
 	 *
 	 * @param Task   $task
@@ -45,5 +52,15 @@ class BaseTaskCommand extends BaseDeployCommand
 	public function fire()
 	{
 		return $this->fireTasksQueue($this->task);
+	}
+
+	/**
+	 * Get the Task the command will execute
+	 *
+	 * @return Task
+	 */
+	public function getTask()
+	{
+		return $this->task;
 	}
 }

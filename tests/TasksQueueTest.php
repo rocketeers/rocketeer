@@ -10,6 +10,13 @@ class TasksQueueTest extends RocketeerTests
 		$this->assertInstanceOf('Rocketeer\Traits\Task', $task);
 	}
 
+	public function testCanAddCommandsToArtisan()
+	{
+		$command = $this->tasksQueue()->add('Rocketeer\Tasks\Deploy');
+		$this->assertInstanceOf('Rocketeer\Commands\BaseTaskCommand', $command);
+		$this->assertInstanceOf('Rocketeer\Tasks\Deploy', $command->getTask());
+	}
+
 	public function testCanGetTasksBeforeOrAfterAnotherTask()
 	{
 		$task   = $this->task('Deploy');
