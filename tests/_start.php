@@ -1,4 +1,6 @@
 <?php
+include __DIR__.'/../vendor/autoload.php';
+
 use Illuminate\Container\Container;
 use Illuminate\Filesystem\Filesystem;
 use Rocketeer\RocketeerServiceProvider;
@@ -47,27 +49,15 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 
 		$this->app = new Container;
 
-		// Get the Mockery instances
-		$command = $this->getCommand();
-		$config  = $this->getConfig();
-		$remote  = $this->getRemote();
-
 		// Laravel classes --------------------------------------------- /
 
 		$this->app['path.base']    = '/src';
 		$this->app['path.storage'] = '/src/storage';
 
-		$this->app->singleton('config', function () use ($config) {
-			return $config;
-		});
-
-		$this->app->singleton('remote', function () use ($remote) {
-			return $remote;
-		});
-
-		$this->app->singleton('files', function () {
-			return new Filesystem;
-		});
+		$this->app['files']   = new Filesystem;
+		$this->app['config']  = $this->getConfig();
+		$this->app['remote']  = $this->getRemote();
+		$this->app['artisan'] = $this->getArtisan();
 
 		// Rocketeer classes ------------------------------------------- /
 
@@ -79,23 +69,42 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 			return new Rocketeer\Server($app, __DIR__);
 		});
 
+		$command = $this->getCommand();
 		$this->app->singleton('rocketeer.tasks', function ($app) use ($command) {
 			return new Rocketeer\TasksQueue($app, $command);
 		});
 
 		// Bind dummy Task
 		$this->task = $this->task('Cleanup');
+		$this->recreateVirtualServer();
+	}
 
+	/**
+	 * Tears down the tests
+	 *
+	 * @return void
+	 */
+	public function tearDown()
+	{
+		Mockery::close();
+	}
+
+	/**
+	 * Recreates the local file server
+	 *
+	 * @return void
+	 */
+	protected function recreateVirtualServer()
+	{
 		// Recreate deployments file
-		$deployments = array(
+		$this->app['files']->put($this->deploymentsFile, json_encode(array(
 			"foo"                 => "bar",
 			"current_release"     => 20000000000000,
 			"directory_separator" => "/",
 			"is_setup"            => true,
 			"apache"              => array("username" => "www-datda","group" => "www-datda"),
-			"line_endings"        => "\n"
-		);
-		$this->app['files']->put($this->deploymentsFile, json_encode($deployments));
+			"line_endings"        => "\n",
+		)));
 
 		// Recreate altered local server
 		$folders = array('current', 'shared', 'releases', 'releases/10000000000000', 'releases/20000000000000');
@@ -107,12 +116,24 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 			$this->app['files']->makeDirectory($folder, 0777, true);
 			file_put_contents($folder.'/.gitkeep', '');
 		}
-
 	}
 
 	////////////////////////////////////////////////////////////////////
 	/////////////////////////////// HELPERS ////////////////////////////
 	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Get a pretend Task to run bogus commands
+	 *
+	 * @return Task
+	 */
+	protected function pretendTask()
+	{
+		$task = $this->task('Deploy');
+		$task->command = clone $this->getCommand()->shouldReceive('option')->with('pretend')->andReturn(true)->mock();
+
+		return $task;
+	}
 
 	/**
 	 * Get Task instance
@@ -155,7 +176,7 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 			return $message;
 		};
 
-		$command = Mockery::mock('Illuminate\Console\Command');
+		$command = Mockery::mock('Command');
 		$command->shouldReceive('comment')->andReturnUsing($message);
 		$command->shouldReceive('error')->andReturnUsing($message);
 		$command->shouldReceive('line')->andReturnUsing($message);
@@ -163,9 +184,7 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 		$command->shouldReceive('argument');
 		$command->shouldReceive('ask');
 		$command->shouldReceive('secret');
-		if ($option) {
-			$command->shouldReceive('option');
-		}
+		$command->shouldReceive('option')->andReturn(null)->byDefault();
 
 		return $command;
 	}
@@ -235,5 +254,20 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 		$remote->shouldReceive('runRemoteCommands')->andReturnUsing($run)->byDefault();
 
 		return $remote;
+	}
+
+	/**
+	 * Mock Artisan
+	 *
+	 * @return Mockery
+	 */
+	protected function getArtisan()
+	{
+		$artisan = Mockery::mock('Artisan');
+		$artisan->shouldReceive('add')->andReturnUsing(function ($command) {
+			return $command;
+		});
+
+		return $artisan;
 	}
 }

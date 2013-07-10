@@ -1,9 +1,6 @@
 <?php
-include '_start.php';
-
 class BashTest extends RocketeerTests
 {
-
 	public function testCanGetBinaryWithFallback()
 	{
 		$grep = $this->task->which('grep');

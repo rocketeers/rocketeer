@@ -98,7 +98,7 @@ class Bash
 		// Log the commands for pretend
 		if ($this->getOption('pretend') and !$silent) {
 			$this->command->line(implode(PHP_EOL, $commands));
-			return true;
+			return $commands;
 		}
 
 		// Get output

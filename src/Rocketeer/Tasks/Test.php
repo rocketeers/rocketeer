@@ -1,7 +1,7 @@
 <?php
 namespace Rocketeer\Tasks;
 
-use Rocketeer\Tasks\Abstracts\Task;
+use Rocketeer\Traits\Task;
 
 /**
  * Run the tests on the server and displays the ouput

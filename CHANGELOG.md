@@ -4,7 +4,12 @@
 
 - Ability to select which severs a Task executes on, on a per-task basis
 
-### 0.6.1 (stable)
+### 0.6.2 (stable)
+
+- Make the Check task check for the remote presence of the configured SCM
+- Fix Rocketeer not being able to use a `composer.phar` on the server
+
+### 0.6.1
 
 - Fix a bug where the configured user would not have the rights to set permissions
 

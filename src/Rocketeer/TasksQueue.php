@@ -4,7 +4,7 @@ namespace Rocketeer;
 use Closure;
 use Illuminate\Container\Container;
 use Rocketeer\Commands\BaseTaskCommand;
-use Rocketeer\Tasks\Abstracts\Task;
+use Rocketeer\Traits\Task;
 
 /**
  * Handles the registering of Tasks and their execution
@@ -71,7 +71,7 @@ class TasksQueue
 			$task = $this->buildTask($task);
 		}
 
-		$this->app['artisan']->add(new BaseTaskCommand($task));
+		return $this->app['artisan']->add(new BaseTaskCommand($task));
 	}
 
 	/**

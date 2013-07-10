@@ -2,7 +2,7 @@
 namespace Rocketeer\Commands;
 
 use Rocketeer\Rocketeer;
-use Rocketeer\Tasks\Abstracts\Task;
+use Rocketeer\Traits\Task;
 
 /**
  * A basic command that only runs one Task
@@ -16,6 +16,13 @@ class BaseTaskCommand extends BaseDeployCommand
 	 * @var string
 	 */
 	protected $name = 'deploy.custom';
+
+	/**
+	 * The Task to execute on fire
+	 *
+	 * @var Task
+	 */
+	protected $task;
 
 	/**
 	 * Build a new custom command
@@ -45,5 +52,15 @@ class BaseTaskCommand extends BaseDeployCommand
 	public function fire()
 	{
 		return $this->fireTasksQueue($this->task);
+	}
+
+	/**
+	 * Get the Task the command will execute
+	 *
+	 * @return Task
+	 */
+	public function getTask()
+	{
+		return $this->task;
 	}
 }
