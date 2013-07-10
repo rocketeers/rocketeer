@@ -4,7 +4,11 @@
 
 - Ability to select which severs a Task executes on, on a per-task basis
 
-### 0.6.0 (stable)
+### 0.6.1 (stable)
+
+- Fix a bug where the configured user would not have the rights to set permissions
+
+### 0.6.0
 
 - **Add multistage strategy**
 - **Add compatibility to Laravel 4.0**
