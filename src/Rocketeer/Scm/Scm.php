@@ -6,6 +6,12 @@ namespace Rocketeer\Scm;
  */
 interface Scm
 {
+	/**
+	 * Check if the SCM is available
+	 *
+	 * @return string
+	 */
+	public function check();
 
 	/**
 	 * Get the current state

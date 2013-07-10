@@ -17,6 +17,13 @@ class Git implements Scm
 	protected $app;
 
 	/**
+	 * The core binary
+	 *
+	 * @var string
+	 */
+	public $binary = 'git';
+
+	/**
 	 * Build a new Git instance
 	 *
 	 * @param Container $app
@@ -31,13 +38,23 @@ class Git implements Scm
 	////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Check if the SCM is available
+	 *
+	 * @return string
+	 */
+	public function check()
+	{
+		return $this->binary. ' --version';
+	}
+
+	/**
 	 * Get the current state
 	 *
 	 * @return string
 	 */
 	public function currentState()
 	{
-		return 'git rev-parse HEAD';
+		return $this->binary. ' rev-parse HEAD';
 	}
 
 	/**
@@ -47,7 +64,7 @@ class Git implements Scm
 	 */
 	public function currentBranch()
 	{
-		return 'git rev-parse --abbrev-ref HEAD';
+		return $this->binary. ' rev-parse --abbrev-ref HEAD';
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -66,7 +83,7 @@ class Git implements Scm
 		$branch     = $this->app['rocketeer.rocketeer']->getRepositoryBranch();
 		$repository = $this->app['rocketeer.rocketeer']->getRepository();
 
-		return sprintf('git clone -b %s %s %s', $branch, $repository, $destination);
+		return sprintf($this->binary. ' clone -b %s %s %s', $branch, $repository, $destination);
 	}
 
 	/**
@@ -76,7 +93,7 @@ class Git implements Scm
 	 */
 	public function reset()
 	{
-		return 'git reset --hard';
+		return $this->binary. ' reset --hard';
 	}
 
 	/**
@@ -86,6 +103,6 @@ class Git implements Scm
 	 */
 	public function update()
 	{
-		return 'git pull';
+		return $this->binary. ' pull';
 	}
 }

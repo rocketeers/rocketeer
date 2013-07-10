@@ -33,6 +33,11 @@ class Check extends Task
 		$errors    = array();
 		$extension = 'The %s extension does not seem to be loaded on the server';
 
+		// Check SCM
+		if (!$this->checkScm()) {
+			$errors[] = $this->command->error($this->scm->binary . ' could not be found on the server');
+		}
+
 		// Check PHP
 		if (!$this->checkPhpVersion()) {
 			$errors[] = $this->command->error('The version of PHP on the server does not match Laravel\'s requirements');
@@ -75,6 +80,19 @@ class Check extends Task
 	////////////////////////////////////////////////////////////////////
 	/////////////////////////////// HELPERS ////////////////////////////
 	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Check the presence of an SCM on the server
+	 *
+	 * @return boolean
+	 */
+	public function checkScm()
+	{
+		$this->command->comment('Checking presence of '.$this->scm->binary);
+		$this->run($this->scm->check());
+
+		return $this->remote->status() == 0;
+	}
 
 	/**
 	 * Check if Composer is on the server
