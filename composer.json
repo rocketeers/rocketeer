@@ -22,7 +22,8 @@
 		"illuminate/container": "~4",
 		"illuminate/filesystem": "~4",
 		"mockery/mockery": "dev-master",
-		"nesbot/carbon": "dev-master"
+		"nesbot/carbon": "dev-master",
+    "patchwork/utf8": "dev-master"
 	},
 	"autoload": {
 		"psr-0": {
