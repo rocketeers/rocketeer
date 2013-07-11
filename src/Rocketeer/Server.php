@@ -52,6 +52,16 @@ class Server
 
 		return $this->getValue('directory_separator', function ($server) use ($bash) {
 			$separator = $bash->runRemoteCommands('php -r "echo DIRECTORY_SEPARATOR;"');
+
+			// Throw an Exception if we receive invalid output
+			if (strlen($separator) > 1) {
+				throw new Exception(
+					'An error occured while fetching the directory separators used on the server.'.PHP_EOL.
+					'Output received was : '.$separator
+				);
+			}
+
+			// Cache separator
 			$server->setValue('directory_separator', $separator);
 
 			return $separator;
