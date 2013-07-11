@@ -1,12 +1,12 @@
 
 
 Code Coverage Report:      
-  2013-07-11 13:12:53      
+  2013-07-11 18:48:02      
                            
  Summary:                  
   Classes: 44.44% (8/18)   
   Methods: 83.33% (90/108) 
-  Lines:   84.13% (424/504)
+  Lines:   84.22% (427/507)
 
 \Rocketeer::Bash
   Methods: 100.00% (15/15)   Lines:  92.11% ( 70/ 76)
@@ -17,7 +17,7 @@ Code Coverage Report:
 \Rocketeer::Server
   Methods: 100.00% ( 9/ 9)   Lines:  89.74% ( 35/ 39)
 \Rocketeer::TasksQueue
-  Methods: 100.00% (15/15)   Lines:  90.91% ( 90/ 99)
+  Methods: 100.00% (15/15)   Lines:  91.18% ( 93/102)
 \Rocketeer\Scm::Git
   Methods: 100.00% ( 6/ 6)   Lines: 100.00% (  8/  8)
 \Rocketeer\Tasks::Check

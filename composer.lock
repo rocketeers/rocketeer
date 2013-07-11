@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "45726cdce65d7f71bd7617fa58f52acf",
+    "hash": "2742888e1e2e763a88c922cd15ea0a16",
     "packages": [
         {
             "name": "illuminate/support",
@@ -438,9 +438,9 @@
     ],
     "minimum-stability": "dev",
     "stability-flags": {
-        "patchwork/utf8": 20,
         "mockery/mockery": 20,
-        "nesbot/carbon": 20
+        "nesbot/carbon": 20,
+        "patchwork/utf8": 20
     },
     "platform": {
         "php": ">=5.3.0"

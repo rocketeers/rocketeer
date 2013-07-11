@@ -1,5 +1,6 @@
 <?php
 include __DIR__.'/../vendor/autoload.php';
+include __DIR__.'/meta/MyCustomTask.php';
 
 use Illuminate\Container\Container;
 use Illuminate\Filesystem\Filesystem;
@@ -225,10 +226,19 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 		// Tasks
 		$config->shouldReceive('get')->with('rocketeer::tasks')->andReturn(array(
 			'before' => array(
-				'deploy' => array('before', 'foobar'),
+				'deploy' => array(
+					'before',
+					'foobar'
+				),
 			),
 			'after' => array(
-				'Rocketeer\Tasks\Deploy' => array('after', 'foobar'),
+				'check' => array(
+					'Tasks\MyCustomTask',
+				),
+				'Rocketeer\Tasks\Deploy' => array(
+					'after',
+					'foobar'
+				),
 			),
 		));
 
