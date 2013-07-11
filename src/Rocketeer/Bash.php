@@ -20,41 +20,6 @@ class Bash
 	protected $app;
 
 	/**
-	 * The Releases Manager instance
-	 *
-	 * @var ReleasesManager
-	 */
-	public $releasesManager;
-
-	/**
-	 * The Server instance
-	 *
-	 * @var Server
-	 */
-	public $server;
-
-	/**
-	 * The SCM
-	 *
-	 * @var Scm
-	 */
-	public $scm;
-
-	/**
-	 * The Rocketeer instance
-	 *
-	 * @var Rocketeer
-	 */
-	public $rocketeer;
-
-	/**
-	 * The Remote instance
-	 *
-	 * @var Connection
-	 */
-	public $remote;
-
-	/**
 	 * The Command instance
 	 *
 	 * @var Command
@@ -69,13 +34,32 @@ class Bash
 	 */
 	public function __construct(Container $app, $command = null)
 	{
-		$this->app             = $app;
-		$this->releasesManager = $app['rocketeer.releases'];
-		$this->server          = $app['rocketeer.server'];
-		$this->rocketeer       = $app['rocketeer.rocketeer'];
-		$this->scm             = $app['rocketeer.scm'];
-		$this->remote          = $app['remote'];
-		$this->command         = $command;
+		$this->app     = $app;
+		$this->command = $command;
+	}
+
+	/**
+	 * Get an instance from the Container
+	 *
+	 * @param  string $key
+	 *
+	 * @return object
+	 */
+	public function __get($key)
+	{
+		$shortcuts = array(
+			'releasesManager' => 'rocketeer.releases',
+			'server'          => 'rocketeer.server',
+			'rocketeer'       => 'rocketeer.rocketeer',
+			'scm'             => 'rocketeer.scm',
+		);
+
+		// Replace shortcuts
+		if (array_key_exists($key, $shortcuts)) {
+			$key = $shortcuts[$key];
+		}
+
+		return $this->app[$key];
 	}
 
 	////////////////////////////////////////////////////////////////////
