@@ -127,10 +127,14 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 	 *
 	 * @return Task
 	 */
-	protected function pretendTask()
+	protected function pretendTask($task = 'Deploy')
 	{
-		$task = $this->task('Deploy');
-		$task->command = clone $this->getCommand()->shouldReceive('option')->with('pretend')->andReturn(true)->mock();
+		$command = clone $this->getCommand();
+		$command->shouldReceive('option')->with('pretend')->andReturn(true);
+		$command->shouldReceive('option')->with('verbose')->andReturn(false);
+
+		$task = $this->task($task);
+		$task->command = $command;
 
 		return $task;
 	}
@@ -205,7 +209,7 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 
 		// Rocketeer
 		$config->shouldReceive('get')->with('rocketeer::remote.apache')->andReturn(array('user' => 'www-data', 'group' => 'www-data'));
-		$config->shouldReceive('get')->with('rocketeer::remote.application_name')->andReturn('foobar');
+		$config->shouldReceive('get')->with('rocketeer::remote.application_name')->andReturn('FoOBaR');
 		$config->shouldReceive('get')->with('rocketeer::remote.root_directory')->andReturn(__DIR__.'/server/');
 		$config->shouldReceive('get')->with('rocketeer::remote.keep_releases')->andReturn(1);
 		$config->shouldReceive('get')->with('rocketeer::remote.shared')->andReturn(array('tests/meta'));

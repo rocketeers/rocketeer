@@ -4,7 +4,13 @@
 
 - Ability to select which severs a Task executes on, on a per-task basis
 
-### 0.6.2 (stable)
+### 0.6.3 (stable)
+
+- Application name is now always sluggified as a security
+- Fix a bug where the Check task would fail on pretend mode
+- Fix a bug where invalid directory separators would get cached and used
+
+### 0.6.2
 
 - Make the Check task check for the remote presence of the configured SCM
 - Fix Rocketeer not being able to use a `composer.phar` on the server

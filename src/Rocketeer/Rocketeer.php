@@ -30,7 +30,7 @@ class Rocketeer
 	 *
 	 * @var string
 	 */
-	const VERSION = '0.6.2';
+	const VERSION = '0.6.3';
 
 	/**
 	 * Build a new ReleasesManager
@@ -101,7 +101,7 @@ class Rocketeer
 	 */
 	public function getApplicationName()
 	{
-		return $this->getOption('remote.application_name');
+		return Str::slug($this->getOption('remote.application_name'));
 	}
 
 	/**

@@ -25,6 +25,12 @@ class TasksTest extends RocketeerTests
 	//////////////////////////////// TASKS /////////////////////////////
 	////////////////////////////////////////////////////////////////////
 
+	public function testCanPretendToCheck()
+	{
+		$task = $this->pretendTask('Check');
+		$task->execute();
+	}
+
 	public function testCanCleanupServer()
 	{
 		$cleanup = $this->task('Cleanup');
@@ -154,6 +160,6 @@ class TasksTest extends RocketeerTests
 		$this->task->command = $command;
 
 		$output = $this->task->run('ls');
-		$this->assertEquals(array('ls'), $output);
+		$this->assertEquals('ls', $output);
 	}
 }
