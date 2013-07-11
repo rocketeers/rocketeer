@@ -98,6 +98,8 @@ class Bash
 		// Log the commands for pretend
 		if ($this->getOption('pretend') and !$silent) {
 			$this->command->line(implode(PHP_EOL, $commands));
+			$commands = (sizeof($commands) == 1) ? $commands[0] : $commands;
+
 			return $commands;
 		}
 
