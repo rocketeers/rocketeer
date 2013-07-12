@@ -53,6 +53,8 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 		// Laravel classes --------------------------------------------- /
 
 		$this->app['path.base']    = '/src';
+		$this->app['path']         = '/src/app';
+		$this->app['path.public']  = '/src/public';
 		$this->app['path.storage'] = '/src/storage';
 
 		$this->app['files']   = new Filesystem;

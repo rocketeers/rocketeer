@@ -4,6 +4,11 @@
 
 - Ability to select which severs a Task executes on, on a per-task basis
 
+### 0.6.4 (develop)
+
+- Fix a bug where custom Task classes would be analyzed as string commands
+- Fix Rocketeeer not taking into account custom paths to **app/**, **storage/**, **public/** etc.
+
 ### 0.6.3 (stable)
 
 - Application name is now always sluggified as a security
