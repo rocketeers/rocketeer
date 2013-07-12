@@ -8,6 +8,11 @@ use Illuminate\Support\Str;
 
 /**
  * An helper to execute commands on the remote server
+ *
+ * @property ReleasesManager $releasesManager
+ * @property Rocketeer       $rocketeer
+ * @property Server          $server
+ * @property Traits\Scm      $scm
  */
 class Bash
 {
