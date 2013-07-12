@@ -7,7 +7,7 @@ use Illuminate\Remote\Connection;
 use Illuminate\Support\Str;
 
 /**
- * An helper to execute commands on the remote server
+ * An helper to execute low-level commands on the remote server
  *
  * @property ReleasesManager $releasesManager
  * @property Rocketeer       $rocketeer

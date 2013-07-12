@@ -110,13 +110,15 @@ class ReleasesManager
 	/**
 	 * Get the release before the current one
 	 *
+	 * @param string $release A release name
+	 *
 	 * @return string
 	 */
-	public function getPreviousRelease()
+	public function getPreviousRelease($release = null)
 	{
 		// Get all releases and the current one
 		$releases = $this->getReleases();
-		$current  = $this->getCurrentRelease();
+		$current  = $release ?: $this->getCurrentRelease();
 
 		// Get the one before that, or default to current
 		$key     = array_search($current, $releases);
@@ -128,7 +130,7 @@ class ReleasesManager
 	/**
 	 * Update the current release
 	 *
-	 * @param  string $release
+	 * @param  string $release A release name
 	 *
 	 * @return void
 	 */

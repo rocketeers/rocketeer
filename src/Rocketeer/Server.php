@@ -4,7 +4,7 @@ namespace Rocketeer;
 use Illuminate\Container\Container;
 
 /**
- * Provids and persists informations about the remote server
+ * Provides and persists informations about the remote server
  */
 class Server
 {
@@ -42,7 +42,7 @@ class Server
 	////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Get the directory separators
+	 * Get the directory separators on the remove server
 	 *
 	 * @return string
 	 */
@@ -69,7 +69,7 @@ class Server
 	}
 
 	/**
-	 * Get the remote line endings
+	 * Get the remote line endings on the remove server
 	 *
 	 * @return string
 	 */
@@ -128,13 +128,13 @@ class Server
 	////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Update the deployments file
+	 * Replace the contents of the deployments file
 	 *
 	 * @param array $data
 	 *
 	 * @return void
 	 */
-	protected function updateRepository($data)
+	public function updateRepository($data)
 	{
 		$this->app['files']->put($this->repository, json_encode($data));
 	}
@@ -144,7 +144,7 @@ class Server
 	 *
 	 * @return array
 	 */
-	protected function getRepository()
+	public function getRepository()
 	{
 		// Cancel if the file doesn't exist
 		if (!$this->app['files']->exists($this->repository)) {

@@ -39,3 +39,9 @@ But, it remains a Ruby package and one that's tightly coupled to Rails in some w
 It's also meant to be a lot easier to comprehend, for first-time users or novices, Capistrano is a lot to take at once – Rocketeer aims to be as simple as possible by providing smart defaults and speeding up the time between installing it and first hitting `deploy`.
 
 It's also more thought out for the PHP world – although you can configure Capistrano to run Composer and PHPUnit, that's not something it expects from the get go, while those tasks that are a part of every Laravel developper are integrated in Rocketeer's core deploy process.
+
+## Table of contents
+
+- **[Getting Started](https://github.com/Anahkiasen/rocketeer/wiki/Getting-started)**
+- **[Tasks](https://github.com/Anahkiasen/rocketeer/wiki/Tasks)**
+- **[Architecture](https://github.com/Anahkiasen/rocketeer/wiki/Architecture)**

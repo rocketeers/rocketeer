@@ -4,7 +4,7 @@ namespace Rocketeer\Traits;
 use Rocketeer\Bash;
 
 /**
- * A Task to execute on the remote servers
+ * An abstract Task with common helpers, from which all Tasks derive
  */
 abstract class Task extends Bash
 {
@@ -97,7 +97,7 @@ abstract class Task extends Bash
 	}
 
 	/**
-	 * Execute a Task
+	 * Execute another Task by name
 	 *
 	 * @param  string $task
 	 *
@@ -230,7 +230,7 @@ abstract class Task extends Bash
 	}
 
 	/**
-	 * Get the Composer binary
+	 * Get the path to Composer binary
 	 *
 	 * @return string
 	 */
