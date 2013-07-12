@@ -91,7 +91,7 @@ class Deploy extends Task
 	}
 
 	/**
-	 * Clone Git repository
+	 * Clone the repository in a new release folder
 	 *
 	 * @return void
 	 */

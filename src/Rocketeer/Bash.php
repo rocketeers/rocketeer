@@ -3,16 +3,16 @@ namespace Rocketeer;
 
 use Illuminate\Console\Command;
 use Illuminate\Container\Container;
-use Illuminate\Remote\Connection;
 use Illuminate\Support\Str;
 
 /**
  * An helper to execute low-level commands on the remote server
  *
- * @property ReleasesManager $releasesManager
- * @property Rocketeer       $rocketeer
- * @property Server          $server
- * @property Traits\Scm      $scm
+ * @property ReleasesManager              $releasesManager
+ * @property Rocketeer                    $rocketeer
+ * @property Server                       $server
+ * @property Illuminate\Remote\Connection $remote
+ * @property Traits\Scm                   $scm
  */
 class Bash
 {
