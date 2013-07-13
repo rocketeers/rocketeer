@@ -6,6 +6,7 @@
 
 ### 0.6.4 (develop)
 
+- Make the output of commands in realtime when `--verbose` instead of when the command is done
 - Fix a bug where custom Task classes would be analyzed as string commands
 - Fix Rocketeeer not taking into account custom paths to **app/**, **storage/**, **public/** etc.
 

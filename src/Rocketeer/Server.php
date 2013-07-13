@@ -51,7 +51,7 @@ class Server
 		$bash = $this->app['rocketeer.bash'];
 
 		return $this->getValue('directory_separator', function ($server) use ($bash) {
-			$separator = $bash->runRemoteCommands('php -r "echo DIRECTORY_SEPARATOR;"');
+			$separator = $bash->runRaw('php -r "echo DIRECTORY_SEPARATOR;"');
 
 			// Throw an Exception if we receive invalid output
 			if (strlen($separator) > 1) {
@@ -78,7 +78,7 @@ class Server
 		$bash = $this->app['rocketeer.bash'];
 
 		return $this->getValue('line_endings', function ($server) use ($bash) {
-			$endings = $bash->runRemoteCommands('php -r "echo PHP_EOL;"');
+			$endings = $bash->runRaw('php -r "echo PHP_EOL;"');
 			$server->setValue('line_endings', $endings);
 
 			return $endings;

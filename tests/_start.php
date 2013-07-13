@@ -177,7 +177,7 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 	 *
 	 * @return Mockery
 	 */
-	protected function getCommand($option = true)
+	protected function getCommand()
 	{
 		$message = function ($message) {
 			return $message;
@@ -267,7 +267,10 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 		$remote->shouldReceive('into')->andReturn(Mockery::self());
 		$remote->shouldReceive('status')->andReturn(0)->byDefault();
 		$remote->shouldReceive('run')->andReturnUsing($run)->byDefault();
-		$remote->shouldReceive('runRemoteCommands')->andReturnUsing($run)->byDefault();
+		$remote->shouldReceive('runRaw')->andReturnUsing($run)->byDefault();
+		$remote->shouldReceive('display')->andReturnUsing(function ($line) {
+			print $line.PHP_EOL;
+		});
 
 		return $remote;
 	}
