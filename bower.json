@@ -2,7 +2,7 @@
   "name": "Rocketeer",
   "dependencies": {
     "marked": "latest",
-    "jquery": "1.10.*",
+    "jquery": "~1",
     "rainbow": "latest"
   }
 }
