@@ -139,13 +139,13 @@ class TasksTest extends RocketeerTests
 
 	public function testCanDisplayOutputOfCommandsIfVerbose()
 	{
-		$command = clone $this->getCommand();
-		$command->shouldReceive('option')->with('verbose')->andReturn(true);
-		$command->shouldReceive('option')->with('pretend')->andReturn(false);
-		$this->task->command = $command;
+		$task = $this->pretendTask('Check', array(
+			'verbose' => true,
+			'pretend' => false
+		));
 
 		ob_start();
-			$this->task->run('ls');
+			$task->run('ls');
 		$output = ob_get_clean();
 
 		$this->assertContains('tests', $output);
@@ -153,12 +153,9 @@ class TasksTest extends RocketeerTests
 
 	public function testCanPretendToRunTasks()
 	{
-		$command = clone $this->getCommand();
-		$command->shouldReceive('option')->with('verbose')->andReturn(false);
-		$command->shouldReceive('option')->with('pretend')->andReturn(true);
-		$this->task->command = $command;
+		$task = $this->pretendTask();
 
-		$output = $this->task->run('ls');
+		$output = $task->run('ls');
 		$this->assertEquals('ls', $output);
 	}
 }

@@ -130,12 +130,19 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 	 *
 	 * @return Task
 	 */
-	protected function pretendTask($task = 'Deploy')
+	protected function pretendTask($task = 'Deploy', $options = array())
 	{
-		$command = clone $this->getCommand();
-		$command->shouldReceive('option')->with('pretend')->andReturn(true);
-		$command->shouldReceive('option')->with('verbose')->andReturn(false);
+		// Default options
+		$default = array('pretend' => true, 'verbose' => false);
+		$options = array_merge($default, $options);
 
+		// Create command
+		$command = clone $this->getCommand();
+		foreach ($options as $name => $value) {
+			$command->shouldReceive('option')->with($name)->andReturn($value);
+		}
+
+		// Bind it to Task
 		$task = $this->task($task);
 		$task->command = $command;
 
