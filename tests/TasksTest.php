@@ -131,14 +131,10 @@ class TasksTest extends RocketeerTests
 
 	public function testCanUpdateRepository()
 	{
-		$this->markTestSkipped('Fuck this for now');
+		$this->task->updateRepository(true);
+		$output = $this->task->run('git status');
 
-		$output = $this->task->updateRepository();
-		$matcher = str_contains($output, 'up-to-date')
-			? 'Already up-to-date'
-			: 'Current branch develop is up to date';
-
-		$this->assertContains($matcher, $output);
+		$this->assertContains('working directory clean', $output);
 	}
 
 	public function testCanDisplayOutputOfCommandsIfVerbose()
