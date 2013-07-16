@@ -4,10 +4,16 @@ namespace Rocketeer\Tasks;
 use Rocketeer\Traits\Task;
 
 /**
- * Run the tests on the server and displays the ouput
+ * Run the tests on the server and displays the output
  */
 class Test extends Task
 {
+	 /**
+	 * A description of what the Task does
+	 *
+	 * @var string
+	 */
+	protected $description = 'Run the tests on the server and displays the output';
 
 	/**
 	 * Run the Task
