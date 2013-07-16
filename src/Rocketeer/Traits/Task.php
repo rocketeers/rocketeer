@@ -122,7 +122,7 @@ abstract class Task extends Bash
 		$releasePath = $this->releasesManager->getCurrentReleasePath();
 
 		$this->command->info('Cloning repository in "' .$releasePath. '"');
-		$output = $this->run($this->scm->checkout($releasePath));
+		$output = $this->scm->execute('checkout', $releasePath);
 
 		return $this->checkStatus('Unable to clone the repository', $output);
 	}
