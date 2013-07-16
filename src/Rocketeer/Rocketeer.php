@@ -101,7 +101,7 @@ class Rocketeer
 	 */
 	public function getApplicationName()
 	{
-		return Str::slug($this->getOption('remote.application_name'));
+		return $this->getOption('remote.application_name');
 	}
 
 	/**
