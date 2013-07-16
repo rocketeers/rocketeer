@@ -10,6 +10,14 @@ class TasksQueueTest extends RocketeerTests
 		$this->assertInstanceOf('Rocketeer\Traits\Task', $task);
 	}
 
+	public function testCanBuildCustomTaskByName()
+	{
+		$tasks = $this->tasksQueue()->buildQueue(array('Rocketeer\Tasks\Check'));
+
+		$this->assertInstanceOf('Rocketeer\Tasks\Check', $tasks[0]);
+		$this->assertInstanceOf('Tasks\MyCustomTask', $tasks[1]);
+	}
+
 	public function testCanAddCommandsToArtisan()
 	{
 		$command = $this->tasksQueue()->add('Rocketeer\Tasks\Deploy');

@@ -19,7 +19,7 @@ class DeployTestCommand extends BaseDeployCommand
 	 *
 	 * @var string
 	 */
-	protected $description = 'Run the tests on the server and displays the ouput';
+	protected $description = 'Run the tests on the server and displays the output';
 
 	/**
 	 * The tasks to execute
@@ -29,6 +29,7 @@ class DeployTestCommand extends BaseDeployCommand
 	public function fire()
 	{
 		$this->input->setOption('verbose', true);
+
 		return $this->fireTasksQueue('Rocketeer\Tasks\Test');
 	}
 }

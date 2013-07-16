@@ -3,11 +3,16 @@ namespace Rocketeer;
 
 use Illuminate\Console\Command;
 use Illuminate\Container\Container;
-use Illuminate\Remote\Connection;
 use Illuminate\Support\Str;
 
 /**
- * An helper to execute commands on the remote server
+ * An helper to execute low-level commands on the remote server
+ *
+ * @property ReleasesManager              $releasesManager
+ * @property Rocketeer                    $rocketeer
+ * @property Server                       $server
+ * @property Illuminate\Remote\Connection $remote
+ * @property Traits\Scm                   $scm
  */
 class Bash
 {
@@ -18,41 +23,6 @@ class Bash
 	 * @var Container
 	 */
 	protected $app;
-
-	/**
-	 * The Releases Manager instance
-	 *
-	 * @var ReleasesManager
-	 */
-	public $releasesManager;
-
-	/**
-	 * The Server instance
-	 *
-	 * @var Server
-	 */
-	public $server;
-
-	/**
-	 * The SCM
-	 *
-	 * @var Scm
-	 */
-	public $scm;
-
-	/**
-	 * The Rocketeer instance
-	 *
-	 * @var Rocketeer
-	 */
-	public $rocketeer;
-
-	/**
-	 * The Remote instance
-	 *
-	 * @var Connection
-	 */
-	public $remote;
 
 	/**
 	 * The Command instance
@@ -69,13 +39,32 @@ class Bash
 	 */
 	public function __construct(Container $app, $command = null)
 	{
-		$this->app             = $app;
-		$this->releasesManager = $app['rocketeer.releases'];
-		$this->server          = $app['rocketeer.server'];
-		$this->rocketeer       = $app['rocketeer.rocketeer'];
-		$this->scm             = $app['rocketeer.scm'];
-		$this->remote          = $app['remote'];
-		$this->command         = $command;
+		$this->app     = $app;
+		$this->command = $command;
+	}
+
+	/**
+	 * Get an instance from the Container
+	 *
+	 * @param  string $key
+	 *
+	 * @return object
+	 */
+	public function __get($key)
+	{
+		$shortcuts = array(
+			'releasesManager' => 'rocketeer.releases',
+			'server'          => 'rocketeer.server',
+			'rocketeer'       => 'rocketeer.rocketeer',
+			'scm'             => 'rocketeer.scm',
+		);
+
+		// Replace shortcuts
+		if (array_key_exists($key, $shortcuts)) {
+			$key = $shortcuts[$key];
+		}
+
+		return $this->app[$key];
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -93,7 +82,10 @@ class Bash
 	 */
 	public function run($commands, $silent = false, $array = false)
 	{
+		$me       = $this;
+		$output   = null;
 		$commands = $this->processCommands($commands);
+		$verbose  = $this->getOption('verbose') and !$silent;
 
 		// Log the commands for pretend
 		if ($this->getOption('pretend') and !$silent) {
@@ -103,13 +95,50 @@ class Bash
 			return $commands;
 		}
 
-		// Get output
-		$output = $this->runRemoteCommands($commands, $array);
-		$output = is_array($output) ? array_filter($output) : trim($output);
+		// Run commands
+		$this->remote->run($commands, function ($results) use (&$output, $verbose, $me) {
+			$output .= $results;
 
-		// Print if necessary
-		if ($this->getOption('verbose') and !$silent) {
-			print is_array($output) ? implode(PHP_EOL, $output) : $output;
+			if ($verbose) {
+				$me->remote->display(trim($results));
+			}
+		});
+
+		// Explode output if necessary
+		if ($array) {
+			$output = explode($this->server->getLineEndings(), $output);
+		}
+
+		// Trim output
+		$output = is_array($output)
+			? array_filter($output)
+			: trim($output);
+
+		return $output;
+	}
+
+	/**
+	 * Run a raw command, without any processing, and
+	 * get its output as a string or array
+	 *
+	 * @param  string|array $commands
+	 * @param  boolean      $array     Whether the output should be returned as an array
+	 *
+	 * @return string
+	 */
+	public function runRaw($commands, $array = false)
+	{
+		$output  = null;
+
+		// Run commands
+		$this->remote->run($commands, function ($results) use (&$output) {
+			$output .= $results;
+		});
+
+		// Explode output if necessary
+		if ($array) {
+			$output = explode($this->server->getLineEndings(), $output);
+			$output = array_filter($output);
 		}
 
 		return $output;
@@ -244,9 +273,9 @@ class Bash
 	 */
 	public function fileExists($file)
 	{
-		$exists = $this->run('if [ -e ' .$file. ' ]; then echo "true"; fi', true);
+		$exists = $this->runRaw('if [ -e ' .$file. ' ]; then echo "true"; fi');
 
-		return $exists == 'true';
+		return trim($exists) == 'true';
 	}
 
 	/**
@@ -279,33 +308,6 @@ class Bash
 	////////////////////////////////////////////////////////////////////
 	/////////////////////////////// HELPERS ////////////////////////////
 	////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Run a raw command, without any processing, and
-	 * get its output as a string or array
-	 *
-	 * @param  string|array $commands
-	 * @param  boolean      $array     Whether the output should be returned as an array
-	 *
-	 * @return string
-	 */
-	public function runRemoteCommands($commands, $array = false)
-	{
-		$output = null;
-
-		// Run commands
-		$this->remote->run($commands, function ($results) use (&$output) {
-			$output .= $results;
-		});
-
-		// Explode output if necessary
-		if ($array) {
-			$output = explode($this->server->getLineEndings(), $output);
-			$output = array_filter($output);
-		}
-
-		return $output;
-	}
 
 	/**
 	 * Get an option from the Command

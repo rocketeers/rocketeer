@@ -9,7 +9,6 @@ use Illuminate\Support\Str;
  */
 class Cleanup extends Task
 {
-
 	 /**
 	 * A description of what the Task does
 	 *

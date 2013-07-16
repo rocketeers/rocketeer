@@ -30,7 +30,7 @@ class Rocketeer
 	 *
 	 * @var string
 	 */
-	const VERSION = '0.6.3';
+	const VERSION = '0.6.4';
 
 	/**
 	 * Build a new ReleasesManager
@@ -43,7 +43,7 @@ class Rocketeer
 	}
 
 	/**
-	 * Get an option from the config file
+	 * Get an option from Rocketeer's config file
 	 *
 	 * @param  string $option
 	 *
@@ -59,7 +59,7 @@ class Rocketeer
 	////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Execute the Task on a particular stage
+	 * Set the stage Tasks will execute on
 	 *
 	 * @param  string $stage
 	 *
@@ -81,7 +81,7 @@ class Rocketeer
 	}
 
 	/**
-	 * Get the stages of the application
+	 * Get the various stages provided by the User
 	 *
 	 * @return array
 	 */
@@ -101,7 +101,7 @@ class Rocketeer
 	 */
 	public function getApplicationName()
 	{
-		return Str::slug($this->getOption('remote.application_name'));
+		return $this->getOption('remote.application_name');
 	}
 
 	/**
@@ -151,7 +151,7 @@ class Rocketeer
 	}
 
 	/**
-	 * Get the Git repository
+	 * Get the URL to the Git repository
 	 *
 	 * @param  string $username
 	 * @param  string $password
@@ -201,7 +201,7 @@ class Rocketeer
 	////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Get the path to a folder
+	 * Get the path to a folder, taking into account application name and stage
 	 *
 	 * @param  string $folder
 	 *
@@ -209,7 +209,7 @@ class Rocketeer
 	 */
 	public function getFolder($folder = null)
 	{
-		$base   = $this->getHomeFolder().'/';
+		$base = $this->getHomeFolder().'/';
 		if ($folder and $this->stage) {
 			$base .= $this->stage.'/';
 		}
@@ -219,7 +219,7 @@ class Rocketeer
 	}
 
 	/**
-	 * Get the path to the remote folder
+	 * Get the path to the root folder of the application
 	 *
 	 * @return string
 	 */

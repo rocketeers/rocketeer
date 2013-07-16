@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "45726cdce65d7f71bd7617fa58f52acf",
+    "hash": "2742888e1e2e763a88c922cd15ea0a16",
     "packages": [
         {
             "name": "illuminate/support",
@@ -339,12 +339,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "68fda7fc4351e9dad8beef70470050aea752d780"
+                "reference": "251dd20d2f8acaf2f7832300eec9a20e9951393c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/68fda7fc4351e9dad8beef70470050aea752d780",
-                "reference": "68fda7fc4351e9dad8beef70470050aea752d780",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/251dd20d2f8acaf2f7832300eec9a20e9951393c",
+                "reference": "251dd20d2f8acaf2f7832300eec9a20e9951393c",
                 "shasum": ""
             },
             "require": {
@@ -383,7 +383,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com",
-            "time": "2013-07-01 12:24:43"
+            "time": "2013-07-11 19:36:36"
         },
         {
             "name": "symfony/finder",
@@ -438,9 +438,9 @@
     ],
     "minimum-stability": "dev",
     "stability-flags": {
-        "patchwork/utf8": 20,
         "mockery/mockery": 20,
-        "nesbot/carbon": 20
+        "nesbot/carbon": 20,
+        "patchwork/utf8": 20
     },
     "platform": {
         "php": ">=5.3.0"

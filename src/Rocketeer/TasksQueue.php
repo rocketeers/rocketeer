@@ -210,7 +210,7 @@ class TasksQueue
 
 			// Else build class and add to queue
 			if (!($task instanceof Task)) {
-				$task  = $this->buildTask($task);
+				$task = $this->buildTask($task);
 			}
 
 			$queue = array_merge($queue, $this->getBefore($task), array($task), $this->getAfter($task));
@@ -236,7 +236,7 @@ class TasksQueue
 	public function buildTaskFromClosure($task)
 	{
 		// If the User provided a string to execute
-		if (is_string($task)) {
+		if (is_string($task) and !class_exists($task)) {
 			$stringTask = $task;
 			$closure = function ($task) use ($stringTask) {
 				return $task->runForCurrentRelease($stringTask);
@@ -251,6 +251,10 @@ class TasksQueue
 		if (isset($closure)) {
 			$task = $this->buildTask('Rocketeer\Tasks\Closure');
 			$task->setClosure($closure);
+		}
+
+		if (!($task instanceof Task)) {
+			$task = $this->buildTask($task);
 		}
 
 		return $task;

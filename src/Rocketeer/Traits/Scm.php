@@ -38,4 +38,21 @@ abstract class Scm
 	{
 		return $this->binary. ' ' .$command;
 	}
+
+	/**
+	 * Execute one of the commands
+	 *
+	 * @param  string $command
+	 * @param  string $arguments,...
+	 *
+	 * @return mixed
+	 */
+	public function execute()
+	{
+		$arguments = func_get_args();
+		$command   = array_shift($arguments);
+		$command   = call_user_func_array(array($this, $command), $arguments);
+
+		return $this->app['rocketeer.bash']->run($command);
+	}
 }

@@ -91,7 +91,7 @@ class Deploy extends Task
 	}
 
 	/**
-	 * Clone Git repository
+	 * Clone the repository in a new release folder
 	 *
 	 * @return void
 	 */
@@ -118,8 +118,13 @@ class Deploy extends Task
 	 */
 	protected function setApplicationPermissions()
 	{
-		$this->setPermissions('app/database/production.sqlite');
-		$this->setPermissions('app/storage');
-		$this->setPermissions('public');
+		$base    = $this->app['path.base'].'/';
+		$app     = str_replace($base, null, $this->app['path']);
+		$storage = str_replace($base, null, $this->app['path.storage']);
+		$public  = str_replace($base, null, $this->app['path.public']);
+
+		$this->setPermissions($app.'/database/production.sqlite');
+		$this->setPermissions($storage);
+		$this->setPermissions($public);
 	}
 }

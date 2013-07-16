@@ -131,23 +131,21 @@ class TasksTest extends RocketeerTests
 
 	public function testCanUpdateRepository()
 	{
-		$output = $this->task->updateRepository();
-		$matcher = str_contains($output, 'up-to-date')
-			? 'Already up-to-date'
-			: 'Current branch develop is up to date';
+		$this->task->updateRepository(true);
+		$output = $this->task->run('git status');
 
-		$this->assertContains($matcher, $output);
+		$this->assertContains('working directory clean', $output);
 	}
 
 	public function testCanDisplayOutputOfCommandsIfVerbose()
 	{
-		$command = $this->getCommand(false);
-		$command->shouldReceive('option')->with('verbose')->andReturn(true);
-		$command->shouldReceive('option')->with('pretend')->andReturn(false);
-		$this->task->command = $command;
+		$task = $this->pretendTask('Check', array(
+			'verbose' => true,
+			'pretend' => false
+		));
 
 		ob_start();
-			$this->task->run('ls');
+			$task->run('ls');
 		$output = ob_get_clean();
 
 		$this->assertContains('tests', $output);
@@ -155,11 +153,9 @@ class TasksTest extends RocketeerTests
 
 	public function testCanPretendToRunTasks()
 	{
-		$command = $this->getCommand(false);
-		$command->shouldReceive('option')->with('pretend')->andReturn(true);
-		$this->task->command = $command;
+		$task = $this->pretendTask();
 
-		$output = $this->task->run('ls');
+		$output = $task->run('ls');
 		$this->assertEquals('ls', $output);
 	}
 }

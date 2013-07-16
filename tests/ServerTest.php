@@ -32,4 +32,18 @@ class ServerTest extends RocketeerTests
 
 		$this->assertEquals(null, $this->app['rocketeer.server']->getValue('foo'));
 	}
+
+	public function testCanGetLineEndings()
+	{
+		$this->app['rocketeer.server']->deleteRepository();
+
+		$this->assertEquals(PHP_EOL, $this->app['rocketeer.server']->getLineEndings());
+	}
+
+	public function testCanGetSeparators()
+	{
+		$this->app['rocketeer.server']->deleteRepository();
+
+		$this->assertEquals(DIRECTORY_SEPARATOR, $this->app['rocketeer.server']->getSeparator());
+	}
 }

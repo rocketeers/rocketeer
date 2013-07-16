@@ -20,14 +20,14 @@ deploy
   deploy:rollback {release}  Rollback to a specific release
   deploy:setup               Set up the remote server for deployment
   deploy:teardown            Remove the remote applications and existing caches
-  deploy:test                Run the tests on the server and displays the ouput
+  deploy:test                Run the tests on the server and displays the output
   deploy:update              Update the remote server without doing a new release
 ```
 
 ## Tasks
 
 An important concept in Rocketeer is Tasks : most of the commands you see right above are using predefined Tasks underneath : **Rocketeer\Tasks\Setup**, **Rocketeer\Tasks\Deploy**, etc.
-Now, the core of Rocketeer is you can hook into any of those Tasks to peform additional actions, for this you'll use the `before` and `after` arrays of Rocketeer's config file.
+Now, the core of Rocketeer is you can hook into any of those Tasks to perform additional actions, for this you'll use the `before` and `after` arrays of Rocketeer's config file.
 
 You can read more about Tasks and what you can do with them [in the wiki](https://github.com/Anahkiasen/rocketeer/wiki/Tasks).
 
@@ -38,4 +38,10 @@ That's a question that's been asked to me, why not simply use Capistrano ? I've 
 But, it remains a Ruby package and one that's tightly coupled to Rails in some ways; Rocketeer makes it so that you don't have Ruby files hanging around your app. That way you configure it once and can use it wherever you want in the realm of Laravel, even outside of the deploy routine.
 It's also meant to be a lot easier to comprehend, for first-time users or novices, Capistrano is a lot to take at once – Rocketeer aims to be as simple as possible by providing smart defaults and speeding up the time between installing it and first hitting `deploy`.
 
-It's also more thought out for the PHP world – although you can configure Capistrano to run Composer and PHPUnit, that's not something it expects from the get go, while those tasks that are a part of every Laravel developper are integrated in Rocketeer's core deploy process.
+It's also more thought out for the PHP world – although you can configure Capistrano to run Composer and PHPUnit, that's not something it expects from the get go, while those tasks that are a part of every Laravel developer are integrated in Rocketeer's core deploy process.
+
+## Table of contents
+
+- **[Getting Started](https://github.com/Anahkiasen/rocketeer/wiki/Getting-started)**
+- **[Tasks](https://github.com/Anahkiasen/rocketeer/wiki/Tasks)**
+- **[Architecture](https://github.com/Anahkiasen/rocketeer/wiki/Architecture)**

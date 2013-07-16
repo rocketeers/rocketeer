@@ -74,6 +74,13 @@ class RocketeerTest extends RocketeerTests
 		$this->assertEquals($this->server.'', $this->app['rocketeer.rocketeer']->getHomeFolder());
 	}
 
+	public function testCanGetFolderWithStage()
+	{
+		$this->app['rocketeer.rocketeer']->setStage('test');
+
+		$this->assertEquals($this->server.'/test/current', $this->app['rocketeer.rocketeer']->getFolder('current'));
+	}
+
 	public function testCanGetAnyFolder()
 	{
 		$this->assertEquals($this->server.'/current', $this->app['rocketeer.rocketeer']->getFolder('current'));

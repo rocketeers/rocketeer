@@ -1,5 +1,6 @@
 <?php
 include __DIR__.'/../vendor/autoload.php';
+include __DIR__.'/meta/MyCustomTask.php';
 
 use Illuminate\Container\Container;
 use Illuminate\Filesystem\Filesystem;
@@ -52,6 +53,8 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 		// Laravel classes --------------------------------------------- /
 
 		$this->app['path.base']    = '/src';
+		$this->app['path']         = '/src/app';
+		$this->app['path.public']  = '/src/public';
 		$this->app['path.storage'] = '/src/storage';
 
 		$this->app['files']   = new Filesystem;
@@ -127,12 +130,19 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 	 *
 	 * @return Task
 	 */
-	protected function pretendTask($task = 'Deploy')
+	protected function pretendTask($task = 'Deploy', $options = array())
 	{
-		$command = clone $this->getCommand();
-		$command->shouldReceive('option')->with('pretend')->andReturn(true);
-		$command->shouldReceive('option')->with('verbose')->andReturn(false);
+		// Default options
+		$default = array('pretend' => true, 'verbose' => false);
+		$options = array_merge($default, $options);
 
+		// Create command
+		$command = clone $this->getCommand();
+		foreach ($options as $name => $value) {
+			$command->shouldReceive('option')->with($name)->andReturn($value);
+		}
+
+		// Bind it to Task
 		$task = $this->task($task);
 		$task->command = $command;
 
@@ -174,7 +184,7 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 	 *
 	 * @return Mockery
 	 */
-	protected function getCommand($option = true)
+	protected function getCommand()
 	{
 		$message = function ($message) {
 			return $message;
@@ -209,7 +219,7 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 
 		// Rocketeer
 		$config->shouldReceive('get')->with('rocketeer::remote.apache')->andReturn(array('user' => 'www-data', 'group' => 'www-data'));
-		$config->shouldReceive('get')->with('rocketeer::remote.application_name')->andReturn('FoOBaR');
+		$config->shouldReceive('get')->with('rocketeer::remote.application_name')->andReturn('foobar');
 		$config->shouldReceive('get')->with('rocketeer::remote.root_directory')->andReturn(__DIR__.'/server/');
 		$config->shouldReceive('get')->with('rocketeer::remote.keep_releases')->andReturn(1);
 		$config->shouldReceive('get')->with('rocketeer::remote.shared')->andReturn(array('tests/meta'));
@@ -225,10 +235,19 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 		// Tasks
 		$config->shouldReceive('get')->with('rocketeer::tasks')->andReturn(array(
 			'before' => array(
-				'deploy' => array('before', 'foobar'),
+				'deploy' => array(
+					'before',
+					'foobar'
+				),
 			),
 			'after' => array(
-				'Rocketeer\Tasks\Deploy' => array('after', 'foobar'),
+				'check' => array(
+					'Tasks\MyCustomTask',
+				),
+				'Rocketeer\Tasks\Deploy' => array(
+					'after',
+					'foobar'
+				),
 			),
 		));
 
@@ -255,7 +274,10 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 		$remote->shouldReceive('into')->andReturn(Mockery::self());
 		$remote->shouldReceive('status')->andReturn(0)->byDefault();
 		$remote->shouldReceive('run')->andReturnUsing($run)->byDefault();
-		$remote->shouldReceive('runRemoteCommands')->andReturnUsing($run)->byDefault();
+		$remote->shouldReceive('runRaw')->andReturnUsing($run)->byDefault();
+		$remote->shouldReceive('display')->andReturnUsing(function ($line) {
+			print $line.PHP_EOL;
+		});
 
 		return $remote;
 	}

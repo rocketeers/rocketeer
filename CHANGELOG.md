@@ -4,7 +4,14 @@
 
 - Ability to select which severs a Task executes on, on a per-task basis
 
-### 0.6.3 (stable)
+### 0.6.4 (stable)
+
+- Make the output of commands in realtime when `--verbose` instead of when the command is done
+- Fix a bug where custom Task classes would be analyzed as string commands
+- Fix Rocketeeer not taking into account custom paths to **app/**, **storage/**, **public/** etc.
+- Reverse sluggification of application name
+
+### 0.6.3
 
 - Application name is now always sluggified as a security
 - Fix a bug where the Check task would fail on pretend mode

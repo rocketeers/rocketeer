@@ -89,7 +89,7 @@ class Check extends Task
 	public function checkScm()
 	{
 		$this->command->comment('Checking presence of '.$this->scm->binary);
-		$this->run($this->scm->check());
+		$this->scm->execute('check');
 
 		return $this->remote->status() == 0;
 	}
