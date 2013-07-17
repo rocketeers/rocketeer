@@ -99,11 +99,11 @@ class Rocketeer
 	 *
 	 * @return boolean
 	 */
-	public function usesSsh()
+	public function needsCredentials()
 	{
 		$repository = array_get($this->getCredentials(), 'repository');
 
-		return Str::contains($repository, 'git@');
+		return Str::contains($repository, 'https://');
 	}
 
 	/**
