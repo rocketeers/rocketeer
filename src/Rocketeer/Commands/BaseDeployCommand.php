@@ -67,15 +67,15 @@ abstract class BaseDeployCommand extends Command
 	protected function getRepositoryCredentials()
 	{
 		// Check for repository credentials
-		$repository  = $this->laravel['rocketeer.rocketeer']->getCredentials();
-		$credentials = array('repository', 'username', 'password');
+		$repositoryInfos = $this->laravel['rocketeer.rocketeer']->getCredentials();
+		$credentials     = array('repository', 'username', 'password');
 		if ($this->laravel['rocketeer.rocketeer']->usesSsh()) {
 			$credentials = array('repository');
 		}
 
 		// Gather credentials
 		foreach ($credentials as $credential) {
-			${$credential} = array_get($repository, $credential);
+			${$credential} = array_get($repositoryInfos, $credential);
 			if (!${$credential}) {
 				${$credential} = $this->ask('No '.$credential. ' is set for the repository, please provide one :');
 			}
