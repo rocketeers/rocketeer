@@ -4,6 +4,10 @@
 
 - Ability to select which severs a Task executes on, on a per-task basis
 
+### 0.6.5
+
+- PROMPT ALL THE THINGS
+
 ### 0.6.4 (stable)
 
 - Make the output of commands in realtime when `--verbose` instead of when the command is done

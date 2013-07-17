@@ -97,17 +97,11 @@ class Deploy extends Task
 	 */
 	protected function cloneScmRepository()
 	{
-		// Get Git credentials
-		if (!$this->rocketeer->hasCredentials() and !$this->rocketeer->usesSsh()) {
-			$username   = $this->command->ask('What is your SCM username ?');
-			$password   = $this->command->secret('And your password ?');
-			$repository = $this->rocketeer->getRepository($username, $password);
-		} else {
-			$repository = $this->rocketeer->getRepository();
-		}
+		// Get SCM credentials
+		$repository = $this->rocketeer->getRepository();
+		$branch     = $this->rocketeer->getRepositoryBranch();
 
 		// Clone release
-		$branch = $this->rocketeer->getRepositoryBranch();
 		return $this->cloneRepository($repository, $branch);
 	}
 

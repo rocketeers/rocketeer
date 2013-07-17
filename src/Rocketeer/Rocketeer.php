@@ -95,6 +95,21 @@ class Rocketeer
 	////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Get the available connections
+	 *
+	 * @return array
+	 */
+	public function getConnections()
+	{
+		$connections = $this->app['rocketeer.server']->getValue('connections');
+		if (!$connections) {
+			$connections = $this->app['config']->get('remote.connections');
+		}
+
+		return $connections;
+	}
+
+	/**
 	 * Get the name of the application to deploy
 	 *
 	 * @return string
@@ -151,6 +166,21 @@ class Rocketeer
 	}
 
 	/**
+	 * Get the credentials for the repository
+	 *
+	 * @return array
+	 */
+	public function getCredentials()
+	{
+		$credentials = $this->app['rocketeer.server']->getValue('credentials');
+		if (!$credentials) {
+			$credentials = $this->getOption('scm');
+		}
+
+		return $credentials;
+	}
+
+	/**
 	 * Get the URL to the Git repository
 	 *
 	 * @param  string $username
@@ -158,12 +188,12 @@ class Rocketeer
 	 *
 	 * @return string
 	 */
-	public function getRepository($username = null, $password = null)
+	public function getRepository()
 	{
 		// Get credentials
-		$repository = $this->getOption('scm');
-		$username   = $username ?: $repository['username'];
-		$password   = $password ?: $repository['password'];
+		$repository = $this->getCredentials();
+		$username   = $repository['username'];
+		$password   = $repository['password'];
 		$repository = $repository['repository'];
 
 		// Add credentials if possible
