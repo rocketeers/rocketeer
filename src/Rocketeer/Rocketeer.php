@@ -107,19 +107,6 @@ class Rocketeer
 	}
 
 	/**
-	 * Whether credentials were provided by the User or if we
-	 * need to prompt for them
-	 *
-	 * @return boolean
-	 */
-	public function hasCredentials()
-	{
-		$credentials = $this->getOption('scm');
-
-		return $credentials['username'] or $credentials['password'];
-	}
-
-	/**
 	 * Get the available connections
 	 *
 	 * @return array
@@ -194,9 +181,9 @@ class Rocketeer
 	{
 		// Get credentials
 		$repository = $this->getCredentials();
-		$username   = $repository['username'];
-		$password   = $repository['password'];
-		$repository = $repository['repository'];
+		$username   = array_get($repository, 'username');
+		$password   = array_get($repository, 'password');
+		$repository = array_get($repository, 'repository');
 
 		// Add credentials if possible
 		if ($username or $password) {
