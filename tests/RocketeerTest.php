@@ -3,6 +3,16 @@
 class RocketeerTest extends RocketeerTests
 {
 
+	public function testCanGetAvailableConnections()
+	{
+		$connections = $this->app['rocketeer.rocketeer']->getConnections();
+		$this->assertEquals(array('production'), array_keys($connections));
+
+		$this->app['rocketeer.server']->setValue('connections.custom.username', 'foobar');
+		$connections = $this->app['rocketeer.rocketeer']->getConnections();
+		$this->assertEquals(array('custom'), array_keys($connections));
+	}
+
 	public function testCanUseSshRepository()
 	{
 		$repository = 'git@github.com:Anahkiasen/rocketeer.git';

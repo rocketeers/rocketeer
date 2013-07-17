@@ -6,7 +6,7 @@
 
 ### 0.6.5
 
-- PROMPT ALL THE THINGS
+- Make Rocketeer prompt for both server and SCM credentials if they're not stored
 
 ### 0.6.4 (stable)
 

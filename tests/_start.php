@@ -216,6 +216,7 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 		$config->shouldReceive('get')->with('database.default')->andReturn('mysql');
 		$config->shouldReceive('get')->with('cache.driver')->andReturn('file');
 		$config->shouldReceive('get')->with('session.driver')->andReturn('file');
+		$config->shouldReceive('get')->with('remote.connections')->andReturn(array('production' => array()));
 
 		// Rocketeer
 		$config->shouldReceive('get')->with('rocketeer::remote.apache')->andReturn(array('user' => 'www-data', 'group' => 'www-data'));

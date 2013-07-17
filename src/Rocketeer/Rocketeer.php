@@ -143,29 +143,6 @@ class Rocketeer
 	////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Whether the repository used is using SSH or HTTPS
-	 *
-	 * @return boolean
-	 */
-	public function usesSsh()
-	{
-		return Str::contains($this->getOption('scm.repository'), 'git@');
-	}
-
-	/**
-	 * Whether credentials were provided by the User or if we
-	 * need to prompt for them
-	 *
-	 * @return boolean
-	 */
-	public function hasCredentials()
-	{
-		$credentials = $this->getOption('scm');
-
-		return $credentials['username'] or $credentials['password'];
-	}
-
-	/**
 	 * Get the credentials for the repository
 	 *
 	 * @return array
