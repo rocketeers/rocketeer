@@ -34,7 +34,7 @@ class Server
 		$storage = $storage ?: $app['path.storage'];
 
 		$this->app        = $app;
-		$this->repository = $storage.'/meta/deployments.json';
+		$this->repository = $storage.DS.'meta'.DS.'deployments.json';
 	}
 
 	////////////////////////////////////////////////////////////////////

@@ -140,7 +140,7 @@ class Rocketeer
 	{
 		// Get path to logs
 		$base = $this->app['path.base'];
-		$logs = $this->app['path.storage'].'/logs';
+		$logs = $this->app['path.storage'].DS.'logs';
 		$logs = str_replace($base, null, $logs);
 
 		// Add logs to shared folders

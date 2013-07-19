@@ -161,6 +161,7 @@ abstract class Task extends Bash
 			$this->releasesManager->updateCurrentRelease($release);
 		}
 
+		// Get path to current/ folder and latest release
 		$currentReleasePath = $this->releasesManager->getCurrentReleasePath();
 		$currentFolder      = $this->rocketeer->getFolder('current');
 
@@ -237,7 +238,7 @@ abstract class Task extends Bash
 	public function getComposer()
 	{
 		$composer = $this->which('composer');
-		if (!$composer and file_exists($this->app['path.base'].'/composer.phar')) {
+		if (!$composer and file_exists($this->app['path.base'].DS.'composer.phar')) {
 			$composer = 'php composer.phar';
 		}
 

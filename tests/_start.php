@@ -6,6 +6,8 @@ use Illuminate\Container\Container;
 use Illuminate\Filesystem\Filesystem;
 use Rocketeer\RocketeerServiceProvider;
 
+date_default_timezone_set('UTC');
+
 abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 {
 

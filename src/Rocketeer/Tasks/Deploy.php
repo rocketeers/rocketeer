@@ -112,7 +112,7 @@ class Deploy extends Task
 	 */
 	protected function setApplicationPermissions()
 	{
-		$base    = $this->app['path.base'].DIRECTORY_SEPARATOR ;
+		$base    = $this->app['path.base'].DS;
 		$app     = str_replace($base, null, $this->app['path']);
 		$storage = str_replace($base, null, $this->app['path.storage']);
 		$public  = str_replace($base, null, $this->app['path.public']);
