@@ -4,9 +4,11 @@
 
 - Ability to select which severs a Task executes on, on a per-task basis
 
-### 0.6.5
+### 0.6.5 (develop)
 
-- Make Rocketeer prompt for both server and SCM credentials if they're not stored
+**- Make Rocketeer prompt for both server and SCM credentials if they're not stored**
+- Make Rocketeer forget invalid credentials provided by prompt
+- Fix a bug where incorrect SCM urls would be generated
 
 ### 0.6.4 (stable)
 
