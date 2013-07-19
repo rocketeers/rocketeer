@@ -1,6 +1,7 @@
 <?php
 namespace Rocketeer;
 
+use Exception;
 use Illuminate\Container\Container;
 
 /**
