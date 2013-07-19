@@ -67,6 +67,17 @@ class Bash
 		return $this->app[$key];
 	}
 
+	/**
+	 * Set an instance on the Container
+	 *
+	 * @param string $key
+	 * @param object $value
+	 */
+	public function __set($key, $value)
+	{
+		$this->app[$key] = $value;
+	}
+
 	////////////////////////////////////////////////////////////////////
 	///////////////////////////// CORE METHODS /////////////////////////
 	////////////////////////////////////////////////////////////////////
@@ -342,8 +353,8 @@ class Bash
 		foreach ($commands as &$command) {
 
 			// Replace directory separators
-			if (DIRECTORY_SEPARATOR !== $separator) {
-				$command = str_replace(DIRECTORY_SEPARATOR, $separator, $command);
+			if (DS !== $separator) {
+				$command = str_replace(DS, $separator, $command);
 			}
 
 			// Add stage flag

@@ -8,7 +8,6 @@ use Illuminate\Container\Container;
  */
 class Server
 {
-
 	/**
 	 * The IoC Container
 	 *
@@ -90,9 +89,9 @@ class Server
 	////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Get a value from the deployments file
+	 * Get a value from the repository file
 	 *
-	 * @param  string         $key
+	 * @param  string          $key
 	 * @param  \Closure|string $fallback
 	 *
 	 * @return mixed
@@ -110,17 +109,34 @@ class Server
 	}
 
 	/**
-	 * Set a value from the deployments file
+	 * Set a value from the repository file
 	 *
 	 * @param string $key
-	 * @param mixed $value
+	 * @param mixed  $value
+	 *
+	 * @return array
 	 */
 	public function setValue($key, $value)
 	{
-		$deployments = $this->getRepository();
-		array_set($deployments, $key, $value);
+		$repository = $this->getRepository();
+		array_set($repository, $key, $value);
 
-		$this->updateRepository($deployments);
+		return $this->updateRepository($repository);
+	}
+
+	/**
+	 * Forget a value from the repository file
+	 *
+	 * @param  string $key
+	 *
+	 * @return array
+	 */
+	public function forgetValue($key)
+	{
+		$repository = $this->getRepository();
+		array_forget($repository, $key);
+
+		return $this->updateRepository($repository);
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -132,11 +148,13 @@ class Server
 	 *
 	 * @param array $data
 	 *
-	 * @return void
+	 * @return array
 	 */
 	public function updateRepository($data)
 	{
 		$this->app['files']->put($this->repository, json_encode($data));
+
+		return $data;
 	}
 
 	/**

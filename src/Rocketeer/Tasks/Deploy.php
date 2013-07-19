@@ -27,7 +27,7 @@ class Deploy extends Task
 		$this->releasesManager->updateCurrentRelease($release);
 
 		// Clone Git repository
-		if (!$this->cloneScmRepository()) {
+		if (!$this->cloneRepository()) {
 			return $this->cancel();
 		}
 
@@ -88,21 +88,6 @@ class Deploy extends Task
 		foreach ($this->rocketeer->getShared() as $file) {
 			$this->share($currentRelease.'/'.$file);
 		}
-	}
-
-	/**
-	 * Clone the repository in a new release folder
-	 *
-	 * @return void
-	 */
-	protected function cloneScmRepository()
-	{
-		// Get SCM credentials
-		$repository = $this->rocketeer->getRepository();
-		$branch     = $this->rocketeer->getRepositoryBranch();
-
-		// Clone release
-		return $this->cloneRepository($repository, $branch);
 	}
 
 	/**
