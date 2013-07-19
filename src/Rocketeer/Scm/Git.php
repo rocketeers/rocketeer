@@ -76,7 +76,7 @@ class Git extends Scm implements ScmInterface
 	 */
 	public function reset()
 	{
-		return $this->getCommand('reset --hard'). ' && ' .$this->getCommand('clean -f -d');
+		return $this->getCommand('reset --hard');
 	}
 
 	/**

@@ -131,7 +131,8 @@ class TasksTest extends RocketeerTests
 
 	public function testCanUpdateRepository()
 	{
-		$this->task->updateRepository(true);
+		$this->task->runForCurrentRelease('git init');
+		$this->task->updateRepository();
 		$output = $this->task->run('git status');
 
 		$this->assertContains('working directory clean', $output);

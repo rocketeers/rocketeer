@@ -58,6 +58,17 @@ class RocketeerTest extends RocketeerTests
 		$this->assertEquals('https://foobar@github.com/Anahkiasen/rocketeer.git', $this->app['rocketeer.rocketeer']->getRepository());
 	}
 
+	public function testCanCleanupProvidedRepositoryFromCredentials()
+	{
+		$this->app['config']->shouldReceive('get')->with('rocketeer::scm')->andReturn(array(
+			'repository' => 'https://foobar@github.com/Anahkiasen/rocketeer.git',
+			'username'   => 'Anahkiasen',
+			'password'   => '',
+		));
+
+		$this->assertEquals('https://Anahkiasen@github.com/Anahkiasen/rocketeer.git', $this->app['rocketeer.rocketeer']->getRepository());
+	}
+
 	public function testCanUseHttpsRepositoryWithoutCredentials()
 	{
 		$this->app['config']->shouldReceive('get')->with('rocketeer::scm')->andReturn(array(
