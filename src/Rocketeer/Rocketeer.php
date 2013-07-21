@@ -145,7 +145,7 @@ class Rocketeer
 
 		// Add logs to shared folders
 		$shared = (array) $this->getOption('remote.shared');
-		$shared[] = trim($logs, '/');
+		$shared[] = trim(str_replace('\\', '/', $logs), '/');
 
 		return $shared;
 	}
