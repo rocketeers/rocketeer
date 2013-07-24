@@ -37,7 +37,7 @@ class Deploy extends Task
 		}
 
 		// Run tests
-		if ($this->command->option('tests')) {
+		if ($this->getOption('tests')) {
 			if (!$this->runTests()) {
 				$this->command->error('Tests failed');
 				return $this->cancel();
@@ -48,8 +48,8 @@ class Deploy extends Task
 		$this->setApplicationPermissions();
 
 		// Run migrations
-		if ($this->command->option('migrate')) {
-			$this->runMigrations($this->command->option('seed'));
+		if ($this->getOption('migrate')) {
+			$this->runMigrations($this->getOption('seed'));
 		}
 
 		// Synchronize shared folders and files
