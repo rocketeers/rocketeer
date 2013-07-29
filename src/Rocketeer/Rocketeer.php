@@ -95,6 +95,33 @@ class Rocketeer
 	////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Whether the repository used is using SSH or HTTPS
+	 *
+	 * @return boolean
+	 */
+	public function needsCredentials()
+	{
+		$repository = array_get($this->getCredentials(), 'repository');
+
+		return Str::contains($repository, 'https://');
+	}
+
+	/**
+	 * Get the available connections
+	 *
+	 * @return array
+	 */
+	public function getConnections()
+	{
+		$connections = $this->app['rocketeer.server']->getValue('connections');
+		if (!$connections) {
+			$connections = $this->app['config']->get('remote.connections');
+		}
+
+		return $connections;
+	}
+
+	/**
 	 * Get the name of the application to deploy
 	 *
 	 * @return string
@@ -113,7 +140,7 @@ class Rocketeer
 	{
 		// Get path to logs
 		$base = $this->app['path.base'];
-		$logs = $this->app['path.storage'].'/logs';
+		$logs = $this->app['path.storage'].DS.'logs';
 		$logs = str_replace($base, null, $logs);
 
 		// Add logs to shared folders
@@ -128,26 +155,18 @@ class Rocketeer
 	////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Whether the repository used is using SSH or HTTPS
+	 * Get the credentials for the repository
 	 *
-	 * @return boolean
+	 * @return array
 	 */
-	public function usesSsh()
+	public function getCredentials()
 	{
-		return Str::contains($this->getOption('scm.repository'), 'git@');
-	}
+		$credentials = $this->app['rocketeer.server']->getValue('credentials');
+		if (!$credentials) {
+			$credentials = $this->getOption('scm');
+		}
 
-	/**
-	 * Whether credentials were provided by the User or if we
-	 * need to prompt for them
-	 *
-	 * @return boolean
-	 */
-	public function hasCredentials()
-	{
-		$credentials = $this->getOption('scm');
-
-		return $credentials['username'] or $credentials['password'];
+		return $credentials;
 	}
 
 	/**
@@ -158,13 +177,13 @@ class Rocketeer
 	 *
 	 * @return string
 	 */
-	public function getRepository($username = null, $password = null)
+	public function getRepository()
 	{
 		// Get credentials
-		$repository = $this->getOption('scm');
-		$username   = $username ?: $repository['username'];
-		$password   = $password ?: $repository['password'];
-		$repository = $repository['repository'];
+		$repository = $this->getCredentials();
+		$username   = array_get($repository, 'username');
+		$password   = array_get($repository, 'password');
+		$repository = array_get($repository, 'repository');
 
 		// Add credentials if possible
 		if ($username or $password) {
@@ -174,9 +193,8 @@ class Rocketeer
 			$credentials .= '@';
 
 			// Add them in chain
-			$repository = Str::contains($repository, 'https://'.$username)
-				? str_replace($username.'@', $credentials, $repository)
-				: str_replace('https://', 'https://'.$credentials, $repository);
+			$repository = preg_replace('#https://(.+)@#', 'https://', $repository);
+			$repository = str_replace('https://', 'https://'.$credentials, $repository);
 		}
 
 		return $repository;

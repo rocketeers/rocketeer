@@ -2,6 +2,7 @@
 namespace Rocketeer\Commands;
 
 use Rocketeer\Rocketeer;
+use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Your interface to deploying your projects
@@ -23,6 +24,29 @@ class DeployCommand extends BaseDeployCommand
 	 */
 	public function fire()
 	{
-		$this->line('<info>Rocketeer</info> version <comment>'.Rocketeer::VERSION.'</comment>');
+		// Display version
+		if ($this->option('version')) {
+			return $this->line('<info>Rocketeer</info> version <comment>'.Rocketeer::VERSION.'</comment>');
+		}
+
+		// Deploy
+		return $this->fireTasksQueue(array(
+			'Rocketeer\Tasks\Deploy',
+			'Rocketeer\Tasks\Cleanup',
+		));
 	}
+
+  /**
+   * Get the console command options.
+   *
+   * @return array
+   */
+  protected function getOptions()
+  {
+  	return array_merge(parent::getOptions(), array(
+      array('tests',   't', InputOption::VALUE_NONE, 'Runs the tests on deploy'),
+      array('migrate', 'm', InputOption::VALUE_NONE, 'Run the migrations'),
+      array('seed',    's', InputOption::VALUE_NONE, 'Seed the database after migrating the database'),
+  	));
+  }
 }

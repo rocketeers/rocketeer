@@ -4,6 +4,11 @@ namespace Rocketeer;
 use Illuminate\Container\Container;
 use Illuminate\Support\ServiceProvider;
 
+// Define DS
+if (!defined('DS')) {
+	define('DS', DIRECTORY_SEPARATOR);
+}
+
 /**
  * Bind the various Rocketeer classes to Laravel
  */

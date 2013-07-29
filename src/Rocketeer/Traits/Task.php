@@ -115,16 +115,26 @@ abstract class Task extends Bash
 	/**
 	 * Clone the repo into a release folder
 	 *
+	 * @param string $destination Where to clone to
+	 *
 	 * @return string
 	 */
-	public function cloneRepository()
+	public function cloneRepository($destination = null)
 	{
-		$releasePath = $this->releasesManager->getCurrentReleasePath();
+		if (!$destination) {
+			$destination = $this->releasesManager->getCurrentReleasePath();
+		}
 
-		$this->command->info('Cloning repository in "' .$releasePath. '"');
-		$output = $this->scm->execute('checkout', $releasePath);
+		$this->command->info('Cloning repository in "' .$destination. '"');
+		$output = $this->scm->execute('checkout', $destination);
 
-		return $this->checkStatus('Unable to clone the repository', $output);
+		$status = $this->checkStatus('Unable to clone the repository', $output);
+		if ($status === false) {
+			// Forget the SCM credentials if they're invalid
+			$this->server->forgetValue('credentials');
+		}
+
+		return $status;
 	}
 
 	/**
@@ -161,6 +171,7 @@ abstract class Task extends Bash
 			$this->releasesManager->updateCurrentRelease($release);
 		}
 
+		// Get path to current/ folder and latest release
 		$currentReleasePath = $this->releasesManager->getCurrentReleasePath();
 		$currentFolder      = $this->rocketeer->getFolder('current');
 
@@ -237,7 +248,7 @@ abstract class Task extends Bash
 	public function getComposer()
 	{
 		$composer = $this->which('composer');
-		if (!$composer and file_exists($this->app['path.base'].'/composer.phar')) {
+		if (!$composer and file_exists($this->app['path.base'].DS.'composer.phar')) {
 			$composer = 'php composer.phar';
 		}
 

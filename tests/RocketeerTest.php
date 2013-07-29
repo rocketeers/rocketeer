@@ -3,6 +3,16 @@
 class RocketeerTest extends RocketeerTests
 {
 
+	public function testCanGetAvailableConnections()
+	{
+		$connections = $this->app['rocketeer.rocketeer']->getConnections();
+		$this->assertEquals(array('production'), array_keys($connections));
+
+		$this->app['rocketeer.server']->setValue('connections.custom.username', 'foobar');
+		$connections = $this->app['rocketeer.rocketeer']->getConnections();
+		$this->assertEquals(array('custom'), array_keys($connections));
+	}
+
 	public function testCanUseSshRepository()
 	{
 		$repository = 'git@github.com:Anahkiasen/rocketeer.git';
@@ -46,6 +56,17 @@ class RocketeerTest extends RocketeerTests
 		));
 
 		$this->assertEquals('https://foobar@github.com/Anahkiasen/rocketeer.git', $this->app['rocketeer.rocketeer']->getRepository());
+	}
+
+	public function testCanCleanupProvidedRepositoryFromCredentials()
+	{
+		$this->app['config']->shouldReceive('get')->with('rocketeer::scm')->andReturn(array(
+			'repository' => 'https://foobar@github.com/Anahkiasen/rocketeer.git',
+			'username'   => 'Anahkiasen',
+			'password'   => '',
+		));
+
+		$this->assertEquals('https://Anahkiasen@github.com/Anahkiasen/rocketeer.git', $this->app['rocketeer.rocketeer']->getRepository());
 	}
 
 	public function testCanUseHttpsRepositoryWithoutCredentials()

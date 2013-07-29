@@ -27,7 +27,7 @@ class Deploy extends Task
 		$this->releasesManager->updateCurrentRelease($release);
 
 		// Clone Git repository
-		if (!$this->cloneScmRepository()) {
+		if (!$this->cloneRepository()) {
 			return $this->cancel();
 		}
 
@@ -37,7 +37,7 @@ class Deploy extends Task
 		}
 
 		// Run tests
-		if ($this->command->option('tests')) {
+		if ($this->getOption('tests')) {
 			if (!$this->runTests()) {
 				$this->command->error('Tests failed');
 				return $this->cancel();
@@ -48,8 +48,8 @@ class Deploy extends Task
 		$this->setApplicationPermissions();
 
 		// Run migrations
-		if ($this->command->option('migrate')) {
-			$this->runMigrations($this->command->option('seed'));
+		if ($this->getOption('migrate')) {
+			$this->runMigrations($this->getOption('seed'));
 		}
 
 		// Synchronize shared folders and files
@@ -91,34 +91,13 @@ class Deploy extends Task
 	}
 
 	/**
-	 * Clone the repository in a new release folder
-	 *
-	 * @return void
-	 */
-	protected function cloneScmRepository()
-	{
-		// Get Git credentials
-		if (!$this->rocketeer->hasCredentials() and !$this->rocketeer->usesSsh()) {
-			$username   = $this->command->ask('What is your SCM username ?');
-			$password   = $this->command->secret('And your password ?');
-			$repository = $this->rocketeer->getRepository($username, $password);
-		} else {
-			$repository = $this->rocketeer->getRepository();
-		}
-
-		// Clone release
-		$branch = $this->rocketeer->getRepositoryBranch();
-		return $this->cloneRepository($repository, $branch);
-	}
-
-	/**
 	 * Set permissions for the folders used by the application
 	 *
 	 * @return  void
 	 */
 	protected function setApplicationPermissions()
 	{
-		$base    = $this->app['path.base'].'/';
+		$base    = $this->app['path.base'].DS;
 		$app     = str_replace($base, null, $this->app['path']);
 		$storage = str_replace($base, null, $this->app['path.storage']);
 		$public  = str_replace($base, null, $this->app['path.public']);
