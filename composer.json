@@ -29,6 +29,5 @@
 		"psr-0": {
 			"Rocketeer": "src/"
 		}
-	},
-	"minimum-stability": "dev"
+	}
 }

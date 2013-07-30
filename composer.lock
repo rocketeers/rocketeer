@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "c5175eabb5e992096d8853d438aed072fca1e7bb"
+                "reference": "255ee27c23044058639ee30ad73e9fee4e264c44"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/c5175eabb5e992096d8853d438aed072fca1e7bb",
-                "reference": "c5175eabb5e992096d8853d438aed072fca1e7bb",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/255ee27c23044058639ee30ad73e9fee4e264c44",
+                "reference": "255ee27c23044058639ee30ad73e9fee4e264c44",
                 "shasum": ""
             },
             "require": {
@@ -52,7 +52,7 @@
                     "email": "taylorotwell@gmail.com"
                 }
             ],
-            "time": "2013-07-09 13:05:22"
+            "time": "2013-07-29 21:23:18"
         }
     ],
     "packages-dev": [
@@ -63,12 +63,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/console.git",
-                "reference": "cb44b57a58a655b340332da4f06f892b52d5d8fe"
+                "reference": "cffaa6e6414828fb7a0a742b5f7e9d0f789e24ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/console/zipball/cb44b57a58a655b340332da4f06f892b52d5d8fe",
-                "reference": "cb44b57a58a655b340332da4f06f892b52d5d8fe",
+                "url": "https://api.github.com/repos/illuminate/console/zipball/cffaa6e6414828fb7a0a742b5f7e9d0f789e24ae",
+                "reference": "cffaa6e6414828fb7a0a742b5f7e9d0f789e24ae",
                 "shasum": ""
             },
             "require": {
@@ -98,7 +98,7 @@
                     "email": "taylorotwell@gmail.com"
                 }
             ],
-            "time": "2013-05-28 18:31:39"
+            "time": "2013-07-19 10:47:48"
         },
         {
             "name": "illuminate/container",

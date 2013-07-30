@@ -4,14 +4,18 @@
 
 - Ability to select which severs a Task executes on, on a per-task basis
 
-### 0.6.5 (develop)
+### 0.6.6 (develop)
+
+- Permissions are now entirely configurable
+
+### 0.6.5 (stable)
 
 **- Make Rocketeer prompt for both server and SCM credentials if they're not stored**
 **- `artisan deploy` now deploys the project if the `--version` flat is not passed**
 - Make Rocketeer forget invalid credentials provided by prompt
 - Fix a bug where incorrect SCM urls would be generated
 
-### 0.6.4 (stable)
+### 0.6.4
 
 - Make the output of commands in realtime when `--verbose` instead of when the command is done
 - Fix a bug where custom Task classes would be analyzed as string commands

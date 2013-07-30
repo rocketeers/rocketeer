@@ -1,6 +1,7 @@
 <?php
 namespace Rocketeer\Tasks;
 
+use Illuminate\Support\Str;
 use Rocketeer\Traits\Task;
 
 /**
@@ -97,13 +98,13 @@ class Deploy extends Task
 	 */
 	protected function setApplicationPermissions()
 	{
-		$base    = $this->app['path.base'].DS;
-		$app     = str_replace($base, null, $this->app['path']);
-		$storage = str_replace($base, null, $this->app['path.storage']);
-		$public  = str_replace($base, null, $this->app['path.public']);
+		$files = (array) $this->app['rocketeer.rocketeer']->getOption('remote.permissions.files');
+		foreach ($files as $file) {
+			if (Str::startsWith($file, '{')) {
+				$file = $this->app[substr($file, 1, -1)];
+			}
 
-		$this->setPermissions($app.'/database/production.sqlite');
-		$this->setPermissions($storage);
-		$this->setPermissions($public);
+			$this->setPermissions($file);
+		}
 	}
 }

@@ -212,15 +212,25 @@ abstract class Task extends Bash
 	{
 		$folder = $this->releasesManager->getCurrentReleasePath().'/'.$folder;
 		$this->command->comment('Setting permissions for '.$folder);
-		$apache = $this->rocketeer->getOption('remote.apache');
 
-		$output  = $this->run(array(
-			'chmod -R 775 ' .$folder,
-			'chmod -R g+s ' .$folder,
-			sprintf('chown -R %s:%s %s', $apache['user'], $apache['group'], $folder),
-		));
+		// Get permissions options
+		$options = $this->rocketeer->getOption('remote.permissions');
+		$chmod   = array_get($options, 'permissions', 775);
+		$user    = array_get($options, 'apache.user');
+		$group   = array_get($options, 'apache.group');
 
-		return $output;
+		// Add chmod
+		$commands = array(
+			sprintf('chmod -R %s %s', $chmod, $folder),
+			sprintf('chmod -R g+s %s', $folder),
+		);
+
+		// And chown
+		if ($user and $group) {
+			$commands[] = sprintf('chown -R %s:%s %s', $user, $group, $folder);
+		}
+
+		return $this->runForCurrentRelease($commands);
 	}
 
 	////////////////////////////////////////////////////////////////////
