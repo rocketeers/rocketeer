@@ -36,7 +36,9 @@ class Setup extends Task
 		}
 
 		// Remove existing installation
-		$this->executeTask('Teardown');
+		if ($this->isSetup()) {
+			$this->executeTask('Teardown');
+		}
 
 		// Create base folder
 		$this->createFolder();
