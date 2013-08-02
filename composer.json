@@ -16,6 +16,7 @@
 	"require": {
 		"php": ">=5.3.0",
 		"illuminate/support": "~4",
+		"illuminate/config": "~4",
 		"illuminate/console": "~4",
 		"illuminate/container": "~4",
 		"illuminate/filesystem": "~4"
