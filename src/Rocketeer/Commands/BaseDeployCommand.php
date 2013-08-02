@@ -104,6 +104,11 @@ abstract class BaseDeployCommand extends Command
 			$connectionName = key($connections);
 		}
 
+		// Set the found connection as default if none is specified
+		if (!isset($this->laravel['config']['remote.default'])) {
+			$this->laravel['config']->set('remote.default', $connectionName);
+		}
+
 		// Check for server credentials
 		$connection  = array_get($connections, $connectionName, array());
 		$credentials = array('host', 'username', 'password');
