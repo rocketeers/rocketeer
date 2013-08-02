@@ -27,6 +27,9 @@
 		"nesbot/carbon": "dev-master",
     "patchwork/utf8": "dev-master"
 	},
+  "bin": [
+    "rocketeer"
+  ],
 	"autoload": {
 		"psr-0": {
 			"Rocketeer": "src/"

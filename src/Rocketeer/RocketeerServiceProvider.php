@@ -7,7 +7,6 @@ use Illuminate\Container\Container;
 use Illuminate\Http\Request;
 use Illuminate\Remote\RemoteManager;
 use Illuminate\Support\ServiceProvider;
-use Rocketeer\Commands\RocketeerConsole;
 
 // Define DS
 if (!defined('DS')) {
@@ -152,8 +151,10 @@ class RocketeerServiceProvider extends ServiceProvider
 		});
 
 		$app->singleton('rocketeer.console', function ($app) {
-			return new RocketeerConsole($app);
+			return new Console($app);
 		});
+
+		$app['rocketeer.console']->setLaravel($app);
 
 		return $app;
 	}
