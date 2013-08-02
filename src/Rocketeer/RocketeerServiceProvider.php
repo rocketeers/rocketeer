@@ -40,8 +40,6 @@ class RocketeerServiceProvider extends ServiceProvider
 	 */
 	public function register()
 	{
-		// Register config file
-		$this->app['config']->package('anahkiasen/rocketeer', __DIR__.'/../config');
 	}
 
 	/**
@@ -107,10 +105,13 @@ class RocketeerServiceProvider extends ServiceProvider
     }, true);
 
     $app->bindIf('config', function ($app) {
-      $fileloader = new FileLoader($app['files'], __DIR__.'/../config');
+			$fileloader = new FileLoader($app['files'], __DIR__.'/../config');
 
-      return new Repository($fileloader, 'config');
+			return new Repository($fileloader, 'config');
     }, true);
+
+    // Register config file
+		$app['config']->package('anahkiasen/rocketeer', __DIR__.'/../config');
 
     return $app;
 	}

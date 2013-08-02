@@ -11,6 +11,19 @@ use Rocketeer\RocketeerServiceProvider;
 class RocketeerConsole extends Application
 {
 	/**
+	 * Build a new instance of RocketeerConsole
+	 *
+	 * @param Container $app
+	 */
+	public function __construct(Container $app = null)
+	{
+		parent::__construct();
+
+		// Set container
+		$this->laravel = $app;
+	}
+
+	/**
 	 * Create the Rocketeer CLI
 	 *
 	 * @return Application
