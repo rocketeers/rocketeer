@@ -3,6 +3,10 @@
 class RocketeerTest extends RocketeerTests
 {
 
+	////////////////////////////////////////////////////////////////////
+	//////////////////////////////// TESTS /////////////////////////////
+	////////////////////////////////////////////////////////////////////
+
 	public function testCanGetAvailableConnections()
 	{
 		$connections = $this->app['rocketeer.rocketeer']->getConnections();
@@ -16,68 +20,50 @@ class RocketeerTest extends RocketeerTests
 	public function testCanUseSshRepository()
 	{
 		$repository = 'git@github.com:Anahkiasen/rocketeer.git';
-		$this->app['config']->shouldReceive('get')->with('rocketeer::scm')->andReturn(array(
-			'repository' => $repository,
-			'username'   => '',
-			'password'   => '',
-		));
+		$this->expectRepositoryConfig($repository, '', '');
 
 		$this->assertEquals($repository, $this->app['rocketeer.rocketeer']->getRepository());
 	}
 
 	public function testCanUseHttpsRepository()
 	{
-		$this->app['config']->shouldReceive('get')->with('rocketeer::scm')->andReturn(array(
-			'repository' => 'https://github.com/Anahkiasen/rocketeer.git',
-			'username'   => 'foobar',
-			'password'   => 'bar',
-		));
+		$this->expectRepositoryConfig('https://github.com/Anahkiasen/rocketeer.git', 'foobar', 'bar');
 
 		$this->assertEquals('https://foobar:bar@github.com/Anahkiasen/rocketeer.git', $this->app['rocketeer.rocketeer']->getRepository());
 	}
 
 	public function testCanUseHttpsRepositoryWithUsernameProvided()
 	{
-		$this->app['config']->shouldReceive('get')->with('rocketeer::scm')->andReturn(array(
-			'repository' => 'https://foobar@github.com/Anahkiasen/rocketeer.git',
-			'username'   => 'foobar',
-			'password'   => 'bar',
-		));
+		$this->expectRepositoryConfig('https://foobar@github.com/Anahkiasen/rocketeer.git', 'foobar', 'bar');
 
 		$this->assertEquals('https://foobar:bar@github.com/Anahkiasen/rocketeer.git', $this->app['rocketeer.rocketeer']->getRepository());
 	}
 
 	public function testCanUseHttpsRepositoryWithOnlyUsernameProvided()
 	{
-		$this->app['config']->shouldReceive('get')->with('rocketeer::scm')->andReturn(array(
-			'repository' => 'https://foobar@github.com/Anahkiasen/rocketeer.git',
-			'username'   => 'foobar',
-			'password'   => '',
-		));
+		$this->expectRepositoryConfig('https://foobar@github.com/Anahkiasen/rocketeer.git', 'foobar', '');
 
 		$this->assertEquals('https://foobar@github.com/Anahkiasen/rocketeer.git', $this->app['rocketeer.rocketeer']->getRepository());
 	}
 
 	public function testCanCleanupProvidedRepositoryFromCredentials()
 	{
-		$this->app['config']->shouldReceive('get')->with('rocketeer::scm')->andReturn(array(
-			'repository' => 'https://foobar@github.com/Anahkiasen/rocketeer.git',
-			'username'   => 'Anahkiasen',
-			'password'   => '',
-		));
+		$this->expectRepositoryConfig('https://foobar@github.com/Anahkiasen/rocketeer.git', 'Anahkiasen', '');
 
 		$this->assertEquals('https://Anahkiasen@github.com/Anahkiasen/rocketeer.git', $this->app['rocketeer.rocketeer']->getRepository());
 	}
 
 	public function testCanUseHttpsRepositoryWithoutCredentials()
 	{
-		$this->app['config']->shouldReceive('get')->with('rocketeer::scm')->andReturn(array(
-			'repository' => 'https://github.com/Anahkiasen/rocketeer.git',
-			'username'   => '',
-			'password'   => '',
-		));
+		$this->expectRepositoryConfig('https://github.com/Anahkiasen/rocketeer.git', '', '');
 
 		$this->assertEquals('https://github.com/Anahkiasen/rocketeer.git', $this->app['rocketeer.rocketeer']->getRepository());
+	}
+
+	public function testCanCheckIfRepositoryNeedsCredentials()
+	{
+		$this->expectRepositoryConfig('https://github.com/Anahkiasen/rocketeer.git', '', '');
+		$this->assertTrue($this->app['rocketeer.rocketeer']->needsCredentials());
 	}
 
 	public function testCangetRepositoryBranch()
@@ -112,5 +98,27 @@ class RocketeerTest extends RocketeerTests
 		$folder = $this->app['rocketeer.rocketeer']->getFolder('{path.storage}');
 
 		$this->assertEquals($this->server.'/storage', $folder);
+	}
+
+	////////////////////////////////////////////////////////////////////
+	//////////////////////////////// HELPERS ///////////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Make the config return specific SCM config
+	 *
+	 * @param  string $repository
+	 * @param  string $username
+	 * @param  string $password
+	 *
+	 * @return void
+	 */
+	protected function expectRepositoryConfig($repository, $username, $password)
+	{
+		$this->app['config']->shouldReceive('get')->with('rocketeer::scm')->andReturn(array(
+			'repository' => $repository,
+			'username'   => $username,
+			'password'   => $password,
+		));
 	}
 }

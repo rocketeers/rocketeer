@@ -3,6 +3,41 @@
 class TasksTest extends RocketeerTests
 {
 
+	////////////////////////////////////////////////////////////////////
+	/////////////////////////////// HELPERS ////////////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	public function testCanUpdateRepository()
+	{
+		$this->task->runForCurrentRelease('git init');
+		$this->task->updateRepository();
+		$output = $this->task->run('git status');
+
+		$this->assertContains('working directory clean', $output);
+	}
+
+	public function testCanDisplayOutputOfCommandsIfVerbose()
+	{
+		$task = $this->pretendTask('Check', array(
+			'verbose' => true,
+			'pretend' => false
+		));
+
+		ob_start();
+			$task->run('ls');
+		$output = ob_get_clean();
+
+		$this->assertContains('tests', $output);
+	}
+
+	public function testCanPretendToRunTasks()
+	{
+		$task = $this->pretendTask();
+
+		$output = $task->run('ls');
+		$this->assertEquals('ls', $output);
+	}
+
 	public function testCanGetDescription()
 	{
 		$task = $this->task('Setup');
@@ -34,6 +69,14 @@ class TasksTest extends RocketeerTests
 	////////////////////////////////////////////////////////////////////
 	//////////////////////////////// TASKS /////////////////////////////
 	////////////////////////////////////////////////////////////////////
+
+	public function testCanRunTests()
+	{
+		$tests = $this->pretendTask('Test')->execute();
+
+		$this->assertEquals('cd '.$this->server.'/releases/20000000000000', $tests[0]);
+		$this->assertContains('phpunit --stop-on-failure', $tests[1]);
+	}
 
 	public function testCanPretendToCheck()
 	{
@@ -104,69 +147,7 @@ class TasksTest extends RocketeerTests
 		$this->assertFileExists($releasePath);
 		$this->assertFileExists($releasePath.'/.git');
 		$this->assertFileExists($releasePath.'/vendor');
-	}
 
-	////////////////////////////////////////////////////////////////////
-	/////////////////////////////// HELPERS ////////////////////////////
-	////////////////////////////////////////////////////////////////////
-
-	/**
-	 * @depends testCanDeployToServer
-	 */
-	public function testCanRunTests()
-	{
-		$this->markTestSkipped('Need to find a solution for this one');
-
-		$release = glob($this->server.'/releases/*');
-		$release = basename($release[1]);
-		$this->task->releasesManager->updateCurrentRelease($release);
-
-		// Passing tests
-		$remote = clone $this->app['remote'];
-		$remote->shouldReceive('status')->andReturn(0);
-		$this->task->remote = $remote;
-		$tests = $this->task->runTests('tests/DeploymentsManagerTest.php');
-		$this->assertTrue($tests);
-
-		// Failing tests
-		$remote = clone $this->app['remote'];
-		$remote->shouldReceive('status')->andReturn(1);
-		$this->task->remote = $remote;
-		$tests = $this->task->runTests();
-		$this->assertFalse($tests);
-
-		$this->app['files']->delete($this->server.'/current');
-		system('rm -rf '.$this->server);
-	}
-
-	public function testCanUpdateRepository()
-	{
-		$this->task->runForCurrentRelease('git init');
-		$this->task->updateRepository();
-		$output = $this->task->run('git status');
-
-		$this->assertContains('working directory clean', $output);
-	}
-
-	public function testCanDisplayOutputOfCommandsIfVerbose()
-	{
-		$task = $this->pretendTask('Check', array(
-			'verbose' => true,
-			'pretend' => false
-		));
-
-		ob_start();
-			$task->run('ls');
-		$output = ob_get_clean();
-
-		$this->assertContains('tests', $output);
-	}
-
-	public function testCanPretendToRunTasks()
-	{
-		$task = $this->pretendTask();
-
-		$output = $task->run('ls');
-		$this->assertEquals('ls', $output);
+		$this->recreateVirtualServer();
 	}
 }
