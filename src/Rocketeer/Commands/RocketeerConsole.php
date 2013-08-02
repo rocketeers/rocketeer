@@ -3,6 +3,7 @@ namespace Rocketeer\Commands;
 
 use Illuminate\Console\Application;
 use Illuminate\Container\Container;
+use Rocketeer\RocketeerServiceProvider;
 
 /**
  * A standalone Rocketeer CLI
@@ -10,14 +11,24 @@ use Illuminate\Container\Container;
 class RocketeerConsole extends Application
 {
 	/**
-	 * Bind the container to the CLI
+	 * Create the Rocketeer CLI
 	 *
-	 * @param Container $app
+	 * @return Application
 	 */
-	public function __construct(Container $app)
+	public static function make()
 	{
-		parent::__construct();
+		$app = RocketeerServiceProvider::make();
 
-		$this->laravel = $app;
+		return $app['rocketeer.console'];
+	}
+
+	/**
+	 * Run the CLI directly
+	 *
+	 * @return integer
+	 */
+	public static function makeAndRun()
+	{
+		return static::make()->run();
 	}
 }
