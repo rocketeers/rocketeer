@@ -38,9 +38,11 @@ class BaseTaskCommand extends BaseDeployCommand
 		$this->task          = $task;
 		$this->task->command = $this;
 
-		// Set name and description
-		$name       = $name ?: $task->getSlug();
-		$this->name = 'deploy:'.$name;
+		// Set name
+		$this->name = $name ?: $task->getSlug();
+		$this->name = 'deploy:'.$this->name;
+
+		// Set description
 		$this->setDescription($task->getDescription());
 	}
 
@@ -52,15 +54,5 @@ class BaseTaskCommand extends BaseDeployCommand
 	public function fire()
 	{
 		return $this->fireTasksQueue($this->task);
-	}
-
-	/**
-	 * Get the Task the command will execute
-	 *
-	 * @return Task
-	 */
-	public function getTask()
-	{
-		return $this->task;
 	}
 }
