@@ -5,6 +5,7 @@ use Illuminate\Config\FileLoader;
 use Illuminate\Config\Repository;
 use Illuminate\Container\Container;
 use Illuminate\Http\Request;
+use Illuminate\Remote\RemoteManager;
 use Illuminate\Support\ServiceProvider;
 use Rocketeer\Commands\RocketeerConsole;
 
@@ -40,6 +41,7 @@ class RocketeerServiceProvider extends ServiceProvider
 	 */
 	public function register()
 	{
+		// ...
 	}
 
 	/**
@@ -109,6 +111,10 @@ class RocketeerServiceProvider extends ServiceProvider
 
 			return new Repository($fileloader, 'config');
     }, true);
+
+		$app->bindIf('remote', function($app) {
+			return new RemoteManager($app);
+		}, true);
 
     // Register config file
 		$app['config']->package('anahkiasen/rocketeer', __DIR__.'/../config');
