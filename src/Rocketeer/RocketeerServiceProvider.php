@@ -234,8 +234,10 @@ class RocketeerServiceProvider extends ServiceProvider
 
 		// Add commands to Artisan
 		foreach ($this->commands as $command) {
-			$this->commands($command);
-			$app['rocketeer.console']->add($command);
+			$app['rocketeer.console']->add($app[$command]);
+			if (isset($app['events'])) {
+				$this->commands($command);
+			}
 		}
 
 		return $app;
