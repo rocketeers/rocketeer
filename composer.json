@@ -19,7 +19,8 @@
 		"illuminate/config": "~4",
 		"illuminate/console": "~4",
 		"illuminate/container": "~4",
-		"illuminate/filesystem": "~4"
+		"illuminate/filesystem": "~4",
+		"illuminate/remote": "dev-master"
 	},
 	"require-dev": {
 		"mockery/mockery": "dev-master",
