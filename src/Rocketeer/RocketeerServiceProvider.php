@@ -151,7 +151,7 @@ class RocketeerServiceProvider extends ServiceProvider
 		});
 
 		$app->singleton('rocketeer.console', function ($app) {
-			return new Console($app);
+			return new Console('Rocketeer', Rocketeer::VERSION);
 		});
 
 		$app['rocketeer.console']->setLaravel($app);
