@@ -15,7 +15,7 @@ class BaseTaskCommand extends BaseDeployCommand
 	 *
 	 * @var string
 	 */
-	protected $name = 'deploy.custom';
+	protected $name = 'deploy:custom';
 
 	/**
 	 * The Task to execute on fire
@@ -39,8 +39,8 @@ class BaseTaskCommand extends BaseDeployCommand
 		$this->task->command = $this;
 
 		// Set name and description
-		$name = $name ?: $task->getSlug();
-		$this->setName('deploy:'.$name);
+		$name       = $name ?: $task->getSlug();
+		$this->name = 'deploy:'.$name;
 		$this->setDescription($task->getDescription());
 	}
 
