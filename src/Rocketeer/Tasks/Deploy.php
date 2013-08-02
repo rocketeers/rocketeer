@@ -98,14 +98,8 @@ class Deploy extends Task
 	 */
 	protected function setApplicationPermissions()
 	{
-		$base = $this->app['path.base'].'/';
 		$files = (array) $this->app['rocketeer.rocketeer']->getOption('remote.permissions.files');
 		foreach ($files as $file) {
-			if (Str::startsWith($file, '{')) {
-				$file = $this->app[substr($file, 1, -1)];
-				$file = str_replace($base, null, $file);
-			}
-
 			$this->setPermissions($file);
 		}
 	}

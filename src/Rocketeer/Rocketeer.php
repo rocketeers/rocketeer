@@ -227,6 +227,14 @@ class Rocketeer
 	 */
 	public function getFolder($folder = null)
 	{
+		$app  = $this->app;
+		$base = $this->app['path.base'].'/';
+
+		// Replace folder patterns
+		$folder = preg_replace_callback('/\{[a-z\.]+\}/', function ($match) use ($app, $base) {
+			return str_replace($base, null, $app->make(substr($match[0], 1, -1)));
+		}, $folder);
+
 		$base = $this->getHomeFolder().'/';
 		if ($folder and $this->stage) {
 			$base .= $this->stage.'/';

@@ -7,11 +7,13 @@
 ### 0.6.6 (develop)
 
 - Permissions are now entirely configurable
+- Rocketeer now prompts for confirmation before executing the Teardown task
+- Allow the use of patterns in shared folders
 
 ### 0.6.5 (stable)
 
-**- Make Rocketeer prompt for both server and SCM credentials if they're not stored**
-**- `artisan deploy` now deploys the project if the `--version` flat is not passed**
+- **Make Rocketeer prompt for both server and SCM credentials if they're not stored**
+- **`artisan deploy` now deploys the project if the `--version` flat is not passed**
 - Make Rocketeer forget invalid credentials provided by prompt
 - Fix a bug where incorrect SCM urls would be generated
 

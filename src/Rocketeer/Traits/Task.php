@@ -210,7 +210,8 @@ abstract class Task extends Bash
 	 */
 	public function setPermissions($folder)
 	{
-		$folder = $this->releasesManager->getCurrentReleasePath().'/'.$folder;
+		// Get path to folder
+		$folder = $this->releasesManager->getCurrentReleasePath($folder);
 		$this->command->comment('Setting permissions for '.$folder);
 
 		// Get permissions options

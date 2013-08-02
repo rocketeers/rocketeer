@@ -51,4 +51,11 @@ class ReleasesManagerTest extends RocketeerTests
 
 		$this->assertEquals(30000000000000, $this->app['rocketeer.server']->getValue('current_release'));
 	}
+
+	public function testCanGetFolderInRelease()
+	{
+		$folder = $this->app['rocketeer.releases']->getCurrentReleasePath('{path.storage}');
+
+		$this->assertEquals($this->server.'/releases/20000000000000/storage', $folder);
+	}
 }
