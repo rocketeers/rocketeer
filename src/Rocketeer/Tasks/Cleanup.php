@@ -1,8 +1,8 @@
 <?php
 namespace Rocketeer\Tasks;
 
-use Rocketeer\Traits\Task;
 use Illuminate\Support\Str;
+use Rocketeer\Traits\Task;
 
 /**
  * Clean up old releases from the server

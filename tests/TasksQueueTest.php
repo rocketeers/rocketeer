@@ -1,7 +1,16 @@
 <?php
+use Rocketeer\Facades\Rocketeer;
 
 class TasksQueueTest extends RocketeerTests
 {
+
+	public function testCanUseFacadeOutsideOfLaravel()
+	{
+		Rocketeer::before('deploy', 'ls');
+		$before = Rocketeer::getBefore($this->task('Deploy'));
+
+		$this->assertEquals(array('ls'), $before);
+	}
 
 	public function testCanBuildTaskByName()
 	{

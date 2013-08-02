@@ -101,9 +101,7 @@ class Rocketeer
 	 */
 	public function needsCredentials()
 	{
-		$repository = array_get($this->getCredentials(), 'repository');
-
-		return Str::contains($repository, 'https://');
+		return Str::contains($this->getRepository(), 'https://');
 	}
 
 	/**
@@ -200,6 +198,29 @@ class Rocketeer
 	////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Replace patterns in a folder path
+	 *
+	 * @param  string $path
+	 *
+	 * @return string
+	 */
+	public function replacePatterns($path)
+	{
+		$app = $this->app;
+
+		// Replace folder patterns
+		return preg_replace_callback('/\{[a-z\.]+\}/', function ($match) use ($app) {
+			$folder = substr($match[0], 1, -1);
+
+			if (isset($app[$folder])) {
+				return str_replace($app['path.base'].'/', null, $app->make($folder));
+			}
+
+			return false;
+		}, $path);
+	}
+
+	/**
 	 * Get the path to a folder, taking into account application name and stage
 	 *
 	 * @param  string $folder
@@ -208,13 +229,7 @@ class Rocketeer
 	 */
 	public function getFolder($folder = null)
 	{
-		$app  = $this->app;
-		$base = $this->app['path.base'].'/';
-
-		// Replace folder patterns
-		$folder = preg_replace_callback('/\{[a-z\.]+\}/', function ($match) use ($app, $base) {
-			return str_replace($base, null, $app->make(substr($match[0], 1, -1)));
-		}, $folder);
+		$folder = $this->replacePatterns($folder);
 
 		$base = $this->getHomeFolder().'/';
 		if ($folder and $this->stage) {
