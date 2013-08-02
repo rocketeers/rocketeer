@@ -7,17 +7,17 @@
     "packages": [
         {
             "name": "illuminate/config",
-            "version": "v4.0.5",
+            "version": "v4.0.6",
             "target-dir": "Illuminate/Config",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/config.git",
-                "reference": "v4.0.5"
+                "reference": "v4.0.6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/config/zipball/v4.0.5",
-                "reference": "v4.0.5",
+                "url": "https://api.github.com/repos/illuminate/config/zipball/v4.0.6",
+                "reference": "v4.0.6",
                 "shasum": ""
             },
             "require": {
@@ -53,17 +53,17 @@
         },
         {
             "name": "illuminate/console",
-            "version": "v4.0.5",
+            "version": "v4.0.6",
             "target-dir": "Illuminate/Console",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/console.git",
-                "reference": "v4.0.5"
+                "reference": "v4.0.6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/console/zipball/v4.0.5",
-                "reference": "v4.0.5",
+                "url": "https://api.github.com/repos/illuminate/console/zipball/v4.0.6",
+                "reference": "v4.0.6",
                 "shasum": ""
             },
             "require": {
@@ -97,17 +97,17 @@
         },
         {
             "name": "illuminate/container",
-            "version": "v4.0.5",
+            "version": "v4.0.6",
             "target-dir": "Illuminate/Container",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/container.git",
-                "reference": "v4.0.5"
+                "reference": "v4.0.6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/container/zipball/v4.0.5",
-                "reference": "v4.0.5",
+                "url": "https://api.github.com/repos/illuminate/container/zipball/v4.0.6",
+                "reference": "v4.0.6",
                 "shasum": ""
             },
             "require": {
@@ -137,21 +137,21 @@
                     "email": "taylorotwell@gmail.com"
                 }
             ],
-            "time": "2013-05-28 00:50:14"
+            "time": "2013-07-31 14:49:48"
         },
         {
             "name": "illuminate/filesystem",
-            "version": "v4.0.5",
+            "version": "v4.0.6",
             "target-dir": "Illuminate/Filesystem",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/filesystem.git",
-                "reference": "v4.0.5"
+                "reference": "v4.0.6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/filesystem/zipball/v4.0.5",
-                "reference": "v4.0.5",
+                "url": "https://api.github.com/repos/illuminate/filesystem/zipball/v4.0.6",
+                "reference": "v4.0.6",
                 "shasum": ""
             },
             "require": {
@@ -192,12 +192,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/remote.git",
-                "reference": "1afe992b2c0f59b0f4240bc9f1828817fa780118"
+                "reference": "145b94f3b37e80a67a96b45fe16be998195382ce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/remote/zipball/1afe992b2c0f59b0f4240bc9f1828817fa780118",
-                "reference": "1afe992b2c0f59b0f4240bc9f1828817fa780118",
+                "url": "https://api.github.com/repos/illuminate/remote/zipball/145b94f3b37e80a67a96b45fe16be998195382ce",
+                "reference": "145b94f3b37e80a67a96b45fe16be998195382ce",
                 "shasum": ""
             },
             "require": {
@@ -213,7 +213,7 @@
             },
             "autoload": {
                 "psr-0": {
-                    "Illuminate\\Remote": "src/"
+                    "Illuminate\\Remote": ""
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -226,21 +226,21 @@
                     "email": "taylorotwell@gmail.com"
                 }
             ],
-            "time": "2013-07-19 10:47:48"
+            "time": "2013-08-02 15:33:59"
         },
         {
             "name": "illuminate/support",
-            "version": "v4.0.5",
+            "version": "v4.0.6",
             "target-dir": "Illuminate/Support",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "v4.0.5"
+                "reference": "v4.0.6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/v4.0.5",
-                "reference": "v4.0.5",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/v4.0.6",
+                "reference": "v4.0.6",
                 "shasum": ""
             },
             "require": {
@@ -275,7 +275,7 @@
                     "email": "taylorotwell@gmail.com"
                 }
             ],
-            "time": "2013-06-11 00:56:49"
+            "time": "2013-08-02 13:31:18"
         },
         {
             "name": "phpseclib/phpseclib",
