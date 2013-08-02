@@ -55,4 +55,14 @@ class BaseTaskCommand extends BaseDeployCommand
 	{
 		return $this->fireTasksQueue($this->task);
 	}
+
+	/**
+	 * Get the Task this command executes
+	 *
+	 * @return Task
+	 */
+	public function getTask()
+	{
+		return $this->task;
+	}
 }
