@@ -2,7 +2,6 @@
 namespace Rocketeer;
 
 use Illuminate\Console\Application;
-use Illuminate\Container\Container;
 
 /**
  * A standalone Rocketeer CLI

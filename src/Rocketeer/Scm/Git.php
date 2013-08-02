@@ -1,7 +1,6 @@
 <?php
 namespace Rocketeer\Scm;
 
-use Illuminate\Container\Container;
 use Rocketeer\Traits\Scm;
 
 /**

@@ -1,7 +1,6 @@
 <?php
 namespace Rocketeer\Tasks;
 
-use Illuminate\Support\Str;
 use Rocketeer\Traits\Task;
 
 /**

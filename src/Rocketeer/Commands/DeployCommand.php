@@ -2,7 +2,6 @@
 namespace Rocketeer\Commands;
 
 use Rocketeer\Rocketeer;
-use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Your interface to deploying your projects
