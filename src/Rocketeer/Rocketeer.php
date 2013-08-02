@@ -101,9 +101,7 @@ class Rocketeer
 	 */
 	public function needsCredentials()
 	{
-		$repository = array_get($this->getCredentials(), 'repository');
-
-		return Str::contains($repository, 'https://');
+		return Str::contains($this->getRepository(), 'https://');
 	}
 
 	/**
