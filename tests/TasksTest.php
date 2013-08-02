@@ -21,6 +21,16 @@ class TasksTest extends RocketeerTests
 		$this->assertEquals('php artisan migrate --seed', $commands[1]);
 	}
 
+	public function testCanShareFoldersWithPatterns()
+	{
+		$task    = $this->pretendTask();
+		$folder  = '{path.storage}/sessions';
+		$share   = $task->share($folder);
+		$matcher = sprintf('ln -s %s %s', $this->server.'/shared/storage/sessions', $this->server.'/releases/20000000000000/storage/sessions');
+
+		$this->assertEquals($matcher, $share);
+	}
+
 	////////////////////////////////////////////////////////////////////
 	//////////////////////////////// TASKS /////////////////////////////
 	////////////////////////////////////////////////////////////////////

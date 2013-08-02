@@ -131,25 +131,6 @@ class Rocketeer
 		return $this->getOption('remote.application_name');
 	}
 
-	/**
-	 * Get an array of folders and files to share between releases
-	 *
-	 * @return array
-	 */
-	public function getShared()
-	{
-		// Get path to logs
-		$base = $this->app['path.base'];
-		$logs = $this->app['path.storage'].DS.'logs';
-		$logs = str_replace($base, null, $logs);
-
-		// Add logs to shared folders
-		$shared = (array) $this->getOption('remote.shared');
-		$shared[] = trim($logs, '/');
-
-		return $shared;
-	}
-
 	////////////////////////////////////////////////////////////////////
 	/////////////////////////// GIT REPOSITORY /////////////////////////
 	////////////////////////////////////////////////////////////////////

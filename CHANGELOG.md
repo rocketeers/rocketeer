@@ -9,6 +9,7 @@
 - Permissions are now entirely configurable
 - Rocketeer now prompts for confirmation before executing the Teardown task
 - Allow the use of patterns in shared folders
+- Share `sessions` folder by default
 
 ### 0.6.5 (stable)
 

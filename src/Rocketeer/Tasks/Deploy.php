@@ -85,9 +85,9 @@ class Deploy extends Task
 	 */
 	protected function syncSharedFolders()
 	{
-		$currentRelease = $this->releasesManager->getCurrentReleasePath();
-		foreach ($this->rocketeer->getShared() as $file) {
-			$this->share($currentRelease.'/'.$file);
+		$shared = (array) $this->rocketeer->getOption('remote.shared');
+		foreach ($shared as $file) {
+			$this->share($file);
 		}
 	}
 
@@ -98,7 +98,7 @@ class Deploy extends Task
 	 */
 	protected function setApplicationPermissions()
 	{
-		$files = (array) $this->app['rocketeer.rocketeer']->getOption('remote.permissions.files');
+		$files = (array) $this->rocketeer->getOption('remote.permissions.files');
 		foreach ($files as $file) {
 			$this->setPermissions($file);
 		}
