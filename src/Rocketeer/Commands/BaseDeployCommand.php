@@ -119,8 +119,11 @@ abstract class BaseDeployCommand extends Command
 		// Get password or key
 		if (!$password and !$key) {
 			$type = $this->ask('No password or SSH key is set for current connection, which would you use ? [key/password]');
-			$type = $type == 'key' ? 'key' : 'password';
-			${$type} = $this->ask('Please enter your '.$type);
+			if ($type == 'key') {
+				$key = $this->ask('Please enter the full path to your key');
+			} else {
+				$password = $this->ask('Please enter your password');
+			}
 		}
 
 		// Save them
