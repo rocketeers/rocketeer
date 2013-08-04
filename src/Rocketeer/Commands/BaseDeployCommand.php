@@ -106,18 +106,25 @@ abstract class BaseDeployCommand extends Command
 
 		// Check for server credentials
 		$connection  = array_get($connections, $connectionName, array());
-		$credentials = array('host', 'username', 'password');
+		$credentials = array('host' => true, 'username' => true, 'password' => false, 'key' => false);
 
 		// Gather credentials
-		foreach ($credentials as $credential) {
+		foreach ($credentials as $credential => $required) {
 			${$credential} = array_get($connection, $credential);
-			if (!${$credential}) {
+			if (!${$credential} and $required) {
 				${$credential} = $this->ask('No '.$credential. ' is set for current connection, please provide one :');
 			}
 		}
 
+		// Get password or key
+		if (!$password and !$key) {
+			$type = $this->ask('No password or SSH key is set for current connection, which would you use ? [key/password]');
+			$type = $type == 'key' ? 'key' : 'password';
+			${$type} = $this->ask('Please enter your '.$type);
+		}
+
 		// Save them
-		$credentials = compact($credentials);
+		$credentials = compact(array_keys($credentials));
 		$this->laravel['rocketeer.server']->setValue('connections.'.$connectionName, $credentials);
 		$this->laravel['config']->set('remote.connections.'.$connectionName, $credentials);
 	}
