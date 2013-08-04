@@ -69,7 +69,7 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 		$this->app = $serviceProvider->bindScm($this->app);
 
 		$this->app->bind('rocketeer.server', function ($app) {
-			return new Rocketeer\Server($app, __DIR__);
+			return new Rocketeer\Server($app, __DIR__.'/meta');
 		});
 
 		$command = $this->getCommand();

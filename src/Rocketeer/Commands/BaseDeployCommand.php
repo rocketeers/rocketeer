@@ -16,22 +16,37 @@ abstract class BaseDeployCommand extends Command
 	 */
 	abstract public function fire();
 
-  /**
-   * Get the console command options.
-   *
-   * @return array
-   */
-  protected function getOptions()
-  {
-    return array(
-      array('pretend', 'p', InputOption::VALUE_NONE,     'Returns an array of commands to be executed instead of actually executing them'),
-      array('stage',   'S', InputOption::VALUE_REQUIRED, 'The stage to execute the Task in')
-    );
-  }
+	/**
+	 * Get the console command options.
+	 *
+	 * @return array
+	 */
+	protected function getOptions()
+	{
+		return array(
+			array('pretend', 'p', InputOption::VALUE_NONE,     'Returns an array of commands to be executed instead of actually executing them'),
+			array('stage',   'S', InputOption::VALUE_REQUIRED, 'The stage to execute the Task in')
+		);
+	}
 
-  ////////////////////////////////////////////////////////////////////
-  ///////////////////////////// CORE METHODS /////////////////////////
-  ////////////////////////////////////////////////////////////////////
+	/**
+	 * Returns the command name.
+	 *
+	 * @return string The command name
+	 */
+	public function getName()
+	{
+		// Return commands without namespace if standalone
+		if (!isset($this->laravel['events'])) {
+			return str_replace('deploy:', null, $this->name);
+		}
+
+		return $this->name;
+	}
+
+	////////////////////////////////////////////////////////////////////
+	///////////////////////////// CORE METHODS /////////////////////////
+	////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Fire a Tasks Queue
@@ -102,6 +117,11 @@ abstract class BaseDeployCommand extends Command
 			$connectionName = $this->ask('No connections have been set, please create one : (production)', 'production');
 		} else {
 			$connectionName = key($connections);
+		}
+
+		// Set the found connection as default if none is specified
+		if (!isset($this->laravel['config']['remote.default'])) {
+			$this->laravel['config']->set('remote.default', $connectionName);
 		}
 
 		// Check for server credentials

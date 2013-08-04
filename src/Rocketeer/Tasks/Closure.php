@@ -1,8 +1,8 @@
 <?php
 namespace Rocketeer\Tasks;
 
-use Rocketeer\Traits\Task;
 use Closure as AnonymousFunction;
+use Rocketeer\Traits\Task;
 
 /**
  * A task formatted as a Closure

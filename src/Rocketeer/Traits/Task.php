@@ -8,7 +8,6 @@ use Rocketeer\Bash;
  */
 abstract class Task extends Bash
 {
-
 	/**
 	 * A description of what the Task does
 	 *

@@ -1,0 +1,5 @@
+#!/usr/bin/env php
+<?php
+require 'vendor/autoload.php';
+
+return Rocketeer\Facades\Console::run();

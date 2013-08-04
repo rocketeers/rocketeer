@@ -1,7 +1,11 @@
 <?php
 namespace Rocketeer;
 
+use Illuminate\Config\FileLoader;
+use Illuminate\Config\Repository;
 use Illuminate\Container\Container;
+use Illuminate\Http\Request;
+use Illuminate\Remote\RemoteManager;
 use Illuminate\Support\ServiceProvider;
 
 // Define DS
@@ -14,7 +18,6 @@ if (!defined('DS')) {
  */
 class RocketeerServiceProvider extends ServiceProvider
 {
-
 	/**
 	 * Indicates if loading of the provider is deferred.
 	 *
@@ -36,8 +39,7 @@ class RocketeerServiceProvider extends ServiceProvider
 	 */
 	public function register()
 	{
-		// Register config file
-		$this->app['config']->package('anahkiasen/rocketeer', __DIR__.'/../config');
+		// ...
 	}
 
 	/**
@@ -48,14 +50,7 @@ class RocketeerServiceProvider extends ServiceProvider
 	public function boot()
 	{
 		// Register classes and commands
-		$this->app = $this->bindClasses($this->app);
-		$this->app = $this->bindScm($this->app);
-		$this->app = $this->bindCommands($this->app);
-
-		// Add commands to Artisan
-		foreach ($this->commands as $command) {
-			$this->commands($command);
-		}
+		$this->app = static::make($this->app);
 	}
 
 	/**
@@ -71,6 +66,59 @@ class RocketeerServiceProvider extends ServiceProvider
 	////////////////////////////////////////////////////////////////////
 	/////////////////////////// CLASS BINDINGS /////////////////////////
 	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Make a Rocketeer container
+	 *
+	 * @return Container
+	 */
+	public static function make($app = null)
+	{
+		if (!$app) {
+			$app = new Container;
+		}
+
+		$serviceProvider = new static($app);
+
+		// Bind classes
+		$app = $serviceProvider->bindCoreClasses($app);
+		$app = $serviceProvider->bindClasses($app);
+		$app = $serviceProvider->bindScm($app);
+		$app = $serviceProvider->bindCommands($app);
+
+		return $app;
+	}
+
+	/**
+	 * Bind the core classes
+	 *
+	 * @param  Container $app
+	 *
+	 * @return Container
+	 */
+	public function bindCoreClasses(Container $app)
+	{
+    $app->bindIf('files', 'Illuminate\Filesystem\Filesystem');
+
+    $app->bindIf('request', function ($app) {
+      return Request::createFromGlobals();
+    }, true);
+
+    $app->bindIf('config', function ($app) {
+			$fileloader = new FileLoader($app['files'], __DIR__.'/../config');
+
+			return new Repository($fileloader, 'config');
+    }, true);
+
+		$app->bindIf('remote', function($app) {
+			return new RemoteManager($app);
+		}, true);
+
+    // Register config file
+		$app['config']->package('anahkiasen/rocketeer', __DIR__.'/../config');
+
+    return $app;
+	}
 
 	/**
 	 * Bind the Rocketeer classes to the Container
@@ -100,6 +148,12 @@ class RocketeerServiceProvider extends ServiceProvider
 		$app->singleton('rocketeer.tasks', function ($app) {
 			return new TasksQueue($app);
 		});
+
+		$app->singleton('rocketeer.console', function ($app) {
+			return new Console('Rocketeer', Rocketeer::VERSION);
+		});
+
+		$app['rocketeer.console']->setLaravel($app);
 
 		return $app;
 	}
@@ -183,6 +237,14 @@ class RocketeerServiceProvider extends ServiceProvider
 				});
 			}
 
+		}
+
+		// Add commands to Artisan
+		foreach ($this->commands as $command) {
+			$app['rocketeer.console']->add($app[$command]);
+			if (isset($app['events'])) {
+				$this->commands($command);
+			}
 		}
 
 		return $app;

@@ -15,16 +15,21 @@
 	],
 	"require": {
 		"php": ">=5.3.0",
-		"illuminate/support": "~4"
-	},
-	"require-dev": {
+		"illuminate/support": "~4",
+		"illuminate/config": "~4",
 		"illuminate/console": "~4",
 		"illuminate/container": "~4",
 		"illuminate/filesystem": "~4",
+		"illuminate/remote": "dev-master"
+	},
+	"require-dev": {
 		"mockery/mockery": "dev-master",
 		"nesbot/carbon": "dev-master",
     "patchwork/utf8": "dev-master"
 	},
+  "bin": [
+    "rocketeer"
+  ],
 	"autoload": {
 		"psr-0": {
 			"Rocketeer": "src/"

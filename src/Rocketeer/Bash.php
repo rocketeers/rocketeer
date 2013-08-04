@@ -239,8 +239,13 @@ class Bash
 	 */
 	public function symlink($folder, $symlink)
 	{
-		// Remove existing folder or file if existing
-		$this->run('rm -rf '.$symlink);
+		// Cancel if folder does not exist
+		if (!$this->fileExists($folder)) {
+			return false;
+		}
+
+		// Remove existing symlink
+		$this->removeFolder($symlink);
 
 		return $this->run(sprintf('ln -s %s %s', $folder, $symlink));
 	}

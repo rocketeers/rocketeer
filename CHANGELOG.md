@@ -4,8 +4,10 @@
 
 - Ability to select which severs a Task executes on, on a per-task basis
 
-### 0.6.6 (develop)
+### 0.7.0 (develop)
 
+- **Rocketeer can now work outside of Laravel**
+- **Better handling of SSH keys**
 - Permissions are now entirely configurable
 - Rocketeer now prompts for confirmation before executing the Teardown task
 - Allow the use of patterns in shared folders
