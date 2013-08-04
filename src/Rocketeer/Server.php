@@ -34,7 +34,7 @@ class Server
 		$this->app = $app;
 
 		// Create personnal storage if necessary
-		if (!isset($app['path.storage']) and !$storage) {
+		if (!$app->bound('path.storage') and !$storage) {
 			$storage = __DIR__.DS.'..'.DS.'..'.DS.'storage';
 			@mkdir($storage);
 		}
