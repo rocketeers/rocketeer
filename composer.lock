@@ -3,11 +3,11 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "cea387822ff0b469831eec45ed89f1b5",
+    "hash": "9df42312c3c43badd9410b0ccec62721",
     "packages": [
         {
             "name": "illuminate/config",
-            "version": "v4.0.6",
+            "version": "4.0.x-dev",
             "target-dir": "Illuminate/Config",
             "source": {
                 "type": "git",
@@ -53,17 +53,17 @@
         },
         {
             "name": "illuminate/console",
-            "version": "v4.0.6",
+            "version": "dev-master",
             "target-dir": "Illuminate/Console",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/console.git",
-                "reference": "v4.0.6"
+                "reference": "cffaa6e6414828fb7a0a742b5f7e9d0f789e24ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/console/zipball/v4.0.6",
-                "reference": "v4.0.6",
+                "url": "https://api.github.com/repos/illuminate/console/zipball/cffaa6e6414828fb7a0a742b5f7e9d0f789e24ae",
+                "reference": "cffaa6e6414828fb7a0a742b5f7e9d0f789e24ae",
                 "shasum": ""
             },
             "require": {
@@ -75,7 +75,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.0-dev"
+                    "dev-master": "4.1-dev"
                 }
             },
             "autoload": {
@@ -93,21 +93,21 @@
                     "email": "taylorotwell@gmail.com"
                 }
             ],
-            "time": "2013-05-28 00:50:14"
+            "time": "2013-07-19 10:47:48"
         },
         {
             "name": "illuminate/container",
-            "version": "v4.0.6",
+            "version": "dev-master",
             "target-dir": "Illuminate/Container",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/container.git",
-                "reference": "v4.0.6"
+                "reference": "b9ecfb12b5d45f06e6eb0c9db82fcde6cb5c705e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/container/zipball/v4.0.6",
-                "reference": "v4.0.6",
+                "url": "https://api.github.com/repos/illuminate/container/zipball/b9ecfb12b5d45f06e6eb0c9db82fcde6cb5c705e",
+                "reference": "b9ecfb12b5d45f06e6eb0c9db82fcde6cb5c705e",
                 "shasum": ""
             },
             "require": {
@@ -119,7 +119,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.0-dev"
+                    "dev-master": "4.1-dev"
                 }
             },
             "autoload": {
@@ -137,11 +137,11 @@
                     "email": "taylorotwell@gmail.com"
                 }
             ],
-            "time": "2013-07-31 14:49:48"
+            "time": "2013-07-31 15:34:38"
         },
         {
             "name": "illuminate/filesystem",
-            "version": "v4.0.6",
+            "version": "4.0.x-dev",
             "target-dir": "Illuminate/Filesystem",
             "source": {
                 "type": "git",
@@ -230,7 +230,7 @@
         },
         {
             "name": "illuminate/support",
-            "version": "v4.0.6",
+            "version": "4.0.x-dev",
             "target-dir": "Illuminate/Support",
             "source": {
                 "type": "git",
@@ -279,16 +279,16 @@
         },
         {
             "name": "phpseclib/phpseclib",
-            "version": "0.3.5",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "0.3.5"
+                "reference": "7b5542cc8a3cdd2266e043f084a8f60c52908640"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/0.3.5",
-                "reference": "0.3.5",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/7b5542cc8a3cdd2266e043f084a8f60c52908640",
+                "reference": "7b5542cc8a3cdd2266e043f084a8f60c52908640",
                 "shasum": ""
             },
             "require": {
@@ -349,21 +349,21 @@
                 "x.509",
                 "x509"
             ],
-            "time": "2013-06-08 17:40:39"
+            "time": "2013-08-02 15:52:58"
         },
         {
             "name": "symfony/console",
-            "version": "v2.3.2",
+            "version": "2.3.x-dev",
             "target-dir": "Symfony/Component/Console",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "v2.3.2"
+                "reference": "290fe87d3618ce49c2caf7c456402affbd9917ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/v2.3.2",
-                "reference": "v2.3.2",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/290fe87d3618ce49c2caf7c456402affbd9917ac",
+                "reference": "290fe87d3618ce49c2caf7c456402affbd9917ac",
                 "shasum": ""
             },
             "require": {
@@ -402,21 +402,21 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com",
-            "time": "2013-07-11 19:36:36"
+            "time": "2013-07-21 12:12:18"
         },
         {
             "name": "symfony/finder",
-            "version": "v2.3.2",
+            "version": "2.3.x-dev",
             "target-dir": "Symfony/Component/Finder",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Finder.git",
-                "reference": "v2.3.2"
+                "reference": "b251476db261edb54bb1d7c6b8be6ae49ff9a371"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Finder/zipball/v2.3.2",
-                "reference": "v2.3.2",
+                "url": "https://api.github.com/repos/symfony/Finder/zipball/b251476db261edb54bb1d7c6b8be6ae49ff9a371",
+                "reference": "b251476db261edb54bb1d7c6b8be6ae49ff9a371",
                 "shasum": ""
             },
             "require": {
@@ -449,7 +449,7 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "http://symfony.com",
-            "time": "2013-07-01 12:17:23"
+            "time": "2013-07-21 12:12:18"
         }
     ],
     "packages-dev": [
@@ -513,12 +513,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "c4bbc42b0a658ea6de8be6f375b68231f5fbf3a5"
+                "reference": "501fc9f22d366455c6ec33a9e398ac5f60ed61e2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/c4bbc42b0a658ea6de8be6f375b68231f5fbf3a5",
-                "reference": "c4bbc42b0a658ea6de8be6f375b68231f5fbf3a5",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/501fc9f22d366455c6ec33a9e398ac5f60ed61e2",
+                "reference": "501fc9f22d366455c6ec33a9e398ac5f60ed61e2",
                 "shasum": ""
             },
             "require": {
@@ -548,7 +548,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2013-08-04 04:27:56"
+            "time": "2013-08-05 04:51:58"
         },
         {
             "name": "patchwork/utf8",
@@ -556,12 +556,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nicolas-grekas/Patchwork-UTF8.git",
-                "reference": "9fe2a8601944acffd8f481d26d0f2577b450395c"
+                "reference": "13f70351f0378ff58a8837cbe756f132d1a62dda"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nicolas-grekas/Patchwork-UTF8/zipball/9fe2a8601944acffd8f481d26d0f2577b450395c",
-                "reference": "9fe2a8601944acffd8f481d26d0f2577b450395c",
+                "url": "https://api.github.com/repos/nicolas-grekas/Patchwork-UTF8/zipball/13f70351f0378ff58a8837cbe756f132d1a62dda",
+                "reference": "13f70351f0378ff58a8837cbe756f132d1a62dda",
                 "shasum": ""
             },
             "require": {
@@ -593,13 +593,13 @@
                 "utf-8",
                 "utf8"
             ],
-            "time": "2013-05-27 08:45:07"
+            "time": "2013-08-05 08:18:52"
         }
     ],
     "aliases": [
 
     ],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "stability-flags": {
         "illuminate/remote": 20,
         "mockery/mockery": 20,
