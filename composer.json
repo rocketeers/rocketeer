@@ -25,11 +25,12 @@
 	"require-dev": {
 		"mockery/mockery": "dev-master",
 		"nesbot/carbon": "dev-master",
-    "patchwork/utf8": "dev-master"
+		"patchwork/utf8": "dev-master"
 	},
-  "bin": [
-    "rocketeer"
-  ],
+	"minimum-stability": "dev",
+	"bin": [
+		"rocketeer"
+	],
 	"autoload": {
 		"psr-0": {
 			"Rocketeer": "src/"
