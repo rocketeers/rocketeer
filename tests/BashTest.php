@@ -56,4 +56,28 @@ class BashTest extends RocketeerTests
 		$task->cloneRepository($this->server.'/test');
 		$this->assertNull($this->app['rocketeer.server']->getValue('credentials'));
 	}
+
+	public function testCancelsSymlinkForUnexistingFolders()
+	{
+		$task    = $this->pretendTask();
+		$folder  = '{path.storage}/logs';
+		$share   = $task->share($folder);
+
+		$this->assertFalse($share);
+	}
+
+	public function testCanSymlinkFolders()
+	{
+		// Create dummy file
+		$folder = $this->server.'/releases/20000000000000/src';
+		mkdir($folder);
+		file_put_contents($folder.'/foobar.txt', 'test');
+
+		$task    = $this->pretendTask();
+		$folder  = '{path.base}/foobar.txt';
+		$share   = $task->share($folder);
+		$matcher = sprintf('ln -s %s %s', $this->server.'/shared//src/foobar.txt', $this->server.'/releases/20000000000000//src/foobar.txt');
+
+		$this->assertEquals($matcher, $share);
+	}
 }

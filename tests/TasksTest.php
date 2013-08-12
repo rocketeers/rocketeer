@@ -56,15 +56,6 @@ class TasksTest extends RocketeerTests
 		$this->assertEquals('php artisan migrate --seed', $commands[1]);
 	}
 
-	public function testCancelsSymlinkForUnexistingFolders()
-	{
-		$task    = $this->pretendTask();
-		$folder  = '{path.storage}/sessions';
-		$share   = $task->share($folder);
-
-		$this->assertFalse($share);
-	}
-
 	////////////////////////////////////////////////////////////////////
 	//////////////////////////////// TASKS /////////////////////////////
 	////////////////////////////////////////////////////////////////////

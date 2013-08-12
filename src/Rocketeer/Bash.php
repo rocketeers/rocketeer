@@ -232,16 +232,19 @@ class Bash
 	/**
 	 * Symlinks two folders
 	 *
-	 * @param  string $folder   The original folder
+	 * @param  string $folder   The folder in shared/
 	 * @param  string $symlink  The folder that will symlink to it
 	 *
 	 * @return string
 	 */
 	public function symlink($folder, $symlink)
 	{
-		// Cancel if folder does not exist
 		if (!$this->fileExists($folder)) {
-			return false;
+			if (!$this->fileExists($symlink)) {
+				return false;
+			}
+
+			$this->move($symlink, $folder);
 		}
 
 		// Remove existing symlink

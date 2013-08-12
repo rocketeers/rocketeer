@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/config.git",
-                "reference": "5c943c06e817be915d2eb45f9b34fdd6b38bc44c"
+                "reference": "70e05b02ed6f1ff0df447a0da0a2421cf95f6fce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/config/zipball/5c943c06e817be915d2eb45f9b34fdd6b38bc44c",
-                "reference": "5c943c06e817be915d2eb45f9b34fdd6b38bc44c",
+                "url": "https://api.github.com/repos/illuminate/config/zipball/70e05b02ed6f1ff0df447a0da0a2421cf95f6fce",
+                "reference": "70e05b02ed6f1ff0df447a0da0a2421cf95f6fce",
                 "shasum": ""
             },
             "require": {
@@ -49,7 +49,7 @@
                     "email": "taylorotwell@gmail.com"
                 }
             ],
-            "time": "2013-05-28 20:37:43"
+            "time": "2013-08-10 17:47:18"
         },
         {
             "name": "illuminate/console",
@@ -241,12 +241,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "290fe87d3618ce49c2caf7c456402affbd9917ac"
+                "reference": "v2.3.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/290fe87d3618ce49c2caf7c456402affbd9917ac",
-                "reference": "290fe87d3618ce49c2caf7c456402affbd9917ac",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/v2.3.3",
+                "reference": "v2.3.3",
                 "shasum": ""
             },
             "require": {
@@ -294,12 +294,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Finder.git",
-                "reference": "b251476db261edb54bb1d7c6b8be6ae49ff9a371"
+                "reference": "v2.3.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Finder/zipball/b251476db261edb54bb1d7c6b8be6ae49ff9a371",
-                "reference": "b251476db261edb54bb1d7c6b8be6ae49ff9a371",
+                "url": "https://api.github.com/repos/symfony/Finder/zipball/v2.3.3",
+                "reference": "v2.3.3",
                 "shasum": ""
             },
             "require": {
@@ -342,12 +342,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/padraic/mockery.git",
-                "reference": "dcc8e7bda1b011a7e152b53abc58f2cb7a7cb0c5"
+                "reference": "f0e835aebf28d7323efefffb31b9a6df27427f29"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/padraic/mockery/zipball/dcc8e7bda1b011a7e152b53abc58f2cb7a7cb0c5",
-                "reference": "dcc8e7bda1b011a7e152b53abc58f2cb7a7cb0c5",
+                "url": "https://api.github.com/repos/padraic/mockery/zipball/f0e835aebf28d7323efefffb31b9a6df27427f29",
+                "reference": "f0e835aebf28d7323efefffb31b9a6df27427f29",
                 "shasum": ""
             },
             "require": {
@@ -388,7 +388,7 @@
                 "test double",
                 "testing"
             ],
-            "time": "2013-08-01 12:39:35"
+            "time": "2013-08-07 21:50:22"
         },
         {
             "name": "nesbot/carbon",
@@ -396,12 +396,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "501fc9f22d366455c6ec33a9e398ac5f60ed61e2"
+                "reference": "bfabf7c397090f594bf9ae01c7df5d5c9e045c76"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/501fc9f22d366455c6ec33a9e398ac5f60ed61e2",
-                "reference": "501fc9f22d366455c6ec33a9e398ac5f60ed61e2",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/bfabf7c397090f594bf9ae01c7df5d5c9e045c76",
+                "reference": "bfabf7c397090f594bf9ae01c7df5d5c9e045c76",
                 "shasum": ""
             },
             "require": {
@@ -431,7 +431,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2013-08-05 04:51:58"
+            "time": "2013-08-09 04:19:56"
         },
         {
             "name": "patchwork/utf8",
