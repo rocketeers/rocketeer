@@ -9,7 +9,6 @@ use Rocketeer\Traits\Task;
  */
 class CurrentRelease extends Task
 {
-
 	 /**
 	 * A description of what the Task does
 	 *

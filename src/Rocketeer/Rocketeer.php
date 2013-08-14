@@ -10,7 +10,6 @@ use Illuminate\Support\Str;
  */
 class Rocketeer
 {
-
 	/**
 	 * The IoC Container
 	 *

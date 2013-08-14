@@ -8,7 +8,6 @@ use Rocketeer\Traits\Task;
  */
 class Deploy extends Task
 {
-
 	/**
 	 * Run the Task
 	 *

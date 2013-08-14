@@ -9,7 +9,6 @@ use Rocketeer\Traits\Task;
  */
 class Closure extends Task
 {
-
 	/**
 	 * A Closure to execute at runtime
 	 *

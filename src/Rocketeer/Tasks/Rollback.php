@@ -8,7 +8,6 @@ use Rocketeer\Traits\Task;
  */
 class Rollback extends Task
 {
-
 	/**
 	 * Run the Task
 	 *

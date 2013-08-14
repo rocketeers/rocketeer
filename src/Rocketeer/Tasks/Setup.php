@@ -8,7 +8,6 @@ use Rocketeer\Traits\Task;
  */
 class Setup extends Task
 {
-
 	 /**
 	 * A description of what the Task does
 	 *

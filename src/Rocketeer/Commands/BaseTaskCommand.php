@@ -9,7 +9,6 @@ use Rocketeer\Traits\Task;
  */
 class BaseTaskCommand extends BaseDeployCommand
 {
-
 	/**
 	 * The default name
 	 *

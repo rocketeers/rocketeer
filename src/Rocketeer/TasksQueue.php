@@ -11,7 +11,6 @@ use Rocketeer\Traits\Task;
  */
 class TasksQueue
 {
-
 	/**
 	 * The IoC Container
 	 *

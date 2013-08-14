@@ -8,7 +8,6 @@ use Illuminate\Container\Container;
  */
 class ReleasesManager
 {
-
 	/**
 	 * The IoC Container
 	 *

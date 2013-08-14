@@ -8,7 +8,6 @@ use Rocketeer\Rocketeer;
  */
 class DeployCommand extends DeployDeployCommand
 {
-
 	/**
 	 * The console command name.
 	 *

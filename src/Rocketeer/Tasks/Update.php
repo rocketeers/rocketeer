@@ -8,7 +8,6 @@ use Rocketeer\Traits\Task;
  */
 class Update extends Deploy
 {
-
 	 /**
 	 * A description of what the Task does
 	 *

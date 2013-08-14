@@ -8,7 +8,6 @@ use Symfony\Component\Console\Input\InputOption;
  */
 class DeployDeployCommand extends BaseDeployCommand
 {
-
 	/**
 	 * The console command name.
 	 *

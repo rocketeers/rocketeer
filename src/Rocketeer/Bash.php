@@ -16,7 +16,6 @@ use Illuminate\Support\Str;
  */
 class Bash
 {
-
 	/**
 	 * The IoC Container
 	 *

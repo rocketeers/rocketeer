@@ -8,7 +8,6 @@ use Rocketeer\Traits\Task;
  */
 class Teardown extends Task
 {
-
 	 /**
 	 * A description of what the Task does
 	 *

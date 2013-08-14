@@ -229,7 +229,9 @@
             "authors": [
                 {
                     "name": "Taylor Otwell",
-                    "email": "taylorotwell@gmail.com"
+                    "email": "taylorotwell@gmail.com",
+                    "homepage": "https://github.com/taylorotwell",
+                    "role": "Developer"
                 }
             ],
             "time": "2013-08-05 13:28:56"
@@ -294,12 +296,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Finder.git",
-                "reference": "v2.3.3"
+                "reference": "4a0fee5b86f5bbd9dfdc11ec124eba2915737ce1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Finder/zipball/v2.3.3",
-                "reference": "v2.3.3",
+                "url": "https://api.github.com/repos/symfony/Finder/zipball/4a0fee5b86f5bbd9dfdc11ec124eba2915737ce1",
+                "reference": "4a0fee5b86f5bbd9dfdc11ec124eba2915737ce1",
                 "shasum": ""
             },
             "require": {
@@ -332,7 +334,7 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "http://symfony.com",
-            "time": "2013-07-21 12:12:18"
+            "time": "2013-08-13 20:18:00"
         }
     ],
     "packages-dev": [
@@ -439,12 +441,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nicolas-grekas/Patchwork-UTF8.git",
-                "reference": "13f70351f0378ff58a8837cbe756f132d1a62dda"
+                "reference": "e2e47a72aaab013fae1f13d45cafa4d2e72e36e4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nicolas-grekas/Patchwork-UTF8/zipball/13f70351f0378ff58a8837cbe756f132d1a62dda",
-                "reference": "13f70351f0378ff58a8837cbe756f132d1a62dda",
+                "url": "https://api.github.com/repos/nicolas-grekas/Patchwork-UTF8/zipball/e2e47a72aaab013fae1f13d45cafa4d2e72e36e4",
+                "reference": "e2e47a72aaab013fae1f13d45cafa4d2e72e36e4",
                 "shasum": ""
             },
             "require": {
@@ -476,7 +478,7 @@
                 "utf-8",
                 "utf8"
             ],
-            "time": "2013-08-05 08:18:52"
+            "time": "2013-08-14 09:41:55"
         }
     ],
     "aliases": [
