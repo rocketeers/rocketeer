@@ -257,9 +257,21 @@ abstract class Task extends Bash
 	 */
 	public function getComposer()
 	{
+		$composer = $this->server->getValue('paths.composer');
+		if ($composer and $this->fileExists($composer)) {
+			return $composer;
+		}
+
+		// Try to find composer globally or locally
 		$composer = $this->which('composer');
 		if (!$composer and file_exists($this->app['path.base'].DS.'composer.phar')) {
 			$composer = 'php composer.phar';
+		}
+
+		// Else ask the User where it is
+		if (!$composer) {
+			$composer = $this->command->ask('Composer could not be found, please enter the path to the binary');
+			$this->server->setValue('paths.composer', $composer);
 		}
 
 		return $composer;

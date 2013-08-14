@@ -12,6 +12,7 @@
 - Rocketeer now prompts for confirmation before executing the Teardown task
 - Allow the use of patterns in shared folders
 - Share `sessions` folder by default
+- Allow Rocketeer to prompt for composer path if it's not in the default location
 
 ### 0.6.5 (stable)
 
