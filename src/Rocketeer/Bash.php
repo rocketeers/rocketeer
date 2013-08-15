@@ -92,7 +92,6 @@ class Bash
 	 */
 	public function run($commands, $silent = false, $array = false)
 	{
-		$me       = $this;
 		$output   = null;
 		$commands = $this->processCommands($commands);
 		$verbose  = $this->getOption('verbose') and !$silent;
@@ -106,11 +105,12 @@ class Bash
 		}
 
 		// Run commands
-		$this->remote->run($commands, function ($results) use (&$output, $verbose, $me) {
+		$bash = $this;
+		$this->remote->run($commands, function ($results) use (&$output, $verbose, $bash) {
 			$output .= $results;
 
 			if ($verbose) {
-				$me->remote->display(trim($results));
+				$bash->remote->display(trim($results));
 			}
 		});
 
@@ -185,16 +185,34 @@ class Bash
 	 */
 	public function which($binary, $fallback = null)
 	{
-		$location = $this->run('which '.$binary, true);
-		if (!$location or $location == $binary. ' not found') {
-			if (!is_null($fallback) and $this->run('which ' .$fallback, true) != $fallback. ' not found') {
-				return $fallback;
-			}
-
-			return false;
+		// Get custom path if any was set
+		$custom = 'paths.'.$binary;
+		if ($location = $this->server->getValue($custom)) {
+			return $location;
 		}
 
-		return $location;
+		// Else ask the server where the binary is
+		$location = $this->run('which '.$binary, true);
+		if ($location and $this->fileExists($location)) {
+			return $location;
+		}
+
+		// Else use the fallback path
+		if ($fallback) {
+			$location = $this->run('which '.$fallback, true);
+			if ($location and $this->fileExists($location)) {
+				return $location;
+			}
+		}
+
+		// Else prompt the User for the actual path
+		$location = $this->command->ask($binary. ' could not be found, please enter the path to it');
+		if ($location) {
+			$this->server->setValue($custom, $location);
+			return $location;
+		}
+
+		return false;
 	}
 
 	/**
@@ -255,19 +273,19 @@ class Bash
 	/**
 	 * Move a file
 	 *
-	 * @param  string $from
-	 * @param  string $to
+	 * @param  string $origin
+	 * @param  string $destination
 	 *
 	 * @return string
 	 */
-	public function move($from, $to)
+	public function move($origin, $destination)
 	{
-		$folder = dirname($to);
+		$folder = dirname($destination);
 		if (!$this->fileExists($folder)) {
 			$this->createFolder($folder, true);
 		}
 
-		return $this->run(sprintf('mv %s %s', $from, $to));
+		return $this->run(sprintf('mv %s %s', $origin, $destination));
 	}
 
 	/**

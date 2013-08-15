@@ -46,7 +46,9 @@
             "authors": [
                 {
                     "name": "Taylor Otwell",
-                    "email": "taylorotwell@gmail.com"
+                    "email": "taylorotwell@gmail.com",
+                    "homepage": "https://github.com/taylorotwell",
+                    "role": "Developer"
                 }
             ],
             "time": "2013-08-10 17:47:18"
@@ -90,7 +92,9 @@
             "authors": [
                 {
                     "name": "Taylor Otwell",
-                    "email": "taylorotwell@gmail.com"
+                    "email": "taylorotwell@gmail.com",
+                    "homepage": "https://github.com/taylorotwell",
+                    "role": "Developer"
                 }
             ],
             "time": "2013-07-19 10:47:48"
@@ -134,7 +138,9 @@
             "authors": [
                 {
                     "name": "Taylor Otwell",
-                    "email": "taylorotwell@gmail.com"
+                    "email": "taylorotwell@gmail.com",
+                    "homepage": "https://github.com/taylorotwell",
+                    "role": "Developer"
                 }
             ],
             "time": "2013-07-31 15:34:38"
@@ -180,7 +186,9 @@
             "authors": [
                 {
                     "name": "Taylor Otwell",
-                    "email": "taylorotwell@gmail.com"
+                    "email": "taylorotwell@gmail.com",
+                    "homepage": "https://github.com/taylorotwell",
+                    "role": "Developer"
                 }
             ],
             "time": "2013-07-02 17:46:50"
@@ -441,12 +449,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nicolas-grekas/Patchwork-UTF8.git",
-                "reference": "e2e47a72aaab013fae1f13d45cafa4d2e72e36e4"
+                "reference": "129a9daa3b1cc5e35d83a0a817328197a5a9e20c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nicolas-grekas/Patchwork-UTF8/zipball/e2e47a72aaab013fae1f13d45cafa4d2e72e36e4",
-                "reference": "e2e47a72aaab013fae1f13d45cafa4d2e72e36e4",
+                "url": "https://api.github.com/repos/nicolas-grekas/Patchwork-UTF8/zipball/129a9daa3b1cc5e35d83a0a817328197a5a9e20c",
+                "reference": "129a9daa3b1cc5e35d83a0a817328197a5a9e20c",
                 "shasum": ""
             },
             "require": {
@@ -478,7 +486,7 @@
                 "utf-8",
                 "utf8"
             ],
-            "time": "2013-08-14 09:41:55"
+            "time": "2013-08-14 15:56:59"
         }
     ],
     "aliases": [

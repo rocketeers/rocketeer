@@ -1,27 +1,27 @@
 
 
-Code Coverage Report 
-  2013-08-12 17:56:30
-
- Summary: 
-  Classes: 42.11% (8/19)
-  Methods: 84.21% (96/114)
-  Lines:   86.71% (483/557)
+Code Coverage Report:      
+  2013-08-15 16:05:19      
+                           
+ Summary:                  
+  Classes: 42.11% (8/19)   
+  Methods: 83.33% (95/114) 
+  Lines:   86.24% (489/567)
 
 \Rocketeer::Bash
-  Methods: 100.00% (17/17)   Lines:  92.71% ( 89/ 96)
+  Methods:  88.24% (15/17)   Lines:  91.92% ( 91/ 99)
 \Rocketeer::ReleasesManager
   Methods: 100.00% ( 9/ 9)   Lines: 100.00% ( 22/ 22)
 \Rocketeer::Rocketeer
-  Methods: 100.00% (15/15)   Lines:  96.36% ( 53/ 55)
+  Methods:  93.33% (14/15)   Lines:  98.00% ( 49/ 50)
 \Rocketeer::Server
-  Methods: 100.00% (10/10)   Lines:  86.67% ( 39/ 45)
+  Methods:  80.00% ( 8/10)   Lines:  85.37% ( 35/ 41)
 \Rocketeer::TasksQueue
-  Methods: 100.00% (15/15)   Lines:  91.18% ( 93/102)
+  Methods:  80.00% (12/15)   Lines:  89.89% ( 80/ 89)
 \Rocketeer\Scm::Git
   Methods: 100.00% ( 6/ 6)   Lines: 100.00% (  8/  8)
 \Rocketeer\Tasks::Check
-  Methods: 100.00% ( 7/ 7)   Lines:  69.09% ( 38/ 55)
+  Methods:  57.14% ( 4/ 7)   Lines:  69.09% ( 38/ 55)
 \Rocketeer\Tasks::Cleanup
   Methods: 100.00% ( 1/ 1)   Lines: 100.00% (  9/  9)
 \Rocketeer\Tasks::Closure
@@ -29,16 +29,16 @@ Code Coverage Report
 \Rocketeer\Tasks::CurrentRelease
   Methods: 100.00% ( 1/ 1)   Lines: 100.00% (  7/  7)
 \Rocketeer\Tasks::Deploy
-  Methods:  75.00% ( 3/ 4)   Lines:  61.76% ( 21/ 34)
+  Methods:  50.00% ( 2/ 4)   Lines:  61.76% ( 21/ 34)
 \Rocketeer\Tasks::Rollback
   Methods: 100.00% ( 2/ 2)   Lines: 100.00% (  5/  5)
 \Rocketeer\Tasks::Setup
-  Methods: 100.00% ( 2/ 2)   Lines:  88.46% ( 23/ 26)
+  Methods:  50.00% ( 1/ 2)   Lines:  88.46% ( 23/ 26)
 \Rocketeer\Tasks::Teardown
-  Methods: 100.00% ( 1/ 1)   Lines:  85.71% (  6/  7)
+  Methods:   0.00% ( 0/ 1)   Lines:  85.71% (  6/  7)
 \Rocketeer\Tasks::Test
   Methods: 100.00% ( 1/ 1)   Lines: 100.00% (  2/  2)
 \Rocketeer\Traits::Scm
   Methods: 100.00% ( 3/ 3)   Lines: 100.00% (  7/  7)
 \Rocketeer\Traits::Task
-  Methods:  93.75% (15/16)   Lines:  95.77% ( 68/ 71)
+  Methods:  86.67% (13/15)   Lines:  95.77% ( 68/ 71)

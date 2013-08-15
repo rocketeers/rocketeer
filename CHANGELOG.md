@@ -1,9 +1,5 @@
 ### Changelog
 
-### 0.x.x (roadmap)
-
-- Ability to select which severs a Task executes on, on a per-task basis
-
 ### 0.7.0 (develop)
 
 - **Rocketeer can now work outside of Laravel**
@@ -12,7 +8,7 @@
 - Rocketeer now prompts for confirmation before executing the Teardown task
 - Allow the use of patterns in shared folders
 - Share `sessions` folder by default
-- Allow Rocketeer to prompt for composer path if it's not in the default location
+- Rocketeer now prompts for binaries it can't find (composer, phpunit, etc)
 
 ### 0.6.5 (stable)
 
