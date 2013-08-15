@@ -17,8 +17,11 @@ class Console extends Facade
 	protected static function getFacadeAccessor()
 	{
 		if (!static::$app) {
+			$base = explode('/vendor', __DIR__);
+			$base = $base[0];
+
 			static::$app = RocketeerServiceProvider::make();
-			static::$app['path.base'] = explode('/vendor', __DIR__)[0];
+			static::$app['path.base'] = $base;
 		}
 
 		return 'rocketeer.console';
