@@ -84,7 +84,7 @@ abstract class BaseDeployCommand extends Command
 		// Check for repository credentials
 		$repositoryInfos = $this->laravel['rocketeer.rocketeer']->getCredentials();
 		$credentials = array('repository');
-		if ($this->laravel['rocketeer.rocketeer']->needsCredentials()) {
+		if (!array_get($repositoryInfos, 'repository') or $this->laravel['rocketeer.rocketeer']->needsCredentials()) {
 			$credentials = array('repository', 'username', 'password');
 		}
 
