@@ -100,6 +100,13 @@ class RocketeerTest extends RocketeerTests
 		$this->assertEquals($this->server.'/storage', $folder);
 	}
 
+	public function testCannotReplaceUnexistingPatternsInFolders()
+	{
+		$folder = $this->app['rocketeer.rocketeer']->getFolder('{path.foobar}');
+
+		$this->assertEquals($this->server.'/', $folder);
+	}
+
 	////////////////////////////////////////////////////////////////////
 	//////////////////////////////// HELPERS ///////////////////////////
 	////////////////////////////////////////////////////////////////////
