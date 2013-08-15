@@ -114,8 +114,8 @@ class RocketeerServiceProvider extends ServiceProvider
 			return new RemoteManager($app);
 		}, true);
 
-    // Register config file
-		$app['config']->package('anahkiasen/rocketeer', __DIR__.'/../config');
+		// Register factory and custom configurations
+		$app = $this->registerConfig($app);
 
     return $app;
 	}
@@ -190,6 +190,7 @@ class RocketeerServiceProvider extends ServiceProvider
 		// Base commands
 		$tasks = array(
 			''         => '',
+			'ignite'   => 'Ignite',
 			'check'    => 'Check',
 			'setup'    => 'Setup',
 			'deploy'   => 'Deploy',
@@ -246,6 +247,38 @@ class RocketeerServiceProvider extends ServiceProvider
 				$this->commands($command);
 			}
 		}
+
+		return $app;
+	}
+
+	////////////////////////////////////////////////////////////////////
+	/////////////////////////////// HELPERS ////////////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Register factory and custom configurations
+	 *
+	 * @param  Container $app
+	 *
+	 * @return Container
+	 */
+	protected function registerConfig(Container $app)
+	{
+		// Register paths
+		if (!isset($app['path.base'])) {
+			$base = explode('/vendor', __DIR__);
+			$app['path.base'] = $base[0];
+		}
+
+    // Register config file
+		$app['config']->package('anahkiasen/rocketeer', __DIR__.'/../config');
+
+		// Register custom config
+		$app['config']->afterLoading('rocketeer', function($me, $group, $items) use ($app) {
+			$custom = include $app['path.base'].'/rocketeer.php';
+
+			return array_replace_recursive($items, $custom);
+		});
 
 		return $app;
 	}
