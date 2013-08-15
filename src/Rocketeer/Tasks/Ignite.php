@@ -17,7 +17,7 @@ class Ignite extends Task
 	{
 		// In Laravel, publish the configuration
 		if ($this->app->bound('artisan')) {
-			return $this->app['artisan']->call('config:publish anahkiasen/rocketeer');
+			return $this->command->call('config:publish', array('package' => 'anahkiasen/rocketeer'));
 		}
 
 		// Else copy it at the root
