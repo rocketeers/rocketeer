@@ -16,22 +16,37 @@ abstract class BaseDeployCommand extends Command
 	 */
 	abstract public function fire();
 
-  /**
-   * Get the console command options.
-   *
-   * @return array
-   */
-  protected function getOptions()
-  {
-    return array(
-      array('pretend', 'p', InputOption::VALUE_NONE,     'Returns an array of commands to be executed instead of actually executing them'),
-      array('stage',   'S', InputOption::VALUE_REQUIRED, 'The stage to execute the Task in')
-    );
-  }
+	/**
+	 * Get the console command options.
+	 *
+	 * @return array
+	 */
+	protected function getOptions()
+	{
+		return array(
+			array('pretend', 'p', InputOption::VALUE_NONE,     'Returns an array of commands to be executed instead of actually executing them'),
+			array('stage',   'S', InputOption::VALUE_REQUIRED, 'The stage to execute the Task in')
+		);
+	}
 
-  ////////////////////////////////////////////////////////////////////
-  ///////////////////////////// CORE METHODS /////////////////////////
-  ////////////////////////////////////////////////////////////////////
+	/**
+	 * Returns the command name.
+	 *
+	 * @return string The command name
+	 */
+	public function getName()
+	{
+		// Return commands without namespace if standalone
+		if (!isset($this->laravel['events'])) {
+			return str_replace('deploy:', null, $this->name);
+		}
+
+		return $this->name;
+	}
+
+	////////////////////////////////////////////////////////////////////
+	///////////////////////////// CORE METHODS /////////////////////////
+	////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Fire a Tasks Queue
@@ -69,7 +84,7 @@ abstract class BaseDeployCommand extends Command
 		// Check for repository credentials
 		$repositoryInfos = $this->laravel['rocketeer.rocketeer']->getCredentials();
 		$credentials = array('repository');
-		if ($this->laravel['rocketeer.rocketeer']->needsCredentials()) {
+		if (!array_get($repositoryInfos, 'repository') or $this->laravel['rocketeer.rocketeer']->needsCredentials()) {
 			$credentials = array('repository', 'username', 'password');
 		}
 
@@ -104,20 +119,35 @@ abstract class BaseDeployCommand extends Command
 			$connectionName = key($connections);
 		}
 
+		// Set the found connection as default if none is specified
+		if (!isset($this->laravel['config']['remote.default'])) {
+			$this->laravel['config']->set('remote.default', $connectionName);
+		}
+
 		// Check for server credentials
 		$connection  = array_get($connections, $connectionName, array());
-		$credentials = array('host', 'username', 'password');
+		$credentials = array('host' => true, 'username' => true, 'password' => false, 'key' => false);
 
 		// Gather credentials
-		foreach ($credentials as $credential) {
+		foreach ($credentials as $credential => $required) {
 			${$credential} = array_get($connection, $credential);
-			if (!${$credential}) {
+			if (!${$credential} and $required) {
 				${$credential} = $this->ask('No '.$credential. ' is set for current connection, please provide one :');
 			}
 		}
 
+		// Get password or key
+		if (!$password and !$key) {
+			$type = $this->ask('No password or SSH key is set for current connection, which would you use ? [key/password]');
+			if ($type == 'key') {
+				$key = $this->ask('Please enter the full path to your key');
+			} else {
+				$password = $this->ask('Please enter your password');
+			}
+		}
+
 		// Save them
-		$credentials = compact($credentials);
+		$credentials = compact(array_keys($credentials));
 		$this->laravel['rocketeer.server']->setValue('connections.'.$connectionName, $credentials);
 		$this->laravel['config']->set('remote.connections.'.$connectionName, $credentials);
 	}

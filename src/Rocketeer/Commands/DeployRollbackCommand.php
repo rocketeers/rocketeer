@@ -8,7 +8,6 @@ use Symfony\Component\Console\Input\InputArgument;
  */
 class DeployRollbackCommand extends BaseDeployCommand
 {
-
 	/**
 	 * The console command name.
 	 *

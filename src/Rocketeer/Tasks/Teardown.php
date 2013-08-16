@@ -8,7 +8,6 @@ use Rocketeer\Traits\Task;
  */
 class Teardown extends Task
 {
-
 	 /**
 	 * A description of what the Task does
 	 *
@@ -30,6 +29,12 @@ class Teardown extends Task
 	 */
 	public function execute()
 	{
+		// Ask confirmation
+		$confirm = $this->command->confirm('This will remove all folders on the server, not just releases. Do you want to proceed ?');
+		if (!$confirm) {
+			return $this->command->info('Teardown aborted');
+		}
+
 		// Remove remote folders
 		$this->removeFolder();
 
@@ -37,5 +42,7 @@ class Teardown extends Task
 		$this->server->deleteRepository();
 
 		$this->command->info('The application was successfully removed from the remote servers');
+
+		return $this->history;
 	}
 }

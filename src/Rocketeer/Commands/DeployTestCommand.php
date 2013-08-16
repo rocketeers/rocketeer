@@ -6,7 +6,6 @@ namespace Rocketeer\Commands;
  */
 class DeployTestCommand extends BaseDeployCommand
 {
-
 	/**
 	 * The console command name.
 	 *

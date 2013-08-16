@@ -1,15 +1,14 @@
 <?php
 namespace Rocketeer\Tasks;
 
-use Rocketeer\Traits\Task;
 use Carbon\Carbon;
+use Rocketeer\Traits\Task;
 
 /**
  * Display what the current release is
  */
 class CurrentRelease extends Task
 {
-
 	 /**
 	 * A description of what the Task does
 	 *

@@ -5,9 +5,9 @@ use Illuminate\Support\Facades\Facade;
 use Rocketeer\RocketeerServiceProvider;
 
 /**
- * A Facade for the TasksQueue class
+ * Facade for Rocketeer's CLI
  */
-class Rocketeer extends Facade
+class Console extends Facade
 {
 	/**
 	 * Get the registered name of the component.
@@ -20,6 +20,6 @@ class Rocketeer extends Facade
 			static::$app = RocketeerServiceProvider::make();
 		}
 
-		return 'rocketeer.tasks';
+		return 'rocketeer.console';
 	}
 }

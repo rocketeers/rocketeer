@@ -31,10 +31,17 @@ class Server
 	 */
 	public function __construct(Container $app, $storage = null)
 	{
-		$storage = $storage ?: $app['path.storage'];
+		$this->app = $app;
 
-		$this->app        = $app;
-		$this->repository = $storage.DS.'meta'.DS.'deployments.json';
+		// Create personnal storage if necessary
+		if (!$app->bound('path.storage') and !$storage) {
+			$storage = __DIR__.DS.'..'.DS.'..'.DS.'storage';
+			@mkdir($storage);
+		}
+
+		// Get correct storage path
+		$storage = $storage ?: $app['path.storage'].DS.'meta';
+		$this->repository = $storage.DS.'deployments.json';
 	}
 
 	////////////////////////////////////////////////////////////////////

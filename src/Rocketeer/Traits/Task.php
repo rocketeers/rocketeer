@@ -8,7 +8,6 @@ use Rocketeer\Bash;
  */
 abstract class Task extends Bash
 {
-
 	/**
 	 * A description of what the Task does
 	 *
@@ -188,7 +187,7 @@ abstract class Task extends Bash
 	public function share($file)
 	{
 		// Get path to current file and shared file
-		$currentFile = $file;
+		$currentFile = $this->releasesManager->getCurrentReleasePath($file);
 		$sharedFile  = preg_replace('#releases/[0-9]+/#', 'shared/', $currentFile);
 
 		// If no instance of the shared file exists, use current one
@@ -210,17 +209,28 @@ abstract class Task extends Bash
 	 */
 	public function setPermissions($folder)
 	{
-		$folder = $this->releasesManager->getCurrentReleasePath().'/'.$folder;
+		// Get path to folder
+		$folder = $this->releasesManager->getCurrentReleasePath($folder);
 		$this->command->comment('Setting permissions for '.$folder);
-		$apache = $this->rocketeer->getOption('remote.apache');
 
-		$output  = $this->run(array(
-			'chmod -R 775 ' .$folder,
-			'chmod -R g+s ' .$folder,
-			sprintf('chown -R %s:%s %s', $apache['user'], $apache['group'], $folder),
-		));
+		// Get permissions options
+		$options = $this->rocketeer->getOption('remote.permissions');
+		$chmod   = array_get($options, 'permissions', 775);
+		$user    = array_get($options, 'apache.user');
+		$group   = array_get($options, 'apache.group');
 
-		return $output;
+		// Add chmod
+		$commands = array(
+			sprintf('chmod -R %s %s', $chmod, $folder),
+			sprintf('chmod -R g+s %s', $folder),
+		);
+
+		// And chown
+		if ($user and $group) {
+			$commands[] = sprintf('chown -R %s:%s %s', $user, $group, $folder);
+		}
+
+		return $this->runForCurrentRelease($commands);
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -247,9 +257,9 @@ abstract class Task extends Bash
 	 */
 	public function getComposer()
 	{
-		$composer = $this->which('composer');
-		if (!$composer and file_exists($this->app['path.base'].DS.'composer.phar')) {
-			$composer = 'php composer.phar';
+		$composer = $this->which('composer', $this->releasesManager->getCurrentReleasePath().'/composer.phar');
+		if (strpos($composer, 'composer.phar') !== false) {
+			$composer = 'php '.$composer;
 		}
 
 		return $composer;

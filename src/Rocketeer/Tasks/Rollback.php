@@ -8,7 +8,6 @@ use Rocketeer\Traits\Task;
  */
 class Rollback extends Task
 {
-
 	/**
 	 * Run the Task
 	 *
@@ -20,6 +19,8 @@ class Rollback extends Task
 
 		$this->command->info('Rolling back to release '.$rollbackRelease);
 		$this->updateSymlink($rollbackRelease);
+
+		return $this->history;
 	}
 
 	////////////////////////////////////////////////////////////////////

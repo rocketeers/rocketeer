@@ -8,7 +8,6 @@ use Illuminate\Container\Container;
  */
 class ReleasesManager
 {
-
 	/**
 	 * The IoC Container
 	 *
@@ -80,17 +79,23 @@ class ReleasesManager
 	 */
 	public function getPathToRelease($release)
 	{
-		return $this->getReleasesPath().'/'.$release;
+		return $this->app['rocketeer.rocketeer']->getFolder('releases/'.$release);
 	}
 
 	/**
 	 * Get the path to the current release
 	 *
+	 * @param string $folder A folder in the release
+	 *
 	 * @return string
 	 */
-	public function getCurrentReleasePath()
+	public function getCurrentReleasePath($folder = null)
 	{
-		return $this->getPathToRelease($this->getCurrentRelease());
+		if ($folder) {
+			$folder = '/'.$folder;
+		}
+
+		return $this->getPathToRelease($this->getCurrentRelease().$folder);
 	}
 
 	////////////////////////////////////////////////////////////////////

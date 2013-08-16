@@ -8,7 +8,6 @@ use Rocketeer\Traits\Task;
  */
 class Setup extends Task
 {
-
 	 /**
 	 * A description of what the Task does
 	 *
@@ -36,7 +35,9 @@ class Setup extends Task
 		}
 
 		// Remove existing installation
-		$this->executeTask('Teardown');
+		if ($this->isSetup()) {
+			$this->executeTask('Teardown');
+		}
 
 		// Create base folder
 		$this->createFolder();
@@ -53,8 +54,9 @@ class Setup extends Task
 		// Create confirmation message
 		$application = $this->rocketeer->getApplicationName();
 		$homeFolder  = $this->rocketeer->getHomeFolder();
+		$this->command->info(sprintf('Successfully setup "%s" at "%s"', $application, $homeFolder));
 
-		return $this->command->info(sprintf('Successfully setup "%s" at "%s"', $application, $homeFolder));
+		return $this->history;
 	}
 
 	////////////////////////////////////////////////////////////////////

@@ -1,17 +1,23 @@
 ### Changelog
 
-### 0.x.x (roadmap)
+### 0.7.0 (stable)
 
-- Ability to select which severs a Task executes on, on a per-task basis
+- **Rocketeer can now work outside of Laravel**
+- **Better handling of SSH keys**
+- Permissions are now entirely configurable
+- Rocketeer now prompts for confirmation before executing the Teardown task
+- Allow the use of patterns in shared folders
+- Share `sessions` folder by default
+- Rocketeer now prompts for binaries it can't find (composer, phpunit, etc)
 
-### 0.6.5 (develop)
+### 0.6.5
 
-**- Make Rocketeer prompt for both server and SCM credentials if they're not stored**
-**- `artisan deploy` now deploys the project if the `--version` flat is not passed**
+- **Make Rocketeer prompt for both server and SCM credentials if they're not stored**
+- **`artisan deploy` now deploys the project if the `--version` flat is not passed**
 - Make Rocketeer forget invalid credentials provided by prompt
 - Fix a bug where incorrect SCM urls would be generated
 
-### 0.6.4 (stable)
+### 0.6.4
 
 - Make the output of commands in realtime when `--verbose` instead of when the command is done
 - Fix a bug where custom Task classes would be analyzed as string commands

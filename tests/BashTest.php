@@ -1,15 +1,35 @@
 <?php
 class BashTest extends RocketeerTests
 {
-	public function testCanGetBinaryWithFallback()
+	public function testCanSetCustomPathsForBinaries()
 	{
+		$this->app['rocketeer.server']->setValue('paths.composer', 'foobar');
+
+		$this->assertEquals('foobar', $this->task->which('composer'));
+	}
+
+	public function testCanGetBinary()
+	{
+		$whichGrep = exec('which grep');
 		$grep = $this->task->which('grep');
-		$this->assertTrue(in_array($grep, array('/bin/grep', '/usr/bin/grep')));
 
-		$grep = $this->task->which('grsdg', '/usr/bin/grep');
-		$this->assertEquals('/usr/bin/grep', $grep);
+		$this->assertEquals($whichGrep, $grep);
+	}
 
+	public function testCanGetFallbackForBinary()
+	{
+		$whichGrep = exec('which grep');
+		$grep = $this->task->which('foobar', $whichGrep);
+
+		$this->assertEquals($whichGrep, $grep);
 		$this->assertFalse($this->task->which('fdsf'));
+	}
+
+	public function testCanGetArraysFromRawCommands()
+	{
+		$contents = $this->task->runRaw('ls', true);
+
+		$this->assertCount(12, $contents);
 	}
 
 	public function testCanListContentsOfAFolder()
@@ -55,5 +75,29 @@ class BashTest extends RocketeerTests
 
 		$task->cloneRepository($this->server.'/test');
 		$this->assertNull($this->app['rocketeer.server']->getValue('credentials'));
+	}
+
+	public function testCancelsSymlinkForUnexistingFolders()
+	{
+		$task    = $this->pretendTask();
+		$folder  = '{path.storage}/logs';
+		$share   = $task->share($folder);
+
+		$this->assertFalse($share);
+	}
+
+	public function testCanSymlinkFolders()
+	{
+		// Create dummy file
+		$folder = $this->server.'/releases/20000000000000/src';
+		mkdir($folder);
+		file_put_contents($folder.'/foobar.txt', 'test');
+
+		$task    = $this->pretendTask();
+		$folder  = '{path.base}/foobar.txt';
+		$share   = $task->share($folder);
+		$matcher = sprintf('ln -s %s %s', $this->server.'/shared//src/foobar.txt', $this->server.'/releases/20000000000000//src/foobar.txt');
+
+		$this->assertEquals($matcher, $share);
 	}
 }

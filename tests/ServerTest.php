@@ -7,6 +7,19 @@ class ServerTest extends RocketeerTests
 	//////////////////////////////// TESTS /////////////////////////////
 	////////////////////////////////////////////////////////////////////
 
+	public function testCanCreateDeploymentsFileAnywhere()
+	{
+		$this->app['path.storage'] = null;
+		$this->app->offsetUnset('path.storage');
+
+		new Rocketeer\Server($this->app);
+
+		$storage = __DIR__.'/../storage';
+		$exists = file_exists($storage);
+		$this->app['files']->deleteDirectory($storage);
+		$this->assertTrue($exists);
+	}
+
 	public function testCanGetValueFromDeploymentsFile()
 	{
 		$this->assertEquals('bar', $this->app['rocketeer.server']->getValue('foo'));

@@ -10,7 +10,6 @@ use Illuminate\Support\Str;
  */
 class Rocketeer
 {
-
 	/**
 	 * The IoC Container
 	 *
@@ -30,7 +29,7 @@ class Rocketeer
 	 *
 	 * @var string
 	 */
-	const VERSION = '0.6.5';
+	const VERSION = '0.7.0';
 
 	/**
 	 * Build a new ReleasesManager
@@ -101,9 +100,7 @@ class Rocketeer
 	 */
 	public function needsCredentials()
 	{
-		$repository = array_get($this->getCredentials(), 'repository');
-
-		return Str::contains($repository, 'https://');
+		return Str::contains($this->getRepository(), 'https://');
 	}
 
 	/**
@@ -129,25 +126,6 @@ class Rocketeer
 	public function getApplicationName()
 	{
 		return $this->getOption('remote.application_name');
-	}
-
-	/**
-	 * Get an array of folders and files to share between releases
-	 *
-	 * @return array
-	 */
-	public function getShared()
-	{
-		// Get path to logs
-		$base = $this->app['path.base'];
-		$logs = $this->app['path.storage'].DS.'logs';
-		$logs = str_replace($base, null, $logs);
-
-		// Add logs to shared folders
-		$shared = (array) $this->getOption('remote.shared');
-		$shared[] = trim($logs, '/');
-
-		return $shared;
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -219,6 +197,29 @@ class Rocketeer
 	////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Replace patterns in a folder path
+	 *
+	 * @param  string $path
+	 *
+	 * @return string
+	 */
+	public function replacePatterns($path)
+	{
+		$app = $this->app;
+
+		// Replace folder patterns
+		return preg_replace_callback('/\{[a-z\.]+\}/', function ($match) use ($app) {
+			$folder = substr($match[0], 1, -1);
+
+			if (isset($app[$folder])) {
+				return str_replace($app['path.base'].'/', null, $app->make($folder));
+			}
+
+			return false;
+		}, $path);
+	}
+
+	/**
 	 * Get the path to a folder, taking into account application name and stage
 	 *
 	 * @param  string $folder
@@ -227,6 +228,8 @@ class Rocketeer
 	 */
 	public function getFolder($folder = null)
 	{
+		$folder = $this->replacePatterns($folder);
+
 		$base = $this->getHomeFolder().'/';
 		if ($folder and $this->stage) {
 			$base .= $this->stage.'/';

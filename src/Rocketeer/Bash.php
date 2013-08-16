@@ -16,7 +16,6 @@ use Illuminate\Support\Str;
  */
 class Bash
 {
-
 	/**
 	 * The IoC Container
 	 *
@@ -30,6 +29,13 @@ class Bash
 	 * @var Command
 	 */
 	public $command;
+
+	/**
+	 * An history of executed commands
+	 *
+	 * @var array
+	 */
+	protected $history;
 
 	/**
 	 * Build a new Task
@@ -93,7 +99,6 @@ class Bash
 	 */
 	public function run($commands, $silent = false, $array = false)
 	{
-		$me       = $this;
 		$output   = null;
 		$commands = $this->processCommands($commands);
 		$verbose  = $this->getOption('verbose') and !$silent;
@@ -102,16 +107,18 @@ class Bash
 		if ($this->getOption('pretend') and !$silent) {
 			$this->command->line(implode(PHP_EOL, $commands));
 			$commands = (sizeof($commands) == 1) ? $commands[0] : $commands;
+			$this->history[] = $commands;
 
 			return $commands;
 		}
 
 		// Run commands
-		$this->remote->run($commands, function ($results) use (&$output, $verbose, $me) {
+		$bash = $this;
+		$this->remote->run($commands, function ($results) use (&$output, $verbose, $bash) {
 			$output .= $results;
 
 			if ($verbose) {
-				$me->remote->display(trim($results));
+				$bash->remote->display(trim($results));
 			}
 		});
 
@@ -124,6 +131,9 @@ class Bash
 		$output = is_array($output)
 			? array_filter($output)
 			: trim($output);
+
+		// Append output
+		$this->history[] = $output;
 
 		return $output;
 	}
@@ -186,16 +196,34 @@ class Bash
 	 */
 	public function which($binary, $fallback = null)
 	{
-		$location = $this->run('which '.$binary, true);
-		if (!$location or $location == $binary. ' not found') {
-			if (!is_null($fallback) and $this->run('which ' .$fallback, true) != $fallback. ' not found') {
-				return $fallback;
-			}
-
-			return false;
+		// Get custom path if any was set
+		$custom = 'paths.'.$binary;
+		if ($location = $this->server->getValue($custom)) {
+			return $location;
 		}
 
-		return $location;
+		// Else ask the server where the binary is
+		$location = $this->run('which '.$binary, true);
+		if ($location and $this->fileExists($location)) {
+			return $location;
+		}
+
+		// Else use the fallback path
+		if ($fallback) {
+			$location = $this->run('which '.$fallback, true);
+			if ($location and $this->fileExists($location)) {
+				return $location;
+			}
+		}
+
+		// Else prompt the User for the actual path
+		$location = $this->command->ask($binary. ' could not be found, please enter the path to it');
+		if ($location) {
+			$this->server->setValue($custom, $location);
+			return $location;
+		}
+
+		return false;
 	}
 
 	/**
@@ -232,15 +260,23 @@ class Bash
 	/**
 	 * Symlinks two folders
 	 *
-	 * @param  string $folder   The original folder
+	 * @param  string $folder   The folder in shared/
 	 * @param  string $symlink  The folder that will symlink to it
 	 *
 	 * @return string
 	 */
 	public function symlink($folder, $symlink)
 	{
-		// Remove existing folder or file if existing
-		$this->run('rm -rf '.$symlink);
+		if (!$this->fileExists($folder)) {
+			if (!$this->fileExists($symlink)) {
+				return false;
+			}
+
+			$this->move($symlink, $folder);
+		}
+
+		// Remove existing symlink
+		$this->removeFolder($symlink);
 
 		return $this->run(sprintf('ln -s %s %s', $folder, $symlink));
 	}
@@ -248,19 +284,19 @@ class Bash
 	/**
 	 * Move a file
 	 *
-	 * @param  string $from
-	 * @param  string $to
+	 * @param  string $origin
+	 * @param  string $destination
 	 *
 	 * @return string
 	 */
-	public function move($from, $to)
+	public function move($origin, $destination)
 	{
-		$folder = dirname($to);
+		$folder = dirname($destination);
 		if (!$this->fileExists($folder)) {
 			$this->createFolder($folder, true);
 		}
 
-		return $this->run(sprintf('mv %s %s', $from, $to));
+		return $this->run(sprintf('mv %s %s', $origin, $destination));
 	}
 
 	/**

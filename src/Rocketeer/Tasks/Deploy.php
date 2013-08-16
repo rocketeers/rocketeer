@@ -8,7 +8,6 @@ use Rocketeer\Traits\Task;
  */
 class Deploy extends Task
 {
-
 	/**
 	 * Run the Task
 	 *
@@ -58,7 +57,9 @@ class Deploy extends Task
 		// Update symlink
 		$this->updateSymlink();
 
-		return $this->command->info('Successfully deployed release '.$release);
+		$this->command->info('Successfully deployed release '.$release);
+
+		return $this->history;
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -84,9 +85,9 @@ class Deploy extends Task
 	 */
 	protected function syncSharedFolders()
 	{
-		$currentRelease = $this->releasesManager->getCurrentReleasePath();
-		foreach ($this->rocketeer->getShared() as $file) {
-			$this->share($currentRelease.'/'.$file);
+		$shared = (array) $this->rocketeer->getOption('remote.shared');
+		foreach ($shared as $file) {
+			$this->share($file);
 		}
 	}
 
@@ -97,13 +98,9 @@ class Deploy extends Task
 	 */
 	protected function setApplicationPermissions()
 	{
-		$base    = $this->app['path.base'].DS;
-		$app     = str_replace($base, null, $this->app['path']);
-		$storage = str_replace($base, null, $this->app['path.storage']);
-		$public  = str_replace($base, null, $this->app['path.public']);
-
-		$this->setPermissions($app.'/database/production.sqlite');
-		$this->setPermissions($storage);
-		$this->setPermissions($public);
+		$files = (array) $this->rocketeer->getOption('remote.permissions.files');
+		foreach ($files as $file) {
+			$this->setPermissions($file);
+		}
 	}
 }

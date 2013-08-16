@@ -18,14 +18,15 @@
 		'scm' => 'git',
 
 		// The SSH/HTTPS adress to your repository
-		'repository' => 'https://github.com/vendor/website.git',
+		// Example: https://github.com/vendor/website.git
+		'repository' => '',
 
 		// The repository credentials : you can leave those empty
 		// if you're using SSH or if your repository is public
 		// In other cases you can leave this empty too, and you will
 		// be prompted for the credentials on deploy
-		'username'   => 'foo',
-		'password'   => 'bar',
+		'username'   => '',
+		'password'   => '',
 
 		// The branch to deploy
 		'branch'     => 'master',
@@ -66,13 +67,32 @@
 		// A list of folders/file to be shared between releases
 		// Use this to list folders that need to keep their state, like
 		// user uploaded data, file-based databases, etc.
-		'shared' => array(),
+		'shared' => array(
+			'{path.storage}/logs',
+			'{path.storage}/sessions',
+		),
 
-		// The Apache user and group
-		// This is used for setting folders as web-writable
-		'apache' => array(
-			'user'  => 'www-data',
-			'group' => 'www-data',
+		'permissions' => array(
+
+			// The permissions to CHMOD folders to
+			'permissions' => 755,
+
+			// The folders and files to set as web writable
+			// You can pass paths in brackets, so {path.public} will return
+			// the correct path to the public folder
+			'files' => array(
+				'app/database/production.sqlite',
+				'{path.storage}',
+				'{path.public}',
+			),
+
+			// The Apache user and group to CHOWN folders to
+			// Leave empty to leave the above folders untouched
+			'apache' => array(
+				'user'  => 'www-data',
+				'group' => 'www-data',
+			),
+
 		),
 	),
 
@@ -104,8 +124,8 @@
 			'cleanup' => array(),
 		),
 
-    // Custom Tasks to register with Rocketeer
-    'custom' => array(),
+		// Custom Tasks to register with Rocketeer
+		'custom' => array(),
 	),
 
 );

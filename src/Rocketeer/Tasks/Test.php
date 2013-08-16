@@ -24,6 +24,7 @@ class Test extends Task
 	{
 		// Update repository
 		$this->command->info('Testing the application');
-		$this->runTests();
+
+		return $this->runTests();
 	}
 }

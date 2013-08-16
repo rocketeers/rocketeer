@@ -8,7 +8,6 @@ use Rocketeer\Traits\Task;
  */
 class Check extends Task
 {
-
 	/**
 	 * The PHP extensions loaded on server
 	 *
