@@ -119,6 +119,10 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 			$this->app['files']->makeDirectory($folder, 0777, true);
 			file_put_contents($folder.'/.gitkeep', '');
 		}
+
+		// Delete rocketeer binary
+		$binary = __DIR__.'/../rocketeer.php';
+		$this->app['files']->delete($binary);
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -156,8 +160,14 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 	 *
 	 * @return Task
 	 */
-	protected function task($task = null)
+	protected function task($task = null, $command = null)
 	{
+		if ($command) {
+			$this->app->singleton('rocketeer.tasks', function ($app) use ($command) {
+				return new Rocketeer\TasksQueue($app, $command);
+			});
+		}
+
 		if (!$task) {
 			return $this->task;
 		}
