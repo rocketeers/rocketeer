@@ -1,6 +1,6 @@
 ### Changelog
 
-### 0.7.0 (develop)
+### 0.7.0 (stable)
 
 - **Rocketeer can now work outside of Laravel**
 - **Better handling of SSH keys**
@@ -10,7 +10,7 @@
 - Share `sessions` folder by default
 - Rocketeer now prompts for binaries it can't find (composer, phpunit, etc)
 
-### 0.6.5 (stable)
+### 0.6.5
 
 - **Make Rocketeer prompt for both server and SCM credentials if they're not stored**
 - **`artisan deploy` now deploys the project if the `--version` flat is not passed**
