@@ -352,12 +352,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/padraic/mockery.git",
-                "reference": "f0e835aebf28d7323efefffb31b9a6df27427f29"
+                "reference": "9d2460275665f4506d359f4e2037705d07833173"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/padraic/mockery/zipball/f0e835aebf28d7323efefffb31b9a6df27427f29",
-                "reference": "f0e835aebf28d7323efefffb31b9a6df27427f29",
+                "url": "https://api.github.com/repos/padraic/mockery/zipball/9d2460275665f4506d359f4e2037705d07833173",
+                "reference": "9d2460275665f4506d359f4e2037705d07833173",
                 "shasum": ""
             },
             "require": {
@@ -398,7 +398,7 @@
                 "test double",
                 "testing"
             ],
-            "time": "2013-08-07 21:50:22"
+            "time": "2013-08-16 09:45:12"
         },
         {
             "name": "nesbot/carbon",
@@ -449,12 +449,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nicolas-grekas/Patchwork-UTF8.git",
-                "reference": "129a9daa3b1cc5e35d83a0a817328197a5a9e20c"
+                "reference": "6c820a6fa0b4464a3d1ea0514937aae46f2e701c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nicolas-grekas/Patchwork-UTF8/zipball/129a9daa3b1cc5e35d83a0a817328197a5a9e20c",
-                "reference": "129a9daa3b1cc5e35d83a0a817328197a5a9e20c",
+                "url": "https://api.github.com/repos/nicolas-grekas/Patchwork-UTF8/zipball/6c820a6fa0b4464a3d1ea0514937aae46f2e701c",
+                "reference": "6c820a6fa0b4464a3d1ea0514937aae46f2e701c",
                 "shasum": ""
             },
             "require": {
@@ -486,7 +486,7 @@
                 "utf-8",
                 "utf8"
             ],
-            "time": "2013-08-14 15:56:59"
+            "time": "2013-08-16 08:38:10"
         }
     ],
     "aliases": [

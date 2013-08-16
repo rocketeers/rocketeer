@@ -8,6 +8,13 @@ use Rocketeer\Traits\Task;
  */
 class Ignite extends Task
 {
+	 /**
+	 * A description of what the Task does
+	 *
+	 * @var string
+	 */
+	protected $description = "Creates Rocketeer's configuration";
+
 	/**
 	 * Execute ignite
 	 *
