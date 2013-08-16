@@ -31,6 +31,13 @@ class Bash
 	public $command;
 
 	/**
+	 * An history of executed commands
+	 *
+	 * @var array
+	 */
+	protected $history;
+
+	/**
 	 * Build a new Task
 	 *
 	 * @param Container    $app
@@ -100,6 +107,7 @@ class Bash
 		if ($this->getOption('pretend') and !$silent) {
 			$this->command->line(implode(PHP_EOL, $commands));
 			$commands = (sizeof($commands) == 1) ? $commands[0] : $commands;
+			$this->history[] = $commands;
 
 			return $commands;
 		}
@@ -123,6 +131,9 @@ class Bash
 		$output = is_array($output)
 			? array_filter($output)
 			: trim($output);
+
+		// Append output
+		$this->history[] = $output;
 
 		return $output;
 	}

@@ -35,5 +35,7 @@ class Ignite extends Task
 		// Display info
 		$folder = basename(dirname($root)).'/'.basename($root);
 		$this->command->line('<comment>The Rocketeer configuration was created at</comment> <info>'.$folder.'</info>');
+
+		return $this->history;
 	}
 }

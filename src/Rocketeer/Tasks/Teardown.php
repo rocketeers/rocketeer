@@ -32,7 +32,7 @@ class Teardown extends Task
 		// Ask confirmation
 		$confirm = $this->command->confirm('This will remove all folders on the server, not just releases. Do you want to proceed ?');
 		if (!$confirm) {
-			return $this->command->info('Teardown aborted');;
+			return $this->command->info('Teardown aborted');
 		}
 
 		// Remove remote folders
@@ -42,5 +42,7 @@ class Teardown extends Task
 		$this->server->deleteRepository();
 
 		$this->command->info('The application was successfully removed from the remote servers');
+
+		return $this->history;
 	}
 }

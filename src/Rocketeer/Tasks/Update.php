@@ -40,5 +40,7 @@ class Update extends Deploy
 		$this->runForCurrentRelease('php artisan cache:clear');
 
 		$this->command->info('Successfully updated application');
+
+		return $this->history;
 	}
 }

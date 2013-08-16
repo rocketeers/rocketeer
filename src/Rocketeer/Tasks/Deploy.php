@@ -57,7 +57,9 @@ class Deploy extends Task
 		// Update symlink
 		$this->updateSymlink();
 
-		return $this->command->info('Successfully deployed release '.$release);
+		$this->command->info('Successfully deployed release '.$release);
+
+		return $this->history;
 	}
 
 	////////////////////////////////////////////////////////////////////

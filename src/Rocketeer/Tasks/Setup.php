@@ -54,8 +54,9 @@ class Setup extends Task
 		// Create confirmation message
 		$application = $this->rocketeer->getApplicationName();
 		$homeFolder  = $this->rocketeer->getHomeFolder();
+		$this->command->info(sprintf('Successfully setup "%s" at "%s"', $application, $homeFolder));
 
-		return $this->command->info(sprintf('Successfully setup "%s" at "%s"', $application, $homeFolder));
+		return $this->history;
 	}
 
 	////////////////////////////////////////////////////////////////////
