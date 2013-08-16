@@ -143,7 +143,7 @@ class TasksQueueTest extends RocketeerTests
 
 	public function testCanRunQueue()
 	{
-    $this->expectOutputString('JOEY DOESNT SHARE FOOD');
+		$this->expectOutputString('JOEY DOESNT SHARE FOOD');
 		$this->tasksQueue()->run(array(
 			function ($task) {
 				print 'JOEY DOESNT SHARE FOOD';

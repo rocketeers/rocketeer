@@ -19,13 +19,6 @@ if (!defined('DS')) {
 class RocketeerServiceProvider extends ServiceProvider
 {
 	/**
-	 * Indicates if loading of the provider is deferred.
-	 *
-	 * @var bool
-	 */
-	protected $defer = false;
-
-	/**
 	 * The commands to register
 	 *
 	 * @var array
@@ -98,17 +91,17 @@ class RocketeerServiceProvider extends ServiceProvider
 	 */
 	public function bindCoreClasses(Container $app)
 	{
-    $app->bindIf('files', 'Illuminate\Filesystem\Filesystem');
+		$app->bindIf('files', 'Illuminate\Filesystem\Filesystem');
 
-    $app->bindIf('request', function ($app) {
-      return Request::createFromGlobals();
-    }, true);
+		$app->bindIf('request', function ($app) {
+			return Request::createFromGlobals();
+		}, true);
 
-    $app->bindIf('config', function ($app) {
+		$app->bindIf('config', function ($app) {
 			$fileloader = new FileLoader($app['files'], __DIR__.'/../config');
 
 			return new Repository($fileloader, 'config');
-    }, true);
+		}, true);
 
 		$app->bindIf('remote', function($app) {
 			return new RemoteManager($app);
@@ -117,7 +110,7 @@ class RocketeerServiceProvider extends ServiceProvider
 		// Register factory and custom configurations
 		$app = $this->registerConfig($app);
 
-    return $app;
+		return $app;
 	}
 
 	/**
@@ -270,7 +263,7 @@ class RocketeerServiceProvider extends ServiceProvider
 			$app['path.base'] = $base[0];
 		}
 
-    // Register config file
+		// Register config file
 		$app['config']->package('anahkiasen/rocketeer', __DIR__.'/../config');
 
 		// Register custom config
