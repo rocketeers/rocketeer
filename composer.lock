@@ -46,9 +46,7 @@
             "authors": [
                 {
                     "name": "Taylor Otwell",
-                    "email": "taylorotwell@gmail.com",
-                    "homepage": "https://github.com/taylorotwell",
-                    "role": "Developer"
+                    "email": "taylorotwell@gmail.com"
                 }
             ],
             "time": "2013-08-10 17:47:18"
@@ -92,9 +90,7 @@
             "authors": [
                 {
                     "name": "Taylor Otwell",
-                    "email": "taylorotwell@gmail.com",
-                    "homepage": "https://github.com/taylorotwell",
-                    "role": "Developer"
+                    "email": "taylorotwell@gmail.com"
                 }
             ],
             "time": "2013-07-19 10:47:48"
@@ -138,9 +134,7 @@
             "authors": [
                 {
                     "name": "Taylor Otwell",
-                    "email": "taylorotwell@gmail.com",
-                    "homepage": "https://github.com/taylorotwell",
-                    "role": "Developer"
+                    "email": "taylorotwell@gmail.com"
                 }
             ],
             "time": "2013-07-31 15:34:38"
@@ -186,9 +180,7 @@
             "authors": [
                 {
                     "name": "Taylor Otwell",
-                    "email": "taylorotwell@gmail.com",
-                    "homepage": "https://github.com/taylorotwell",
-                    "role": "Developer"
+                    "email": "taylorotwell@gmail.com"
                 }
             ],
             "time": "2013-07-02 17:46:50"
@@ -237,9 +229,7 @@
             "authors": [
                 {
                     "name": "Taylor Otwell",
-                    "email": "taylorotwell@gmail.com",
-                    "homepage": "https://github.com/taylorotwell",
-                    "role": "Developer"
+                    "email": "taylorotwell@gmail.com"
                 }
             ],
             "time": "2013-08-05 13:28:56"
@@ -251,12 +241,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "v2.3.3"
+                "reference": "db78f8ff7fc9e28d25ff9a0bf6ddf9f0e35fbbe3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/v2.3.3",
-                "reference": "v2.3.3",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/db78f8ff7fc9e28d25ff9a0bf6ddf9f0e35fbbe3",
+                "reference": "db78f8ff7fc9e28d25ff9a0bf6ddf9f0e35fbbe3",
                 "shasum": ""
             },
             "require": {
@@ -295,7 +285,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com",
-            "time": "2013-07-21 12:12:18"
+            "time": "2013-08-17 16:34:49"
         },
         {
             "name": "symfony/finder",

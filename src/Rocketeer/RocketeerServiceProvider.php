@@ -258,9 +258,8 @@ class RocketeerServiceProvider extends ServiceProvider
 	protected function registerConfig(Container $app)
 	{
 		// Register paths
-		if (!isset($app['path.base'])) {
-			$base = explode('/vendor', __DIR__);
-			$app['path.base'] = $base[0];
+		if (!$app->bound('path.base')) {
+			$app['path.base'] = realpath(__DIR__.'/../../../');
 		}
 
 		// Register config file
