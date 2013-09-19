@@ -102,12 +102,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/container.git",
-                "reference": "b9ecfb12b5d45f06e6eb0c9db82fcde6cb5c705e"
+                "reference": "0d827306eebba40483c185b56f9996fd0b9e842c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/container/zipball/b9ecfb12b5d45f06e6eb0c9db82fcde6cb5c705e",
-                "reference": "b9ecfb12b5d45f06e6eb0c9db82fcde6cb5c705e",
+                "url": "https://api.github.com/repos/illuminate/container/zipball/0d827306eebba40483c185b56f9996fd0b9e842c",
+                "reference": "0d827306eebba40483c185b56f9996fd0b9e842c",
                 "shasum": ""
             },
             "require": {
@@ -134,10 +134,12 @@
             "authors": [
                 {
                     "name": "Taylor Otwell",
-                    "email": "taylorotwell@gmail.com"
+                    "email": "taylorotwell@gmail.com",
+                    "homepage": "https://github.com/taylorotwell",
+                    "role": "Developer"
                 }
             ],
-            "time": "2013-07-31 15:34:38"
+            "time": "2013-08-26 18:53:15"
         },
         {
             "name": "illuminate/filesystem",
@@ -192,12 +194,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "9507e57aa5b237993e2bdb82d8534fc89d5dac6c"
+                "reference": "9e61ed7335f457521b888fd405f16eda6f7caf02"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/9507e57aa5b237993e2bdb82d8534fc89d5dac6c",
-                "reference": "9507e57aa5b237993e2bdb82d8534fc89d5dac6c",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/9e61ed7335f457521b888fd405f16eda6f7caf02",
+                "reference": "9e61ed7335f457521b888fd405f16eda6f7caf02",
                 "shasum": ""
             },
             "require": {
@@ -229,10 +231,12 @@
             "authors": [
                 {
                     "name": "Taylor Otwell",
-                    "email": "taylorotwell@gmail.com"
+                    "email": "taylorotwell@gmail.com",
+                    "homepage": "https://github.com/taylorotwell",
+                    "role": "Developer"
                 }
             ],
-            "time": "2013-08-05 13:28:56"
+            "time": "2013-09-06 05:21:45"
         },
         {
             "name": "symfony/console",
@@ -241,12 +245,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "db78f8ff7fc9e28d25ff9a0bf6ddf9f0e35fbbe3"
+                "reference": "aba4731bf8dafa21b7c4a59bd69c62f73c0a6dcf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/db78f8ff7fc9e28d25ff9a0bf6ddf9f0e35fbbe3",
-                "reference": "db78f8ff7fc9e28d25ff9a0bf6ddf9f0e35fbbe3",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/aba4731bf8dafa21b7c4a59bd69c62f73c0a6dcf",
+                "reference": "aba4731bf8dafa21b7c4a59bd69c62f73c0a6dcf",
                 "shasum": ""
             },
             "require": {
@@ -285,7 +289,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com",
-            "time": "2013-08-17 16:34:49"
+            "time": "2013-09-18 07:03:56"
         },
         {
             "name": "symfony/finder",
@@ -342,12 +346,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/padraic/mockery.git",
-                "reference": "9d2460275665f4506d359f4e2037705d07833173"
+                "reference": "b6fe71cbc1909927b5574219ff6d50e3b264abdb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/padraic/mockery/zipball/9d2460275665f4506d359f4e2037705d07833173",
-                "reference": "9d2460275665f4506d359f4e2037705d07833173",
+                "url": "https://api.github.com/repos/padraic/mockery/zipball/b6fe71cbc1909927b5574219ff6d50e3b264abdb",
+                "reference": "b6fe71cbc1909927b5574219ff6d50e3b264abdb",
                 "shasum": ""
             },
             "require": {
@@ -388,7 +392,7 @@
                 "test double",
                 "testing"
             ],
-            "time": "2013-08-16 09:45:12"
+            "time": "2013-08-21 19:34:19"
         },
         {
             "name": "nesbot/carbon",
@@ -396,12 +400,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "bfabf7c397090f594bf9ae01c7df5d5c9e045c76"
+                "reference": "06f0b8a99a90c5392ceccb09b75b74ff6c08ec07"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/bfabf7c397090f594bf9ae01c7df5d5c9e045c76",
-                "reference": "bfabf7c397090f594bf9ae01c7df5d5c9e045c76",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/06f0b8a99a90c5392ceccb09b75b74ff6c08ec07",
+                "reference": "06f0b8a99a90c5392ceccb09b75b74ff6c08ec07",
                 "shasum": ""
             },
             "require": {
@@ -431,7 +435,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2013-08-09 04:19:56"
+            "time": "2013-09-09 02:39:19"
         },
         {
             "name": "patchwork/utf8",
@@ -439,16 +443,22 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nicolas-grekas/Patchwork-UTF8.git",
-                "reference": "6c820a6fa0b4464a3d1ea0514937aae46f2e701c"
+                "reference": "e4bd68ca375d854615613e6b77003e08c1744c54"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nicolas-grekas/Patchwork-UTF8/zipball/6c820a6fa0b4464a3d1ea0514937aae46f2e701c",
-                "reference": "6c820a6fa0b4464a3d1ea0514937aae46f2e701c",
+                "url": "https://api.github.com/repos/nicolas-grekas/Patchwork-UTF8/zipball/e4bd68ca375d854615613e6b77003e08c1744c54",
+                "reference": "e4bd68ca375d854615613e6b77003e08c1744c54",
                 "shasum": ""
             },
             "require": {
+                "lib-pcre": "*",
                 "php": ">=5.3.0"
+            },
+            "suggest": {
+                "ext-mbstring": "Use Mbstring for best performance",
+                "lib-iconv": "Use iconv for best performance",
+                "lib-icu": "Use Intl for best performance"
             },
             "type": "library",
             "autoload": {
@@ -476,7 +486,7 @@
                 "utf-8",
                 "utf8"
             ],
-            "time": "2013-08-16 08:38:10"
+            "time": "2013-09-05 12:11:48"
         }
     ],
     "aliases": [

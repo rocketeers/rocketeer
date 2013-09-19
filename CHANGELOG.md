@@ -1,5 +1,9 @@
 ### Changelog
 
+### 0.7.1 (develop)
+
+- Added `deploy:flush` to clear Rocketeer's cache of credentials
+
 ### 0.7.0 (stable)
 
 - **Rocketeer can now work outside of Laravel**

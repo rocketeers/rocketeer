@@ -183,16 +183,17 @@ class RocketeerServiceProvider extends ServiceProvider
 		// Base commands
 		$tasks = array(
 			''         => '',
-			'ignite'   => 'Ignite',
 			'check'    => 'Check',
-			'setup'    => 'Setup',
-			'deploy'   => 'Deploy',
-			'update'   => 'Update',
-			'rollback' => 'Rollback',
 			'cleanup'  => 'Cleanup',
 			'current'  => 'CurrentRelease',
-			'test'     => 'Test',
+			'deploy'   => 'Deploy',
+			'flush'    => 'Flush',
+			'ignite'   => 'Ignite',
+			'rollback' => 'Rollback',
+			'setup'    => 'Setup',
 			'teardown' => 'Teardown',
+			'test'     => 'Test',
+			'update'   => 'Update',
 		);
 
 		// Add User commands
