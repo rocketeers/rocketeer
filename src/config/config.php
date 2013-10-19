@@ -75,6 +75,7 @@
 		'permissions' => array(
 
 			// The permissions to CHMOD folders to
+			// Change to null to leave the folders untouched
 			'permissions' => 755,
 
 			// The folders and files to set as web writable
