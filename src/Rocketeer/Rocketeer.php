@@ -3,7 +3,6 @@ namespace Rocketeer;
 
 use Illuminate\Container\Container;
 use Illuminate\Support\Str;
-use \ReflectionException;
 
 /**
  * Handles interaction between the User provided informations
@@ -212,12 +211,7 @@ class Rocketeer
 		return preg_replace_callback('/\{[a-z\.]+\}/', function ($match) use ($app) {
 			$folder = substr($match[0], 1, -1);
 
-			try {
-				$app_folder = $app[$folder];
-			} catch(\ReflectionException $e) {
-				return false;
-			}
-			if (isset($app_folder)) {
+			if ($app->bound($folder)) {
 				return str_replace($app['path.base'].'/', null, $app->make($folder));
 			}
 

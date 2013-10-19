@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/config.git",
-                "reference": "70e05b02ed6f1ff0df447a0da0a2421cf95f6fce"
+                "reference": "a48873b5e777ea09777291b02cb498032924844e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/config/zipball/70e05b02ed6f1ff0df447a0da0a2421cf95f6fce",
-                "reference": "70e05b02ed6f1ff0df447a0da0a2421cf95f6fce",
+                "url": "https://api.github.com/repos/illuminate/config/zipball/a48873b5e777ea09777291b02cb498032924844e",
+                "reference": "a48873b5e777ea09777291b02cb498032924844e",
                 "shasum": ""
             },
             "require": {
@@ -46,10 +46,12 @@
             "authors": [
                 {
                     "name": "Taylor Otwell",
-                    "email": "taylorotwell@gmail.com"
+                    "email": "taylorotwell@gmail.com",
+                    "homepage": "https://github.com/taylorotwell",
+                    "role": "Developer"
                 }
             ],
-            "time": "2013-08-10 17:47:18"
+            "time": "2013-10-01 15:20:00"
         },
         {
             "name": "illuminate/console",
@@ -58,16 +60,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/console.git",
-                "reference": "cffaa6e6414828fb7a0a742b5f7e9d0f789e24ae"
+                "reference": "0b4badcd1aecdb623d3e435d1c6d8797e772e233"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/console/zipball/cffaa6e6414828fb7a0a742b5f7e9d0f789e24ae",
-                "reference": "cffaa6e6414828fb7a0a742b5f7e9d0f789e24ae",
+                "url": "https://api.github.com/repos/illuminate/console/zipball/0b4badcd1aecdb623d3e435d1c6d8797e772e233",
+                "reference": "0b4badcd1aecdb623d3e435d1c6d8797e772e233",
                 "shasum": ""
             },
             "require": {
-                "symfony/console": "2.3.*"
+                "symfony/console": "2.4.*"
             },
             "require-dev": {
                 "phpunit/phpunit": "3.7.*"
@@ -90,10 +92,12 @@
             "authors": [
                 {
                     "name": "Taylor Otwell",
-                    "email": "taylorotwell@gmail.com"
+                    "email": "taylorotwell@gmail.com",
+                    "homepage": "https://github.com/taylorotwell",
+                    "role": "Developer"
                 }
             ],
-            "time": "2013-07-19 10:47:48"
+            "time": "2013-10-08 21:46:57"
         },
         {
             "name": "illuminate/container",
@@ -102,12 +106,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/container.git",
-                "reference": "0d827306eebba40483c185b56f9996fd0b9e842c"
+                "reference": "1444907a30937bf4b7a910489160ba4576f3afa9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/container/zipball/0d827306eebba40483c185b56f9996fd0b9e842c",
-                "reference": "0d827306eebba40483c185b56f9996fd0b9e842c",
+                "url": "https://api.github.com/repos/illuminate/container/zipball/1444907a30937bf4b7a910489160ba4576f3afa9",
+                "reference": "1444907a30937bf4b7a910489160ba4576f3afa9",
                 "shasum": ""
             },
             "require": {
@@ -139,7 +143,7 @@
                     "role": "Developer"
                 }
             ],
-            "time": "2013-08-26 18:53:15"
+            "time": "2013-10-02 21:50:28"
         },
         {
             "name": "illuminate/filesystem",
@@ -148,18 +152,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/filesystem.git",
-                "reference": "fe9915c329ef869efccbc88334cf3ff89f2ecb03"
+                "reference": "98c6e3710853f4e0aee7ea14b09194083815bf1b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/filesystem/zipball/fe9915c329ef869efccbc88334cf3ff89f2ecb03",
-                "reference": "fe9915c329ef869efccbc88334cf3ff89f2ecb03",
+                "url": "https://api.github.com/repos/illuminate/filesystem/zipball/98c6e3710853f4e0aee7ea14b09194083815bf1b",
+                "reference": "98c6e3710853f4e0aee7ea14b09194083815bf1b",
                 "shasum": ""
             },
             "require": {
-                "illuminate/support": "4.1.x",
+                "illuminate/support": "4.1.*",
                 "php": ">=5.3.0",
-                "symfony/finder": "2.3.x"
+                "symfony/finder": "2.4.*"
             },
             "require-dev": {
                 "phpunit/phpunit": "3.7.*"
@@ -182,10 +186,12 @@
             "authors": [
                 {
                     "name": "Taylor Otwell",
-                    "email": "taylorotwell@gmail.com"
+                    "email": "taylorotwell@gmail.com",
+                    "homepage": "https://github.com/taylorotwell",
+                    "role": "Developer"
                 }
             ],
-            "time": "2013-07-02 17:46:50"
+            "time": "2013-10-08 21:46:57"
         },
         {
             "name": "illuminate/support",
@@ -194,12 +200,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "9e61ed7335f457521b888fd405f16eda6f7caf02"
+                "reference": "33df9bdf3d9b38353097d2e6cfdfc4ebfe9900c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/9e61ed7335f457521b888fd405f16eda6f7caf02",
-                "reference": "9e61ed7335f457521b888fd405f16eda6f7caf02",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/33df9bdf3d9b38353097d2e6cfdfc4ebfe9900c1",
+                "reference": "33df9bdf3d9b38353097d2e6cfdfc4ebfe9900c1",
                 "shasum": ""
             },
             "require": {
@@ -236,21 +242,21 @@
                     "role": "Developer"
                 }
             ],
-            "time": "2013-09-06 05:21:45"
+            "time": "2013-10-03 21:32:36"
         },
         {
             "name": "symfony/console",
-            "version": "2.3.x-dev",
+            "version": "dev-master",
             "target-dir": "Symfony/Component/Console",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "aba4731bf8dafa21b7c4a59bd69c62f73c0a6dcf"
+                "reference": "608960cd7f7e906e64d6586b9152e308f7ea0ff2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/aba4731bf8dafa21b7c4a59bd69c62f73c0a6dcf",
-                "reference": "aba4731bf8dafa21b7c4a59bd69c62f73c0a6dcf",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/608960cd7f7e906e64d6586b9152e308f7ea0ff2",
+                "reference": "608960cd7f7e906e64d6586b9152e308f7ea0ff2",
                 "shasum": ""
             },
             "require": {
@@ -265,7 +271,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.3-dev"
+                    "dev-master": "2.4-dev"
                 }
             },
             "autoload": {
@@ -289,21 +295,21 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com",
-            "time": "2013-09-18 07:03:56"
+            "time": "2013-10-16 16:16:10"
         },
         {
             "name": "symfony/finder",
-            "version": "2.3.x-dev",
+            "version": "dev-master",
             "target-dir": "Symfony/Component/Finder",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Finder.git",
-                "reference": "4a0fee5b86f5bbd9dfdc11ec124eba2915737ce1"
+                "reference": "e2ce3164ab58b4d54612e630571f158035ee8603"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Finder/zipball/4a0fee5b86f5bbd9dfdc11ec124eba2915737ce1",
-                "reference": "4a0fee5b86f5bbd9dfdc11ec124eba2915737ce1",
+                "url": "https://api.github.com/repos/symfony/Finder/zipball/e2ce3164ab58b4d54612e630571f158035ee8603",
+                "reference": "e2ce3164ab58b4d54612e630571f158035ee8603",
                 "shasum": ""
             },
             "require": {
@@ -312,7 +318,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.3-dev"
+                    "dev-master": "2.4-dev"
                 }
             },
             "autoload": {
@@ -336,7 +342,7 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "http://symfony.com",
-            "time": "2013-08-13 20:18:00"
+            "time": "2013-09-19 09:47:34"
         }
     ],
     "packages-dev": [
@@ -346,12 +352,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/padraic/mockery.git",
-                "reference": "b6fe71cbc1909927b5574219ff6d50e3b264abdb"
+                "reference": "09ab879a09def2a658d6e8030f88432cc479f5a8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/padraic/mockery/zipball/b6fe71cbc1909927b5574219ff6d50e3b264abdb",
-                "reference": "b6fe71cbc1909927b5574219ff6d50e3b264abdb",
+                "url": "https://api.github.com/repos/padraic/mockery/zipball/09ab879a09def2a658d6e8030f88432cc479f5a8",
+                "reference": "09ab879a09def2a658d6e8030f88432cc479f5a8",
                 "shasum": ""
             },
             "require": {
@@ -392,7 +398,7 @@
                 "test double",
                 "testing"
             ],
-            "time": "2013-08-21 19:34:19"
+            "time": "2013-10-18 15:18:30"
         },
         {
             "name": "nesbot/carbon",
@@ -443,12 +449,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nicolas-grekas/Patchwork-UTF8.git",
-                "reference": "e4bd68ca375d854615613e6b77003e08c1744c54"
+                "reference": "efd5478a233f6940d3296ab27c2a02ba47831968"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nicolas-grekas/Patchwork-UTF8/zipball/e4bd68ca375d854615613e6b77003e08c1744c54",
-                "reference": "e4bd68ca375d854615613e6b77003e08c1744c54",
+                "url": "https://api.github.com/repos/nicolas-grekas/Patchwork-UTF8/zipball/efd5478a233f6940d3296ab27c2a02ba47831968",
+                "reference": "efd5478a233f6940d3296ab27c2a02ba47831968",
                 "shasum": ""
             },
             "require": {
@@ -478,7 +484,7 @@
                     "role": "Developer"
                 }
             ],
-            "description": "UTF-8 strings handling for PHP 5.3: portable, performant and extended",
+            "description": "Extensive, portable and performant handling of UTF-8 and grapheme clusters for PHP",
             "homepage": "https://github.com/nicolas-grekas/Patchwork-UTF8",
             "keywords": [
                 "i18n",
@@ -486,7 +492,7 @@
                 "utf-8",
                 "utf8"
             ],
-            "time": "2013-09-05 12:11:48"
+            "time": "2013-10-15 08:18:30"
         }
     ],
     "aliases": [
