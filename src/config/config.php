@@ -128,4 +128,30 @@
 		'custom' => array(),
 	),
 
+	// Contextual options
+	//
+	// In this section you can fine-tune the above configuration according
+	// to the stage or connection currently in use.
+	// Per example :
+	// 'stages' => array(
+	// 	'staging' => array(
+	// 		'scm' => array('branch' => 'staging'),
+	// 	),
+	//  'production' => array(
+	//    'scm' => array('branch' => 'master'),
+	//  ),
+	// ),
+
+	'on' => array(
+
+		// Stages configurations
+		'stages' => array(
+		),
+
+		// Connections configuration
+		'connections' => array(
+		),
+
+	),
+
 );

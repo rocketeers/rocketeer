@@ -50,7 +50,38 @@ class Rocketeer
 	 */
 	public function getOption($option)
 	{
+		if ($contextual = $this->getContextualOption($option, 'stages')) {
+			return $contextual;
+		}
+
+		if ($contextual = $this->getContextualOption($option, 'connections')) {
+			return $contextual;
+		}
+
 		return $this->app['config']->get('rocketeer::'.$option);
+	}
+
+	/**
+	 * Get a contextual option
+	 *
+	 * @param  string $option
+	 * @param  string $type         [stage,connection]
+	 *
+	 * @return mixed
+	 */
+	protected function getContextualOption($option, $type)
+	{
+		switch ($type) {
+			case 'stages':
+				$contextual = sprintf('rocketeer::on.stages.%s.%s', $this->stage, $option);
+				break;
+
+			case 'connections':
+				$contextual = sprintf('rocketeer::on.connections.%s.%s', $this->stage, $option);
+				break;
+		}
+
+		return $this->app['config']->get($contextual);
 	}
 
 	////////////////////////////////////////////////////////////////////

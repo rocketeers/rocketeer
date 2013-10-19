@@ -222,6 +222,7 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 	protected function getConfig()
 	{
 		$config = Mockery::mock('Illuminate\Config\Repository');
+		$config->shouldIgnoreMissing();
 
 		// Drivers
 		$config->shouldReceive('get')->with('cache.driver')->andReturn('file');

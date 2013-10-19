@@ -1,48 +1,22 @@
 
 
 Code Coverage Report 
-  2013-10-19 09:59:48
+  2013-10-19 10:26:31
 
  Summary: 
-  Classes: 65.00% (13/20)
-  Methods: 87.72% (100/114)
-  Lines:   90.05% (516/573)
+  Classes: 5.00% (1/20)
+  Methods: 18.26% (21/115)
+  Lines:   13.62% (93/683)
 
 \Rocketeer::Bash
-  Methods: 100.00% (17/17)   Lines:  93.52% (101/108)
-\Rocketeer::ReleasesManager
-  Methods: 100.00% ( 9/ 9)   Lines: 100.00% ( 22/ 22)
+  Methods:   5.88% ( 1/17)   Lines:   2.78% (  3/108)
 \Rocketeer::Rocketeer
-  Methods: 100.00% (15/15)   Lines: 100.00% ( 55/ 55)
+  Methods:  87.50% (14/16)   Lines:  95.52% ( 64/ 67)
 \Rocketeer::Server
-  Methods: 100.00% (10/10)   Lines:  91.11% ( 41/ 45)
+  Methods:  50.00% ( 5/10)   Lines:  40.00% ( 18/ 45)
 \Rocketeer::TasksQueue
-  Methods: 100.00% (15/15)   Lines:  91.09% ( 92/101)
+  Methods:  13.33% ( 2/15)   Lines:   8.91% (  9/101)
 \Rocketeer\Scm::Git
-  Methods: 100.00% ( 6/ 6)   Lines: 100.00% (  8/  8)
-\Rocketeer\Tasks::Check
-  Methods: 100.00% ( 7/ 7)   Lines:  66.67% ( 36/ 54)
-\Rocketeer\Tasks::Cleanup
-  Methods: 100.00% ( 1/ 1)   Lines: 100.00% (  9/  9)
-\Rocketeer\Tasks::Closure
-  Methods: 100.00% ( 3/ 3)   Lines: 100.00% (  5/  5)
-\Rocketeer\Tasks::CurrentRelease
-  Methods: 100.00% ( 1/ 1)   Lines: 100.00% (  7/  7)
-\Rocketeer\Tasks::Deploy
-  Methods:  75.00% ( 3/ 4)   Lines:  62.86% ( 22/ 35)
-\Rocketeer\Tasks::Ignite
-  Methods: 100.00% ( 1/ 1)   Lines: 100.00% (  8/  8)
-\Rocketeer\Tasks::Rollback
-  Methods: 100.00% ( 2/ 2)   Lines: 100.00% (  5/  5)
-\Rocketeer\Tasks::Setup
-  Methods: 100.00% ( 2/ 2)   Lines:  88.89% ( 24/ 27)
-\Rocketeer\Tasks::Teardown
-  Methods: 100.00% ( 1/ 1)   Lines: 100.00% (  7/  7)
-\Rocketeer\Tasks::Test
-  Methods: 100.00% ( 1/ 1)   Lines: 100.00% (  2/  2)
-\Rocketeer\Tasks::Update
-  Methods: 100.00% ( 1/ 1)   Lines: 100.00% (  9/  9)
+  Methods:  16.67% ( 1/ 6)   Lines:  12.50% (  1/  8)
 \Rocketeer\Traits::Scm
-  Methods: 100.00% ( 3/ 3)   Lines: 100.00% (  7/  7)
-\Rocketeer\Traits::Task
-  Methods:  93.75% (15/16)   Lines:  95.83% ( 69/ 72)
+  Methods:  66.67% ( 2/ 3)   Lines:  42.86% (  3/  7)

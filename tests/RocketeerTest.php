@@ -107,6 +107,16 @@ class RocketeerTest extends RocketeerTests
 		$this->assertEquals($this->server.'/', $folder);
 	}
 
+	public function testCanUseRecursiveStageConfiguration()
+	{
+		$this->app['config']->shouldReceive('get')->with('rocketeer::scm.branch')->andReturn('master');
+		$this->app['config']->shouldReceive('get')->with('rocketeer::on.stages.staging.scm.branch')->andReturn('staging');
+
+		$this->assertEquals('master', $this->app['rocketeer.rocketeer']->getOption('scm.branch'));
+		$this->app['rocketeer.rocketeer']->setStage('staging');
+		$this->assertEquals('staging', $this->app['rocketeer.rocketeer']->getOption('scm.branch'));
+	}
+
 	////////////////////////////////////////////////////////////////////
 	//////////////////////////////// HELPERS ///////////////////////////
 	////////////////////////////////////////////////////////////////////
