@@ -103,7 +103,7 @@ class RocketeerServiceProvider extends ServiceProvider
 			return new Repository($fileloader, 'config');
 		}, true);
 
-		$app->bindIf('remote', function($app) {
+		$app->bindIf('remote', function ($app) {
 			return new RemoteManager($app);
 		}, true);
 
@@ -269,7 +269,7 @@ class RocketeerServiceProvider extends ServiceProvider
 		// Register custom config
 		$custom = $app['path.base'].'/rocketeer.php';
 		if (file_exists($custom)) {
-			$app['config']->afterLoading('rocketeer', function($me, $group, $items) use ($custom) {
+			$app['config']->afterLoading('rocketeer', function ($me, $group, $items) use ($custom) {
 				$custom = include $custom;
 				return array_replace_recursive($items, $custom);
 			});

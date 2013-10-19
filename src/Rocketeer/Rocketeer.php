@@ -195,7 +195,7 @@ class Rocketeer
 
 		// Remove invalid connections
 		$instance = $this;
-		$connections = array_filter($connections, function($value) use ($instance) {
+		$connections = array_filter($connections, function ($value) use ($instance) {
 			return $instance->isValidConnection($value);
 		});
 

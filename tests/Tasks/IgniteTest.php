@@ -27,7 +27,7 @@ class IgniteTest extends RocketeerTests
 		$root = $this->app['path.base'].'/rocketeer.php';
 
 		$command = $this->getCommand();
-		$command->shouldReceive('call')->with('config:publish', array('package' => 'anahkiasen/rocketeer'))->andReturnUsing(function() use ($root) {
+		$command->shouldReceive('call')->with('config:publish', array('package' => 'anahkiasen/rocketeer'))->andReturnUsing(function () use ($root) {
 			file_put_contents($root, 'foobar');
 		});
 

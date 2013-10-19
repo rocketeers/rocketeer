@@ -163,7 +163,7 @@ class TasksQueueTest extends RocketeerTests
 
 		$output = array();
 		$queue = array(
-			function($task) use (&$output) {
+			function ($task) use (&$output) {
 				$output[] = $task->rocketeer->getConnection(). ' - ' .$task->rocketeer->getStage();
 			}
 		);
@@ -187,7 +187,7 @@ class TasksQueueTest extends RocketeerTests
 
 		$output = $this->tasksQueue()->execute(array(
 			'ls -a',
-			function($task) {
+			function ($task) {
 				return 'JOEY DOESNT SHARE FOOD';
 			}
 		));
@@ -204,7 +204,7 @@ class TasksQueueTest extends RocketeerTests
 			'rocketeer::stages.stages' => array('first', 'second'),
 		));
 
-		$output = $this->tasksQueue()->on(array('staging', 'production'), function($task) {
+		$output = $this->tasksQueue()->on(array('staging', 'production'), function ($task) {
 			return $task->rocketeer->getConnection(). ' - ' .$task->rocketeer->getStage();
 		});
 
