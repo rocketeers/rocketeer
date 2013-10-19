@@ -117,7 +117,7 @@ abstract class BaseDeployCommand extends Command
 		}
 
 		// Check for configured connections
-		$connections    = $this->laravel['rocketeer.rocketeer']->getConnections();
+		$connections    = $this->laravel['rocketeer.rocketeer']->getAvailableConnections();
 		$connectionName = $this->laravel['rocketeer.rocketeer']->getConnection();
 
 		if (is_null($connectionName)) {
