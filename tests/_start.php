@@ -52,10 +52,10 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 
 		// Laravel classes --------------------------------------------- /
 
-		$this->app['path.base']    = '/src';
-		$this->app['path']         = '/src/app';
-		$this->app['path.public']  = '/src/public';
-		$this->app['path.storage'] = '/src/storage';
+		$this->app->instance('path.base', '/src');
+		$this->app->instance('path', '/src/app');
+		$this->app->instance('path.public', '/src/public');
+		$this->app->instance('path.storage', '/src/app/storage');
 
 		$this->app['files']   = new Filesystem;
 		$this->app['config']  = $this->getConfig();
@@ -110,6 +110,7 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 		)));
 
 		// Recreate altered local server
+		$this->app['files']->deleteDirectory(__DIR__.'/../storage');
 		$folders = array('current', 'shared', 'releases', 'releases/10000000000000', 'releases/20000000000000');
 		foreach ($folders as $folder) {
 			$folder = $this->server.'/'.$folder;
@@ -219,18 +220,24 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 	 *
 	 * @return Mockery
 	 */
-	protected function getConfig()
+	protected function getConfig($options = array())
 	{
 		$config = Mockery::mock('Illuminate\Config\Repository');
+		$config->shouldIgnoreMissing();
+
+		foreach ($options as $key => $value) {
+			$config->shouldReceive('get')->with($key)->andReturn($value);
+		}
 
 		// Drivers
 		$config->shouldReceive('get')->with('cache.driver')->andReturn('file');
 		$config->shouldReceive('get')->with('database.default')->andReturn('mysql');
-		$config->shouldReceive('get')->with('remote.connections')->andReturn(array('production' => array()));
+		$config->shouldReceive('get')->with('remote.default')->andReturn('production');
+		$config->shouldReceive('get')->with('remote.connections')->andReturn(array('production' => array(), 'staging' => array()));
 		$config->shouldReceive('get')->with('session.driver')->andReturn('file');
 
 		// Rocketeer
-		$config->shouldReceive('get')->with('rocketeer::connections')->andReturn('production');
+		$config->shouldReceive('get')->with('rocketeer::connections')->andReturn(array('production', 'staging'));
 		$config->shouldReceive('get')->with('rocketeer::remote.application_name')->andReturn('foobar');
 		$config->shouldReceive('get')->with('rocketeer::remote.keep_releases')->andReturn(1);
 		$config->shouldReceive('get')->with('rocketeer::remote.permissions')->andReturn(array(
@@ -268,6 +275,19 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 		));
 
 		return $config;
+	}
+
+	/**
+	 * Swap the current config
+	 *
+	 * @param  array $config
+	 *
+	 * @return void
+	 */
+	protected function swapConfig($config)
+	{
+		$this->app['rocketeer.rocketeer']->disconnect();
+		$this->app['config'] = $this->getConfig($config);
 	}
 
 	/**

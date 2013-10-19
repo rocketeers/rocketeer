@@ -14,7 +14,7 @@ class TeardownTest extends RocketeerTests
 	{
 		$command = Mockery::mock('Command');;
 		$command->shouldReceive('confirm')->andReturn(false);
-		$command->shouldReceive('info')->andReturnUsing(function($message) { return $message; });
+		$command->shouldReceive('info')->andReturnUsing(function ($message) { return $message; });
 
 		$message = $this->task('Teardown', $command)->execute();
 

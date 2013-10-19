@@ -25,11 +25,25 @@ class Rocketeer
 	protected $stage;
 
 	/**
+	 * The connections to use
+	 *
+	 * @var array
+	 */
+	protected $connections;
+
+	/**
+	 * The current connection
+	 *
+	 * @var string
+	 */
+	protected $connection;
+
+	/**
 	 * The Rocketeer version
 	 *
 	 * @var string
 	 */
-	const VERSION = '0.7.0';
+	const VERSION = '0.8.0';
 
 	/**
 	 * Build a new ReleasesManager
@@ -50,7 +64,38 @@ class Rocketeer
 	 */
 	public function getOption($option)
 	{
+		if ($contextual = $this->getContextualOption($option, 'stages')) {
+			return $contextual;
+		}
+
+		if ($contextual = $this->getContextualOption($option, 'connections')) {
+			return $contextual;
+		}
+
 		return $this->app['config']->get('rocketeer::'.$option);
+	}
+
+	/**
+	 * Get a contextual option
+	 *
+	 * @param  string $option
+	 * @param  string $type         [stage,connection]
+	 *
+	 * @return mixed
+	 */
+	protected function getContextualOption($option, $type)
+	{
+		switch ($type) {
+			case 'stages':
+				$contextual = sprintf('rocketeer::on.stages.%s.%s', $this->stage, $option);
+				break;
+
+			case 'connections':
+				$contextual = sprintf('rocketeer::on.connections.%s.%s', $this->getConnection(), $option);
+				break;
+		}
+
+		return $this->app['config']->get($contextual);
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -108,7 +153,7 @@ class Rocketeer
 	 *
 	 * @return array
 	 */
-	public function getConnections()
+	public function getAvailableConnections()
 	{
 		$connections = $this->app['rocketeer.server']->getValue('connections');
 		if (!$connections) {
@@ -116,6 +161,109 @@ class Rocketeer
 		}
 
 		return $connections;
+	}
+
+	/**
+	 * Check if a connection has credentials related to it
+	 *
+	 * @param  string  $connection
+	 *
+	 * @return boolean
+	 */
+	public function isValidConnection($connection)
+	{
+		$available = (array) $this->getAvailableConnections();
+
+		return array_key_exists($connection, $available);
+	}
+
+	/**
+	 * Get the connection in use
+	 *
+	 * @return string
+	 */
+	public function getConnections()
+	{
+		// Get cached resolved connections
+		if ($this->connections) {
+			return $this->connections;
+		}
+
+		// Get all and defaults
+		$connections = (array) $this->app['config']->get('rocketeer::connections');
+		$default     = $this->app['config']->get('remote.default');
+
+		// Remove invalid connections
+		$instance = $this;
+		$connections = array_filter($connections, function ($value) use ($instance) {
+			return $instance->isValidConnection($value);
+		});
+
+		// Return default if no active connection(s) set
+		if (empty($connections)) {
+			return array($default);
+		}
+
+		// Set current connection as default
+		$this->connections = $connections;
+
+		return $connections;
+	}
+
+	/**
+	 * Get the active connection
+	 *
+	 * @return string
+	 */
+	public function getConnection()
+	{
+		// Get cached resolved connection
+		if ($this->connection) {
+			return $this->connection;
+		}
+
+		$connection = array_get($this->getConnections(), 0);
+		$this->connection = $connection;
+
+		return $this->connection;
+	}
+
+	/**
+	 * Set the active connections
+	 *
+	 * @param string|array $connections
+	 */
+	public function setConnections($connections)
+	{
+		if (!is_array($connections)) {
+			$connections = explode(',', $connections);
+		}
+
+		$this->connections = $connections;
+	}
+
+	/**
+	 * Set the curent connection
+	 *
+	 * @param string $connection
+	 */
+	public function setConnection($connection)
+	{
+		if ($this->isValidConnection($connection)) {
+			$this->connection = $connection;
+			$this->app['config']->set('remote.default', $connection);
+		}
+	}
+
+	/**
+	 * Flush active connection(s)
+	 *
+	 * @return void
+	 */
+	public function disconnect()
+	{
+		$this->connection  = null;
+		$this->connections = null;
 	}
 
 	/**
@@ -211,7 +359,7 @@ class Rocketeer
 		return preg_replace_callback('/\{[a-z\.]+\}/', function ($match) use ($app) {
 			$folder = substr($match[0], 1, -1);
 
-			if (isset($app[$folder])) {
+			if ($app->bound($folder)) {
 				return str_replace($app['path.base'].'/', null, $app->make($folder));
 			}
 

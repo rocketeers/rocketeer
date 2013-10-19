@@ -32,16 +32,16 @@ class DeployUpdateCommand extends BaseDeployCommand
 		return $this->fireTasksQueue('Rocketeer\Tasks\Update');
 	}
 
-  /**
-   * Get the console command options.
-   *
-   * @return array
-   */
-  protected function getOptions()
-  {
-  	return array_merge(parent::getOptions(), array(
-      array('migrate', 'm', InputOption::VALUE_NONE, 'Run the migrations'),
-      array('seed',    's', InputOption::VALUE_NONE, 'Seed the database after migrating the database'),
-  	));
-  }
+	/**
+	 * Get the console command options.
+	 *
+	 * @return array
+	 */
+	protected function getOptions()
+	{
+		return array_merge(parent::getOptions(), array(
+			array('migrate', 'm', InputOption::VALUE_NONE, 'Run the migrations'),
+			array('seed',    's', InputOption::VALUE_NONE, 'Seed the database after migrating the database'),
+		));
+	}
 }

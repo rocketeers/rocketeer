@@ -19,13 +19,6 @@ if (!defined('DS')) {
 class RocketeerServiceProvider extends ServiceProvider
 {
 	/**
-	 * Indicates if loading of the provider is deferred.
-	 *
-	 * @var bool
-	 */
-	protected $defer = false;
-
-	/**
 	 * The commands to register
 	 *
 	 * @var array
@@ -98,26 +91,26 @@ class RocketeerServiceProvider extends ServiceProvider
 	 */
 	public function bindCoreClasses(Container $app)
 	{
-    $app->bindIf('files', 'Illuminate\Filesystem\Filesystem');
+		$app->bindIf('files', 'Illuminate\Filesystem\Filesystem');
 
-    $app->bindIf('request', function ($app) {
-      return Request::createFromGlobals();
-    }, true);
+		$app->bindIf('request', function ($app) {
+			return Request::createFromGlobals();
+		}, true);
 
-    $app->bindIf('config', function ($app) {
+		$app->bindIf('config', function ($app) {
 			$fileloader = new FileLoader($app['files'], __DIR__.'/../config');
 
 			return new Repository($fileloader, 'config');
-    }, true);
+		}, true);
 
-		$app->bindIf('remote', function($app) {
+		$app->bindIf('remote', function ($app) {
 			return new RemoteManager($app);
 		}, true);
 
 		// Register factory and custom configurations
 		$app = $this->registerConfig($app);
 
-    return $app;
+		return $app;
 	}
 
 	/**
@@ -190,16 +183,17 @@ class RocketeerServiceProvider extends ServiceProvider
 		// Base commands
 		$tasks = array(
 			''         => '',
-			'ignite'   => 'Ignite',
 			'check'    => 'Check',
-			'setup'    => 'Setup',
-			'deploy'   => 'Deploy',
-			'update'   => 'Update',
-			'rollback' => 'Rollback',
 			'cleanup'  => 'Cleanup',
 			'current'  => 'CurrentRelease',
-			'test'     => 'Test',
+			'deploy'   => 'Deploy',
+			'flush'    => 'Flush',
+			'ignite'   => 'Ignite',
+			'rollback' => 'Rollback',
+			'setup'    => 'Setup',
 			'teardown' => 'Teardown',
+			'test'     => 'Test',
+			'update'   => 'Update',
 		);
 
 		// Add User commands
@@ -265,18 +259,17 @@ class RocketeerServiceProvider extends ServiceProvider
 	protected function registerConfig(Container $app)
 	{
 		// Register paths
-		if (!isset($app['path.base'])) {
-			$base = explode('/vendor', __DIR__);
-			$app['path.base'] = $base[0];
+		if (!$app->bound('path.base')) {
+			$app['path.base'] = realpath(__DIR__.'/../../../');
 		}
 
-    // Register config file
+		// Register config file
 		$app['config']->package('anahkiasen/rocketeer', __DIR__.'/../config');
 
 		// Register custom config
 		$custom = $app['path.base'].'/rocketeer.php';
 		if (file_exists($custom)) {
-			$app['config']->afterLoading('rocketeer', function($me, $group, $items) use ($custom) {
+			$app['config']->afterLoading('rocketeer', function ($me, $group, $items) use ($custom) {
 				$custom = include $custom;
 				return array_replace_recursive($items, $custom);
 			});

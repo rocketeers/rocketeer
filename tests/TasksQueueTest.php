@@ -3,7 +3,6 @@ use Rocketeer\Facades\Rocketeer;
 
 class TasksQueueTest extends RocketeerTests
 {
-
 	public function testCanUseFacadeOutsideOfLaravel()
 	{
 		Rocketeer::before('deploy', 'ls');
@@ -143,11 +142,77 @@ class TasksQueueTest extends RocketeerTests
 
 	public function testCanRunQueue()
 	{
-    $this->expectOutputString('JOEY DOESNT SHARE FOOD');
+		$this->swapConfig(array(
+			'rocketeer::connections' => 'production',
+		));
+
+		$this->expectOutputString('JOEY DOESNT SHARE FOOD');
 		$this->tasksQueue()->run(array(
 			function ($task) {
 				print 'JOEY DOESNT SHARE FOOD';
 			}
 		), $this->getCommand());
+	}
+
+	public function testCanRunQueueOnDifferentConnectionsAndStages()
+	{
+		$this->swapConfig(array(
+			'rocketeer::connections'   => array('staging', 'production'),
+			'rocketeer::stages.stages' => array('first', 'second'),
+		));
+
+		$output = array();
+		$queue = array(
+			function ($task) use (&$output) {
+				$output[] = $task->rocketeer->getConnection(). ' - ' .$task->rocketeer->getStage();
+			}
+		);
+
+		$queue = $this->tasksQueue()->buildQueue($queue);
+		$this->tasksQueue()->run($queue, $this->getCommand());
+
+		$this->assertEquals(array(
+			'staging - first',
+			'staging - second',
+			'production - first',
+			'production - second',
+		), $output);
+	}
+
+	public function testCanRunQueueViaExecute()
+	{
+		$this->swapConfig(array(
+			'rocketeer::connections' => 'production',
+		));
+
+		$output = $this->tasksQueue()->execute(array(
+			'ls -a',
+			function ($task) {
+				return 'JOEY DOESNT SHARE FOOD';
+			}
+		));
+
+		$this->assertEquals(array(
+			'.'.PHP_EOL.'..'.PHP_EOL.'.gitkeep',
+			'JOEY DOESNT SHARE FOOD',
+		), $output);
+	}
+
+	public function testCanRunOnMultipleConnectionsViaOn()
+	{
+		$this->swapConfig(array(
+			'rocketeer::stages.stages' => array('first', 'second'),
+		));
+
+		$output = $this->tasksQueue()->on(array('staging', 'production'), function ($task) {
+			return $task->rocketeer->getConnection(). ' - ' .$task->rocketeer->getStage();
+		});
+
+		$this->assertEquals(array(
+			'staging - first',
+			'staging - second',
+			'production - first',
+			'production - second',
+		), $output);
 	}
 }

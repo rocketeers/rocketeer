@@ -25,6 +25,7 @@ abstract class BaseDeployCommand extends Command
 	{
 		return array(
 			array('pretend', 'p', InputOption::VALUE_NONE,     'Returns an array of commands to be executed instead of actually executing them'),
+			array('on',      'C', InputOption::VALUE_REQUIRED, 'The connection(s) to execute the Task in'),
 			array('stage',   'S', InputOption::VALUE_REQUIRED, 'The stage to execute the Task in')
 		);
 	}
@@ -111,17 +112,16 @@ abstract class BaseDeployCommand extends Command
 	 */
 	protected function getServerCredentials()
 	{
-		// Check for configured connections
-		$connections = $this->laravel['rocketeer.rocketeer']->getConnections();
-		if (empty($connections)) {
-			$connectionName = $this->ask('No connections have been set, please create one : (production)', 'production');
-		} else {
-			$connectionName = key($connections);
+		if ($connections = $this->option('on')) {
+			$this->laravel['rocketeer.rocketeer']->setConnections($connections);
 		}
 
-		// Set the found connection as default if none is specified
-		if (!isset($this->laravel['config']['remote.default'])) {
-			$this->laravel['config']->set('remote.default', $connectionName);
+		// Check for configured connections
+		$connections    = $this->laravel['rocketeer.rocketeer']->getAvailableConnections();
+		$connectionName = $this->laravel['rocketeer.rocketeer']->getConnection();
+
+		if (is_null($connectionName)) {
+			$connectionName = $this->ask('No connections have been set, please create one : (production)', 'production');
 		}
 
 		// Check for server credentials
@@ -132,13 +132,13 @@ abstract class BaseDeployCommand extends Command
 		foreach ($credentials as $credential => $required) {
 			${$credential} = array_get($connection, $credential);
 			if (!${$credential} and $required) {
-				${$credential} = $this->ask('No '.$credential. ' is set for current connection, please provide one :');
+				${$credential} = $this->ask('No '.$credential. ' is set for [' .$connectionName. '], please provide one :');
 			}
 		}
 
 		// Get password or key
 		if (!$password and !$key) {
-			$type = $this->ask('No password or SSH key is set for current connection, which would you use ? [key/password]');
+			$type = $this->ask('No password or SSH key is set for [' .$connectionName. '], which would you use ? [key/password]');
 			if ($type == 'key') {
 				$key = $this->ask('Please enter the full path to your key');
 			} else {

@@ -2,19 +2,41 @@
 
 class RocketeerTest extends RocketeerTests
 {
-
 	////////////////////////////////////////////////////////////////////
 	//////////////////////////////// TESTS /////////////////////////////
 	////////////////////////////////////////////////////////////////////
 
 	public function testCanGetAvailableConnections()
 	{
-		$connections = $this->app['rocketeer.rocketeer']->getConnections();
-		$this->assertEquals(array('production'), array_keys($connections));
+		$connections = $this->app['rocketeer.rocketeer']->getAvailableConnections();
+		$this->assertEquals(array('production', 'staging'), array_keys($connections));
 
 		$this->app['rocketeer.server']->setValue('connections.custom.username', 'foobar');
-		$connections = $this->app['rocketeer.rocketeer']->getConnections();
+		$connections = $this->app['rocketeer.rocketeer']->getAvailableConnections();
 		$this->assertEquals(array('custom'), array_keys($connections));
+	}
+
+	public function testCanGetCurrentConnection()
+	{
+		$this->swapConfig(array('rocketeer::connections' => 'foobar'));
+		$this->assertEquals('production', $this->app['rocketeer.rocketeer']->getConnection());
+
+		$this->swapConfig(array('rocketeer::connections' => 'production'));
+		$this->assertEquals('production', $this->app['rocketeer.rocketeer']->getConnection());
+
+		$this->swapConfig(array('rocketeer::connections' => 'staging'));
+		$this->assertEquals('staging', $this->app['rocketeer.rocketeer']->getConnection());
+	}
+
+	public function testCanChangeConnection()
+	{
+		$this->assertEquals('production', $this->app['rocketeer.rocketeer']->getConnection());
+
+		$this->app['rocketeer.rocketeer']->setConnection('staging');
+		$this->assertEquals('staging', $this->app['rocketeer.rocketeer']->getConnection());
+
+		$this->app['rocketeer.rocketeer']->setConnections('staging,production');
+		$this->assertEquals(array('staging', 'production'), $this->app['rocketeer.rocketeer']->getConnections());
 	}
 
 	public function testCanUseSshRepository()
@@ -97,7 +119,7 @@ class RocketeerTest extends RocketeerTests
 	{
 		$folder = $this->app['rocketeer.rocketeer']->getFolder('{path.storage}');
 
-		$this->assertEquals($this->server.'/storage', $folder);
+		$this->assertEquals($this->server.'/app/storage', $folder);
 	}
 
 	public function testCannotReplaceUnexistingPatternsInFolders()
@@ -105,6 +127,35 @@ class RocketeerTest extends RocketeerTests
 		$folder = $this->app['rocketeer.rocketeer']->getFolder('{path.foobar}');
 
 		$this->assertEquals($this->server.'/', $folder);
+	}
+
+	public function testCanUseRecursiveStageConfiguration()
+	{
+		$this->swapConfig(array(
+			'rocketeer::scm.branch'                   => 'master',
+			'rocketeer::on.stages.staging.scm.branch' => 'staging',
+		));
+
+		$this->assertEquals('master', $this->app['rocketeer.rocketeer']->getOption('scm.branch'));
+		$this->app['rocketeer.rocketeer']->setStage('staging');
+		$this->assertEquals('staging', $this->app['rocketeer.rocketeer']->getOption('scm.branch'));
+	}
+
+	public function testCanUseRecursiveConnectionConfiguration()
+	{
+		$this->swapConfig(array(
+			'rocketeer::connections'                       => 'production',
+			'rocketeer::scm.branch'                        => 'master',
+			'rocketeer::on.connections.staging.scm.branch' => 'staging',
+		));
+		$this->assertEquals('master', $this->app['rocketeer.rocketeer']->getOption('scm.branch'));
+
+		$this->swapConfig(array(
+			'rocketeer::connections'                       => 'staging',
+			'rocketeer::scm.branch'                        => 'master',
+			'rocketeer::on.connections.staging.scm.branch' => 'staging',
+		));
+		$this->assertEquals('staging', $this->app['rocketeer.rocketeer']->getOption('scm.branch'));
 	}
 
 	////////////////////////////////////////////////////////////////////

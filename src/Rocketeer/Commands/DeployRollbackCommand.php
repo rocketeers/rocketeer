@@ -1,6 +1,7 @@
 <?php
 namespace Rocketeer\Commands;
 
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
 /**
@@ -42,5 +43,17 @@ class DeployRollbackCommand extends BaseDeployCommand
 		return array(
 			array('release', InputArgument::OPTIONAL, 'The release to rollback to'),
 		);
+	}
+
+	/**
+	 * Get the console command options.
+	 *
+	 * @return array
+	 */
+	protected function getOptions()
+	{
+		return array_merge(parent::getOptions(), array(
+			array('list', 'L', InputOption::VALUE_NONE, 'Shows the available release to rollbacl to'),
+		));
 	}
 }

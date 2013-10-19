@@ -40,6 +40,13 @@ class TasksQueue
 	protected $command;
 
 	/**
+	 * The output of the queue
+	 *
+	 * @var array
+	 */
+	protected $output = array();
+
+	/**
 	 * Build a new TasksQueue Instance
 	 *
 	 * @param Container    $app
@@ -123,6 +130,39 @@ class TasksQueue
 		return $this->getSurroundingTasks($task, 'after');
 	}
 
+	/**
+	 * Execute Tasks on the default connection
+	 *
+	 * @param  string|array|Closure $task
+	 *
+	 * @return array
+	 */
+	public function execute($queue)
+	{
+		$queue = (array) $queue;
+		$queue = $this->buildQueue($queue);
+
+		return $this->run($queue);
+	}
+
+	/**
+	 * Execute Tasks on various connections
+	 *
+	 * @param  string|array         $connections
+	 * @param  string|array|Closure $queue
+	 *
+	 * @return array
+	 */
+	public function on($connections, $queue)
+	{
+		$this->app['rocketeer.rocketeer']->setConnections($connections);
+
+		$queue = (array) $queue;
+		$queue = $this->buildQueue($queue);
+
+		return $this->run($queue);
+	}
+
 	////////////////////////////////////////////////////////////////////
 	//////////////////////////////// QUEUE /////////////////////////////
 	////////////////////////////////////////////////////////////////////
@@ -143,29 +183,35 @@ class TasksQueue
 		$this->command = $command;
 		$queue         = $this->buildQueue($tasks);
 
-		// Check if we provided a stage
-		$stage  = $this->getStage();
-		$stages = $this->app['rocketeer.rocketeer']->getStages();
-		if ($stage and in_array($stage, $stages)) {
-			$stages = array($stage);
-		}
+		// Get the connections to execute the tasks on
+		$connections = (array) $this->app['rocketeer.rocketeer']->getConnections();
+		foreach ($connections as $connection) {
+			$this->app['rocketeer.rocketeer']->setConnection($connection);
 
-		// Run the Tasks on each stage
-		if (!empty($stages)) {
-			foreach ($stages as $stage) {
-				$state = $this->runQueue($queue, $stage);
+			// Check if we provided a stage
+			$stage  = $this->getStage();
+			$stages = $this->app['rocketeer.rocketeer']->getStages();
+			if ($stage and in_array($stage, $stages)) {
+				$stages = array($stage);
 			}
-		} else {
-			$state = $this->runQueue($queue);
+
+			// Run the Tasks on each stage
+			if (!empty($stages)) {
+				foreach ($stages as $stage) {
+					$state = $this->runQueue($queue, $stage);
+				}
+			} else {
+				$state = $this->runQueue($queue);
+			}
 		}
 
-		return $state ? $queue : $state;
+		return $this->output;
 	}
 
 	/**
 	 * Run the queue, taking into account the stage
 	 *
-	 * @param  array $tasks
+	 * @param  array  $tasks
 	 * @param  string $stage
 	 *
 	 * @return boolean
@@ -177,6 +223,7 @@ class TasksQueue
 			$this->app['rocketeer.rocketeer']->setStage($currentStage);
 
 			$state = $task->execute();
+			$this->output[] = $state;
 			if ($state === false) {
 				return false;
 			}
@@ -349,8 +396,10 @@ class TasksQueue
 	 */
 	protected function getStage()
 	{
-		$defaultStage = $this->app['rocketeer.rocketeer']->getOption('stages.default');
-		$stage = $this->command->option('stage') ?: $defaultStage;
+		$stage = $this->app['rocketeer.rocketeer']->getOption('stages.default');
+		if ($this->command) {
+			$stage = $this->command->option('stage') ?: $stage;
+		}
 
 		// Return all stages if "all"
 		if ($stage == 'all') {

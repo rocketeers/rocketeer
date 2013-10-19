@@ -209,25 +209,32 @@ abstract class Task extends Bash
 	 */
 	public function setPermissions($folder)
 	{
+		$commands = array();
+
 		// Get path to folder
 		$folder = $this->releasesManager->getCurrentReleasePath($folder);
 		$this->command->comment('Setting permissions for '.$folder);
 
 		// Get permissions options
 		$options = $this->rocketeer->getOption('remote.permissions');
-		$chmod   = array_get($options, 'permissions', 775);
+		$chmod   = array_get($options, 'permissions');
 		$user    = array_get($options, 'apache.user');
 		$group   = array_get($options, 'apache.group');
 
 		// Add chmod
-		$commands = array(
-			sprintf('chmod -R %s %s', $chmod, $folder),
-			sprintf('chmod -R g+s %s', $folder),
-		);
+		if ($chmod) {
+			$commands[] = sprintf('chmod -R %s %s', $chmod, $folder);
+			$commands[] = sprintf('chmod -R g+s %s', $folder);
+		}
 
 		// And chown
 		if ($user and $group) {
 			$commands[] = sprintf('chown -R %s:%s %s', $user, $group, $folder);
+		}
+
+		// Cancel if setting of permissions is not configured
+		if (empty($commands)) {
+			return true;
 		}
 
 		return $this->runForCurrentRelease($commands);

@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/config.git",
-                "reference": "70e05b02ed6f1ff0df447a0da0a2421cf95f6fce"
+                "reference": "a48873b5e777ea09777291b02cb498032924844e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/config/zipball/70e05b02ed6f1ff0df447a0da0a2421cf95f6fce",
-                "reference": "70e05b02ed6f1ff0df447a0da0a2421cf95f6fce",
+                "url": "https://api.github.com/repos/illuminate/config/zipball/a48873b5e777ea09777291b02cb498032924844e",
+                "reference": "a48873b5e777ea09777291b02cb498032924844e",
                 "shasum": ""
             },
             "require": {
@@ -51,7 +51,7 @@
                     "role": "Developer"
                 }
             ],
-            "time": "2013-08-10 17:47:18"
+            "time": "2013-10-01 15:20:00"
         },
         {
             "name": "illuminate/console",
@@ -60,16 +60,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/console.git",
-                "reference": "cffaa6e6414828fb7a0a742b5f7e9d0f789e24ae"
+                "reference": "0b4badcd1aecdb623d3e435d1c6d8797e772e233"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/console/zipball/cffaa6e6414828fb7a0a742b5f7e9d0f789e24ae",
-                "reference": "cffaa6e6414828fb7a0a742b5f7e9d0f789e24ae",
+                "url": "https://api.github.com/repos/illuminate/console/zipball/0b4badcd1aecdb623d3e435d1c6d8797e772e233",
+                "reference": "0b4badcd1aecdb623d3e435d1c6d8797e772e233",
                 "shasum": ""
             },
             "require": {
-                "symfony/console": "2.3.*"
+                "symfony/console": "2.4.*"
             },
             "require-dev": {
                 "phpunit/phpunit": "3.7.*"
@@ -97,7 +97,7 @@
                     "role": "Developer"
                 }
             ],
-            "time": "2013-07-19 10:47:48"
+            "time": "2013-10-08 21:46:57"
         },
         {
             "name": "illuminate/container",
@@ -106,12 +106,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/container.git",
-                "reference": "b9ecfb12b5d45f06e6eb0c9db82fcde6cb5c705e"
+                "reference": "1444907a30937bf4b7a910489160ba4576f3afa9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/container/zipball/b9ecfb12b5d45f06e6eb0c9db82fcde6cb5c705e",
-                "reference": "b9ecfb12b5d45f06e6eb0c9db82fcde6cb5c705e",
+                "url": "https://api.github.com/repos/illuminate/container/zipball/1444907a30937bf4b7a910489160ba4576f3afa9",
+                "reference": "1444907a30937bf4b7a910489160ba4576f3afa9",
                 "shasum": ""
             },
             "require": {
@@ -143,7 +143,7 @@
                     "role": "Developer"
                 }
             ],
-            "time": "2013-07-31 15:34:38"
+            "time": "2013-10-02 21:50:28"
         },
         {
             "name": "illuminate/filesystem",
@@ -152,18 +152,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/filesystem.git",
-                "reference": "fe9915c329ef869efccbc88334cf3ff89f2ecb03"
+                "reference": "98c6e3710853f4e0aee7ea14b09194083815bf1b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/filesystem/zipball/fe9915c329ef869efccbc88334cf3ff89f2ecb03",
-                "reference": "fe9915c329ef869efccbc88334cf3ff89f2ecb03",
+                "url": "https://api.github.com/repos/illuminate/filesystem/zipball/98c6e3710853f4e0aee7ea14b09194083815bf1b",
+                "reference": "98c6e3710853f4e0aee7ea14b09194083815bf1b",
                 "shasum": ""
             },
             "require": {
-                "illuminate/support": "4.1.x",
+                "illuminate/support": "4.1.*",
                 "php": ">=5.3.0",
-                "symfony/finder": "2.3.x"
+                "symfony/finder": "2.4.*"
             },
             "require-dev": {
                 "phpunit/phpunit": "3.7.*"
@@ -191,7 +191,7 @@
                     "role": "Developer"
                 }
             ],
-            "time": "2013-07-02 17:46:50"
+            "time": "2013-10-08 21:46:57"
         },
         {
             "name": "illuminate/support",
@@ -200,12 +200,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "9507e57aa5b237993e2bdb82d8534fc89d5dac6c"
+                "reference": "33df9bdf3d9b38353097d2e6cfdfc4ebfe9900c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/9507e57aa5b237993e2bdb82d8534fc89d5dac6c",
-                "reference": "9507e57aa5b237993e2bdb82d8534fc89d5dac6c",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/33df9bdf3d9b38353097d2e6cfdfc4ebfe9900c1",
+                "reference": "33df9bdf3d9b38353097d2e6cfdfc4ebfe9900c1",
                 "shasum": ""
             },
             "require": {
@@ -242,21 +242,21 @@
                     "role": "Developer"
                 }
             ],
-            "time": "2013-08-05 13:28:56"
+            "time": "2013-10-03 21:32:36"
         },
         {
             "name": "symfony/console",
-            "version": "2.3.x-dev",
+            "version": "dev-master",
             "target-dir": "Symfony/Component/Console",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "v2.3.3"
+                "reference": "608960cd7f7e906e64d6586b9152e308f7ea0ff2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/v2.3.3",
-                "reference": "v2.3.3",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/608960cd7f7e906e64d6586b9152e308f7ea0ff2",
+                "reference": "608960cd7f7e906e64d6586b9152e308f7ea0ff2",
                 "shasum": ""
             },
             "require": {
@@ -271,7 +271,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.3-dev"
+                    "dev-master": "2.4-dev"
                 }
             },
             "autoload": {
@@ -295,21 +295,21 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com",
-            "time": "2013-07-21 12:12:18"
+            "time": "2013-10-16 16:16:10"
         },
         {
             "name": "symfony/finder",
-            "version": "2.3.x-dev",
+            "version": "dev-master",
             "target-dir": "Symfony/Component/Finder",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Finder.git",
-                "reference": "4a0fee5b86f5bbd9dfdc11ec124eba2915737ce1"
+                "reference": "e2ce3164ab58b4d54612e630571f158035ee8603"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Finder/zipball/4a0fee5b86f5bbd9dfdc11ec124eba2915737ce1",
-                "reference": "4a0fee5b86f5bbd9dfdc11ec124eba2915737ce1",
+                "url": "https://api.github.com/repos/symfony/Finder/zipball/e2ce3164ab58b4d54612e630571f158035ee8603",
+                "reference": "e2ce3164ab58b4d54612e630571f158035ee8603",
                 "shasum": ""
             },
             "require": {
@@ -318,7 +318,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.3-dev"
+                    "dev-master": "2.4-dev"
                 }
             },
             "autoload": {
@@ -342,7 +342,7 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "http://symfony.com",
-            "time": "2013-08-13 20:18:00"
+            "time": "2013-09-19 09:47:34"
         }
     ],
     "packages-dev": [
@@ -352,12 +352,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/padraic/mockery.git",
-                "reference": "9d2460275665f4506d359f4e2037705d07833173"
+                "reference": "09ab879a09def2a658d6e8030f88432cc479f5a8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/padraic/mockery/zipball/9d2460275665f4506d359f4e2037705d07833173",
-                "reference": "9d2460275665f4506d359f4e2037705d07833173",
+                "url": "https://api.github.com/repos/padraic/mockery/zipball/09ab879a09def2a658d6e8030f88432cc479f5a8",
+                "reference": "09ab879a09def2a658d6e8030f88432cc479f5a8",
                 "shasum": ""
             },
             "require": {
@@ -398,7 +398,7 @@
                 "test double",
                 "testing"
             ],
-            "time": "2013-08-16 09:45:12"
+            "time": "2013-10-18 15:18:30"
         },
         {
             "name": "nesbot/carbon",
@@ -406,12 +406,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "bfabf7c397090f594bf9ae01c7df5d5c9e045c76"
+                "reference": "06f0b8a99a90c5392ceccb09b75b74ff6c08ec07"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/bfabf7c397090f594bf9ae01c7df5d5c9e045c76",
-                "reference": "bfabf7c397090f594bf9ae01c7df5d5c9e045c76",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/06f0b8a99a90c5392ceccb09b75b74ff6c08ec07",
+                "reference": "06f0b8a99a90c5392ceccb09b75b74ff6c08ec07",
                 "shasum": ""
             },
             "require": {
@@ -441,7 +441,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2013-08-09 04:19:56"
+            "time": "2013-09-09 02:39:19"
         },
         {
             "name": "patchwork/utf8",
@@ -449,16 +449,22 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nicolas-grekas/Patchwork-UTF8.git",
-                "reference": "6c820a6fa0b4464a3d1ea0514937aae46f2e701c"
+                "reference": "efd5478a233f6940d3296ab27c2a02ba47831968"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nicolas-grekas/Patchwork-UTF8/zipball/6c820a6fa0b4464a3d1ea0514937aae46f2e701c",
-                "reference": "6c820a6fa0b4464a3d1ea0514937aae46f2e701c",
+                "url": "https://api.github.com/repos/nicolas-grekas/Patchwork-UTF8/zipball/efd5478a233f6940d3296ab27c2a02ba47831968",
+                "reference": "efd5478a233f6940d3296ab27c2a02ba47831968",
                 "shasum": ""
             },
             "require": {
+                "lib-pcre": "*",
                 "php": ">=5.3.0"
+            },
+            "suggest": {
+                "ext-mbstring": "Use Mbstring for best performance",
+                "lib-iconv": "Use iconv for best performance",
+                "lib-icu": "Use Intl for best performance"
             },
             "type": "library",
             "autoload": {
@@ -478,7 +484,7 @@
                     "role": "Developer"
                 }
             ],
-            "description": "UTF-8 strings handling for PHP 5.3: portable, performant and extended",
+            "description": "Extensive, portable and performant handling of UTF-8 and grapheme clusters for PHP",
             "homepage": "https://github.com/nicolas-grekas/Patchwork-UTF8",
             "keywords": [
                 "i18n",
@@ -486,7 +492,7 @@
                 "utf-8",
                 "utf8"
             ],
-            "time": "2013-08-16 08:38:10"
+            "time": "2013-10-15 08:18:30"
         }
     ],
     "aliases": [

@@ -3,7 +3,7 @@
 	// Remote access
 	//
 	// You can either use a single connection or an array of connections
-	// For this configure your app/remote.php file
+	// If this is null, the "default" entry in remote.php will be used
 	//////////////////////////////////////////////////////////////////////
 
 	// The remote connection(s) to deploy to
@@ -75,6 +75,7 @@
 		'permissions' => array(
 
 			// The permissions to CHMOD folders to
+			// Change to null to leave the folders untouched
 			'permissions' => 755,
 
 			// The folders and files to set as web writable
@@ -126,6 +127,32 @@
 
 		// Custom Tasks to register with Rocketeer
 		'custom' => array(),
+	),
+
+	// Contextual options
+	//
+	// In this section you can fine-tune the above configuration according
+	// to the stage or connection currently in use.
+	// Per example :
+	// 'stages' => array(
+	// 	'staging' => array(
+	// 		'scm' => array('branch' => 'staging'),
+	// 	),
+	//  'production' => array(
+	//    'scm' => array('branch' => 'master'),
+	//  ),
+	// ),
+
+	'on' => array(
+
+		// Stages configurations
+		'stages' => array(
+		),
+
+		// Connections configuration
+		'connections' => array(
+		),
+
 	),
 
 );
