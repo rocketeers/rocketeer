@@ -3,7 +3,7 @@
 	// Remote access
 	//
 	// You can either use a single connection or an array of connections
-	// For this configure your app/remote.php file
+	// If this is null, the "default" entry in remote.php will be used
 	//////////////////////////////////////////////////////////////////////
 
 	// The remote connection(s) to deploy to

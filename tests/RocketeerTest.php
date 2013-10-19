@@ -2,30 +2,29 @@
 
 class RocketeerTest extends RocketeerTests
 {
-
 	////////////////////////////////////////////////////////////////////
 	//////////////////////////////// TESTS /////////////////////////////
 	////////////////////////////////////////////////////////////////////
 
 	public function testCanGetAvailableConnections()
 	{
-		$connections = $this->app['rocketeer.rocketeer']->getConnections();
+		$connections = $this->app['rocketeer.rocketeer']->getAvailableConnections();
 		$this->assertEquals(array('production', 'staging'), array_keys($connections));
 
 		$this->app['rocketeer.server']->setValue('connections.custom.username', 'foobar');
-		$connections = $this->app['rocketeer.rocketeer']->getConnections();
+		$connections = $this->app['rocketeer.rocketeer']->getAvailableConnections();
 		$this->assertEquals(array('custom'), array_keys($connections));
 	}
 
 	public function testCanGetCurrentConnection()
 	{
-		$this->swapConfig(array('remote.default' => 'foobar'));
+		$this->swapConfig(array('rocketeer::connections' => 'foobar'));
 		$this->assertEquals('production', $this->app['rocketeer.rocketeer']->getConnection());
 
-		$this->swapConfig(array('remote.default' => 'production'));
+		$this->swapConfig(array('rocketeer::connections' => 'production'));
 		$this->assertEquals('production', $this->app['rocketeer.rocketeer']->getConnection());
 
-		$this->swapConfig(array('remote.default' => 'staging'));
+		$this->swapConfig(array('rocketeer::connections' => 'staging'));
 		$this->assertEquals('staging', $this->app['rocketeer.rocketeer']->getConnection());
 	}
 
@@ -34,7 +33,6 @@ class RocketeerTest extends RocketeerTests
 		$this->assertEquals('production', $this->app['rocketeer.rocketeer']->getConnection());
 
 		$this->app['rocketeer.rocketeer']->setConnection('staging');
-		$this->swapConfig(array('remote.default' => 'staging'));
 		$this->assertEquals('staging', $this->app['rocketeer.rocketeer']->getConnection());
 	}
 
@@ -143,14 +141,14 @@ class RocketeerTest extends RocketeerTests
 	public function testCanUseRecursiveConnectionConfiguration()
 	{
 		$this->swapConfig(array(
-			'remote.default'                               => 'production',
+			'rocketeer::connections'                       => 'production',
 			'rocketeer::scm.branch'                        => 'master',
 			'rocketeer::on.connections.staging.scm.branch' => 'staging',
 		));
 		$this->assertEquals('master', $this->app['rocketeer.rocketeer']->getOption('scm.branch'));
 
 		$this->swapConfig(array(
-			'remote.default'                               => 'staging',
+			'rocketeer::connections'                       => 'staging',
 			'rocketeer::scm.branch'                        => 'master',
 			'rocketeer::on.connections.staging.scm.branch' => 'staging',
 		));

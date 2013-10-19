@@ -144,7 +144,7 @@ class TasksQueue
 		$queue         = $this->buildQueue($tasks);
 
 		// Get the connections to execute the tasks on
-		$connections = (array) $this->app['rocketeer.rocketeer']->getOption('connections');
+		$connections = (array) $this->app['rocketeer.rocketeer']->getConnections();
 		foreach ($connections as $connection) {
 			$this->app['rocketeer.rocketeer']->setConnection($connection);
 

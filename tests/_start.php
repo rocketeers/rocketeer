@@ -232,11 +232,12 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 		// Drivers
 		$config->shouldReceive('get')->with('cache.driver')->andReturn('file');
 		$config->shouldReceive('get')->with('database.default')->andReturn('mysql');
+		$config->shouldReceive('get')->with('remote.default')->andReturn('production');
 		$config->shouldReceive('get')->with('remote.connections')->andReturn(array('production' => array(), 'staging' => array()));
 		$config->shouldReceive('get')->with('session.driver')->andReturn('file');
 
 		// Rocketeer
-		$config->shouldReceive('get')->with('rocketeer::connections')->andReturn('production');
+		$config->shouldReceive('get')->with('rocketeer::connections')->andReturn(array('production', 'staging'));
 		$config->shouldReceive('get')->with('rocketeer::remote.application_name')->andReturn('foobar');
 		$config->shouldReceive('get')->with('rocketeer::remote.keep_releases')->andReturn(1);
 		$config->shouldReceive('get')->with('rocketeer::remote.permissions')->andReturn(array(
@@ -285,7 +286,7 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 	 */
 	protected function swapConfig($config)
 	{
-		$this->app['rocketeer.rocketeer']->setConnection(null);
+		$this->app['rocketeer.rocketeer']->disconnect();
 		$this->app['config'] = $this->getConfig($config);
 	}
 

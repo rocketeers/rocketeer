@@ -25,6 +25,13 @@ class Rocketeer
 	protected $stage;
 
 	/**
+	 * The connections to use
+	 *
+	 * @var array
+	 */
+	protected $connections;
+
+	/**
 	 * The current connection
 	 *
 	 * @var string
@@ -146,7 +153,7 @@ class Rocketeer
 	 *
 	 * @return array
 	 */
-	public function getConnections()
+	public function getAvailableConnections()
 	{
 		$connections = $this->app['rocketeer.server']->getValue('connections');
 		if (!$connections) {
@@ -157,7 +164,54 @@ class Rocketeer
 	}
 
 	/**
+	 * Check if a connection has credentials related to it
+	 *
+	 * @param  string  $connection
+	 *
+	 * @return boolean
+	 */
+	public function isValidConnection($connection)
+	{
+		$available = (array) $this->getAvailableConnections();
+
+		return array_key_exists($connection, $available);
+	}
+
+	/**
 	 * Get the connection in use
+	 *
+	 * @return string
+	 */
+	public function getConnections()
+	{
+		// Get cached resolved connections
+		if ($this->connections) {
+			return $this->connections;
+		}
+
+		// Get all and defaults
+		$connections = (array) $this->app['config']->get('rocketeer::connections');
+		$default     = $this->app['config']->get('remote.default');
+
+		// Remove invalid connections
+		$me = $this;
+		$connections = array_filter($connections, function($value) use ($me) {
+			return $me->isValidConnection($value);
+		});
+
+		// Return default if no active connection(s) set
+		if (empty($connections)) {
+			return array($default);
+		}
+
+		// Set current connection as default
+		$this->connections = $connections;
+
+		return $connections;
+	}
+
+	/**
+	 * Get the active connection
 	 *
 	 * @return string
 	 */
@@ -168,25 +222,10 @@ class Rocketeer
 			return $this->connection;
 		}
 
-		// Get all and defaults
-		$connections = $this->getConnections();
-		$default     = $this->app['config']->get('remote.default');
+		$connection = array_get($this->getConnections(), 0);
+		$this->connection = $connection;
 
-		// Cancel if no connection has yet been set
-		if (empty($connections)) {
-			return null;
-		}
-
-		// Get the connection to use
-		$connectionName = array_key_exists($default, $connections) ? $default : key($connections);
-
-		// Set current connection as default
-		$this->connection = $connectionName;
-		if (!$default) {
-			$this->app['config']->set('remote.default', $connectionName);
-		}
-
-		return $connectionName;
+		return $this->connection;
 	}
 
 	/**
@@ -196,8 +235,21 @@ class Rocketeer
 	 */
 	public function setConnection($connection)
 	{
-		$this->connection = $connection;
-		$this->app['config']->set('remote.default', $connection);
+		if ($this->isValidConnection($connection)) {
+			$this->connection = $connection;
+			$this->app['config']->set('remote.default', $connection);
+		}
+	}
+
+	/**
+	 * Flush active connection(s)
+	 *
+	 * @return void
+	 */
+	public function disconnect()
+	{
+		$this->connection  = null;
+		$this->connections = null;
 	}
 
 	/**

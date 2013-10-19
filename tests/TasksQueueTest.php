@@ -142,6 +142,10 @@ class TasksQueueTest extends RocketeerTests
 
 	public function testCanRunQueue()
 	{
+		$this->swapConfig(array(
+			'rocketeer::connections' => 'production',
+		));
+
 		$this->expectOutputString('JOEY DOESNT SHARE FOOD');
 		$this->tasksQueue()->run(array(
 			function ($task) {
@@ -153,8 +157,8 @@ class TasksQueueTest extends RocketeerTests
 	public function testCanRunQueueOnDifferentConnectionsAndStages()
 	{
 		$this->swapConfig(array(
-			'rocketeer::connections' => array('staging', 'production'),
-			'rocketeer::stages.stages'      => array('first', 'second'),
+			'rocketeer::connections'   => array('staging', 'production'),
+			'rocketeer::stages.stages' => array('first', 'second'),
 		));
 
 		$output = array();

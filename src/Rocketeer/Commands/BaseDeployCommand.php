@@ -25,6 +25,7 @@ abstract class BaseDeployCommand extends Command
 	{
 		return array(
 			array('pretend', 'p', InputOption::VALUE_NONE,     'Returns an array of commands to be executed instead of actually executing them'),
+			array('on',      'C', InputOption::VALUE_REQUIRED, 'The connection(s) to execute the Task in'),
 			array('stage',   'S', InputOption::VALUE_REQUIRED, 'The stage to execute the Task in')
 		);
 	}
@@ -111,9 +112,14 @@ abstract class BaseDeployCommand extends Command
 	 */
 	protected function getServerCredentials()
 	{
+		if ($connection = $this->option('on')) {
+			$this->laravel['rocketeer.rocketeer']->setConnection($connection);
+		}
+
 		// Check for configured connections
 		$connections    = $this->laravel['rocketeer.rocketeer']->getConnections();
 		$connectionName = $this->laravel['rocketeer.rocketeer']->getConnection();
+		dd($connectionName);
 		if (is_null($connectionName)) {
 			$connectionName = $this->ask('No connections have been set, please create one : (production)', 'production');
 		}
