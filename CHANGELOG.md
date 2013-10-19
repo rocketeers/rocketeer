@@ -5,7 +5,8 @@
 - **Rocketeer can now have specific configurations for stages and connections**
 - **Better handling of multiple connections**
 - **Added facade shortcuts `Rocketeer::execute(Task)` and `Rocketeer::on(connection[s], Task)` to execute commands on the remote servers**
-- Added the `--on` flag to all commands to specify which connections the task should be executed on
+- Added the `--list` flag on the `rollback` command to show a list of available releases and pick one to rollback to
+- Added the `--on` flag to all commands to specify which connections the task should be executed on (ex. `production`, `staging,production`)
 - Added `deploy:flush` to clear Rocketeer's cache of credentials
 
 ### 0.7.0 (stable)
