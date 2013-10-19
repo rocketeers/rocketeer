@@ -34,6 +34,9 @@ class RocketeerTest extends RocketeerTests
 
 		$this->app['rocketeer.rocketeer']->setConnection('staging');
 		$this->assertEquals('staging', $this->app['rocketeer.rocketeer']->getConnection());
+
+		$this->app['rocketeer.rocketeer']->setConnections('staging,production');
+		$this->assertEquals(array('staging', 'production'), $this->app['rocketeer.rocketeer']->getConnections());
 	}
 
 	public function testCanUseSshRepository()
