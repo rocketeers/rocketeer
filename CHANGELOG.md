@@ -1,6 +1,6 @@
 ### Changelog
 
-### 0.8.0 (develop)
+### 0.8.0
 
 - **Rocketeer can now have specific configurations for stages and connections**
 - **Better handling of multiple connections**
@@ -9,7 +9,7 @@
 - Added the `--on` flag to all commands to specify which connections the task should be executed on (ex. `production`, `staging,production`)
 - Added `deploy:flush` to clear Rocketeer's cache of credentials
 
-### 0.7.0 (stable)
+### 0.7.0
 
 - **Rocketeer can now work outside of Laravel**
 - **Better handling of SSH keys**

@@ -43,7 +43,7 @@ class Rocketeer
 	 *
 	 * @var string
 	 */
-	const VERSION = '0.7.0';
+	const VERSION = '0.8.0';
 
 	/**
 	 * Build a new ReleasesManager
