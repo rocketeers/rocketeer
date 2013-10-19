@@ -204,7 +204,7 @@ class TasksQueueTest extends RocketeerTests
 			'rocketeer::stages.stages' => array('first', 'second'),
 		));
 
-		$output = $this->tasksQueue()->on(['staging', 'production'], function($task) {
+		$output = $this->tasksQueue()->on(array('staging', 'production'), function($task) {
 			return $task->rocketeer->getConnection(). ' - ' .$task->rocketeer->getStage();
 		});
 
