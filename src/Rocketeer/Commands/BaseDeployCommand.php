@@ -112,16 +112,10 @@ abstract class BaseDeployCommand extends Command
 	protected function getServerCredentials()
 	{
 		// Check for configured connections
-		$connections = $this->laravel['rocketeer.rocketeer']->getConnections();
-		if (empty($connections)) {
+		$connections    = $this->laravel['rocketeer.rocketeer']->getConnections();
+		$connectionName = $this->laravel['rocketeer.rocketeer']->getConnection();
+		if (is_null($connectionName)) {
 			$connectionName = $this->ask('No connections have been set, please create one : (production)', 'production');
-		} else {
-			$connectionName = key($connections);
-		}
-
-		// Set the found connection as default if none is specified
-		if (!isset($this->laravel['config']['remote.default'])) {
-			$this->laravel['config']->set('remote.default', $connectionName);
 		}
 
 		// Check for server credentials

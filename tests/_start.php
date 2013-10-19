@@ -110,6 +110,7 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 		)));
 
 		// Recreate altered local server
+		$this->app['files']->deleteDirectory(__DIR__.'/../storage');
 		$folders = array('current', 'shared', 'releases', 'releases/10000000000000', 'releases/20000000000000');
 		foreach ($folders as $folder) {
 			$folder = $this->server.'/'.$folder;
@@ -227,7 +228,7 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 		// Drivers
 		$config->shouldReceive('get')->with('cache.driver')->andReturn('file');
 		$config->shouldReceive('get')->with('database.default')->andReturn('mysql');
-		$config->shouldReceive('get')->with('remote.connections')->andReturn(array('production' => array()));
+		$config->shouldReceive('get')->with('remote.connections')->andReturn(array('production' => array(), 'staging' => array()));
 		$config->shouldReceive('get')->with('session.driver')->andReturn('file');
 
 		// Rocketeer
@@ -269,6 +270,21 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 		));
 
 		return $config;
+	}
+
+	/**
+	 * Swap the current config
+	 *
+	 * @param  array $config
+	 *
+	 * @return void
+	 */
+	protected function swapConfig($config)
+	{
+		$this->app['config'] = $this->getConfig();
+		foreach ($config as $key => $value) {
+			$this->app['config']->shouldReceive('get')->with($key)->andReturn($value);
+		}
 	}
 
 	/**

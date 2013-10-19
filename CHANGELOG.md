@@ -2,6 +2,7 @@
 
 ### 0.7.1 (develop)
 
+- **Rocketeer can now have specific configurations for stages and connections**
 - Added `deploy:flush` to clear Rocketeer's cache of credentials
 
 ### 0.7.0 (stable)

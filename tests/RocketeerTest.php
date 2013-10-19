@@ -10,11 +10,23 @@ class RocketeerTest extends RocketeerTests
 	public function testCanGetAvailableConnections()
 	{
 		$connections = $this->app['rocketeer.rocketeer']->getConnections();
-		$this->assertEquals(array('production'), array_keys($connections));
+		$this->assertEquals(array('production', 'staging'), array_keys($connections));
 
 		$this->app['rocketeer.server']->setValue('connections.custom.username', 'foobar');
 		$connections = $this->app['rocketeer.rocketeer']->getConnections();
 		$this->assertEquals(array('custom'), array_keys($connections));
+	}
+
+	public function testCanGetCurrentConnection()
+	{
+		$this->swapConfig(array('remote.default' => 'foobar'));
+		$this->assertEquals('production', $this->app['rocketeer.rocketeer']->getConnection());
+
+		$this->swapConfig(array('remote.default' => 'production'));
+		$this->assertEquals('production', $this->app['rocketeer.rocketeer']->getConnection());
+
+		$this->swapConfig(array('remote.default' => 'staging'));
+		$this->assertEquals('staging', $this->app['rocketeer.rocketeer']->getConnection());
 	}
 
 	public function testCanUseSshRepository()
@@ -109,11 +121,30 @@ class RocketeerTest extends RocketeerTests
 
 	public function testCanUseRecursiveStageConfiguration()
 	{
-		$this->app['config']->shouldReceive('get')->with('rocketeer::scm.branch')->andReturn('master');
-		$this->app['config']->shouldReceive('get')->with('rocketeer::on.stages.staging.scm.branch')->andReturn('staging');
+		$this->swapConfig(array(
+			'rocketeer::scm.branch'                   => 'master',
+			'rocketeer::on.stages.staging.scm.branch' => 'staging',
+		));
 
 		$this->assertEquals('master', $this->app['rocketeer.rocketeer']->getOption('scm.branch'));
 		$this->app['rocketeer.rocketeer']->setStage('staging');
+		$this->assertEquals('staging', $this->app['rocketeer.rocketeer']->getOption('scm.branch'));
+	}
+
+	public function testCanUseRecursiveConnectionConfiguration()
+	{
+		$this->swapConfig(array(
+			'remote.default'                               => 'production',
+			'rocketeer::scm.branch'                        => 'master',
+			'rocketeer::on.connections.staging.scm.branch' => 'staging',
+		));
+		$this->assertEquals('master', $this->app['rocketeer.rocketeer']->getOption('scm.branch'));
+
+		$this->swapConfig(array(
+			'remote.default'                               => 'staging',
+			'rocketeer::scm.branch'                        => 'master',
+			'rocketeer::on.connections.staging.scm.branch' => 'staging',
+		));
 		$this->assertEquals('staging', $this->app['rocketeer.rocketeer']->getOption('scm.branch'));
 	}
 

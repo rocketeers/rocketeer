@@ -77,7 +77,7 @@ class Rocketeer
 				break;
 
 			case 'connections':
-				$contextual = sprintf('rocketeer::on.connections.%s.%s', $this->stage, $option);
+				$contextual = sprintf('rocketeer::on.connections.%s.%s', $this->getConnection(), $option);
 				break;
 		}
 
@@ -147,6 +147,32 @@ class Rocketeer
 		}
 
 		return $connections;
+	}
+
+	/**
+	 * Get the connection in use
+	 *
+	 * @return string
+	 */
+	public function getConnection()
+	{
+		$connections = $this->getConnections();
+		$default     = $this->app['config']->get('remote.default');
+
+		// Cancel if no connection has yet been set
+		if (empty($connections)) {
+			return null;
+		}
+
+		// Get the connection to use
+		$connectionName = array_key_exists($default, $connections) ? $default : key($connections);
+
+		// Get default connection
+		if (!$default) {
+			$this->app['config']->set('remote.default', $connectionName);
+		}
+
+		return $connectionName;
 	}
 
 	/**
