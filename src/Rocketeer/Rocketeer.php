@@ -25,6 +25,13 @@ class Rocketeer
 	protected $stage;
 
 	/**
+	 * The current connection
+	 *
+	 * @var string
+	 */
+	protected $connection;
+
+	/**
 	 * The Rocketeer version
 	 *
 	 * @var string
@@ -156,6 +163,12 @@ class Rocketeer
 	 */
 	public function getConnection()
 	{
+		// Get cached resolved connection
+		if ($this->connection) {
+			return $this->connection;
+		}
+
+		// Get all and defaults
 		$connections = $this->getConnections();
 		$default     = $this->app['config']->get('remote.default');
 
@@ -167,12 +180,24 @@ class Rocketeer
 		// Get the connection to use
 		$connectionName = array_key_exists($default, $connections) ? $default : key($connections);
 
-		// Get default connection
+		// Set current connection as default
+		$this->connection = $connectionName;
 		if (!$default) {
 			$this->app['config']->set('remote.default', $connectionName);
 		}
 
 		return $connectionName;
+	}
+
+	/**
+	 * Set the curent connection
+	 *
+	 * @param string $connection
+	 */
+	public function setConnection($connection)
+	{
+		$this->connection = $connection;
+		$this->app['config']->set('remote.default', $connection);
 	}
 
 	/**

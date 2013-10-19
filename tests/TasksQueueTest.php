@@ -3,7 +3,6 @@ use Rocketeer\Facades\Rocketeer;
 
 class TasksQueueTest extends RocketeerTests
 {
-
 	public function testCanUseFacadeOutsideOfLaravel()
 	{
 		Rocketeer::before('deploy', 'ls');
@@ -149,5 +148,30 @@ class TasksQueueTest extends RocketeerTests
 				print 'JOEY DOESNT SHARE FOOD';
 			}
 		), $this->getCommand());
+	}
+
+	public function testCanRunQueueOnDifferentConnectionsAndStages()
+	{
+		$this->swapConfig(array(
+			'rocketeer::connections' => array('staging', 'production'),
+			'rocketeer::stages.stages'      => array('first', 'second'),
+		));
+
+		$output = array();
+		$queue = array(
+			function($task) use (&$output) {
+				$output[] = $task->rocketeer->getConnection(). ' - ' .$task->rocketeer->getStage();
+			}
+		);
+
+		$queue = $this->tasksQueue()->buildQueue($queue);
+		$this->tasksQueue()->run($queue, $this->getCommand());
+
+		$this->assertEquals(array(
+			'staging - first',
+			'staging - second',
+			'production - first',
+			'production - second',
+		), $output);
 	}
 }

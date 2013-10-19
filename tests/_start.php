@@ -220,10 +220,14 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 	 *
 	 * @return Mockery
 	 */
-	protected function getConfig()
+	protected function getConfig($options = array())
 	{
 		$config = Mockery::mock('Illuminate\Config\Repository');
 		$config->shouldIgnoreMissing();
+
+		foreach ($options as $key => $value) {
+			$config->shouldReceive('get')->with($key)->andReturn($value);
+		}
 
 		// Drivers
 		$config->shouldReceive('get')->with('cache.driver')->andReturn('file');
@@ -281,10 +285,8 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 	 */
 	protected function swapConfig($config)
 	{
-		$this->app['config'] = $this->getConfig();
-		foreach ($config as $key => $value) {
-			$this->app['config']->shouldReceive('get')->with($key)->andReturn($value);
-		}
+		$this->app['rocketeer.rocketeer']->setConnection(null);
+		$this->app['config'] = $this->getConfig($config);
 	}
 
 	/**

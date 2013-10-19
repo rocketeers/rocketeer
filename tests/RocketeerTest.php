@@ -29,6 +29,15 @@ class RocketeerTest extends RocketeerTests
 		$this->assertEquals('staging', $this->app['rocketeer.rocketeer']->getConnection());
 	}
 
+	public function testCanChangeConnection()
+	{
+		$this->assertEquals('production', $this->app['rocketeer.rocketeer']->getConnection());
+
+		$this->app['rocketeer.rocketeer']->setConnection('staging');
+		$this->swapConfig(array('remote.default' => 'staging'));
+		$this->assertEquals('staging', $this->app['rocketeer.rocketeer']->getConnection());
+	}
+
 	public function testCanUseSshRepository()
 	{
 		$repository = 'git@github.com:Anahkiasen/rocketeer.git';

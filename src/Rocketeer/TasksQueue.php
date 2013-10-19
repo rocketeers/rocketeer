@@ -143,20 +143,26 @@ class TasksQueue
 		$this->command = $command;
 		$queue         = $this->buildQueue($tasks);
 
-		// Check if we provided a stage
-		$stage  = $this->getStage();
-		$stages = $this->app['rocketeer.rocketeer']->getStages();
-		if ($stage and in_array($stage, $stages)) {
-			$stages = array($stage);
-		}
+		// Get the connections to execute the tasks on
+		$connections = (array) $this->app['rocketeer.rocketeer']->getOption('connections');
+		foreach ($connections as $connection) {
+			$this->app['rocketeer.rocketeer']->setConnection($connection);
 
-		// Run the Tasks on each stage
-		if (!empty($stages)) {
-			foreach ($stages as $stage) {
-				$state = $this->runQueue($queue, $stage);
+			// Check if we provided a stage
+			$stage  = $this->getStage();
+			$stages = $this->app['rocketeer.rocketeer']->getStages();
+			if ($stage and in_array($stage, $stages)) {
+				$stages = array($stage);
 			}
-		} else {
-			$state = $this->runQueue($queue);
+
+			// Run the Tasks on each stage
+			if (!empty($stages)) {
+				foreach ($stages as $stage) {
+					$state = $this->runQueue($queue, $stage);
+				}
+			} else {
+				$state = $this->runQueue($queue);
+			}
 		}
 
 		return $state ? $queue : $state;
@@ -165,7 +171,7 @@ class TasksQueue
 	/**
 	 * Run the queue, taking into account the stage
 	 *
-	 * @param  array $tasks
+	 * @param  array  $tasks
 	 * @param  string $stage
 	 *
 	 * @return boolean
