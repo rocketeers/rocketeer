@@ -178,4 +178,41 @@ class TasksQueueTest extends RocketeerTests
 			'production - second',
 		), $output);
 	}
+
+	public function testCanRunQueueViaExecute()
+	{
+		$this->swapConfig(array(
+			'rocketeer::connections' => 'production',
+		));
+
+		$output = $this->tasksQueue()->execute(array(
+			'ls -a',
+			function($task) {
+				return 'JOEY DOESNT SHARE FOOD';
+			}
+		));
+
+		$this->assertEquals(array(
+			'.'.PHP_EOL.'..'.PHP_EOL.'.gitkeep',
+			'JOEY DOESNT SHARE FOOD',
+		), $output);
+	}
+
+	public function testCanRunOnMultipleConnectionsViaOn()
+	{
+		$this->swapConfig(array(
+			'rocketeer::stages.stages' => array('first', 'second'),
+		));
+
+		$output = $this->tasksQueue()->on(['staging', 'production'], function($task) {
+			return $task->rocketeer->getConnection(). ' - ' .$task->rocketeer->getStage();
+		});
+
+		$this->assertEquals(array(
+			'production - first',
+			'production - second',
+			'staging - first',
+			'staging - second',
+		), $output);
+	}
 }

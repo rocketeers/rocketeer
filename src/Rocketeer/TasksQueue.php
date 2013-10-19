@@ -40,6 +40,13 @@ class TasksQueue
 	protected $command;
 
 	/**
+	 * The output of the queue
+	 *
+	 * @var array
+	 */
+	protected $output = array();
+
+	/**
 	 * Build a new TasksQueue Instance
 	 *
 	 * @param Container    $app
@@ -123,6 +130,39 @@ class TasksQueue
 		return $this->getSurroundingTasks($task, 'after');
 	}
 
+	/**
+	 * Execute Tasks on the default connection
+	 *
+	 * @param  string|array|Closure $task
+	 *
+	 * @return array
+	 */
+	public function execute($queue)
+	{
+		$queue = (array) $queue;
+		$queue = $this->buildQueue($queue);
+
+		return $this->run($queue);
+	}
+
+	/**
+	 * Execute Tasks on various connections
+	 *
+	 * @param  string|array         $connections
+	 * @param  string|array|Closure $queue
+	 *
+	 * @return array
+	 */
+	public function on($connections, $queue)
+	{
+		$this->app['config']->set('rocketeer::connections', $connections);
+
+		$queue = (array) $queue;
+		$queue = $this->buildQueue($queue);
+
+		return $this->run($queue);
+	}
+
 	////////////////////////////////////////////////////////////////////
 	//////////////////////////////// QUEUE /////////////////////////////
 	////////////////////////////////////////////////////////////////////
@@ -165,7 +205,7 @@ class TasksQueue
 			}
 		}
 
-		return $state ? $queue : $state;
+		return $this->output;
 	}
 
 	/**
@@ -183,6 +223,7 @@ class TasksQueue
 			$this->app['rocketeer.rocketeer']->setStage($currentStage);
 
 			$state = $task->execute();
+			$this->output[] = $state;
 			if ($state === false) {
 				return false;
 			}
@@ -355,8 +396,10 @@ class TasksQueue
 	 */
 	protected function getStage()
 	{
-		$defaultStage = $this->app['rocketeer.rocketeer']->getOption('stages.default');
-		$stage = $this->command->option('stage') ?: $defaultStage;
+		$stage = $this->app['rocketeer.rocketeer']->getOption('stages.default');
+		if ($this->command) {
+			$stage = $this->command->option('stage') ?: $stage;
+		}
 
 		// Return all stages if "all"
 		if ($stage == 'all') {
