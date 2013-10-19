@@ -112,14 +112,14 @@ abstract class BaseDeployCommand extends Command
 	 */
 	protected function getServerCredentials()
 	{
-		if ($connection = $this->option('on')) {
-			$this->laravel['rocketeer.rocketeer']->setConnection($connection);
+		if ($connections = $this->option('on')) {
+			$this->laravel['rocketeer.rocketeer']->setConnections($connections);
 		}
 
 		// Check for configured connections
 		$connections    = $this->laravel['rocketeer.rocketeer']->getConnections();
 		$connectionName = $this->laravel['rocketeer.rocketeer']->getConnection();
-		dd($connectionName);
+
 		if (is_null($connectionName)) {
 			$connectionName = $this->ask('No connections have been set, please create one : (production)', 'production');
 		}
@@ -132,13 +132,13 @@ abstract class BaseDeployCommand extends Command
 		foreach ($credentials as $credential => $required) {
 			${$credential} = array_get($connection, $credential);
 			if (!${$credential} and $required) {
-				${$credential} = $this->ask('No '.$credential. ' is set for current connection, please provide one :');
+				${$credential} = $this->ask('No '.$credential. ' is set for [' .$connectionName. '], please provide one :');
 			}
 		}
 
 		// Get password or key
 		if (!$password and !$key) {
-			$type = $this->ask('No password or SSH key is set for current connection, which would you use ? [key/password]');
+			$type = $this->ask('No password or SSH key is set for [' .$connectionName. '], which would you use ? [key/password]');
 			if ($type == 'key') {
 				$key = $this->ask('Please enter the full path to your key');
 			} else {

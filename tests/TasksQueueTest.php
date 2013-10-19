@@ -209,10 +209,10 @@ class TasksQueueTest extends RocketeerTests
 		});
 
 		$this->assertEquals(array(
-			'production - first',
-			'production - second',
 			'staging - first',
 			'staging - second',
+			'production - first',
+			'production - second',
 		), $output);
 	}
 }

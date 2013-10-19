@@ -155,7 +155,7 @@ class TasksQueue
 	 */
 	public function on($connections, $queue)
 	{
-		$this->app['config']->set('rocketeer::connections', $connections);
+		$this->app['rocketeer.rocketeer']->setConnections($connections);
 
 		$queue = (array) $queue;
 		$queue = $this->buildQueue($queue);

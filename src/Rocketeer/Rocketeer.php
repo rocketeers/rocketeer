@@ -194,9 +194,9 @@ class Rocketeer
 		$default     = $this->app['config']->get('remote.default');
 
 		// Remove invalid connections
-		$me = $this;
-		$connections = array_filter($connections, function($value) use ($me) {
-			return $me->isValidConnection($value);
+		$instance = $this;
+		$connections = array_filter($connections, function($value) use ($instance) {
+			return $instance->isValidConnection($value);
 		});
 
 		// Return default if no active connection(s) set
@@ -226,6 +226,20 @@ class Rocketeer
 		$this->connection = $connection;
 
 		return $this->connection;
+	}
+
+	/**
+	 * Set the active connections
+	 *
+	 * @param string|array $connections
+	 */
+	public function setConnections($connections)
+	{
+		if (!is_array($connections)) {
+			$connections = explode(',', $connections);
+		}
+
+		$this->connections = $connections;
 	}
 
 	/**
