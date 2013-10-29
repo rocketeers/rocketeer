@@ -55,8 +55,13 @@ class Server
 	 */
 	public function getSeparator()
 	{
-		$bash = $this->app['rocketeer.bash'];
+		// If manually set by the user, return it
+		$user = $this->app['rocketeer.rocketeer']->getOption('remote.variables.directory_separator');
+		if ($user) {
+			return $user;
+		}
 
+		$bash = $this->app['rocketeer.bash'];
 		return $this->getValue('directory_separator', function ($server) use ($bash) {
 			$separator = $bash->runRaw('php -r "echo DIRECTORY_SEPARATOR;"');
 
@@ -82,8 +87,13 @@ class Server
 	 */
 	public function getLineEndings()
 	{
-		$bash = $this->app['rocketeer.bash'];
+		// If manually set by the user, return it
+		$user = $this->app['rocketeer.rocketeer']->getOption('remote.variables.line_endings');
+		if ($user) {
+			return $user;
+		}
 
+		$bash = $this->app['rocketeer.bash'];
 		return $this->getValue('line_endings', function ($server) use ($bash) {
 			$endings = $bash->runRaw('php -r "echo PHP_EOL;"');
 			$server->setValue('line_endings', $endings);
