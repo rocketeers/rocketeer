@@ -80,7 +80,7 @@ class Svn extends Scm implements ScmInterface
 	 */
 	public function reset()
 	{
-		return $this->getCommand('revert -R');
+		return $this->getCommand('revert -R .');
 	}
 
 	/**
@@ -98,8 +98,8 @@ class Svn extends Scm implements ScmInterface
 	 *
 	 * @return string
 	 */
-        protected function getCredentials()
-        {
+	protected function getCredentials()
+	{
 		$options = array('--non-interactive');
 		if ($user = $this->app['config']->get('rocketeer::scm.username')) {
 			$options[] = '--username=' . $user;
@@ -109,5 +109,5 @@ class Svn extends Scm implements ScmInterface
 		}
 
 		return implode(' ', $options);
-        }
+	}
 }
