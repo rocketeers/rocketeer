@@ -126,7 +126,7 @@ abstract class BaseDeployCommand extends Command
 
 		// Check for server credentials
 		$connection  = array_get($connections, $connectionName, array());
-		$credentials = array('host' => true, 'username' => true, 'password' => false, 'key' => false);
+		$credentials = array('host' => true, 'username' => true, 'password' => false, 'keyphrase' => null, 'key' => false);
 
 		// Gather credentials
 		foreach ($credentials as $credential => $required) {
@@ -141,6 +141,7 @@ abstract class BaseDeployCommand extends Command
 			$type = $this->ask('No password or SSH key is set for [' .$connectionName. '], which would you use ? [key/password]');
 			if ($type == 'key') {
 				$key = $this->ask('Please enter the full path to your key');
+				$keyphrase = $this->ask('If a keyphrase is required, provide it');
 			} else {
 				$password = $this->ask('Please enter your password');
 			}

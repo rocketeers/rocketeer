@@ -1,5 +1,10 @@
 ### Changelog
 
+### 0.8.1
+
+- Add option to manually set remote variables when encountering problems
+- Add keyphrase support
+
 ### 0.8.0
 
 - **Rocketeer can now have specific configurations for stages and connections**
