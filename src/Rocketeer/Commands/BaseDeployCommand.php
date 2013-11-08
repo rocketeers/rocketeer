@@ -126,7 +126,7 @@ abstract class BaseDeployCommand extends Command
 
 		// Check for server credentials
 		$connection  = array_get($connections, $connectionName, array());
-		$credentials = array('host' => true, 'username' => true, 'password' => false, 'key' => false);
+		$credentials = array('host' => true, 'username' => true, 'password' => false, 'key' => false, 'keyphrase'=>false);
 
 		// Gather credentials
 		foreach ($credentials as $credential => $required) {
