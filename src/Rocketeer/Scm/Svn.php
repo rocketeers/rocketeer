@@ -80,7 +80,8 @@ class Svn extends Scm implements ScmInterface
 	 */
 	public function reset()
 	{
-		return $this->getCommand('revert -R .');
+		$cmd = 'status -q | grep -v \'^[~XI ]\' | awk \'{print $2;}\' | xargs %s revert';
+		return $this->getCommand(sprintf($cmd, $this->binary));
 	}
 
 	/**
