@@ -81,6 +81,7 @@ class Svn extends Scm implements ScmInterface
 	public function reset()
 	{
 		$cmd = 'status -q | grep -v \'^[~XI ]\' | awk \'{print $2;}\' | xargs %s revert';
+
 		return $this->getCommand(sprintf($cmd, $this->binary));
 	}
 
@@ -101,11 +102,14 @@ class Svn extends Scm implements ScmInterface
 	 */
 	protected function getCredentials()
 	{
-		$options = array('--non-interactive');
-		if ($user = $this->app['config']->get('rocketeer::scm.username')) {
+		$options     = array('--non-interactive');
+		$credentials = $this->app['rocketeer.rocketeer']->getCredentials();
+
+		// Build command
+		if ($user = array_get($credentials, 'username')) {
 			$options[] = '--username=' . $user;
 		}
-		if ($pass = $this->app['config']->get('rocketeer::scm.password')) {
+		if ($pass = array_get($credentials, 'password')) {
 			$options[] = '--password=' . $pass;
 		}
 

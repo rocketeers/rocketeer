@@ -1,7 +1,9 @@
 ### Changelog
 
-### 0.8.1
+### 0.9.0
 
+- **Rocketeer now supports SVN**
+- **Rocketeer now has a [Campfire plugin](https://github.com/Anahkiasen/rocketeer-campfire)**
 - Add option to manually set remote variables when encountering problems
 - Add keyphrase support
 

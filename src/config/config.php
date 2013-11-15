@@ -14,7 +14,7 @@
 
 	'scm' => array(
 
-		// The SCM used (supported: "git")
+		// The SCM used (supported: "git", "svn")
 		'scm' => 'git',
 
 		// The SSH/HTTPS adress to your repository
