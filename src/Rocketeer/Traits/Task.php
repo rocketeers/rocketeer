@@ -218,8 +218,8 @@ abstract class Task extends Bash
 		// Get permissions options
 		$options = $this->rocketeer->getOption('remote.permissions');
 		$chmod   = array_get($options, 'permissions');
-		$user    = array_get($options, 'apache.user');
-		$group   = array_get($options, 'apache.group');
+		$user    = array_get($options, 'webuser.user');
+		$group   = array_get($options, 'webuser.group');
 
 		// Add chmod
 		if ($chmod) {
