@@ -105,7 +105,7 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 			"current_release"     => 20000000000000,
 			"directory_separator" => "/",
 			"is_setup"            => true,
-			"apache"              => array("username" => "www-datda","group" => "www-datda"),
+			"webuser"             => array("username" => "www-datda","group" => "www-datda"),
 			"line_endings"        => "\n",
 		)));
 
@@ -242,7 +242,7 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 		$config->shouldReceive('get')->with('rocketeer::remote.keep_releases')->andReturn(1);
 		$config->shouldReceive('get')->with('rocketeer::remote.permissions')->andReturn(array(
 			'permissions' => 755,
-			'apache' => array('user' => 'www-data', 'group' => 'www-data')
+			'webuser' => array('user' => 'www-data', 'group' => 'www-data')
 		));
 		$config->shouldReceive('get')->with('rocketeer::remote.permissions.files')->andReturn(array('tests'));
 		$config->shouldReceive('get')->with('rocketeer::remote.root_directory')->andReturn(__DIR__.'/server/');

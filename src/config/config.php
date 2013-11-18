@@ -94,9 +94,9 @@
 				'{path.public}',
 			),
 
-			// The Apache user and group to CHOWN folders to
+			// The web server user and group to CHOWN folders to
 			// Leave empty to leave the above folders untouched
-			'apache' => array(
+			'webuser' => array(
 				'user'  => 'www-data',
 				'group' => 'www-data',
 			),
