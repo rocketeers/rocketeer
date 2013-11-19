@@ -117,14 +117,30 @@ abstract class BaseDeployCommand extends Command
 		}
 
 		// Check for configured connections
-		$connections    = $this->laravel['rocketeer.rocketeer']->getAvailableConnections();
-		$connectionName = $this->laravel['rocketeer.rocketeer']->getConnection();
+		$activeConnections = $this->laravel['rocketeer.rocketeer']->getConnections();
 
-		if (is_null($connectionName)) {
+		if (count($activeConnections) <= 0) {
 			$connectionName = $this->ask('No connections have been set, please create one : (production)', 'production');
+			$this->storeServerCredentials($connectionName);
+		} else {
+			// Veritfy and store each valid connection
+			foreach ($activeConnections as $connectionName) {
+				$this->storeServerCredentials($connectionName);
+			}
 		}
+	}
 
+	/**
+	 * Verifies and stores credentials for the given connection name
+	 *
+	 * @param  string $connectionName
+	 *
+	 * @return void
+	 */
+	private function storeServerCredentials($connectionName)
+	{
 		// Check for server credentials
+		$connections = $this->laravel['rocketeer.rocketeer']->getAvailableConnections();
 		$connection  = array_get($connections, $connectionName, array());
 		$credentials = array('host' => true, 'username' => true, 'password' => false, 'keyphrase' => null, 'key' => false);
 
@@ -147,7 +163,7 @@ abstract class BaseDeployCommand extends Command
 			}
 		}
 
-		// Save them
+		// Save credentials
 		$credentials = compact(array_keys($credentials));
 		$this->laravel['rocketeer.server']->setValue('connections.'.$connectionName, $credentials);
 		$this->laravel['config']->set('remote.connections.'.$connectionName, $credentials);
