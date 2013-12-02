@@ -26,7 +26,8 @@
 		"nesbot/carbon": "dev-master",
 		"patchwork/utf8": "dev-master",
 		"herrera-io/box": "dev-master",
-		"illuminate/remote": "dev-master"
+		"illuminate/remote": "dev-master",
+		"phpseclib/phpseclib": "dev-phar as 0.3.x-dev"
 	},
 	"minimum-stability": "dev",
 	"bin": [
@@ -36,5 +37,11 @@
 		"psr-0": {
 			"Rocketeer": "src"
 		}
-	}
+	},
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "https://github.com/Anahkiasen/phpseclib"
+		}
+	]
 }

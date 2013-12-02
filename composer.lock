@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "faa9bd51f68d2c5351b778e296ce0bcf",
+    "hash": "42e7830ecd2218694894ba7aff402f40",
     "packages": [
         {
             "name": "illuminate/config",
@@ -707,16 +707,16 @@
         },
         {
             "name": "phpseclib/phpseclib",
-            "version": "dev-master",
+            "version": "dev-phar",
             "source": {
                 "type": "git",
-                "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "ecd58b6a03636264983907613a3f8c1cf2ac6c14"
+                "url": "https://github.com/Anahkiasen/phpseclib.git",
+                "reference": "5947b05f150d02c695dceb28daa884c9a2f963a5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/ecd58b6a03636264983907613a3f8c1cf2ac6c14",
-                "reference": "ecd58b6a03636264983907613a3f8c1cf2ac6c14",
+                "url": "https://api.github.com/repos/Anahkiasen/phpseclib/zipball/5947b05f150d02c695dceb28daa884c9a2f963a5",
+                "reference": "5947b05f150d02c695dceb28daa884c9a2f963a5",
                 "shasum": ""
             },
             "require": {
@@ -747,7 +747,6 @@
                     "phpseclib/Crypt/Random.php"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "include-path": [
                 "phpseclib/"
             ],
@@ -797,11 +796,19 @@
                 "x.509",
                 "x509"
             ],
-            "time": "2013-12-01 11:49:17"
+            "support": {
+                "source": "https://github.com/Anahkiasen/phpseclib/tree/phar"
+            },
+            "time": "2013-12-02 23:14:41"
         }
     ],
     "aliases": [
-
+        {
+            "alias": "0.3.x-dev",
+            "alias_normalized": "0.3.9999999.9999999-dev",
+            "version": "dev-phar",
+            "package": "phpseclib/phpseclib"
+        }
     ],
     "minimum-stability": "dev",
     "stability-flags": {
@@ -809,7 +816,8 @@
         "nesbot/carbon": 20,
         "patchwork/utf8": 20,
         "herrera-io/box": 20,
-        "illuminate/remote": 20
+        "illuminate/remote": 20,
+        "phpseclib/phpseclib": 20
     },
     "platform": {
         "php": ">=5.3.0"
