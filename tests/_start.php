@@ -108,12 +108,12 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 	{
 		// Recreate deployments file
 		$this->app['files']->put($this->deploymentsFile, json_encode(array(
-			"foo"                 => "bar",
-			"current_release"     => 20000000000000,
-			"directory_separator" => "/",
-			"is_setup"            => true,
-			"webuser"             => array("username" => "www-datda","group" => "www-datda"),
-			"line_endings"        => "\n",
+			'foo'                 => 'bar',
+			'current_release'     => 20000000000000,
+			'directory_separator' => '/',
+			'is_setup'            => true,
+			'webuser'             => array('username' => 'www-data','group' => 'www-data'),
+			'line_endings'        => "\n",
 		)));
 
 		// Recreate altered local server

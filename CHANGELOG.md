@@ -1,5 +1,11 @@
 ### Changelog
 
+### 0.9.1
+
+- Fixed a bug where `CurrentRelease` wouldn't show any release with an empty/fresh deployments file
+- Renamed `apache` options in configuration file to `webuser`
+- Fix some multiconnections related bugs
+
 ### 0.9.0
 
 - **Rocketeer now supports SVN**
