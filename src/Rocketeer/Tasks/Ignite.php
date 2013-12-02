@@ -27,10 +27,22 @@ class Ignite extends Task
 			return $this->command->call('config:publish', array('package' => 'anahkiasen/rocketeer'));
 		}
 
-		// Else copy it at the root
+		// Get stub of configuration
 		$config = __DIR__.'/../../config/config.php';
+		$config = file_get_contents($config);
+
+		// Ask for the application name
+		$application = $this->command->ask("What is your application's name ?");
+
+		// Replace credentials
+		$parameters = array_merge($this->rocketeer->getConnectionCredentials(), array('application_name', $application));
+		foreach ($parameters as $name => $value) {
+			$config = str_replace('{' .$name. '}', $value, $config);
+		}
+
+		// Else copy it at the root
 		$root   = trim($this->app['path.base'].'/rocketeer.php', '/');
-		$this->app['files']->copy($config, $root);
+		$this->app['files']->put($root, $config);
 
 		// Display info
 		$folder = basename(dirname($root)).'/'.basename($root);

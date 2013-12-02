@@ -267,7 +267,7 @@ class RocketeerServiceProvider extends ServiceProvider
 		$app['config']->package('anahkiasen/rocketeer', __DIR__.'/../config');
 
 		// Register custom config
-		$custom = $app['path.base'].'/rocketeer.php';
+		$custom = trim($app['path.base'].'/rocketeer.php', '/');
 		if (file_exists($custom)) {
 			$app['config']->afterLoading('rocketeer', function ($me, $group, $items) use ($custom) {
 				$custom = include $custom;

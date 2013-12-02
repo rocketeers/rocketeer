@@ -156,6 +156,13 @@ class Rocketeer
 	public function getAvailableConnections()
 	{
 		$connections = $this->app['rocketeer.server']->getValue('connections');
+
+		// Fetch from config file
+		if (!$connections) {
+			$connections = $this->getOption('connections');
+		}
+
+		// Fetch from remote file
 		if (!$connections) {
 			$connections = $this->app['config']->get('remote.connections');
 		}
@@ -190,7 +197,7 @@ class Rocketeer
 		}
 
 		// Get all and defaults
-		$connections = (array) $this->app['config']->get('rocketeer::connections');
+		$connections = (array) $this->app['config']->get('rocketeer::default');
 		$default     = $this->app['config']->get('remote.default');
 
 		// Remove invalid connections
@@ -226,6 +233,20 @@ class Rocketeer
 		$this->connection = $connection;
 
 		return $this->connection;
+	}
+
+	/**
+	 * Get the credentials for a particular connection
+	 *
+	 * @param string $connection
+	 *
+	 * @return array
+	 */
+	public function getConnectionCredentials($connection = null)
+	{
+		$connection = $connection ?: $this->getConnection();
+
+		return array_get($this->getAvailableConnections(), $connection, array());
 	}
 
 	/**

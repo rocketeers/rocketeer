@@ -3,11 +3,24 @@
 	// Remote access
 	//
 	// You can either use a single connection or an array of connections
-	// If this is null, the "default" entry in remote.php will be used
 	//////////////////////////////////////////////////////////////////////
 
-	// The remote connection(s) to deploy to
-	'connections' => array('production'),
+	// The default remote connection(s) to execute tasks on
+	'default' => array('production'),
+
+	// The various connections you defined
+	// You can leave all of this empty or remove it entirely if you don't want
+	// to track files with credentials : Rocketeer will prompt you for your credentials
+	// and store them locally
+	'connections' => array(
+		'production' => array(
+			'host'      => '{host}',
+			'username'  => '{username}',
+			'password'  => '{password}',
+			'key'       => '{key}',
+			'keyphrase' => '{keyphrase}',
+		),
+	),
 
 	// SCM repository
 	//////////////////////////////////////////////////////////////////////
@@ -17,7 +30,7 @@
 		// The SCM used (supported: "git", "svn")
 		'scm' => 'git',
 
-		// The SSH/HTTPS adress to your repository
+		// The SSH/HTTPS address to your repository
 		// Example: https://github.com/vendor/website.git
 		'repository' => '',
 
@@ -66,7 +79,7 @@
 		// The name of the application to deploy
 		// This will create a folder of the same name in the root directory
 		// configured above, so be careful about the characters used
-		'application_name' => 'application',
+		'application_name' => '{application_name}',
 
 		// The number of releases to keep at all times
 		'keep_releases'    => 4,
