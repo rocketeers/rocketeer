@@ -38,6 +38,13 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 	protected $task;
 
 	/**
+	 * The test repository
+	 *
+	 * @var string
+	 */
+	protected $repository = 'Anahkiasen/html-object.git';
+
+	/**
 	 * Set up the tests
 	 *
 	 * @return void
@@ -246,13 +253,13 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 		));
 		$config->shouldReceive('get')->with('rocketeer::remote.permissions.files')->andReturn(array('tests'));
 		$config->shouldReceive('get')->with('rocketeer::remote.root_directory')->andReturn(__DIR__.'/server/');
-		$config->shouldReceive('get')->with('rocketeer::remote.shared')->andReturn(array('tests/meta'));
+		$config->shouldReceive('get')->with('rocketeer::remote.shared')->andReturn(array('tests/Elements'));
 		$config->shouldReceive('get')->with('rocketeer::stages.default')->andReturn(null);
 		$config->shouldReceive('get')->with('rocketeer::stages.stages')->andReturn(array());
 
 		// SCM
 		$config->shouldReceive('get')->with('rocketeer::scm.branch')->andReturn('master');
-		$config->shouldReceive('get')->with('rocketeer::scm.repository')->andReturn('https://github.com/Anahkiasen/rocketeer.git');
+		$config->shouldReceive('get')->with('rocketeer::scm.repository')->andReturn('https://github.com/'.$this->repository);
 		$config->shouldReceive('get')->with('rocketeer::scm.scm')->andReturn('git');
 
 		// Tasks

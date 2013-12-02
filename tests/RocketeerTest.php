@@ -41,7 +41,7 @@ class RocketeerTest extends RocketeerTests
 
 	public function testCanUseSshRepository()
 	{
-		$repository = 'git@github.com:Anahkiasen/rocketeer.git';
+		$repository = 'git@github.com:'.$this->repository;
 		$this->expectRepositoryConfig($repository, '', '');
 
 		$this->assertEquals($repository, $this->app['rocketeer.rocketeer']->getRepository());
@@ -49,42 +49,42 @@ class RocketeerTest extends RocketeerTests
 
 	public function testCanUseHttpsRepository()
 	{
-		$this->expectRepositoryConfig('https://github.com/Anahkiasen/rocketeer.git', 'foobar', 'bar');
+		$this->expectRepositoryConfig('https://github.com/'.$this->repository, 'foobar', 'bar');
 
-		$this->assertEquals('https://foobar:bar@github.com/Anahkiasen/rocketeer.git', $this->app['rocketeer.rocketeer']->getRepository());
+		$this->assertEquals('https://foobar:bar@github.com/'.$this->repository, $this->app['rocketeer.rocketeer']->getRepository());
 	}
 
 	public function testCanUseHttpsRepositoryWithUsernameProvided()
 	{
-		$this->expectRepositoryConfig('https://foobar@github.com/Anahkiasen/rocketeer.git', 'foobar', 'bar');
+		$this->expectRepositoryConfig('https://foobar@github.com/'.$this->repository, 'foobar', 'bar');
 
-		$this->assertEquals('https://foobar:bar@github.com/Anahkiasen/rocketeer.git', $this->app['rocketeer.rocketeer']->getRepository());
+		$this->assertEquals('https://foobar:bar@github.com/'.$this->repository, $this->app['rocketeer.rocketeer']->getRepository());
 	}
 
 	public function testCanUseHttpsRepositoryWithOnlyUsernameProvided()
 	{
-		$this->expectRepositoryConfig('https://foobar@github.com/Anahkiasen/rocketeer.git', 'foobar', '');
+		$this->expectRepositoryConfig('https://foobar@github.com/'.$this->repository, 'foobar', '');
 
-		$this->assertEquals('https://foobar@github.com/Anahkiasen/rocketeer.git', $this->app['rocketeer.rocketeer']->getRepository());
+		$this->assertEquals('https://foobar@github.com/'.$this->repository, $this->app['rocketeer.rocketeer']->getRepository());
 	}
 
 	public function testCanCleanupProvidedRepositoryFromCredentials()
 	{
-		$this->expectRepositoryConfig('https://foobar@github.com/Anahkiasen/rocketeer.git', 'Anahkiasen', '');
+		$this->expectRepositoryConfig('https://foobar@github.com/'.$this->repository, 'Anahkiasen', '');
 
-		$this->assertEquals('https://Anahkiasen@github.com/Anahkiasen/rocketeer.git', $this->app['rocketeer.rocketeer']->getRepository());
+		$this->assertEquals('https://Anahkiasen@github.com/'.$this->repository, $this->app['rocketeer.rocketeer']->getRepository());
 	}
 
 	public function testCanUseHttpsRepositoryWithoutCredentials()
 	{
-		$this->expectRepositoryConfig('https://github.com/Anahkiasen/rocketeer.git', '', '');
+		$this->expectRepositoryConfig('https://github.com/'.$this->repository, '', '');
 
-		$this->assertEquals('https://github.com/Anahkiasen/rocketeer.git', $this->app['rocketeer.rocketeer']->getRepository());
+		$this->assertEquals('https://github.com/'.$this->repository, $this->app['rocketeer.rocketeer']->getRepository());
 	}
 
 	public function testCanCheckIfRepositoryNeedsCredentials()
 	{
-		$this->expectRepositoryConfig('https://github.com/Anahkiasen/rocketeer.git', '', '');
+		$this->expectRepositoryConfig('https://github.com/'.$this->repository, '', '');
 		$this->assertTrue($this->app['rocketeer.rocketeer']->needsCredentials());
 	}
 

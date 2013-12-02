@@ -127,13 +127,13 @@ abstract class Task extends Bash
 		$this->command->info('Cloning repository in "' .$destination. '"');
 		$output = $this->scm->execute('checkout', $destination);
 
-		$status = $this->checkStatus('Unable to clone the repository', $output);
-		if ($status === false) {
+		$success = $this->checkStatus('Unable to clone the repository', $output) !== false;
+		if (!$success) {
 			// Forget the SCM credentials if they're invalid
 			$this->server->forgetValue('credentials');
 		}
 
-		return $status;
+		return $success;
 	}
 
 	/**

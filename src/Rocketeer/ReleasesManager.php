@@ -109,7 +109,17 @@ class ReleasesManager
 	 */
 	public function getCurrentRelease()
 	{
-		return $this->app['rocketeer.server']->getValue('current_release');
+		// If we have saved the last deployed release, return that
+		$cached = $this->app['rocketeer.server']->getValue('current_release');
+		if ($cached) {
+			return $cached;
+		}
+
+		// Else get and save last deployed release
+		$lastDeployed = array_get($this->getReleases(), 0);
+		$this->updateCurrentRelease($lastDeployed);
+
+		return $lastDeployed;
 	}
 
 	/**
