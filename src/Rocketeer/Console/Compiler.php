@@ -3,6 +3,7 @@ namespace Rocketeer\Console;
 
 use Herrera\Box\Box;
 use Herrera\Box\StubGenerator;
+use Phar;
 use Symfony\Component\Finder\Finder;
 
 class Compiler
@@ -13,6 +14,23 @@ class Compiler
 	 * @var Box
 	 */
 	protected $box;
+
+	/**
+	 * Extract an existing Phar
+	 *
+	 * @param string $phar
+	 *
+	 * @return void
+	 */
+	public function extract($phar, $destination)
+	{
+		if (file_exists($destination)) {
+			$this->removeFolder($destination);
+		}
+
+		$phar = new Phar($phar);
+		$phar->extractTo($destination);
+	}
 
 	/**
 	 * Compile the final PHAR
@@ -52,16 +70,28 @@ class Compiler
 		$this->setStub();
 	}
 
+	////////////////////////////////////////////////////////////////////
+	/////////////////////////////// HELPERS ////////////////////////////
+	////////////////////////////////////////////////////////////////////
+
 	/**
-	 * Get the stub to use
+	 * Remove a folder and all of its contents
 	 *
-	 * @return string
+	 * @param string $folder
+	 *
+	 * @return vodi
 	 */
-	public function getStub()
+	protected function removeFolder($folder)
 	{
-		return StubGenerator::create()
-			->index('bin/rocketeer')
-			->generate();
+    foreach(glob($folder.'/*') as $file) {
+      if(is_dir($file)) {
+      	$this->removeFolder($file);
+      } else {
+      	unlink($file);
+      }
+    }
+
+    rmdir($folder);
 	}
 
 	/**
@@ -71,7 +101,11 @@ class Compiler
 	 */
 	protected function setStub()
 	{
-		$this->box->getPhar()->setStub($this->getStub());
+		$this->box->getPhar()->setStub(
+			StubGenerator::create()
+				->index('bin/rocketeer')
+				->generate()
+		);
 	}
 
 	/**

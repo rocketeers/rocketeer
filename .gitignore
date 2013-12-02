@@ -3,6 +3,7 @@
 
 # Cache and comiled
 bin/rocketeer.phar
+bin/phar
 storage
 
 # Tests

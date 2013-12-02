@@ -1,0 +1,5 @@
+<?php
+require __DIR__.'/../vendor/autoload.php';
+
+$compiler = new Rocketeer\Console\Compiler;
+$compiler->extract(__DIR__.'/rocketeer.phar', __DIR__.'/phar');
