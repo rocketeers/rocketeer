@@ -2,7 +2,6 @@
 namespace Rocketeer\Console;
 
 use Herrera\Box\Box;
-use Herrera\Box\Compactor\Php;
 use Herrera\Box\StubGenerator;
 use Phar;
 use Symfony\Component\Finder\Finder;
@@ -56,7 +55,7 @@ class Compiler
 		$this->box = Box::create($phar, 0, basename($phar));
 
 		// Add compactors
-		$this->box->addCompactor(new Php);
+		$this->box->addCompactor(new WhitespaceCompactor);
 
 		// Add core files and dependencies
 		$this->addFolder($src);

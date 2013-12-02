@@ -29,7 +29,7 @@ class Ignite extends Task
 
 		// Else copy it at the root
 		$config = __DIR__.'/../../config/config.php';
-		$root   = $this->app['path.base'].'/rocketeer.php';
+		$root   = trim($this->app['path.base'].'/rocketeer.php', '/');
 		$this->app['files']->copy($config, $root);
 
 		// Display info

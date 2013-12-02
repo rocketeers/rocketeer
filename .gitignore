@@ -5,6 +5,7 @@
 bin/rocketeer.phar
 bin/phar
 storage
+rocketeer.php
 
 # Tests
 tests/coverage
