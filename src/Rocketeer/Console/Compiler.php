@@ -2,6 +2,7 @@
 namespace Rocketeer\Console;
 
 use Herrera\Box\Box;
+use Herrera\Box\Compactor\Php;
 use Herrera\Box\StubGenerator;
 use Phar;
 use Symfony\Component\Finder\Finder;
@@ -46,12 +47,16 @@ class Compiler
 			unlink($phar);
 		}
 
-		$this->box = Box::create($phar, 0, basename($phar));
-
-		// Get some paths
+		// Store some path variables
 		$root   = __DIR__.'/../../..';
 		$src    = $root.'/src';
 		$vendor = $root.'/vendor';
+
+		// Create Box
+		$this->box = Box::create($phar, 0, basename($phar));
+
+		// Add compactors
+		$this->box->addCompactor(new Php);
 
 		// Add core files and dependencies
 		$this->addFolder($src);
@@ -59,6 +64,7 @@ class Compiler
 			'mockery',
 			'patchwork',
 			'herrera-io',
+			'nesbot',
 		));
 
 		// Add binary
