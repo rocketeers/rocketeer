@@ -1,7 +1,7 @@
 <?php
 namespace Rocketeer\Tasks;
 
-use Carbon\Carbon;
+use DateTime;
 use Rocketeer\Traits\Task;
 
 /**
@@ -30,7 +30,7 @@ class CurrentRelease extends Task
 		}
 
 		// Create message
-		$date    = Carbon::createFromFormat('YmdHis', $currentRelease)->toDateTimeString();
+		$date    = DateTime::createFromFormat('YmdHis', $currentRelease)->format('Y-m-d H:i:s');
 		$state   = $this->runForCurrentRelease($this->scm->currentState());
 		$message = sprintf('The current release is <info>%s</info> (<comment>%s</comment> deployed at <comment>%s</comment>)', $currentRelease, $state, $date);
 
