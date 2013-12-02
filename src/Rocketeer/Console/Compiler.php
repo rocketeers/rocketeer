@@ -37,7 +37,11 @@ class Compiler
 
 		// Add core files and dependencies
 		$this->addFolder($src);
-		$this->addFolder($vendor);
+		$this->addFolder($vendor, array(
+			'mockery',
+			'patchwork',
+			'herrera-io',
+		));
 
 		// Add binary
 		$binary = file_get_contents($root.'/bin/rocketeer');
@@ -74,16 +78,24 @@ class Compiler
 	 * Add a folder to the PHAR
 	 *
 	 * @param string $folder
+	 * @param array  $ignore
 	 *
 	 * @return array
 	 */
-	protected function addFolder($folder)
+	protected function addFolder($folder, array $ignore = array())
 	{
 		$finder = new Finder();
 		$finder = $finder->files()
 			->ignoreVCS(true)
 			->name('*.php')
 			->in($folder);
+
+		// Ignore some files or folders
+		if ($ignore) {
+			foreach ($ignore as $file) {
+				$finder->exclude($file);
+			}
+		}
 
 		$this->box->buildFromIterator($finder, dirname($folder));
 

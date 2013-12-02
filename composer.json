@@ -25,7 +25,8 @@
 		"mockery/mockery": "dev-master",
 		"nesbot/carbon": "dev-master",
 		"patchwork/utf8": "dev-master",
-		"herrera-io/box": "dev-master"
+		"herrera-io/box": "dev-master",
+		"illuminate/remote": "dev-master"
 	},
 	"minimum-stability": "dev",
 	"bin": [
