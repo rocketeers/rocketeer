@@ -200,7 +200,7 @@ class Rocketeer
 		});
 
 		// Return default if no active connection(s) set
-		if (empty($connections)) {
+		if (empty($connections) and $default) {
 			return array($default);
 		}
 

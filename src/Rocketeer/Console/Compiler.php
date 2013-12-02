@@ -89,8 +89,8 @@ class Compiler
 	 */
 	protected function removeFolder($folder)
 	{
-    foreach(glob($folder.'/*') as $file) {
-      if(is_dir($file)) {
+    foreach (glob($folder.'/*') as $file) {
+      if (is_dir($file)) {
       	$this->removeFolder($file);
       } else {
       	unlink($file);

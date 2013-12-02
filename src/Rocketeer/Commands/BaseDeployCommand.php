@@ -104,7 +104,7 @@ abstract class BaseDeployCommand extends Command
 			$this->laravel['config']->set('rocketeer::scm.'.$key, $credential);
 		}
 	}
-	
+
 	/**
 	 * Get the Server's credentials
 	 *
@@ -118,7 +118,7 @@ abstract class BaseDeployCommand extends Command
 
 		// Check for configured connections
 		$availableConnections = $this->laravel['rocketeer.rocketeer']->getAvailableConnections();
-		$activeConnections = $this->laravel['rocketeer.rocketeer']->getConnections();
+		$activeConnections    = $this->laravel['rocketeer.rocketeer']->getConnections();
 
 		if (count($activeConnections) <= 0) {
 			$connectionName = $this->ask('No connections have been set, please create one : (production)', 'production');
