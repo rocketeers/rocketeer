@@ -24,15 +24,16 @@
 	"require-dev": {
 		"mockery/mockery": "dev-master",
 		"nesbot/carbon": "dev-master",
-		"patchwork/utf8": "dev-master"
+		"patchwork/utf8": "dev-master",
+		"herrera-io/box": "dev-master"
 	},
 	"minimum-stability": "dev",
 	"bin": [
-		"rocketeer"
+		"bin/rocketeer"
 	],
 	"autoload": {
 		"psr-0": {
-			"Rocketeer": "src/"
+			"Rocketeer": "src"
 		}
 	}
 }

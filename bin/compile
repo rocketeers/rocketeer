@@ -1,0 +1,7 @@
+#!/usr/bin/env php
+<?php
+require __DIR__.'/../vendor/autoload.php';
+
+$compiler = new Rocketeer\Console\Compiler;
+
+return $compiler->compile(__DIR__.'/rocketeer.phar');

@@ -1,5 +1,5 @@
 <?php
-namespace Rocketeer;
+namespace Rocketeer\Console;
 
 use Illuminate\Console\Application;
 

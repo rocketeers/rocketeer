@@ -1,4 +1,12 @@
+# Dotfiles
 .DS_Store
+
+# Cache and comiled
+bin/rocketeer.phar
 storage
+
+# Tests
 tests/coverage
+
+# Dependencies
 vendor
