@@ -27,6 +27,24 @@ class Ignite extends Task
 			return $this->command->call('config:publish', array('package' => 'anahkiasen/rocketeer'));
 		}
 
+		// Else create configuration file
+		$root   = trim($this->app['path.base'].'/rocketeer.php', '/');
+		$this->app['files']->put($root, $this->getConfigurationStub());
+
+		// Display info
+		$folder = basename(dirname($root)).'/'.basename($root);
+		$this->command->line('<comment>The Rocketeer configuration was created at</comment> <info>'.$folder.'</info>');
+
+		return $this->history;
+	}
+
+	/**
+	 * Get the configuration stub to use
+	 *
+	 * @return string
+	 */
+	protected function getConfigurationStub()
+	{
 		// Get stub of configuration
 		$config = __DIR__.'/../../config/config.php';
 		$config = file_get_contents($config);
@@ -35,19 +53,22 @@ class Ignite extends Task
 		$application = $this->command->ask("What is your application's name ?");
 
 		// Replace credentials
-		$parameters = array_merge($this->rocketeer->getConnectionCredentials(), array('application_name', $application));
+		$repositoryCredentials = $this->rocketeer->getCredentials();
+		$parameters = array_merge(
+			$this->rocketeer->getConnectionCredentials(),
+			array(
+				'scm_repository'   => $repositoryCredentials['repository'],
+				'scm_username'     => $repositoryCredentials['username'],
+				'scm_password'     => $repositoryCredentials['password'],
+				'application_name' => $application,
+			)
+		);
+
+		// Replace patterns
 		foreach ($parameters as $name => $value) {
 			$config = str_replace('{' .$name. '}', $value, $config);
 		}
 
-		// Else copy it at the root
-		$root   = trim($this->app['path.base'].'/rocketeer.php', '/');
-		$this->app['files']->put($root, $config);
-
-		// Display info
-		$folder = basename(dirname($root)).'/'.basename($root);
-		$this->command->line('<comment>The Rocketeer configuration was created at</comment> <info>'.$folder.'</info>');
-
-		return $this->history;
+		return $config;
 	}
 }

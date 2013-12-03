@@ -159,7 +159,7 @@ class Rocketeer
 
 		// Fetch from config file
 		if (!$connections) {
-			$connections = $this->getOption('connections');
+			$connections = $this->app['config']->get('rocketeer::connections');
 		}
 
 		// Fetch from remote file
@@ -313,7 +313,11 @@ class Rocketeer
 			$credentials = $this->getOption('scm');
 		}
 
-		return $credentials;
+		return array_merge(array(
+			'repository' => '',
+			'username'   => '',
+			'password'   => '',
+		), $credentials);
 	}
 
 	/**

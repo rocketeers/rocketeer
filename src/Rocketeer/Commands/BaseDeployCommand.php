@@ -91,7 +91,7 @@ abstract class BaseDeployCommand extends Command
 
 		// Gather credentials
 		foreach ($credentials as $credential) {
-			${$credential} = array_get($repositoryInfos, $credential);
+			${$credential} = $this->getCredential($repositoryInfos, $credential);
 			if (!${$credential}) {
 				${$credential} = $this->ask('No '.$credential. ' is set for the repository, please provide one :');
 			}
@@ -145,8 +145,8 @@ abstract class BaseDeployCommand extends Command
 
 		// Gather credentials
 		foreach ($credentials as $credential => $required) {
-			${$credential} = array_get($connection, $credential);
-			if (!${$credential} and $required) {
+			${$credential} = $this->getCredential($connection, $credential);
+			if ($required and !${$credential}) {
 				${$credential} = $this->ask('No '.$credential. ' is set for [' .$connectionName. '], please provide one :');
 			}
 		}
@@ -155,7 +155,7 @@ abstract class BaseDeployCommand extends Command
 		if (!$password and !$key) {
 			$type = $this->ask('No password or SSH key is set for [' .$connectionName. '], which would you use ? [key/password]');
 			if ($type == 'key') {
-				$key = $this->ask('Please enter the full path to your key');
+				$key       = $this->ask('Please enter the full path to your key');
 				$keyphrase = $this->ask('If a keyphrase is required, provide it');
 			} else {
 				$password = $this->ask('Please enter your password');
@@ -166,5 +166,23 @@ abstract class BaseDeployCommand extends Command
 		$credentials = compact(array_keys($credentials));
 		$this->laravel['rocketeer.server']->setValue('connections.'.$connectionName, $credentials);
 		$this->laravel['config']->set('remote.connections.'.$connectionName, $credentials);
+	}
+
+	/**
+	 * Check if a credential needs to be filled
+	 *
+	 * @param array   $credentials
+	 * @param string  $credential
+	 *
+	 * @return boolean
+	 */
+	protected function getCredential($credentials, $credential)
+	{
+		$credential = array_get($credentials, $credential);
+		if (substr($credential, 0, 1) === '{') {
+			return;
+		}
+
+		return $credential;
 	}
 }
