@@ -56,6 +56,10 @@ The MIT License (MIT). Please see [License File](https://github.com/anahkiasen/r
 
 -----
 
+## Available plugins
+
+- [Campfire](https://github.com/Anahkiasen/rocketeer-campfire)
+
 ## Why not Capistrano ?
 
 That's a question that's been asked to me, why not simply use Capistrano ? I've used Capistrano in the past, it does everything you want it to do, that's a given.
