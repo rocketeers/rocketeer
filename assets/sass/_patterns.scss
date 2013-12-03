@@ -9,9 +9,7 @@
 
 %main-column {
 	@include container;
-	width: 90%;
-	max-width: 90rem;
-	@include box-shadow(0 0 0 1rem rgba(black, .05));
+	width: 100%;
 
 	@include breakpoint(max-width $tablet) {
 		width: 95%;

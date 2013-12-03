@@ -3,11 +3,10 @@
 //////////////////////////////////////////////////////////////////////
 
 .layout-buttons {
-	@extend %main-column;
-	background-color: lighten(black, 95);
 	@extend %reset-margins;
-	padding: 1rem 0;
+	background-color: white;
 	margin: 1rem auto;
+	padding: 1rem 0;
 	text-align: center;
 }
 
@@ -20,24 +19,43 @@ $inner-padding: 2rem;
 
 	section {
 		@extend %reset-margins;
-		background-color: white;
-		border-left: .5rem solid $color-accent;
-		padding: $inner-padding;
-		padding-top: 0;
-		margin-bottom: 0;
+		padding: 2rem 20%;
 
 		h1:first-child {
 			width: 100%;
 			@extend %reset-margins;
-			@include box-shadow(0 .15em 0 rgba(black, .1));
 			@include box-sizing(content-box);
-			background-color: $color-accent;
-			color: white;
-			font-weight: 300;
+			color: $color-accent;
+			text-transform: uppercase;
+			text-align: center;
+			font-weight: 100;
 			margin-bottom: 2rem;
+			font-size: 5rem;
 			margin-left: -($inner-padding * 2);
-			padding: 0.5rem ($inner-padding + 2rem) 0.75rem;
+			padding: 0.5rem 2rem 0.75rem;
 		}
+
+		&:nth-child(2) {
+			background-color: #2A3D52;
+
+			&, h1:first-child, a {
+				color: white;
+			}
+			h2, h3 {
+				color: lighten(#2488C9, 15);
+			}
+			code {
+				background-color: darken(#2B3E51, 15);
+				color: white;
+			}
+			pre {
+				border: none;
+			}
+		}
+	}
+
+	hr {
+		border-color: #7F8C8D;
 	}
 
 	p {
