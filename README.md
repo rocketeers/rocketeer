@@ -56,13 +56,6 @@ The MIT License (MIT). Please see [License File](https://github.com/anahkiasen/r
 
 -----
 
-## Tasks
-
-An important concept in Rocketeer is Tasks : most of the commands you see right above are using predefined Tasks underneath : **Rocketeer\Tasks\Setup**, **Rocketeer\Tasks\Deploy**, etc.
-Now, the core of Rocketeer is you can hook into any of those Tasks to perform additional actions, for this you'll use the `before` and `after` arrays of Rocketeer's config file.
-
-You can read more about Tasks and what you can do with them [in the wiki](https://github.com/Anahkiasen/rocketeer/wiki/Tasks).
-
 ## Why not Capistrano ?
 
 That's a question that's been asked to me, why not simply use Capistrano ? I've used Capistrano in the past, it does everything you want it to do, that's a given.
@@ -74,6 +67,7 @@ It's also more thought out for the PHP world – although you can configure Capi
 
 ## Table of contents
 
+- **[What's Rocketeer](https://github.com/Anahkiasen/rocketeer/wiki/What-Rocketeer)**
 - **[Getting Started](https://github.com/Anahkiasen/rocketeer/wiki/Getting-started)**
 - **[Tasks](https://github.com/Anahkiasen/rocketeer/wiki/Tasks)**
 - **[Architecture](https://github.com/Anahkiasen/rocketeer/wiki/Architecture)**
