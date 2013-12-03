@@ -29,7 +29,7 @@ class BashTest extends RocketeerTests
 	{
 		$contents = $this->task->runRaw('ls', true);
 
-		$this->assertCount(12, $contents);
+		$this->assertCount(11, $contents);
 	}
 
 	public function testCanListContentsOfAFolder()
