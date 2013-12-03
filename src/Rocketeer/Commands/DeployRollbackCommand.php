@@ -53,7 +53,7 @@ class DeployRollbackCommand extends BaseDeployCommand
 	protected function getOptions()
 	{
 		return array_merge(parent::getOptions(), array(
-			array('list', 'L', InputOption::VALUE_NONE, 'Shows the available release to rollbacl to'),
+			array('list', 'L', InputOption::VALUE_NONE, 'Shows the available releases to rollback to'),
 		));
 	}
 }

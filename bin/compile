@@ -3,5 +3,4 @@
 require __DIR__.'/../vendor/autoload.php';
 
 $compiler = new Rocketeer\Console\Compiler;
-
-return $compiler->compile(__DIR__.'/rocketeer.phar');
+$compiler->compile(__DIR__.'/rocketeer.phar');

@@ -174,7 +174,7 @@ abstract class BaseDeployCommand extends Command
 	 * @param array   $credentials
 	 * @param string  $credential
 	 *
-	 * @return boolean
+	 * @return string
 	 */
 	protected function getCredential($credentials, $credential)
 	{

@@ -8,4 +8,5 @@ use Illuminate\Console\Application;
  */
 class Console extends Application
 {
+	// ...
 }
