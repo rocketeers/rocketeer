@@ -16,7 +16,11 @@ class Rollback extends Task
 	 */
 	public function execute()
 	{
+		// Get previous release
 		$rollbackRelease = $this->getRollbackRelease();
+		if (!$rollbackRelease) {
+			$this->command->error('Rocketeer could not rollback as no releases have yet been deployed');
+		}
 
 		// If no release specified, display the available ones
 		if ($this->command->option('list')) {
@@ -53,7 +57,7 @@ class Rollback extends Task
 	 */
 	protected function getRollbackRelease()
 	{
-		$release = $this->command->argument('release');
+		$release = array_get($this->command->argument(), 'release');
 		if (!$release) {
 			$release = $this->releasesManager->getPreviousRelease();
 		}
