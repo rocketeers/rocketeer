@@ -28,22 +28,24 @@ class Server
 	 *
 	 * @param Container  $app
 	 * @param string     $filename
+	 * @param stirng     $storage
 	 */
-	public function __construct(Container $app, $filename = 'deployments')
+	public function __construct(Container $app, $filename = 'deployments', $storage = null)
 	{
 		$this->app = $app;
-		$this->setRepository($filename);
+
+		$this->setRepository($filename, $storage);
 	}
 
 	/**
 	 * Change the repository in use
 	 *
 	 * @param string $filename
+	 * @param stirng     $storage
 	 */
-	public function setRepository($filename)
+	public function setRepository($filename, $storage = null)
 	{
 		// Create personnal storage if necessary
-		$storage = null;
 		if (!$this->app->bound('path.storage')) {
 			$storage = __DIR__.DS.'..'.DS.'..'.DS.'storage';
 			@mkdir($storage);
