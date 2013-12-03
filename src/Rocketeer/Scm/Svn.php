@@ -115,4 +115,14 @@ class Svn extends Scm implements ScmInterface
 
 		return implode(' ', $options);
 	}
+
+	/**
+	 * Checkout the repository's submodules
+	 *
+	 * @return string
+	 */
+	public function submodules()
+	{
+		return '';
+	}
 }

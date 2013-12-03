@@ -87,4 +87,14 @@ class Git extends Scm implements ScmInterface
 	{
 		return $this->getCommand('pull');
 	}
+
+	/**
+	 * Checkout the repository's submodules
+	 *
+	 * @return string
+	 */
+	public function submodules()
+	{
+		return $this->getCommand('submodule update --init --recursive');
+	}
 }

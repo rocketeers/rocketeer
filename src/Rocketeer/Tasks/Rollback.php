@@ -23,7 +23,7 @@ class Rollback extends Task
 		}
 
 		// If no release specified, display the available ones
-		if ($this->command->option('list')) {
+		if (array_get($this->command->option(), 'list')) {
 			$releases = $this->releasesManager->getReleases();
 			$this->command->info('Here are the available releases :');
 

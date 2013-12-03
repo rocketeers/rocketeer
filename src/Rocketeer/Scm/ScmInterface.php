@@ -49,4 +49,11 @@ interface ScmInterface
 	 * @return string
 	 */
 	public function update();
+
+	/**
+	 * Checkout the repository's submodules
+	 *
+	 * @return string
+	 */
+	public function submodules();
 }

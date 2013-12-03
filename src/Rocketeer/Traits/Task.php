@@ -124,14 +124,21 @@ abstract class Task extends Bash
 			$destination = $this->releasesManager->getCurrentReleasePath();
 		}
 
+		// Executing checkout
 		$this->command->info('Cloning repository in "' .$destination. '"');
 		$output = $this->scm->execute('checkout', $destination);
 
+		// Cancel if failed and forget credentials
 		$success = $this->checkStatus('Unable to clone the repository', $output) !== false;
 		if (!$success) {
-			// Forget the SCM credentials if they're invalid
 			$this->server->forgetValue('credentials');
+
+			return false;
 		}
+
+		// Deploy submodules
+		$this->command->info('Initializing submodules if any');
+		$this->runForCurrentRelease($this->scm->submodules());
 
 		return $success;
 	}
@@ -254,6 +261,12 @@ abstract class Task extends Bash
 		// Find Composer
 		$composer = $this->getComposer();
 		if (!$composer) {
+			return true;
+		}
+
+		// Check for Composer file
+		$dependencies = $this->releasesManager->getCurrentReleasePath().'/composer.json';
+		if (!$this->fileExists($dependencies)) {
 			return true;
 		}
 

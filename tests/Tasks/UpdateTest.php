@@ -21,10 +21,6 @@ class UpdateTest extends RocketeerTests
 			$composer,
 			array(
 				"cd " .$this->server. "/releases/20000000000000",
-				$composer. " install",
-			),
-			array(
-				"cd " .$this->server. "/releases/20000000000000",
 				"chmod -R 755 " .$this->server. "/releases/20000000000000/tests",
 				"chmod -R g+s " .$this->server. "/releases/20000000000000/tests",
 				"chown -R www-data:www-data " .$this->server. "/releases/20000000000000/tests",
