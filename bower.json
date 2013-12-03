@@ -1,8 +1,10 @@
 {
   "name": "Rocketeer",
   "dependencies": {
+  	"bootstrap": "latest",
     "marked": "latest",
-    "jquery": "~1",
-    "rainbow": "latest"
+    "jquery": "latest",
+    "rainbow": "latest",
+    "compass-breakpoint": "latest"
   }
 }
