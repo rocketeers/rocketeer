@@ -5,21 +5,23 @@
 .layout-header {
 	@include transition(padding .3s);
 	@extend %reset-margins;
-	background: white image-url('rocket.svg') 10% 10% fixed no-repeat;
-	background-size: 25rem;
+	@include box-shadow(inset 0 -1rem 0 0 rgba(black, .25));
+	background: white image-url('header.jpg') fixed no-repeat;
+	background-size: cover;
 	padding: 11rem 0;
 	text-align: center;
 
 	h1 {
 		@extend %reset-margins;
-		color: lighten($color-base, 10);
+		color: white;
 		font-size: 5rem;
 		font-weight: 300;
 		line-height: $line-height;
-		text-shadow: 0 .05em 0 rgba(black, .05);
+		text-shadow: 0 .05em 0 rgba(black, .25);
+		font-family: $font-sans;
 
 		small {
-			color: lighten(black, 80);
+			color: lighten(black, 90);
 			display: block;
 			line-height: 1;
 			margin: auto;
