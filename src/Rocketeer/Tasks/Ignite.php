@@ -28,11 +28,11 @@ class Ignite extends Task
 		}
 
 		// Else create configuration file
-		$root   = trim($this->app['path.base'].'/rocketeer.php', '/');
-		$this->app['files']->put($root, $this->getConfigurationStub());
+		$path = $this->app['path.rocketeer.config'];
+		$this->app['files']->put($path, $this->getConfigurationStub());
 
 		// Display info
-		$folder = basename(dirname($root)).'/'.basename($root);
+		$folder = basename(dirname($path)).'/'.basename($path);
 		$this->command->line('<comment>The Rocketeer configuration was created at</comment> <info>'.$folder.'</info>');
 
 		return $this->history;

@@ -313,6 +313,9 @@ class Rocketeer
 			$credentials = $this->getOption('scm');
 		}
 
+		// Cast to array
+		$credentials = (array) $credentials;
+
 		return array_merge(array(
 			'repository' => '',
 			'username'   => '',

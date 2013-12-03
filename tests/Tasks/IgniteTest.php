@@ -8,17 +8,18 @@ class IgniteTest extends RocketeerTests
 		$this->app->offsetUnset('artisan');
 
 		$this->app['path.base'] = __DIR__.'/../..';
+		$this->app['path.rocketeer.config'] = $this->app['path.base'].'/rocketeer.php';
 
 		// Execute Task
 		$task = $this->task('Ignite');
 		$task->execute();
 
-		$root = $this->app['path.base'].'/rocketeer.php';
+		$root = $this->app['path.rocketeer.config'];
 		$this->assertFileExists($root);
 
-		$config = include $this->app['path.base'].'/src/config/config.php';
+		$config   = include $this->app['path.base'].'/src/config/config.php';
 		$contents = include $root;
-		$this->assertEquals($config, $contents);
+		$this->assertEquals(array('production'), $contents['default']);
 	}
 
 	public function testCanIgniteConfigurationInLaravel()

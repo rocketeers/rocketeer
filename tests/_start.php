@@ -72,6 +72,7 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 		// Rocketeer classes ------------------------------------------- /
 
 		$serviceProvider = new RocketeerServiceProvider($this->app);
+		$this->app = $serviceProvider->bindPaths($this->app);
 		$this->app = $serviceProvider->bindClasses($this->app);
 		$this->app = $serviceProvider->bindScm($this->app);
 
@@ -244,7 +245,8 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 		$config->shouldReceive('get')->with('session.driver')->andReturn('file');
 
 		// Rocketeer
-		$config->shouldReceive('get')->with('rocketeer::connections')->andReturn(array('production', 'staging'));
+		$config->shouldReceive('get')->with('rocketeer::default')->andReturn(array('production', 'staging'));
+		$config->shouldReceive('get')->with('rocketeer::connections')->andReturn(array());
 		$config->shouldReceive('get')->with('rocketeer::remote.application_name')->andReturn('foobar');
 		$config->shouldReceive('get')->with('rocketeer::remote.keep_releases')->andReturn(1);
 		$config->shouldReceive('get')->with('rocketeer::remote.permissions')->andReturn(array(

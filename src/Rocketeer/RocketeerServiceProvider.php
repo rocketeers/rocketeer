@@ -74,10 +74,33 @@ class RocketeerServiceProvider extends ServiceProvider
 		$serviceProvider = new static($app);
 
 		// Bind classes
+		$app = $serviceProvider->bindPaths($app);
 		$app = $serviceProvider->bindCoreClasses($app);
 		$app = $serviceProvider->bindClasses($app);
 		$app = $serviceProvider->bindScm($app);
 		$app = $serviceProvider->bindCommands($app);
+
+		return $app;
+	}
+
+	/**
+	 * Bind the Rocketeer paths
+	 *
+	 * @param Container $app
+	 *
+	 * @return Container
+	 */
+	public function bindPaths(Container $app)
+	{
+		// Register core paths
+		if (!$app->bound('path.base')) {
+			$app['path.base'] = realpath(__DIR__.'/../../../');
+		}
+
+		// Bind custom config path
+		$path = $app['path.base'] ? $app['path.base'].'/' : '';
+		$path = $path.'rocketeer.php';
+		$app->instance('path.rocketeer.config', $path);
 
 		return $app;
 	}
@@ -258,16 +281,11 @@ class RocketeerServiceProvider extends ServiceProvider
 	 */
 	protected function registerConfig(Container $app)
 	{
-		// Register paths
-		if (!$app->bound('path.base')) {
-			$app['path.base'] = realpath(__DIR__.'/../../../');
-		}
-
 		// Register config file
 		$app['config']->package('anahkiasen/rocketeer', __DIR__.'/../config');
 
 		// Register custom config
-		$custom = trim($app['path.base'].'/rocketeer.php', '/');
+		$custom = $app['path.rocketeer.config'];
 		if (file_exists($custom)) {
 			$app['config']->afterLoading('rocketeer', function ($me, $group, $items) use ($custom) {
 				$custom = include $custom;
