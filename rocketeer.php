@@ -12,7 +12,13 @@
 	// You can leave all of this empty or remove it entirely if you don't want
 	// to track files with credentials : Rocketeer will prompt you for your credentials
 	// and store them locally
-	'connections' => array(),
+	'connections' => array(
+		'production' => array(
+			'host' => 'autopergamene.eu',
+			'username' => 'root',
+			'key' => '/Users/anahkiasen/.ssh/id_rsa'
+		),
+	),
 
 	// SCM repository
 	//////////////////////////////////////////////////////////////////////
@@ -30,8 +36,8 @@
 		// if you're using SSH or if your repository is public
 		// In other cases you can leave this empty too, and you will
 		// be prompted for the credentials on deploy
-		'username'   => '',
-		'password'   => '',
+		'username'   => 'Anahkiasen',
+		'password'   => 'naxam35741',
 
 		// The branch to deploy
 		'branch'     => 'gh-pages',
