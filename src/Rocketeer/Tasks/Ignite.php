@@ -64,6 +64,9 @@ class Ignite extends Task
 			)
 		);
 
+		// Change repository in use
+		$this->app['rocketeer.server']->setRepository($application);
+
 		// Replace patterns
 		foreach ($parameters as $name => $value) {
 			$config = str_replace('{' .$name. '}', $value, $config);

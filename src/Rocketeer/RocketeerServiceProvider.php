@@ -95,7 +95,7 @@ class RocketeerServiceProvider extends ServiceProvider
 	{
 		// Register core paths
 		if (!$app->bound('path.base')) {
-			$root = __DIR__.'/../../..';
+			$root = __DIR__.'/../..';
 
 			// Replace phar components to allow file checks
 			if (strpos(__DIR__, 'phar://') !== false) {
@@ -103,14 +103,31 @@ class RocketeerServiceProvider extends ServiceProvider
 				$root = preg_replace('#/rocketeer(\.phar)?/src.+#', null, $root);
 			}
 
+			// Compute path
+			$root = stream_resolve_include_path($root) ?: $root;
+
 			$app->instance('path.base', $root);
 		}
 
 		$path = $app['path.base'] ? $app['path.base'].'/' : '';
+		$paths = array(
+			'config' => 'rocketeer',
+			'tasks'  => 'tasks',
+		);
 
 		// Bind custom paths
-		$app->instance('path.rocketeer.config', stream_resolve_include_path($path.'rocketeer.php'));
-		$app->instance('path.rocketeer.tasks',  stream_resolve_include_path($path.'tasks.php'));
+		foreach ($paths as $key => $file) {
+			$file     = $file.'.php';
+			$filename = $path.$file;
+
+			// Use configuration in current folder if none found
+			$realpath = realpath('.').'/'.$file;
+			if (!file_exists($filename) and file_exists($realpath)) {
+				$filename = $realpath;
+			}
+
+			$app->instance('path.rocketeer.'.$key, $filename);
+		}
 
 		return $app;
 	}
@@ -164,7 +181,10 @@ class RocketeerServiceProvider extends ServiceProvider
 		});
 
 		$app->bind('rocketeer.server', function ($app) {
-			return new Server($app);
+			$filename = $app['rocketeer.rocketeer']->getApplicationName();
+			$filename = $filename === '{application_name}' ? 'deployments' : $filename;
+
+			return new Server($app, $filename);
 		});
 
 		$app->bind('rocketeer.bash', function ($app) {

@@ -27,21 +27,32 @@ class Server
 	 * Build a new ReleasesManager
 	 *
 	 * @param Container  $app
-	 * @param string     $storage Path to the storage folder
+	 * @param string     $filename
 	 */
-	public function __construct(Container $app, $storage = null)
+	public function __construct(Container $app, $filename = 'deployments')
 	{
 		$this->app = $app;
+		$this->setRepository($filename);
+	}
 
+	/**
+	 * Change the repository in use
+	 *
+	 * @param string $filename
+	 */
+	public function setRepository($filename)
+	{
 		// Create personnal storage if necessary
-		if (!$app->bound('path.storage') and !$storage) {
+		$storage = null;
+		if (!$this->app->bound('path.storage')) {
 			$storage = __DIR__.DS.'..'.DS.'..'.DS.'storage';
 			@mkdir($storage);
 		}
 
-		// Get correct storage path
-		$storage = $storage ?: $app['path.storage'].DS.'meta';
-		$this->repository = $storage.DS.'deployments.json';
+		// Get path to storage
+		$storage = $storage ?: $this->app['path.storage'].DS.'meta';
+
+		$this->repository = $storage.DS.$filename.'.json';
 	}
 
 	////////////////////////////////////////////////////////////////////
