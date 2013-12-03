@@ -6,28 +6,55 @@
 [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/Anahkiasen/rocketeer/badges/quality-score.png?s=20d9a4be6695b7677c427eab73151c1a9d803044)](https://scrutinizer-ci.com/g/Anahkiasen/rocketeer/)
 [![Code Coverage](https://scrutinizer-ci.com/g/Anahkiasen/rocketeer/badges/coverage.png?s=f6e022cbcf1a51f82b5d9e6fb30bd1643fc70e76)](https://scrutinizer-ci.com/g/Anahkiasen/rocketeer/)
 
-Rocketeer provides a fast and easy way to set-up and deploy your Laravel projects. **Rocketeer requires Laravel 4.1 as it uses the new _illuminate/remote_ component**.
-It can be used on Laravel 4.0 but requires a tiny-bit more setup, see the getting started guide for more informations.
+**Rocketeer** is a deployment package for the PHP world. It is inspired by the [Laravel Framework](http://laravel.com/) philosophy and thus aims to be fast, elegant, and more importantly easy to use.
 
-## Using Rocketeer
+## Installation
 
-I recommend you checkout this [Getting Started](https://github.com/Anahkiasen/rocketeer/wiki/Getting-started) guide before anything. It will get you quickly set up to use Rocketeer.
+The easiest way is to get the latest compiled version [from the website](http://rocketeer.autopergamene.eu/versions/rocketeer.phar), put it at the root of the project you want to deploy, and hit `php rocketeer.phar ignite`. You'll get asked a series of questions that should get you up and running in no time.
+
+Rocketeer also integrates nicely with the Laravel framework, for that refer to the [Getting Started](https://github.com/Anahkiasen/rocketeer/wiki/Getting-started) pages of the documentation.
+
+## Usage
 
 The available commands in Rocketeer are :
 
 ```
-deploy
-  deploy:check               Check if the server is ready to receive the application
-  deploy:cleanup             Clean up old releases from the server
-  deploy:current             Display what the current release is
-  deploy:deploy              Deploy the website.
-  deploy:rollback            Rollback to the previous release, or to a specific one
-  deploy:rollback {release}  Rollback to a specific release
-  deploy:setup               Set up the remote server for deployment
-  deploy:teardown            Remove the remote applications and existing caches
-  deploy:test                Run the tests on the server and displays the output
-  deploy:update              Update the remote server without doing a new release
+$ php rocketeer
+  check      Check if the server is ready to receive the application
+  cleanup    Clean up old releases from the server
+  current    Display what the current release is
+  deploy     Deploy the website.
+  flush      Flushes Rocketeer's cache of credentials
+  help       Displays help for a command
+  ignite     Creates Rocketeer's configuration
+  list       Lists commands
+  rollback   Rollback to the previous release, or to a specific one
+  setup      Set up the remote server for deployment
+  teardown   Remove the remote applications and existing caches
+  test       Run the tests on the server and displays the output
+  update     Update the remote server without doing a new release.
 ```
+
+## Testing
+
+``` bash
+$ phpunit
+```
+
+## Contributing
+
+Please see [CONTRIBUTING](https://github.com/anahkiasen/rocketeer/blob/master/CONTRIBUTING.md) for details.
+
+## Credits
+
+- [Anahkiasen](https://github.com/Anahkiasen)
+- [All Contributors](https://github.com/anahkiasen/rocketeer/contributors)
+
+## License
+
+The MIT License (MIT). Please see [License File](https://github.com/anahkiasen/rocketeer/blob/master/LICENSE) for more information.
+
+-----
 
 ## Tasks
 
