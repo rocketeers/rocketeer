@@ -244,7 +244,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('production', 'Build assets for production', [
 		'copy',
 		'concat',
-		'cssmin', 'uglify'
+		'cssmin', 'uglify',
 		'shell',
 	]);
 
