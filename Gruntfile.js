@@ -245,6 +245,7 @@ module.exports = function(grunt) {
 		'copy',
 		'concat',
 		'cssmin', 'uglify'
+		'shell',
 	]);
 
 	grunt.registerTask('rebuild', 'Build assets from scratch', [
