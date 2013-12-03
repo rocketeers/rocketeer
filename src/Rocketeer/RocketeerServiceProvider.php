@@ -79,6 +79,7 @@ class RocketeerServiceProvider extends ServiceProvider
 		$app = $serviceProvider->bindClasses($app);
 		$app = $serviceProvider->bindScm($app);
 		$app = $serviceProvider->bindCommands($app);
+		$app = $serviceProvider->bindTasks($app);
 
 		return $app;
 	}
@@ -94,13 +95,22 @@ class RocketeerServiceProvider extends ServiceProvider
 	{
 		// Register core paths
 		if (!$app->bound('path.base')) {
-			$app['path.base'] = realpath(__DIR__.'/../../../');
+			$root = __DIR__.'/../../..';
+
+			// Replace phar components to allow file checks
+			if (strpos(__DIR__, 'phar://') !== false) {
+				$root = str_replace('phar://', null, __DIR__);
+				$root = preg_replace('#/rocketeer(\.phar)?/src.+#', null, $root);
+			}
+
+			$app->instance('path.base', $root);
 		}
 
-		// Bind custom config path
 		$path = $app['path.base'] ? $app['path.base'].'/' : '';
-		$path = $path.'rocketeer.php';
-		$app->instance('path.rocketeer.config', $path);
+
+		// Bind custom paths
+		$app->instance('path.rocketeer.config', stream_resolve_include_path($path.'rocketeer.php'));
+		$app->instance('path.rocketeer.tasks',  stream_resolve_include_path($path.'tasks.php'));
 
 		return $app;
 	}
@@ -291,6 +301,26 @@ class RocketeerServiceProvider extends ServiceProvider
 				$custom = include $custom;
 				return array_replace_recursive($items, $custom);
 			});
+		}
+
+		return $app;
+	}
+
+	/**
+	 * Bind custom tasks
+	 *
+	 * @param Container $app
+	 *
+	 * @return Container
+	 */
+	protected function bindTasks(Container $app)
+	{
+		Facades\Rocketeer::setFacadeApplication($app);
+
+		// Register custom tasks
+		$tasks = $app['path.rocketeer.tasks'];
+		if (file_exists($tasks)) {
+			include $tasks;
 		}
 
 		return $app;

@@ -77,7 +77,14 @@ class TasksQueue
 			$task = $this->buildTask($task);
 		}
 
-		return $this->app['artisan']->add(new BaseTaskCommand($task));
+		$bound = $this->app['rocketeer.console']->add(new BaseTaskCommand($task));
+
+		// Bind to Artisan too
+		if ($this->app->bound('artisan')) {
+			$this->app['artisan']->add(new BaseTaskCommand($task));
+		}
+
+		return $bound;
 	}
 
 	/**
