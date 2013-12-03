@@ -26,7 +26,7 @@
 		}
 	}
 
-	@include at-breakpoint(0 $desktop) {
+	@include breakpoint(max-width $desktop) {
 		padding: 5rem 0;
 
 		h1 {
@@ -38,7 +38,7 @@
 		}
 	}
 
-	@include at-breakpoint($desktop $wide) {
+	@include breakpoint($desktop $wide) {
 		padding: 7rem 0;
 	}
 }

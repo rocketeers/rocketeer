@@ -3,7 +3,7 @@
 //////////////////////////////////////////////////////////////////////
 
 @include establish-baseline(16px);
-@include at-breakpoint(0 $tablet) {
+@include breakpoint(max-width $tablet) {
 	@include establish-baseline(14px);
 }
 
@@ -19,7 +19,7 @@ body, html {
 pre {
 	padding: .75rem;
 
-	@include at-breakpoint(0 $tablet) {
+	@include breakpoint(max-width $tablet) {
 		line-height: 1.2;
 		code {
 			font-size: 0.75rem;

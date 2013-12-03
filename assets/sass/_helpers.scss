@@ -18,9 +18,17 @@ $color-accent : darken($color-base, 10);
 // Breakpoints
 //////////////////////////////////////////////////////////////////////
 
-$wider                      : 90em;
-$wide                       : 75em;
-$desktop                    : 60em;
-$tablet                     : 50em;
-$mobile                     : 30em;
-$mini                       : 20em;
+$wider        : 90em;
+$wide         : 75em;
+$desktop      : 60em;
+$tablet       : 50em;
+$mobile       : 30em;
+$mini         : 20em;
+
+// Susy
+//////////////////////////////////////////////////////////////////////
+
+$susy: (
+	"show-grids" : hide,
+	"columns"    : 12,
+);

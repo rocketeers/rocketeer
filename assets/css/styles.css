@@ -1,24 +1,20 @@
-@import url(../../bower_components/rainbow/themes/tomorrow-night.css);
 body, html, .layout-header, .layout-header h1, .layout-buttons, .layout-container section, .layout-container section h1:first-child {
   margin: 0;
   padding: 0; }
 
 .layout-buttons, .layout-container, .layout-footer {
   *zoom: 1;
-  max-width: 59em;
-  _width: 59em;
-  padding-left: 1em;
-  padding-right: 1em;
+  max-width: 100%;
   margin-left: auto;
   margin-right: auto;
   width: 90%;
   max-width: 90rem;
-  -webkit-box-shadow: 0 0 0 1rem rgba(0, 0, 0, 0.05);
   -moz-box-shadow: 0 0 0 1rem rgba(0, 0, 0, 0.05);
+  -webkit-box-shadow: 0 0 0 1rem rgba(0, 0, 0, 0.05);
   box-shadow: 0 0 0 1rem rgba(0, 0, 0, 0.05); }
   .layout-buttons:after, .layout-container:after, .layout-footer:after {
-    content: "";
-    display: table;
+    content: " ";
+    display: block;
     clear: both; }
   @media (max-width: 50em) {
     .layout-buttons, .layout-container, .layout-footer {
@@ -66,14 +62,14 @@ h3 {
 
 body {
   background-color: #34495e;
-  background-image: url('../img/square_bg.png?1373990883'); }
+  background-image: url('../img/square_bg.png?1386033664'); }
 
 .layout-header {
-  -webkit-transition: padding 0.3s;
   -moz-transition: padding 0.3s;
   -o-transition: padding 0.3s;
+  -webkit-transition: padding 0.3s;
   transition: padding 0.3s;
-  background: white url('../img/rocket.svg?1373990883') 10% 10% fixed no-repeat;
+  background: white url('../img/rocket.svg?1386033664') 10% 10% fixed no-repeat;
   background-size: 25rem;
   padding: 11rem 0;
   text-align: center; }
@@ -117,11 +113,11 @@ body {
     margin-bottom: 0; }
     .layout-container section h1:first-child {
       width: 100%;
-      -webkit-box-shadow: 0 0.15em 0 rgba(0, 0, 0, 0.1);
       -moz-box-shadow: 0 0.15em 0 rgba(0, 0, 0, 0.1);
+      -webkit-box-shadow: 0 0.15em 0 rgba(0, 0, 0, 0.1);
       box-shadow: 0 0.15em 0 rgba(0, 0, 0, 0.1);
-      -webkit-box-sizing: content-box;
       -moz-box-sizing: content-box;
+      -webkit-box-sizing: content-box;
       box-sizing: content-box;
       background-color: #222f3d;
       color: white;

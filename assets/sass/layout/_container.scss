@@ -47,7 +47,7 @@ $inner-padding: 2rem;
 		padding: 0;
 	}
 
-	@include at-breakpoint(0 $tablet) {
+	@include breakpoint(max-width $tablet) {
 		section {
 			padding: 1rem;
 			padding-top: 0;
