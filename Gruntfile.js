@@ -11,6 +11,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-concat');
+	grunt.loadNpmTasks('grunt-shell');
 
 	// Project configuration.
 	grunt.initConfig({
@@ -58,6 +59,17 @@ module.exports = function(grunt) {
 				files: ['<%= paths.original.sass %>/**/*'],
 				tasks: ['css'],
 			},
+		},
+
+		shell: {
+			phar: {
+				command: [
+					'cd rocketeer',
+					'composer install',
+					'php bin/compile',
+					'mv bin/rocketeer.phar ../versions/latest.phar',
+				].join('&&'),
+			}
 		},
 
 		clean: ['<%= builds %>'],

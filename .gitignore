@@ -6,3 +6,6 @@ assets/compiled
 bower_components
 node_modules
 vendor
+
+# Phars
+versions
