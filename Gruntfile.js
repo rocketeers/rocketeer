@@ -242,7 +242,7 @@ module.exports = function(grunt) {
 	]);
 
 	grunt.registerTask('production', 'Build assets for production', [
-		// 'bower:install',
+		'bower:install',
 		'copy',
 		'concat',
 		'cssmin', 'uglify'
