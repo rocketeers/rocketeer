@@ -109,7 +109,8 @@ class RocketeerServiceProvider extends ServiceProvider
 			$app->instance('path.base', $root);
 		}
 
-		$path = $app['path.base'] ? $app['path.base'].'/' : '';
+		// Set the paths to bind
+		$path  = $app['path.base'] ? $app['path.base'].'/' : '';
 		$paths = array(
 			'config' => 'rocketeer',
 			'tasks'  => 'tasks',
