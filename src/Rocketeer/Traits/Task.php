@@ -313,6 +313,20 @@ abstract class Task extends Bash
 	}
 
 	/**
+	 * Seed the database
+	 *
+	 * @param string $class A class to seed
+	 *
+	 * @return string
+	 */
+	public function seed($class = null)
+	{
+		$class = $class ? ' --class="'.$class.'"' : null;
+
+		return $this->runForCurrentRelease('php artisan db:seed'.$class);
+	}
+
+	/**
 	 * Run the application's tests
 	 *
 	 * @param string $arguments Additional arguments to pass to PHPUnit

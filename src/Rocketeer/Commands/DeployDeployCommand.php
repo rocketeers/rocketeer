@@ -43,9 +43,9 @@ class DeployDeployCommand extends BaseDeployCommand
 	protected function getOptions()
 	{
 		return array_merge(parent::getOptions(), array(
-			array('tests',   't', InputOption::VALUE_NONE, 'Runs the tests on deploy'),
-			array('migrate', 'm', InputOption::VALUE_NONE, 'Run the migrations'),
-			array('seed',    's', InputOption::VALUE_NONE, 'Seed the database after migrating the database'),
+			array('tests',   't', InputOption::VALUE_NONE,     'Runs the tests on deploy'),
+			array('migrate', 'm', InputOption::VALUE_NONE,     'Run the migrations'),
+			array('seed',    's', InputOption::VALUE_OPTIONAL, 'Seed the database (after migrating it if --migrate)'),
 		));
 	}
 }
