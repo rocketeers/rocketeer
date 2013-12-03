@@ -251,6 +251,13 @@ abstract class Task extends Bash
 	 */
 	public function runComposer()
 	{
+		// Find Composer
+		$composer = $this->getComposer();
+		if (!$composer) {
+			return true;
+		}
+
+		// Run install
 		$this->command->comment('Installing Composer dependencies');
 		$output = $this->runForCurrentRelease($this->getComposer(). ' install');
 
@@ -267,6 +274,11 @@ abstract class Task extends Bash
 		$composer = $this->which('composer', $this->releasesManager->getCurrentReleasePath().'/composer.phar');
 		if (strpos($composer, 'composer.phar') !== false) {
 			$composer = 'php '.$composer;
+		}
+
+		// Cancel if no Composer available
+		if (!$this->fileExists($composer)) {
+			return;
 		}
 
 		return $composer;
