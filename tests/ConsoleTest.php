@@ -5,6 +5,6 @@ class ConsoleTest extends RocketeerTests
 	{
 		$console = exec('php bin/rocketeer --version');
 
-		$this->assertContains('Rocketeer version 0', $console);
+		$this->assertContains('Rocketeer version 1', $console);
 	}
 }

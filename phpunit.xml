@@ -22,6 +22,8 @@
       <directory>src/Rocketeer</directory>
       <exclude>
       	<file>src/Rocketeer/RocketeerServiceProvider.php</file>
+      	<file>src/Rocketeer/Console/WhitespaceCompactor.php</file>
+      	<file>src/Rocketeer/Console/Compiler.php</file>
 		  	<directory>src/Rocketeer/Commands</directory>
 		  	<directory>src/Rocketeer/Facades</directory>
       </exclude>
