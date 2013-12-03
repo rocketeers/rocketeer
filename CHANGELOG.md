@@ -1,7 +1,8 @@
 ### Changelog
 
-### 0.9.1
+### 1.0.0
 
+- **Rocketeer is now available as a standalone PHAR**
 - Fixed a bug where `CurrentRelease` wouldn't show any release with an empty/fresh deployments file
 - Renamed `apache` options in configuration file to `webuser`
 - Fix some multiconnections related bugs
