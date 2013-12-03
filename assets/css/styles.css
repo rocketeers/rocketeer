@@ -120,16 +120,16 @@ body {
       font-size: 5rem;
       margin-left: -4rem;
       padding: 0.5rem 2rem 0.75rem; }
-    .layout-container section:nth-child(2) {
+    .layout-container section:nth-child(2n) {
       background-color: #2A3D52; }
-      .layout-container section:nth-child(2), .layout-container section:nth-child(2) h1:first-child, .layout-container section:nth-child(2) a {
+      .layout-container section:nth-child(2n), .layout-container section:nth-child(2n) h1:first-child, .layout-container section:nth-child(2n) a {
         color: white; }
-      .layout-container section:nth-child(2) h2, .layout-container section:nth-child(2) h3 {
+      .layout-container section:nth-child(2n) h2, .layout-container section:nth-child(2n) h3 {
         color: #58abe1; }
-      .layout-container section:nth-child(2) code {
+      .layout-container section:nth-child(2n) code {
         background-color: #10181f;
         color: white; }
-      .layout-container section:nth-child(2) pre {
+      .layout-container section:nth-child(2n) pre {
         border: none; }
   .layout-container hr {
     border-color: #7F8C8D; }

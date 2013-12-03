@@ -35,7 +35,7 @@ $inner-padding: 2rem;
 			padding: 0.5rem 2rem 0.75rem;
 		}
 
-		&:nth-child(2) {
+		&:nth-child(2n) {
 			background-color: #2A3D52;
 
 			&, h1:first-child, a {

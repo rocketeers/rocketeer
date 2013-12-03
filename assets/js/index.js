@@ -20,7 +20,7 @@ var appendFile = function(file) {
 };
 
 // Get each Markdown file, parse it and add it to HTML
-['rocketeer/README.md', 'wiki/Getting-started.md', 'wiki/Tasks.md'].forEach(function(file) {
+['rocketeer/README.md', "wiki/Whats-Rocketeer.md", 'wiki/Getting-started.md', 'wiki/Tasks.md'].forEach(function(file) {
 	$.ajax({
 		type    : 'GET',
 		async   : false,
