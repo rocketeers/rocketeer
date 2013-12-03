@@ -1,6 +1,8 @@
 # Cache and compiled
 .sass-cache
 assets/compiled
+contents.md
+index.html
 
 # Dependencies
 bower_components

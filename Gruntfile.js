@@ -4,13 +4,15 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-bower-task');
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-compass');
+	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-csslint');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.loadNpmTasks('grunt-contrib-concat');
+	grunt.loadNpmTasks('grunt-markdown');
+	grunt.loadNpmTasks('grunt-prettify');
 	grunt.loadNpmTasks('grunt-shell');
 
 	// Project configuration.
@@ -86,6 +88,16 @@ module.exports = function(grunt) {
 		},
 
 		concat: {
+			markdown: {
+				files: {
+					'contents.md': [
+						'rocketeer/README.md', "wiki/Whats-Rocketeer.md", 'wiki/Getting-started.md', 'wiki/Tasks.md',
+					],
+				},
+				options: {
+					separator: "\n\n[/section]\n[section]\n\n"
+				},
+			},
 			stylesheets: {
 				files: {
 					'<%= paths.compiled.css %>/styles.css': [
@@ -207,6 +219,39 @@ module.exports = function(grunt) {
 		// Preprocessors
 		//////////////////////////////////////////////////////////////////
 
+		markdown: {
+			dist: {
+				files: {
+					'index.html': ['contents.md'],
+				},
+				options: {
+					template: 'index.template',
+					postCompile: function(src, context) {
+						src = src
+							.replace(/\[section\](<\/p>)?/g, '<section>')
+							.replace(/(<p>)?\[\/section\]/g, '</section>');
+
+						return '<section>'+src+'</section>';
+					},
+				},
+			}
+		},
+
+		prettify: {
+			dist: {
+				options: {
+					indent           : 2,
+					indent_char      : '	',
+					wrap_line_length : 78,
+					brace_style      : 'expand',
+					unformatted      : ['code', 'pre']
+				},
+				files: {
+					'index.html': ['index.html']
+				}
+			}
+		},
+
 		compass: {
 			options: {
 				appDir             : "assets/",
@@ -234,14 +279,15 @@ module.exports = function(grunt) {
 	////////////////////////////////////////////////////////////////////
 
 	grunt.registerTask('default', 'Build assets for local', [
-		// 'bower:install',
 		'compass:compile',
 		'jshint', 'csslint',
 		'copy',
-		'concat'
+		'concat',
+		'md',
 	]);
 
 	grunt.registerTask('production', 'Build assets for production', [
+		'md',
 		'copy',
 		'concat',
 		'cssmin', 'uglify',
@@ -257,8 +303,15 @@ module.exports = function(grunt) {
 	// By filetype
 	////////////////////////////////////////////////////////////////////
 
+	grunt.registerTask('md', 'Build contents', [
+		'concat:markdown',
+		'markdown',
+		'prettify',
+	]);
+
 	grunt.registerTask('js', 'Build scripts', [
-		'jshint', 'concat:javascript',
+		'jshint',
+		'concat:javascript',
 	]);
 
 	grunt.registerTask('css', 'Build stylesheets', [
