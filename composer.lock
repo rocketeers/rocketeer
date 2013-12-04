@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "42e7830ecd2218694894ba7aff402f40",
+    "hash": "c1c25ff24da050536e94d4a2c72e4cc8",
     "packages": [
         {
             "name": "illuminate/config",
@@ -200,12 +200,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "924303bbb0dc80c628635050a83c877cf30e53f6"
+                "reference": "cf4647139cb42edcba4933f175101b96df7d27ef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/924303bbb0dc80c628635050a83c877cf30e53f6",
-                "reference": "924303bbb0dc80c628635050a83c877cf30e53f6",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/cf4647139cb42edcba4933f175101b96df7d27ef",
+                "reference": "cf4647139cb42edcba4933f175101b96df7d27ef",
                 "shasum": ""
             },
             "require": {
@@ -242,7 +242,7 @@
                     "role": "Developer"
                 }
             ],
-            "time": "2013-12-02 19:06:44"
+            "time": "2013-12-03 16:44:31"
         },
         {
             "name": "symfony/console",

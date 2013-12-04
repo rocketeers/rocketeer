@@ -64,10 +64,11 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 		$this->app->instance('path.public', '/src/public');
 		$this->app->instance('path.storage', '/src/app/storage');
 
-		$this->app['files']   = new Filesystem;
-		$this->app['config']  = $this->getConfig();
-		$this->app['remote']  = $this->getRemote();
-		$this->app['artisan'] = $this->getArtisan();
+		$this->app['files']             = new Filesystem;
+		$this->app['config']            = $this->getConfig();
+		$this->app['remote']            = $this->getRemote();
+		$this->app['artisan']           = $this->getArtisan();
+		$this->app['rocketeer.command'] = $this->getCommand();
 
 		// Rocketeer classes ------------------------------------------- /
 
@@ -78,11 +79,6 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 
 		$this->app->bind('rocketeer.server', function ($app) {
 			return new Rocketeer\Server($app, 'deployments', __DIR__.'/meta');
-		});
-
-		$command = $this->getCommand();
-		$this->app->singleton('rocketeer.tasks', function ($app) use ($command) {
-			return new Rocketeer\TasksQueue($app, $command);
 		});
 
 		// Bind dummy Task
@@ -157,7 +153,7 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 
 		// Bind it to Task
 		$task = $this->task($task);
-		$task->command = $command;
+		$this->app['rocketeer.command'] = $command;
 
 		return $task;
 	}
@@ -172,9 +168,7 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 	protected function task($task = null, $command = null)
 	{
 		if ($command) {
-			$this->app->singleton('rocketeer.tasks', function ($app) use ($command) {
-				return new Rocketeer\TasksQueue($app, $command);
-			});
+			$this->app['rocketeer.command'] = $command;
 		}
 
 		if (!$task) {
