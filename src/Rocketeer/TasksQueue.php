@@ -180,11 +180,8 @@ class TasksQueue
 	 */
 	public function plugin($plugin, array $configuration = array())
 	{
-		// Bind instances in the container
-		$plugin    = $this->app->make($plugin, array($this->app));
-		$this->app = $plugin->register($this->app);
-
 		// Get plugin name
+		$plugin    = $this->app->make($plugin, array($this->app));
 		$vendor = $plugin->getNamespace();
 
 		// Register configuration
@@ -192,6 +189,9 @@ class TasksQueue
 		if ($configuration) {
 			$this->app['config']->set($vendor.'::config', $configuration);
 		}
+
+		// Bind instances
+		$this->app = $plugin->register($this->app);
 
 		// Add hooks to TasksQueue
 		$plugin->onQueue($this);
