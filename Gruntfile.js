@@ -300,8 +300,9 @@ module.exports = function(grunt) {
 	]);
 
 	grunt.registerTask('production', 'Build assets for production', [
-		'default',
-		'minify',
+		'md',
+		'copy',
+		'concat', 'minify',
 		'shell:phar'
 	]);
 
