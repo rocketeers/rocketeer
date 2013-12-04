@@ -285,13 +285,10 @@ abstract class Task extends Bash
 	public function getComposer()
 	{
 		$composer = $this->which('composer', $this->releasesManager->getCurrentReleasePath().'/composer.phar');
+
+		// Prepend PHP command
 		if (strpos($composer, 'composer.phar') !== false) {
 			$composer = 'php '.$composer;
-		}
-
-		// Cancel if no Composer available
-		if (!$this->fileExists($composer)) {
-			return;
 		}
 
 		return $composer;
