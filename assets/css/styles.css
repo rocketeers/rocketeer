@@ -2,20 +2,6 @@ body, html, .layout-header, .layout-header h1, .layout-buttons, .layout-containe
   margin: 0;
   padding: 0; }
 
-.layout-container {
-  *zoom: 1;
-  max-width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%; }
-  .layout-container:after {
-    content: " ";
-    display: block;
-    clear: both; }
-  @media (max-width: 50em) {
-    .layout-container {
-      width: 95%; } }
-
 html {
   font-size: 100%;
   line-height: 1.5em; }
@@ -36,11 +22,20 @@ pre {
       pre code {
         font-size: 0.75rem; } }
 
+code {
+  background-color: #4d4d4d;
+  color: white;
+  font-size: 0.80em; }
+
 p {
   text-align: justify; }
 
 a {
-  color: #34495e; }
+  color: #34495e;
+  font-weight: bold; }
+
+ul {
+  list-style-type: square; }
 
 h1, h2, h3, h4 {
   font-family: "Lato", Helvetica, Arial, sans-serif;
@@ -56,6 +51,9 @@ h2 {
 
 h3 {
   font-size: 1.5rem;
+  color: #222f3d; }
+
+h4 {
   color: #222f3d; }
 
 body {
@@ -105,8 +103,20 @@ body {
   text-align: center; }
 
 .layout-container {
+  *zoom: 1;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
   padding: 2rem 0 1rem;
-  padding-top: 0; }
+  padding-top: 0;
+  width: 100%; }
+  .layout-container:after {
+    content: " ";
+    display: block;
+    clear: both; }
+  @media (max-width: 50em) {
+    .layout-container {
+      width: 95%; } }
   .layout-container section {
     padding: 2rem 20%; }
     .layout-container section h1:first-child {
@@ -125,21 +135,22 @@ body {
     .layout-container section:nth-child(2n) {
       background-color: #2A3D52; }
       .layout-container section:nth-child(2n), .layout-container section:nth-child(2n) h1:first-child, .layout-container section:nth-child(2n) a {
-        color: white; }
+        color: #e6e6e6; }
       .layout-container section:nth-child(2n) h2, .layout-container section:nth-child(2n) h3 {
         color: #58abe1; }
-      .layout-container section:nth-child(2n) code {
+      .layout-container section:nth-child(2n) > code, .layout-container section:nth-child(2n) p > code, .layout-container section:nth-child(2n) li > code {
         background-color: #10181f;
         color: white; }
       .layout-container section:nth-child(2n) pre {
         border: none; }
   .layout-container hr {
     border-color: #7F8C8D; }
-  .layout-container p {
-    font-size: 1rem;
-    line-height: 1.25;
+  .layout-container p, .layout-container ul {
+    font-size: 1.1rem;
+    line-height: 1.4;
     margin: 1rem 0;
-    padding: 0; }
+    padding: 0;
+    font-weight: 300; }
   @media (max-width: 50em) {
     .layout-container section {
       padding: 1rem;

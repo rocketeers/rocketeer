@@ -53,6 +53,14 @@ module.exports = function(grunt) {
 				interrupt  : true,
 			},
 
+			grunt: {
+				files: ['Gruntfile.js'],
+				tasks: ['default'],
+			},
+			markdown: {
+				files: ['wiki/*.md', 'rocketeer/README.md'],
+				tasks: ['md'],
+			},
 			scripts: {
 				files: ['<%= paths.original.js %>/**/*'],
 				tasks: ['js'],
@@ -64,6 +72,13 @@ module.exports = function(grunt) {
 		},
 
 		shell: {
+			deploy: {
+				command: [
+					'git push',
+					'php versions/rocketeer deploy'
+				].join('&&')
+			},
+
 			phar: {
 				command: [
 					'cd rocketeer',
@@ -91,7 +106,7 @@ module.exports = function(grunt) {
 			markdown: {
 				files: {
 					'contents.md': [
-						'rocketeer/README.md', "wiki/Whats-Rocketeer.md", 'wiki/Getting-started.md', 'wiki/Tasks.md',
+						'rocketeer/README.md', "wiki/Whats-Rocketeer.md", 'wiki/Getting-started.md', 'wiki/Tasks.md', 'wiki/Plugins.md',
 					],
 				},
 				options: {
@@ -102,7 +117,7 @@ module.exports = function(grunt) {
 				files: {
 					'<%= paths.compiled.css %>/styles.css': [
 						'<%= components %>/bootstrap/dist/css/bootstrap.min.css',
-						'<%= components %>/rainbow/themes/tomorrow-night.css',
+						'<%= components %>/rainbow/themes/obsidian.css',
 						'<%= paths.original.css %>/*'
 					],
 				},
@@ -245,7 +260,7 @@ module.exports = function(grunt) {
 					indent_char      : '	',
 					wrap_line_length : 78,
 					brace_style      : 'expand',
-					unformatted      : ['code', 'pre']
+					unformatted      : ['strong', 'em', 'a', 'code', 'pre']
 				},
 				files: {
 					'index.html': ['index.html']
@@ -280,25 +295,28 @@ module.exports = function(grunt) {
 	////////////////////////////////////////////////////////////////////
 
 	grunt.registerTask('default', 'Build assets for local', [
-		'compass:compile',
-		'jshint', 'csslint',
+		'css', 'js', 'md',
 		'copy',
-		'concat',
-		'md',
 	]);
 
 	grunt.registerTask('production', 'Build assets for production', [
-		'md',
-		'copy',
-		'concat',
-		'cssmin', 'uglify',
-		'shell',
+		'default',
+		'minify',
+		'shell:phar'
 	]);
 
 	grunt.registerTask('rebuild', 'Build assets from scratch', [
 		'compass',
 		'clean',
 		'default',
+	]);
+
+	// Flow
+	////////////////////////////////////////////////////////////////////
+
+	grunt.registerTask('minify', 'Minify assets', [
+		'cssmin',
+		'uglify',
 	]);
 
 	// By filetype

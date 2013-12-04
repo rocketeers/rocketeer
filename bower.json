@@ -4,7 +4,7 @@
   	"bootstrap": "latest",
     "marked": "latest",
     "jquery": "latest",
-    "rainbow": "latest",
+    "rainbow": "https://github.com/ccampbell/rainbow.git#master",
     "compass-breakpoint": "latest"
   }
 }

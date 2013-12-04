@@ -13,9 +13,14 @@
 $inner-padding: 2rem;
 
 .layout-container {
-	@extend %main-column;
+	@include container;
 	padding: 2rem 0 1rem;
 	padding-top: 0;
+	width: 100%;
+
+	@include breakpoint(max-width $tablet) {
+		width: 95%;
+	}
 
 	section {
 		@extend %reset-margins;
@@ -39,14 +44,16 @@ $inner-padding: 2rem;
 			background-color: #2A3D52;
 
 			&, h1:first-child, a {
-				color: white;
+				color: lighten(black, 90);
 			}
 			h2, h3 {
 				color: lighten(#2488C9, 15);
 			}
-			code {
-				background-color: darken(#2B3E51, 15);
-				color: white;
+			&, p, li {
+				> code {
+					background-color: darken(#2B3E51, 15);
+					color: white;
+				}
 			}
 			pre {
 				border: none;
@@ -58,11 +65,12 @@ $inner-padding: 2rem;
 		border-color: #7F8C8D;
 	}
 
-	p {
-		font-size: 1rem;
-		line-height: $line-height;
+	p, ul {
+		font-size: 1.1rem;
+		line-height: 1.4;
 		margin: 1rem 0;
 		padding: 0;
+		font-weight: 300;
 	}
 
 	@include breakpoint(max-width $tablet) {

@@ -27,12 +27,23 @@ pre {
 	}
 }
 
+code {
+	background-color: lighten(black, 30);
+	color: white;
+	font-size: 0.80em;
+}
+
 p {
 	text-align: justify;
 }
 
 a {
 	color: $color-base;
+	font-weight: bold;
+}
+
+ul {
+	list-style-type: square;
 }
 
 // Titles
@@ -55,5 +66,9 @@ h2 {
 
 h3 {
 	font-size: 1.5rem;
+	color: $color-accent;
+}
+
+h4 {
 	color: $color-accent;
 }
