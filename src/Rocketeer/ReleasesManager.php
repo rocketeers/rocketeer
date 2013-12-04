@@ -38,7 +38,9 @@ class ReleasesManager
 	{
 		// Get releases on server
 		$releases = $this->app['rocketeer.bash']->listContents($this->getReleasesPath());
-		rsort($releases);
+		if (is_array($releases)) {
+			rsort($releases);
+		}
 
 		return $releases;
 	}
@@ -50,7 +52,7 @@ class ReleasesManager
 	 */
 	public function getDeprecatedReleases()
 	{
-		$releases    = $this->getReleases();
+		$releases    = (array) $this->getReleases();
 		$maxReleases = $this->app['config']->get('rocketeer::remote.keep_releases');
 
 		return array_slice($releases, $maxReleases);
