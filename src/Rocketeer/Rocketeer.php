@@ -163,7 +163,7 @@ class Rocketeer
 		}
 
 		// Fetch from remote file
-		if (!$connections) {
+		if (!$connections or array_get($connections, 'production.host') == '{host}') {
 			$connections = $this->app['config']->get('remote.connections');
 		}
 

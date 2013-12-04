@@ -188,9 +188,9 @@ class TasksQueue
 		$vendor = $plugin->getNamespace();
 
 		// Register configuration
-		$this->app['config']->package($vendor, $plugin->configurationFolder);
+		$this->app['config']->package('rocketeer/'.$vendor, $plugin->configurationFolder);
 		if ($configuration) {
-			$this->app['config']->set($vendor, $configuration);
+			$this->app['config']->set($vendor.'::config', $configuration);
 		}
 
 		// Add hooks to TasksQueue

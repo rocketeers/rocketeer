@@ -15,24 +15,17 @@ abstract class Plugin
 	public $configurationFolder;
 
 	/**
-	 * Setup the plugin
-	 */
-	public function __construct()
-	{
-		$this->configurationFolder = __DIR__.'/../../config';
-	}
-
-	/**
 	 * Get the package namespace
 	 *
 	 * @return string
 	 */
 	public function getNamespace()
 	{
-		$namespace = Str::snake(get_class($this));
-		$namespace = Str::slug($namespace);
+		$namespace = str_replace('\\', '/', get_class($this));
+		$namespace = Str::snake(basename($namespace));
+		$namespace = str_replace('_', '-', $namespace);
 
-		return 'rocketeer/'.$namespace;
+		return $namespace;
 	}
 
 	/**
