@@ -17,7 +17,7 @@
 		// The SCM used (supported: "git", "svn")
 		'scm' => 'git',
 
-		// The SSH/HTTPS adress to your repository
+		// The SSH/HTTPS address to your repository
 		// Example: https://github.com/vendor/website.git
 		'repository' => '',
 
