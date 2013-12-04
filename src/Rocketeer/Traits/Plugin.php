@@ -34,7 +34,10 @@ abstract class Plugin
 	 *
 	 * @return Container
 	 */
-	abstract public function register(Container $app);
+	public function register(Container $app)
+	{
+		return $app;
+	}
 
 	/**
 	 * Register Tasks with Rocketeer
