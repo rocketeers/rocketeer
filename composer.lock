@@ -200,12 +200,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "1d81e9b62e8ddc0c6566c63feff7cfb3a16c2ce3"
+                "reference": "924303bbb0dc80c628635050a83c877cf30e53f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/1d81e9b62e8ddc0c6566c63feff7cfb3a16c2ce3",
-                "reference": "1d81e9b62e8ddc0c6566c63feff7cfb3a16c2ce3",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/924303bbb0dc80c628635050a83c877cf30e53f6",
+                "reference": "924303bbb0dc80c628635050a83c877cf30e53f6",
                 "shasum": ""
             },
             "require": {
@@ -242,7 +242,7 @@
                     "role": "Developer"
                 }
             ],
-            "time": "2013-12-01 12:04:39"
+            "time": "2013-12-02 19:06:44"
         },
         {
             "name": "symfony/console",

@@ -170,6 +170,33 @@ class TasksQueue
 		return $this->run($queue);
 	}
 
+	/**
+	 * Register a Rocketeer plugin with Rocketeer
+	 *
+	 * @param string $plugin
+	 * @param array  $configuration
+	 *
+	 * @return void
+	 */
+	public function plugin($plugin, array $configuration = array())
+	{
+		// Bind instances in the container
+		$plugin    = $this->app->make($plugin, array($this->app));
+		$this->app = $plugin->register($this->app);
+
+		// Get plugin name
+		$vendor = $plugin->getNamespace();
+
+		// Register configuration
+		$this->app['config']->package($vendor, $plugin->configurationFolder);
+		if ($configuration) {
+			$this->app['config']->set($vendor, $configuration);
+		}
+
+		// Add hooks to TasksQueue
+		$plugin->onQueue($this);
+	}
+
 	////////////////////////////////////////////////////////////////////
 	//////////////////////////////// QUEUE /////////////////////////////
 	////////////////////////////////////////////////////////////////////

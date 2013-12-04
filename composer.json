@@ -29,6 +29,9 @@
 		"illuminate/remote": "dev-master",
 		"phpseclib/phpseclib": "dev-phar as 0.3.x-dev"
 	},
+	"suggest": {
+		"anahkiasen/rocketeer-campfire": "Campfire plugin to create deployments notifications"
+	},
 	"minimum-stability": "dev",
 	"bin": [
 		"bin/rocketeer"
