@@ -70,9 +70,15 @@ abstract class BaseDeployCommand extends Command
 			$tasks = array($tasks);
 		}
 
+		// Bind command to container
+		$this->laravel->instance('rocketeer.command', $this);
+
 		// Run tasks and display timer
 		$this->laravel['rocketeer.tasks']->run($tasks, $this);
 		$this->line('Execution time: <comment>'.round(microtime(true) - $timerStart, 4). 's</comment>');
+
+		// Remove commmand instance
+		unset($this->laravel['rocketeer.command']);
 	}
 
 	/**

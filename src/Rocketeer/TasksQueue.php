@@ -181,7 +181,7 @@ class TasksQueue
 	public function plugin($plugin, array $configuration = array())
 	{
 		// Get plugin name
-		$plugin    = $this->app->make($plugin, array($this->app));
+		$plugin = $this->app->make($plugin, array($this->app));
 		$vendor = $plugin->getNamespace();
 
 		// Register configuration

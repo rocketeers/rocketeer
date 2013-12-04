@@ -24,13 +24,6 @@ class Bash
 	protected $app;
 
 	/**
-	 * The Command instance
-	 *
-	 * @var Command
-	 */
-	public $command;
-
-	/**
 	 * An history of executed commands
 	 *
 	 * @var array
@@ -43,10 +36,9 @@ class Bash
 	 * @param Container    $app
 	 * @param Command|null $command
 	 */
-	public function __construct(Container $app, $command = null)
+	public function __construct(Container $app)
 	{
-		$this->app     = $app;
-		$this->command = $command;
+		$this->app = $app;
 	}
 
 	/**
@@ -63,6 +55,7 @@ class Bash
 			'server'          => 'rocketeer.server',
 			'rocketeer'       => 'rocketeer.rocketeer',
 			'scm'             => 'rocketeer.scm',
+			'command'         => 'rocketeer.command',
 		);
 
 		// Replace shortcuts
