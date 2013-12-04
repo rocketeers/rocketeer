@@ -74,4 +74,5 @@ It's also more thought out for the PHP world – although you can configure Capi
 - **[What's Rocketeer](https://github.com/Anahkiasen/rocketeer/wiki/What-Rocketeer)**
 - **[Getting Started](https://github.com/Anahkiasen/rocketeer/wiki/Getting-started)**
 - **[Tasks](https://github.com/Anahkiasen/rocketeer/wiki/Tasks)**
+- **[Plugins](https://github.com/Anahkiasen/rocketeer/wiki/Plugins)**
 - **[Architecture](https://github.com/Anahkiasen/rocketeer/wiki/Architecture)**

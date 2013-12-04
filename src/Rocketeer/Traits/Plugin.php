@@ -15,6 +15,14 @@ abstract class Plugin
 	public $configurationFolder;
 
 	/**
+	 * Setup the plugin
+	 */
+	public function __construct()
+	{
+		$this->configurationFolder = __DIR__.'/../../config';
+	}
+
+	/**
 	 * Get the package namespace
 	 *
 	 * @return string
