@@ -1,42 +1,58 @@
 <?php return array(
 
-	// Remote access
-	//
-	// You can either use a single connection or an array of connections
-	// If this is null, the "default" entry in remote.php will be used
-	//////////////////////////////////////////////////////////////////////
+	/*
+	|--------------------------------------------------------------------------
+	| Remote access
+	|--------------------------------------------------------------------------
+	|
+	| The remote connections to deploy to. You can either use a single
+	| connection or an array of connections.
+	|
+	| If set to null, the "default" entry in remote.php will be used.
+	|
+	*/
 
-	// The remote connection(s) to deploy to
 	'connections' => array('production'),
 
-	// SCM repository
-	//////////////////////////////////////////////////////////////////////
+	/*
+	|--------------------------------------------------------------------------
+	| Source Code Management (SCM) repository
+	|--------------------------------------------------------------------------
+	|
+	| You can either use a single connection or an array of connections
+	| If this is null, the "default" entry in remote.php will be used
+	|
+	| Supported: "git", "svn"
+	|
+	*/
 
 	'scm' => array(
 
-		// The SCM used (supported: "git", "svn")
 		'scm' => 'git',
 
-		// The SSH/HTTPS adress to your repository
-		// Example: https://github.com/vendor/website.git
-		'repository' => '',
+		'repository' => 'https://github.com/vendor/website.git',
 
 		// The repository credentials : you can leave those empty
 		// if you're using SSH or if your repository is public
 		// In other cases you can leave this empty too, and you will
 		// be prompted for the credentials on deploy
 		'username'   => '',
+
 		'password'   => '',
 
 		// The branch to deploy
 		'branch'     => 'master',
 	),
 
-	// Stages
-	//
-	// The multiples stages of your application
-	// if you don't know what this does, then you don't need it
-	//////////////////////////////////////////////////////////////////////
+	/*
+	|--------------------------------------------------------------------------
+	| Stages
+	|--------------------------------------------------------------------------
+	|
+	| The multiple stages of your application
+	| if you don't know what this does, then you don't need it
+	|
+	*/
 
 	'stages' => array(
 
@@ -48,8 +64,15 @@
 		'default' => '',
 	),
 
-	// Remote server
-	//////////////////////////////////////////////////////////////////////
+	/*
+	|--------------------------------------------------------------------------
+	| Remote server
+	|--------------------------------------------------------------------------
+	|
+	| The multiple stages of your application
+	| if you don't know what this does, then you don't need it
+	|
+	*/
 
 	'remote' => array(
 
@@ -61,7 +84,7 @@
 		),
 
 		// The root directory where your applications will be deployed
-		'root_directory'   => '/home/www/',
+		'root_directory'   => '/var/www/',
 
 		// The name of the application to deploy
 		// This will create a folder of the same name in the root directory
@@ -104,17 +127,21 @@
 		),
 	),
 
-	// Tasks
-	//
-	// Here you can define in the `before` and `after` array, Tasks to execute
-	// before or after the core Rocketeer Tasks. You can either put a simple command,
-	// a closure which receives a $task object, or the name of a class extending
-	// the Rocketeer\Traits\Task class
-	//
-	// In the `custom` array you can list custom Tasks classes to be added
-	// to Rocketeer. Those will then be available in Artisan
-	// as `php artisan deploy:yourtask`
-	//////////////////////////////////////////////////////////////////////
+	/*
+	|--------------------------------------------------------------------------
+	| Tasks
+	|--------------------------------------------------------------------------
+	|
+	| Here you can define in the `before` and `after` array, Tasks to execute
+	| before or after the core Rocketeer Tasks. You can either put a simple command,
+	| a closure which receives a $task object, or the name of a class extending
+	| the Rocketeer\Traits\Task class
+	|
+	| In the `custom` array you can list custom Tasks classes to be added
+	| to Rocketeer. Those will then be available in Artisan
+	| as `php artisan deploy:yourtask`
+	|
+	*/
 
 	'tasks' => array(
 
@@ -136,19 +163,25 @@
 		'custom' => array(),
 	),
 
-	// Contextual options
-	//
-	// In this section you can fine-tune the above configuration according
-	// to the stage or connection currently in use.
-	// Per example :
-	// 'stages' => array(
-	// 	'staging' => array(
-	// 		'scm' => array('branch' => 'staging'),
-	// 	),
-	//  'production' => array(
-	//    'scm' => array('branch' => 'master'),
-	//  ),
-	// ),
+	/*
+	|--------------------------------------------------------------------------
+	| Contextual options
+	|--------------------------------------------------------------------------
+	|
+	| In this section you can fine-tune the above configuration according
+	| to the stage or connection currently in use.
+	| Per example:
+	|
+	| 'stages' => array(
+	|  	'staging' => array(
+	|  		'scm' => array('branch' => 'staging'),
+	|  	),
+	|   'production' => array(
+	|     'scm' => array('branch' => 'master'),
+	|   ),
+	|  ),
+	|
+	*/
 
 	'on' => array(
 
