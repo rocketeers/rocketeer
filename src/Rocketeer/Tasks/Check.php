@@ -113,7 +113,7 @@ class Check extends Task
 	public function checkPhpVersion()
 	{
 		$this->command->comment('Checking PHP version');
-		$version = $this->run('php -r "print PHP_VERSION;"');
+		$version = $this->run($this->php('-r "print PHP_VERSION;"'));
 
 		return version_compare($version, '5.3.7', '>=');
 	}
@@ -171,7 +171,7 @@ class Check extends Task
 		$this->command->comment('Checking presence of '.$extension. ' extension');
 
 		if (!$this->extensions) {
-			$this->extensions = $this->run('php -m', true, true);
+			$this->extensions = $this->run($this->php('-m'), true, true);
 		}
 
 		return in_array($extension, $this->extensions);

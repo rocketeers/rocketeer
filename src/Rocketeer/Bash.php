@@ -126,7 +126,9 @@ class Bash
 			: trim($output);
 
 		// Append output
-		$this->history[] = $output;
+		if (!$silent) {
+			$this->history[] = $output;
+		}
 
 		return $output;
 	}
@@ -189,6 +191,12 @@ class Bash
 	 */
 	public function which($binary, $fallback = null)
 	{
+		// Get prompted path if any was set
+		$custom = 'paths.'.$binary;
+		if ($location = $this->server->getValue($custom)) {
+			return $location;
+		}
+
 		// Get custom path if any was set
 		if ($location = $this->rocketeer->getPath($binary)) {
 			return $location;
@@ -243,6 +251,38 @@ class Bash
 		print $output.PHP_EOL;
 
 		return false;
+	}
+
+	////////////////////////////////////////////////////////////////////
+	/////////////////////////////// BINARIES ///////////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Prefix a command with the right path to PHP
+	 *
+	 * @param string $command
+	 *
+	 * @return string
+	 */
+	public function php($command = null)
+	{
+		$php = $this->which('php');
+
+		return trim($php. ' ' .$command);
+	}
+
+	/**
+	 * Prefix a command with the right path to Artisan
+	 *
+	 * @param string $command
+	 *
+	 * @return string
+	 */
+	public function artisan($command = null)
+	{
+		$artisan = $this->which('artisan') ?: 'artisan';
+
+		return $this->php($artisan. ' ' .$command);
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -386,7 +426,7 @@ class Bash
 			}
 
 			// Add stage flag
-			if (Str::startsWith($command, 'php artisan') and $stage) {
+			if (Str::contains($command, 'artisan') and $stage) {
 				$command .= ' --env='.$stage;
 			}
 

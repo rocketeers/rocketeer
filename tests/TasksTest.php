@@ -43,11 +43,12 @@ class TasksTest extends RocketeerTests
 	public function testCanRunMigrations()
 	{
 		$task = $this->pretendTask();
+		$php = exec('which php');
 
 		$commands = $task->runMigrations();
-		$this->assertEquals('php artisan migrate', $commands[1]);
+		$this->assertEquals($php.' artisan migrate', $commands[1]);
 
 		$commands = $task->runMigrations(true);
-		$this->assertEquals('php artisan migrate --seed', $commands[1]);
+		$this->assertEquals($php.' artisan migrate --seed', $commands[1]);
 	}
 }

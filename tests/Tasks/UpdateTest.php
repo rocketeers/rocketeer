@@ -10,7 +10,7 @@ class UpdateTest extends RocketeerTests
 		));
 
 		$update = $task->execute();
-		$composer = exec('which composer');
+		$php    = exec('which php');
 
 		$matcher = array(
 			array(
@@ -18,7 +18,6 @@ class UpdateTest extends RocketeerTests
 				"git reset --hard",
 				"git pull",
 			),
-			$composer,
 			array(
 				"cd " .$this->server. "/releases/20000000000000",
 				"chmod -R 755 " .$this->server. "/releases/20000000000000/tests",
@@ -27,11 +26,11 @@ class UpdateTest extends RocketeerTests
 			),
 			array(
 				"cd " .$this->server. "/releases/20000000000000",
-				"php artisan migrate --seed",
+				$php." artisan migrate --seed",
 			),
 			array(
 				"cd " .$this->server. "/releases/20000000000000",
-				"php artisan cache:clear",
+				$php." artisan cache:clear",
 			),
 		);
 

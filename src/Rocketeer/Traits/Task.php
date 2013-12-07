@@ -252,34 +252,6 @@ abstract class Task extends Bash
 	////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Prefix a command with the right path to PHP
-	 *
-	 * @param string $command
-	 *
-	 * @return string
-	 */
-	public function getPhpCommand($command)
-	{
-		$php = $this->which('php');
-
-		return $php. ' ' .$command;
-	}
-
-	/**
-	 * Prefix a command with the right path to Artisan
-	 *
-	 * @param string $command
-	 *
-	 * @return string
-	 */
-	public function getArtisanCommand($command)
-	{
-		$artisan = $this->which('artisan');
-
-		return $this->getPhpCommand($artisan. ' ' .$command);
-	}
-
-	/**
 	 * Run Composer on the folder
 	 *
 	 * @return string
@@ -316,7 +288,7 @@ abstract class Task extends Bash
 
 		// Prepend PHP command
 		if (strpos($composer, 'composer.phar') !== false) {
-			$composer = 'php '.$composer;
+			$composer = $this->php($composer);
 		}
 
 		return $composer;
@@ -334,7 +306,7 @@ abstract class Task extends Bash
 		$seed = $seed ? ' --seed' : null;
 		$this->command->comment('Running outstanding migrations');
 
-		return $this->runForCurrentRelease('php artisan migrate'.$seed);
+		return $this->runForCurrentRelease($this->artisan('migrate'.$seed));
 	}
 
 	/**
@@ -348,7 +320,7 @@ abstract class Task extends Bash
 	{
 		$class = $class ? ' --class="'.$class.'"' : null;
 
-		return $this->runForCurrentRelease('php artisan db:seed'.$class);
+		return $this->runForCurrentRelease($this->artisan('db:seed'.$class));
 	}
 
 	/**
