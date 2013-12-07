@@ -93,42 +93,12 @@ class RocketeerServiceProvider extends ServiceProvider
 	 */
 	public function bindPaths(Container $app)
 	{
-		// Register core paths
-		if (!$app->bound('path.base')) {
-			$root = __DIR__.'/../..';
+		$app->bind('rocketeer.igniter', function ($app) {
+			return new Igniter($app);
+		});
 
-			// Replace phar components to allow file checks
-			if (strpos(__DIR__, 'phar://') !== false) {
-				$root = str_replace('phar://', null, __DIR__);
-				$root = preg_replace('#/rocketeer(\.phar)?/src.+#', null, $root);
-			}
-
-			// Compute path
-			$root = stream_resolve_include_path($root) ?: $root;
-
-			$app->instance('path.base', $root);
-		}
-
-		// Set the paths to bind
-		$path  = $app['path.base'] ? $app['path.base'].'/' : '';
-		$paths = array(
-			'config' => 'rocketeer',
-			'tasks'  => 'tasks',
-		);
-
-		// Bind custom paths
-		foreach ($paths as $key => $file) {
-			$file     = $file.'.php';
-			$filename = $path.$file;
-
-			// Use configuration in current folder if none found
-			$realpath = realpath('.').'/'.$file;
-			if (!file_exists($filename) and file_exists($realpath)) {
-				$filename = $realpath;
-			}
-
-			$app->instance('path.rocketeer.'.$key, $filename);
-		}
+		// Bind paths
+		$app['rocketeer.igniter']->bindPaths();
 
 		return $app;
 	}
@@ -251,7 +221,7 @@ class RocketeerServiceProvider extends ServiceProvider
 		);
 
 		// Add User commands
-		$userTasks = (array) $this->app['config']->get('rocketeer::tasks.custom');
+		$userTasks = (array) $this->app['config']->get('rocketeer::hooks.custom');
 		$tasks     = array_merge($tasks, $userTasks);
 
 		// Bind the commands
@@ -314,13 +284,16 @@ class RocketeerServiceProvider extends ServiceProvider
 	{
 		// Register config file
 		$app['config']->package('anahkiasen/rocketeer', __DIR__.'/../config');
+		$app['config']->getLoader();
+
 
 		// Register custom config
 		$custom = $app['path.rocketeer.config'];
 		if (file_exists($custom)) {
 			$app['config']->afterLoading('rocketeer', function ($me, $group, $items) use ($custom) {
-				$custom = include $custom;
-				return array_replace_recursive($items, $custom);
+				$customItems = include $custom.'/'.$group.'.php';
+
+				return array_replace_recursive($items, $customItems);
 			});
 		}
 

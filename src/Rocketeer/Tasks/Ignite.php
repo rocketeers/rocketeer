@@ -28,8 +28,7 @@ class Ignite extends Task
 		}
 
 		// Else create configuration file
-		$path = $this->app['path.rocketeer.config'];
-		$this->app['files']->put($path, $this->getConfigurationStub());
+		$path = $this->createConfiguration();
 
 		// Display info
 		$folder = basename(dirname($path)).'/'.basename($path);
@@ -43,14 +42,12 @@ class Ignite extends Task
 	 *
 	 * @return string
 	 */
-	protected function getConfigurationStub()
+	protected function createConfiguration()
 	{
-		// Get stub of configuration
-		$config = __DIR__.'/../../config/config.php';
-		$config = file_get_contents($config);
-
 		// Ask for the application name
 		$application = $this->command->ask("What is your application's name ?");
+
+		// Create configuration folder
 
 		// Replace credentials
 		$repositoryCredentials = $this->rocketeer->getCredentials();
@@ -64,13 +61,10 @@ class Ignite extends Task
 			)
 		);
 
+		$config = $this->app['rocketeer.igniter']->exportConfiguration($parameters);
+
 		// Change repository in use
 		$this->app['rocketeer.server']->setRepository($application);
-
-		// Replace patterns
-		foreach ($parameters as $name => $value) {
-			$config = str_replace('{' .$name. '}', $value, $config);
-		}
 
 		return $config;
 	}
