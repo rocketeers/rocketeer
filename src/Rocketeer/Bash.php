@@ -190,8 +190,7 @@ class Bash
 	public function which($binary, $fallback = null)
 	{
 		// Get custom path if any was set
-		$custom = 'paths.'.$binary;
-		if ($location = $this->server->getValue($custom)) {
+		if ($location = $this->rocketeer->getPath($binary)) {
 			return $location;
 		}
 

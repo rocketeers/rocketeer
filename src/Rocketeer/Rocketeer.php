@@ -373,6 +373,18 @@ class Rocketeer
 	////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Get a configured path
+	 *
+	 * @param string $path
+	 *
+	 * @return string
+	 */
+	public function getPath($path)
+	{
+		return $this->getOption('paths.'.$path);
+	}
+
+	/**
 	 * Replace patterns in a folder path
 	 *
 	 * @param  string $path

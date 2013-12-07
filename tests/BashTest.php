@@ -3,7 +3,7 @@ class BashTest extends RocketeerTests
 {
 	public function testCanSetCustomPathsForBinaries()
 	{
-		$this->app['rocketeer.server']->setValue('paths.composer', 'foobar');
+		$this->app['config']->shouldReceive('get')->with('rocketeer::paths.composer')->andReturn('foobar');
 
 		$this->assertEquals('foobar', $this->task->which('composer'));
 	}

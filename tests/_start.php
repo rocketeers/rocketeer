@@ -59,9 +59,9 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 
 		// Laravel classes --------------------------------------------- /
 
-		$this->app->instance('path.base', '/src');
-		$this->app->instance('path', '/src/app');
-		$this->app->instance('path.public', '/src/public');
+		$this->app->instance('path.base',    '/src');
+		$this->app->instance('path',         '/src/app');
+		$this->app->instance('path.public',  '/src/public');
 		$this->app->instance('path.storage', '/src/app/storage');
 
 		$this->app['files']             = new Filesystem;
@@ -125,9 +125,9 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 			file_put_contents($folder.'/.gitkeep', '');
 		}
 
-		// Delete rocketeer binary
-		$binary = __DIR__.'/../rocketeer.php';
-		$this->app['files']->delete($binary);
+		// Delete rocketeer config
+		$binary = __DIR__.'/../rocketeer';
+		$this->app['files']->deleteDirectory($binary);
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -259,7 +259,7 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 		$config->shouldReceive('get')->with('rocketeer::scm.scm')->andReturn('git');
 
 		// Tasks
-		$config->shouldReceive('get')->with('rocketeer::tasks')->andReturn(array(
+		$config->shouldReceive('get')->with('rocketeer::hooks')->andReturn(array(
 			'before' => array(
 				'deploy' => array(
 					'before',

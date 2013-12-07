@@ -248,8 +248,36 @@ abstract class Task extends Bash
 	}
 
 	////////////////////////////////////////////////////////////////////
-	//////////////////////// LARAVEL-SPECIFIC TASKS ////////////////////
+	/////////////////////////// THIRD-PARTY TOOLS //////////////////////
 	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Prefix a command with the right path to PHP
+	 *
+	 * @param string $command
+	 *
+	 * @return string
+	 */
+	public function getPhpCommand($command)
+	{
+		$php = $this->which('php');
+
+		return $php. ' ' .$command;
+	}
+
+	/**
+	 * Prefix a command with the right path to Artisan
+	 *
+	 * @param string $command
+	 *
+	 * @return string
+	 */
+	public function getArtisanCommand($command)
+	{
+		$artisan = $this->which('artisan');
+
+		return $this->getPhpCommand($artisan. ' ' .$command);
+	}
 
 	/**
 	 * Run Composer on the folder

@@ -8,7 +8,7 @@ class IgniteTest extends RocketeerTests
 		$this->app->offsetUnset('artisan');
 
 		$this->app['path.base'] = __DIR__.'/../..';
-		$this->app['path.rocketeer.config'] = $this->app['path.base'].'/rocketeer.php';
+		$this->app['path.rocketeer.config'] = $this->app['path.base'].'/rocketeer';
 
 		// Execute Task
 		$task = $this->task('Ignite');
@@ -18,14 +18,15 @@ class IgniteTest extends RocketeerTests
 		$this->assertFileExists($root);
 
 		$config   = include $this->app['path.base'].'/src/config/config.php';
-		$contents = include $root;
+		$contents = include $root.'/config.php';
 		$this->assertEquals(array('production'), $contents['default']);
 	}
 
 	public function testCanIgniteConfigurationInLaravel()
 	{
 		$this->app['path.base'] = __DIR__.'/../..';
-		$root = $this->app['path.base'].'/rocketeer.php';
+		$this->app['files']->makeDirectory($this->app['path.base'].'/rocketeer');
+		$root = $this->app['path.base'].'/rocketeer/config.php';
 
 		$command = $this->getCommand();
 		$command->shouldReceive('call')->with('config:publish', array('package' => 'anahkiasen/rocketeer'))->andReturnUsing(function () use ($root) {
