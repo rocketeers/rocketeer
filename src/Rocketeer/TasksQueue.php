@@ -59,6 +59,7 @@ class TasksQueue
 
 		// Register configured events
 		$hooks = $app['config']->get('rocketeer::hooks');
+		dd($hooks);
 		foreach ($hooks as $event => $tasks) {
 			foreach ($tasks as $task => $listeners) {
 				$this->addTaskListeners($task, $event, $listeners);

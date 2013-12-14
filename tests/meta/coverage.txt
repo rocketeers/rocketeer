@@ -1,25 +1,25 @@
 
 
-Code Coverage Report:      
-  2013-12-14 17:52:27      
-                           
- Summary:                  
-  Classes: 47.83% (11/23)  
+Code Coverage Report 
+  2013-12-14 18:04:24
+
+ Summary: 
+  Classes: 47.83% (11/23)
   Methods: 72.90% (113/155)
   Lines:   71.35% (645/904)
 
 \Rocketeer::Bash
-  Methods:  89.47% (17/19)   Lines:  92.66% (101/109)
+  Methods: 100.00% (19/19)   Lines:  93.10% (108/116)
 \Rocketeer::Igniter
-  Methods:  80.00% ( 4/ 5)   Lines:  92.68% ( 38/ 41)
+  Methods: 100.00% ( 5/ 5)   Lines:  92.68% ( 38/ 41)
 \Rocketeer::ReleasesManager
   Methods: 100.00% ( 9/ 9)   Lines: 100.00% ( 29/ 29)
 \Rocketeer::Rocketeer
-  Methods: 100.00% (24/24)   Lines: 100.00% (103/103)
+  Methods: 100.00% (24/24)   Lines: 100.00% (108/108)
 \Rocketeer::Server
-  Methods:  81.82% ( 9/11)   Lines:  88.24% ( 45/ 51)
+  Methods: 100.00% (11/11)   Lines:  89.09% ( 49/ 55)
 \Rocketeer::TasksQueue
-  Methods:  70.59% (12/17)   Lines:  88.28% (113/128)
+  Methods:  94.12% (16/17)   Lines:  88.19% (127/144)
 \Rocketeer\Scm::Git
   Methods: 100.00% ( 7/ 7)   Lines: 100.00% (  9/  9)
 \Rocketeer\Tasks::Cleanup
@@ -31,9 +31,9 @@ Code Coverage Report:
 \Rocketeer\Tasks::Ignite
   Methods: 100.00% ( 2/ 2)   Lines: 100.00% ( 19/ 19)
 \Rocketeer\Tasks::Rollback
-  Methods:  50.00% ( 1/ 2)   Lines:  50.00% ( 12/ 24)
+  Methods: 100.00% ( 2/ 2)   Lines:  50.00% ( 12/ 24)
 \Rocketeer\Tasks::Setup
-  Methods:  50.00% ( 1/ 2)   Lines:  88.89% ( 24/ 27)
+  Methods: 100.00% ( 2/ 2)   Lines:  88.89% ( 24/ 27)
 \Rocketeer\Tasks::Teardown
   Methods: 100.00% ( 1/ 1)   Lines: 100.00% (  7/  7)
 \Rocketeer\Tasks::Test
@@ -43,4 +43,4 @@ Code Coverage Report:
 \Rocketeer\Traits::Scm
   Methods: 100.00% ( 3/ 3)   Lines: 100.00% (  7/  7)
 \Rocketeer\Traits::Task
-  Methods:  73.68% (14/19)   Lines:  92.47% ( 86/ 93)
+  Methods:  90.00% (18/20)   Lines:  92.47% ( 86/ 93)
