@@ -90,31 +90,13 @@ abstract class Task extends Bash
 	}
 
 	/**
-	 * Bind or more listeners to the Task
-	 *
-	 * @param string               $event
-	 * @param array|Closure|string $listeners
-	 *
-	 * @return void
-	 */
-	public function listenTo($event, $listeners)
-	{
-		$event = $this->getQualifiedEvent($event);
-
-		$listeners = (array) $listeners;
-		foreach ($listeners as $listener) {
-			$this->app['events']->listen($event, $listener);
-		}
-	}
-
-	/**
 	 * Get the fully qualified event name
 	 *
 	 * @param string $event
 	 *
 	 * @return string
 	 */
-	protected function getQualifiedEvent($event)
+	public function getQualifiedEvent($event)
 	{
 		return 'rocketeer.'.$this->getSlug().'.'.$event;
 	}

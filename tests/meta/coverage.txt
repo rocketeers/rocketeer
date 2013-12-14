@@ -1,46 +1,26 @@
 
 
 Code Coverage Report:      
-  2013-12-14 16:51:47      
+  2013-12-14 16:59:48      
                            
  Summary:                  
-  Classes: 47.83% (11/23)  
-  Methods: 72.90% (113/155)
-  Lines:   71.40% (644/902)
+  Classes:  4.35% (1/23)   
+  Methods: 32.26% (50/155) 
+  Lines:   32.87% (310/943)
 
 \Rocketeer::Bash
-  Methods:  89.47% (17/19)   Lines:  92.66% (101/109)
+  Methods:  26.32% ( 5/19)   Lines:  40.37% ( 44/109)
 \Rocketeer::Igniter
-  Methods:  80.00% ( 4/ 5)   Lines:  92.68% ( 38/ 41)
+  Methods:  40.00% ( 2/ 5)   Lines:  60.98% ( 25/ 41)
 \Rocketeer::ReleasesManager
-  Methods: 100.00% ( 9/ 9)   Lines: 100.00% ( 29/ 29)
+  Methods:  22.22% ( 2/ 9)   Lines:  27.59% (  8/ 29)
 \Rocketeer::Rocketeer
-  Methods: 100.00% (24/24)   Lines: 100.00% (103/103)
+  Methods:  54.17% (13/24)   Lines:  61.17% ( 63/103)
 \Rocketeer::Server
-  Methods:  81.82% ( 9/11)   Lines:  88.24% ( 45/ 51)
+  Methods:  36.36% ( 4/11)   Lines:  48.00% ( 24/ 50)
 \Rocketeer::TasksQueue
-  Methods:  68.75% (11/16)   Lines:  87.50% (105/120)
-\Rocketeer\Scm::Git
-  Methods: 100.00% ( 7/ 7)   Lines: 100.00% (  9/  9)
-\Rocketeer\Tasks::Cleanup
-  Methods: 100.00% ( 1/ 1)   Lines: 100.00% (  9/  9)
+  Methods:  70.59% (12/17)   Lines:  88.00% (110/125)
 \Rocketeer\Tasks::Closure
   Methods: 100.00% ( 5/ 5)   Lines: 100.00% (  8/  8)
-\Rocketeer\Tasks::CurrentRelease
-  Methods: 100.00% ( 1/ 1)   Lines: 100.00% (  7/  7)
-\Rocketeer\Tasks::Ignite
-  Methods: 100.00% ( 2/ 2)   Lines: 100.00% ( 19/ 19)
-\Rocketeer\Tasks::Rollback
-  Methods:  50.00% ( 1/ 2)   Lines:  50.00% ( 12/ 24)
-\Rocketeer\Tasks::Setup
-  Methods:  50.00% ( 1/ 2)   Lines:  88.89% ( 24/ 27)
-\Rocketeer\Tasks::Teardown
-  Methods: 100.00% ( 1/ 1)   Lines: 100.00% (  7/  7)
-\Rocketeer\Tasks::Test
-  Methods: 100.00% ( 1/ 1)   Lines: 100.00% (  2/  2)
-\Rocketeer\Tasks::Update
-  Methods: 100.00% ( 1/ 1)   Lines: 100.00% (  9/  9)
-\Rocketeer\Traits::Scm
-  Methods: 100.00% ( 3/ 3)   Lines: 100.00% (  7/  7)
 \Rocketeer\Traits::Task
-  Methods:  75.00% (15/20)   Lines:  93.00% ( 93/100)
+  Methods:  36.84% ( 7/19)   Lines:  17.20% ( 16/ 93)

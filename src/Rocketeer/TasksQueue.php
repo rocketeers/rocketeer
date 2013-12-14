@@ -59,9 +59,9 @@ class TasksQueue
 
 		// Register configured events
 		$hooks = $app['config']->get('rocketeer::hooks');
-		foreach ($hooks as $hook => $tasks) {
+		foreach ($hooks as $event => $tasks) {
 			foreach ($tasks as $task => $listeners) {
-				$this->addTaskListeners($task, $listeners, $hook);
+				$this->addTaskListeners($task, $event, $listeners);
 			}
 		}
 	}
@@ -104,7 +104,7 @@ class TasksQueue
 	 */
 	public function before($task, $listeners)
 	{
-		$this->addTaskListeners($task, $listeners, 'before');
+		$this->addTaskListeners($task, 'before', $listeners);
 	}
 
 	/**
@@ -117,7 +117,7 @@ class TasksQueue
 	 */
 	public function after($task, $listeners)
 	{
-		$this->addTaskListeners($task, $listeners, 'after');
+		$this->addTaskListeners($task, 'after', $listeners);
 	}
 
 	/**
@@ -335,6 +335,10 @@ class TasksQueue
 	 */
 	public function buildTask($task)
 	{
+		if ($task instanceof Task) {
+			return $task;
+		}
+
 		// Shortcut for calling Rocketeer Tasks
 		if (class_exists('Rocketeer\Tasks\\'.$task)) {
 			$task = 'Rocketeer\Tasks\\'.$task;
@@ -352,51 +356,67 @@ class TasksQueue
 	}
 
 	////////////////////////////////////////////////////////////////////
-	///////////////////////////// SURROUNDINGS /////////////////////////
+	//////////////////////////////// EVENTS ////////////////////////////
 	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Register listeners for a particular event
+	 *
+	 * @param string $event
+	 * @param array $listeners
+	 *
+	 * @return void
+	 */
+	public function listenTo($event, $listeners)
+	{
+		// Create array if it doesn't exist
+		$listeners = $this->buildQueue((array) $listeners);
+
+		// Register events
+		foreach ($listeners as $listener) {
+			$this->app['events']->listen('rocketeer.'.$event, $listener);
+		}
+	}
 
 	/**
 	 * Add a Task to surround another Task
 	 *
 	 * @param string $task
+	 * @param string $event
 	 * @param mixed  $listeners
-	 * @param string $event        before|after
 	 */
-	public function addTaskListeners($task, $listeners, $event)
+	public function addTaskListeners($task, $event, $listeners)
 	{
 		// Recursive call
 		if (is_array($task)) {
 			foreach ($task as $t) {
-				$this->addTaskListeners($t, $listeners, $event);
+				$this->addTaskListeners($t, $event, $listeners);
 			}
 
 			return;
 		}
 
-		// Create array if it doesn't exist
-		$listeners = $this->buildQueue((array) $listeners);
+		// Get event name and register listeners
+		$event = $this->buildTask($task)->getSlug().'.'.$event;
+		$event = $this->listenTo($event, $listeners);
 
-		return $this->buildTask($task)->listenTo($event, $listeners);
+		return $event;
 	}
 
 	/**
 	 * Get the tasks surrounding another Task
 	 *
 	 * @param  Task    $task
-	 * @param  string  $hook
+	 * @param  string  $event
 	 * @param  boolean $flatten
 	 *
 	 * @return array
 	 */
-	public function getTasksListeners($task, $hook, $flatten = false)
+	public function getTasksListeners($task, $event, $flatten = false)
 	{
-		// Get slug from task
-		if ($task instanceof Task) {
-			$task = $task->getSlug();
-		}
-
 		// Get events
-		$events = $this->app['events']->getListeners('rocketeer.'.$task.'.'.$hook);
+		$task   = $this->buildTask($task)->getSlug();
+		$events = $this->app['events']->getListeners('rocketeer.'.$task.'.'.$event);
 
 		// Flatten the queue if requested
 		if ($flatten) {
