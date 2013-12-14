@@ -35,7 +35,7 @@ class Setup extends Task
 		}
 
 		// Check if requirments are met
-		if (!$this->executeTask('Check')) {
+		if (!$this->executeTask('Check') and !$this->getOption('pretend')) {
 			return false;
 		}
 
@@ -54,9 +54,9 @@ class Setup extends Task
 		// Create confirmation message
 		$application = $this->rocketeer->getApplicationName();
 		$homeFolder  = $this->rocketeer->getHomeFolder();
-		$this->command->info(sprintf('Successfully setup "%s" at "%s"', $application, $homeFolder));
+		$message     = sprintf('Successfully setup "%s" at "%s"', $application, $homeFolder);
 
-		return $this->history;
+		return $this->command->info($message);
 	}
 
 	////////////////////////////////////////////////////////////////////

@@ -4,11 +4,18 @@ class TasksTest extends RocketeerTests
 {
 	public function testCanUpdateRepository()
 	{
-		$this->task->runForCurrentRelease('git init');
-		$this->task->updateRepository();
-		$output = $this->task->run('git status');
+		$task = $this->pretendTask('Deploy');
+		$task->updateRepository();
 
-		$this->assertContains('working directory clean', $output);
+		$matcher = array(
+			array(
+				"cd $this->server/releases/20000000000000",
+				"git reset --hard",
+				"git pull",
+			),
+		);
+
+		$this->assertEquals($matcher, $task->getHistory());
 	}
 
 	public function testCanDisplayOutputOfCommandsIfVerbose()

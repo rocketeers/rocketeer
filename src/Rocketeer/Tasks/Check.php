@@ -71,13 +71,13 @@ class Check extends Task
 		$session   = $this->app['config']->get('session.driver');
 
 		return array(
-			'checkScm'               => $this->scm->binary. ' could not be found',
-			'checkPhpVersion'        => 'The version oh PHP on the server does not match Laravel\'s requirements',
-			'checkComposer'          => 'Composer does not seem to be present on the server',
-			'checkPhpExtension'      => array('mcrypt',  sprintf($extension, 'mcrypt')),
+			'checkScm'            => $this->scm->binary. ' could not be found',
+			'checkPhpVersion'     => 'The version oh PHP on the server does not match Laravel\'s requirements',
+			'checkComposer'       => 'Composer does not seem to be present on the server',
+			'checkPhpExtension'   => array('mcrypt',  sprintf($extension, 'mcrypt')),
 			'checkDatabaseDriver' => array($database, sprintf($extension, $database)),
-			'checkCacheDriver'       => array($cache,    sprintf($extension, $cache)),
-			'checkCacheDriver'       => array($session,  sprintf($extension, $session)),
+			'checkCacheDriver'    => array($cache,    sprintf($extension, $cache)),
+			'checkCacheDriver'    => array($session,  sprintf($extension, $session)),
 		);
 	}
 
@@ -93,7 +93,7 @@ class Check extends Task
 	public function checkScm()
 	{
 		$this->command->comment('Checking presence of '.$this->scm->binary);
-		$this->scm->execute('check');
+		$this->history[] = $this->scm->execute('check');
 
 		return $this->remote->status() == 0;
 	}
@@ -179,8 +179,9 @@ class Check extends Task
 	{
 		$this->command->comment('Checking presence of '.$extension. ' extension');
 
+		// Get the PHP extensions available
 		if (!$this->extensions) {
-			$this->extensions = $this->run($this->php('-m'), true, true);
+			$this->extensions = (array) $this->run($this->php('-m'), false, true);
 		}
 
 		return in_array($extension, $this->extensions);

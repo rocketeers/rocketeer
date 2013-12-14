@@ -4,26 +4,25 @@ class CurrentReleaseTest extends RocketeerTests
 {
 	public function testCanGetCurrentRelease()
 	{
-		$this->app['rocketeer.releases'] = $this->mockCurrentRelease('20000000000000')
-			->shouldReceive('getCurrentReleasePath')->once()
-			->mock();
+		$this->mockReleases(function ($mock) {
+			return $mock
+				->shouldReceive('getCurrentRelease')->once()->andReturn('20000000000000')
+				->shouldReceive('getCurrentReleasePath')->once();
+		});
+
 		$current = $this->task('CurrentRelease')->execute();
 		$this->assertContains('20000000000000', $current);
-
-		$this->app['rocketeer.releases'] = $this->mockCurrentRelease(null)->mock();
-		$current = $this->task('CurrentRelease')->execute();
-		$this->assertEquals('No release has yet been deployed', $current);
 	}
 
-	/**
-	 * Mock the current release to return
-	 *
-	 * @param string $release
-	 *
-	 * @return void
-	 */
-	protected function mockCurrentRelease($release)
+	public function testPrintsMessageIfNoReleaseDeployed()
 	{
-		return Mockery::mock('ReleasesManager')->shouldReceive('getCurrentRelease')->once()->andReturn($release);
+		$this->mockReleases(function ($mock) {
+			return $mock
+				->shouldReceive('getCurrentRelease')->once()->andReturn(null)
+				->shouldReceive('getCurrentReleasePath')->never();
+		});
+
+		$current = $this->task('CurrentRelease')->execute();
+		$this->assertEquals('No release has yet been deployed', $current);
 	}
 }

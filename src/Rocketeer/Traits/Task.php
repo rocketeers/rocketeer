@@ -71,6 +71,16 @@ abstract class Task extends Bash
 		return $results;
 	}
 
+	/**
+	 * Get the Task's history
+	 *
+	 * @return array
+	 */
+	public function getHistory()
+	{
+		return $this->history;
+	}
+
 	////////////////////////////////////////////////////////////////////
 	/////////////////////////////// EVENTS /////////////////////////////
 	////////////////////////////////////////////////////////////////////
@@ -112,7 +122,7 @@ abstract class Task extends Bash
 	 */
 	public function isSetup()
 	{
-		return $this->fileExists($this->rocketeer->getFolder('current'));
+		return (bool) $this->releasesManager->getCurrentRelease();
 	}
 
 	/**
@@ -171,6 +181,7 @@ abstract class Task extends Bash
 		// Executing checkout
 		$this->command->info('Cloning repository in "' .$destination. '"');
 		$output = $this->scm->execute('checkout', $destination);
+		$this->history[] = $output;
 
 		// Cancel if failed and forget credentials
 		$success = $this->checkStatus('Unable to clone the repository', $output) !== false;

@@ -56,8 +56,6 @@ class Deploy extends Task
 		$this->updateSymlink();
 
 		$this->command->info('Successfully deployed release '.$release);
-
-		return $this->history;
 	}
 
 	////////////////////////////////////////////////////////////////////
