@@ -342,8 +342,8 @@ class TasksQueue
 		}
 
 		// Shortcut for calling Rocketeer Tasks
-		if (class_exists('Rocketeer\Tasks\\'.$task)) {
-			$task = 'Rocketeer\Tasks\\'.$task;
+		if (class_exists('Rocketeer\Tasks\\'.ucfirst($task))) {
+			$task = 'Rocketeer\Tasks\\'.ucfirst($task);
 		}
 
 		// Cancel if class doesn't exist
