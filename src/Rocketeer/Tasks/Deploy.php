@@ -49,7 +49,7 @@ class Deploy extends Task
 		// Run migrations
 		if ($this->getOption('migrate')) {
 			$this->runMigrations($this->getOption('seed'));
-		} elseif($this->getOption('seed')) {
+		} elseif ($this->getOption('seed')) {
 			$this->runSeed();
 		}
 

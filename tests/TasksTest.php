@@ -56,11 +56,11 @@ class TasksTest extends RocketeerTests
 	{
 		$this->expectOutputString('foobar');
 
-		$this->tasksQueue()->listenTo('closure.test.foobar', function($task) {
+		$this->tasksQueue()->listenTo('closure.test.foobar', function ($task) {
 			echo 'foobar';
 		});
 
-		$task = $this->tasksQueue()->execute(function($task) {
+		$task = $this->tasksQueue()->execute(function ($task) {
 			$task->fireEvent('test.foobar');
 		}, 'staging');
 	}
