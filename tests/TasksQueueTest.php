@@ -23,7 +23,6 @@ class TasksQueueTest extends RocketeerTests
 		$tasks = $this->tasksQueue()->buildQueue(array('Rocketeer\Tasks\Check'));
 
 		$this->assertInstanceOf('Rocketeer\Tasks\Check', $tasks[0]);
-		$this->assertInstanceOf('Tasks\MyCustomTask', $tasks[1]);
 	}
 
 	public function testCanAddCommandsToArtisan()
@@ -132,9 +131,7 @@ class TasksQueueTest extends RocketeerTests
 
 		$this->assertInstanceOf('Rocketeer\Tasks\Closure', $queue[0]);
 		$this->assertInstanceOf('Rocketeer\Tasks\Closure', $queue[1]);
-		$this->assertInstanceOf('Rocketeer\Tasks\Closure', $queue[2]);
-		$this->assertInstanceOf('Rocketeer\Tasks\Closure', $queue[3]);
-		$this->assertInstanceOf('Rocketeer\Tasks\Deploy',  $queue[4]);
+		$this->assertInstanceOf('Rocketeer\Tasks\Deploy',  $queue[2]);
 	}
 
 	public function testCanRunQueue()
