@@ -401,7 +401,6 @@ class TasksQueue
 		}
 
 		// Get event name and register listeners
-		var_dump($this->buildTask($task));
 		$event = $this->buildTask($task)->getSlug().'.'.$event;
 		$event = $this->listenTo($event, $listeners, $priority);
 
