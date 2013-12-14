@@ -4,6 +4,7 @@ namespace Rocketeer;
 use Illuminate\Config\FileLoader;
 use Illuminate\Config\Repository;
 use Illuminate\Container\Container;
+use Illuminate\Events\Dispatcher;
 use Illuminate\Http\Request;
 use Illuminate\Remote\RemoteManager;
 use Illuminate\Support\ServiceProvider;
@@ -81,6 +82,10 @@ class RocketeerServiceProvider extends ServiceProvider
 		$app = $serviceProvider->bindCommands($app);
 		$app = $serviceProvider->bindTasks($app);
 
+		$app['events']->listen('rocketeer.check.after', function($event) {
+			dd($event);
+		});
+
 		return $app;
 	}
 
@@ -126,6 +131,10 @@ class RocketeerServiceProvider extends ServiceProvider
 
 		$app->bindIf('remote', function ($app) {
 			return new RemoteManager($app);
+		}, true);
+
+		$app->bindIf('events', function ($app) {
+			return new Dispatcher($app);
 		}, true);
 
 		// Register factory and custom configurations

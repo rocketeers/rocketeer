@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "b55837f766d9bd2a1f0534be917aa9c7",
+    "hash": "c9b9f830e5aa703ad8441c7c3321c674",
     "packages": [
         {
             "name": "illuminate/config",
@@ -144,6 +144,55 @@
                 }
             ],
             "time": "2013-11-27 15:06:54"
+        },
+        {
+            "name": "illuminate/events",
+            "version": "4.1.x-dev",
+            "target-dir": "Illuminate/Events",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/illuminate/events.git",
+                "reference": "7a658e96e9631c4ae541a205563984a80af7dc01"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/illuminate/events/zipball/7a658e96e9631c4ae541a205563984a80af7dc01",
+                "reference": "7a658e96e9631c4ae541a205563984a80af7dc01",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/container": "4.1.x",
+                "illuminate/support": "4.1.x",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "0.7.2",
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Illuminate\\Events": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylorotwell@gmail.com",
+                    "homepage": "https://github.com/taylorotwell",
+                    "role": "Developer"
+                }
+            ],
+            "time": "2013-10-29 12:20:27"
         },
         {
             "name": "illuminate/filesystem",

@@ -57,6 +57,36 @@ abstract class Task extends Bash
 	 */
 	abstract public function execute();
 
+	/**
+	 * Fire the command
+	 *
+	 * @return void
+	 */
+	public function fire()
+	{
+		$this->fireEvent('before');
+		$this->execute();
+		$this->fireEvent('after');
+	}
+
+	////////////////////////////////////////////////////////////////////
+	/////////////////////////////// EVENTS /////////////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Fire an event related to this task
+	 *
+	 * @param string $event
+	 *
+	 * @return array|null
+	 */
+	protected function fireEvent($event)
+	{
+		$event = 'rocketeer.'.$this->getSlug().'.'.$event;
+
+		return $this->app['events']->fire($event, array($this));
+	}
+
 	////////////////////////////////////////////////////////////////////
 	/////////////////////////////// HELPERS ////////////////////////////
 	////////////////////////////////////////////////////////////////////

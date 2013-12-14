@@ -256,7 +256,7 @@ class TasksQueue
 			$currentStage = $task->usesStages() ? $stage : null;
 			$this->app['rocketeer.rocketeer']->setStage($currentStage);
 
-			$state = $task->execute();
+			$state = $task->fire();
 			$this->output[] = $state;
 			if ($state === false) {
 				return false;
