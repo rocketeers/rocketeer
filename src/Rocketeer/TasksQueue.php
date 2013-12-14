@@ -374,7 +374,7 @@ class TasksQueue
 
 		// Register events
 		foreach ($listeners as $listener) {
-			$this->app['events']->listen('rocketeer.'.$event, $listener);
+			$this->app['events']->listen('rocketeer.'.$event, array($listener, 'execute'));
 		}
 	}
 

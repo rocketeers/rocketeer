@@ -51,4 +51,17 @@ class TasksTest extends RocketeerTests
 		$commands = $task->runMigrations(true);
 		$this->assertEquals($php.' artisan migrate --seed', $commands[1]);
 	}
+
+	public function testCanFireEventsDuringTasks()
+	{
+		$this->expectOutputString('foobar');
+
+		$this->tasksQueue()->listenTo('closure.test.foobar', function($task) {
+			echo 'foobar';
+		});
+
+		$task = $this->tasksQueue()->execute(function($task) {
+			$task->fireEvent('test.foobar');
+		}, 'staging');
+	}
 }
