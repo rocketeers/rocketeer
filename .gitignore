@@ -1,11 +1,14 @@
 # Dotfiles
 .DS_Store
 
-# Cache and comiled
+# Cache and compiled
 bin/rocketeer.phar
 bin/phar
 storage
 rocketeer.php
+
+# Plugins
+rocketeer-campfire
 
 # Tests
 tests/coverage

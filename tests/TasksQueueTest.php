@@ -209,4 +209,13 @@ class TasksQueueTest extends RocketeerTests
 			'production - second',
 		), $output);
 	}
+
+	public function testCanAddEventsWithPriority()
+	{
+		$this->tasksQueue()->before('deploy', 'second', -5);
+		$this->tasksQueue()->before('deploy', 'first');
+
+		$listeners = $this->tasksQueue()->getTasksListeners('deploy', 'before', true);
+		$this->assertEquals(array('before', 'foobar', 'first', 'second'), $listeners);
+	}
 }

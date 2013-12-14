@@ -99,12 +99,13 @@ class TasksQueue
 	 *
 	 * @param  string                $task
 	 * @param  string|Closure|Task   $listeners
+	 * @param  integer               $priority
 	 *
 	 * @return void
 	 */
-	public function before($task, $listeners)
+	public function before($task, $listeners, $priority = 0)
 	{
-		$this->addTaskListeners($task, 'before', $listeners);
+		$this->addTaskListeners($task, 'before', $listeners, $priority);
 	}
 
 	/**
@@ -112,12 +113,13 @@ class TasksQueue
 	 *
 	 * @param  string                $task
 	 * @param  string|Closure|Task   $listeners
+	 * @param  integer               $priority
 	 *
 	 * @return void
 	 */
-	public function after($task, $listeners)
+	public function after($task, $listeners, $priority = 0)
 	{
-		$this->addTaskListeners($task, 'after', $listeners);
+		$this->addTaskListeners($task, 'after', $listeners, $priority);
 	}
 
 	/**
@@ -362,35 +364,37 @@ class TasksQueue
 	/**
 	 * Register listeners for a particular event
 	 *
-	 * @param string $event
-	 * @param array $listeners
+	 * @param string  $event
+	 * @param array   $listeners
+	 * @param integer $priority
 	 *
 	 * @return void
 	 */
-	public function listenTo($event, $listeners)
+	public function listenTo($event, $listeners, $priority = 0)
 	{
 		// Create array if it doesn't exist
 		$listeners = $this->buildQueue((array) $listeners);
 
 		// Register events
 		foreach ($listeners as $listener) {
-			$this->app['events']->listen('rocketeer.'.$event, array($listener, 'execute'));
+			$this->app['events']->listen('rocketeer.'.$event, array($listener, 'execute'), $priority);
 		}
 	}
 
 	/**
 	 * Add a Task to surround another Task
 	 *
-	 * @param string $task
-	 * @param string $event
-	 * @param mixed  $listeners
+	 * @param string  $task
+	 * @param string  $event
+	 * @param mixed   $listeners
+	 * @param integer $priority
 	 */
-	public function addTaskListeners($task, $event, $listeners)
+	public function addTaskListeners($task, $event, $listeners, $priority = 0)
 	{
 		// Recursive call
 		if (is_array($task)) {
 			foreach ($task as $t) {
-				$this->addTaskListeners($t, $event, $listeners);
+				$this->addTaskListeners($t, $event, $listeners, $priority);
 			}
 
 			return;
@@ -398,7 +402,7 @@ class TasksQueue
 
 		// Get event name and register listeners
 		$event = $this->buildTask($task)->getSlug().'.'.$event;
-		$event = $this->listenTo($event, $listeners);
+		$event = $this->listenTo($event, $listeners, $priority);
 
 		return $event;
 	}
