@@ -98,63 +98,42 @@ class TasksQueue
 	 * Execute a Task before another one
 	 *
 	 * @param  string                $task
-	 * @param  string|Closure|Task   $surroundingTask
+	 * @param  string|Closure|Task   $listeners
 	 *
 	 * @return void
 	 */
-	public function before($task, $surroundingTask)
+	public function before($task, $listeners)
 	{
-		$this->addTaskListeners($task, $surroundingTask, 'before');
+		$this->addTaskListeners($task, $listeners, 'before');
 	}
 
 	/**
 	 * Execute a Task after another one
 	 *
 	 * @param  string                $task
-	 * @param  string|Closure|Task   $surroundingTask
+	 * @param  string|Closure|Task   $listeners
 	 *
 	 * @return void
 	 */
-	public function after($task, $surroundingTask)
+	public function after($task, $listeners)
 	{
-		$this->addTaskListeners($task, $surroundingTask, 'after');
-	}
-
-	/**
-	 * Get the tasks to execute before a Task
-	 *
-	 * @param  Task    $task
-	 * @param  boolean $flatten
-	 *
-	 * @return array
-	 */
-	public function getBefore($task, $flatten = false)
-	{
-		return $this->getTasksListeners($task, 'before', $flatten);
-	}
-
-	/**
-	 * Get the tasks to execute after a Task
-	 *
-	 * @param  Task    $task
-	 * @param  boolean $flatten
-	 *
-	 * @return array
-	 */
-	public function getAfter($task, $flatten = false)
-	{
-		return $this->getTasksListeners($task, 'after', $flatten);
+		$this->addTaskListeners($task, $listeners, 'after');
 	}
 
 	/**
 	 * Execute Tasks on the default connection
 	 *
 	 * @param  string|array|Closure $task
+	 * @param  string|array         $connections
 	 *
 	 * @return array
 	 */
-	public function execute($queue)
+	public function execute($queue, $connections = null)
 	{
+		if ($connections) {
+			$this->app['rocketeer.rocketeer']->setConnections($connections);
+		}
+
 		$queue = (array) $queue;
 		$queue = $this->buildQueue($queue);
 
@@ -171,12 +150,7 @@ class TasksQueue
 	 */
 	public function on($connections, $queue)
 	{
-		$this->app['rocketeer.rocketeer']->setConnections($connections);
-
-		$queue = (array) $queue;
-		$queue = $this->buildQueue($queue);
-
-		return $this->run($queue);
+		return $this->execute($queue, $connections);
 	}
 
 	/**
@@ -302,7 +276,7 @@ class TasksQueue
 				$task = $this->buildTask($task);
 			}
 
-			$queue = array_merge($queue, $this->getBefore($task), array($task), $this->getAfter($task));
+			$queue = array_merge($queue, array($task));
 		}
 
 		// Build the tasks provided as Closures/strings
@@ -385,26 +359,24 @@ class TasksQueue
 	 * Add a Task to surround another Task
 	 *
 	 * @param string $task
-	 * @param mixed  $surroundingTask
-	 * @param string $position        before|after
+	 * @param mixed  $listeners
+	 * @param string $event        before|after
 	 */
-	public function addTaskListeners($task, $surroundingTask, $position)
+	public function addTaskListeners($task, $listeners, $event)
 	{
 		// Recursive call
 		if (is_array($task)) {
 			foreach ($task as $t) {
-				$this->addTaskListeners($t, $surroundingTask, $position);
+				$this->addTaskListeners($t, $listeners, $event);
 			}
 
 			return;
 		}
 
 		// Create array if it doesn't exist
-		$surroundingTask = (array) $surroundingTask;
-		$queue = $this->buildQueue($surroundingTask);
-		foreach ($queue as $listener) {
-			$this->app['events']->listen('rocketeer.'.$task.'.'.$position, $listener);
-		}
+		$listeners = $this->buildQueue((array) $listeners);
+
+		return $this->buildTask($task)->listenTo($event, $listeners);
 	}
 
 	/**

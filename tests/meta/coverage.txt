@@ -1,12 +1,12 @@
 
 
 Code Coverage Report:      
-  2013-12-14 16:28:08      
+  2013-12-14 16:46:13      
                            
  Summary:                  
   Classes:  4.35% (1/23)   
-  Methods: 32.26% (50/155) 
-  Lines:   34.48% (310/899)
+  Methods: 33.12% (52/157) 
+  Lines:   33.26% (315/947)
 
 \Rocketeer::Bash
   Methods:  26.32% ( 5/19)   Lines:  40.37% ( 44/109)
@@ -19,8 +19,8 @@ Code Coverage Report:
 \Rocketeer::Server
   Methods:  36.36% ( 4/11)   Lines:  48.00% ( 24/ 50)
 \Rocketeer::TasksQueue
-  Methods:  72.22% (13/18)   Lines:  88.80% (111/125)
+  Methods:  72.22% (13/18)   Lines:  88.62% (109/123)
 \Rocketeer\Tasks::Closure
   Methods: 100.00% ( 5/ 5)   Lines: 100.00% (  8/  8)
 \Rocketeer\Traits::Task
-  Methods:  33.33% ( 6/18)   Lines:  16.30% ( 15/ 92)
+  Methods:  40.00% ( 8/20)   Lines:  22.22% ( 22/ 99)
