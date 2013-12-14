@@ -17,6 +17,13 @@ class Closure extends Task
 	protected $closure;
 
 	/**
+	 * A string task to execute in the Closure
+	 *
+	 * @var string
+	 */
+	protected $stringTask;
+
+	/**
 	 * Create a Task from a Closure
 	 *
 	 * @param  AnonymousFunction $closure
@@ -34,6 +41,26 @@ class Closure extends Task
 	public function getClosure()
 	{
 		return $this->closure;
+	}
+
+	/**
+	 * Get the string task that was assigned
+	 *
+	 * @return string
+	 */
+	public function getStringTask()
+	{
+		return $this->stringTask;
+	}
+
+	/**
+	 * Set the string task
+	 *
+	 * @param string $task
+	 */
+	public function setStringTask($task)
+	{
+		$this->stringTask = $task;
 	}
 
 	/**

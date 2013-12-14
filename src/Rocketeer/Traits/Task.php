@@ -60,13 +60,15 @@ abstract class Task extends Bash
 	/**
 	 * Fire the command
 	 *
-	 * @return void
+	 * @return array
 	 */
 	public function fire()
 	{
 		$this->fireEvent('before');
-		$this->execute();
+		$results = $this->execute();
 		$this->fireEvent('after');
+
+		return $results;
 	}
 
 	////////////////////////////////////////////////////////////////////

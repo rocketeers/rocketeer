@@ -55,8 +55,15 @@ class TasksQueue
 	public function __construct(Container $app, $command = null)
 	{
 		$this->app     = $app;
-		$this->tasks   = $app['config']->get('rocketeer::hooks');
 		$this->command = $command;
+
+		// Register configured events
+		$hooks = $app['config']->get('rocketeer::hooks');
+		foreach ($hooks as $hook => $tasks) {
+			foreach ($tasks as $task => $listeners) {
+				$this->addTaskListeners($task, $listeners, $hook);
+			}
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -97,7 +104,7 @@ class TasksQueue
 	 */
 	public function before($task, $surroundingTask)
 	{
-		$this->addSurroundingTask($task, $surroundingTask, 'before');
+		$this->addTaskListeners($task, $surroundingTask, 'before');
 	}
 
 	/**
@@ -110,31 +117,33 @@ class TasksQueue
 	 */
 	public function after($task, $surroundingTask)
 	{
-		$this->addSurroundingTask($task, $surroundingTask, 'after');
+		$this->addTaskListeners($task, $surroundingTask, 'after');
 	}
 
 	/**
 	 * Get the tasks to execute before a Task
 	 *
-	 * @param  Task   $task
+	 * @param  Task    $task
+	 * @param  boolean $flatten
 	 *
 	 * @return array
 	 */
-	public function getBefore(Task $task)
+	public function getBefore($task, $flatten = false)
 	{
-		return $this->getSurroundingTasks($task, 'before');
+		return $this->getTasksListeners($task, 'before', $flatten);
 	}
 
 	/**
 	 * Get the tasks to execute after a Task
 	 *
-	 * @param  Task   $task
+	 * @param  Task    $task
+	 * @param  boolean $flatten
 	 *
 	 * @return array
 	 */
-	public function getAfter(Task $task)
+	public function getAfter($task, $flatten = false)
 	{
-		return $this->getSurroundingTasks($task, 'after');
+		return $this->getTasksListeners($task, 'after', $flatten);
 	}
 
 	/**
@@ -331,6 +340,9 @@ class TasksQueue
 		if (isset($closure)) {
 			$task = $this->buildTask('Rocketeer\Tasks\Closure');
 			$task->setClosure($closure);
+			if (isset($stringTask)) {
+				$task->setStringTask($stringTask);
+			}
 		}
 
 		if (!($task instanceof Task)) {
@@ -354,6 +366,11 @@ class TasksQueue
 			$task = 'Rocketeer\Tasks\\'.$task;
 		}
 
+		// Cancel if class doesn't exist
+		if (!class_exists($task)) {
+			return $task;
+		}
+
 		return new $task(
 			$this->app,
 			$this->command
@@ -371,51 +388,52 @@ class TasksQueue
 	 * @param mixed  $surroundingTask
 	 * @param string $position        before|after
 	 */
-	protected function addSurroundingTask($task, $surroundingTask, $position)
+	public function addTaskListeners($task, $surroundingTask, $position)
 	{
 		// Recursive call
 		if (is_array($task)) {
 			foreach ($task as $t) {
-				$this->addSurroundingTask($t, $surroundingTask, $position);
+				$this->addTaskListeners($t, $surroundingTask, $position);
 			}
 
 			return;
 		}
 
 		// Create array if it doesn't exist
-		if (!array_key_exists($task, $this->tasks[$position])) {
-			$this->tasks[$position][$task] = array();
-		}
-
-		// Add Task to Tasks
-		if (is_array($surroundingTask)) {
-			$this->tasks[$position][$task] = array_merge($this->tasks[$position][$task], $surroundingTask);
-		} else {
-			$this->tasks[$position][$task][] = $surroundingTask;
+		$surroundingTask = (array) $surroundingTask;
+		$queue = $this->buildQueue($surroundingTask);
+		foreach ($queue as $listener) {
+			$this->app['events']->listen('rocketeer.'.$task.'.'.$position, $listener);
 		}
 	}
 
 	/**
 	 * Get the tasks surrounding another Task
 	 *
-	 * @param  Task   $task
-	 * @param  string $position     before|after
+	 * @param  Task    $task
+	 * @param  string  $hook
+	 * @param  boolean $flatten
 	 *
 	 * @return array
 	 */
-	protected function getSurroundingTasks(Task $task, $position)
+	public function getTasksListeners($task, $hook, $flatten = false)
 	{
-		// First we look for the fully qualified class name
-		$key = get_class($task);
-		if (array_key_exists($key, $this->tasks[$position])) {
-			$tasks = array_get($this->tasks, $position.'.'.$key);
-
-		// Then for the class slug
-		} else {
-			$tasks = array_get($this->tasks, $position.'.'.$task->getSlug());
+		// Get slug from task
+		if ($task instanceof Task) {
+			$task = $task->getSlug();
 		}
 
-		return (array) $tasks;
+		// Get events
+		$events = $this->app['events']->getListeners('rocketeer.'.$task.'.'.$hook);
+
+		// Flatten the queue if requested
+		if ($flatten) {
+			foreach ($events as $key => $event) {
+				$events[$key] = $event->getStringTask();
+			}
+		}
+
+		return $events;
 	}
 
 	////////////////////////////////////////////////////////////////////

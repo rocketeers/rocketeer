@@ -82,10 +82,6 @@ class RocketeerServiceProvider extends ServiceProvider
 		$app = $serviceProvider->bindCommands($app);
 		$app = $serviceProvider->bindTasks($app);
 
-		$app['events']->listen('rocketeer.check.after', function($event) {
-			dd($event);
-		});
-
 		return $app;
 	}
 

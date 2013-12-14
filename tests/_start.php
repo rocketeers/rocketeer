@@ -271,7 +271,7 @@ abstract class RocketeerTests extends PHPUnit_Framework_TestCase
 				'check' => array(
 					'Tasks\MyCustomTask',
 				),
-				'Rocketeer\Tasks\Deploy' => array(
+				'deploy' => array(
 					'after',
 					'foobar'
 				),
