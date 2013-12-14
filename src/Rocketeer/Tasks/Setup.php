@@ -29,14 +29,14 @@ class Setup extends Task
 	 */
 	public function execute()
 	{
+		// Cancel if already setup
+		if ($this->isSetup()) {
+			return true;
+		}
+
 		// Check if requirments are met
 		if (!$this->executeTask('Check')) {
 			return false;
-		}
-
-		// Remove existing installation
-		if ($this->isSetup()) {
-			$this->executeTask('Teardown');
 		}
 
 		// Create base folder

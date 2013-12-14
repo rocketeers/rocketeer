@@ -29,44 +29,26 @@ class Check extends Task
 	 */
 	public function execute()
 	{
-		$errors    = array();
-		$extension = 'The %s extension does not seem to be loaded on the server';
+		$errors = array();
+		$checks = $this->getChecks();
 
-		// Check SCM
-		if (!$this->checkScm()) {
-			$errors[] = $this->command->error($this->scm->binary . ' could not be found on the server');
-		}
+		foreach ($checks as $check => $error) {
+			$argument = null;
+			if (is_array($error)) {
+				$argument = $error[0];
+				$error    = $error[1];
+			}
 
-		// Check PHP
-		if (!$this->checkPhpVersion()) {
-			$errors[] = $this->command->error('The version of PHP on the server does not match Laravel\'s requirements');
-		}
-
-		// Check MCrypt
-		if (!$this->checkPhpExtension('mcrypt')) {
-			$errors[] = $this->command->error(sprintf($extension, 'mcrypt'));
-		}
-
-		// Check Composer
-		if (!$this->checkComposer()) {
-			$errors[] = $this->command->error('Composer does not seem to be present on the server');
-		}
-
-		// Check database
-		$database = $this->app['config']->get('database.default');
-		if (!$this->checkDatabaseExtension($database)) {
-			$errors[] = $this->command->error(sprintf($extension, $database));
-		}
-
-		// Check Cache/Session driver
-		$cache   = $this->app['config']->get('cache.driver');
-		$session = $this->app['config']->get('session.driver');
-		if (!$this->checkCacheDriver($cache) or !$this->checkCacheDriver($session)) {
-			$errors[] = $this->command->error(sprintf($extension, $cache));
+			// If the check fail, print an error message
+			if (!$this->$check($argument)) {
+				$errors[] = $error;
+			}
 		}
 
 		// Return false if any error
 		if (!empty($errors)) {
+			$this->command->error(implode(PHP_EOL, $errors));
+
 			return false;
 		}
 
@@ -76,8 +58,31 @@ class Check extends Task
 		return true;
 	}
 
+	/**
+	 * Get the checks to execute
+	 *
+	 * @return array
+	 */
+	protected function getChecks()
+	{
+		$extension = 'The %s extension does not seem to be loaded on the server';
+		$database  = $this->app['config']->get('database.default');
+		$cache     = $this->app['config']->get('cache.driver');
+		$session   = $this->app['config']->get('session.driver');
+
+		return array(
+			'checkScm'               => $this->scm->binary. ' could not be found',
+			'checkPhpVersion'        => 'The version oh PHP on the server does not match Laravel\'s requirements',
+			'checkComposer'          => 'Composer does not seem to be present on the server',
+			'checkPhpExtension'      => array('mcrypt',  sprintf($extension, 'mcrypt')),
+			'checkDatabaseDriver' => array($database, sprintf($extension, $database)),
+			'checkCacheDriver'       => array($cache,    sprintf($extension, $cache)),
+			'checkCacheDriver'       => array($session,  sprintf($extension, $session)),
+		);
+	}
+
 	////////////////////////////////////////////////////////////////////
-	/////////////////////////////// HELPERS ////////////////////////////
+	/////////////////////////////// CHECKS /////////////////////////////
 	////////////////////////////////////////////////////////////////////
 
 	/**
@@ -118,6 +123,10 @@ class Check extends Task
 		return version_compare($version, '5.3.7', '>=');
 	}
 
+	////////////////////////////////////////////////////////////////////
+	/////////////////////////////// HELPERS ////////////////////////////
+	////////////////////////////////////////////////////////////////////
+
 	/**
 	 * Check the presence of the correct database PHP extension
 	 *
@@ -125,7 +134,7 @@ class Check extends Task
 	 *
 	 * @return boolean
 	 */
-	public function checkDatabaseExtension($database)
+	public function checkDatabaseDriver($database)
 	{
 		switch ($database) {
 			case 'sqlite':

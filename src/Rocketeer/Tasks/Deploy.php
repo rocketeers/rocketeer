@@ -9,6 +9,17 @@ use Rocketeer\Traits\Task;
 class Deploy extends Task
 {
 	/**
+	 * Methods that can halt deployment
+	 *
+	 * @var array
+	 */
+	protected $halting = array(
+		'cloneRepository',
+		'runComposer',
+		'checkTestsResults',
+	);
+
+	/**
 	 * Run the Task
 	 *
 	 * @return  void
@@ -22,23 +33,11 @@ class Deploy extends Task
 		}
 
 		// Update current release
-		$release = date('YmdHis');
-		$this->releasesManager->updateCurrentRelease($release);
+		$release = $this->releasesManager->updateCurrentRelease();
 
-		// Clone Git repository
-		if (!$this->cloneRepository()) {
-			return $this->cancel();
-		}
-
-		// Run Composer
-		if (!$this->runComposer()) {
-			return $this->cancel();
-		}
-
-		// Run tests
-		if ($this->getOption('tests')) {
-			if (!$this->runTests()) {
-				$this->command->error('Tests failed');
+		// Run halting methods
+		foreach ($this->halting as $method) {
+			if (!$this->$method()) {
 				return $this->cancel();
 			}
 		}
@@ -47,11 +46,7 @@ class Deploy extends Task
 		$this->setApplicationPermissions();
 
 		// Run migrations
-		if ($this->getOption('migrate')) {
-			$this->runMigrations($this->getOption('seed'));
-		} elseif ($this->getOption('seed')) {
-			$this->runSeed();
-		}
+		$this->runMigrationsAndSeed();
 
 		// Synchronize shared folders and files
 		$this->syncSharedFolders();
@@ -63,6 +58,42 @@ class Deploy extends Task
 		$this->command->info('Successfully deployed release '.$release);
 
 		return $this->history;
+	}
+
+	////////////////////////////////////////////////////////////////////
+	/////////////////////////////// SUBTASKS ///////////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Run PHPUnit tests
+	 *
+	 * @return void
+	 */
+	protected function checkTestsResults()
+	{
+		if ($this->getOption('tests') and !$this->runTests()) {
+			$this->command->error('Tests failed');
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Run migrations and seed database
+	 *
+	 * @return void
+	 */
+	protected function runMigrationsAndSeed()
+	{
+		$seed = $this->getOption('seed');
+
+		if ($this->getOption('migrate')) {
+			return $this->runMigrations($seed);
+		} elseif ($seed) {
+			return $this->runSeed();
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////

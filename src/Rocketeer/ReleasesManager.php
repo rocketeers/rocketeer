@@ -151,8 +151,14 @@ class ReleasesManager
 	 *
 	 * @return void
 	 */
-	public function updateCurrentRelease($release)
+	public function updateCurrentRelease($release = null)
 	{
+		if (!$release) {
+			$release = date('YmdHis');
+		}
+
 		$this->app['rocketeer.server']->setValue('current_release', $release);
+
+		return $release;
 	}
 }
