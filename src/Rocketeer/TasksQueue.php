@@ -419,9 +419,10 @@ class TasksQueue
 		$events = $this->app['events']->getListeners('rocketeer.'.$task.'.'.$event);
 
 		// Flatten the queue if requested
-		if ($flatten) {
-			foreach ($events as $key => $event) {
-				$events[$key] = $event->getStringTask();
+		foreach ($events as $key => $event) {
+			$task = $event[0];
+			if ($flatten and $task instanceof Tasks\Closure) {
+				$events[$key] = $task->getStringTask();
 			}
 		}
 
