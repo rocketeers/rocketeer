@@ -5,6 +5,7 @@
 - **Rocketeer is now available as a standalone PHAR**
 - **Configuration is now split in multiple files**
 - **Revamped plugin system**
+- **Rocketeer hooks now use `illuminate/event` system, and can fire events during tasks (instead of just before and after)**
 - Fixed a bug where `CurrentRelease` wouldn't show any release with an empty/fresh deployments file
 - Renamed `apache` options in configuration file to `webuser`
 - Fix some multiconnections related bugs
