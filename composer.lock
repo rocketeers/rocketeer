@@ -3,11 +3,11 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "c1c25ff24da050536e94d4a2c72e4cc8",
+    "hash": "b55837f766d9bd2a1f0534be917aa9c7",
     "packages": [
         {
             "name": "illuminate/config",
-            "version": "dev-master",
+            "version": "4.1.x-dev",
             "target-dir": "Illuminate/Config",
             "source": {
                 "type": "git",
@@ -147,7 +147,7 @@
         },
         {
             "name": "illuminate/filesystem",
-            "version": "dev-master",
+            "version": "4.1.x-dev",
             "target-dir": "Illuminate/Filesystem",
             "source": {
                 "type": "git",
@@ -200,12 +200,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "cf4647139cb42edcba4933f175101b96df7d27ef"
+                "reference": "5625c8d61171f57da3495d2163370b03c0cfa94a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/cf4647139cb42edcba4933f175101b96df7d27ef",
-                "reference": "cf4647139cb42edcba4933f175101b96df7d27ef",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/5625c8d61171f57da3495d2163370b03c0cfa94a",
+                "reference": "5625c8d61171f57da3495d2163370b03c0cfa94a",
                 "shasum": ""
             },
             "require": {
@@ -242,7 +242,7 @@
                     "role": "Developer"
                 }
             ],
-            "time": "2013-12-03 16:44:31"
+            "time": "2013-12-12 13:21:25"
         },
         {
             "name": "symfony/console",
@@ -407,7 +407,7 @@
         },
         {
             "name": "illuminate/remote",
-            "version": "dev-master",
+            "version": "4.1.x-dev",
             "target-dir": "Illuminate/Remote",
             "source": {
                 "type": "git",
@@ -513,12 +513,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "b0450b539d1567b2acee6467b6b323a8547b5559"
+                "reference": "03ede52a1f360441b5826cb8a798e0d0a919731f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/b0450b539d1567b2acee6467b6b323a8547b5559",
-                "reference": "b0450b539d1567b2acee6467b6b323a8547b5559",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/03ede52a1f360441b5826cb8a798e0d0a919731f",
+                "reference": "03ede52a1f360441b5826cb8a798e0d0a919731f",
                 "shasum": ""
             },
             "require": {
@@ -551,7 +551,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2013-11-23 15:22:05"
+            "time": "2013-12-05 04:13:29"
         },
         {
             "name": "patchwork/utf8",
@@ -559,12 +559,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nicolas-grekas/Patchwork-UTF8.git",
-                "reference": "d32c689ee9a8b3a59cd1859233ac6dede944290c"
+                "reference": "0a46bfcc2c174a469d70cabb5e5684e33e2220c3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nicolas-grekas/Patchwork-UTF8/zipball/d32c689ee9a8b3a59cd1859233ac6dede944290c",
-                "reference": "d32c689ee9a8b3a59cd1859233ac6dede944290c",
+                "url": "https://api.github.com/repos/nicolas-grekas/Patchwork-UTF8/zipball/0a46bfcc2c174a469d70cabb5e5684e33e2220c3",
+                "reference": "0a46bfcc2c174a469d70cabb5e5684e33e2220c3",
                 "shasum": ""
             },
             "require": {
@@ -602,7 +602,7 @@
                 "utf-8",
                 "utf8"
             ],
-            "time": "2013-11-27 18:05:52"
+            "time": "2013-12-13 15:43:30"
         },
         {
             "name": "phine/exception",
@@ -610,12 +610,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phine/lib-exception.git",
-                "reference": "ef70dc89d99a1f6b53e49ce417ad7a01cb8328bc"
+                "reference": "3f50754bcc416df91235766cc3d5d5ce6ed6d612"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phine/lib-exception/zipball/ef70dc89d99a1f6b53e49ce417ad7a01cb8328bc",
-                "reference": "ef70dc89d99a1f6b53e49ce417ad7a01cb8328bc",
+                "url": "https://api.github.com/repos/phine/lib-exception/zipball/3f50754bcc416df91235766cc3d5d5ce6ed6d612",
+                "reference": "3f50754bcc416df91235766cc3d5d5ce6ed6d612",
                 "shasum": ""
             },
             "require": {
@@ -651,7 +651,7 @@
             "keywords": [
                 "exception"
             ],
-            "time": "2013-09-18 21:12:27"
+            "time": "2013-12-11 23:42:48"
         },
         {
             "name": "phine/path",
@@ -816,7 +816,6 @@
         "nesbot/carbon": 20,
         "patchwork/utf8": 20,
         "herrera-io/box": 20,
-        "illuminate/remote": 20,
         "phpseclib/phpseclib": 20
     },
     "platform": {
