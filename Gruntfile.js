@@ -54,20 +54,20 @@ module.exports = function(grunt) {
 			},
 
 			grunt: {
-				files: ['Gruntfile.js'],
-				tasks: ['default'],
+				files: 'Gruntfile.js',
+				tasks: 'default',
 			},
 			markdown: {
 				files: ['wiki/*.md', 'rocketeer/README.md'],
-				tasks: ['md'],
+				tasks: 'md',
 			},
 			scripts: {
-				files: ['<%= paths.original.js %>/**/*'],
-				tasks: ['js'],
+				files: '<%= paths.original.js %>/**/*',
+				tasks: 'js',
 			},
 			stylesheets: {
-				files: ['<%= paths.original.sass %>/**/*'],
-				tasks: ['css'],
+				files: '<%= paths.original.sass %>/**/*',
+				tasks: 'css',
 			},
 		},
 
