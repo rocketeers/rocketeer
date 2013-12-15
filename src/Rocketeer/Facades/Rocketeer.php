@@ -9,29 +9,19 @@
  */
 namespace Rocketeer\Facades;
 
-use Illuminate\Support\Facades\Facade;
-use Rocketeer\RocketeerServiceProvider;
-
 /**
- * The main facade for Rocketeer
+ * Facade for Rocketeer's CLI
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  *
  * @see Rocketeer\TasksQueue
  */
-class Rocketeer extends Facade
+class Rocketeer extends StandaloneFacade
 {
 	/**
-	 * Get the registered name of the component.
+	 * The class to fetch from the container
 	 *
-	 * @return string
+	 * @var string
 	 */
-	protected static function getFacadeAccessor()
-	{
-		if (!static::$app) {
-			static::$app = RocketeerServiceProvider::make();
-		}
-
-		return 'rocketeer.tasks';
-	}
+	protected static $accessor = 'rocketeer.tasks';
 }
