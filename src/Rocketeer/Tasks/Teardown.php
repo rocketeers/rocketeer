@@ -52,7 +52,5 @@ class Teardown extends Task
 		$this->server->deleteRepository();
 
 		$this->command->info('The application was successfully removed from the remote servers');
-
-		return $this->history;
 	}
 }

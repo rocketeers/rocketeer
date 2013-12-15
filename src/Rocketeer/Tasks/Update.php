@@ -50,7 +50,5 @@ class Update extends Deploy
 		$this->runForCurrentRelease($this->artisan('cache:clear'));
 
 		$this->command->info('Successfully updated application');
-
-		return $this->history;
 	}
 }

@@ -52,6 +52,20 @@ class Bash
 	}
 
 	/**
+	 * Get the Task's history
+	 *
+	 * @return array
+	 */
+	public function getHistory()
+	{
+		return $this->history;
+	}
+
+	////////////////////////////////////////////////////////////////////
+	///////////////////////////// DEPENDENCIES /////////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Get an instance from the Container
 	 *
 	 * @param  string $key
@@ -192,51 +206,6 @@ class Bash
 	}
 
 	/**
-	 * Get a binary
-	 *
-	 * @param  string $binary       The name of the binary
-	 * @param  string $fallback     A fallback location
-	 *
-	 * @return string
-	 */
-	public function which($binary, $fallback = null)
-	{
-		// Get prompted path if any was set
-		$custom = 'paths.'.$binary;
-		if ($location = $this->server->getValue($custom)) {
-			return $location;
-		}
-
-		// Get custom path if any was set
-		if ($location = $this->rocketeer->getPath($binary)) {
-			return $location;
-		}
-
-		// Else ask the server where the binary is
-		$location = $this->run('which '.$binary, true);
-		if ($location and $this->fileExists($location)) {
-			return $location;
-		}
-
-		// Else use the fallback path
-		if ($fallback) {
-			$location = $this->run('which '.$fallback, true);
-			if ($location and $this->fileExists($location)) {
-				return $location;
-			}
-		}
-
-		// Else prompt the User for the actual path
-		$location = $this->command->ask($binary. ' could not be found, please enter the path to it');
-		if ($location) {
-			$this->server->setValue($custom, $location);
-			return $location;
-		}
-
-		return false;
-	}
-
-	/**
 	 * Check the status of the last run command, return an error if any
 	 *
 	 * @param  string $error        The message to display on error
@@ -293,6 +262,51 @@ class Bash
 		$artisan = $this->which('artisan') ?: 'artisan';
 
 		return $this->php($artisan. ' ' .$command);
+	}
+
+	/**
+	 * Get a binary
+	 *
+	 * @param  string $binary       The name of the binary
+	 * @param  string $fallback     A fallback location
+	 *
+	 * @return string
+	 */
+	public function which($binary, $fallback = null)
+	{
+		// Get prompted path if any was set
+		$custom = 'paths.'.$binary;
+		if ($location = $this->server->getValue($custom)) {
+			return $location;
+		}
+
+		// Get custom path if any was set
+		if ($location = $this->rocketeer->getPath($binary)) {
+			return $location;
+		}
+
+		// Else ask the server where the binary is
+		$location = $this->run('which '.$binary, true);
+		if ($location and $this->fileExists($location)) {
+			return $location;
+		}
+
+		// Else use the fallback path
+		if ($fallback) {
+			$location = $this->run('which '.$fallback, true);
+			if ($location and $this->fileExists($location)) {
+				return $location;
+			}
+		}
+
+		// Else prompt the User for the actual path
+		$location = $this->command->ask($binary. ' could not be found, please enter the path to it');
+		if ($location) {
+			$this->server->setValue($custom, $location);
+			return $location;
+		}
+
+		return false;
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -407,7 +421,7 @@ class Bash
 	 */
 	protected function getOption($option)
 	{
-		return $this->command ? $this->command->option($option) : null;
+		return $this->command ? array_get($this->command->option(), $option) : null;
 	}
 
 	/**
@@ -435,7 +449,7 @@ class Bash
 				$command = str_replace(DS, $separator, $command);
 			}
 
-			// Add stage flag
+			// Add stage flag to Artisan commands
 			if (Str::contains($command, 'artisan') and $stage) {
 				$command .= ' --env='.$stage;
 			}

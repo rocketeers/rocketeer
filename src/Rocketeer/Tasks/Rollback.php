@@ -52,8 +52,6 @@ class Rollback extends Task
 		// Rollback release
 		$this->command->info('Rolling back to release '.$rollbackRelease);
 		$this->updateSymlink($rollbackRelease);
-
-		return $this->history;
 	}
 
 	////////////////////////////////////////////////////////////////////
