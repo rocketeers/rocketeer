@@ -38,7 +38,7 @@ class Bash
 	 *
 	 * @var array
 	 */
-	protected $history;
+	protected $history = array();
 
 	/**
 	 * Build a new Task

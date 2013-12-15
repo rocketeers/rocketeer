@@ -7,16 +7,11 @@ class CheckTest extends RocketeerTestCase
 {
 	public function testCanDoBasicCheck()
 	{
-		$task = $this->pretendTask('Check');
-		$task->fire();
-
-		$matcher = array(
+		$this->assertTaskHistory('Check', array(
 			'git --version',
 			$this->php. ' -r "print PHP_VERSION;"',
 			$this->php. ' -m',
-		);
-
-		$this->assertEquals($matcher, $task->getHistory());
+		));
 	}
 
 	public function testCanCheckPhpExtensions()
@@ -27,15 +22,10 @@ class CheckTest extends RocketeerTestCase
 			'session.driver'   => 'apc',
 		));
 
-		$task = $this->pretendTask('Check');
-		$task->fire();
-
-		$matcher = array(
+		$this->assertTaskHistory('Check', array(
 			'git --version',
 			$this->php. ' -r "print PHP_VERSION;"',
 			$this->php. ' -m',
-		);
-
-		$this->assertEquals($matcher, $task->getHistory());
+		));
 	}
 }

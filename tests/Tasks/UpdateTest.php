@@ -9,12 +9,10 @@ class UpdateTest extends RocketeerTestCase
 	{
 		$task = $this->pretendTask('Update', array(
 			'migrate' => true,
-			'seed' => true
+			'seed'    => true
 		));
 
-		$task->fire();
-		$php    = exec('which php');
-
+		$php     = exec('which php');
 		$matcher = array(
 			array(
 				"cd " .$this->server. "/releases/20000000000000",
@@ -37,6 +35,6 @@ class UpdateTest extends RocketeerTestCase
 			),
 		);
 
-		$this->assertEquals($matcher, $task->getHistory());
+		$this->assertTaskHistory($task, $matcher);
 	}
 }

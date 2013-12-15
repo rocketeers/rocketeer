@@ -84,10 +84,11 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 	 * Mock the Command class
 	 *
 	 * @param array $expectations
+	 * @param array $options
 	 *
 	 * @return Mockery
 	 */
-	protected function getCommand(array $expectations = array())
+	protected function getCommand(array $expectations = array(), array $options = array())
 	{
 		$message = function ($message) {
 			return $message;
@@ -106,7 +107,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 			'isInsideLaravel' => false,
 			'confirm'         => true,
 			'secret'          => '',
-			'option'          => null,
+			'option'          => false,
 		), $expectations);
 
 		// Bind expecations
@@ -115,6 +116,13 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 				$command->shouldReceive($key)->andReturn($value)->byDefault();
 			} else {
 				$command->shouldReceive($key)->andReturn($value);
+			}
+		}
+
+		// Bind options
+		if ($options) {
+			foreach ($options as $key => $value) {
+				$command->shouldReceive('option')->with($key)->andReturn($value);
 			}
 		}
 

@@ -13,17 +13,12 @@ class SetupTest extends RocketeerTestCase
 				->shouldReceive('getCurrentReleasePath')->andReturn('1');
 		});
 
-		$task = $this->pretendTask('Setup');
-		$test = $task->execute();
-
-		$matcher = array(
+		$this->assertTaskHistory('Setup', array(
 			"mkdir $this->server/",
 			"mkdir -p $this->server/releases",
 			"mkdir -p $this->server/current",
 			"mkdir -p $this->server/shared",
-		);
-
-		$this->assertEquals($matcher, $task->getHistory());
+		));
 	}
 
 	public function testCanSetupStages()
@@ -37,10 +32,7 @@ class SetupTest extends RocketeerTestCase
 			'rocketeer::stages.stages' => array('staging', 'production'),
 		));
 
-		$task = $this->pretendTask('Setup');
-		$task->execute();
-
-		$matcher = array(
+		$this->assertTaskHistory('Setup', array(
 			"mkdir $this->server/",
 			"mkdir -p $this->server/staging/releases",
 			"mkdir -p $this->server/staging/current",
@@ -48,8 +40,6 @@ class SetupTest extends RocketeerTestCase
 			"mkdir -p $this->server/production/releases",
 			"mkdir -p $this->server/production/current",
 			"mkdir -p $this->server/production/shared",
-		);
-
-		$this->assertEquals($matcher, $task->getHistory());
+		));
 	}
 }

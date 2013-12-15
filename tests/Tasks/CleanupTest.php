@@ -15,8 +15,7 @@ class CleanupTest extends RocketeerTestCase
 				});
 		});
 
-		$output = $this->pretendTask('Cleanup')->execute();
-		$this->assertEquals('Removing <info>2 releases</info> from the server', $output);
+		$this->assertTaskOutput('Cleanup', 'Removing <info>2 releases</info> from the server');
 	}
 
 	public function testPrintsMessageIfNoCleanup()
@@ -25,7 +24,6 @@ class CleanupTest extends RocketeerTestCase
 			return $mock->shouldReceive('getDeprecatedReleases')->once()->andReturn(array());
 		});
 
-		$output = $this->pretendTask('Cleanup')->execute();
-		$this->assertEquals('No releases to prune from the server', $output);
+		$this->assertTaskOutput('Cleanup', 'No releases to prune from the server');
 	}
 }

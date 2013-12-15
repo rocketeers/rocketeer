@@ -102,6 +102,46 @@ abstract class RocketeerTestCase extends ContainerTestCase
 	}
 
 	////////////////////////////////////////////////////////////////////
+	///////////////////////////// ASSERTIONS ///////////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Assert a task has a particular output
+	 *
+	 * @param string $task
+	 * @param string $output
+	 *
+	 * @return Assertion
+	 */
+	protected function assertTaskOutput($task, $output)
+	{
+		return $this->assertContains($output, $this->task($task)->execute());
+	}
+
+	/**
+	 * Assert a task's history matches an array
+	 *
+	 * @param string|Task  $task
+	 * @param array        $history
+	 * @param array        $options
+	 *
+	 * @return string
+	 */
+	protected function assertTaskHistory($task, array $history, array $options = array())
+	{
+		// Create and execute task
+		if (is_string($task)) {
+			$task = $this->pretendTask($task, $options);
+		}
+		$results = $task->execute();
+
+		// Check equality
+		$this->assertEquals($history, $task->getHistory());
+
+		return $results;
+	}
+
+	////////////////////////////////////////////////////////////////////
 	////////////////////////////// MOCKERIES ///////////////////////////
 	////////////////////////////////////////////////////////////////////
 
@@ -126,23 +166,15 @@ abstract class RocketeerTestCase extends ContainerTestCase
 	 *
 	 * @return Task
 	 */
-	protected function pretendTask($task = 'Deploy', $options = array())
+	protected function pretendTask($task = 'Deploy', $options = array(), array $expectations = array())
 	{
 		// Default options
-		$default = array('pretend' => true, 'verbose' => false);
-		$options = array_merge($default, $options);
+		$options = array_merge(array(
+			'pretend' => true,
+			'verbose' => false,
+		), $options);
 
-		// Create command
-		$command = clone $this->getCommand();
-		foreach ($options as $name => $value) {
-			$command->shouldReceive('option')->with($name)->andReturn($value);
-		}
-
-		// Bind it to Task
-		$task = $this->task($task);
-		$this->app['rocketeer.command'] = $command;
-
-		return $task;
+		return $this->task($task, $this->getCommand($expectations, $options));
 	}
 
 	/**

@@ -8,19 +8,27 @@ class TeardownTest extends RocketeerTestCase
 {
 	public function testCanTeardownServer()
 	{
-		$this->task('Teardown')->execute();
+		$this->mock('rocketeer.server', 'Server', function ($mock) {
+			return $mock
+				->shouldReceive('getSeparator')->andReturn(DIRECTORY_SEPARATOR)
+				->shouldReceive('deleteRepository')->once();
+		});
 
-		$this->assertFileNotExists($this->deploymentsFile);
-		$this->assertFileNotExists($this->server);
+		$this->assertTaskHistory('Teardown', array(
+			'rm -rf '.$this->server.'/',
+		));
 	}
 
 	public function testCanAbortTeardown()
 	{
-		$command = Mockery::mock('Command');;
-		$command->shouldReceive('confirm')->andReturn(false);
-		$command->shouldReceive('info')->andReturnUsing(function ($message) { return $message; });
+		$this->mock('rocketeer.server', 'Server', function ($mock) {
+			return $mock
+				->shouldReceive('getSeparator')->andReturn(DIRECTORY_SEPARATOR)
+				->shouldReceive('deleteRepository')->never();
+		});
 
-		$message = $this->task('Teardown', $command)->execute();
+		$task    = $this->pretendTask('Teardown', array(), array('confirm' => false));
+		$message = $this->assertTaskHistory($task, array());
 
 		$this->assertEquals('Teardown aborted', $message);
 	}

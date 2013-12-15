@@ -13,8 +13,7 @@ class CurrentReleaseTest extends RocketeerTestCase
 				->shouldReceive('getCurrentReleasePath')->once();
 		});
 
-		$current = $this->task('CurrentRelease')->execute();
-		$this->assertContains('20000000000000', $current);
+		$this->assertTaskOutput('CurrentRelease', '20000000000000');
 	}
 
 	public function testPrintsMessageIfNoReleaseDeployed()
@@ -25,7 +24,6 @@ class CurrentReleaseTest extends RocketeerTestCase
 				->shouldReceive('getCurrentReleasePath')->never();
 		});
 
-		$current = $this->task('CurrentRelease')->execute();
-		$this->assertEquals('No release has yet been deployed', $current);
+		$this->assertTaskOutput('CurrentRelease', 'No release has yet been deployed');
 	}
 }

@@ -13,10 +13,7 @@ class DeployTest extends RocketeerTestCase
 			'password'   => '',
 		));
 
-		$task = $this->pretendDeployTask();
-		$task->execute();
-
-		$release = $this->app['rocketeer.releases']->getCurrentRelease();
+		$release = date('YmdHis');
 		$matcher = array(
 			"git clone --depth 1 -b master https://github.com/Anahkiasen/html-object.git $this->server/releases/$release",
 			array(
@@ -44,28 +41,10 @@ class DeployTest extends RocketeerTestCase
 			"ln -s $this->server/releases/$release $this->server/current",
 		);
 
-		$this->assertEquals($matcher, $task->getHistory());
-	}
-
-	////////////////////////////////////////////////////////////////////
-	/////////////////////////////// HELPERS ////////////////////////////
-	////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Get a pretend Deploy task
-	 *
-	 * @param array $options
-	 *
-	 * @return Task
-	 */
-	protected function pretendDeployTask($options = array())
-	{
-		$options = array_merge(array(
+		$this->assertTaskHistory('Deploy', $matcher, array(
 			'tests'   => true,
 			'seed'    => true,
 			'migrate' => true
-		), $options);
-
-		return $this->pretendTask('Deploy', $options);
+		));
 	}
 }
