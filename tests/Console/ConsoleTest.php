@@ -1,9 +1,9 @@
 <?php
 namespace Rocketeer\Tests\Console;
 
-use Rocketeer\Tests\RocketeerTests;
+use Rocketeer\Tests\TestCases\RocketeerTestCase;
 
-class ConsoleTest extends RocketeerTests
+class ConsoleTest extends RocketeerTestCase
 {
 	public function testCanRunStandaloneConsole()
 	{

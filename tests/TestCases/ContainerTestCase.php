@@ -1,14 +1,13 @@
 <?php
-namespace Rocketeer\Tests;
+namespace Rocketeer\Tests\TestCases;
 
 use Illuminate\Container\Container;
 use Illuminate\Filesystem\Filesystem;
 use Mockery;
 use PHPUnit_Framework_TestCase;
 use Rocketeer\RocketeerServiceProvider;
-use Rocketeer\Server;
 
-abstract class TestsContainer extends PHPUnit_Framework_TestCase
+abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * The IoC Container
@@ -46,11 +45,6 @@ abstract class TestsContainer extends PHPUnit_Framework_TestCase
 		$this->app = $serviceProvider->bindCoreClasses($this->app);
 		$this->app = $serviceProvider->bindClasses($this->app);
 		$this->app = $serviceProvider->bindScm($this->app);
-
-		$this->app->bind('rocketeer.server', function ($app) {
-			return new Server($app, 'deployments', __DIR__.'/_meta');
-		});
-
 	}
 
 	/**
@@ -142,7 +136,7 @@ abstract class TestsContainer extends PHPUnit_Framework_TestCase
 			'webuser' => array('user' => 'www-data', 'group' => 'www-data')
 		));
 		$config->shouldReceive('get')->with('rocketeer::remote.permissions.files')->andReturn(array('tests'));
-		$config->shouldReceive('get')->with('rocketeer::remote.root_directory')->andReturn(__DIR__.'/_server/');
+		$config->shouldReceive('get')->with('rocketeer::remote.root_directory')->andReturn(__DIR__.'/../_server/');
 		$config->shouldReceive('get')->with('rocketeer::remote.shared')->andReturn(array('tests/Elements'));
 		$config->shouldReceive('get')->with('rocketeer::stages.default')->andReturn(null);
 		$config->shouldReceive('get')->with('rocketeer::stages.stages')->andReturn(array());

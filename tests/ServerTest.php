@@ -2,8 +2,9 @@
 namespace Rocketeer\Tests;
 
 use Rocketeer\Server;
+use Rocketeer\Tests\TestCases\RocketeerTestCase;
 
-class ServerTest extends RocketeerTests
+class ServerTest extends RocketeerTestCase
 {
 	////////////////////////////////////////////////////////////////////
 	//////////////////////////////// TESTS /////////////////////////////

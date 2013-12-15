@@ -1,16 +1,16 @@
 <?php
 namespace Rocketeer\Tests\Tasks;
 
-use Rocketeer\Tests\RocketeerTests;
+use Rocketeer\Tests\TestCases\RocketeerTestCase;
 
-class IgniteTest extends RocketeerTests
+class IgniteTest extends RocketeerTestCase
 {
 	public function testCanIgniteConfigurationOutsideLaravel()
 	{
 		$this->app['artisan'] = null;
 		$this->app->offsetUnset('artisan');
 
-		$this->app['path.base'] = __DIR__.'/../..';
+		$this->app['path.base'] = realpath($this->server.'/../../..');
 		$this->app['path.rocketeer.config'] = $this->app['path.base'].'/rocketeer';
 
 		// Execute Task
@@ -27,9 +27,11 @@ class IgniteTest extends RocketeerTests
 
 	public function testCanIgniteConfigurationInLaravel()
 	{
-		$this->app['path.base'] = __DIR__.'/../..';
-		$this->app['files']->makeDirectory($this->app['path.base'].'/rocketeer');
-		$root = $this->app['path.base'].'/rocketeer/config.php';
+		$this->app['path.base'] = realpath($this->server.'/../../..');
+
+		$this->app['files']->deleteDirectory($this->app['path.rocketeer.config']);
+		$this->app['files']->makeDirectory($this->app['path.rocketeer.config']);
+		$root = $this->app['path.rocketeer.config'].'/config.php';
 
 		$command = $this->getCommand();
 		$command->shouldReceive('call')->with('config:publish', array('package' => 'anahkiasen/rocketeer'))->andReturnUsing(function () use ($root) {

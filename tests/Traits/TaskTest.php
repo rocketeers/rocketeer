@@ -1,9 +1,9 @@
 <?php
 namespace Rocketeer\Tests\Traits;
 
-use Rocketeer\Tests\RocketeerTests;
+use Rocketeer\Tests\TestCases\RocketeerTestCase;
 
-class TaskTest extends RocketeerTests
+class TaskTest extends RocketeerTestCase
 {
 	public function testCanUpdateRepository()
 	{

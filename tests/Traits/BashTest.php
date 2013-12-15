@@ -1,9 +1,9 @@
 <?php
 namespace Rocketeer\Tests\Traits;
 
-use Rocketeer\Tests\RocketeerTests;
+use Rocketeer\Tests\TestCases\RocketeerTestCase;
 
-class BashTest extends RocketeerTests
+class BashTest extends RocketeerTestCase
 {
 	public function testCanSetCustomPathsForBinaries()
 	{

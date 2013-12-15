@@ -1,9 +1,9 @@
 <?php
 namespace Rocketeer\Tests\Tasks;
 
-use Rocketeer\Tests\RocketeerTests;
+use Rocketeer\Tests\TestCases\RocketeerTestCase;
 
-class RollbackTest extends RocketeerTests
+class RollbackTest extends RocketeerTestCase
 {
 	public function testCanRollbackRelease()
 	{

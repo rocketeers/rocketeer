@@ -1,9 +1,9 @@
 <?php
 namespace Rocketeer\Tests\Tasks;
 
-use Rocketeer\Tests\RocketeerTests;
+use Rocketeer\Tests\TestCases\RocketeerTestCase;
 
-class CleanupTest extends RocketeerTests
+class CleanupTest extends RocketeerTestCase
 {
 	public function testCanCleanupServer()
 	{

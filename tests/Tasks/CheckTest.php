@@ -1,9 +1,9 @@
 <?php
 namespace Rocketeer\Tests\Tasks;
 
-use Rocketeer\Tests\RocketeerTests;
+use Rocketeer\Tests\TestCases\RocketeerTestCase;
 
-class CheckTest extends RocketeerTests
+class CheckTest extends RocketeerTestCase
 {
 	public function testCanDoBasicCheck()
 	{

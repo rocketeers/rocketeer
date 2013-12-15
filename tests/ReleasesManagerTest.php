@@ -1,7 +1,9 @@
 <?php
 namespace Rocketeer\Tests;
 
-class ReleasesManagerTest extends RocketeerTests
+use Rocketeer\Tests\TestCases\RocketeerTestCase;
+
+class ReleasesManagerTest extends RocketeerTestCase
 {
 	public function testCanGetCurrentRelease()
 	{

@@ -2,9 +2,9 @@
 namespace Rocketeer\Tests\Tasks;
 
 use Mockery;
-use Rocketeer\Tests\RocketeerTests;
+use Rocketeer\Tests\TestCases\RocketeerTestCase;
 
-class TeardownTest extends RocketeerTests
+class TeardownTest extends RocketeerTestCase
 {
 	public function testCanTeardownServer()
 	{

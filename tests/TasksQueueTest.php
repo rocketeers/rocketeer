@@ -3,8 +3,9 @@ namespace Rocketeer\Tests;
 
 use ReflectionFunction;
 use Rocketeer\Facades\Rocketeer;
+use Rocketeer\Tests\TestCases\RocketeerTestCase;
 
-class TasksQueueTest extends RocketeerTests
+class TasksQueueTest extends RocketeerTestCase
 {
 	public function testCanUseFacadeOutsideOfLaravel()
 	{

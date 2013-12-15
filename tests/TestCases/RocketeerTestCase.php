@@ -1,11 +1,11 @@
 <?php
-namespace Rocketeer\Tests;
+namespace Rocketeer\Tests\TestCases;
 
-include __DIR__.'/../vendor/autoload.php';
-include __DIR__.'/_meta/MyCustomTask.php';
-include __DIR__.'/_illuminate.php';
+include __DIR__.'/../../vendor/autoload.php';
 
-abstract class RocketeerTests extends TestsContainer
+use Rocketeer\Server;
+
+abstract class RocketeerTestCase extends ContainerTestCase
 {
 	/**
 	 * The path to the local fake server
@@ -50,9 +50,15 @@ abstract class RocketeerTests extends TestsContainer
 		parent::setUp();
 
 		// Setup local server
-		$this->server          = __DIR__.'/_server/foobar';
-		$this->deploymentsFile = __DIR__.'/_meta/deployments.json';
+		$this->server          = __DIR__.'/../_server/foobar';
+		$this->deploymentsFile = __DIR__.'/../_meta/deployments.json';
 		$this->php             = exec('which php');
+
+		// Bind new Server instance
+		$meta = dirname($this->deploymentsFile);
+		$this->app->bind('rocketeer.server', function ($app) use ($meta) {
+			return new Server($app, 'deployments', $meta);
+		});
 
 		// Bind dummy Task
 		$this->task = $this->task('Cleanup');
@@ -76,8 +82,10 @@ abstract class RocketeerTests extends TestsContainer
 			'line_endings'        => "\n",
 		)));
 
+		$rootPath = $this->server.'/../../..';
+
 		// Recreate altered local server
-		$this->app['files']->deleteDirectory(__DIR__.'/../storage');
+		$this->app['files']->deleteDirectory($rootPath.'/storage');
 		$folders = array('current', 'shared', 'releases', 'releases/10000000000000', 'releases/20000000000000');
 		foreach ($folders as $folder) {
 			$folder = $this->server.'/'.$folder;
@@ -89,7 +97,7 @@ abstract class RocketeerTests extends TestsContainer
 		}
 
 		// Delete rocketeer config
-		$binary = __DIR__.'/../rocketeer';
+		$binary = $rootPath.'/rocketeer';
 		$this->app['files']->deleteDirectory($binary);
 	}
 

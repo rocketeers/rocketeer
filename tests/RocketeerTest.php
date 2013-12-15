@@ -1,7 +1,9 @@
 <?php
 namespace Rocketeer\Tests;
 
-class RocketeerTest extends RocketeerTests
+use Rocketeer\Tests\TestCases\RocketeerTestCase;
+
+class RocketeerTest extends RocketeerTestCase
 {
 	////////////////////////////////////////////////////////////////////
 	//////////////////////////////// TESTS /////////////////////////////

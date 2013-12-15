@@ -1,9 +1,9 @@
 <?php
 namespace Rocketeer\Tests\Tasks;
 
-use Rocketeer\Tests\RocketeerTests;
+use Rocketeer\Tests\TestCases\RocketeerTestCase;
 
-class DeployTest extends RocketeerTests
+class DeployTest extends RocketeerTestCase
 {
 	public function testCanDeployToServer()
 	{
