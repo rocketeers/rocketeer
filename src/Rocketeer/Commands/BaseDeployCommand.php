@@ -38,7 +38,7 @@ abstract class BaseDeployCommand extends Command
 	public function getName()
 	{
 		// Return commands without namespace if standalone
-		if (!isset($this->laravel['events'])) {
+		if (!isset($this->laravel['view'])) {
 			return str_replace('deploy:', null, $this->name);
 		}
 
