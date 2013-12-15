@@ -33,7 +33,7 @@ class IgniteTest extends RocketeerTestCase
 		$this->app['files']->makeDirectory($this->app['path.rocketeer.config']);
 		$root = $this->app['path.rocketeer.config'].'/config.php';
 
-		$command = $this->getCommand();
+		$command = $this->getCommand(array('isInsideLaravel' => true));
 		$command->shouldReceive('call')->with('config:publish', array('package' => 'anahkiasen/rocketeer'))->andReturnUsing(function () use ($root) {
 			file_put_contents($root, 'foobar');
 		});

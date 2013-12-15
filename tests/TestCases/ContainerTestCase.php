@@ -83,9 +83,11 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 	/**
 	 * Mock the Command class
 	 *
+	 * @param array $expectations
+	 *
 	 * @return Mockery
 	 */
-	protected function getCommand()
+	protected function getCommand(array $expectations = array())
 	{
 		$message = function ($message) {
 			return $message;
@@ -96,11 +98,25 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 		$command->shouldReceive('error')->andReturnUsing($message);
 		$command->shouldReceive('line')->andReturnUsing($message);
 		$command->shouldReceive('info')->andReturnUsing($message);
-		$command->shouldReceive('argument');
-		$command->shouldReceive('ask');
-		$command->shouldReceive('confirm')->andReturn(true);
-		$command->shouldReceive('secret');
-		$command->shouldReceive('option')->andReturn(null)->byDefault();
+
+		// Merge defaults
+		$expectations = array_merge(array(
+			'argument'        => '',
+			'ask'             => '',
+			'isInsideLaravel' => false,
+			'confirm'         => true,
+			'secret'          => '',
+			'option'          => null,
+		), $expectations);
+
+		// Bind expecations
+		foreach($expectations as $key => $value) {
+			if ($key === 'option') {
+				$command->shouldReceive($key)->andReturn($value)->byDefault();
+			} else {
+				$command->shouldReceive($key)->andReturn($value);
+			}
+		}
 
 		return $command;
 	}
@@ -108,14 +124,16 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 	/**
 	 * Mock the Config component
 	 *
+	 * @param array $expectations
+	 *
 	 * @return Mockery
 	 */
-	protected function getConfig($options = array())
+	protected function getConfig($expectations = array())
 	{
 		$config = Mockery::mock('Illuminate\Config\Repository');
 		$config->shouldIgnoreMissing();
 
-		foreach ($options as $key => $value) {
+		foreach ($expectations as $key => $value) {
 			$config->shouldReceive('get')->with($key)->andReturn($value);
 		}
 

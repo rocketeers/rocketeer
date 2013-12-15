@@ -421,7 +421,7 @@ class Bash
 	 */
 	protected function getOption($option)
 	{
-		return $this->command ? array_get($this->command->option(), $option) : null;
+		return $this->command ? $this->command->option($option) : null;
 	}
 
 	/**

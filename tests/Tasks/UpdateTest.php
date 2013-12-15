@@ -12,7 +12,7 @@ class UpdateTest extends RocketeerTestCase
 			'seed' => true
 		));
 
-		$update = $task->execute();
+		$task->fire();
 		$php    = exec('which php');
 
 		$matcher = array(
@@ -37,6 +37,6 @@ class UpdateTest extends RocketeerTestCase
 			),
 		);
 
-		$this->assertEquals($matcher, $update);
+		$this->assertEquals($matcher, $task->getHistory());
 	}
 }

@@ -43,13 +43,6 @@ class TasksQueue
 	protected $remote;
 
 	/**
-	 * The command executing the TasksQueue
-	 *
-	 * @var Command
-	 */
-	protected $command;
-
-	/**
 	 * The output of the queue
 	 *
 	 * @var array
@@ -62,10 +55,9 @@ class TasksQueue
 	 * @param Container    $app
 	 * @param Command|null $command
 	 */
-	public function __construct(Container $app, $command = null)
+	public function __construct(Container $app)
 	{
-		$this->app     = $app;
-		$this->command = $command;
+		$this->app = $app;
 
 		// Register configured events
 		$hooks = $app['config']->get('rocketeer::hooks');
@@ -202,15 +194,13 @@ class TasksQueue
 	 * Here we will actually process the queue to take into account the
 	 * various ways to hook into the queue : Tasks, Closures and Commands
 	 *
-	 * @param  array   $tasks        An array of tasks
-	 * @param  Command $command      The command executing the tasks
+	 * @param  array   $tasks  An array of tasks
 	 *
 	 * @return array An array of output
 	 */
-	public function run(array $tasks, $command = null)
+	public function run(array $tasks)
 	{
-		$this->command = $command;
-		$queue         = $this->buildQueue($tasks);
+		$queue = $this->buildQueue($tasks);
 
 		// Get the connections to execute the tasks on
 		$connections = (array) $this->app['rocketeer.rocketeer']->getConnections();
@@ -361,10 +351,7 @@ class TasksQueue
 			return $task;
 		}
 
-		return new $task(
-			$this->app,
-			$this->command
-		);
+		return new $task($this->app);
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -456,8 +443,8 @@ class TasksQueue
 	protected function getStage()
 	{
 		$stage = $this->app['rocketeer.rocketeer']->getOption('stages.default');
-		if ($this->command) {
-			$stage = $this->command->option('stage') ?: $stage;
+		if ($this->app->bound('rocketeer.command')) {
+			$stage = $this->app['rocketeer.command']->option('stage') ?: $stage;
 		}
 
 		// Return all stages if "all"
