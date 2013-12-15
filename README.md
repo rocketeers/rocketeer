@@ -10,7 +10,7 @@
 
 ## Installation
 
-The easiest way is to get the latest compiled version [from the website](http://rocketeer.autopergamene.eu/versions/rocketeer), put it at the root of the project you want to deploy, and hit `php rocketeer.phar ignite`. You'll get asked a series of questions that should get you up and running in no time.
+The easiest way is to get the latest compiled version [from the website](http://rocketeer.autopergamene.eu/versions/rocketeer.phar), put it at the root of the project you want to deploy, and hit `php rocketeer.phar ignite`. You'll get asked a series of questions that should get you up and running in no time.
 
 Rocketeer also integrates nicely with the Laravel framework, for that refer to the [Getting Started](https://github.com/Anahkiasen/rocketeer/wiki/Getting-started) pages of the documentation.
 
