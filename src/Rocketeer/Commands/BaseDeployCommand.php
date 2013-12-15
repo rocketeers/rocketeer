@@ -150,11 +150,12 @@ abstract class BaseDeployCommand extends Command
 	/**
 	 * Verifies and stores credentials for the given connection name
 	 *
-	 * @param  string $connectionName
+	 * @param string $connections
+	 * @param string $connectionName
 	 *
 	 * @return void
 	 */
-	private function storeServerCredentials($connections, $connectionName)
+	protected function storeServerCredentials($connections, $connectionName)
 	{
 		// Check for server credentials
 		$connection  = array_get($connections, $connectionName, array());

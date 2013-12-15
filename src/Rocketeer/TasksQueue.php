@@ -135,7 +135,7 @@ class TasksQueue
 	/**
 	 * Execute Tasks on the default connection
 	 *
-	 * @param  string|array|Closure $task
+	 * @param  string|array|Closure $queue
 	 * @param  string|array         $connections
 	 *
 	 * @return array

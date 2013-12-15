@@ -74,6 +74,8 @@ class RocketeerServiceProvider extends ServiceProvider
 	/**
 	 * Make a Rocketeer container
 	 *
+	 * @param Container $app
+	 *
 	 * @return Container
 	 */
 	public static function make($app = null)

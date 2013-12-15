@@ -32,6 +32,7 @@ class Compiler
 	 * Extract an existing Phar
 	 *
 	 * @param string $phar
+	 * @param string $destination
 	 *
 	 * @return void
 	 */
