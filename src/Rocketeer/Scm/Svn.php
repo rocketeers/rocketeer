@@ -75,13 +75,9 @@ class Svn extends Scm implements ScmInterface
 	{
 		$branch     = $this->app['rocketeer.rocketeer']->getRepositoryBranch();
 		$repository = $this->app['rocketeer.rocketeer']->getRepository();
+		$repository = rtrim($repository, '/') . '/' . ltrim($branch, '/');
 
-		return sprintf(
-			$this->getCommand('co %s %s %s'),
-			$this->getCredentials(),
-			rtrim($repository, '/') . '/' . ltrim($branch, '/'),
-			$destination
-		);
+		return $this->getCommand('co %s %s %s', $this->getCredentials(), $repository, $destination);
 	}
 
 	/**
@@ -91,9 +87,7 @@ class Svn extends Scm implements ScmInterface
 	 */
 	public function reset()
 	{
-		$cmd = 'status -q | grep -v \'^[~XI ]\' | awk \'{print $2;}\' | xargs %s revert';
-
-		return $this->getCommand(sprintf($cmd, $this->binary));
+		return $this->getCommand('status -q | grep -v \'^[~XI ]\' | awk \'{print $2;}\' | xargs %s revert', $this->binary);
 	}
 
 	/**
@@ -103,7 +97,7 @@ class Svn extends Scm implements ScmInterface
 	 */
 	public function update()
 	{
-		return sprintf($this->getCommand('up %s'), $this->getCredentials());
+		return $this->getCommand('up %s', $this->getCredentials());
 	}
 
 	/**
