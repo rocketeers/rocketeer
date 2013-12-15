@@ -1,10 +1,21 @@
 <?php
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 namespace Rocketeer\Scm;
 
 use Rocketeer\Traits\Scm;
 
 /**
- * The Svn SCM
+ * The Svn implementation of the ScmInterface
+ *
+ * @author Maxime Fabre <ehtnam6@gmail.com>
+ * @author Gasillo
  */
 class Svn extends Scm implements ScmInterface
 {

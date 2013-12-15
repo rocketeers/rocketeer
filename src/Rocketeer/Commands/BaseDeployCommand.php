@@ -1,11 +1,22 @@
 <?php
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 namespace Rocketeer\Commands;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
- * A basic deploy command with helpers
+ * An abstract command with various helpers for all
+ * subcommands to inherit
+ *
+ * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 abstract class BaseDeployCommand extends Command
 {

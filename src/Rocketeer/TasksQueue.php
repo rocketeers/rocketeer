@@ -1,4 +1,12 @@
 <?php
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 namespace Rocketeer;
 
 use Closure;
@@ -8,6 +16,8 @@ use Rocketeer\Traits\Task;
 
 /**
  * Handles the registering of Tasks and their execution
+ *
+ * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class TasksQueue
 {

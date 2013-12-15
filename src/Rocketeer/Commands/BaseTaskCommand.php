@@ -1,11 +1,22 @@
 <?php
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 namespace Rocketeer\Commands;
 
 use Rocketeer\Rocketeer;
 use Rocketeer\Traits\Task;
 
 /**
- * A basic command that only runs one Task
+ * A command that wraps around a Task class and runs
+ * its execute method on fire
+ *
+ * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class BaseTaskCommand extends BaseDeployCommand
 {

@@ -1,4 +1,12 @@
 <?php
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 namespace Rocketeer\Console;
 
 use Herrera\Box\Box;
@@ -6,6 +14,11 @@ use Herrera\Box\StubGenerator;
 use Phar;
 use Symfony\Component\Finder\Finder;
 
+/**
+ * Compiles Rocketeer into a PHAR archive
+ *
+ * @author Maxime Fabre <ehtnam6@gmail.com>
+ */
 class Compiler
 {
 	/**

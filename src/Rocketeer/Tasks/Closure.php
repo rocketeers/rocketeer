@@ -1,11 +1,21 @@
 <?php
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 namespace Rocketeer\Tasks;
 
 use Closure as AnonymousFunction;
 use Rocketeer\Traits\Task;
 
 /**
- * A task formatted as a Closure
+ * A Task that wraps around a closure and execute it
+ *
+ * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Closure extends Task
 {

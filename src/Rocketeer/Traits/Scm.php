@@ -1,8 +1,18 @@
 <?php
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 namespace Rocketeer\Traits;
 
 /**
- * A base trait for SCM classes
+ * An abstract class with helpers for SCM implementations
+ *
+ * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 abstract class Scm
 {

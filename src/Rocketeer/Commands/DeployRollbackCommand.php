@@ -1,4 +1,12 @@
 <?php
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 namespace Rocketeer\Commands;
 
 use Symfony\Component\Console\Input\InputOption;
@@ -6,6 +14,8 @@ use Symfony\Component\Console\Input\InputArgument;
 
 /**
  * Rollback to the previous release, or to a specific one
+ *
+ * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class DeployRollbackCommand extends BaseDeployCommand
 {
