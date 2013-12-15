@@ -11,7 +11,7 @@ rocketeer.php
 rocketeer-campfire
 
 # Tests
-tests/coverage
+tests/_meta/coverage
 
 # Dependencies
 vendor
