@@ -38,7 +38,7 @@ class DeployTest extends RocketeerTests
 			"mv $this->server/releases/$release/tests/Elements $this->server/shared/tests/Elements",
 			"mv $this->server/current $this->server/releases/$release",
 			"rm -rf $this->server/current",
-			"ln -s $this->server/releases/$release $server/current",
+			"ln -s $this->server/releases/$release $this->server/current",
 		);
 
 		$this->assertEquals($matcher, $task->getHistory());
