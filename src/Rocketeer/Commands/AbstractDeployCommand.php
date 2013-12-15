@@ -49,11 +49,22 @@ abstract class AbstractDeployCommand extends Command
 	public function getName()
 	{
 		// Return commands without namespace if standalone
-		if (!isset($this->laravel['view'])) {
+		if (!$this->isInsideLaravel()) {
 			return str_replace('deploy:', null, $this->name);
 		}
 
 		return $this->name;
+	}
+
+	/**
+	 * Check if the current command is run in the scope of
+	 * Laravel or standalone
+	 *
+	 * @return boolean
+	 */
+	public function isInsideLaravel()
+	{
+		return $this->laravel->bound('artisan');
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -91,6 +102,10 @@ abstract class AbstractDeployCommand extends Command
 		// Remove commmand instance
 		unset($this->laravel['rocketeer.command']);
 	}
+
+	////////////////////////////////////////////////////////////////////
+	///////////////////////////// CREDENTIALS //////////////////////////
+	////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Get the Repository's credentials

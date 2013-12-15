@@ -33,7 +33,7 @@ class Ignite extends Task
 	public function execute()
 	{
 		// In Laravel, publish the configuration
-		if ($this->app->bound('artisan')) {
+		if ($this->command->isInsideLaravel()) {
 			return $this->command->call('config:publish', array('package' => 'anahkiasen/rocketeer'));
 		}
 
