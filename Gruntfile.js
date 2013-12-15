@@ -84,7 +84,7 @@ module.exports = function(grunt) {
 					'cd rocketeer',
 					'composer install',
 					'php bin/compile',
-					'mv bin/rocketeer.phar ../versions/rocketeer',
+					'mv bin/rocketeer.phar ../versions/rocketeer.phar',
 				].join('&&'),
 			}
 		},
