@@ -4,7 +4,7 @@ class SetupTest extends RocketeerTests
 {
 	public function testCanSetupServer()
 	{
-		$this->mockReleases(function($mock) {
+		$this->mockReleases(function ($mock) {
 			return $mock
 				->shouldReceive('getCurrentRelease')->andReturn(null)
 				->shouldReceive('getCurrentReleasePath')->andReturn('1');
@@ -25,7 +25,7 @@ class SetupTest extends RocketeerTests
 
 	public function testCanSetupStages()
 	{
-		$this->mockReleases(function($mock) {
+		$this->mockReleases(function ($mock) {
 			return $mock
 				->shouldReceive('getCurrentRelease')->andReturn(null)
 				->shouldReceive('getCurrentReleasePath')->andReturn('1');

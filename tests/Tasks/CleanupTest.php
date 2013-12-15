@@ -7,7 +7,7 @@ class CleanupTest extends RocketeerTests
 		$this->mockReleases(function ($mock) {
 			return $mock
 				->shouldReceive('getDeprecatedReleases')->once()->andReturn(array(1, 2))
-				->shouldReceive('getPathToRelease')->times(2)->andReturnUsing(function($release) {
+				->shouldReceive('getPathToRelease')->times(2)->andReturnUsing(function ($release) {
 					return $release;
 				});
 		});
