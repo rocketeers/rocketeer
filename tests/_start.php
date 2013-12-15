@@ -1,6 +1,8 @@
 <?php
+namespace Rocketeer\Tests;
+
 include __DIR__.'/../vendor/autoload.php';
-include __DIR__.'/meta/MyCustomTask.php';
+include __DIR__.'/_meta/MyCustomTask.php';
 include __DIR__.'/_illuminate.php';
 
 abstract class RocketeerTests extends TestsContainer
@@ -48,8 +50,8 @@ abstract class RocketeerTests extends TestsContainer
 		parent::setUp();
 
 		// Setup local server
-		$this->server          = __DIR__.'/server/foobar';
-		$this->deploymentsFile = __DIR__.'/meta/deployments.json';
+		$this->server          = __DIR__.'/_server/foobar';
+		$this->deploymentsFile = __DIR__.'/_meta/deployments.json';
 		$this->php             = exec('which php');
 
 		// Bind dummy Task

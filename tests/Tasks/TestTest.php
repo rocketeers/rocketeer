@@ -1,4 +1,8 @@
 <?php
+namespace Rocketeer\Tests\Tasks;
+
+use Rocketeer\Tests\RocketeerTests;
+
 class TestTest extends RocketeerTests
 {
 	public function testCanRunTests()

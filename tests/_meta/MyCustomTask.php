@@ -1,5 +1,5 @@
 <?php
-namespace Tasks;
+namespace Rocketeer\Tests\Dummies;
 
 use Rocketeer\Traits\Task;
 

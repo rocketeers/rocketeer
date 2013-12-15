@@ -1,4 +1,7 @@
 <?php
+namespace Rocketeer\Tests;
+
+use ReflectionFunction;
 use Rocketeer\Facades\Rocketeer;
 
 class TasksQueueTest extends RocketeerTests
@@ -100,7 +103,7 @@ class TasksQueueTest extends RocketeerTests
 		$closure = $string->getClosure();
 		$this->assertInstanceOf('Closure', $closure);
 
-		$closureReflection = new ReflectionFunction ($closure);
+		$closureReflection = new ReflectionFunction($closure);
 		$this->assertEquals(array('stringTask' => 'echo "I love ducks"'), $closureReflection->getStaticVariables());
 
 		$this->assertEquals('I love ducks', $string->execute());

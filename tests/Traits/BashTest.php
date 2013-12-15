@@ -1,4 +1,8 @@
 <?php
+namespace Rocketeer\Tests\Traits;
+
+use Rocketeer\Tests\RocketeerTests;
+
 class BashTest extends RocketeerTests
 {
 	public function testCanSetCustomPathsForBinaries()
@@ -39,7 +43,7 @@ class BashTest extends RocketeerTests
 	{
 		$contents = $this->task->runRaw('ls', true);
 
-		$this->assertCount(11, $contents);
+		$this->assertCount(12, $contents);
 	}
 
 	public function testCanListContentsOfAFolder()

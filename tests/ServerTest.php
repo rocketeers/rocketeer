@@ -1,8 +1,10 @@
 <?php
+namespace Rocketeer\Tests;
+
+use Rocketeer\Server;
 
 class ServerTest extends RocketeerTests
 {
-
 	////////////////////////////////////////////////////////////////////
 	//////////////////////////////// TESTS /////////////////////////////
 	////////////////////////////////////////////////////////////////////
@@ -12,7 +14,7 @@ class ServerTest extends RocketeerTests
 		$this->app['path.storage'] = null;
 		$this->app->offsetUnset('path.storage');
 
-		new Rocketeer\Server($this->app);
+		new Server($this->app);
 
 		$storage = __DIR__.'/../storage';
 		$exists = file_exists($storage);
@@ -36,7 +38,7 @@ class ServerTest extends RocketeerTests
 	{
 		$this->app['rocketeer.server']->deleteRepository();
 
-		$this->assertFalse($this->app['files']->exists(__DIR__.'/meta/deployments.json'));
+		$this->assertFalse($this->app['files']->exists(__DIR__.'/_meta/deployments.json'));
 	}
 
 	public function testCanFallbackIfFileDoesntExist()

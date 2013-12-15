@@ -1,7 +1,12 @@
 <?php
+namespace Rocketeer\Tests;
+
 use Illuminate\Container\Container;
 use Illuminate\Filesystem\Filesystem;
+use Mockery;
+use PHPUnit_Framework_TestCase;
 use Rocketeer\RocketeerServiceProvider;
+use Rocketeer\Server;
 
 abstract class TestsContainer extends PHPUnit_Framework_TestCase
 {
@@ -43,7 +48,7 @@ abstract class TestsContainer extends PHPUnit_Framework_TestCase
 		$this->app = $serviceProvider->bindScm($this->app);
 
 		$this->app->bind('rocketeer.server', function ($app) {
-			return new Rocketeer\Server($app, 'deployments', __DIR__.'/meta');
+			return new Server($app, 'deployments', __DIR__.'/_meta');
 		});
 
 	}
@@ -137,7 +142,7 @@ abstract class TestsContainer extends PHPUnit_Framework_TestCase
 			'webuser' => array('user' => 'www-data', 'group' => 'www-data')
 		));
 		$config->shouldReceive('get')->with('rocketeer::remote.permissions.files')->andReturn(array('tests'));
-		$config->shouldReceive('get')->with('rocketeer::remote.root_directory')->andReturn(__DIR__.'/server/');
+		$config->shouldReceive('get')->with('rocketeer::remote.root_directory')->andReturn(__DIR__.'/_server/');
 		$config->shouldReceive('get')->with('rocketeer::remote.shared')->andReturn(array('tests/Elements'));
 		$config->shouldReceive('get')->with('rocketeer::stages.default')->andReturn(null);
 		$config->shouldReceive('get')->with('rocketeer::stages.stages')->andReturn(array());
@@ -157,7 +162,7 @@ abstract class TestsContainer extends PHPUnit_Framework_TestCase
 			),
 			'after' => array(
 				'check' => array(
-					'Tasks\MyCustomTask',
+					'Rocketeer\Tests\Dummies\MyCustomTask',
 				),
 				'deploy' => array(
 					'after',

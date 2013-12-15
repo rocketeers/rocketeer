@@ -1,4 +1,8 @@
 <?php
+namespace Rocketeer\Tests\Tasks;
+
+use Mockery;
+use Rocketeer\Tests\RocketeerTests;
 
 class TeardownTest extends RocketeerTests
 {

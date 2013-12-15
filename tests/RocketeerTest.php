@@ -1,4 +1,5 @@
 <?php
+namespace Rocketeer\Tests;
 
 class RocketeerTest extends RocketeerTests
 {

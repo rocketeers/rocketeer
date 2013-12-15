@@ -1,4 +1,7 @@
 <?php
+namespace Rocketeer\Tests\Tasks;
+
+use Rocketeer\Tests\RocketeerTests;
 
 class UpdateTest extends RocketeerTests
 {

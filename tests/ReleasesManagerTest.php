@@ -1,4 +1,5 @@
 <?php
+namespace Rocketeer\Tests;
 
 class ReleasesManagerTest extends RocketeerTests
 {
@@ -11,12 +12,13 @@ class ReleasesManagerTest extends RocketeerTests
 
 	public function testCanGetCurrentReleaseFromServerIfUncached()
 	{
-		$server = Mockery::mock('Server');
-		$server->shouldReceive('getValue')->with('current_release')->once()->andReturn(null);
-		$server->shouldReceive('setValue')->with('current_release', '20000000000000')->once();
-		$server->shouldReceive('getSeparator')->andReturn('/');
-		$server->shouldReceive('getLineEndings')->andReturn(PHP_EOL);
-		$this->app['rocketeer.server'] = $server;
+		$this->mock('rocketeer.server', 'Server', function ($mock) {
+			return $mock
+				->shouldReceive('getValue')->with('current_release')->once()->andReturn(null)
+				->shouldReceive('setValue')->with('current_release', '20000000000000')->once()
+				->shouldReceive('getSeparator')->andReturn('/')
+				->shouldReceive('getLineEndings')->andReturn(PHP_EOL);
+		});
 
 		$currentRelease = $this->app['rocketeer.releases']->getCurrentRelease();
 

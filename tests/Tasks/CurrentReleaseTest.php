@@ -1,4 +1,7 @@
 <?php
+namespace Rocketeer\Tests\Tasks;
+
+use Rocketeer\Tests\RocketeerTests;
 
 class CurrentReleaseTest extends RocketeerTests
 {
