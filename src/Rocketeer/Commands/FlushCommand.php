@@ -14,7 +14,7 @@ namespace Rocketeer\Commands;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class DeployFlushCommand extends BaseDeployCommand
+class FlushCommand extends AbstractDeployCommand
 {
 	/**
 	 * The console command name.

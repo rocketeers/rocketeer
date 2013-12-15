@@ -18,7 +18,7 @@ use Rocketeer\Traits\Task;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class BaseTaskCommand extends BaseDeployCommand
+class BaseTaskCommand extends AbstractDeployCommand
 {
 	/**
 	 * The default name

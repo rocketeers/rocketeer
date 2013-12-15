@@ -10,39 +10,49 @@
 namespace Rocketeer\Commands;
 
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputArgument;
 
 /**
- * Runs the Deploy task and then cleans up deprecated releases
+ * Rollback to the previous release, or to a specific one
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class DeployDeployCommand extends BaseDeployCommand
+class RollbackCommand extends AbstractDeployCommand
 {
 	/**
 	 * The console command name.
 	 *
 	 * @var string
 	 */
-	protected $name = 'deploy:deploy';
+	protected $name = 'deploy:rollback';
 
 	/**
 	 * The console command description.
 	 *
 	 * @var string
 	 */
-	protected $description = 'Deploy the website.';
+	protected $description = 'Rollback to the previous release, or to a specific one';
 
 	/**
-	 * Execute the tasks
+	 * The tasks to execute
 	 *
 	 * @return array
 	 */
 	public function fire()
 	{
-		return $this->fireTasksQueue(array(
-			'Rocketeer\Tasks\Deploy',
-			'Rocketeer\Tasks\Cleanup',
-		));
+		return $this->fireTasksQueue('Rocketeer\Tasks\Rollback');
+	}
+
+	/**
+	 * Get the console command arguments.
+	 *
+	 * @return array
+	 */
+	protected function getArguments()
+	{
+		return array(
+			array('release', InputArgument::OPTIONAL, 'The release to rollback to'),
+		);
 	}
 
 	/**
@@ -53,9 +63,7 @@ class DeployDeployCommand extends BaseDeployCommand
 	protected function getOptions()
 	{
 		return array_merge(parent::getOptions(), array(
-			array('tests',   't', InputOption::VALUE_NONE,     'Runs the tests on deploy'),
-			array('migrate', 'm', InputOption::VALUE_NONE,     'Run the migrations'),
-			array('seed',    's', InputOption::VALUE_OPTIONAL, 'Seed the database (after migrating it if --migrate)'),
+			array('list', 'L', InputOption::VALUE_NONE, 'Shows the available releases to rollback to'),
 		));
 	}
 }

@@ -16,7 +16,7 @@ use Symfony\Component\Console\Input\InputOption;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class DeployUpdateCommand extends BaseDeployCommand
+class UpdateCommand extends AbstractDeployCommand
 {
 	/**
 	 * The console command name.

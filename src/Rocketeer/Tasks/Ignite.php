@@ -69,9 +69,6 @@ class Ignite extends Task
 
 		$config = $this->app['rocketeer.igniter']->exportConfiguration($parameters);
 
-		// Change repository in use
-		$this->app['rocketeer.server']->setRepository($application);
-
 		return $config;
 	}
 }

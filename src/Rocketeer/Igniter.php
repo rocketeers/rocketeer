@@ -74,6 +74,9 @@ class Igniter
 			}
 		}
 
+		// Change repository in use
+		$this->app['rocketeer.server']->setRepository($values['application_name']);
+
 		return $destination;
 	}
 

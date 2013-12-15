@@ -18,7 +18,7 @@ use Symfony\Component\Console\Input\InputOption;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-abstract class BaseDeployCommand extends Command
+abstract class AbstractDeployCommand extends Command
 {
 	/**
 	 * Run the tasks

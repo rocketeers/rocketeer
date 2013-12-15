@@ -9,35 +9,53 @@
  */
 namespace Rocketeer\Commands;
 
-use Rocketeer\Rocketeer;
+use Symfony\Component\Console\Input\InputOption;
 
 /**
- * The core command when starting the Rocketeer CLI
+ * Runs the Deploy task and then cleans up deprecated releases
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class DeployCommand extends DeployDeployCommand
+class DeployCommand extends AbstractDeployCommand
 {
 	/**
 	 * The console command name.
 	 *
 	 * @var string
 	 */
-	protected $name = 'deploy';
+	protected $name = 'deploy:deploy';
 
 	/**
-	 * Displays the current version
+	 * The console command description.
 	 *
-	 * @return string
+	 * @var string
+	 */
+	protected $description = 'Deploy the website.';
+
+	/**
+	 * Execute the tasks
+	 *
+	 * @return array
 	 */
 	public function fire()
 	{
-		// Display version
-		if ($this->option('version')) {
-			return $this->line('<info>Rocketeer</info> version <comment>'.Rocketeer::VERSION.'</comment>');
-		}
+		return $this->fireTasksQueue(array(
+			'Rocketeer\Tasks\Deploy',
+			'Rocketeer\Tasks\Cleanup',
+		));
+	}
 
-		// Deploy
-		return parent::fire();
+	/**
+	 * Get the console command options.
+	 *
+	 * @return array
+	 */
+	protected function getOptions()
+	{
+		return array_merge(parent::getOptions(), array(
+			array('tests',   't', InputOption::VALUE_NONE,     'Runs the tests on deploy'),
+			array('migrate', 'm', InputOption::VALUE_NONE,     'Run the migrations'),
+			array('seed',    's', InputOption::VALUE_OPTIONAL, 'Seed the database (after migrating it if --migrate)'),
+		));
 	}
 }

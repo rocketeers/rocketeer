@@ -223,7 +223,7 @@ class RocketeerServiceProvider extends ServiceProvider
 	{
 		// Base commands
 		$tasks = array(
-			''         => '',
+			''         => 'Rocketeer',
 			'check'    => 'Check',
 			'cleanup'  => 'Cleanup',
 			'current'  => 'CurrentRelease',
@@ -245,7 +245,7 @@ class RocketeerServiceProvider extends ServiceProvider
 		foreach ($tasks as $slug => $task) {
 
 			// Check if we have an actual command to use
-			$commandClass = 'Rocketeer\Commands\Deploy'.$task.'Command';
+			$commandClass = 'Rocketeer\Commands\\'.$task.'Command';
 			$fakeCommand  = !class_exists($commandClass);
 
 			// Build command slug
