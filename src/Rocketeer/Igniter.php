@@ -75,7 +75,8 @@ class Igniter
 		}
 
 		// Change repository in use
-		$this->app['rocketeer.server']->setRepository($values['application_name']);
+		$application = array_get($values, 'application_name');
+		$this->app['rocketeer.server']->setRepository($application);
 
 		return $destination;
 	}

@@ -108,14 +108,15 @@ abstract class RocketeerTestCase extends ContainerTestCase
 	/**
 	 * Assert a task has a particular output
 	 *
-	 * @param string $task
-	 * @param string $output
+	 * @param string  $task
+	 * @param string  $output
+	 * @param Mockery $command
 	 *
 	 * @return Assertion
 	 */
-	protected function assertTaskOutput($task, $output)
+	protected function assertTaskOutput($task, $output, $command = null)
 	{
-		return $this->assertContains($output, $this->task($task)->execute());
+		return $this->assertContains($output, $this->task($task, $command)->execute());
 	}
 
 	/**

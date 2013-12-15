@@ -7,41 +7,29 @@ class IgniteTest extends RocketeerTestCase
 {
 	public function testCanIgniteConfigurationOutsideLaravel()
 	{
-		$this->app['artisan'] = null;
-		$this->app->offsetUnset('artisan');
+		$command = $this->getCommand(array('ask' => 'foobar'));
 
-		$this->app['path.base'] = realpath($this->server.'/../../..');
-		$this->app['path.rocketeer.config'] = $this->app['path.base'].'/rocketeer';
+		$this->mock('rocketeer.igniter', 'Igniter', function ($mock) {
+			return $mock->shouldReceive('exportConfiguration')->once()->with(array(
+				'scm_repository'   => '',
+				'scm_username'     => '',
+				'scm_password'     => '',
+				'application_name' => 'foobar',
+			));
+		});
 
-		// Execute Task
-		$task = $this->task('Ignite');
-		$task->execute();
-
-		$root = $this->app['path.rocketeer.config'];
-		$this->assertFileExists($root);
-
-		$config   = include $this->app['path.base'].'/src/config/config.php';
-		$contents = include $root.'/config.php';
-		$this->assertEquals(array('production'), $contents['default']);
+		$this->assertTaskOutput('Ignite', 'Rocketeer configuration was created', $command);
 	}
 
 	public function testCanIgniteConfigurationInLaravel()
 	{
-		$this->app['path.base'] = realpath($this->server.'/../../..');
-
-		$this->app['files']->deleteDirectory($this->app['path.rocketeer.config']);
-		$this->app['files']->makeDirectory($this->app['path.rocketeer.config']);
-		$root = $this->app['path.rocketeer.config'].'/config.php';
-
 		$command = $this->getCommand(array('isInsideLaravel' => true));
-		$command->shouldReceive('call')->with('config:publish', array('package' => 'anahkiasen/rocketeer'))->andReturnUsing(function () use ($root) {
-			file_put_contents($root, 'foobar');
+		$command->shouldReceive('call')->with('config:publish', array('package' => 'anahkiasen/rocketeer'))->andReturn('foobar');
+
+		$this->mock('rocketeer.igniter', 'Igniter', function ($mock) {
+			return $mock->shouldReceive('exportConfiguration')->never();
 		});
 
-		$task = $this->task('Ignite', $command);
-		$task->execute();
-
-		$contents = file_get_contents($root);
-		$this->assertEquals('foobar', $contents);
+		$this->assertTaskOutput('Ignite', 'foobar', $command);
 	}
 }
