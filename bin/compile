@@ -2,11 +2,9 @@
 <?php
 require __DIR__.'/../vendor/autoload.php';
 
-$phar = __DIR__.'/rocketeer.phar';
-
 // Create Phar
 $compiler = new Rocketeer\Console\Compiler;
-$compiler->compile($phar);
+$phar = $compiler->compile();
 
 // Set permissions
 chmod($phar, 0755);

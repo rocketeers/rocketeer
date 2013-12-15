@@ -11,6 +11,7 @@ namespace Rocketeer\Console;
 
 use Herrera\Box\Box;
 use Herrera\Box\StubGenerator;
+use Illuminate\Filesystem\Filesystem;
 use Phar;
 use Symfony\Component\Finder\Finder;
 
@@ -29,35 +30,59 @@ class Compiler
 	protected $box;
 
 	/**
+	 * The Filesystem instance
+	 *
+	 * @var Filesystem
+	 */
+	protected $files;
+
+	/**
+	 * The path to the final phar
+	 *
+	 * @var string
+	 */
+	protected $phar;
+
+	/**
+	 * Build a new Compiler instance
+	 */
+	public function __construct()
+	{
+		$this->files = new Filesystem;
+		$this->phar  = __DIR__.'/../../../bin/rocketeer.phar';
+	}
+
+	/**
 	 * Extract an existing Phar
 	 *
-	 * @param string $phar
 	 * @param string $destination
 	 *
 	 * @return void
 	 */
-	public function extract($phar, $destination)
+	public function extract($destination)
 	{
+		// Recompile phar archive
+		$this->compile();
+
+		// Remove any already extracted archive
 		if (file_exists($destination)) {
-			$this->removeFolder($destination);
+			$this->files->deleteDirectory($destination);
 		}
 
-		$phar = new Phar($phar);
+		$phar = new Phar($this->phar);
 		$phar->extractTo($destination);
 	}
 
 	/**
 	 * Compile the final PHAR
 	 *
-	 * @param string $phar
-	 *
-	 * @return void
+	 * @return string Path to the created phar
 	 */
-	public function compile($phar = 'rocketeer.phar')
+	public function compile()
 	{
 		// Remove existing PHAR
-		if (file_exists($phar)) {
-			unlink($phar);
+		if (file_exists($this->phar)) {
+			unlink($this->phar);
 		}
 
 		// Store some path variables
@@ -66,7 +91,7 @@ class Compiler
 		$vendor = $root.'/vendor';
 
 		// Create Box
-		$this->box = Box::create($phar, 0, basename($phar));
+		$this->box = Box::create($this->phar, 0, basename($this->phar));
 
 		// Add compactors
 		$this->box->addCompactor(new WhitespaceCompactor);
@@ -78,6 +103,7 @@ class Compiler
 			'patchwork',
 			'herrera-io',
 			'nesbot',
+			'phine',
 		));
 
 		// Add binary
@@ -87,31 +113,13 @@ class Compiler
 
 		// Set stub
 		$this->setStub();
+
+		return $this->phar;
 	}
 
 	////////////////////////////////////////////////////////////////////
 	/////////////////////////////// HELPERS ////////////////////////////
 	////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Remove a folder and all of its contents
-	 *
-	 * @param string $folder
-	 *
-	 * @return vodi
-	 */
-	protected function removeFolder($folder)
-	{
-    foreach (glob($folder.'/*') as $file) {
-      if (is_dir($file)) {
-      	$this->removeFolder($file);
-      } else {
-      	unlink($file);
-      }
-    }
-
-    rmdir($folder);
-	}
 
 	/**
 	 * Set the stub to use

@@ -2,5 +2,6 @@
 <?php
 require __DIR__.'/../vendor/autoload.php';
 
+// Compile new phar and extract it
 $compiler = new Rocketeer\Console\Compiler;
-$compiler->extract(__DIR__.'/rocketeer.phar', __DIR__.'/phar');
+$compiler->extract(__DIR__.'/phar');
