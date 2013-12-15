@@ -22,7 +22,7 @@ class DeployTest extends RocketeerTests
 			),
 			array(
 				"cd $this->server/releases/$release",
-				"$this->php --stop-on-failure "
+				exec('which phpunit')." --stop-on-failure "
 			),
 			array(
 				"cd $this->server/releases/$release",
