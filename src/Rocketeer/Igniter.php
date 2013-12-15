@@ -49,7 +49,7 @@ class Igniter
 	 */
 	public function exportConfiguration(array $values = array())
 	{
-		$source      = realpath(__DIR__.'/../config');
+		$source      = __DIR__.'/../config';
 		$destination = $this->app['path.base'].'/rocketeer';
 
 		// Unzip configuration files

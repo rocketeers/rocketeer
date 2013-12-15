@@ -295,7 +295,12 @@ class RocketeerServiceProvider extends ServiceProvider
 		$custom = $app['path.rocketeer.config'];
 		if (file_exists($custom)) {
 			$app['config']->afterLoading('rocketeer', function ($me, $group, $items) use ($custom) {
-				$customItems = include $custom.'/'.$group.'.php';
+				$customItems = $custom.'/'.$group.'.php';
+				if (!file_exists($customItems)) {
+					return $items;
+				}
+
+				$customItems = include $customItems;
 
 				return array_replace_recursive($items, $customItems);
 			});

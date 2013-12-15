@@ -47,8 +47,6 @@ class Ignite extends Task
 		// Ask for the application name
 		$application = $this->command->ask("What is your application's name ?");
 
-		// Create configuration folder
-
 		// Replace credentials
 		$repositoryCredentials = $this->rocketeer->getCredentials();
 		$parameters = array_merge(
