@@ -46,7 +46,10 @@ abstract class Scm
 	 */
 	public function getCommand($command)
 	{
-		return $this->binary. ' ' .$command;
+		$arguments    = func_get_args();
+		$arguments[0] = $this->binary. ' ' .$arguments[0];
+
+		return call_user_func_array('sprintf', $arguments);
 	}
 
 	/**
