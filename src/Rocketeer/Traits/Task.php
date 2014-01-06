@@ -282,6 +282,7 @@ abstract class Task extends Bash
 		$chmod   = array_get($options, 'permissions');
 		$user    = array_get($options, 'webuser.user');
 		$group   = array_get($options, 'webuser.group');
+		$sudo    = array_get($options, 'use_sudo');
 
 		// Add chmod
 		if ($chmod) {
@@ -297,6 +298,13 @@ abstract class Task extends Bash
 		// Cancel if setting of permissions is not configured
 		if (empty($commands)) {
 			return true;
+		}
+
+		// Check if we need to use sudo to change permissions
+		if ($sudo) {
+			array_walk($commands, function(&$cmd, $key) {
+				$cmd = 'sudo '.$cmd;
+			});
 		}
 
 		return $this->runForCurrentRelease($commands);
