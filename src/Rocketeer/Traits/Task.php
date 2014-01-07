@@ -279,19 +279,27 @@ abstract class Task extends Bash
 
 		// Get permissions options
 		$options = $this->rocketeer->getOption('remote.permissions');
+		$setfacl = array_get($options, 'setfacl');
 		$chmod   = array_get($options, 'permissions');
 		$user    = array_get($options, 'webuser.user');
 		$group   = array_get($options, 'webuser.group');
 
-		// Add chmod
-		if ($chmod) {
-			$commands[] = sprintf('chmod -R %s %s', $chmod, $folder);
-			$commands[] = sprintf('chmod -R g+s %s', $folder);
-		}
+		if ($setfacl) {
 
-		// And chown
-		if ($user and $group) {
-			$commands[] = sprintf('chown -R %s:%s %s', $user, $group, $folder);
+			$commands[] = sprintf('setfacl -R -m %s %s', $setfacl, $folder);
+
+		} else {
+
+			// Add chmod
+			if ($chmod) {
+				$commands[] = sprintf('chmod -R %s %s', $chmod, $folder);
+				$commands[] = sprintf('chmod -R g+s %s', $folder);
+			}
+
+			// And chown
+			if ($user and $group) {
+				$commands[] = sprintf('chown -R %s:%s %s', $user, $group, $folder);
+			}
 		}
 
 		// Cancel if setting of permissions is not configured
