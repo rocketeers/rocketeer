@@ -53,8 +53,10 @@
 
 		// Use setfacl to change file permissions.
 		// If this is set, then setfacl will be used instead of CHOWN/CHMOD.
-		// Change to null to skip using setfacl and use CHOWN/CHMOD instead.
-		'setfacl' => 'u:www-data:rw'
+		// An example setting would be:
+		// 		'setfacl' => 'u:www-data:rwx'
+		// Leave null to skip using setfacl and use CHOWN/CHMOD instead.
+		'setfacl' => null
 
 	),
 
