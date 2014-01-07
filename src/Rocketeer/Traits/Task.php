@@ -252,14 +252,17 @@ abstract class Task extends Bash
 		$currentFile = $this->releasesManager->getCurrentReleasePath($file);
 		$sharedFile  = preg_replace('#releases/[0-9]+/#', 'shared/', $currentFile);
 
+		// Check if we need sudo
+		$use_sudo = $this->rocketeer->getOption('remote.permissions.use_sudo');
+
 		// If no instance of the shared file exists, use current one
 		if (!$this->fileExists($sharedFile)) {
-			$this->move($currentFile, $sharedFile);
+			$this->move($currentFile, $sharedFile, $use_sudo);
 		}
 
 		$this->command->comment('Sharing file '.$currentFile);
 
-		return $this->symlink($sharedFile, $currentFile);
+		return $this->symlink($sharedFile, $currentFile, $use_sudo);
 	}
 
 	/**
@@ -282,6 +285,7 @@ abstract class Task extends Bash
 		$chmod   = array_get($options, 'permissions');
 		$user    = array_get($options, 'webuser.user');
 		$group   = array_get($options, 'webuser.group');
+		$sudo    = array_get($options, 'use_sudo');
 
 		// Add chmod
 		if ($chmod) {
@@ -297,6 +301,13 @@ abstract class Task extends Bash
 		// Cancel if setting of permissions is not configured
 		if (empty($commands)) {
 			return true;
+		}
+
+		// Check if we need to use sudo to change permissions
+		if ($sudo) {
+			array_walk($commands, function(&$cmd, $key) {
+				$cmd = 'sudo '.$cmd;
+			});
 		}
 
 		return $this->runForCurrentRelease($commands);

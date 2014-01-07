@@ -51,6 +51,10 @@
 			'group' => 'www-data',
 		),
 
+		// Use sudo to run CHOWN and CHMOD commands on the
+		// remote server.
+		'use_sudo' => false,
+
 	),
 
 );

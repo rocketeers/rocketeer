@@ -321,20 +321,20 @@ class Bash
 	 *
 	 * @return string
 	 */
-	public function symlink($folder, $symlink)
+	public function symlink($folder, $symlink, $use_sudo = false)
 	{
 		if (!$this->fileExists($folder)) {
 			if (!$this->fileExists($symlink)) {
 				return false;
 			}
 
-			$this->move($symlink, $folder);
+			$this->move($symlink, $folder, $use_sudo);
 		}
 
 		// Remove existing symlink
-		$this->removeFolder($symlink);
+		$this->removeFolder($symlink, $use_sudo);
 
-		return $this->run(sprintf('ln -s %s %s', $folder, $symlink));
+		return $this->run(sprintf('%s ln -s %s %s', ($use_sudo ? 'sudo' : ''), $folder, $symlink));
 	}
 
 	/**
@@ -345,14 +345,14 @@ class Bash
 	 *
 	 * @return string
 	 */
-	public function move($origin, $destination)
+	public function move($origin, $destination, $use_sudo = false)
 	{
 		$folder = dirname($destination);
 		if (!$this->fileExists($folder)) {
 			$this->createFolder($folder, true);
 		}
 
-		return $this->run(sprintf('mv %s %s', $origin, $destination));
+		return $this->run(sprintf('%s mv %s %s', ($use_sudo ? 'sudo' : ''), $origin, $destination));
 	}
 
 	/**
@@ -403,9 +403,9 @@ class Bash
 	 *
 	 * @return string The task
 	 */
-	public function removeFolder($folder = null)
+	public function removeFolder($folder = null, $use_sudo = false)
 	{
-		return $this->run('rm -rf '.$this->rocketeer->getFolder($folder));
+		return $this->run(sprintf('%s rm -rf %s', ($use_sudo ? 'sudo' : ''), $this->rocketeer->getFolder($folder)));
 	}
 
 	////////////////////////////////////////////////////////////////////
