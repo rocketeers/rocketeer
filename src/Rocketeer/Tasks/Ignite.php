@@ -32,13 +32,14 @@ class Ignite extends Task
 	 */
 	public function execute()
 	{
-		// In Laravel, publish the configuration
-		if ($this->command->isInsideLaravel()) {
-			return $this->command->call('config:publish', array('package' => 'anahkiasen/rocketeer'));
-		}
+		// Export configuration
+		$path = $this->command->isInsideLaravel()
+			? $this->createLaravelConfiguration()
+			: $this->createOutsideConfiguration();
 
-		// Else create configuration file
-		$path = $this->createConfiguration();
+		// Replace placeholders
+		$parameters = $this->getConfigurationInformations();
+		$this->app['rocketeer.igniter']->updateConfiguration($path, $parameters);
 
 		// Display info
 		$folder  = basename(dirname($path)).'/'.basename($path);
@@ -48,29 +49,45 @@ class Ignite extends Task
 	}
 
 	/**
+	 * Create the configuration outside of Laravel
+	 *
+	 * @return string
+	 */
+	protected function createLaravelConfiguration()
+	{
+		$this->command->call('config:publish', array('package' => 'anahkiasen/rocketeer'));
+
+		return $this->app['path'].'/config/packages/anahkiasen/rocketeer';
+	}
+
+	/**
 	 * Get the configuration stub to use
 	 *
 	 * @return string
 	 */
-	protected function createConfiguration()
+	protected function createOutsideConfiguration()
 	{
-		// Ask for the application name
-		$application = $this->command->ask("What is your application's name ?");
+		return $this->app['rocketeer.igniter']->exportConfiguration();
+	}
 
+	/**
+	 * Get the core informations to inject in the configuration created
+	 *
+	 * @return array
+	 */
+	protected function getConfigurationInformations()
+	{
 		// Replace credentials
 		$repositoryCredentials = $this->rocketeer->getCredentials();
-		$parameters = array_merge(
+
+		return array_merge(
 			$this->rocketeer->getConnectionCredentials(),
 			array(
 				'scm_repository'   => $repositoryCredentials['repository'],
 				'scm_username'     => $repositoryCredentials['username'],
 				'scm_password'     => $repositoryCredentials['password'],
-				'application_name' => $application,
+				'application_name' => $this->command->ask("What is your application's name ?"),
 			)
 		);
-
-		$config = $this->app['rocketeer.igniter']->exportConfiguration($parameters);
-
-		return $config;
 	}
 }

@@ -51,13 +51,11 @@ class Igniter
 	////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Export the configuration files and replace stubs in them
-	 *
-	 * @param array $values
+	 * Export the configuration files
 	 *
 	 * @return void
 	 */
-	public function exportConfiguration(array $values = array())
+	public function exportConfiguration()
 	{
 		$source      = __DIR__.'/../config';
 		$destination = $this->app['path.base'].'/rocketeer';
@@ -65,8 +63,21 @@ class Igniter
 		// Unzip configuration files
 		$this->app['files']->copyDirectory($source, $destination);
 
+		return $destination;
+	}
+
+	/**
+	 * Replace placeholders in configuration
+	 *
+	 * @param string $folder
+	 * @param array  $values
+	 *
+	 * @return void
+	 */
+	public function updateConfiguration($folder, array $values = array())
+	{
 		// Replace stub values in files
-		$files = $this->app['files']->files($destination);
+		$files = $this->app['files']->files($folder);
 		foreach ($files as $file) {
 			foreach ($values as $name => $value) {
 				$contents = str_replace('{' .$name. '}', $value, file_get_contents($file));
@@ -77,8 +88,6 @@ class Igniter
 		// Change repository in use
 		$application = array_get($values, 'application_name');
 		$this->app['rocketeer.server']->setRepository($application);
-
-		return $destination;
 	}
 
 	////////////////////////////////////////////////////////////////////
