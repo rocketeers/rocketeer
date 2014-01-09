@@ -64,7 +64,8 @@ class IgniterTest extends RocketeerTestCase
 	public function testCanReplaceStubsInConfigurationFile()
 	{
 		$this->igniter->bindPaths();
-		$this->igniter->exportConfiguration(array('scm_username' => 'foobar'));
+		$path = $this->igniter->exportConfiguration();
+		$this->igniter->updateConfiguration($path, array('scm_username' => 'foobar'));
 
 		$this->assertFileExists(__DIR__.'/../rocketeer');
 		$this->assertContains('foobar', file_get_contents(__DIR__.'/../rocketeer/scm.php'));
@@ -77,7 +78,8 @@ class IgniterTest extends RocketeerTestCase
 		});
 
 		$this->igniter->bindPaths();
-		$this->igniter->exportConfiguration(array('application_name' => 'foobar'));
+		$path = $this->igniter->exportConfiguration();
+		$this->igniter->updateConfiguration($path, array('application_name' => 'foobar', 'scm_username' => 'foobar'));
 
 		$this->assertFileExists(__DIR__.'/../rocketeer');
 		$this->assertContains('foobar', file_get_contents(__DIR__.'/../rocketeer/remote.php'));

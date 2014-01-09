@@ -25,6 +25,6 @@ class ScmTest extends RocketeerTestCase
 		$scm     = new Git($this->app);
 		$command = $scm->execute('checkout', $this->server);
 
-		$this->assertEquals('git clone --depth 1 -b master  '.$this->server, $command);
+		$this->assertEquals('git clone --depth 1 -b master "" '.$this->server, $command);
 	}
 }

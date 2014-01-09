@@ -15,7 +15,7 @@ class DeployTest extends RocketeerTestCase
 
 		$release = date('YmdHis');
 		$matcher = array(
-			"git clone --depth 1 -b master https://github.com/Anahkiasen/html-object.git $this->server/releases/$release",
+			'git clone --depth 1 -b master "https://github.com/Anahkiasen/html-object.git" ' .$this->server. '/releases/' .$release,
 			array(
 				"cd $this->server/releases/$release",
 				"git submodule update --init --recursive"
