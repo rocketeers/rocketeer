@@ -74,8 +74,9 @@ class Git extends Scm implements ScmInterface
 	{
 		$branch     = $this->app['rocketeer.rocketeer']->getRepositoryBranch();
 		$repository = $this->app['rocketeer.rocketeer']->getRepository();
+		$shallow    = $this->app['rocketeer.rocketeer']->getOption('scm.shallow') ? ' --depth 1' : '';
 
-		return $this->getCommand('clone --depth 1 -b %s "%s" %s', $branch, $repository, $destination);
+		return $this->getCommand('clone%s -b %s "%s" %s', $shallow, $branch, $repository, $destination);
 	}
 
 	/**
