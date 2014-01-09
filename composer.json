@@ -28,7 +28,7 @@
 		"patchwork/utf8": "dev-master",
 		"herrera-io/box": "dev-master",
 		"illuminate/remote": "~4",
-		"phpseclib/phpseclib": "dev-phar as 0.3.x-dev"
+		"phpseclib/phpseclib": "dev-master"
 	},
 	"suggest": {
 		"anahkiasen/rocketeer-campfire": "Campfire plugin to create deployments notifications"
@@ -42,11 +42,5 @@
 		"psr-0": {
 			"Rocketeer": "src"
 		}
-	},
-	"repositories": [
-		{
-			"type": "vcs",
-			"url": "https://github.com/Anahkiasen/phpseclib"
-		}
-	]
+	}
 }
