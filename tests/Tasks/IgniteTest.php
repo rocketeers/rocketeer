@@ -9,10 +9,11 @@ class IgniteTest extends RocketeerTestCase
 	{
 		$command = $this->getCommand(array('ask' => 'foobar'));
 
-		$this->mock('rocketeer.igniter', 'Igniter', function ($mock) {
+		$server = $this->server;
+		$this->mock('rocketeer.igniter', 'Igniter', function ($mock) use ($server) {
 			return $mock
-				->shouldReceive('exportConfiguration')->once()->andReturn($this->server)
-				->shouldReceive('updateConfiguration')->once()->with($this->server, array(
+				->shouldReceive('exportConfiguration')->once()->andReturn($server)
+				->shouldReceive('updateConfiguration')->once()->with($server, array(
 					'scm_repository'   => '',
 					'scm_username'     => '',
 					'scm_password'     => '',
