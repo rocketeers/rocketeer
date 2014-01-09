@@ -188,7 +188,8 @@ abstract class AbstractDeployCommand extends Command
 		if (!$password and !$key) {
 			$type = $this->ask('No password or SSH key is set for [' .$connectionName. '], which would you use ? [key/password]');
 			if ($type == 'key') {
-				$key       = $this->ask('Please enter the full path to your key');
+				$default   = $_SERVER['HOME'].'/.ssh/id_rsa';
+				$key       = $this->ask('Please enter the full path to your key (' .$default. ')', $default);
 				$keyphrase = $this->ask('If a keyphrase is required, provide it');
 			} else {
 				$password = $this->ask('Please enter your password');
