@@ -157,10 +157,13 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 		$config->shouldReceive('get')->with('rocketeer::connections')->andReturn(array());
 		$config->shouldReceive('get')->with('rocketeer::remote.application_name')->andReturn('foobar');
 		$config->shouldReceive('get')->with('rocketeer::remote.keep_releases')->andReturn(1);
-		$config->shouldReceive('get')->with('rocketeer::remote.permissions')->andReturn(array(
-			'permissions' => 755,
-			'webuser' => array('user' => 'www-data', 'group' => 'www-data')
-		));
+		$config->shouldReceive('get')->with('rocketeer::remote.permissions.callback')->andReturn(function($task, $file) {
+			return array(
+				sprintf('chmod -R 755 %s', $file),
+				sprintf('chmod -R g+s %s', $file),
+				sprintf('chown -R www-data:www-data %s', $file),
+			);
+		});
 		$config->shouldReceive('get')->with('rocketeer::remote.permissions.files')->andReturn(array('tests'));
 		$config->shouldReceive('get')->with('rocketeer::remote.root_directory')->andReturn(__DIR__.'/../_server/');
 		$config->shouldReceive('get')->with('rocketeer::remote.shared')->andReturn(array('tests/Elements'));
