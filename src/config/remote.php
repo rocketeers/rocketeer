@@ -51,6 +51,13 @@
 			'group' => 'www-data',
 		),
 
+		// Use setfacl to change file permissions.
+		// If this is set, then setfacl will be used instead of CHOWN/CHMOD.
+		// An example setting would be:
+		// 		'setfacl' => 'u:www-data:rwx'
+		// Leave null to skip using setfacl and use CHOWN/CHMOD instead.
+		'setfacl' => null
+
 	),
 
 );
