@@ -115,6 +115,19 @@ class ReleasesManager
 	////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Get where to store the current release
+	 *
+	 * @return string
+	 */
+	protected function getCurrentReleaseKey()
+	{
+		$stage = $this->app['rocketeer.rocketeer']->getStage();
+		$stage = $stage ? '.'.$stage : '';
+
+		return 'current_release'.$stage;
+	}
+
+	/**
 	 * Get the current release
 	 *
 	 * @return string
@@ -122,7 +135,7 @@ class ReleasesManager
 	public function getCurrentRelease()
 	{
 		// If we have saved the last deployed release, return that
-		$cached = $this->app['rocketeer.server']->getValue('current_release');
+		$cached = $this->app['rocketeer.server']->getValue($this->getCurrentReleaseKey());
 		if ($cached) {
 			return $cached;
 		}
@@ -167,7 +180,7 @@ class ReleasesManager
 			$release = date('YmdHis');
 		}
 
-		$this->app['rocketeer.server']->setValue('current_release', $release);
+		$this->app['rocketeer.server']->setValue($this->getCurrentReleaseKey(), $release);
 
 		return $release;
 	}

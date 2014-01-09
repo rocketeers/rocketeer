@@ -33,16 +33,20 @@ class CurrentRelease extends Task
 	 */
 	public function execute()
 	{
+		// Get the current stage
+		$stage = $this->rocketeer->getStage();
+		$stage = $stage ? ' for stage '.$stage : '';
+
 		// Check if a release has been deployed already
 		$currentRelease = $this->releasesManager->getCurrentRelease();
 		if (strlen($currentRelease) !== 14) {
-			return $this->command->error('No release has yet been deployed');
+			return $this->command->error('No release has yet been deployed'.$stage);
 		}
 
 		// Create message
 		$date    = DateTime::createFromFormat('YmdHis', $currentRelease)->format('Y-m-d H:i:s');
 		$state   = $this->runForCurrentRelease($this->scm->currentState());
-		$message = sprintf('The current release is <info>%s</info> (<comment>%s</comment> deployed at <comment>%s</comment>)', $currentRelease, $state, $date);
+		$message = sprintf('The current release' .$stage. ' is <info>%s</info> (<comment>%s</comment> deployed at <comment>%s</comment>)', $currentRelease, $state, $date);
 
 		return $this->command->line($message);
 	}
