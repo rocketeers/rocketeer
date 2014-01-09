@@ -39,11 +39,6 @@ class Setup extends Task
 	 */
 	public function execute()
 	{
-		// Cancel if already setup
-		if ($this->isSetup()) {
-			return true;
-		}
-
 		// Check if requirments are met
 		if (!$this->executeTask('Check') and !$this->getOption('pretend')) {
 			return false;
