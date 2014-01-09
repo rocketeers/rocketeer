@@ -59,6 +59,20 @@ class GitTest extends RocketeerTestCase
 		$this->assertEquals('git clone --depth 1 -b develop "http://github.com/my/repository" ' .$this->server, $command);
 	}
 
+	public function testCanGetDeepClone()
+	{
+		$this->mock('rocketeer.rocketeer', 'Rocketeer', function ($mock) {
+			return $mock
+				->shouldReceive('getOption')->once()->with('scm.shallow')->andReturn(false)
+				->shouldReceive('getRepository')->once()->andReturn('http://github.com/my/repository')
+				->shouldReceive('getRepositoryBranch')->once()->andReturn('develop');
+		});
+
+		$command = $this->scm->checkout($this->server);
+
+		$this->assertEquals('git clone -b develop "http://github.com/my/repository" ' .$this->server, $command);
+	}
+
 	public function testCanGetReset()
 	{
 		$command = $this->scm->reset();
