@@ -35,7 +35,7 @@ class CurrentRelease extends Task
 	{
 		// Check if a release has been deployed already
 		$currentRelease = $this->releasesManager->getCurrentRelease();
-		if (!$currentRelease) {
+		if (strlen($currentRelease) !== 14) {
 			return $this->command->error('No release has yet been deployed');
 		}
 
