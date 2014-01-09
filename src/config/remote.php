@@ -31,10 +31,6 @@
 
 	'permissions' => array(
 
-		// The permissions to CHMOD folders to
-		// Change to null to leave the folders untouched
-		'permissions' => 755,
-
 		// The folders and files to set as web writable
 		// You can pass paths in brackets, so {path.public} will return
 		// the correct path to the public folder
@@ -44,12 +40,16 @@
 			'{path.public}',
 		),
 
-		// The web server user and group to CHOWN folders to
-		// Leave empty to leave the above folders untouched
-		'webuser' => array(
-			'user'  => 'www-data',
-			'group' => 'www-data',
-		),
+		// Here you can configure what actions will be executed to set
+		// permissions on the folder above. The Closure can return
+		// a single command as a string or an array of commands
+		'callback' => function ($task, $file) {
+			return array(
+				sprintf('chmod -R 0755 %s', $file),
+				sprintf('chmod -R g+s %s', $file),
+				sprintf('chown -R www-data:www-data %s', $file),
+			);
+		},
 
 	),
 

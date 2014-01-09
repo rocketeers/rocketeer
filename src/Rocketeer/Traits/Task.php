@@ -263,7 +263,7 @@ abstract class Task extends Bash
 	}
 
 	/**
-	 * Set a folder as web-writable
+	 * Execute permissions actions on a file with the provided callback
 	 *
 	 * @param string $folder
 	 *
@@ -278,21 +278,8 @@ abstract class Task extends Bash
 		$this->command->comment('Setting permissions for '.$folder);
 
 		// Get permissions options
-		$options = $this->rocketeer->getOption('remote.permissions');
-		$chmod   = array_get($options, 'permissions');
-		$user    = array_get($options, 'webuser.user');
-		$group   = array_get($options, 'webuser.group');
-
-		// Add chmod
-		if ($chmod) {
-			$commands[] = sprintf('chmod -R %s %s', $chmod, $folder);
-			$commands[] = sprintf('chmod -R g+s %s', $folder);
-		}
-
-		// And chown
-		if ($user and $group) {
-			$commands[] = sprintf('chown -R %s:%s %s', $user, $group, $folder);
-		}
+		$callback = $this->rocketeer->getOption('remote.permissions.callback');
+		$commands = (array) $callback($this, $folder);
 
 		// Cancel if setting of permissions is not configured
 		if (empty($commands)) {
