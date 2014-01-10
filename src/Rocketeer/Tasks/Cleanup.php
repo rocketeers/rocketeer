@@ -34,7 +34,7 @@ class Cleanup extends Task
 	public function execute()
 	{
 		// Get deprecated releases and create commands
-		if ($this->getOption('all')) {
+		if ($this->getOption('clean-all')) {
 			$trash = $this->releasesManager->getNonCurrentReleases();
 		} else {
 			$trash = $this->releasesManager->getDeprecatedReleases();
