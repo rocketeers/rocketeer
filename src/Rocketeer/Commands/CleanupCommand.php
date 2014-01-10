@@ -12,25 +12,25 @@ namespace Rocketeer\Commands;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
- * Runs the Deploy task and then cleans up deprecated releases
+ * Runs the Cleanup task to prune deprecated releases
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class DeployCommand extends AbstractDeployCommand
+class CleanupCommand extends AbstractDeployCommand
 {
 	/**
 	 * The console command name.
 	 *
 	 * @var string
 	 */
-	protected $name = 'deploy:deploy';
+	protected $name = 'deploy:cleanup';
 
 	/**
 	 * The console command description.
 	 *
 	 * @var string
 	 */
-	protected $description = 'Deploy the website.';
+	protected $description = 'Clean up old releases from the server.';
 
 	/**
 	 * Execute the tasks
@@ -39,10 +39,7 @@ class DeployCommand extends AbstractDeployCommand
 	 */
 	public function fire()
 	{
-		return $this->fireTasksQueue(array(
-			'Rocketeer\Tasks\Deploy',
-			'Rocketeer\Tasks\Cleanup',
-		));
+		return $this->fireTasksQueue('Rocketeer\Tasks\Cleanup');
 	}
 
 	/**
@@ -53,10 +50,7 @@ class DeployCommand extends AbstractDeployCommand
 	protected function getOptions()
 	{
 		return array_merge(parent::getOptions(), array(
-			array('tests',     't',  InputOption::VALUE_NONE,     'Runs the tests on deploy'),
-			array('migrate',   'm',  InputOption::VALUE_NONE,     'Run the migrations'),
-			array('seed',      's',  InputOption::VALUE_OPTIONAL, 'Seed the database (after migrating it if --migrate)'),
-			array('clean-all', null, InputOption::VALUE_NONE,     'Cleanup all but the current release on deploy'),
+			array('clean-all', null, InputOption::VALUE_NONE,  'Cleans up all non-current releases'),
 		));
 	}
 }
