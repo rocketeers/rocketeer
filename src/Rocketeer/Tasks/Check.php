@@ -42,7 +42,9 @@ class Check extends Task
 		$errors = array();
 		$checks = $this->getChecks();
 
-		foreach ($checks as $check => $error) {
+		foreach ($checks as $check) {
+			list($check, $error) = $check;
+
 			$argument = null;
 			if (is_array($error)) {
 				$argument = $error[0];
@@ -81,13 +83,13 @@ class Check extends Task
 		$session   = $this->app['config']->get('session.driver');
 
 		return array(
-			'checkScm'            => $this->scm->binary. ' could not be found',
-			'checkPhpVersion'     => 'The version oh PHP on the server does not match Laravel\'s requirements',
-			'checkComposer'       => 'Composer does not seem to be present on the server',
-			'checkPhpExtension'   => array('mcrypt',  sprintf($extension, 'mcrypt')),
-			'checkDatabaseDriver' => array($database, sprintf($extension, $database)),
-			'checkCacheDriver'    => array($cache,    sprintf($extension, $cache)),
-			'checkCacheDriver'    => array($session,  sprintf($extension, $session)),
+			array('checkScm',            $this->scm->binary. ' could not be found'),
+			array('checkPhpVersion',     'The version oh PHP on the server does not match Laravel\'s requirements'),
+			array('checkComposer',       'Composer does not seem to be present on the server'),
+			array('checkPhpExtension',   array('mcrypt',  sprintf($extension, 'mcrypt'))),
+			array('checkDatabaseDriver', array($database, sprintf($extension, $database))),
+			array('checkCacheDriver',    array($cache,    sprintf($extension, $cache))),
+			array('checkCacheDriver',    array($session,  sprintf($extension, $session))),
 		);
 	}
 
@@ -170,8 +172,10 @@ class Check extends Task
 		switch ($cache) {
 			case 'memcached':
 			case 'apc':
-			case 'redis':
 				return $this->checkPhpExtension($cache);
+
+			case 'redis':
+				return $this->which('redis-server');
 
 			default:
 				return true;
