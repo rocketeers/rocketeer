@@ -300,10 +300,12 @@ class Bash
 		}
 
 		// Else prompt the User for the actual path
-		$location = $this->command->ask($binary. ' could not be found, please enter the path to it');
-		if ($location) {
-			$this->server->setValue($custom, $location);
-			return $location;
+		if ($this->app->bound('rocketeer.command')) {
+			$location = $this->command->ask($binary. ' could not be found, please enter the path to it');
+			if ($location) {
+				$this->server->setValue($custom, $location);
+				return $location;
+			}
 		}
 
 		return false;
