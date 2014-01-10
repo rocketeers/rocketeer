@@ -97,7 +97,7 @@ abstract class RocketeerTestCase extends ContainerTestCase
 		}
 
 		// Delete rocketeer config
-		$binary = $rootPath.'/rocketeer';
+		$binary = $rootPath.'/.rocketeer';
 		$this->app['files']->deleteDirectory($binary);
 	}
 
