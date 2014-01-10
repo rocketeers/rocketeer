@@ -51,6 +51,16 @@ class Igniter
 	////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Get the path to the configuration folder
+	 *
+	 * @return string
+	 */
+	public function getConfigurationPath()
+	{
+		return $this->app['path.rocketeer.config'];
+	}
+
+	/**
 	 * Export the configuration files
 	 *
 	 * @return void
@@ -58,7 +68,7 @@ class Igniter
 	public function exportConfiguration()
 	{
 		$source      = __DIR__.'/../config';
-		$destination = $this->app['path.base'].'/rocketeer';
+		$destination = $this->getConfigurationPath();
 
 		// Unzip configuration files
 		$this->app['files']->copyDirectory($source, $destination);
@@ -129,8 +139,8 @@ class Igniter
 	{
 		$path  = $this->app['path.base'] ? $this->app['path.base'].'/' : '';
 		$paths = array(
-			'config' => 'rocketeer',
-			'tasks'  => 'rocketeer/tasks',
+			'config' => '.rocketeer',
+			'tasks'  => '.rocketeer/tasks',
 		);
 
 		foreach ($paths as $key => $file) {

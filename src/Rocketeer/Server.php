@@ -34,6 +34,13 @@ class Server
 	protected $repository;
 
 	/**
+	 * The current hash in use
+	 *
+	 * @var string
+	 */
+	protected $hash;
+
+	/**
 	 * Build a new ReleasesManager
 	 *
 	 * @param Container  $app
@@ -44,7 +51,59 @@ class Server
 	{
 		$this->app = $app;
 
+		// Create repository and update it if necessary
 		$this->setRepository($filename, $storage);
+		if ($this->shouldFlush()) {
+			$this->deleteRepository();
+		}
+
+		// Add salt to current repository
+		$this->setValue('hash', $this->getHash());
+	}
+
+	////////////////////////////////////////////////////////////////////
+	//////////////////////////////// SALTS /////////////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Get the current salt in use
+	 *
+	 * @return string
+	 */
+	public function getHash()
+	{
+		// Return cached hash if any
+		if ($this->hash) {
+			return $this->hash;
+		}
+
+		$salt   = '';
+		$folder = $this->app['rocketeer.igniter']->getConfigurationPath();
+		$files  = glob($folder.'/*.php');
+
+		// Compute the salts
+		foreach ($files as $file) {
+			$salt .= $this->app['files']->lastModified($file);
+		}
+
+		// Cache it
+		$this->hash = md5($salt);
+
+		return $this->hash;
+	}
+
+	////////////////////////////////////////////////////////////////////
+	///////////////////////////// REPOSITORY ///////////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Flushes the repository if required
+	 *
+	 * @return void
+	 */
+	public function shouldFlush()
+	{
+		return $this->getValue('hash') !== $this->getHash();
 	}
 
 	/**
