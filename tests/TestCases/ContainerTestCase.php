@@ -111,7 +111,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 		), $expectations);
 
 		// Bind expecations
-		foreach($expectations as $key => $value) {
+		foreach ($expectations as $key => $value) {
 			if ($key === 'option') {
 				$command->shouldReceive($key)->andReturn($value)->byDefault();
 			} else {
@@ -157,7 +157,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 		$config->shouldReceive('get')->with('rocketeer::connections')->andReturn(array());
 		$config->shouldReceive('get')->with('rocketeer::remote.application_name')->andReturn('foobar');
 		$config->shouldReceive('get')->with('rocketeer::remote.keep_releases')->andReturn(1);
-		$config->shouldReceive('get')->with('rocketeer::remote.permissions.callback')->andReturn(function($task, $file) {
+		$config->shouldReceive('get')->with('rocketeer::remote.permissions.callback')->andReturn(function ($task, $file) {
 			return array(
 				sprintf('chmod -R 755 %s', $file),
 				sprintf('chmod -R g+s %s', $file),
