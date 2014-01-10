@@ -12,6 +12,7 @@ class IgniteTest extends RocketeerTestCase
 		$server = $this->server;
 		$this->mock('rocketeer.igniter', 'Igniter', function ($mock) use ($server) {
 			return $mock
+				->shouldReceive('getConfigurationPath')->twice()
 				->shouldReceive('exportConfiguration')->once()->andReturn($server)
 				->shouldReceive('updateConfiguration')->once()->with($server, array(
 					'scm_repository'   => '',
@@ -32,6 +33,7 @@ class IgniteTest extends RocketeerTestCase
 		$path = $this->app['path'].'/config/packages/anahkiasen/rocketeer';
 		$this->mock('rocketeer.igniter', 'Igniter', function ($mock) use ($path) {
 			return $mock
+				->shouldReceive('getConfigurationPath')->twice()
 				->shouldReceive('exportConfiguration')->never()
 				->shouldReceive('updateConfiguration')->once()->with($path, array(
 					'scm_repository'   => '',
