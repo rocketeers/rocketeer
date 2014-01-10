@@ -39,9 +39,7 @@ class CleanupCommand extends AbstractDeployCommand
 	 */
 	public function fire()
 	{
-		return $this->fireTasksQueue(array(
-			'Rocketeer\Tasks\Cleanup',
-		));
+		return $this->fireTasksQueue('Rocketeer\Tasks\Cleanup');
 	}
 
 	/**
@@ -52,7 +50,7 @@ class CleanupCommand extends AbstractDeployCommand
 	protected function getOptions()
 	{
 		return array_merge(parent::getOptions(), array(
-			array('all', 'a', InputOption::VALUE_NONE,  'Cleans up all non-current releases'),
+			array('clean-all', 'c', InputOption::VALUE_NONE,  'Cleans up all non-current releases'),
 		));
 	}
 }
