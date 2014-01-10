@@ -33,13 +33,8 @@ class Cleanup extends Task
 	 */
 	public function execute()
 	{
-		// Get deprecated releases and create commands
-		$trash = $this->getOption('clean-all')
-			? $this->releasesManager->getNonCurrentReleases()
-			: $this->releasesManager->getDeprecatedReleases();
-
 		// If no releases to prune
-		if (empty($trash)) {
+		if (!$trash = $this->getReleasesToCleanup()) {
 			return $this->command->comment('No releases to prune from the server');
 		}
 
@@ -53,5 +48,17 @@ class Cleanup extends Task
 		$message = sprintf('Removing <info>%d %s</info> from the server', $trash, Str::plural('release', $trash));
 
 		return $this->command->line($message);
+	}
+
+	/**
+	 * Get an array of releases to prune
+	 *
+	 * @return array
+	 */
+	protected function getReleasesToCleanup()
+	{
+		return $this->getOption('clean-all')
+			? $this->releasesManager->getNonCurrentReleases()
+			: $this->releasesManager->getDeprecatedReleases();
 	}
 }
