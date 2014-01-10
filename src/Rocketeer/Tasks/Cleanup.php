@@ -34,14 +34,20 @@ class Cleanup extends Task
 	public function execute()
 	{
 		// Get deprecated releases and create commands
-		$trash = $this->releasesManager->getDeprecatedReleases();
-		foreach ($trash as $release) {
-			$this->removeFolder($this->releasesManager->getPathToRelease($release));
+		if ($this->getOption('all')) {
+			$trash = $this->releasesManager->getNonCurrentReleases();
+		} else {
+			$trash = $this->releasesManager->getDeprecatedReleases();
 		}
 
 		// If no releases to prune
 		if (empty($trash)) {
 			return $this->command->comment('No releases to prune from the server');
+		}
+
+		// Prune releases
+		foreach ($trash as $release) {
+			$this->removeFolder($this->releasesManager->getPathToRelease($release));
 		}
 
 		// Create final message

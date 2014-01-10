@@ -68,6 +68,18 @@ class ReleasesManager
 		return array_slice($releases, $maxReleases);
 	}
 
+	/**
+	 * Get an array of non-current releases
+	 *
+	 * @return array
+	 */
+	public function getNonCurrentReleases()
+	{
+		$releases = (array) $this->getReleases();
+
+		return array_slice($releases, 1);
+	}
+
 	////////////////////////////////////////////////////////////////////
 	////////////////////////////// PATHS ///////////////////////////////
 	////////////////////////////////////////////////////////////////////
