@@ -35,6 +35,9 @@ class Update extends Deploy
 		// Update repository
 		$this->updateRepository();
 
+		// Recreate symlinks if necessary
+		$this->syncSharedFolders();
+
 		// Recompile dependencies and stuff
 		$this->runComposer();
 

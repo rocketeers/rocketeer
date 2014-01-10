@@ -165,6 +165,9 @@ abstract class Task extends Bash
 	//////////////////////////////// TASKS /////////////////////////////
 	////////////////////////////////////////////////////////////////////
 
+	// Repository
+	/////////////////////////////////////////////////////////////////////
+
 	/**
 	 * Clone the repo into a release folder
 	 *
@@ -218,6 +221,22 @@ abstract class Task extends Bash
 		return $this->runForCurrentRelease($tasks);
 	}
 
+	// Shared folders
+	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Sync the requested folders and files
+	 *
+	 * @return void
+	 */
+	protected function syncSharedFolders()
+	{
+		$shared = (array) $this->rocketeer->getOption('remote.shared');
+		foreach ($shared as $file) {
+			$this->share($file);
+		}
+	}
+
 	/**
 	 * Update the current symlink
 	 *
@@ -261,6 +280,9 @@ abstract class Task extends Bash
 
 		return $this->symlink($sharedFile, $currentFile);
 	}
+
+	// Permissions
+	/////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Execute permissions actions on a file with the provided callback

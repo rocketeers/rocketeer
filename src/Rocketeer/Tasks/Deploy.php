@@ -122,19 +122,6 @@ class Deploy extends Task
 	}
 
 	/**
-	 * Sync the requested folders and files
-	 *
-	 * @return void
-	 */
-	protected function syncSharedFolders()
-	{
-		$shared = (array) $this->rocketeer->getOption('remote.shared');
-		foreach ($shared as $file) {
-			$this->share($file);
-		}
-	}
-
-	/**
 	 * Set permissions for the folders used by the application
 	 *
 	 * @return  void
