@@ -122,6 +122,8 @@ class Rocketeer
 	public function setStage($stage)
 	{
 		$this->stage = $stage;
+
+		$this->app['rocketeer.tasks']->registerConfiguredEvents();
 	}
 
 	/**

@@ -50,6 +50,13 @@ class TasksQueue
 	protected $output = array();
 
 	/**
+	 * The registered events
+	 *
+	 * @var array
+	 */
+	protected $events = array();
+
+	/**
 	 * Build a new TasksQueue Instance
 	 *
 	 * @param Container    $app
@@ -58,14 +65,7 @@ class TasksQueue
 	public function __construct(Container $app)
 	{
 		$this->app = $app;
-
-		// Register configured events
-		$hooks = $app['config']->get('rocketeer::hooks');
-		foreach ($hooks as $event => $tasks) {
-			foreach ($tasks as $task => $listeners) {
-				$this->addTaskListeners($task, $event, $listeners);
-			}
-		}
+		$this->registerConfiguredEvents();
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -359,13 +359,34 @@ class TasksQueue
 	////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Register with the Dispatcher the events in the configuration
+	 *
+	 * @return void
+	 */
+	public function registerConfiguredEvents()
+	{
+		// Clean previously registered events
+		foreach ($this->events as $event) {
+			$this->app['events']->forget('rocketeer.'.$event);
+		}
+
+		// Register new events
+		$hooks = (array) $this->app['rocketeer.rocketeer']->getOption('hooks');
+		foreach ($hooks as $event => $tasks) {
+			foreach ($tasks as $task => $listeners) {
+				$this->events[] = $this->addTaskListeners($task, $event, $listeners);
+			}
+		}
+	}
+
+	/**
 	 * Register listeners for a particular event
 	 *
 	 * @param string  $event
 	 * @param array   $listeners
 	 * @param integer $priority
 	 *
-	 * @return void
+	 * @return string
 	 */
 	public function listenTo($event, $listeners, $priority = 0)
 	{
@@ -376,6 +397,8 @@ class TasksQueue
 		foreach ($listeners as $listener) {
 			$this->app['events']->listen('rocketeer.'.$event, array($listener, 'execute'), $priority);
 		}
+
+		return $event;
 	}
 
 	/**
