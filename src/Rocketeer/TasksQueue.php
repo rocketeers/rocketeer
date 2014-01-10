@@ -59,8 +59,7 @@ class TasksQueue
 	/**
 	 * Build a new TasksQueue Instance
 	 *
-	 * @param Container    $app
-	 * @param Command|null $command
+	 * @param Container  $app
 	 */
 	public function __construct(Container $app)
 	{
@@ -191,8 +190,8 @@ class TasksQueue
 	/**
 	 * Run the queue
 	 *
-	 * Here we will actually process the queue to take into account the
-	 * various ways to hook into the queue : Tasks, Closures and Commands
+	 * Run an array of Tasks instances on the various
+	 * connections and stages provided
 	 *
 	 * @param  array   $tasks  An array of tasks
 	 *
@@ -200,6 +199,7 @@ class TasksQueue
 	 */
 	public function run(array $tasks)
 	{
+		// First we'll build the queue
 		$queue = $this->buildQueue($tasks);
 
 		// Get the connections to execute the tasks on
@@ -217,10 +217,10 @@ class TasksQueue
 			// Run the Tasks on each stage
 			if (!empty($stages)) {
 				foreach ($stages as $stage) {
-					$state = $this->runQueue($queue, $stage);
+					$this->runQueue($queue, $stage);
 				}
 			} else {
-				$state = $this->runQueue($queue);
+				$this->runQueue($queue);
 			}
 		}
 
@@ -254,9 +254,8 @@ class TasksQueue
 	/**
 	 * Build a queue from a list of tasks
 	 *
-	 * Here we will take the various Task names or actual Task instances
-	 * provided by the user, get the Tasks to execute before and after
-	 * each one, and flatten the whole thing into an actual queue
+	 * Here we will take the various Tasks names, closures and string tasks
+	 * and unify all of those to actual Task instances
 	 *
 	 * @param  array  $tasks
 	 *
@@ -264,31 +263,21 @@ class TasksQueue
 	 */
 	public function buildQueue(array $tasks)
 	{
-		$queue = array();
-		foreach ($tasks as $task) {
+		foreach ($tasks as &$task) {
 
-			// If we provided a Closure or a string command, add straight to queue
-			if ($task instanceof Closure or (is_string($task) and !class_exists($task))) {
-				$queue[] = $task;
-				continue;
+			// If we provided a Closure or a string command, build it
+			if ($task instanceof Closure or $this->isStringCommand($task)) {
+				$task = $this->buildTaskFromClosure($task);
 			}
 
-			// Else build class and add to queue
-			if (!($task instanceof Task)) {
+			// Build remaining tasks
+			if (!$task instanceof Task) {
 				$task = $this->buildTask($task);
 			}
 
-			$queue = array_merge($queue, array($task));
 		}
 
-		// Build the tasks provided as Closures/strings
-		foreach ($queue as &$task) {
-			if (!($task instanceof Task)) {
-				$task = $this->buildTaskFromClosure($task);
-			}
-		}
-
-		return $queue;
+		return $tasks;
 	}
 
 	/**
@@ -301,7 +290,8 @@ class TasksQueue
 	public function buildTaskFromClosure($task)
 	{
 		// If the User provided a string to execute
-		if (is_string($task) and !class_exists($task)) {
+		// We'll build a closure from it
+		if ($this->isStringCommand($task)) {
 			$stringTask = $task;
 			$closure = function ($task) use ($stringTask) {
 				return $task->runForCurrentRelease($stringTask);
@@ -312,17 +302,15 @@ class TasksQueue
 			$closure = $task;
 		}
 
-		// Build the ClosureTask
-		if (isset($closure)) {
-			$task = $this->buildTask('Rocketeer\Tasks\Closure');
-			$task->setClosure($closure);
-			if (isset($stringTask)) {
-				$task->setStringTask($stringTask);
-			}
-		}
+		// Now that we unified it all to a Closure, we build
+		// a Closure Task from there
+		$task = $this->buildTask('Rocketeer\Tasks\Closure');
+		$task->setClosure($closure);
 
-		if (!($task instanceof Task)) {
-			$task = $this->buildTask($task);
+		// If we had an original string used, store it on
+		// the task for easier reflection
+		if (isset($stringTask)) {
+			$task->setStringTask($stringTask);
 		}
 
 		return $task;
@@ -476,5 +464,21 @@ class TasksQueue
 		}
 
 		return $stage;
+	}
+
+	////////////////////////////////////////////////////////////////////
+	/////////////////////////////// HELPERS ////////////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Check if a string is a command or a task
+	 *
+	 * @param string $string
+	 *
+	 * @return boolean
+	 */
+	protected function isStringCommand($string)
+	{
+		return is_string($string) and !class_exists($string);
 	}
 }

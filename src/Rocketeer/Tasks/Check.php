@@ -33,6 +33,13 @@ class Check extends Task
 	protected $description = 'Check if the server is ready to receive the application';
 
 	/**
+	 * Whether the Task needs to be run on each stage or globally
+	 *
+	 * @var boolean
+	 */
+	public $usesStages = false;
+
+	/**
 	 * Run the Task
 	 *
 	 * @return  void
