@@ -260,6 +260,28 @@ class Rocketeer
 	}
 
 	/**
+	 * Sync Rocketeer's credentials with Laravel's
+	 *
+	 * @param string $connection
+	 * @param array  $credentials
+	 *
+	 * @return void
+	 */
+	public function syncConnectionCredentials($connection = null, array $credentials = array())
+	{
+		// Store credentials if any
+		if ($credentials) {
+			$this->app['rocketeer.server']->setValue('connections.'.$connection, $credentials);
+		}
+
+		// Get connection
+		$connection  = $connection ?: $this->getConnection();
+		$credentials = $this->getConnectionCredentials($connection);
+
+		$this->app['config']->set('remote.connections.'.$connection, $credentials);
+	}
+
+	/**
 	 * Set the active connections
 	 *
 	 * @param string|array $connections

@@ -188,6 +188,7 @@ class RocketeerServiceProvider extends ServiceProvider
 		});
 
 		$app['rocketeer.console']->setLaravel($app);
+		$app['rocketeer.rocketeer']->syncConnectionCredentials();
 
 		return $app;
 	}
