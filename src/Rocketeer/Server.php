@@ -80,7 +80,6 @@ class Server
 		$salt   = '';
 		$folder = $this->app['rocketeer.igniter']->getConfigurationPath();
 		$files  = glob($folder.'/*.php');
-		dd($files);
 
 		// Compute the salts
 		foreach ($files as $file) {

@@ -57,9 +57,12 @@ class Igniter
 	 */
 	public function getConfigurationPath()
 	{
-		$laravel = $this->app['path'].'/config/packages/anahkiasen/rocketeer';
-		if (file_exists($laravel)) {
-			return $laravel;
+		// Return path to Laravel configuration
+		if ($this->app->bound('path')) {
+			$laravel = $this->app['path'].'/config/packages/anahkiasen/rocketeer';
+			if (file_exists($laravel)) {
+				return $laravel;
+			}
 		}
 
 		return $this->app['path.rocketeer.config'];
