@@ -10,46 +10,22 @@
 namespace Rocketeer;
 
 use Illuminate\Console\Command;
-use Illuminate\Container\Container;
 use Illuminate\Support\Str;
+use Rocketeer\Traits\AbstractLocatorClass;
 
 /**
  * An helper to execute low-level commands on the remote server
  *
- * @property ReleasesManager              $releasesManager
- * @property Rocketeer                    $rocketeer
- * @property Server                       $server
- * @property Illuminate\Remote\Connection $remote
- * @property Traits\Scm                   $scm
- *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class Bash
+class Bash extends AbstractLocatorClass
 {
-	/**
-	 * The IoC Container
-	 *
-	 * @var Container
-	 */
-	protected $app;
-
 	/**
 	 * An history of executed commands
 	 *
 	 * @var array
 	 */
 	protected $history = array();
-
-	/**
-	 * Build a new Task
-	 *
-	 * @param Container    $app
-	 * @param Command|null $command
-	 */
-	public function __construct(Container $app)
-	{
-		$this->app = $app;
-	}
 
 	/**
 	 * Get the Task's history
@@ -59,46 +35,6 @@ class Bash
 	public function getHistory()
 	{
 		return $this->history;
-	}
-
-	////////////////////////////////////////////////////////////////////
-	///////////////////////////// DEPENDENCIES /////////////////////////
-	////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Get an instance from the Container
-	 *
-	 * @param  string $key
-	 *
-	 * @return object
-	 */
-	public function __get($key)
-	{
-		$shortcuts = array(
-			'releasesManager' => 'rocketeer.releases',
-			'server'          => 'rocketeer.server',
-			'rocketeer'       => 'rocketeer.rocketeer',
-			'scm'             => 'rocketeer.scm',
-			'command'         => 'rocketeer.command',
-		);
-
-		// Replace shortcuts
-		if (array_key_exists($key, $shortcuts)) {
-			$key = $shortcuts[$key];
-		}
-
-		return $this->app[$key];
-	}
-
-	/**
-	 * Set an instance on the Container
-	 *
-	 * @param string $key
-	 * @param object $value
-	 */
-	public function __set($key, $value)
-	{
-		$this->app[$key] = $value;
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -185,6 +121,19 @@ class Bash
 	}
 
 	/**
+	 * Run commands silently
+	 *
+	 * @param string|array  $commands
+	 * @param boolean       $array
+	 *
+	 * @return string
+	 */
+	public function runSilently($commands, $array = false)
+	{
+		return $this->run($commands, true, $array);
+	}
+
+	/**
 	 * Run commands in a folder
 	 *
 	 * @param  string        $folder
@@ -267,48 +216,44 @@ class Bash
 	/**
 	 * Get a binary
 	 *
-	 * @param  string $binary       The name of the binary
-	 * @param  string $fallback     A fallback location
+	 * @param  string $binary    The name of the binary
+	 * @param  string $fallback  A fallback location
 	 *
 	 * @return string
 	 */
 	public function which($binary, $fallback = null)
 	{
-		// Get prompted path if any was set
-		$custom = 'paths.'.$binary;
-		if ($location = $this->server->getValue($custom)) {
-			return $location;
-		}
+		$location  = false;
+		$locations = array(
+			array($this->server,    'getValue',    'paths.'.$binary),
+			array($this->rocketeer, 'getPath',     $binary),
+			array($this,            'runSilently', 'which '.$binary),
+		);
 
-		// Get custom path if any was set
-		if ($location = $this->rocketeer->getPath($binary)) {
-			return $location;
-		}
-
-		// Else ask the server where the binary is
-		$location = $this->run('which '.$binary, true);
-		if ($location and $this->fileExists($location)) {
-			return $location;
-		}
-
-		// Else use the fallback path
+		// Add fallback if provided
 		if ($fallback) {
-			$location = $this->run('which '.$fallback, true);
-			if ($location and $this->fileExists($location)) {
-				return $location;
-			}
+			$locations[] = array($this, 'runSilently', 'which '.$fallback);
 		}
 
-		// Else prompt the User for the actual path
+		// Add command prompt if possible
 		if ($this->app->bound('rocketeer.command')) {
-			$location = $this->command->ask($binary. ' could not be found, please enter the path to it');
-			if ($location) {
-				$this->server->setValue($custom, $location);
-				return $location;
-			}
+			$prompt      = $binary. ' could not be found, please enter the path to it';
+			$locations[] = array($this->command, 'ask', $prompt);
 		}
 
-		return false;
+		// Look in all the locations
+		$tryout = 0;
+		while (!$location and array_key_exists($tryout, $locations)) {
+			list($object, $method, $argument) = $locations[$tryout];
+
+			$location = $object->$method($argument);
+			$tryout++;
+		}
+
+		// Store found location
+		$this->server->setValue('paths.'.$binary, $location);
+
+		return $location ?: false;
 	}
 
 	////////////////////////////////////////////////////////////////////
