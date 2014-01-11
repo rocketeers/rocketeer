@@ -58,20 +58,16 @@ class Bash extends AbstractLocatorClass
 
 		// Log the commands for pretend
 		if ($this->getOption('pretend') and !$silent) {
-			$this->command->line(implode(PHP_EOL, $commands));
-			$commands = (sizeof($commands) == 1) ? $commands[0] : $commands;
-			$this->history[] = $commands;
-
-			return $commands;
+			return $this->addCommandsToHistory($commands);
 		}
 
 		// Run commands
-		$bash = $this;
-		$this->remote->run($commands, function ($results) use (&$output, $verbose, $bash) {
+		$me = $this;
+		$this->remote->run($commands, function ($results) use (&$output, $verbose, $me) {
 			$output .= $results;
 
 			if ($verbose) {
-				$bash->remote->display(trim($results));
+				$me->remote->display(trim($results));
 			}
 		});
 
@@ -104,7 +100,7 @@ class Bash extends AbstractLocatorClass
 	 */
 	public function runRaw($commands, $array = false)
 	{
-		$output  = null;
+		$output = null;
 
 		// Run commands
 		$this->remote->run($commands, function ($results) use (&$output) {
@@ -369,6 +365,20 @@ class Bash extends AbstractLocatorClass
 	protected function getOption($option)
 	{
 		return $this->command ? $this->command->option($option) : null;
+	}
+
+	/**
+	 * Add an array/command to the history
+	 *
+	 * @param string|array $commands
+	 */
+	protected function addCommandsToHistory($commands)
+	{
+		$this->command->line(implode(PHP_EOL, $commands));
+		$commands = (sizeof($commands) == 1) ? $commands[0] : $commands;
+		$this->history[] = $commands;
+
+		return $commands;
 	}
 
 	/**
