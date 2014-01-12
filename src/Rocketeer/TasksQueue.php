@@ -427,8 +427,8 @@ class TasksQueue extends AbstractLocatorClass
 		// Flatten the queue if requested
 		foreach ($events as $key => $event) {
 			$task = $event[0];
-			if ($flatten and $task instanceof Tasks\Closure) {
-				$events[$key] = $task->getStringTask();
+			if ($flatten and $task instanceof Tasks\Closure and $stringTask = $task->getStringTask()) {
+				$events[$key] = $stringTask;
 			}
 		}
 
