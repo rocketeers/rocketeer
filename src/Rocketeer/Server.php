@@ -253,10 +253,6 @@ class Server
 	 */
 	public function updateRepository($data)
 	{
-		if (!file_exists($this->repository)) {
-			return $data;
-		}
-
 		$this->app['files']->put($this->repository, json_encode($data));
 
 		return $data;
