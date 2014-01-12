@@ -14,10 +14,10 @@
 	// and store them locally
 	'connections' => array(
 		'production' => array(
-			'host'      => '',
+			'host'      => 'autopergamene.eu',
 			'username'  => '',
 			'password'  => '',
-			'key'       => '',
+			'key'       => '/Users/anahkiasen/.ssh/id_rsa',
 			'keyphrase' => '',
 		),
 	),
