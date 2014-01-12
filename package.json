@@ -1,20 +1,25 @@
 {
-  "name": "quickvox",
-  "dependencies": {
-    "grunt": "*",
-    "grunt-cli": "*",
-    "grunt-bower-task": "*",
-    "grunt-contrib-clean": "*",
-    "grunt-contrib-compass": "*",
-    "grunt-contrib-concat": "*",
-    "grunt-contrib-copy": "*",
-    "grunt-contrib-csslint": "*",
-    "grunt-contrib-cssmin": "*",
-    "grunt-contrib-jshint": "*",
-    "grunt-contrib-uglify": "*",
-    "grunt-contrib-watch": "*",
-    "grunt-shell": "*",
-    "grunt-markdown": "~0.4.0",
-    "grunt-prettify": "~0.3.3"
-  }
+	"name": "rocketeer",
+	"dependencies": {
+		"bower": "*",
+		"grunt": "*",
+		"grunt-cli": "*",
+		"glob": "*"
+	},
+	"devDependencies": {
+		"grunt-bower-task": "*",
+		"grunt-contrib-clean": "*",
+		"grunt-contrib-compass": "*",
+		"grunt-contrib-concat": "*",
+		"grunt-contrib-copy": "*",
+		"grunt-contrib-csslint": "*",
+		"grunt-contrib-cssmin": "*",
+		"grunt-contrib-jshint": "*",
+		"grunt-contrib-uglify": "*",
+		"grunt-contrib-watch": "*",
+		"grunt-shell": "*",
+		"grunt-markdown": "~0.4.0",
+		"grunt-prettify": "~0.3.3",
+		"load-grunt-tasks": "*"
+	}
 }
