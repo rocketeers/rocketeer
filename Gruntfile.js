@@ -79,6 +79,11 @@ module.exports = function(grunt) {
 		'uglify',
 	]);
 
+	grunt.registerTask('images', 'Recompress images', [
+		'svgmin',
+		'tinypng',
+	]);
+
 	// By filetype
 	////////////////////////////////////////////////////////////////////
 

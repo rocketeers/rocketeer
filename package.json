@@ -17,9 +17,11 @@
 		"grunt-contrib-jshint": "*",
 		"grunt-contrib-uglify": "*",
 		"grunt-contrib-watch": "*",
-		"grunt-shell": "*",
 		"grunt-markdown": "~0.4.0",
 		"grunt-prettify": "~0.3.3",
+		"grunt-shell": "*",
+		"grunt-svgmin": "*",
+		"grunt-tinypng": "*",
 		"load-grunt-tasks": "*"
 	}
 }
