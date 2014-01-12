@@ -123,7 +123,10 @@ class Rocketeer
 	{
 		$this->stage = $stage;
 
-		$this->app['rocketeer.tasks']->registerConfiguredEvents();
+		// If we do have a stage, cleanup previous events
+		if ($stage) {
+			$this->app['rocketeer.tasks']->registerConfiguredEvents();
+		}
 	}
 
 	/**
