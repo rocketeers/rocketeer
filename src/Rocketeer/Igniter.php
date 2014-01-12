@@ -123,19 +123,7 @@ class Igniter
 			return;
 		}
 
-		// Get the root directory
-		$root = __DIR__.'/../..';
-
-		// Replace phar components to allow file checks
-		if (strpos(__DIR__, 'phar://') !== false) {
-			$root = str_replace('phar://', null, __DIR__);
-			$root = preg_replace('#/rocketeer(\.phar)?/src.+#', null, $root);
-		}
-
-		// Compute path
-		$root = stream_resolve_include_path($root) ?: $root;
-
-		$this->app->instance('path.base', $root);
+		$this->app->instance('path.base', getcwd());
 	}
 
 	/**
