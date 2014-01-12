@@ -155,7 +155,7 @@ class TasksQueueTest extends RocketeerTestCase
 	public function testCanRunQueueOnDifferentConnectionsAndStages()
 	{
 		$this->swapConfig(array(
-			'rocketeer::default'   => array('staging', 'production'),
+			'rocketeer::default'       => array('staging', 'production'),
 			'rocketeer::stages.stages' => array('first', 'second'),
 		));
 
@@ -221,5 +221,19 @@ class TasksQueueTest extends RocketeerTestCase
 
 		$listeners = $this->tasksQueue()->getTasksListeners('deploy', 'before', true);
 		$this->assertEquals(array('before', 'foobar', 'first', 'second'), $listeners);
+	}
+
+	public function testCanExecuteContextualEvents()
+	{
+		$this->swapConfig(array(
+			'rocketeer::stages.stages'            => array('hasEvent', 'noEvent'),
+			'rocketeer::on.stages.hasEvent.hooks' => array('before' => array('check' => 'ls')),
+		));
+
+		$this->app['rocketeer.rocketeer']->setStage('hasEvent');
+		$this->assertEquals(array('ls'), $this->tasksQueue()->getTasksListeners('check', 'before', true));
+
+		$this->app['rocketeer.rocketeer']->setStage('noEvent');
+		$this->assertEquals(array(), $this->tasksQueue()->getTasksListeners('check', 'before', true));
 	}
 }
