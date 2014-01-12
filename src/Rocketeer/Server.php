@@ -253,7 +253,7 @@ class Server
 	 */
 	public function updateRepository($data)
 	{
-		$this->app['files']->put($this->repository, json_encode($data));
+		@$this->app['files']->put($this->repository, json_encode($data));
 
 		return $data;
 	}
