@@ -232,7 +232,7 @@ class Bash extends AbstractLocatorClass
 		}
 
 		// Add command prompt if possible
-		if ($this->app->bound('rocketeer.command')) {
+		if ($this->hasCommand()) {
 			$prompt      = $binary. ' could not be found, please enter the path to it';
 			$locations[] = array($this->command, 'ask', $prompt);
 		}
@@ -364,7 +364,7 @@ class Bash extends AbstractLocatorClass
 	 */
 	protected function getOption($option)
 	{
-		return $this->command ? $this->command->option($option) : null;
+		return $this->hasCommand() ? $this->command->option($option) : null;
 	}
 
 	/**

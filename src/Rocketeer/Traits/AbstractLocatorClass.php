@@ -58,6 +58,7 @@ abstract class AbstractLocatorClass
 			'rocketeer'       => 'rocketeer.rocketeer',
 			'scm'             => 'rocketeer.scm',
 			'command'         => 'rocketeer.command',
+			'console'         => 'rocketeer.console',
 		);
 
 		// Replace shortcuts
@@ -77,5 +78,15 @@ abstract class AbstractLocatorClass
 	public function __set($key, $value)
 	{
 		$this->app[$key] = $value;
+	}
+
+	/**
+	 * Check if the current instance has a Command bound
+	 *
+	 * @return boolean
+	 */
+	protected function hasCommand()
+	{
+		return $this->app->bound('rocketeer.command');
 	}
 }

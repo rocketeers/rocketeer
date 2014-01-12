@@ -12,6 +12,7 @@ namespace Rocketeer;
 use Closure;
 use Illuminate\Container\Container;
 use Rocketeer\Commands\BaseTaskCommand;
+use Rocketeer\Traits\AbstractLocatorClass;
 use Rocketeer\Traits\Task;
 
 /**
@@ -19,15 +20,8 @@ use Rocketeer\Traits\Task;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class TasksQueue
+class TasksQueue extends AbstractLocatorClass
 {
-	/**
-	 * The IoC Container
-	 *
-	 * @var Container
-	 */
-	protected $app;
-
 	/**
 	 * A list of Tasks to execute
 	 *
@@ -54,7 +48,7 @@ class TasksQueue
 	 *
 	 * @var array
 	 */
-	protected $events = array();
+	protected $registeredEvents = array();
 
 	/**
 	 * Build a new TasksQueue Instance
@@ -85,7 +79,7 @@ class TasksQueue
 			$task = $this->buildTask($task);
 		}
 
-		$bound = $this->app['rocketeer.console']->add(new BaseTaskCommand($task));
+		$bound = $this->console->add(new BaseTaskCommand($task));
 
 		// Bind to Artisan too
 		if ($this->app->bound('artisan')) {
@@ -134,7 +128,7 @@ class TasksQueue
 	public function execute($queue, $connections = null)
 	{
 		if ($connections) {
-			$this->app['rocketeer.rocketeer']->setConnections($connections);
+			$this->rocketeer->setConnections($connections);
 		}
 
 		$queue = (array) $queue;
@@ -171,9 +165,9 @@ class TasksQueue
 		$vendor = $plugin->getNamespace();
 
 		// Register configuration
-		$this->app['config']->package('rocketeer/'.$vendor, $plugin->configurationFolder);
+		$this->config->package('rocketeer/'.$vendor, $plugin->configurationFolder);
 		if ($configuration) {
-			$this->app['config']->set($vendor.'::config', $configuration);
+			$this->config->set($vendor.'::config', $configuration);
 		}
 
 		// Bind instances
@@ -203,13 +197,13 @@ class TasksQueue
 		$queue = $this->buildQueue($tasks);
 
 		// Get the connections to execute the tasks on
-		$connections = (array) $this->app['rocketeer.rocketeer']->getConnections();
+		$connections = (array) $this->rocketeer->getConnections();
 		foreach ($connections as $connection) {
-			$this->app['rocketeer.rocketeer']->setConnection($connection);
+			$this->rocketeer->setConnection($connection);
 
 			// Check if we provided a stage
 			$stage  = $this->getStage();
-			$stages = $this->app['rocketeer.rocketeer']->getStages();
+			$stages = $this->rocketeer->getStages();
 			if ($stage and in_array($stage, $stages)) {
 				$stages = array($stage);
 			}
@@ -239,7 +233,7 @@ class TasksQueue
 	{
 		foreach ($tasks as $task) {
 			$currentStage = $task->usesStages() ? $stage : null;
-			$this->app['rocketeer.rocketeer']->setStage($currentStage);
+			$this->rocketeer->setStage($currentStage);
 
 			$state = $task->fire();
 			$this->output[] = $state;
@@ -354,15 +348,15 @@ class TasksQueue
 	public function registerConfiguredEvents()
 	{
 		// Clean previously registered events
-		foreach ($this->events as $event) {
-			$this->app['events']->forget('rocketeer.'.$event);
+		foreach ($this->registeredEvents as $event) {
+			$this->events->forget('rocketeer.'.$event);
 		}
 
 		// Register new events
-		$hooks = (array) $this->app['rocketeer.rocketeer']->getOption('hooks');
+		$hooks = (array) $this->rocketeer->getOption('hooks');
 		foreach ($hooks as $event => $tasks) {
 			foreach ($tasks as $task => $listeners) {
-				$this->events[] = $this->addTaskListeners($task, $event, $listeners);
+				$this->registeredEvents[] = $this->addTaskListeners($task, $event, $listeners);
 			}
 		}
 	}
@@ -383,7 +377,7 @@ class TasksQueue
 
 		// Register events
 		foreach ($listeners as $listener) {
-			$this->app['events']->listen('rocketeer.'.$event, array($listener, 'execute'), $priority);
+			$this->events->listen('rocketeer.'.$event, array($listener, 'execute'), $priority);
 		}
 
 		return $event;
@@ -428,7 +422,7 @@ class TasksQueue
 	{
 		// Get events
 		$task   = $this->buildTask($task)->getSlug();
-		$events = $this->app['events']->getListeners('rocketeer.'.$task.'.'.$event);
+		$events = $this->events->getListeners('rocketeer.'.$task.'.'.$event);
 
 		// Flatten the queue if requested
 		foreach ($events as $key => $event) {
@@ -453,9 +447,9 @@ class TasksQueue
 	 */
 	protected function getStage()
 	{
-		$stage = $this->app['rocketeer.rocketeer']->getOption('stages.default');
-		if ($this->app->bound('rocketeer.command')) {
-			$stage = $this->app['rocketeer.command']->option('stage') ?: $stage;
+		$stage = $this->rocketeer->getOption('stages.default');
+		if ($this->hasCommand()) {
+			$stage = $this->command->option('stage') ?: $stage;
 		}
 
 		// Return all stages if "all"
