@@ -2,7 +2,7 @@ module.exports = {
 	deploy: {
 		command: [
 			'git push',
-			'php versions/rocketeer.phar deploy --verbose'
+			'php rocketer/bin/rocketeer deploy --verbose'
 		].join('&&')
 	},
 
