@@ -122,7 +122,7 @@ abstract class Task extends Bash
 	 */
 	public function isSetup()
 	{
-		return strlen($this->releasesManager->getCurrentRelease()) === 14;
+		return $this->fileExists($this->rocketeer->getFolder('current'));
 	}
 
 	/**
