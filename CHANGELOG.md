@@ -9,8 +9,12 @@
 - **Rocketeer hooks now use `illuminate/event` system, and can fire events during tasks (instead of just before and after)**
 - **Permissions setting is now set in a callback to allow custom permissions routines**
 - Rocketeer now looks into `~/.ssh` by default for keys instead of asking
+- Added the `--clean-all` flag to the `Cleanup` task to prune all but the latest release
+- Deployments file is now cleared when the config files are changed
+- Added an option to disable shallow clone as it caused some problems on some servers
 - Fixed a bug where `CurrentRelease` wouldn't show any release with an empty/fresh deployments file
 - Fix some multiconnections related bugs
+- Fixed some minor behaviors that were causing `--pretend` and/or `--verbose` to not output SCM commands
 
 ### 0.9.0
 
