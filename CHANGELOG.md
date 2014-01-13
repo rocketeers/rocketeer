@@ -4,13 +4,12 @@
 
 **Note : Configuration is now split in multiple files, you'll need to redeploy the configuration files**
 
-- **Rocketeer is now available as a standalone PHAR**
+- **Rocketeer is now available as a [standalone PHAR](http://rocketeer.autopergamene.eu/versions/rocketeer.phar)**
 - **Revamped plugin system**
 - **Rocketeer hooks now use `illuminate/event` system, and can fire events during tasks (instead of just before and after)**
 - **Permissions setting is now set in a callback to allow custom permissions routines**
 - Rocketeer now looks into `~/.ssh` by default for keys instead of asking
 - Fixed a bug where `CurrentRelease` wouldn't show any release with an empty/fresh deployments file
-- Renamed `apache` options in configuration file to `webuser`
 - Fix some multiconnections related bugs
 
 ### 0.9.0
