@@ -1,0 +1,21 @@
+// Code
+//
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+
+pre {
+	padding: .75rem;
+
+	@include breakpoint(max-width $tablet) {
+		line-height: 1.2;
+		code {
+			font-size: 0.75rem;
+		}
+	}
+}
+
+code {
+	background-color: hsl(190, 40%, 70%);
+	color: white;
+	font-size: 0.80em;
+}

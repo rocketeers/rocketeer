@@ -7,7 +7,7 @@ module.exports = {
 		outputStyle        : 'nested',
 		noLineComments     : true,
 		relativeAssets     : true,
-		require            : ['susy', 'breakpoint'],
+		require            : ['susy', 'sass-globbing', 'breakpoint'],
 	},
 
 	/**

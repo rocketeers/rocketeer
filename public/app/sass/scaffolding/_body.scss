@@ -1,0 +1,20 @@
+// Body
+//
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+
+@include establish-baseline(16px);
+@include breakpoint(max-width $tablet) {
+	@include establish-baseline(14px);
+}
+
+body, html {
+	@extend %reset-margins;
+	font-family: $font-sans;
+	line-height: $line-height;
+}
+
+body {
+	background-color: #ECF0F1;
+	color: #7F8C8D;
+}
