@@ -68,8 +68,9 @@ body {
   -moz-box-shadow: inset 0 -1rem 0 0 rgba(0, 0, 0, 0.25);
   -webkit-box-shadow: inset 0 -1rem 0 0 rgba(0, 0, 0, 0.25);
   box-shadow: inset 0 -1rem 0 0 rgba(0, 0, 0, 0.25);
-  background: white url('../img/header.jpg?1386080894') fixed no-repeat;
+  background: white url('../img/header.jpg?1390079255') fixed no-repeat;
   background-size: cover;
+  background-position: center center;
   padding: 11rem 0;
   text-align: center; }
   .layout-header h1 {
@@ -104,18 +105,15 @@ body {
 
 .layout-container {
   *zoom: 1;
-  max-width: 59em;
-  _width: 59em;
-  padding-left: 1em;
-  padding-right: 1em;
+  max-width: 100%;
   margin-left: auto;
   margin-right: auto;
   padding: 2rem 0 1rem;
   padding-top: 0;
   width: 100%; }
   .layout-container:after {
-    content: "";
-    display: table;
+    content: " ";
+    display: block;
     clear: both; }
   @media (max-width: 50em) {
     .layout-container {
