@@ -26,9 +26,9 @@ module.exports = function(grunt) {
 	////////////////////////////////////////////////////////////////////
 
 	var config = {
-		app        : 'assets',
-		builds     : 'assets/compiled',
-		components : 'bower_components',
+		app        : 'public/app',
+		builds     : 'public/builds',
+		components : 'public/components',
 
 		paths: {
 			original: {

@@ -1,9 +1,9 @@
 {
   "name": "Rocketeer",
   "dependencies": {
-  	"bootstrap": "latest",
-    "marked": "latest",
-    "jquery": "latest",
-    "rainbow": "https://github.com/ccampbell/rainbow.git#master"
+  	"bootstrap": "~3.0.3",
+    "marked": "~0.3.0",
+    "jquery": "~2.0.3",
+    "rainbow": "#master"
   }
 }

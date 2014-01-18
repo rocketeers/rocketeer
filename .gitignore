@@ -1,16 +1,13 @@
 # Cache and compiled
 .sass-cache
-assets/compiled
+public/builds
 contents.md
 index.html
 
 # Dependencies
-bower_components
+public/components
 node_modules
 vendor
-
-# Configuration
-rocketeer.php
 
 # Phars
 versions

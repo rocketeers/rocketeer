@@ -2,7 +2,13 @@ module.exports = {
 	md: {
 		files: {
 			'contents.md': [
-				'rocketeer/README.md', "wiki/Whats-Rocketeer.md", 'wiki/Getting-started.md', 'wiki/Tasks.md', 'wiki/Events.md', 'wiki/Plugins.md',
+				'rocketeer/README.md',
+				'wiki/I-Introduction/Whats-Rocketeer.md',
+				'wiki/I-Introduction/Getting-started.md',
+				'wiki/II-Concepts/Tasks.md',
+				'wiki/II-Concepts/Connections-Stages.md',
+				'wiki/II-Concepts/Events.md',
+				'wiki/II-Concepts/Plugins.md',
 			],
 		},
 		options: {

@@ -2,7 +2,7 @@ module.exports = {
 	options: {
 		apiKey       : 'Dwy-_pMBk4LwxsuPBVSZn1sU9cAIxcUP',
 		checkSigs    : true,
-		sigFile      : 'config/sigfile.json',
+		sigFile      : '.grunt/sigfile.json',
 		summarize    : true,
 		showProgress : true
 	},
