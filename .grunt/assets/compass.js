@@ -1,6 +1,6 @@
 module.exports = {
 	options: {
-		appDir             : "assets/",
+		appDir             : "<%= app %>/",
 		cssDir             : "css",
 		generatedImagesDir : "img/sprite/generated",
 		imagesDir          : "img",

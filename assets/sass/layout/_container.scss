@@ -50,7 +50,7 @@ $inner-padding: 2rem;
 				color: lighten(#2488C9, 15);
 			}
 			&, p, li {
-				> code {
+				& > code {
 					background-color: darken(#2B3E51, 15);
 					color: white;
 				}

@@ -18,6 +18,7 @@
 		"grunt-contrib-uglify": "*",
 		"grunt-contrib-watch": "*",
 		"grunt-markdown": "*",
+		"grunt-csscss": "*",
 		"grunt-prettify": "*",
 		"grunt-shell": "*",
 		"grunt-svgmin": "*",

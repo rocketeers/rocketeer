@@ -46,7 +46,7 @@ module.exports = function(grunt) {
 	};
 
 	// Load all tasks
-	loadConfig('./grunt/');
+	loadConfig('./.grunt/');
 	grunt.initConfig(config);
 
 	////////////////////////////////////////////////////////////////////
