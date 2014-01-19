@@ -59,6 +59,7 @@ module.exports = function(grunt) {
 	]);
 
 	grunt.registerTask('production', 'Build assets for production', [
+		'clean',
 		'replace',
 		'md',
 		'copy',
