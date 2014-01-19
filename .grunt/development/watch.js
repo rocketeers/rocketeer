@@ -5,11 +5,11 @@ module.exports = {
 	},
 
 	grunt: {
-		files: 'Gruntfile.js',
+		files: ['Gruntfile.js', '.grunt/**/*'],
 		tasks: 'default',
 	},
 	markdown: {
-		files: ['wiki/*.md', 'rocketeer/README.md'],
+		files: ['index.template.html', 'wiki/*.md', 'rocketeer/README.md'],
 		tasks: 'md',
 	},
 	scripts: {

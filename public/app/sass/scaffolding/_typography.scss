@@ -45,3 +45,11 @@ a {
 ul {
 	list-style-type: square;
 }
+
+p, ul {
+	font-size: 1.1rem;
+	line-height: 1.4;
+	margin: 1rem 0;
+	padding: 0;
+	font-weight: 300;
+}

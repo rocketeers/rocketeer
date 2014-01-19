@@ -5,30 +5,40 @@
 // Fonts
 //////////////////////////////////////////////////////////////////////
 
-$font-sans    : "Lato", Helvetica, Arial, sans-serif;
-
-$line-height  : 1.25;
+$font-sans   : "Lato", Helvetica, Arial, sans-serif;
+$line-height : 1.25;
 
 // Colors
 //////////////////////////////////////////////////////////////////////
 
-$color-base   : #34495E;
-$color-accent : darken($color-base, 10);
+$swatch: (
+	"cello"    : hsl(210, 29%, 29%),
+	"solitude" : hsl(192, 15%, 94%),
+	"oslo"     : hsl(184, 6%, 53%),
+);
+
+$color-base    : color("cello");
+$color-accent  : darken($color-base, 10);
 
 // Breakpoints
 //////////////////////////////////////////////////////////////////////
 
-$wider        : 90em;
-$wide         : 75em;
-$desktop      : 60em;
-$tablet       : 50em;
-$mobile       : 30em;
-$mini         : 20em;
+$wider   : 90em;
+$wide    : 75em;
+$desktop : 60em;
+$tablet  : 50em;
+$mobile  : 30em;
+$mini    : 20em;
+
+// Layout
+//////////////////////////////////////////////////////////////////////
+
+$sidebar-width : 2;
 
 // Susy
 //////////////////////////////////////////////////////////////////////
 
 $susy: (
-	"show-grids" : hide,
-	"columns"    : 12,
+	"columns" : 12,
+	"gutters": 0,
 );

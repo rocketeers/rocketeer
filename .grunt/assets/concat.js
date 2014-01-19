@@ -19,7 +19,7 @@ module.exports = {
 		files: {
 			'<%= paths.compiled.css %>/styles.css': [
 				'<%= components %>/bootstrap/dist/css/bootstrap.min.css',
-				'<%= components %>/rainbow/themes/obsidian.css',
+				'<%= components %>/rainbow/themes/tomorrow-night.css',
 				'<%= paths.original.css %>/*'
 			],
 		},
@@ -32,8 +32,9 @@ module.exports = {
 				'<%= components %>/rainbow/js/rainbow.js',
 				'<%= components %>/rainbow/js/language/generic.js',
 				'<%= components %>/rainbow/js/language/php.js',
+				'<%= components %>/toc/dist/jquery.toc.js',
 
-				'<%= paths.original.js %>/*',
+				'<%= paths.original.js %>/**/*.js',
 			],
 		},
 	}

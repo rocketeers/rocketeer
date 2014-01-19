@@ -1,0 +1,51 @@
+// Sidebar
+//
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+
+.layout-sidebar {
+	@include span($sidebar-width);
+	float: none;
+	display: table-cell;
+	padding: 2rem;
+	background-color: color("cello");
+	vertical-align: top;
+
+	a {
+		color: white;
+		font-weight: 400;
+	}
+
+	ul {
+		list-style-type: none;
+		margin: 0;
+	}
+	li {
+		margin: 0;
+		padding: 0.15rem 0.5rem;
+
+		&:hover {
+			background-color: darken(color("cello"), 15);
+		}
+	}
+	a:hover {
+		text-decoration: none;
+	}
+
+	$spacing: 0.6rem;
+	.toc-h1 {
+		border-left: 3px solid color("oslo");
+	}
+	.toc-h2 {
+		padding-left: $spacing * 2;
+		font-size: 1rem;
+	}
+	.toc-h3 {
+		padding-left: $spacing * 3;
+		font-size: 0.9rem;
+	}
+	.toc-h3 {
+		padding-left: $spacing * 4;
+		font-size: 0.8rem;
+	}
+}

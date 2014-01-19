@@ -1,22 +1,21 @@
 // Container
 //
 //////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
 
-.layout-buttons {
-	@extend %reset-margins;
-	background-color: white;
-	margin: 1rem auto;
-	padding: 1rem 0;
-	text-align: center;
+.layout-container {
+	@include container;
+	display: table;
 }
 
 $inner-padding: 2rem;
 
-.layout-container {
-	@include container;
+.layout-content {
+	@include span((12 - $sidebar-width) omega);
+	float: none;
+	display: table-cell;
 	padding: 2rem 0 1rem;
 	padding-top: 0;
-	width: 100%;
 
 	@include breakpoint(max-width $tablet) {
 		width: 95%;
@@ -24,9 +23,9 @@ $inner-padding: 2rem;
 
 	section {
 		@extend %reset-margins;
-		padding: 2rem 20%;
+		padding: 2rem 10%;
 
-		h1:first-child {
+		h1:first-of-type {
 			width: 100%;
 			@extend %reset-margins;
 			@include box-sizing(content-box);
@@ -41,7 +40,8 @@ $inner-padding: 2rem;
 		}
 
 		&:nth-child(2n) {
-			background-color: #2A3D52;
+			$color: darken($color-base, 5);
+			background-color: $color;
 
 			&, h1:first-child, a {
 				color: lighten(black, 90);
@@ -51,7 +51,7 @@ $inner-padding: 2rem;
 			}
 			&, p, li {
 				& > code {
-					background-color: darken(#2B3E51, 15);
+					background-color: darken($color, 15);
 					color: white;
 				}
 			}
@@ -63,14 +63,6 @@ $inner-padding: 2rem;
 
 	hr {
 		border-color: #7F8C8D;
-	}
-
-	p, ul {
-		font-size: 1.1rem;
-		line-height: 1.4;
-		margin: 1rem 0;
-		padding: 0;
-		font-weight: 300;
 	}
 
 	@include breakpoint(max-width $tablet) {

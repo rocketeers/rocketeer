@@ -1,6 +1,7 @@
 // Header
 //
 //////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
 
 .layout-header {
 	@include transition(padding .3s);
@@ -44,4 +45,12 @@
 	@include breakpoint($desktop $wide) {
 		padding: 7rem 0;
 	}
+}
+
+.layout-buttons {
+	@extend %reset-margins;
+	background-color: white;
+	margin: 1rem auto 0;
+	padding: 1rem 0;
+	text-align: center;
 }
