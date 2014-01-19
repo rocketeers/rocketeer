@@ -34,7 +34,7 @@
 		// You can pass paths in brackets, so {path.public} will return
 		// the correct path to the public folder
 		'files' => array(
-			'assets',
+			'public',
 		),
 
 		// Here you can configure what actions will be executed to set
