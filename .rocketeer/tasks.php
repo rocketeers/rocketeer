@@ -1,7 +1,7 @@
 <?php
 use Rocketeer\Facades\Rocketeer;
 
-Rocketeer::after('deploy', function ($task) {
+Rocketeer::after(['update', 'deploy'], function ($task) {
 	$task->command->comment('Installing components');
 	$task->runForCurrentRelease(['bower install --allow-root', 'npm install']);
 

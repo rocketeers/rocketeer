@@ -23,6 +23,7 @@
 		"grunt-shell": "*",
 		"grunt-svgmin": "*",
 		"grunt-tinypng": "*",
-		"load-grunt-tasks": "*"
+		"load-grunt-tasks": "*",
+		"grunt-text-replace": "*"
 	}
 }
