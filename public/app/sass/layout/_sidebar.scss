@@ -4,17 +4,32 @@
 //////////////////////////////////////////////////////////////////////
 
 .layout-sidebar {
-	@include span($sidebar-width);
-	float: none;
+	width: 26em;
 	display: table-cell;
-	padding: 2rem;
-	background-color: color("cello");
 	vertical-align: top;
+
+	padding: 2rem;
+
+	background-color: color("cello");
+
+	@include breakpoint(max-width $desktop) {
+		display: none;
+	}
+
+	// Links
+	////////////////////////////////////////////////////////////////////
 
 	a {
 		color: white;
 		font-weight: 400;
+
+		&:hover {
+			text-decoration: none;
+		}
 	}
+
+	// List
+	////////////////////////////////////////////////////////////////////
 
 	ul {
 		list-style-type: none;
@@ -28,9 +43,9 @@
 			background-color: darken(color("cello"), 15);
 		}
 	}
-	a:hover {
-		text-decoration: none;
-	}
+
+	// Titles
+	////////////////////////////////////////////////////////////////////
 
 	$spacing: 0.6rem;
 	.toc-h1 {

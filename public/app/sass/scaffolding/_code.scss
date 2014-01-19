@@ -5,6 +5,7 @@
 
 pre {
 	padding: .75rem;
+	border: none;
 
 	@include breakpoint(max-width $tablet) {
 		line-height: 1.2;
@@ -15,7 +16,7 @@ pre {
 }
 
 code {
-	background-color: hsl(190, 40%, 70%);
+	background-color: hsl(210, 30%, 70%);
 	color: white;
 	font-size: 0.80em;
 }

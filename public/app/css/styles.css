@@ -19,7 +19,8 @@ body {
   color: #808d8e; }
 
 pre {
-  padding: .75rem; }
+  padding: .75rem;
+  border: none; }
   @media (max-width: 50em) {
     pre {
       line-height: 1.2; }
@@ -27,7 +28,7 @@ pre {
         font-size: 0.75rem; } }
 
 code {
-  background-color: #94c7d1;
+  background-color: #9cb2c9;
   color: white;
   font-size: 0.80em; }
 
@@ -49,6 +50,9 @@ h3 {
 
 h4 {
   color: #22303f; }
+
+hr {
+  border-color: #808d8e; }
 
 p {
   text-align: justify; }
@@ -79,15 +83,10 @@ p, ul {
     clear: both; }
 
 .layout-content {
-  width: 83.33333%;
-  float: right;
-  float: none;
   display: table-cell;
   padding: 2rem 0 1rem;
-  padding-top: 0; }
-  @media (max-width: 50em) {
-    .layout-content {
-      width: 95%; } }
+  padding-top: 0;
+  max-width: 100%; }
   .layout-content section {
     padding: 2rem 10%; }
     .layout-content section h1:first-of-type {
@@ -108,19 +107,16 @@ p, ul {
       .layout-content section:nth-child(2n), .layout-content section:nth-child(2n) h1:first-child, .layout-content section:nth-child(2n) a {
         color: #e6e6e6; }
       .layout-content section:nth-child(2n) h2, .layout-content section:nth-child(2n) h3 {
-        color: #58abe1; }
+        color: #56a9e1; }
       .layout-content section:nth-child(2n) > code, .layout-content section:nth-child(2n) p > code, .layout-content section:nth-child(2n) li > code {
         background-color: #10171e;
         color: white; }
-      .layout-content section:nth-child(2n) pre {
-        border: none; }
-  .layout-content hr {
-    border-color: #7F8C8D; }
   @media (max-width: 50em) {
     .layout-content section {
       padding: 1rem;
       padding-top: 0; }
       .layout-content section h1:first-child {
+        font-size: 3rem;
         padding: 0.5rem 1rem;
         margin-left: -1rem;
         margin-bottom: 1rem; } }
@@ -179,16 +175,19 @@ p, ul {
   text-align: center; }
 
 .layout-sidebar {
-  width: 16.66667%;
-  float: left;
-  float: none;
+  width: 26em;
   display: table-cell;
+  vertical-align: top;
   padding: 2rem;
-  background-color: #354a5f;
-  vertical-align: top; }
+  background-color: #354a5f; }
+  @media (max-width: 60em) {
+    .layout-sidebar {
+      display: none; } }
   .layout-sidebar a {
     color: white;
     font-weight: 400; }
+    .layout-sidebar a:hover {
+      text-decoration: none; }
   .layout-sidebar ul {
     list-style-type: none;
     margin: 0; }
@@ -197,8 +196,6 @@ p, ul {
     padding: 0.15rem 0.5rem; }
     .layout-sidebar li:hover {
       background-color: #19242e; }
-  .layout-sidebar a:hover {
-    text-decoration: none; }
   .layout-sidebar .toc-h1 {
     border-left: 3px solid #808d8e; }
   .layout-sidebar .toc-h2 {

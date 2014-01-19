@@ -11,15 +11,10 @@
 $inner-padding: 2rem;
 
 .layout-content {
-	@include span((12 - $sidebar-width) omega);
-	float: none;
 	display: table-cell;
 	padding: 2rem 0 1rem;
 	padding-top: 0;
-
-	@include breakpoint(max-width $tablet) {
-		width: 95%;
-	}
+	max-width: 100%;
 
 	section {
 		@extend %reset-margins;
@@ -47,7 +42,7 @@ $inner-padding: 2rem;
 				color: lighten(black, 90);
 			}
 			h2, h3 {
-				color: lighten(#2488C9, 15);
+				color: lighten(color("navy"), 15);
 			}
 			&, p, li {
 				& > code {
@@ -55,14 +50,7 @@ $inner-padding: 2rem;
 					color: white;
 				}
 			}
-			pre {
-				border: none;
-			}
 		}
-	}
-
-	hr {
-		border-color: #7F8C8D;
 	}
 
 	@include breakpoint(max-width $tablet) {
@@ -71,6 +59,7 @@ $inner-padding: 2rem;
 			padding-top: 0;
 
 			h1:first-child {
+				font-size: 3rem;
 				padding: 0.5rem 1rem;
 				margin-left: -1rem;
 				margin-bottom: 1rem;
