@@ -14,7 +14,7 @@ class TeardownTest extends RocketeerTestCase
 		});
 
 		$this->assertTaskHistory('Teardown', array(
-			'rm -rf '.$this->server.'/',
+			'rm -rf {server}/',
 		));
 	}
 

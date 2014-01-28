@@ -13,32 +13,31 @@ class DeployTest extends RocketeerTestCase
 			'password'   => '',
 		));
 
-		$release = date('YmdHis');
 		$matcher = array(
-			'git clone --depth 1 -b master "https://github.com/Anahkiasen/html-object.git" ' .$this->server. '/releases/' .$release,
+			'git clone --depth 1 -b master "https://github.com/Anahkiasen/html-object.git" {server}/releases/{release}',
 			array(
-				"cd $this->server/releases/$release",
+				"cd {server}/releases/{release}",
 				"git submodule update --init --recursive"
 			),
 			array(
-				"cd $this->server/releases/$release",
+				"cd {server}/releases/{release}",
 				exec('which phpunit')." --stop-on-failure "
 			),
 			array(
-				"cd $this->server/releases/$release",
-				"chmod -R 755 $this->server/releases/$release/tests",
-				"chmod -R g+s $this->server/releases/$release/tests",
-				"chown -R www-data:www-data $this->server/releases/$release/tests"
+				"cd {server}/releases/{release}",
+				"chmod -R 755 {server}/releases/{release}/tests",
+				"chmod -R g+s {server}/releases/{release}/tests",
+				"chown -R www-data:www-data {server}/releases/{release}/tests"
 			),
 			array(
-				"cd $this->server/releases/$release",
-				"$this->php artisan migrate --seed"
+				"cd {server}/releases/{release}",
+				"{php} artisan migrate --seed"
 			),
-			"mkdir -p $this->server/shared/tests",
-			"mv $this->server/releases/$release/tests/Elements $this->server/shared/tests/Elements",
-			"mv $this->server/current $this->server/releases/$release",
-			"rm -rf $this->server/current",
-			"ln -s $this->server/releases/$release $this->server/current",
+			"mkdir -p {server}/shared/tests",
+			"mv {server}/releases/{release}/tests/Elements {server}/shared/tests/Elements",
+			"mv {server}/current {server}/releases/{release}",
+			"rm -rf {server}/current",
+			"ln -s {server}/releases/{release} {server}/current",
 		);
 
 		$this->assertTaskHistory('Deploy', $matcher, array(

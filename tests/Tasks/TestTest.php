@@ -9,8 +9,8 @@ class TestTest extends RocketeerTestCase
 	{
 		$this->assertTaskHistory('Test', array(
 			array(
-				'cd '.$this->server.'/releases/20000000000000',
-				exec('which phpunit'). ' --stop-on-failure ',
+				'cd {server}/releases/20000000000000',
+				'{phpunit} --stop-on-failure ',
 			),
 		));
 	}
