@@ -136,6 +136,10 @@ class Check extends Task
 	 */
 	public function checkPhpVersion()
 	{
+		if (!$this->command->isInsideLaravel()) {
+			return true;
+		}
+
 		$this->command->comment('Checking PHP version');
 		$version = $this->run($this->php('-r "print PHP_VERSION;"'));
 
