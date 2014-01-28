@@ -91,7 +91,7 @@ class Check extends Task
 
 		return array(
 			array('checkScm',            $this->scm->binary. ' could not be found'),
-			array('checkPhpVersion',     'The version oh PHP on the server does not match Laravel\'s requirements'),
+			array('checkPhpVersion',     'The version of PHP on the server does not match Laravel\'s requirements'),
 			array('checkComposer',       'Composer does not seem to be present on the server'),
 			array('checkPhpExtension',   array('mcrypt',  sprintf($extension, 'mcrypt'))),
 			array('checkDatabaseDriver', array($database, sprintf($extension, $database))),
