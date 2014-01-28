@@ -1,9 +1,9 @@
 <?php
-namespace Rocketeer\Tests;
+namespace Rocketeer;
 
 use ReflectionFunction;
 use Rocketeer\Facades\Rocketeer;
-use Rocketeer\Tests\TestCases\RocketeerTestCase;
+use Rocketeer\TestCases\RocketeerTestCase;
 
 class TasksQueueTest extends RocketeerTestCase
 {

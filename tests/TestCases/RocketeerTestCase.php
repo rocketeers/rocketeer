@@ -1,5 +1,5 @@
 <?php
-namespace Rocketeer\Tests\TestCases;
+namespace Rocketeer\TestCases;
 
 include __DIR__.'/../../vendor/autoload.php';
 

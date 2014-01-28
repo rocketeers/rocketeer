@@ -1,7 +1,7 @@
 <?php
-namespace Rocketeer\Tests\Traits;
+namespace Rocketeer\Traits;
 
-use Rocketeer\Tests\TestCases\RocketeerTestCase;
+use Rocketeer\TestCases\RocketeerTestCase;
 
 class BashTest extends RocketeerTestCase
 {

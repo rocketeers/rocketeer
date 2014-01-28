@@ -1,5 +1,5 @@
 <?php
-namespace Rocketeer\Tests\TestCases;
+namespace Rocketeer\TestCases;
 
 use Illuminate\Container\Container;
 use Illuminate\Filesystem\Filesystem;
@@ -186,7 +186,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 			),
 			'after' => array(
 				'check' => array(
-					'Rocketeer\Tests\Dummies\MyCustomTask',
+					'Rocketeer\Dummies\MyCustomTask',
 				),
 				'deploy' => array(
 					'after',

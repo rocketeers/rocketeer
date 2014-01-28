@@ -1,7 +1,7 @@
 <?php
-namespace Rocketeer\Tests;
+namespace Rocketeer;
 
-use Rocketeer\Tests\TestCases\RocketeerTestCase;
+use Rocketeer\TestCases\RocketeerTestCase;
 
 class ReleasesManagerTest extends RocketeerTestCase
 {

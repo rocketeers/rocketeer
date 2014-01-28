@@ -38,9 +38,8 @@
 		"bin/rocketeer"
 	],
 	"autoload": {
-		"classmap": ["tests"],
-		"psr-0": {
-			"Rocketeer": "src"
+		"psr-4": {
+			"Rocketeer\\": ["src/Rocketeer", "tests/"]
 		}
 	}
 }
