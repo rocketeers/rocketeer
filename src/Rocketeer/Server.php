@@ -255,6 +255,7 @@ class Server
 	 */
 	public function updateRepository($data)
 	{
+		// Yup. Don't look at me like that.
 		@$this->app['files']->put($this->repository, json_encode($data));
 
 		return $data;

@@ -9,8 +9,8 @@ class CheckTest extends RocketeerTestCase
 	{
 		$this->assertTaskHistory('Check', array(
 			'git --version',
-			$this->php. ' -r "print PHP_VERSION;"',
-			$this->php. ' -m',
+			'{php} -r "print PHP_VERSION;"',
+			'{php} -m',
 		));
 	}
 
