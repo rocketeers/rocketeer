@@ -3,6 +3,7 @@
 ### 1.1.0
 
 - Hash is now computed with the actual configuration instead of the modification times to avoid unecessary reflushes
+- Check task now uses the PHP version required in your `composer.json` file if the latter exists
 
 ### 1.0.0
 

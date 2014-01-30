@@ -136,14 +136,28 @@ class Check extends Task
 	 */
 	public function checkPhpVersion()
 	{
-		if (!$this->command->isInsideLaravel()) {
+		$required = null;
+
+		// Get the minimum PHP version of the application
+		$composer = $this->app['path.base'].'/composer.json';
+		if ($this->app['files']->exists($composer)) {
+			$composer = $this->app['files']->get($composer);
+			$composer = json_decode($composer, true);
+
+			// Strip versions of constraints
+			$required = array_get($composer, 'require.php');
+			$required = preg_replace('/>=/', '', $required);
+		}
+
+		// Cancel if no PHP version found
+		if (!$required) {
 			return true;
 		}
 
 		$this->command->comment('Checking PHP version');
 		$version = $this->run($this->php('-r "print PHP_VERSION;"'));
 
-		return version_compare($version, '5.3.7', '>=');
+		return version_compare($version, $required, '>=');
 	}
 
 	////////////////////////////////////////////////////////////////////
