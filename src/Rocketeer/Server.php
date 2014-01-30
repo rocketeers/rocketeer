@@ -79,11 +79,12 @@ class Server
 
 		$salt   = '';
 		$folder = $this->app['rocketeer.igniter']->getConfigurationPath();
-		$files  = glob($folder.'/*.php');
+		$files  = $this->app['files']->glob($folder.'/*.php');
 
 		// Compute the salts
 		foreach ($files as $file) {
-			$salt .= $this->app['files']->lastModified($file);
+			$file  = $this->app['files']->getRequire($file);
+			$salt .= json_encode($file);
 		}
 
 		// Cache it
@@ -104,6 +105,7 @@ class Server
 	public function shouldFlush()
 	{
 		$currentHash = $this->getValue('hash');
+
 		return $currentHash and $currentHash !== $this->getHash();
 	}
 

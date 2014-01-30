@@ -1,5 +1,9 @@
 ### Changelog
 
+### 1.1.0
+
+- Hash is now computed with the actual configuration instead of the modification times to avoid unecessary reflushes
+
 ### 1.0.0
 
 **Note : Configuration is now split in multiple files, you'll need to redeploy the configuration files**
