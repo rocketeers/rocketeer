@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "869b6bef15e9daac96f0e6554ec1af98",
+    "hash": "5122b0399d739930ec08770cc18541c9",
     "packages": [
         {
             "name": "illuminate/config",
@@ -12,18 +12,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/config.git",
-                "reference": "59aebe3f50dda7a64faf71d838ea508dcf73412c"
+                "reference": "4c59b129efd136f1ae8d4f630094e4c44d26acd8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/config/zipball/59aebe3f50dda7a64faf71d838ea508dcf73412c",
-                "reference": "59aebe3f50dda7a64faf71d838ea508dcf73412c",
+                "url": "https://api.github.com/repos/illuminate/config/zipball/4c59b129efd136f1ae8d4f630094e4c44d26acd8",
+                "reference": "4c59b129efd136f1ae8d4f630094e4c44d26acd8",
                 "shasum": ""
             },
             "require": {
                 "illuminate/filesystem": "4.2.*",
                 "illuminate/support": "4.2.*",
-                "php": ">=5.3.0"
+                "php": ">=5.4.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "3.7.*"
@@ -51,7 +51,7 @@
                     "role": "Developer"
                 }
             ],
-            "time": "2013-12-13 02:49:39"
+            "time": "2014-01-19 01:04:55"
         },
         {
             "name": "illuminate/console",
@@ -106,16 +106,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/container.git",
-                "reference": "edb382d3aa31a2e02f831815e3806560743d7e73"
+                "reference": "5d350b30dd915cbc362c0068ccdffcfe3b6b8a70"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/container/zipball/edb382d3aa31a2e02f831815e3806560743d7e73",
-                "reference": "edb382d3aa31a2e02f831815e3806560743d7e73",
+                "url": "https://api.github.com/repos/illuminate/container/zipball/5d350b30dd915cbc362c0068ccdffcfe3b6b8a70",
+                "reference": "5d350b30dd915cbc362c0068ccdffcfe3b6b8a70",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0"
+                "php": ">=5.4.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "3.7.*"
@@ -143,7 +143,7 @@
                     "role": "Developer"
                 }
             ],
-            "time": "2013-12-13 02:49:39"
+            "time": "2014-01-17 18:26:03"
         },
         {
             "name": "illuminate/events",
@@ -152,18 +152,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/events.git",
-                "reference": "a8d0157f069994f212e82468983b2c7dc39d7977"
+                "reference": "27a568f38603b51440af8e1d142b1a788ae0b2da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/events/zipball/a8d0157f069994f212e82468983b2c7dc39d7977",
-                "reference": "a8d0157f069994f212e82468983b2c7dc39d7977",
+                "url": "https://api.github.com/repos/illuminate/events/zipball/27a568f38603b51440af8e1d142b1a788ae0b2da",
+                "reference": "27a568f38603b51440af8e1d142b1a788ae0b2da",
                 "shasum": ""
             },
             "require": {
                 "illuminate/container": "4.2.*",
                 "illuminate/support": "4.2.*",
-                "php": ">=5.3.0"
+                "php": ">=5.4.0"
             },
             "require-dev": {
                 "mockery/mockery": "0.7.2",
@@ -192,7 +192,7 @@
                     "role": "Developer"
                 }
             ],
-            "time": "2013-12-13 02:49:39"
+            "time": "2014-01-17 18:26:03"
         },
         {
             "name": "illuminate/filesystem",
@@ -201,17 +201,17 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/filesystem.git",
-                "reference": "e0f318e3b0e8c72d04a45403dbca67530ef04303"
+                "reference": "bdb6d0fef0b851f45474837aea5de0cb0c8358e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/filesystem/zipball/e0f318e3b0e8c72d04a45403dbca67530ef04303",
-                "reference": "e0f318e3b0e8c72d04a45403dbca67530ef04303",
+                "url": "https://api.github.com/repos/illuminate/filesystem/zipball/bdb6d0fef0b851f45474837aea5de0cb0c8358e6",
+                "reference": "bdb6d0fef0b851f45474837aea5de0cb0c8358e6",
                 "shasum": ""
             },
             "require": {
                 "illuminate/support": "4.2.*",
-                "php": ">=5.3.0",
+                "php": ">=5.4.0",
                 "symfony/finder": "2.4.*"
             },
             "require-dev": {
@@ -240,7 +240,7 @@
                     "role": "Developer"
                 }
             ],
-            "time": "2013-12-28 19:39:29"
+            "time": "2014-01-17 18:26:03"
         },
         {
             "name": "illuminate/support",
@@ -249,16 +249,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "ee75af06f763baa6fa04d94a64de328652e731ec"
+                "reference": "f1b7dbe401254a87efacbcbf027c91a2c311c9a4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/ee75af06f763baa6fa04d94a64de328652e731ec",
-                "reference": "ee75af06f763baa6fa04d94a64de328652e731ec",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/f1b7dbe401254a87efacbcbf027c91a2c311c9a4",
+                "reference": "f1b7dbe401254a87efacbcbf027c91a2c311c9a4",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0"
+                "php": ">=5.4.0"
             },
             "require-dev": {
                 "mockery/mockery": "0.7.2",
@@ -291,7 +291,7 @@
                     "role": "Developer"
                 }
             ],
-            "time": "2014-01-08 19:55:26"
+            "time": "2014-01-30 05:20:30"
         },
         {
             "name": "symfony/console",
@@ -300,12 +300,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "86e13d5b06146fbe81006570ad26cb7cbeafba15"
+                "reference": "80068b6e36cae1044fa4ed5ef09e13f65703fb39"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/86e13d5b06146fbe81006570ad26cb7cbeafba15",
-                "reference": "86e13d5b06146fbe81006570ad26cb7cbeafba15",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/80068b6e36cae1044fa4ed5ef09e13f65703fb39",
+                "reference": "80068b6e36cae1044fa4ed5ef09e13f65703fb39",
                 "shasum": ""
             },
             "require": {
@@ -344,7 +344,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com",
-            "time": "2014-01-07 13:28:54"
+            "time": "2014-01-24 14:36:08"
         },
         {
             "name": "symfony/finder",
@@ -401,12 +401,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/herrera-io/php-box.git",
-                "reference": "596278d729b45ba2dab3f53897d62ac51e0db909"
+                "reference": "ad1633ae0928d2cad1c243557b3173217abadc54"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/herrera-io/php-box/zipball/596278d729b45ba2dab3f53897d62ac51e0db909",
-                "reference": "596278d729b45ba2dab3f53897d62ac51e0db909",
+                "url": "https://api.github.com/repos/herrera-io/php-box/zipball/ad1633ae0928d2cad1c243557b3173217abadc54",
+                "reference": "ad1633ae0928d2cad1c243557b3173217abadc54",
                 "shasum": ""
             },
             "require": {
@@ -452,7 +452,7 @@
             "keywords": [
                 "phar"
             ],
-            "time": "2013-11-09 17:22:29"
+            "time": "2014-01-13 23:03:47"
         },
         {
             "name": "illuminate/remote",
@@ -461,18 +461,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/remote.git",
-                "reference": "4c8a0b68f100191bdc6a0d532c499d4a5f4d86ae"
+                "reference": "19c5594d2f5bf6002760b830dfccb405d0a84b89"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/remote/zipball/4c8a0b68f100191bdc6a0d532c499d4a5f4d86ae",
-                "reference": "4c8a0b68f100191bdc6a0d532c499d4a5f4d86ae",
+                "url": "https://api.github.com/repos/illuminate/remote/zipball/19c5594d2f5bf6002760b830dfccb405d0a84b89",
+                "reference": "19c5594d2f5bf6002760b830dfccb405d0a84b89",
                 "shasum": ""
             },
             "require": {
                 "illuminate/support": "4.2.*",
-                "php": ">=5.3.0",
-                "phpseclib/phpseclib": "0.3.x"
+                "php": ">=5.4.0",
+                "phpseclib/phpseclib": "0.3.*"
             },
             "require-dev": {
                 "mockery/mockery": "0.8.0"
@@ -500,7 +500,7 @@
                     "role": "Developer"
                 }
             ],
-            "time": "2014-01-08 19:55:26"
+            "time": "2014-01-22 07:41:32"
         },
         {
             "name": "mockery/mockery",
@@ -508,12 +508,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/padraic/mockery.git",
-                "reference": "adfba47a81584bb486cda9923c95a96edfcfb168"
+                "reference": "cce505fe699d12bea3735eee2638d9955a908052"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/padraic/mockery/zipball/adfba47a81584bb486cda9923c95a96edfcfb168",
-                "reference": "adfba47a81584bb486cda9923c95a96edfcfb168",
+                "url": "https://api.github.com/repos/padraic/mockery/zipball/cce505fe699d12bea3735eee2638d9955a908052",
+                "reference": "cce505fe699d12bea3735eee2638d9955a908052",
                 "shasum": ""
             },
             "require": {
@@ -521,7 +521,8 @@
                 "php": ">=5.3.2"
             },
             "require-dev": {
-                "hamcrest/hamcrest-php": "~1.1"
+                "hamcrest/hamcrest-php": "~1.1",
+                "satooshi/php-coveralls": "dev-master"
             },
             "type": "library",
             "extra": {
@@ -543,6 +544,11 @@
                     "name": "Pádraic Brady",
                     "email": "padraic.brady@gmail.com",
                     "homepage": "http://blog.astrumfutura.com"
+                },
+                {
+                    "name": "Dave Marshall",
+                    "email": "dave.marshall@atstsolutions.co.uk",
+                    "homepage": "http://davedevelopment.co.uk"
                 }
             ],
             "description": "Mockery is a simple yet flexible PHP mock object framework for use in unit testing with PHPUnit, PHPSpec or any other testing framework. Its core goal is to offer a test double framework with a succint API capable of clearly defining all possible object operations and interactions using a human readable Domain Specific Language (DSL). Designed as a drop in alternative to PHPUnit's phpunit-mock-objects library, Mockery is easy to integrate with PHPUnit and can operate alongside phpunit-mock-objects without the World ending.",
@@ -559,7 +565,7 @@
                 "test double",
                 "testing"
             ],
-            "time": "2014-01-09 14:53:14"
+            "time": "2014-01-27 10:39:37"
         },
         {
             "name": "nesbot/carbon",
@@ -613,12 +619,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nicolas-grekas/Patchwork-UTF8.git",
-                "reference": "22095fbaaf4cdc88ad456872adaf1354503401e6"
+                "reference": "0d328a205e5e8cddf22e1fb6aef68bd5e8fb388b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nicolas-grekas/Patchwork-UTF8/zipball/22095fbaaf4cdc88ad456872adaf1354503401e6",
-                "reference": "22095fbaaf4cdc88ad456872adaf1354503401e6",
+                "url": "https://api.github.com/repos/nicolas-grekas/Patchwork-UTF8/zipball/0d328a205e5e8cddf22e1fb6aef68bd5e8fb388b",
+                "reference": "0d328a205e5e8cddf22e1fb6aef68bd5e8fb388b",
                 "shasum": ""
             },
             "require": {
@@ -656,7 +662,7 @@
                 "utf-8",
                 "utf8"
             ],
-            "time": "2014-01-07 17:41:40"
+            "time": "2014-01-18 15:42:57"
         },
         {
             "name": "phine/exception",
@@ -765,12 +771,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "268ec2e5d18110235f3677a15abae39303191b2f"
+                "reference": "8664b69e105a43fc707e0ee94d650c11a32a12b2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/268ec2e5d18110235f3677a15abae39303191b2f",
-                "reference": "268ec2e5d18110235f3677a15abae39303191b2f",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/8664b69e105a43fc707e0ee94d650c11a32a12b2",
+                "reference": "8664b69e105a43fc707e0ee94d650c11a32a12b2",
                 "shasum": ""
             },
             "require": {
@@ -782,7 +788,7 @@
             "suggest": {
                 "ext-gmp": "Install the GMP (GNU Multiple Precision) extension in order to speed up arbitrary precision integer arithmetic operations.",
                 "ext-mcrypt": "Install the Mcrypt extension in order to speed up a wide variety of cryptographic operations.",
-                "pear-pear/PHP_Compat": "Install PHP_Compat to get phpseclib working on PHP >= 4.3.3."
+                "pear-pear/PHP_Compat": "Install PHP_Compat to get phpseclib working on PHP < 4.3.3."
             },
             "type": "library",
             "extra": {
@@ -851,7 +857,7 @@
                 "x.509",
                 "x509"
             ],
-            "time": "2013-12-28 19:49:05"
+            "time": "2014-01-30 14:21:47"
         }
     ],
     "aliases": [
