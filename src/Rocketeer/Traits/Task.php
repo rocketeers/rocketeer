@@ -9,6 +9,7 @@
  */
 namespace Rocketeer\Traits;
 
+use DateTime;
 use Rocketeer\Bash;
 
 /**
@@ -114,6 +115,26 @@ abstract class Task extends Bash
 	////////////////////////////////////////////////////////////////////
 	/////////////////////////////// HELPERS ////////////////////////////
 	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Display a list of releases
+	 *
+	 * @return void
+	 */
+	protected function displayReleases()
+	{
+		$releases = $this->releasesManager->getReleases();
+		$this->command->comment('Here are the available releases :');
+		foreach ($releases as $key => $name) {
+			$name   = DateTime::createFromFormat('YmdHis', $name);
+			$name   = $name->format('Y-m-d H:i:s');
+			$state  = $this->releasesManager->checkReleaseState($name);
+			$method = $state ? 'info' : 'error';
+			$state  = $state ? '✓' : '✘';
+
+			$this->command->$method(sprintf('[%d] %s %s', $key, $name, $state));
+		}
+	}
 
 	/**
 	 * Execute another Task by name

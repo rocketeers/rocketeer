@@ -35,14 +35,7 @@ class Rollback extends Task
 		// If no release specified, display the available ones
 		if (array_get($this->command->option(), 'list')) {
 			$releases = $this->releasesManager->getReleases();
-			$this->command->info('Here are the available releases :');
-
-			foreach ($releases as $key => $name) {
-				$name = DateTime::createFromFormat('YmdHis', $name);
-				$name = $name->format('Y-m-d H:i:s');
-
-				$this->command->comment(sprintf('[%d] %s', $key, $name));
-			}
+			$this->displayReleases();
 
 			// Get actual release name from date
 			$rollbackRelease = $this->command->ask('Which one do you want to go back to ? (0)', 0);

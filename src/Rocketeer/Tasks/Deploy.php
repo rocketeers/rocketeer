@@ -62,9 +62,10 @@ class Deploy extends Task
 		// Synchronize shared folders and files
 		$this->syncSharedFolders();
 
-		// Update symlink
+		// Update symlink and mark release as valid
 		$this->fireEvent('before-symlink');
 		$this->updateSymlink();
+		$this->releasesManager->markReleaseAsValid($release);
 
 		$this->command->info('Successfully deployed release '.$release);
 	}

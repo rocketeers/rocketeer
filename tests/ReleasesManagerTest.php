@@ -42,6 +42,19 @@ class ReleasesManagerTest extends RocketeerTestCase
 		), $validation);
 	}
 
+	public function testCanMarkReleaseAsValid()
+	{
+		$this->app['rocketeer.releases']->markReleaseAsValid(123456789);
+		$validation = $this->app['rocketeer.releases']->getValidationFile();
+
+		$this->assertEquals(array(
+			10000000000000 => true,
+			15000000000000 => false,
+			20000000000000 => true,
+			123456789      => true,
+		), $validation);
+	}
+
 	public function testCanGetCurrentReleaseFromServerIfUncached()
 	{
 		$this->mock('rocketeer.server', 'Server', function ($mock) {
@@ -85,11 +98,24 @@ class ReleasesManagerTest extends RocketeerTestCase
 		$this->assertEquals(array(15000000000000, 10000000000000), $releases);
 	}
 
-	public function testCanGetPreviousRelease()
+	public function testCanGetPreviousValidRelease()
 	{
 		$currentRelease = $this->app['rocketeer.releases']->getPreviousRelease();
 
 		$this->assertEquals(10000000000000, $currentRelease);
+	}
+
+	public function testReturnsCurrentReleaseIfNoPreviousValidRelease()
+	{
+		file_put_contents($this->server.'/state.json', json_encode(array(
+			'10000000000000' => false,
+			'15000000000000' => false,
+			'20000000000000' => true,
+		)));
+
+		$currentRelease = $this->app['rocketeer.releases']->getPreviousRelease();
+
+		$this->assertEquals(20000000000000, $currentRelease);
 	}
 
 	public function testCanUpdateCurrentRelease()

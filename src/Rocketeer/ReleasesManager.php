@@ -278,7 +278,7 @@ class ReleasesManager
 			$next++;
 		} while (!$this->checkReleaseState($release));
 
-		return $release;
+		return $release ?: $current;
 	}
 
 	/**
