@@ -51,5 +51,7 @@ class CurrentRelease extends Task
 		// Display current and past releases
 		$this->command->line($message);
 		$this->displayReleases();
+
+		return $message;
 	}
 }

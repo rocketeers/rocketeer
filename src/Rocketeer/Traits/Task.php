@@ -123,15 +123,17 @@ abstract class Task extends Bash
 	 */
 	protected function displayReleases()
 	{
-		$releases = $this->releasesManager->getReleases();
+		$releases = $this->releasesManager->getValidationFile();
 		$this->command->comment('Here are the available releases :');
-		foreach ($releases as $key => $name) {
+
+		$key = 0;
+		foreach ($releases as $name => $state) {
 			$name   = DateTime::createFromFormat('YmdHis', $name);
 			$name   = $name->format('Y-m-d H:i:s');
-			$state  = $this->releasesManager->checkReleaseState($name);
 			$method = $state ? 'info' : 'error';
 			$state  = $state ? '✓' : '✘';
 
+			$key++;
 			$this->command->$method(sprintf('[%d] %s %s', $key, $name, $state));
 		}
 	}
