@@ -133,10 +133,17 @@ class ReleasesManager
 	 */
 	protected function getCurrentReleaseKey()
 	{
-		$stage = $this->app['rocketeer.rocketeer']->getStage();
-		$stage = $stage ? '.'.$stage : '';
+		$key = 'current_release';
 
-		return 'current_release'.$stage;
+		// Get the scopes
+		$connection = $this->app['rocketeer.rocketeer']->getConnection();
+		$stage      = $this->app['rocketeer.rocketeer']->getStage();
+		$scopes     = array($connection, $stage);
+		foreach ($scopes as $scope) {
+			$key .= $scope ? '.'.$scope : '';
+		}
+
+		return $key;
 	}
 
 	/**
