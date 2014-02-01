@@ -232,6 +232,12 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 		$remote->shouldReceive('status')->andReturn(0)->byDefault();
 		$remote->shouldReceive('run')->andReturnUsing($run)->byDefault();
 		$remote->shouldReceive('runRaw')->andReturnUsing($run)->byDefault();
+		$remote->shouldReceive('getString')->andReturnUsing(function ($file) {
+			return file_get_contents($file);
+		});
+		$remote->shouldReceive('putString')->andReturnUsing(function ($file, $contents) {
+			return file_put_contents($file, $contents);
+		});
 		$remote->shouldReceive('display')->andReturnUsing(function ($line) {
 			print $line.PHP_EOL;
 		});

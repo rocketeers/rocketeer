@@ -86,7 +86,7 @@ abstract class RocketeerTestCase extends ContainerTestCase
 
 		// Recreate altered local server
 		$this->app['files']->deleteDirectory($rootPath.'/storage');
-		$folders = array('current', 'shared', 'releases', 'releases/10000000000000', 'releases/20000000000000');
+		$folders = array('current', 'shared', 'releases', 'releases/10000000000000', 'releases/15000000000000', 'releases/20000000000000');
 		foreach ($folders as $folder) {
 			$folder = $this->server.'/'.$folder;
 
@@ -95,6 +95,11 @@ abstract class RocketeerTestCase extends ContainerTestCase
 			$this->app['files']->makeDirectory($folder, 0777, true);
 			file_put_contents($folder.'/.gitkeep', '');
 		}
+		file_put_contents($this->server.'/state.json', json_encode(array(
+			'10000000000000' => true,
+			'15000000000000' => false,
+			'20000000000000' => true,
+		)));
 
 		// Delete rocketeer config
 		$binary = $rootPath.'/.rocketeer';

@@ -4,6 +4,8 @@
 
 - Hash is now computed with the actual configuration instead of the modification times to avoid unecessary reflushes
 - Check task now uses the PHP version required in your `composer.json` file if the latter exists
+- Use the server's time to timestamp releases instead of the local time
+- Fixed a bug where incorrect current release would be returned for multi-servers setups
 
 ### 1.0.0
 

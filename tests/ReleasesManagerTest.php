@@ -12,6 +12,36 @@ class ReleasesManagerTest extends RocketeerTestCase
 		$this->assertEquals(20000000000000, $currentRelease);
 	}
 
+	public function testCanGetStateOfReleases()
+	{
+		$validation = $this->app['rocketeer.releases']->getValidationFile();
+
+		$this->assertEquals(array(
+  		10000000000000 => true,
+  		15000000000000 => false,
+  		20000000000000 => true,
+		), $validation);
+	}
+
+	public function testCanGetInvalidReleases()
+	{
+		$validation = $this->app['rocketeer.releases']->getInvalidReleases();
+
+		$this->assertEquals(array(1 => 15000000000000), $validation);
+	}
+
+	public function testCanUpdateStateOfReleases()
+	{
+		$this->app['rocketeer.releases']->markReleaseAsValid(15000000000000);
+		$validation = $this->app['rocketeer.releases']->getValidationFile();
+
+		$this->assertEquals(array(
+  		10000000000000 => true,
+  		15000000000000 => true,
+  		20000000000000 => true,
+		), $validation);
+	}
+
 	public function testCanGetCurrentReleaseFromServerIfUncached()
 	{
 		$this->mock('rocketeer.server', 'Server', function ($mock) {
@@ -45,14 +75,14 @@ class ReleasesManagerTest extends RocketeerTestCase
 	{
 		$releases = $this->app['rocketeer.releases']->getReleases();
 
-		$this->assertEquals(array(1 => 10000000000000, 0 => 20000000000000), $releases);
+		$this->assertEquals(array(1 => 15000000000000, 0 => 20000000000000, 2 => 10000000000000), $releases);
 	}
 
 	public function testCanGetDeprecatedReleases()
 	{
 		$releases = $this->app['rocketeer.releases']->getDeprecatedReleases();
 
-		$this->assertEquals(array(10000000000000), $releases);
+		$this->assertEquals(array(15000000000000, 10000000000000), $releases);
 	}
 
 	public function testCanGetPreviousRelease()
