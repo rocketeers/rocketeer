@@ -25,4 +25,18 @@ class CoreTest extends RocketeerTestCase
 		$status = $this->task->checkStatus(null);
 		$this->assertNull($status);
 	}
+
+	public function testCanGetTimestampOffServer()
+	{
+		$timestamp = $this->task->getTimestamp();
+		$this->assertEquals(date('YmdHis'), $timestamp);
+	}
+
+	public function testCanGetLocalTimestampIfError()
+	{
+		$this->app['remote'] = $this->getRemote('NOPE');
+		$timestamp = $this->task->getTimestamp();
+
+		$this->assertEquals(date('YmdHis'), $timestamp);
+	}
 }

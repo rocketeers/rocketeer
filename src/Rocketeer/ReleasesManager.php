@@ -196,7 +196,7 @@ class ReleasesManager
 	public function updateCurrentRelease($release = null)
 	{
 		if (!$release) {
-			$release = date('YmdHis');
+			$release = $this->app['rocketeer.bash']->getTimestamp();
 		}
 
 		$this->app['rocketeer.server']->setValue($this->getCurrentReleaseKey(), $release);

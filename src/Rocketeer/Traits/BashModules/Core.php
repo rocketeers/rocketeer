@@ -185,6 +185,20 @@ class Core extends AbstractLocatorClass
 	////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Get the current timestamp on the server
+	 *
+	 * @return string
+	 */
+	public function getTimestamp()
+	{
+		$timestamp = $this->runRaw('date +"%Y%m%d%H%M%S"');
+		$timestamp = trim($timestamp);
+		$timestamp = preg_match('/^[0-9]{14}$/', $timestamp) ? $timestamp : date('YmdHis');
+
+		return $timestamp;
+	}
+
+	/**
 	 * Get an option from the Command
 	 *
 	 * @param  string $option

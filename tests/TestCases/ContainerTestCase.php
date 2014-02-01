@@ -216,14 +216,14 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 	 *
 	 * @return Mockery
 	 */
-	protected function getRemote()
+	protected function getRemote($mockedOutput = null)
 	{
-		$run = function ($task, $callback) {
+		$run = function ($task, $callback) use ($mockedOutput) {
 			if (is_array($task)) {
 				$task = implode(' && ', $task);
 			}
-			$output = shell_exec($task);
 
+			$output = $mockedOutput ? $mockedOutput : shell_exec($task);
 			$callback($output);
 		};
 
