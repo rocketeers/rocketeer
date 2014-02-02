@@ -9,8 +9,8 @@
  */
 namespace Rocketeer\Traits\BashModules;
 
-use Rocketeer\Traits\AbstractLocatorClass;
 use Illuminate\Support\Str;
+use Rocketeer\Traits\AbstractLocatorClass;
 
 /**
  * Core handling of running commands and returning output
@@ -55,7 +55,6 @@ class Core extends AbstractLocatorClass
 	 */
 	public function run($commands, $silent = false, $array = false)
 	{
-		$output   = null;
 		$commands = $this->processCommands($commands);
 		$verbose  = $this->getOption('verbose') and !$silent;
 
@@ -65,24 +64,18 @@ class Core extends AbstractLocatorClass
 		}
 
 		// Run commands
-		$me = $this;
+		$me     = $this;
+		$output = null;
 		$this->remote->run($commands, function ($results) use (&$output, $verbose, $me) {
 			$output .= $results;
 
 			if ($verbose) {
-				$me->remote->display(trim($results));
+				$me->remote->display($output);
 			}
 		});
 
-		// Explode output if necessary
-		if ($array) {
-			$output = explode($this->server->getLineEndings(), $output);
-		}
-
-		// Trim output
-		$output = is_array($output)
-			? array_filter($output)
-			: trim($output);
+		// Process the output
+		$output = $this->processOutput($output, $array, true);
 
 		// Append output
 		if (!$silent) {
@@ -103,18 +96,14 @@ class Core extends AbstractLocatorClass
 	 */
 	public function runRaw($commands, $array = false)
 	{
-		$output = null;
-
 		// Run commands
+		$output = null;
 		$this->remote->run($commands, function ($results) use (&$output) {
 			$output .= $results;
 		});
 
-		// Explode output if necessary
-		if ($array) {
-			$output = explode($this->server->getLineEndings(), $output);
-			$output = array_filter($output);
-		}
+		// Process the output
+		$output = $this->processOutput($output, $array, false);
 
 		return $output;
 	}
@@ -224,6 +213,10 @@ class Core extends AbstractLocatorClass
 		return $commands;
 	}
 
+	////////////////////////////////////////////////////////////////////
+	///////////////////////////// PROCESSORS ///////////////////////////
+	////////////////////////////////////////////////////////////////////
+
 	/**
 	 * Process an array of commands
 	 *
@@ -257,5 +250,31 @@ class Core extends AbstractLocatorClass
 		}
 
 		return $commands;
+	}
+
+	/**
+	 * Process the output of a command
+	 *
+	 * @param string|array  $output
+	 * @param boolean       $array   Whether to return an array or a string
+	 * @param boolean       $trim    Whether to trim the output or not
+	 *
+	 * @return string|array
+	 */
+	protected function processOutput($output, $array = false, $trim = true)
+	{
+		// Explode output if necessary
+		if ($array) {
+			$output = explode($this->server->getLineEndings(), $output);
+		}
+
+		// Trim output
+		if ($trim) {
+			$output = is_array($output)
+				? array_filter($output)
+				: trim($output);
+		}
+
+		return $output;
 	}
 }
