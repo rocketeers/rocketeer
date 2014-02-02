@@ -74,8 +74,10 @@ class Core extends AbstractLocatorClass
 			}
 		});
 
-		// Process the output
+		// Process and log the output and commands
 		$output = $this->processOutput($output, $array, true);
+		$this->logs->log($commands);
+		$this->logs->log($output);
 
 		// Append output
 		if (!$silent) {

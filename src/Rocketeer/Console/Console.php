@@ -63,6 +63,7 @@ class Console extends Application
 			'application'   => $this->laravel['rocketeer.rocketeer']->getApplicationName(),
 			'configuration' => $this->laravel['path.rocketeer.config'],
 			'tasks'         => $this->laravel['path.rocketeer.tasks'],
+			'logs'          => $this->laravel['path.rocketeer.logs'],
 		);
 	}
 }

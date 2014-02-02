@@ -20,7 +20,8 @@
 		"illuminate/console": "~4",
 		"illuminate/container": "~4",
 		"illuminate/filesystem": "~4",
-		"illuminate/events": "~4"
+		"illuminate/events": "~4",
+		"illuminate/log": "~4"
 	},
 	"require-dev": {
 		"mockery/mockery": "dev-master",
