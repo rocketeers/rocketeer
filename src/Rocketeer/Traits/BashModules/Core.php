@@ -93,10 +93,11 @@ class Core extends AbstractLocatorClass
 	 *
 	 * @param  string|array $commands
 	 * @param  boolean      $array     Whether the output should be returned as an array
+	 * @param  boolean      $trim      Whether the output should be trimmed
 	 *
 	 * @return string
 	 */
-	public function runRaw($commands, $array = false)
+	public function runRaw($commands, $array = false, $trim = false)
 	{
 		// Run commands
 		$output = null;
@@ -105,7 +106,7 @@ class Core extends AbstractLocatorClass
 		});
 
 		// Process the output
-		$output = $this->processOutput($output, $array, false);
+		$output = $this->processOutput($output, $array, $trim);
 
 		return $output;
 	}

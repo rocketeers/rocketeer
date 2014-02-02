@@ -7,7 +7,7 @@ class CoreTest extends RocketeerTestCase
 {
 	public function testCanGetArraysFromRawCommands()
 	{
-		$contents = $this->task->runRaw('ls', true);
+		$contents = $this->task->runRaw('ls', true, true);
 
 		$this->assertCount(12, $contents);
 	}
