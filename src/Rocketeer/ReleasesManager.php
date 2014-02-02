@@ -162,7 +162,7 @@ class ReleasesManager
 
 		// Fill the missing releases
 		$releases = (array) $this->getReleases();
-		$releases = array_fill_keys($releases, true);
+		$releases = array_fill_keys($releases, false);
 
 		// Sort entries
 		ksort($file);
