@@ -1,7 +1,7 @@
 <?php
-namespace Rocketeer\Tests\Scm;
+namespace Rocketeer\Scm;
 
-use Rocketeer\Tests\TestCases\RocketeerTestCase;
+use Rocketeer\TestCases\RocketeerTestCase;
 use Rocketeer\Scm\Git;
 
 class GitTest extends RocketeerTestCase

@@ -1,7 +1,7 @@
 <?php
-namespace Rocketeer\Tests\Console;
+namespace Rocketeer\Console;
 
-use Rocketeer\Tests\TestCases\RocketeerTestCase;
+use Rocketeer\TestCases\RocketeerTestCase;
 
 class ConsoleTest extends RocketeerTestCase
 {

@@ -5,7 +5,7 @@
 bin/rocketeer.phar
 bin/phar
 storage
-rocketeer.php
+.rocketeer
 
 # Plugins
 rocketeer-campfire

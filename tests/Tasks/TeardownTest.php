@@ -1,7 +1,7 @@
 <?php
-namespace Rocketeer\Tests\Tasks;
+namespace Rocketeer\Tasks;
 
-use Rocketeer\Tests\TestCases\RocketeerTestCase;
+use Rocketeer\TestCases\RocketeerTestCase;
 
 class TeardownTest extends RocketeerTestCase
 {
@@ -14,7 +14,7 @@ class TeardownTest extends RocketeerTestCase
 		});
 
 		$this->assertTaskHistory('Teardown', array(
-			'rm -rf '.$this->server.'/',
+			'rm -rf {server}/',
 		));
 	}
 

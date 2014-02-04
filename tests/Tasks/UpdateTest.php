@@ -1,7 +1,7 @@
 <?php
-namespace Rocketeer\Tests\Tasks;
+namespace Rocketeer\Tasks;
 
-use Rocketeer\Tests\TestCases\RocketeerTestCase;
+use Rocketeer\TestCases\RocketeerTestCase;
 
 class UpdateTest extends RocketeerTestCase
 {
@@ -12,28 +12,27 @@ class UpdateTest extends RocketeerTestCase
 			'seed'    => true
 		));
 
-		$php     = exec('which php');
 		$matcher = array(
 			array(
-				"cd " .$this->server. "/releases/20000000000000",
+				"cd {server}/releases/20000000000000",
 				"git reset --hard",
 				"git pull"
 			),
-			"mkdir -p " .$this->server. "/shared/tests",
-			"mv " .$this->server. "/releases/20000000000000/tests/Elements " .$this->server. "/shared/tests/Elements",
+			"mkdir -p {server}/shared/tests",
+			"mv {server}/releases/20000000000000/tests/Elements {server}/shared/tests/Elements",
 			array(
-				"cd " .$this->server. "/releases/20000000000000",
-				"chmod -R 755 " .$this->server. "/releases/20000000000000/tests",
-				"chmod -R g+s " .$this->server. "/releases/20000000000000/tests",
-				"chown -R www-data:www-data " .$this->server. "/releases/20000000000000/tests"
+				"cd {server}/releases/20000000000000",
+				"chmod -R 755 {server}/releases/20000000000000/tests",
+				"chmod -R g+s {server}/releases/20000000000000/tests",
+				"chown -R www-data:www-data {server}/releases/20000000000000/tests"
 			),
 			array(
-				"cd " .$this->server. "/releases/20000000000000",
-				$php. " artisan migrate --seed"
+				"cd {server}/releases/20000000000000",
+				"{php} artisan migrate --seed"
 			),
 			array(
-				"cd " .$this->server. "/releases/20000000000000",
-				$php. " artisan cache:clear"
+				"cd {server}/releases/20000000000000",
+				"{php} artisan cache:clear"
 			)
 		);
 

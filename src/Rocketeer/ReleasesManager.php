@@ -26,13 +26,21 @@ class ReleasesManager
 	protected $app;
 
 	/**
+	 * Cache of the validation file
+	 *
+	 * @var array
+	 */
+	protected $state = array();
+
+	/**
 	 * Build a new ReleasesManager
 	 *
 	 * @param Container $app
 	 */
 	public function __construct(Container $app)
 	{
-		$this->app = $app;
+		$this->app   = $app;
+		$this->state = $this->getValidationFile();
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -66,6 +74,20 @@ class ReleasesManager
 		$maxReleases = $this->app['config']->get('rocketeer::remote.keep_releases');
 
 		return array_slice($releases, $maxReleases);
+	}
+
+	/**
+	 * Get an array of invalid releases
+	 *
+	 * @return array
+	 */
+	public function getInvalidReleases()
+	{
+		$releases = (array) $this->getReleases();
+		$invalid  = array_diff($this->state, array_filter($this->state));
+		$invalid  = array_keys($invalid);
+
+		return array_intersect($releases, $invalid);
 	}
 
 	/**
@@ -123,6 +145,75 @@ class ReleasesManager
 	}
 
 	////////////////////////////////////////////////////////////////////
+	///////////////////////////// VALIDATION ///////////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Get the validation file
+	 *
+	 * @return array
+	 */
+	public function getValidationFile()
+	{
+		// Get the contents of the validation file
+		$file = $this->app['rocketeer.rocketeer']->getFolder('state.json');
+		$file = $this->app['rocketeer.bash']->getFile($file) ?: '{}';
+		$file = (array) json_decode($file, true);
+
+		// Fill the missing releases
+		$releases = (array) $this->getReleases();
+		$releases = array_fill_keys($releases, false);
+
+		// Sort entries
+		ksort($file);
+		ksort($releases);
+
+		return array_replace($releases, $file);
+	}
+
+	/**
+	 * Update the contents of the validation file
+	 *
+	 * @param array $validation
+	 *
+	 * @return void
+	 */
+	public function saveValidationFile(array $validation)
+	{
+		$file = $this->app['rocketeer.rocketeer']->getFolder('state.json');
+		$this->app['rocketeer.bash']->putFile($file, json_encode($validation));
+
+		$this->state = $validation;
+	}
+
+	/**
+	 * Mark a release as valid
+	 *
+	 * @param integer $release
+	 *
+	 * @return void
+	 */
+	public function markReleaseAsValid($release)
+	{
+		$validation = $this->getValidationFile();
+		$validation[$release] = true;
+
+		return $this->saveValidationFile($validation);
+	}
+
+	/**
+	 * Get the state of a release
+	 *
+	 * @param integer $release
+	 *
+	 * @return boolean
+	 */
+	public function checkReleaseState($release)
+	{
+		return array_get($this->state, $release, true);
+	}
+
+	////////////////////////////////////////////////////////////////////
 	/////////////////////////// CURRENT RELEASE ////////////////////////
 	////////////////////////////////////////////////////////////////////
 
@@ -133,10 +224,17 @@ class ReleasesManager
 	 */
 	protected function getCurrentReleaseKey()
 	{
-		$stage = $this->app['rocketeer.rocketeer']->getStage();
-		$stage = $stage ? '.'.$stage : '';
+		$key = 'current_release';
 
-		return 'current_release'.$stage;
+		// Get the scopes
+		$connection = $this->app['rocketeer.rocketeer']->getConnection();
+		$stage      = $this->app['rocketeer.rocketeer']->getStage();
+		$scopes     = array($connection, $stage);
+		foreach ($scopes as $scope) {
+			$key .= $scope ? '.'.$scope : '';
+		}
+
+		return $key;
 	}
 
 	/**
@@ -173,10 +271,14 @@ class ReleasesManager
 		$current  = $release ?: $this->getCurrentRelease();
 
 		// Get the one before that, or default to current
-		$key     = array_search($current, $releases);
-		$release = array_get($releases, $key + 1, $current);
+		$key  = array_search($current, $releases);
+		$next = 1;
+		do {
+			$release = array_get($releases, $key + $next);
+			$next++;
+		} while (!$this->checkReleaseState($release));
 
-		return $release;
+		return $release ?: $current;
 	}
 
 	/**
@@ -189,7 +291,7 @@ class ReleasesManager
 	public function updateCurrentRelease($release = null)
 	{
 		if (!$release) {
-			$release = date('YmdHis');
+			$release = $this->app['rocketeer.bash']->getTimestamp();
 		}
 
 		$this->app['rocketeer.server']->setValue($this->getCurrentReleaseKey(), $release);

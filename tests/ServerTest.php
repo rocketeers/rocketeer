@@ -1,8 +1,8 @@
 <?php
-namespace Rocketeer\Tests;
+namespace Rocketeer;
 
 use Rocketeer\Server;
-use Rocketeer\Tests\TestCases\RocketeerTestCase;
+use Rocketeer\TestCases\RocketeerTestCase;
 
 class ServerTest extends RocketeerTestCase
 {
@@ -61,5 +61,21 @@ class ServerTest extends RocketeerTestCase
 		$this->app['rocketeer.server']->deleteRepository();
 
 		$this->assertEquals(DIRECTORY_SEPARATOR, $this->app['rocketeer.server']->getSeparator());
+	}
+
+	public function testCanComputeHashAccordingToContentsOfFiles()
+	{
+		$this->mock('files', 'Filesystem', function ($mock) {
+			return $mock
+				->shouldReceive('put')->once()
+				->shouldReceive('exists')->twice()->andReturn(false)
+				->shouldReceive('glob')->once()->andReturn(array('foo', 'bar'))
+				->shouldReceive('getRequire')->once()->with('foo')->andReturn(array('foo'))
+				->shouldReceive('getRequire')->once()->with('bar')->andReturn(array('bar'));
+		});
+
+		$hash = $this->app['rocketeer.server']->getHash();
+
+		$this->assertEquals(md5('["foo"]["bar"]'), $hash);
 	}
 }

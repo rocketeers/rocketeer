@@ -1,7 +1,7 @@
 <?php
-namespace Rocketeer\Tests\Tasks;
+namespace Rocketeer\Tasks;
 
-use Rocketeer\Tests\TestCases\RocketeerTestCase;
+use Rocketeer\TestCases\RocketeerTestCase;
 
 class SetupTest extends RocketeerTestCase
 {
@@ -14,10 +14,10 @@ class SetupTest extends RocketeerTestCase
 		});
 
 		$this->assertTaskHistory('Setup', array(
-			"mkdir $this->server/",
-			"mkdir -p $this->server/releases",
-			"mkdir -p $this->server/current",
-			"mkdir -p $this->server/shared",
+			"mkdir {server}/",
+			"mkdir -p {server}/releases",
+			"mkdir -p {server}/current",
+			"mkdir -p {server}/shared",
 		));
 	}
 
@@ -33,13 +33,13 @@ class SetupTest extends RocketeerTestCase
 		));
 
 		$this->assertTaskHistory('Setup', array(
-			"mkdir $this->server/",
-			"mkdir -p $this->server/staging/releases",
-			"mkdir -p $this->server/staging/current",
-			"mkdir -p $this->server/staging/shared",
-			"mkdir -p $this->server/production/releases",
-			"mkdir -p $this->server/production/current",
-			"mkdir -p $this->server/production/shared",
+			"mkdir {server}/",
+			"mkdir -p {server}/staging/releases",
+			"mkdir -p {server}/staging/current",
+			"mkdir -p {server}/staging/shared",
+			"mkdir -p {server}/production/releases",
+			"mkdir -p {server}/production/current",
+			"mkdir -p {server}/production/shared",
 		));
 	}
 }

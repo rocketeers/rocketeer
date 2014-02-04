@@ -91,7 +91,7 @@ class Check extends Task
 
 		return array(
 			array('checkScm',            $this->scm->binary. ' could not be found'),
-			array('checkPhpVersion',     'The version oh PHP on the server does not match Laravel\'s requirements'),
+			array('checkPhpVersion',     'The version of PHP on the server does not match Laravel\'s requirements'),
 			array('checkComposer',       'Composer does not seem to be present on the server'),
 			array('checkPhpExtension',   array('mcrypt',  sprintf($extension, 'mcrypt'))),
 			array('checkDatabaseDriver', array($database, sprintf($extension, $database))),
@@ -136,10 +136,28 @@ class Check extends Task
 	 */
 	public function checkPhpVersion()
 	{
+		$required = null;
+
+		// Get the minimum PHP version of the application
+		$composer = $this->app['path.base'].'/composer.json';
+		if ($this->app['files']->exists($composer)) {
+			$composer = $this->app['files']->get($composer);
+			$composer = json_decode($composer, true);
+
+			// Strip versions of constraints
+			$required = array_get($composer, 'require.php');
+			$required = preg_replace('/>=/', '', $required);
+		}
+
+		// Cancel if no PHP version found
+		if (!$required) {
+			return true;
+		}
+
 		$this->command->comment('Checking PHP version');
 		$version = $this->run($this->php('-r "print PHP_VERSION;"'));
 
-		return version_compare($version, '5.3.7', '>=');
+		return version_compare($version, $required, '>=');
 	}
 
 	////////////////////////////////////////////////////////////////////

@@ -53,12 +53,13 @@ abstract class AbstractLocatorClass
 	public function __get($key)
 	{
 		$shortcuts = array(
-			'releasesManager' => 'rocketeer.releases',
-			'server'          => 'rocketeer.server',
-			'rocketeer'       => 'rocketeer.rocketeer',
-			'scm'             => 'rocketeer.scm',
 			'command'         => 'rocketeer.command',
 			'console'         => 'rocketeer.console',
+			'logs'            => 'rocketeer.logs',
+			'releasesManager' => 'rocketeer.releases',
+			'rocketeer'       => 'rocketeer.rocketeer',
+			'scm'             => 'rocketeer.scm',
+			'server'          => 'rocketeer.server',
 		);
 
 		// Replace shortcuts
