@@ -42,5 +42,10 @@
 		"psr-4": {
 			"Rocketeer\\": ["src/Rocketeer", "tests/"]
 		}
+	},
+	"extra": {
+		"branch-alias": {
+			"dev-develop": "1.0-dev"
+		}
 	}
 }
