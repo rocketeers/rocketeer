@@ -1,5 +1,13 @@
 #!/usr/bin/env php
 <?php
-require __DIR__.'/../vendor/autoload.php';
+
+// If rocketeer installed as a phar, autoload should be here
+if (file_exists(__DIR__.'/../vendor/autoload.php')) {
+  require __DIR__.'/../vendor/autoload.php';
+}
+// Otherwise we assume that rocketeer is installed via composer and autoloader is situated higher
+else {
+  require __DIR__.'/../../../autoload.php';
+}
 
 return Rocketeer\Facades\Console::run();
