@@ -8,8 +8,8 @@
 	// the Rocketeer\Traits\Task class
 	//
 	// In the `custom` array you can list custom Tasks classes to be added
-	// to Rocketeer. Those will then be available in Artisan
-	// as `php artisan deploy:yourtask`
+	// to Rocketeer. Those will then be available in the command line
+	// with all the other tasks
 	//////////////////////////////////////////////////////////////////////
 
 	// Tasks to execute before the core Rocketeer Tasks

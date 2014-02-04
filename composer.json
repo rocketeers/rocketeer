@@ -20,7 +20,8 @@
 		"illuminate/console": "~4",
 		"illuminate/container": "~4",
 		"illuminate/filesystem": "~4",
-		"illuminate/events": "~4"
+		"illuminate/events": "~4",
+		"illuminate/log": "~4"
 	},
 	"require-dev": {
 		"mockery/mockery": "dev-master",
@@ -38,9 +39,13 @@
 		"bin/rocketeer"
 	],
 	"autoload": {
-		"classmap": ["tests"],
-		"psr-0": {
-			"Rocketeer": "src"
+		"psr-4": {
+			"Rocketeer\\": ["src/Rocketeer", "tests/"]
+		}
+	},
+	"extra": {
+		"branch-alias": {
+			"dev-develop": "1.0-dev"
 		}
 	}
 }

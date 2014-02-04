@@ -133,10 +133,12 @@ class Igniter
 	 */
 	protected function bindConfiguration()
 	{
-		$path  = $this->app['path.base'] ? $this->app['path.base'].'/' : '';
+		$path = $this->app['path.base'] ? $this->app['path.base'].'/' : '';
+		$logs = $this->app->bound('path.storage') ? $this->app['path.storage'] : '.rocketeer';
 		$paths = array(
 			'config' => '.rocketeer',
 			'tasks'  => '.rocketeer/tasks',
+			'logs'   => $logs.'/logs',
 		);
 
 		foreach ($paths as $key => $file) {

@@ -43,11 +43,15 @@ class CurrentRelease extends Task
 			return $this->command->error('No release has yet been deployed'.$stage);
 		}
 
-		// Create message
+		// Create state message
 		$date    = DateTime::createFromFormat('YmdHis', $currentRelease)->format('Y-m-d H:i:s');
 		$state   = $this->runForCurrentRelease($this->scm->currentState());
 		$message = sprintf('The current release' .$stage. ' is <info>%s</info> (<comment>%s</comment> deployed at <comment>%s</comment>)', $currentRelease, $state, $date);
 
-		return $this->command->line($message);
+		// Display current and past releases
+		$this->command->line($message);
+		$this->displayReleases();
+
+		return $message;
 	}
 }

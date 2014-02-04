@@ -14,8 +14,10 @@ use Illuminate\Config\Repository;
 use Illuminate\Container\Container;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Http\Request;
+use Illuminate\Log\Writer;
 use Illuminate\Remote\RemoteManager;
 use Illuminate\Support\ServiceProvider;
+use Monolog\Logger;
 
 // Define DS
 if (!defined('DS')) {
@@ -145,6 +147,10 @@ class RocketeerServiceProvider extends ServiceProvider
 			return new Dispatcher($app);
 		}, true);
 
+		$app->bindIf('log', function ($app) {
+			return new Writer(new Logger('rocketeer'));
+		}, true);
+
 		// Register factory and custom configurations
 		$app = $this->registerConfig($app);
 
@@ -181,6 +187,10 @@ class RocketeerServiceProvider extends ServiceProvider
 
 		$app->singleton('rocketeer.tasks', function ($app) {
 			return new TasksQueue($app);
+		});
+
+		$app->singleton('rocketeer.logs', function ($app) {
+			return new LogsHandler($app);
 		});
 
 		$app->singleton('rocketeer.console', function ($app) {
@@ -263,7 +273,7 @@ class RocketeerServiceProvider extends ServiceProvider
 
 			// Look for an existing command
 			if (!$fakeCommand) {
-				$this->app->bind($command, function ($app) use ($commandClass) {
+				$this->app->singleton($command, function ($app) use ($commandClass) {
 					return new $commandClass;
 				});
 

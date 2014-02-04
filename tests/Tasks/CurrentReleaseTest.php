@@ -1,7 +1,7 @@
 <?php
-namespace Rocketeer\Tests\Tasks;
+namespace Rocketeer\Tasks;
 
-use Rocketeer\Tests\TestCases\RocketeerTestCase;
+use Rocketeer\TestCases\RocketeerTestCase;
 
 class CurrentReleaseTest extends RocketeerTestCase
 {
@@ -9,6 +9,7 @@ class CurrentReleaseTest extends RocketeerTestCase
 	{
 		$this->mockReleases(function ($mock) {
 			return $mock
+				->shouldReceive('getValidationFile')->once()->andReturn(array(10000000000000 => true))
 				->shouldReceive('getCurrentRelease')->once()->andReturn('20000000000000')
 				->shouldReceive('getCurrentReleasePath')->once();
 		});
@@ -20,6 +21,7 @@ class CurrentReleaseTest extends RocketeerTestCase
 	{
 		$this->mockReleases(function ($mock) {
 			return $mock
+				->shouldReceive('getValidationFile')->never()
 				->shouldReceive('getCurrentRelease')->once()->andReturn(null)
 				->shouldReceive('getCurrentReleasePath')->never();
 		});

@@ -1,5 +1,5 @@
 <?php
-namespace Rocketeer\Tests\TestCases;
+namespace Rocketeer\TestCases;
 
 use Illuminate\Container\Container;
 use Illuminate\Filesystem\Filesystem;
@@ -186,7 +186,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 			),
 			'after' => array(
 				'check' => array(
-					'Rocketeer\Tests\Dummies\MyCustomTask',
+					'Rocketeer\Dummies\MyCustomTask',
 				),
 				'deploy' => array(
 					'after',
@@ -216,14 +216,14 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 	 *
 	 * @return Mockery
 	 */
-	protected function getRemote()
+	protected function getRemote($mockedOutput = null)
 	{
-		$run = function ($task, $callback) {
+		$run = function ($task, $callback) use ($mockedOutput) {
 			if (is_array($task)) {
 				$task = implode(' && ', $task);
 			}
-			$output = shell_exec($task);
 
+			$output = $mockedOutput ? $mockedOutput : shell_exec($task);
 			$callback($output);
 		};
 
@@ -232,6 +232,12 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 		$remote->shouldReceive('status')->andReturn(0)->byDefault();
 		$remote->shouldReceive('run')->andReturnUsing($run)->byDefault();
 		$remote->shouldReceive('runRaw')->andReturnUsing($run)->byDefault();
+		$remote->shouldReceive('getString')->andReturnUsing(function ($file) {
+			return file_get_contents($file);
+		});
+		$remote->shouldReceive('putString')->andReturnUsing(function ($file, $contents) {
+			return file_put_contents($file, $contents);
+		});
 		$remote->shouldReceive('display')->andReturnUsing(function ($line) {
 			print $line.PHP_EOL;
 		});

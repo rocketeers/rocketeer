@@ -1,5 +1,5 @@
 <?php
-namespace Rocketeer\Tests\TestCases;
+namespace Rocketeer\TestCases;
 
 include __DIR__.'/../../vendor/autoload.php';
 
@@ -75,7 +75,7 @@ abstract class RocketeerTestCase extends ContainerTestCase
 		// Recreate deployments file
 		$this->app['files']->put($this->deploymentsFile, json_encode(array(
 			'foo'                 => 'bar',
-			'current_release'     => 20000000000000,
+			'current_release'     => array('production' => 20000000000000),
 			'directory_separator' => '/',
 			'is_setup'            => true,
 			'webuser'             => array('username' => 'www-data','group' => 'www-data'),
@@ -86,7 +86,7 @@ abstract class RocketeerTestCase extends ContainerTestCase
 
 		// Recreate altered local server
 		$this->app['files']->deleteDirectory($rootPath.'/storage');
-		$folders = array('current', 'shared', 'releases', 'releases/10000000000000', 'releases/20000000000000');
+		$folders = array('current', 'shared', 'releases', 'releases/10000000000000', 'releases/15000000000000', 'releases/20000000000000');
 		foreach ($folders as $folder) {
 			$folder = $this->server.'/'.$folder;
 
@@ -95,6 +95,11 @@ abstract class RocketeerTestCase extends ContainerTestCase
 			$this->app['files']->makeDirectory($folder, 0777, true);
 			file_put_contents($folder.'/.gitkeep', '');
 		}
+		file_put_contents($this->server.'/state.json', json_encode(array(
+			'10000000000000' => true,
+			'15000000000000' => false,
+			'20000000000000' => true,
+		)));
 
 		// Delete rocketeer config
 		$binary = $rootPath.'/.rocketeer';
@@ -130,16 +135,47 @@ abstract class RocketeerTestCase extends ContainerTestCase
 	 */
 	protected function assertTaskHistory($task, array $history, array $options = array())
 	{
-		// Create and execute task
+		// Create task if needed
 		if (is_string($task)) {
 			$task = $this->pretendTask($task, $options);
 		}
+
+		// Execute task
+		$history = $this->replaceHistoryPlaceholders($history);
 		$results = $task->execute();
 
 		// Check equality
 		$this->assertEquals($history, $task->getHistory());
 
 		return $results;
+	}
+
+	/**
+	 * Replace placeholders in an history
+	 *
+	 * @param array $history
+	 *
+	 * @return array
+	 */
+	protected function replaceHistoryPlaceholders($history, $release = null)
+	{
+		$release = $release ?: date('YmdHis');
+
+		foreach ($history as $key => $entries) {
+			if (is_array($entries)) {
+				$history[$key] = $this->replaceHistoryPlaceholders($entries, $release);
+				continue;
+			}
+
+			$history[$key] = strtr($entries, array(
+				'{php}'     => exec('which php'),
+				'{phpunit}' => exec('which phpunit'),
+				'{server}'  => $this->server,
+				'{release}' => $release,
+			));
+		}
+
+		return $history;
 	}
 
 	////////////////////////////////////////////////////////////////////
