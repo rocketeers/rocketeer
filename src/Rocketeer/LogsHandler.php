@@ -95,7 +95,7 @@ class LogsHandler
 
 		// Create directory
 		if (!is_dir($directory)) {
-			$this->app['files']->makeDirectory($directory);
+			$this->app['files']->makeDirectory($directory, 0777, true);
 		}
 
 		// Create file
