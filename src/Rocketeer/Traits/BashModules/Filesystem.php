@@ -71,7 +71,7 @@ class Filesystem extends Core
 	 */
 	public function listContents($directory)
 	{
-		return $this->run('ls '.$directory, false, true);
+		return $this->run('ls '.$directory, true, true);
 	}
 
 	/**
