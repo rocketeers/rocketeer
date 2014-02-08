@@ -86,3 +86,4 @@ It's also more thought out for the PHP world – although you can configure Capi
 ### Going further
 
 - **[Architecture](https://github.com/Anahkiasen/rocketeer/wiki/Architecture)**
+- **[Troubleshooting](https://github.com/Anahkiasen/rocketeer/wiki/Troubleshooting)**
