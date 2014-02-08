@@ -1,9 +1,9 @@
 {
   "name": "Rocketeer",
   "dependencies": {
-    "bootstrap": "~3.0.3",
+    "bootstrap": "~3.1.0",
     "marked": "~0.3.0",
-    "jquery": "~2.0.3",
+    "jquery": "~2.1.0",
     "rainbow": "#master",
     "toc": "~0.1.2"
   }
