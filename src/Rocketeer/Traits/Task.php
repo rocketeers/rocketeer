@@ -92,9 +92,11 @@ abstract class Task extends Bash
 	 */
 	public function fire()
 	{
-		$this->fireEvent('before');
-		$results = $this->execute();
-		$this->fireEvent('after');
+		// Fire the queue if the before event passes
+		if ($this->fireEvent('before')) {
+			$results = $this->execute();
+			$this->fireEvent('after');
+		}
 
 		return $results;
 	}
