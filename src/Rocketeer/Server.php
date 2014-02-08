@@ -83,6 +83,10 @@ class Server
 
 		// Compute the salts
 		foreach ($files as $file) {
+			if (basename($file) === 'tasks.php') {
+				continue;
+			}
+
 			$file  = $this->app['files']->getRequire($file);
 			$salt .= json_encode($file);
 		}
