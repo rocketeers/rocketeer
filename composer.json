@@ -1,6 +1,6 @@
 {
 	"name": "anahkiasen/rocketeer",
-	"description": "Rocketeer provides a fast and easy way to deploy your Laravel projects",
+	"description": "Rocketeer is a fast and simple deployer for the PHP world",
 	"license": "MIT",
 	"keywords": [
 		"laravel",
