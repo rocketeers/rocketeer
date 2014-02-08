@@ -49,7 +49,22 @@ class IgniterTest extends RocketeerTestCase
 
 		$root = realpath(__DIR__.'/..');
 		$this->assertEquals($root.'/.rocketeer', $this->app['path.rocketeer.config']);
-		$this->assertEquals($root.'/.rocketeer/tasks', $this->app['path.rocketeer.tasks']);
+	}
+
+	public function testCanBindTasksAndEventsPaths()
+	{
+		$this->igniter->bindPaths();
+		$this->igniter->exportConfiguration();
+
+		// Create some fake files
+		$root = realpath(__DIR__.'/../.rocketeer');
+		$this->app['files']->put($root.'/events.php', '');
+		$this->app['files']->makeDirectory($root.'/tasks');
+
+		$this->igniter->bindPaths();
+
+		$this->assertEquals($root.'/tasks', $this->app['path.rocketeer.tasks']);
+		$this->assertEquals($root.'/events.php', $this->app['path.rocketeer.events']);
 	}
 
 	public function testCanExportConfiguration()
