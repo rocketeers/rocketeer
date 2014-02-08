@@ -235,9 +235,12 @@ class TasksQueue extends AbstractLocatorClass
 			$currentStage = $task->usesStages() ? $stage : null;
 			$this->rocketeer->setStage($currentStage);
 
+			// Here we fire the task and if it was halted
+			// at any point, we cancel the whole queue
 			$state = $task->fire();
 			$this->output[] = $state;
-			if ($state === false) {
+			if ($task->wasHalted() or $state === false) {
+				$this->command->error('Deployment was canceled by task "'.$task->getName(). '"');
 				return false;
 			}
 		}

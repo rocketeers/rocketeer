@@ -48,8 +48,12 @@ class Deploy extends Task
 		// Run halting methods
 		foreach ($this->halting as $method) {
 			$this->fireEvent($method);
+			if ($this->wasHalted()) {
+				return false;
+			}
+
 			if (!$this->$method()) {
-				return $this->cancel();
+				return $this->halt();
 			}
 		}
 
@@ -62,8 +66,12 @@ class Deploy extends Task
 		// Synchronize shared folders and files
 		$this->syncSharedFolders();
 
+		// Run before-symlink events
+		if (!$this->fireEvent('before-symlink')) {
+			return $this->halt();
+		}
+
 		// Update symlink and mark release as valid
-		$this->fireEvent('before-symlink');
 		$this->updateSymlink();
 		$this->releasesManager->markReleaseAsValid($release);
 
@@ -109,18 +117,6 @@ class Deploy extends Task
 	////////////////////////////////////////////////////////////////////
 	/////////////////////////////// HELPERS ////////////////////////////
 	////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Cancel deploy
-	 *
-	 * @return false
-	 */
-	protected function cancel()
-	{
-		$this->executeTask('Rollback');
-
-		return false;
-	}
 
 	/**
 	 * Set permissions for the folders used by the application

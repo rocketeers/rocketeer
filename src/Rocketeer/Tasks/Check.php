@@ -66,15 +66,11 @@ class Check extends Task
 
 		// Return false if any error
 		if (!empty($errors)) {
-			$this->command->error(implode(PHP_EOL, $errors));
-
-			return false;
+			return $this->halt(implode(PHP_EOL, $errors));
 		}
 
 		// Display confirmation message
 		$this->command->info('Your server is ready to deploy');
-
-		return true;
 	}
 
 	/**

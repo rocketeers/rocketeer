@@ -27,6 +27,13 @@ abstract class Task extends Bash
 	protected $description;
 
 	/**
+	 * Whether the task was halted mid-course
+	 *
+	 * @var boolean
+	 */
+	protected $halted = false;
+
+	/**
 	 * Whether the Task needs to be run on each stage or globally
 	 *
 	 * @var boolean
@@ -34,8 +41,18 @@ abstract class Task extends Bash
 	public $usesStages = true;
 
 	////////////////////////////////////////////////////////////////////
-	///////////////////////////// CORE METHODS /////////////////////////
+	////////////////////////////// REFLECTION //////////////////////////
 	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Get the name of the Task
+	 *
+	 * @return string
+	 */
+	public function getName()
+	{
+		return class_basename($this);
+	}
 
 	/**
 	 * Get the basic name of the Task
@@ -44,11 +61,7 @@ abstract class Task extends Bash
 	 */
 	public function getSlug()
 	{
-		$name = get_class($this);
-		$name = str_replace('\\', '/', $name);
-		$name = basename($name);
-
-		return strtolower($name);
+		return strtolower($this->getName());
 	}
 
 	/**
@@ -60,6 +73,10 @@ abstract class Task extends Bash
 	{
 		return $this->description;
 	}
+
+	////////////////////////////////////////////////////////////////////
+	////////////////////////////// EXECUTION ///////////////////////////
+	////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Run the Task
@@ -82,6 +99,35 @@ abstract class Task extends Bash
 		return $results;
 	}
 
+	/**
+	 * Cancel the task
+	 *
+	 * @param string  $errors Potential errors to display
+	 *
+	 * @return boolean
+	 */
+	public function halt($errors = null)
+	{
+		// Display errors
+		if ($errors) {
+			$this->command->error($errors);
+		}
+
+		$this->halted = true;
+
+		return false;
+	}
+
+	/**
+	 * Whether the Task was halted mid-course
+	 *
+	 * @return boolean
+	 */
+	public function wasHalted()
+	{
+		return $this->halted;
+	}
+
 	////////////////////////////////////////////////////////////////////
 	/////////////////////////////// EVENTS /////////////////////////////
 	////////////////////////////////////////////////////////////////////
@@ -95,9 +141,16 @@ abstract class Task extends Bash
 	 */
 	public function fireEvent($event)
 	{
-		$event = $this->getQualifiedEvent($event);
+		// Fire the event
+		$event  = $this->getQualifiedEvent($event);
+		$result = $this->app['events']->fire($event, array($this), true);
 
-		return $this->app['events']->fire($event, array($this));
+		// If the event returned a strict false, halt the task
+		if ($result === false) {
+			$this->halt();
+		}
+
+		return $result;
 	}
 
 	/**

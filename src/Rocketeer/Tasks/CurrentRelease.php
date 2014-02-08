@@ -39,7 +39,7 @@ class CurrentRelease extends Task
 
 		// Check if a release has been deployed already
 		$currentRelease = $this->releasesManager->getCurrentRelease();
-		if (strlen($currentRelease) !== 14) {
+		if (!$this->isValidRelease($currentRelease)) {
 			return $this->command->error('No release has yet been deployed'.$stage);
 		}
 
@@ -53,5 +53,17 @@ class CurrentRelease extends Task
 		$this->displayReleases();
 
 		return $message;
+	}
+
+	/**
+	 * Check if a string is a possible release
+	 *
+	 * @param string $release
+	 *
+	 * @return boolean
+	 */
+	protected function isValidRelease($release)
+	{
+		return strlen($release) === 14;
 	}
 }
