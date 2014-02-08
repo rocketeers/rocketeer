@@ -218,6 +218,18 @@ class ReleasesManager
 	////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Sanitize a possible release
+	 *
+	 * @param string $release
+	 *
+	 * @return string
+	 */
+	protected function sanitizeRelease($release)
+	{
+		return strlen($release) === 14 ? $release : null;
+	}
+
+	/**
 	 * Get where to store the current release
 	 *
 	 * @return string
@@ -247,14 +259,14 @@ class ReleasesManager
 		// If we have saved the last deployed release, return that
 		$cached = $this->app['rocketeer.server']->getValue($this->getCurrentReleaseKey());
 		if ($cached) {
-			return $cached;
+			return $this->sanitizeRelease($cached);
 		}
 
 		// Else get and save last deployed release
 		$lastDeployed = array_get($this->getReleases(), 0);
 		$this->updateCurrentRelease($lastDeployed);
 
-		return $lastDeployed;
+		return $this->sanitizeRelease($lastDeployed);
 	}
 
 	/**
