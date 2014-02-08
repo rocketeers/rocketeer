@@ -3,6 +3,7 @@
 public/builds
 contents.md
 index.html
+.rocketeer/logs
 
 # Dependencies
 public/components

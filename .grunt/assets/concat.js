@@ -30,7 +30,6 @@ module.exports = {
 		files: {
 			'<%= paths.compiled.js %>/scripts.js': [
 				'<%= components %>/jquery/jquery.js',
-				'<%= components %>/marked/lib/marked.js',
 				'<%= components %>/rainbow/js/rainbow.js',
 				'<%= components %>/rainbow/js/language/generic.js',
 				'<%= components %>/rainbow/js/language/php.js',
