@@ -47,8 +47,7 @@ class Deploy extends Task
 
 		// Run halting methods
 		foreach ($this->halting as $method) {
-			$this->fireEvent($method);
-			if ($this->wasHalted()) {
+			if (!$this->fireEvent($method)) {
 				return false;
 			}
 

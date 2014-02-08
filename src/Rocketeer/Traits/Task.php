@@ -125,7 +125,7 @@ abstract class Task extends Bash
 	 */
 	public function wasHalted()
 	{
-		return $this->halted;
+		return $this->halted === true;
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -150,7 +150,7 @@ abstract class Task extends Bash
 			$this->halt();
 		}
 
-		return $result;
+		return $result !== false;
 	}
 
 	/**
