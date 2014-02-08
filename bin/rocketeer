@@ -1,13 +1,12 @@
 #!/usr/bin/env php
 <?php
 
-// If rocketeer installed as a phar, autoload should be here
-if (file_exists(__DIR__.'/../vendor/autoload.php')) {
-  require __DIR__.'/../vendor/autoload.php';
-}
-// Otherwise we assume that rocketeer is installed via composer and autoloader is situated higher
-else {
-  require __DIR__.'/../../../autoload.php';
-}
+// Here we get the correct path to the vendor folder, depending
+// on whether we're using the archive or as a dependency
+$vendor = file_exists(__DIR__.'/../vendor/autoload.php')
+	? __DIR__.'/../vendor/autoload.php'
+	: __DIR__.'/../../../autoload.php';
+require $vendor;
 
+// Then we launch the console application
 return Rocketeer\Facades\Console::run();
