@@ -92,16 +92,16 @@ class RocketeerServiceProvider extends ServiceProvider
 		$app = $serviceProvider->bindPaths($app);
 		$app = $serviceProvider->bindCoreClasses($app);
 
-		// Load the user's tasks
-		$app = $serviceProvider->loadFileOrFolder($app, 'tasks');
-
 		// Bind Rocketeer's classes
 		$app = $serviceProvider->bindClasses($app);
 		$app = $serviceProvider->bindScm($app);
-		$app = $serviceProvider->bindCommands($app);
 
-		// Load the user's events
+		// Load the user's events and tasks
+		$app = $serviceProvider->loadFileOrFolder($app, 'tasks');
 		$app = $serviceProvider->loadFileOrFolder($app, 'events');
+
+		// Bind commands
+		$app = $serviceProvider->bindCommands($app);
 
 		return $app;
 	}
