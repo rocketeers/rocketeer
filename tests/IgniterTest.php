@@ -49,7 +49,7 @@ class IgniterTest extends RocketeerTestCase
 
 		$root = realpath(__DIR__.'/..');
 		$this->assertEquals($root.'/.rocketeer', $this->app['path.rocketeer.config']);
-		$this->assertEquals($root.'/.rocketeer/tasks.php', $this->app['path.rocketeer.tasks']);
+		$this->assertEquals($root.'/.rocketeer/tasks', $this->app['path.rocketeer.tasks']);
 	}
 
 	public function testCanExportConfiguration()

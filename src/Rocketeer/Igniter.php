@@ -146,7 +146,7 @@ class Igniter
 			$filename = $path.$file;
 
 			// Check whether we provided a file or folder
-			if (!is_dir($filename)) {
+			if (!is_dir($filename) and file_exists($filename)) {
 				$filename .= '.php';
 			}
 

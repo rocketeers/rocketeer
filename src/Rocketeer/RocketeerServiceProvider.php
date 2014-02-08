@@ -354,7 +354,7 @@ class RocketeerServiceProvider extends ServiceProvider
 
 		// If we have one unified tasks file, include it
 		$file = $app['path.rocketeer.'.$handle];
-		if (!is_dir($file)) {
+		if (!is_dir($file) and file_exists($file)) {
 			include $file;
 		}
 
