@@ -9,6 +9,7 @@ module.exports = {
 				'wiki/II-Concepts/Connections-Stages.md',
 				'wiki/II-Concepts/Events.md',
 				'wiki/II-Concepts/Plugins.md',
+				'wiki/III-Further/Troubleshooting.md',
 			],
 		},
 		options: {
