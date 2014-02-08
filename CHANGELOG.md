@@ -1,5 +1,10 @@
 ### Changelog
 
+### 1.1.1
+
+- Fixed a bug where the `before` event if halting wouldn't cancel the Task firing
+- Fixed a bug where some calls to the facade would crash in `tasks.php`
+
 ### 1.1.0
 
 - **Events can now cancel the queue by returning false or returning `$task->halt(error)`**
