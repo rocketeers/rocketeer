@@ -1,12 +1,18 @@
 #!/usr/bin/env php
 <?php
 
-// Here we get the correct path to the vendor folder, depending
-// on whether we're using the archive or as a dependency
-$vendor = file_exists(__DIR__.'/../vendor/autoload.php')
-	? __DIR__.'/../vendor/autoload.php'
-	: __DIR__.'/../../../autoload.php';
-require $vendor;
+$vendors = array(
+	__DIR__.'/../vendor/autoload.php',
+	__DIR__.'/../../../autoload.php'
+);
+
+// Loop through the possible vendor folders and require the first
+// one available
+foreach ($vendors as $vendor) {
+	if (file_exists($vendor)) {
+		require $vendor;
+	}
+}
 
 // Then we launch the console application
 return Rocketeer\Facades\Console::run();
