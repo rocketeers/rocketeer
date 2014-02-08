@@ -4,7 +4,7 @@
 	////////////////////////////////////////////////////////////////////
 
 	// The schema to use to name log files
-	'logs' => function($rocketeer) {
+	'logs' => function ($rocketeer) {
 		return sprintf('%s-%s-%s.log', $rocketeer->getConnection(), $rocketeer->getStage(), date('Ymd'));
 	},
 

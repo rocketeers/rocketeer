@@ -117,7 +117,7 @@ abstract class Task extends Bash
 	////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Display a list of releases
+	 * Display a list of releases and their status
 	 *
 	 * @return void
 	 */

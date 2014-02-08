@@ -1,7 +1,6 @@
 <?php
 namespace Rocketeer;
 
-use Rocketeer\Server;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class ServerTest extends RocketeerTestCase

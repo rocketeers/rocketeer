@@ -2,7 +2,6 @@
 namespace Rocketeer;
 
 use Rocketeer\TestCases\RocketeerTestCase;
-use Rocketeer\Igniter;
 
 class IgniterTest extends RocketeerTestCase
 {

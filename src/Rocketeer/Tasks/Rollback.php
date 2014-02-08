@@ -9,7 +9,6 @@
  */
 namespace Rocketeer\Tasks;
 
-use DateTime;
 use Rocketeer\Traits\Task;
 
 /**

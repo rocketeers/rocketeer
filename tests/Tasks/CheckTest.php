@@ -1,7 +1,6 @@
 <?php
 namespace Rocketeer\Tasks;
 
-use Rocketeer\Tasks\Check;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class CheckTest extends RocketeerTestCase
