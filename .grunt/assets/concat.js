@@ -9,6 +9,7 @@ module.exports = {
 				'wiki/II-Concepts/Connections-Stages.md',
 				'wiki/II-Concepts/Events.md',
 				'wiki/II-Concepts/Plugins.md',
+				'rocketeer/CHANGELOG.md',
 				'wiki/III-Further/Troubleshooting.md',
 			],
 		},
