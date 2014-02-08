@@ -56,7 +56,7 @@ class Core extends AbstractLocatorClass
 	public function run($commands, $silent = false, $array = false)
 	{
 		$commands = $this->processCommands($commands);
-		$verbose  = $this->getOption('verbose') and !$silent;
+		$verbose  = $this->getOption('verbose') && !$silent;
 
 		// Log the commands for pretend
 		if ($this->getOption('pretend') and !$silent) {
@@ -70,7 +70,7 @@ class Core extends AbstractLocatorClass
 			$output .= $results;
 
 			if ($verbose) {
-				$me->remote->display($results);
+				$me->remote->display(trim($results));
 			}
 		});
 
