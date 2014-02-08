@@ -204,6 +204,6 @@ p, ul {
   .layout-sidebar .toc-h3 {
     padding-left: 1.8rem;
     font-size: 0.9rem; }
-  .layout-sidebar .toc-h3 {
+  .layout-sidebar .toc-h3, .layout-sidebar .toc-h4 {
     padding-left: 2.4rem;
     font-size: 0.8rem; }
