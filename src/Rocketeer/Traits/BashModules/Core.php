@@ -70,7 +70,7 @@ class Core extends AbstractLocatorClass
 			$output .= $results;
 
 			if ($verbose) {
-				$me->remote->display($output);
+				$me->remote->display($results);
 			}
 		});
 
