@@ -137,13 +137,18 @@ class Igniter
 		$logs = $this->app->bound('path.storage') ? str_replace($path, null, $this->app['path.storage']) : '.rocketeer';
 		$paths = array(
 			'config' => '.rocketeer',
+			'events' => '.rocketeer/events',
 			'tasks'  => '.rocketeer/tasks',
 			'logs'   => $logs.'/logs',
 		);
 
 		foreach ($paths as $key => $file) {
-			$file     = str_replace('tasks', 'tasks.php', $file);
 			$filename = $path.$file;
+
+			// Check whether we provided a file or folder
+			if (!is_dir($filename)) {
+				$filename .= '.php';
+			}
 
 			// Use configuration in current folder if none found
 			$realpath = realpath('.').'/'.$file;

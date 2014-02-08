@@ -88,13 +88,20 @@ class RocketeerServiceProvider extends ServiceProvider
 
 		$serviceProvider = new static($app);
 
-		// Bind classes
+		// Bind core paths and classes
 		$app = $serviceProvider->bindPaths($app);
 		$app = $serviceProvider->bindCoreClasses($app);
+
+		// Load the user's tasks
+		$app = $serviceProvider->loadFileOrFolder($app, 'tasks');
+
+		// Bind Rocketeer's classes
 		$app = $serviceProvider->bindClasses($app);
 		$app = $serviceProvider->bindScm($app);
 		$app = $serviceProvider->bindCommands($app);
-		$app = $serviceProvider->bindTasks($app);
+
+		// Load the user's events
+		$app = $serviceProvider->loadFileOrFolder($app, 'events');
 
 		return $app;
 	}
@@ -333,20 +340,30 @@ class RocketeerServiceProvider extends ServiceProvider
 	}
 
 	/**
-	 * Bind custom tasks
+	 * Load a file or its contents if a folder
 	 *
 	 * @param Container $app
+	 * @param string    $handle
 	 *
 	 * @return Container
 	 */
-	protected function bindTasks(Container $app)
+	protected function loadFileOrFolder(Container $app, $handle)
 	{
+		// Bind ourselves into the facade to avoid automatic resolution
 		Facades\Rocketeer::setFacadeApplication($app);
 
-		// Register custom tasks
-		$tasks = $app['path.rocketeer.tasks'];
-		if (file_exists($tasks)) {
-			include $tasks;
+		// If we have one unified tasks file, include it
+		$file = $app['path.rocketeer.'.$handle];
+		if (!is_dir($file)) {
+			include $file;
+		}
+
+		// Else include its contents
+		else {
+			$folder = glob($file.'/*.php');
+			foreach ($folder as $file) {
+				include $file;
+			}
 		}
 
 		return $app;

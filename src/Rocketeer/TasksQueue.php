@@ -355,8 +355,11 @@ class TasksQueue extends AbstractLocatorClass
 			$this->events->forget('rocketeer.'.$event);
 		}
 
-		// Register new events
+		// Get the registered events
 		$hooks = (array) $this->rocketeer->getOption('hooks');
+		unset($hooks['custom']);
+
+		// Bind events
 		foreach ($hooks as $event => $tasks) {
 			foreach ($tasks as $task => $listeners) {
 				$this->registeredEvents[] = $this->addTaskListeners($task, $event, $listeners);

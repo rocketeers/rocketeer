@@ -77,16 +77,23 @@ class Server
 			return $this->hash;
 		}
 
+		// Get the contents of the configuration folder
 		$salt   = '';
 		$folder = $this->app['rocketeer.igniter']->getConfigurationPath();
 		$files  = $this->app['files']->glob($folder.'/*.php');
 
+		// Remove custom files and folders
+		$handles = array('events', 'tasks');
+		foreach ($handles as $handle) {
+			$path  = $this->app['path.rocketeer.'.$handle];
+			$index = array_search($path, $files);
+			if ($index !== false) {
+				unset($files[$index]);
+			}
+		}
+
 		// Compute the salts
 		foreach ($files as $file) {
-			if (basename($file) === 'tasks.php') {
-				continue;
-			}
-
 			$file  = $this->app['files']->getRequire($file);
 			$salt .= json_encode($file);
 		}
