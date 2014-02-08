@@ -2,6 +2,9 @@
 
 ### 1.1.0
 
+- **Events can now cancel the queue by returning false or returning `$task->halt(error)`**
+- **Rocketeer now logs its output and commands**
+- **Releases are now marked as completed or halted to avoid rollback to releases that errored**
 - Hash is now computed with the actual configuration instead of the modification times to avoid unecessary reflushes
 - Check task now uses the PHP version required in your `composer.json` file if the latter exists
 - Use the server's time to timestamp releases instead of the local time
