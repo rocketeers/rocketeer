@@ -27,7 +27,6 @@ abstract class Notifier extends Plugin
   public function onQueue(TasksQueue $queue)
   {
 		$me = $this;
-
     $queue->after('deploy', function ($task) use ($me) {
 
       // Don't send a notification if pretending to deploy
@@ -35,8 +34,8 @@ abstract class Notifier extends Plugin
         return;
       }
 
-  		// Build message
-			$message = $this->makeMessage();
+  		// Build message and send it
+			$message = $me->makeMessage();
       $me->send($message);
 
     }, -10);
