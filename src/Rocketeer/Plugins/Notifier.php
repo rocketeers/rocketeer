@@ -28,7 +28,7 @@ abstract class Notifier extends Plugin
   {
 		$me = $this;
 
-    $queue->before('deploy', function ($task) use ($me) {
+    $queue->after('deploy', function ($task) use ($me) {
 
       // Don't send a notification if pretending to deploy
       if ($task->command->option('pretend')) {
