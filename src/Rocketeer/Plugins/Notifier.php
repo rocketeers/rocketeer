@@ -10,6 +10,7 @@
 namespace Rocketeer\Plugins;
 
 use Rocketeer\Traits\Plugin;
+use Rocketeer\TasksQueue;
 
 /**
  * A base class for notification services to extends
@@ -25,17 +26,17 @@ abstract class Notifier extends Plugin
    */
   public function onQueue(TasksQueue $queue)
   {
-  	// Build message
-		$message = $this->makeMessage();
-		$me      = $this;
+		$me = $this;
 
-    $queue->after('deploy', function ($task) use ($message, $me) {
+    $queue->before('deploy', function ($task) use ($me) {
 
       // Don't send a notification if pretending to deploy
       if ($task->command->option('pretend')) {
         return;
       }
 
+  		// Build message
+			$message = $this->makeMessage();
       $me->send($message);
 
     }, -10);
@@ -44,6 +45,7 @@ abstract class Notifier extends Plugin
 	/**
 	 * Send a given message
 	 *
+	 * @param Task   $task
 	 * @param string $message
 	 *
 	 * @return void

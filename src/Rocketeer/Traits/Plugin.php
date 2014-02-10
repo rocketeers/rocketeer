@@ -9,6 +9,7 @@
  */
 namespace Rocketeer\Traits;
 
+use Rocketeer\Traits\AbstractLocatorClass;
 use Illuminate\Container\Container;
 use Illuminate\Support\Str;
 use Rocketeer\TasksQueue;
@@ -18,7 +19,7 @@ use Rocketeer\TasksQueue;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-abstract class Plugin
+abstract class Plugin extends AbstractLocatorClass
 {
 	/**
 	 * The path to the configuration folder
