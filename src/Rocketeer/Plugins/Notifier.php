@@ -9,29 +9,37 @@
  */
 namespace Rocketeer\Plugins;
 
-use Rocketeer\Traits\Task;
+use Rocketeer\Traits\Plugin;
 
 /**
  * A base class for notification services to extends
  */
-abstract class Notifier
+abstract class Notifier extends Plugin
 {
-	/**
-	 * Send the notification
-	 *
-	 * @return void
-	 */
-	public function execute()
-	{
-    // Don't send a notification if pretending to deploy
-    if ($this->command->option('pretend')) {
-      return;
-    }
+  /**
+   * Register Tasks with Rocketeer
+   *
+   * @param TasksQueue $queue
+   *
+   * @return void
+   */
+  public function onQueue(TasksQueue $queue)
+  {
+  	// Build message
+		$message = $this->makeMessage();
+		$me      = $this;
 
-    // Build and send message
-    $message = $this->makeMessage();
-    $this->send($message);
-	}
+    $queue->after('deploy', function ($task) use ($message, $me) {
+
+      // Don't send a notification if pretending to deploy
+      if ($task->command->option('pretend')) {
+        return;
+      }
+
+      $me->send($message);
+
+    }, -10);
+  }
 
 	/**
 	 * Send a given message
