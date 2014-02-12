@@ -68,18 +68,20 @@ class TasksQueue extends AbstractLocatorClass
 	/**
 	 * Register a custom Task with Rocketeer
 	 *
-	 * @param Task|string    $task
+	 * @param Task|string $task
+	 * @param string      $name
 	 *
 	 * @return Container
 	 */
-	public function add($task)
+	public function add($task, $name = null)
 	{
 		// Build Task if necessary
-		if (is_string($task)) {
-			$task = $this->buildTask($task);
-		}
+		$task = $this->buildTask($task, $name);
+		$slug = 'rocketeer.tasks.'.$task->getSlug();
 
-		$bound = $this->console->add(new BaseTaskCommand($task));
+		// Add the task to Rocketeer
+		$this->app->instance($slug, $task);
+		$bound = $this->console->add(new BaseTaskCommand($this->app[$slug]));
 
 		// Bind to Artisan too
 		if ($this->app->bound('artisan')) {
@@ -87,6 +89,19 @@ class TasksQueue extends AbstractLocatorClass
 		}
 
 		return $bound;
+	}
+
+	/**
+	 * Register a task with Rocketeer
+	 *
+	 * @param string $name
+	 * @param mixed  $task
+	 *
+	 * @return void
+	 */
+	public function task($name, $task)
+	{
+		return $this->add($task, $name);
 	}
 
 	/**
@@ -248,6 +263,10 @@ class TasksQueue extends AbstractLocatorClass
 		return true;
 	}
 
+	////////////////////////////////////////////////////////////////////
+	/////////////////////////////// BUILDING ///////////////////////////
+	////////////////////////////////////////////////////////////////////
+
 	/**
 	 * Build a queue from a list of tasks
 	 *
@@ -261,20 +280,48 @@ class TasksQueue extends AbstractLocatorClass
 	public function buildQueue(array $tasks)
 	{
 		foreach ($tasks as &$task) {
-
-			// If we provided a Closure or a string command, build it
-			if ($task instanceof Closure or $this->isStringCommand($task)) {
-				$task = $this->buildTaskFromClosure($task);
-			}
-
-			// Build remaining tasks
-			if (!$task instanceof Task) {
-				$task = $this->buildTask($task);
-			}
-
+			$task = $this->buildTask($task);
 		}
 
 		return $tasks;
+	}
+
+	/**
+	 * Build a task from anything
+	 *
+	 * @param mixed  $task
+	 * @param string $name
+	 *
+	 * @return Task
+	 */
+	public function buildTask($task, $name = null)
+	{
+		// Check the handle if possible
+		if (is_string($task)) {
+			$handle = 'rocketeer.tasks.'.$task;
+		}
+
+		// If we provided a Closure or a string command, build it
+		if ($task instanceof Closure or $this->isStringCommand($task)) {
+			$task = $this->buildTaskFromClosure($task);
+		}
+
+		// Check for an existing container binding
+		elseif (isset($handle) and $this->app->bound($handle)) {
+			return $this->app[$handle];
+		}
+
+		// Build remaining tasks
+		if (!$task instanceof Task) {
+			$task = $this->buildTaskFromClass($task);
+		}
+
+		// Set the task's name
+		if ($name) {
+			$task->setName($name);
+		}
+
+		return $task;
 	}
 
 	/**
@@ -301,7 +348,7 @@ class TasksQueue extends AbstractLocatorClass
 
 		// Now that we unified it all to a Closure, we build
 		// a Closure Task from there
-		$task = $this->buildTask('Rocketeer\Tasks\Closure');
+		$task = $this->buildTaskFromClass('Rocketeer\Tasks\Closure');
 		$task->setClosure($closure);
 
 		// If we had an original string used, store it on
@@ -320,7 +367,7 @@ class TasksQueue extends AbstractLocatorClass
 	 *
 	 * @return Task
 	 */
-	public function buildTask($task)
+	public function buildTaskFromClass($task)
 	{
 		if ($task instanceof Task) {
 			return $task;
@@ -409,7 +456,7 @@ class TasksQueue extends AbstractLocatorClass
 		}
 
 		// Get event name and register listeners
-		$event = $this->buildTask($task)->getSlug().'.'.$event;
+		$event = $this->buildTaskFromClass($task)->getSlug().'.'.$event;
 		$event = $this->listenTo($event, $listeners, $priority);
 
 		return $event;
@@ -427,7 +474,7 @@ class TasksQueue extends AbstractLocatorClass
 	public function getTasksListeners($task, $event, $flatten = false)
 	{
 		// Get events
-		$task   = $this->buildTask($task)->getSlug();
+		$task   = $this->buildTaskFromClass($task)->getSlug();
 		$events = $this->events->getListeners('rocketeer.'.$task.'.'.$event);
 
 		// Flatten the queue if requested
@@ -479,6 +526,6 @@ class TasksQueue extends AbstractLocatorClass
 	 */
 	protected function isStringCommand($string)
 	{
-		return is_string($string) and !class_exists($string);
+		return is_string($string) and !class_exists($string) and !$this->app->bound('rocketeer.tasks.'.$string);
 	}
 }

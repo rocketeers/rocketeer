@@ -20,6 +20,13 @@ use Rocketeer\Bash;
 abstract class Task extends Bash
 {
 	/**
+	 * The name of the task
+	 *
+	 * @var string
+	 */
+	protected $name;
+
+	/**
 	 * A description of what the Task does
 	 *
 	 * @var string
@@ -51,7 +58,17 @@ abstract class Task extends Bash
 	 */
 	public function getName()
 	{
-		return class_basename($this);
+		return $this->name ?: class_basename($this);
+	}
+
+	/**
+	 * Change the Task's name
+	 *
+	 * @param string $name
+	 */
+	public function setName($name)
+	{
+		$this->name = $name;
 	}
 
 	/**
@@ -204,6 +221,6 @@ abstract class Task extends Bash
 	 */
 	public function executeTask($task)
 	{
-		return $this->app['rocketeer.tasks']->buildTask($task)->fire();
+		return $this->app['rocketeer.tasks']->buildTaskFromClass($task)->fire();
 	}
 }
