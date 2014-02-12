@@ -32,9 +32,9 @@
 		"phpseclib/phpseclib": "dev-master"
 	},
 	"suggest": {
-		"anahkiasen/rocketeer-campfire": "Campfire plugin to create deployments notifications"
+		"anahkiasen/rocketeer-campfire": "Campfire plugin to create deployments notifications",
+		"anahkiasen/rocketeer-slack": "Slack plugin to create deployments notifications"
 	},
-	"minimum-stability": "dev",
 	"bin": [
 		"bin/rocketeer"
 	],
