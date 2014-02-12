@@ -1,5 +1,10 @@
 ### Changelog
 
+### 1.1.2
+
+- Added a `Rocketeer\Plugins\Notifier` class to easily add third-party deployment notification plugins
+- Fixed a bug where the custom tasks/events file/folders might not exist
+
 ### 1.1.1
 
 - Fixed a bug where the `before` event if halting wouldn't cancel the Task firing
