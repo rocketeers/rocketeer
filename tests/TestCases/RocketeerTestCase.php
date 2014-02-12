@@ -1,8 +1,6 @@
 <?php
 namespace Rocketeer\TestCases;
 
-include __DIR__.'/../../vendor/autoload.php';
-
 use Rocketeer\Server;
 
 abstract class RocketeerTestCase extends ContainerTestCase
