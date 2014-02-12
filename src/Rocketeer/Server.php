@@ -130,7 +130,7 @@ class Server
 	{
 		// Create personnal storage if necessary
 		if (!$this->app->bound('path.storage')) {
-			$storage = $_SERVER['HOME'].'/.rocketeer';
+			$storage = (isset($_SERVER['HOME']) ? $_SERVER['HOME'] : '.').'/.rocketeer';
 			@mkdir($storage);
 		}
 
