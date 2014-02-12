@@ -267,11 +267,9 @@ class RocketeerServiceProvider extends ServiceProvider
 			$fakeCommand  = !class_exists($commandClass);
 
 			// Build command slug
-			if ($fakeCommand) {
-				$taskInstance = $this->app['rocketeer.tasks']->buildTaskFromClass($task);
-				if (is_numeric($slug)) {
-					$slug = $taskInstance->getSlug();
-				}
+			$taskInstance = $this->app['rocketeer.tasks']->buildTaskFromClass($task);
+			if (is_numeric($slug)) {
+				$slug = $taskInstance->getSlug();
 			}
 
 			// Bind Task to container
