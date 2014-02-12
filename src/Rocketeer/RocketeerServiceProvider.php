@@ -359,7 +359,7 @@ class RocketeerServiceProvider extends ServiceProvider
 		}
 
 		// Else include its contents
-		else {
+		elseif (is_dir($file)){
 			$folder = glob($file.'/*.php');
 			foreach ($folder as $file) {
 				include $file;
