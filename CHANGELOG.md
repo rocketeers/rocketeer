@@ -1,5 +1,9 @@
 ### Changelog
 
+### 1.2.0
+
+- Added various SSH task-running helpers such as `Rocketeer::task(taskname, task)`
+
 ### 1.1.2
 
 - Added a `Rocketeer\Plugins\Notifier` class to easily add third-party deployment notification plugins
