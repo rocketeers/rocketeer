@@ -134,7 +134,7 @@ class Igniter
 	protected function bindConfiguration()
 	{
 		$path = $this->app['path.base'] ? $this->app['path.base'].'/' : '';
-		$logs = $this->app->bound('path.storage') ? str_replace($path, null, $this->app['path.storage']) : '.rocketeer';
+		$logs = $this->app->bound('path.storage') ? str_replace($this->unifySlashes($path), null, $this->unifySlashes($this->app['path.storage'])) : '.rocketeer';
 		$paths = array(
 			'config' => '.rocketeer',
 			'events' => '.rocketeer/events',
@@ -158,5 +158,15 @@ class Igniter
 
 			$this->app->instance('path.rocketeer.'.$key, $filename);
 		}
+	}
+	
+	/**
+	 * Unify the slashes to the UNIX mode (forward slashes)
+	 * @param  string $path
+	 * @return string
+	 */
+	protected function unifySlashes($path)
+	{
+		return str_replace('\\', '/', $path);
 	}
 }
