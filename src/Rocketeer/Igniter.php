@@ -134,7 +134,7 @@ class Igniter
 	protected function bindConfiguration()
 	{
 		$path = $this->app['path.base'] ? $this->app['path.base'].'/' : '';
-		$logs = $this->app->bound('path.storage') ? str_replace($path, null, $this->app['path.storage']) : '.rocketeer';
+		$logs = $this->app->bound('path.storage') ? str_replace(str_replace('\\', '/', $path), null, str_replace('\\', '/', $this->app['path.storage'])) : '.rocketeer';
 		$paths = array(
 			'config' => '.rocketeer',
 			'events' => '.rocketeer/events',
