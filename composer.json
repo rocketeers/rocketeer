@@ -21,6 +21,7 @@
 		"illuminate/container": "~4",
 		"illuminate/filesystem": "~4",
 		"illuminate/events": "~4",
+		"illuminate/remote": "~4",
 		"illuminate/log": "~4"
 	},
 	"require-dev": {
@@ -28,7 +29,6 @@
 		"nesbot/carbon": "dev-master",
 		"patchwork/utf8": "dev-master",
 		"herrera-io/box": "dev-master",
-		"illuminate/remote": "~4",
 		"phpseclib/phpseclib": "dev-master"
 	},
 	"suggest": {
