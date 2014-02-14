@@ -40,7 +40,7 @@ class Setup extends Task
 	public function execute()
 	{
 		// Check if requirments are met
-		if (!$this->executeTask('Check') and !$this->getOption('pretend')) {
+		if ($this->executeTask('Check') === false and !$this->getOption('pretend')) {
 			return false;
 		}
 
