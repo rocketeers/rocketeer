@@ -145,6 +145,10 @@ class Binaries extends Filesystem
 		if (!$this->fileExists($dependencies)) {
 			return true;
 		}
+		
+		 // Run update composer.phar
+        	$this->command->comment('Self-Updating Composer');
+        	$output = $this->runForCurrentRelease($this->getComposer(). ' self-update');
 
 		// Run install
 		$this->command->comment('Installing Composer dependencies');
