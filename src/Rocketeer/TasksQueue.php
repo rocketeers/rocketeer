@@ -369,7 +369,7 @@ class TasksQueue extends AbstractLocatorClass
 	 */
 	public function buildTaskFromClass($task)
 	{
-		if ($task instanceof Task) {
+		if (is_object($task) and $task instanceof Task) {
 			return $task;
 		}
 
