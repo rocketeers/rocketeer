@@ -131,19 +131,27 @@ abstract class RocketeerTestCase extends ContainerTestCase
 	 *
 	 * @return string
 	 */
-	protected function assertTaskHistory($task, array $history, array $options = array())
+	protected function assertTaskHistory($task, array $expectedHistory, array $options = array())
 	{
 		// Create task if needed
 		if (is_string($task)) {
 			$task = $this->pretendTask($task, $options);
 		}
 
-		// Execute task
-		$history = $this->replaceHistoryPlaceholders($history);
-		$results = $task->execute();
+		// Execute task and get history
+		$results     = $task->execute();
+		$taskHistory = $task->getHistory();
+
+		// Look for release in history
+		$release = join(array_flatten($taskHistory));
+		preg_match_all('/[0-9]{14}/', $release, $release);
+		$release = array_get($release, '0.0', date('YmdHis'));
+
+		// Replace placeholders
+		$expectedHistory = $this->replaceHistoryPlaceholders($expectedHistory, $release);
 
 		// Check equality
-		$this->assertEquals($history, $task->getHistory());
+		$this->assertEquals($expectedHistory, $taskHistory);
 
 		return $results;
 	}
