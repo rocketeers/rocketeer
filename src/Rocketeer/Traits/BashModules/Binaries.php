@@ -146,9 +146,12 @@ class Binaries extends Filesystem
 			return true;
 		}
 		
-		 // Run update composer.phar
-        	$this->command->comment('Self-Updating Composer');
-        	$output = $this->runForCurrentRelease($this->getComposer(). ' self-update');
+		// Run update composer.phar
+		if ($this->app['config']->get('rocketeer::remote.composer_auto_selfupdate'))
+               	{
+	        	$this->command->comment('Self-Updating Composer');
+	        	$output = $this->runForCurrentRelease($this->getComposer(). ' self-update');
+               	}
 
 		// Run install
 		$this->command->comment('Installing Composer dependencies');
