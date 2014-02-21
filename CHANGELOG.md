@@ -3,6 +3,7 @@
 ### 1.2.0
 
 - Added various SSH task-running helpers such as `Rocketeer::task(taskname, task)`
+- Added an option to disable recursive git clone (submodules)
 
 ### 1.1.2
 
