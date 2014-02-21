@@ -26,4 +26,7 @@
 	// If you're having problems cloning, try setting this to false
 	'shallow' => true,
 
+	// Recursively pull in submodules. Works only with GIT.
+	'submodules' => true,
+
 );
