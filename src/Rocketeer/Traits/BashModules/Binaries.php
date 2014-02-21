@@ -15,7 +15,7 @@ namespace Rocketeer\Traits\BashModules;
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Binaries extends Filesystem
-{
+{s
 	////////////////////////////////////////////////////////////////////
 	/////////////////////////////// BINARIES ///////////////////////////
 	////////////////////////////////////////////////////////////////////
@@ -147,8 +147,7 @@ class Binaries extends Filesystem
 		}
 		
 		// Run update composer.phar
-		if ($this->app['config']->get('rocketeer::remote.composer_selfupdate'))
-		{
+		if ($this->rocketeer->getOption('remote.composer_selfupdate')) {
 			$this->command->comment('Self-Updating Composer');
 			$output = $this->runForCurrentRelease($this->getComposer(). ' self-update');
 		}
