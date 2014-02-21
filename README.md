@@ -59,6 +59,7 @@ The MIT License (MIT). Please see [License File](https://github.com/anahkiasen/r
 ## Available plugins
 
 - [Campfire](https://github.com/Anahkiasen/rocketeer-campfire)
+- [Slack](https://github.com/Anahkiasen/rocketeer-slack)
 
 ## Why not Capistrano ?
 
