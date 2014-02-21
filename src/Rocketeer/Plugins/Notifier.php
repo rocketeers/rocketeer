@@ -17,29 +17,29 @@ use Rocketeer\TasksQueue;
  */
 abstract class Notifier extends Plugin
 {
-  /**
-   * Register Tasks with Rocketeer
-   *
-   * @param TasksQueue $queue
-   *
-   * @return void
-   */
-  public function onQueue(TasksQueue $queue)
-  {
+	/**
+	 * Register Tasks with Rocketeer
+	 *
+	 * @param TasksQueue $queue
+	 *
+	 * @return void
+	 */
+	public function onQueue(TasksQueue $queue)
+	{
 		$me = $this;
-    $queue->after('deploy', function ($task) use ($me) {
+		$queue->after('deploy', function ($task) use ($me) {
 
-      // Don't send a notification if pretending to deploy
-      if ($task->command->option('pretend')) {
-        return;
-      }
+			// Don't send a notification if pretending to deploy
+			if ($task->command->option('pretend')) {
+				return;
+			}
 
-  		// Build message and send it
+			// Build message and send it
 			$message = $me->makeMessage();
-      $me->send($message);
+			$me->send($message);
 
-    }, -10);
-  }
+		}, -10);
+	}
 
 	/**
 	 * Send a given message
@@ -62,26 +62,26 @@ abstract class Notifier extends Plugin
 	 */
 	protected function getComponents()
 	{
-    // Get user name
-    $user = $this->server->getValue('notifier.name');
-    if (!$user) {
-      $user = $this->command->ask('Who is deploying ?');
-      $this->server->setValue('notifier.name', $user);
-    }
+		// Get user name
+		$user = $this->server->getValue('notifier.name');
+		if (!$user) {
+			$user = $this->command->ask('Who is deploying ?');
+			$this->server->setValue('notifier.name', $user);
+		}
 
-    // Get what was deployed
-    $branch     = $this->rocketeer->getRepositoryBranch();
-    $stage      = $this->rocketeer->getStage();
-    $connection = $this->rocketeer->getConnection();
+		// Get what was deployed
+		$branch     = $this->rocketeer->getRepositoryBranch();
+		$stage      = $this->rocketeer->getStage();
+		$connection = $this->rocketeer->getConnection();
 
-    // Get hostname
-    $credentials = array_get($this->rocketeer->getAvailableConnections(), $connection);
-    $host        = array_get($credentials, 'host');
-    if ($stage) {
-      $connection = $stage.'@'.$connection;
-    }
+		// Get hostname
+		$credentials = array_get($this->rocketeer->getAvailableConnections(), $connection);
+		$host        = array_get($credentials, 'host');
+		if ($stage) {
+			$connection = $stage.'@'.$connection;
+		}
 
-    return compact('user', 'branch', 'connection', 'host');
+		return compact('user', 'branch', 'connection', 'host');
 	}
 
 	/**
@@ -99,9 +99,9 @@ abstract class Notifier extends Plugin
 	protected function makeMessage()
 	{
 		$message = $this->getMessageFormat();
-    $message = preg_replace('#\{([0-9])\}#', '%$1\$s', $message);
-    $message = vsprintf($message, $this->getComponents());
+		$message = preg_replace('#\{([0-9])\}#', '%$1\$s', $message);
+		$message = vsprintf($message, $this->getComponents());
 
-    return $message;
+		return $message;
 	}
 }

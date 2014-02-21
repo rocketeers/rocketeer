@@ -9,7 +9,6 @@
  */
 namespace Rocketeer\Traits;
 
-use Rocketeer\Traits\AbstractLocatorClass;
 use Illuminate\Container\Container;
 use Illuminate\Support\Str;
 use Rocketeer\TasksQueue;

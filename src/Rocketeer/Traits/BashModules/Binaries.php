@@ -145,7 +145,7 @@ class Binaries extends Filesystem
 		if (!$this->fileExists($dependencies)) {
 			return true;
 		}
-		
+
 		// Run update composer.phar
 		if ($this->rocketeer->getOption('remote.composer_selfupdate')) {
 			$this->command->comment('Self-Updating Composer');

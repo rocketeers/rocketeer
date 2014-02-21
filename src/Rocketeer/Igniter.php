@@ -160,7 +160,7 @@ class Igniter
 			$this->app->instance('path.rocketeer.'.$key, $filename);
 		}
 	}
-	
+
 	/**
 	 * Unify the slashes to the UNIX mode (forward slashes)
 	 * @param  string $path
