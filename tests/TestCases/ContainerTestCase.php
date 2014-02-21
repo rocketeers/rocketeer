@@ -175,6 +175,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 		$config->shouldReceive('get')->with('rocketeer::scm.repository')->andReturn('https://github.com/'.$this->repository);
 		$config->shouldReceive('get')->with('rocketeer::scm.scm')->andReturn('git');
 		$config->shouldReceive('get')->with('rocketeer::scm.shallow')->andReturn(true);
+		$config->shouldReceive('get')->with('rocketeer::scm.submodules')->andReturn(true);
 
 		// Tasks
 		$config->shouldReceive('get')->with('rocketeer::hooks')->andReturn(array(
