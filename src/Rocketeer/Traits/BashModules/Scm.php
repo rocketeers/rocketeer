@@ -43,7 +43,7 @@ class Scm extends Binaries
 		}
 
 		// Deploy submodules
-		if ($this->app['rocketeer.rocketeer']->getOption('scm.submodules')) {
+		if ($this->rocketeer->getOption('scm.submodules')) {
 			$this->command->info('Initializing submodules if any');
 			$this->runForCurrentRelease($this->scm->submodules());
 		}
