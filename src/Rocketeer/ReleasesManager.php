@@ -168,7 +168,11 @@ class ReleasesManager
 		ksort($file);
 		ksort($releases);
 
-		return array_replace($releases, $file);
+		// Replace and resort
+		$releases = array_replace($releases, $file);
+		krsort($releases);
+
+		return $releases;
 	}
 
 	/**
