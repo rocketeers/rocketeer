@@ -13,8 +13,12 @@
 	// The root directory where your applications will be deployed
 	'root_directory'   => '/home/www/',
 
-	// Optionally auto self updating composer version
-	'composer_selfupdate' => false,
+	'composer' => array(
+		// Optionally auto self updating composer version
+		'selfupdate' => false,
+		// If true, skip installing composer packages listed in require-dev
+		'nodev' => false,
+	),
 
 	// The name of the application to deploy
 	// This will create a folder of the same name in the root directory

@@ -146,15 +146,23 @@ class Binaries extends Filesystem
 			return true;
 		}
 
+		// Composer command-line options
+		$options = ' --no-interaction';
+
 		// Run update composer.phar
-		if ($this->rocketeer->getOption('remote.composer_selfupdate')) {
+		if ($this->rocketeer->getOption('remote.composer.selfupdate')) {
 			$this->command->comment('Self-Updating Composer');
-			$output = $this->runForCurrentRelease($this->getComposer(). ' self-update');
+			$output = $this->runForCurrentRelease($this->getComposer(). ' self-update' . $options);
+		}
+
+		// Composer command-line options
+		if ($this->app['rocketeer.rocketeer']->getOption('remote.composer.nodev')) {
+			$options .= ' --no-dev';
 		}
 
 		// Run install
 		$this->command->comment('Installing Composer dependencies');
-		$output = $this->runForCurrentRelease($this->getComposer(). ' install');
+		$output = $this->runForCurrentRelease($this->getComposer(). ' install' .$options);
 
 		return $this->checkStatus('Composer could not install dependencies', $output);
 	}
