@@ -146,9 +146,15 @@ class Binaries extends Filesystem
 			return true;
 		}
 
+		// Composer command-line options
+		$options = ' --no-interaction';
+		if ($this->app['rocketeer.rocketeer']->getOption('remote.composer_nodev')) {
+			$options .= ' --no-dev';
+		}
+
 		// Run install
 		$this->command->comment('Installing Composer dependencies');
-		$output = $this->runForCurrentRelease($this->getComposer(). ' install');
+		$output = $this->runForCurrentRelease($this->getComposer(). ' install' . $options);
 
 		return $this->checkStatus('Composer could not install dependencies', $output);
 	}
