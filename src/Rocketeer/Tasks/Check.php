@@ -71,6 +71,7 @@ class Check extends Task
 
 		// Display confirmation message
 		$this->command->info('Your server is ready to deploy');
+		return true;
 	}
 
 	/**
