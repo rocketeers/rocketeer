@@ -2,15 +2,19 @@
 <?php
 
 $vendors = array(
-	__DIR__.'/../vendor/autoload.php',
-	__DIR__.'/../../../autoload.php'
+	__DIR__ . '/../vendor/autoload.php',
+	__DIR__ . '/../../../autoload.php'
 );
 
 // Loop through the possible vendor folders and require the first
 // one available
 foreach ($vendors as $vendor) {
-	if (file_exists($vendor)) {
-		require $vendor;
+    if (file_exists($vendor)) {
+        $loader = require $vendor;
+
+        if (__DIR__ . '/../vendor/autoload.php' === $vendor) {
+            $loader->add('Rocketeer', __DIR__ . '/../src');
+        }
 	}
 }
 
