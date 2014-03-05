@@ -177,12 +177,12 @@ class TasksQueue extends AbstractLocatorClass
 	{
 		// Get plugin name
 		$plugin = $this->app->make($plugin, array($this->app));
-		$vendor = $plugin->getNamespace();
+		$namespace = $plugin->getNamespace();
 
 		// Register configuration
-		$this->config->package('rocketeer/'.$vendor, $plugin->configurationFolder);
+		$this->config->package('anahkiasen/'.$namespace, $plugin->configurationFolder);
 		if ($configuration) {
-			$this->config->set($vendor.'::config', $configuration);
+			$this->config->set($namespace.'::config', $configuration);
 		}
 
 		// Bind instances
