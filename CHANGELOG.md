@@ -6,6 +6,7 @@
 - Added an option to disable recursive git clone (submodules)
 - Added various Composer-related options
 - Releases are now sorted by date when printed out in `rollback` and `current`
+- Fixed a bug when running Setup would cancel the `--stage` option
 
 ### 1.1.2
 
