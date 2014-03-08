@@ -74,27 +74,31 @@ class Rocketeer
 	 */
 	public function getOption($option)
 	{
-		if ($contextual = $this->getContextualOption($option, 'stages')) {
+		$original = $this->app['config']->get('rocketeer::'.$option);
+
+		if ($contextual = $this->getContextualOption($option, 'stages', $original)) {
 			return $contextual;
 		}
 
-		if ($contextual = $this->getContextualOption($option, 'connections')) {
+		if ($contextual = $this->getContextualOption($option, 'connections', $original)) {
 			return $contextual;
 		}
 
-		return $this->app['config']->get('rocketeer::'.$option);
+		return $original;
 	}
 
 	/**
 	 * Get a contextual option
 	 *
-	 * @param  string $option
-	 * @param  string $type         [stage,connection]
+	 * @param  string       $option
+	 * @param  string       $type     [stage,connection]
+	 * @param  string|array $original
 	 *
 	 * @return mixed
 	 */
-	protected function getContextualOption($option, $type)
+	protected function getContextualOption($option, $type, $original = null)
 	{
+		// Switch context
 		switch ($type) {
 			case 'stages':
 				$contextual = sprintf('rocketeer::on.stages.%s.%s', $this->stage, $option);
@@ -105,7 +109,13 @@ class Rocketeer
 				break;
 		}
 
-		return $this->app['config']->get($contextual);
+		// Merge with defaults
+		$value = $this->app['config']->get($contextual);
+		if (is_array($value) and $original) {
+			$value = array_replace($original, $value);
+		}
+
+		return $value;
 	}
 
 	////////////////////////////////////////////////////////////////////
