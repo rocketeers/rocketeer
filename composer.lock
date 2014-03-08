@@ -7,7 +7,7 @@
     "packages": [
         {
             "name": "illuminate/config",
-            "version": "v4.1.22",
+            "version": "v4.1.23",
             "target-dir": "Illuminate/Config",
             "source": {
                 "type": "git",
@@ -55,7 +55,7 @@
         },
         {
             "name": "illuminate/console",
-            "version": "v4.1.22",
+            "version": "v4.1.23",
             "target-dir": "Illuminate/Console",
             "source": {
                 "type": "git",
@@ -101,17 +101,17 @@
         },
         {
             "name": "illuminate/container",
-            "version": "v4.1.22",
+            "version": "v4.1.23",
             "target-dir": "Illuminate/Container",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/container.git",
-                "reference": "dafb12a0c3c84dbecfac601a9c42547d8cfaa107"
+                "reference": "80383d49aa1c31f36c95abe582eb8fc779a996fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/container/zipball/dafb12a0c3c84dbecfac601a9c42547d8cfaa107",
-                "reference": "dafb12a0c3c84dbecfac601a9c42547d8cfaa107",
+                "url": "https://api.github.com/repos/illuminate/container/zipball/80383d49aa1c31f36c95abe582eb8fc779a996fc",
+                "reference": "80383d49aa1c31f36c95abe582eb8fc779a996fc",
                 "shasum": ""
             },
             "require": {
@@ -143,11 +143,11 @@
                     "role": "Developer"
                 }
             ],
-            "time": "2014-02-19 11:02:32"
+            "time": "2014-02-26 18:55:58"
         },
         {
             "name": "illuminate/events",
-            "version": "v4.1.22",
+            "version": "v4.1.23",
             "target-dir": "Illuminate/Events",
             "source": {
                 "type": "git",
@@ -196,7 +196,7 @@
         },
         {
             "name": "illuminate/filesystem",
-            "version": "v4.1.22",
+            "version": "v4.1.23",
             "target-dir": "Illuminate/Filesystem",
             "source": {
                 "type": "git",
@@ -244,22 +244,22 @@
         },
         {
             "name": "illuminate/log",
-            "version": "v4.1.22",
+            "version": "v4.1.23",
             "target-dir": "Illuminate/Log",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/log.git",
-                "reference": "5386ae88c4182326186ff5d0982e5e8765a3ad2c"
+                "reference": "89e3c0e2f07655f1bf562047f481c653d4d261b9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/log/zipball/5386ae88c4182326186ff5d0982e5e8765a3ad2c",
-                "reference": "5386ae88c4182326186ff5d0982e5e8765a3ad2c",
+                "url": "https://api.github.com/repos/illuminate/log/zipball/89e3c0e2f07655f1bf562047f481c653d4d261b9",
+                "reference": "89e3c0e2f07655f1bf562047f481c653d4d261b9",
                 "shasum": ""
             },
             "require": {
                 "illuminate/support": "4.1.*",
-                "monolog/monolog": "1.6.*",
+                "monolog/monolog": "1.*",
                 "php": ">=5.3.0"
             },
             "require-dev": {
@@ -290,11 +290,11 @@
                     "role": "Developer"
                 }
             ],
-            "time": "2014-02-15 09:27:21"
+            "time": "2014-02-20 23:05:31"
         },
         {
             "name": "illuminate/remote",
-            "version": "v4.1.22",
+            "version": "v4.1.23",
             "target-dir": "Illuminate/Remote",
             "source": {
                 "type": "git",
@@ -342,23 +342,24 @@
         },
         {
             "name": "illuminate/support",
-            "version": "v4.1.22",
+            "version": "v4.1.23",
             "target-dir": "Illuminate/Support",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "229ad546efb43cd1a6c14ca40e4ff44a468b16eb"
+                "reference": "3134bebb9997be4963b320da8b7db2752d7cb937"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/229ad546efb43cd1a6c14ca40e4ff44a468b16eb",
-                "reference": "229ad546efb43cd1a6c14ca40e4ff44a468b16eb",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/3134bebb9997be4963b320da8b7db2752d7cb937",
+                "reference": "3134bebb9997be4963b320da8b7db2752d7cb937",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0"
             },
             "require-dev": {
+                "jeremeamia/superclosure": "1.0.*",
                 "mockery/mockery": "0.9.*",
                 "patchwork/utf8": "1.1.*",
                 "phpunit/phpunit": "3.7.*"
@@ -389,20 +390,20 @@
                     "role": "Developer"
                 }
             ],
-            "time": "2014-02-15 09:27:21"
+            "time": "2014-02-27 21:11:13"
         },
         {
             "name": "monolog/monolog",
-            "version": "1.6.0",
+            "version": "1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "f72392d0e6eb855118f5a84e89ac2d257c704abd"
+                "reference": "6225b22de9dcf36546be3a0b2fa8e3d986153f57"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/f72392d0e6eb855118f5a84e89ac2d257c704abd",
-                "reference": "f72392d0e6eb855118f5a84e89ac2d257c704abd",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/6225b22de9dcf36546be3a0b2fa8e3d986153f57",
+                "reference": "6225b22de9dcf36546be3a0b2fa8e3d986153f57",
                 "shasum": ""
             },
             "require": {
@@ -410,21 +411,26 @@
                 "psr/log": "~1.0"
             },
             "require-dev": {
+                "aws/aws-sdk-php": "~2.4.8",
                 "doctrine/couchdb": "dev-master",
                 "mlehner/gelf-php": "1.0.*",
-                "raven/raven": "0.5.*"
+                "phpunit/phpunit": "~3.7.0",
+                "raven/raven": "0.5.*",
+                "ruflin/elastica": "0.90.*"
             },
             "suggest": {
+                "aws/aws-sdk-php": "Allow sending log messages to AWS services like DynamoDB",
                 "doctrine/couchdb": "Allow sending log messages to a CouchDB server",
                 "ext-amqp": "Allow sending log messages to an AMQP server (1.0+ required)",
                 "ext-mongo": "Allow sending log messages to a MongoDB server",
                 "mlehner/gelf-php": "Allow sending log messages to a GrayLog2 server",
-                "raven/raven": "Allow sending log messages to a Sentry server"
+                "raven/raven": "Allow sending log messages to a Sentry server",
+                "ruflin/elastica": "Allow sending log messages to an Elastic Search server"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.6.x-dev"
+                    "dev-master": "1.7.x-dev"
                 }
             },
             "autoload": {
@@ -451,7 +457,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2013-07-28 22:38:30"
+            "time": "2013-11-14 19:48:31"
         },
         {
             "name": "phpseclib/phpseclib",
@@ -459,12 +465,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "8dc659d694d3e0af68688600908ff1cac9d079dc"
+                "reference": "5dcc63ef6ca720b1617cff33b445d9b318c9ad03"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/8dc659d694d3e0af68688600908ff1cac9d079dc",
-                "reference": "8dc659d694d3e0af68688600908ff1cac9d079dc",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/5dcc63ef6ca720b1617cff33b445d9b318c9ad03",
+                "reference": "5dcc63ef6ca720b1617cff33b445d9b318c9ad03",
                 "shasum": ""
             },
             "require": {
@@ -489,7 +495,8 @@
                     "Crypt": "phpseclib/",
                     "File": "phpseclib/",
                     "Math": "phpseclib/",
-                    "Net": "phpseclib/"
+                    "Net": "phpseclib/",
+                    "System": "phpseclib/"
                 },
                 "files": [
                     "phpseclib/Crypt/Random.php"
@@ -545,7 +552,7 @@
                 "x.509",
                 "x509"
             ],
-            "time": "2014-02-17 17:53:54"
+            "time": "2014-03-06 11:05:11"
         },
         {
             "name": "psr/log",
@@ -756,12 +763,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/padraic/mockery.git",
-                "reference": "619f304b0ebc52489f11b47e88c3c17f95bf9958"
+                "reference": "a32c6ad986c061b40636b7da4fe30adc2a7451b5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/padraic/mockery/zipball/619f304b0ebc52489f11b47e88c3c17f95bf9958",
-                "reference": "619f304b0ebc52489f11b47e88c3c17f95bf9958",
+                "url": "https://api.github.com/repos/padraic/mockery/zipball/a32c6ad986c061b40636b7da4fe30adc2a7451b5",
+                "reference": "a32c6ad986c061b40636b7da4fe30adc2a7451b5",
                 "shasum": ""
             },
             "require": {
@@ -814,7 +821,7 @@
                 "test double",
                 "testing"
             ],
-            "time": "2014-02-17 21:56:53"
+            "time": "2014-03-05 22:17:02"
         },
         {
             "name": "nesbot/carbon",
@@ -868,12 +875,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nicolas-grekas/Patchwork-UTF8.git",
-                "reference": "66a936cc633fe13378c91f81030d5193be968480"
+                "reference": "aea0de833cba7cf2c25239be71f2787edaee36d5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nicolas-grekas/Patchwork-UTF8/zipball/66a936cc633fe13378c91f81030d5193be968480",
-                "reference": "66a936cc633fe13378c91f81030d5193be968480",
+                "url": "https://api.github.com/repos/nicolas-grekas/Patchwork-UTF8/zipball/aea0de833cba7cf2c25239be71f2787edaee36d5",
+                "reference": "aea0de833cba7cf2c25239be71f2787edaee36d5",
                 "shasum": ""
             },
             "require": {
@@ -911,7 +918,7 @@
                 "utf-8",
                 "utf8"
             ],
-            "time": "2014-02-02 17:09:49"
+            "time": "2014-03-01 20:01:07"
         },
         {
             "name": "phine/exception",
