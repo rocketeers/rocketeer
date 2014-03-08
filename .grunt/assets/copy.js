@@ -4,8 +4,8 @@ module.exports = {
 			{
 				expand : true,
 				src    : ['**'],
-				cwd    : '<%= components %>/bootstrap/fonts',
-				dest   : '<%= builds %>/fonts/'
+				cwd    : '<%= paths.components.bootstrap.fonts %>',
+				dest   : '<%= builds %>/fonts'
 			},
 			{
 				expand : true,

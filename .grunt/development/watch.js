@@ -5,18 +5,22 @@ module.exports = {
 	},
 
 	grunt: {
-		files: ['Gruntfile.js', '.grunt/**/*'],
+		files: ['Gruntfile.js', '<%= grunt %>/**/*'],
 		tasks: 'default',
 	},
-	markdown: {
+	md: {
 		files: ['index.template.html', 'wiki/*.md', 'rocketeer/README.md'],
 		tasks: 'md',
 	},
-	scripts: {
+	img: {
+		files: '<%= paths.original.img %>/**/*',
+		tasks: 'copy',
+	},
+	js: {
 		files: '<%= paths.original.js %>/**/*',
 		tasks: 'js',
 	},
-	stylesheets: {
+	css: {
 		files: '<%= paths.original.sass %>/**/*',
 		tasks: 'css',
 	},
