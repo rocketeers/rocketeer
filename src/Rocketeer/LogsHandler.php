@@ -48,16 +48,27 @@ class LogsHandler
 	 */
 	public function log($informations, $level = 'info')
 	{
+		if ($file = $this->getCurrentLogsFile()) {
+			return $this->getLogger($file)->$level($informations);
+		}
+	}
+
+	/**
+	 * Get the logs file being currently used
+	 *
+	 * @return string
+	 */
+	public function getCurrentLogsFile()
+	{
 		$logs = $this->app['config']->get('rocketeer::logs');
 		if (!$logs) {
 			return;
 		}
 
-		// Get the full path to the file
 		$file = $logs($this->app['rocketeer.rocketeer']);
 		$file = $this->app['path.rocketeer.logs'].'/'.$file;
 
-		return $this->getLogger($file)->$level($informations);
+		return $file;
 	}
 
 	/**

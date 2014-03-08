@@ -84,7 +84,8 @@ abstract class RocketeerTestCase extends ContainerTestCase
 
 		// Recreate altered local server
 		$this->app['files']->deleteDirectory($rootPath.'/storage');
-		$folders = array('current', 'shared', 'releases', 'releases/10000000000000', 'releases/15000000000000', 'releases/20000000000000');
+		$this->app['files']->deleteDirectory($this->server.'/logs');
+		$folders = array('current', 'shared', 'releases','releases/10000000000000', 'releases/15000000000000', 'releases/20000000000000');
 		foreach ($folders as $folder) {
 			$folder = $this->server.'/'.$folder;
 

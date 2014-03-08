@@ -154,6 +154,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 
 		// Rocketeer
 		$config->shouldReceive('get')->with('rocketeer::default')->andReturn(array('production', 'staging'));
+		$config->shouldReceive('get')->with('rocketeer::logs')->andReturn(false);
 		$config->shouldReceive('get')->with('rocketeer::connections')->andReturn(array());
 		$config->shouldReceive('get')->with('rocketeer::remote.strategy')->andReturn('clone');
 		$config->shouldReceive('get')->with('rocketeer::remote.application_name')->andReturn('foobar');
