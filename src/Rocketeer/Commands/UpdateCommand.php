@@ -39,7 +39,7 @@ class UpdateCommand extends AbstractDeployCommand
 	 */
 	public function fire()
 	{
-		return $this->fireTasksQueue('Rocketeer\Tasks\Update');
+		return $this->fireTasksQueue('update');
 	}
 
 	/**

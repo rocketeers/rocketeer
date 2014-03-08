@@ -40,8 +40,8 @@ class DeployCommand extends AbstractDeployCommand
 	public function fire()
 	{
 		return $this->fireTasksQueue(array(
-			'Rocketeer\Tasks\Deploy',
-			'Rocketeer\Tasks\Cleanup',
+			'deploy',
+			'cleanup',
 		));
 	}
 

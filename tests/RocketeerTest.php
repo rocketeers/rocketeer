@@ -176,10 +176,12 @@ class RocketeerTest extends RocketeerTestCase
 	 */
 	protected function expectRepositoryConfig($repository, $username, $password)
 	{
-		$this->app['config']->shouldReceive('get')->with('rocketeer::scm')->andReturn(array(
-			'repository' => $repository,
-			'username'   => $username,
-			'password'   => $password,
+		$this->swapConfig(array(
+			'rocketeer::scm' => array(
+				'repository' => $repository,
+				'username'   => $username,
+				'password'   => $password,
+			),
 		));
 	}
 }

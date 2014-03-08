@@ -39,6 +39,6 @@ class TestCommand extends AbstractDeployCommand
 	{
 		$this->input->setOption('verbose', true);
 
-		return $this->fireTasksQueue('Rocketeer\Tasks\Test');
+		return $this->fireTasksQueue('test');
 	}
 }

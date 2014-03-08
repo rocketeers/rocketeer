@@ -63,7 +63,7 @@ class BaseTaskCommand extends AbstractDeployCommand
 	 */
 	public function fire()
 	{
-		return $this->fireTasksQueue($this->task);
+		return $this->fireTasksQueue($this->task->getSlug());
 	}
 
 	/**

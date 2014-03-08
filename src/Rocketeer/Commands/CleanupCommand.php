@@ -39,7 +39,7 @@ class CleanupCommand extends AbstractDeployCommand
 	 */
 	public function fire()
 	{
-		return $this->fireTasksQueue('Rocketeer\Tasks\Cleanup');
+		return $this->fireTasksQueue('cleanup');
 	}
 
 	/**
