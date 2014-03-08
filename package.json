@@ -24,7 +24,7 @@
 		"grunt-svgmin": "*",
 		"grunt-tinypng": "*",
 		"load-grunt-tasks": "*",
-		"grunt-text-replace": "*"
+		"grunt-text-replace": "*",
 		"grunt-autoprefixer": "*"
 	}
 }
