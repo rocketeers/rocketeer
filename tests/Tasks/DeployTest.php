@@ -97,7 +97,7 @@ class DeployTest extends RocketeerTestCase
 				'username'   => '',
 				'password'   => '',
 			),
-			'rocketeer::remote.composer' => function($task) {
+			'rocketeer::remote.composer' => function ($task) {
 				return array(
 					$task->composer('self-update'),
 					$task->composer('install --prefer-source'),

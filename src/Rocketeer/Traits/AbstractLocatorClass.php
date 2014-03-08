@@ -56,10 +56,12 @@ abstract class AbstractLocatorClass
 			'command'         => 'rocketeer.command',
 			'console'         => 'rocketeer.console',
 			'logs'            => 'rocketeer.logs',
+			'queue'           => 'rocketeer.queue',
 			'releasesManager' => 'rocketeer.releases',
 			'rocketeer'       => 'rocketeer.rocketeer',
 			'scm'             => 'rocketeer.scm',
 			'server'          => 'rocketeer.server',
+			'tasks'           => 'rocketeer.tasks',
 		);
 
 		// Replace shortcuts

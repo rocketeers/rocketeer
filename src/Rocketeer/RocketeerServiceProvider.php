@@ -192,8 +192,12 @@ class RocketeerServiceProvider extends ServiceProvider
 			return new Bash($app);
 		});
 
-		$app->singleton('rocketeer.tasks', function ($app) {
+		$app->singleton('rocketeer.queue', function ($app) {
 			return new TasksQueue($app);
+		});
+
+		$app->singleton('rocketeer.tasks', function ($app) {
+			return new TasksHandler($app);
 		});
 
 		$app->singleton('rocketeer.logs', function ($app) {
