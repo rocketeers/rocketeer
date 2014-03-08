@@ -20,13 +20,6 @@ abstract class RocketeerTestCase extends ContainerTestCase
 	protected $deploymentsFile;
 
 	/**
-	 * The current path to PHP
-	 *
-	 * @var string
-	 */
-	protected $php;
-
-	/**
 	 * A dummy Task to use for helpers tests
 	 *
 	 * @var Task
@@ -50,7 +43,6 @@ abstract class RocketeerTestCase extends ContainerTestCase
 		// Setup local server
 		$this->server          = __DIR__.'/../_server/foobar';
 		$this->deploymentsFile = __DIR__.'/../_meta/deployments.json';
-		$this->php             = exec('which php');
 
 		// Bind new Server instance
 		$meta = dirname($this->deploymentsFile);
@@ -225,6 +217,9 @@ abstract class RocketeerTestCase extends ContainerTestCase
 		$options = array_merge(array(
 			'pretend' => true,
 			'verbose' => false,
+			'tests'   => false,
+			'migrate' => false,
+			'seed'    => false,
 		), $options);
 
 		return $this->task($task, $this->getCommand($expectations, $options));

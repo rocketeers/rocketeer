@@ -11,7 +11,7 @@ namespace Rocketeer\Traits;
 
 use Illuminate\Container\Container;
 use Illuminate\Support\Str;
-use Rocketeer\TasksQueue;
+use Rocketeer\TasksHandler;
 
 /**
  * A basic abstract class for Rocketeer plugins to extend
@@ -56,9 +56,9 @@ abstract class Plugin extends AbstractLocatorClass
 	/**
 	 * Register Tasks with Rocketeer
 	 *
-	 * @param TasksQueue $queue
+	 * @param TasksHandler $queue
 	 *
 	 * @return void
 	 */
-	abstract public function onQueue(TasksQueue $queue);
+	abstract public function onQueue(TasksHandler $queue);
 }

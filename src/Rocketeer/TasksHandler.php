@@ -9,8 +9,8 @@
  */
 namespace Rocketeer;
 
-use Rocketeer\Commands\BaseTaskCommand;
 use Illuminate\Container\Container;
+use Rocketeer\Commands\BaseTaskCommand;
 use Rocketeer\Traits\AbstractLocatorClass;
 
 /**
@@ -239,11 +239,13 @@ class TasksHandler extends AbstractLocatorClass
 	 */
 	public function plugin($plugin, array $configuration = array())
 	{
-		// Get plugin name
-		$plugin = $this->app->make($plugin, array($this->app));
-		$vendor = $plugin->getNamespace();
+		// Build plugin
+		if (is_string($plugin)) {
+			$plugin = $this->app->make($plugin, array($this->app));
+		}
 
 		// Register configuration
+		$vendor = $plugin->getNamespace();
 		$this->config->package('rocketeer/'.$vendor, $plugin->configurationFolder);
 		if ($configuration) {
 			$this->config->set($vendor.'::config', $configuration);
@@ -252,7 +254,7 @@ class TasksHandler extends AbstractLocatorClass
 		// Bind instances
 		$this->app = $plugin->register($this->app);
 
-		// Add hooks to TasksQueue
+		// Add hooks to TasksHandler
 		$plugin->onQueue($this);
 	}
 }
