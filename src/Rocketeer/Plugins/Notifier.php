@@ -96,7 +96,7 @@ abstract class Notifier extends Plugin
 	 *
 	 * @return string
 	 */
-	protected function makeMessage()
+	public function makeMessage()
 	{
 		$message = $this->getMessageFormat();
 		$message = preg_replace('#\{([0-9])\}#', '%$1\$s', $message);
