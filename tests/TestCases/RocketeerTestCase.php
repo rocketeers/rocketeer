@@ -139,8 +139,13 @@ abstract class RocketeerTestCase extends ContainerTestCase
 		}
 
 		// Execute task and get history
-		$results     = $task->execute();
-		$taskHistory = $task->getHistory();
+		if (is_array($task)) {
+			$results     = '';
+			$taskHistory = $task;
+		} else {
+			$results     = $task->execute();
+			$taskHistory = $task->getHistory();
+		}
 
 		// Look for release in history
 		$release = join(array_flatten($taskHistory));
@@ -174,10 +179,11 @@ abstract class RocketeerTestCase extends ContainerTestCase
 			}
 
 			$history[$key] = strtr($entries, array(
-				'{php}'     => exec('which php'),
-				'{phpunit}' => exec('which phpunit'),
-				'{server}'  => $this->server,
-				'{release}' => $release,
+				'{php}'      => exec('which php'),
+				'{phpunit}'  => exec('which phpunit'),
+				'{server}'   => $this->server,
+				'{release}'  => $release,
+				'{composer}' => exec('which composer'),
 			));
 		}
 

@@ -13,12 +13,13 @@
 	// The root directory where your applications will be deployed
 	'root_directory'   => '/home/www/',
 
-	'composer' => array(
-		// Optionally auto self updating composer version
-		'selfupdate' => false,
-		// If true, skip installing composer packages listed in require-dev
-		'nodev' => false,
-	),
+	// The process that will be executed by Composer
+	'composer' => function($task) {
+		return array(
+			$task->composer('self-update'),
+			$task->composer('install --no-interaction --no-dev --prefer-dist'),
+		);
+	},
 
 	// The name of the application to deploy
 	// This will create a folder of the same name in the root directory

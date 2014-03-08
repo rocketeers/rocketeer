@@ -122,7 +122,7 @@ class Check extends Task
 	{
 		$this->command->comment('Checking presence of Composer');
 
-		return $this->getComposer();
+		return $this->composer();
 	}
 
 	/**

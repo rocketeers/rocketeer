@@ -4,7 +4,7 @@
 
 - Added various SSH task-running helpers such as `Rocketeer::task(taskname, task)`
 - Added an option to disable recursive git clone (submodules)
-- Added various Composer-related options
+- Composer execution is now configurable via a callback
 - Releases are now sorted by date when printed out in `rollback` and `current`
 - Fixed a bug when running Setup would cancel the `--stage` option
 

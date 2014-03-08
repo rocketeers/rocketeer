@@ -167,6 +167,12 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 		$config->shouldReceive('get')->with('rocketeer::remote.permissions.files')->andReturn(array('tests'));
 		$config->shouldReceive('get')->with('rocketeer::remote.root_directory')->andReturn(__DIR__.'/../_server/');
 		$config->shouldReceive('get')->with('rocketeer::remote.shared')->andReturn(array('tests/Elements'));
+		$config->shouldReceive('get')->with('rocketeer::remote.composer')->andReturn(function($task) {
+			return array(
+				$task->composer('self-update'),
+				$task->composer('install --no-interaction --no-dev --prefer-dist'),
+			);
+		});
 		$config->shouldReceive('get')->with('rocketeer::stages.default')->andReturn(null);
 		$config->shouldReceive('get')->with('rocketeer::stages.stages')->andReturn(array());
 

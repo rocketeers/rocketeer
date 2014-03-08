@@ -34,6 +34,25 @@ class Binaries extends Filesystem
 		return trim($php. ' ' .$command);
 	}
 
+	/**
+	 * Prefix a command with the right path to Composer
+	 *
+	 * @param string $command
+	 *
+	 * @return string
+	 */
+	public function composer($command = null)
+	{
+		$composer = $this->which('composer', $this->releasesManager->getCurrentReleasePath().'/composer.phar');
+
+		// Prepend PHP command
+		if (strpos($composer, 'composer.phar') !== false) {
+			$composer = $this->php($composer);
+		}
+
+		return trim($composer. ' ' .$command);
+	}
+
 	// Artisan
 	////////////////////////////////////////////////////////////////////
 
@@ -111,60 +130,38 @@ class Binaries extends Filesystem
 	////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Get the path to Composer binary
-	 *
-	 * @return string
-	 */
-	public function getComposer()
-	{
-		$composer = $this->which('composer', $this->releasesManager->getCurrentReleasePath().'/composer.phar');
-
-		// Prepend PHP command
-		if (strpos($composer, 'composer.phar') !== false) {
-			$composer = $this->php($composer);
-		}
-
-		return $composer;
-	}
-
-	/**
 	 * Run Composer on the folder
 	 *
+	 * @param boolean $force
+	 *
 	 * @return string
 	 */
-	public function runComposer()
+	public function runComposer($force = false)
 	{
 		// Find Composer
-		$composer = $this->getComposer();
+		$composer = $this->composer();
 		if (!$composer) {
 			return true;
 		}
 
 		// Check for Composer file
 		$dependencies = $this->releasesManager->getCurrentReleasePath().'/composer.json';
-		if (!$this->fileExists($dependencies)) {
+		if (!$this->fileExists($dependencies) and !$force) {
 			return true;
 		}
 
-		// Composer command-line options
-		$options = ' --no-interaction';
-
-		// Run update composer.phar
-		if ($this->rocketeer->getOption('remote.composer.selfupdate')) {
-			$this->command->comment('Self-Updating Composer');
-			$output = $this->runForCurrentRelease($this->getComposer(). ' self-update' . $options);
+		// Get the Composer commands to run
+		$tasks = $this->rocketeer->getOption('remote.composer');
+		$tasks = (array) $tasks($this);
+		if (empty($tasks)) {
+			return true;
 		}
 
-		// Composer command-line options
-		if ($this->app['rocketeer.rocketeer']->getOption('remote.composer.nodev')) {
-			$options .= ' --no-dev';
-		}
-
-		// Run install
+		// Run commands
 		$this->command->comment('Installing Composer dependencies');
-		$output = $this->runForCurrentRelease($this->getComposer(). ' install' .$options);
+		$this->runForCurrentRelease($tasks);
 
-		return $this->checkStatus('Composer could not install dependencies', $output);
+		return $this->checkStatus('Composer could not install dependencies');
 	}
 
 	////////////////////////////////////////////////////////////////////
