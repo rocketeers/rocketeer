@@ -2,11 +2,12 @@
 
 ### 1.2.0
 
-- Added various SSH task-running helpers such as `Rocketeer::task(taskname, task)`
+- **Added various SSH task-running helpers such as `Rocketeer::task(taskname, task)`**
+- **Composer execution is now configurable via a callback**
 - Added an option to disable recursive git clone (submodules)
-- Composer execution is now configurable via a callback
 - Releases are now sorted by date when printed out in `rollback` and `current`
 - Fixed a bug when running Setup would cancel the `--stage` option
+- Fixed a bug where contextual options weren't properly merged with default ones
 
 ### 1.1.2
 
