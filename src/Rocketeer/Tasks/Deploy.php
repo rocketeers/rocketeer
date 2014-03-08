@@ -23,11 +23,7 @@ class Deploy extends Task
 	 *
 	 * @var array
 	 */
-	protected $halting = array(
-		'cloneRepository',
-		'runComposer',
-		'checkTestsResults',
-	);
+	protected $halting = array();
 
 	/**
 	 * Run the Task
@@ -36,6 +32,9 @@ class Deploy extends Task
 	 */
 	public function execute()
 	{
+		// Create halting events
+		$this->createEvents();
+
 		// Setup if necessary
 		if (!$this->isSetup()) {
 			$this->command->error('Server is not ready, running Setup task');
@@ -116,6 +115,21 @@ class Deploy extends Task
 	////////////////////////////////////////////////////////////////////
 	/////////////////////////////// HELPERS ////////////////////////////
 	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Create the events Deploy will run
+	 *
+	 * @return void
+	 */
+	protected function createEvents()
+	{
+		$strategy = $this->rocketeer->getOption('remote.strategy');
+		$this->halting = array(
+			$strategy.'Repository',
+			'runComposer',
+			'checkTestsResults',
+		);
+	}
 
 	/**
 	 * Set permissions for the folders used by the application

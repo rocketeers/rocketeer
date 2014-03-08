@@ -49,7 +49,7 @@ class DeployTest extends RocketeerTestCase
 
 	public function testCanDisableGitOptions()
 	{
-		$this->app['config'] = $this->getConfig(array(
+		$this->swapConfig(array(
 			'rocketeer::scm.shallow'    => false,
 			'rocketeer::scm.submodules' => false,
 			'rocketeer::scm' => array(
@@ -117,6 +117,44 @@ class DeployTest extends RocketeerTestCase
 		$deploy->runComposer(true);
 
 		$this->assertTaskHistory($deploy->getHistory(), $matcher, array(
+			'tests'   => false,
+			'seed'    => false,
+			'migrate' => false
+		));
+	}
+
+	public function testCanUseCopyStrategy()
+	{
+		$this->swapConfig(array(
+			'rocketeer::remote.strategy' => 'copy',
+			'rocketeer::scm' => array(
+				'repository' => 'https://github.com/'.$this->repository,
+				'username'   => '',
+				'password'   => '',
+			)
+		));
+
+		$matcher = array(
+			'cp {server}/releases/10000000000000 {server}/releases/{release}',
+			array(
+				'cd {server}/releases/{release}',
+				'git reset --hard',
+				'git pull',
+			),
+			array(
+				"cd {server}/releases/{release}",
+				"chmod -R 755 {server}/releases/{release}/tests",
+				"chmod -R g+s {server}/releases/{release}/tests",
+				"chown -R www-data:www-data {server}/releases/{release}/tests"
+			),
+			"mkdir -p {server}/shared/tests",
+			"mv {server}/releases/{release}/tests/Elements {server}/shared/tests/Elements",
+			"mv {server}/current {server}/releases/{release}",
+			"rm -rf {server}/current",
+			"ln -s {server}/releases/{release} {server}/current",
+		);
+
+		$this->assertTaskHistory('Deploy', $matcher, array(
 			'tests'   => false,
 			'seed'    => false,
 			'migrate' => false

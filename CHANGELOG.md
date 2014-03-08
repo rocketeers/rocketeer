@@ -3,6 +3,7 @@
 ### 1.2.0
 
 - **Added various SSH task-running helpers such as `Rocketeer::task(taskname, task)`**
+- **Rocketeer now has a `copy` strategy that copies the previous release instead of cloning a new one on deploy**
 - **Composer execution is now configurable via a callback**
 - Added an option to disable recursive git clone (submodules)
 - Releases are now sorted by date when printed out in `rollback` and `current`

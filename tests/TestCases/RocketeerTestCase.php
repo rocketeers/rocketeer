@@ -149,8 +149,11 @@ abstract class RocketeerTestCase extends ContainerTestCase
 
 		// Look for release in history
 		$release = join(array_flatten($taskHistory));
-		preg_match_all('/[0-9]{14}/', $release, $release);
-		$release = array_get($release, '0.0', date('YmdHis'));
+		preg_match_all('/[0-9]{14}/', $release, $releases);
+		$release = array_get($releases, '0.0', date('YmdHis'));
+		if ($release === '10000000000000') {
+			$release = array_get($releases, '0.1', date('YmdHis'));
+		}
 
 		// Replace placeholders
 		$expectedHistory = $this->replaceHistoryPlaceholders($expectedHistory, $release);

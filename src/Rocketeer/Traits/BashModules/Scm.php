@@ -17,6 +17,35 @@ namespace Rocketeer\Traits\BashModules;
 class Scm extends Binaries
 {
 	/**
+	 * Copies the repository into a release folder and update it
+	 *
+	 * @param string $destination
+	 *
+	 * @return string
+	 */
+	public function copyRepository($destination = null)
+	{
+		// Get the previous release, if none clone from scratch
+		$previous = $this->releasesManager->getPreviousRelease();
+		$previous = $this->releasesManager->getPathToRelease($previous);
+		if (!$previous) {
+			return $this->cloneRepository($destination);
+		}
+
+		// Recompute destination
+		if (!$destination) {
+			$destination = $this->releasesManager->getCurrentReleasePath();
+		}
+
+		// Copy old release into new one
+		$this->command->info('Copying previous release "' .$previous. '" in "' .$destination. '"');
+		$this->copy($previous, $destination);
+
+		// Update repository
+		return $this->updateRepository();
+	}
+
+	/**
 	 * Clone the repo into a release folder
 	 *
 	 * @param string $destination Where to clone to

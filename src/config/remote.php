@@ -1,5 +1,11 @@
 <?php return array(
 
+	// The strategory to deploy with
+	// Availables are:
+	// - clone | Clones the repository from scratch on every deploy
+	// - copy  | Copies the previous release and then updates it
+	'strategy' => 'clone',
+
 	// Remote server
 	//////////////////////////////////////////////////////////////////////
 
@@ -36,6 +42,9 @@
 		'{path.storage}/logs',
 		'{path.storage}/sessions',
 	),
+
+	// Permissions
+	////////////////////////////////////////////////////////////////////
 
 	'permissions' => array(
 

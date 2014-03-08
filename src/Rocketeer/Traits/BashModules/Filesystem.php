@@ -63,6 +63,24 @@ class Filesystem extends Core
 	}
 
 	/**
+	 * Copy a file
+	 *
+	 * @param string $origin
+	 * @param string $destination
+	 *
+	 * @return string
+	 */
+	public function copy($origin, $destination)
+	{
+		$folder = dirname($destination);
+		if (!$this->fileExists($folder)) {
+			$this->createFolder($folder, true);
+		}
+
+		return $this->run(sprintf('cp %s %s', $origin, $destination));
+	}
+
+	/**
 	 * Get the contents of a directory
 	 *
 	 * @param  string $directory
