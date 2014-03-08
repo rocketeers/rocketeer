@@ -49,7 +49,7 @@ abstract class Notifier extends Plugin
 	 *
 	 * @return void
 	 */
-	abstract protected function send($message);
+	abstract public function send($message);
 
 	////////////////////////////////////////////////////////////////////
 	/////////////////////////////// MESSAGE ////////////////////////////

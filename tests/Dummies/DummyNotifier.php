@@ -22,7 +22,7 @@ class DummyNotifier extends Notifier
    *
    * @return void
    */
-  protected function send($message)
+  public function send($message)
   {
   	print $message;
 
