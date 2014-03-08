@@ -170,6 +170,11 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 		$config->shouldReceive('get')->with('rocketeer::stages.default')->andReturn(null);
 		$config->shouldReceive('get')->with('rocketeer::stages.stages')->andReturn(array());
 
+		// Paths
+		$config->shouldReceive('get')->with('rocketeer::paths.php')->andReturn('');
+		$config->shouldReceive('get')->with('rocketeer::paths.composer')->andReturn('');
+		$config->shouldReceive('get')->with('rocketeer::paths.artisan')->andReturn('');
+
 		// SCM
 		$config->shouldReceive('get')->with('rocketeer::scm.branch')->andReturn('master');
 		$config->shouldReceive('get')->with('rocketeer::scm.repository')->andReturn('https://github.com/'.$this->repository);

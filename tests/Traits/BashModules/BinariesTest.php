@@ -22,6 +22,15 @@ class BinariesTest extends RocketeerTestCase
 		$this->assertEquals('/usr/local/bin/php ./laravel/artisan migrate', $this->task->artisan('migrate'));
 	}
 
+	public function testFetchesBinaryIfNotSpecifiedOrNull()
+	{
+		$this->app['config'] = $this->getConfig(array(
+			'rocketeer::paths.php' => '/usr/local/bin/php',
+		));
+
+		$this->assertEquals('/usr/local/bin/php artisan migrate', $this->task->artisan('migrate'));
+	}
+
 	public function testCanGetBinary()
 	{
 		$whichGrep = exec('which grep');
