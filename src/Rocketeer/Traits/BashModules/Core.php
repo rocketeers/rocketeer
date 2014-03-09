@@ -162,7 +162,7 @@ class Core extends AbstractLocatorClass
 				$this->command->comment($success);
 			}
 
-			return $output;
+			return $output || true;
 		}
 
 		// Else
