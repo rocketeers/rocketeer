@@ -20,7 +20,7 @@ module.exports = {
 	css: {
 		files: {
 			'<%= paths.compiled.css %>/styles.css': [
-				'<%= components %>/bootstrap/dist/css/bootstrap.min.css',
+				'<%= paths.components.bootstrap.css %>',
 				'<%= components %>/rainbow/themes/tomorrow-night.css',
 				'<%= paths.original.css %>/*'
 			],
@@ -29,7 +29,7 @@ module.exports = {
 	js: {
 		files: {
 			'<%= paths.compiled.js %>/scripts.js': [
-				'<%= components %>/jquery/jquery.js',
+				'<%= paths.components.jquery %>',
 				'<%= components %>/rainbow/js/rainbow.js',
 				'<%= components %>/rainbow/js/language/generic.js',
 				'<%= components %>/rainbow/js/language/php.js',
