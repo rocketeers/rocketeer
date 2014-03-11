@@ -22,7 +22,7 @@
 	// The process that will be executed by Composer
 	'composer' => function ($task) {
 		return array(
-			$task->composer('self-update'),
+			// $task->composer('self-update'),
 			$task->composer('install --no-interaction --no-dev --prefer-dist'),
 		);
 	},
