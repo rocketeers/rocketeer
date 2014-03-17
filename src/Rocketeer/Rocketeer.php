@@ -483,7 +483,8 @@ class Rocketeer
 	{
 		$rootDirectory = $this->getOption('remote.root_directory');
 		$rootDirectory = Str::finish($rootDirectory, '/');
+		$appDirectory  = $this->getOption('remote.app_directory') ?: $this->getApplicationName();
 
-		return $rootDirectory.$this->getApplicationName();
+		return $rootDirectory.$appDirectory;
 	}
 }

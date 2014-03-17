@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "32a3513c766c136c6107452e4bec711a",
+    "hash": "63cbd4ea88eba7cfe85757a7a0a7f9a1",
     "packages": [
         {
             "name": "illuminate/config",
@@ -465,12 +465,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "5dcc63ef6ca720b1617cff33b445d9b318c9ad03"
+                "reference": "b77b26f692e34bc7d4e84bb55ac73b0a47719401"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/5dcc63ef6ca720b1617cff33b445d9b318c9ad03",
-                "reference": "5dcc63ef6ca720b1617cff33b445d9b318c9ad03",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/b77b26f692e34bc7d4e84bb55ac73b0a47719401",
+                "reference": "b77b26f692e34bc7d4e84bb55ac73b0a47719401",
                 "shasum": ""
             },
             "require": {
@@ -552,7 +552,7 @@
                 "x.509",
                 "x509"
             ],
-            "time": "2014-03-06 11:05:11"
+            "time": "2014-03-12 23:03:21"
         },
         {
             "name": "psr/log",
