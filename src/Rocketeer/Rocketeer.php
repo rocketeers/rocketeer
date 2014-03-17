@@ -341,7 +341,7 @@ class Rocketeer
 	 */
 	public function getApplicationName()
 	{
-		return $this->app['config']->get('rocketeer::remote.application_name');
+		return $this->app['config']->get('rocketeer::application_name');
 	}
 
 	////////////////////////////////////////////////////////////////////
