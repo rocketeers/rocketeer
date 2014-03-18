@@ -16,9 +16,6 @@
 		'line_endings'        => "\n",
 	),
 
-	// The root directory where your applications will be deployed
-	'root_directory'   => '/home/www/',
-
 	// The process that will be executed by Composer
 	'composer' => function ($task) {
 		return array(
