@@ -96,6 +96,6 @@ class IgniterTest extends RocketeerTestCase
 		$this->igniter->updateConfiguration($path, array('application_name' => 'foobar', 'scm_username' => 'foobar'));
 
 		$this->assertFileExists(__DIR__.'/../.rocketeer');
-		$this->assertContains('foobar', file_get_contents(__DIR__.'/../.rocketeer/remote.php'));
+		$this->assertContains('foobar', file_get_contents(__DIR__.'/../.rocketeer/config.php'));
 	}
 }

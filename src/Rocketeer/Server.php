@@ -130,7 +130,15 @@ class Server
 	{
 		// Create personnal storage if necessary
 		if (!$this->app->bound('path.storage')) {
-			$storage = $_SERVER['HOME'].'/.rocketeer';
+			if (!empty($_SERVER['HOME'])) {
+				$homeDir = $_SERVER['HOME'];
+			} elseif (!empty($_SERVER['HOMEDRIVE']) && !empty($_SERVER['HOMEPATH'])) {
+				$homeDir = $_SERVER['HOMEDRIVE'] . $_SERVER['HOMEPATH'];
+			} else {
+				throw new Exception('Cannot determine home directory.');
+			}
+
+			$storage = $homeDir.'/.rocketeer';
 			@mkdir($storage);
 		}
 

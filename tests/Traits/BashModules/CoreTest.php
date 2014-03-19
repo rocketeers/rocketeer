@@ -20,10 +20,6 @@ class CoreTest extends RocketeerTestCase
 		$output = ob_get_clean();
 		$this->assertEquals('error'.PHP_EOL, $output);
 		$this->assertFalse($status);
-
-		$this->task->remote = clone $this->getRemote()->shouldReceive('status')->andReturn(0)->mock();
-		$status = $this->task->checkStatus(null);
-		$this->assertNull($status);
 	}
 
 	public function testCanGetTimestampOffServer()

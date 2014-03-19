@@ -153,11 +153,11 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 		$config->shouldReceive('get')->with('session.driver')->andReturn('file');
 
 		// Rocketeer
+		$config->shouldReceive('get')->with('rocketeer::application_name')->andReturn('foobar');
 		$config->shouldReceive('get')->with('rocketeer::default')->andReturn(array('production', 'staging'));
 		$config->shouldReceive('get')->with('rocketeer::logs')->andReturn(false);
 		$config->shouldReceive('get')->with('rocketeer::connections')->andReturn(array());
 		$config->shouldReceive('get')->with('rocketeer::remote.strategy')->andReturn('clone');
-		$config->shouldReceive('get')->with('rocketeer::remote.application_name')->andReturn('foobar');
 		$config->shouldReceive('get')->with('rocketeer::remote.keep_releases')->andReturn(1);
 		$config->shouldReceive('get')->with('rocketeer::remote.permissions.callback')->andReturn(function ($task, $file) {
 			return array(
@@ -168,6 +168,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 		});
 		$config->shouldReceive('get')->with('rocketeer::remote.permissions.files')->andReturn(array('tests'));
 		$config->shouldReceive('get')->with('rocketeer::remote.root_directory')->andReturn(__DIR__.'/../_server/');
+		$config->shouldReceive('get')->with('rocketeer::remote.app_directory')->andReturn(null);
 		$config->shouldReceive('get')->with('rocketeer::remote.shared')->andReturn(array('tests/Elements'));
 		$config->shouldReceive('get')->with('rocketeer::remote.composer')->andReturn(function ($task) {
 			return array(
