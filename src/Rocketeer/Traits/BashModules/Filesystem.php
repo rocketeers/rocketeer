@@ -101,7 +101,7 @@ class Filesystem extends Core
 	 */
 	public function fileExists($file)
 	{
-		$exists = $this->runLast('[ -e ' .$file. ' ] && echo "true"');
+		$exists = $this->runRaw('[ -e ' .$file. ' ] && echo "true"');
 
 		return trim($exists) == 'true';
 	}
