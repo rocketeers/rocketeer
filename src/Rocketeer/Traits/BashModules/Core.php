@@ -88,6 +88,22 @@ class Core extends AbstractLocatorClass
 	}
 
 	/**
+	 * Run a command get the last line output to
+	 * prevent noise
+	 *
+	 * @param string|array  $commands
+	 *
+	 * @return string
+	 */
+	public function runLast($commands)
+	{
+		$results = $this->runRaw($commands, true);
+		$results = end($results);
+
+		return $results;
+	}
+
+	/**
 	 * Run a raw command, without any processing, and
 	 * get its output as a string or array
 	 *
@@ -183,7 +199,7 @@ class Core extends AbstractLocatorClass
 	 */
 	public function getTimestamp()
 	{
-		$timestamp = $this->runRaw('date +"%Y%m%d%H%M%S"');
+		$timestamp = $this->runLast('date +"%Y%m%d%H%M%S"');
 		$timestamp = trim($timestamp);
 		$timestamp = preg_match('/^[0-9]{14}$/', $timestamp) ? $timestamp : date('YmdHis');
 

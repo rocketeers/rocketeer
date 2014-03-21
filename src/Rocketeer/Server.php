@@ -167,7 +167,7 @@ class Server
 
 		$bash = $this->app['rocketeer.bash'];
 		return $this->getValue('directory_separator', function ($server) use ($bash) {
-			$separator = $bash->runRaw('php -r "echo DIRECTORY_SEPARATOR;"');
+			$separator = $bash->runLast('php -r "echo DIRECTORY_SEPARATOR;"');
 
 			// Throw an Exception if we receive invalid output
 			if (strlen($separator) > 1) {

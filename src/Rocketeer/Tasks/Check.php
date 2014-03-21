@@ -151,7 +151,7 @@ class Check extends Task
 		}
 
 		$this->command->comment('Checking PHP version');
-		$version = $this->run($this->php('-r "print PHP_VERSION;"'));
+		$version = $this->runLast($this->php('-r "print PHP_VERSION;"'));
 
 		return version_compare($version, $required, '>=');
 	}
