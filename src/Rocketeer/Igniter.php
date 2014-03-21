@@ -58,11 +58,8 @@ class Igniter
 	public function getConfigurationPath()
 	{
 		// Return path to Laravel configuration
-		if ($this->app->bound('path')) {
+		if ($this->isInsideLaravel()) {
 			$laravel = $this->app['path'].'/config/packages/anahkiasen/rocketeer';
-			if (file_exists($laravel)) {
-				return $laravel;
-			}
 		}
 
 		return $this->app['path.rocketeer.config'];
@@ -133,32 +130,35 @@ class Igniter
 	 */
 	protected function bindConfiguration()
 	{
-		$path = $this->getBasePath();
-		$logs = $this->getStoragePath();
+		// Bind path to the configuration directory
+		if ($this->isInsideLaravel()) {
+			$path = $this->app['path'].'/config/packages/anahkiasen/rocketeer';
+		} else {
+			$path = $this->getBasePath().'.rocketeer';
+		}
 
-		// Prepare the paths to bind
+		// Build pathes
 		$paths = array(
-			'config' => '.rocketeer',
-			'events' => '.rocketeer/events',
-			'tasks'  => '.rocketeer/tasks',
-			'logs'   => $logs.'/logs',
+			'config' => $path.'',
+			'events' => $path.'/events',
+			'tasks'  => $path.'/tasks',
+			'logs'   => $this->getStoragePath().'logs',
 		);
 
 		foreach ($paths as $key => $file) {
-			$filename = $path.$file;
 
 			// Check whether we provided a file or folder
-			if (!is_dir($filename) and file_exists($filename.'.php')) {
-				$filename .= '.php';
+			if (!is_dir($file) and file_exists($file.'.php')) {
+				$file .= '.php';
 			}
 
 			// Use configuration in current folder if none found
-			$realpath = realpath('.').'/'.$file;
-			if (!file_exists($filename) and file_exists($realpath)) {
-				$filename = $realpath;
+			$realpath = realpath('.').'/'.basename($file);
+			if (!file_exists($file) and file_exists($realpath)) {
+				$file = $realpath;
 			}
 
-			$this->app->instance('path.rocketeer.'.$key, $filename);
+			$this->app->instance('path.rocketeer.'.$key, $file);
 		}
 	}
 
@@ -210,4 +210,23 @@ class Igniter
 	{
 		return str_replace('\\', '/', $path);
 	}
+
+
+	/**
+	 * Check if this is in Laravel
+	 * 
+	 * @return boolean
+	 */
+	protected function isInsideLaravel()
+	{
+		// Return path to Laravel configuration
+		if ($this->app->bound('path')) {
+			$laravel = $this->app['path'].'/config/packages/anahkiasen/rocketeer';
+			if (file_exists($laravel)) {
+				return true;
+			}
+		}
+		return false;
+	}
 }
+
