@@ -59,7 +59,7 @@ class Igniter
 	{
 		// Return path to Laravel configuration
 		if ($this->isInsideLaravel()) {
-			$laravel = $this->app['path'].'/config/packages/anahkiasen/rocketeer';
+			return $this->app['path'].'/config/packages/anahkiasen/rocketeer';
 		}
 
 		return $this->app['path.rocketeer.config'];
