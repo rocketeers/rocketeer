@@ -1,5 +1,13 @@
 ### Changelog
 
+### 1.2.1
+
+- Fixed a bug where `composer install` wouldn't return the proper status code and would cancel deployment
+- Fixed a bug where empty arrays wouldn't override defaults in the configuration
+- Fixed path to home folder not being properly found in Windows environment
+- Split `remote/application_name` in `config/application_name` and `remote/app_directory` to allow contextual application folder name
+- The `composer self-update` command is now commented out by default
+
 ### 1.2.0
 
 - **Added various SSH task-running helpers such as `Rocketeer::task(taskname, task)`**
