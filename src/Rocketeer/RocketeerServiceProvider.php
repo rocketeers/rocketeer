@@ -340,7 +340,7 @@ class RocketeerServiceProvider extends ServiceProvider
 
 				$customItems = include $customItems;
 
-				return array_replace_recursive($items, $customItems);
+				return array_replace($items, $customItems);
 			});
 		}
 
