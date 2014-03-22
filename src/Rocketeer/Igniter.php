@@ -229,4 +229,3 @@ class Igniter
 		return false;
 	}
 }
-
