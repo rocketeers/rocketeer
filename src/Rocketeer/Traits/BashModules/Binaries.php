@@ -34,25 +34,6 @@ class Binaries extends Filesystem
 		return trim($php. ' ' .$command);
 	}
 
-	/**
-	 * Prefix a command with the right path to Composer
-	 *
-	 * @param string $command
-	 *
-	 * @return string
-	 */
-	public function composer($command = null)
-	{
-		$composer = $this->which('composer', $this->releasesManager->getCurrentReleasePath().'/composer.phar');
-
-		// Prepend PHP command
-		if (strpos($composer, 'composer.phar') !== false) {
-			$composer = $this->php($composer);
-		}
-
-		return trim($composer. ' ' .$command);
-	}
-
 	// Artisan
 	////////////////////////////////////////////////////////////////////
 
@@ -60,14 +41,34 @@ class Binaries extends Filesystem
 	 * Prefix a command with the right path to Artisan
 	 *
 	 * @param string $command
+	 * @param array  $flags
 	 *
 	 * @return string
 	 */
-	public function artisan($command = null)
+	public function artisan($command = null, $flags = array())
 	{
 		$artisan = $this->which('artisan') ?: 'artisan';
+		foreach ($flags as $name => $value) {
+			$command .= ' --'.$name;
+			$command .= $value ? '="' .$value. '"' : '';
+		}
 
 		return $this->php($artisan. ' ' .$command);
+	}
+
+	/**
+	 * Run an artisan command
+	 *
+	 * @param string $command
+	 * @param array  $flags
+	 *
+	 * @return string
+	 */
+	public function runArtisan($command = null, $flags = array())
+	{
+		$command = $this->artisan($command, $flags);
+
+		return $this->runForCurrentRelease($command);
 	}
 
 	/**
@@ -79,10 +80,10 @@ class Binaries extends Filesystem
 	 */
 	public function runMigrations($seed = false)
 	{
-		$seed = $seed ? ' --seed' : null;
 		$this->command->comment('Running outstanding migrations');
+		$flags = $seed ? array('seed' => '') : array();
 
-		return $this->runForCurrentRelease($this->artisan('migrate'.$seed));
+		return $this->runArtisan('migrate', $flags);
 	}
 
 	/**
@@ -94,9 +95,10 @@ class Binaries extends Filesystem
 	 */
 	public function seed($class = null)
 	{
-		$class = $class ? ' --class="'.$class.'"' : null;
+		$this->command->comment('Seeding database');
+		$flags = $class ? array('class' => $class) : array();
 
-		return $this->runForCurrentRelease($this->artisan('db:seed'.$class));
+		return $this->runArtisan('db:seed', $flags);
 	}
 
 	// PHPUnit
@@ -128,6 +130,25 @@ class Binaries extends Filesystem
 
 	// Composer
 	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Prefix a command with the right path to Composer
+	 *
+	 * @param string $command
+	 *
+	 * @return string
+	 */
+	public function composer($command = null)
+	{
+		$composer = $this->which('composer', $this->releasesManager->getCurrentReleasePath().'/composer.phar');
+
+		// Prepend PHP command
+		if (strpos($composer, 'composer.phar') !== false) {
+			$composer = $this->php($composer);
+		}
+
+		return trim($composer. ' ' .$command);
+	}
 
 	/**
 	 * Run Composer on the folder

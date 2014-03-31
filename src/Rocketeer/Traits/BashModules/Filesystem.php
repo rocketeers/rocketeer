@@ -54,12 +54,7 @@ class Filesystem extends Core
 	 */
 	public function move($origin, $destination)
 	{
-		$folder = dirname($destination);
-		if (!$this->fileExists($folder)) {
-			$this->createFolder($folder, true);
-		}
-
-		return $this->run(sprintf('mv %s %s', $origin, $destination));
+		return $this->fromTo('mv', $origin, $destination);
 	}
 
 	/**
@@ -72,12 +67,7 @@ class Filesystem extends Core
 	 */
 	public function copy($origin, $destination)
 	{
-		$folder = dirname($destination);
-		if (!$this->fileExists($folder)) {
-			$this->createFolder($folder, true);
-		}
-
-		return $this->run(sprintf('cp %s %s', $origin, $destination));
+		return $this->fromTo('cp', $origin, $destination);
 	}
 
 	/**
@@ -191,5 +181,28 @@ class Filesystem extends Core
 	public function removeFolder($folder = null)
 	{
 		return $this->run('rm -rf '.$this->rocketeer->getFolder($folder));
+	}
+
+	////////////////////////////////////////////////////////////////////
+	/////////////////////////////// HELPERS ////////////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Execute a "from/to" style command
+	 *
+	 * @param string $command
+	 * @param string $from
+	 * @param string $to
+	 *
+	 * @return string
+	 */
+	protected function fromTo($command, $from, $to)
+	{
+		$folder = dirname($to);
+		if (!$this->fileExists($folder)) {
+			$this->createFolder($folder, true);
+		}
+
+		return $this->run(sprintf('%s %s %s', $command, $from, $to));
 	}
 }
