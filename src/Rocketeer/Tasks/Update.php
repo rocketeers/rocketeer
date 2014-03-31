@@ -9,8 +9,6 @@
  */
 namespace Rocketeer\Tasks;
 
-use Rocketeer\Traits\Task;
-
 /**
  * Update the remote server without doing a new release
  *

@@ -10,7 +10,6 @@
 namespace Rocketeer;
 
 use Closure;
-use Illuminate\Container\Container;
 use Rocketeer\Traits\AbstractLocatorClass;
 use Rocketeer\Traits\Task;
 

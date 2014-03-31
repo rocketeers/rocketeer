@@ -33,7 +33,6 @@ class NotifierTest extends RocketeerTestCase
 		$this->notifier = new DummyNotifier($this->app);
 		$this->app['rocketeer.tasks']->plugin($this->notifier);
 
-
 		$this->task('Deploy')->fireEvent('after');
 	}
 

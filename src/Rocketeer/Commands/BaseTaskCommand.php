@@ -9,7 +9,6 @@
  */
 namespace Rocketeer\Commands;
 
-use Rocketeer\Rocketeer;
 use Rocketeer\Traits\Task;
 
 /**
