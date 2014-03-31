@@ -38,7 +38,7 @@ $inner-padding: 2rem;
 			$color: darken($color-base, 5);
 			background-color: $color;
 
-			&, h1:first-child, a {
+			&, h1:first-of-type, a {
 				color: lighten(black, 90);
 			}
 			h2, h3 {
