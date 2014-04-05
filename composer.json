@@ -15,21 +15,21 @@
 	],
 	"require": {
 		"php": ">=5.3.0",
-		"illuminate/support": "~4",
-		"illuminate/config": "~4",
-		"illuminate/console": "~4",
-		"illuminate/container": "~4",
-		"illuminate/filesystem": "~4",
-		"illuminate/events": "~4",
-		"illuminate/remote": "~4",
-		"illuminate/log": "~4"
+		"illuminate/support": "~4.0",
+		"illuminate/config": "~4.0",
+		"illuminate/console": "~4.0",
+		"illuminate/container": "~4.0",
+		"illuminate/filesystem": "~4.0",
+		"illuminate/events": "~4.0",
+		"illuminate/remote": "~4.0",
+		"illuminate/log": "~4.0"
 	},
 	"require-dev": {
-		"mockery/mockery": "dev-master",
-		"nesbot/carbon": "dev-master",
-		"patchwork/utf8": "dev-master",
-		"herrera-io/box": "dev-master",
-		"phpseclib/phpseclib": "dev-master"
+		"mockery/mockery": "~0.9",
+		"nesbot/carbon": "~1.4",
+		"patchwork/utf8": "~1.1.18",
+		"herrera-io/box": "~1.5.3",
+		"phpseclib/phpseclib": "~0.3.5"
 	},
 	"suggest": {
 		"anahkiasen/rocketeer-campfire": "Campfire plugin to create deployments notifications",
