@@ -207,6 +207,21 @@ abstract class RocketeerTestCase extends ContainerTestCase
 	////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Mock the Composer check
+	 *
+	 * @param boolean $uses
+	 *
+	 * @return void
+	 */
+	protected function usesComposer($uses = true)
+	{
+		$composer = $this->app['path.base'].DIRECTORY_SEPARATOR.'composer.json';
+		$this->mock('files', 'Illuminate\Filesystem\Filesystem', function ($mock) use($composer, $uses) {
+			return $mock->makePartial()->shouldReceive('exists')->with($composer)->andReturn($uses);
+		});
+	}
+
+	/**
 	 * Get a pretend Task to run bogus commands
 	 *
 	 * @return Task

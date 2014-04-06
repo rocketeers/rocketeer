@@ -120,6 +120,10 @@ class Check extends Task
 	 */
 	public function checkComposer()
 	{
+		if (!$this->server->usesComposer()) {
+			return true;
+		}
+
 		$this->command->comment('Checking presence of Composer');
 
 		return $this->composer();

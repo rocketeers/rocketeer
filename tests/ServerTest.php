@@ -77,4 +77,13 @@ class ServerTest extends RocketeerTestCase
 
 		$this->assertEquals(md5('["foo"]["bar"]'), $hash);
 	}
+
+	public function testCanCheckIfComposerIsNeeded()
+	{
+		$this->usesComposer(true);
+		$this->assertTrue($this->app['rocketeer.server']->usesComposer());
+
+		$this->usesComposer(false);
+		$this->assertFalse($this->app['rocketeer.server']->usesComposer());
+	}
 }

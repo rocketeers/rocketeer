@@ -206,6 +206,18 @@ class Server
 		});
 	}
 
+	/**
+	 * Check if the current project uses Composer
+	 *
+	 * @return boolean
+	 */
+	public function usesComposer()
+	{
+		$path = $this->app['path.base'].DIRECTORY_SEPARATOR.'composer.json';
+
+		return $this->app['files']->exists($path);
+	}
+
 	////////////////////////////////////////////////////////////////////
 	/////////////////////////////// KEYSTORE ///////////////////////////
 	////////////////////////////////////////////////////////////////////

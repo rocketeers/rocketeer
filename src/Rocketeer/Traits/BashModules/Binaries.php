@@ -159,15 +159,13 @@ class Binaries extends Filesystem
 	 */
 	public function runComposer($force = false)
 	{
-		// Find Composer
-		$composer = $this->composer();
-		if (!$composer) {
+		if (!$this->server->usesComposer() and !$force) {
 			return true;
 		}
 
-		// Check for Composer file
-		$dependencies = $this->releasesManager->getCurrentReleasePath().'/composer.json';
-		if (!$this->fileExists($dependencies) and !$force) {
+		// Find Composer
+		$composer = $this->composer();
+		if (!$composer) {
 			return true;
 		}
 
