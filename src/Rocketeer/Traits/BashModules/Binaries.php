@@ -171,6 +171,11 @@ class Binaries extends Filesystem
 
 		// Get the Composer commands to run
 		$tasks = $this->rocketeer->getOption('remote.composer');
+		if (!is_callable($tasks)) {
+			return true;
+		}
+
+		// Cancel if no tasks to execute
 		$tasks = (array) $tasks($this);
 		if (empty($tasks)) {
 			return true;
