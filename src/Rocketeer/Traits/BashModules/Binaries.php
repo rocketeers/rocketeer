@@ -93,7 +93,7 @@ class Binaries extends Filesystem
 	 *
 	 * @return string
 	 */
-	public function seed($class = null)
+	public function runSeed($class = null)
 	{
 		$this->command->comment('Seeding database');
 		$flags = $class ? array('class' => $class) : array();
