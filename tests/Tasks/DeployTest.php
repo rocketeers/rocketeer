@@ -160,4 +160,36 @@ class DeployTest extends RocketeerTestCase
 			'migrate' => false
 		));
 	}
+
+	public function testCanRunDeployWithSeed()
+	{
+		$matcher = array(
+			'git clone --depth 1 -b master "" {server}/releases/{release}',
+			array(
+				"cd {server}/releases/{release}",
+				"git submodule update --init --recursive"
+			),
+			array(
+				"cd {server}/releases/{release}",
+				"chmod -R 755 {server}/releases/{release}/tests",
+				"chmod -R g+s {server}/releases/{release}/tests",
+				"chown -R www-data:www-data {server}/releases/{release}/tests"
+			),
+			array(
+				"cd {server}/releases/{release}",
+				"{php} artisan db:seed"
+			),
+			"mkdir -p {server}/shared/tests",
+			"mv {server}/releases/{release}/tests/Elements {server}/shared/tests/Elements",
+			"mv {server}/current {server}/releases/{release}",
+			"rm -rf {server}/current",
+			"ln -s {server}/releases/{release} {server}/current",
+		);
+
+		$this->assertTaskHistory('Deploy', $matcher, array(
+			'tests'   => false,
+			'seed'    => true,
+			'migrate' => false,
+		));
+	}
 }
