@@ -124,21 +124,13 @@ class Server
 	 * Change the repository in use
 	 *
 	 * @param string $filename
-	 * @param stirng     $storage
+	 * @param string $storage
 	 */
 	public function setRepository($filename, $storage = null)
 	{
-		// Create personnal storage if necessary
+		// Create personal storage if necessary
 		if (!$this->app->bound('path.storage')) {
-			if (!empty($_SERVER['HOME'])) {
-				$homeDirectory = $_SERVER['HOME'];
-			} elseif (!empty($_SERVER['HOMEDRIVE']) && !empty($_SERVER['HOMEPATH'])) {
-				$homeDirectory = $_SERVER['HOMEDRIVE'] . $_SERVER['HOMEPATH'];
-			} else {
-				throw new Exception('Cannot determine home directory.');
-			}
-
-			$storage = $homeDirectory.'/.rocketeer';
+			$storage = $this->app['rocketeer.rocketeer']->getRocketeerConfigFolder();
 			$this->app['files']->makeDirectory($storage, 0755, false, true);
 		}
 
