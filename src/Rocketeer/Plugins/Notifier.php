@@ -27,17 +27,13 @@ abstract class Notifier extends Plugin
 	public function onQueue(TasksHandler $queue)
 	{
 		$me = $this;
+
+		$queue->before('deploy', function ($task) use ($me) {
+			$me->prepareThenSend($task, 'before_deploy');
+		}, -10);
+
 		$queue->after('deploy', function ($task) use ($me) {
-
-			// Don't send a notification if pretending to deploy
-			if ($task->command->option('pretend')) {
-				return;
-			}
-
-			// Build message and send it
-			$message = $me->makeMessage();
-			$me->send($message);
-
+			$me->prepareThenSend($task, 'after_deploy');
 		}, -10);
 	}
 
@@ -87,21 +83,33 @@ abstract class Notifier extends Plugin
 	/**
 	 * Get the default message format
 	 *
-	 * @return string
-	 */
-	abstract protected function getMessageFormat();
-
-	/**
-	 * Build the message from the components
+	 * @param string $message The message handle
 	 *
 	 * @return string
 	 */
-	public function makeMessage()
+	abstract protected function getMessageFormat($message);
+
+	/**
+	 * Prepare and send a message
+	 *
+	 * @param Task   $task
+	 * @param string $message
+	 *
+	 * @return void
+	 */
+	public function prepareThenSend($task, $message)
 	{
-		$message = $this->getMessageFormat();
+		// Don't send a notification if pretending to deploy
+		if ($task->command->option('pretend')) {
+			return;
+		}
+
+		// Build message
+		$message = $this->getMessageFormat($message);
 		$message = preg_replace('#\{([0-9])\}#', '%$1\$s', $message);
 		$message = vsprintf($message, $this->getComponents());
 
-		return $message;
+		// Send it
+		$this->send($message);
 	}
 }
