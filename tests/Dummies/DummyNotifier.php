@@ -10,7 +10,7 @@ class DummyNotifier extends Notifier
    *
    * @return string
    */
-  protected function getMessageFormat()
+  protected function getMessageFormat($message)
   {
     return '{1} finished deploying branch "{2}" on "{3}" ({4})';
   }
