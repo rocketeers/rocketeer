@@ -487,4 +487,30 @@ class Rocketeer
 
 		return $rootDirectory.$appDirectory;
 	}
+	
+	/**
+	 * Get the path to the Rocketeer config folder in the users home
+	 *
+	 * @return string
+	 */
+	public function getRocketeerConfigFolder()
+	{
+		return $this->getUserHomeFolder() . '/.rocketeer';
+	}
+	
+	/**
+	 * Get the path to the users home folder
+	 *
+	 * @return string
+	 */
+	public function getUserHomeFolder()
+	{
+		if (!empty($_SERVER['HOME'])) {
+			return $_SERVER['HOME'];
+		} elseif (!empty($_SERVER['HOMEDRIVE']) && !empty($_SERVER['HOMEPATH'])) {
+			return $_SERVER['HOMEDRIVE'] . $_SERVER['HOMEPATH'];
+		} else {
+			throw new Exception('Cannot determine user home directory.');
+		}
+	}
 }
