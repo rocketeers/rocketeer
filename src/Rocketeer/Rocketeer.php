@@ -9,6 +9,7 @@
  */
 namespace Rocketeer;
 
+use Exception;
 use Illuminate\Container\Container;
 use Illuminate\Support\Str;
 
@@ -487,7 +488,7 @@ class Rocketeer
 
 		return $rootDirectory.$appDirectory;
 	}
-	
+
 	/**
 	 * Get the path to the Rocketeer config folder in the users home
 	 *
@@ -497,7 +498,7 @@ class Rocketeer
 	{
 		return $this->getUserHomeFolder() . '/.rocketeer';
 	}
-	
+
 	/**
 	 * Get the path to the users home folder
 	 *
