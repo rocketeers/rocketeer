@@ -32,6 +32,7 @@
 			'password'  => '{password}',
 			'key'       => '{key}',
 			'keyphrase' => '{keyphrase}',
+			'agent'     => '{agent}',
 		),
 	),
 
