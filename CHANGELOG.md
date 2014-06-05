@@ -1,5 +1,15 @@
 ### Changelog
 
+### 1.2.2
+
+- **The Notifier plugin module not has a hook for before and after deployment**
+- Add ability to disable composer completely
+- Add support for ssh-agent for secure connections
+- Fixed a bug that prevented the `--seed` option from working
+- Fixed a bug when getting the user's home folder on Windows
+- Fixed a bug where Composer-related tasks would be run even without a `composer.json` is found
+- Fixed some compatibility issue with Laravel 4.2
+
 ### 1.2.1
 
 - Fixed a bug where `composer install` wouldn't return the proper status code and would cancel deployment

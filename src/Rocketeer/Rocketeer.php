@@ -506,10 +506,14 @@ class Rocketeer
 	 */
 	public function getUserHomeFolder()
 	{
+		// Get home folder if available (Unix)
 		if (!empty($_SERVER['HOME'])) {
 			return $_SERVER['HOME'];
+
+		// Else use the homedrive (Windows)
 		} elseif (!empty($_SERVER['HOMEDRIVE']) && !empty($_SERVER['HOMEPATH'])) {
 			return $_SERVER['HOMEDRIVE'] . $_SERVER['HOMEPATH'];
+
 		} else {
 			throw new Exception('Cannot determine user home directory.');
 		}
