@@ -82,7 +82,7 @@ class Binaries extends Filesystem
 	{
 		$this->command->comment('Running outstanding migrations');
 		$flags = $seed ? array('seed' => '') : array();
-		
+
 		// Check if the migrations need to be forced
 		if ($this->versionCheck('4.2.0')) {
 			$flags['force'] = '';
@@ -102,7 +102,7 @@ class Binaries extends Filesystem
 	{
 		$this->command->comment('Seeding database');
 		$flags = $class ? array('class' => $class) : array();
-		
+
 		// Check if the seeds need to be forced
 		if ($this->versionCheck('4.2.0')) {
 			$flags['force'] = '';
@@ -244,7 +244,7 @@ class Binaries extends Filesystem
 
 		return $location ?: false;
 	}
-	
+
 	/**
 	 * Check the Laravel version
 	 *
@@ -259,7 +259,7 @@ class Binaries extends Filesystem
 		if (is_a($app, 'Illuminate\Foundation\Application')) {
 			return version_compare($app::VERSION, $version, $operator);
 		}
-		
+
 		return false;
 	}
 }
