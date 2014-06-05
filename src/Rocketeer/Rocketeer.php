@@ -108,6 +108,10 @@ class Rocketeer
 			case 'connections':
 				$contextual = sprintf('rocketeer::on.connections.%s.%s', $this->getConnection(), $option);
 				break;
+
+			default:
+				$contextual = sprintf('rocketeer::%s', $option);
+				break;
 		}
 
 		// Merge with defaults

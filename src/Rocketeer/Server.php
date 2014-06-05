@@ -45,7 +45,7 @@ class Server
 	 *
 	 * @param Container  $app
 	 * @param string     $filename
-	 * @param stirng     $storage
+	 * @param string     $storage
 	 */
 	public function __construct(Container $app, $filename = 'deployments', $storage = null)
 	{

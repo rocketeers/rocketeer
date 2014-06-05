@@ -68,6 +68,12 @@ class Binaries extends Filesystem
 	{
 		$command = $this->artisan($command, $flags);
 
+		// Check if the seeds/migration need to be forced
+		$forced = array('migrate', 'db:seed');
+		if (in_array($command, $forced) && $this->versionCheck('4.2.0')) {
+			$flags['force'] = '';
+		}
+
 		return $this->runForCurrentRelease($command);
 	}
 
@@ -83,11 +89,6 @@ class Binaries extends Filesystem
 		$this->command->comment('Running outstanding migrations');
 		$flags = $seed ? array('seed' => '') : array();
 
-		// Check if the migrations need to be forced
-		if ($this->versionCheck('4.2.0')) {
-			$flags['force'] = '';
-		}
-
 		return $this->runArtisan('migrate', $flags);
 	}
 
@@ -102,11 +103,6 @@ class Binaries extends Filesystem
 	{
 		$this->command->comment('Seeding database');
 		$flags = $class ? array('class' => $class) : array();
-
-		// Check if the seeds need to be forced
-		if ($this->versionCheck('4.2.0')) {
-			$flags['force'] = '';
-		}
 
 		return $this->runArtisan('db:seed', $flags);
 	}

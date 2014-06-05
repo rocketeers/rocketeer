@@ -24,6 +24,13 @@ class LogsHandler
 	protected $loggers = array();
 
 	/**
+	 * The Container
+	 *
+	 * @var Container
+	 */
+	protected $app;
+
+	/**
 	 * Build a new LogsHandler instance
 	 *
 	 * @param Container $app
