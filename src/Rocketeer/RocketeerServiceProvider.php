@@ -136,7 +136,7 @@ class RocketeerServiceProvider extends ServiceProvider
 	{
 		$app->bindIf('files', 'Illuminate\Filesystem\Filesystem');
 
-		$app->bindIf('request', function ($app) {
+		$app->bindIf('request', function () {
 			return Request::createFromGlobals();
 		}, true);
 
@@ -154,7 +154,7 @@ class RocketeerServiceProvider extends ServiceProvider
 			return new Dispatcher($app);
 		}, true);
 
-		$app->bindIf('log', function ($app) {
+		$app->bindIf('log', function () {
 			return new Writer(new Logger('rocketeer'));
 		}, true);
 
@@ -204,7 +204,7 @@ class RocketeerServiceProvider extends ServiceProvider
 			return new LogsHandler($app);
 		});
 
-		$app->singleton('rocketeer.console', function ($app) {
+		$app->singleton('rocketeer.console', function () {
 			return new Console\Console('Rocketeer', Rocketeer::VERSION);
 		});
 
@@ -288,13 +288,13 @@ class RocketeerServiceProvider extends ServiceProvider
 
 			// Look for an existing command
 			if (!$fakeCommand) {
-				$this->app->singleton($command, function ($app) use ($commandClass) {
+				$this->app->singleton($command, function () use ($commandClass) {
 					return new $commandClass;
 				});
 
 			// Else create a fake one
 			} else {
-				$this->app->bind($command, function ($app) use ($taskInstance, $slug) {
+				$this->app->bind($command, function () use ($taskInstance, $slug) {
 					return new Commands\BaseTaskCommand($taskInstance, $slug);
 				});
 			}

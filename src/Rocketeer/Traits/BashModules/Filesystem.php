@@ -105,8 +105,6 @@ class Filesystem extends Core
 	 */
 	public function setPermissions($folder)
 	{
-		$commands = array();
-
 		// Get path to folder
 		$folder = $this->releasesManager->getCurrentReleasePath($folder);
 		$this->command->comment('Setting permissions for '.$folder);

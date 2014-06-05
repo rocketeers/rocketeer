@@ -40,11 +40,11 @@ abstract class Scm
 	/**
 	 * Returns a command with the SCM's binary
 	 *
-	 * @param  string $command
+	 * @param  string $commands...
 	 *
 	 * @return string
 	 */
-	public function getCommand($command)
+	public function getCommand()
 	{
 		$arguments    = func_get_args();
 		$arguments[0] = $this->binary. ' ' .$arguments[0];
