@@ -66,13 +66,14 @@ class Binaries extends Filesystem
 	 */
 	public function runArtisan($command = null, $flags = array())
 	{
-		$command = $this->artisan($command, $flags);
-
 		// Check if the seeds/migration need to be forced
 		$forced = array('migrate', 'db:seed');
 		if (in_array($command, $forced) && $this->versionCheck('4.2.0')) {
 			$flags['force'] = '';
 		}
+
+		// Create full command
+		$command = $this->artisan($command, $flags);
 
 		return $this->runForCurrentRelease($command);
 	}
