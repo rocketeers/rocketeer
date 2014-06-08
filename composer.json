@@ -22,7 +22,8 @@
 		"illuminate/filesystem": "~4.1",
 		"illuminate/events": "~4.1",
 		"illuminate/remote": "~4.1",
-		"illuminate/log": "~4.1"
+		"illuminate/log": "~4.1",
+		"phpunit/phpunit": "4.*"
 	},
 	"require-dev": {
 		"mockery/mockery": "~0.9",
