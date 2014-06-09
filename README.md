@@ -57,7 +57,7 @@ The MIT License (MIT). Please see [License File](https://github.com/anahkiasen/r
 
 -----
 
-## Available plugins
+## Available plugins and integrations
 
 - [Campfire](https://github.com/Anahkiasen/rocketeer-campfire)
 - [Slack](https://github.com/Anahkiasen/rocketeer-slack)
