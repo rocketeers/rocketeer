@@ -19,6 +19,13 @@ use Rocketeer\Traits\Task;
  */
 class CurrentRelease extends Task
 {
+	/**
+	 * The slug of the task
+	 *
+	 * @var string
+	 */
+	protected $name = 'current';
+
 	 /**
 	 * A description of what the Task does
 	 *
