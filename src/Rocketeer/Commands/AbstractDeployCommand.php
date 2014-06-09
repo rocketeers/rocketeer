@@ -206,6 +206,7 @@ abstract class AbstractDeployCommand extends Command
 		// Save credentials
 		$credentials = compact(array_keys($credentials));
 		$this->laravel['rocketeer.rocketeer']->syncConnectionCredentials($connectionName, $credentials);
+		$this->laravel['rocketeer.rocketeer']->setConnection($connectionName);
 	}
 
 	/**

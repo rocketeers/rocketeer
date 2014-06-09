@@ -84,6 +84,7 @@ class Ignite extends Task
 		return array_merge(
 			$this->rocketeer->getConnectionCredentials(),
 			array(
+				'connection'       => $this->rocketeer->getConnection(),
 				'scm_repository'   => $repositoryCredentials['repository'],
 				'scm_username'     => $repositoryCredentials['username'],
 				'scm_password'     => $repositoryCredentials['password'],

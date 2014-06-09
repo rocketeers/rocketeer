@@ -15,6 +15,7 @@ class IgniteTest extends RocketeerTestCase
 				->shouldReceive('getConfigurationPath')->twice()
 				->shouldReceive('exportConfiguration')->once()->andReturn($server)
 				->shouldReceive('updateConfiguration')->once()->with($server, array(
+					'connection'       => 'production',
 					'scm_repository'   => '',
 					'scm_username'     => '',
 					'scm_password'     => '',
@@ -36,6 +37,7 @@ class IgniteTest extends RocketeerTestCase
 				->shouldReceive('getConfigurationPath')->twice()
 				->shouldReceive('exportConfiguration')->never()
 				->shouldReceive('updateConfiguration')->once()->with($path, array(
+					'connection'       => 'production',
 					'scm_repository'   => '',
 					'scm_username'     => '',
 					'scm_password'     => '',

@@ -19,7 +19,7 @@
 	////////////////////////////////////////////////////////////////////
 
 	// The default remote connection(s) to execute tasks on
-	'default' => array('production'),
+	'default' => array('{connection}'),
 
 	// The various connections you defined
 	// You can leave all of this empty or remove it entirely if you don't want
