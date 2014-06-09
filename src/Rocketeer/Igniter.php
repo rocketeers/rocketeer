@@ -211,10 +211,9 @@ class Igniter
 		return str_replace('\\', '/', $path);
 	}
 
-
 	/**
 	 * Check if this is in Laravel
-	 * 
+	 *
 	 * @return boolean
 	 */
 	protected function isInsideLaravel()
@@ -226,6 +225,7 @@ class Igniter
 				return true;
 			}
 		}
+
 		return false;
 	}
 }

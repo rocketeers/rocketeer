@@ -1,5 +1,9 @@
 ### Changelog
 
+### 1.2.3
+
+- Fixed a bug where tasks and events weren't properly loaded in Laravel
+
 ### 1.2.2
 
 - **The Notifier plugin module not has a hook for before and after deployment**
