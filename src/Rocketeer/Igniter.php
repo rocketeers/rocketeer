@@ -132,9 +132,11 @@ class Igniter
 	{
 		// Bind path to the configuration directory
 		if ($this->isInsideLaravel()) {
-			$path = $this->app['path'].'/config/packages/anahkiasen/rocketeer';
+			$path    = $this->app['path'].'/config/packages/anahkiasen/rocketeer';
+			$storage = $this->getStoragePath();
 		} else {
-			$path = $this->getBasePath().'.rocketeer';
+			$path    = $this->getBasePath().'.rocketeer';
+			$storage = $path.'/';
 		}
 
 		// Build pathes
@@ -142,7 +144,7 @@ class Igniter
 			'config' => $path.'',
 			'events' => $path.'/events',
 			'tasks'  => $path.'/tasks',
-			'logs'   => $this->getStoragePath().'logs',
+			'logs'   => $storage.'logs',
 		);
 
 		foreach ($paths as $key => $file) {
