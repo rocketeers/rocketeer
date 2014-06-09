@@ -61,6 +61,8 @@ The MIT License (MIT). Please see [License File](https://github.com/anahkiasen/r
 
 - [Campfire](https://github.com/Anahkiasen/rocketeer-campfire)
 - [Slack](https://github.com/Anahkiasen/rocketeer-slack)
+- [HipChat](https://github.com/hannesvdvreken/rocketeer-hipchat)
+- [Wordpress](https://github.com/mykebates/wp-rocketeer)
 
 ## Why not Capistrano ?
 
