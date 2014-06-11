@@ -136,7 +136,7 @@ class Igniter
 			$storage = $this->getStoragePath();
 		} else {
 			$path    = $this->getBasePath().'.rocketeer';
-			$storage = $path.'/';
+			$storage = $path;
 		}
 
 		// Build pathes
@@ -144,7 +144,7 @@ class Igniter
 			'config' => $path.'',
 			'events' => $path.'/events',
 			'tasks'  => $path.'/tasks',
-			'logs'   => $storage.'logs',
+			'logs'   => $storage.'/logs',
 		);
 
 		foreach ($paths as $key => $file) {
