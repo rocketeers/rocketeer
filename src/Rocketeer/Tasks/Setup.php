@@ -39,7 +39,7 @@ class Setup extends Task
 	 */
 	public function execute()
 	{
-		// Check if requirments are met
+		// Check if requirements are met
 		if ($this->executeTask('Check') === false and !$this->getOption('pretend')) {
 			return false;
 		}

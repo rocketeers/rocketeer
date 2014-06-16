@@ -1,6 +1,6 @@
 <?php return array(
 
-	// The strategory to deploy with
+	// The strategy to deploy with
 	// Availables are:
 	// - clone | Clones the repository from scratch on every deploy
 	// - copy  | Copies the previous release and then updates it

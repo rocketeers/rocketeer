@@ -50,7 +50,7 @@ class LogsHandler
 	 */
 	public function __call($method, $parameters)
 	{
-		return $this->log($parameters[0], $method);
+		$this->log($parameters[0], $method);
 	}
 
 	/**
@@ -64,7 +64,7 @@ class LogsHandler
 	public function log($informations, $level = 'info')
 	{
 		if ($file = $this->getCurrentLogsFile()) {
-			return $this->getLogger($file)->$level($informations);
+			$this->getLogger($file)->$level($informations);
 		}
 	}
 
@@ -77,7 +77,7 @@ class LogsHandler
 	{
 		$logs = $this->app['config']->get('rocketeer::logs');
 		if (!$logs) {
-			return;
+			return false;
 		}
 
 		$file = $logs($this->app['rocketeer.rocketeer']);

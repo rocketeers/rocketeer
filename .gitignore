@@ -1,8 +1,9 @@
 # Cache and compiled
-bin/rocketeer.phar
-bin/phar
-storage
+.idea
 .rocketeer
+bin/phar
+bin/rocketeer.phar
+storage
 
 # Plugins
 rocketeer-campfire

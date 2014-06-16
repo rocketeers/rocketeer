@@ -22,7 +22,7 @@ class Closure extends Task
 	/**
 	 * A Closure to execute at runtime
 	 *
-	 * @var Closure
+	 * @var AnonymousFunction
 	 */
 	protected $closure;
 

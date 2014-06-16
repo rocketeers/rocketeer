@@ -99,7 +99,7 @@ abstract class AbstractDeployCommand extends Command
 		$this->laravel['rocketeer.tasks']->run($tasks, $this);
 		$this->line('Execution time: <comment>'.round(microtime(true) - $timerStart, 4). 's</comment>');
 
-		// Remove commmand instance
+		// Remove command instance
 		unset($this->laravel['rocketeer.command']);
 	}
 

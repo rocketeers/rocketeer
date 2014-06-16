@@ -316,7 +316,7 @@ class Rocketeer
 	}
 
 	/**
-	 * Set the curent connection
+	 * Set the current connection
 	 *
 	 * @param string $connection
 	 */

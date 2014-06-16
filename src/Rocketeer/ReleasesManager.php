@@ -202,7 +202,7 @@ class ReleasesManager
 		$validation = $this->getValidationFile();
 		$validation[$release] = true;
 
-		return $this->saveValidationFile($validation);
+		$this->saveValidationFile($validation);
 	}
 
 	/**

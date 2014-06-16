@@ -10,7 +10,7 @@
 namespace Rocketeer\Commands;
 
 /**
- * Run the tests on the server and displays the ouput
+ * Run the tests on the server and displays the output
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */

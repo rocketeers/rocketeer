@@ -68,7 +68,7 @@ class Igniter
 	/**
 	 * Export the configuration files
 	 *
-	 * @return void
+	 * @return string
 	 */
 	public function exportConfiguration()
 	{
@@ -139,7 +139,7 @@ class Igniter
 			$storage = $path;
 		}
 
-		// Build pathes
+		// Build paths
 		$paths = array(
 			'config' => $path.'',
 			'events' => $path.'/events',
