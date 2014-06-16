@@ -15,10 +15,11 @@ use Illuminate\Container\Container;
  * An abstract for Service Locator-based classes with adds
  * a few shortcuts to Rocketeer classes
  *
+ * @property Illuminate\Console\Command   $command
+ * @property Illuminate\Remote\Connection $remote
  * @property ReleasesManager              $releasesManager
  * @property Rocketeer                    $rocketeer
  * @property Server                       $server
- * @property Illuminate\Remote\Connection $remote
  * @property Traits\Scm                   $scm
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
@@ -35,8 +36,7 @@ abstract class AbstractLocatorClass
 	/**
 	 * Build a new Task
 	 *
-	 * @param Container    $app
-	 * @param Command|null $command
+	 * @param Container $app
 	 */
 	public function __construct(Container $app)
 	{

@@ -9,8 +9,8 @@
  */
 namespace Rocketeer\Plugins;
 
-use Rocketeer\Traits\Plugin;
 use Rocketeer\TasksHandler;
+use Rocketeer\Traits\Plugin;
 
 /**
  * A base class for notification services to extends
@@ -40,7 +40,6 @@ abstract class Notifier extends Plugin
 	/**
 	 * Send a given message
 	 *
-	 * @param Task   $task
 	 * @param string $message
 	 *
 	 * @return void

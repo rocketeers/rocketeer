@@ -123,7 +123,7 @@ class Deploy extends Task
 	 */
 	protected function createEvents()
 	{
-		$strategy = $this->rocketeer->getOption('remote.strategy');
+		$strategy      = $this->rocketeer->getOption('remote.strategy');
 		$this->halting = array(
 			$strategy.'Repository',
 			'runComposer',

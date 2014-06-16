@@ -10,7 +10,7 @@
 namespace Rocketeer\Traits\BashModules;
 
 /**
- * Handles findingand calling binaries
+ * Handles finding and calling binaries
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
@@ -31,7 +31,7 @@ class Binaries extends Filesystem
 	{
 		$php = $this->which('php');
 
-		return trim($php. ' ' .$command);
+		return trim($php.' '.$command);
 	}
 
 	// Artisan
@@ -50,10 +50,10 @@ class Binaries extends Filesystem
 		$artisan = $this->which('artisan', $this->releasesManager->getCurrentReleasePath()."/artisan") ?: 'artisan';
 		foreach ($flags as $name => $value) {
 			$command .= ' --'.$name;
-			$command .= $value ? '="' .$value. '"' : '';
+			$command .= $value ? '="'.$value.'"' : '';
 		}
 
-		return $this->php($artisan. ' ' .$command);
+		return $this->php($artisan.' '.$command);
 	}
 
 	/**
@@ -154,7 +154,7 @@ class Binaries extends Filesystem
 			$composer = $this->php($composer);
 		}
 
-		return trim($composer. ' ' .$command);
+		return trim($composer.' '.$command);
 	}
 
 	/**
@@ -202,8 +202,8 @@ class Binaries extends Filesystem
 	/**
 	 * Get a binary
 	 *
-	 * @param  string $binary    The name of the binary
-	 * @param  string $fallback  A fallback location
+	 * @param  string $binary   The name of the binary
+	 * @param  string $fallback A fallback location
 	 *
 	 * @return string
 	 */
@@ -223,7 +223,7 @@ class Binaries extends Filesystem
 
 		// Add command prompt if possible
 		if ($this->hasCommand()) {
-			$prompt      = $binary. ' could not be found, please enter the path to it';
+			$prompt      = $binary.' could not be found, please enter the path to it';
 			$locations[] = array($this->command, 'ask', $prompt);
 		}
 

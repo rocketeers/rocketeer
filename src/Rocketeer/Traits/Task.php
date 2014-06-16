@@ -123,7 +123,7 @@ abstract class Task extends Bash
 	/**
 	 * Cancel the task
 	 *
-	 * @param string  $errors Potential errors to display
+	 * @param string $errors Potential errors to display
 	 *
 	 * @return boolean
 	 */

@@ -17,7 +17,7 @@ use Rocketeer\RocketeerServiceProvider;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  *
- * @see Rocketeer\Console\Console
+ * @see    Rocketeer\Console\Console
  */
 abstract class StandaloneFacade extends Facade
 {

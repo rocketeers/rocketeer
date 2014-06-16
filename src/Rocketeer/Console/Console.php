@@ -44,7 +44,7 @@ class Console extends Application
 	 */
 	protected function buildBlock($title, $informations)
 	{
-		$message = '<comment>' .$title. '</comment>';
+		$message = '<comment>'.$title.'</comment>';
 		foreach ($informations as $name => $info) {
 			$message .= PHP_EOL.sprintf('  <info>%-15s</info> %s', $name, $info);
 		}

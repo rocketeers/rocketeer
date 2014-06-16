@@ -18,7 +18,7 @@ use Rocketeer\Traits\Task;
  */
 class Test extends Task
 {
-	 /**
+	/**
 	 * A description of what the Task does
 	 *
 	 * @var string

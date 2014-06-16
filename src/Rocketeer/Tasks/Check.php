@@ -25,7 +25,7 @@ class Check extends Task
 	 */
 	protected $extensions = array();
 
-	 /**
+	/**
 	 * A description of what the Task does
 	 *
 	 * @var string
@@ -210,13 +210,13 @@ class Check extends Task
 	/**
 	 * Check the presence of a PHP extension
 	 *
-	 * @param  string $extension    The extension
+	 * @param  string $extension The extension
 	 *
 	 * @return boolean
 	 */
 	public function checkPhpExtension($extension)
 	{
-		$this->command->comment('Checking presence of '.$extension. ' extension');
+		$this->command->comment('Checking presence of '.$extension.' extension');
 
 		// Get the PHP extensions available
 		if (!$this->extensions) {

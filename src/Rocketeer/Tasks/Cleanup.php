@@ -19,7 +19,7 @@ use Rocketeer\Traits\Task;
  */
 class Cleanup extends Task
 {
-	 /**
+	/**
 	 * A description of what the Task does
 	 *
 	 * @var string

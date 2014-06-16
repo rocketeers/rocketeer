@@ -75,7 +75,7 @@ class Svn extends Scm implements ScmInterface
 	{
 		$branch     = $this->app['rocketeer.rocketeer']->getRepositoryBranch();
 		$repository = $this->app['rocketeer.rocketeer']->getRepository();
-		$repository = rtrim($repository, '/') . '/' . ltrim($branch, '/');
+		$repository = rtrim($repository, '/').'/'.ltrim($branch, '/');
 
 		return $this->getCommand('co %s %s %s', $this->getCredentials(), $repository, $destination);
 	}
@@ -112,10 +112,10 @@ class Svn extends Scm implements ScmInterface
 
 		// Build command
 		if ($user = array_get($credentials, 'username')) {
-			$options[] = '--username=' . $user;
+			$options[] = '--username='.$user;
 		}
 		if ($pass = array_get($credentials, 'password')) {
-			$options[] = '--password=' . $pass;
+			$options[] = '--password='.$pass;
 		}
 
 		return implode(' ', $options);

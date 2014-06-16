@@ -18,7 +18,7 @@ use Rocketeer\Traits\Task;
  */
 class Ignite extends Task
 {
-	 /**
+	/**
 	 * A description of what the Task does
 	 *
 	 * @var string
@@ -79,7 +79,7 @@ class Ignite extends Task
 	{
 		// Replace credentials
 		$repositoryCredentials = $this->rocketeer->getCredentials();
-		$name = basename($this->app['path.base']);
+		$name                  = basename($this->app['path.base']);
 
 		return array_merge(
 			$this->rocketeer->getConnectionCredentials(),
@@ -88,7 +88,7 @@ class Ignite extends Task
 				'scm_repository'   => $repositoryCredentials['repository'],
 				'scm_username'     => $repositoryCredentials['username'],
 				'scm_password'     => $repositoryCredentials['password'],
-				'application_name' => $this->command->ask("What is your application's name ? (" .$name. ")", $name),
+				'application_name' => $this->command->ask("What is your application's name ? (".$name.")", $name),
 			)
 		);
 	}

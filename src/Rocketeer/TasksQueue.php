@@ -88,7 +88,7 @@ class TasksQueue extends AbstractLocatorClass
 	 * Run an array of Tasks instances on the various
 	 * connections and stages provided
 	 *
-	 * @param  array   $tasks  An array of tasks
+	 * @param  array $tasks An array of tasks
 	 *
 	 * @return array An array of output
 	 */
@@ -138,10 +138,11 @@ class TasksQueue extends AbstractLocatorClass
 
 			// Here we fire the task and if it was halted
 			// at any point, we cancel the whole queue
-			$state = $task->fire();
+			$state          = $task->fire();
 			$this->output[] = $state;
 			if ($task->wasHalted() or $state === false) {
-				$this->command->error('Deployment was canceled by task "'.$task->getName(). '"');
+				$this->command->error('Deployment was canceled by task "'.$task->getName().'"');
+
 				return false;
 			}
 		}
@@ -159,7 +160,7 @@ class TasksQueue extends AbstractLocatorClass
 	 * Here we will take the various Tasks names, closures and string tasks
 	 * and unify all of those to actual Task instances
 	 *
-	 * @param  array  $tasks
+	 * @param  array $tasks
 	 *
 	 * @return array
 	 */
@@ -223,7 +224,7 @@ class TasksQueue extends AbstractLocatorClass
 		// We'll build a closure from it
 		if ($this->isStringCommand($task)) {
 			$stringTask = $task;
-			$closure = function ($task) use ($stringTask) {
+			$closure    = function ($task) use ($stringTask) {
 				return $task->runForCurrentRelease($stringTask);
 			};
 

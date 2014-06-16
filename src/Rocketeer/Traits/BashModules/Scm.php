@@ -38,7 +38,7 @@ class Scm extends Binaries
 		}
 
 		// Copy old release into new one
-		$this->command->info('Copying previous release "' .$previous. '" in "' .$destination. '"');
+		$this->command->info('Copying previous release "'.$previous.'" in "'.$destination.'"');
 		$this->copy($previous, $destination);
 
 		// Update repository
@@ -59,8 +59,8 @@ class Scm extends Binaries
 		}
 
 		// Executing checkout
-		$this->command->info('Cloning repository in "' .$destination. '"');
-		$output = $this->scm->execute('checkout', $destination);
+		$this->command->info('Cloning repository in "'.$destination.'"');
+		$output          = $this->scm->execute('checkout', $destination);
 		$this->history[] = $output;
 
 		// Cancel if failed and forget credentials

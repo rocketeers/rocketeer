@@ -199,7 +199,7 @@ class ReleasesManager
 	 */
 	public function markReleaseAsValid($release)
 	{
-		$validation = $this->getValidationFile();
+		$validation           = $this->getValidationFile();
 		$validation[$release] = true;
 
 		$this->saveValidationFile($validation);

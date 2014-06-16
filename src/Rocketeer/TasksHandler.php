@@ -30,7 +30,7 @@ class TasksHandler extends AbstractLocatorClass
 	/**
 	 * Build a new TasksQueue Instance
 	 *
-	 * @param Container  $app
+	 * @param Container $app
 	 */
 	public function __construct(Container $app)
 	{
@@ -102,9 +102,9 @@ class TasksHandler extends AbstractLocatorClass
 	/**
 	 * Execute a Task before another one
 	 *
-	 * @param  string                $task
-	 * @param  string|Closure|Task   $listeners
-	 * @param  integer               $priority
+	 * @param  string              $task
+	 * @param  string|Closure|Task $listeners
+	 * @param  integer             $priority
 	 *
 	 * @return void
 	 */
@@ -116,9 +116,9 @@ class TasksHandler extends AbstractLocatorClass
 	/**
 	 * Execute a Task after another one
 	 *
-	 * @param  string                $task
-	 * @param  string|Closure|Task   $listeners
-	 * @param  integer               $priority
+	 * @param  string              $task
+	 * @param  string|Closure|Task $listeners
+	 * @param  integer             $priority
 	 *
 	 * @return void
 	 */

@@ -37,7 +37,7 @@ class BaseTaskCommand extends AbstractDeployCommand
 	 * Build a new custom command
 	 *
 	 * @param Task   $task
-	 * @param string $name  A name for the command
+	 * @param string $name A name for the command
 	 */
 	public function __construct(Task $task, $name = null)
 	{

@@ -14,7 +14,7 @@ namespace Rocketeer\Facades;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  *
- * @see Rocketeer\Console\Console
+ * @see    Rocketeer\Console\Console
  */
 class Console extends StandaloneFacade
 {

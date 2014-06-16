@@ -9,8 +9,8 @@
  */
 namespace Rocketeer\Commands;
 
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Rollback to the previous release, or to a specific one

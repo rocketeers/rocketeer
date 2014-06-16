@@ -92,7 +92,7 @@ class Rocketeer
 	 * Get a contextual option
 	 *
 	 * @param  string       $option
-	 * @param  string       $type     [stage,connection]
+	 * @param  string       $type [stage,connection]
 	 * @param  string|array $original
 	 *
 	 * @return mixed
@@ -203,7 +203,7 @@ class Rocketeer
 	/**
 	 * Check if a connection has credentials related to it
 	 *
-	 * @param  string  $connection
+	 * @param  string $connection
 	 *
 	 * @return boolean
 	 */
@@ -231,7 +231,7 @@ class Rocketeer
 		$default     = $this->app['config']->get('remote.default');
 
 		// Remove invalid connections
-		$instance = $this;
+		$instance    = $this;
 		$connections = array_filter($connections, function ($value) use ($instance) {
 			return $instance->isValidConnection($value);
 		});
@@ -259,7 +259,7 @@ class Rocketeer
 			return $this->connection;
 		}
 
-		$connection = array_get($this->getConnections(), 0);
+		$connection       = array_get($this->getConnections(), 0);
 		$this->connection = $connection;
 
 		return $this->connection;
@@ -378,9 +378,6 @@ class Rocketeer
 	/**
 	 * Get the URL to the Git repository
 	 *
-	 * @param  string $username
-	 * @param  string $password
-	 *
 	 * @return string
 	 */
 	public function getRepository()
@@ -395,7 +392,7 @@ class Rocketeer
 		if ($username or $password) {
 
 			// Build credentials chain
-			$credentials  = $password ? $username.':'.$password : $username;
+			$credentials = $password ? $username.':'.$password : $username;
 			$credentials .= '@';
 
 			// Add them in chain
@@ -500,11 +497,13 @@ class Rocketeer
 	 */
 	public function getRocketeerConfigFolder()
 	{
-		return $this->getUserHomeFolder() . '/.rocketeer';
+		return $this->getUserHomeFolder().'/.rocketeer';
 	}
 
 	/**
 	 * Get the path to the users home folder
+	 *
+	 * @throws Exception
 	 *
 	 * @return string
 	 */
@@ -514,9 +513,9 @@ class Rocketeer
 		if (!empty($_SERVER['HOME'])) {
 			return $_SERVER['HOME'];
 
-		// Else use the homedrive (Windows)
+			// Else use the home drive (Windows)
 		} elseif (!empty($_SERVER['HOMEDRIVE']) && !empty($_SERVER['HOMEPATH'])) {
-			return $_SERVER['HOMEDRIVE'] . $_SERVER['HOMEPATH'];
+			return $_SERVER['HOMEDRIVE'].$_SERVER['HOMEPATH'];
 
 		} else {
 			throw new Exception('Cannot determine user home directory.');

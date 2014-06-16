@@ -23,8 +23,8 @@ class Filesystem extends Core
 	/**
 	 * Symlinks two folders
 	 *
-	 * @param  string $folder   The folder in shared/
-	 * @param  string $symlink  The folder that will symlink to it
+	 * @param  string $folder  The folder in shared/
+	 * @param  string $symlink The folder that will symlink to it
 	 *
 	 * @return string
 	 */
@@ -91,7 +91,7 @@ class Filesystem extends Core
 	 */
 	public function fileExists($file)
 	{
-		$exists = $this->runRaw('[ -e ' .$file. ' ] && echo "true"');
+		$exists = $this->runRaw('[ -e '.$file.' ] && echo "true"');
 
 		return trim($exists) == 'true';
 	}
@@ -157,7 +157,7 @@ class Filesystem extends Core
 	/**
 	 * Create a folder in the application's folder
 	 *
-	 * @param  string  $folder       The folder to create
+	 * @param  string  $folder The folder to create
 	 * @param  boolean $recursive
 	 *
 	 * @return string The task
@@ -172,7 +172,7 @@ class Filesystem extends Core
 	/**
 	 * Remove a folder in the application's folder
 	 *
-	 * @param  string $folder       The folder to remove
+	 * @param  string $folder The folder to remove
 	 *
 	 * @return string The task
 	 */

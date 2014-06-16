@@ -43,9 +43,9 @@ class Server
 	/**
 	 * Build a new ReleasesManager
 	 *
-	 * @param Container  $app
-	 * @param string     $filename
-	 * @param string     $storage
+	 * @param Container $app
+	 * @param string    $filename
+	 * @param string    $storage
 	 */
 	public function __construct(Container $app, $filename = 'deployments', $storage = null)
 	{
@@ -94,7 +94,7 @@ class Server
 
 		// Compute the salts
 		foreach ($files as $file) {
-			$file  = $this->app['files']->getRequire($file);
+			$file = $this->app['files']->getRequire($file);
 			$salt .= json_encode($file);
 		}
 
@@ -158,6 +158,7 @@ class Server
 		}
 
 		$bash = $this->app['rocketeer.bash'];
+
 		return $this->getValue('directory_separator', function ($server) use ($bash) {
 			$separator = $bash->runLast('php -r "echo DIRECTORY_SEPARATOR;"');
 
@@ -190,6 +191,7 @@ class Server
 		}
 
 		$bash = $this->app['rocketeer.bash'];
+
 		return $this->getValue('line_endings', function ($server) use ($bash) {
 			$endings = $bash->runRaw('php -r "echo PHP_EOL;"');
 			$server->setValue('line_endings', $endings);

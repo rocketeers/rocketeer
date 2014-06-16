@@ -95,7 +95,7 @@ class Igniter
 		$files = $this->app['files']->files($folder);
 		foreach ($files as $file) {
 			foreach ($values as $name => $value) {
-				$contents = str_replace('{' .$name. '}', $value, file_get_contents($file));
+				$contents = str_replace('{'.$name.'}', $value, file_get_contents($file));
 				$this->app['files']->put($file, $contents);
 			}
 		}

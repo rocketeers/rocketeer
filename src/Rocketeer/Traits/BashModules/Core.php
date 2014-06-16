@@ -47,9 +47,9 @@ class Core extends AbstractLocatorClass
 	/**
 	 * Run actions on the remote server and gather the ouput
 	 *
-	 * @param  string|array $commands  One or more commands
-	 * @param  boolean      $silent    Whether the command should stay silent no matter what
-	 * @param  boolean      $array     Whether the output should be returned as an array
+	 * @param  string|array $commands One or more commands
+	 * @param  boolean      $silent   Whether the command should stay silent no matter what
+	 * @param  boolean      $array    Whether the output should be returned as an array
 	 *
 	 * @return string|array
 	 */
@@ -91,7 +91,7 @@ class Core extends AbstractLocatorClass
 	 * Run a command get the last line output to
 	 * prevent noise
 	 *
-	 * @param string|array  $commands
+	 * @param string|array $commands
 	 *
 	 * @return string
 	 */
@@ -108,8 +108,8 @@ class Core extends AbstractLocatorClass
 	 * get its output as a string or array
 	 *
 	 * @param  string|array $commands
-	 * @param  boolean      $array     Whether the output should be returned as an array
-	 * @param  boolean      $trim      Whether the output should be trimmed
+	 * @param  boolean      $array Whether the output should be returned as an array
+	 * @param  boolean      $trim  Whether the output should be trimmed
 	 *
 	 * @return string
 	 */
@@ -130,8 +130,8 @@ class Core extends AbstractLocatorClass
 	/**
 	 * Run commands silently
 	 *
-	 * @param string|array  $commands
-	 * @param boolean       $array
+	 * @param string|array $commands
+	 * @param boolean      $array
 	 *
 	 * @return string
 	 */
@@ -143,8 +143,8 @@ class Core extends AbstractLocatorClass
 	/**
 	 * Run commands in a folder
 	 *
-	 * @param  string        $folder
-	 * @param  string|array  $tasks
+	 * @param  string       $folder
+	 * @param  string|array $tasks
 	 *
 	 * @return string
 	 */
@@ -164,9 +164,9 @@ class Core extends AbstractLocatorClass
 	/**
 	 * Check the status of the last run command, return an error if any
 	 *
-	 * @param  string $error        The message to display on error
-	 * @param  string $output       The command's output
-	 * @param  string $success      The message to display on success
+	 * @param  string $error   The message to display on error
+	 * @param  string $output  The command's output
+	 * @param  string $success The message to display on success
 	 *
 	 * @return boolean|string
 	 */
@@ -226,7 +226,7 @@ class Core extends AbstractLocatorClass
 	protected function addCommandsToHistory($commands)
 	{
 		$this->command->line(implode(PHP_EOL, $commands));
-		$commands = (sizeof($commands) == 1) ? $commands[0] : $commands;
+		$commands        = (sizeof($commands) == 1) ? $commands[0] : $commands;
 		$this->history[] = $commands;
 
 		return $commands;
@@ -239,7 +239,7 @@ class Core extends AbstractLocatorClass
 	/**
 	 * Process an array of commands
 	 *
-	 * @param  string|array  $commands
+	 * @param  string|array $commands
 	 *
 	 * @return array
 	 */
@@ -265,7 +265,6 @@ class Core extends AbstractLocatorClass
 			if (Str::contains($command, 'artisan') and $stage) {
 				$command .= ' --env='.$stage;
 			}
-
 		}
 
 		return $commands;
@@ -274,9 +273,9 @@ class Core extends AbstractLocatorClass
 	/**
 	 * Process the output of a command
 	 *
-	 * @param string|array  $output
-	 * @param boolean       $array   Whether to return an array or a string
-	 * @param boolean       $trim    Whether to trim the output or not
+	 * @param string|array $output
+	 * @param boolean      $array Whether to return an array or a string
+	 * @param boolean      $trim  Whether to trim the output or not
 	 *
 	 * @return string|array
 	 */
