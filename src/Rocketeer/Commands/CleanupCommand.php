@@ -50,7 +50,7 @@ class CleanupCommand extends AbstractDeployCommand
 	protected function getOptions()
 	{
 		return array_merge(parent::getOptions(), array(
-			array('clean-all', null, InputOption::VALUE_NONE,  'Cleans up all non-current releases'),
+			array('clean-all', null, InputOption::VALUE_NONE, 'Cleans up all non-current releases'),
 		));
 	}
 }

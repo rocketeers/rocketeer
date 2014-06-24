@@ -16,7 +16,7 @@ class ScmTest extends RocketeerTestCase
 		// Create fake remote
 		$remote = clone $this->getRemote();
 		$remote->shouldReceive('status')->andReturn(1);
-		$task = $this->pretendTask();
+		$task         = $this->pretendTask();
 		$task->remote = $remote;
 
 		$task->cloneRepository($this->server.'/test');

@@ -52,7 +52,7 @@ class DeployTest extends RocketeerTestCase
 		$this->swapConfig(array(
 			'rocketeer::scm.shallow'    => false,
 			'rocketeer::scm.submodules' => false,
-			'rocketeer::scm' => array(
+			'rocketeer::scm'            => array(
 				'repository' => 'https://github.com/'.$this->repository,
 				'username'   => '',
 				'password'   => '',
@@ -92,7 +92,7 @@ class DeployTest extends RocketeerTestCase
 	public function testCanConfigureComposerCommands()
 	{
 		$this->swapConfig(array(
-			'rocketeer::scm' => array(
+			'rocketeer::scm'             => array(
 				'repository' => 'https://github.com/'.$this->repository,
 				'username'   => '',
 				'password'   => '',
@@ -108,8 +108,8 @@ class DeployTest extends RocketeerTestCase
 		$matcher = array(
 			array(
 				"cd {server}/releases/{release}",
-			  "{composer} self-update",
-			  "{composer} install --prefer-source",
+				"{composer} self-update",
+				"{composer} install --prefer-source",
 			),
 		);
 
@@ -127,7 +127,7 @@ class DeployTest extends RocketeerTestCase
 	{
 		$this->swapConfig(array(
 			'rocketeer::remote.strategy' => 'copy',
-			'rocketeer::scm' => array(
+			'rocketeer::scm'             => array(
 				'repository' => 'https://github.com/'.$this->repository,
 				'username'   => '',
 				'password'   => '',

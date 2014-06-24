@@ -2,7 +2,6 @@
 namespace Rocketeer;
 
 use ReflectionFunction;
-use Rocketeer\Facades\Rocketeer;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class TasksQueueTest extends RocketeerTestCase
@@ -63,7 +62,7 @@ class TasksQueueTest extends RocketeerTestCase
 
 		$this->assertInstanceOf('Rocketeer\Tasks\Closure', $queue[0]);
 		$this->assertInstanceOf('Rocketeer\Tasks\Closure', $queue[1]);
-		$this->assertInstanceOf('Rocketeer\Tasks\Deploy',  $queue[2]);
+		$this->assertInstanceOf('Rocketeer\Tasks\Deploy', $queue[2]);
 	}
 
 	public function testCanRunQueue()
@@ -88,9 +87,9 @@ class TasksQueueTest extends RocketeerTestCase
 		));
 
 		$output = array();
-		$queue = array(
+		$queue  = array(
 			function ($task) use (&$output) {
-				$output[] = $task->rocketeer->getConnection(). ' - ' .$task->rocketeer->getStage();
+				$output[] = $task->rocketeer->getConnection().' - '.$task->rocketeer->getStage();
 			}
 		);
 
@@ -131,7 +130,7 @@ class TasksQueueTest extends RocketeerTestCase
 		));
 
 		$output = $this->tasksQueue()->on(array('staging', 'production'), function ($task) {
-			return $task->rocketeer->getConnection(). ' - ' .$task->rocketeer->getStage();
+			return $task->rocketeer->getConnection().' - '.$task->rocketeer->getStage();
 		});
 
 		$this->assertEquals(array(

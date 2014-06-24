@@ -149,7 +149,10 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 		$config->shouldReceive('get')->with('cache.driver')->andReturn('file');
 		$config->shouldReceive('get')->with('database.default')->andReturn('mysql');
 		$config->shouldReceive('get')->with('remote.default')->andReturn('production');
-		$config->shouldReceive('get')->with('remote.connections')->andReturn(array('production' => array(), 'staging' => array()));
+		$config->shouldReceive('get')->with('remote.connections')->andReturn(array(
+				'production' => array(),
+				'staging'    => array()
+			));
 		$config->shouldReceive('get')->with('session.driver')->andReturn('file');
 
 		// Rocketeer
@@ -199,8 +202,8 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 					'foobar'
 				),
 			),
-			'after' => array(
-				'check' => array(
+			'after'  => array(
+				'check'  => array(
 					'Rocketeer\Dummies\MyCustomTask',
 				),
 				'deploy' => array(

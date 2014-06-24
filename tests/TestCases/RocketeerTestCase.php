@@ -68,7 +68,7 @@ abstract class RocketeerTestCase extends ContainerTestCase
 			'current_release'     => array('production' => 20000000000000),
 			'directory_separator' => '/',
 			'is_setup'            => true,
-			'webuser'             => array('username' => 'www-data','group' => 'www-data'),
+			'webuser'             => array('username' => 'www-data', 'group' => 'www-data'),
 			'line_endings'        => "\n",
 		)));
 
@@ -118,9 +118,9 @@ abstract class RocketeerTestCase extends ContainerTestCase
 	/**
 	 * Assert a task's history matches an array
 	 *
-	 * @param string|Task  $task
-	 * @param array        $history
-	 * @param array        $options
+	 * @param string|Task $task
+	 * @param array       $history
+	 * @param array       $options
 	 *
 	 * @return string
 	 */

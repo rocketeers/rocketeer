@@ -29,7 +29,7 @@ class TaskTest extends RocketeerTestCase
 		));
 
 		ob_start();
-			$task->run('ls');
+		$task->run('ls');
 		$output = ob_get_clean();
 
 		$this->assertContains('tests', $output);
@@ -53,7 +53,7 @@ class TaskTest extends RocketeerTestCase
 	public function testCanRunMigrations()
 	{
 		$task = $this->pretendTask();
-		$php = exec('which php');
+		$php  = exec('which php');
 
 		$commands = $task->runMigrations();
 		$this->assertEquals($php.' artisan migrate', $commands[1]);

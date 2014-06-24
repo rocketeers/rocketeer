@@ -42,7 +42,7 @@ class TasksHandlerTest extends RocketeerTestCase
 
 	public function testCanAddMultipleTasksViaFacade()
 	{
-		$task   = $this->task('Deploy');
+		$task  = $this->task('Deploy');
 		$after = $this->tasksQueue()->getTasksListeners($task, 'after', true);
 
 		$this->tasksQueue()->after('deploy', array(
@@ -56,7 +56,7 @@ class TasksHandlerTest extends RocketeerTestCase
 
 	public function testCanAddSurroundTasksToNonExistingTasks()
 	{
-		$task   = $this->task('Setup');
+		$task = $this->task('Setup');
 		$this->tasksQueue()->after('setup', 'composer install');
 
 		$after = array('composer install');

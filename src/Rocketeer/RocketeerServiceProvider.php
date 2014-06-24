@@ -283,7 +283,7 @@ class RocketeerServiceProvider extends ServiceProvider
 			});
 
 			// Add command to array
-			$command = trim('deploy.'.$slug, '.');
+			$command          = trim('deploy.'.$slug, '.');
 			$this->commands[] = $command;
 
 			// Look for an existing command

@@ -129,7 +129,7 @@ class Binaries extends Filesystem
 		// Run PHPUnit
 		$this->command->info('Running tests...');
 		$output = $this->runForCurrentRelease(array(
-			$phpunit. ' --stop-on-failure '.$arguments,
+			$phpunit.' --stop-on-failure '.$arguments,
 		));
 
 		return $this->checkStatus('Tests failed', $output, 'Tests passed successfully');

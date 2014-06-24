@@ -34,7 +34,7 @@ class BinariesTest extends RocketeerTestCase
 	public function testCanGetBinary()
 	{
 		$whichGrep = exec('which grep');
-		$grep = $this->task->which('grep');
+		$grep      = $this->task->which('grep');
 
 		$this->assertEquals($whichGrep, $grep);
 	}
@@ -42,7 +42,7 @@ class BinariesTest extends RocketeerTestCase
 	public function testCanGetFallbackForBinary()
 	{
 		$whichGrep = exec('which grep');
-		$grep = $this->task->which('foobar', $whichGrep);
+		$grep      = $this->task->which('foobar', $whichGrep);
 
 		$this->assertEquals($whichGrep, $grep);
 		$this->assertFalse($this->task->which('fdsf'));

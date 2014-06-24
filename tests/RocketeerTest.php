@@ -147,14 +147,14 @@ class RocketeerTest extends RocketeerTestCase
 	public function testCanUseRecursiveConnectionConfiguration()
 	{
 		$this->swapConfig(array(
-			'rocketeer::default'                       => 'production',
+			'rocketeer::default'                           => 'production',
 			'rocketeer::scm.branch'                        => 'master',
 			'rocketeer::on.connections.staging.scm.branch' => 'staging',
 		));
 		$this->assertEquals('master', $this->app['rocketeer.rocketeer']->getOption('scm.branch'));
 
 		$this->swapConfig(array(
-			'rocketeer::default'                       => 'staging',
+			'rocketeer::default'                           => 'staging',
 			'rocketeer::scm.branch'                        => 'master',
 			'rocketeer::on.connections.staging.scm.branch' => 'staging',
 		));

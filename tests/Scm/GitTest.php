@@ -55,7 +55,7 @@ class GitTest extends RocketeerTestCase
 
 		$command = $this->scm->checkout($this->server);
 
-		$this->assertEquals('git clone --depth 1 -b develop "http://github.com/my/repository" ' .$this->server, $command);
+		$this->assertEquals('git clone --depth 1 -b develop "http://github.com/my/repository" '.$this->server, $command);
 	}
 
 	public function testCanGetDeepClone()
@@ -69,7 +69,7 @@ class GitTest extends RocketeerTestCase
 
 		$command = $this->scm->checkout($this->server);
 
-		$this->assertEquals('git clone -b develop "http://github.com/my/repository" ' .$this->server, $command);
+		$this->assertEquals('git clone -b develop "http://github.com/my/repository" '.$this->server, $command);
 	}
 
 	public function testCanGetReset()

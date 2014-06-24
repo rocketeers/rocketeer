@@ -7,9 +7,9 @@ class FilesystemTest extends RocketeerTestCase
 {
 	public function testCancelsSymlinkForUnexistingFolders()
 	{
-		$task    = $this->pretendTask();
-		$folder  = '{path.storage}/logs';
-		$share   = $task->share($folder);
+		$task   = $this->pretendTask();
+		$folder = '{path.storage}/logs';
+		$share  = $task->share($folder);
 
 		$this->assertFalse($share);
 	}

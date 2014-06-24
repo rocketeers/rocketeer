@@ -97,7 +97,7 @@ abstract class AbstractDeployCommand extends Command
 
 		// Run tasks and display timer
 		$this->laravel['rocketeer.tasks']->run($tasks, $this);
-		$this->line('Execution time: <comment>'.round(microtime(true) - $timerStart, 4). 's</comment>');
+		$this->line('Execution time: <comment>'.round(microtime(true) - $timerStart, 4).'s</comment>');
 
 		// Remove command instance
 		unset($this->laravel['rocketeer.command']);
@@ -116,7 +116,7 @@ abstract class AbstractDeployCommand extends Command
 	{
 		// Check for repository credentials
 		$repositoryInfos = $this->laravel['rocketeer.rocketeer']->getCredentials();
-		$credentials = array('repository');
+		$credentials     = array('repository');
 		if (!array_get($repositoryInfos, 'repository') or $this->laravel['rocketeer.rocketeer']->needsCredentials()) {
 			$credentials = array('repository', 'username', 'password');
 		}
@@ -125,7 +125,7 @@ abstract class AbstractDeployCommand extends Command
 		foreach ($credentials as $credential) {
 			${$credential} = $this->getCredential($repositoryInfos, $credential);
 			if (!${$credential}) {
-				${$credential} = $this->ask('No '.$credential. ' is set for the repository, please provide one :');
+				${$credential} = $this->ask('No '.$credential.' is set for the repository, please provide one :');
 			}
 		}
 
@@ -187,16 +187,16 @@ abstract class AbstractDeployCommand extends Command
 		foreach ($credentials as $credential => $required) {
 			${$credential} = $this->getCredential($connection, $credential);
 			if ($required and !${$credential}) {
-				${$credential} = $this->ask('No '.$credential. ' is set for [' .$connectionName. '], please provide one :');
+				${$credential} = $this->ask('No '.$credential.' is set for ['.$connectionName.'], please provide one :');
 			}
 		}
 
 		// Get password or key
 		if (!$password and !$key) {
-			$type = $this->ask('No password or SSH key is set for [' .$connectionName. '], which would you use ? [key/password]', 'key');
+			$type = $this->ask('No password or SSH key is set for ['.$connectionName.'], which would you use ? [key/password]', 'key');
 			if ($type == 'key') {
 				$default   = $this->laravel['rocketeer.rocketeer']->getUserHomeFolder().'/.ssh/id_rsa';
-				$key       = $this->ask('Please enter the full path to your key (' .$default. ')', $default);
+				$key       = $this->ask('Please enter the full path to your key ('.$default.')', $default);
 				$keyphrase = $this->ask('If a keyphrase is required, provide it');
 			} else {
 				$password = $this->ask('Please enter your password');
@@ -212,8 +212,8 @@ abstract class AbstractDeployCommand extends Command
 	/**
 	 * Check if a credential needs to be filled
 	 *
-	 * @param array   $credentials
-	 * @param string  $credential
+	 * @param array  $credentials
+	 * @param string $credential
 	 *
 	 * @return string
 	 */

@@ -17,9 +17,9 @@ class ReleasesManagerTest extends RocketeerTestCase
 		$validation = $this->app['rocketeer.releases']->getValidationFile();
 
 		$this->assertEquals(array(
-  		10000000000000 => true,
-  		15000000000000 => false,
-  		20000000000000 => true,
+			10000000000000 => true,
+			15000000000000 => false,
+			20000000000000 => true,
 		), $validation);
 	}
 
@@ -36,9 +36,9 @@ class ReleasesManagerTest extends RocketeerTestCase
 		$validation = $this->app['rocketeer.releases']->getValidationFile();
 
 		$this->assertEquals(array(
-  		10000000000000 => true,
-  		15000000000000 => true,
-  		20000000000000 => true,
+			10000000000000 => true,
+			15000000000000 => true,
+			20000000000000 => true,
 		), $validation);
 	}
 

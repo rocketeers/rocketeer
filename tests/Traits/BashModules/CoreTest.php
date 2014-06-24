@@ -16,7 +16,7 @@ class CoreTest extends RocketeerTestCase
 	{
 		$this->task->remote = clone $this->getRemote()->shouldReceive('status')->andReturn(1)->mock();
 		ob_start();
-			$status = $this->task->checkStatus(null, 'error');
+		$status = $this->task->checkStatus(null, 'error');
 		$output = ob_get_clean();
 		$this->assertEquals('error'.PHP_EOL, $output);
 		$this->assertFalse($status);
@@ -31,7 +31,7 @@ class CoreTest extends RocketeerTestCase
 	public function testCanGetLocalTimestampIfError()
 	{
 		$this->app['remote'] = $this->getRemote('NOPE');
-		$timestamp = $this->task->getTimestamp();
+		$timestamp           = $this->task->getTimestamp();
 
 		$this->assertEquals(date('YmdHis'), $timestamp);
 	}
