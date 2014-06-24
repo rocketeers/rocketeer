@@ -1,6 +1,7 @@
 <?php
 namespace Rocketeer\TestCases;
 
+use Closure;
 use Illuminate\Container\Container;
 use Illuminate\Filesystem\Filesystem;
 use Mockery;
@@ -70,7 +71,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 	 *
 	 * @return Mockery
 	 */
-	protected function mock($handle, $class, $expectations)
+	protected function mock($handle, $class, Closure $expectations)
 	{
 		$mockery = Mockery::mock($class);
 		$mockery = $expectations($mockery)->mock();

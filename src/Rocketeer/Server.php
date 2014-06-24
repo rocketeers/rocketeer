@@ -111,7 +111,7 @@ class Server
 	/**
 	 * Flushes the repository if required
 	 *
-	 * @return void
+	 * @return boolean
 	 */
 	public function shouldFlush()
 	{

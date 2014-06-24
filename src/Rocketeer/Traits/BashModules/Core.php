@@ -222,6 +222,8 @@ class Core extends AbstractLocatorClass
 	 * Add an array/command to the history
 	 *
 	 * @param string|array $commands
+	 *
+	 * @return array|string
 	 */
 	protected function addCommandsToHistory($commands)
 	{

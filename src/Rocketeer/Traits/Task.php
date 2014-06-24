@@ -98,7 +98,7 @@ abstract class Task extends Bash
 	/**
 	 * Run the Task
 	 *
-	 * @return  void
+	 * @return string
 	 */
 	abstract public function execute();
 

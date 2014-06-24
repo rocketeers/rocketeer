@@ -180,6 +180,8 @@ class TasksHandler extends AbstractLocatorClass
 	 * @param string  $event
 	 * @param mixed   $listeners
 	 * @param integer $priority
+	 *
+	 * @return string
 	 */
 	public function addTaskListeners($task, $event, $listeners, $priority = 0)
 	{
