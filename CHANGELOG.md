@@ -2,6 +2,10 @@
 
 ### 1.2.3
 
+- Fixed a bug where `rocketeer current` would fail to find the related task
+- Fixed a bug where Artisan wouldn't be found even if at the default location
+- Fixed a bug where ignition would fail when the default connection isn't `production`
+- Fixed a bug where logs would be misplaced
 - Fixed a bug where tasks and events weren't properly loaded in Laravel
 
 ### 1.2.2
