@@ -17,10 +17,10 @@ use Illuminate\Container\Container;
  *
  * @property Illuminate\Console\Command   command
  * @property Illuminate\Remote\Connection remote
- * @property ReleasesManager              releasesManager
- * @property Rocketeer                    rocketeer
- * @property Server                       server
- * @property Traits\Scm                   scm
+ * @property \Rocketeer\ReleasesManager   releasesManager
+ * @property \Rocketeer\Rocketeer         rocketeer
+ * @property \Rocketeer\Server            server
+ * @property \Rocketeer\Traits\Scm        scm
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */

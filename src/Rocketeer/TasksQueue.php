@@ -252,7 +252,7 @@ class TasksQueue extends AbstractLocatorClass
 	 *
 	 * @param  string $task
 	 *
-	 * @return Task
+	 * @return \Rocketeer\Traits\Task
 	 */
 	public function buildTaskFromClass($task)
 	{

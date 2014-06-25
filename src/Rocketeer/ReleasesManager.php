@@ -179,8 +179,6 @@ class ReleasesManager
 	 * Update the contents of the validation file
 	 *
 	 * @param array $validation
-	 *
-	 * @return void
 	 */
 	public function saveValidationFile(array $validation)
 	{
@@ -194,8 +192,6 @@ class ReleasesManager
 	 * Mark a release as valid
 	 *
 	 * @param integer $release
-	 *
-	 * @return void
 	 */
 	public function markReleaseAsValid($release)
 	{

@@ -101,4 +101,21 @@ class TasksHandlerTest extends RocketeerTestCase
 		$this->app['rocketeer.rocketeer']->setStage('noEvent');
 		$this->assertEquals(array(), $this->tasksQueue()->getTasksListeners('check', 'before', true));
 	}
+
+	public function testCanBuildQueueFromConfigHook()
+	{
+		$tasks = array(
+			'npm install',
+			'bower install',
+		);
+
+		$this->swapConfig(array(
+			'rocketeer::hooks' => ['after' => ['deploy' => $tasks]],
+		));
+
+		$this->tasksQueue()->registerConfiguredEvents();
+		$listeners = $this->tasksQueue()->getTasksListeners('deploy', 'after', true);
+
+		$this->assertEquals($tasks, $listeners);
+	}
 }

@@ -243,9 +243,10 @@ abstract class RocketeerTestCase extends ContainerTestCase
 	/**
 	 * Get Task instance
 	 *
-	 * @param  string $task
+	 * @param string $task
+	 * @param null $command
 	 *
-	 * @return Task
+	 * @return \Rocketeer\Traits\Task
 	 */
 	protected function task($task = null, $command = null)
 	{
@@ -263,7 +264,7 @@ abstract class RocketeerTestCase extends ContainerTestCase
 	/**
 	 * Get TasksQueue instance
 	 *
-	 * @return TasksQueue
+	 * @return \Rocketeer\TasksQueue
 	 */
 	protected function tasksQueue()
 	{

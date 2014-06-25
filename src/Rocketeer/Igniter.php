@@ -86,8 +86,6 @@ class Igniter
 	 *
 	 * @param string $folder
 	 * @param array  $values
-	 *
-	 * @return void
 	 */
 	public function updateConfiguration($folder, array $values = array())
 	{
@@ -111,8 +109,6 @@ class Igniter
 
 	/**
 	 * Bind the base path to the Container
-	 *
-	 * @return void
 	 */
 	protected function bindBase()
 	{
@@ -125,8 +121,6 @@ class Igniter
 
 	/**
 	 * Bind paths to the configuration files
-	 *
-	 * @return void
 	 */
 	protected function bindConfiguration()
 	{

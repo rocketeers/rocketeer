@@ -45,8 +45,6 @@ class LogsHandler
 	 *
 	 * @param string $method
 	 * @param array  $parameters
-	 *
-	 * @return void
 	 */
 	public function __call($method, $parameters)
 	{
@@ -58,8 +56,6 @@ class LogsHandler
 	 *
 	 * @param string $informations
 	 * @param string $level
-	 *
-	 * @return void
 	 */
 	public function log($informations, $level = 'info')
 	{
@@ -112,8 +108,6 @@ class LogsHandler
 	 * Create a logs file if it doesn't exist
 	 *
 	 * @param string $file
-	 *
-	 * @return void
 	 */
 	protected function createLogsFile($file)
 	{
