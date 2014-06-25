@@ -184,4 +184,19 @@ class RocketeerTest extends RocketeerTestCase
 			),
 		));
 	}
+
+	public function testRocketeerCanGuessWhichStageHesIn()
+	{
+		$this->app['path.base'] = '/home/www/foobar/production/releases/12345678901234/app';
+		$stage = $this->app['rocketeer.rocketeer']->getDetectedStage();
+		$this->assertEquals('production', $stage);
+
+		$this->app['path.base'] = '/home/www/foobar/staging/releases/12345678901234/app';
+		$stage = $this->app['rocketeer.rocketeer']->getDetectedStage();
+		$this->assertEquals('staging', $stage);
+
+		$this->app['path.base'] = '/home/www/foobar/releases/12345678901234/app';
+		$stage = $this->app['rocketeer.rocketeer']->getDetectedStage();
+		$this->assertEquals(false, $stage);
+	}
 }
