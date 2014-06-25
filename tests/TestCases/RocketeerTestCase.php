@@ -1,6 +1,7 @@
 <?php
 namespace Rocketeer\TestCases;
 
+use Closure;
 use Rocketeer\Server;
 
 abstract class RocketeerTestCase extends ContainerTestCase
@@ -22,7 +23,7 @@ abstract class RocketeerTestCase extends ContainerTestCase
 	/**
 	 * A dummy Task to use for helpers tests
 	 *
-	 * @var Task
+	 * @var \Rocketeer\Traits\Task
 	 */
 	protected $task;
 
@@ -119,7 +120,7 @@ abstract class RocketeerTestCase extends ContainerTestCase
 	 * Assert a task's history matches an array
 	 *
 	 * @param string|Task $task
-	 * @param array       $history
+	 * @param array       $expectedHistory
 	 * @param array       $options
 	 *
 	 * @return string
@@ -141,7 +142,7 @@ abstract class RocketeerTestCase extends ContainerTestCase
 		}
 
 		// Look for release in history
-		$release = join(array_flatten($taskHistory));
+		$release = implode(array_flatten($taskHistory));
 		preg_match_all('/[0-9]{14}/', $release, $releases);
 		$release = array_get($releases, '0.0', date('YmdHis'));
 		if ($release === '10000000000000') {
@@ -197,7 +198,7 @@ abstract class RocketeerTestCase extends ContainerTestCase
 	 *
 	 * @return Mockery
 	 */
-	protected function mockReleases($expectations)
+	protected function mockReleases(Closure $expectations)
 	{
 		return $this->mock('rocketeer.releases', 'ReleasesManager', $expectations);
 	}
@@ -223,6 +224,10 @@ abstract class RocketeerTestCase extends ContainerTestCase
 
 	/**
 	 * Get a pretend Task to run bogus commands
+	 *
+	 * @param string $task
+	 * @param array  $options
+	 * @param array  $expectations
 	 *
 	 * @return Task
 	 */

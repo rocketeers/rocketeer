@@ -233,6 +233,8 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 	/**
 	 * Mock the Remote component
 	 *
+	 * @param null $mockedOutput
+	 *
 	 * @return Mockery
 	 */
 	protected function getRemote($mockedOutput = null)

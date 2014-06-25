@@ -18,6 +18,7 @@ class CoreTest extends RocketeerTestCase
 		ob_start();
 		$status = $this->task->checkStatus(null, 'error');
 		$output = ob_get_clean();
+
 		$this->assertEquals('error'.PHP_EOL, $output);
 		$this->assertFalse($status);
 	}
@@ -25,6 +26,7 @@ class CoreTest extends RocketeerTestCase
 	public function testCanGetTimestampOffServer()
 	{
 		$timestamp = $this->task->getTimestamp();
+
 		$this->assertEquals(date('YmdHis'), $timestamp);
 	}
 
@@ -34,5 +36,19 @@ class CoreTest extends RocketeerTestCase
 		$timestamp           = $this->task->getTimestamp();
 
 		$this->assertEquals(date('YmdHis'), $timestamp);
+	}
+
+	public function testDoesntAppendEnvironmentToStandardTasks()
+	{
+		$this->app['rocketeer.rocketeer']->setStage('staging');
+		$commands = $this->pretendTask()->processCommands(array(
+			'artisan something',
+			'rm readme*',
+		));
+
+		$this->assertEquals(array(
+			'artisan something --env="staging"',
+			'rm readme*',
+		), $commands);
 	}
 }

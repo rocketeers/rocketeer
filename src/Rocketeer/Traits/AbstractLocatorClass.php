@@ -15,12 +15,12 @@ use Illuminate\Container\Container;
  * An abstract for Service Locator-based classes with adds
  * a few shortcuts to Rocketeer classes
  *
- * @property Illuminate\Console\Command   command
- * @property Illuminate\Remote\Connection remote
- * @property \Rocketeer\ReleasesManager   releasesManager
- * @property \Rocketeer\Rocketeer         rocketeer
- * @property \Rocketeer\Server            server
- * @property \Rocketeer\Traits\Scm        scm
+ * @property \Illuminate\Console\Command   command
+ * @property \Illuminate\Remote\Connection remote
+ * @property \Rocketeer\ReleasesManager    releasesManager
+ * @property \Rocketeer\Rocketeer          rocketeer
+ * @property \Rocketeer\Server             server
+ * @property \Rocketeer\Traits\Scm         scm
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */

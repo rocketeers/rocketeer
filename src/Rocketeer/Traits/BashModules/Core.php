@@ -245,7 +245,7 @@ class Core extends AbstractLocatorClass
 	 *
 	 * @return array
 	 */
-	protected function processCommands($commands)
+	public function processCommands($commands)
 	{
 		$stage     = $this->rocketeer->getStage();
 		$separator = $this->server->getSeparator();
@@ -265,7 +265,7 @@ class Core extends AbstractLocatorClass
 
 			// Add stage flag to Artisan commands
 			if (Str::contains($command, 'artisan') and $stage) {
-				$command .= ' --env='.$stage;
+				$command .= ' --env="'.$stage.'"';
 			}
 		}
 
