@@ -218,11 +218,68 @@ class Check extends Task
 	{
 		$this->command->comment('Checking presence of '.$extension.' extension');
 
+		// Check for HHVM and built-in extensions
+		if ($this->usesHhvm()) {
+			$this->extensions = array(
+				'_hhvm',
+				'apache',
+				'asio',
+				'bcmath',
+				'bz2',
+				'ctype',
+				'curl',
+				'debugger',
+				'fileinfo',
+				'filter',
+				'gd',
+				'hash',
+				'hh',
+				'iconv',
+				'icu',
+				'imagick',
+				'imap',
+				'json',
+				'mailparse',
+				'mcrypt',
+				'memcache',
+				'memcached',
+				'mysql',
+				'odbc',
+				'openssl',
+				'pcre',
+				'phar',
+				'reflection',
+				'session',
+				'soap',
+				'std',
+				'stream',
+				'thrift',
+				'url',
+				'wddx',
+				'xdebug',
+				'zip',
+				'zlib',
+			);
+		}
+
 		// Get the PHP extensions available
 		if (!$this->extensions) {
 			$this->extensions = (array) $this->run($this->php('-m'), false, true);
 		}
 
 		return in_array($extension, $this->extensions);
+	}
+
+	/**
+	 * Check if we're using HHVM in production
+	 *
+	 * @return bool
+	 */
+	public function usesHhvm()
+	{
+		$defined = $this->php('-r "echo defined(\'HHVM_VERSION\') ? \'true\' : \'false\';"');
+		$defined = $this->runLast($defined);
+
+		return $defined == 'true';
 	}
 }

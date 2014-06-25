@@ -50,4 +50,20 @@ class CheckTest extends RocketeerTestCase
 			'{php} -m',
 		));
 	}
+
+	public function testCanCheckForHhvmExtensions()
+	{
+		$this->app['remote'] = $this->getRemote('true');
+		$exists = $this->task('Check')->checkPhpExtension('_hhvm');
+
+		$this->assertTrue($exists);
+	}
+
+	public function testCanCheckIfUsesHhvm()
+	{
+		$hhvm    = $this->task('Check')->usesHhvm();
+		$defined = defined('HHVM_VERSION');
+
+		$this->assertEquals($defined, $hhvm);
+	}
 }
