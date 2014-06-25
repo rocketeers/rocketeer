@@ -2,6 +2,8 @@
 
 ### 1.2.3
 
+- Added static helper `Rocketeer::getDetectedStage` to get the stage Rocketeer think's he's in on the server (for environment mappings)
+- Added support for checking of HHVM extensions
 - Fixed a bug where `rocketeer current` would fail to find the related task
 - Fixed a bug where Artisan wouldn't be found even if at the default location
 - Fixed a bug where ignition would fail when the default connection isn't `production`
@@ -10,7 +12,7 @@
 
 ### 1.2.2
 
-- **The Notifier plugin module not has a hook for before and after deployment**
+- **The Notifier plugin module now has a hook for before and after deployment**
 - Add ability to disable composer completely
 - Add support for ssh-agent for secure connections
 - Fixed a bug that prevented the `--seed` option from working
