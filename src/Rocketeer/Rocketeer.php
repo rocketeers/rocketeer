@@ -167,15 +167,17 @@ class Rocketeer
 	/**
 	 * Returns what stage Rocketeer thinks he's in
 	 *
+	 * @param string $application
+	 * @param string $path
+	 *
 	 * @return string
 	 */
-	public function getDetectedStage()
+	public static function getDetectedStage($application = 'application', $path = null)
 	{
-		$application = $this->getApplicationName();
-		$current     = $this->app['path.base'];
+		$current     = $path ?: realpath(__DIR__);
 		preg_match('/'.$application.'\/([a-zA-Z0-9_-]+)\/releases\/([0-9]{14})/', $current, $matches);
 
-		return isset($matches[1]) ? $matches[1] : $this->getStage();
+		return isset($matches[1]) ? $matches[1] : false;
 	}
 
 	////////////////////////////////////////////////////////////////////
