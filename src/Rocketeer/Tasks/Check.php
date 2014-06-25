@@ -277,9 +277,10 @@ class Check extends Task
 	 */
 	public function usesHhvm()
 	{
-		$defined = $this->php('-r "echo defined(\'HHVM_VERSION\') ? \'true\' : \'false\';"');
-		$defined = $this->runLast($defined);
+		$version = $this->php('--version');
+		$version = $this->runLast($version);
+		$version = strtolower($version);
 
-		return $defined == 'true';
+		return strpos($version, 'hiphop') !== false;
 	}
 }
