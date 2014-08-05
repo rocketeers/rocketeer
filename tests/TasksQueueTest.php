@@ -11,7 +11,7 @@ class TasksQueueTest extends RocketeerTestCase
 	{
 		$task = $this->tasksQueue()->buildTaskFromClass('Rocketeer\Tasks\Deploy');
 
-		$this->assertInstanceOf('Rocketeer\Traits\Task', $task);
+		$this->assertInstanceOf('Rocketeer\Abstracts\Task', $task);
 	}
 
 	public function testCanBuildCustomTaskByName()
