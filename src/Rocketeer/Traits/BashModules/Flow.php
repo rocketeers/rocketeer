@@ -7,14 +7,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Rocketeer\Abstracts\BashModules;
+namespace Rocketeer\Traits\BashModules;
 
 /**
  * Handles the deployment flow (current/releases/shared)
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class Flow extends Scm
+trait Flow
 {
 	/**
 	 * Check if the remote server is setup

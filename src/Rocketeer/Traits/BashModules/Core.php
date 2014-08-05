@@ -7,7 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Rocketeer\Abstracts\BashModules;
+namespace Rocketeer\Traits\BashModules;
 
 use Illuminate\Support\Str;
 use Rocketeer\Abstracts\AbstractLocatorClass;
@@ -18,7 +18,7 @@ use Rocketeer\Traits\HasLocator;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class Core
+trait Core
 {
 	use HasLocator;
 

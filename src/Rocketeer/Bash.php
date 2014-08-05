@@ -9,13 +9,22 @@
  */
 namespace Rocketeer;
 
+use Rocketeer\Traits\BashModules\Binaries;
+use Rocketeer\Traits\BashModules\Core;
+use Rocketeer\Traits\BashModules\Filesystem;
+use Rocketeer\Traits\BashModules\Flow;
+use Rocketeer\Traits\BashModules\Scm;
+
 /**
  * An helper to execute low-level commands on the remote server
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class Bash extends Abstracts\BashModules\Flow
+class Bash
 {
-	// Composite class
-	// Don't ask.
+	use Core;
+	use Binaries;
+	use Filesystem;
+	use Flow;
+	use Scm;
 }

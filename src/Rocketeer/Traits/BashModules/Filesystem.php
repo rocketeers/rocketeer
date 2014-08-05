@@ -7,14 +7,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Rocketeer\Abstracts\BashModules;
+namespace Rocketeer\Traits\BashModules;
 
 /**
  * Files and folders handling
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class Filesystem extends Core
+trait Filesystem
 {
 	////////////////////////////////////////////////////////////////////
 	/////////////////////////////// COMMON /////////////////////////////

@@ -7,14 +7,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Rocketeer\Abstracts\BashModules;
+namespace Rocketeer\Traits\BashModules;
 
 /**
  * Handles finding and calling binaries
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class Binaries extends Filesystem
+trait Binaries
 {
 	////////////////////////////////////////////////////////////////////
 	/////////////////////////////// BINARIES ///////////////////////////

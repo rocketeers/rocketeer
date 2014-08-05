@@ -22,7 +22,7 @@ use Rocketeer\Traits\HasLocator;
 abstract class Plugin
 {
 	use HasLocator;
-	
+
 	/**
 	 * The path to the configuration folder
 	 *

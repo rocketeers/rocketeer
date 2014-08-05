@@ -7,14 +7,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Rocketeer\Abstracts\BashModules;
+namespace Rocketeer\Traits\BashModules;
 
 /**
  * Repository handling
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class Scm extends Binaries
+trait Scm
 {
 	/**
 	 * Copies the repository into a release folder and update it
