@@ -278,7 +278,8 @@ class Check extends Task
 	public function usesHhvm()
 	{
 		$version = $this->php('--version');
-		$version = $this->runLast($version);
+		$version = $this->runRaw($version, true);
+		$version = head($version);
 		$version = strtolower($version);
 
 		return strpos($version, 'hiphop') !== false;
