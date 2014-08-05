@@ -118,4 +118,28 @@ class TasksHandlerTest extends RocketeerTestCase
 
 		$this->assertEquals($tasks, $listeners);
 	}
+
+	public function testCanHaveCustomConnectionHooks()
+	{
+		$tasks = array(
+			'npm install',
+			'bower install',
+		);
+
+		$this->swapConfig(array(
+			'rocketeer::default'                         => 'production',
+			'rocketeer::hooks'                           => [],
+			'rocketeer::on.connections.staging.hooks' => ['after' => ['deploy' => $tasks]],
+		));
+		$this->tasksQueue()->registerConfiguredEvents();
+
+		$this->app['rocketeer.rocketeer']->setConnection('production');
+		$events = $this->tasksQueue()->getTasksListeners('deploy', 'after', true);
+		$this->assertEmpty($events);
+
+		$this->app['rocketeer.rocketeer']->setConnection('staging');
+		$events = $this->tasksQueue()->getTasksListeners('deploy', 'after', true);
+
+		$this->assertEquals($tasks, $events);
+	}
 }

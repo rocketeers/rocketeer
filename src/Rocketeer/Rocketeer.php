@@ -174,7 +174,7 @@ class Rocketeer
 	 */
 	public static function getDetectedStage($application = 'application', $path = null)
 	{
-		$current     = $path ?: realpath(__DIR__);
+		$current = $path ?: realpath(__DIR__);
 		preg_match('/'.$application.'\/([a-zA-Z0-9_-]+)\/releases\/([0-9]{14})/', $current, $matches);
 
 		return isset($matches[1]) ? $matches[1] : false;
@@ -338,10 +338,16 @@ class Rocketeer
 	 */
 	public function setConnection($connection)
 	{
-		if ($this->isValidConnection($connection)) {
-			$this->connection = $connection;
-			$this->app['config']->set('remote.default', $connection);
+		if (!$this->isValidConnection($connection)) {
+			return;
 		}
+
+		// Set the connection
+		$this->connection = $connection;
+		$this->app['config']->set('remote.default', $connection);
+
+		// Update events
+		$this->app['rocketeer.tasks']->registerConfiguredEvents();
 	}
 
 	/**
@@ -520,7 +526,6 @@ class Rocketeer
 	 * Get the path to the users home folder
 	 *
 	 * @throws Exception
-	 *
 	 * @return string
 	 */
 	public function getUserHomeFolder()
@@ -528,11 +533,9 @@ class Rocketeer
 		// Get home folder if available (Unix)
 		if (!empty($_SERVER['HOME'])) {
 			return $_SERVER['HOME'];
-
 			// Else use the home drive (Windows)
 		} elseif (!empty($_SERVER['HOMEDRIVE']) && !empty($_SERVER['HOMEPATH'])) {
 			return $_SERVER['HOMEDRIVE'].$_SERVER['HOMEPATH'];
-
 		} else {
 			throw new Exception('Cannot determine user home directory.');
 		}

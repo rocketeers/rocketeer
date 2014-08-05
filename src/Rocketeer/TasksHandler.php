@@ -204,9 +204,9 @@ class TasksHandler extends AbstractLocatorClass
 	/**
 	 * Get all of a task's listeners
 	 *
-	 * @param  Task    $task
-	 * @param  string  $event
-	 * @param  boolean $flatten
+	 * @param  string|Task $task
+	 * @param  string      $event
+	 * @param  boolean     $flatten
 	 *
 	 * @return array
 	 */
