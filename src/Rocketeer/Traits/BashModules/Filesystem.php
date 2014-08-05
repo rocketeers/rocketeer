@@ -150,6 +150,22 @@ trait Filesystem
 		$this->remote->putString($file, $contents);
 	}
 
+	/**
+	 * Upload a local file to remote
+	 *
+	 * @param string $file
+	 * @param string $destination
+	 */
+	public function upload($file, $destination)
+	{
+		if (!file_exists($file)) {
+			return;
+		}
+
+		$contents = file_get_contents($file);
+		$this->putFile($destination, $contents);
+	}
+
 	////////////////////////////////////////////////////////////////////
 	/////////////////////////////// FOLDERS ////////////////////////////
 	////////////////////////////////////////////////////////////////////
