@@ -16,7 +16,7 @@ class RocketeerTest extends RocketeerTestCase
 
 		$this->app['rocketeer.server']->setValue('connections.custom.username', 'foobar');
 		$connections = $this->app['rocketeer.rocketeer']->getAvailableConnections();
-		$this->assertEquals(array('custom'), array_keys($connections));
+		$this->assertEquals(array('production', 'staging', 'custom'), array_keys($connections));
 	}
 
 	public function testCanGetCurrentConnection()
@@ -174,6 +174,25 @@ class RocketeerTest extends RocketeerTestCase
 		$path = '/home/www/foobar/releases/12345678901234/app';
 		$stage = Rocketeer::getDetectedStage('foobar', $path);
 		$this->assertEquals(false, $stage);
+	}
+
+	public function testFillsConnectionCredentialsHoles()
+	{
+		$connections = $this->app['rocketeer.rocketeer']->getAvailableConnections();
+		$this->assertArrayHasKey('production', $connections);
+
+		$this->app['rocketeer.server']->setValue('connections', array(
+			'staging' => array(
+				'host'      => 'foobar',
+				'username'  => 'user',
+				'password'  => '',
+				'keyphrase' => '',
+				'key'       => '/Users/user/.ssh/id_rsa',
+				'agent'     => ''
+			),
+		));
+		$connections = $this->app['rocketeer.rocketeer']->getAvailableConnections();
+		$this->assertArrayHasKey('production', $connections);
 	}
 
 	////////////////////////////////////////////////////////////////////

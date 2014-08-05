@@ -197,23 +197,25 @@ class Rocketeer
 	/**
 	 * Get the available connections
 	 *
+	 * @param string|null $connection A connection to fetch from the resulting array
+	 *
 	 * @return array
 	 */
-	public function getAvailableConnections()
+	public function getAvailableConnections($connection = null)
 	{
-		$connections = $this->app['rocketeer.server']->getValue('connections');
+		// Fetch stored credentials
+		$storage = (array) $this->app['rocketeer.server']->getValue('connections');
 
-		// Fetch from config file
-		if (!$connections) {
-			$connections = $this->app['config']->get('rocketeer::connections');
-		}
+		// Merge with defaults from config file
+		$configuration = (array) $this->app['config']->get('rocketeer::connections');
 
 		// Fetch from remote file
-		if (!$connections or array_get($connections, 'production.host') == '{host}') {
-			$connections = $this->app['config']->get('remote.connections');
-		}
+		$remote = (array) $this->app['config']->get('remote.connections');
 
-		return $connections;
+		// Merge configurations
+		$storage = array_replace_recursive($remote, $configuration, $storage);
+
+		return $connection ? array_get($storage, $connection) : $storage;
 	}
 
 	/**
@@ -292,7 +294,7 @@ class Rocketeer
 	{
 		$connection = $connection ?: $this->getConnection();
 
-		return array_get($this->getAvailableConnections(), $connection, array());
+		return $this->getAvailableConnections($connection);
 	}
 
 	/**

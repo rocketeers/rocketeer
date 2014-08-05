@@ -71,7 +71,7 @@ abstract class Notifier extends Plugin
 		$connection = $this->rocketeer->getConnection();
 
 		// Get hostname
-		$credentials = array_get($this->rocketeer->getAvailableConnections(), $connection);
+		$credentials = $this->rocketeer->getAvailableConnections($connection);
 		$host        = array_get($credentials, 'host');
 		if ($stage) {
 			$connection = $stage.'@'.$connection;
