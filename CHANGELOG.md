@@ -2,7 +2,13 @@
 
 ### 2.0.0
 
+#### Breaking changes
+
 - Minimum requirement is now PHP 5.4+
+- The `Traits` folder was renamed to `Abstracts`, if you were extending `Rocketeer\Traits\Task`, change that accordingly to `Rocketeer\Abstracts\Task`
+
+#### Features and bugfixes
+
 - Added static helper `Rocketeer::getDetectedStage` to get the stage Rocketeer think's he's in on the server (for environment mappings)
 - Added support for checking of HHVM extensions
 - Fixed a bug where `rocketeer current` would fail to find the related task
