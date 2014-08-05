@@ -9,7 +9,7 @@
  */
 namespace Rocketeer\Tasks;
 
-use Rocketeer\Traits\Task;
+use Rocketeer\Abstracts\Task;
 
 /**
  * Set up the remote server for deployment

@@ -10,7 +10,7 @@
 namespace Rocketeer\Tasks;
 
 use DateTime;
-use Rocketeer\Traits\Task;
+use Rocketeer\Abstracts\Task;
 
 /**
  * Display what the current release is

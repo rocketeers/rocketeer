@@ -9,7 +9,7 @@
  */
 namespace Rocketeer\Commands;
 
-use Rocketeer\Traits\Task;
+use Rocketeer\Abstracts\Task;
 
 /**
  * A command that wraps around a Task class and runs

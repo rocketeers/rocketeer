@@ -9,7 +9,7 @@
  */
 namespace Rocketeer\Tasks;
 
-use Rocketeer\Traits\Task;
+use Rocketeer\Abstracts\Task;
 
 /**
  * Run the tests on the server and displays the output

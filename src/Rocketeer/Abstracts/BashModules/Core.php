@@ -7,10 +7,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Rocketeer\Traits\BashModules;
+namespace Rocketeer\Abstracts\BashModules;
 
 use Illuminate\Support\Str;
-use Rocketeer\Traits\AbstractLocatorClass;
+use Rocketeer\Abstracts\AbstractLocatorClass;
 
 /**
  * Core handling of running commands and returning output

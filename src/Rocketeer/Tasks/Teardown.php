@@ -9,7 +9,7 @@
  */
 namespace Rocketeer\Tasks;
 
-use Rocketeer\Traits\Task;
+use Rocketeer\Abstracts\Task;
 
 /**
  * Remove the remote applications and existing caches

@@ -9,9 +9,9 @@
  */
 namespace Rocketeer\Plugins;
 
+use Rocketeer\Abstracts\Plugin;
+use Rocketeer\Abstracts\Task;
 use Rocketeer\TasksHandler;
-use Rocketeer\Traits\Plugin;
-use Rocketeer\Traits\Task;
 
 /**
  * A base class for notification services to extends

@@ -9,7 +9,7 @@
  */
 namespace Rocketeer\Tasks;
 
-use Rocketeer\Traits\Task;
+use Rocketeer\Abstracts\Task;
 
 /**
  * A task to ignite Rocketeer

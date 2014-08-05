@@ -9,7 +9,7 @@
  */
 namespace Rocketeer\Tasks;
 
-use Rocketeer\Traits\Task;
+use Rocketeer\Abstracts\Task;
 
 /**
  * Rollback to the previous release, or to a specific one

@@ -14,7 +14,7 @@ namespace Rocketeer;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class Bash extends Traits\BashModules\Flow
+class Bash extends Abstracts\BashModules\Flow
 {
 	// Composite class
 	// Don't ask.

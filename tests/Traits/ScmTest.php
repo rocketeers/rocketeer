@@ -1,5 +1,5 @@
 <?php
-namespace Rocketeer\Traits;
+namespace Rocketeer\Abstracts;
 
 use Rocketeer\Scm\Git;
 use Rocketeer\TestCases\RocketeerTestCase;

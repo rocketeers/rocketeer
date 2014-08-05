@@ -1,7 +1,7 @@
 <?php
 namespace Rocketeer\Dummies;
 
-use Rocketeer\Traits\Task;
+use Rocketeer\Abstracts\Task;
 
 class MyCustomTask extends Task
 {

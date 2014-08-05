@@ -9,7 +9,7 @@
  */
 namespace Rocketeer\Scm;
 
-use Rocketeer\Traits\Scm;
+use Rocketeer\Abstracts\Scm;
 
 /**
  * The Svn implementation of the ScmInterface

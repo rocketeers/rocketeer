@@ -10,8 +10,8 @@
 namespace Rocketeer;
 
 use Illuminate\Container\Container;
+use Rocketeer\Abstracts\AbstractLocatorClass;
 use Rocketeer\Commands\BaseTaskCommand;
-use Rocketeer\Traits\AbstractLocatorClass;
 
 /**
  * Handles the registering and relating of tasks

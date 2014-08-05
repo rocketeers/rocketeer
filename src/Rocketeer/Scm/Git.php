@@ -9,7 +9,7 @@
  */
 namespace Rocketeer\Scm;
 
-use Rocketeer\Traits\Scm;
+use Rocketeer\Abstracts\Scm;
 
 /**
  * The Git implementation of the ScmInterface

@@ -7,7 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Rocketeer\Traits\BashModules;
+namespace Rocketeer\Abstracts\BashModules;
 
 /**
  * Handles the deployment flow (current/releases/shared)

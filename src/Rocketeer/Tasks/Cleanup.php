@@ -10,7 +10,7 @@
 namespace Rocketeer\Tasks;
 
 use Illuminate\Support\Str;
-use Rocketeer\Traits\Task;
+use Rocketeer\Abstracts\Task;
 
 /**
  * Clean up old releases from the server

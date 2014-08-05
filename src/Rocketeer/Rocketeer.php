@@ -178,7 +178,7 @@ class Rocketeer
 	{
 		$folder = $this->replacePatterns($folder);
 
-		$base = $this->getHomeFolder().'/';
+		$base  = $this->getHomeFolder().'/';
 		$stage = $this->app['rocketeer.connections']->getStage();
 		if ($folder and $stage) {
 			$base .= $stage.'/';

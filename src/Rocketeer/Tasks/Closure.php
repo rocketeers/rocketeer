@@ -10,7 +10,7 @@
 namespace Rocketeer\Tasks;
 
 use Closure as AnonymousFunction;
-use Rocketeer\Traits\Task;
+use Rocketeer\Abstracts\Task;
 
 /**
  * A Task that wraps around a closure and execute it

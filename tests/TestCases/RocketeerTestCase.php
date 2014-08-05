@@ -22,8 +22,9 @@ abstract class RocketeerTestCase extends ContainerTestCase
 
 	/**
 	 * A dummy Task to use for helpers tests
+
 	 *
-	 * @var \Rocketeer\Traits\Task
+*@var \Rocketeer\Abstracts\Task
 	 */
 	protected $task;
 
@@ -247,11 +248,13 @@ abstract class RocketeerTestCase extends ContainerTestCase
 
 	/**
 	 * Get Task instance
+
 	 *
-	 * @param string $task
+*@param string $task
 	 * @param null $command
+
 	 *
-	 * @return \Rocketeer\Traits\Task
+*@return \Rocketeer\Abstracts\Task
 	 */
 	protected function task($task = null, $command = null)
 	{

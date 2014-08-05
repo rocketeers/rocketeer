@@ -130,8 +130,8 @@ class Compiler
 	{
 		$this->box->getPhar()->setStub(
 			StubGenerator::create()
-				->index('bin/rocketeer')
-				->generate()
+			             ->index('bin/rocketeer')
+			             ->generate()
 		);
 	}
 
@@ -147,9 +147,9 @@ class Compiler
 	{
 		$finder = new Finder();
 		$finder = $finder->files()
-			->ignoreVCS(true)
-			->name('*.php')
-			->in($folder);
+		                 ->ignoreVCS(true)
+		                 ->name('*.php')
+		                 ->in($folder);
 
 		// Ignore some files or folders
 		if ($ignore) {

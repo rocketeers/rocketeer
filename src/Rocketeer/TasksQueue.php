@@ -10,8 +10,8 @@
 namespace Rocketeer;
 
 use Closure;
-use Rocketeer\Traits\AbstractLocatorClass;
-use Rocketeer\Traits\Task;
+use Rocketeer\Abstracts\AbstractLocatorClass;
+use Rocketeer\Abstracts\Task;
 
 /**
  * Handles the building and execution of tasks
@@ -84,7 +84,6 @@ class TasksQueue extends AbstractLocatorClass
 
 	/**
 	 * Run the queue
-	 *
 	 * Run an array of Tasks instances on the various
 	 * connections and stages provided
 	 *
@@ -125,8 +124,8 @@ class TasksQueue extends AbstractLocatorClass
 	/**
 	 * Run the queue, taking into account the stage
 	 *
-	 * @param  \Rocketeer\Traits\Task[] $tasks
-	 * @param  string                   $stage
+	 * @param  \Rocketeer\Abstracts\Task[] $tasks
+	 * @param  string                      $stage
 	 *
 	 * @return boolean
 	 */
@@ -156,7 +155,6 @@ class TasksQueue extends AbstractLocatorClass
 
 	/**
 	 * Build a queue from a list of tasks
-	 *
 	 * Here we will take the various Tasks names, closures and string tasks
 	 * and unify all of those to actual Task instances
 	 *
@@ -249,7 +247,7 @@ class TasksQueue extends AbstractLocatorClass
 	 *
 	 * @param  string $task
 	 *
-	 * @return \Rocketeer\Traits\Task
+	 * @return \Rocketeer\Abstracts\Task
 	 */
 	public function buildTaskFromClass($task)
 	{

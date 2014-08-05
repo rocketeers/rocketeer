@@ -295,14 +295,12 @@ class RocketeerServiceProvider extends ServiceProvider
 				$this->app->singleton($command, function () use ($commandClass) {
 					return new $commandClass;
 				});
-
-			// Else create a fake one
+				// Else create a fake one
 			} else {
 				$this->app->bind($command, function () use ($taskInstance, $slug) {
 					return new Commands\BaseTaskCommand($taskInstance, $slug);
 				});
 			}
-
 		}
 
 		// Add commands to Artisan
@@ -368,9 +366,7 @@ class RocketeerServiceProvider extends ServiceProvider
 		$file = $app['path.rocketeer.'.$handle];
 		if (!is_dir($file) and file_exists($file)) {
 			include $file;
-		}
-
-		// Else include its contents
+		} // Else include its contents
 		elseif (is_dir($file)) {
 			$folder = glob($file.'/*.php');
 			foreach ($folder as $file) {
