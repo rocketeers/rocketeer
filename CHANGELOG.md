@@ -10,6 +10,7 @@
 
 #### Features and bugfixes
 
+- Added ability to run tasks in parallel via the `--parallel` flag (or `-P`)
 - Added static helper `Rocketeer::getDetectedStage` to get the stage Rocketeer think's he's in on the server (for environment mappings)
 - Added support for checking of HHVM extensions
 - Fixed a bug where `rocketeer current` would fail to find the related task

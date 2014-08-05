@@ -10,6 +10,8 @@
 namespace Rocketeer;
 
 use Closure;
+use Exception;
+use KzykHys\Parallel\Parallel;
 use Rocketeer\Abstracts\AbstractLocatorClass;
 use Rocketeer\Abstracts\Task;
 use Rocketeer\Traits\HasLocator;
@@ -92,32 +94,25 @@ class TasksQueue
 	 *
 	 * @param  array $tasks An array of tasks
 	 *
+	 * @throws Exception
 	 * @return array An array of output
 	 */
 	public function run(array $tasks)
 	{
-		// First we'll build the queue
-		$queue = $this->buildQueue($tasks);
+		$queue    = $this->buildQueue($tasks);
+		$pipeline = $this->buildPipeline($queue);
 
-		// Get the connections to execute the tasks on
-		$connections = (array) $this->connections->getConnections();
-		foreach ($connections as $connection) {
-			$this->connections->setConnection($connection);
-
-			// Check if we provided a stage
-			$stage  = $this->getStage();
-			$stages = $this->connections->getStages();
-			if ($stage and in_array($stage, $stages)) {
-				$stages = array($stage);
+		// Run pipeline
+		if ($this->command->option('parallel')) {
+			if (!extension_loaded('pcntl')) {
+				throw new Exception('Parallel jobs require the PCNTL extension');
 			}
 
-			// Run the Tasks on each stage
-			if (!empty($stages)) {
-				foreach ($stages as $stage) {
-					$this->runQueue($queue, $stage);
-				}
-			} else {
-				$this->runQueue($queue);
+			$parallel = new Parallel();
+			$parallel->run($pipeline);
+		} else {
+			foreach ($pipeline as $job) {
+				$job();
 			}
 		}
 
@@ -150,6 +145,54 @@ class TasksQueue
 		}
 
 		return true;
+	}
+
+	/**
+	 * Build a pipeline of jobs for Parallel to execute
+	 *
+	 * @param array $queue
+	 *
+	 * @return array
+	 */
+	protected function buildPipeline(array $queue)
+	{
+		// First we'll build the queue
+		$pipeline = [];
+
+		// Get the connections to execute the tasks on
+		$connections = (array) $this->connections->getConnections();
+		foreach ($connections as $connection) {
+			// Sanitize stage
+			$stage  = $this->getStage();
+			$stages = $this->connections->getStages();
+			if ($stage and in_array($stage, $stages)) {
+				$stages = array($stage);
+			}
+
+			// Default to no stages
+			if (empty($stages)) {
+				$stages = [null];
+			}
+
+			// Add job to pipeline
+			foreach ($stages as $stage) {
+				$pipeline[] = array(
+					'connection' => $connection,
+					'stage'      => $stage,
+					'queue'      => $queue,
+				);
+			}
+		}
+
+		// Build pipeline
+		foreach ($pipeline as $key => $job) {
+			$pipeline[$key] = function () use ($job) {
+				$this->connections->setConnection($job['connection']);
+				$this->runQueue($job['queue'], $job['stage']);
+			};
+		}
+
+		return $pipeline;
 	}
 
 	////////////////////////////////////////////////////////////////////

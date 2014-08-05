@@ -22,7 +22,8 @@
 		"illuminate/filesystem": "~4.2",
 		"illuminate/events": "~4.2",
 		"illuminate/remote": "~4.2",
-		"illuminate/log": "~4.2"
+		"illuminate/log": "~4.2",
+		"kzykhys/parallel": "dev-master"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "~4.0",

@@ -35,6 +35,7 @@ abstract class AbstractDeployCommand extends Command
 	protected function getOptions()
 	{
 		return array(
+			['parallel','P', InputOption::VALUE_NONE,     'Run the tasks asynchronously instead of sequentially'],
 			['pretend', 'p', InputOption::VALUE_NONE,     'Returns an array of commands to be executed instead of actually executing them'],
 			['on',      'C', InputOption::VALUE_REQUIRED, 'The connection(s) to execute the Task in'],
 			['stage',   'S', InputOption::VALUE_REQUIRED, 'The stage to execute the Task in']
