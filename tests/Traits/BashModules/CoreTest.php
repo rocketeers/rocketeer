@@ -51,4 +51,12 @@ class CoreTest extends RocketeerTestCase
 			'rm readme*',
 		), $commands);
 	}
+
+	public function testCanRemoveCommonPollutingOutput()
+	{
+		$this->app['remote'] = $this->getRemote('stdin: is not a tty'.PHP_EOL.'something');
+		$result = $this->app['rocketeer.bash']->run('ls');
+
+		$this->assertEquals('something', $result);
+	}
 }

@@ -283,6 +283,9 @@ class Core extends AbstractLocatorClass
 	 */
 	protected function processOutput($output, $array = false, $trim = true)
 	{
+		// Remove polluting strings
+		$output = str_replace('stdin: is not a tty', null, $output);
+
 		// Explode output if necessary
 		if ($array) {
 			$output = explode($this->server->getLineEndings(), $output);
