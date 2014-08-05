@@ -177,7 +177,7 @@ class RocketeerServiceProvider extends ServiceProvider
 			return new Rocketeer($app);
 		});
 
-		$app->bind('rocketeer.releases', function ($app) {
+		$app->singleton('rocketeer.releases', function ($app) {
 			return new ReleasesManager($app);
 		});
 

@@ -33,6 +33,13 @@ class ReleasesManager
 	protected $state = array();
 
 	/**
+	 * Cache of the releases
+	 *
+	 * @type array
+	 */
+	public $releases = array();
+
+	/**
 	 * Build a new ReleasesManager
 	 *
 	 * @param Container $app
@@ -55,12 +62,17 @@ class ReleasesManager
 	public function getReleases()
 	{
 		// Get releases on server
-		$releases = $this->app['rocketeer.bash']->listContents($this->getReleasesPath());
-		if (is_array($releases)) {
-			rsort($releases);
+		if (!$this->releases) {
+			$releases = $this->getReleasesPath();
+			$releases = $this->app['rocketeer.bash']->listContents($releases);
+			if (is_array($releases)) {
+				rsort($releases);
+			}
+
+			$this->releases = $releases;
 		}
 
-		return $releases;
+		return $this->releases;
 	}
 
 	/**

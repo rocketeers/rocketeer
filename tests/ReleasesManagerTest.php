@@ -131,4 +131,18 @@ class ReleasesManagerTest extends RocketeerTestCase
 
 		$this->assertEquals($this->server.'/releases/20000000000000/app/storage', $folder);
 	}
+
+	public function testDoesntPingForReleasesAllTheFuckingTime()
+	{
+		$this->mock('rocketeer.bash', 'Rocketeer\Bash', function ($mock) {
+			return $mock
+				->shouldReceive('getFile')->times(1)
+				->shouldReceive('listContents')->once()->with($this->server.'/releases')->andReturn([1, 2, 3]);
+		});
+
+		$this->app['rocketeer.releases']->getNonCurrentReleases();
+		$this->app['rocketeer.releases']->getNonCurrentReleases();
+		$this->app['rocketeer.releases']->getNonCurrentReleases();
+		$this->app['rocketeer.releases']->getNonCurrentReleases();
+	}
 }
