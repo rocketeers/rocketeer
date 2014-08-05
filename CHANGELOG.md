@@ -1,7 +1,8 @@
 ### Changelog
 
-### 1.2.3
+### 2.0.0
 
+- Minimum requirement is now PHP 5.4+
 - Added static helper `Rocketeer::getDetectedStage` to get the stage Rocketeer think's he's in on the server (for environment mappings)
 - Added support for checking of HHVM extensions
 - Fixed a bug where `rocketeer current` would fail to find the related task
