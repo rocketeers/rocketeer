@@ -325,7 +325,8 @@ class ConnectionsHandler
 	public function getRepositoryBranch()
 	{
 		exec($this->scm->currentBranch(), $fallback);
-		$fallback = trim($fallback[0]) ?: 'master';
+		$fallback = array_get($fallback, 0, 'master');
+		$fallback = trim($fallback);
 		$branch   = $this->rocketeer->getOption('scm.branch') ?: $fallback;
 
 		return $branch;
