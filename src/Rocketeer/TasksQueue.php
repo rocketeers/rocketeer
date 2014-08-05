@@ -125,8 +125,8 @@ class TasksQueue extends AbstractLocatorClass
 	/**
 	 * Run the queue, taking into account the stage
 	 *
-	 * @param  array  $tasks
-	 * @param  string $stage
+	 * @param  \Rocketeer\Traits\Task[] $tasks
+	 * @param  string                   $stage
 	 *
 	 * @return boolean
 	 */
@@ -191,9 +191,7 @@ class TasksQueue extends AbstractLocatorClass
 		// If we provided a Closure or a string command, build it
 		if ($task instanceof Closure or $this->isStringCommand($task)) {
 			$task = $this->buildTaskFromClosure($task);
-		}
-
-		// Check for an existing container binding
+		} // Check for an existing container binding
 		elseif (isset($handle) and $this->app->bound($handle)) {
 			return $this->app[$handle];
 		}
@@ -227,8 +225,7 @@ class TasksQueue extends AbstractLocatorClass
 			$closure    = function ($task) use ($stringTask) {
 				return $task->runForCurrentRelease($stringTask);
 			};
-
-		// If the User provided a Closure
+			// If the User provided a Closure
 		} elseif ($task instanceof Closure) {
 			$closure = $task;
 		}
