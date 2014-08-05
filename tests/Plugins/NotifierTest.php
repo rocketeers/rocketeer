@@ -29,7 +29,7 @@ class NotifierTest extends RocketeerTestCase
 	{
 		$this->expectOutputString('Jean Eude finished deploying branch "master" on "staging@production" (foo.bar.com)');
 		$this->app['rocketeer.server']->setValue('notifier.name', 'Jean Eude');
-		$this->app['rocketeer.rocketeer']->setStage('staging');
+		$this->app['rocketeer.connections']->setStage('staging');
 		$this->notifier = new DummyNotifier($this->app);
 		$this->app['rocketeer.tasks']->plugin($this->notifier);
 

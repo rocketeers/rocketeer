@@ -10,6 +10,9 @@
 - Fixed a bug where ignition would fail when the default connection isn't `production`
 - Fixed a bug where logs would be misplaced
 - Fixed a bug where tasks and events weren't properly loaded in Laravel
+- Fixed a bug where releases would be asked to the server at each command, slowing down deployments
+- Fixed a bug where events wouldn't be properly rebooted when using connections other than the default ones
+- Fixed a bug where Rocketeer would ask for credentials again after switching connection
 
 ### 1.2.2
 

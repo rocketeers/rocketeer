@@ -177,6 +177,10 @@ class RocketeerServiceProvider extends ServiceProvider
 			return new Rocketeer($app);
 		});
 
+		$app->singleton('rocketeer.connections', function ($app) {
+			return new ConnectionsHandler($app);
+		});
+
 		$app->singleton('rocketeer.releases', function ($app) {
 			return new ReleasesManager($app);
 		});
@@ -209,7 +213,7 @@ class RocketeerServiceProvider extends ServiceProvider
 		});
 
 		$app['rocketeer.console']->setLaravel($app);
-		$app['rocketeer.rocketeer']->syncConnectionCredentials();
+		$app['rocketeer.connections']->syncConnectionCredentials();
 
 		return $app;
 	}

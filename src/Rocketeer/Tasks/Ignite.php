@@ -78,13 +78,13 @@ class Ignite extends Task
 	protected function getConfigurationInformations()
 	{
 		// Replace credentials
-		$repositoryCredentials = $this->rocketeer->getCredentials();
+		$repositoryCredentials = $this->connections->getCredentials();
 		$name                  = basename($this->app['path.base']);
 
 		return array_merge(
-			$this->rocketeer->getConnectionCredentials(),
+			$this->connections->getConnectionCredentials(),
 			array(
-				'connection'       => $this->rocketeer->getConnection(),
+				'connection'       => $this->connections->getConnection(),
 				'scm_repository'   => $repositoryCredentials['repository'],
 				'scm_username'     => $repositoryCredentials['username'],
 				'scm_password'     => $repositoryCredentials['password'],

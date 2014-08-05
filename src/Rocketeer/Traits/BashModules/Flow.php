@@ -33,7 +33,7 @@ class Flow extends Scm
 	 */
 	public function usesStages()
 	{
-		$stages = $this->rocketeer->getStages();
+		$stages = $this->connections->getStages();
 
 		return $this->usesStages and !empty($stages);
 	}

@@ -251,8 +251,8 @@ class ReleasesManager
 		$key = 'current_release';
 
 		// Get the scopes
-		$connection = $this->app['rocketeer.rocketeer']->getConnection();
-		$stage      = $this->app['rocketeer.rocketeer']->getStage();
+		$connection = $this->app['rocketeer.connections']->getConnection();
+		$stage      = $this->app['rocketeer.connections']->getStage();
 		$scopes     = array($connection, $stage);
 		foreach ($scopes as $scope) {
 			$key .= $scope ? '.'.$scope : '';

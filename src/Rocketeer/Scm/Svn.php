@@ -74,7 +74,7 @@ class Svn extends Scm implements ScmInterface
 	public function checkout($destination)
 	{
 		$branch     = $this->app['rocketeer.rocketeer']->getRepositoryBranch();
-		$repository = $this->app['rocketeer.rocketeer']->getRepository();
+		$repository = $this->app['rocketeer.connections']->getRepository();
 		$repository = rtrim($repository, '/').'/'.ltrim($branch, '/');
 
 		return $this->getCommand('co %s %s %s', $this->getCredentials(), $repository, $destination);

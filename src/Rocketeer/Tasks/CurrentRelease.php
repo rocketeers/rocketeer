@@ -41,7 +41,7 @@ class CurrentRelease extends Task
 	public function execute()
 	{
 		// Get the current stage
-		$stage = $this->rocketeer->getStage();
+		$stage = $this->connections->getStage();
 		$stage = $stage ? ' for stage '.$stage : '';
 
 		// Check if a release has been deployed already

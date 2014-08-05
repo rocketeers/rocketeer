@@ -29,27 +29,6 @@ class Rocketeer
 	protected $app;
 
 	/**
-	 * The current stage
-	 *
-	 * @var string
-	 */
-	protected $stage;
-
-	/**
-	 * The connections to use
-	 *
-	 * @var array
-	 */
-	protected $connections;
-
-	/**
-	 * The current connection
-	 *
-	 * @var string
-	 */
-	protected $connection;
-
-	/**
 	 * The Rocketeer version
 	 *
 	 * @var string
@@ -64,6 +43,16 @@ class Rocketeer
 	public function __construct(Container $app)
 	{
 		$this->app = $app;
+	}
+
+	/**
+	 * Get the name of the application to deploy
+	 *
+	 * @return string
+	 */
+	public function getApplicationName()
+	{
+		return $this->app['config']->get('rocketeer::application_name');
 	}
 
 	/**
@@ -102,11 +91,11 @@ class Rocketeer
 		// Switch context
 		switch ($type) {
 			case 'stages':
-				$contextual = sprintf('rocketeer::on.stages.%s.%s', $this->stage, $option);
+				$contextual = sprintf('rocketeer::on.stages.%s.%s', $this->app['rocketeer.connections']->getStage(), $option);
 				break;
 
 			case 'connections':
-				$contextual = sprintf('rocketeer::on.connections.%s.%s', $this->getConnection(), $option);
+				$contextual = sprintf('rocketeer::on.connections.%s.%s', $this->app['rocketeer.connections']->getConnection(), $option);
 				break;
 
 			default:
@@ -123,47 +112,6 @@ class Rocketeer
 		return $value;
 	}
 
-	////////////////////////////////////////////////////////////////////
-	//////////////////////////////// STAGES ////////////////////////////
-	////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Set the stage Tasks will execute on
-	 *
-	 * @param  string $stage
-	 *
-	 * @return void
-	 */
-	public function setStage($stage)
-	{
-		$this->stage = $stage;
-
-		// If we do have a stage, cleanup previous events
-		if ($stage) {
-			$this->app['rocketeer.tasks']->registerConfiguredEvents();
-		}
-	}
-
-	/**
-	 * Get the current stage
-	 *
-	 * @return string
-	 */
-	public function getStage()
-	{
-		return $this->stage;
-	}
-
-	/**
-	 * Get the various stages provided by the User
-	 *
-	 * @return array
-	 */
-	public function getStages()
-	{
-		return $this->getOption('stages.stages');
-	}
-
 	/**
 	 * Returns what stage Rocketeer thinks he's in
 	 *
@@ -178,267 +126,6 @@ class Rocketeer
 		preg_match('/'.$application.'\/([a-zA-Z0-9_-]+)\/releases\/([0-9]{14})/', $current, $matches);
 
 		return isset($matches[1]) ? $matches[1] : false;
-	}
-
-	////////////////////////////////////////////////////////////////////
-	///////////////////////////// APPLICATION //////////////////////////
-	////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Whether the repository used is using SSH or HTTPS
-	 *
-	 * @return boolean
-	 */
-	public function needsCredentials()
-	{
-		return Str::contains($this->getRepository(), 'https://');
-	}
-
-	/**
-	 * Get the available connections
-	 *
-	 * @param string|null $connection A connection to fetch from the resulting array
-	 *
-	 * @return array
-	 */
-	public function getAvailableConnections($connection = null)
-	{
-		// Fetch stored credentials
-		$storage = (array) $this->app['rocketeer.server']->getValue('connections');
-
-		// Merge with defaults from config file
-		$configuration = (array) $this->app['config']->get('rocketeer::connections');
-
-		// Fetch from remote file
-		$remote = (array) $this->app['config']->get('remote.connections');
-
-		// Merge configurations
-		$storage = array_replace_recursive($remote, $configuration, $storage);
-
-		return $connection ? array_get($storage, $connection) : $storage;
-	}
-
-	/**
-	 * Check if a connection has credentials related to it
-	 *
-	 * @param  string $connection
-	 *
-	 * @return boolean
-	 */
-	public function isValidConnection($connection)
-	{
-		$available = (array) $this->getAvailableConnections();
-
-		return array_key_exists($connection, $available);
-	}
-
-	/**
-	 * Get the connection in use
-	 *
-	 * @return string
-	 */
-	public function getConnections()
-	{
-		// Get cached resolved connections
-		if ($this->connections) {
-			return $this->connections;
-		}
-
-		// Get all and defaults
-		$connections = (array) $this->app['config']->get('rocketeer::default');
-		$default     = $this->app['config']->get('remote.default');
-
-		// Remove invalid connections
-		$instance    = $this;
-		$connections = array_filter($connections, function ($value) use ($instance) {
-			return $instance->isValidConnection($value);
-		});
-
-		// Return default if no active connection(s) set
-		if (empty($connections) and $default) {
-			return array($default);
-		}
-
-		// Set current connection as default
-		$this->connections = $connections;
-
-		return $connections;
-	}
-
-	/**
-	 * Get the active connection
-	 *
-	 * @return string
-	 */
-	public function getConnection()
-	{
-		// Get cached resolved connection
-		if ($this->connection) {
-			return $this->connection;
-		}
-
-		$connection       = array_get($this->getConnections(), 0);
-		$this->connection = $connection;
-
-		return $this->connection;
-	}
-
-	/**
-	 * Get the credentials for a particular connection
-	 *
-	 * @param string $connection
-	 *
-	 * @return array
-	 */
-	public function getConnectionCredentials($connection = null)
-	{
-		$connection = $connection ?: $this->getConnection();
-
-		return $this->getAvailableConnections($connection);
-	}
-
-	/**
-	 * Sync Rocketeer's credentials with Laravel's
-	 *
-	 * @param string $connection
-	 * @param array  $credentials
-	 *
-	 * @return void
-	 */
-	public function syncConnectionCredentials($connection = null, array $credentials = array())
-	{
-		// Store credentials if any
-		if ($credentials) {
-			$this->app['rocketeer.server']->setValue('connections.'.$connection, $credentials);
-		}
-
-		// Get connection
-		$connection  = $connection ?: $this->getConnection();
-		$credentials = $this->getConnectionCredentials($connection);
-
-		$this->app['config']->set('remote.connections.'.$connection, $credentials);
-	}
-
-	/**
-	 * Set the active connections
-	 *
-	 * @param string|array $connections
-	 */
-	public function setConnections($connections)
-	{
-		if (!is_array($connections)) {
-			$connections = explode(',', $connections);
-		}
-
-		$this->connections = $connections;
-	}
-
-	/**
-	 * Set the current connection
-	 *
-	 * @param string $connection
-	 */
-	public function setConnection($connection)
-	{
-		if (!$this->isValidConnection($connection)) {
-			return;
-		}
-
-		// Set the connection
-		$this->connection = $connection;
-		$this->app['config']->set('remote.default', $connection);
-
-		// Update events
-		$this->app['rocketeer.tasks']->registerConfiguredEvents();
-	}
-
-	/**
-	 * Flush active connection(s)
-	 *
-	 * @return void
-	 */
-	public function disconnect()
-	{
-		$this->connection  = null;
-		$this->connections = null;
-	}
-
-	/**
-	 * Get the name of the application to deploy
-	 *
-	 * @return string
-	 */
-	public function getApplicationName()
-	{
-		return $this->app['config']->get('rocketeer::application_name');
-	}
-
-	////////////////////////////////////////////////////////////////////
-	/////////////////////////// GIT REPOSITORY /////////////////////////
-	////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Get the credentials for the repository
-	 *
-	 * @return array
-	 */
-	public function getCredentials()
-	{
-		$credentials = $this->app['rocketeer.server']->getValue('credentials');
-		if (!$credentials) {
-			$credentials = $this->getOption('scm');
-		}
-
-		// Cast to array
-		$credentials = (array) $credentials;
-
-		return array_merge(array(
-			'repository' => '',
-			'username'   => '',
-			'password'   => '',
-		), $credentials);
-	}
-
-	/**
-	 * Get the URL to the Git repository
-	 *
-	 * @return string
-	 */
-	public function getRepository()
-	{
-		// Get credentials
-		$repository = $this->getCredentials();
-		$username   = array_get($repository, 'username');
-		$password   = array_get($repository, 'password');
-		$repository = array_get($repository, 'repository');
-
-		// Add credentials if possible
-		if ($username or $password) {
-
-			// Build credentials chain
-			$credentials = $password ? $username.':'.$password : $username;
-			$credentials .= '@';
-
-			// Add them in chain
-			$repository = preg_replace('#https://(.+)@#', 'https://', $repository);
-			$repository = str_replace('https://', 'https://'.$credentials, $repository);
-		}
-
-		return $repository;
-	}
-
-	/**
-	 * Get the Git branch
-	 *
-	 * @return string
-	 */
-	public function getRepositoryBranch()
-	{
-		exec($this->app['rocketeer.scm']->currentBranch(), $fallback);
-		$fallback = trim($fallback[0]) ?: 'master';
-		$branch   = $this->getOption('scm.branch') ?: $fallback;
-
-		return $branch;
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -492,8 +179,9 @@ class Rocketeer
 		$folder = $this->replacePatterns($folder);
 
 		$base = $this->getHomeFolder().'/';
-		if ($folder and $this->stage) {
-			$base .= $this->stage.'/';
+		$stage = $this->app['rocketeer.connections']->getStage();
+		if ($folder and $stage) {
+			$base .= $stage.'/';
 		}
 		$folder = str_replace($base, null, $folder);
 

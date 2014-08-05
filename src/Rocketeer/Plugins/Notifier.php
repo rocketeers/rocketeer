@@ -66,12 +66,12 @@ abstract class Notifier extends Plugin
 		}
 
 		// Get what was deployed
-		$branch     = $this->rocketeer->getRepositoryBranch();
-		$stage      = $this->rocketeer->getStage();
-		$connection = $this->rocketeer->getConnection();
+		$branch     = $this->connections->getRepositoryBranch();
+		$stage      = $this->connections->getStage();
+		$connection = $this->connections->getConnection();
 
 		// Get hostname
-		$credentials = $this->rocketeer->getAvailableConnections($connection);
+		$credentials = $this->connections->getAvailableConnections($connection);
 		$host        = array_get($credentials, 'host');
 		if ($stage) {
 			$connection = $stage.'@'.$connection;

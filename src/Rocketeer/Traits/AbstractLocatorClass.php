@@ -21,7 +21,6 @@ use Illuminate\Container\Container;
  * @property \Rocketeer\Rocketeer          rocketeer
  * @property \Rocketeer\Server             server
  * @property \Rocketeer\Traits\Scm         scm
- *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 abstract class AbstractLocatorClass
@@ -53,6 +52,7 @@ abstract class AbstractLocatorClass
 	public function __get($key)
 	{
 		$shortcuts = array(
+			'connections'     => 'rocketeer.connections',
 			'command'         => 'rocketeer.command',
 			'console'         => 'rocketeer.console',
 			'logs'            => 'rocketeer.logs',

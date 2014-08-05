@@ -226,7 +226,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 	 */
 	protected function swapConfig($config)
 	{
-		$this->app['rocketeer.rocketeer']->disconnect();
+		$this->app['rocketeer.connections']->disconnect();
 		$this->app['config'] = $this->getConfig($config);
 	}
 

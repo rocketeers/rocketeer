@@ -247,7 +247,7 @@ class Core extends AbstractLocatorClass
 	 */
 	public function processCommands($commands)
 	{
-		$stage     = $this->rocketeer->getStage();
+		$stage     = $this->connections->getStage();
 		$separator = $this->server->getSeparator();
 
 		// Cast commands to array

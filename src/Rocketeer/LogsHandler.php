@@ -76,7 +76,7 @@ class LogsHandler
 			return false;
 		}
 
-		$file = $logs($this->app['rocketeer.rocketeer']);
+		$file = $logs($this->app['rocketeer.connections']);
 		$file = $this->app['path.rocketeer.logs'].'/'.$file;
 
 		return $file;

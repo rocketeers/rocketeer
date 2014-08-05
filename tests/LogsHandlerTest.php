@@ -22,8 +22,8 @@ class LogsHandlerTest extends RocketeerTestCase
 		$logs = $this->app['rocketeer.logs']->getCurrentLogsFile();
 		$this->assertEquals($this->server.'/logs/production-.log', $logs);
 
-		$this->app['rocketeer.rocketeer']->setConnection('staging');
-		$this->app['rocketeer.rocketeer']->setStage('foobar');
+		$this->app['rocketeer.connections']->setConnection('staging');
+		$this->app['rocketeer.connections']->setStage('foobar');
 		$logs = $this->app['rocketeer.logs']->getCurrentLogsFile();
 		$this->assertEquals($this->server.'/logs/staging-foobar.log', $logs);
 	}

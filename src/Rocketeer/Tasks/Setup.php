@@ -76,22 +76,22 @@ class Setup extends Task
 	protected function createStages()
 	{
 		// Get stages
-		$availableStages = $this->rocketeer->getStages();
-		$originalStage   = $this->rocketeer->getStage();
+		$availableStages = $this->connections->getStages();
+		$originalStage   = $this->connections->getStage();
 		if (empty($availableStages)) {
 			$availableStages = array(null);
 		}
 
 		// Create folders
 		foreach ($availableStages as $stage) {
-			$this->rocketeer->setStage($stage);
+			$this->connections->setStage($stage);
 			$this->createFolder('releases', true);
 			$this->createFolder('current', true);
 			$this->createFolder('shared', true);
 		}
 
 		if ($originalStage) {
-			$this->rocketeer->setStage($originalStage);
+			$this->connections->setStage($originalStage);
 		}
 	}
 }

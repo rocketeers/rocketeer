@@ -40,7 +40,7 @@ class CoreTest extends RocketeerTestCase
 
 	public function testDoesntAppendEnvironmentToStandardTasks()
 	{
-		$this->app['rocketeer.rocketeer']->setStage('staging');
+		$this->app['rocketeer.connections']->setStage('staging');
 		$commands = $this->pretendTask()->processCommands(array(
 			'artisan something',
 			'rm readme*',

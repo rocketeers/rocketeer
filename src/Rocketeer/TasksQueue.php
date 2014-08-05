@@ -56,7 +56,7 @@ class TasksQueue extends AbstractLocatorClass
 	public function execute($queue, $connections = null)
 	{
 		if ($connections) {
-			$this->rocketeer->setConnections($connections);
+			$this->connections->setConnections($connections);
 		}
 
 		$queue = (array) $queue;
@@ -98,13 +98,13 @@ class TasksQueue extends AbstractLocatorClass
 		$queue = $this->buildQueue($tasks);
 
 		// Get the connections to execute the tasks on
-		$connections = (array) $this->rocketeer->getConnections();
+		$connections = (array) $this->connections->getConnections();
 		foreach ($connections as $connection) {
-			$this->rocketeer->setConnection($connection);
+			$this->connections->setConnection($connection);
 
 			// Check if we provided a stage
 			$stage  = $this->getStage();
-			$stages = $this->rocketeer->getStages();
+			$stages = $this->connections->getStages();
 			if ($stage and in_array($stage, $stages)) {
 				$stages = array($stage);
 			}
@@ -134,7 +134,7 @@ class TasksQueue extends AbstractLocatorClass
 	{
 		foreach ($tasks as $task) {
 			$currentStage = $task->usesStages() ? $stage : null;
-			$this->rocketeer->setStage($currentStage);
+			$this->connections->setStage($currentStage);
 
 			// Here we fire the task and if it was halted
 			// at any point, we cancel the whole queue

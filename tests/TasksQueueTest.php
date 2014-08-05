@@ -89,7 +89,7 @@ class TasksQueueTest extends RocketeerTestCase
 		$output = array();
 		$queue  = array(
 			function ($task) use (&$output) {
-				$output[] = $task->rocketeer->getConnection().' - '.$task->rocketeer->getStage();
+				$output[] = $task->connections->getConnection().' - '.$task->connections->getStage();
 			}
 		);
 
@@ -130,7 +130,7 @@ class TasksQueueTest extends RocketeerTestCase
 		));
 
 		$output = $this->tasksQueue()->on(array('staging', 'production'), function ($task) {
-			return $task->rocketeer->getConnection().' - '.$task->rocketeer->getStage();
+			return $task->connections->getConnection().' - '.$task->connections->getStage();
 		});
 
 		$this->assertEquals(array(
