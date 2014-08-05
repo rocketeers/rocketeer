@@ -54,7 +54,7 @@ abstract class Notifier extends Plugin
 	/**
 	 * Get the message's components
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	protected function getComponents()
 	{

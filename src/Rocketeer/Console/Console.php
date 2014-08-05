@@ -37,8 +37,8 @@ class Console extends Application
 	/**
 	 * Build an help block
 	 *
-	 * @param string $title
-	 * @param array  $informations
+	 * @param string   $title
+	 * @param string[] $informations
 	 *
 	 * @return string
 	 */
@@ -55,7 +55,7 @@ class Console extends Application
 	/**
 	 * Get current state of the CLI
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	protected function getCurrentState()
 	{

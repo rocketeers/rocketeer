@@ -52,7 +52,7 @@ class LogsHandler
 	/**
 	 * Get the logs file being currently used
 	 *
-	 * @return string
+	 * @return string|boolean
 	 */
 	public function getCurrentLogsFile()
 	{
@@ -73,7 +73,7 @@ class LogsHandler
 	 *
 	 * @param string $file
 	 *
-	 * @return Illuminate\Log\Writer
+	 * @return \Illuminate\Log\Writer
 	 */
 	protected function getLogger($file)
 	{

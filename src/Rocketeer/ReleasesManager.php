@@ -53,7 +53,7 @@ class ReleasesManager
 	/**
 	 * Get all the releases on the server
 	 *
-	 * @return array
+	 * @return integer[]
 	 */
 	public function getReleases()
 	{
@@ -74,7 +74,7 @@ class ReleasesManager
 	/**
 	 * Get an array of deprecated releases
 	 *
-	 * @return array
+	 * @return integer[]
 	 */
 	public function getDeprecatedReleases()
 	{
@@ -87,7 +87,7 @@ class ReleasesManager
 	/**
 	 * Get an array of invalid releases
 	 *
-	 * @return array
+	 * @return integer[]
 	 */
 	public function getInvalidReleases()
 	{
@@ -101,7 +101,7 @@ class ReleasesManager
 	/**
 	 * Get an array of non-current releases
 	 *
-	 * @return array
+	 * @return integer[]
 	 */
 	public function getNonCurrentReleases()
 	{
@@ -139,7 +139,7 @@ class ReleasesManager
 	/**
 	 * Get the path to the current release
 	 *
-	 * @param string $folder A folder in the release
+	 * @param string|null $folder A folder in the release
 	 *
 	 * @return string
 	 */
@@ -230,7 +230,7 @@ class ReleasesManager
 	 *
 	 * @param string $release
 	 *
-	 * @return string
+	 * @return string|null
 	 */
 	protected function sanitizeRelease($release)
 	{
@@ -260,7 +260,7 @@ class ReleasesManager
 	/**
 	 * Get the current release
 	 *
-	 * @return string
+	 * @return string|null
 	 */
 	public function getCurrentRelease()
 	{
@@ -280,7 +280,7 @@ class ReleasesManager
 	/**
 	 * Get the release before the current one
 	 *
-	 * @param string $release A release name
+	 * @param string|null $release A release name
 	 *
 	 * @return string
 	 */
@@ -304,9 +304,9 @@ class ReleasesManager
 	/**
 	 * Update the current release
 	 *
-	 * @param  string $release A release name
+	 * @param  string|null $release A release name
 	 *
-	 * @return void
+	 * @return string
 	 */
 	public function updateCurrentRelease($release = null)
 	{

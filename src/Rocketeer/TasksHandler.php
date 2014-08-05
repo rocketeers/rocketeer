@@ -9,6 +9,7 @@
  */
 namespace Rocketeer;
 
+use Closure;
 use Illuminate\Container\Container;
 use Rocketeer\Abstracts\AbstractLocatorClass;
 use Rocketeer\Commands\BaseTaskCommand;

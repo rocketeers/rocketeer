@@ -15,16 +15,17 @@ use Illuminate\Container\Container;
  * An abstract for Service Locator-based classes with adds
  * a few shortcuts to Rocketeer classes
  *
- * @property \Illuminate\Config\Repository    config
- * @property \Illuminate\Console\Command      command
- * @property \Illuminate\Remote\Connection    remote
- * @property \Rocketeer\Abstracts\Scm         scm
- * @property \Rocketeer\Bash                  bash
- * @property \Rocketeer\ReleasesManager       releasesManager
- * @property \Rocketeer\Rocketeer             rocketeer
- * @property \Rocketeer\Server                server
- * @property \Rocketeer\TasksHandler          tasks
- * @property \Rocketeer\TasksQueue            queue
+ * @property \Illuminate\Config\Repository config
+ * @property \Illuminate\Console\Command   command
+ * @property \Illuminate\Remote\Connection remote
+ * @property \Rocketeer\Abstracts\Scm      scm
+ * @property \Rocketeer\ConnectionsHandler connections
+ * @property \Rocketeer\Bash               bash
+ * @property \Rocketeer\ReleasesManager    releasesManager
+ * @property \Rocketeer\Rocketeer          rocketeer
+ * @property \Rocketeer\Server             server
+ * @property \Rocketeer\TasksHandler       tasks
+ * @property \Rocketeer\TasksQueue         queue
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait HasLocator

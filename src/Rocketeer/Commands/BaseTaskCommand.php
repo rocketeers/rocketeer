@@ -57,8 +57,6 @@ class BaseTaskCommand extends AbstractDeployCommand
 
 	/**
 	 * Fire the custom Task
-	 *
-	 * @return string
 	 */
 	public function fire()
 	{

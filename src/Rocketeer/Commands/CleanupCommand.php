@@ -43,7 +43,7 @@ class CleanupCommand extends AbstractDeployCommand
 	/**
 	 * Get the console command options.
 	 *
-	 * @return string[][]
+	 * @return array<string[]|array<string|null>>
 	 */
 	protected function getOptions()
 	{

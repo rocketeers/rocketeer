@@ -84,8 +84,8 @@ class Igniter
 	/**
 	 * Replace placeholders in configuration
 	 *
-	 * @param string $folder
-	 * @param array  $values
+	 * @param string   $folder
+	 * @param string[] $values
 	 */
 	public function updateConfiguration($folder, array $values = array())
 	{

@@ -54,7 +54,7 @@ trait Core
 	 * @param  boolean      $silent   Whether the command should stay silent no matter what
 	 * @param  boolean      $array    Whether the output should be returned as an array
 	 *
-	 * @return string|array
+	 * @return string|string[]
 	 */
 	public function run($commands, $silent = false, $array = false)
 	{

@@ -52,7 +52,7 @@ abstract class Scm
 	 * @param  string $command
 	 * @param  string $arguments,...
 	 *
-	 * @return string|array
+	 * @return string|string[]
 	 */
 	public function execute()
 	{
