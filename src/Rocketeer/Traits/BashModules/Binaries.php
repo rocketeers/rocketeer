@@ -211,9 +211,9 @@ trait Binaries
 	{
 		$location  = false;
 		$locations = array(
-			array($this->server,    'getValue',    'paths.'.$binary),
-			array($this->rocketeer, 'getPath',     $binary),
-			array($this,            'runSilently', 'which '.$binary),
+			array($this->server, 'getValue', 'paths.'.$binary),
+			array($this->rocketeer, 'getPath', $binary),
+			array($this, 'runSilently', 'which '.$binary),
 		);
 
 		// Add fallback if provided

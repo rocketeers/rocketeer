@@ -1,5 +1,5 @@
 <?php
-namespace Rocketeer\Abstracts\BashModules;
+namespace Rocketeer\Traits\BashModules;
 
 use Rocketeer\TestCases\RocketeerTestCase;
 

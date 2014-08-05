@@ -86,13 +86,13 @@ class Check extends Task
 		$session   = $this->app['config']->get('session.driver');
 
 		return array(
-			array('checkScm',            $this->scm->binary. ' could not be found'),
-			array('checkPhpVersion',     'The version of PHP on the server does not match Laravel\'s requirements'),
-			array('checkComposer',       'Composer does not seem to be present on the server'),
-			array('checkPhpExtension',   array('mcrypt',  sprintf($extension, 'mcrypt'))),
+			array('checkScm', $this->scm->binary.' could not be found'),
+			array('checkPhpVersion', 'The version of PHP on the server does not match Laravel\'s requirements'),
+			array('checkComposer', 'Composer does not seem to be present on the server'),
+			array('checkPhpExtension', array('mcrypt', sprintf($extension, 'mcrypt'))),
 			array('checkDatabaseDriver', array($database, sprintf($extension, $database))),
-			array('checkCacheDriver',    array($cache,    sprintf($extension, $cache))),
-			array('checkCacheDriver',    array($session,  sprintf($extension, $session))),
+			array('checkCacheDriver', array($cache, sprintf($extension, $cache))),
+			array('checkCacheDriver', array($session, sprintf($extension, $session))),
 		);
 	}
 

@@ -35,9 +35,14 @@ abstract class AbstractDeployCommand extends Command
 	protected function getOptions()
 	{
 		return array(
-			array('pretend', 'p', InputOption::VALUE_NONE,     'Returns an array of commands to be executed instead of actually executing them'),
-			array('on',      'C', InputOption::VALUE_REQUIRED, 'The connection(s) to execute the Task in'),
-			array('stage',   'S', InputOption::VALUE_REQUIRED, 'The stage to execute the Task in')
+			array(
+				'pretend',
+				'p',
+				InputOption::VALUE_NONE,
+				'Returns an array of commands to be executed instead of actually executing them'
+			),
+			array('on', 'C', InputOption::VALUE_REQUIRED, 'The connection(s) to execute the Task in'),
+			array('stage', 'S', InputOption::VALUE_REQUIRED, 'The stage to execute the Task in')
 		);
 	}
 

@@ -9,7 +9,6 @@
  */
 namespace Rocketeer;
 
-use Illuminate\Container\Container;
 use Rocketeer\Traits\HasLocator;
 
 /**
