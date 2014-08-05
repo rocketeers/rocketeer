@@ -113,9 +113,9 @@ abstract class AbstractDeployCommand extends Command
 	protected function getRepositoryCredentials()
 	{
 		// Check for repository credentials
-		$repositoryInfos = $this->laravel['rocketeer.rocketeer']->getCredentials();
+		$repositoryInfos = $this->laravel['rocketeer.connections']->getCredentials();
 		$credentials     = array('repository');
-		if (!array_get($repositoryInfos, 'repository') or $this->laravel['rocketeer.rocketeer']->needsCredentials()) {
+		if (!array_get($repositoryInfos, 'repository') or $this->laravel['rocketeer.connections']->needsCredentials()) {
 			$credentials = array('repository', 'username', 'password');
 		}
 
@@ -143,12 +143,12 @@ abstract class AbstractDeployCommand extends Command
 	protected function getServerCredentials()
 	{
 		if ($connections = $this->option('on')) {
-			$this->laravel['rocketeer.rocketeer']->setConnections($connections);
+			$this->laravel['rocketeer.connections']->setConnections($connections);
 		}
 
 		// Check for configured connections
-		$availableConnections = $this->laravel['rocketeer.rocketeer']->getAvailableConnections();
-		$activeConnections    = $this->laravel['rocketeer.rocketeer']->getConnections();
+		$availableConnections = $this->laravel['rocketeer.connections']->getAvailableConnections();
+		$activeConnections    = $this->laravel['rocketeer.connections']->getConnections();
 
 		if (count($activeConnections) <= 0) {
 			$connectionName = $this->ask('No connections have been set, please create one : (production)', 'production');
@@ -201,8 +201,8 @@ abstract class AbstractDeployCommand extends Command
 
 		// Save credentials
 		$credentials = compact(array_keys($credentials));
-		$this->laravel['rocketeer.rocketeer']->syncConnectionCredentials($connectionName, $credentials);
-		$this->laravel['rocketeer.rocketeer']->setConnection($connectionName);
+		$this->laravel['rocketeer.connections']->syncConnectionCredentials($connectionName, $credentials);
+		$this->laravel['rocketeer.connections']->setConnection($connectionName);
 	}
 
 	/**
