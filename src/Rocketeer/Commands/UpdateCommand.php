@@ -34,24 +34,22 @@ class UpdateCommand extends AbstractDeployCommand
 
 	/**
 	 * Execute the tasks
-	 *
-	 * @return array
 	 */
 	public function fire()
 	{
-		return $this->fireTasksQueue('update');
+		$this->fireTasksQueue('update');
 	}
 
 	/**
 	 * Get the console command options.
 	 *
-	 * @return array
+	 * @return string[][]
 	 */
 	protected function getOptions()
 	{
 		return array_merge(parent::getOptions(), array(
-			array('migrate', 'm', InputOption::VALUE_NONE, 'Run the migrations'),
-			array('seed', 's', InputOption::VALUE_NONE, 'Seed the database after migrating the database'),
+			['migrate', 'm', InputOption::VALUE_NONE, 'Run the migrations'],
+			['seed',    's', InputOption::VALUE_NONE, 'Seed the database after migrating the database'],
 		));
 	}
 }

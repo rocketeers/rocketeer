@@ -30,19 +30,14 @@ abstract class AbstractDeployCommand extends Command
 	/**
 	 * Get the console command options.
 	 *
-	 * @return array
+	 * @return string[][]
 	 */
 	protected function getOptions()
 	{
 		return array(
-			array(
-				'pretend',
-				'p',
-				InputOption::VALUE_NONE,
-				'Returns an array of commands to be executed instead of actually executing them'
-			),
-			array('on', 'C', InputOption::VALUE_REQUIRED, 'The connection(s) to execute the Task in'),
-			array('stage', 'S', InputOption::VALUE_REQUIRED, 'The stage to execute the Task in')
+			['pretend', 'p', InputOption::VALUE_NONE,     'Returns an array of commands to be executed instead of actually executing them'],
+			['on',      'C', InputOption::VALUE_REQUIRED, 'The connection(s) to execute the Task in'],
+			['stage',   'S', InputOption::VALUE_REQUIRED, 'The stage to execute the Task in']
 		);
 	}
 
@@ -79,9 +74,7 @@ abstract class AbstractDeployCommand extends Command
 	/**
 	 * Fire a Tasks Queue
 	 *
-	 * @param  string|array $tasks
-	 *
-	 * @return mixed
+	 * @param string|string[]|\Rocketeer\Abstracts\Task[] $tasks
 	 */
 	protected function fireTasksQueue($tasks)
 	{
@@ -170,10 +163,8 @@ abstract class AbstractDeployCommand extends Command
 	/**
 	 * Verifies and stores credentials for the given connection name
 	 *
-	 * @param string $connections
+	 * @param array  $connections
 	 * @param string $connectionName
-	 *
-	 * @return void
 	 */
 	protected function storeServerCredentials($connections, $connectionName)
 	{

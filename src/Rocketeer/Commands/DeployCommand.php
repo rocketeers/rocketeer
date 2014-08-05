@@ -34,12 +34,10 @@ class DeployCommand extends AbstractDeployCommand
 
 	/**
 	 * Execute the tasks
-	 *
-	 * @return array
 	 */
 	public function fire()
 	{
-		return $this->fireTasksQueue(array(
+		$this->fireTasksQueue(array(
 			'deploy',
 			'cleanup',
 		));
@@ -48,15 +46,15 @@ class DeployCommand extends AbstractDeployCommand
 	/**
 	 * Get the console command options.
 	 *
-	 * @return array
+	 * @return string[][]
 	 */
 	protected function getOptions()
 	{
 		return array_merge(parent::getOptions(), array(
-			array('tests', 't', InputOption::VALUE_NONE, 'Runs the tests on deploy'),
-			array('migrate', 'm', InputOption::VALUE_NONE, 'Run the migrations'),
-			array('seed', 's', InputOption::VALUE_NONE, 'Seed the database (after migrating it if --migrate)'),
-			array('clean-all', null, InputOption::VALUE_NONE, 'Cleanup all but the current release on deploy'),
+			['tests',     't',  InputOption::VALUE_NONE, 'Runs the tests on deploy'],
+			['migrate',   'm',  InputOption::VALUE_NONE, 'Run the migrations'],
+			['seed',      's',  InputOption::VALUE_NONE, 'Seed the database (after migrating it if --migrate)'],
+			['clean-all', null, InputOption::VALUE_NONE, 'Cleanup all but the current release on deploy'],
 		));
 	}
 }

@@ -77,7 +77,7 @@ class ConnectionsHandler
 	/**
 	 * Get the various stages provided by the User
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	public function getStages()
 	{
@@ -103,7 +103,7 @@ class ConnectionsHandler
 	 *
 	 * @param string|null $connection A connection to fetch from the resulting array
 	 *
-	 * @return array
+	 * @return string[][]|string[]
 	 */
 	public function getAvailableConnections($connection = null)
 	{
@@ -139,7 +139,7 @@ class ConnectionsHandler
 	/**
 	 * Get the connection in use
 	 *
-	 * @return string
+	 * @return string[]
 	 */
 	public function getConnections()
 	{
@@ -190,9 +190,9 @@ class ConnectionsHandler
 	/**
 	 * Get the credentials for a particular connection
 	 *
-	 * @param string $connection
+	 * @param string|null $connection
 	 *
-	 * @return array
+	 * @return string[][]
 	 */
 	public function getConnectionCredentials($connection = null)
 	{
@@ -204,10 +204,8 @@ class ConnectionsHandler
 	/**
 	 * Sync Rocketeer's credentials with Laravel's
 	 *
-	 * @param string $connection
-	 * @param array  $credentials
-	 *
-	 * @return void
+	 * @param string|null   $connection
+	 * @param string[]|null $credentials
 	 */
 	public function syncConnectionCredentials($connection = null, array $credentials = array())
 	{
@@ -226,7 +224,7 @@ class ConnectionsHandler
 	/**
 	 * Set the active connections
 	 *
-	 * @param string|array $connections
+	 * @param string|string[] $connections
 	 */
 	public function setConnections($connections)
 	{
@@ -258,8 +256,6 @@ class ConnectionsHandler
 
 	/**
 	 * Flush active connection(s)
-	 *
-	 * @return void
 	 */
 	public function disconnect()
 	{
@@ -274,7 +270,7 @@ class ConnectionsHandler
 	/**
 	 * Get the credentials for the repository
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	public function getCredentials()
 	{

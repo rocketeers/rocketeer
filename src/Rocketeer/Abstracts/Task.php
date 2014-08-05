@@ -105,7 +105,7 @@ abstract class Task extends Bash
 	/**
 	 * Fire the command
 	 *
-	 * @return array
+	 * @return array|false
 	 */
 	public function fire()
 	{
@@ -123,7 +123,7 @@ abstract class Task extends Bash
 	/**
 	 * Cancel the task
 	 *
-	 * @param string $errors Potential errors to display
+	 * @param string|null $errors Potential errors to display
 	 *
 	 * @return boolean
 	 */
@@ -158,7 +158,7 @@ abstract class Task extends Bash
 	 *
 	 * @param string $event
 	 *
-	 * @return array|null
+	 * @return boolean
 	 */
 	public function fireEvent($event)
 	{

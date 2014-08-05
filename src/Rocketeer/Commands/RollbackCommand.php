@@ -35,35 +35,33 @@ class RollbackCommand extends AbstractDeployCommand
 
 	/**
 	 * The tasks to execute
-	 *
-	 * @return array
 	 */
 	public function fire()
 	{
-		return $this->fireTasksQueue('rollback');
+		$this->fireTasksQueue('rollback');
 	}
 
 	/**
 	 * Get the console command arguments.
 	 *
-	 * @return array
+	 * @return string[][]
 	 */
 	protected function getArguments()
 	{
 		return array(
-			array('release', InputArgument::OPTIONAL, 'The release to rollback to'),
+			['release', InputArgument::OPTIONAL, 'The release to rollback to'],
 		);
 	}
 
 	/**
 	 * Get the console command options.
 	 *
-	 * @return array
+	 * @return string[][]
 	 */
 	protected function getOptions()
 	{
 		return array_merge(parent::getOptions(), array(
-			array('list', 'L', InputOption::VALUE_NONE, 'Shows the available releases to rollback to'),
+			['list', 'L', InputOption::VALUE_NONE, 'Shows the available releases to rollback to'],
 		));
 	}
 }

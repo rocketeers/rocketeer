@@ -32,8 +32,6 @@ class FlushCommand extends AbstractDeployCommand
 
 	/**
 	 * Execute the tasks
-	 *
-	 * @return array
 	 */
 	public function fire()
 	{

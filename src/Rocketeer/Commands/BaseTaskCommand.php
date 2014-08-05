@@ -36,8 +36,8 @@ class BaseTaskCommand extends AbstractDeployCommand
 	/**
 	 * Build a new custom command
 	 *
-	 * @param Task   $task
-	 * @param string $name A name for the command
+	 * @param Task        $task
+	 * @param string|null $name A name for the command
 	 */
 	public function __construct(Task $task, $name = null)
 	{
@@ -62,7 +62,7 @@ class BaseTaskCommand extends AbstractDeployCommand
 	 */
 	public function fire()
 	{
-		return $this->fireTasksQueue($this->task->getSlug());
+		$this->fireTasksQueue($this->task->getSlug());
 	}
 
 	/**

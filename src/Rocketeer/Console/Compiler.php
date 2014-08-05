@@ -56,8 +56,6 @@ class Compiler
 	 * Extract an existing Phar
 	 *
 	 * @param string $destination
-	 *
-	 * @return void
 	 */
 	public function extract($destination)
 	{
@@ -123,25 +121,23 @@ class Compiler
 
 	/**
 	 * Set the stub to use
-	 *
-	 * @return string
 	 */
 	protected function setStub()
 	{
-		$this->box->getPhar()->setStub(
-			StubGenerator::create()
-			             ->index('bin/rocketeer')
-			             ->generate()
-		);
+		$stub = StubGenerator::create()
+		                     ->index('bin/rocketeer')
+		                     ->generate();
+
+		$this->box->getPhar()->setStub($stub);
 	}
 
 	/**
 	 * Add a folder to the PHAR
 	 *
-	 * @param string $folder
-	 * @param array  $ignore
+	 * @param string   $folder
+	 * @param string[] $ignore
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	protected function addFolder($folder, array $ignore = array())
 	{

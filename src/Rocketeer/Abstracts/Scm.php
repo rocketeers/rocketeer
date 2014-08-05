@@ -9,6 +9,8 @@
  */
 namespace Rocketeer\Abstracts;
 
+use Rocketeer\Traits\HasLocator;
+
 /**
  * An abstract class with helpers for SCM implementations
  *
@@ -16,22 +18,14 @@ namespace Rocketeer\Abstracts;
  */
 abstract class Scm
 {
-	/**
-	 * The IoC Container
-	 *
-	 * @var Container
-	 */
-	protected $app;
+	use HasLocator;
 
 	/**
-	 * Build a new Git instance
+	 * The core binary
 	 *
-	 * @param Container $app
+	 * @var string
 	 */
-	public function __construct($app)
-	{
-		$this->app = $app;
-	}
+	public $binary;
 
 	////////////////////////////////////////////////////////////////////
 	//////////////////////////////// HELPERS ///////////////////////////
@@ -58,7 +52,7 @@ abstract class Scm
 	 * @param  string $command
 	 * @param  string $arguments,...
 	 *
-	 * @return mixed
+	 * @return string|array
 	 */
 	public function execute()
 	{
@@ -66,6 +60,6 @@ abstract class Scm
 		$command   = array_shift($arguments);
 		$command   = call_user_func_array(array($this, $command), $arguments);
 
-		return $this->app['rocketeer.bash']->run($command);
+		return $this->bash->run($command);
 	}
 }

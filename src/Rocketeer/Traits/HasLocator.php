@@ -19,12 +19,12 @@ use Illuminate\Container\Container;
  * @property \Illuminate\Console\Command      command
  * @property \Illuminate\Remote\Connection    remote
  * @property \Rocketeer\Abstracts\Scm         scm
+ * @property \Rocketeer\Bash                  bash
  * @property \Rocketeer\ReleasesManager       releasesManager
  * @property \Rocketeer\Rocketeer             rocketeer
  * @property \Rocketeer\Server                server
  * @property \Rocketeer\TasksHandler          tasks
  * @property \Rocketeer\TasksQueue            queue
- * @property \Rocketeer\Bash                  bash
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait HasLocator

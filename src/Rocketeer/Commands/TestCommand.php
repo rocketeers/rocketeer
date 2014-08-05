@@ -32,13 +32,11 @@ class TestCommand extends AbstractDeployCommand
 
 	/**
 	 * The tasks to execute
-	 *
-	 * @return array
 	 */
 	public function fire()
 	{
 		$this->input->setOption('verbose', true);
 
-		return $this->fireTasksQueue('test');
+		$this->fireTasksQueue('test');
 	}
 }

@@ -34,23 +34,21 @@ class CleanupCommand extends AbstractDeployCommand
 
 	/**
 	 * Execute the tasks
-	 *
-	 * @return array
 	 */
 	public function fire()
 	{
-		return $this->fireTasksQueue('cleanup');
+		$this->fireTasksQueue('cleanup');
 	}
 
 	/**
 	 * Get the console command options.
 	 *
-	 * @return array
+	 * @return string[][]
 	 */
 	protected function getOptions()
 	{
 		return array_merge(parent::getOptions(), array(
-			array('clean-all', null, InputOption::VALUE_NONE, 'Cleans up all non-current releases'),
+			['clean-all', null, InputOption::VALUE_NONE, 'Cleans up all non-current releases'],
 		));
 	}
 }

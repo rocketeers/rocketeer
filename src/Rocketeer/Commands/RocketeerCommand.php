@@ -27,8 +27,6 @@ class RocketeerCommand extends DeployCommand
 
 	/**
 	 * Displays the current version
-	 *
-	 * @return string
 	 */
 	public function fire()
 	{
