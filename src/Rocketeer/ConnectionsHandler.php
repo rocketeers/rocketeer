@@ -11,6 +11,7 @@ namespace Rocketeer;
 
 use Illuminate\Container\Container;
 use Illuminate\Support\Str;
+use Rocketeer\Traits\HasLocator;
 
 /**
  * Handles, get and return, the various connections/stages
@@ -20,12 +21,7 @@ use Illuminate\Support\Str;
  */
 class ConnectionsHandler
 {
-	/**
-	 * The IoC Container
-	 *
-	 * @var Container
-	 */
-	protected $app;
+	use HasLocator;
 
 	/**
 	 * The current stage
@@ -48,16 +44,6 @@ class ConnectionsHandler
 	 */
 	protected $connection;
 
-	/**
-	 * Build a new ReleasesManager
-	 *
-	 * @param Container $app
-	 */
-	public function __construct(Container $app)
-	{
-		$this->app = $app;
-	}
-
 	////////////////////////////////////////////////////////////////////
 	//////////////////////////////// STAGES ////////////////////////////
 	////////////////////////////////////////////////////////////////////
@@ -75,7 +61,7 @@ class ConnectionsHandler
 
 		// If we do have a stage, cleanup previous events
 		if ($stage) {
-			$this->app['rocketeer.tasks']->registerConfiguredEvents();
+			$this->tasks->registerConfiguredEvents();
 		}
 	}
 
@@ -96,7 +82,7 @@ class ConnectionsHandler
 	 */
 	public function getStages()
 	{
-		return $this->app['rocketeer.rocketeer']->getOption('stages.stages');
+		return $this->rocketeer->getOption('stages.stages');
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -123,13 +109,13 @@ class ConnectionsHandler
 	public function getAvailableConnections($connection = null)
 	{
 		// Fetch stored credentials
-		$storage = (array) $this->app['rocketeer.server']->getValue('connections');
+		$storage = (array) $this->server->getValue('connections');
 
 		// Merge with defaults from config file
-		$configuration = (array) $this->app['config']->get('rocketeer::connections');
+		$configuration = (array) $this->config->get('rocketeer::connections');
 
 		// Fetch from remote file
-		$remote = (array) $this->app['config']->get('remote.connections');
+		$remote = (array) $this->config->get('remote.connections');
 
 		// Merge configurations
 		$storage = array_replace_recursive($remote, $configuration, $storage);
@@ -164,8 +150,8 @@ class ConnectionsHandler
 		}
 
 		// Get all and defaults
-		$connections = (array) $this->app['config']->get('rocketeer::default');
-		$default     = $this->app['config']->get('remote.default');
+		$connections = (array) $this->config->get('rocketeer::default');
+		$default     = $this->config->get('remote.default');
 
 		// Remove invalid connections
 		$instance    = $this;
@@ -228,14 +214,14 @@ class ConnectionsHandler
 	{
 		// Store credentials if any
 		if ($credentials) {
-			$this->app['rocketeer.server']->setValue('connections.'.$connection, $credentials);
+			$this->server->setValue('connections.'.$connection, $credentials);
 		}
 
 		// Get connection
 		$connection  = $connection ?: $this->getConnection();
 		$credentials = $this->getConnectionCredentials($connection);
 
-		$this->app['config']->set('remote.connections.'.$connection, $credentials);
+		$this->config->set('remote.connections.'.$connection, $credentials);
 	}
 
 	/**
@@ -265,10 +251,10 @@ class ConnectionsHandler
 
 		// Set the connection
 		$this->connection = $connection;
-		$this->app['config']->set('remote.default', $connection);
+		$this->config->set('remote.default', $connection);
 
 		// Update events
-		$this->app['rocketeer.tasks']->registerConfiguredEvents();
+		$this->tasks->registerConfiguredEvents();
 	}
 
 	/**
@@ -293,9 +279,9 @@ class ConnectionsHandler
 	 */
 	public function getCredentials()
 	{
-		$credentials = $this->app['rocketeer.server']->getValue('credentials');
+		$credentials = $this->server->getValue('credentials');
 		if (!$credentials) {
-			$credentials = $this->app['rocketeer.rocketeer']->getOption('scm');
+			$credentials = $this->rocketeer->getOption('scm');
 		}
 
 		// Cast to array
@@ -343,9 +329,9 @@ class ConnectionsHandler
 	 */
 	public function getRepositoryBranch()
 	{
-		exec($this->app['rocketeer.scm']->currentBranch(), $fallback);
+		exec($this->scm->currentBranch(), $fallback);
 		$fallback = trim($fallback[0]) ?: 'master';
-		$branch   = $this->app['rocketeer.rocketeer']->getOption('scm.branch') ?: $fallback;
+		$branch   = $this->rocketeer->getOption('scm.branch') ?: $fallback;
 
 		return $branch;
 	}

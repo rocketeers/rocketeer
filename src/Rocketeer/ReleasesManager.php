@@ -10,6 +10,7 @@
 namespace Rocketeer;
 
 use Illuminate\Container\Container;
+use Rocketeer\Traits\HasLocator;
 
 /**
  * Provides informations and actions around releases
@@ -18,12 +19,7 @@ use Illuminate\Container\Container;
  */
 class ReleasesManager
 {
-	/**
-	 * The IoC Container
-	 *
-	 * @var Container
-	 */
-	protected $app;
+	use HasLocator;
 
 	/**
 	 * Cache of the validation file
@@ -64,7 +60,7 @@ class ReleasesManager
 		// Get releases on server
 		if (!$this->releases) {
 			$releases = $this->getReleasesPath();
-			$releases = $this->app['rocketeer.bash']->listContents($releases);
+			$releases = $this->bash->listContents($releases);
 			if (is_array($releases)) {
 				rsort($releases);
 			}
@@ -83,7 +79,7 @@ class ReleasesManager
 	public function getDeprecatedReleases()
 	{
 		$releases    = (array) $this->getReleases();
-		$maxReleases = $this->app['config']->get('rocketeer::remote.keep_releases');
+		$maxReleases = $this->config->get('rocketeer::remote.keep_releases');
 
 		return array_slice($releases, $maxReleases);
 	}
@@ -125,7 +121,7 @@ class ReleasesManager
 	 */
 	public function getReleasesPath()
 	{
-		return $this->app['rocketeer.rocketeer']->getFolder('releases');
+		return $this->rocketeer->getFolder('releases');
 	}
 
 	/**
@@ -137,7 +133,7 @@ class ReleasesManager
 	 */
 	public function getPathToRelease($release)
 	{
-		return $this->app['rocketeer.rocketeer']->getFolder('releases/'.$release);
+		return $this->rocketeer->getFolder('releases/'.$release);
 	}
 
 	/**
@@ -168,8 +164,8 @@ class ReleasesManager
 	public function getValidationFile()
 	{
 		// Get the contents of the validation file
-		$file = $this->app['rocketeer.rocketeer']->getFolder('state.json');
-		$file = $this->app['rocketeer.bash']->getFile($file) ?: '{}';
+		$file = $this->rocketeer->getFolder('state.json');
+		$file = $this->bash->getFile($file) ?: '{}';
 		$file = (array) json_decode($file, true);
 
 		// Fill the missing releases
@@ -194,8 +190,8 @@ class ReleasesManager
 	 */
 	public function saveValidationFile(array $validation)
 	{
-		$file = $this->app['rocketeer.rocketeer']->getFolder('state.json');
-		$this->app['rocketeer.bash']->putFile($file, json_encode($validation));
+		$file = $this->rocketeer->getFolder('state.json');
+		$this->bash->putFile($file, json_encode($validation));
 
 		$this->state = $validation;
 	}
@@ -251,8 +247,8 @@ class ReleasesManager
 		$key = 'current_release';
 
 		// Get the scopes
-		$connection = $this->app['rocketeer.connections']->getConnection();
-		$stage      = $this->app['rocketeer.connections']->getStage();
+		$connection = $this->connections->getConnection();
+		$stage      = $this->connections->getStage();
 		$scopes     = array($connection, $stage);
 		foreach ($scopes as $scope) {
 			$key .= $scope ? '.'.$scope : '';
@@ -269,7 +265,7 @@ class ReleasesManager
 	public function getCurrentRelease()
 	{
 		// If we have saved the last deployed release, return that
-		$cached = $this->app['rocketeer.server']->getValue($this->getCurrentReleaseKey());
+		$cached = $this->server->getValue($this->getCurrentReleaseKey());
 		if ($cached) {
 			return $this->sanitizeRelease($cached);
 		}
@@ -315,10 +311,10 @@ class ReleasesManager
 	public function updateCurrentRelease($release = null)
 	{
 		if (!$release) {
-			$release = $this->app['rocketeer.bash']->getTimestamp();
+			$release = $this->bash->getTimestamp();
 		}
 
-		$this->app['rocketeer.server']->setValue($this->getCurrentReleaseKey(), $release);
+		$this->server->setValue($this->getCurrentReleaseKey(), $release);
 
 		return $release;
 	}

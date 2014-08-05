@@ -12,14 +12,17 @@ namespace Rocketeer;
 use Closure;
 use Rocketeer\Abstracts\AbstractLocatorClass;
 use Rocketeer\Abstracts\Task;
+use Rocketeer\Traits\HasLocator;
 
 /**
  * Handles the building and execution of tasks
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class TasksQueue extends AbstractLocatorClass
+class TasksQueue
 {
+	use HasLocator;
+
 	/**
 	 * A list of Tasks to execute
 	 *

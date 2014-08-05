@@ -11,14 +11,17 @@ namespace Rocketeer\Abstracts\BashModules;
 
 use Illuminate\Support\Str;
 use Rocketeer\Abstracts\AbstractLocatorClass;
+use Rocketeer\Traits\HasLocator;
 
 /**
  * Core handling of running commands and returning output
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class Core extends AbstractLocatorClass
+class Core
 {
+	use HasLocator;
+
 	/**
 	 * An history of executed commands
 	 *

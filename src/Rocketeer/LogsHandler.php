@@ -10,35 +10,21 @@
 namespace Rocketeer;
 
 use Illuminate\Container\Container;
+use Rocketeer\Traits\HasLocator;
 
 /**
  * Handles rotation of logs
  */
 class LogsHandler
 {
+	use HasLocator;
+
 	/**
 	 * The loggers instances
 	 *
 	 * @var array
 	 */
 	protected $loggers = array();
-
-	/**
-	 * The Container
-	 *
-	 * @var Container
-	 */
-	protected $app;
-
-	/**
-	 * Build a new LogsHandler instance
-	 *
-	 * @param Container $app
-	 */
-	public function __construct(Container $app)
-	{
-		$this->app = $app;
-	}
 
 	/**
 	 * Log by level
@@ -71,12 +57,13 @@ class LogsHandler
 	 */
 	public function getCurrentLogsFile()
 	{
-		$logs = $this->app['config']->get('rocketeer::logs');
+		/** @type \Callable $logs */
+		$logs = $this->config->get('rocketeer::logs');
 		if (!$logs) {
 			return false;
 		}
 
-		$file = $logs($this->app['rocketeer.connections']);
+		$file = $logs($this->connections);
 		$file = $this->app['path.rocketeer.logs'].'/'.$file;
 
 		return $file;

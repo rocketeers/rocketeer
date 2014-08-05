@@ -12,6 +12,7 @@ namespace Rocketeer;
 use Exception;
 use Illuminate\Container\Container;
 use Illuminate\Support\Str;
+use Rocketeer\Traits\HasLocator;
 
 /**
  * Handles interaction between the User provided informations
@@ -21,12 +22,7 @@ use Illuminate\Support\Str;
  */
 class Rocketeer
 {
-	/**
-	 * The IoC Container
-	 *
-	 * @var Container
-	 */
-	protected $app;
+	use HasLocator;
 
 	/**
 	 * The Rocketeer version
@@ -36,23 +32,13 @@ class Rocketeer
 	const VERSION = '2.0.0';
 
 	/**
-	 * Build a new ReleasesManager
-	 *
-	 * @param Container $app
-	 */
-	public function __construct(Container $app)
-	{
-		$this->app = $app;
-	}
-
-	/**
 	 * Get the name of the application to deploy
 	 *
 	 * @return string
 	 */
 	public function getApplicationName()
 	{
-		return $this->app['config']->get('rocketeer::application_name');
+		return $this->config->get('rocketeer::application_name');
 	}
 
 	/**
@@ -64,7 +50,7 @@ class Rocketeer
 	 */
 	public function getOption($option)
 	{
-		$original = $this->app['config']->get('rocketeer::'.$option);
+		$original = $this->config->get('rocketeer::'.$option);
 
 		if ($contextual = $this->getContextualOption($option, 'stages', $original)) {
 			return $contextual;
@@ -91,11 +77,11 @@ class Rocketeer
 		// Switch context
 		switch ($type) {
 			case 'stages':
-				$contextual = sprintf('rocketeer::on.stages.%s.%s', $this->app['rocketeer.connections']->getStage(), $option);
+				$contextual = sprintf('rocketeer::on.stages.%s.%s', $this->connections->getStage(), $option);
 				break;
 
 			case 'connections':
-				$contextual = sprintf('rocketeer::on.connections.%s.%s', $this->app['rocketeer.connections']->getConnection(), $option);
+				$contextual = sprintf('rocketeer::on.connections.%s.%s', $this->connections->getConnection(), $option);
 				break;
 
 			default:
@@ -104,7 +90,7 @@ class Rocketeer
 		}
 
 		// Merge with defaults
-		$value = $this->app['config']->get($contextual);
+		$value = $this->config->get($contextual);
 		if (is_array($value) and $original) {
 			$value = array_replace($original, $value);
 		}
@@ -179,7 +165,7 @@ class Rocketeer
 		$folder = $this->replacePatterns($folder);
 
 		$base  = $this->getHomeFolder().'/';
-		$stage = $this->app['rocketeer.connections']->getStage();
+		$stage = $this->connections->getStage();
 		if ($folder and $stage) {
 			$base .= $stage.'/';
 		}

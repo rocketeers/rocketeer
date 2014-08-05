@@ -15,12 +15,16 @@ use Illuminate\Container\Container;
  * An abstract for Service Locator-based classes with adds
  * a few shortcuts to Rocketeer classes
  *
+ * @property \Illuminate\Config\Repository    config
  * @property \Illuminate\Console\Command      command
  * @property \Illuminate\Remote\Connection    remote
+ * @property \Rocketeer\Abstracts\Scm         scm
  * @property \Rocketeer\ReleasesManager       releasesManager
  * @property \Rocketeer\Rocketeer             rocketeer
  * @property \Rocketeer\Server                server
- * @property \Rocketeer\Abstracts\Scm         scm
+ * @property \Rocketeer\TasksHandler          tasks
+ * @property \Rocketeer\TasksQueue            queue
+ * @property \Rocketeer\Bash                  bash
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait HasLocator
@@ -52,6 +56,7 @@ trait HasLocator
 	public function __get($key)
 	{
 		$shortcuts = array(
+			'bash'            => 'rocketeer.bash',
 			'connections'     => 'rocketeer.connections',
 			'command'         => 'rocketeer.command',
 			'console'         => 'rocketeer.console',

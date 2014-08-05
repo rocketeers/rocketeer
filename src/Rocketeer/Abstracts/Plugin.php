@@ -12,14 +12,17 @@ namespace Rocketeer\Abstracts;
 use Illuminate\Container\Container;
 use Illuminate\Support\Str;
 use Rocketeer\TasksHandler;
+use Rocketeer\Traits\HasLocator;
 
 /**
  * A basic abstract class for Rocketeer plugins to extend
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-abstract class Plugin extends AbstractLocatorClass
+abstract class Plugin
 {
+	use HasLocator;
+	
 	/**
 	 * The path to the configuration folder
 	 *

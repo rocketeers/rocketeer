@@ -12,14 +12,17 @@ namespace Rocketeer;
 use Illuminate\Container\Container;
 use Rocketeer\Abstracts\AbstractLocatorClass;
 use Rocketeer\Commands\BaseTaskCommand;
+use Rocketeer\Traits\HasLocator;
 
 /**
  * Handles the registering and relating of tasks
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class TasksHandler extends AbstractLocatorClass
+class TasksHandler
 {
+	use HasLocator;
+
 	/**
 	 * The registered events
 	 *
