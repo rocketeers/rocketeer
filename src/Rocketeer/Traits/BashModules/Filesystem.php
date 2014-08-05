@@ -154,15 +154,18 @@ trait Filesystem
 	 * Upload a local file to remote
 	 *
 	 * @param string $file
-	 * @param string $destination
+	 * @param string|null $destination
 	 */
-	public function upload($file, $destination)
+	public function upload($file, $destination = null)
 	{
 		if (!file_exists($file)) {
 			return;
 		}
 
+		// Get contents and destination
+		$destination = $destination ?: basename($file);
 		$contents = file_get_contents($file);
+
 		$this->putFile($destination, $contents);
 	}
 
