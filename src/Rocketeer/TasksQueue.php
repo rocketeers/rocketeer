@@ -54,7 +54,7 @@ class TasksQueue
 	 * Execute Tasks on the default connection
 	 *
 	 * @param  string|array|Closure $queue
-	 * @param  string|array         $connections
+	 * @param  string|string[]      $connections
 	 *
 	 * @return array
 	 */
@@ -260,7 +260,7 @@ class TasksQueue
 	/**
 	 * Build a Task from a Closure or a string command
 	 *
-	 * @param  Closure|string $task
+	 * @param Closure|string $task
 	 *
 	 * @return Task
 	 */
@@ -274,7 +274,7 @@ class TasksQueue
 				return $task->runForCurrentRelease($stringTask);
 			};
 			// If the User provided a Closure
-		} elseif ($task instanceof Closure) {
+		} else {
 			$closure = $task;
 		}
 
@@ -350,7 +350,7 @@ class TasksQueue
 	/**
 	 * Check if a string is a command or a task
 	 *
-	 * @param string $string
+	 * @param Closure|string $string
 	 *
 	 * @return boolean
 	 */

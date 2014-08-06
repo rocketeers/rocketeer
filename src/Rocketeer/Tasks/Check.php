@@ -86,7 +86,7 @@ class Check extends Task
 		$session   = $this->app['config']->get('session.driver');
 
 		return array(
-			array('checkScm', $this->scm->binary.' could not be found'),
+			array('checkScm', $this->scm->getBinary().' could not be found'),
 			array('checkPhpVersion', 'The version of PHP on the server does not match Laravel\'s requirements'),
 			array('checkComposer', 'Composer does not seem to be present on the server'),
 			array('checkPhpExtension', array('mcrypt', sprintf($extension, 'mcrypt'))),
@@ -107,7 +107,7 @@ class Check extends Task
 	 */
 	public function checkScm()
 	{
-		$this->command->comment('Checking presence of '.$this->scm->binary);
+		$this->command->comment('Checking presence of '.$this->scm->getBinary());
 		$results = $this->scm->execute('check');
 		$this->toOutput($results);
 

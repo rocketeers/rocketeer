@@ -12,6 +12,8 @@ namespace Rocketeer\Traits;
 /**
  * A class that maintains an history of results/commands
  *
+ * @property \Rocketeer\History\History history
+ *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait HasHistory

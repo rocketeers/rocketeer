@@ -39,14 +39,14 @@ class ConnectionsHandler
 	/**
 	 * The connections to use
 	 *
-	 * @var array
+	 * @var array|null
 	 */
 	protected $connections;
 
 	/**
 	 * The current connection
 	 *
-	 * @var string
+	 * @var string|null
 	 */
 	protected $connection;
 

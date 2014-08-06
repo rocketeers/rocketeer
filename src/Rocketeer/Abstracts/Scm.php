@@ -25,7 +25,17 @@ abstract class Scm
 	 *
 	 * @var string
 	 */
-	public $binary;
+	protected $binary;
+
+	/**
+	 * Get the current binary name
+	 *
+	 * @return string
+	 */
+	public function getBinary()
+	{
+		return $this->binary;
+	}
 
 	////////////////////////////////////////////////////////////////////
 	//////////////////////////////// HELPERS ///////////////////////////

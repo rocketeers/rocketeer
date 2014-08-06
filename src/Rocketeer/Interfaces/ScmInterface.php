@@ -17,6 +17,13 @@ namespace Rocketeer\Interfaces;
 interface ScmInterface
 {
 	/**
+	 * Get the current binary name
+	 *
+	 * @return string
+	 */
+	public function getBinary();
+
+	/**
 	 * Check if the SCM is available
 	 *
 	 * @return string
