@@ -7,14 +7,16 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Rocketeer;
+namespace Rocketeer\Services;
 
 use Closure;
 use Exception;
 use KzykHys\Parallel\Parallel;
 use Rocketeer\Abstracts\AbstractLocatorClass;
 use Rocketeer\Abstracts\Task;
+use Rocketeer\Connection;
 use Rocketeer\Traits\HasLocator;
+use string;
 
 /**
  * Handles the building and execution of tasks

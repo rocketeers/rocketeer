@@ -7,12 +7,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Rocketeer;
+namespace Rocketeer\Services;
 
 use Closure;
 use Illuminate\Container\Container;
 use Rocketeer\Abstracts\AbstractLocatorClass;
 use Rocketeer\Console\Commands\BaseTaskCommand;
+use Rocketeer\Task;
+use Rocketeer\Tasks;
 use Rocketeer\Traits\HasLocator;
 
 /**

@@ -11,7 +11,7 @@ namespace Rocketeer\Plugins;
 
 use Rocketeer\Abstracts\Plugin;
 use Rocketeer\Abstracts\Task;
-use Rocketeer\TasksHandler;
+use Rocketeer\Services\TasksHandler;
 
 /**
  * A base class for notification services to extends
@@ -20,10 +20,14 @@ abstract class Notifier extends Plugin
 {
 	/**
 	 * Register Tasks with Rocketeer
-	 *
-	 * @param TasksHandler $queue
-	 *
-	 * @return void
+
+
+*
+*@param \Rocketeer\Services\TasksHandler $queue
+
+
+*
+*@return void
 	 */
 	public function onQueue(TasksHandler $queue)
 	{

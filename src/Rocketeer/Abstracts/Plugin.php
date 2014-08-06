@@ -11,7 +11,7 @@ namespace Rocketeer\Abstracts;
 
 use Illuminate\Container\Container;
 use Illuminate\Support\Str;
-use Rocketeer\TasksHandler;
+use Rocketeer\Services\TasksHandler;
 use Rocketeer\Traits\HasLocator;
 
 /**
@@ -58,10 +58,14 @@ abstract class Plugin
 
 	/**
 	 * Register Tasks with Rocketeer
-	 *
-	 * @param TasksHandler $queue
-	 *
-	 * @return void
+
+
+*
+*@param \Rocketeer\Services\TasksHandler $queue
+
+
+*
+*@return void
 	 */
 	abstract public function onQueue(TasksHandler $queue);
 }

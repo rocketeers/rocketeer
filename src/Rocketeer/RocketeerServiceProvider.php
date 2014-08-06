@@ -18,8 +18,12 @@ use Illuminate\Remote\RemoteManager;
 use Illuminate\Support\ServiceProvider;
 use Monolog\Logger;
 use Rocketeer\Console\Commands\BaseTaskCommand;
-use Rocketeer\History\History;
-use Rocketeer\History\LogsHandler;
+use Rocketeer\Services\ConnectionsHandler;
+use Rocketeer\Services\History\History;
+use Rocketeer\Services\History\LogsHandler;
+use Rocketeer\Services\ReleasesManager;
+use Rocketeer\Services\TasksHandler;
+use Rocketeer\Services\TasksQueue;
 
 // Define DS
 if (!defined('DS')) {

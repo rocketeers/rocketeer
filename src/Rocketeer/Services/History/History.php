@@ -1,5 +1,5 @@
 <?php
-namespace Rocketeer\History;
+namespace Rocketeer\Services\History;
 
 use Illuminate\Support\Collection;
 
