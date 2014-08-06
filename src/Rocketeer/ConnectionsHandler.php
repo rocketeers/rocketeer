@@ -245,12 +245,13 @@ class ConnectionsHandler
 	 *
 	 * @param string|null   $connection
 	 * @param string[]|null $credentials
+	 * @param int           $server
 	 */
-	public function syncConnectionCredentials($connection = null, array $credentials = array())
+	public function syncConnectionCredentials($connection = null, array $credentials = array(), $server = 0)
 	{
 		// Store credentials if any
 		if ($credentials) {
-			$this->server->setValue('connections.'.$connection, $credentials);
+			$this->server->setValue('connections.'.$connection.'.servers.'.$server, $credentials);
 		}
 
 		// Get connection

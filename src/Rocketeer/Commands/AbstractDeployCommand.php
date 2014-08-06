@@ -193,19 +193,19 @@ abstract class AbstractDeployCommand extends Command
 		);
 
 		// Update connection name
-		$connectionName = !is_null($server) ? $connectionName.'#'.$server : $connectionName;
+		$handle = !is_null($server) ? $connectionName.'#'.$server : $connectionName;
 
 		// Gather credentials
 		foreach ($credentials as $credential => $required) {
 			${$credential} = $this->getCredential($connection, $credential);
 			if ($required and !${$credential}) {
-				${$credential} = $this->ask('No '.$credential.' is set for ['.$connectionName.'], please provide one :');
+				${$credential} = $this->ask('No '.$credential.' is set for ['.$handle.'], please provide one :');
 			}
 		}
 
 		// Get password or key
 		if (!$password and !$key) {
-			$type = $this->ask('No password or SSH key is set for ['.$connectionName.'], which would you use ? [key/password]', 'key');
+			$type = $this->ask('No password or SSH key is set for ['.$handle.'], which would you use ? [key/password]', 'key');
 			if ($type == 'key') {
 				$default   = $this->laravel['rocketeer.rocketeer']->getUserHomeFolder().'/.ssh/id_rsa';
 				$key       = $this->ask('Please enter the full path to your key ('.$default.')', $default);
@@ -217,7 +217,7 @@ abstract class AbstractDeployCommand extends Command
 
 		// Save credentials
 		$credentials = compact(array_keys($credentials));
-		$this->laravel['rocketeer.connections']->syncConnectionCredentials($connectionName, $credentials);
+		$this->laravel['rocketeer.connections']->syncConnectionCredentials($connectionName, $credentials, $server);
 		$this->laravel['rocketeer.connections']->setConnection($connectionName);
 	}
 
