@@ -74,7 +74,7 @@ trait RocketeerAssertions
 			$taskHistory = $task;
 		} else {
 			$results     = $task->execute();
-			$taskHistory = $task->history->getFlattened();
+			$taskHistory = $task->history->getFlattenedHistory();
 		}
 
 		$this->assertHistory($expectedHistory, $taskHistory);

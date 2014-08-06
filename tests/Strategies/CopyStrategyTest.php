@@ -31,7 +31,7 @@ class CopyStrategyTest extends RocketeerTestCase
 			),
 		);
 
-		$this->assertHistory($matcher, $this->history->getFlattened());
+		$this->assertHistory($matcher, $this->history->getFlattenedHistory());
 	}
 
 	public function testClonesIfNoPreviousRelease()
@@ -51,7 +51,7 @@ class CopyStrategyTest extends RocketeerTestCase
 			),
 		);
 
-		$this->assertHistory($matcher, $this->history->getFlattened());
+		$this->assertHistory($matcher, $this->history->getFlattenedHistory());
 	}
 
 	public function testCanCloneIfPreviousReleaseIsInvalid()
@@ -73,6 +73,6 @@ class CopyStrategyTest extends RocketeerTestCase
 			),
 		);
 
-		$this->assertHistory($matcher, $this->history->getFlattened());
+		$this->assertHistory($matcher, $this->history->getFlattenedHistory());
 	}
 }

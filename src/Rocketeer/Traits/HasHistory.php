@@ -31,16 +31,21 @@ trait HasHistory
 	/**
 	 * Append an entry to the history
 	 *
+	 * @param array|string $command
+	 */
+	public function toHistory($command)
+	{
+		$this->appendTo('history', $command);
+	}
+
+	/**
+	 * Append an entry to the output
+	 *
 	 * @param array|string $output
 	 */
-	public function toHistory($output)
+	public function toOutput($output)
 	{
-		$handle              = $this->getHistoryHandle();
-		$history             = $this->getHistory();
-		$timestamp           = (string) microtime(true);
-		$history[$timestamp] = $output;
-
-		$this->history[$handle] = $history;
+		$this->appendTo('output', $output);
 	}
 
 	/**
@@ -54,9 +59,29 @@ trait HasHistory
 
 		// Create entry if it doesn't exist yet
 		if (!isset($this->history[$handle])) {
-			$this->history[$handle] = [];
+			$this->history[$handle] = array(
+				'history' => [],
+				'output'  => [],
+			);
 		}
 
 		return $handle;
+	}
+
+	/**
+	 * Append something to the history
+	 *
+	 * @param string       $type
+	 * @param string|array $command
+	 */
+	protected function appendTo($type, $command)
+	{
+		$handle    = $this->getHistoryHandle();
+		$history   = $this->getHistory();
+		$timestamp = (string) microtime(true);
+
+		$history[$type][$timestamp] = $command;
+
+		$this->history[$handle] = $history;
 	}
 }

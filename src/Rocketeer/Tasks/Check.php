@@ -109,8 +109,7 @@ class Check extends Task
 	{
 		$this->command->comment('Checking presence of '.$this->scm->binary);
 		$results = $this->scm->execute('check');
-
-		//$this->toHistory($results);
+		$this->toOutput($results);
 
 		return $this->remote->status() == 0;
 	}

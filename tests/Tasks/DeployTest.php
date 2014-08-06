@@ -116,7 +116,7 @@ class DeployTest extends RocketeerTestCase
 		$deploy = $this->pretendTask('Deploy');
 		$deploy->runComposer(true);
 
-		$this->assertTaskHistory($deploy->history->getFlattened(), $matcher, array(
+		$this->assertTaskHistory($deploy->history->getFlattenedHistory(), $matcher, array(
 			'tests'   => false,
 			'seed'    => false,
 			'migrate' => false
