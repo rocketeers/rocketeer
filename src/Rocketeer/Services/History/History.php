@@ -8,7 +8,7 @@ class History extends Collection
 	/**
 	 * Get the history, flattened
 	 *
-	 * @return array
+	 * @return string[]|string[][]
 	 */
 	public function getFlattenedHistory()
 	{
@@ -18,7 +18,7 @@ class History extends Collection
 	/**
 	 * Get the output, flattened
 	 *
-	 * @return array
+	 * @return string[]|string[][]
 	 */
 	public function getFlattenedOutput()
 	{
@@ -30,7 +30,7 @@ class History extends Collection
 	 *
 	 * @param string $type
 	 *
-	 * @return array
+	 * @return string[]|string[][]
 	 */
 	protected function getFlattened($type)
 	{

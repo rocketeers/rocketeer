@@ -43,9 +43,9 @@ class LocalStorage
 	/**
 	 * Build a new ReleasesManager
 	 *
-	 * @param Container $app
-	 * @param string    $filename
-	 * @param string    $storage
+	 * @param Container   $app
+	 * @param string      $filename
+	 * @param string|null $storage
 	 */
 	public function __construct(Container $app, $filename = 'deployments', $storage = null)
 	{
@@ -123,8 +123,8 @@ class LocalStorage
 	/**
 	 * Change the repository in use
 	 *
-	 * @param string $filename
-	 * @param string $storage
+	 * @param string      $filename
+	 * @param string|null $storage
 	 */
 	public function setRepository($filename, $storage = null)
 	{
@@ -219,8 +219,8 @@ class LocalStorage
 	/**
 	 * Get a value from the repository file
 	 *
-	 * @param  string          $key
-	 * @param  \Closure|string $fallback
+	 * @param  string               $key
+	 * @param  \Closure|string|null $fallback
 	 *
 	 * @return mixed
 	 */

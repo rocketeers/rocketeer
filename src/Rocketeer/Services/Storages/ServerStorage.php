@@ -39,9 +39,9 @@ class ServerStorage
 	/**
 	 * Set a value on the server
 	 *
-	 * @param string     $file
-	 * @param string     $key
-	 * @param mixed|null $value
+	 * @param string       $file
+	 * @param string|array $key
+	 * @param mixed|null   $value
 	 */
 	public function set($file, $key, $value = null)
 	{

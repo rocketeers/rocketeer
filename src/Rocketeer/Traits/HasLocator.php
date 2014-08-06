@@ -17,6 +17,7 @@ use Illuminate\Container\Container;
  *
  * @property \Illuminate\Config\Repository              config
  * @property \Illuminate\Console\Command                command
+ * @property \Illuminate\Filesystem\Filesystem          files
  * @property \Illuminate\Remote\Connection              remote
  * @property \Rocketeer\Bash                            bash
  * @property \Rocketeer\Interfaces\ScmInterface         scm

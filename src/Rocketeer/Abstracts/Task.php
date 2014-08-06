@@ -105,7 +105,7 @@ abstract class Task extends Bash
 	/**
 	 * Fire the command
 	 *
-	 * @return boolean
+	 * @return string|boolean
 	 */
 	public function fire()
 	{

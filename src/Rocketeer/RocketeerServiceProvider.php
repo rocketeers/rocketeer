@@ -81,11 +81,11 @@ class RocketeerServiceProvider extends ServiceProvider
 	/**
 	 * Get the services provided by the provider.
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	public function provides()
 	{
-		return array('rocketeer');
+		return ['rocketeer'];
 	}
 
 	////////////////////////////////////////////////////////////////////

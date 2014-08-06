@@ -52,7 +52,7 @@ class LogsHandler
 	/**
 	 * Get the logs file being currently used
 	 *
-	 * @return string|boolean
+	 * @return string|false
 	 */
 	public function getCurrentLogsFile()
 	{

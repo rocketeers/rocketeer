@@ -132,7 +132,7 @@ class ReleasesManager
 	/**
 	 * Get the path to a release
 	 *
-	 * @param  integer $release
+	 * @param string $release
 	 *
 	 * @return string
 	 */

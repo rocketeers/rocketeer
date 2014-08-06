@@ -65,11 +65,11 @@ class Rocketeer
 	/**
 	 * Get a contextual option
 	 *
-	 * @param  string       $option
-	 * @param  string       $type [stage,connection]
-	 * @param  string|array $original
+	 * @param  string            $option
+	 * @param  string            $type [stage,connection]
+	 * @param  string|array|null $original
 	 *
-	 * @return mixed
+	 * @return string|array|\Closure
 	 */
 	protected function getContextualOption($option, $type, $original = null)
 	{
@@ -100,10 +100,10 @@ class Rocketeer
 	/**
 	 * Returns what stage Rocketeer thinks he's in
 	 *
-	 * @param string $application
-	 * @param string $path
+	 * @param string      $application
+	 * @param string|null $path
 	 *
-	 * @return string
+	 * @return string|false
 	 */
 	public static function getDetectedStage($application = 'application', $path = null)
 	{
@@ -155,7 +155,7 @@ class Rocketeer
 	/**
 	 * Get the path to a folder, taking into account application name and stage
 	 *
-	 * @param  string $folder
+	 * @param  string|null $folder
 	 *
 	 * @return string
 	 */
