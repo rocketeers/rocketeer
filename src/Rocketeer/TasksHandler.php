@@ -158,9 +158,9 @@ class TasksHandler
 	/**
 	 * Register listeners for a particular event
 	 *
-	 * @param string  $event
-	 * @param array   $listeners
-	 * @param integer $priority
+	 * @param string         $event
+	 * @param array|callable $listeners
+	 * @param integer        $priority
 	 *
 	 * @return string
 	 */

@@ -19,13 +19,17 @@ trait HasHistory
 	/**
 	 * Get the class's history
 	 *
+	 * @param string|null $type
+	 *
 	 * @return array
 	 */
-	public function getHistory()
+	public function getHistory($type = null)
 	{
 		$handle = $this->getHistoryHandle();
+		$history = $this->history[$handle];
+		$history = array_get($history, $type);
 
-		return $this->history[$handle];
+		return $history;
 	}
 
 	/**
@@ -76,10 +80,16 @@ trait HasHistory
 	 */
 	protected function appendTo($type, $command)
 	{
+		// Flatten one-liners
+		$command = (array) $command;
+		$command = sizeof($command) == 1 ? $command[0] : $command;
+
+		// Get the various handles
 		$handle    = $this->getHistoryHandle();
 		$history   = $this->getHistory();
 		$timestamp = (string) microtime(true);
 
+		// Set new history on correct handle
 		$history[$type][$timestamp] = $command;
 
 		$this->history[$handle] = $history;

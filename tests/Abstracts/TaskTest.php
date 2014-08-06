@@ -20,10 +20,10 @@ class TaskTest extends RocketeerTestCase
 
 	public function testCanPretendToRunTasks()
 	{
-		$task = $this->pretendTask();
+		$task     = $this->pretendTask();
+		$commands = $task->run('ls');
 
-		$output = $task->run('ls');
-		$this->assertEquals('ls', $output);
+		$this->assertEquals('ls', $commands);
 	}
 
 	public function testCanGetDescription()
@@ -53,7 +53,7 @@ class TaskTest extends RocketeerTestCase
 			echo 'foobar';
 		});
 
-		 $this->tasksQueue()->execute(function ($task) {
+		$this->tasksQueue()->execute(function ($task) {
 			$task->fireEvent('test.foobar');
 		}, 'staging');
 	}

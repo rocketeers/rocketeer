@@ -42,31 +42,32 @@ trait Core
 		$commands = $this->processCommands($commands);
 		$verbose  = $this->getOption('verbose') && !$silent;
 
-		// Log the commands for pretend
+		// Log the commands
+		if (!$silent) {
+			$this->toHistory($commands);
+		}
+
+		// Display for pretend mode
 		if ($this->getOption('pretend') and !$silent) {
-			return $this->addCommandsToHistory($commands);
+			$this->toOutput($commands);
+			$this->command->line(implode(PHP_EOL, $commands));
+
+			return sizeof($commands) == 1 ? $commands[0] : $commands;
 		}
 
 		// Run commands
-		$me     = $this;
 		$output = null;
-		$this->remote->run($commands, function ($results) use (&$output, $verbose, $me) {
+		$this->remote->run($commands, function ($results) use (&$output, $verbose) {
 			$output .= $results;
 
 			if ($verbose) {
-				$me->remote->display(trim($results));
+				$this->remote->display(trim($results));
 			}
 		});
 
 		// Process and log the output and commands
 		$output = $this->processOutput($output, $array, true);
-		$this->logs->log($commands);
-		$this->logs->log($output);
-
-		// Append output
-		if (!$silent) {
-			$this->toHistory($output);
-		}
+		$this->toOutput($output);
 
 		return $output;
 	}
@@ -200,22 +201,6 @@ trait Core
 	protected function getOption($option)
 	{
 		return $this->hasCommand() ? $this->command->option($option) : null;
-	}
-
-	/**
-	 * Add an array/command to the history
-	 *
-	 * @param string|array $commands
-	 *
-	 * @return array|string
-	 */
-	protected function addCommandsToHistory($commands)
-	{
-		$this->command->line(implode(PHP_EOL, $commands));
-		$commands = (sizeof($commands) == 1) ? $commands[0] : $commands;
-		$this->toHistory($commands);
-
-		return $commands;
 	}
 
 	////////////////////////////////////////////////////////////////////
