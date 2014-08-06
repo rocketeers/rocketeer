@@ -22,21 +22,21 @@ class ConnectionsHandlerTest extends RocketeerTestCase
 	public function testCanGetCurrentConnection()
 	{
 		$this->swapConfig(array('rocketeer::default' => 'foobar'));
-		$this->assertConnectionIs('production');
+		$this->assertConnectionEquals('production');
 
 		$this->swapConfig(array('rocketeer::default' => 'production'));
-		$this->assertConnectionIs('production');
+		$this->assertConnectionEquals('production');
 
 		$this->swapConfig(array('rocketeer::default' => 'staging'));
-		$this->assertConnectionIs('staging');
+		$this->assertConnectionEquals('staging');
 	}
 
 	public function testCanChangeConnection()
 	{
-		$this->assertConnectionIs('production');
+		$this->assertConnectionEquals('production');
 
 		$this->connections->setConnection('staging');
-		$this->assertConnectionIs('staging');
+		$this->assertConnectionEquals('staging');
 
 		$this->connections->setConnections('staging,production');
 		$this->assertEquals(array('staging', 'production'), $this->connections->getConnections());
@@ -47,42 +47,42 @@ class ConnectionsHandlerTest extends RocketeerTestCase
 		$repository = 'git@github.com:'.$this->repository;
 		$this->expectRepositoryConfig($repository, '', '');
 
-		$this->assertEquals($repository, $this->connections->getRepository());
+		$this->assertRepositoryEquals($repository);
 	}
 
 	public function testCanUseHttpsRepository()
 	{
 		$this->expectRepositoryConfig('https://github.com/'.$this->repository, 'foobar', 'bar');
 
-		$this->assertEquals('https://foobar:bar@github.com/'.$this->repository, $this->connections->getRepository());
+		$this->assertRepositoryEquals('https://foobar:bar@github.com/'.$this->repository);
 	}
 
 	public function testCanUseHttpsRepositoryWithUsernameProvided()
 	{
 		$this->expectRepositoryConfig('https://foobar@github.com/'.$this->repository, 'foobar', 'bar');
 
-		$this->assertEquals('https://foobar:bar@github.com/'.$this->repository, $this->connections->getRepository());
+		$this->assertRepositoryEquals('https://foobar:bar@github.com/'.$this->repository);
 	}
 
 	public function testCanUseHttpsRepositoryWithOnlyUsernameProvided()
 	{
 		$this->expectRepositoryConfig('https://foobar@github.com/'.$this->repository, 'foobar', '');
 
-		$this->assertEquals('https://foobar@github.com/'.$this->repository, $this->connections->getRepository());
+		$this->assertRepositoryEquals('https://foobar@github.com/'.$this->repository);
 	}
 
 	public function testCanCleanupProvidedRepositoryFromCredentials()
 	{
 		$this->expectRepositoryConfig('https://foobar@github.com/'.$this->repository, 'Anahkiasen', '');
 
-		$this->assertEquals('https://Anahkiasen@github.com/'.$this->repository, $this->connections->getRepository());
+		$this->assertRepositoryEquals('https://Anahkiasen@github.com/'.$this->repository);
 	}
 
 	public function testCanUseHttpsRepositoryWithoutCredentials()
 	{
 		$this->expectRepositoryConfig('https://github.com/'.$this->repository, '', '');
 
-		$this->assertEquals('https://github.com/'.$this->repository, $this->connections->getRepository());
+		$this->assertRepositoryEquals('https://github.com/'.$this->repository);
 	}
 
 	public function testCanCheckIfRepositoryNeedsCredentials()

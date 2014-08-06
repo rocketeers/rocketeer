@@ -16,7 +16,7 @@ class RocketeerTest extends RocketeerTestCase
 
 	public function testCanGetHomeFolder()
 	{
-		$this->assertEquals($this->server.'', $this->rocketeer->getHomeFolder());
+		$this->assertEquals($this->server, $this->rocketeer->getHomeFolder());
 	}
 
 	public function testCanGetFolderWithStage()
@@ -52,9 +52,9 @@ class RocketeerTest extends RocketeerTestCase
 			'rocketeer::on.stages.staging.scm.branch' => 'staging',
 		));
 
-		$this->assertEquals('master', $this->rocketeer->getOption('scm.branch'));
+		$this->assertOptionValueEquals('master', 'scm.branch');
 		$this->connections->setStage('staging');
-		$this->assertEquals('staging', $this->rocketeer->getOption('scm.branch'));
+		$this->assertOptionValueEquals('staging', 'scm.branch');
 	}
 
 	public function testCanUseRecursiveConnectionConfiguration()
@@ -64,14 +64,14 @@ class RocketeerTest extends RocketeerTestCase
 			'rocketeer::scm.branch'                        => 'master',
 			'rocketeer::on.connections.staging.scm.branch' => 'staging',
 		));
-		$this->assertEquals('master', $this->rocketeer->getOption('scm.branch'));
+		$this->assertOptionValueEquals('master', 'scm.branch');
 
 		$this->swapConfig(array(
 			'rocketeer::default'                           => 'staging',
 			'rocketeer::scm.branch'                        => 'master',
 			'rocketeer::on.connections.staging.scm.branch' => 'staging',
 		));
-		$this->assertEquals('staging', $this->rocketeer->getOption('scm.branch'));
+		$this->assertOptionValueEquals('staging', 'scm.branch');
 	}
 
 	public function testRocketeerCanGuessWhichStageHesIn()

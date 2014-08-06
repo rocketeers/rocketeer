@@ -18,7 +18,7 @@ class TasksHandlerTest extends RocketeerTestCase
 		Rocketeer::before('deploy', 'ls');
 		$before = Rocketeer::getTasksListeners('deploy', 'before', true);
 
-		$this->assertEquals(array('ls'), $before);
+		$this->assertEquals(['ls'], $before);
 	}
 
 	public function testCanGetTasksBeforeOrAfterAnotherTask()
@@ -26,7 +26,7 @@ class TasksHandlerTest extends RocketeerTestCase
 		$task   = $this->task('Deploy');
 		$before = $this->tasksQueue()->getTasksListeners($task, 'before', true);
 
-		$this->assertEquals(array('before', 'foobar'), $before);
+		$this->assertEquals(['before', 'foobar'], $before);
 	}
 
 	public function testCanAddTasksViaFacade()
@@ -85,7 +85,7 @@ class TasksHandlerTest extends RocketeerTestCase
 		$this->tasksQueue()->before('deploy', 'first');
 
 		$listeners = $this->tasksQueue()->getTasksListeners('deploy', 'before', true);
-		$this->assertEquals(array('before', 'foobar', 'first', 'second'), $listeners);
+		$this->assertEquals(['before', 'foobar', 'first', 'second'], $listeners);
 	}
 
 	public function testCanExecuteContextualEvents()
@@ -96,10 +96,10 @@ class TasksHandlerTest extends RocketeerTestCase
 		));
 
 		$this->connections->setStage('hasEvent');
-		$this->assertEquals(array('ls'), $this->tasksQueue()->getTasksListeners('check', 'before', true));
+		$this->assertEquals(['ls'], $this->tasksQueue()->getTasksListeners('check', 'before', true));
 
 		$this->connections->setStage('noEvent');
-		$this->assertEquals(array(), $this->tasksQueue()->getTasksListeners('check', 'before', true));
+		$this->assertEquals([], $this->tasksQueue()->getTasksListeners('check', 'before', true));
 	}
 
 	public function testCanBuildQueueFromConfigHook()

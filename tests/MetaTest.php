@@ -13,6 +13,6 @@ class MetaTest extends RocketeerTestCase
 		});
 
 		$queue = $this->tasks->on('production', array('cleanup'), $this->getCommand());
-		$this->assertEquals(array('foobar'), $queue);
+		$this->assertEquals(['foobar'], $queue);
 	}
 }

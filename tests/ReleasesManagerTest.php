@@ -27,7 +27,7 @@ class ReleasesManagerTest extends RocketeerTestCase
 	{
 		$validation = $this->releasesManager->getInvalidReleases();
 
-		$this->assertEquals(array(1 => 15000000000000), $validation);
+		$this->assertEquals([1 => 15000000000000], $validation);
 	}
 
 	public function testCanUpdateStateOfReleases()
@@ -88,14 +88,14 @@ class ReleasesManagerTest extends RocketeerTestCase
 	{
 		$releases = $this->releasesManager->getReleases();
 
-		$this->assertEquals(array(1 => 15000000000000, 0 => 20000000000000, 2 => 10000000000000), $releases);
+		$this->assertEquals([1 => 15000000000000, 0 => 20000000000000, 2 => 10000000000000], $releases);
 	}
 
 	public function testCanGetDeprecatedReleases()
 	{
 		$releases = $this->releasesManager->getDeprecatedReleases();
 
-		$this->assertEquals(array(15000000000000, 10000000000000), $releases);
+		$this->assertEquals([15000000000000, 10000000000000], $releases);
 	}
 
 	public function testCanGetPreviousValidRelease()

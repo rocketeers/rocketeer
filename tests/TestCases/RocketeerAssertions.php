@@ -8,9 +8,30 @@ trait RocketeerAssertions
 	 *
 	 * @param string $connection
 	 */
-	protected function assertConnectionIs($connection)
+	protected function assertConnectionEquals($connection)
 	{
 		$this->assertEquals($connection, $this->connections->getConnection());
+	}
+
+	/**
+	 * Assert that the current repository equals
+	 *
+	 * @param string $repository
+	 */
+	protected function assertRepositoryEquals($repository)
+	{
+		$this->assertEquals($repository, $this->connections->getRepository());
+	}
+
+	/**
+	 * Assert an option has a certain value
+	 *
+	 * @param string $value
+	 * @param string $option
+	 */
+	protected function assertOptionValueEquals($value, $option)
+	{
+		$this->assertEquals($value, $this->rocketeer->getOption($option));
 	}
 
 	/**
@@ -18,7 +39,7 @@ trait RocketeerAssertions
 	 *
 	 * @param string  $task
 	 * @param string  $output
-	 * @param Mockery $command
+	 * @param \Mockery $command
 	 *
 	 * @return Assertion
 	 */
