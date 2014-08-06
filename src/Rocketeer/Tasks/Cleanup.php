@@ -47,6 +47,12 @@ class Cleanup extends Task
 		$trash   = sizeof($trash);
 		$message = sprintf('Removing <info>%d %s</info> from the server', $trash, Str::plural('release', $trash));
 
+		// Delete state file
+		if ($this->getOption('clean-all')) {
+			$this->removeFolder('state.json');
+			$this->releasesManager->markReleaseAsValid();
+		}
+
 		return $this->command->line($message);
 	}
 

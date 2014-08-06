@@ -199,10 +199,11 @@ class ReleasesManager
 	/**
 	 * Mark a release as valid
 	 *
-	 * @param integer $release
+	 * @param integer|null $release
 	 */
-	public function markReleaseAsValid($release)
+	public function markReleaseAsValid($release = null)
 	{
+		$release              = $release ?: $this->getCurrentRelease();
 		$validation           = $this->getValidationFile();
 		$validation[$release] = true;
 
