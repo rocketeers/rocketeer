@@ -13,6 +13,7 @@
 - Added ability to run tasks in parallel via the `--parallel` flag (or `-P`)
 - Added static helper `Rocketeer::getDetectedStage` to get the stage Rocketeer think's he's in on the server (for environment mappings)
 - Added support for checking of HHVM extensions
+- Added `Task::upload(file, destination)` to upload files to remote, destination can be null and the basename of the file would then be used
 - Fixed a bug where `rocketeer current` would fail to find the related task
 - Fixed a bug where Artisan wouldn't be found even if at the default location
 - Fixed a bug where ignition would fail when the default connection isn't `production`
