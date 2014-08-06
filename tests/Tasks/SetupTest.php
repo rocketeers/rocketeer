@@ -14,6 +14,8 @@ class SetupTest extends RocketeerTestCase
 		});
 
 		$this->assertTaskHistory('Setup', array(
+			'git --version',
+			'/usr/local/bin/php -m',
 			"mkdir {server}/",
 			"mkdir -p {server}/releases",
 			"mkdir -p {server}/current",
@@ -33,6 +35,8 @@ class SetupTest extends RocketeerTestCase
 		));
 
 		$this->assertTaskHistory('Setup', array(
+			'git --version',
+			'/usr/local/bin/php -m',
 			"mkdir {server}/",
 			"mkdir -p {server}/staging/releases",
 			"mkdir -p {server}/staging/current",
@@ -57,6 +61,8 @@ class SetupTest extends RocketeerTestCase
 		$this->app['rocketeer.connections']->setStage('staging');
 		$this->assertEquals('staging', $this->app['rocketeer.connections']->getStage());
 		$this->assertTaskHistory('Setup', array(
+			'git --version',
+			'/usr/local/bin/php -m',
 			"mkdir {server}/",
 			"mkdir -p {server}/staging/releases",
 			"mkdir -p {server}/staging/current",

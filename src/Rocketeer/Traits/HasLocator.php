@@ -15,17 +15,19 @@ use Illuminate\Container\Container;
  * An abstract for Service Locator-based classes with adds
  * a few shortcuts to Rocketeer classes
  *
- * @property \Illuminate\Config\Repository config
- * @property \Illuminate\Console\Command   command
- * @property \Illuminate\Remote\Connection remote
- * @property \Rocketeer\Abstracts\Scm      scm
- * @property \Rocketeer\ConnectionsHandler connections
- * @property \Rocketeer\Bash               bash
- * @property \Rocketeer\ReleasesManager    releasesManager
- * @property \Rocketeer\Rocketeer          rocketeer
- * @property \Rocketeer\Server             server
- * @property \Rocketeer\TasksHandler       tasks
- * @property \Rocketeer\TasksQueue         queue
+ * @property \Illuminate\Config\Repository           config
+ * @property \Illuminate\Console\Command             command
+ * @property \Illuminate\Remote\Connection           remote
+ * @property \Rocketeer\Bash                         bash
+ * @property \Rocketeer\ConnectionsHandler           connections
+ * @property \Rocketeer\Interfaces\ScmInterface      scm
+ * @property \Rocketeer\Interfaces\StrategyInterface strategy
+ * @property \Rocketeer\ReleasesManager              releasesManager
+ * @property \Rocketeer\Rocketeer                    rocketeer
+ * @property \Rocketeer\Server                       server
+ * @property \Rocketeer\TasksHandler                 tasks
+ * @property \Rocketeer\TasksQueue                   queue
+ * @property \Rocketeer\History\History              history
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait HasLocator
@@ -58,15 +60,17 @@ trait HasLocator
 	{
 		$shortcuts = array(
 			'bash'            => 'rocketeer.bash',
-			'connections'     => 'rocketeer.connections',
 			'command'         => 'rocketeer.command',
+			'connections'     => 'rocketeer.connections',
 			'console'         => 'rocketeer.console',
+			'history'         => 'rocketeer.history',
 			'logs'            => 'rocketeer.logs',
 			'queue'           => 'rocketeer.queue',
 			'releasesManager' => 'rocketeer.releases',
 			'rocketeer'       => 'rocketeer.rocketeer',
 			'scm'             => 'rocketeer.scm',
 			'server'          => 'rocketeer.server',
+			'strategy'        => 'rocketeer.strategy',
 			'tasks'           => 'rocketeer.tasks',
 		);
 

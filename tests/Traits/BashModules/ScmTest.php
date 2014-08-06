@@ -19,7 +19,7 @@ class ScmTest extends RocketeerTestCase
 		$task         = $this->pretendTask();
 		$task->remote = $remote;
 
-		$task->cloneRepository($this->server.'/test');
+		$task->strategy->deploy($this->server.'/test');
 		$this->assertNull($this->app['rocketeer.server']->getValue('credentials'));
 	}
 }

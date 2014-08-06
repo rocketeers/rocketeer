@@ -5,22 +5,6 @@ use Rocketeer\TestCases\RocketeerTestCase;
 
 class TaskTest extends RocketeerTestCase
 {
-	public function testCanUpdateRepository()
-	{
-		$task = $this->pretendTask('Deploy');
-		$task->updateRepository();
-
-		$matcher = array(
-			array(
-				"cd $this->server/releases/20000000000000",
-				"git reset --hard",
-				"git pull",
-			),
-		);
-
-		$this->assertEquals($matcher, $task->getHistory());
-	}
-
 	public function testCanDisplayOutputOfCommandsIfVerbose()
 	{
 		$task = $this->pretendTask('Check', array(

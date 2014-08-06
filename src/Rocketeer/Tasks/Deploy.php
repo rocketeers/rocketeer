@@ -46,11 +46,12 @@ class Deploy extends Task
 
 		// Run halting methods
 		foreach ($this->halting as $method) {
-			if (!$this->fireEvent($method)) {
+			if (!$this->fireEvent($method['as'])) {
 				return false;
 			}
 
-			if (!$this->$method()) {
+			list ($class, $method) = $method['on'];
+			if (!$class->$method()) {
 				return $this->halt();
 			}
 		}
@@ -125,9 +126,9 @@ class Deploy extends Task
 	{
 		$strategy      = $this->rocketeer->getOption('remote.strategy');
 		$this->halting = array(
-			$strategy.'Repository',
-			'runComposer',
-			'checkTestsResults',
+			['as' => $strategy.'Repository', 'on' => [$this->strategy, 'deploy']],
+			['as' => 'runComposer', 'on' => [$this, 'runComposer']],
+			['as' => 'checkTestsResults', 'on' => [$this, 'checkTestsResults']],
 		);
 	}
 

@@ -29,13 +29,6 @@ abstract class RocketeerTestCase extends ContainerTestCase
 	protected $task;
 
 	/**
-	 * The test repository
-	 *
-	 * @var string
-	 */
-	protected $repository = 'Anahkiasen/html-object.git';
-
-	/**
 	 * Set up the tests
 	 */
 	public function setUp()
@@ -146,11 +139,18 @@ abstract class RocketeerTestCase extends ContainerTestCase
 			$taskHistory = $task;
 		} else {
 			$results     = $task->execute();
-			$taskHistory = $task->getHistory();
+			$taskHistory = $task->history->getFlattened();
 		}
 
+		$this->assertHistory($expectedHistory, $taskHistory);
+
+		return $results;
+	}
+
+	public function assertHistory($expected, $obtained)
+	{
 		// Look for release in history
-		$release = implode(array_flatten($taskHistory));
+		$release = implode(array_flatten($obtained));
 		preg_match_all('/[0-9]{14}/', $release, $releases);
 		$release = array_get($releases, '0.0', date('YmdHis'));
 		if ($release === '10000000000000') {
@@ -158,12 +158,10 @@ abstract class RocketeerTestCase extends ContainerTestCase
 		}
 
 		// Replace placeholders
-		$expectedHistory = $this->replaceHistoryPlaceholders($expectedHistory, $release);
+		$expected = $this->replaceHistoryPlaceholders($expected, $release);
 
 		// Check equality
-		$this->assertEquals($expectedHistory, $taskHistory);
-
-		return $results;
+		$this->assertEquals($expected, $obtained);
 	}
 
 	/**
@@ -184,11 +182,12 @@ abstract class RocketeerTestCase extends ContainerTestCase
 			}
 
 			$history[$key] = strtr($entries, array(
-				'{php}'      => exec('which php'),
-				'{phpunit}'  => exec('which phpunit'),
-				'{server}'   => $this->server,
-				'{release}'  => $release,
-				'{composer}' => exec('which composer'),
+				'{php}'        => exec('which php'),
+				'{phpunit}'    => exec('which phpunit'),
+				'{repository}' => 'https://github.com/'.$this->repository,
+				'{server}'     => $this->server,
+				'{release}'    => $release,
+				'{composer}'   => exec('which composer'),
 			));
 		}
 
@@ -237,7 +236,7 @@ abstract class RocketeerTestCase extends ContainerTestCase
 	 * @param array  $options
 	 * @param array  $expectations
 	 *
-	 * @return Task
+	 * @return \Rocketeer\Abstracts\Task
 	 */
 	protected function pretendTask($task = 'Deploy', $options = array(), array $expectations = array())
 	{

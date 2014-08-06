@@ -22,9 +22,10 @@ class ScmTest extends RocketeerTestCase
 			});
 		});
 
-		$scm     = new Git($this->app);
-		$command = $scm->execute('checkout', $this->server);
+		$scm      = new Git($this->app);
+		$command  = $scm->execute('checkout', $this->server);
+		$expected = $this->replaceHistoryPlaceholders(['git clone --depth 1 -b master "{repository}" {server}']);
 
-		$this->assertEquals('git clone --depth 1 -b master "" '.$this->server, $command);
+		$this->assertEquals($expected[0], $command);
 	}
 }

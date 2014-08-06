@@ -18,6 +18,13 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 	protected $app;
 
 	/**
+	 * The test repository
+	 *
+	 * @var string
+	 */
+	protected $repository = 'Anahkiasen/html-object.git';
+
+	/**
 	 * Set up the tests
 	 *
 	 * @return void
@@ -45,7 +52,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 		$serviceProvider->bindPaths();
 		$serviceProvider->bindCoreClasses();
 		$serviceProvider->bindClasses();
-		$serviceProvider->bindScm();
+		$serviceProvider->bindStrategies();
 	}
 
 	/**
@@ -189,6 +196,13 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 		$config->shouldReceive('get')->with('rocketeer::paths.artisan')->andReturn('');
 
 		// SCM
+		$config->shouldReceive('get')->with('rocketeer::scm')->andReturn(array(
+			'branch'     => 'master',
+			'repository' => 'https://github.com/'.$this->repository,
+			'scm'        => 'git',
+			'shallow'    => true,
+			'submodules' => true,
+		));
 		$config->shouldReceive('get')->with('rocketeer::scm.branch')->andReturn('master');
 		$config->shouldReceive('get')->with('rocketeer::scm.repository')->andReturn('https://github.com/'.$this->repository);
 		$config->shouldReceive('get')->with('rocketeer::scm.scm')->andReturn('git');

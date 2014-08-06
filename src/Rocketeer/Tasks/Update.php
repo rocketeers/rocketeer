@@ -31,7 +31,7 @@ class Update extends Deploy
 	public function execute()
 	{
 		// Update repository
-		$this->updateRepository();
+		$this->strategy->update();
 
 		// Recreate symlinks if necessary
 		$this->syncSharedFolders();

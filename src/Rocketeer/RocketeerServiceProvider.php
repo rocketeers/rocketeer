@@ -18,6 +18,8 @@ use Illuminate\Remote\RemoteManager;
 use Illuminate\Support\ServiceProvider;
 use Monolog\Logger;
 use Rocketeer\Console\Commands\BaseTaskCommand;
+use Rocketeer\History\History;
+use Rocketeer\History\LogsHandler;
 
 // Define DS
 if (!defined('DS')) {
@@ -60,7 +62,7 @@ class RocketeerServiceProvider extends ServiceProvider
 
 		// Bind Rocketeer's classes
 		$this->bindClasses();
-		$this->bindScm();
+		$this->bindStrategies();
 
 		// Load the user's events and tasks
 		$this->loadFileOrFolder('tasks');
@@ -166,6 +168,10 @@ class RocketeerServiceProvider extends ServiceProvider
 			return new TasksHandler($app);
 		});
 
+		$this->app->singleton('rocketeer.history', function () {
+			return new History;
+		});
+
 		$this->app->singleton('rocketeer.logs', function ($app) {
 			return new LogsHandler($app);
 		});
@@ -181,14 +187,22 @@ class RocketeerServiceProvider extends ServiceProvider
 	/**
 	 * Bind the SCM instance
 	 */
-	public function bindScm()
+	public function bindStrategies()
 	{
-		// Currently only one
+		// Bind SCM class
 		$scm = $this->app['rocketeer.rocketeer']->getOption('scm.scm');
 		$scm = 'Rocketeer\Scm\\'.ucfirst($scm);
 
 		$this->app->bind('rocketeer.scm', function ($app) use ($scm) {
 			return new $scm($app);
+		});
+
+		// Bind strategy
+		$this->app->bind('rocketeer.strategy', function ($app) {
+			$strategy = $app['rocketeer.rocketeer']->getOption('remote.strategy');
+			$strategy = sprintf('Rocketeer\Strategies\%sStrategy', ucfirst($strategy));
+
+			return new $strategy($app);
 		});
 	}
 

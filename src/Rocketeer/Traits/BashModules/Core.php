@@ -11,6 +11,7 @@ namespace Rocketeer\Traits\BashModules;
 
 use Illuminate\Support\Str;
 use Rocketeer\Abstracts\AbstractLocatorClass;
+use Rocketeer\Traits\HasHistory;
 use Rocketeer\Traits\HasLocator;
 
 /**
@@ -21,27 +22,7 @@ use Rocketeer\Traits\HasLocator;
 trait Core
 {
 	use HasLocator;
-
-	/**
-	 * An history of executed commands
-	 *
-	 * @var array
-	 */
-	protected $history = array();
-
-	////////////////////////////////////////////////////////////////////
-	/////////////////////////////// HISTORY ////////////////////////////
-	////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Get the Task's history
-	 *
-	 * @return array
-	 */
-	public function getHistory()
-	{
-		return $this->history;
-	}
+	use HasHistory;
 
 	////////////////////////////////////////////////////////////////////
 	///////////////////////////// CORE METHODS /////////////////////////
@@ -84,7 +65,7 @@ trait Core
 
 		// Append output
 		if (!$silent) {
-			$this->history[] = $output;
+			$this->toHistory($output);
 		}
 
 		return $output;
@@ -231,8 +212,8 @@ trait Core
 	protected function addCommandsToHistory($commands)
 	{
 		$this->command->line(implode(PHP_EOL, $commands));
-		$commands        = (sizeof($commands) == 1) ? $commands[0] : $commands;
-		$this->history[] = $commands;
+		$commands = (sizeof($commands) == 1) ? $commands[0] : $commands;
+		$this->toHistory($commands);
 
 		return $commands;
 	}

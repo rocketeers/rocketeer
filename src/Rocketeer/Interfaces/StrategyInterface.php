@@ -16,5 +16,21 @@ namespace Rocketeer\Interfaces;
  */
 interface StrategyInterface
 {
+	/**
+	 * Deploy a new clean copy of the application
+	 *
+	 * @param string|null $destination
+	 *
+	 * @return boolean
+	 */
+	public function deploy($destination = null);
 
+	/**
+	 * Update the latest version of the application
+	 *
+	 * @param boolean $reset
+	 *
+	 * @return boolean
+	 */
+	public function update($reset = true);
 }

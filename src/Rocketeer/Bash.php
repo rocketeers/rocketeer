@@ -13,7 +13,6 @@ use Rocketeer\Traits\BashModules\Binaries;
 use Rocketeer\Traits\BashModules\Core;
 use Rocketeer\Traits\BashModules\Filesystem;
 use Rocketeer\Traits\BashModules\Flow;
-use Rocketeer\Traits\BashModules\Scm;
 
 /**
  * An helper to execute low-level commands on the remote server
@@ -26,5 +25,4 @@ class Bash
 	use Binaries;
 	use Filesystem;
 	use Flow;
-	use Scm;
 }

@@ -116,7 +116,7 @@ class DeployTest extends RocketeerTestCase
 		$deploy = $this->pretendTask('Deploy');
 		$deploy->runComposer(true);
 
-		$this->assertTaskHistory($deploy->getHistory(), $matcher, array(
+		$this->assertTaskHistory($deploy->history->getFlattened(), $matcher, array(
 			'tests'   => false,
 			'seed'    => false,
 			'migrate' => false
@@ -164,7 +164,7 @@ class DeployTest extends RocketeerTestCase
 	public function testCanRunDeployWithSeed()
 	{
 		$matcher = array(
-			'git clone --depth 1 -b master "" {server}/releases/{release}',
+			'git clone --depth 1 -b master "{repository}" {server}/releases/{release}',
 			array(
 				"cd {server}/releases/{release}",
 				"git submodule update --init --recursive"
