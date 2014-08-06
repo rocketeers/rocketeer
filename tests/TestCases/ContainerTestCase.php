@@ -104,10 +104,14 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 		};
 
 		$command = Mockery::mock('Command');
-		$command->shouldReceive('comment')->andReturnUsing($message);
-		$command->shouldReceive('error')->andReturnUsing($message);
-		$command->shouldReceive('line')->andReturnUsing($message);
-		$command->shouldReceive('info')->andReturnUsing($message);
+
+		// Bind the output expectations
+		$types = ['comment', 'error', 'line', 'info'];
+		foreach ($types as $type) {
+			if (!array_key_exists($type, $expectations)) {
+				$command->shouldReceive($type)->andReturnUsing($message);
+			}
+		}
 
 		// Merge defaults
 		$expectations = array_merge(array(
@@ -124,7 +128,8 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 			if ($key === 'option') {
 				$command->shouldReceive($key)->andReturn($value)->byDefault();
 			} else {
-				$command->shouldReceive($key)->andReturn($value);
+				$returnMethod = $value instanceof Closure ? 'andReturnUsing' : 'andReturn';
+				$command->shouldReceive($key)->$returnMethod($value);
 			}
 		}
 

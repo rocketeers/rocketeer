@@ -166,9 +166,9 @@ trait Core
 			return $output || true;
 		}
 
-		// Else
+		// Else display the error
+		$error = sprintf('An error occured: "%s", while running:'.PHP_EOL.'%s', $error, $output);
 		$this->command->error($error);
-		print $output.PHP_EOL;
 
 		return false;
 	}

@@ -14,12 +14,17 @@ class CoreTest extends RocketeerTestCase
 
 	public function testCanCheckStatusOfACommand()
 	{
-		$this->task->remote = clone $this->getRemote()->shouldReceive('status')->andReturn(1)->mock();
-		ob_start();
-		$status = $this->task->checkStatus(null, 'error');
-		$output = ob_get_clean();
+		$this->expectOutputString('An error occured: "Oh noes", while running:'.PHP_EOL.'git clone');
 
-		$this->assertEquals('error'.PHP_EOL, $output);
+		$this->task->remote = clone $this->getRemote()->shouldReceive('status')->andReturn(1)->mock();
+		$this->mockCommand([], array(
+			'error' => function($error) {
+				echo $error;
+			}
+		));
+
+		$status = $this->task->checkStatus('Oh noes', 'git clone');
+
 		$this->assertFalse($status);
 	}
 
