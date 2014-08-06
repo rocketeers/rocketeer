@@ -10,6 +10,7 @@
 namespace Rocketeer\Scm;
 
 use Rocketeer\Abstracts\Scm;
+use Rocketeer\Interfaces\ScmInterface;
 
 /**
  * The Svn implementation of the ScmInterface
