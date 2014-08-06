@@ -16,7 +16,7 @@ Code Coverage Report:
   Methods:  94.12% (16/17)   Lines:  97.14% ( 68/ 70)
 \Rocketeer::Rocketeer
   Methods:  96.00% (24/25)   Lines:  98.31% (116/118)
-\Rocketeer::Server
+\Rocketeer::LocalStorage
   Methods:  69.23% ( 9/13)   Lines:  86.49% ( 64/ 74)
 \Rocketeer::TasksHandler
   Methods:  81.82% ( 9/11)   Lines:  91.94% ( 57/ 62)

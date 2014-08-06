@@ -1,6 +1,7 @@
 <?php
 namespace Rocketeer;
 
+use Rocketeer\Services\Storages\LocalStorage;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class ServerTest extends RocketeerTestCase
@@ -14,7 +15,7 @@ class ServerTest extends RocketeerTestCase
 		$this->app['path.storage'] = null;
 		$this->app->offsetUnset('path.storage');
 
-		new Server($this->app);
+		new LocalStorage($this->app);
 
 		$storage = $this->rocketeer->getRocketeerConfigFolder();
 		$exists  = file_exists($storage);

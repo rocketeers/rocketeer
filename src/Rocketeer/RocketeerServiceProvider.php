@@ -22,6 +22,7 @@ use Rocketeer\Services\ConnectionsHandler;
 use Rocketeer\Services\History\History;
 use Rocketeer\Services\History\LogsHandler;
 use Rocketeer\Services\ReleasesManager;
+use Rocketeer\Services\Storages\LocalStorage;
 use Rocketeer\Services\TasksHandler;
 use Rocketeer\Services\TasksQueue;
 
@@ -157,7 +158,7 @@ class RocketeerServiceProvider extends ServiceProvider
 			$filename = $app['rocketeer.rocketeer']->getApplicationName();
 			$filename = $filename === '{application_name}' ? 'deployments' : $filename;
 
-			return new Server($app, $filename);
+			return new LocalStorage($app, $filename);
 		});
 
 		$this->app->bind('rocketeer.bash', function ($app) {

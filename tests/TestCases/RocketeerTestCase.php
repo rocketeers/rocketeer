@@ -3,7 +3,7 @@ namespace Rocketeer\TestCases;
 
 use Closure;
 use Mockery;
-use Rocketeer\Server;
+use Rocketeer\Services\Storages\LocalStorage;
 
 abstract class RocketeerTestCase extends ContainerTestCase
 {
@@ -41,10 +41,10 @@ abstract class RocketeerTestCase extends ContainerTestCase
 		$this->server          = __DIR__.'/../_server/foobar';
 		$this->deploymentsFile = __DIR__.'/../_meta/deployments.json';
 
-		// Bind new Server instance
+		// Bind new LocalStorage instance
 		$meta = dirname($this->deploymentsFile);
 		$this->app->bind('rocketeer.server', function ($app) use ($meta) {
-			return new Server($app, 'deployments', $meta);
+			return new LocalStorage($app, 'deployments', $meta);
 		});
 
 		// Bind dummy Task

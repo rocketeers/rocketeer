@@ -7,7 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Rocketeer;
+namespace Rocketeer\Services\Storages;
 
 use Exception;
 use Illuminate\Container\Container;
@@ -17,7 +17,7 @@ use Illuminate\Container\Container;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class Server
+class LocalStorage
 {
 	/**
 	 * The IoC Container

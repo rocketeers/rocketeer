@@ -151,7 +151,7 @@ abstract class AbstractDeployCommand extends Command
 	}
 
 	/**
-	 * Get the Server's credentials
+	 * Get the LocalStorage's credentials
 	 *
 	 * @return void
 	 */

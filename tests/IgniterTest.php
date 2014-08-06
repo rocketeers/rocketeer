@@ -87,7 +87,7 @@ class IgniterTest extends RocketeerTestCase
 
 	public function testCanSetCurrentApplication()
 	{
-		$this->mock('rocketeer.server', 'Server', function ($mock) {
+		$this->mock('rocketeer.server', 'LocalStorage', function ($mock) {
 			return $mock->shouldReceive('setRepository')->once()->with('foobar');
 		});
 

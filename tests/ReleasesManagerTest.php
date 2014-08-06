@@ -57,7 +57,7 @@ class ReleasesManagerTest extends RocketeerTestCase
 
 	public function testCanGetCurrentReleaseFromServerIfUncached()
 	{
-		$this->mock('rocketeer.server', 'Server', function ($mock) {
+		$this->mock('rocketeer.server', 'LocalStorage', function ($mock) {
 			return $mock
 				->shouldReceive('getValue')->with('current_release.production')->once()->andReturn(null)
 				->shouldReceive('setValue')->with('current_release.production', '20000000000000')->once()

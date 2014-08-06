@@ -24,6 +24,10 @@ use Illuminate\Container\Container;
 
 
 
+
+
+
+
 *
 *@property \Illuminate\Config\Repository           config
  * @property \Illuminate\Console\Command             command
@@ -34,7 +38,7 @@ use Illuminate\Container\Container;
  * @property \Rocketeer\Interfaces\StrategyInterface strategy
  * @property \Rocketeer\Services\ReleasesManager              releasesManager
  * @property \Rocketeer\Rocketeer                    rocketeer
- * @property \Rocketeer\Server                       server
+ * @property \Rocketeer\Services\Storages\LocalStorage                       server
  * @property \Rocketeer\Services\TasksHandler                 tasks
  * @property \Rocketeer\Services\TasksQueue                   queue
  * @property \Rocketeer\Services\History\History              history

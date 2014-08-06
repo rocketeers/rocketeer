@@ -37,7 +37,7 @@ class Deploy extends Task
 
 		// Setup if necessary
 		if (!$this->isSetup()) {
-			$this->command->error('Server is not ready, running Setup task');
+			$this->command->error('LocalStorage is not ready, running Setup task');
 			$this->executeTask('Setup');
 		}
 
