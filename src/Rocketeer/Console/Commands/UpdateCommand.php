@@ -7,54 +7,49 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Rocketeer\Commands;
+namespace Rocketeer\Console\Commands;
 
 use Symfony\Component\Console\Input\InputOption;
 
 /**
- * Runs the Deploy task and then cleans up deprecated releases
+ * Update the remote server without doing a new release
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class DeployCommand extends AbstractDeployCommand
+class UpdateCommand extends AbstractDeployCommand
 {
 	/**
 	 * The console command name.
 	 *
 	 * @var string
 	 */
-	protected $name = 'deploy:deploy';
+	protected $name = 'deploy:update';
 
 	/**
 	 * The console command description.
 	 *
 	 * @var string
 	 */
-	protected $description = 'Deploy the website.';
+	protected $description = 'Update the remote server without doing a new release.';
 
 	/**
 	 * Execute the tasks
 	 */
 	public function fire()
 	{
-		$this->fireTasksQueue(array(
-			'deploy',
-			'cleanup',
-		));
+		$this->fireTasksQueue('update');
 	}
 
 	/**
 	 * Get the console command options.
 	 *
-	 * @return array<string[]|array<string|null>>
+	 * @return string[][]
 	 */
 	protected function getOptions()
 	{
 		return array_merge(parent::getOptions(), array(
-			['tests', 't', InputOption::VALUE_NONE, 'Runs the tests on deploy'],
 			['migrate', 'm', InputOption::VALUE_NONE, 'Run the migrations'],
-			['seed', 's', InputOption::VALUE_NONE, 'Seed the database (after migrating it if --migrate)'],
-			['clean-all', null, InputOption::VALUE_NONE, 'Cleanup all but the current release on deploy'],
+			['seed', 's', InputOption::VALUE_NONE, 'Seed the database after migrating the database'],
 		));
 	}
 }

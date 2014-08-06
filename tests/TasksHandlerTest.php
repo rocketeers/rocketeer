@@ -9,7 +9,7 @@ class TasksHandlerTest extends RocketeerTestCase
 	public function testCanAddCommandsToArtisan()
 	{
 		$command = $this->tasksQueue()->add('Rocketeer\Tasks\Deploy');
-		$this->assertInstanceOf('Rocketeer\Commands\BaseTaskCommand', $command);
+		$this->assertInstanceOf('Rocketeer\Console\Commands\BaseTaskCommand', $command);
 		$this->assertInstanceOf('Rocketeer\Tasks\Deploy', $command->getTask());
 	}
 

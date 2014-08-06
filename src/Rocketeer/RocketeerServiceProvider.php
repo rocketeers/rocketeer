@@ -17,6 +17,7 @@ use Illuminate\Log\Writer;
 use Illuminate\Remote\RemoteManager;
 use Illuminate\Support\ServiceProvider;
 use Monolog\Logger;
+use Rocketeer\Console\Commands\BaseTaskCommand;
 
 // Define DS
 if (!defined('DS')) {
@@ -220,7 +221,7 @@ class RocketeerServiceProvider extends ServiceProvider
 		foreach ($tasks as $slug => $task) {
 
 			// Check if we have an actual command to use
-			$commandClass = 'Rocketeer\Commands\\'.$task.'Command';
+			$commandClass = 'Rocketeer\Console\Commands\\'.$task.'Command';
 			$fakeCommand  = !class_exists($commandClass);
 
 			// Build command slug
@@ -247,7 +248,7 @@ class RocketeerServiceProvider extends ServiceProvider
 				// Else create a fake one
 			} else {
 				$this->app->bind($command, function () use ($taskInstance, $slug) {
-					return new Commands\BaseTaskCommand($taskInstance, $slug);
+					return new BaseTaskCommand($taskInstance, $slug);
 				});
 			}
 		}
