@@ -168,10 +168,7 @@ class ReleasesManager
 	 */
 	public function getValidationFile()
 	{
-		// Get the contents of the validation file
-		$file = $this->rocketeer->getFolder('state.json');
-		$file = $this->bash->getFile($file) ?: '{}';
-		$file = (array) json_decode($file, true);
+		$file = $this->serverStorage->get('state');
 
 		// Fill the missing releases
 		$releases = (array) $this->getReleases();
@@ -195,8 +192,7 @@ class ReleasesManager
 	 */
 	public function saveValidationFile(array $validation)
 	{
-		$file = $this->rocketeer->getFolder('state.json');
-		$this->bash->putFile($file, json_encode($validation));
+		$this->serverStorage->set('state', $validation);
 
 		$this->state = $validation;
 	}
@@ -208,11 +204,10 @@ class ReleasesManager
 	 */
 	public function markReleaseAsValid($release = null)
 	{
-		$release              = $release ?: $this->getCurrentRelease();
-		$validation           = $this->getValidationFile();
-		$validation[$release] = true;
+		$release = $release ?: $this->getCurrentRelease();
 
-		$this->saveValidationFile($validation);
+		$this->state[$release] = true;
+		$this->serverStorage->set('state', $release, true);
 	}
 
 	/**

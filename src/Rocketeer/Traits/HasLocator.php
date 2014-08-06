@@ -15,19 +15,20 @@ use Illuminate\Container\Container;
  * An abstract for Service Locator-based classes with adds
  * a few shortcuts to Rocketeer classes
  *
- * @property \Illuminate\Config\Repository             config
- * @property \Illuminate\Console\Command               command
- * @property \Illuminate\Remote\Connection             remote
- * @property \Rocketeer\Bash                           bash
- * @property \Rocketeer\Interfaces\ScmInterface        scm
- * @property \Rocketeer\Interfaces\StrategyInterface   strategy
- * @property \Rocketeer\Rocketeer                      rocketeer
- * @property \Rocketeer\Services\ConnectionsHandler    connections
- * @property \Rocketeer\Services\History\History       history
- * @property \Rocketeer\Services\ReleasesManager       releasesManager
- * @property \Rocketeer\Services\Storages\LocalStorage localStorage
- * @property \Rocketeer\Services\TasksHandler          tasks
- * @property \Rocketeer\Services\TasksQueue            queue
+ * @property \Illuminate\Config\Repository              config
+ * @property \Illuminate\Console\Command                command
+ * @property \Illuminate\Remote\Connection              remote
+ * @property \Rocketeer\Bash                            bash
+ * @property \Rocketeer\Interfaces\ScmInterface         scm
+ * @property \Rocketeer\Interfaces\StrategyInterface    strategy
+ * @property \Rocketeer\Rocketeer                       rocketeer
+ * @property \Rocketeer\Services\ConnectionsHandler     connections
+ * @property \Rocketeer\Services\History\History        history
+ * @property \Rocketeer\Services\ReleasesManager        releasesManager
+ * @property \Rocketeer\Services\Storages\LocalStorage  localStorage
+ * @property \Rocketeer\Services\Storages\ServerStorage serverStorage
+ * @property \Rocketeer\Services\TasksHandler           tasks
+ * @property \Rocketeer\Services\TasksQueue             queue
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait HasLocator

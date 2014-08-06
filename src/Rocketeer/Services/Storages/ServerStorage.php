@@ -94,7 +94,7 @@ class ServerStorage
 	 */
 	protected function saveContents($file, $contents)
 	{
-		$file = $this->getFilepath($file.'.json');
+		$file = $this->getFilepath($file);
 		$this->bash->putFile($file, json_encode($contents));
 	}
 }
