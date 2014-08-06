@@ -43,7 +43,7 @@ abstract class RocketeerTestCase extends ContainerTestCase
 
 		// Bind new LocalStorage instance
 		$meta = dirname($this->deploymentsFile);
-		$this->app->bind('rocketeer.server', function ($app) use ($meta) {
+		$this->app->bind('rocketeer.storage.local', function ($app) use ($meta) {
 			return new LocalStorage($app, 'deployments', $meta);
 		});
 

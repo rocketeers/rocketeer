@@ -10,6 +10,7 @@
 namespace Rocketeer;
 
 use Illuminate\Container\Container;
+use Rocketeer\Traits\HasLocator;
 
 /**
  * Finds configurations and paths
@@ -18,22 +19,7 @@ use Illuminate\Container\Container;
  */
 class Igniter
 {
-	/**
-	 * The Container
-	 *
-	 * @var Container
-	 */
-	protected $app;
-
-	/**
-	 * Build a new Igniter
-	 *
-	 * @param Container $app
-	 */
-	public function __construct(Container $app)
-	{
-		$this->app = $app;
-	}
+	use HasLocator;
 
 	/**
 	 * Bind paths to the container
@@ -76,7 +62,7 @@ class Igniter
 		$destination = $this->getConfigurationPath();
 
 		// Unzip configuration files
-		$this->app['files']->copyDirectory($source, $destination);
+		$this->files->copyDirectory($source, $destination);
 
 		return $destination;
 	}
@@ -90,17 +76,17 @@ class Igniter
 	public function updateConfiguration($folder, array $values = array())
 	{
 		// Replace stub values in files
-		$files = $this->app['files']->files($folder);
+		$files = $this->files->files($folder);
 		foreach ($files as $file) {
 			foreach ($values as $name => $value) {
 				$contents = str_replace('{'.$name.'}', $value, file_get_contents($file));
-				$this->app['files']->put($file, $contents);
+				$this->files->put($file, $contents);
 			}
 		}
 
 		// Change repository in use
 		$application = array_get($values, 'application_name');
-		$this->app['rocketeer.server']->setRepository($application);
+		$this->localStorage->setRepository($application);
 	}
 
 	////////////////////////////////////////////////////////////////////

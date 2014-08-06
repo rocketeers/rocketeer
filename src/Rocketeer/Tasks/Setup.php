@@ -49,12 +49,12 @@ class Setup extends Task
 		$this->createStages();
 
 		// Set setup to true
-		$this->server->setValue('is_setup', true);
+		$this->localStorage->setValue('is_setup', true);
 
 		// Get server informations
 		$this->command->comment('Getting some informations about the server');
-		$this->server->getSeparator();
-		$this->server->getLineEndings();
+		$this->localStorage->getSeparator();
+		$this->localStorage->getLineEndings();
 
 		// Create confirmation message
 		$application = $this->rocketeer->getApplicationName();

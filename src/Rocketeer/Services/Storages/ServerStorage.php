@@ -24,12 +24,12 @@ class ServerStorage
 	/**
 	 * Get a value on the server
 	 *
-	 * @param string $file
-	 * @param string $key
+	 * @param string      $file
+	 * @param string|null $key
 	 *
 	 * @return mixed
 	 */
-	public function get($file, $key)
+	public function get($file, $key = null)
 	{
 		$contents = $this->getContents($file);
 

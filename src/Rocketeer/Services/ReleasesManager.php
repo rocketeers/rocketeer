@@ -271,7 +271,7 @@ class ReleasesManager
 	public function getCurrentRelease()
 	{
 		// If we have saved the last deployed release, return that
-		$cached = $this->server->getValue($this->getCurrentReleaseKey());
+		$cached = $this->localStorage->getValue($this->getCurrentReleaseKey());
 		if ($cached) {
 			return $this->sanitizeRelease($cached);
 		}
@@ -321,7 +321,7 @@ class ReleasesManager
 			$release = $this->bash->getTimestamp();
 		}
 
-		$this->server->setValue($this->getCurrentReleaseKey(), $release);
+		$this->localStorage->setValue($this->getCurrentReleaseKey(), $release);
 
 		return $release;
 	}

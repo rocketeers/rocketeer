@@ -166,7 +166,7 @@ trait Binaries
 	 */
 	public function runComposer($force = false)
 	{
-		if (!$this->server->usesComposer() and !$force) {
+		if (!$this->localStorage->usesComposer() and !$force) {
 			return true;
 		}
 
@@ -211,7 +211,7 @@ trait Binaries
 	{
 		$location  = false;
 		$locations = array(
-			array($this->server, 'getValue', 'paths.'.$binary),
+			array($this->localStorage, 'getValue', 'paths.'.$binary),
 			array($this->rocketeer, 'getPath', $binary),
 			array($this, 'runSilently', 'which '.$binary),
 		);
@@ -237,7 +237,7 @@ trait Binaries
 		}
 
 		// Store found location
-		$this->server->setValue('paths.'.$binary, $location);
+		$this->localStorage->setValue('paths.'.$binary, $location);
 
 		return $location ?: false;
 	}

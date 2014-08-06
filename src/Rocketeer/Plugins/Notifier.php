@@ -59,10 +59,10 @@ abstract class Notifier extends Plugin
 	protected function getComponents()
 	{
 		// Get user name
-		$user = $this->server->getValue('notifier.name');
+		$user = $this->localStorage->getValue('notifier.name');
 		if (!$user) {
 			$user = $this->command->ask('Who is deploying ?');
-			$this->server->setValue('notifier.name', $user);
+			$this->localStorage->setValue('notifier.name', $user);
 		}
 
 		// Get what was deployed

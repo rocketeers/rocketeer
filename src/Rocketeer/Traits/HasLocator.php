@@ -25,7 +25,7 @@ use Illuminate\Container\Container;
  * @property \Rocketeer\Services\ConnectionsHandler    connections
  * @property \Rocketeer\Services\History\History       history
  * @property \Rocketeer\Services\ReleasesManager       releasesManager
- * @property \Rocketeer\Services\Storages\LocalStorage server
+ * @property \Rocketeer\Services\Storages\LocalStorage localStorage
  * @property \Rocketeer\Services\TasksHandler          tasks
  * @property \Rocketeer\Services\TasksQueue            queue
  * @author Maxime Fabre <ehtnam6@gmail.com>
@@ -69,7 +69,8 @@ trait HasLocator
 			'releasesManager' => 'rocketeer.releases',
 			'rocketeer'       => 'rocketeer.rocketeer',
 			'scm'             => 'rocketeer.scm',
-			'server'          => 'rocketeer.server',
+			'localStorage'    => 'rocketeer.storage.local',
+			'serverStorage'   => 'rocketeer.storage.server',
 			'strategy'        => 'rocketeer.strategy',
 			'tasks'           => 'rocketeer.tasks',
 		);

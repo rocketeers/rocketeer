@@ -121,7 +121,7 @@ class Check extends Task
 	 */
 	public function checkComposer()
 	{
-		if (!$this->server->usesComposer()) {
+		if (!$this->localStorage->usesComposer()) {
 			return true;
 		}
 

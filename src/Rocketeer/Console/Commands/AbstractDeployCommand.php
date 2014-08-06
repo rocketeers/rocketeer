@@ -144,7 +144,7 @@ abstract class AbstractDeployCommand extends Command
 
 		// Save them
 		$credentials = compact($credentials);
-		$this->laravel['rocketeer.server']->setValue('credentials', $credentials);
+		$this->laravel['rocketeer.storage.local']->setValue('credentials', $credentials);
 		foreach ($credentials as $key => $credential) {
 			$this->laravel['config']->set('rocketeer::scm.'.$key, $credential);
 		}

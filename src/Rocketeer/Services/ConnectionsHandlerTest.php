@@ -12,7 +12,7 @@ class ConnectionsHandlerTest extends RocketeerTestCase
 		$connections = $this->connections->getAvailableConnections();
 		$this->assertEquals(array('production', 'staging'), array_keys($connections));
 
-		$this->app['rocketeer.server']->setValue('connections.custom.username', 'foobar');
+		$this->app['rocketeer.storage.local']->setValue('connections.custom.username', 'foobar');
 		$connections = $this->connections->getAvailableConnections();
 		$this->assertEquals(array('production', 'staging', 'custom'), array_keys($connections));
 	}
@@ -99,7 +99,7 @@ class ConnectionsHandlerTest extends RocketeerTestCase
 		$connections = $this->connections->getAvailableConnections();
 		$this->assertArrayHasKey('production', $connections);
 
-		$this->app['rocketeer.server']->setValue('connections', array(
+		$this->app['rocketeer.storage.local']->setValue('connections', array(
 			'staging' => array(
 				'host'      => 'foobar',
 				'username'  => 'user',

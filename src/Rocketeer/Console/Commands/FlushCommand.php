@@ -35,7 +35,7 @@ class FlushCommand extends AbstractDeployCommand
 	 */
 	public function fire()
 	{
-		$this->laravel['rocketeer.server']->deleteRepository();
+		$this->laravel['rocketeer.storage.local']->deleteRepository();
 		$this->info("Rocketeer's cache has been properly flushed");
 	}
 }

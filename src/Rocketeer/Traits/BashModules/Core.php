@@ -217,7 +217,7 @@ trait Core
 	public function processCommands($commands)
 	{
 		$stage     = $this->connections->getStage();
-		$separator = $this->server->getSeparator();
+		$separator = $this->localStorage->getSeparator();
 
 		// Cast commands to array
 		if (!is_array($commands)) {
@@ -257,7 +257,7 @@ trait Core
 
 		// Explode output if necessary
 		if ($array) {
-			$output = explode($this->server->getLineEndings(), $output);
+			$output = explode($this->localStorage->getLineEndings(), $output);
 		}
 
 		// Trim output
