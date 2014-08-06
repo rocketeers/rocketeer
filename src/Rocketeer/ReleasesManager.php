@@ -33,7 +33,7 @@ class ReleasesManager
 	 *
 	 * @type array
 	 */
-	public $releases = array();
+	public $releases;
 
 	/**
 	 * Build a new ReleasesManager
@@ -58,12 +58,16 @@ class ReleasesManager
 	public function getReleases()
 	{
 		// Get releases on server
-		if (!$this->releases) {
+		if (is_null($this->releases)) {
 			$releases = $this->getReleasesPath();
-			$releases = $this->bash->listContents($releases);
-			if (is_array($releases)) {
-				rsort($releases);
-			}
+			$releases = (array) $this->bash->listContents($releases);
+
+			// Filter and sort releases
+			$releases = array_filter($releases, function ($release) {
+				return preg_match('#[0-9]{14}#', $release);
+			});
+
+			rsort($releases);
 
 			$this->releases = $releases;
 		}
@@ -293,6 +297,7 @@ class ReleasesManager
 
 		// Get the one before that, or default to current
 		$key  = array_search($current, $releases);
+		$key = !is_int($key) ? -1 : $key;
 		$next = 1;
 		do {
 			$release = array_get($releases, $key + $next);

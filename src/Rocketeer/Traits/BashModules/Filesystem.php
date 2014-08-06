@@ -67,7 +67,7 @@ trait Filesystem
 	 */
 	public function copy($origin, $destination)
 	{
-		return $this->fromTo('cp', $origin, $destination);
+		return $this->fromTo('cp -r', $origin, $destination);
 	}
 
 	/**

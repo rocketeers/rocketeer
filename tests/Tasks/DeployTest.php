@@ -134,8 +134,12 @@ class DeployTest extends RocketeerTestCase
 			)
 		));
 
+		$this->mockState(array(
+			'10000000000000' => true,
+		));
+
 		$matcher = array(
-			'cp {server}/releases/10000000000000 {server}/releases/{release}',
+			'cp -r {server}/releases/10000000000000 {server}/releases/{release}',
 			array(
 				'cd {server}/releases/{release}',
 				'git reset --hard',

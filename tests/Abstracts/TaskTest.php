@@ -7,9 +7,8 @@ class TaskTest extends RocketeerTestCase
 {
 	public function testCanDisplayOutputOfCommandsIfVerbose()
 	{
-		$task = $this->pretendTask('Check', array(
+		$task = $this->task('Check', array(
 			'verbose' => true,
-			'pretend' => false
 		));
 
 		ob_start();

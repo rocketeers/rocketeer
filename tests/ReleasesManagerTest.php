@@ -107,12 +107,35 @@ class ReleasesManagerTest extends RocketeerTestCase
 
 	public function testReturnsCurrentReleaseIfNoPreviousValidRelease()
 	{
-		file_put_contents($this->server.'/state.json', json_encode(array(
+		$this->mockState(array(
 			'10000000000000' => false,
 			'15000000000000' => false,
 			'20000000000000' => true,
-		)));
+		));
 
+		$currentRelease = $this->app['rocketeer.releases']->getPreviousRelease();
+
+		$this->assertEquals(20000000000000, $currentRelease);
+	}
+
+	public function testReturnsCurrentReleaseIfOnlyRelease()
+	{
+		$this->mockState(array(
+			'20000000000000' => true,
+		));
+
+		$currentRelease = $this->app['rocketeer.releases']->getPreviousRelease();
+
+		$this->assertEquals(20000000000000, $currentRelease);
+	}
+
+	public function testReturnsCorrectPreviousReleaseIfUpdatedBeforehand()
+	{
+		$this->mockState(array(
+			'20000000000000' => true,
+		));
+
+		$this->app['rocketeer.releases']->updateCurrentRelease();
 		$currentRelease = $this->app['rocketeer.releases']->getPreviousRelease();
 
 		$this->assertEquals(20000000000000, $currentRelease);
@@ -137,12 +160,39 @@ class ReleasesManagerTest extends RocketeerTestCase
 		$this->mock('rocketeer.bash', 'Rocketeer\Bash', function ($mock) {
 			return $mock
 				->shouldReceive('getFile')->times(1)
-				->shouldReceive('listContents')->once()->with($this->server.'/releases')->andReturn([1, 2, 3]);
+				->shouldReceive('listContents')->once()->with($this->server.'/releases')->andReturn([20000000000000]);
 		});
 
 		$this->app['rocketeer.releases']->getNonCurrentReleases();
 		$this->app['rocketeer.releases']->getNonCurrentReleases();
 		$this->app['rocketeer.releases']->getNonCurrentReleases();
 		$this->app['rocketeer.releases']->getNonCurrentReleases();
+	}
+
+	public function testDoesntPingForReleasesIfNoReleases()
+	{
+		$this->mock('rocketeer.bash', 'Rocketeer\Bash', function ($mock) {
+			return $mock
+				->shouldReceive('getFile')->times(1)
+				->shouldReceive('listContents')->once()->with($this->server.'/releases')->andReturn([]);
+		});
+
+		$this->app['rocketeer.releases']->getNonCurrentReleases();
+		$this->app['rocketeer.releases']->getNonCurrentReleases();
+		$this->app['rocketeer.releases']->getNonCurrentReleases();
+		$this->app['rocketeer.releases']->getNonCurrentReleases();
+	}
+
+	public function testIgnoresErrorsAndStuffWhenFetchingReleases()
+	{
+		$this->mock('rocketeer.bash', 'Rocketeer\Bash', function ($mock) {
+			return $mock
+				->shouldReceive('getFile')->times(1)
+				->shouldReceive('listContents')->times(1)->with($this->server.'/releases')->andReturn(['IMPOSSIBLE BECAUSE NOPE FUCK YOU']);
+		});
+
+		$releases = $this->app['rocketeer.releases']->getReleases();
+
+		$this->assertEmpty($releases);
 	}
 }

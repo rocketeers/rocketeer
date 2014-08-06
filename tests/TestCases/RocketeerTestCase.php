@@ -114,7 +114,11 @@ abstract class RocketeerTestCase extends ContainerTestCase
 	 */
 	protected function assertTaskOutput($task, $output, $command = null)
 	{
-		return $this->assertContains($output, $this->task($task, $command)->execute());
+		if ($command) {
+			$this->app['rocketeer.command'] = $command;
+		}
+
+		return $this->assertContains($output, $this->task($task)->execute());
 	}
 
 	/**
@@ -147,7 +151,13 @@ abstract class RocketeerTestCase extends ContainerTestCase
 		return $results;
 	}
 
-	public function assertHistory($expected, $obtained)
+	/**
+	 * Assert an history matches another
+	 *
+	 * @param array $expected
+	 * @param array $obtained
+	 */
+	public function assertHistory(array $expected, array $obtained)
 	{
 		// Look for release in history
 		$release = implode(array_flatten($obtained));
@@ -167,7 +177,8 @@ abstract class RocketeerTestCase extends ContainerTestCase
 	/**
 	 * Replace placeholders in an history
 	 *
-	 * @param array $history
+	 * @param array        $history
+	 * @param integer|null $release
 	 *
 	 * @return array
 	 */
@@ -210,6 +221,34 @@ abstract class RocketeerTestCase extends ContainerTestCase
 		return $this->mock('rocketeer.releases', 'ReleasesManager', $expectations);
 	}
 
+	/**
+	 * Mock a Command
+	 *
+	 * @param array $options
+	 * @param array $expectations
+	 */
+	protected function mockCommand($options = array(), $expectations = array())
+	{
+		// Default options
+		$options = array_merge(array(
+			'pretend' => false,
+			'verbose' => false,
+			'tests'   => false,
+			'migrate' => false,
+			'seed'    => false,
+		), $options);
+
+		$this->app['rocketeer.command'] = $this->getCommand($expectations, $options);
+	}
+
+	/**
+	 * @param array $state
+	 */
+	protected function mockState(array $state)
+	{
+		file_put_contents($this->server.'/state.json', json_encode($state));
+	}
+
 	////////////////////////////////////////////////////////////////////
 	/////////////////////////////// HELPERS ////////////////////////////
 	////////////////////////////////////////////////////////////////////
@@ -230,6 +269,19 @@ abstract class RocketeerTestCase extends ContainerTestCase
 	}
 
 	/**
+	 * Set Rocketeer in pretend mode
+	 *
+	 * @param array $options
+	 * @param array $expectations
+	 */
+	protected function pretend($options = array(), $expectations = array())
+	{
+		$options['pretend'] = true;
+
+		$this->mockCommand($options, $expectations);
+	}
+
+	/**
 	 * Get a pretend Task to run bogus commands
 	 *
 	 * @param string $task
@@ -240,30 +292,23 @@ abstract class RocketeerTestCase extends ContainerTestCase
 	 */
 	protected function pretendTask($task = 'Deploy', $options = array(), array $expectations = array())
 	{
-		// Default options
-		$options = array_merge(array(
-			'pretend' => true,
-			'verbose' => false,
-			'tests'   => false,
-			'migrate' => false,
-			'seed'    => false,
-		), $options);
+		$this->pretend($options, $expectations);
 
-		return $this->task($task, $this->getCommand($expectations, $options));
+		return $this->task($task);
 	}
 
 	/**
 	 * Get Task instance
 	 *
 	 * @param string $task
-	 * @param null   $command
+	 * @param array  $options
 	 *
 	 * @return \Rocketeer\Abstracts\Task
 	 */
-	protected function task($task = null, $command = null)
+	protected function task($task = null, $options = array())
 	{
-		if ($command) {
-			$this->app['rocketeer.command'] = $command;
+		if ($options) {
+			$this->mockCommand($options);
 		}
 
 		if (!$task) {
