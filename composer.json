@@ -31,7 +31,8 @@
 		"nesbot/carbon": "~1.4",
 		"patchwork/utf8": "~1.1.18",
 		"herrera-io/box": "~1.5.3",
-		"phpseclib/phpseclib": "~0.3.5"
+		"phpseclib/phpseclib": "~0.3.5",
+		"raveren/kint": "dev-master"
 	},
 	"suggest": {
 		"anahkiasen/rocketeer-campfire": "Campfire plugin to create deployments notifications",

@@ -34,6 +34,29 @@
 			'keyphrase' => '{keyphrase}',
 			'agent'     => '{agent}',
 		),
+
+		// You can also deploy to multiple servers as part
+		// of one connection
+		'multiservers' => array(
+			'servers' => array(
+				'first' => array(
+					'host'      => '{host}',
+					'username'  => '{username}',
+					'password'  => '{password}',
+					'key'       => '{key}',
+					'keyphrase' => '{keyphrase}',
+					'agent'     => '{agent}',
+				),
+				'second' => array(
+					'host'      => '{host}',
+					'username'  => '{username}',
+					'password'  => '{password}',
+					'key'       => '{key}',
+					'keyphrase' => '{keyphrase}',
+					'agent'     => '{agent}',
+				),
+			),
+		)
 	),
 
 	// Contextual options

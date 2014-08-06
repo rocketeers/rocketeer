@@ -71,7 +71,7 @@ abstract class Notifier extends Plugin
 		$connection = $this->connections->getConnection();
 
 		// Get hostname
-		$credentials = $this->connections->getAvailableConnections($connection);
+		$credentials = $this->connections->getConnectionCredentials($connection);
 		$host        = array_get($credentials, 'host');
 		if ($stage) {
 			$connection = $stage.'@'.$connection;

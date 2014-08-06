@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "3d39384fcd43b395809b09d575026048",
+    "hash": "58b19259896590daf4a76f42413947d8",
     "packages": [
         {
             "name": "illuminate/config",
@@ -1417,6 +1417,52 @@
             "time": "2014-06-12 07:22:15"
         },
         {
+            "name": "raveren/kint",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/raveren/kint.git",
+                "reference": "cd801406b28cfa74d257bbd4f9e9fdddf59390c5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/raveren/kint/zipball/cd801406b28cfa74d257bbd4f9e9fdddf59390c5",
+                "reference": "cd801406b28cfa74d257bbd4f9e9fdddf59390c5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "Kint.class.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Rokas Šleinius",
+                    "homepage": "https://github.com/raveren"
+                },
+                {
+                    "name": "Contributors",
+                    "homepage": "https://github.com/raveren/kint/contributors"
+                }
+            ],
+            "description": "Kint - debugging helper for PHP developers",
+            "homepage": "https://github.com/raveren/kint",
+            "keywords": [
+                "debug",
+                "kint",
+                "php"
+            ],
+            "time": "2014-08-04 19:57:55"
+        },
+        {
             "name": "sebastian/comparator",
             "version": "1.0.0",
             "source": {
@@ -1737,7 +1783,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "kzykhys/parallel": 20
+        "kzykhys/parallel": 20,
+        "raveren/kint": 20
     },
     "prefer-stable": false,
     "platform": {

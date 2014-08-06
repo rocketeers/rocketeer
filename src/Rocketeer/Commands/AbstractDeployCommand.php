@@ -35,10 +35,15 @@ abstract class AbstractDeployCommand extends Command
 	protected function getOptions()
 	{
 		return array(
-			['parallel','P', InputOption::VALUE_NONE,     'Run the tasks asynchronously instead of sequentially'],
-			['pretend', 'p', InputOption::VALUE_NONE,     'Returns an array of commands to be executed instead of actually executing them'],
-			['on',      'C', InputOption::VALUE_REQUIRED, 'The connection(s) to execute the Task in'],
-			['stage',   'S', InputOption::VALUE_REQUIRED, 'The stage to execute the Task in']
+			['parallel', 'P', InputOption::VALUE_NONE, 'Run the tasks asynchronously instead of sequentially'],
+			[
+				'pretend',
+				'p',
+				InputOption::VALUE_NONE,
+				'Returns an array of commands to be executed instead of actually executing them'
+			],
+			['on', 'C', InputOption::VALUE_REQUIRED, 'The connection(s) to execute the Task in'],
+			['stage', 'S', InputOption::VALUE_REQUIRED, 'The stage to execute the Task in']
 		);
 	}
 
@@ -151,12 +156,16 @@ abstract class AbstractDeployCommand extends Command
 		$availableConnections = $this->laravel['rocketeer.connections']->getAvailableConnections();
 		$activeConnections    = $this->laravel['rocketeer.connections']->getConnections();
 
-		if (count($activeConnections) <= 0) {
+		if (sizeof($activeConnections) <= 0) {
 			$connectionName = $this->ask('No connections have been set, please create one : (production)', 'production');
 			$this->storeServerCredentials($availableConnections, $connectionName);
 		} else {
 			foreach ($activeConnections as $connectionName) {
-				$this->storeServerCredentials($availableConnections, $connectionName);
+				$servers = array_get($availableConnections, $connectionName.'.servers');
+				$servers = array_keys($servers);
+				foreach ($servers as $server) {
+					$this->storeServerCredentials($availableConnections, $connectionName, $server);
+				}
 			}
 		}
 	}
@@ -164,13 +173,16 @@ abstract class AbstractDeployCommand extends Command
 	/**
 	 * Verifies and stores credentials for the given connection name
 	 *
-	 * @param array  $connections
-	 * @param string $connectionName
+	 * @param array        $connections
+	 * @param string       $connectionName
+	 * @param integer|null $server
 	 */
-	protected function storeServerCredentials($connections, $connectionName)
+	protected function storeServerCredentials($connections, $connectionName, $server = null)
 	{
 		// Check for server credentials
-		$connection  = array_get($connections, $connectionName, array());
+		$connection = $connectionName.'.servers';
+		$connection = !is_null($server) ? $connection.'.'.$server : $connection;
+		$connection  = array_get($connections, $connection, array());
 		$credentials = array(
 			'host'      => true,
 			'username'  => true,
@@ -179,6 +191,9 @@ abstract class AbstractDeployCommand extends Command
 			'key'       => false,
 			'agent'     => false
 		);
+
+		// Update connection name
+		$connectionName = !is_null($server) ? $connectionName.'#'.$server : $connectionName;
 
 		// Gather credentials
 		foreach ($credentials as $credential => $required) {

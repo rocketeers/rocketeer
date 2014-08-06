@@ -101,11 +101,9 @@ class ConnectionsHandler
 	/**
 	 * Get the available connections
 	 *
-	 * @param string|null $connection A connection to fetch from the resulting array
-	 *
 	 * @return string[][]|string[]
 	 */
-	public function getAvailableConnections($connection = null)
+	public function getAvailableConnections()
 	{
 		// Fetch stored credentials
 		$storage = (array) $this->server->getValue('connections');
@@ -117,9 +115,15 @@ class ConnectionsHandler
 		$remote = (array) $this->config->get('remote.connections');
 
 		// Merge configurations
-		$storage = array_replace_recursive($remote, $configuration, $storage);
+		$connections = array_replace_recursive($remote, $configuration, $storage);
 
-		return $connection ? array_get($storage, $connection) : $storage;
+		// Unify multiservers
+		foreach ($connections as $key => $servers) {
+			$servers           = array_get($servers, 'servers', [$servers]);
+			$connections[$key] = ['servers' => array_values($servers)];
+		}
+
+		return $connections;
 	}
 
 	/**
@@ -133,7 +137,7 @@ class ConnectionsHandler
 	{
 		$available = (array) $this->getAvailableConnections();
 
-		return array_key_exists($connection, $available);
+		return (bool) array_get($available, $connection.'.servers');
 	}
 
 	/**
@@ -197,8 +201,24 @@ class ConnectionsHandler
 	public function getConnectionCredentials($connection = null)
 	{
 		$connection = $connection ?: $this->getConnection();
+		$available  = $this->getAvailableConnections();
 
-		return $this->getAvailableConnections($connection);
+		return array_get($available, $connection.'.servers');
+	}
+
+	/**
+	 * Get thecredentials for as server
+	 *
+	 * @param string|null $connection
+	 * @param int         $server
+	 *
+	 * @return mixed
+	 */
+	public function getServerCredentials($connection = null, $server = 0)
+	{
+		$connection = $this->getConnectionCredentials($connection);
+
+		return array_get($connection, $server);
 	}
 
 	/**
@@ -239,16 +259,21 @@ class ConnectionsHandler
 	 * Set the current connection
 	 *
 	 * @param string $connection
+	 * @param int    $server
 	 */
-	public function setConnection($connection)
+	public function setConnection($connection, $server = 0)
 	{
 		if (!$this->isValidConnection($connection)) {
 			return;
 		}
 
+		// Fetch the credentials
+		$credentials = $this->getServerCredentials($connection, $server);
+
 		// Set the connection
 		$this->connection = $connection;
-		$this->config->set('remote.default', $connection);
+		$this->config->set('remote.default', 'current');
+		$this->config->set('remote.connections.current', $credentials);
 
 		// Update events
 		$this->tasks->registerConfiguredEvents();

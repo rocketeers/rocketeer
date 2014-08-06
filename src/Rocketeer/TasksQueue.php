@@ -162,32 +162,36 @@ class TasksQueue
 		// Get the connections to execute the tasks on
 		$connections = (array) $this->connections->getConnections();
 		foreach ($connections as $connection) {
-			// Sanitize stage
-			$stage  = $this->getStage();
-			$stages = $this->connections->getStages();
-			if ($stage and in_array($stage, $stages)) {
-				$stages = array($stage);
-			}
+			$servers = $this->connections->getConnectionCredentials($connection);
+			foreach ($servers as $server => $credentials) {
+				// Sanitize stage
+				$stage  = $this->getStage();
+				$stages = $this->connections->getStages();
+				if ($stage and in_array($stage, $stages)) {
+					$stages = array($stage);
+				}
 
-			// Default to no stages
-			if (empty($stages)) {
-				$stages = [null];
-			}
+				// Default to no stages
+				if (empty($stages)) {
+					$stages = [null];
+				}
 
-			// Add job to pipeline
-			foreach ($stages as $stage) {
-				$pipeline[] = array(
-					'connection' => $connection,
-					'stage'      => $stage,
-					'queue'      => $queue,
-				);
+				// Add job to pipeline
+				foreach ($stages as $stage) {
+					$pipeline[] = array(
+						'connection' => $connection,
+						'server'     => $server,
+						'stage'      => $stage,
+						'queue'      => $queue,
+					);
+				}
 			}
 		}
 
 		// Build pipeline
 		foreach ($pipeline as $key => $job) {
 			$pipeline[$key] = function () use ($job) {
-				$this->connections->setConnection($job['connection']);
+				$this->connections->setConnection($job['connection'], $job['server']);
 				$this->runQueue($job['queue'], $job['stage']);
 			};
 		}

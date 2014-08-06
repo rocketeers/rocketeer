@@ -10,7 +10,7 @@ $vendors = array(
 // one available
 foreach ($vendors as $vendor) {
 	if (file_exists($vendor)) {
-		require $vendor;
+		require_once $vendor;
 	}
 }
 
