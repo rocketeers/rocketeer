@@ -7,15 +7,16 @@ use Illuminate\Filesystem\Filesystem;
 use Mockery;
 use PHPUnit_Framework_TestCase;
 use Rocketeer\RocketeerServiceProvider;
+use Rocketeer\Traits\HasLocator;
 
 abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 {
-	/**
-	 * The IoC Container
-	 *
-	 * @var Container
-	 */
-	protected $app;
+	use HasLocator;
+
+	public function __construct()
+	{
+		parent::__construct();
+	}
 
 	/**
 	 * The test repository
@@ -240,7 +241,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 	 */
 	protected function swapConfig($config)
 	{
-		$this->app['rocketeer.connections']->disconnect();
+		$this->connections->disconnect();
 		$this->app['config'] = $this->getConfig($config);
 	}
 

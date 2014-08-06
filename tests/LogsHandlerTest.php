@@ -19,19 +19,19 @@ class LogsHandlerTest extends RocketeerTestCase
 
 	public function testCanGetCurrentLogsFile()
 	{
-		$logs = $this->app['rocketeer.logs']->getCurrentLogsFile();
+		$logs = $this->logs->getCurrentLogsFile();
 		$this->assertEquals($this->server.'/logs/production-.log', $logs);
 
-		$this->app['rocketeer.connections']->setConnection('staging');
-		$this->app['rocketeer.connections']->setStage('foobar');
-		$logs = $this->app['rocketeer.logs']->getCurrentLogsFile();
+		$this->connections->setConnection('staging');
+		$this->connections->setStage('foobar');
+		$logs = $this->logs->getCurrentLogsFile();
 		$this->assertEquals($this->server.'/logs/staging-foobar.log', $logs);
 	}
 
 	public function testCanLogInformations()
 	{
-		$this->app['rocketeer.logs']->log('foobar', 'error');
-		$logs = $this->app['rocketeer.logs']->getCurrentLogsFile();
+		$this->logs->log('foobar', 'error');
+		$logs = $this->logs->getCurrentLogsFile();
 		$logs = file_get_contents($logs);
 
 		$this->assertContains('rocketeer.ERROR: foobar [] []', $logs);
@@ -39,8 +39,8 @@ class LogsHandlerTest extends RocketeerTestCase
 
 	public function testCanLogViaMagicMethods()
 	{
-		$this->app['rocketeer.logs']->error('foobar');
-		$logs = $this->app['rocketeer.logs']->getCurrentLogsFile();
+		$this->logs->error('foobar');
+		$logs = $this->logs->getCurrentLogsFile();
 		$logs = file_get_contents($logs);
 
 		$this->assertContains('rocketeer.ERROR: foobar [] []', $logs);
@@ -49,8 +49,8 @@ class LogsHandlerTest extends RocketeerTestCase
 	public function testCanCreateLogsFolderIfItDoesntExistAlready()
 	{
 		$this->app['path.rocketeer.logs'] = $this->server.'/newlogs';
-		$this->app['rocketeer.logs']->error('foobar');
-		$logs = $this->app['rocketeer.logs']->getCurrentLogsFile();
+		$this->logs->error('foobar');
+		$logs = $this->logs->getCurrentLogsFile();
 
 		$this->assertFileExists($logs);
 		$this->app['files']->deleteDirectory(dirname($logs));

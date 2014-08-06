@@ -9,6 +9,6 @@ class RollbackTest extends RocketeerTestCase
 	{
 		$this->task('Rollback')->execute();
 
-		$this->assertEquals(10000000000000, $this->app['rocketeer.releases']->getCurrentRelease());
+		$this->assertEquals(10000000000000, $this->releasesManager->getCurrentRelease());
 	}
 }

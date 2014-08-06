@@ -12,7 +12,7 @@ class MetaTest extends RocketeerTestCase
 			return new MyCustomTask($app);
 		});
 
-		$queue = $this->app['rocketeer.tasks']->on('production', array('cleanup'), $this->getCommand());
+		$queue = $this->tasks->on('production', array('cleanup'), $this->getCommand());
 		$this->assertEquals(array('foobar'), $queue);
 	}
 }

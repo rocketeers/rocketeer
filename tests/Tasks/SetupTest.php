@@ -58,8 +58,8 @@ class SetupTest extends RocketeerTestCase
 			'rocketeer::stages.stages' => array('staging', 'production'),
 		));
 
-		$this->app['rocketeer.connections']->setStage('staging');
-		$this->assertEquals('staging', $this->app['rocketeer.connections']->getStage());
+		$this->connections->setStage('staging');
+		$this->assertEquals('staging', $this->connections->getStage());
 		$this->assertTaskHistory('Setup', array(
 			'git --version',
 			'/usr/local/bin/php -m',
@@ -73,6 +73,6 @@ class SetupTest extends RocketeerTestCase
 		), array(
 			'stage' => 'staging',
 		));
-		$this->assertEquals('staging', $this->app['rocketeer.connections']->getStage());
+		$this->assertEquals('staging', $this->connections->getStage());
 	}
 }

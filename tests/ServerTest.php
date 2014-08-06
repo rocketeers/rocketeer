@@ -16,7 +16,7 @@ class ServerTest extends RocketeerTestCase
 
 		new Server($this->app);
 
-		$storage = $this->app['rocketeer.rocketeer']->getRocketeerConfigFolder();
+		$storage = $this->rocketeer->getRocketeerConfigFolder();
 		$exists  = file_exists($storage);
 		$this->app['files']->deleteDirectory($storage);
 		$this->assertTrue($exists);

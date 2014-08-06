@@ -20,7 +20,7 @@ class CopyStrategyTest extends RocketeerTestCase
 
 	public function testCanCopyPreviousRelease()
 	{
-		$this->app['rocketeer.strategy']->deploy();
+		$this->strategy->deploy();
 
 		$matcher = array(
 			'cp -r {server}/releases/10000000000000 {server}/releases/20000000000000',
@@ -31,7 +31,7 @@ class CopyStrategyTest extends RocketeerTestCase
 			),
 		);
 
-		$this->assertHistory($matcher, $this->app['rocketeer.history']->getFlattened());
+		$this->assertHistory($matcher, $this->history->getFlattened());
 	}
 
 	public function testClonesIfNoPreviousRelease()
@@ -41,7 +41,7 @@ class CopyStrategyTest extends RocketeerTestCase
 			            ->shouldReceive('getCurrentReleasePath')->andReturn($this->server.'/releases/10000000000000');
 		});
 
-		$this->app['rocketeer.strategy']->deploy();
+		$this->strategy->deploy();
 
 		$matcher = array(
 			'git clone --depth 1 -b master "{repository}" {server}/releases/{release}',
@@ -51,7 +51,7 @@ class CopyStrategyTest extends RocketeerTestCase
 			),
 		);
 
-		$this->assertHistory($matcher, $this->app['rocketeer.history']->getFlattened());
+		$this->assertHistory($matcher, $this->history->getFlattened());
 	}
 
 	public function testCanCloneIfPreviousReleaseIsInvalid()
@@ -63,7 +63,7 @@ class CopyStrategyTest extends RocketeerTestCase
 			            ->shouldReceive('getCurrentReleasePath')->andReturn($this->server.'/releases/10000000000000');
 		});
 
-		$this->app['rocketeer.strategy']->deploy();
+		$this->strategy->deploy();
 
 		$matcher = array(
 			'git clone --depth 1 -b master "{repository}" {server}/releases/{release}',
@@ -73,6 +73,6 @@ class CopyStrategyTest extends RocketeerTestCase
 			),
 		);
 
-		$this->assertHistory($matcher, $this->app['rocketeer.history']->getFlattened());
+		$this->assertHistory($matcher, $this->history->getFlattened());
 	}
 }

@@ -11,36 +11,36 @@ class RocketeerTest extends RocketeerTestCase
 
 	public function testCanGetApplicationName()
 	{
-		$this->assertEquals('foobar', $this->app['rocketeer.rocketeer']->getApplicationName());
+		$this->assertEquals('foobar', $this->rocketeer->getApplicationName());
 	}
 
 	public function testCanGetHomeFolder()
 	{
-		$this->assertEquals($this->server.'', $this->app['rocketeer.rocketeer']->getHomeFolder());
+		$this->assertEquals($this->server.'', $this->rocketeer->getHomeFolder());
 	}
 
 	public function testCanGetFolderWithStage()
 	{
-		$this->app['rocketeer.connections']->setStage('test');
+		$this->connections->setStage('test');
 
-		$this->assertEquals($this->server.'/test/current', $this->app['rocketeer.rocketeer']->getFolder('current'));
+		$this->assertEquals($this->server.'/test/current', $this->rocketeer->getFolder('current'));
 	}
 
 	public function testCanGetAnyFolder()
 	{
-		$this->assertEquals($this->server.'/current', $this->app['rocketeer.rocketeer']->getFolder('current'));
+		$this->assertEquals($this->server.'/current', $this->rocketeer->getFolder('current'));
 	}
 
 	public function testCanReplacePatternsInFolders()
 	{
-		$folder = $this->app['rocketeer.rocketeer']->getFolder('{path.storage}');
+		$folder = $this->rocketeer->getFolder('{path.storage}');
 
 		$this->assertEquals($this->server.'/app/storage', $folder);
 	}
 
 	public function testCannotReplaceUnexistingPatternsInFolders()
 	{
-		$folder = $this->app['rocketeer.rocketeer']->getFolder('{path.foobar}');
+		$folder = $this->rocketeer->getFolder('{path.foobar}');
 
 		$this->assertEquals($this->server.'/', $folder);
 	}
@@ -52,9 +52,9 @@ class RocketeerTest extends RocketeerTestCase
 			'rocketeer::on.stages.staging.scm.branch' => 'staging',
 		));
 
-		$this->assertEquals('master', $this->app['rocketeer.rocketeer']->getOption('scm.branch'));
-		$this->app['rocketeer.connections']->setStage('staging');
-		$this->assertEquals('staging', $this->app['rocketeer.rocketeer']->getOption('scm.branch'));
+		$this->assertEquals('master', $this->rocketeer->getOption('scm.branch'));
+		$this->connections->setStage('staging');
+		$this->assertEquals('staging', $this->rocketeer->getOption('scm.branch'));
 	}
 
 	public function testCanUseRecursiveConnectionConfiguration()
@@ -64,14 +64,14 @@ class RocketeerTest extends RocketeerTestCase
 			'rocketeer::scm.branch'                        => 'master',
 			'rocketeer::on.connections.staging.scm.branch' => 'staging',
 		));
-		$this->assertEquals('master', $this->app['rocketeer.rocketeer']->getOption('scm.branch'));
+		$this->assertEquals('master', $this->rocketeer->getOption('scm.branch'));
 
 		$this->swapConfig(array(
 			'rocketeer::default'                           => 'staging',
 			'rocketeer::scm.branch'                        => 'master',
 			'rocketeer::on.connections.staging.scm.branch' => 'staging',
 		));
-		$this->assertEquals('staging', $this->app['rocketeer.rocketeer']->getOption('scm.branch'));
+		$this->assertEquals('staging', $this->rocketeer->getOption('scm.branch'));
 	}
 
 	public function testRocketeerCanGuessWhichStageHesIn()

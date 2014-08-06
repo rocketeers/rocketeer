@@ -19,19 +19,19 @@ class NotifierTest extends RocketeerTestCase
 				),
 			),
 		));
-		$this->app['rocketeer.tasks']->registerConfiguredEvents();
+		$this->tasks->registerConfiguredEvents();
 
 		$this->notifier = new DummyNotifier($this->app);
-		$this->app['rocketeer.tasks']->plugin($this->notifier);
+		$this->tasks->plugin($this->notifier);
 	}
 
 	public function testCanAppendStageToDetails()
 	{
 		$this->expectOutputString('Jean Eude finished deploying branch "master" on "staging@production" (foo.bar.com)');
 		$this->app['rocketeer.server']->setValue('notifier.name', 'Jean Eude');
-		$this->app['rocketeer.connections']->setStage('staging');
+		$this->connections->setStage('staging');
 		$this->notifier = new DummyNotifier($this->app);
-		$this->app['rocketeer.tasks']->plugin($this->notifier);
+		$this->tasks->plugin($this->notifier);
 
 		$this->task('Deploy')->fireEvent('after');
 	}

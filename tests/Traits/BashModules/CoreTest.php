@@ -40,7 +40,7 @@ class CoreTest extends RocketeerTestCase
 
 	public function testDoesntAppendEnvironmentToStandardTasks()
 	{
-		$this->app['rocketeer.connections']->setStage('staging');
+		$this->connections->setStage('staging');
 		$commands = $this->pretendTask()->processCommands(array(
 			'artisan something',
 			'rm readme*',
@@ -55,7 +55,7 @@ class CoreTest extends RocketeerTestCase
 	public function testCanRemoveCommonPollutingOutput()
 	{
 		$this->app['remote'] = $this->getRemote('stdin: is not a tty'.PHP_EOL.'something');
-		$result              = $this->app['rocketeer.bash']->run('ls');
+		$result              = $this->bash->run('ls');
 
 		$this->assertEquals('something', $result);
 	}

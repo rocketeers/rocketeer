@@ -7,14 +7,14 @@ class ReleasesManagerTest extends RocketeerTestCase
 {
 	public function testCanGetCurrentRelease()
 	{
-		$currentRelease = $this->app['rocketeer.releases']->getCurrentRelease();
+		$currentRelease = $this->releasesManager->getCurrentRelease();
 
 		$this->assertEquals(20000000000000, $currentRelease);
 	}
 
 	public function testCanGetStateOfReleases()
 	{
-		$validation = $this->app['rocketeer.releases']->getValidationFile();
+		$validation = $this->releasesManager->getValidationFile();
 
 		$this->assertEquals(array(
 			10000000000000 => true,
@@ -25,15 +25,15 @@ class ReleasesManagerTest extends RocketeerTestCase
 
 	public function testCanGetInvalidReleases()
 	{
-		$validation = $this->app['rocketeer.releases']->getInvalidReleases();
+		$validation = $this->releasesManager->getInvalidReleases();
 
 		$this->assertEquals(array(1 => 15000000000000), $validation);
 	}
 
 	public function testCanUpdateStateOfReleases()
 	{
-		$this->app['rocketeer.releases']->markReleaseAsValid(15000000000000);
-		$validation = $this->app['rocketeer.releases']->getValidationFile();
+		$this->releasesManager->markReleaseAsValid(15000000000000);
+		$validation = $this->releasesManager->getValidationFile();
 
 		$this->assertEquals(array(
 			10000000000000 => true,
@@ -44,8 +44,8 @@ class ReleasesManagerTest extends RocketeerTestCase
 
 	public function testCanMarkReleaseAsValid()
 	{
-		$this->app['rocketeer.releases']->markReleaseAsValid(123456789);
-		$validation = $this->app['rocketeer.releases']->getValidationFile();
+		$this->releasesManager->markReleaseAsValid(123456789);
+		$validation = $this->releasesManager->getValidationFile();
 
 		$this->assertEquals(array(
 			10000000000000 => true,
@@ -65,42 +65,42 @@ class ReleasesManagerTest extends RocketeerTestCase
 				->shouldReceive('getLineEndings')->andReturn(PHP_EOL);
 		});
 
-		$currentRelease = $this->app['rocketeer.releases']->getCurrentRelease();
+		$currentRelease = $this->releasesManager->getCurrentRelease();
 
 		$this->assertEquals(20000000000000, $currentRelease);
 	}
 
 	public function testCanGetReleasesPath()
 	{
-		$releasePath = $this->app['rocketeer.releases']->getReleasesPath();
+		$releasePath = $this->releasesManager->getReleasesPath();
 
 		$this->assertEquals($this->server.'/releases', $releasePath);
 	}
 
 	public function testCanGetCurrentReleaseFolder()
 	{
-		$currentReleasePath = $this->app['rocketeer.releases']->getCurrentReleasePath();
+		$currentReleasePath = $this->releasesManager->getCurrentReleasePath();
 
 		$this->assertEquals($this->server.'/releases/20000000000000', $currentReleasePath);
 	}
 
 	public function testCanGetReleases()
 	{
-		$releases = $this->app['rocketeer.releases']->getReleases();
+		$releases = $this->releasesManager->getReleases();
 
 		$this->assertEquals(array(1 => 15000000000000, 0 => 20000000000000, 2 => 10000000000000), $releases);
 	}
 
 	public function testCanGetDeprecatedReleases()
 	{
-		$releases = $this->app['rocketeer.releases']->getDeprecatedReleases();
+		$releases = $this->releasesManager->getDeprecatedReleases();
 
 		$this->assertEquals(array(15000000000000, 10000000000000), $releases);
 	}
 
 	public function testCanGetPreviousValidRelease()
 	{
-		$currentRelease = $this->app['rocketeer.releases']->getPreviousRelease();
+		$currentRelease = $this->releasesManager->getPreviousRelease();
 
 		$this->assertEquals(10000000000000, $currentRelease);
 	}
@@ -113,7 +113,7 @@ class ReleasesManagerTest extends RocketeerTestCase
 			'20000000000000' => true,
 		));
 
-		$currentRelease = $this->app['rocketeer.releases']->getPreviousRelease();
+		$currentRelease = $this->releasesManager->getPreviousRelease();
 
 		$this->assertEquals(20000000000000, $currentRelease);
 	}
@@ -124,7 +124,7 @@ class ReleasesManagerTest extends RocketeerTestCase
 			'20000000000000' => true,
 		));
 
-		$currentRelease = $this->app['rocketeer.releases']->getPreviousRelease();
+		$currentRelease = $this->releasesManager->getPreviousRelease();
 
 		$this->assertEquals(20000000000000, $currentRelease);
 	}
@@ -135,22 +135,22 @@ class ReleasesManagerTest extends RocketeerTestCase
 			'20000000000000' => true,
 		));
 
-		$this->app['rocketeer.releases']->updateCurrentRelease();
-		$currentRelease = $this->app['rocketeer.releases']->getPreviousRelease();
+		$this->releasesManager->updateCurrentRelease();
+		$currentRelease = $this->releasesManager->getPreviousRelease();
 
 		$this->assertEquals(20000000000000, $currentRelease);
 	}
 
 	public function testCanUpdateCurrentRelease()
 	{
-		$this->app['rocketeer.releases']->updateCurrentRelease(30000000000000);
+		$this->releasesManager->updateCurrentRelease(30000000000000);
 
 		$this->assertEquals(30000000000000, $this->app['rocketeer.server']->getValue('current_release.production'));
 	}
 
 	public function testCanGetFolderInRelease()
 	{
-		$folder = $this->app['rocketeer.releases']->getCurrentReleasePath('{path.storage}');
+		$folder = $this->releasesManager->getCurrentReleasePath('{path.storage}');
 
 		$this->assertEquals($this->server.'/releases/20000000000000/app/storage', $folder);
 	}
@@ -163,10 +163,10 @@ class ReleasesManagerTest extends RocketeerTestCase
 				->shouldReceive('listContents')->once()->with($this->server.'/releases')->andReturn([20000000000000]);
 		});
 
-		$this->app['rocketeer.releases']->getNonCurrentReleases();
-		$this->app['rocketeer.releases']->getNonCurrentReleases();
-		$this->app['rocketeer.releases']->getNonCurrentReleases();
-		$this->app['rocketeer.releases']->getNonCurrentReleases();
+		$this->releasesManager->getNonCurrentReleases();
+		$this->releasesManager->getNonCurrentReleases();
+		$this->releasesManager->getNonCurrentReleases();
+		$this->releasesManager->getNonCurrentReleases();
 	}
 
 	public function testDoesntPingForReleasesIfNoReleases()
@@ -177,10 +177,10 @@ class ReleasesManagerTest extends RocketeerTestCase
 				->shouldReceive('listContents')->once()->with($this->server.'/releases')->andReturn([]);
 		});
 
-		$this->app['rocketeer.releases']->getNonCurrentReleases();
-		$this->app['rocketeer.releases']->getNonCurrentReleases();
-		$this->app['rocketeer.releases']->getNonCurrentReleases();
-		$this->app['rocketeer.releases']->getNonCurrentReleases();
+		$this->releasesManager->getNonCurrentReleases();
+		$this->releasesManager->getNonCurrentReleases();
+		$this->releasesManager->getNonCurrentReleases();
+		$this->releasesManager->getNonCurrentReleases();
 	}
 
 	public function testIgnoresErrorsAndStuffWhenFetchingReleases()
@@ -191,7 +191,7 @@ class ReleasesManagerTest extends RocketeerTestCase
 				->shouldReceive('listContents')->times(1)->with($this->server.'/releases')->andReturn(['IMPOSSIBLE BECAUSE NOPE FUCK YOU']);
 		});
 
-		$releases = $this->app['rocketeer.releases']->getReleases();
+		$releases = $this->releasesManager->getReleases();
 
 		$this->assertEmpty($releases);
 	}

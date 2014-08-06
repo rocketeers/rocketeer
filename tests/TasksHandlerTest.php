@@ -95,10 +95,10 @@ class TasksHandlerTest extends RocketeerTestCase
 			'rocketeer::on.stages.hasEvent.hooks' => array('before' => array('check' => 'ls')),
 		));
 
-		$this->app['rocketeer.connections']->setStage('hasEvent');
+		$this->connections->setStage('hasEvent');
 		$this->assertEquals(array('ls'), $this->tasksQueue()->getTasksListeners('check', 'before', true));
 
-		$this->app['rocketeer.connections']->setStage('noEvent');
+		$this->connections->setStage('noEvent');
 		$this->assertEquals(array(), $this->tasksQueue()->getTasksListeners('check', 'before', true));
 	}
 
@@ -133,11 +133,11 @@ class TasksHandlerTest extends RocketeerTestCase
 		));
 		$this->tasksQueue()->registerConfiguredEvents();
 
-		$this->app['rocketeer.connections']->setConnection('production');
+		$this->connections->setConnection('production');
 		$events = $this->tasksQueue()->getTasksListeners('deploy', 'after', true);
 		$this->assertEmpty($events);
 
-		$this->app['rocketeer.connections']->setConnection('staging');
+		$this->connections->setConnection('staging');
 		$events = $this->tasksQueue()->getTasksListeners('deploy', 'after', true);
 
 		$this->assertEquals($tasks, $events);
