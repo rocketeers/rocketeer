@@ -3,6 +3,7 @@ namespace Rocketeer\TestCases;
 
 use Closure;
 use Rocketeer\Server;
+use Mockery;
 
 abstract class RocketeerTestCase extends ContainerTestCase
 {

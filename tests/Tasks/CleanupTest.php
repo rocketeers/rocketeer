@@ -24,6 +24,7 @@ class CleanupTest extends RocketeerTestCase
 			return $mock
 				->shouldReceive('getDeprecatedReleases')->never()
 				->shouldReceive('getNonCurrentReleases')->once()->andReturn(array(1, 2))
+				->shouldReceive('markReleaseAsValid')->once()
 				->shouldReceive('getPathToRelease')->times(2)->andReturnUsing(function ($release) {
 					return $release;
 				});

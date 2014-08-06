@@ -8,12 +8,12 @@ php:
   - hhvm
 
 before_script:
-  - composer self-update
-  - composer install --dev --prefer-dist
+  - travis_retry composer self-update
+  - travis_retry composer install --dev --prefer-dist
 
 matrix:
   allow_failures:
     - php: hhvm
   fast_finish: true
 
-script: phpunit
+script: phpunit --verbose
