@@ -9,6 +9,7 @@
  */
 namespace Rocketeer\Console\Commands;
 
+use Closure;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -36,12 +37,7 @@ abstract class AbstractDeployCommand extends Command
 	{
 		return array(
 			['parallel', 'P', InputOption::VALUE_NONE, 'Run the tasks asynchronously instead of sequentially'],
-			[
-				'pretend',
-				'p',
-				InputOption::VALUE_NONE,
-				'Returns an array of commands to be executed instead of actually executing them'
-			],
+			['pretend', 'p', InputOption::VALUE_NONE, 'Shows which command would execute without actually doing anything'],
 			['on', 'C', InputOption::VALUE_REQUIRED, 'The connection(s) to execute the Task in'],
 			['stage', 'S', InputOption::VALUE_REQUIRED, 'The stage to execute the Task in']
 		);
@@ -88,9 +84,6 @@ abstract class AbstractDeployCommand extends Command
 		$this->getServerCredentials();
 		$this->getRepositoryCredentials();
 
-		// Start timer
-		$timerStart = microtime(true);
-
 		// Convert tasks to array if necessary
 		if (!is_array($tasks)) {
 			$tasks = array($tasks);
@@ -100,11 +93,27 @@ abstract class AbstractDeployCommand extends Command
 		$this->laravel->instance('rocketeer.command', $this);
 
 		// Run tasks and display timer
-		$this->laravel['rocketeer.tasks']->run($tasks, $this);
-		$this->line('Execution time: <comment>'.round(microtime(true) - $timerStart, 4).'s</comment>');
+		$this->time(function() use ($tasks) {
+			$this->laravel['rocketeer.tasks']->run($tasks, $this);
+		});
 
 		// Remove command instance
 		unset($this->laravel['rocketeer.command']);
+	}
+
+	/**
+	 * Time an operation and display it afterwards
+	 *
+	 * @param callable $callback
+	 */
+	protected function time(Closure $callback)
+	{
+		// Start timer, execute callback, close timer
+		$timerStart = microtime(true);
+		$callback();
+		$time = round(microtime(true) - $timerStart, 4);
+
+		$this->line('Execution time: <comment>'.$time.'s</comment>');
 	}
 
 	////////////////////////////////////////////////////////////////////
