@@ -295,8 +295,9 @@ class ConnectionsHandler
 		$this->server     = $server;
 
 		// Register it with SSH component
-		$this->config->set('remote.default', 'current');
-		$this->config->set('remote.connections.current', $credentials);
+		$name = $connection.'#'.$server;
+		$this->config->set('remote.default', $name);
+		$this->config->set('remote.connections.'.$name, $credentials);
 
 		// Update events
 		$this->tasks->registerConfiguredEvents();
