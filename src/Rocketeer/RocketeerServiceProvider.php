@@ -11,7 +11,6 @@ namespace Rocketeer;
 
 use Illuminate\Config\FileLoader;
 use Illuminate\Config\Repository;
-use Illuminate\Container\Container;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Http\Request;
 use Illuminate\Log\Writer;

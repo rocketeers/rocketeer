@@ -180,8 +180,8 @@ abstract class AbstractDeployCommand extends Command
 	protected function storeServerCredentials($connections, $connectionName, $server = null)
 	{
 		// Check for server credentials
-		$connection = $connectionName.'.servers';
-		$connection = !is_null($server) ? $connection.'.'.$server : $connection;
+		$connection  = $connectionName.'.servers';
+		$connection  = !is_null($server) ? $connection.'.'.$server : $connection;
 		$connection  = array_get($connections, $connection, array());
 		$credentials = array(
 			'host'      => true,

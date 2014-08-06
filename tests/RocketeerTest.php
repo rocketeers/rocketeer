@@ -76,15 +76,15 @@ class RocketeerTest extends RocketeerTestCase
 
 	public function testRocketeerCanGuessWhichStageHesIn()
 	{
-		$path = '/home/www/foobar/production/releases/12345678901234/app';
+		$path  = '/home/www/foobar/production/releases/12345678901234/app';
 		$stage = Rocketeer::getDetectedStage('foobar', $path);
 		$this->assertEquals('production', $stage);
 
-		$path = '/home/www/foobar/staging/releases/12345678901234/app';
+		$path  = '/home/www/foobar/staging/releases/12345678901234/app';
 		$stage = Rocketeer::getDetectedStage('foobar', $path);
 		$this->assertEquals('staging', $stage);
 
-		$path = '/home/www/foobar/releases/12345678901234/app';
+		$path  = '/home/www/foobar/releases/12345678901234/app';
 		$stage = Rocketeer::getDetectedStage('foobar', $path);
 		$this->assertEquals(false, $stage);
 	}

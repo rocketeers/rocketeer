@@ -2,8 +2,8 @@
 namespace Rocketeer\TestCases;
 
 use Closure;
-use Rocketeer\Server;
 use Mockery;
+use Rocketeer\Server;
 
 abstract class RocketeerTestCase extends ContainerTestCase
 {
@@ -23,9 +23,8 @@ abstract class RocketeerTestCase extends ContainerTestCase
 
 	/**
 	 * A dummy Task to use for helpers tests
-
 	 *
-*@var \Rocketeer\Abstracts\Task
+	 * @var \Rocketeer\Abstracts\Task
 	 */
 	protected $task;
 
@@ -80,7 +79,14 @@ abstract class RocketeerTestCase extends ContainerTestCase
 		// Recreate altered local server
 		$this->app['files']->deleteDirectory($rootPath.'/storage');
 		$this->app['files']->deleteDirectory($this->server.'/logs');
-		$folders = array('current', 'shared', 'releases','releases/10000000000000', 'releases/15000000000000', 'releases/20000000000000');
+		$folders = array(
+			'current',
+			'shared',
+			'releases',
+			'releases/10000000000000',
+			'releases/15000000000000',
+			'releases/20000000000000'
+		);
 		foreach ($folders as $folder) {
 			$folder = $this->server.'/'.$folder;
 
@@ -249,13 +255,11 @@ abstract class RocketeerTestCase extends ContainerTestCase
 
 	/**
 	 * Get Task instance
-
 	 *
-*@param string $task
-	 * @param null $command
-
+	 * @param string $task
+	 * @param null   $command
 	 *
-*@return \Rocketeer\Abstracts\Task
+	 * @return \Rocketeer\Abstracts\Task
 	 */
 	protected function task($task = null, $command = null)
 	{

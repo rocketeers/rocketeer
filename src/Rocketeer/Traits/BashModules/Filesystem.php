@@ -153,7 +153,7 @@ trait Filesystem
 	/**
 	 * Upload a local file to remote
 	 *
-	 * @param string $file
+	 * @param string      $file
 	 * @param string|null $destination
 	 */
 	public function upload($file, $destination = null)
@@ -164,7 +164,7 @@ trait Filesystem
 
 		// Get contents and destination
 		$destination = $destination ?: basename($file);
-		$contents = file_get_contents($file);
+		$contents    = file_get_contents($file);
 
 		$this->putFile($destination, $contents);
 	}

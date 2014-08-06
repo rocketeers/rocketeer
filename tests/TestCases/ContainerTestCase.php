@@ -28,9 +28,9 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 
 		// Laravel classes --------------------------------------------- /
 
-		$this->app->instance('path.base',    '/src');
-		$this->app->instance('path',         '/src/app');
-		$this->app->instance('path.public',  '/src/public');
+		$this->app->instance('path.base', '/src');
+		$this->app->instance('path', '/src/app');
+		$this->app->instance('path.public', '/src/public');
 		$this->app->instance('path.storage', '/src/app/storage');
 
 		$this->app['files']             = new Filesystem;
@@ -151,9 +151,9 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 		$config->shouldReceive('get')->with('database.default')->andReturn('mysql');
 		$config->shouldReceive('get')->with('remote.default')->andReturn('production');
 		$config->shouldReceive('get')->with('remote.connections')->andReturn(array(
-				'production' => array(),
-				'staging'    => array()
-			));
+			'production' => array(),
+			'staging'    => array()
+		));
 		$config->shouldReceive('get')->with('session.driver')->andReturn('file');
 
 		// Rocketeer

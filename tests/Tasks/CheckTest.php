@@ -54,7 +54,7 @@ class CheckTest extends RocketeerTestCase
 	public function testCanCheckForHhvmExtensions()
 	{
 		$this->app['remote'] = $this->getRemote('HipHop VM 3.0.1 (rel)'.PHP_EOL.'Some more stuff');
-		$exists = $this->task('Check')->checkPhpExtension('_hhvm');
+		$exists              = $this->task('Check')->checkPhpExtension('_hhvm');
 
 		$this->assertTrue($exists);
 	}

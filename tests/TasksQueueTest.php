@@ -52,7 +52,7 @@ class TasksQueueTest extends RocketeerTestCase
 	{
 		$queue = array(
 			'foobar',
-			function ($task) {
+			function () {
 				return 'lol';
 			},
 			'Rocketeer\Tasks\Deploy'
@@ -73,7 +73,7 @@ class TasksQueueTest extends RocketeerTestCase
 
 		$this->expectOutputString('JOEY DOESNT SHARE FOOD');
 		$this->tasksQueue()->run(array(
-			function ($task) {
+			function () {
 				print 'JOEY DOESNT SHARE FOOD';
 			}
 		), $this->getCommand());
@@ -112,7 +112,7 @@ class TasksQueueTest extends RocketeerTestCase
 
 		$output = $this->tasksQueue()->execute(array(
 			'ls -a',
-			function ($task) {
+			function () {
 				return 'JOEY DOESNT SHARE FOOD';
 			}
 		));

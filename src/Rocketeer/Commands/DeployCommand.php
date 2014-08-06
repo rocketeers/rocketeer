@@ -51,9 +51,9 @@ class DeployCommand extends AbstractDeployCommand
 	protected function getOptions()
 	{
 		return array_merge(parent::getOptions(), array(
-			['tests',     't',  InputOption::VALUE_NONE, 'Runs the tests on deploy'],
-			['migrate',   'm',  InputOption::VALUE_NONE, 'Run the migrations'],
-			['seed',      's',  InputOption::VALUE_NONE, 'Seed the database (after migrating it if --migrate)'],
+			['tests', 't', InputOption::VALUE_NONE, 'Runs the tests on deploy'],
+			['migrate', 'm', InputOption::VALUE_NONE, 'Run the migrations'],
+			['seed', 's', InputOption::VALUE_NONE, 'Seed the database (after migrating it if --migrate)'],
 			['clean-all', null, InputOption::VALUE_NONE, 'Cleanup all but the current release on deploy'],
 		));
 	}

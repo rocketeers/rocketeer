@@ -49,7 +49,7 @@ class UpdateCommand extends AbstractDeployCommand
 	{
 		return array_merge(parent::getOptions(), array(
 			['migrate', 'm', InputOption::VALUE_NONE, 'Run the migrations'],
-			['seed',    's', InputOption::VALUE_NONE, 'Seed the database after migrating the database'],
+			['seed', 's', InputOption::VALUE_NONE, 'Seed the database after migrating the database'],
 		));
 	}
 }

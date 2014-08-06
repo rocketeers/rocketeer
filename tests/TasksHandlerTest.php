@@ -127,8 +127,8 @@ class TasksHandlerTest extends RocketeerTestCase
 		);
 
 		$this->swapConfig(array(
-			'rocketeer::default'                         => 'production',
-			'rocketeer::hooks'                           => [],
+			'rocketeer::default'                      => 'production',
+			'rocketeer::hooks'                        => [],
 			'rocketeer::on.connections.staging.hooks' => ['after' => ['deploy' => $tasks]],
 		));
 		$this->tasksQueue()->registerConfiguredEvents();

@@ -71,7 +71,6 @@ class GitTest extends RocketeerTestCase
 				->shouldReceive('getRepositoryBranch')->once()->andReturn('develop');
 		});
 
-
 		$command = $this->scm->checkout($this->server);
 
 		$this->assertEquals('git clone -b develop "http://github.com/my/repository" '.$this->server, $command);
