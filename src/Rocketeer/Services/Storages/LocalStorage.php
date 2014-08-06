@@ -13,7 +13,7 @@ use Exception;
 use Illuminate\Container\Container;
 
 /**
- * Provides and persists informations about the remote server
+ * Provides and persists informations in local
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
