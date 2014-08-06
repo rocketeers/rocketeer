@@ -82,7 +82,7 @@ class Ignite extends Task
 		$name                  = basename($this->app['path.base']);
 
 		return array_merge(
-			$this->connections->getConnectionCredentials(),
+			$this->connections->getServerCredentials(),
 			array(
 				'connection'       => $this->connections->getConnection(),
 				'scm_repository'   => $repositoryCredentials['repository'],

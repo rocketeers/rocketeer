@@ -69,9 +69,10 @@ abstract class Notifier extends Plugin
 		$branch     = $this->connections->getRepositoryBranch();
 		$stage      = $this->connections->getStage();
 		$connection = $this->connections->getConnection();
+		$server     = $this->connections->getServer();
 
 		// Get hostname
-		$credentials = $this->connections->getConnectionCredentials($connection);
+		$credentials = $this->connections->getServerCredentials($connection, $server);
 		$host        = array_get($credentials, 'host');
 		if ($stage) {
 			$connection = $stage.'@'.$connection;

@@ -30,6 +30,13 @@ class ConnectionsHandler
 	protected $stage;
 
 	/**
+	 * The current server
+	 *
+	 * @type integer
+	 */
+	protected $currentServer = 0;
+
+	/**
 	 * The connections to use
 	 *
 	 * @var array
@@ -42,6 +49,18 @@ class ConnectionsHandler
 	 * @var string
 	 */
 	protected $connection;
+
+	//////////////////////////////////////////////////////////////////////
+	////////////////////////////// SERVERS ///////////////////////////////
+	//////////////////////////////////////////////////////////////////////
+
+	/**
+	 * @return int
+	 */
+	public function getServer()
+	{
+		return $this->currentServer;
+	}
 
 	////////////////////////////////////////////////////////////////////
 	//////////////////////////////// STAGES ////////////////////////////
@@ -272,6 +291,9 @@ class ConnectionsHandler
 
 		// Set the connection
 		$this->connection = $connection;
+		$this->server     = $server;
+
+		// Register it with SSH component
 		$this->config->set('remote.default', 'current');
 		$this->config->set('remote.connections.current', $credentials);
 
