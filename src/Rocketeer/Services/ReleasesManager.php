@@ -298,7 +298,7 @@ class ReleasesManager
 
 		// Get the one before that, or default to current
 		$key  = array_search($current, $releases);
-		$key = !is_int($key) ? -1 : $key;
+		$key  = !is_int($key) ? -1 : $key;
 		$next = 1;
 		do {
 			$release = array_get($releases, $key + $next);

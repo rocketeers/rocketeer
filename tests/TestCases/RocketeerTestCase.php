@@ -216,10 +216,8 @@ abstract class RocketeerTestCase extends ContainerTestCase
 
 	/**
 	 * Get TasksQueue instance
-
-
-*
-*@return \Rocketeer\Services\TasksHandler
+	 *
+	 * @return \Rocketeer\Services\TasksHandler
 	 */
 	protected function tasksQueue()
 	{

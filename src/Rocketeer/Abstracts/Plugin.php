@@ -58,14 +58,10 @@ abstract class Plugin
 
 	/**
 	 * Register Tasks with Rocketeer
-
-
-*
-*@param \Rocketeer\Services\TasksHandler $queue
-
-
-*
-*@return void
+	 *
+	 * @param \Rocketeer\Services\TasksHandler $queue
+	 *
+	 * @return void
 	 */
 	abstract public function onQueue(TasksHandler $queue);
 }

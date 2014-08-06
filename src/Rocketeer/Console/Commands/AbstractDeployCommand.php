@@ -93,7 +93,7 @@ abstract class AbstractDeployCommand extends Command
 		$this->laravel->instance('rocketeer.command', $this);
 
 		// Run tasks and display timer
-		$this->time(function() use ($tasks) {
+		$this->time(function () use ($tasks) {
 			$this->laravel['rocketeer.tasks']->run($tasks, $this);
 		});
 

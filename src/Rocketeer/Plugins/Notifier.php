@@ -20,14 +20,10 @@ abstract class Notifier extends Plugin
 {
 	/**
 	 * Register Tasks with Rocketeer
-
-
-*
-*@param \Rocketeer\Services\TasksHandler $queue
-
-
-*
-*@return void
+	 *
+	 * @param \Rocketeer\Services\TasksHandler $queue
+	 *
+	 * @return void
 	 */
 	public function onQueue(TasksHandler $queue)
 	{

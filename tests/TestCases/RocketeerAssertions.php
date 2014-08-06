@@ -37,8 +37,8 @@ trait RocketeerAssertions
 	/**
 	 * Assert a task has a particular output
 	 *
-	 * @param string  $task
-	 * @param string  $output
+	 * @param string   $task
+	 * @param string   $output
 	 * @param \Mockery $command
 	 *
 	 * @return Assertion

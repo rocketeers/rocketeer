@@ -13,7 +13,6 @@ namespace Rocketeer\Traits;
  * A class that maintains an history of results/commands
  *
  * @property \Rocketeer\Services\History\History history
- *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait HasHistory
@@ -27,7 +26,7 @@ trait HasHistory
 	 */
 	public function getHistory($type = null)
 	{
-		$handle = $this->getHistoryHandle();
+		$handle  = $this->getHistoryHandle();
 		$history = $this->history[$handle];
 		$history = array_get($history, $type);
 

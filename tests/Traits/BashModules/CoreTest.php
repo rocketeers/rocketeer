@@ -18,7 +18,7 @@ class CoreTest extends RocketeerTestCase
 
 		$this->task->remote = clone $this->getRemote()->shouldReceive('status')->andReturn(1)->mock();
 		$this->mockCommand([], array(
-			'error' => function($error) {
+			'error' => function ($error) {
 				echo $error;
 			}
 		));
