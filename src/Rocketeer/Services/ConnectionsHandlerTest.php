@@ -1,7 +1,5 @@
 <?php
-namespace Rocketeer;
-
-use Rocketeer\TestCases\RocketeerTestCase;
+namespace Rocketeer\Services;
 
 class ConnectionsHandlerTest extends RocketeerTestCase
 {

@@ -1,10 +1,9 @@
 <?php
-namespace Rocketeer;
+namespace Rocketeer\Services\Storages;
 
-use Rocketeer\Services\Storages\LocalStorage;
 use Rocketeer\TestCases\RocketeerTestCase;
 
-class ServerTest extends RocketeerTestCase
+class LocalStorageTest extends RocketeerTestCase
 {
 	////////////////////////////////////////////////////////////////////
 	//////////////////////////////// TESTS /////////////////////////////

@@ -1,5 +1,5 @@
 <?php
-namespace Rocketeer;
+namespace Rocketeer\Services\History;
 
 use Rocketeer\TestCases\RocketeerTestCase;
 

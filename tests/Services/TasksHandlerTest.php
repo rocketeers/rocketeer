@@ -1,5 +1,5 @@
 <?php
-namespace Rocketeer;
+namespace Rocketeer\Services;
 
 use Rocketeer\Facades\Rocketeer;
 use Rocketeer\TestCases\RocketeerTestCase;

@@ -1,12 +1,11 @@
 <?php
-namespace Rocketeer;
+namespace Rocketeer\Services;
 
 use ReflectionFunction;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class TasksQueueTest extends RocketeerTestCase
 {
-
 	public function testCanBuildTaskByName()
 	{
 		$task = $this->tasksQueue()->buildTaskFromClass('Rocketeer\Tasks\Deploy');
