@@ -11,6 +11,7 @@ namespace Rocketeer\Services;
 
 use Illuminate\Container\Container;
 use integer;
+use Rocketeer\Services\Storages\ServerStorage;
 use Rocketeer\Traits\HasLocator;
 
 /**
@@ -37,14 +38,22 @@ class ReleasesManager
 	public $releases;
 
 	/**
+	 * The storage
+	 *
+	 * @type ServerStorage
+	 */
+	protected $storage;
+
+	/**
 	 * Build a new ReleasesManager
 	 *
 	 * @param Container $app
 	 */
 	public function __construct(Container $app)
 	{
-		$this->app   = $app;
-		$this->state = $this->getValidationFile();
+		$this->app     = $app;
+		$this->storage = new ServerStorage($app, 'state');
+		$this->state   = $this->getValidationFile();
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -168,7 +177,7 @@ class ReleasesManager
 	 */
 	public function getValidationFile()
 	{
-		$file = $this->serverStorage->get('state');
+		$file = $this->storage->get();
 
 		// Fill the missing releases
 		$releases = (array) $this->getReleases();
@@ -192,7 +201,7 @@ class ReleasesManager
 	 */
 	public function saveValidationFile(array $validation)
 	{
-		$this->serverStorage->set('state', $validation);
+		$this->storage->set($validation);
 
 		$this->state = $validation;
 	}
@@ -207,7 +216,7 @@ class ReleasesManager
 		$release = $release ?: $this->getCurrentRelease();
 
 		$this->state[$release] = true;
-		$this->serverStorage->set('state', $release, true);
+		$this->storage->set($release, true);
 	}
 
 	/**
@@ -266,7 +275,7 @@ class ReleasesManager
 	public function getCurrentRelease()
 	{
 		// If we have saved the last deployed release, return that
-		$cached = $this->localStorage->getValue($this->getCurrentReleaseKey());
+		$cached = $this->localStorage->get($this->getCurrentReleaseKey());
 		if ($cached) {
 			return $this->sanitizeRelease($cached);
 		}
@@ -316,7 +325,7 @@ class ReleasesManager
 			$release = $this->bash->getTimestamp();
 		}
 
-		$this->localStorage->setValue($this->getCurrentReleaseKey(), $release);
+		$this->localStorage->set($this->getCurrentReleaseKey(), $release);
 
 		return $release;
 	}

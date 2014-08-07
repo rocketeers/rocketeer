@@ -86,7 +86,7 @@ class Igniter
 
 		// Change repository in use
 		$application = array_get($values, 'application_name');
-		$this->localStorage->setRepository($application);
+		$this->localStorage->setFile($application);
 	}
 
 	////////////////////////////////////////////////////////////////////

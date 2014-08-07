@@ -28,7 +28,7 @@ class NotifierTest extends RocketeerTestCase
 	public function testCanAppendStageToDetails()
 	{
 		$this->expectOutputString('Jean Eude finished deploying branch "master" on "staging@production" (foo.bar.com)');
-		$this->app['rocketeer.storage.local']->setValue('notifier.name', 'Jean Eude');
+		$this->localStorage->set('notifier.name', 'Jean Eude');
 		$this->connections->setStage('staging');
 		$this->notifier = new DummyNotifier($this->app);
 		$this->tasks->plugin($this->notifier);
@@ -39,7 +39,7 @@ class NotifierTest extends RocketeerTestCase
 	public function testCanSendDeploymentsNotifications()
 	{
 		$this->expectOutputString('Jean Eude finished deploying branch "master" on "production" (foo.bar.com)');
-		$this->app['rocketeer.storage.local']->setValue('notifier.name', 'Jean Eude');
+		$this->localStorage->set('notifier.name', 'Jean Eude');
 
 		$this->task('Deploy')->fireEvent('after');
 	}
@@ -47,7 +47,7 @@ class NotifierTest extends RocketeerTestCase
 	public function testDoesntSendNotificationsInPretendMode()
 	{
 		$this->expectOutputString('');
-		$this->app['rocketeer.storage.local']->setValue('notifier.name', 'Jean Eude');
+		$this->localStorage->set('notifier.name', 'Jean Eude');
 
 		$this->pretendTask('Deploy')->fireEvent('after');
 	}

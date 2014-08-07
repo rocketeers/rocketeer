@@ -49,7 +49,7 @@ class Teardown extends Task
 		$this->removeFolder();
 
 		// Remove deployments file
-		$this->localStorage->deleteRepository();
+		$this->localStorage->destroy();
 
 		$this->command->info('The application was successfully removed from the remote servers');
 	}

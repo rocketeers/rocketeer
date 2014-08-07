@@ -88,7 +88,7 @@ class IgniterTest extends RocketeerTestCase
 	public function testCanSetCurrentApplication()
 	{
 		$this->mock('rocketeer.storage.local', 'LocalStorage', function ($mock) {
-			return $mock->shouldReceive('setRepository')->once()->with('foobar');
+			return $mock->shouldReceive('setFile')->once()->with('foobar');
 		});
 
 		$this->igniter->bindPaths();

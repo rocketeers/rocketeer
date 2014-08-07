@@ -126,7 +126,7 @@ class ConnectionsHandler
 	public function getAvailableConnections()
 	{
 		// Fetch stored credentials
-		$storage = (array) $this->localStorage->getValue('connections');
+		$storage = (array) $this->localStorage->get('connections');
 
 		// Merge with defaults from config file
 		$configuration = (array) $this->config->get('rocketeer::connections');
@@ -252,7 +252,7 @@ class ConnectionsHandler
 	{
 		// Store credentials if any
 		if ($credentials) {
-			$this->localStorage->setValue('connections.'.$connection.'.servers.'.$server, $credentials);
+			$this->localStorage->set('connections.'.$connection.'.servers.'.$server, $credentials);
 		}
 
 		// Get connection
@@ -324,7 +324,7 @@ class ConnectionsHandler
 	 */
 	public function getCredentials()
 	{
-		$credentials = $this->localStorage->getValue('credentials');
+		$credentials = $this->localStorage->get('credentials');
 		if (!$credentials) {
 			$credentials = $this->rocketeer->getOption('scm');
 		}

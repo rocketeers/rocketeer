@@ -9,49 +9,24 @@
  */
 namespace Rocketeer\Services\Storages;
 
-use Illuminate\Support\Arr;
-use Rocketeer\Traits\HasLocator;
+use Rocketeer\Abstracts\Storage;
+use Rocketeer\Interfaces\StorageInterface;
 
 /**
  * Provides and persists informations on the server
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class ServerStorage
+class ServerStorage extends Storage implements StorageInterface
 {
-	use HasLocator;
-
 	/**
-	 * Get a value on the server
+	 * Destroy the file
 	 *
-	 * @param string      $file
-	 * @param string|null $key
-	 *
-	 * @return mixed
+	 * @return boolean
 	 */
-	public function get($file, $key = null)
+	public function destroy()
 	{
-		$contents = $this->getContents($file);
-
-		return Arr::get($contents, $key);
-	}
-
-	/**
-	 * Set a value on the server
-	 *
-	 * @param string       $file
-	 * @param string|array $key
-	 * @param mixed|null   $value
-	 */
-	public function set($file, $key, $value = null)
-	{
-		if (is_null($value)) {
-			return $this->saveContents($file, $key);
-		}
-
-		$contents = $this->getContents($file);
-		$contents = Arr::set($contents, $key, $value);
-		$this->saveContents($file, $contents);
+		$this->bash->removeFolder($this->getFilepath());
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -59,27 +34,23 @@ class ServerStorage
 	//////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Get the full path to a file
-	 *
-	 * @param string $file
+	 * Get the full path to the file
 	 *
 	 * @return string
 	 */
-	protected function getFilepath($file)
+	protected function getFilepath()
 	{
-		return $this->rocketeer->getFolder($file.'.json');
+		return $this->rocketeer->getFolder($this->file.'.json');
 	}
 
 	/**
-	 * Get the contents of a file
-	 *
-	 * @param string $file
+	 * Get the contents of the file
 	 *
 	 * @return array
 	 */
-	protected function getContents($file)
+	protected function getContents()
 	{
-		$file = $this->getFilepath($file);
+		$file = $this->getFilepath();
 		$file = $this->bash->getFile($file) ?: '{}';
 		$file = (array) json_decode($file, true);
 
@@ -87,14 +58,13 @@ class ServerStorage
 	}
 
 	/**
-	 * Save the contents of a file
+	 * Save the contents of the file
 	 *
-	 * @param string $file
-	 * @param array  $contents
+	 * @param array $contents
 	 */
-	protected function saveContents($file, $contents)
+	protected function saveContents($contents)
 	{
-		$file = $this->getFilepath($file);
+		$file = $this->getFilepath();
 		$this->bash->putFile($file, json_encode($contents));
 	}
 }

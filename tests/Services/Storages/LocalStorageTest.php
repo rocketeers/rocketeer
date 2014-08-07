@@ -24,40 +24,40 @@ class LocalStorageTest extends RocketeerTestCase
 
 	public function testCanGetValueFromDeploymentsFile()
 	{
-		$this->assertEquals('bar', $this->app['rocketeer.storage.local']->getValue('foo'));
+		$this->assertEquals('bar', $this->app['rocketeer.storage.local']->get('foo'));
 	}
 
-	public function testCanSetValueInDeploymentsFile()
+	public function testCansetInDeploymentsFile()
 	{
-		$this->app['rocketeer.storage.local']->setValue('foo', 'baz');
+		$this->app['rocketeer.storage.local']->set('foo', 'baz');
 
-		$this->assertEquals('baz', $this->app['rocketeer.storage.local']->getValue('foo'));
+		$this->assertEquals('baz', $this->app['rocketeer.storage.local']->get('foo'));
 	}
 
-	public function testCandeleteRepository()
+	public function testCandestroy()
 	{
-		$this->app['rocketeer.storage.local']->deleteRepository();
+		$this->app['rocketeer.storage.local']->destroy();
 
 		$this->assertFalse($this->app['files']->exists(__DIR__.'/_meta/deployments.json'));
 	}
 
 	public function testCanFallbackIfFileDoesntExist()
 	{
-		$this->app['rocketeer.storage.local']->deleteRepository();
+		$this->app['rocketeer.storage.local']->destroy();
 
-		$this->assertEquals(null, $this->app['rocketeer.storage.local']->getValue('foo'));
+		$this->assertEquals(null, $this->app['rocketeer.storage.local']->get('foo'));
 	}
 
 	public function testCanGetLineEndings()
 	{
-		$this->app['rocketeer.storage.local']->deleteRepository();
+		$this->app['rocketeer.storage.local']->destroy();
 
 		$this->assertEquals(PHP_EOL, $this->app['rocketeer.storage.local']->getLineEndings());
 	}
 
 	public function testCanGetSeparators()
 	{
-		$this->app['rocketeer.storage.local']->deleteRepository();
+		$this->app['rocketeer.storage.local']->destroy();
 
 		$this->assertEquals(DIRECTORY_SEPARATOR, $this->app['rocketeer.storage.local']->getSeparator());
 	}

@@ -11,28 +11,16 @@ namespace Rocketeer\Services\Storages;
 
 use Exception;
 use Illuminate\Container\Container;
+use Rocketeer\Abstracts\Storage;
+use Rocketeer\Interfaces\StorageInterface;
 
 /**
  * Provides and persists informations in local
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class LocalStorage
+class LocalStorage extends Storage implements StorageInterface
 {
-	/**
-	 * The IoC Container
-	 *
-	 * @var Container
-	 */
-	protected $app;
-
-	/**
-	 * The path to the storage file
-	 *
-	 * @var string
-	 */
-	protected $repository;
-
 	/**
 	 * The current hash in use
 	 *
@@ -41,24 +29,38 @@ class LocalStorage
 	protected $hash;
 
 	/**
-	 * Build a new ReleasesManager
+	 * The folder where file resides
+	 *
+	 * @type string
+	 */
+	protected $folder;
+
+	/**
+	 * Build a new LocalStorage
 	 *
 	 * @param Container   $app
-	 * @param string      $filename
-	 * @param string|null $storage
+	 * @param string      $file
+	 * @param string|null $folder
 	 */
-	public function __construct(Container $app, $filename = 'deployments', $storage = null)
+	public function __construct(Container $app, $file = 'deployments', $folder = null)
 	{
-		$this->app = $app;
+		parent::__construct($app, $file);
 
-		// Create repository and update it if necessary
-		$this->setRepository($filename, $storage);
-		if ($this->shouldFlush()) {
-			$this->deleteRepository();
+		// Create personal storage if necessary
+		if (!$this->app->bound('path.storage')) {
+			$folder = $this->rocketeer->getRocketeerConfigFolder();
+			$this->files->makeDirectory($folder, 0755, false, true);
 		}
 
-		// Add salt to current repository
-		$this->setValue('hash', $this->getHash());
+		// Set path to storage folder
+		$this->folder = $folder ?: $this->app['path.storage'].DS.'meta';
+
+		// Flush if necessary
+		if ($this->shouldFlush()) {
+			$this->destroy();
+		}
+
+		$this->set('hash', $this->getHash());
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -80,7 +82,7 @@ class LocalStorage
 		// Get the contents of the configuration folder
 		$salt   = '';
 		$folder = $this->app['rocketeer.igniter']->getConfigurationPath();
-		$files  = $this->app['files']->glob($folder.'/*.php');
+		$files  = $this->files->glob($folder.'/*.php');
 
 		// Remove custom files and folders
 		$handles = array('events', 'tasks');
@@ -94,7 +96,7 @@ class LocalStorage
 
 		// Compute the salts
 		foreach ($files as $file) {
-			$file = $this->app['files']->getRequire($file);
+			$file = $this->files->getRequire($file);
 			$salt .= json_encode($file);
 		}
 
@@ -104,10 +106,6 @@ class LocalStorage
 		return $this->hash;
 	}
 
-	////////////////////////////////////////////////////////////////////
-	///////////////////////////// REPOSITORY ///////////////////////////
-	////////////////////////////////////////////////////////////////////
-
 	/**
 	 * Flushes the repository if required
 	 *
@@ -115,29 +113,9 @@ class LocalStorage
 	 */
 	public function shouldFlush()
 	{
-		$currentHash = $this->getValue('hash');
+		$currentHash = $this->get('hash');
 
 		return $currentHash and $currentHash !== $this->getHash();
-	}
-
-	/**
-	 * Change the repository in use
-	 *
-	 * @param string      $filename
-	 * @param string|null $storage
-	 */
-	public function setRepository($filename, $storage = null)
-	{
-		// Create personal storage if necessary
-		if (!$this->app->bound('path.storage')) {
-			$storage = $this->app['rocketeer.rocketeer']->getRocketeerConfigFolder();
-			$this->app['files']->makeDirectory($storage, 0755, false, true);
-		}
-
-		// Get path to storage
-		$storage = $storage ?: $this->app['path.storage'].DS.'meta';
-
-		$this->repository = $storage.DS.$filename.'.json';
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -152,15 +130,13 @@ class LocalStorage
 	public function getSeparator()
 	{
 		// If manually set by the user, return it
-		$user = $this->app['rocketeer.rocketeer']->getOption('remote.variables.directory_separator');
+		$user = $this->rocketeer->getOption('remote.variables.directory_separator');
 		if ($user) {
 			return $user;
 		}
 
-		$bash = $this->app['rocketeer.bash'];
-
-		return $this->getValue('directory_separator', function ($server) use ($bash) {
-			$separator = $bash->runLast('php -r "echo DIRECTORY_SEPARATOR;"');
+		return $this->get('directory_separator', function () {
+			$separator = $this->bash->runLast('php -r "echo DIRECTORY_SEPARATOR;"');
 
 			// Throw an Exception if we receive invalid output
 			if (strlen($separator) > 1) {
@@ -171,7 +147,7 @@ class LocalStorage
 			}
 
 			// Cache separator
-			$server->setValue('directory_separator', $separator);
+			$this->set('directory_separator', $separator);
 
 			return $separator;
 		});
@@ -185,16 +161,14 @@ class LocalStorage
 	public function getLineEndings()
 	{
 		// If manually set by the user, return it
-		$user = $this->app['rocketeer.rocketeer']->getOption('remote.variables.line_endings');
+		$user = $this->rocketeer->getOption('remote.variables.line_endings');
 		if ($user) {
 			return $user;
 		}
 
-		$bash = $this->app['rocketeer.bash'];
-
-		return $this->getValue('line_endings', function ($server) use ($bash) {
-			$endings = $bash->runRaw('php -r "echo PHP_EOL;"');
-			$server->setValue('line_endings', $endings);
+		return $this->get('line_endings', function () {
+			$endings = $this->bash->runRaw('php -r "echo PHP_EOL;"');
+			$this->set('line_endings', $endings);
 
 			return $endings;
 		});
@@ -209,62 +183,17 @@ class LocalStorage
 	{
 		$path = $this->app['path.base'].DIRECTORY_SEPARATOR.'composer.json';
 
-		return $this->app['files']->exists($path);
-	}
-
-	////////////////////////////////////////////////////////////////////
-	/////////////////////////////// KEYSTORE ///////////////////////////
-	////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Get a value from the repository file
-	 *
-	 * @param  string               $key
-	 * @param  \Closure|string|null $fallback
-	 *
-	 * @return mixed
-	 */
-	public function getValue($key, $fallback = null)
-	{
-		$value = array_get($this->getRepository(), $key, null);
-
-		// Get fallback value
-		if (is_null($value)) {
-			return is_callable($fallback) ? $fallback($this) : $fallback;
-		}
-
-		return $value;
+		return $this->files->exists($path);
 	}
 
 	/**
-	 * Set a value from the repository file
+	 * Change the folder in use
 	 *
-	 * @param string $key
-	 * @param mixed  $value
-	 *
-	 * @return array
+	 * @param string $folder
 	 */
-	public function setValue($key, $value)
+	public function setFolder($folder)
 	{
-		$repository = $this->getRepository();
-		array_set($repository, $key, $value);
-
-		return $this->updateRepository($repository);
-	}
-
-	/**
-	 * Forget a value from the repository file
-	 *
-	 * @param  string $key
-	 *
-	 * @return array
-	 */
-	public function forgetValue($key)
-	{
-		$repository = $this->getRepository();
-		array_forget($repository, $key);
-
-		return $this->updateRepository($repository);
+		$this->folder = $folder;
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -272,46 +201,52 @@ class LocalStorage
 	////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Replace the contents of the deployments file
+	 * Get the full path to the file
 	 *
-	 * @param array $data
-	 *
-	 * @return array
+	 * @return string
 	 */
-	public function updateRepository($data)
+	protected function getFilepath()
 	{
-		// Yup. Don't look at me like that.
-		@$this->app['files']->put($this->repository, json_encode($data));
-
-		return $data;
+		return $this->folder.'/'.$this->file.'.json';
 	}
 
 	/**
-	 * Get the contents of the deployments file
+	 * Get the contents of a file
 	 *
 	 * @return array
 	 */
-	public function getRepository()
+	protected function getContents()
 	{
 		// Cancel if the file doesn't exist
-		if (!$this->app['files']->exists($this->repository)) {
-			return array();
+		if (!$this->files->exists($this->getFilepath())) {
+			return [];
 		}
 
 		// Get and parse file
-		$repository = $this->app['files']->get($this->repository);
-		$repository = json_decode($repository, true);
+		$contents = $this->files->get($this->getFilepath());
+		$contents = json_decode($contents, true);
 
-		return $repository;
+		return $contents;
 	}
 
 	/**
-	 * Deletes the deployments file
+	 * Save the contents of a file
+	 *
+	 * @param array $contents
+	 */
+	protected function saveContents($contents)
+	{
+		// Yup. Don't look at me like that.
+		@$this->files->put($this->getFilepath(), json_encode($contents));
+	}
+
+	/**
+	 * Destroy the file
 	 *
 	 * @return boolean
 	 */
-	public function deleteRepository()
+	public function destroy()
 	{
-		return $this->app['files']->delete($this->repository);
+		return $this->files->delete($this->getFilepath());
 	}
 }

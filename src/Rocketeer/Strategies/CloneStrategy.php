@@ -26,7 +26,7 @@ class CloneStrategy extends Strategy implements StrategyInterface
 		// Cancel if failed and forget credentials
 		$success = $this->bash->checkStatus('Unable to clone the repository', $output) !== false;
 		if (!$success) {
-			$this->localStorage->forgetValue('credentials');
+			$this->localStorage->forget('credentials');
 
 			return false;
 		}

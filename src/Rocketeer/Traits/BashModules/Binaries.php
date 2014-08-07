@@ -211,7 +211,7 @@ trait Binaries
 	{
 		$location  = false;
 		$locations = array(
-			array($this->localStorage, 'getValue', 'paths.'.$binary),
+			array($this->localStorage, 'get', 'paths.'.$binary),
 			array($this->rocketeer, 'getPath', $binary),
 			array($this, 'runSilently', 'which '.$binary),
 		);
@@ -237,7 +237,7 @@ trait Binaries
 		}
 
 		// Store found location
-		$this->localStorage->setValue('paths.'.$binary, $location);
+		$this->localStorage->set('paths.'.$binary, $location);
 
 		return $location ?: false;
 	}

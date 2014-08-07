@@ -49,7 +49,7 @@ class Setup extends Task
 		$this->createStages();
 
 		// Set setup to true
-		$this->localStorage->setValue('is_setup', true);
+		$this->localStorage->set('is_setup', true);
 
 		// Get server informations
 		$this->command->comment('Getting some informations about the server');
