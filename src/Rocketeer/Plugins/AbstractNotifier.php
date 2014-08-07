@@ -16,7 +16,7 @@ use Rocketeer\Services\TasksHandler;
 /**
  * A base class for notification services to extends
  */
-abstract class Notifier extends AbstractPlugin
+abstract class AbstractNotifier extends AbstractPlugin
 {
 	/**
 	 * Register Tasks with Rocketeer

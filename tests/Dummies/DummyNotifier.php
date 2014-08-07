@@ -1,9 +1,9 @@
 <?php
 namespace Rocketeer\Dummies;
 
-use Rocketeer\Plugins\Notifier;
+use Rocketeer\Plugins\AbstractNotifier;
 
-class DummyNotifier extends Notifier
+class DummyNotifier extends AbstractNotifier
 {
 	/**
 	 * Get the default message format
