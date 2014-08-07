@@ -74,8 +74,8 @@ class Svn extends AbstractScm implements ScmInterface
 	 */
 	public function checkout($destination)
 	{
-		$branch     = $this->app['rocketeer.rocketeer']->getRepositoryBranch();
-		$repository = $this->app['rocketeer.connections']->getRepository();
+		$branch     = $this->connections->getRepositoryBranch();
+		$repository = $this->connections->getRepository();
 		$repository = rtrim($repository, '/').'/'.ltrim($branch, '/');
 
 		return $this->getCommand('co %s %s %s', $this->getCredentials(), $repository, $destination);
@@ -109,7 +109,7 @@ class Svn extends AbstractScm implements ScmInterface
 	protected function getCredentials()
 	{
 		$options     = array('--non-interactive');
-		$credentials = $this->app['rocketeer.rocketeer']->getCredentials();
+		$credentials = $this->connections->getCredentials();
 
 		// Build command
 		if ($user = array_get($credentials, 'username')) {

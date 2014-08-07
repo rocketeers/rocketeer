@@ -3,7 +3,7 @@ namespace Rocketeer\Scm;
 
 use Rocketeer\TestCases\RocketeerTestCase;
 
-class GitTest extends RocketeerTestCase
+class SvnTest extends RocketeerTestCase
 {
 	/**
 	 * The current SCM instance
@@ -16,7 +16,7 @@ class GitTest extends RocketeerTestCase
 	{
 		parent::setUp();
 
-		$this->scm = new Git($this->app);
+		$this->scm = new Svn($this->app);
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -27,73 +27,69 @@ class GitTest extends RocketeerTestCase
 	{
 		$command = $this->scm->check();
 
-		$this->assertEquals('git --version', $command);
+		$this->assertEquals('svn --version', $command);
 	}
 
 	public function testCanGetCurrentState()
 	{
 		$command = $this->scm->currentState();
 
-		$this->assertEquals('git rev-parse HEAD', $command);
+		$this->assertEquals('svn info -r "HEAD" | grep "Revision"', $command);
 	}
 
 	public function testCanGetCurrentBranch()
 	{
 		$command = $this->scm->currentBranch();
 
-		$this->assertEquals('git rev-parse --abbrev-ref HEAD', $command);
+		$this->assertEquals('echo trunk', $command);
 	}
 
 	public function testCanGetCheckout()
 	{
-		$this->mock('rocketeer.rocketeer', 'Rocketeer', function ($mock) {
-			return $mock->shouldReceive('getOption')->once()->with('scm.shallow')->andReturn(true);
-		});
 		$this->mock('rocketeer.connections', 'ConnectionsHandler', function ($mock) {
 			return $mock
+				->shouldReceive('getCredentials')->once()->andReturn(['username' => 'foo', 'password' => 'bar'])
 				->shouldReceive('getRepository')->once()->andReturn('http://github.com/my/repository')
 				->shouldReceive('getRepositoryBranch')->once()->andReturn('develop');
 		});
 
 		$command = $this->scm->checkout($this->server);
 
-		$this->assertEquals('git clone --depth 1 -b develop "http://github.com/my/repository" '.$this->server, $command);
+		$this->assertEquals('svn co --non-interactive --username=foo --password=bar http://github.com/my/repository/develop '.$this->server, $command);
 	}
 
 	public function testCanGetDeepClone()
 	{
-		$this->mock('rocketeer.rocketeer', 'Rocketeer', function ($mock) {
-			return $mock->shouldReceive('getOption')->once()->with('scm.shallow')->andReturn(false);
-		});
 		$this->mock('rocketeer.connections', 'ConnectionsHandler', function ($mock) {
 			return $mock
+				->shouldReceive('getCredentials')->once()->andReturn(['username' => 'foo', 'password' => 'bar'])
 				->shouldReceive('getRepository')->once()->andReturn('http://github.com/my/repository')
 				->shouldReceive('getRepositoryBranch')->once()->andReturn('develop');
 		});
 
 		$command = $this->scm->checkout($this->server);
 
-		$this->assertEquals('git clone -b develop "http://github.com/my/repository" '.$this->server, $command);
+		$this->assertEquals('svn co --non-interactive --username=foo --password=bar http://github.com/my/repository/develop '.$this->server, $command);
 	}
 
 	public function testCanGetReset()
 	{
 		$command = $this->scm->reset();
 
-		$this->assertEquals('git reset --hard', $command);
+		$this->assertEquals("svn status -q | grep -v '^[~XI ]' | awk '{print $2;}' | xargs svn revert", $command);
 	}
 
 	public function testCanGetUpdate()
 	{
 		$command = $this->scm->update();
 
-		$this->assertEquals('git pull', $command);
+		$this->assertEquals('svn up --non-interactive', $command);
 	}
 
 	public function testCanGetSubmodules()
 	{
 		$command = $this->scm->submodules();
 
-		$this->assertEquals('git submodule update --init --recursive', $command);
+		$this->assertEmpty($command);
 	}
 }
