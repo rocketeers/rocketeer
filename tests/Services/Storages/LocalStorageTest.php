@@ -22,42 +22,6 @@ class LocalStorageTest extends RocketeerTestCase
 		$this->assertTrue($exists);
 	}
 
-	public function testCanSetContentsViaSet()
-	{
-		$matcher = ['foo' => 'caca'];
-		$this->localStorage->set($matcher);
-		$contents = $this->localStorage->get();
-		unset($contents['hash']);
-
-		$this->assertEquals($matcher, $contents);
-	}
-
-	public function testCanGetValueFromDeploymentsFile()
-	{
-		$this->assertEquals('bar', $this->localStorage->get('foo'));
-	}
-
-	public function testCansetInDeploymentsFile()
-	{
-		$this->localStorage->set('foo', 'baz');
-
-		$this->assertEquals('baz', $this->localStorage->get('foo'));
-	}
-
-	public function testCandestroy()
-	{
-		$this->localStorage->destroy();
-
-		$this->assertFalse($this->files->exists(__DIR__.'/_meta/deployments.json'));
-	}
-
-	public function testCanFallbackIfFileDoesntExist()
-	{
-		$this->localStorage->destroy();
-
-		$this->assertEquals(null, $this->localStorage->get('foo'));
-	}
-
 	public function testCanGetLineEndings()
 	{
 		$this->localStorage->destroy();
