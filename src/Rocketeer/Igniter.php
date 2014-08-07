@@ -93,6 +93,39 @@ class Igniter
 	////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Get the base path
+	 *
+	 * @return string
+	 */
+	public function getBasePath()
+	{
+		$base = $this->app['path.base'] ? $this->app['path.base'].'/' : '';
+		$base = $this->unifySlashes($base);
+
+		return $base;
+	}
+
+	/**
+	 * Get path to the storage folder
+	 *
+	 * @return string
+	 */
+	public function getStoragePath()
+	{
+		// If no path is bound, default to the Rocketeer folder
+		if (!$this->app->bound('path.storage')) {
+			return '.rocketeer';
+		}
+
+		// Unify slashes
+		$storage = $this->app['path.storage'];
+		$storage = $this->unifySlashes($storage);
+		$storage = str_replace($this->getBasePath(), null, $storage);
+
+		return $storage;
+	}
+
+	/**
 	 * Bind the base path to the Container
 	 */
 	protected function bindBase()
@@ -146,39 +179,6 @@ class Igniter
 	////////////////////////////////////////////////////////////////////
 	/////////////////////////////// HELPERS ////////////////////////////
 	////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Get the base path
-	 *
-	 * @return string
-	 */
-	protected function getBasePath()
-	{
-		$base = $this->app['path.base'] ? $this->app['path.base'].'/' : '';
-		$base = $this->unifySlashes($base);
-
-		return $base;
-	}
-
-	/**
-	 * Get path to the storage folder
-	 *
-	 * @return string
-	 */
-	protected function getStoragePath()
-	{
-		// If no path is bound, default to the Rocketeer folder
-		if (!$this->app->bound('path.storage')) {
-			return '.rocketeer';
-		}
-
-		// Unify slashes
-		$storage = $this->app['path.storage'];
-		$storage = $this->unifySlashes($storage);
-		$storage = str_replace($this->getBasePath(), null, $storage);
-
-		return $storage;
-	}
 
 	/**
 	 * Unify the slashes to the UNIX mode (forward slashes)
