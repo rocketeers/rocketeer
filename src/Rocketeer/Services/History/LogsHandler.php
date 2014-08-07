@@ -82,7 +82,7 @@ class LogsHandler
 			$this->createLogsFile($file);
 
 			// Store specific logger instance
-			$logger = clone $this->app['log'];
+			$logger = clone $this->log;
 			$logger->useFiles($file);
 			$this->loggers[$file] = $logger;
 		}
@@ -101,12 +101,12 @@ class LogsHandler
 
 		// Create directory
 		if (!is_dir($directory)) {
-			$this->app['files']->makeDirectory($directory, 0777, true);
+			$this->files->makeDirectory($directory, 0777, true);
 		}
 
 		// Create file
 		if (!file_exists($file)) {
-			$this->app['files']->put($file, '');
+			$this->files->put($file, '');
 		}
 	}
 }

@@ -29,6 +29,7 @@ use Illuminate\Container\Container;
  * @property \Rocketeer\Services\Storages\LocalStorage  localStorage
  * @property \Rocketeer\Services\TasksHandler           tasks
  * @property \Rocketeer\Services\TasksQueue             queue
+ * @property \Illuminate\Log\Writer                     log
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait HasLocator
