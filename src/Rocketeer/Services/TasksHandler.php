@@ -12,6 +12,7 @@ namespace Rocketeer\Services;
 use Closure;
 use Illuminate\Container\Container;
 use Rocketeer\Abstracts\AbstractLocatorClass;
+use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Console\Commands\BaseTaskCommand;
 use Rocketeer\Task;
 use Rocketeer\Tasks;
@@ -66,7 +67,7 @@ class TasksHandler
 	 * Register a custom AbstractTask with Rocketeer
 	 *
 	 * @param string|Closure|AbstractTask $task
-	 * @param string                      $name
+	 * @param string|null                 $name
 	 *
 	 * @return Container
 	 */
@@ -182,7 +183,7 @@ class TasksHandler
 	/**
 	 * Bind a listener to a task
 	 *
-	 * @param string         $task
+	 * @param string|array   $task
 	 * @param string         $event
 	 * @param array|callable $listeners
 	 * @param integer        $priority
@@ -210,7 +211,7 @@ class TasksHandler
 	/**
 	 * Get all of a task's listeners
 	 *
-	 * @param  string|Task $task
+	 * @param  string|AbstractTask $task
 	 * @param  string      $event
 	 * @param  boolean     $flatten
 	 *

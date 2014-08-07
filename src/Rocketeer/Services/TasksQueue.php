@@ -227,7 +227,7 @@ class TasksQueue
 	 * Build a task from anything
 	 *
 	 * @param string|Closure|AbstractTask $task
-	 * @param string                      $name
+	 * @param string|null                 $name
 	 *
 	 * @return AbstractTask
 	 */
@@ -352,12 +352,12 @@ class TasksQueue
 	/**
 	 * Check if a string is a command or a task
 	 *
-	 * @param Closure|string $string
+	 * @param AbstractTask|Closure|string $string
 	 *
 	 * @return boolean
 	 */
 	protected function isStringCommand($string)
 	{
-		return is_string($string) and !class_exists($string) and !$this->app->bound('rocketeer.tasks.'.$string);
+		return is_string($string) && !class_exists($string) && !$this->app->bound('rocketeer.tasks.'.$string);
 	}
 }

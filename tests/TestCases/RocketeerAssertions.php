@@ -55,9 +55,9 @@ trait RocketeerAssertions
 	/**
 	 * Assert a task's history matches an array
 	 *
-	 * @param string|Task $task
-	 * @param array       $expectedHistory
-	 * @param array       $options
+	 * @param string|AbstractTask $task
+	 * @param array               $expectedHistory
+	 * @param array               $options
 	 *
 	 * @return string
 	 */
