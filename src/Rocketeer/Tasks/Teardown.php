@@ -40,7 +40,10 @@ class Teardown extends AbstractTask
 	public function execute()
 	{
 		// Ask confirmation
-		$confirm = $this->command->confirm('This will remove all folders on the server, not just releases. Do you want to proceed ?');
+		$confirm = $this->command->confirm(
+			'This will remove all folders on the server, not just releases. Do you want to proceed ?'
+		);
+
 		if (!$confirm) {
 			return $this->command->info('Teardown aborted');
 		}

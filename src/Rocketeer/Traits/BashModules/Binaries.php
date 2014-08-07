@@ -47,7 +47,7 @@ trait Binaries
 	 */
 	public function artisan($command = null, $flags = array())
 	{
-		$artisan = $this->which('artisan', $this->releasesManager->getCurrentReleasePath()."/artisan") ?: 'artisan';
+		$artisan = $this->which('artisan', $this->releasesManager->getCurrentReleasePath().'/artisan') ?: 'artisan';
 		foreach ($flags as $name => $value) {
 			$command .= ' --'.$name;
 			$command .= $value ? '="'.$value.'"' : '';

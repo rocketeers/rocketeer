@@ -88,7 +88,7 @@ class Ignite extends AbstractTask
 				'scm_repository'   => $repositoryCredentials['repository'],
 				'scm_username'     => $repositoryCredentials['username'],
 				'scm_password'     => $repositoryCredentials['password'],
-				'application_name' => $this->command->ask("What is your application's name ? (".$name.")", $name),
+				'application_name' => $this->command->ask('What is your application\'s name ? ('.$name.")", $name),
 			)
 		);
 	}
