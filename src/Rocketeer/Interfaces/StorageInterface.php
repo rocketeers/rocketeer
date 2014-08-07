@@ -18,6 +18,8 @@ interface StorageInterface
 	 *
 	 * @param string|array $key
 	 * @param mixed|null   $value
+	 *
+	 * @return void
 	 */
 	public function set($key, $value = null);
 
@@ -25,6 +27,8 @@ interface StorageInterface
 	 * Forget a value
 	 *
 	 * @param string $key
+	 *
+	 * @return void
 	 */
 	public function forget($key);
 

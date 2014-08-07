@@ -75,7 +75,7 @@ class TasksQueue
 	/**
 	 * Execute Tasks on various connections
 	 *
-	 * @param  string|array         $connections
+	 * @param  string|string[]      $connections
 	 * @param  string|array|Closure $queue
 	 *
 	 * @return array
@@ -297,9 +297,9 @@ class TasksQueue
 	/**
 	 * Build a Task from its name
 	 *
-	 * @param  string $task
+	 * @param string|Task $task
 	 *
-	 * @return \Rocketeer\Abstracts\Task
+	 * @return Task
 	 */
 	public function buildTaskFromClass($task)
 	{

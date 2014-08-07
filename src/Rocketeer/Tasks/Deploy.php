@@ -83,8 +83,6 @@ class Deploy extends Task
 
 	/**
 	 * Run PHPUnit tests
-	 *
-	 * @return void
 	 */
 	protected function checkTestsResults()
 	{
@@ -99,12 +97,10 @@ class Deploy extends Task
 
 	/**
 	 * Run migrations and seed database
-	 *
-	 * @return void
 	 */
 	protected function runMigrationsAndSeed()
 	{
-		$seed = $this->getOption('seed');
+		$seed = (bool) $this->getOption('seed');
 
 		if ($this->getOption('migrate')) {
 			return $this->runMigrations($seed);
@@ -119,8 +115,6 @@ class Deploy extends Task
 
 	/**
 	 * Create the events Deploy will run
-	 *
-	 * @return void
 	 */
 	protected function createEvents()
 	{

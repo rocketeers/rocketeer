@@ -9,6 +9,7 @@
  */
 namespace Rocketeer\Services;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Rocketeer\Traits\HasLocator;
 use string;
@@ -70,9 +71,7 @@ class ConnectionsHandler
 	/**
 	 * Set the stage Tasks will execute on
 	 *
-	 * @param  string $stage
-	 *
-	 * @return void
+	 * @param string|null $stage
 	 */
 	public function setStage($stage)
 	{
@@ -375,7 +374,7 @@ class ConnectionsHandler
 	public function getRepositoryBranch()
 	{
 		exec($this->scm->currentBranch(), $fallback);
-		$fallback = array_get($fallback, 0, 'master');
+		$fallback = Arr::get($fallback, 0, 'master');
 		$fallback = trim($fallback);
 		$branch   = $this->rocketeer->getOption('scm.branch') ?: $fallback;
 

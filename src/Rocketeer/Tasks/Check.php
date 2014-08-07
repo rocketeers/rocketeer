@@ -146,7 +146,7 @@ class Check extends Task
 			$composer = json_decode($composer, true);
 
 			// Strip versions of constraints
-			$required = array_get($composer, 'require.php');
+			$required = (string) array_get($composer, 'require.php');
 			$required = preg_replace('/>=/', '', $required);
 		}
 

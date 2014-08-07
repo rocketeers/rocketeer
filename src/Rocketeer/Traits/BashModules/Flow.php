@@ -17,6 +17,13 @@ namespace Rocketeer\Traits\BashModules;
 trait Flow
 {
 	/**
+	 * Whether the Task needs to be run on each stage or globally
+	 *
+	 * @var boolean
+	 */
+	public $usesStages = true;
+
+	/**
 	 * Check if the remote server is setup
 	 *
 	 * @return boolean
@@ -70,7 +77,7 @@ trait Flow
 	/**
 	 * Update the current symlink
 	 *
-	 * @param integer $release A release to mark as current
+	 * @param integer|null $release A release to mark as current
 	 *
 	 * @return string
 	 */

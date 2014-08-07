@@ -73,7 +73,7 @@ class TasksHandler
 	public function add($task, $name = null)
 	{
 		// Build Task if necessary
-		$task = $this->buildTask($task, $name);
+		$task = $this->queue->buildTask($task, $name);
 		$slug = 'rocketeer.tasks.'.$task->getSlug();
 
 		// Add the task to Rocketeer
@@ -169,7 +169,7 @@ class TasksHandler
 	public function listenTo($event, $listeners, $priority = 0)
 	{
 		// Create array if it doesn't exist
-		$listeners = $this->buildQueue((array) $listeners);
+		$listeners = $this->queue->buildQueue((array) $listeners);
 
 		// Register events
 		foreach ($listeners as $listener) {
@@ -182,10 +182,10 @@ class TasksHandler
 	/**
 	 * Bind a listener to a task
 	 *
-	 * @param string  $task
-	 * @param string  $event
-	 * @param mixed   $listeners
-	 * @param integer $priority
+	 * @param string         $task
+	 * @param string         $event
+	 * @param array|callable $listeners
+	 * @param integer        $priority
 	 *
 	 * @return string
 	 */
@@ -201,7 +201,7 @@ class TasksHandler
 		}
 
 		// Get event name and register listeners
-		$event = $this->buildTaskFromClass($task)->getSlug().'.'.$event;
+		$event = $this->queue->buildTaskFromClass($task)->getSlug().'.'.$event;
 		$event = $this->listenTo($event, $listeners, $priority);
 
 		return $event;
@@ -219,7 +219,7 @@ class TasksHandler
 	public function getTasksListeners($task, $event, $flatten = false)
 	{
 		// Get events
-		$task   = $this->buildTaskFromClass($task)->getSlug();
+		$task   = $this->queue->buildTaskFromClass($task)->getSlug();
 		$events = $this->events->getListeners('rocketeer.'.$task.'.'.$event);
 
 		// Flatten the queue if requested

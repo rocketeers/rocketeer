@@ -114,6 +114,8 @@ abstract class Storage
 	 * Save the contents of the file
 	 *
 	 * @param array $contents
+	 *
+	 * @return void
 	 */
 	abstract protected function saveContents($contents);
 }

@@ -74,7 +74,7 @@ class ReleasesManager
 
 			// Filter and sort releases
 			$releases = array_filter($releases, function ($release) {
-				return preg_match('#[0-9]{14}#', $release);
+				return $this->isRelease($release);
 			});
 
 			rsort($releases);
@@ -209,14 +209,17 @@ class ReleasesManager
 	/**
 	 * Mark a release as valid
 	 *
-	 * @param integer|null $release
+	 * @param integer|string|null $release
 	 */
 	public function markReleaseAsValid($release = null)
 	{
 		$release = $release ?: $this->getCurrentRelease();
 
-		$this->state[$release] = true;
-		$this->storage->set($release, true);
+		// If the release is not null, mark it as valid
+		if ($release) {
+			$this->state[$release] = true;
+			$this->storage->set($release, true);
+		}
 	}
 
 	/**
@@ -238,13 +241,25 @@ class ReleasesManager
 	/**
 	 * Sanitize a possible release
 	 *
-	 * @param string $release
+	 * @param string|integer $release
 	 *
 	 * @return string|null
 	 */
 	protected function sanitizeRelease($release)
 	{
-		return strlen($release) === 14 ? $release : null;
+		return $this->isRelease($release) ? $release : null;
+	}
+
+	/**
+	 * Check if it quacks like a duck
+	 *
+	 * @param string|integer $release
+	 *
+	 * @return bool
+	 */
+	protected function isRelease($release)
+	{
+		return (bool) preg_match('#[0-9]{14}#', $release);
 	}
 
 	/**

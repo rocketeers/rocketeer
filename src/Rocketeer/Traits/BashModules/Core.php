@@ -96,7 +96,7 @@ trait Core
 	 * @param  boolean      $array Whether the output should be returned as an array
 	 * @param  boolean      $trim  Whether the output should be trimmed
 	 *
-	 * @return string
+	 * @return string|string[]
 	 */
 	public function runRaw($commands, $array = false, $trim = false)
 	{
