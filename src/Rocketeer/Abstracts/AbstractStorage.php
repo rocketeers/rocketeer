@@ -49,7 +49,7 @@ abstract class AbstractStorage
 	 * @param string|null         $key
 	 * @param string|Closure|null $fallback
 	 *
-	 * @return mixed
+	 * @return string|integer|array
 	 */
 	public function get($key = null, $fallback = null)
 	{
