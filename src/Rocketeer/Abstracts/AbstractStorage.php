@@ -68,7 +68,7 @@ abstract class AbstractStorage
 	{
 		// Set the value on the contents
 		$contents = $this->getContents();
-		if (is_null($value)) {
+		if (!is_string($value)) {
 			$contents = $key;
 		} else {
 			Arr::set($contents, $key, $value);

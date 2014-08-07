@@ -25,9 +25,8 @@ abstract class RocketeerTestCase extends ContainerTestCase
 
 	/**
 	 * A dummy AbstractTask to use for helpers tests
-
 	 *
-*@var \Rocketeer\Abstracts\AbstractTask
+	 * @var \Rocketeer\Abstracts\AbstractTask
 	 */
 	protected $task;
 
@@ -181,14 +180,12 @@ abstract class RocketeerTestCase extends ContainerTestCase
 
 	/**
 	 * Get a pretend AbstractTask to run bogus commands
-
 	 *
-*@param string $task
+	 * @param string $task
 	 * @param array  $options
 	 * @param array  $expectations
-
 	 *
-*@return \Rocketeer\Abstracts\AbstractTask
+	 * @return \Rocketeer\Abstracts\AbstractTask
 	 */
 	protected function pretendTask($task = 'Deploy', $options = array(), array $expectations = array())
 	{
@@ -199,13 +196,11 @@ abstract class RocketeerTestCase extends ContainerTestCase
 
 	/**
 	 * Get AbstractTask instance
-
 	 *
-*@param string $task
+	 * @param string $task
 	 * @param array  $options
-
 	 *
-*@return \Rocketeer\Abstracts\AbstractTask
+	 * @return \Rocketeer\Abstracts\AbstractTask
 	 */
 	protected function task($task = null, $options = array())
 	{

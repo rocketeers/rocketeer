@@ -52,7 +52,7 @@ trait Core
 			$this->toOutput($commands);
 			$this->command->line(implode(PHP_EOL, $commands));
 
-			return sizeof($commands) == 1 ? $commands[0] : $commands;
+			return count($commands) == 1 ? $commands[0] : $commands;
 		}
 
 		// Run commands

@@ -25,13 +25,11 @@ class Console extends Application
 	 */
 	public function getHelp()
 	{
-		$help = str_replace($this->getLongVersion(), null, parent::getHelp());
+		$help  = str_replace($this->getLongVersion(), null, parent::getHelp());
+		$state = $this->buildBlock('Current state', $this->getCurrentState());
+		$help  = sprintf('%s'.PHP_EOL.PHP_EOL.'%s%s', $this->getLongVersion(), $state, $help);
 
-		return
-			$this->getLongVersion().
-			PHP_EOL.PHP_EOL.
-			$this->buildBlock('Current state', $this->getCurrentState()).
-			$help;
+		return $help;
 	}
 
 	/**

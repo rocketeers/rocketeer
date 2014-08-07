@@ -92,13 +92,11 @@ abstract class Notifier extends AbstractPlugin
 
 	/**
 	 * Prepare and send a message
-
 	 *
-*@param AbstractTask $task
-	 * @param string $message
-
+	 * @param AbstractTask $task
+	 * @param string       $message
 	 *
-*@return void
+	 * @return void
 	 */
 	public function prepareThenSend(AbstractTask $task, $message)
 	{

@@ -28,18 +28,16 @@ class BaseTaskCommand extends AbstractDeployCommand
 
 	/**
 	 * the task to execute on fire
-
 	 *
-*@var AbstractTask
+	 * @var AbstractTask
 	 */
 	protected $task;
 
 	/**
 	 * Build a new custom command
-
 	 *
-*@param AbstractTask        $task
-	 * @param string|null $name A name for the command
+	 * @param AbstractTask $task
+	 * @param string|null  $name A name for the command
 	 */
 	public function __construct(AbstractTask $task, $name = null)
 	{
@@ -67,9 +65,8 @@ class BaseTaskCommand extends AbstractDeployCommand
 
 	/**
 	 * Get the task this command executes
-
 	 *
-*@return AbstractTask
+	 * @return AbstractTask
 	 */
 	public function getTask()
 	{

@@ -44,7 +44,7 @@ class Cleanup extends AbstractTask
 		}
 
 		// Create final message
-		$trash   = sizeof($trash);
+		$trash   = count($trash);
 		$message = sprintf('Removing <info>%d %s</info> from the server', $trash, Str::plural('release', $trash));
 
 		// Delete state file

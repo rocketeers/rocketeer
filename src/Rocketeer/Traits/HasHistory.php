@@ -83,7 +83,7 @@ trait HasHistory
 	{
 		// Flatten one-liners
 		$command = (array) $command;
-		$command = sizeof($command) == 1 ? $command[0] : $command;
+		$command = count($command) == 1 ? $command[0] : $command;
 
 		// Get the various handles
 		$handle    = $this->getHistoryHandle();

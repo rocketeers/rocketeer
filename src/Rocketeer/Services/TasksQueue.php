@@ -123,13 +123,11 @@ class TasksQueue
 
 	/**
 	 * Run the queue, taking into account the stage
-
 	 *
-*@param  \Rocketeer\Abstracts\AbstractTask[] $tasks
-	 * @param  string                      $stage
-
+	 * @param  \Rocketeer\Abstracts\AbstractTask[] $tasks
+	 * @param  string                              $stage
 	 *
-*@return boolean
+	 * @return boolean
 	 */
 	protected function runQueue($tasks, $stage = null)
 	{
@@ -227,13 +225,11 @@ class TasksQueue
 
 	/**
 	 * Build a task from anything
-
 	 *
-*@param mixed  $task
-	 * @param string $name
-
+	 * @param string|Closure|AbstractTask $task
+	 * @param string                      $name
 	 *
-*@return AbstractTask
+	 * @return AbstractTask
 	 */
 	public function buildTask($task, $name = null)
 	{
@@ -265,12 +261,10 @@ class TasksQueue
 
 	/**
 	 * Build a task from a Closure or a string command
-
 	 *
-*@param Closure|string $task
-
+	 * @param Closure|string $task
 	 *
-*@return AbstractTask
+	 * @return AbstractTask
 	 */
 	public function buildTaskFromClosure($task)
 	{
@@ -302,13 +296,9 @@ class TasksQueue
 
 	/**
 	 * Build a task from its name
-
-
-*
-*@param string|AbstractTask $task
-
-
-*
+	 *
+	 * @param string|AbstractTask $task
+	 *
 	 * @return AbstractTask
 	 */
 	public function buildTaskFromClass($task)

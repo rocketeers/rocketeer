@@ -291,8 +291,8 @@ class ConnectionsHandler
 		$credentials = $this->getServerCredentials($connection, $server);
 
 		// Set the connection
-		$this->connection = $connection;
-		$this->localStorage     = $server;
+		$this->connection   = $connection;
+		$this->localStorage = $server;
 
 		// Register it with SSH component
 		$name = $connection.'#'.$server;

@@ -65,8 +65,8 @@ class TasksHandler
 	/**
 	 * Register a custom AbstractTask with Rocketeer
 	 *
-	 * @param AbstractTask|string $task
-	 * @param string      $name
+	 * @param string|Closure|AbstractTask $task
+	 * @param string                      $name
 	 *
 	 * @return Container
 	 */
@@ -91,8 +91,8 @@ class TasksHandler
 	/**
 	 * Register a task with Rocketeer
 	 *
-	 * @param string $name
-	 * @param mixed  $task
+	 * @param string                      $name
+	 * @param string|Closure|AbstractTask $task
 	 *
 	 * @return void
 	 */
@@ -108,9 +108,9 @@ class TasksHandler
 	/**
 	 * Execute a task before another one
 	 *
-	 * @param  string              $task
+	 * @param  string                      $task
 	 * @param  string|Closure|AbstractTask $listeners
-	 * @param  integer             $priority
+	 * @param  integer                     $priority
 	 *
 	 * @return void
 	 */
@@ -122,9 +122,9 @@ class TasksHandler
 	/**
 	 * Execute a task after another one
 	 *
-	 * @param  string              $task
+	 * @param  string                      $task
 	 * @param  string|Closure|AbstractTask $listeners
-	 * @param  integer             $priority
+	 * @param  integer                     $priority
 	 *
 	 * @return void
 	 */

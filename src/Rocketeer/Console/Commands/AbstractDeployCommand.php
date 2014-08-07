@@ -104,7 +104,7 @@ abstract class AbstractDeployCommand extends Command
 	/**
 	 * Time an operation and display it afterwards
 	 *
-	 * @param callable $callback
+	 * @param Closure $callback
 	 */
 	protected function time(Closure $callback)
 	{
@@ -165,7 +165,7 @@ abstract class AbstractDeployCommand extends Command
 		$availableConnections = $this->laravel['rocketeer.connections']->getAvailableConnections();
 		$activeConnections    = $this->laravel['rocketeer.connections']->getConnections();
 
-		if (sizeof($activeConnections) <= 0) {
+		if (count($activeConnections) <= 0) {
 			$connectionName = $this->ask('No connections have been set, please create one : (production)', 'production');
 			$this->storeServerCredentials($availableConnections, $connectionName);
 		} else {

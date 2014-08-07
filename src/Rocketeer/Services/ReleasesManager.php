@@ -259,6 +259,8 @@ class ReleasesManager
 	 */
 	protected function isRelease($release)
 	{
+		$release = (string) $release;
+
 		return (bool) preg_match('#[0-9]{14}#', $release);
 	}
 
