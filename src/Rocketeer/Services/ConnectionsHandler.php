@@ -355,7 +355,7 @@ class ConnectionsHandler
 		if ($username or $password) {
 
 			// Build credentials chain
-			$credentials  = $password ? $username.':'.$password : $username;
+			$credentials = $password ? $username.':'.$password : $username;
 			$credentials .= '@';
 
 			// Add them in chain

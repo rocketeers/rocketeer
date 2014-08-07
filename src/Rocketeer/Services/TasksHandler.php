@@ -212,8 +212,8 @@ class TasksHandler
 	 * Get all of a task's listeners
 	 *
 	 * @param  string|AbstractTask $task
-	 * @param  string      $event
-	 * @param  boolean     $flatten
+	 * @param  string              $event
+	 * @param  boolean             $flatten
 	 *
 	 * @return array
 	 */
