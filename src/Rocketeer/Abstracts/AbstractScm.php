@@ -16,7 +16,7 @@ use Rocketeer\Traits\HasLocator;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-abstract class Scm
+abstract class AbstractScm
 {
 	use HasLocator;
 

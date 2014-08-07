@@ -6,7 +6,7 @@ use Illuminate\Container\Container;
 use Illuminate\Support\Arr;
 use Rocketeer\Traits\HasLocator;
 
-abstract class Storage
+abstract class AbstractStorage
 {
 	use HasLocator;
 

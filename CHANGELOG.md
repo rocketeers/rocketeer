@@ -5,7 +5,7 @@
 #### Breaking changes
 
 - Minimum requirement is now PHP 5.4+
-- The `Traits` folder was renamed to `Abstracts`, if you were extending `Rocketeer\Traits\Task`, change that accordingly to `Rocketeer\Abstracts\Task`
+- The `Traits` folder was renamed to `Abstracts`, if you were extending `Rocketeer\Traits\Task`, change that accordingly to `Rocketeer\Abstracts\AbstractTask`
 - Connections and stages handling was moved to a ConnectionsHandler class. If you were doing per example `$task->rocketeer->getStage()` you'll need to change it to `$task->connections->getStage()`, etc.
 
 #### Features and bugfixes

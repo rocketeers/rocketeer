@@ -17,14 +17,14 @@ namespace Rocketeer\Tasks;
 class Update extends Deploy
 {
 	/**
-	 * A description of what the Task does
+	 * A description of what the task does
 	 *
 	 * @var string
 	 */
 	protected $description = 'Update the remote server without doing a new release';
 
 	/**
-	 * Run the Task
+	 * Run the task
 	 *
 	 * @return  void
 	 */

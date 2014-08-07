@@ -11,7 +11,7 @@ namespace Rocketeer\Services\Storages;
 
 use Exception;
 use Illuminate\Container\Container;
-use Rocketeer\Abstracts\Storage;
+use Rocketeer\Abstracts\AbstractStorage;
 use Rocketeer\Interfaces\StorageInterface;
 
 /**
@@ -19,7 +19,7 @@ use Rocketeer\Interfaces\StorageInterface;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class LocalStorage extends Storage implements StorageInterface
+class LocalStorage extends AbstractStorage implements StorageInterface
 {
 	/**
 	 * The current hash in use

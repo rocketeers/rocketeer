@@ -10,14 +10,14 @@
 namespace Rocketeer\Tasks;
 
 use Closure as AnonymousFunction;
-use Rocketeer\Abstracts\Task;
+use Rocketeer\Abstracts\AbstractTask;
 
 /**
- * A Task that wraps around a closure and execute it
+ * a task that wraps around a closure and execute it
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class Closure extends Task
+class Closure extends AbstractTask
 {
 	/**
 	 * A Closure to execute at runtime
@@ -34,7 +34,7 @@ class Closure extends Task
 	protected $stringTask;
 
 	/**
-	 * Create a Task from a Closure
+	 * Create a task from a Closure
 	 *
 	 * @param  AnonymousFunction $closure
 	 */
@@ -44,7 +44,7 @@ class Closure extends Task
 	}
 
 	/**
-	 * Get the Task's Closure
+	 * Get the task's Closure
 	 *
 	 * @return Closure
 	 */
@@ -74,7 +74,7 @@ class Closure extends Task
 	}
 
 	/**
-	 * Run the Task
+	 * Run the task
 	 *
 	 * @return  void
 	 */

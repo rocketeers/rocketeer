@@ -9,7 +9,7 @@
  */
 namespace Rocketeer\Scm;
 
-use Rocketeer\Abstracts\Scm;
+use Rocketeer\Abstracts\AbstractScm;
 use Rocketeer\Interfaces\ScmInterface;
 
 /**
@@ -18,7 +18,7 @@ use Rocketeer\Interfaces\ScmInterface;
  * @author Maxime Fabre <ehtnam6@gmail.com>
  * @author Gasillo
  */
-class Svn extends Scm implements ScmInterface
+class Svn extends AbstractScm implements ScmInterface
 {
 	/**
 	 * The core binary

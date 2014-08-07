@@ -17,7 +17,7 @@ namespace Rocketeer\Traits\BashModules;
 trait Flow
 {
 	/**
-	 * Whether the Task needs to be run on each stage or globally
+	 * Whether the task needs to be run on each stage or globally
 	 *
 	 * @var boolean
 	 */
@@ -34,7 +34,7 @@ trait Flow
 	}
 
 	/**
-	 * Check if the Task uses stages
+	 * Check if the task uses stages
 	 *
 	 * @return boolean
 	 */

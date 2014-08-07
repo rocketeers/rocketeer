@@ -63,16 +63,16 @@ class TasksHandler
 	////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Register a custom Task with Rocketeer
+	 * Register a custom AbstractTask with Rocketeer
 	 *
-	 * @param Task|string $task
+	 * @param AbstractTask|string $task
 	 * @param string      $name
 	 *
 	 * @return Container
 	 */
 	public function add($task, $name = null)
 	{
-		// Build Task if necessary
+		// Build task if necessary
 		$task = $this->queue->buildTask($task, $name);
 		$slug = 'rocketeer.tasks.'.$task->getSlug();
 
@@ -106,10 +106,10 @@ class TasksHandler
 	////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Execute a Task before another one
+	 * Execute a task before another one
 	 *
 	 * @param  string              $task
-	 * @param  string|Closure|Task $listeners
+	 * @param  string|Closure|AbstractTask $listeners
 	 * @param  integer             $priority
 	 *
 	 * @return void
@@ -120,10 +120,10 @@ class TasksHandler
 	}
 
 	/**
-	 * Execute a Task after another one
+	 * Execute a task after another one
 	 *
 	 * @param  string              $task
-	 * @param  string|Closure|Task $listeners
+	 * @param  string|Closure|AbstractTask $listeners
 	 * @param  integer             $priority
 	 *
 	 * @return void

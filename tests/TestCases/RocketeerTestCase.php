@@ -24,9 +24,10 @@ abstract class RocketeerTestCase extends ContainerTestCase
 	protected $deploymentsFile;
 
 	/**
-	 * A dummy Task to use for helpers tests
+	 * A dummy AbstractTask to use for helpers tests
+
 	 *
-	 * @var \Rocketeer\Abstracts\Task
+*@var \Rocketeer\Abstracts\AbstractTask
 	 */
 	protected $task;
 
@@ -48,7 +49,7 @@ abstract class RocketeerTestCase extends ContainerTestCase
 			return new LocalStorage($app, 'deployments', $folder);
 		});
 
-		// Bind dummy Task
+		// Bind dummy AbstractTask
 		$this->task = $this->task('Cleanup');
 		$this->recreateVirtualServer();
 	}
@@ -179,13 +180,15 @@ abstract class RocketeerTestCase extends ContainerTestCase
 	}
 
 	/**
-	 * Get a pretend Task to run bogus commands
+	 * Get a pretend AbstractTask to run bogus commands
+
 	 *
-	 * @param string $task
+*@param string $task
 	 * @param array  $options
 	 * @param array  $expectations
+
 	 *
-	 * @return \Rocketeer\Abstracts\Task
+*@return \Rocketeer\Abstracts\AbstractTask
 	 */
 	protected function pretendTask($task = 'Deploy', $options = array(), array $expectations = array())
 	{
@@ -195,12 +198,14 @@ abstract class RocketeerTestCase extends ContainerTestCase
 	}
 
 	/**
-	 * Get Task instance
+	 * Get AbstractTask instance
+
 	 *
-	 * @param string $task
+*@param string $task
 	 * @param array  $options
+
 	 *
-	 * @return \Rocketeer\Abstracts\Task
+*@return \Rocketeer\Abstracts\AbstractTask
 	 */
 	protected function task($task = null, $options = array())
 	{

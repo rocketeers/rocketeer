@@ -9,14 +9,14 @@
  */
 namespace Rocketeer\Tasks;
 
-use Rocketeer\Abstracts\Task;
+use Rocketeer\Abstracts\AbstractTask;
 
 /**
  * Check if the server is ready to receive the application
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class Check extends Task
+class Check extends AbstractTask
 {
 	/**
 	 * The PHP extensions loaded on server
@@ -26,21 +26,21 @@ class Check extends Task
 	protected $extensions = array();
 
 	/**
-	 * A description of what the Task does
+	 * A description of what the task does
 	 *
 	 * @var string
 	 */
 	protected $description = 'Check if the server is ready to receive the application';
 
 	/**
-	 * Whether the Task needs to be run on each stage or globally
+	 * Whether the task needs to be run on each stage or globally
 	 *
 	 * @var boolean
 	 */
 	public $usesStages = false;
 
 	/**
-	 * Run the Task
+	 * Run the task
 	 *
 	 * @return  void
 	 */

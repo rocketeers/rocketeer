@@ -24,7 +24,7 @@ Code Coverage Report:
   Methods:  63.64% ( 7/11)   Lines:  89.33% ( 67/ 75)
 \Rocketeer\Plugins::Notifier
   Methods:  75.00% ( 3/ 4)   Lines:  87.50% ( 21/ 24)
-\Rocketeer\Scm::Git
+\Rocketeer\AbstractScm::Git
   Methods: 100.00% ( 7/ 7)   Lines: 100.00% ( 10/ 10)
 \Rocketeer\Tasks::Check
   Methods:  75.00% ( 6/ 8)   Lines:  92.65% ( 63/ 68)
@@ -50,11 +50,11 @@ Code Coverage Report:
   Methods: 100.00% ( 1/ 1)   Lines: 100.00% ( 10/ 10)
 \Rocketeer\Abstracts::AbstractLocatorClass
   Methods: 100.00% ( 4/ 4)   Lines: 100.00% ( 19/ 19)
-\Rocketeer\Abstracts::Plugin
+\Rocketeer\Abstracts::AbstractPlugin
   Methods: 100.00% ( 2/ 2)   Lines: 100.00% (  5/  5)
-\Rocketeer\Abstracts::Scm
+\Rocketeer\Abstracts::AbstractScm
   Methods: 100.00% ( 3/ 3)   Lines: 100.00% (  9/  9)
-\Rocketeer\Abstracts::Task
+\Rocketeer\Abstracts::AbstractTask
   Methods:  72.73% ( 8/11)   Lines:  88.89% ( 32/ 36)
 \Rocketeer\Abstracts\BashModules::Binaries
   Methods:  50.00% ( 4/ 8)   Lines:  89.09% ( 49/ 55)
@@ -64,5 +64,5 @@ Code Coverage Report:
   Methods:  80.00% ( 8/10)   Lines:  94.12% ( 32/ 34)
 \Rocketeer\Abstracts\BashModules::Flow
   Methods: 100.00% ( 6/ 6)   Lines: 100.00% ( 22/ 22)
-\Rocketeer\Abstracts\BashModules::Scm
+\Rocketeer\Abstracts\BashModules::AbstractScm
   Methods:  66.67% ( 2/ 3)   Lines:  96.88% ( 31/ 32)

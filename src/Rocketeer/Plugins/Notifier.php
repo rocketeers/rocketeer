@@ -9,14 +9,14 @@
  */
 namespace Rocketeer\Plugins;
 
-use Rocketeer\Abstracts\Plugin;
-use Rocketeer\Abstracts\Task;
+use Rocketeer\Abstracts\AbstractPlugin;
+use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Services\TasksHandler;
 
 /**
  * A base class for notification services to extends
  */
-abstract class Notifier extends Plugin
+abstract class Notifier extends AbstractPlugin
 {
 	/**
 	 * Register Tasks with Rocketeer
@@ -92,13 +92,15 @@ abstract class Notifier extends Plugin
 
 	/**
 	 * Prepare and send a message
+
 	 *
-	 * @param Task   $task
+*@param AbstractTask $task
 	 * @param string $message
+
 	 *
-	 * @return void
+*@return void
 	 */
-	public function prepareThenSend(Task $task, $message)
+	public function prepareThenSend(AbstractTask $task, $message)
 	{
 		// Don't send a notification if pretending to deploy
 		if ($task->command->option('pretend')) {

@@ -10,14 +10,14 @@
 namespace Rocketeer\Tasks;
 
 use DateTime;
-use Rocketeer\Abstracts\Task;
+use Rocketeer\Abstracts\AbstractTask;
 
 /**
  * Display what the current release is
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class CurrentRelease extends Task
+class CurrentRelease extends AbstractTask
 {
 	/**
 	 * The slug of the task
@@ -27,14 +27,14 @@ class CurrentRelease extends Task
 	protected $name = 'current';
 
 	/**
-	 * A description of what the Task does
+	 * A description of what the task does
 	 *
 	 * @var string
 	 */
 	protected $description = 'Display what the current release is';
 
 	/**
-	 * Run the Task
+	 * Run the task
 	 *
 	 * @return  void
 	 */

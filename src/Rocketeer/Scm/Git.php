@@ -9,7 +9,7 @@
  */
 namespace Rocketeer\Scm;
 
-use Rocketeer\Abstracts\Scm;
+use Rocketeer\Abstracts\AbstractScm;
 use Rocketeer\Interfaces\ScmInterface;
 
 /**
@@ -17,7 +17,7 @@ use Rocketeer\Interfaces\ScmInterface;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class Git extends Scm implements ScmInterface
+class Git extends AbstractScm implements ScmInterface
 {
 	/**
 	 * The core binary

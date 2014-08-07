@@ -9,14 +9,14 @@
  */
 namespace Rocketeer\Tasks;
 
-use Rocketeer\Abstracts\Task;
+use Rocketeer\Abstracts\AbstractTask;
 
 /**
  * Deploy the website
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class Deploy extends Task
+class Deploy extends AbstractTask
 {
 	/**
 	 * Methods that can halt deployment
@@ -26,7 +26,7 @@ class Deploy extends Task
 	protected $halting = array();
 
 	/**
-	 * Run the Task
+	 * Run the task
 	 *
 	 * @return  void
 	 */

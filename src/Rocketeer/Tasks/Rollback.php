@@ -9,17 +9,17 @@
  */
 namespace Rocketeer\Tasks;
 
-use Rocketeer\Abstracts\Task;
+use Rocketeer\Abstracts\AbstractTask;
 
 /**
  * Rollback to the previous release, or to a specific one
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class Rollback extends Task
+class Rollback extends AbstractTask
 {
 	/**
-	 * Run the Task
+	 * Run the task
 	 *
 	 * @return  void
 	 */

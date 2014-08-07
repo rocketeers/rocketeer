@@ -1,10 +1,10 @@
 <?php
 namespace Rocketeer\Strategies;
 
-use Rocketeer\Abstracts\Strategy;
+use Rocketeer\Abstracts\AbstractStrategy;
 use Rocketeer\Interfaces\StrategyInterface;
 
-class CloneStrategy extends Strategy implements StrategyInterface
+class CloneStrategy extends AbstractStrategy implements StrategyInterface
 {
 	/**
 	 * Deploy a new clean copy of the application

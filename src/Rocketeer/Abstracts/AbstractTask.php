@@ -13,11 +13,11 @@ use DateTime;
 use Rocketeer\Bash;
 
 /**
- * An abstract Task with common helpers, from which all Tasks derive
+ * An abstract AbstractTask with common helpers, from which all Tasks derive
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-abstract class Task extends Bash
+abstract class AbstractTask extends Bash
 {
 	/**
 	 * The name of the task
@@ -27,7 +27,7 @@ abstract class Task extends Bash
 	protected $name;
 
 	/**
-	 * A description of what the Task does
+	 * A description of what the task does
 	 *
 	 * @var string
 	 */
@@ -45,7 +45,7 @@ abstract class Task extends Bash
 	////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Get the name of the Task
+	 * Get the name of the task
 	 *
 	 * @return string
 	 */
@@ -55,7 +55,7 @@ abstract class Task extends Bash
 	}
 
 	/**
-	 * Change the Task's name
+	 * Change the task's name
 	 *
 	 * @param string $name
 	 */
@@ -65,7 +65,7 @@ abstract class Task extends Bash
 	}
 
 	/**
-	 * Get the basic name of the Task
+	 * Get the basic name of the task
 	 *
 	 * @return string
 	 */
@@ -75,7 +75,7 @@ abstract class Task extends Bash
 	}
 
 	/**
-	 * Get what the Task does
+	 * Get what the task does
 	 *
 	 * @return string
 	 */
@@ -89,7 +89,7 @@ abstract class Task extends Bash
 	////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Run the Task
+	 * Run the task
 	 *
 	 * @return string
 	 */
@@ -102,7 +102,7 @@ abstract class Task extends Bash
 	 */
 	public function fire()
 	{
-		// Fire the Task if the before event passes
+		// Fire the task if the before event passes
 		if ($this->fireEvent('before')) {
 			$results = $this->execute();
 			$this->fireEvent('after');
@@ -133,7 +133,7 @@ abstract class Task extends Bash
 	}
 
 	/**
-	 * Whether the Task was halted mid-course
+	 * Whether the task was halted mid-course
 	 *
 	 * @return boolean
 	 */
@@ -206,11 +206,11 @@ abstract class Task extends Bash
 	}
 
 	/**
-	 * Execute another Task by name
+	 * Execute another AbstractTask by name
 	 *
 	 * @param  string $task
 	 *
-	 * @return string The Task's output
+	 * @return string the task's output
 	 */
 	public function executeTask($task)
 	{

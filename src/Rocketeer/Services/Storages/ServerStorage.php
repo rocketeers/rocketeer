@@ -9,7 +9,7 @@
  */
 namespace Rocketeer\Services\Storages;
 
-use Rocketeer\Abstracts\Storage;
+use Rocketeer\Abstracts\AbstractStorage;
 use Rocketeer\Interfaces\StorageInterface;
 
 /**
@@ -17,7 +17,7 @@ use Rocketeer\Interfaces\StorageInterface;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class ServerStorage extends Storage implements StorageInterface
+class ServerStorage extends AbstractStorage implements StorageInterface
 {
 	/**
 	 * Destroy the file

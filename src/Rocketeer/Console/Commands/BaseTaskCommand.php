@@ -9,10 +9,10 @@
  */
 namespace Rocketeer\Console\Commands;
 
-use Rocketeer\Abstracts\Task;
+use Rocketeer\Abstracts\AbstractTask;
 
 /**
- * A command that wraps around a Task class and runs
+ * A command that wraps around a task class and runs
  * its execute method on fire
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
@@ -27,23 +27,25 @@ class BaseTaskCommand extends AbstractDeployCommand
 	protected $name = 'deploy:custom';
 
 	/**
-	 * The Task to execute on fire
+	 * the task to execute on fire
+
 	 *
-	 * @var Task
+*@var AbstractTask
 	 */
 	protected $task;
 
 	/**
 	 * Build a new custom command
+
 	 *
-	 * @param Task        $task
+*@param AbstractTask        $task
 	 * @param string|null $name A name for the command
 	 */
-	public function __construct(Task $task, $name = null)
+	public function __construct(AbstractTask $task, $name = null)
 	{
 		parent::__construct();
 
-		// Set Task
+		// Set task
 		$this->task          = $task;
 		$this->task->command = $this;
 
@@ -64,9 +66,10 @@ class BaseTaskCommand extends AbstractDeployCommand
 	}
 
 	/**
-	 * Get the Task this command executes
+	 * Get the task this command executes
+
 	 *
-	 * @return Task
+*@return AbstractTask
 	 */
 	public function getTask()
 	{

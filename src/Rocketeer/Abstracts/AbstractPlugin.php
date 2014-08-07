@@ -19,7 +19,7 @@ use Rocketeer\Traits\HasLocator;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-abstract class Plugin
+abstract class AbstractPlugin
 {
 	use HasLocator;
 

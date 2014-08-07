@@ -1,9 +1,9 @@
 <?php
 namespace Rocketeer\Dummies;
 
-use Rocketeer\Abstracts\Task;
+use Rocketeer\Abstracts\AbstractTask;
 
-class MyCustomTask extends Task
+class MyCustomTask extends AbstractTask
 {
 	public function execute()
 	{

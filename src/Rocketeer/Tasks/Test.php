@@ -9,24 +9,24 @@
  */
 namespace Rocketeer\Tasks;
 
-use Rocketeer\Abstracts\Task;
+use Rocketeer\Abstracts\AbstractTask;
 
 /**
  * Run the tests on the server and displays the output
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class Test extends Task
+class Test extends AbstractTask
 {
 	/**
-	 * A description of what the Task does
+	 * A description of what the task does
 	 *
 	 * @var string
 	 */
 	protected $description = 'Run the tests on the server and displays the output';
 
 	/**
-	 * Run the Task
+	 * Run the task
 	 *
 	 * @return  void
 	 */

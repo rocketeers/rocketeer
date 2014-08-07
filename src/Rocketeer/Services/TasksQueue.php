@@ -13,7 +13,7 @@ use Closure;
 use Exception;
 use KzykHys\Parallel\Parallel;
 use Rocketeer\Abstracts\AbstractLocatorClass;
-use Rocketeer\Abstracts\Task;
+use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Connection;
 use Rocketeer\Traits\HasLocator;
 use string;
@@ -123,11 +123,13 @@ class TasksQueue
 
 	/**
 	 * Run the queue, taking into account the stage
+
 	 *
-	 * @param  \Rocketeer\Abstracts\Task[] $tasks
+*@param  \Rocketeer\Abstracts\AbstractTask[] $tasks
 	 * @param  string                      $stage
+
 	 *
-	 * @return boolean
+*@return boolean
 	 */
 	protected function runQueue($tasks, $stage = null)
 	{
@@ -208,7 +210,7 @@ class TasksQueue
 	/**
 	 * Build a queue from a list of tasks
 	 * Here we will take the various Tasks names, closures and string tasks
-	 * and unify all of those to actual Task instances
+	 * and unify all of those to actual AbstractTask instances
 	 *
 	 * @param  array $tasks
 	 *
@@ -225,11 +227,13 @@ class TasksQueue
 
 	/**
 	 * Build a task from anything
+
 	 *
-	 * @param mixed  $task
+*@param mixed  $task
 	 * @param string $name
+
 	 *
-	 * @return Task
+*@return AbstractTask
 	 */
 	public function buildTask($task, $name = null)
 	{
@@ -247,7 +251,7 @@ class TasksQueue
 		}
 
 		// Build remaining tasks
-		if (!$task instanceof Task) {
+		if (!$task instanceof AbstractTask) {
 			$task = $this->buildTaskFromClass($task);
 		}
 
@@ -260,11 +264,13 @@ class TasksQueue
 	}
 
 	/**
-	 * Build a Task from a Closure or a string command
+	 * Build a task from a Closure or a string command
+
 	 *
-	 * @param Closure|string $task
+*@param Closure|string $task
+
 	 *
-	 * @return Task
+*@return AbstractTask
 	 */
 	public function buildTaskFromClosure($task)
 	{
@@ -281,7 +287,7 @@ class TasksQueue
 		}
 
 		// Now that we unified it all to a Closure, we build
-		// a Closure Task from there
+		// a Closure AbstractTask from there
 		$task = $this->buildTaskFromClass('Rocketeer\Tasks\Closure');
 		$task->setClosure($closure);
 
@@ -295,15 +301,19 @@ class TasksQueue
 	}
 
 	/**
-	 * Build a Task from its name
-	 *
-	 * @param string|Task $task
-	 *
-	 * @return Task
+	 * Build a task from its name
+
+
+*
+*@param string|AbstractTask $task
+
+
+*
+	 * @return AbstractTask
 	 */
 	public function buildTaskFromClass($task)
 	{
-		if (is_object($task) and $task instanceof Task) {
+		if (is_object($task) and $task instanceof AbstractTask) {
 			return $task;
 		}
 

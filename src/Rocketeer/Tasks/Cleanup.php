@@ -10,24 +10,24 @@
 namespace Rocketeer\Tasks;
 
 use Illuminate\Support\Str;
-use Rocketeer\Abstracts\Task;
+use Rocketeer\Abstracts\AbstractTask;
 
 /**
  * Clean up old releases from the server
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class Cleanup extends Task
+class Cleanup extends AbstractTask
 {
 	/**
-	 * A description of what the Task does
+	 * A description of what the task does
 	 *
 	 * @var string
 	 */
 	protected $description = 'Clean up old releases from the server';
 
 	/**
-	 * Run the Task
+	 * Run the task
 	 *
 	 * @return  void
 	 */

@@ -44,7 +44,7 @@ trait HasLocator
 	protected $app;
 
 	/**
-	 * Build a new Task
+	 * Build a new AbstractTask
 	 *
 	 * @param Container $app
 	 */

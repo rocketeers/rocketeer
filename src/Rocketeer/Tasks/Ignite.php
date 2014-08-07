@@ -9,17 +9,17 @@
  */
 namespace Rocketeer\Tasks;
 
-use Rocketeer\Abstracts\Task;
+use Rocketeer\Abstracts\AbstractTask;
 
 /**
  * A task to ignite Rocketeer
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class Ignite extends Task
+class Ignite extends AbstractTask
 {
 	/**
-	 * A description of what the Task does
+	 * A description of what the task does
 	 *
 	 * @var string
 	 */

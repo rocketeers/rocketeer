@@ -7,7 +7,7 @@ use Rocketeer\Traits\HasLocator;
 /**
  * Core class for strategies
  */
-abstract class Strategy
+abstract class AbstractStrategy
 {
 	use HasLocator;
 	use HasHistory;

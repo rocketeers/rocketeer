@@ -76,7 +76,7 @@ abstract class AbstractDeployCommand extends Command
 	/**
 	 * Fire a Tasks Queue
 	 *
-	 * @param string|string[]|\Rocketeer\Abstracts\Task[] $tasks
+	 * @param string|string[]|\Rocketeer\Abstracts\AbstractTask[] $tasks
 	 */
 	protected function fireTasksQueue($tasks)
 	{
