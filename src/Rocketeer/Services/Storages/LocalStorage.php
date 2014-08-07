@@ -196,6 +196,14 @@ class LocalStorage extends Storage implements StorageInterface
 		$this->folder = $folder;
 	}
 
+	/**
+	 * @return string
+	 */
+	public function getFolder()
+	{
+		return $this->folder;
+	}
+
 	////////////////////////////////////////////////////////////////////
 	////////////////////////// REPOSITORY FILE /////////////////////////
 	////////////////////////////////////////////////////////////////////
@@ -205,7 +213,7 @@ class LocalStorage extends Storage implements StorageInterface
 	 *
 	 * @return string
 	 */
-	protected function getFilepath()
+	public function getFilepath()
 	{
 		return $this->folder.'/'.$this->file.'.json';
 	}

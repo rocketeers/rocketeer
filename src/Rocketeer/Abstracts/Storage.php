@@ -55,7 +55,7 @@ abstract class Storage
 	{
 		$contents = $this->getContents();
 
-		return  Arr::get($contents, $key, $fallback);
+		return Arr::get($contents, $key, $fallback);
 	}
 
 	/**
@@ -68,7 +68,11 @@ abstract class Storage
 	{
 		// Set the value on the contents
 		$contents = $this->getContents();
-		Arr::set($contents, $key, $value);
+		if (is_null($value)) {
+			$contents = $key;
+		} else {
+			Arr::set($contents, $key, $value);
+		}
 
 		$this->saveContents($contents);
 	}
@@ -97,7 +101,7 @@ abstract class Storage
 	 *
 	 * @return string
 	 */
-	abstract protected function getFilepath();
+	abstract public function getFilepath();
 
 	/**
 	 * Get the contents of the file

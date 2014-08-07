@@ -18,48 +18,58 @@ class LocalStorageTest extends RocketeerTestCase
 
 		$storage = $this->rocketeer->getRocketeerConfigFolder();
 		$exists  = file_exists($storage);
-		$this->app['files']->deleteDirectory($storage);
+		$this->files->deleteDirectory($storage);
 		$this->assertTrue($exists);
+	}
+
+	public function testCanSetContentsViaSet()
+	{
+		$matcher = ['foo' => 'caca'];
+		$this->localStorage->set($matcher);
+		$contents = $this->localStorage->get();
+		unset($contents['hash']);
+
+		$this->assertEquals($matcher, $contents);
 	}
 
 	public function testCanGetValueFromDeploymentsFile()
 	{
-		$this->assertEquals('bar', $this->app['rocketeer.storage.local']->get('foo'));
+		$this->assertEquals('bar', $this->localStorage->get('foo'));
 	}
 
 	public function testCansetInDeploymentsFile()
 	{
-		$this->app['rocketeer.storage.local']->set('foo', 'baz');
+		$this->localStorage->set('foo', 'baz');
 
-		$this->assertEquals('baz', $this->app['rocketeer.storage.local']->get('foo'));
+		$this->assertEquals('baz', $this->localStorage->get('foo'));
 	}
 
 	public function testCandestroy()
 	{
-		$this->app['rocketeer.storage.local']->destroy();
+		$this->localStorage->destroy();
 
-		$this->assertFalse($this->app['files']->exists(__DIR__.'/_meta/deployments.json'));
+		$this->assertFalse($this->files->exists(__DIR__.'/_meta/deployments.json'));
 	}
 
 	public function testCanFallbackIfFileDoesntExist()
 	{
-		$this->app['rocketeer.storage.local']->destroy();
+		$this->localStorage->destroy();
 
-		$this->assertEquals(null, $this->app['rocketeer.storage.local']->get('foo'));
+		$this->assertEquals(null, $this->localStorage->get('foo'));
 	}
 
 	public function testCanGetLineEndings()
 	{
-		$this->app['rocketeer.storage.local']->destroy();
+		$this->localStorage->destroy();
 
-		$this->assertEquals(PHP_EOL, $this->app['rocketeer.storage.local']->getLineEndings());
+		$this->assertEquals(PHP_EOL, $this->localStorage->getLineEndings());
 	}
 
 	public function testCanGetSeparators()
 	{
-		$this->app['rocketeer.storage.local']->destroy();
+		$this->localStorage->destroy();
 
-		$this->assertEquals(DIRECTORY_SEPARATOR, $this->app['rocketeer.storage.local']->getSeparator());
+		$this->assertEquals(DIRECTORY_SEPARATOR, $this->localStorage->getSeparator());
 	}
 
 	public function testCanComputeHashAccordingToContentsOfFiles()
@@ -73,7 +83,7 @@ class LocalStorageTest extends RocketeerTestCase
 				->shouldReceive('getRequire')->once()->with('bar')->andReturn(array('bar'));
 		});
 
-		$hash = $this->app['rocketeer.storage.local']->getHash();
+		$hash = $this->localStorage->getHash();
 
 		$this->assertEquals(md5('["foo"]["bar"]'), $hash);
 	}
@@ -81,9 +91,9 @@ class LocalStorageTest extends RocketeerTestCase
 	public function testCanCheckIfComposerIsNeeded()
 	{
 		$this->usesComposer(true);
-		$this->assertTrue($this->app['rocketeer.storage.local']->usesComposer());
+		$this->assertTrue($this->localStorage->usesComposer());
 
 		$this->usesComposer(false);
-		$this->assertFalse($this->app['rocketeer.storage.local']->usesComposer());
+		$this->assertFalse($this->localStorage->usesComposer());
 	}
 }

@@ -38,7 +38,7 @@ class ServerStorage extends Storage implements StorageInterface
 	 *
 	 * @return string
 	 */
-	protected function getFilepath()
+	public function getFilepath()
 	{
 		return $this->rocketeer->getFolder($this->file.'.json');
 	}
