@@ -42,7 +42,7 @@ class Check extends AbstractTask
 	/**
 	 * Run the task
 	 *
-	 * @return  void
+	 * @return boolean|null
 	 */
 	public function execute()
 	{

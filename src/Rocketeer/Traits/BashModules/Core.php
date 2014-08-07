@@ -118,7 +118,7 @@ trait Core
 	 * @param string|array $commands
 	 * @param boolean      $array
 	 *
-	 * @return string
+	 * @return string|string[]
 	 */
 	public function runSilently($commands, $array = false)
 	{
@@ -128,7 +128,7 @@ trait Core
 	/**
 	 * Run commands in a folder
 	 *
-	 * @param  string       $folder
+	 * @param  string|null  $folder
 	 * @param  string|array $tasks
 	 *
 	 * @return string
@@ -149,9 +149,9 @@ trait Core
 	/**
 	 * Check the status of the last run command, return an error if any
 	 *
-	 * @param  string $error   The message to display on error
-	 * @param  string $output  The command's output
-	 * @param  string $success The message to display on success
+	 * @param  string      $error   The message to display on error
+	 * @param  string|null $output  The command's output
+	 * @param  string|null $success The message to display on success
 	 *
 	 * @return boolean|string
 	 */

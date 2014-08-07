@@ -64,12 +64,12 @@ class TasksHandler
 	////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Register a custom AbstractTask with Rocketeer
+	 * Register a custom task with Rocketeer
 	 *
 	 * @param string|Closure|AbstractTask $task
 	 * @param string|null                 $name
 	 *
-	 * @return Container
+	 * @return BaseTaskCommand
 	 */
 	public function add($task, $name = null)
 	{
@@ -95,7 +95,7 @@ class TasksHandler
 	 * @param string                      $name
 	 * @param string|Closure|AbstractTask $task
 	 *
-	 * @return void
+	 * @return BaseTaskCommand
 	 */
 	public function task($name, $task)
 	{
@@ -188,7 +188,7 @@ class TasksHandler
 	 * @param array|callable $listeners
 	 * @param integer        $priority
 	 *
-	 * @return string
+	 * @return string|null
 	 */
 	public function addTaskListeners($task, $event, $listeners, $priority = 0)
 	{

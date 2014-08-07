@@ -56,7 +56,7 @@ class TasksQueue
 	 * Execute Tasks on the default connection
 	 *
 	 * @param  string|array|Closure $queue
-	 * @param  string|string[]      $connections
+	 * @param  string|string[]|null $connections
 	 *
 	 * @return array
 	 */
@@ -125,7 +125,7 @@ class TasksQueue
 	 * Run the queue, taking into account the stage
 	 *
 	 * @param  \Rocketeer\Abstracts\AbstractTask[] $tasks
-	 * @param  string                              $stage
+	 * @param  string|null                         $stage
 	 *
 	 * @return boolean
 	 */
@@ -299,7 +299,7 @@ class TasksQueue
 	 *
 	 * @param string|AbstractTask $task
 	 *
-	 * @return AbstractTask
+	 * @return AbstractTask|string
 	 */
 	public function buildTaskFromClass($task)
 	{

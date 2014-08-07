@@ -176,8 +176,8 @@ trait Filesystem
 	/**
 	 * Create a folder in the application's folder
 	 *
-	 * @param  string  $folder The folder to create
-	 * @param  boolean $recursive
+	 * @param  string|null $folder The folder to create
+	 * @param  boolean     $recursive
 	 *
 	 * @return string The task
 	 */
@@ -191,7 +191,7 @@ trait Filesystem
 	/**
 	 * Remove a folder in the application's folder
 	 *
-	 * @param  string $folder The folder to remove
+	 * @param  string|null $folder The folder to remove
 	 *
 	 * @return string The task
 	 */

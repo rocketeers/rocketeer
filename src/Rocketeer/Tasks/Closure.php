@@ -46,7 +46,7 @@ class Closure extends AbstractTask
 	/**
 	 * Get the task's Closure
 	 *
-	 * @return Closure
+	 * @return AnonymousFunction
 	 */
 	public function getClosure()
 	{

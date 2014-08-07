@@ -243,7 +243,7 @@ class ReleasesManager
 	 *
 	 * @param string|integer $release
 	 *
-	 * @return string|null
+	 * @return string|integer|null
 	 */
 	protected function sanitizeRelease($release)
 	{
@@ -287,7 +287,7 @@ class ReleasesManager
 	/**
 	 * Get the current release
 	 *
-	 * @return string|null
+	 * @return string|integer|null
 	 */
 	public function getCurrentRelease()
 	{

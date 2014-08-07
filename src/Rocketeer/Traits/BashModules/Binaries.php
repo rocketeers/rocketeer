@@ -23,7 +23,7 @@ trait Binaries
 	/**
 	 * Prefix a command with the right path to PHP
 	 *
-	 * @param string $command
+	 * @param string|null $command
 	 *
 	 * @return string
 	 */
@@ -40,8 +40,8 @@ trait Binaries
 	/**
 	 * Prefix a command with the right path to Artisan
 	 *
-	 * @param string $command
-	 * @param array  $flags
+	 * @param string|null $command
+	 * @param array       $flags
 	 *
 	 * @return string
 	 */
@@ -59,8 +59,8 @@ trait Binaries
 	/**
 	 * Run an artisan command
 	 *
-	 * @param string $command
-	 * @param array  $flags
+	 * @param string|null $command
+	 * @param array       $flags
 	 *
 	 * @return string
 	 */
@@ -96,7 +96,7 @@ trait Binaries
 	/**
 	 * Seed the database
 	 *
-	 * @param string $class A class to seed
+	 * @param string|null $class A class to seed
 	 *
 	 * @return string
 	 */
@@ -114,7 +114,7 @@ trait Binaries
 	/**
 	 * Run the application's tests
 	 *
-	 * @param string $arguments Additional arguments to pass to PHPUnit
+	 * @param string|null $arguments Additional arguments to pass to PHPUnit
 	 *
 	 * @return boolean
 	 */
@@ -141,7 +141,7 @@ trait Binaries
 	/**
 	 * Prefix a command with the right path to Composer
 	 *
-	 * @param string $command
+	 * @param string|null $command
 	 *
 	 * @return string
 	 */
@@ -202,8 +202,8 @@ trait Binaries
 	/**
 	 * Get a binary
 	 *
-	 * @param  string $binary   The name of the binary
-	 * @param  string $fallback A fallback location
+	 * @param  string      $binary   The name of the binary
+	 * @param  string|null $fallback A fallback location
 	 *
 	 * @return string
 	 */

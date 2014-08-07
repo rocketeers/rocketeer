@@ -28,7 +28,7 @@ class Test extends AbstractTask
 	/**
 	 * Run the task
 	 *
-	 * @return  void
+	 * @return boolean
 	 */
 	public function execute()
 	{

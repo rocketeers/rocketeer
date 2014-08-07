@@ -27,6 +27,8 @@ class ServerStorage extends AbstractStorage implements StorageInterface
 	public function destroy()
 	{
 		$this->bash->removeFolder($this->getFilepath());
+
+		return true;
 	}
 
 	//////////////////////////////////////////////////////////////////////

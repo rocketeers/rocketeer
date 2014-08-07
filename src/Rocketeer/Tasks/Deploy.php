@@ -97,6 +97,8 @@ class Deploy extends AbstractTask
 
 	/**
 	 * Run migrations and seed database
+	 *
+	 * @return boolean|null
 	 */
 	protected function runMigrationsAndSeed()
 	{
