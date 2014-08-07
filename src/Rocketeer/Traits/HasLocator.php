@@ -12,7 +12,7 @@ namespace Rocketeer\Traits;
 use Illuminate\Container\Container;
 
 /**
- * An abstract for Service Locator-based classes with adds
+ * A trait for Service Locator-based classes wich adds
  * a few shortcuts to Rocketeer classes
  *
  * @property \Illuminate\Config\Repository              config
