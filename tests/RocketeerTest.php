@@ -92,17 +92,17 @@ class RocketeerTest extends RocketeerTestCase
 	public function testCanGetUserHomeFolder()
 	{
 		$_SERVER['HOME'] = '/some/folder';
-		$home = $this->rocketeer->getUserHomeFolder();
+		$home            = $this->rocketeer->getUserHomeFolder();
 
 		$this->assertEquals('/some/folder', $home);
 	}
 
 	public function testCanGetWindowsHomeFolder()
 	{
-		$_SERVER['HOME'] = null;
+		$_SERVER['HOME']      = null;
 		$_SERVER['HOMEDRIVE'] = 'C:';
-		$_SERVER['HOMEPATH'] = '\Users\someuser';
-		$home = $this->rocketeer->getUserHomeFolder();
+		$_SERVER['HOMEPATH']  = '\Users\someuser';
+		$home                 = $this->rocketeer->getUserHomeFolder();
 
 		$this->assertEquals('C:\Users\someuser', $home);
 	}
@@ -111,16 +111,16 @@ class RocketeerTest extends RocketeerTestCase
 	{
 		$this->setExpectedException('Exception');
 
-		$_SERVER['HOME'] = null;
+		$_SERVER['HOME']      = null;
 		$_SERVER['HOMEDRIVE'] = 'C:';
-		$_SERVER['HOMEPATH'] = null;
+		$_SERVER['HOMEPATH']  = null;
 		$this->rocketeer->getUserHomeFolder();
 	}
 
 	public function testCanGetRocketeerFolder()
 	{
 		$_SERVER['HOME'] = '/some/folder';
-		$rocketeer = $this->rocketeer->getRocketeerConfigFolder();
+		$rocketeer       = $this->rocketeer->getRocketeerConfigFolder();
 
 		$this->assertEquals('/some/folder/.rocketeer', $rocketeer);
 	}

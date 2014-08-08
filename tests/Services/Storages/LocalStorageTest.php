@@ -56,7 +56,7 @@ class LocalStorageTest extends RocketeerTestCase
 		});
 
 		$storage = new LocalStorage($this->app, 'deployments', $this->server);
-		$hash = $storage->getHash();
+		$hash    = $storage->getHash();
 
 		$this->assertEquals(md5('["foo"]["bar"]'), $hash);
 	}
