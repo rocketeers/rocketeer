@@ -9,29 +9,23 @@ class CredentialsGatherer
 
 	/**
 	 * Get the Repository's credentials
-	 *
-	 * @return void
 	 */
 	public function getRepositoryCredentials()
 	{
 		// Check for repository credentials
-		$repositoryInfos = $this->connections->getRepositoryCredentials();
-		$credentials     = ['repository'];
-		if (!array_get($repositoryInfos, 'repository') or $this->connections->needsCredentials()) {
-			$credentials = ['repository', 'username', 'password'];
+		$repositoryCredentials = $this->connections->getRepositoryCredentials();
+		$credentials           = ['repository' => true];
+
+		// If we didn't specify a login/password and the repository uses HTTP, ask for them too
+		if (!array_get($repositoryCredentials, 'repository') or $this->connections->needsCredentials()) {
+			$credentials += ['username' => true, 'password' => false];
 		}
 
 		// Gather credentials
-		foreach ($credentials as $credential) {
-			${$credential} = $this->getCredential($repositoryInfos, $credential);
-			if (!${$credential}) {
-				${$credential} = $this->command->ask('No '.$credential.' is set for the repository, please provide one :');
-			}
-		}
+		$credentials = $this->gatherCredentials($credentials, $repositoryCredentials, 'repository');
 
-		// Save them
-		$credentials = compact($credentials);
-		$this->app['rocketeer.storage.local']->set('credentials', $credentials);
+		// Save them to local storage and runtime configuration
+		$this->localStorage->set('credentials', $credentials);
 		foreach ($credentials as $key => $credential) {
 			$this->config->set('rocketeer::scm.'.$key, $credential);
 		}
@@ -39,8 +33,6 @@ class CredentialsGatherer
 
 	/**
 	 * Get the LocalStorage's credentials
-	 *
-	 * @return void
 	 */
 	public function getServerCredentials()
 	{
@@ -52,16 +44,20 @@ class CredentialsGatherer
 		$availableConnections = $this->connections->getAvailableConnections();
 		$activeConnections    = $this->connections->getConnections();
 
-		if (count($activeConnections) <= 0) {
+		// If we didn't set any connection, ask for them
+		if (!$activeConnections) {
 			$connectionName = $this->command->ask('No connections have been set, please create one : (production)', 'production');
-			$this->storeServerCredentials($availableConnections, $connectionName);
-		} else {
-			foreach ($activeConnections as $connectionName) {
-				$servers = array_get($availableConnections, $connectionName.'.servers');
-				$servers = array_keys($servers);
-				foreach ($servers as $server) {
-					$this->storeServerCredentials($availableConnections, $connectionName, $server);
-				}
+			$this->getConnectionCredentials($connectionName);
+
+			return;
+		}
+
+		// Else loop through the connections and fill in credentials
+		foreach ($activeConnections as $connectionName) {
+			$servers = array_get($availableConnections, $connectionName.'.servers');
+			$servers = array_keys($servers);
+			foreach ($servers as $server) {
+				$this->getConnectionCredentials($connectionName, $server);
 			}
 		}
 	}
@@ -69,52 +65,76 @@ class CredentialsGatherer
 	/**
 	 * Verifies and stores credentials for the given connection name
 	 *
-	 * @param array        $connections
 	 * @param string       $connectionName
 	 * @param integer|null $server
 	 */
-	protected function storeServerCredentials($connections, $connectionName, $server = null)
+	protected function getConnectionCredentials($connectionName, $server = null)
 	{
-		// Check for server credentials
-		$connection  = $connectionName.'.servers';
-		$connection  = !is_null($server) ? $connection.'.'.$server : $connection;
-		$connection  = array_get($connections, $connection, array());
-		$credentials = array(
+		// Get the available connections
+		$connections = $this->connections->getAvailableConnections();
+
+		// Get the credentials for the asked connection
+		$connection = $connectionName.'.servers';
+		$connection = !is_null($server) ? $connection.'.'.$server : $connection;
+		$connection = array_get($connections, $connection, array());
+
+		// Update connection name
+		$handle = !is_null($server) ? $connectionName.'#'.$server : $connectionName;
+
+		// Gather credentials
+		$credentials = $this->gatherCredentials(array(
 			'host'      => true,
 			'username'  => true,
 			'password'  => false,
 			'keyphrase' => null,
 			'key'       => false,
 			'agent'     => false
-		);
+		), $connection, $handle);
 
-		// Update connection name
-		$handle = !is_null($server) ? $connectionName.'#'.$server : $connectionName;
+		// Get password or key
+		if (!$credentials['password'] and !$credentials['key']) {
+			$type = $this->command->ask('No password or SSH key is set for ['.$handle.'], which would you use ? [key/password]', 'key');
+			if ($type == 'key') {
+				$default                  = $this->rocketeer->getDefaultKeyPath();
+				$credentials['key']       = $this->command->ask('Please enter the full path to your key ('.$default.')', $default);
+				$credentials['keyphrase'] = $this->command->ask('If a keyphrase is required, provide it');
+			} else {
+				$credentials['password'] = $this->command->ask('Please enter your password');
+			}
+		}
 
-		// Gather credentials
+		// Save credentials
+		$this->connections->syncConnectionCredentials($connectionName, $credentials, $server);
+		$this->connections->setConnection($connectionName);
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	////////////////////////////// HELPERS ///////////////////////////////
+	//////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Loop through credentials and store the missing ones
+	 *
+	 * @param string[] $credentials
+	 * @param string   $current
+	 * @param string   $handle
+	 *
+	 * @return array
+	 */
+	protected function gatherCredentials($credentials, $current, $handle)
+	{
+		// Loop throguh credentials and ask missing ones
 		foreach ($credentials as $credential => $required) {
-			${$credential} = $this->getCredential($connection, $credential);
+			${$credential} = $this->getCredential($current, $credential);
 			if ($required and !${$credential}) {
 				${$credential} = $this->command->ask('No '.$credential.' is set for ['.$handle.'], please provide one :');
 			}
 		}
 
-		// Get password or key
-		if (!$password and !$key) {
-			$type = $this->command->ask('No password or SSH key is set for ['.$handle.'], which would you use ? [key/password]', 'key');
-			if ($type == 'key') {
-				$default   = $this->app['rocketeer.rocketeer']->getUserHomeFolder().'/.ssh/id_rsa';
-				$key       = $this->command->ask('Please enter the full path to your key ('.$default.')', $default);
-				$keyphrase = $this->command->ask('If a keyphrase is required, provide it');
-			} else {
-				$password = $this->command->ask('Please enter your password');
-			}
-		}
-
-		// Save credentials
+		// Reform array
 		$credentials = compact(array_keys($credentials));
-		$this->connections->syncConnectionCredentials($connectionName, $credentials, $server);
-		$this->connections->setConnection($connectionName);
+
+		return $credentials;
 	}
 
 	/**

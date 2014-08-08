@@ -188,6 +188,17 @@ class Rocketeer
 	}
 
 	/**
+	 * Get the default path for the SSH key
+	 *
+	 * @return string
+	 * @throws \Exception
+	 */
+	public function getDefaultKeyPath()
+	{
+		return $this->getUserHomeFolder().'/.ssh/id_rsa';
+	}
+
+	/**
 	 * Get the path to the Rocketeer config folder in the users home
 	 *
 	 * @return string
