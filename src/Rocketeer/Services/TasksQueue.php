@@ -16,7 +16,6 @@ use Rocketeer\Abstracts\AbstractLocatorClass;
 use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Connection;
 use Rocketeer\Traits\HasLocator;
-use string;
 
 /**
  * Handles the building and execution of tasks

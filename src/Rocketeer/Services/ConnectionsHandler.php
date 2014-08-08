@@ -12,7 +12,6 @@ namespace Rocketeer\Services;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Rocketeer\Traits\HasLocator;
-use string;
 
 /**
  * Handles, get and return, the various connections/stages
