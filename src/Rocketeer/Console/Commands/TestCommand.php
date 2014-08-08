@@ -9,12 +9,14 @@
  */
 namespace Rocketeer\Console\Commands;
 
+use Rocketeer\Abstracts\AbstractCommand;
+
 /**
  * Run the tests on the server and displays the output
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class TestCommand extends AbstractDeployCommand
+class TestCommand extends AbstractCommand
 {
 	/**
 	 * The console command name.

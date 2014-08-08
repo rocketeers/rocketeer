@@ -20,8 +20,8 @@ use Illuminate\Container\Container;
  * @property \Illuminate\Filesystem\Filesystem                 files
  * @property \Illuminate\Log\Writer                            log
  * @property \Illuminate\Remote\Connection                     remote
+ * @property \Rocketeer\Abstracts\AbstractCommand              command
  * @property \Rocketeer\Bash                                   bash
- * @property \Rocketeer\Console\Commands\AbstractDeployCommand command
  * @property \Rocketeer\Console\Console                        console
  * @property \Rocketeer\Interfaces\ScmInterface                scm
  * @property \Rocketeer\Interfaces\StrategyInterface           strategy

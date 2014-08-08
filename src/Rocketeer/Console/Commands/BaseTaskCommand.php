@@ -9,6 +9,7 @@
  */
 namespace Rocketeer\Console\Commands;
 
+use Rocketeer\Abstracts\AbstractCommand;
 use Rocketeer\Abstracts\AbstractTask;
 
 /**
@@ -17,7 +18,7 @@ use Rocketeer\Abstracts\AbstractTask;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class BaseTaskCommand extends AbstractDeployCommand
+class BaseTaskCommand extends AbstractCommand
 {
 	/**
 	 * The default name

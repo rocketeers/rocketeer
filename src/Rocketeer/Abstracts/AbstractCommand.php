@@ -7,7 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Rocketeer\Console\Commands;
+namespace Rocketeer\Abstracts;
 
 use Closure;
 use Illuminate\Console\Command;
@@ -19,7 +19,7 @@ use Symfony\Component\Console\Input\InputOption;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-abstract class AbstractDeployCommand extends Command
+abstract class AbstractCommand extends Command
 {
 	/**
 	 * Run the tasks
@@ -101,12 +101,40 @@ abstract class AbstractDeployCommand extends Command
 		unset($this->laravel['rocketeer.command']);
 	}
 
+	//////////////////////////////////////////////////////////////////////
+	////////////////////////////// HELPERS ///////////////////////////////
+	//////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Ask a question to the user
+	 *
+	 * @param string      $question
+	 * @param string|null $default
+	 * @param array       $choices
+	 *
+	 * @return string
+	 */
+	public function askWith($question, $default = null, $choices = array())
+	{
+		// If multiple choices, show them
+		if ($choices) {
+			$question .= ' ['.implode('/', $choices).']';
+		}
+
+		// If default, show it in the question
+		if ($default) {
+			$question .= ' ('.$default.')';
+		}
+
+		return $this->ask($question, $default);
+	}
+
 	/**
 	 * Time an operation and display it afterwards
 	 *
 	 * @param Closure $callback
 	 */
-	protected function time(Closure $callback)
+	public function time(Closure $callback)
 	{
 		// Start timer, execute callback, close timer
 		$timerStart = microtime(true);

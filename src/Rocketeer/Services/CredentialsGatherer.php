@@ -19,8 +19,7 @@ class CredentialsGatherer
 		// If we didn't specify a login/password ask for both the first time
 		if (!$this->getCredential($repositoryCredentials, 'repository')) {
 			$credentials += ['username' => true, 'password' => true];
-
-		} elseif($this->connections->needsCredentials()) {
+		} elseif ($this->connections->needsCredentials()) {
 			// Else assume the repository is passwordless and only ask again for username
 			$credentials += ['username' => true, 'password' => false];
 		}
@@ -50,7 +49,7 @@ class CredentialsGatherer
 
 		// If we didn't set any connection, ask for them
 		if (!$activeConnections) {
-			$connectionName = $this->command->ask('No connections have been set, please create one : (production)', 'production');
+			$connectionName = $this->command->askWith('No connections have been set, please create one:', 'production');
 			$this->getConnectionCredentials($connectionName);
 
 			return;
@@ -97,13 +96,14 @@ class CredentialsGatherer
 
 		// Get password or key
 		if (!$credentials['password'] and !$credentials['key']) {
-			$type = $this->command->ask('No password or SSH key is set for ['.$handle.'], which would you use ? [key/password]', 'key');
+			$types = ['key', 'password'];
+			$type  = $this->command->askWith('No password or SSH key is set for ['.$handle.'], which would you use?', 'key', $types);
 			if ($type == 'key') {
 				$default                  = $this->rocketeer->getDefaultKeyPath();
-				$credentials['key']       = $this->command->ask('Please enter the full path to your key ('.$default.')', $default);
-				$credentials['keyphrase'] = $this->command->ask('If a keyphrase is required, provide it');
+				$credentials['key']       = $this->command->askWith('Please enter the full path to your key', $default);
+				$credentials['keyphrase'] = $this->command->askWith('If a keyphrase is required, provide it');
 			} else {
-				$credentials['password'] = $this->command->ask('Please enter your password');
+				$credentials['password'] = $this->command->askWith('Please enter your password');
 			}
 		}
 
@@ -119,9 +119,9 @@ class CredentialsGatherer
 	/**
 	 * Loop through credentials and store the missing ones
 	 *
-	 * @param string[] $credentials
-	 * @param string   $current
-	 * @param string   $handle
+	 * @param boolean[] $credentials
+	 * @param string    $current
+	 * @param string    $handle
 	 *
 	 * @return array
 	 */
@@ -131,7 +131,7 @@ class CredentialsGatherer
 		foreach ($credentials as $credential => $required) {
 			$$credential = $this->getCredential($current, $credential);
 			if ($required and !$$credential) {
-				$$credential = $this->command->ask('No '.$credential.' is set for ['.$handle.'], please provide one :');
+				$$credential = $this->command->askWith('No '.$credential.' is set for ['.$handle.'], please provide one:');
 			}
 		}
 

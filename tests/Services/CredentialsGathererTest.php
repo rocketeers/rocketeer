@@ -1,6 +1,7 @@
 <?php
 namespace Services;
 
+use Mockery;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class CredentialsGathererTest extends RocketeerTestCase
@@ -97,7 +98,7 @@ class CredentialsGathererTest extends RocketeerTestCase
 			}
 
 			foreach ($answers as $question => $answer) {
-				$mock = $mock->shouldReceive('ask')->with($question.', please provide one :')->andReturn($answer);
+				$mock = $mock->shouldReceive('askWith')->with($question.', please provide one:')->andReturn($answer);
 			}
 
 			return $mock;

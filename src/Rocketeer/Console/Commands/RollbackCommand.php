@@ -9,6 +9,7 @@
  */
 namespace Rocketeer\Console\Commands;
 
+use Rocketeer\Abstracts\AbstractCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -17,7 +18,7 @@ use Symfony\Component\Console\Input\InputOption;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class RollbackCommand extends AbstractDeployCommand
+class RollbackCommand extends AbstractCommand
 {
 	/**
 	 * The console command name.

@@ -9,12 +9,14 @@
  */
 namespace Rocketeer\Console\Commands;
 
+use Rocketeer\Abstracts\AbstractCommand;
+
 /**
  * Flushes any custom storage Rocketeer has created
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class FlushCommand extends AbstractDeployCommand
+class FlushCommand extends AbstractCommand
 {
 	/**
 	 * The console command name.
