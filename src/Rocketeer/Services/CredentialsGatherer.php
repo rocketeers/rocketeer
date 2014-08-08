@@ -15,10 +15,10 @@ class CredentialsGatherer
 	public function getRepositoryCredentials()
 	{
 		// Check for repository credentials
-		$repositoryInfos = $this->app['rocketeer.connections']->getCredentials();
-		$credentials     = array('repository');
-		if (!array_get($repositoryInfos, 'repository') or $this->app['rocketeer.connections']->needsCredentials()) {
-			$credentials = array('repository', 'username', 'password');
+		$repositoryInfos = $this->connections->getRepositoryCredentials();
+		$credentials     = ['repository'];
+		if (!array_get($repositoryInfos, 'repository') or $this->connections->needsCredentials()) {
+			$credentials = ['repository', 'username', 'password'];
 		}
 
 		// Gather credentials
@@ -33,7 +33,7 @@ class CredentialsGatherer
 		$credentials = compact($credentials);
 		$this->app['rocketeer.storage.local']->set('credentials', $credentials);
 		foreach ($credentials as $key => $credential) {
-			$this->app['config']->set('rocketeer::scm.'.$key, $credential);
+			$this->config->set('rocketeer::scm.'.$key, $credential);
 		}
 	}
 
@@ -45,12 +45,12 @@ class CredentialsGatherer
 	public function getServerCredentials()
 	{
 		if ($connections = $this->command->option('on')) {
-			$this->app['rocketeer.connections']->setConnections($connections);
+			$this->connections->setConnections($connections);
 		}
 
 		// Check for configured connections
-		$availableConnections = $this->app['rocketeer.connections']->getAvailableConnections();
-		$activeConnections    = $this->app['rocketeer.connections']->getConnections();
+		$availableConnections = $this->connections->getAvailableConnections();
+		$activeConnections    = $this->connections->getConnections();
 
 		if (count($activeConnections) <= 0) {
 			$connectionName = $this->command->ask('No connections have been set, please create one : (production)', 'production');
@@ -113,8 +113,8 @@ class CredentialsGatherer
 
 		// Save credentials
 		$credentials = compact(array_keys($credentials));
-		$this->app['rocketeer.connections']->syncConnectionCredentials($connectionName, $credentials, $server);
-		$this->app['rocketeer.connections']->setConnection($connectionName);
+		$this->connections->syncConnectionCredentials($connectionName, $credentials, $server);
+		$this->connections->setConnection($connectionName);
 	}
 
 	/**

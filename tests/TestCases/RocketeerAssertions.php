@@ -20,7 +20,7 @@ trait RocketeerAssertions
 	 */
 	protected function assertRepositoryEquals($repository)
 	{
-		$this->assertEquals($repository, $this->connections->getRepository());
+		$this->assertEquals($repository, $this->connections->getRepositoryEndpoint());
 	}
 
 	/**

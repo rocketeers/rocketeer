@@ -78,7 +78,7 @@ class Ignite extends AbstractTask
 	protected function getConfigurationInformations()
 	{
 		// Replace credentials
-		$repositoryCredentials = $this->connections->getCredentials();
+		$repositoryCredentials = $this->connections->getRepositoryCredentials();
 		$name                  = basename($this->app['path.base']);
 
 		return array_merge(

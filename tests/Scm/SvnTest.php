@@ -48,8 +48,8 @@ class SvnTest extends RocketeerTestCase
 	{
 		$this->mock('rocketeer.connections', 'ConnectionsHandler', function ($mock) {
 			return $mock
-				->shouldReceive('getCredentials')->once()->andReturn(['username' => 'foo', 'password' => 'bar'])
-				->shouldReceive('getRepository')->once()->andReturn('http://github.com/my/repository')
+				->shouldReceive('getRepositoryCredentials')->once()->andReturn(['username' => 'foo', 'password' => 'bar'])
+				->shouldReceive('getRepositoryEndpoint')->once()->andReturn('http://github.com/my/repository')
 				->shouldReceive('getRepositoryBranch')->once()->andReturn('develop');
 		});
 
@@ -62,8 +62,8 @@ class SvnTest extends RocketeerTestCase
 	{
 		$this->mock('rocketeer.connections', 'ConnectionsHandler', function ($mock) {
 			return $mock
-				->shouldReceive('getCredentials')->once()->andReturn(['username' => 'foo', 'password' => 'bar'])
-				->shouldReceive('getRepository')->once()->andReturn('http://github.com/my/repository')
+				->shouldReceive('getRepositoryCredentials')->once()->andReturn(['username' => 'foo', 'password' => 'bar'])
+				->shouldReceive('getRepositoryEndpoint')->once()->andReturn('http://github.com/my/repository')
 				->shouldReceive('getRepositoryBranch')->once()->andReturn('develop');
 		});
 

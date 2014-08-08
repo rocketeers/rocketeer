@@ -51,7 +51,7 @@ class GitTest extends RocketeerTestCase
 		});
 		$this->mock('rocketeer.connections', 'ConnectionsHandler', function ($mock) {
 			return $mock
-				->shouldReceive('getRepository')->once()->andReturn('http://github.com/my/repository')
+				->shouldReceive('getRepositoryEndpoint')->once()->andReturn('http://github.com/my/repository')
 				->shouldReceive('getRepositoryBranch')->once()->andReturn('develop');
 		});
 
@@ -67,7 +67,7 @@ class GitTest extends RocketeerTestCase
 		});
 		$this->mock('rocketeer.connections', 'ConnectionsHandler', function ($mock) {
 			return $mock
-				->shouldReceive('getRepository')->once()->andReturn('http://github.com/my/repository')
+				->shouldReceive('getRepositoryEndpoint')->once()->andReturn('http://github.com/my/repository')
 				->shouldReceive('getRepositoryBranch')->once()->andReturn('develop');
 		});
 

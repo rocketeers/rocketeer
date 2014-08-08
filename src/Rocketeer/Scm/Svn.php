@@ -75,7 +75,7 @@ class Svn extends AbstractScm implements ScmInterface
 	public function checkout($destination)
 	{
 		$branch     = $this->connections->getRepositoryBranch();
-		$repository = $this->connections->getRepository();
+		$repository = $this->connections->getRepositoryEndpoint();
 		$repository = rtrim($repository, '/').'/'.ltrim($branch, '/');
 
 		return $this->getCommand('co %s %s %s', $this->getCredentials(), $repository, $destination);
@@ -109,7 +109,7 @@ class Svn extends AbstractScm implements ScmInterface
 	protected function getCredentials()
 	{
 		$options     = array('--non-interactive');
-		$credentials = $this->connections->getCredentials();
+		$credentials = $this->connections->getRepositoryCredentials();
 
 		// Build command
 		if ($user = array_get($credentials, 'username')) {

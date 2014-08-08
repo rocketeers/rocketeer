@@ -114,7 +114,7 @@ class ConnectionsHandler
 	 */
 	public function needsCredentials()
 	{
-		return Str::contains($this->getRepository(), 'https://');
+		return Str::contains($this->getRepositoryEndpoint(), 'https://');
 	}
 
 	/**
@@ -321,7 +321,7 @@ class ConnectionsHandler
 	 *
 	 * @return string[]
 	 */
-	public function getCredentials()
+	public function getRepositoryCredentials()
 	{
 		$credentials = $this->localStorage->get('credentials');
 		if (!$credentials) {
@@ -343,10 +343,10 @@ class ConnectionsHandler
 	 *
 	 * @return string
 	 */
-	public function getRepository()
+	public function getRepositoryEndpoint()
 	{
 		// Get credentials
-		$repository = $this->getCredentials();
+		$repository = $this->getRepositoryCredentials();
 		$username   = array_get($repository, 'username');
 		$password   = array_get($repository, 'password');
 		$repository = array_get($repository, 'repository');
