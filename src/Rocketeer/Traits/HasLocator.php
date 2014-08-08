@@ -66,6 +66,7 @@ trait HasLocator
 		$shortcuts = array(
 			'bash'            => 'rocketeer.bash',
 			'command'         => 'rocketeer.command',
+			'credentials'     => 'rocketeer.credentials',
 			'connections'     => 'rocketeer.connections',
 			'console'         => 'rocketeer.console',
 			'history'         => 'rocketeer.history',

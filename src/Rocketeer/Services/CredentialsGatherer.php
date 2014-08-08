@@ -16,8 +16,12 @@ class CredentialsGatherer
 		$repositoryCredentials = $this->connections->getRepositoryCredentials();
 		$credentials           = ['repository' => true];
 
-		// If we didn't specify a login/password and the repository uses HTTP, ask for them too
-		if (!array_get($repositoryCredentials, 'repository') or $this->connections->needsCredentials()) {
+		// If we didn't specify a login/password ask for both the first time
+		if (!$this->getCredential($repositoryCredentials, 'repository')) {
+			$credentials += ['username' => true, 'password' => true];
+
+		} elseif($this->connections->needsCredentials()) {
+			// Else assume the repository is passwordless and only ask again for username
 			$credentials += ['username' => true, 'password' => false];
 		}
 
@@ -125,9 +129,9 @@ class CredentialsGatherer
 	{
 		// Loop throguh credentials and ask missing ones
 		foreach ($credentials as $credential => $required) {
-			$$credentials = $this->getCredential($current, $credential);
-			if ($required and !$$credentials) {
-				$$credentials = $this->command->ask('No '.$credential.' is set for ['.$handle.'], please provide one :');
+			$$credential = $this->getCredential($current, $credential);
+			if ($required and !$$credential) {
+				$$credential = $this->command->ask('No '.$credential.' is set for ['.$handle.'], please provide one :');
 			}
 		}
 
