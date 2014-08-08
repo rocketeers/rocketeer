@@ -19,6 +19,7 @@ use Illuminate\Support\ServiceProvider;
 use Monolog\Logger;
 use Rocketeer\Console\Commands\BaseTaskCommand;
 use Rocketeer\Services\ConnectionsHandler;
+use Rocketeer\Services\CredentialsGatherer;
 use Rocketeer\Services\History\History;
 use Rocketeer\Services\History\LogsHandler;
 use Rocketeer\Services\ReleasesManager;
@@ -63,10 +64,11 @@ class RocketeerServiceProvider extends ServiceProvider
 	public function boot()
 	{
 		$this->bindPaths();
-		$this->bindCoreClasses();
+		$this->bindThirdPartyServices();
 
 		// Bind Rocketeer's classes
-		$this->bindClasses();
+		$this->bindCoreClasses();
+		$this->bindConsoleClasses();
 		$this->bindStrategies();
 
 		// Load the user's events and tasks
@@ -107,7 +109,7 @@ class RocketeerServiceProvider extends ServiceProvider
 	/**
 	 * Bind the core classes
 	 */
-	public function bindCoreClasses()
+	public function bindThirdPartyServices()
 	{
 		$this->app->bindIf('files', 'Illuminate\Filesystem\Filesystem');
 
@@ -140,7 +142,7 @@ class RocketeerServiceProvider extends ServiceProvider
 	/**
 	 * Bind the Rocketeer classes to the Container
 	 */
-	public function bindClasses()
+	public function bindCoreClasses()
 	{
 		$this->app->singleton('rocketeer.rocketeer', function ($app) {
 			return new Rocketeer($app);
@@ -179,6 +181,13 @@ class RocketeerServiceProvider extends ServiceProvider
 
 		$this->app->singleton('rocketeer.logs', function ($app) {
 			return new LogsHandler($app);
+		});
+	}
+
+	public function bindConsoleClasses()
+	{
+		$this->app->singleton('rocketeer.credentials', function ($app) {
+			return new CredentialsGatherer($app);
 		});
 
 		$this->app->singleton('rocketeer.console', function () {

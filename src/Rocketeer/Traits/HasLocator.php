@@ -16,17 +16,18 @@ use Illuminate\Container\Container;
  * a few shortcuts to Rocketeer classes
  *
  * @property \Illuminate\Config\Repository                     config
- * @property \Rocketeer\Console\Commands\AbstractDeployCommand command
  * @property \Illuminate\Events\Dispatcher                     events
  * @property \Illuminate\Filesystem\Filesystem                 files
  * @property \Illuminate\Log\Writer                            log
  * @property \Illuminate\Remote\Connection                     remote
  * @property \Rocketeer\Bash                                   bash
+ * @property \Rocketeer\Console\Commands\AbstractDeployCommand command
  * @property \Rocketeer\Console\Console                        console
  * @property \Rocketeer\Interfaces\ScmInterface                scm
  * @property \Rocketeer\Interfaces\StrategyInterface           strategy
  * @property \Rocketeer\Rocketeer                              rocketeer
  * @property \Rocketeer\Services\ConnectionsHandler            connections
+ * @property \Rocketeer\Services\CredentialsGatherer           credentials
  * @property \Rocketeer\Services\History\History               history
  * @property \Rocketeer\Services\ReleasesManager               releasesManager
  * @property \Rocketeer\Services\Storages\LocalStorage         localStorage
