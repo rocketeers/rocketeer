@@ -106,7 +106,7 @@ abstract class AbstractCommand extends Command
 	//////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Ask a question to the user
+	 * Ask a question to the user, with default and/or multiple choices
 	 *
 	 * @param string      $question
 	 * @param string|null $default
@@ -116,14 +116,16 @@ abstract class AbstractCommand extends Command
 	 */
 	public function askWith($question, $default = null, $choices = array())
 	{
-		// If multiple choices, show them
-		if ($choices) {
-			$question .= ' ['.implode('/', $choices).']';
-		}
-
 		// If default, show it in the question
 		if ($default) {
 			$question .= ' ('.$default.')';
+		}
+
+		// If multiple choices, show them
+		if ($choices) {
+			$question .= ' ['.implode('/', $choices).']';
+
+			return $this->askWithCompletion($question, $choices, $default);
 		}
 
 		return $this->ask($question, $default);
