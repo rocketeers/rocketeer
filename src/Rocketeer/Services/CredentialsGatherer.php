@@ -125,9 +125,9 @@ class CredentialsGatherer
 	{
 		// Loop throguh credentials and ask missing ones
 		foreach ($credentials as $credential => $required) {
-			${$credential} = $this->getCredential($current, $credential);
-			if ($required and !${$credential}) {
-				${$credential} = $this->command->ask('No '.$credential.' is set for ['.$handle.'], please provide one :');
+			$$credentials = $this->getCredential($current, $credential);
+			if ($required and !$$credentials) {
+				$$credentials = $this->command->ask('No '.$credential.' is set for ['.$handle.'], please provide one :');
 			}
 		}
 
