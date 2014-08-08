@@ -54,12 +54,26 @@ abstract class RocketeerTestCase extends ContainerTestCase
 	}
 
 	/**
+	 * Cleanup tests
+	 */
+	public function tearDown()
+	{
+		parent::tearDown();
+
+		// Restore superglobals
+		$_SERVER['HOME'] = $this->home;
+	}
+
+	/**
 	 * Recreates the local file server
 	 *
 	 * @return void
 	 */
 	protected function recreateVirtualServer()
 	{
+		// Save superglobals
+		$this->home = $_SERVER['HOME'];
+
 		// Recreate deployments file
 		$this->app['files']->put($this->deploymentsFile, json_encode(array(
 			'foo'                 => 'bar',
