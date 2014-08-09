@@ -110,13 +110,14 @@ class TasksQueueTest extends RocketeerTestCase
 			'rocketeer::default' => 'production',
 		));
 
-		$output = $this->tasksQueue()->execute(array(
+		$this->tasksQueue()->run(array(
 			'ls -a',
 			function () {
 				return 'JOEY DOESNT SHARE FOOD';
 			}
 		));
 
+		$output = array_slice($this->history->getFlattenedOutput(), 2, 3);
 		$this->assertEquals(array(
 			'.'.PHP_EOL.'..'.PHP_EOL.'.gitkeep',
 			'JOEY DOESNT SHARE FOOD',
@@ -129,7 +130,7 @@ class TasksQueueTest extends RocketeerTestCase
 			'rocketeer::stages.stages' => array('first', 'second'),
 		));
 
-		$output = $this->tasksQueue()->on(array('staging', 'production'), function ($task) {
+		$this->tasksQueue()->on(array('staging', 'production'), function ($task) {
 			return $task->connections->getConnection().' - '.$task->connections->getStage();
 		});
 
@@ -138,7 +139,7 @@ class TasksQueueTest extends RocketeerTestCase
 			'staging - second',
 			'production - first',
 			'production - second',
-		), $output);
+		), $this->history->getFlattenedOutput());
 	}
 
 	public function testCanRunTasksInParallel()
@@ -155,7 +156,7 @@ class TasksQueueTest extends RocketeerTestCase
 
 	public function testCanCancelQueueIfTaskFails()
 	{
-		$this->expectOutputString('The tasks que was canceled by task "MyCustomHaltingTask"');
+		$this->expectOutputString('The tasks queue was canceled by task "MyCustomHaltingTask"');
 
 		$this->mockCommand([], array(
 			'error' => function ($error) {
@@ -163,11 +164,11 @@ class TasksQueueTest extends RocketeerTestCase
 			},
 		));
 
-		$output = $this->tasksQueue()->execute(array(
+		$this->tasksQueue()->run(array(
 			'Rocketeer\Dummies\MyCustomHaltingTask',
 			'Rocketeer\Dummies\MyCustomTask',
 		));
 
-		$this->assertEquals([false], $output);
+		$this->assertEquals([false], $this->history->getFlattenedOutput());
 	}
 }

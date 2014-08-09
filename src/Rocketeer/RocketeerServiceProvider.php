@@ -24,8 +24,8 @@ use Rocketeer\Services\History\History;
 use Rocketeer\Services\History\LogsHandler;
 use Rocketeer\Services\ReleasesManager;
 use Rocketeer\Services\Storages\LocalStorage;
+use Rocketeer\Services\Tasks\TasksQueue;
 use Rocketeer\Services\TasksHandler;
-use Rocketeer\Services\TasksQueue;
 
 // Define DS
 if (!defined('DS')) {

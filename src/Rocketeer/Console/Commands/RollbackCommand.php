@@ -36,10 +36,12 @@ class RollbackCommand extends AbstractCommand
 
 	/**
 	 * The tasks to execute
+	 *
+	 * @return integer
 	 */
 	public function fire()
 	{
-		$this->fireTasksQueue('rollback');
+		return $this->fireTasksQueue('rollback');
 	}
 
 	/**

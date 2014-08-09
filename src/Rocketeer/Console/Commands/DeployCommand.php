@@ -35,10 +35,12 @@ class DeployCommand extends AbstractCommand
 
 	/**
 	 * Execute the tasks
+	 *
+	 * @return integer
 	 */
 	public function fire()
 	{
-		$this->fireTasksQueue(array(
+		return $this->fireTasksQueue(array(
 			'deploy',
 			'cleanup',
 		));

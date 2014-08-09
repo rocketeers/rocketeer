@@ -7,13 +7,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Rocketeer\Services;
+namespace Rocketeer\Services\Tasks;
 
 use Closure;
 use Exception;
 use KzykHys\Parallel\Parallel;
 use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Connection;
+use Rocketeer\Traits\HasHistory;
 use Rocketeer\Traits\HasLocator;
 
 /**
@@ -24,6 +25,7 @@ use Rocketeer\Traits\HasLocator;
 class TasksQueue
 {
 	use HasLocator;
+	use HasHistory;
 
 	/**
 	 * @type Parallel
@@ -45,13 +47,6 @@ class TasksQueue
 	protected $remote;
 
 	/**
-	 * The output of the queue
-	 *
-	 * @var array
-	 */
-	protected $output = array();
-
-	/**
 	 * @param Parallel $parallel
 	 */
 	public function setParallel($parallel)
@@ -66,8 +61,8 @@ class TasksQueue
 	/**
 	 * Execute Tasks on the default connection
 	 *
-	 * @param  string|array|Closure $queue
-	 * @param  string|string[]|null $connections
+	 * @param string|array|Closure $queue
+	 * @param string|string[]|null $connections
 	 *
 	 * @return array
 	 */
@@ -77,17 +72,14 @@ class TasksQueue
 			$this->connections->setConnections($connections);
 		}
 
-		$queue = (array) $queue;
-		$queue = $this->buildQueue($queue);
-
 		return $this->run($queue);
 	}
 
 	/**
 	 * Execute Tasks on various connections
 	 *
-	 * @param  string|string[]      $connections
-	 * @param  string|array|Closure $queue
+	 * @param string|string[]      $connections
+	 * @param string|array|Closure $queue
 	 *
 	 * @return array
 	 */
@@ -105,15 +97,17 @@ class TasksQueue
 	 * Run an array of Tasks instances on the various
 	 * connections and stages provided
 	 *
-	 * @param  array $tasks An array of tasks
+	 * @param string|array $tasks An array of tasks
 	 *
 	 * @throws Exception
 	 * @return array An array of output
 	 */
-	public function run(array $tasks)
+	public function run($tasks)
 	{
+		$tasks    = (array) $tasks;
 		$queue    = $this->buildQueue($tasks);
 		$pipeline = $this->buildPipeline($queue);
+		$status = true;
 
 		// Run pipeline
 		if ($this->command->option('parallel')) {
@@ -124,37 +118,40 @@ class TasksQueue
 			$this->parallel = $this->parallel ?: new Parallel();
 			$this->parallel->run($pipeline);
 		} else {
-			$key = 0;
+			$key      = 0;
 			do {
-				$continue = $pipeline[$key]();
+				$status = $pipeline[$key]();
 				$key++;
-			} while ($continue and isset($pipeline[$key]));
+			} while ($status and isset($pipeline[$key]));
 		}
 
-		return $this->output;
+		return $status;
 	}
 
 	/**
 	 * Run the queue, taking into account the stage
 	 *
-	 * @param  \Rocketeer\Abstracts\AbstractTask[] $tasks
-	 * @param  string|null                         $stage
+	 * @param Job $job
 	 *
 	 * @return boolean
 	 */
-	protected function runQueue($tasks, $stage = null)
+	protected function executeJob(Job $job)
 	{
-		foreach ($tasks as $task) {
-			$currentStage = $task->usesStages() ? $stage : null;
+		// Set proper server
+		$this->connections->setConnection($job->connection, $job->server);
+
+		foreach ($job->queue as $task) {
+			$currentStage = $task->usesStages() ? $job->stage : null;
 			$this->connections->setStage($currentStage);
 
-			// Here we fire the task and if it was halted
-			// at any point, we cancel the whole queue
-			$state          = $task->fire();
-			$this->output[] = $state;
-			if ($task->wasHalted() or $state === false) {
-				$this->command->error('The tasks que was canceled by task "'.$task->getName().'"');
+			// Here we fire the task, save its
+			// output and return its status
+			$state = $task->fire();
+			$this->toOutput($state);
 
+			// If the task didn't finish, display what the error was
+			if ($task->wasHalted() or $state === false) {
+				$this->command->error('The tasks queue was canceled by task "'.$task->getName().'"');
 				return false;
 			}
 		}
@@ -193,12 +190,12 @@ class TasksQueue
 
 				// Add job to pipeline
 				foreach ($stages as $stage) {
-					$pipeline[] = array(
+					$pipeline[] = new Job(array(
 						'connection' => $connection,
 						'server'     => $server,
 						'stage'      => $stage,
 						'queue'      => $queue,
-					);
+					));
 				}
 			}
 		}
@@ -206,9 +203,7 @@ class TasksQueue
 		// Build pipeline
 		foreach ($pipeline as $key => $job) {
 			$pipeline[$key] = function () use ($job) {
-				$this->connections->setConnection($job['connection'], $job['server']);
-
-				return $this->runQueue($job['queue'], $job['stage']);
+				return $this->executeJob($job);
 			};
 		}
 
@@ -224,17 +219,13 @@ class TasksQueue
 	 * Here we will take the various Tasks names, closures and string tasks
 	 * and unify all of those to actual AbstractTask instances
 	 *
-	 * @param  array $tasks
+	 * @param array $tasks
 	 *
 	 * @return array
 	 */
 	public function buildQueue(array $tasks)
 	{
-		foreach ($tasks as &$task) {
-			$task = $this->buildTask($task);
-		}
-
-		return $tasks;
+		return array_map([$this, 'buildTask'], $tasks);
 	}
 
 	/**

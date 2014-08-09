@@ -34,11 +34,13 @@ class TestCommand extends AbstractCommand
 
 	/**
 	 * The tasks to execute
+	 *
+	 * @return integer
 	 */
 	public function fire()
 	{
 		$this->input->setOption('verbose', true);
 
-		$this->fireTasksQueue('test');
+		return $this->fireTasksQueue('test');
 	}
 }

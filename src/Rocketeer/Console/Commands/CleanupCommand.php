@@ -35,10 +35,12 @@ class CleanupCommand extends AbstractCommand
 
 	/**
 	 * Execute the tasks
+	 *
+	 * @return integer
 	 */
 	public function fire()
 	{
-		$this->fireTasksQueue('cleanup');
+		return $this->fireTasksQueue('cleanup');
 	}
 
 	/**

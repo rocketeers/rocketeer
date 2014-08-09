@@ -35,10 +35,12 @@ class UpdateCommand extends AbstractCommand
 
 	/**
 	 * Execute the tasks
+	 *
+	 * @return integer
 	 */
 	public function fire()
 	{
-		$this->fireTasksQueue('update');
+		return $this->fireTasksQueue('update');
 	}
 
 	/**

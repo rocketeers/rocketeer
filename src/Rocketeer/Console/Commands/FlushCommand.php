@@ -34,10 +34,16 @@ class FlushCommand extends AbstractCommand
 
 	/**
 	 * Execute the tasks
+	 *
+	 * @return integer
 	 */
 	public function fire()
 	{
+		// Clear the cache of credentials
 		$this->laravel['rocketeer.storage.local']->destroy();
+
 		$this->info("Rocketeer's cache has been properly flushed");
+
+		return 0;
 	}
 }

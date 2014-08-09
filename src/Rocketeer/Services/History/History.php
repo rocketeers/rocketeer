@@ -6,6 +6,14 @@ use Illuminate\Support\Collection;
 class History extends Collection
 {
 	/**
+	 * Clear the history
+	 */
+	public function clear()
+	{
+		$this->items = [];
+	}
+
+	/**
 	 * Get the history, flattened
 	 *
 	 * @return string[]|string[][]

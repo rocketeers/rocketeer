@@ -14,8 +14,10 @@ use Illuminate\Container\Container;
 /**
  * A trait for Service Locator-based classes wich adds
  * a few shortcuts to Rocketeer classes
- *
- * @property \Illuminate\Config\Repository                     config
+
+
+*
+*@property \Illuminate\Config\Repository                     config
  * @property \Illuminate\Events\Dispatcher                     events
  * @property \Illuminate\Filesystem\Filesystem                 files
  * @property \Illuminate\Log\Writer                            log
@@ -32,7 +34,7 @@ use Illuminate\Container\Container;
  * @property \Rocketeer\Services\ReleasesManager               releasesManager
  * @property \Rocketeer\Services\Storages\LocalStorage         localStorage
  * @property \Rocketeer\Services\TasksHandler                  tasks
- * @property \Rocketeer\Services\TasksQueue                    queue
+ * @property \Rocketeer\Services\Tasks\TasksQueue                    queue
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait HasLocator

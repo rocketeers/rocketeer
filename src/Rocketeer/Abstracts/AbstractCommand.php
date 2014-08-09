@@ -77,6 +77,8 @@ abstract class AbstractCommand extends Command
 	 * Fire a Tasks Queue
 	 *
 	 * @param string|string[]|\Rocketeer\Abstracts\AbstractTask[] $tasks
+	 *
+	 * @return integer
 	 */
 	protected function fireTasksQueue($tasks)
 	{
@@ -93,12 +95,14 @@ abstract class AbstractCommand extends Command
 		}
 
 		// Run tasks and display timer
-		$this->time(function () use ($tasks) {
-			$this->laravel['rocketeer.tasks']->run($tasks, $this);
+		$status = $this->time(function () use ($tasks) {
+			return $this->laravel['rocketeer.tasks']->run($tasks, $this);
 		});
 
 		// Remove command instance
 		unset($this->laravel['rocketeer.command']);
+
+		return $status ? 0 : 1;
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -135,14 +139,18 @@ abstract class AbstractCommand extends Command
 	 * Time an operation and display it afterwards
 	 *
 	 * @param Closure $callback
+	 *
+	 * @return integer;
 	 */
 	public function time(Closure $callback)
 	{
 		// Start timer, execute callback, close timer
 		$timerStart = microtime(true);
-		$callback();
+		$results = $callback();
 		$time = round(microtime(true) - $timerStart, 4);
 
 		$this->line('Execution time: <comment>'.$time.'s</comment>');
+
+		return $results;
 	}
 }

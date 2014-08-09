@@ -58,10 +58,12 @@ class BaseTaskCommand extends AbstractCommand
 
 	/**
 	 * Fire the custom Task
+	 *
+	 * @return integer
 	 */
 	public function fire()
 	{
-		$this->fireTasksQueue($this->task->getSlug());
+		return $this->fireTasksQueue($this->task->getSlug());
 	}
 
 	/**
