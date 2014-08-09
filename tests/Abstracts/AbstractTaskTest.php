@@ -3,7 +3,7 @@ namespace Rocketeer\Abstracts;
 
 use Rocketeer\TestCases\RocketeerTestCase;
 
-class TaskTest extends RocketeerTestCase
+class AbstractTaskTest extends RocketeerTestCase
 {
 	public function testCanDisplayOutputOfCommandsIfVerbose()
 	{
@@ -56,5 +56,28 @@ class TaskTest extends RocketeerTestCase
 		$this->tasksQueue()->execute(function ($task) {
 			$task->fireEvent('test.foobar');
 		}, 'staging');
+	}
+
+	public function testTaskCancelsIfEventHalts()
+	{
+		$this->expectOutputString('before');
+
+		$this->swapConfig(array(
+			'rocketeer::hooks' => [],
+		));
+
+		$this->tasksQueue()->registerConfiguredEvents();
+		$this->tasksQueue()->listenTo('deploy.before', function () {
+			echo 'before';
+			return false;
+		});
+		$this->tasksQueue()->listenTo('deploy.after', function () {
+			echo 'after';
+		});
+
+		$task    = $this->task('Deploy');
+		$results = $task->fire();
+
+		$this->assertFalse($results);
 	}
 }

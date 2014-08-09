@@ -4,7 +4,7 @@ namespace Rocketeer\Abstracts;
 use Rocketeer\Scm\Git;
 use Rocketeer\TestCases\RocketeerTestCase;
 
-class ScmTest extends RocketeerTestCase
+class AbstractScmTest extends RocketeerTestCase
 {
 	public function testCanGetSprintfCommand()
 	{

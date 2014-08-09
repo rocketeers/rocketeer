@@ -3,9 +3,8 @@ namespace Abstracts;
 
 use Rocketeer\TestCases\RocketeerTestCase;
 
-class StorageTest extends RocketeerTestCase
+class AbstractStorageTest extends RocketeerTestCase
 {
-
 	public function testCanSwapContents()
 	{
 		$matcher = ['foo' => 'caca'];
