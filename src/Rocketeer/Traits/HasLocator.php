@@ -14,26 +14,24 @@ use Illuminate\Container\Container;
 /**
  * A trait for Service Locator-based classes wich adds
  * a few shortcuts to Rocketeer classes
-
-
-*
-*@property \Illuminate\Config\Repository                     config
- * @property \Illuminate\Events\Dispatcher                     events
- * @property \Illuminate\Filesystem\Filesystem                 files
- * @property \Illuminate\Log\Writer                            log
- * @property \Illuminate\Remote\Connection                     remote
- * @property \Rocketeer\Abstracts\AbstractCommand              command
- * @property \Rocketeer\Bash                                   bash
- * @property \Rocketeer\Console\Console                        console
- * @property \Rocketeer\Interfaces\ScmInterface                scm
- * @property \Rocketeer\Interfaces\StrategyInterface           strategy
- * @property \Rocketeer\Rocketeer                              rocketeer
- * @property \Rocketeer\Services\ConnectionsHandler            connections
- * @property \Rocketeer\Services\CredentialsGatherer           credentials
- * @property \Rocketeer\Services\History\History               history
- * @property \Rocketeer\Services\ReleasesManager               releasesManager
- * @property \Rocketeer\Services\Storages\LocalStorage         localStorage
- * @property \Rocketeer\Services\TasksHandler                  tasks
+ *
+ * @property \Illuminate\Config\Repository                           config
+ * @property \Illuminate\Events\Dispatcher                           events
+ * @property \Illuminate\Filesystem\Filesystem                       files
+ * @property \Illuminate\Log\Writer                                  log
+ * @property \Illuminate\Remote\Connection                           remote
+ * @property \Rocketeer\Abstracts\AbstractCommand                    command
+ * @property \Rocketeer\Bash                                         bash
+ * @property \Rocketeer\Console\Console                              console
+ * @property \Rocketeer\Interfaces\ScmInterface                      scm
+ * @property \Rocketeer\Interfaces\StrategyInterface                 strategy
+ * @property \Rocketeer\Rocketeer                                    rocketeer
+ * @property \Rocketeer\Services\ConnectionsHandler                  connections
+ * @property \Rocketeer\Services\CredentialsGatherer                 credentials
+ * @property \Rocketeer\Services\History\History                     history
+ * @property \Rocketeer\Services\ReleasesManager                     releasesManager
+ * @property \Rocketeer\Services\Storages\LocalStorage               localStorage
+ * @property \Rocketeer\Services\TasksHandler                        tasks
  * @property \Rocketeer\Services\Tasks\TasksQueue                    queue
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */

@@ -107,7 +107,7 @@ class TasksQueue
 		$tasks    = (array) $tasks;
 		$queue    = $this->buildQueue($tasks);
 		$pipeline = $this->buildPipeline($queue);
-		$status = true;
+		$status   = true;
 
 		// Run pipeline
 		if ($this->command->option('parallel')) {
@@ -118,7 +118,7 @@ class TasksQueue
 			$this->parallel = $this->parallel ?: new Parallel();
 			$this->parallel->run($pipeline);
 		} else {
-			$key      = 0;
+			$key = 0;
 			do {
 				$status = $pipeline[$key]();
 				$key++;
@@ -152,6 +152,7 @@ class TasksQueue
 			// If the task didn't finish, display what the error was
 			if ($task->wasHalted() or $state === false) {
 				$this->command->error('The tasks queue was canceled by task "'.$task->getName().'"');
+
 				return false;
 			}
 		}

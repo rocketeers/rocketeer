@@ -70,14 +70,17 @@ class AbstractTaskTest extends RocketeerTestCase
 		$this->tasksQueue()->listenTo('deploy.before', array(
 			function () {
 				echo 'a';
+
 				return true;
 			},
 			function () {
 				echo 'b';
+
 				return 'lol';
 			},
 			function () {
 				echo 'c';
+
 				return false;
 			},
 			function () {
@@ -85,7 +88,7 @@ class AbstractTaskTest extends RocketeerTestCase
 			},
 		));
 
-		$task    = $this->pretendTask('Deploy');
+		$task = $this->pretendTask('Deploy');
 		$task->fire();
 	}
 }

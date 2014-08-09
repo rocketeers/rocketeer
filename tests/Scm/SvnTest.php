@@ -55,7 +55,7 @@ class SvnTest extends RocketeerTestCase
 
 		$command = $this->scm->checkout($this->server);
 
-		$this->assertEquals('svn co http://github.com/my/repository/develop ' .$this->server. ' --non-interactive --username="foo" --password="bar"', $command);
+		$this->assertEquals('svn co http://github.com/my/repository/develop '.$this->server.' --non-interactive --username="foo" --password="bar"', $command);
 	}
 
 	public function testCanGetDeepClone()
@@ -69,7 +69,7 @@ class SvnTest extends RocketeerTestCase
 
 		$command = $this->scm->checkout($this->server);
 
-		$this->assertEquals('svn co http://github.com/my/repository/develop ' .$this->server. ' --non-interactive --username="foo" --password="bar"', $command);
+		$this->assertEquals('svn co http://github.com/my/repository/develop '.$this->server.' --non-interactive --username="foo" --password="bar"', $command);
 	}
 
 	public function testCanGetReset()

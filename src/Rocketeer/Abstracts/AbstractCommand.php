@@ -146,8 +146,8 @@ abstract class AbstractCommand extends Command
 	{
 		// Start timer, execute callback, close timer
 		$timerStart = microtime(true);
-		$results = $callback();
-		$time = round(microtime(true) - $timerStart, 4);
+		$results    = $callback();
+		$time       = round(microtime(true) - $timerStart, 4);
 
 		$this->line('Execution time: <comment>'.$time.'s</comment>');
 
