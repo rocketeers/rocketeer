@@ -32,6 +32,7 @@
 		"patchwork/utf8": "~1.1",
 		"herrera-io/box": "~1.5.3",
 		"phpseclib/phpseclib": "~0.3.5",
+		"d11wtq/boris": "~1.0.8",
 		"raveren/kint": "~0.9.0@dev"
 	},
 	"suggest": {
