@@ -60,25 +60,32 @@ class AbstractTaskTest extends RocketeerTestCase
 
 	public function testTaskCancelsIfEventHalts()
 	{
-		$this->expectOutputString('before');
+		$this->expectOutputString('abc');
 
 		$this->swapConfig(array(
 			'rocketeer::hooks' => [],
 		));
 
 		$this->tasksQueue()->registerConfiguredEvents();
-		$this->tasksQueue()->listenTo('deploy.before', function () {
-			echo 'before';
+		$this->tasksQueue()->listenTo('deploy.before', array(
+			function () {
+				echo 'a';
+				return true;
+			},
+			function () {
+				echo 'b';
+				return 'lol';
+			},
+			function () {
+				echo 'c';
+				return false;
+			},
+			function () {
+				echo 'd';
+			},
+		));
 
-			return false;
-		});
-		$this->tasksQueue()->listenTo('deploy.after', function () {
-			echo 'after';
-		});
-
-		$task    = $this->task('Deploy');
-		$results = $task->fire();
-
-		$this->assertFalse($results);
+		$task    = $this->pretendTask('Deploy');
+		$task->fire();
 	}
 }
