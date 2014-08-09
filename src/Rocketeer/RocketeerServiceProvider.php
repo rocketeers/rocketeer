@@ -77,6 +77,9 @@ class RocketeerServiceProvider extends ServiceProvider
 
 		// Bind commands
 		$this->bindCommands();
+
+		// Load contextual configurations
+		$this->app['rocketeer.rocketeer']->mergeContextualConfigurations();
 	}
 
 	/**
@@ -147,7 +150,6 @@ class RocketeerServiceProvider extends ServiceProvider
 		$this->app->singleton('rocketeer.rocketeer', function ($app) {
 			return new Rocketeer($app);
 		});
-
 		$this->app->singleton('rocketeer.connections', function ($app) {
 			return new ConnectionsHandler($app);
 		});
@@ -184,6 +186,9 @@ class RocketeerServiceProvider extends ServiceProvider
 		});
 	}
 
+	/**
+	 * Bind the CredentialsGatherer and Console application
+	 */
 	public function bindConsoleClasses()
 	{
 		$this->app->singleton('rocketeer.credentials', function ($app) {
@@ -304,19 +309,21 @@ class RocketeerServiceProvider extends ServiceProvider
 		$this->app['config']->getLoader();
 
 		// Register custom config
-		$custom = $this->app['path.rocketeer.config'];
-		if (file_exists($custom)) {
-			$this->app['config']->afterLoading('rocketeer', function ($me, $group, $items) use ($custom) {
-				$customItems = $custom.'/'.$group.'.php';
-				if (!file_exists($customItems)) {
-					return $items;
-				}
-
-				$customItems = include $customItems;
-
-				return array_replace($items, $customItems);
-			});
+		$set = $this->app['path.rocketeer.config'];
+		if (!file_exists($set)) {
+			return;
 		}
+
+		$this->app['config']->afterLoading('rocketeer', function ($me, $group, $items) use ($set) {
+			$customItems = $set.'/'.$group.'.php';
+			if (!file_exists($customItems)) {
+				return $items;
+			}
+
+			$customItems = include $customItems;
+
+			return array_replace($items, $customItems);
+		});
 	}
 
 	/**

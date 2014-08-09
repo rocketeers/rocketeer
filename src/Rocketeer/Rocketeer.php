@@ -12,6 +12,8 @@ namespace Rocketeer;
 use Exception;
 use Illuminate\Support\Str;
 use Rocketeer\Traits\HasLocator;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 
 /**
  * Handles interaction between the User provided informations
@@ -29,6 +31,26 @@ class Rocketeer
 	 * @var string
 	 */
 	const VERSION = '2.0.0';
+
+	/**
+	 * Returns what stage Rocketeer thinks he's in
+	 *
+	 * @param string      $application
+	 * @param string|null $path
+	 *
+	 * @return string|false
+	 */
+	public static function getDetectedStage($application = 'application', $path = null)
+	{
+		$current = $path ?: realpath(__DIR__);
+		preg_match('/'.$application.'\/([a-zA-Z0-9_-]+)\/releases\/([0-9]{14})/', $current, $matches);
+
+		return isset($matches[1]) ? $matches[1] : false;
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	//////////////////////////// CONFIGURATION ///////////////////////////
+	//////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Get the name of the application to deploy
@@ -98,19 +120,39 @@ class Rocketeer
 	}
 
 	/**
-	 * Returns what stage Rocketeer thinks he's in
-	 *
-	 * @param string      $application
-	 * @param string|null $path
-	 *
-	 * @return string|false
+	 * Merge the various contextual configurations defined in userland
 	 */
-	public static function getDetectedStage($application = 'application', $path = null)
+	public function mergeContextualConfigurations()
 	{
-		$current = $path ?: realpath(__DIR__);
-		preg_match('/'.$application.'\/([a-zA-Z0-9_-]+)\/releases\/([0-9]{14})/', $current, $matches);
+		$finder  = new Finder();
+		$storage = $this->app['path.rocketeer.config'];
+		$files   = $finder->in($storage.'/{stages,connections}/*')->notName('config.php')->files();
+		$files   = iterator_to_array($files);
 
-		return isset($matches[1]) ? $matches[1] : false;
+		foreach ($files as $file) {
+			$contents = include $file->getPathname();
+			$handle   = $this->computeHandleFromPath($file);
+
+			$this->config->set($handle, $contents);
+		}
+	}
+
+	/**
+	 * @param SplFileInfo $file
+	 *
+	 * @return string
+	 */
+	protected function computeHandleFromPath(SplFileInfo $file)
+	{
+		// Get realpath
+		$handle = $file->getRealpath();
+
+		// Format appropriately
+		$handle = str_replace($this->app['path.rocketeer.config'].DIRECTORY_SEPARATOR, null, $handle);
+		$handle = str_replace('.php', null, $handle);
+		$handle = str_replace(DIRECTORY_SEPARATOR, '.', $handle);
+
+		return sprintf('rocketeer::on.%s', $handle);
 	}
 
 	////////////////////////////////////////////////////////////////////
