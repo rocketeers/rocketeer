@@ -8,7 +8,7 @@ php:
 
 before_script:
   - travis_retry composer self-update
-  - travis_retry composer install --dev --prefer-dist
+  - travis_retry composer install --no-interaction --prefer-source --dev
 
 matrix:
   allow_failures:
