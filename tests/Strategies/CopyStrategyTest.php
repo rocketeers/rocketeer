@@ -44,7 +44,7 @@ class CopyStrategyTest extends RocketeerTestCase
 		$this->strategy->deploy();
 
 		$matcher = array(
-			'git clone --depth 1 -b master "{repository}" {server}/releases/{release}',
+			'git clone "{repository}" "{server}/releases/{release}" --branch="master" --depth="1"',
 			array(
 				"cd {server}/releases/{release}",
 				"git submodule update --init --recursive"
@@ -66,7 +66,7 @@ class CopyStrategyTest extends RocketeerTestCase
 		$this->strategy->deploy();
 
 		$matcher = array(
-			'git clone --depth 1 -b master "{repository}" {server}/releases/{release}',
+			'git clone "{repository}" "{server}/releases/{release}" --branch="master" --depth="1"',
 			array(
 				"cd {server}/releases/{release}",
 				"git submodule update --init --recursive"

@@ -4,16 +4,8 @@ namespace Rocketeer\Abstracts;
 use Rocketeer\Scm\Git;
 use Rocketeer\TestCases\RocketeerTestCase;
 
-class AbstractScmTest extends RocketeerTestCase
+class AbstractBinaryTest extends RocketeerTestCase
 {
-	public function testCanGetSprintfCommand()
-	{
-		$scm     = new Git($this->app);
-		$command = $scm->getCommand('foo %s', 'bar');
-
-		$this->assertEquals('git foo bar', $command);
-	}
-
 	public function testCanExecuteMethod()
 	{
 		$this->mock('rocketeer.bash', 'Bash', function ($mock) {
@@ -24,7 +16,7 @@ class AbstractScmTest extends RocketeerTestCase
 
 		$scm      = new Git($this->app);
 		$command  = $scm->execute('checkout', $this->server);
-		$expected = $this->replaceHistoryPlaceholders(['git clone --depth 1 -b master "{repository}" {server}']);
+		$expected = $this->replaceHistoryPlaceholders(['git clone "{repository}" "{server}" --branch="master" --depth="1"']);
 
 		$this->assertEquals($expected[0], $command);
 	}

@@ -14,7 +14,7 @@ class DeployTest extends RocketeerTestCase
 		));
 
 		$matcher = array(
-			'git clone --depth 1 -b master "https://github.com/Anahkiasen/html-object.git" {server}/releases/{release}',
+			'git clone "{repository}" "{server}/releases/{release}" --branch="master" --depth="1"',
 			array(
 				"cd {server}/releases/{release}",
 				"git submodule update --init --recursive"
@@ -60,7 +60,7 @@ class DeployTest extends RocketeerTestCase
 		));
 
 		$matcher = array(
-			'git clone -b master "https://github.com/Anahkiasen/html-object.git" {server}/releases/{release}',
+			'git clone "{repository}" "{server}/releases/{release}" --branch="master"',
 			array(
 				"cd {server}/releases/{release}",
 				exec('which phpunit')." --stop-on-failure "
@@ -168,7 +168,7 @@ class DeployTest extends RocketeerTestCase
 	public function testCanRunDeployWithSeed()
 	{
 		$matcher = array(
-			'git clone --depth 1 -b master "{repository}" {server}/releases/{release}',
+			'git clone "{repository}" "{server}/releases/{release}" --branch="master" --depth="1"',
 			array(
 				"cd {server}/releases/{release}",
 				"git submodule update --init --recursive"

@@ -120,14 +120,20 @@ trait RocketeerAssertions
 	protected function replaceHistoryPlaceholders($history, $release = null)
 	{
 		$release = $release ?: date('YmdHis');
+		$hhvm    = defined('HHVM_VERSION');
 
+		$replaced = [];
 		foreach ($history as $key => $entries) {
-			if (is_array($entries)) {
-				$history[$key] = $this->replaceHistoryPlaceholders($entries, $release);
+			if ($hhvm and $entries == '{php} -m') {
 				continue;
 			}
 
-			$history[$key] = strtr($entries, array(
+			if (is_array($entries)) {
+				$replaced[$key] = $this->replaceHistoryPlaceholders($entries, $release);
+				continue;
+			}
+
+			$replaced[$key] = strtr($entries, array(
 				'{php}'        => exec('which php'),
 				'{phpunit}'    => exec('which phpunit'),
 				'{repository}' => 'https://github.com/'.$this->repository,
@@ -137,6 +143,6 @@ trait RocketeerAssertions
 			));
 		}
 
-		return $history;
+		return $replaced;
 	}
 }
