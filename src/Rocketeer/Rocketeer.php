@@ -124,11 +124,18 @@ class Rocketeer
 	 */
 	public function mergeContextualConfigurations()
 	{
-		$finder  = new Finder();
+		// Cancel if not ignited yet
 		$storage = $this->app['path.rocketeer.config'];
+		if (!is_dir($storage)) {
+			return;
+		}
+
+		// Gather custom files
+		$finder  = new Finder();
 		$files   = $finder->in($storage.'/{stages,connections}/*')->notName('config.php')->files();
 		$files   = iterator_to_array($files);
 
+		// Bind their contents to the "on" array
 		foreach ($files as $file) {
 			$contents = include $file->getPathname();
 			$handle   = $this->computeHandleFromPath($file);
