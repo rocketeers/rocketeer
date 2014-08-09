@@ -48,7 +48,7 @@ class CredentialsGatherer
 		$activeConnections    = $this->connections->getConnections();
 
 		// If we didn't set any connection, ask for them
-		if (!$activeConnections) {
+		if (!$activeConnections or empty($availableConnections)) {
 			$connectionName = $this->command->askWith('No connections have been set, please create one:', 'production');
 			$this->getConnectionCredentials($connectionName);
 

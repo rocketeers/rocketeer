@@ -6,6 +6,8 @@ use Rocketeer\TestCases\RocketeerTestCase;
 
 class CredentialsGathererTest extends RocketeerTestCase
 {
+	protected $key = '/.ssh/id_rsa';
+
 	public function setUp()
 	{
 		parent::setUp();
@@ -13,6 +15,7 @@ class CredentialsGathererTest extends RocketeerTestCase
 		$this->repository = 'git@github.com:Anahkiasen/rocketeer.git';
 		$this->username   = 'Anahkiasen';
 		$this->password   = 'foobar';
+		$this->host       = 'some.host';
 	}
 
 	public function testIgnoresPlaceholdersWhenFillingCredentials()
@@ -23,7 +26,7 @@ class CredentialsGathererTest extends RocketeerTestCase
 			'No password is set for [repository]'   => $this->password,
 		));
 
-		$this->givenConfiguredCredentials(['repository' => '{foobar}']);
+		$this->givenConfiguredRepositoryCredentials(['repository' => '{foobar}']);
 
 		$this->assertStoredCredentialsEquals(array(
 			'repository' => $this->repository,
@@ -42,7 +45,7 @@ class CredentialsGathererTest extends RocketeerTestCase
 			'No password is set for [repository]'   => $this->password,
 		));
 
-		$this->givenConfiguredCredentials([]);
+		$this->givenConfiguredRepositoryCredentials([]);
 
 		$this->assertStoredCredentialsEquals(array(
 			'repository' => $this->repository,
@@ -56,7 +59,7 @@ class CredentialsGathererTest extends RocketeerTestCase
 	public function testDoesntAskForRepositoryCredentialsIfUneeded()
 	{
 		$this->mockAnswers();
-		$this->givenConfiguredCredentials(['repository' => $this->repository], false);
+		$this->givenConfiguredRepositoryCredentials(['repository' => $this->repository], false);
 		$this->assertStoredCredentialsEquals(array(
 			'repository' => $this->repository,
 		));
@@ -70,7 +73,7 @@ class CredentialsGathererTest extends RocketeerTestCase
 			'No username is set for [repository]' => $this->username,
 		));
 
-		$this->givenConfiguredCredentials(['repository' => $this->repository], true);
+		$this->givenConfiguredRepositoryCredentials(['repository' => $this->repository], true);
 
 		$this->assertStoredCredentialsEquals(array(
 			'repository' => $this->repository,
@@ -79,6 +82,69 @@ class CredentialsGathererTest extends RocketeerTestCase
 		));
 
 		$this->credentials->getRepositoryCredentials();
+	}
+
+	public function testCanGetServerCredentialsIfNoneDefined()
+	{
+		$this->swapConfig(array(
+			'remote.connections' => [],
+		));
+
+		$this->mockAnswers(array(
+			'No host is set for [production]'     => $this->host,
+			'No username is set for [production]' => $this->username,
+			'Please enter your password'          => $this->password,
+		));
+
+		$this->command->shouldReceive('askWith')->with('No connections have been set, please create one:', 'production')->andReturn('production');
+		$this->command->shouldReceive('askWith')->with(
+			'No password or SSH key is set for [production], which would you use?',
+			'key', ['key', 'password']
+		)->andReturn('password');
+		$this->command->shouldReceive('option')->andReturn(null);
+
+		$this->credentials->getServerCredentials();
+
+		$credentials = $this->connections->getServerCredentials('production', 0);
+		$this->assertEquals(array(
+			'host'      => $this->host,
+			'username'  => $this->username,
+			'password'  => $this->password,
+			'keyphrase' => null,
+			'key'       => null,
+			'agent'     => null,
+		), $credentials);
+	}
+
+	public function testCanGetCredentialsForSpecifiedConnection()
+	{
+		$key = $this->rocketeer->getDefaultKeyPath();
+		$this->mockAnswers(array(
+			'No host is set for [staging#0]'     => $this->host,
+			'No username is set for [staging#0]' => $this->username,
+			'If a keyphrase is required, provide it' => 'KEYPHRASE',
+		));
+
+		$this->command->shouldReceive('option')->with('on')->andReturn('staging');
+		$this->command->shouldReceive('askWith')->with(
+			'Please enter the full path to your key', $key
+		)->andReturn($key);
+		$this->command->shouldReceive('askWith')->with(
+			'No password or SSH key is set for [staging#0], which would you use?',
+			'key', ['key', 'password']
+		)->andReturn('key');
+
+		$this->credentials->getServerCredentials();
+
+		$credentials = $this->connections->getServerCredentials('staging', 0);
+		$this->assertEquals(array(
+			'host'      => $this->host,
+			'username'  => $this->username,
+			'password'  => null,
+			'keyphrase' => 'KEYPHRASE',
+			'key'       => $key,
+			'agent'     => null,
+		), $credentials);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -98,7 +164,8 @@ class CredentialsGathererTest extends RocketeerTestCase
 			}
 
 			foreach ($answers as $question => $answer) {
-				$mock = $mock->shouldReceive('askWith')->with($question.', please provide one:')->andReturn($answer);
+				$question = strpos($question, 'is set for') !== false ? $question.', please provide one:' : $question;
+				$mock     = $mock->shouldReceive('askWith')->with($question)->andReturn($answer);
 			}
 
 			return $mock;
@@ -121,7 +188,7 @@ class CredentialsGathererTest extends RocketeerTestCase
 	 * @param array   $credentials
 	 * @param boolean $need
 	 */
-	protected function givenConfiguredCredentials(array $credentials, $need = false)
+	protected function givenConfiguredRepositoryCredentials(array $credentials, $need = false)
 	{
 		$this->mock('rocketeer.connections', 'ConnectionsHandler', function ($mock) use ($need, $credentials) {
 			return $mock
