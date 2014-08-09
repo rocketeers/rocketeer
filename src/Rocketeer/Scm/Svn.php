@@ -9,6 +9,7 @@
  */
 namespace Rocketeer\Scm;
 
+use Rocketeer\Abstracts\AbstractBinary;
 use Rocketeer\Abstracts\AbstractScm;
 use Rocketeer\Interfaces\ScmInterface;
 
@@ -18,7 +19,7 @@ use Rocketeer\Interfaces\ScmInterface;
  * @author Maxime Fabre <ehtnam6@gmail.com>
  * @author Gasillo
  */
-class Svn extends AbstractScm implements ScmInterface
+class Svn extends AbstractBinary implements ScmInterface
 {
 	/**
 	 * The core binary
@@ -78,7 +79,7 @@ class Svn extends AbstractScm implements ScmInterface
 		$repository = $this->connections->getRepositoryEndpoint();
 		$repository = rtrim($repository, '/').'/'.ltrim($branch, '/');
 
-		return $this->getCommand('co %s %s %s', $this->getCredentials(), $repository, $destination);
+		return $this->co([$repository, $destination], $this->getCredentials());
 	}
 
 	/**
@@ -88,7 +89,9 @@ class Svn extends AbstractScm implements ScmInterface
 	 */
 	public function reset()
 	{
-		return $this->getCommand('status -q | grep -v \'^[~XI ]\' | awk \'{print $2;}\' | xargs %s revert', $this->binary);
+		$command = sprintf('status -q | grep -v \'^[~XI ]\' | awk \'{print $2;}\' | xargs %s revert', $this->binary);
+
+		return $this->getCommand($command);
 	}
 
 	/**
@@ -98,7 +101,7 @@ class Svn extends AbstractScm implements ScmInterface
 	 */
 	public function update()
 	{
-		return $this->getCommand('up %s', $this->getCredentials());
+		return $this->up(null, $this->getCredentials());
 	}
 
 	/**
@@ -108,18 +111,18 @@ class Svn extends AbstractScm implements ScmInterface
 	 */
 	protected function getCredentials()
 	{
-		$options     = array('--non-interactive');
+		$options     = ['--non-interactive' => null];
 		$credentials = $this->connections->getRepositoryCredentials();
 
 		// Build command
 		if ($user = array_get($credentials, 'username')) {
-			$options[] = '--username='.$user;
+			$options['--username'] = $user;
 		}
 		if ($pass = array_get($credentials, 'password')) {
-			$options[] = '--password='.$pass;
+			$options['--password'] = $pass;
 		}
 
-		return implode(' ', $options);
+		return $options;
 	}
 
 	/**

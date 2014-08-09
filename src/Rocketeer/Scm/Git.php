@@ -9,6 +9,7 @@
  */
 namespace Rocketeer\Scm;
 
+use Rocketeer\Abstracts\AbstractBinary;
 use Rocketeer\Abstracts\AbstractScm;
 use Rocketeer\Interfaces\ScmInterface;
 
@@ -17,7 +18,7 @@ use Rocketeer\Interfaces\ScmInterface;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class Git extends AbstractScm implements ScmInterface
+class Git extends AbstractBinary implements ScmInterface
 {
 	/**
 	 * The core binary
@@ -47,7 +48,7 @@ class Git extends AbstractScm implements ScmInterface
 	 */
 	public function currentState()
 	{
-		return $this->getCommand('rev-parse HEAD');
+		return $this->revParse('HEAD');
 	}
 
 	/**
@@ -57,7 +58,7 @@ class Git extends AbstractScm implements ScmInterface
 	 */
 	public function currentBranch()
 	{
-		return $this->getCommand('rev-parse --abbrev-ref HEAD');
+		return $this->revParse('--abbrev-ref HEAD');
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -73,11 +74,18 @@ class Git extends AbstractScm implements ScmInterface
 	 */
 	public function checkout($destination)
 	{
-		$branch     = $this->connections->getRepositoryBranch();
-		$repository = $this->connections->getRepositoryEndpoint();
-		$shallow    = $this->rocketeer->getOption('scm.shallow') ? ' --depth 1' : '';
+		$arguments = array_map([$this, 'quote'], array(
+			$this->connections->getRepositoryEndpoint(),
+			$destination,
+		));
 
-		return $this->getCommand('clone%s -b %s "%s" %s', $shallow, $branch, $repository, $destination);
+		// Build flags
+		$flags = ['--branch' => $this->connections->getRepositoryBranch()];
+		if ($this->rocketeer->getOption('scm.shallow')) {
+			$flags['--depth'] = 1;
+		}
+
+		return $this->clone($arguments, $flags);
 	}
 
 	/**
@@ -87,7 +95,7 @@ class Git extends AbstractScm implements ScmInterface
 	 */
 	public function reset()
 	{
-		return $this->getCommand('reset --hard');
+		return $this->getCommand('reset', null, ['--hard']);
 	}
 
 	/**
@@ -97,7 +105,7 @@ class Git extends AbstractScm implements ScmInterface
 	 */
 	public function update()
 	{
-		return $this->getCommand('pull');
+		return $this->pull();
 	}
 
 	/**
@@ -107,6 +115,6 @@ class Git extends AbstractScm implements ScmInterface
 	 */
 	public function submodules()
 	{
-		return $this->getCommand('submodule update --init --recursive');
+		return $this->submodule('update', ['--init', '--recursive']);
 	}
 }
