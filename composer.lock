@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c3144b2ca3ff23f1c805405f66e1e1c2",
+    "hash": "3630214752af24d69196da37197c7f9e",
     "packages": [
         {
             "name": "illuminate/config",
@@ -361,7 +361,7 @@
         },
         {
             "name": "kzykhys/parallel",
-            "version": "dev-master",
+            "version": "v0.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kzykhys/Parallel.php.git",
@@ -1891,7 +1891,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "kzykhys/parallel": 20,
         "raveren/kint": 20
     },
     "prefer-stable": false,
