@@ -3,6 +3,7 @@
 .rocketeer
 bin/phar
 bin/rocketeer.phar
+composer.lock
 storage
 
 # Plugins
