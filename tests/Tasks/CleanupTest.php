@@ -30,11 +30,15 @@ class CleanupTest extends RocketeerTestCase
 				});
 		});
 
+		ob_start();
+
 		$this->assertTaskOutput('Cleanup', 'Removing <info>2 releases</info> from the server', $this->getCommand(array(), array(
 			'clean-all' => true,
 			'verbose'   => true,
 			'pretend'   => false,
 		)));
+
+		ob_end_clean();
 	}
 
 	public function testPrintsMessageIfNoCleanup()
