@@ -45,7 +45,7 @@ class CloneStrategy extends AbstractStrategy implements StrategyInterface
 	 *
 	 * @param boolean $reset
 	 *
-	 * @return boolean
+	 * @return string
 	 */
 	public function update($reset = true)
 	{

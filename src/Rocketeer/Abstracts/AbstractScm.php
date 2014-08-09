@@ -44,7 +44,6 @@ abstract class AbstractScm
 	/**
 	 * Returns a command with the SCM's binary
 	 *
-	 * @param string $commands,...
 	 *
 	 * @return string
 	 */
@@ -59,8 +58,6 @@ abstract class AbstractScm
 	/**
 	 * Execute one of the commands
 	 *
-	 * @param  string $command
-	 * @param  string $arguments,...
 	 *
 	 * @return string|string[]
 	 */

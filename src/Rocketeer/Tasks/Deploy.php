@@ -28,7 +28,7 @@ class Deploy extends AbstractTask
 	/**
 	 * Run the task
 	 *
-	 * @return  void
+	 * @return  boolean|null
 	 */
 	public function execute()
 	{
@@ -98,7 +98,7 @@ class Deploy extends AbstractTask
 	/**
 	 * Run migrations and seed database
 	 *
-	 * @return boolean|null
+	 * @return string|null
 	 */
 	protected function runMigrationsAndSeed()
 	{

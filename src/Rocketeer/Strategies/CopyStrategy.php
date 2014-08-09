@@ -10,7 +10,7 @@ class CopyStrategy extends CloneStrategy implements StrategyInterface
 	 *
 	 * @param string|null $destination
 	 *
-	 * @return boolean
+	 * @return boolean|string
 	 */
 	public function deploy($destination = null)
 	{

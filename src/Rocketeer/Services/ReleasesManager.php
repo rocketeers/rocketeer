@@ -209,7 +209,7 @@ class ReleasesManager
 	/**
 	 * Mark a release as valid
 	 *
-	 * @param integer|string|null $release
+	 * @param string $release
 	 */
 	public function markReleaseAsValid($release = null)
 	{

@@ -110,7 +110,7 @@ abstract class AbstractCommand extends Command
 	 *
 	 * @param string      $question
 	 * @param string|null $default
-	 * @param array       $choices
+	 * @param string[]       $choices
 	 *
 	 * @return string
 	 */

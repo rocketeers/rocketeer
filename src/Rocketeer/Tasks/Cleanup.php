@@ -59,7 +59,7 @@ class Cleanup extends AbstractTask
 	/**
 	 * Get an array of releases to prune
 	 *
-	 * @return array
+	 * @return \integer[]
 	 */
 	protected function getReleasesToCleanup()
 	{

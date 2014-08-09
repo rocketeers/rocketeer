@@ -11,10 +11,8 @@ namespace Rocketeer\Services;
 
 use Closure;
 use Illuminate\Container\Container;
-use Rocketeer\Abstracts\AbstractLocatorClass;
 use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Console\Commands\BaseTaskCommand;
-use Rocketeer\Task;
 use Rocketeer\Tasks;
 use Rocketeer\Traits\HasLocator;
 
@@ -110,7 +108,7 @@ class TasksHandler
 	 * Execute a task before another one
 	 *
 	 * @param  string                      $task
-	 * @param  string|Closure|AbstractTask $listeners
+	 * @param  Closure $listeners
 	 * @param  integer                     $priority
 	 *
 	 * @return void
@@ -124,7 +122,7 @@ class TasksHandler
 	 * Execute a task after another one
 	 *
 	 * @param  string                      $task
-	 * @param  string|Closure|AbstractTask $listeners
+	 * @param  Closure $listeners
 	 * @param  integer                     $priority
 	 *
 	 * @return void

@@ -67,7 +67,7 @@ class Rocketeer
 	 *
 	 * @param  string $option
 	 *
-	 * @return mixed
+	 * @return string
 	 */
 	public function getOption($option)
 	{

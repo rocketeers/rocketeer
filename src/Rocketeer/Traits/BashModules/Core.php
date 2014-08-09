@@ -10,7 +10,6 @@
 namespace Rocketeer\Traits\BashModules;
 
 use Illuminate\Support\Str;
-use Rocketeer\Abstracts\AbstractLocatorClass;
 use Rocketeer\Traits\HasHistory;
 use Rocketeer\Traits\HasLocator;
 
@@ -35,7 +34,7 @@ trait Core
 	 * @param  boolean      $silent   Whether the command should stay silent no matter what
 	 * @param  boolean      $array    Whether the output should be returned as an array
 	 *
-	 * @return string|string[]
+	 * @return string|null
 	 */
 	public function run($commands, $silent = false, $array = false)
 	{
@@ -76,7 +75,7 @@ trait Core
 	 * Run a command get the last line output to
 	 * prevent noise
 	 *
-	 * @param string|array $commands
+	 * @param string $commands
 	 *
 	 * @return string
 	 */
@@ -153,7 +152,7 @@ trait Core
 	 * @param  string|null $output  The command's output
 	 * @param  string|null $success The message to display on success
 	 *
-	 * @return boolean|string
+	 * @return boolean
 	 */
 	public function checkStatus($error, $output = null, $success = null)
 	{

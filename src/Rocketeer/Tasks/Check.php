@@ -117,7 +117,7 @@ class Check extends AbstractTask
 	/**
 	 * Check if Composer is on the server
 	 *
-	 * @return boolean
+	 * @return boolean|string
 	 */
 	public function checkComposer()
 	{
@@ -191,7 +191,7 @@ class Check extends AbstractTask
 	 *
 	 * @param  string $cache
 	 *
-	 * @return boolean
+	 * @return boolean|string
 	 */
 	public function checkCacheDriver($cache)
 	{

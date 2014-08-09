@@ -98,7 +98,7 @@ abstract class AbstractTask extends Bash
 	/**
 	 * Fire the command
 	 *
-	 * @return string|boolean
+	 * @return string|false
 	 */
 	public function fire()
 	{

@@ -12,7 +12,6 @@ namespace Rocketeer\Services;
 use Closure;
 use Exception;
 use KzykHys\Parallel\Parallel;
-use Rocketeer\Abstracts\AbstractLocatorClass;
 use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Connection;
 use Rocketeer\Traits\HasLocator;
@@ -168,7 +167,7 @@ class TasksQueue
 	 *
 	 * @param array $queue
 	 *
-	 * @return array
+	 * @return callable[]
 	 */
 	protected function buildPipeline(array $queue)
 	{
