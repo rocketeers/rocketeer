@@ -148,9 +148,9 @@ class Rocketeer
 		$handle = $file->getRealpath();
 
 		// Format appropriately
-		$handle = str_replace($this->app['path.rocketeer.config'].DIRECTORY_SEPARATOR, null, $handle);
+		$handle = str_replace($this->app['path.rocketeer.config'].DS, null, $handle);
 		$handle = str_replace('.php', null, $handle);
-		$handle = str_replace(DIRECTORY_SEPARATOR, '.', $handle);
+		$handle = str_replace(DS, '.', $handle);
 
 		return sprintf('rocketeer::on.%s', $handle);
 	}
