@@ -1,9 +1,7 @@
 <?php
 namespace Rocketeer\Services;
 
-use Illuminate\Support\SerializableClosure;
 use Mockery;
-use Mockery\Mock;
 use ReflectionFunction;
 use Rocketeer\TestCases\RocketeerTestCase;
 
@@ -146,8 +144,8 @@ class TasksQueueTest extends RocketeerTestCase
 	public function testCanRunTasksInParallel()
 	{
 		$parallel = Mockery::mock('Parallel')
-			->shouldReceive('run')->once()->with(Mockery::type('array'))
-			->mock();
+		                   ->shouldReceive('run')->once()->with(Mockery::type('array'))
+		                   ->mock();
 
 		$this->mockCommand(['parallel' => true]);
 		$this->tasksQueue()->setParallel($parallel);

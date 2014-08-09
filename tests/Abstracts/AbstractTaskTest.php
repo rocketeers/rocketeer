@@ -69,6 +69,7 @@ class AbstractTaskTest extends RocketeerTestCase
 		$this->tasksQueue()->registerConfiguredEvents();
 		$this->tasksQueue()->listenTo('deploy.before', function () {
 			echo 'before';
+
 			return false;
 		});
 		$this->tasksQueue()->listenTo('deploy.after', function () {

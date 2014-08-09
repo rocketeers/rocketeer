@@ -91,9 +91,9 @@ trait Core
 	 * Run a raw command, without any processing, and
 	 * get its output as a string or array
 	 *
-	 * @param  string $commands
-	 * @param  boolean      $array Whether the output should be returned as an array
-	 * @param  boolean      $trim  Whether the output should be trimmed
+	 * @param  string  $commands
+	 * @param  boolean $array Whether the output should be returned as an array
+	 * @param  boolean $trim  Whether the output should be trimmed
 	 *
 	 * @return string|string[]
 	 */

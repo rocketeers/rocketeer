@@ -1,7 +1,6 @@
 <?php
 namespace Rocketeer;
 
-use Mockery;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class RocketeerTest extends RocketeerTestCase

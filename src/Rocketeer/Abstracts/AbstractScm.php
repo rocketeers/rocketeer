@@ -44,7 +44,6 @@ abstract class AbstractScm
 	/**
 	 * Returns a command with the SCM's binary
 	 *
-	 *
 	 * @return string
 	 */
 	public function getCommand()
@@ -57,7 +56,6 @@ abstract class AbstractScm
 
 	/**
 	 * Execute one of the commands
-	 *
 	 *
 	 * @return string|null
 	 */

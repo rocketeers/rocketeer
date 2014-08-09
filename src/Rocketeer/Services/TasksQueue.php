@@ -128,7 +128,7 @@ class TasksQueue
 			do {
 				$continue = $pipeline[$key]();
 				$key++;
-			} while($continue and isset($pipeline[$key]));
+			} while ($continue and isset($pipeline[$key]));
 		}
 
 		return $this->output;

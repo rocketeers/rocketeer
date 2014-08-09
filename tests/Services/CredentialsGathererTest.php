@@ -1,7 +1,6 @@
 <?php
 namespace Services;
 
-use Mockery;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class CredentialsGathererTest extends RocketeerTestCase
@@ -120,8 +119,8 @@ class CredentialsGathererTest extends RocketeerTestCase
 	{
 		$key = $this->rocketeer->getDefaultKeyPath();
 		$this->mockAnswers(array(
-			'No host is set for [staging#0]'     => $this->host,
-			'No username is set for [staging#0]' => $this->username,
+			'No host is set for [staging#0]'         => $this->host,
+			'No username is set for [staging#0]'     => $this->username,
 			'If a keyphrase is required, provide it' => 'KEYPHRASE',
 		));
 

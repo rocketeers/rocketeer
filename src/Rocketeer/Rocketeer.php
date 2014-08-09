@@ -131,9 +131,9 @@ class Rocketeer
 		}
 
 		// Gather custom files
-		$finder  = new Finder();
-		$files   = $finder->in($storage.'/{stages,connections}/*')->notName('config.php')->files();
-		$files   = iterator_to_array($files);
+		$finder = new Finder();
+		$files  = $finder->in($storage.'/{stages,connections}/*')->notName('config.php')->files();
+		$files  = iterator_to_array($files);
 
 		// Bind their contents to the "on" array
 		foreach ($files as $file) {

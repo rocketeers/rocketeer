@@ -107,9 +107,9 @@ class TasksHandler
 	/**
 	 * Execute a task before another one
 	 *
-	 * @param  string                      $task
+	 * @param  string  $task
 	 * @param  Closure $listeners
-	 * @param  integer                     $priority
+	 * @param  integer $priority
 	 *
 	 * @return void
 	 */
@@ -121,9 +121,9 @@ class TasksHandler
 	/**
 	 * Execute a task after another one
 	 *
-	 * @param  string                      $task
+	 * @param  string  $task
 	 * @param  Closure $listeners
-	 * @param  integer                     $priority
+	 * @param  integer $priority
 	 *
 	 * @return void
 	 */
