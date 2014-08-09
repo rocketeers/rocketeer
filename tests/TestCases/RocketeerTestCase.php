@@ -142,11 +142,13 @@ abstract class RocketeerTestCase extends ContainerTestCase
 	{
 		// Default options
 		$options = array_merge(array(
-			'pretend' => false,
-			'verbose' => false,
-			'tests'   => false,
-			'migrate' => false,
-			'seed'    => false,
+			'pretend'  => false,
+			'verbose'  => false,
+			'tests'    => false,
+			'migrate'  => false,
+			'seed'     => false,
+			'stage'    => false,
+			'parallel' => false,
 		), $options);
 
 		$this->app['rocketeer.command'] = $this->getCommand($expectations, $options);

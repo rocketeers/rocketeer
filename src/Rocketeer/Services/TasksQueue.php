@@ -27,6 +27,11 @@ class TasksQueue
 	use HasLocator;
 
 	/**
+	 * @type Parallel
+	 */
+	protected $parallel;
+
+	/**
 	 * A list of Tasks to execute
 	 *
 	 * @var array
@@ -46,6 +51,14 @@ class TasksQueue
 	 * @var array
 	 */
 	protected $output = array();
+
+	/**
+	 * @param Parallel $parallel
+	 */
+	public function setParallel($parallel)
+	{
+		$this->parallel = $parallel;
+	}
 
 	////////////////////////////////////////////////////////////////////
 	////////////////////////////// SHORTCUTS ///////////////////////////
@@ -109,12 +122,14 @@ class TasksQueue
 				throw new Exception('Parallel jobs require the PCNTL extension');
 			}
 
-			$parallel = new Parallel();
-			$parallel->run($pipeline);
+			$this->parallel = $this->parallel ?: new Parallel();
+			$this->parallel->run($pipeline);
 		} else {
-			foreach ($pipeline as $job) {
-				$job();
-			}
+			$key = 0;
+			do {
+				$continue = $pipeline[$key]();
+				$key++;
+			} while($continue and isset($pipeline[$key]));
 		}
 
 		return $this->output;
@@ -139,7 +154,7 @@ class TasksQueue
 			$state          = $task->fire();
 			$this->output[] = $state;
 			if ($task->wasHalted() or $state === false) {
-				$this->command->error('Deployment was canceled by task "'.$task->getName().'"');
+				$this->command->error('The tasks que was canceled by task "'.$task->getName().'"');
 
 				return false;
 			}
@@ -193,7 +208,8 @@ class TasksQueue
 		foreach ($pipeline as $key => $job) {
 			$pipeline[$key] = function () use ($job) {
 				$this->connections->setConnection($job['connection'], $job['server']);
-				$this->runQueue($job['queue'], $job['stage']);
+
+				return $this->runQueue($job['queue'], $job['stage']);
 			};
 		}
 

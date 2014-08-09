@@ -1,6 +1,9 @@
 <?php
 namespace Rocketeer\Services;
 
+use Illuminate\Support\SerializableClosure;
+use Mockery;
+use Mockery\Mock;
 use ReflectionFunction;
 use Rocketeer\TestCases\RocketeerTestCase;
 
@@ -138,5 +141,35 @@ class TasksQueueTest extends RocketeerTestCase
 			'production - first',
 			'production - second',
 		), $output);
+	}
+
+	public function testCanRunTasksInParallel()
+	{
+		$parallel = Mockery::mock('Parallel')
+			->shouldReceive('run')->once()->with(Mockery::type('array'))
+			->mock();
+
+		$this->mockCommand(['parallel' => true]);
+		$this->tasksQueue()->setParallel($parallel);
+
+		$this->tasksQueue()->execute(['ls', 'ls']);
+	}
+
+	public function testCanCancelQueueIfTaskFails()
+	{
+		$this->expectOutputString('The tasks que was canceled by task "MyCustomHaltingTask"');
+
+		$this->mockCommand([], array(
+			'error' => function ($error) {
+				echo $error;
+			},
+		));
+
+		$output = $this->tasksQueue()->execute(array(
+			'Rocketeer\Dummies\MyCustomHaltingTask',
+			'Rocketeer\Dummies\MyCustomTask',
+		));
+
+		$this->assertEquals([false], $output);
 	}
 }
