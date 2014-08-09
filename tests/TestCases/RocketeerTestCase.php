@@ -17,6 +17,11 @@ abstract class RocketeerTestCase extends ContainerTestCase
 	protected $server;
 
 	/**
+	 * @type string
+	 */
+	protected $customConfig;
+
+	/**
 	 * The path to the local deployments file
 	 *
 	 * @var string
@@ -38,6 +43,7 @@ abstract class RocketeerTestCase extends ContainerTestCase
 		parent::setUp();
 
 		// Setup local server
+		$this->customConfig    = __DIR__.'/../_meta/config';
 		$this->server          = __DIR__.'/../_server/foobar';
 		$this->deploymentsFile = __DIR__.'/../_meta/deployments.json';
 
@@ -114,6 +120,7 @@ abstract class RocketeerTestCase extends ContainerTestCase
 		// Delete rocketeer config
 		$binary = $rootPath.'/.rocketeer';
 		$this->app['files']->deleteDirectory($binary);
+		$this->app['files']->deleteDirectory($this->customConfig);
 	}
 
 	////////////////////////////////////////////////////////////////////
