@@ -59,7 +59,7 @@ abstract class AbstractScm
 	 * Execute one of the commands
 	 *
 	 *
-	 * @return string|string[]
+	 * @return string|null
 	 */
 	public function execute()
 	{

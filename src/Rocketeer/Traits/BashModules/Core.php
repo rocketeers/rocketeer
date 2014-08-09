@@ -91,7 +91,7 @@ trait Core
 	 * Run a raw command, without any processing, and
 	 * get its output as a string or array
 	 *
-	 * @param  string|array $commands
+	 * @param  string $commands
 	 * @param  boolean      $array Whether the output should be returned as an array
 	 * @param  boolean      $trim  Whether the output should be trimmed
 	 *
@@ -117,7 +117,7 @@ trait Core
 	 * @param string|array $commands
 	 * @param boolean      $array
 	 *
-	 * @return string|string[]
+	 * @return string|null
 	 */
 	public function runSilently($commands, $array = false)
 	{
