@@ -93,9 +93,9 @@ class TasksQueueTest extends RocketeerTestCase
 			}
 		);
 
-		$queue = $this->tasksQueue()->buildQueue($queue);
-		$this->tasksQueue()->run($queue, $this->getCommand());
+		$status = $this->tasksQueue()->run($queue);
 
+		$this->assertTrue($status);
 		$this->assertEquals(array(
 			'staging - first',
 			'staging - second',
@@ -110,7 +110,7 @@ class TasksQueueTest extends RocketeerTestCase
 			'rocketeer::default' => 'production',
 		));
 
-		$this->tasksQueue()->run(array(
+		$status = $this->tasksQueue()->run(array(
 			'ls -a',
 			function () {
 				return 'JOEY DOESNT SHARE FOOD';
@@ -118,6 +118,7 @@ class TasksQueueTest extends RocketeerTestCase
 		));
 
 		$output = array_slice($this->history->getFlattenedOutput(), 2, 3);
+		$this->assertTrue($status);
 		$this->assertEquals(array(
 			'.'.PHP_EOL.'..'.PHP_EOL.'.gitkeep',
 			'JOEY DOESNT SHARE FOOD',
@@ -130,10 +131,11 @@ class TasksQueueTest extends RocketeerTestCase
 			'rocketeer::stages.stages' => array('first', 'second'),
 		));
 
-		$this->tasksQueue()->on(array('staging', 'production'), function ($task) {
+		$status = $this->tasksQueue()->on(array('staging', 'production'), function ($task) {
 			return $task->connections->getConnection().' - '.$task->connections->getStage();
 		});
 
+		$this->assertTrue($status);
 		$this->assertEquals(array(
 			'staging - first',
 			'staging - second',
@@ -164,11 +166,12 @@ class TasksQueueTest extends RocketeerTestCase
 			},
 		));
 
-		$this->tasksQueue()->run(array(
+		$status = $this->tasksQueue()->run(array(
 			'Rocketeer\Dummies\MyCustomHaltingTask',
 			'Rocketeer\Dummies\MyCustomTask',
 		));
 
+		$this->assertFalse($status);
 		$this->assertEquals([false], $this->history->getFlattenedOutput());
 	}
 }
