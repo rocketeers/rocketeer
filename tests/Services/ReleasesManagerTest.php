@@ -59,8 +59,6 @@ class ReleasesManagerTest extends RocketeerTestCase
 	{
 		$this->mock('rocketeer.storage.local', 'LocalStorage', function ($mock) {
 			return $mock
-				->shouldReceive('get')->with('current_release.production')->once()->andReturn(null)
-				->shouldReceive('set')->with('current_release.production', '20000000000000')->once()
 				->shouldReceive('getSeparator')->andReturn('/')
 				->shouldReceive('getLineEndings')->andReturn(PHP_EOL);
 		});
@@ -135,17 +133,9 @@ class ReleasesManagerTest extends RocketeerTestCase
 			'20000000000000' => true,
 		));
 
-		$this->releasesManager->updateCurrentRelease();
 		$currentRelease = $this->releasesManager->getPreviousRelease();
 
 		$this->assertEquals(20000000000000, $currentRelease);
-	}
-
-	public function testCanUpdateCurrentRelease()
-	{
-		$this->releasesManager->updateCurrentRelease(30000000000000);
-
-		$this->assertEquals(30000000000000, $this->app['rocketeer.storage.local']->get('current_release.production'));
 	}
 
 	public function testCanGetFolderInRelease()

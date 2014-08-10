@@ -85,7 +85,7 @@ trait Flow
 	{
 		// If the release is specified, update to make it the current one
 		if ($release) {
-			$this->releasesManager->updateCurrentRelease($release);
+			$this->releasesManager->setNextRelease($release);
 		}
 
 		// Get path to current/ folder and latest release

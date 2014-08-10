@@ -42,7 +42,7 @@ class Deploy extends AbstractTask
 		}
 
 		// Update current release
-		$release = $this->releasesManager->updateCurrentRelease();
+		$release = $this->releasesManager->getNextRelease();
 
 		// Run halting methods
 		foreach ($this->halting as $method) {

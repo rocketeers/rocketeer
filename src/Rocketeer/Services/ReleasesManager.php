@@ -38,6 +38,13 @@ class ReleasesManager
 	public $releases;
 
 	/**
+	 * The next release to come
+	 *
+	 * @type string
+	 */
+	protected $nextRelease;
+
+	/**
 	 * The storage
 	 *
 	 * @type ServerStorage
@@ -79,37 +86,10 @@ class ReleasesManager
 
 			rsort($releases);
 
-			$this->releases = $releases;
+			$this->releases = (array) $releases;
 		}
 
 		return $this->releases;
-	}
-
-	/**
-	 * Get an array of deprecated releases
-	 *
-	 * @return integer[]
-	 */
-	public function getDeprecatedReleases()
-	{
-		$releases    = (array) $this->getReleases();
-		$maxReleases = $this->config->get('rocketeer::remote.keep_releases');
-
-		return array_slice($releases, $maxReleases);
-	}
-
-	/**
-	 * Get an array of invalid releases
-	 *
-	 * @return integer[]
-	 */
-	public function getInvalidReleases()
-	{
-		$releases = (array) $this->getReleases();
-		$invalid  = array_diff($this->state, array_filter($this->state));
-		$invalid  = array_keys($invalid);
-
-		return array_intersect($releases, $invalid);
 	}
 
 	/**
@@ -119,9 +99,36 @@ class ReleasesManager
 	 */
 	public function getNonCurrentReleases()
 	{
-		$releases = (array) $this->getReleases();
+		return $this->getDeprecatedReleases(1);
+	}
 
-		return array_slice($releases, 1);
+	/**
+	 * Get an array of deprecated releases
+	 *
+	 * @param null $treshold
+	 *
+	 * @return integer[]
+	 */
+	public function getDeprecatedReleases($treshold = null)
+	{
+		$releases = $this->getReleases();
+		$treshold = $treshold ?: $this->config->get('rocketeer::remote.keep_releases');
+
+		return array_slice($releases, $treshold);
+	}
+
+	/**
+	 * Get an array of invalid releases
+	 *
+	 * @return integer[]
+	 */
+	public function getInvalidReleases()
+	{
+		$releases = $this->getReleases();
+		$invalid  = array_diff($this->state, array_filter($this->state));
+		$invalid  = array_keys($invalid);
+
+		return array_intersect($releases, $invalid);
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -180,7 +187,7 @@ class ReleasesManager
 		$file = $this->storage->get();
 
 		// Fill the missing releases
-		$releases = (array) $this->getReleases();
+		$releases = $this->getReleases();
 		$releases = array_fill_keys($releases, false);
 
 		// Sort entries
@@ -239,69 +246,16 @@ class ReleasesManager
 	////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sanitize a possible release
-	 *
-	 * @param string|integer $release
-	 *
-	 * @return string|integer|null
-	 */
-	protected function sanitizeRelease($release)
-	{
-		return $this->isRelease($release) ? $release : null;
-	}
-
-	/**
-	 * Check if it quacks like a duck
-	 *
-	 * @param string|integer $release
-	 *
-	 * @return bool
-	 */
-	protected function isRelease($release)
-	{
-		$release = (string) $release;
-
-		return (bool) preg_match('#[0-9]{14}#', $release);
-	}
-
-	/**
-	 * Get where to store the current release
-	 *
-	 * @return string
-	 */
-	protected function getCurrentReleaseKey()
-	{
-		$key = 'current_release';
-
-		// Get the scopes
-		$connection = $this->connections->getConnection();
-		$stage      = $this->connections->getStage();
-		$scopes     = array($connection, $stage);
-		foreach ($scopes as $scope) {
-			$key .= $scope ? '.'.$scope : '';
-		}
-
-		return $key;
-	}
-
-	/**
 	 * Get the current release
 	 *
 	 * @return string|integer|null
 	 */
 	public function getCurrentRelease()
 	{
-		// If we have saved the last deployed release, return that
-		$cached = $this->localStorage->get($this->getCurrentReleaseKey());
-		if ($cached) {
-			return $this->sanitizeRelease($cached);
-		}
+		$current = array_get($this->getReleases(), 0);
+		$current = $this->sanitizeRelease($current);
 
-		// Else get and save last deployed release
-		$lastDeployed = array_get($this->getReleases(), 0);
-		$this->updateCurrentRelease($lastDeployed);
-
-		return $this->sanitizeRelease($lastDeployed);
+		return $this->nextRelease ?: $current;
 	}
 
 	/**
@@ -330,20 +284,56 @@ class ReleasesManager
 	}
 
 	/**
-	 * Update the current release
-	 *
-	 * @param  string|null $release A release name
+	 * Get the next release to come
 	 *
 	 * @return string
 	 */
-	public function updateCurrentRelease($release = null)
+	public function getNextRelease()
 	{
-		if (!$release) {
-			$release = $this->bash->getTimestamp();
+		if (!$this->nextRelease) {
+			$this->nextRelease = $this->bash->getTimestamp();
 		}
 
-		$this->localStorage->set($this->getCurrentReleaseKey(), $release);
+		return $this->nextRelease;
+	}
 
-		return $release;
+	/**
+	 * Change the release to come
+	 *
+	 * @param string $release
+	 */
+	public function setNextRelease($release)
+	{
+		$this->nextRelease = $release;
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	////////////////////////////// HELPERS ///////////////////////////////
+	//////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Sanitize a possible release
+	 *
+	 * @param string|integer $release
+	 *
+	 * @return string|integer|null
+	 */
+	protected function sanitizeRelease($release)
+	{
+		return $this->isRelease($release) ? $release : null;
+	}
+
+	/**
+	 * Check if it quacks like a duck
+	 *
+	 * @param string|integer $release
+	 *
+	 * @return bool
+	 */
+	protected function isRelease($release)
+	{
+		$release = (string) $release;
+
+		return (bool) preg_match('#[0-9]{14}#', $release);
 	}
 }

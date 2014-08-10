@@ -83,7 +83,6 @@ abstract class RocketeerTestCase extends ContainerTestCase
 		// Recreate deployments file
 		$this->app['files']->put($this->deploymentsFile, json_encode(array(
 			'foo'                 => 'bar',
-			'current_release'     => array('production' => 20000000000000),
 			'directory_separator' => '/',
 			'is_setup'            => true,
 			'webuser'             => array('username' => 'www-data', 'group' => 'www-data'),
