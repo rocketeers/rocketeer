@@ -140,7 +140,7 @@ abstract class AbstractCommand extends Command
 	 *
 	 * @param Closure $callback
 	 *
-	 * @return integer
+	 * @return boolean
 	 */
 	public function time(Closure $callback)
 	{
