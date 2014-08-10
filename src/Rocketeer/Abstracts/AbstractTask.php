@@ -189,15 +189,13 @@ abstract class AbstractTask extends Bash
 
 	/**
 	 * Display a list of releases and their status
-	 *
-	 * @return void
 	 */
 	protected function displayReleases()
 	{
 		$releases = $this->releasesManager->getValidationFile();
 		$this->command->comment('Here are the available releases :');
 
-		$key = 0;
+		$key  = 0;
 		foreach ($releases as $name => $state) {
 			$name   = DateTime::createFromFormat('YmdHis', $name);
 			$name   = $name->format('Y-m-d H:i:s');
@@ -218,6 +216,6 @@ abstract class AbstractTask extends Bash
 	 */
 	public function executeTask($task)
 	{
-		return $this->app['rocketeer.builder']->buildTaskFromClass($task)->fire();
+		return $this->builder->buildTaskFromClass($task)->fire();
 	}
 }
