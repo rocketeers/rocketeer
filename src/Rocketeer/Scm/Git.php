@@ -10,7 +10,6 @@
 namespace Rocketeer\Scm;
 
 use Rocketeer\Abstracts\AbstractBinary;
-use Rocketeer\Abstracts\AbstractScm;
 use Rocketeer\Interfaces\ScmInterface;
 
 /**

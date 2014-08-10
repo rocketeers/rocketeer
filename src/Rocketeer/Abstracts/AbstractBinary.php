@@ -108,9 +108,9 @@ class AbstractBinary
 	}
 
 	/**
-	 * @param $flags
+	 * @param string[] $flags
 	 *
-	 * @return array|string
+	 * @return string
 	 */
 	protected function buildOptions($flags)
 	{
@@ -135,9 +135,9 @@ class AbstractBinary
 	}
 
 	/**
-	 * @param $arguments
+	 * @param string[] $arguments
 	 *
-	 * @return array|string
+	 * @return string
 	 */
 	protected function buildArguments($arguments)
 	{
