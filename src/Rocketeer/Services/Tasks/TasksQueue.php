@@ -196,7 +196,7 @@ class TasksQueue
 	 * Run the pipeline in order.
 	 * As long as the previous entry didn't fail, continue
 	 *
-	 * @param array $pipeline
+	 * @param callable[] $pipeline
 	 *
 	 * @return boolean
 	 */
@@ -212,7 +212,7 @@ class TasksQueue
 	}
 
 	/**
-	 * @param array $pipeline
+	 * @param callable[] $pipeline
 	 *
 	 * @return boolean
 	 * @throws \Exception

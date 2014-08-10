@@ -195,7 +195,7 @@ abstract class AbstractTask extends Bash
 		$releases = $this->releasesManager->getValidationFile();
 		$this->command->comment('Here are the available releases :');
 
-		$key  = 0;
+		$key = 0;
 		foreach ($releases as $name => $state) {
 			$name   = DateTime::createFromFormat('YmdHis', $name);
 			$name   = $name->format('Y-m-d H:i:s');
