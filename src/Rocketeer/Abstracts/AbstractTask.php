@@ -196,9 +196,16 @@ abstract class AbstractTask extends Bash
 		$releases = $this->releasesManager->getValidationFile();
 		$this->command->comment('Here are the available releases :');
 
-		$table = new Table($this->command->getOutput());
+		$output = $this->command->getOutput();
+		if (!$output) {
+			return;
+		}
+
+		// Build table
+		$table = new Table($output);
 		$table->setHeaders(['#', 'Path', 'Deployed at', 'Status']);
 
+		// Append the reows
 		$key = 0;
 		foreach ($releases as $name => $state) {
 			$date  = DateTime::createFromFormat('YmdHis', $name);
