@@ -14,7 +14,7 @@ class TasksQueueTest extends RocketeerTestCase
 		));
 
 		$this->expectOutputString('JOEY DOESNT SHARE FOOD');
-		$this->tasksQueue()->run(array(
+		$this->queue->run(array(
 			function () {
 				print 'JOEY DOESNT SHARE FOOD';
 			}
@@ -35,7 +35,7 @@ class TasksQueueTest extends RocketeerTestCase
 			}
 		);
 
-		$status = $this->tasksQueue()->run($queue);
+		$status = $this->queue->run($queue);
 
 		$this->assertTrue($status);
 		$this->assertEquals(array(
@@ -52,7 +52,7 @@ class TasksQueueTest extends RocketeerTestCase
 			'rocketeer::default' => 'production',
 		));
 
-		$status = $this->tasksQueue()->run(array(
+		$status = $this->queue->run(array(
 			'ls -a',
 			function () {
 				return 'JOEY DOESNT SHARE FOOD';
@@ -73,7 +73,7 @@ class TasksQueueTest extends RocketeerTestCase
 			'rocketeer::stages.stages' => array('first', 'second'),
 		));
 
-		$status = $this->tasksQueue()->on(array('staging', 'production'), function ($task) {
+		$status = $this->queue->on(array('staging', 'production'), function ($task) {
 			return $task->connections->getConnection().' - '.$task->connections->getStage();
 		});
 
@@ -108,7 +108,7 @@ class TasksQueueTest extends RocketeerTestCase
 			},
 		));
 
-		$status = $this->tasksQueue()->run(array(
+		$status = $this->queue->run(array(
 			'Rocketeer\Dummies\MyCustomHaltingTask',
 			'Rocketeer\Dummies\MyCustomTask',
 		));

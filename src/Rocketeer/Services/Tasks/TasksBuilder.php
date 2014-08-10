@@ -53,8 +53,8 @@ class TasksBuilder
 			$handle = 'rocketeer.tasks.'.$task;
 		}
 
-		// If we provided a Closure, build a ClosureTask
 		if ($task instanceof Closure) {
+			// If we provided a Closure, build a ClosureTask
 			$task = $this->buildTaskFromClosure($task);
 		} elseif ($this->isStringCommand($task)) {
 			// If we passed a command, build a ClosureTask
