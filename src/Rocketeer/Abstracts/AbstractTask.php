@@ -11,6 +11,7 @@ namespace Rocketeer\Abstracts;
 
 use DateTime;
 use Rocketeer\Bash;
+use Symfony\Component\Console\Helper\Table;
 
 /**
  * An abstract AbstractTask with common helpers, from which all Tasks derive
@@ -195,16 +196,25 @@ abstract class AbstractTask extends Bash
 		$releases = $this->releasesManager->getValidationFile();
 		$this->command->comment('Here are the available releases :');
 
+		$table = new Table($this->command->getOutput());
+		$table->setHeaders(['#', 'Path', 'Deployed at', 'Status']);
+
 		$key = 0;
 		foreach ($releases as $name => $state) {
-			$name   = DateTime::createFromFormat('YmdHis', $name);
-			$name   = $name->format('Y-m-d H:i:s');
-			$method = $state ? 'info' : 'error';
-			$state  = $state ? '✓' : '✘';
+			$date  = DateTime::createFromFormat('YmdHis', $name);
+			$date  = $date->format('Y-m-d H:i:s');
+			$icon  = $state ? '✓' : '✘';
+			$color = $state ? 'green' : 'red';
 
-			$this->command->$method(sprintf('[%d] %s %s', $key, $name, $state));
+			// Add color to row
+			$row    = [$key, $name, $date, $icon];
+			$row[3] = sprintf('<fg=%s>%s</fg=%s>', $color, $row[3], $color);
+
+			$table->addRow($row);
 			$key++;
 		}
+
+		$table->render();
 	}
 
 	/**
@@ -219,3 +229,4 @@ abstract class AbstractTask extends Bash
 		return $this->builder->buildTaskFromClass($task)->fire();
 	}
 }
+
