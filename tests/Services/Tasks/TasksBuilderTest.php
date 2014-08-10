@@ -15,7 +15,7 @@ class TasksBuilderTest extends RocketeerTestCase
 
 	public function testCanBuildCustomTaskByName()
 	{
-		$tasks = $this->builder->buildTasks(array('Rocketeer\Tasks\Check'));
+		$tasks = $this->builder->buildTasks(['Rocketeer\Tasks\Check']);
 
 		$this->assertInstanceOf('Rocketeer\Tasks\Check', $tasks[0]);
 	}
@@ -24,7 +24,7 @@ class TasksBuilderTest extends RocketeerTestCase
 	{
 		$string = 'echo "I love ducks"';
 
-		$string = $this->builder->buildTaskFromClosure($string);
+		$string = $this->builder->buildTaskFromString($string);
 		$this->assertInstanceOf('Rocketeer\Tasks\Closure', $string);
 
 		$closure = $string->getClosure();

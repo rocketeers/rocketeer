@@ -45,6 +45,20 @@ abstract class AbstractTask extends Bash
 	////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Change the task's name
+	 *
+	 * @param string $name
+	 *
+	 * @return $this
+	 */
+	public function setName($name)
+	{
+		$this->name = $name ?: $this->name;
+
+		return $this;
+	}
+
+	/**
 	 * Get the name of the task
 	 *
 	 * @return string
@@ -52,16 +66,6 @@ abstract class AbstractTask extends Bash
 	public function getName()
 	{
 		return $this->name ?: class_basename($this);
-	}
-
-	/**
-	 * Change the task's name
-	 *
-	 * @param string $name
-	 */
-	public function setName($name)
-	{
-		$this->name = $name;
 	}
 
 	/**

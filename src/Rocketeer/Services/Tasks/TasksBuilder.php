@@ -53,48 +53,56 @@ class TasksBuilder
 			$handle = 'rocketeer.tasks.'.$task;
 		}
 
-		// If we provided a Closure or a string command, build it
-		if ($task instanceof Closure or $this->isStringCommand($task)) {
+		// If we provided a Closure, build a ClosureTask
+		if ($task instanceof Closure) {
 			$task = $this->buildTaskFromClosure($task);
-		} // Check for an existing container binding
-		elseif (isset($handle) and $this->app->bound($handle)) {
-			return $this->app[$handle];
 		}
 
-		// Build remaining tasks
-		if (!$task instanceof AbstractTask) {
+		// If we passed a command, build a ClosureTask
+		elseif ($this->isStringCommand($task)) {
+			$task = $this->buildTaskFromString($task);
+		}
+
+		// If we passed a task handle, return it
+		elseif (isset($handle) and $this->app->bound($handle)) {
+			$task = $this->app[$handle];
+		}
+
+		// Else it's a class name, get the appropriated task
+		elseif (!$task instanceof AbstractTask) {
 			$task = $this->buildTaskFromClass($task);
 		}
 
-		// Set the task's name
-		if ($name) {
-			$task->setName($name);
-		}
+		return $task->setName($name);
+	}
 
-		return $task;
+	/**
+	 * Build a task from a string
+	 *
+	 * @param string $task
+	 *
+	 * @return AbstractTask
+	 */
+	public function buildTaskFromString($task)
+	{
+		$stringTask = $task;
+		$closure    = function ($task) use ($stringTask) {
+			return $task->runForCurrentRelease($stringTask);
+		};
+
+		return $this->buildTaskFromClosure($closure, $stringTask);
 	}
 
 	/**
 	 * Build a task from a Closure or a string command
 	 *
-	 * @param Closure|string $task
+	 * @param Closure     $closure
+	 * @param string|null $stringTask
 	 *
 	 * @return AbstractTask
 	 */
-	public function buildTaskFromClosure($task)
+	public function buildTaskFromClosure(Closure $closure, $stringTask = null)
 	{
-		// If the User provided a string to execute
-		// We'll build a closure from it
-		if ($this->isStringCommand($task)) {
-			$stringTask = $task;
-			$closure    = function ($task) use ($stringTask) {
-				return $task->runForCurrentRelease($stringTask);
-			};
-			// If the User provided a Closure
-		} else {
-			$closure = $task;
-		}
-
 		// Now that we unified it all to a Closure, we build
 		// a Closure AbstractTask from there
 		$task = $this->buildTaskFromClass('Rocketeer\Tasks\Closure');
@@ -102,7 +110,7 @@ class TasksBuilder
 
 		// If we had an original string used, store it on
 		// the task for easier reflection
-		if (isset($stringTask)) {
+		if ($stringTask) {
 			$task->setStringTask($stringTask);
 		}
 
@@ -134,7 +142,6 @@ class TasksBuilder
 
 		return new $task($this->app);
 	}
-
 
 	////////////////////////////////////////////////////////////////////
 	/////////////////////////////// HELPERS ////////////////////////////
