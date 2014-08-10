@@ -12,7 +12,6 @@ namespace Rocketeer\Services\Tasks;
 use Closure;
 use Exception;
 use KzykHys\Parallel\Parallel;
-use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Connection;
 use Rocketeer\Traits\HasHistory;
 use Rocketeer\Traits\HasLocator;

@@ -2,7 +2,6 @@
 namespace Rocketeer\Services\Tasks;
 
 use Mockery;
-use ReflectionFunction;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class TasksQueueTest extends RocketeerTestCase
