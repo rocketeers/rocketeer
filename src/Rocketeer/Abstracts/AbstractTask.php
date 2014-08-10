@@ -214,6 +214,6 @@ abstract class AbstractTask extends Bash
 	 */
 	public function executeTask($task)
 	{
-		return $this->app['rocketeer.tasks']->buildTaskFromClass($task)->fire();
+		return $this->app['rocketeer.builder']->buildTaskFromClass($task)->fire();
 	}
 }

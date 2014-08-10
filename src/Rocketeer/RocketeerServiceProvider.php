@@ -24,6 +24,7 @@ use Rocketeer\Services\History\History;
 use Rocketeer\Services\History\LogsHandler;
 use Rocketeer\Services\ReleasesManager;
 use Rocketeer\Services\Storages\LocalStorage;
+use Rocketeer\Services\Tasks\TasksBuilder;
 use Rocketeer\Services\Tasks\TasksQueue;
 use Rocketeer\Services\TasksHandler;
 
@@ -173,6 +174,10 @@ class RocketeerServiceProvider extends ServiceProvider
 			return new TasksQueue($app);
 		});
 
+		$this->app->bind('rocketeer.builder', function ($app) {
+			return new TasksBuilder($app);
+		});
+
 		$this->app->singleton('rocketeer.tasks', function ($app) {
 			return new TasksHandler($app);
 		});
@@ -258,7 +263,7 @@ class RocketeerServiceProvider extends ServiceProvider
 			$fakeCommand  = !class_exists($commandClass);
 
 			// Build command slug
-			$taskInstance = $this->app['rocketeer.tasks']->buildTaskFromClass($task);
+			$taskInstance = $this->app['rocketeer.builder']->buildTaskFromClass($task);
 			if (is_numeric($slug)) {
 				$slug = $taskInstance->getSlug();
 			}

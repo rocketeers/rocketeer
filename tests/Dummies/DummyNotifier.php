@@ -8,6 +8,8 @@ class DummyNotifier extends AbstractNotifier
 	/**
 	 * Get the default message format
 	 *
+	 * @param string $message
+	 *
 	 * @return string
 	 */
 	protected function getMessageFormat($message)

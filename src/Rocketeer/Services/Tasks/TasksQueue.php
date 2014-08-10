@@ -18,7 +18,8 @@ use Rocketeer\Traits\HasHistory;
 use Rocketeer\Traits\HasLocator;
 
 /**
- * Handles the building and execution of tasks
+ * Handles running an array of tasks sequentially
+ * or in parallel
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
@@ -105,7 +106,7 @@ class TasksQueue
 	public function run($tasks)
 	{
 		$tasks    = (array) $tasks;
-		$queue    = $this->buildQueue($tasks);
+		$queue    = $this->builder->buildTasks($tasks);
 		$pipeline = $this->buildPipeline($queue);
 		$status   = true;
 
@@ -212,121 +213,6 @@ class TasksQueue
 	}
 
 	////////////////////////////////////////////////////////////////////
-	/////////////////////////////// BUILDING ///////////////////////////
-	////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Build a queue from a list of tasks
-	 * Here we will take the various Tasks names, closures and string tasks
-	 * and unify all of those to actual AbstractTask instances
-	 *
-	 * @param array $tasks
-	 *
-	 * @return array
-	 */
-	public function buildQueue(array $tasks)
-	{
-		return array_map([$this, 'buildTask'], $tasks);
-	}
-
-	/**
-	 * Build a task from anything
-	 *
-	 * @param string|Closure|AbstractTask $task
-	 * @param string|null                 $name
-	 *
-	 * @return AbstractTask
-	 */
-	public function buildTask($task, $name = null)
-	{
-		// Check the handle if possible
-		if (is_string($task)) {
-			$handle = 'rocketeer.tasks.'.$task;
-		}
-
-		// If we provided a Closure or a string command, build it
-		if ($task instanceof Closure or $this->isStringCommand($task)) {
-			$task = $this->buildTaskFromClosure($task);
-		} // Check for an existing container binding
-		elseif (isset($handle) and $this->app->bound($handle)) {
-			return $this->app[$handle];
-		}
-
-		// Build remaining tasks
-		if (!$task instanceof AbstractTask) {
-			$task = $this->buildTaskFromClass($task);
-		}
-
-		// Set the task's name
-		if ($name) {
-			$task->setName($name);
-		}
-
-		return $task;
-	}
-
-	/**
-	 * Build a task from a Closure or a string command
-	 *
-	 * @param Closure|string $task
-	 *
-	 * @return AbstractTask
-	 */
-	public function buildTaskFromClosure($task)
-	{
-		// If the User provided a string to execute
-		// We'll build a closure from it
-		if ($this->isStringCommand($task)) {
-			$stringTask = $task;
-			$closure    = function ($task) use ($stringTask) {
-				return $task->runForCurrentRelease($stringTask);
-			};
-			// If the User provided a Closure
-		} else {
-			$closure = $task;
-		}
-
-		// Now that we unified it all to a Closure, we build
-		// a Closure AbstractTask from there
-		$task = $this->buildTaskFromClass('Rocketeer\Tasks\Closure');
-		$task->setClosure($closure);
-
-		// If we had an original string used, store it on
-		// the task for easier reflection
-		if (isset($stringTask)) {
-			$task->setStringTask($stringTask);
-		}
-
-		return $task;
-	}
-
-	/**
-	 * Build a task from its name
-	 *
-	 * @param string|AbstractTask $task
-	 *
-	 * @return AbstractTask|string
-	 */
-	public function buildTaskFromClass($task)
-	{
-		if (is_object($task) and $task instanceof AbstractTask) {
-			return $task;
-		}
-
-		// Shortcut for calling Rocketeer Tasks
-		if (class_exists('Rocketeer\Tasks\\'.ucfirst($task))) {
-			$task = 'Rocketeer\Tasks\\'.ucfirst($task);
-		}
-
-		// Cancel if class doesn't exist
-		if (!class_exists($task)) {
-			return $task;
-		}
-
-		return new $task($this->app);
-	}
-
-	////////////////////////////////////////////////////////////////////
 	//////////////////////////////// STAGES ////////////////////////////
 	////////////////////////////////////////////////////////////////////
 
@@ -349,21 +235,5 @@ class TasksQueue
 		}
 
 		return $stage;
-	}
-
-	////////////////////////////////////////////////////////////////////
-	/////////////////////////////// HELPERS ////////////////////////////
-	////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Check if a string is a command or a task
-	 *
-	 * @param AbstractTask|Closure|string $string
-	 *
-	 * @return boolean
-	 */
-	protected function isStringCommand($string)
-	{
-		return is_string($string) && !class_exists($string) && !$this->app->bound('rocketeer.tasks.'.$string);
 	}
 }

@@ -102,7 +102,7 @@ class TasksHandlerTest extends RocketeerTestCase
 		$this->assertEquals([], $this->tasksQueue()->getTasksListeners('check', 'before', true));
 	}
 
-	public function testCanBuildQueueFromConfigHook()
+	public function testCanbuildTasksFromConfigHook()
 	{
 		$tasks = array(
 			'npm install',

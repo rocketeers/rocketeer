@@ -54,9 +54,8 @@ class AbstractNotifierTest extends RocketeerTestCase
 		$this->localStorage->set('notifier.name', 'Jean Eude');
 		$this->connections->setStage('staging');
 		$this->notifier = new DummyNotifier($this->app);
-		$this->tasks->plugin($this->notifier);
 
-		$this->task('Deploy')->fireEvent('after');
+		$this->task('Deploy')->fireEvent('before');
 	}
 
 	public function testCanSendDeploymentsNotifications()

@@ -1,5 +1,5 @@
 <?php
-namespace Rocketeer\Services;
+namespace Rocketeer\Services\Tasks;
 
 use Mockery;
 use ReflectionFunction;
@@ -7,63 +7,6 @@ use Rocketeer\TestCases\RocketeerTestCase;
 
 class TasksQueueTest extends RocketeerTestCase
 {
-	public function testCanBuildTaskByName()
-	{
-		$task = $this->tasksQueue()->buildTaskFromClass('Rocketeer\Tasks\Deploy');
-
-		$this->assertInstanceOf('Rocketeer\Abstracts\AbstractTask', $task);
-	}
-
-	public function testCanBuildCustomTaskByName()
-	{
-		$tasks = $this->tasksQueue()->buildQueue(array('Rocketeer\Tasks\Check'));
-
-		$this->assertInstanceOf('Rocketeer\Tasks\Check', $tasks[0]);
-	}
-
-	public function testCanBuildTaskFromString()
-	{
-		$string = 'echo "I love ducks"';
-
-		$string = $this->tasksQueue()->buildTaskFromClosure($string);
-		$this->assertInstanceOf('Rocketeer\Tasks\Closure', $string);
-
-		$closure = $string->getClosure();
-		$this->assertInstanceOf('Closure', $closure);
-
-		$closureReflection = new ReflectionFunction($closure);
-		$this->assertEquals(array('stringTask' => 'echo "I love ducks"'), $closureReflection->getStaticVariables());
-
-		$this->assertEquals('I love ducks', $string->execute());
-	}
-
-	public function testCanBuildTaskFromClosure()
-	{
-		$originalClosure = function ($task) {
-			return $task->getCommand()->info('echo "I love ducks"');
-		};
-
-		$closure = $this->tasksQueue()->buildTaskFromClosure($originalClosure);
-		$this->assertInstanceOf('Rocketeer\Tasks\Closure', $closure);
-		$this->assertEquals($originalClosure, $closure->getClosure());
-	}
-
-	public function testCanBuildQueue()
-	{
-		$queue = array(
-			'foobar',
-			function () {
-				return 'lol';
-			},
-			'Rocketeer\Tasks\Deploy'
-		);
-
-		$queue = $this->tasksQueue()->buildQueue($queue);
-
-		$this->assertInstanceOf('Rocketeer\Tasks\Closure', $queue[0]);
-		$this->assertInstanceOf('Rocketeer\Tasks\Closure', $queue[1]);
-		$this->assertInstanceOf('Rocketeer\Tasks\Deploy', $queue[2]);
-	}
 
 	public function testCanRunQueue()
 	{

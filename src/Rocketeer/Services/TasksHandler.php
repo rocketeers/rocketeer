@@ -17,7 +17,7 @@ use Rocketeer\Tasks;
 use Rocketeer\Traits\HasLocator;
 
 /**
- * Handles the registering and relating of tasks
+ * Handles the registering and firing of tasks and their events
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
@@ -72,7 +72,7 @@ class TasksHandler
 	public function add($task, $name = null)
 	{
 		// Build task if necessary
-		$task = $this->queue->buildTask($task, $name);
+		$task = $this->builder->buildTask($task, $name);
 		$slug = 'rocketeer.tasks.'.$task->getSlug();
 
 		// Add the task to Rocketeer
@@ -168,7 +168,7 @@ class TasksHandler
 	public function listenTo($event, $listeners, $priority = 0)
 	{
 		// Create array if it doesn't exist
-		$listeners = $this->queue->buildQueue((array) $listeners);
+		$listeners = $this->builder->buildTasks((array) $listeners);
 
 		// Register events
 		foreach ($listeners as $listener) {
@@ -200,7 +200,7 @@ class TasksHandler
 		}
 
 		// Get event name and register listeners
-		$event = $this->queue->buildTaskFromClass($task)->getSlug().'.'.$event;
+		$event = $this->builder->buildTaskFromClass($task)->getSlug().'.'.$event;
 		$event = $this->listenTo($event, $listeners, $priority);
 
 		return $event;
@@ -218,7 +218,7 @@ class TasksHandler
 	public function getTasksListeners($task, $event, $flatten = false)
 	{
 		// Get events
-		$task   = $this->queue->buildTaskFromClass($task)->getSlug();
+		$task   = $this->builder->buildTaskFromClass($task)->getSlug();
 		$events = $this->events->getListeners('rocketeer.'.$task.'.'.$event);
 
 		// Flatten the queue if requested
