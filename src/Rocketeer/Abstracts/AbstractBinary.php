@@ -39,7 +39,7 @@ class AbstractBinary
 	}
 
 	/**
-	 * Execute a command on the Binary
+	 * Call or execute a command on the Binary
 	 *
 	 * @param string $name
 	 * @param array  $arguments
@@ -48,10 +48,6 @@ class AbstractBinary
 	 */
 	public function __call($name, $arguments)
 	{
-		// Check whether we want the command executed or not
-		$execute = strpos($name, 'execute') !== false;
-		$name    = str_replace('execute', null, $name);
-
 		// Format name
 		$name = Str::snake($name, '-');
 
@@ -59,7 +55,7 @@ class AbstractBinary
 		array_unshift($arguments, $name);
 		$command = call_user_func_array([$this, 'getCommand'], $arguments);
 
-		return $execute ? $this->bash->run($command) : $command;
+		return $command;
 	}
 
 	/**
@@ -71,7 +67,7 @@ class AbstractBinary
 	{
 		$arguments = func_get_args();
 		$command   = array_shift($arguments);
-		$command   = call_user_func_array(array($this, $command), $arguments);
+		$command   = call_user_func_array([$this, $command], $arguments);
 
 		return $this->bash->run($command);
 	}
