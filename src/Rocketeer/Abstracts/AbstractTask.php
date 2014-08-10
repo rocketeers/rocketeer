@@ -202,8 +202,8 @@ abstract class AbstractTask extends Bash
 			$method = $state ? 'info' : 'error';
 			$state  = $state ? '✓' : '✘';
 
-			$key++;
 			$this->command->$method(sprintf('[%d] %s %s', $key, $name, $state));
+			$key++;
 		}
 	}
 

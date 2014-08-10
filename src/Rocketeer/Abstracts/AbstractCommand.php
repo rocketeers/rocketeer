@@ -121,7 +121,7 @@ abstract class AbstractCommand extends Command
 	public function askWith($question, $default = null, $choices = array())
 	{
 		// If default, show it in the question
-		if ($default) {
+		if (!is_null($default)) {
 			$question .= ' ('.$default.')';
 		}
 
