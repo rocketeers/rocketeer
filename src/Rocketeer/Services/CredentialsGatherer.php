@@ -100,10 +100,10 @@ class CredentialsGatherer
 			$type  = $this->command->askWith('No password or SSH key is set for ['.$handle.'], which would you use?', 'key', $types);
 			if ($type == 'key') {
 				$default                  = $this->rocketeer->getDefaultKeyPath();
-				$credentials['key']       = $this->command->askWith('Please enter the full path to your key', $default);
-				$credentials['keyphrase'] = $this->command->askWith('If a keyphrase is required, provide it');
+				$credentials['key']       = $this->command->option('key') ?: $this->command->askWith('Please enter the full path to your key', $default);
+				$credentials['keyphrase'] = $this->gatherCredential($handle, 'keyphrase', 'If a keyphrase is required, provide it');
 			} else {
-				$credentials['password'] = $this->command->askWith('Please enter your password');
+				$credentials['password'] = $this->gatherCredential($handle, 'password');
 			}
 		}
 
@@ -131,7 +131,7 @@ class CredentialsGatherer
 		foreach ($credentials as $credential => $required) {
 			$$credential = $this->getCredential($current, $credential);
 			if ($required and !$$credential) {
-				$$credential = $this->command->askWith('No '.$credential.' is set for ['.$handle.'], please provide one:');
+				$$credential = $this->gatherCredential($handle, $credential);
 			}
 		}
 
@@ -139,6 +139,23 @@ class CredentialsGatherer
 		$credentials = compact(array_keys($credentials));
 
 		return $credentials;
+	}
+
+	/**
+	 * Look for a credential in the flags or ask for it
+	 *
+	 * @param string      $handle
+	 * @param string      $credential
+	 * @param string|null $question
+	 *
+	 * @return string
+	 */
+	protected function gatherCredential($handle, $credential, $question = null)
+	{
+		$question = $question ?: 'No '.$credential.' is set for ['.$handle.'], please provide one:';
+		$option   = $this->command->option($credential);
+
+		return $option ?: $this->command->askWith($question);
 	}
 
 	/**
@@ -151,11 +168,11 @@ class CredentialsGatherer
 	 */
 	protected function getCredential($credentials, $credential)
 	{
-		$credential = array_get($credentials, $credential);
-		if (substr($credential, 0, 1) === '{') {
+		$value = array_get($credentials, $credential);
+		if (substr($value, 0, 1) === '{') {
 			return;
 		}
 
-		return $credential;
+		return $value ?: $this->command->option($credential);
 	}
 }

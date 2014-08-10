@@ -24,6 +24,7 @@ class CredentialsGathererTest extends RocketeerTestCase
 			'No username is set for [repository]'   => $this->username,
 			'No password is set for [repository]'   => $this->password,
 		));
+		$this->command->shouldReceive('option')->andReturn(null);
 
 		$this->givenConfiguredRepositoryCredentials(['repository' => '{foobar}']);
 
@@ -43,6 +44,7 @@ class CredentialsGathererTest extends RocketeerTestCase
 			'No username is set for [repository]'   => $this->username,
 			'No password is set for [repository]'   => $this->password,
 		));
+		$this->command->shouldReceive('option')->andReturn(null);
 
 		$this->givenConfiguredRepositoryCredentials([]);
 
@@ -71,6 +73,7 @@ class CredentialsGathererTest extends RocketeerTestCase
 		$this->mockAnswers(array(
 			'No username is set for [repository]' => $this->username,
 		));
+		$this->command->shouldReceive('option')->andReturn(null);
 
 		$this->givenConfiguredRepositoryCredentials(['repository' => $this->repository], true);
 
@@ -92,7 +95,7 @@ class CredentialsGathererTest extends RocketeerTestCase
 		$this->mockAnswers(array(
 			'No host is set for [production]'     => $this->host,
 			'No username is set for [production]' => $this->username,
-			'Please enter your password'          => $this->password,
+			'No password is set for [production]' => $this->password,
 		));
 
 		$this->command->shouldReceive('askWith')->with('No connections have been set, please create one:', 'production')->andReturn('production');
@@ -100,6 +103,38 @@ class CredentialsGathererTest extends RocketeerTestCase
 			'No password or SSH key is set for [production], which would you use?',
 			'key', ['key', 'password']
 		)->andReturn('password');
+		$this->command->shouldReceive('option')->andReturn(null);
+
+		$this->credentials->getServerCredentials();
+
+		$credentials = $this->connections->getServerCredentials('production', 0);
+		$this->assertEquals(array(
+			'host'      => $this->host,
+			'username'  => $this->username,
+			'password'  => $this->password,
+			'keyphrase' => null,
+			'key'       => null,
+			'agent'     => null,
+		), $credentials);
+	}
+
+	public function testCanPassCredentialsAsFlags()
+	{
+		$this->swapConfig(array(
+			'remote.connections' => [],
+		));
+
+		$this->mockAnswers(array(
+			'No username is set for [production]' => $this->username,
+		));
+
+		$this->command->shouldReceive('askWith')->with('No connections have been set, please create one:', 'production')->andReturn('production');
+		$this->command->shouldReceive('askWith')->with(
+			'No password or SSH key is set for [production], which would you use?',
+			'key', ['key', 'password']
+		)->andReturn('password');
+		$this->command->shouldReceive('option')->with('host')->andReturn($this->host);
+		$this->command->shouldReceive('option')->with('password')->andReturn($this->password);
 		$this->command->shouldReceive('option')->andReturn(null);
 
 		$this->credentials->getServerCredentials();
@@ -125,6 +160,7 @@ class CredentialsGathererTest extends RocketeerTestCase
 		));
 
 		$this->command->shouldReceive('option')->with('on')->andReturn('staging');
+		$this->command->shouldReceive('option')->andReturn(null);
 		$this->command->shouldReceive('askWith')->with(
 			'Please enter the full path to your key', $key
 		)->andReturn($key);
