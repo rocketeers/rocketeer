@@ -122,7 +122,7 @@ class AbstractBinary
 		if (!is_null($firstKey) and is_int($firstKey)) {
 			$flags = array_combine(
 				array_values($flags),
-				array_fill(0, sizeof($flags), null)
+				array_fill(0, count($flags), null)
 			);
 		}
 
