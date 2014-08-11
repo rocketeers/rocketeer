@@ -88,8 +88,12 @@ trait RocketeerAssertions
 	 * @param array $expected
 	 * @param array $obtained
 	 */
-	public function assertHistory(array $expected, array $obtained)
+	public function assertHistory(array $expected, array $obtained = array())
 	{
+		if (!$obtained) {
+			$obtained = $this->history->getFlattenedHistory();
+		}
+
 		// Look for release in history
 		$release = implode(array_flatten($obtained));
 		preg_match_all('/[0-9]{14}/', $release, $releases);

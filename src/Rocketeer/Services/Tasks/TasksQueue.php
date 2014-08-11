@@ -11,6 +11,7 @@ namespace Rocketeer\Services\Tasks;
 
 use Closure;
 use Exception;
+use Illuminate\Support\Collection;
 use KzykHys\Parallel\Parallel;
 use Rocketeer\Connection;
 use Rocketeer\Traits\HasHistory;
@@ -157,7 +158,7 @@ class TasksQueue
 	protected function buildPipeline(array $queue)
 	{
 		// First we'll build the queue
-		$pipeline = [];
+		$pipeline = new Collection();
 
 		// Get the connections to execute the tasks on
 		$connections = (array) $this->connections->getConnections();
@@ -196,11 +197,11 @@ class TasksQueue
 	 * Run the pipeline in order.
 	 * As long as the previous entry didn't fail, continue
 	 *
-	 * @param callable[] $pipeline
+	 * @param Collection $pipeline
 	 *
 	 * @return boolean
 	 */
-	protected function runSynchronously(array $pipeline)
+	protected function runSynchronously(Collection $pipeline)
 	{
 		foreach ($pipeline as $task) {
 			if (!$task()) {
@@ -212,12 +213,12 @@ class TasksQueue
 	}
 
 	/**
-	 * @param callable[] $pipeline
+	 * @param Collection $pipeline
 	 *
 	 * @return boolean
 	 * @throws \Exception
 	 */
-	protected function runAsynchronously(array $pipeline)
+	protected function runAsynchronously(Collection $pipeline)
 	{
 		if (!extension_loaded('pcntl')) {
 			throw new Exception('Parallel jobs require the PCNTL extension');

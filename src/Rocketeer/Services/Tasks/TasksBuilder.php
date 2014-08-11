@@ -56,7 +56,7 @@ class TasksBuilder
 		if ($task instanceof Closure) {
 			// If we provided a Closure, build a ClosureTask
 			$task = $this->buildTaskFromClosure($task);
-		} elseif ($this->isStringCommand($task)) {
+		} elseif (is_array($task) or $this->isStringCommand($task)) {
 			// If we passed a command, build a ClosureTask
 			$task = $this->buildTaskFromString($task);
 		} elseif (isset($handle) and $this->app->bound($handle)) {

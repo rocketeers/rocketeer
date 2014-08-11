@@ -54,6 +54,35 @@ class TasksHandlerTest extends RocketeerTestCase
 		$this->assertEquals($newAfter, $this->tasksQueue()->getTasksListeners($task, 'after', true));
 	}
 
+	public function testCanRegisterCustomTask()
+	{
+		$this->swapConfig(array(
+			'rocketeer::default' => 'production',
+		));
+
+		$this->tasks->task('foobar', function ($task) {
+			$task->runForCurrentRelease('ls');
+		});
+
+		$this->assertInstanceOf('Rocketeer\Tasks\Closure', $this->builder->buildTask('foobar'));
+
+		$this->tasks->run('foobar');
+		$this->assertHistory([['cd {server}/releases/{release}', 'ls']]);
+	}
+
+	public function testCanRegisterCustomTaskViaArray()
+	{
+		$this->swapConfig(array(
+			'rocketeer::default' => 'production',
+		));
+
+		$this->tasks->task('foobar', ['ls', 'ls']);
+		$this->assertInstanceOf('Rocketeer\Tasks\Closure', $this->builder->buildTask('foobar'));
+
+		$this->tasks->run('foobar');
+		$this->assertHistory([['cd {server}/releases/{release}', 'ls', 'ls']]);
+	}
+
 	public function testCanAddSurroundTasksToNonExistingTasks()
 	{
 		$task = $this->task('Setup');
