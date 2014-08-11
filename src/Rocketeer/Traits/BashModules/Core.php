@@ -190,18 +190,6 @@ trait Core
 		return $timestamp;
 	}
 
-	/**
-	 * Get an option from the Command
-	 *
-	 * @param  string $option
-	 *
-	 * @return string
-	 */
-	protected function getOption($option)
-	{
-		return $this->hasCommand() ? $this->command->option($option) : null;
-	}
-
 	////////////////////////////////////////////////////////////////////
 	///////////////////////////// PROCESSORS ///////////////////////////
 	////////////////////////////////////////////////////////////////////

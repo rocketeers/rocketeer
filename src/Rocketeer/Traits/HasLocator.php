@@ -110,4 +110,16 @@ trait HasLocator
 	{
 		return $this->app->bound('rocketeer.command');
 	}
+
+	/**
+	 * Get an option from the Command
+	 *
+	 * @param  string $option
+	 *
+	 * @return string
+	 */
+	protected function getOption($option)
+	{
+		return $this->hasCommand() ? $this->command->option($option) : null;
+	}
 }

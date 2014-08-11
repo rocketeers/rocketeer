@@ -109,7 +109,7 @@ class TasksQueue
 		$queue    = $this->builder->buildTasks($tasks);
 		$pipeline = $this->buildPipeline($queue);
 
-		if ($this->command->option('parallel')) {
+		if ($this->getOption('parallel')) {
 			return $this->runAsynchronously($pipeline);
 		} else {
 			return $this->runSynchronously($pipeline);
@@ -247,7 +247,7 @@ class TasksQueue
 
 		$stage = $this->rocketeer->getOption('stages.default');
 		if ($this->hasCommand()) {
-			$stage = $this->command->option('stage') ?: $stage;
+			$stage = $this->getOption('stage') ?: $stage;
 		}
 
 		// Return all stages if "all"
