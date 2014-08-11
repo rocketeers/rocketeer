@@ -126,7 +126,7 @@ class Rocketeer
 	{
 		// Cancel if not ignited yet
 		$storage = $this->app['path.rocketeer.config'];
-		if (!is_dir($storage)) {
+		if (!is_dir($storage) or (!is_dir($storage.'/stages') and !is_dir($storage.'/connections'))) {
 			return;
 		}
 
