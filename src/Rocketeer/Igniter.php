@@ -40,7 +40,7 @@ class Igniter
 	 */
 	public function loadCustomFiles()
 	{
-		$fileLoaders = function() {
+		$fileLoaders = function () {
 			$this->loadFileOrFolder('tasks');
 			$this->loadFileOrFolder('events');
 		};

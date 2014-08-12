@@ -2,7 +2,6 @@
 namespace Rocketeer\Tasks;
 
 use Mockery;
-use Mockery\Mock;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class RollbackTest extends RocketeerTestCase

@@ -105,7 +105,7 @@ class ReleasesManager
 	/**
 	 * Get an array of deprecated releases
 	 *
-	 * @param null $treshold
+	 * @param integer $treshold
 	 *
 	 * @return integer[]
 	 */

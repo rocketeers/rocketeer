@@ -153,7 +153,7 @@ class TasksQueue
 	 *
 	 * @param array $queue
 	 *
-	 * @return callable[]
+	 * @return Collection
 	 */
 	protected function buildPipeline(array $queue)
 	{

@@ -154,7 +154,7 @@ class RocketeerTest extends RocketeerTestCase
 	{
 		$this->files->makeDirectory($this->customConfig, 0755, true);
 		$this->app['path.rocketeer.config'] = realpath($this->customConfig);
-		
+
 		$this->rocketeer->mergeContextualConfigurations();
 	}
 }
