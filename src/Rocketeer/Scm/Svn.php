@@ -15,8 +15,8 @@ use Rocketeer\Interfaces\ScmInterface;
 /**
  * The Svn implementation of the ScmInterface
  *
- * @method string co()
- * @method string up()
+ * @method string co(array $arguments, array $flags = array())
+ * @method string up(array $arguments, array $flags = array())
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  * @author Gasillo
@@ -103,13 +103,13 @@ class Svn extends AbstractBinary implements ScmInterface
 	 */
 	public function update()
 	{
-		return $this->up(null, $this->getCredentials());
+		return $this->up([], $this->getCredentials());
 	}
 
 	/**
 	 * Return credential options
 	 *
-	 * @return string[]|array<string,null>
+	 * @return array|array<string,null>
 	 */
 	protected function getCredentials()
 	{

@@ -15,10 +15,10 @@ use Rocketeer\Interfaces\ScmInterface;
 /**
  * The Git implementation of the ScmInterface
  *
- * @method string revParse()
- * @method string clone()
+ * @method string revParse(string $arguments, array $flags = array())
+ * @method string clone(string $arguments, array $flags = array())
  * @method string pull()
- * @method string submodule()
+ * @method string submodule(string $arguments, array $flags = array())
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */

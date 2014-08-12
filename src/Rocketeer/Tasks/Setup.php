@@ -79,7 +79,7 @@ class Setup extends AbstractTask
 		$availableStages = $this->connections->getStages();
 		$originalStage   = $this->connections->getStage();
 		if (empty($availableStages)) {
-			$availableStages = array(null);
+			$availableStages = [null];
 		}
 
 		// Create folders

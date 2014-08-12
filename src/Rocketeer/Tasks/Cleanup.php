@@ -28,8 +28,6 @@ class Cleanup extends AbstractTask
 
 	/**
 	 * Run the task
-	 *
-	 * @return  void
 	 */
 	public function execute()
 	{
@@ -59,7 +57,7 @@ class Cleanup extends AbstractTask
 	/**
 	 * Get an array of releases to prune
 	 *
-	 * @return \integer[]
+	 * @return integer[]
 	 */
 	protected function getReleasesToCleanup()
 	{

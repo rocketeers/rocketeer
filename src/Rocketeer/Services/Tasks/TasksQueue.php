@@ -225,7 +225,7 @@ class TasksQueue
 		}
 
 		$this->parallel = $this->parallel ?: new Parallel();
-		$this->parallel->run($pipeline);
+		$this->parallel->run($pipeline->all());
 
 		return true;
 	}

@@ -95,7 +95,7 @@ class ConnectionsHandler
 	/**
 	 * Get the various stages provided by the User
 	 *
-	 * @return string
+	 * @return array
 	 */
 	public function getStages()
 	{

@@ -104,7 +104,7 @@ class ReleasesManager
 	/**
 	 * Get an array of deprecated releases
 	 *
-	 * @param integer $treshold
+	 * @param integer|null $treshold
 	 *
 	 * @return integer[]
 	 */
@@ -215,7 +215,7 @@ class ReleasesManager
 	/**
 	 * Mark a release as valid
 	 *
-	 * @param string $release
+	 * @param string|null $release
 	 */
 	public function markReleaseAsValid($release = null)
 	{

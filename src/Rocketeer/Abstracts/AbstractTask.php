@@ -243,7 +243,7 @@ abstract class AbstractTask extends Bash
 	 *
 	 * @param  string $task
 	 *
-	 * @return string the task's output
+	 * @return string|false
 	 */
 	public function executeTask($task)
 	{

@@ -104,8 +104,7 @@ class TasksBuilder
 	 */
 	public function buildTaskFromClosure(Closure $closure, $stringTask = null)
 	{
-		// Now that we unified it all to a Closure, we build
-		// a Closure AbstractTask from there
+		/** @type \Rocketeer\Tasks\Closure $task */
 		$task = $this->buildTaskFromClass('Rocketeer\Tasks\Closure');
 		$task->setClosure($closure);
 
