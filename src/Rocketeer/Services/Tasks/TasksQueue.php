@@ -207,6 +207,7 @@ class TasksQueue
 	 */
 	protected function runSynchronously(Collection $pipeline)
 	{
+		/** @type Closure $task */
 		foreach ($pipeline as $task) {
 			if (!$task()) {
 				return false;
