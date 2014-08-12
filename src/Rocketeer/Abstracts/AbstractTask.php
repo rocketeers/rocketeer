@@ -261,11 +261,11 @@ abstract class AbstractTask extends Bash
 
 		$name        = $this->getName();
 		$description = $this->getDescription();
-		$comment     = sprintf('-- Running: %s', $name);
+		$comment     = sprintf('-- Running: <info>%s</info>', $name);
 		if ($description) {
-			$comment .= ' ('.$description.')';
+			$comment .= ' <comment>('.$description.')</comment>';
 		}
 
-		$this->command->comment($comment);
+		$this->command->line($comment);
 	}
 }
