@@ -42,18 +42,11 @@ class BaseTaskCommand extends AbstractCommand
 	 */
 	public function __construct(AbstractTask $task, $name = null)
 	{
-		parent::__construct();
-
-		// Set task
-		$this->task          = $task;
-		$this->task->command = $this;
+		parent::__construct($task);
 
 		// Set name
 		$this->name = $name ?: $task->getSlug();
 		$this->name = 'deploy:'.$this->name;
-
-		// Set description
-		$this->setDescription($task->getDescription());
 	}
 
 	/**

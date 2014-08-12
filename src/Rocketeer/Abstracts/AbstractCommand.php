@@ -22,6 +22,23 @@ use Symfony\Component\Console\Input\InputOption;
 abstract class AbstractCommand extends Command
 {
 	/**
+	 * @param AbstractTask $task
+	 */
+	public function __construct(AbstractTask $task = null)
+	{
+		parent::__construct();
+
+		// If we passed a Task, bind its properties
+		// to the command
+		if ($task) {
+			$this->task          = $task;
+			$this->task->command = $this;
+
+			$this->setDescription($task->getDescription());
+		}
+	}
+
+	/**
 	 * Run the tasks
 	 *
 	 * @return void

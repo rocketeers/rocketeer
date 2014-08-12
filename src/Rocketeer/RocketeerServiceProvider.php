@@ -264,6 +264,7 @@ class RocketeerServiceProvider extends ServiceProvider
 
 			// Build command slug
 			$taskInstance = $this->app['rocketeer.builder']->buildTaskFromClass($task);
+			$taskInstance = $taskInstance instanceof AbstractTask ? $taskInstance : null;
 			if (is_numeric($slug)) {
 				$slug = $taskInstance->getSlug();
 			}
@@ -278,22 +279,10 @@ class RocketeerServiceProvider extends ServiceProvider
 			$command          = trim('deploy.'.$slug, '.');
 			$this->commands[] = $command;
 
-			// Look for an existing command
-			if (!$fakeCommand) {
-				$this->app->singleton($command, function () use ($commandClass, $taskInstance) {
-					$commandClass = new $commandClass;
-					if ($taskInstance instanceof AbstractTask) {
-						$commandClass->setDescription($taskInstance->getDescription());
-					}
-
-					return $commandClass;
-				});
-				// Else create a fake one
-			} else {
-				$this->app->bind($command, function () use ($taskInstance, $slug) {
-					return new BaseTaskCommand($taskInstance, $slug);
-				});
-			}
+			// Register command with the container
+			$this->app->singleton($command, function () use ($fakeCommand, $commandClass, $taskInstance, $slug) {
+				return !$fakeCommand ? new $commandClass($taskInstance) : new BaseTaskCommand($taskInstance, $slug);
+			});
 		}
 
 		// Add commands to Artisan
