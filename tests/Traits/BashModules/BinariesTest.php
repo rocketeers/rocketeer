@@ -19,7 +19,7 @@ class BinariesTest extends RocketeerTestCase
 			'rocketeer::paths.artisan' => './laravel/artisan',
 		));
 
-		$this->assertEquals('/usr/local/bin/php ./laravel/artisan migrate', $this->task->artisan('migrate'));
+		$this->assertEquals('/usr/local/bin/php ./laravel/artisan migrate', $this->task->artisan()->migrate());
 	}
 
 	public function testFetchesBinaryIfNotSpecifiedOrNull()
@@ -28,7 +28,7 @@ class BinariesTest extends RocketeerTestCase
 			'rocketeer::paths.php' => '/usr/local/bin/php',
 		));
 
-		$this->assertEquals('/usr/local/bin/php artisan migrate', $this->task->artisan('migrate'));
+		$this->assertEquals('/usr/local/bin/php artisan migrate', $this->task->artisan()->migrate());
 	}
 
 	public function testCanGetBinary()
@@ -53,11 +53,12 @@ class BinariesTest extends RocketeerTestCase
 		$this->usesComposer(true);
 		$this->mock('rocketeer.command', 'Illuminate\Console\Command', function ($mock) {
 			return $mock
+				->shouldReceive('line')
 				->shouldReceive('option')->andReturn([])
 				->shouldReceive('info')->once();
 		});
 
-		$this->task->runComposer();
+		$this->task('Composer')->execute();
 	}
 
 	public function testDoesntRunComposerIfNotNeeded()
@@ -65,10 +66,11 @@ class BinariesTest extends RocketeerTestCase
 		$this->usesComposer(false);
 		$this->mock('rocketeer.command', 'Illuminate\Console\Command', function ($mock) {
 			return $mock
+				->shouldReceive('line')
 				->shouldReceive('option')->andReturn([])
 				->shouldReceive('info')->never();
 		});
 
-		$this->task->runComposer();
+		$this->task('Composer')->execute();
 	}
 }

@@ -37,18 +37,16 @@ class Update extends Deploy
 		$this->syncSharedFolders();
 
 		// Recompile dependencies and stuff
-		$this->runComposer();
+		$this->executeTask('Composer');
 
 		// Set permissions
 		$this->setApplicationPermissions();
 
 		// Run migrations
-		if ($this->getOption('migrate')) {
-			$this->runMigrations($this->getOption('seed'));
-		}
+		$this->executeTask('Artisan');
 
 		// Clear cache
-		$this->runForCurrentRelease($this->artisan('cache:clear'));
+		$this->artisan()->runForCurrentRelease('clearCache');
 
 		$this->command->info('Successfully updated application');
 	}

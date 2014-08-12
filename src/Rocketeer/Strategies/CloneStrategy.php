@@ -21,7 +21,7 @@ class CloneStrategy extends AbstractStrategy implements StrategyInterface
 
 		// Executing checkout
 		$this->command->info('Cloning repository in "'.$destination.'"');
-		$output = $this->scm->execute('checkout', $destination);
+		$output = $this->scm->run('checkout', $destination);
 
 		// Cancel if failed and forget credentials
 		$success = $this->bash->checkStatus('Unable to clone the repository', $output) !== false;

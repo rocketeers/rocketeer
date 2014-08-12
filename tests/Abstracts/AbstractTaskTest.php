@@ -33,18 +33,6 @@ class AbstractTaskTest extends RocketeerTestCase
 		$this->assertNotNull($task->getDescription());
 	}
 
-	public function testCanRunMigrations()
-	{
-		$task = $this->pretendTask();
-		$php  = exec('which php');
-
-		$commands = $task->runMigrations();
-		$this->assertEquals($php.' artisan migrate', $commands[1]);
-
-		$commands = $task->runMigrations(true);
-		$this->assertEquals($php.' artisan migrate --seed', $commands[1]);
-	}
-
 	public function testCanFireEventsDuringTasks()
 	{
 		$this->expectOutputString('foobar');

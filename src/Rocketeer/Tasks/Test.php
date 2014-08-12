@@ -35,6 +35,6 @@ class Test extends AbstractTask
 		// Update repository
 		$this->command->info('Testing the application');
 
-		return $this->runTests();
+		return $this->executeTask('Phpunit');
 	}
 }

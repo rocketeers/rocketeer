@@ -21,7 +21,7 @@ class DeployTest extends RocketeerTestCase
 			),
 			array(
 				"cd {server}/releases/{release}",
-				exec('which phpunit')." --stop-on-failure "
+				exec('which phpunit')." --stop-on-failure"
 			),
 			array(
 				"cd {server}/releases/{release}",
@@ -63,7 +63,7 @@ class DeployTest extends RocketeerTestCase
 			'git clone "{repository}" "{server}/releases/{release}" --branch="master"',
 			array(
 				"cd {server}/releases/{release}",
-				exec('which phpunit')." --stop-on-failure "
+				exec('which phpunit').' --stop-on-failure'
 			),
 			array(
 				"cd {server}/releases/{release}",
@@ -97,10 +97,10 @@ class DeployTest extends RocketeerTestCase
 				'username'   => '',
 				'password'   => '',
 			),
-			'rocketeer::remote.composer' => function ($task) {
+			'rocketeer::remote.composer' => function ($composer, $task) {
 				return array(
-					$task->composer('self-update'),
-					$task->composer('install --prefer-source'),
+					$composer->selfUpdate(),
+					$composer->install([], '--prefer-source'),
 				);
 			},
 		));
@@ -113,10 +113,11 @@ class DeployTest extends RocketeerTestCase
 			),
 		);
 
-		$deploy = $this->pretendTask('Deploy');
-		$deploy->runComposer(true);
+		$composer = $this->pretendTask('Composer');
+		$composer->force = true;
+		$composer->fire();
 
-		$this->assertTaskHistory($deploy->history->getFlattenedHistory(), $matcher, array(
+		$this->assertTaskHistory($this->history->getFlattenedHistory(), $matcher, array(
 			'tests'   => false,
 			'seed'    => false,
 			'migrate' => false

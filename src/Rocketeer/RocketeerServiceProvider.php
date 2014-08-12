@@ -17,7 +17,6 @@ use Illuminate\Log\Writer;
 use Illuminate\Remote\RemoteManager;
 use Illuminate\Support\ServiceProvider;
 use Monolog\Logger;
-use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Console\Commands\BaseTaskCommand;
 use Rocketeer\Exceptions\TaskCompositionException;
 use Rocketeer\Services\ConnectionsHandler;

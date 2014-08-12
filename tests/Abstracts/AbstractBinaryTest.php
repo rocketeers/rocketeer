@@ -15,7 +15,7 @@ class AbstractBinaryTest extends RocketeerTestCase
 		});
 
 		$scm      = new Git($this->app);
-		$command  = $scm->execute('checkout', $this->server);
+		$command  = $scm->run('checkout', $this->server);
 		$expected = $this->replaceHistoryPlaceholders(['git clone "{repository}" "{server}" --branch="master" --depth="1"']);
 
 		$this->assertEquals($expected[0], $command);

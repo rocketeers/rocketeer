@@ -86,13 +86,13 @@ class Check extends AbstractTask
 		$session   = $this->app['config']->get('session.driver');
 
 		return array(
-			array('checkScm', $this->scm->getBinary().' could not be found'),
-			array('checkPhpVersion', 'The version of PHP on the server does not match Laravel\'s requirements'),
-			array('checkComposer', 'Composer does not seem to be present on the server'),
-			array('checkPhpExtension', array('mcrypt', sprintf($extension, 'mcrypt'))),
-			array('checkDatabaseDriver', array($database, sprintf($extension, $database))),
-			array('checkCacheDriver', array($cache, sprintf($extension, $cache))),
-			array('checkCacheDriver', array($session, sprintf($extension, $session))),
+			['checkScm', $this->scm->getBinary().' could not be found'],
+			['checkPhpVersion', 'The version of PHP on the server does not match Laravel\'s requirements'],
+			['checkComposer', 'Composer does not seem to be present on the server'],
+			['checkPhpExtension', ['mcrypt', sprintf($extension, 'mcrypt')]],
+			['checkDatabaseDriver', [$database, sprintf($extension, $database)]],
+			['checkCacheDriver', [$cache, sprintf($extension, $cache)]],
+			['checkCacheDriver', [$session, sprintf($extension, $session)]],
 		);
 	}
 
@@ -108,7 +108,7 @@ class Check extends AbstractTask
 	public function checkScm()
 	{
 		$this->command->info('Checking presence of '.$this->scm->getBinary());
-		$results = $this->scm->execute('check');
+		$results = $this->scm->run('check');
 		$this->toOutput($results);
 
 		return $this->remote->status() == 0;
@@ -127,7 +127,7 @@ class Check extends AbstractTask
 
 		$this->command->info('Checking presence of Composer');
 
-		return $this->composer();
+		return $this->composer()->getBinary();
 	}
 
 	/**
@@ -156,7 +156,7 @@ class Check extends AbstractTask
 		}
 
 		$this->command->info('Checking PHP version');
-		$version = $this->runLast($this->php('-r "print PHP_VERSION;"'));
+		$version = $this->bash->runLast($this->php()->version());
 
 		return version_compare($version, $required, '>=');
 	}
@@ -220,7 +220,7 @@ class Check extends AbstractTask
 		$this->command->info('Checking presence of '.$extension.' extension');
 
 		// Check for HHVM and built-in extensions
-		if ($this->usesHhvm()) {
+		if ($this->php()->isHhvm()) {
 			$this->extensions = array(
 				'_hhvm',
 				'apache',
@@ -265,24 +265,9 @@ class Check extends AbstractTask
 
 		// Get the PHP extensions available
 		if (!$this->extensions) {
-			$this->extensions = (array) $this->run($this->php('-m'), false, true);
+			$this->extensions = (array) $this->bash->run($this->php()->extensions(), false, true);
 		}
 
 		return in_array($extension, $this->extensions);
-	}
-
-	/**
-	 * Check if we're using HHVM in production
-	 *
-	 * @return bool
-	 */
-	public function usesHhvm()
-	{
-		$version = $this->php('--version');
-		$version = $this->runRaw($version, true);
-		$version = head($version);
-		$version = strtolower($version);
-
-		return strpos($version, 'hiphop') !== false;
 	}
 }

@@ -117,10 +117,12 @@ class TasksQueue
 		}
 
 		if ($this->getOption('parallel')) {
-			return $this->runAsynchronously($pipeline);
+			$results = $this->runAsynchronously($pipeline);
 		} else {
-			return $this->runSynchronously($pipeline);
+			$results = $this->runSynchronously($pipeline);
 		}
+
+		return $results;
 	}
 
 	/**
@@ -170,8 +172,10 @@ class TasksQueue
 		$this->connections->setConnection($job->connection, $job->server);
 
 		foreach ($job->queue as $key => $task) {
-			$currentStage = $task->usesStages() ? $job->stage : null;
-			$this->connections->setStage($currentStage);
+			if ($task->usesStages()) {
+				$stage = $task->usesStages() ? $job->stage : null;
+				$this->connections->setStage($stage);
+			}
 
 			// Here we fire the task, save its
 			// output and return its status

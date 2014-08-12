@@ -1,4 +1,7 @@
-<?php return array(
+<?php
+use Rocketeer\Binaries\Composer;
+
+return array(
 
 	// The strategy to deploy with
 	// Availables are:
@@ -17,10 +20,10 @@
 	),
 
 	// The process that will be executed by Composer
-	'composer' => function ($task) {
+	'composer' => function (Composer $composer, Task $task) {
 		return array(
-			// $task->composer('self-update'),
-			$task->composer('install --no-interaction --no-dev --prefer-dist'),
+			// $composer->selfUpdate(),
+			$composer->install([], ['--no-interaction' => null, '--no-dev' => null, '--prefer-dist' => null]),
 		);
 	},
 

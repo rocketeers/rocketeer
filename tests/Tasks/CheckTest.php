@@ -58,12 +58,4 @@ class CheckTest extends RocketeerTestCase
 
 		$this->assertTrue($exists);
 	}
-
-	public function testCanCheckIfUsesHhvm()
-	{
-		$hhvm    = $this->task('Check')->usesHhvm();
-		$defined = defined('HHVM_VERSION');
-
-		$this->assertEquals($defined, $hhvm);
-	}
 }

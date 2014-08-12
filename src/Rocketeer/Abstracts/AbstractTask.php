@@ -42,6 +42,13 @@ abstract class AbstractTask extends Bash
 	 */
 	protected $halted = false;
 
+	/**
+	 * Boolean to bypass certain checks
+	 *
+	 * @type boolean
+	 */
+	public $force;
+
 	////////////////////////////////////////////////////////////////////
 	////////////////////////////// REFLECTION //////////////////////////
 	////////////////////////////////////////////////////////////////////
@@ -241,13 +248,13 @@ abstract class AbstractTask extends Bash
 	/**
 	 * Execute another AbstractTask by name
 	 *
-	 * @param  string $task
+	 * @param string|string[] $tasks
 	 *
 	 * @return string|false
 	 */
-	public function executeTask($task)
+	public function executeTask($tasks)
 	{
-		return $this->builder->buildTaskFromClass($task)->fire();
+		return $this->queue->run($tasks);
 	}
 
 	/**

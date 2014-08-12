@@ -39,35 +39,28 @@ class Deploy extends AbstractTask
 	 */
 	public function execute()
 	{
-		// Create halting events
-		$this->createEvents();
-
 		// Setup if necessary
 		if (!$this->isSetup()) {
 			$this->command->error('Server is not ready, running Setup task');
 			$this->executeTask('Setup');
 		}
 
-		// Update current release
+		// Setup the new release
 		$release = $this->releasesManager->getNextRelease();
 
-		// Run halting methods
-		foreach ($this->halting as $method) {
-			if (!$this->fireEvent($method['as'])) {
-				return false;
-			}
 
-			list ($class, $method) = $method['on'];
-			if (!$class->$method()) {
-				return $this->halt();
-			}
+		// Build and execute subtasks
+		$tasks = ['CreateRelease', 'Composer'];
+		if ($this->getOption('tests')) {
+			$tasks[] = 'Phpunit';
 		}
+		$this->executeTask($tasks);
 
 		// Set permissions
 		$this->setApplicationPermissions();
 
 		// Run migrations
-		$this->runMigrationsAndSeed();
+		$this->executeTask('Artisan');
 
 		// Synchronize shared folders and files
 		$this->syncSharedFolders();
@@ -85,55 +78,8 @@ class Deploy extends AbstractTask
 	}
 
 	////////////////////////////////////////////////////////////////////
-	/////////////////////////////// SUBTASKS ///////////////////////////
-	////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Run PHPUnit tests
-	 */
-	protected function checkTestsResults()
-	{
-		if ($this->getOption('tests') and !$this->runTests()) {
-			$this->command->error('Tests failed');
-
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * Run migrations and seed database
-	 *
-	 * @return string|null
-	 */
-	protected function runMigrationsAndSeed()
-	{
-		$seed = (bool) $this->getOption('seed');
-
-		if ($this->getOption('migrate')) {
-			return $this->runMigrations($seed);
-		} elseif ($seed) {
-			return $this->runSeed();
-		}
-	}
-
-	////////////////////////////////////////////////////////////////////
 	/////////////////////////////// HELPERS ////////////////////////////
 	////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Create the events Deploy will run
-	 */
-	protected function createEvents()
-	{
-		$strategy      = $this->rocketeer->getOption('remote.strategy');
-		$this->halting = array(
-			['as' => $strategy.'Repository', 'on' => [$this->strategy, 'deploy']],
-			['as' => 'runComposer', 'on' => [$this, 'runComposer']],
-			['as' => 'checkTestsResults', 'on' => [$this, 'checkTestsResults']],
-		);
-	}
 
 	/**
 	 * Set permissions for the folders used by the application

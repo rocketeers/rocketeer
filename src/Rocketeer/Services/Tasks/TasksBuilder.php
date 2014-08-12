@@ -131,17 +131,12 @@ class TasksBuilder
 			return $task;
 		}
 
-		// Shortcut for calling Rocketeer Tasks
-		if (class_exists('Rocketeer\Tasks\\'.ucfirst($task))) {
-			$task = 'Rocketeer\Tasks\\'.ucfirst($task);
-		}
-
 		// Cancel if class doesn't exist
-		if (!class_exists($task)) {
+		if (!$class = $this->taskClassExists($task)) {
 			throw new TaskCompositionException('Impossible to build task: '.$task);
 		}
 
-		return new $task($this->app);
+		return new $class($this->app);
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -157,6 +152,27 @@ class TasksBuilder
 	 */
 	protected function isStringCommand($string)
 	{
-		return is_string($string) && !class_exists($string) && !$this->app->bound('rocketeer.tasks.'.$string);
+		return is_string($string) && !$this->taskClassExists($string) && !$this->app->bound('rocketeer.tasks.'.$string);
+	}
+
+	/**
+	 * Check if a class with the given task name exists
+	 *
+	 * @param string $task
+	 *
+	 * @return string|false
+	 */
+	protected function taskClassExists($task)
+	{
+		$class = ucfirst($task);
+		if (class_exists('Rocketeer\Tasks\\'.$class)) {
+			return 'Rocketeer\Tasks\\'.$class;
+		} elseif (class_exists('Rocketeer\Tasks\Subtasks\\'.$class)) {
+			return 'Rocketeer\Tasks\Subtasks\\'.$class;
+		} elseif (class_exists($task)) {
+			return $task;
+		}
+
+		return false;
 	}
 }

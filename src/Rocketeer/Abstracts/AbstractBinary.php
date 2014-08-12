@@ -29,6 +29,33 @@ class AbstractBinary
 	protected $binary;
 
 	/**
+	 * A parent binary to call this one with
+	 *
+	 * @type AbstractBinary|string
+	 */
+	protected $parent;
+
+	//////////////////////////////////////////////////////////////////////
+	///////////////////////////// PROPERTIES /////////////////////////////
+	//////////////////////////////////////////////////////////////////////
+
+	/**
+	 * @param AbstractBinary|string $parent
+	 */
+	public function setParent($parent)
+	{
+		$this->parent = $parent;
+	}
+
+	/**
+	 * @param string $binary
+	 */
+	public function setBinary($binary)
+	{
+		$this->binary = $binary;
+	}
+
+	/**
 	 * Get the current binary name
 	 *
 	 * @return string
@@ -48,6 +75,14 @@ class AbstractBinary
 	 */
 	public function __call($name, $arguments)
 	{
+		// Execution aliases
+		if (Str::startsWith($name, 'run')) {
+			$command   = array_shift($arguments);
+			$command   = call_user_func_array([$this, $command], $arguments);
+
+			return $this->bash->$name($command);
+		}
+
 		// Format name
 		$name = Str::snake($name, '-');
 
@@ -58,20 +93,6 @@ class AbstractBinary
 		return $command;
 	}
 
-	/**
-	 * Execute one of the commands
-	 *
-	 * @return string|null
-	 */
-	public function execute()
-	{
-		$arguments = func_get_args();
-		$command   = array_shift($arguments);
-		$command   = call_user_func_array([$this, $command], $arguments);
-
-		return $this->bash->run($command);
-	}
-
 	////////////////////////////////////////////////////////////////////
 	//////////////////////////////// HELPERS ///////////////////////////
 	////////////////////////////////////////////////////////////////////
@@ -79,37 +100,46 @@ class AbstractBinary
 	/**
 	 * Returns a command with the SCM's binary
 	 *
-	 * @param string   $command
-	 * @param string[] $arguments
-	 * @param string[] $flags
+	 * @param string|null $command
+	 * @param string|string[]    $arguments
+	 * @param string|string[]    $flags
 	 *
 	 * @return string
 	 */
-	public function getCommand($command, $arguments = array(), $flags = array())
+	public function getCommand($command = null, $arguments = array(), $flags = array())
 	{
 		// Format arguments
 		$arguments = $this->buildArguments($arguments);
 		$options   = $this->buildOptions($flags);
 
 		// Build command
-		$command = $this->binary.' '.$command;
-		if ($arguments) {
-			$command .= ' '.$arguments;
+		$binary     = $this->binary;
+		$components = [$command, $arguments, $options];
+		foreach ($components as $component) {
+			if ($component) {
+				$binary .= ' '.$component;
+			}
 		}
-		if ($options) {
-			$command .= ' '.$options;
-		}
+
+		// If the binary has a parent, wrap the call with it
+		$parent  = $this->parent instanceof AbstractBinary ? $this->parent->getBinary() : $this->parent;
+		$command = $parent.' '.$binary;
 
 		return trim($command);
 	}
 
 	/**
-	 * @param string[] $flags
+	 * @param string|string[] $flags
 	 *
 	 * @return string
 	 */
 	protected function buildOptions($flags)
 	{
+		// Return if already builts
+		if (is_string($flags)) {
+			return $flags;
+		}
+
 		$options = [];
 		$flags   = (array) $flags;
 
@@ -131,14 +161,16 @@ class AbstractBinary
 	}
 
 	/**
-	 * @param string[] $arguments
+	 * @param string|string[] $arguments
 	 *
 	 * @return string
 	 */
 	protected function buildArguments($arguments)
 	{
-		$arguments = (array) $arguments;
-		$arguments = implode(' ', $arguments);
+		if (!is_string($arguments)) {
+			$arguments = (array) $arguments;
+			$arguments = implode(' ', $arguments);
+		}
 
 		return $arguments;
 	}

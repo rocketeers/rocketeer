@@ -9,6 +9,8 @@
  */
 namespace Rocketeer\Traits\BashModules;
 
+use Rocketeer\Binaries\AnonymousBinary;
+
 /**
  * Handles finding and calling binaries
  *
@@ -21,39 +23,61 @@ trait Binaries
 	////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Prefix a command with the right path to PHP
+	 * Get an AnonymousBinary instance
 	 *
-	 * @param string|null $command
+	 * @param string      $binary
 	 *
-	 * @return string
+	 * @return \Rocketeer\Abstracts\AbstractBinary
 	 */
-	public function php($command = null)
+	public function binary($binary)
 	{
-		$php = $this->which('php');
-
-		return trim($php.' '.$command);
-	}
-
-	// Artisan
-	////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Prefix a command with the right path to Artisan
-	 *
-	 * @param string|null $command
-	 * @param array       $flags
-	 *
-	 * @return string
-	 */
-	public function artisan($command = null, $flags = array())
-	{
-		$artisan = $this->which('artisan', $this->releasesManager->getCurrentReleasePath().'/artisan') ?: 'artisan';
-		foreach ($flags as $name => $value) {
-			$command .= ' --'.$name;
-			$command .= $value ? '="'.$value.'"' : '';
+		// Check for an existing Binary
+		$existing = sprintf('Rocketeer\Binaries\%s', ucfirst($binary));
+		if (class_exists($existing)) {
+			return new $existing($this->app);
 		}
 
-		return $this->php($artisan.' '.$command);
+		// Else wrap the command in an AnonymousBinary
+		$anonymous = new AnonymousBinary($this->app);
+		$anonymous->setBinary($binary);
+
+		return $binary;
+	}
+
+	/**
+	 * Prefix a command with the right path to PHP
+	 *
+	 * @return \Rocketeer\Binaries\Php
+	 */
+	public function php()
+	{
+		return $this->binary('php');
+	}
+
+	/**
+	 * Prefix a command with the right path to Composer
+	 *
+	 * @return \Rocketeer\Binaries\Composer
+	 */
+	public function composer()
+	{
+		return $this->binary('composer');
+	}
+
+	/**
+	 * @return \Rocketeer\Binaries\Phpunit
+	 */
+	public function phpunit()
+	{
+		return $this->binary('phpunit');
+	}
+
+	/**
+	 * @return \Rocketeer\Binaries\Artisan
+	 */
+	public function artisan()
+	{
+		return $this->binary('artisan');
 	}
 
 	/**
@@ -78,136 +102,20 @@ trait Binaries
 		return $this->runForCurrentRelease($command);
 	}
 
-	/**
-	 * Run any outstanding migrations
-	 *
-	 * @param boolean $seed Whether the database should also be seeded
-	 *
-	 * @return string
-	 */
-	public function runMigrations($seed = false)
-	{
-		$this->command->comment('Running outstanding migrations');
-		$flags = $seed ? array('seed' => '') : array();
-
-		return $this->runArtisan('migrate', $flags);
-	}
-
-	/**
-	 * Seed the database
-	 *
-	 * @param string|null $class A class to seed
-	 *
-	 * @return string
-	 */
-	public function runSeed($class = null)
-	{
-		$this->command->comment('Seeding database');
-		$flags = $class ? array('class' => $class) : array();
-
-		return $this->runArtisan('db:seed', $flags);
-	}
-
-	// PHPUnit
-	////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Run the application's tests
-	 *
-	 * @param string|null $arguments Additional arguments to pass to PHPUnit
-	 *
-	 * @return boolean
-	 */
-	public function runTests($arguments = null)
-	{
-		// Look for PHPUnit
-		$phpunit = $this->which('phpunit', $this->releasesManager->getCurrentReleasePath().'/vendor/bin/phpunit');
-		if (!$phpunit) {
-			return true;
-		}
-
-		// Run PHPUnit
-		$this->command->info('Running tests...');
-		$output = $this->runForCurrentRelease(array(
-			$phpunit.' --stop-on-failure '.$arguments,
-		));
-
-		return $this->checkStatus('Tests failed', $output, 'Tests passed successfully');
-	}
-
-	// Composer
-	////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Prefix a command with the right path to Composer
-	 *
-	 * @param string|null $command
-	 *
-	 * @return string
-	 */
-	public function composer($command = null)
-	{
-		$composer = $this->which('composer', $this->releasesManager->getCurrentReleasePath().'/composer.phar');
-
-		// Prepend PHP command
-		if (strpos($composer, 'composer.phar') !== false) {
-			$composer = $this->php($composer);
-		}
-
-		return trim($composer.' '.$command);
-	}
-
-	/**
-	 * Run Composer on the folder
-	 *
-	 * @param boolean $force
-	 *
-	 * @return string
-	 */
-	public function runComposer($force = false)
-	{
-		if (!$this->localStorage->usesComposer() and !$force) {
-			return true;
-		}
-
-		// Find Composer
-		$composer = $this->composer();
-		if (!$composer) {
-			return true;
-		}
-
-		// Get the Composer commands to run
-		$tasks = $this->rocketeer->getOption('remote.composer');
-		if (!is_callable($tasks)) {
-			return true;
-		}
-
-		// Cancel if no tasks to execute
-		$tasks = (array) $tasks($this);
-		if (empty($tasks)) {
-			return true;
-		}
-
-		// Run commands
-		$this->command->info('Installing Composer dependencies');
-		$this->runForCurrentRelease($tasks);
-
-		return $this->checkStatus('Composer could not install dependencies');
-	}
-
 	////////////////////////////////////////////////////////////////////
 	/////////////////////////////// HELPERS ////////////////////////////
 	////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Get a binary
+	 * Get the path to a binary
 	 *
-	 * @param  string      $binary   The name of the binary
-	 * @param  string|null $fallback A fallback location
+	 * @param string         $binary   The name of the binary
+	 * @param string|null    $fallback A fallback location
+	 * @param string|boolean $default  A last resort place to use as binary
 	 *
 	 * @return string
 	 */
-	public function which($binary, $fallback = null)
+	public function which($binary, $fallback = null, $default = false)
 	{
 		$location  = false;
 		$locations = array(
@@ -239,7 +147,7 @@ trait Binaries
 		// Store found location
 		$this->localStorage->set('paths.'.$binary, $location);
 
-		return $location ?: false;
+		return $location ?: $default;
 	}
 
 	/**
