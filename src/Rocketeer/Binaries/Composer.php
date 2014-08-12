@@ -13,11 +13,23 @@ class Composer extends AbstractBinary
 	{
 		parent::__construct($app);
 
-		// Set binary path
-		$this->binary = $this->bash->which(
+		$binary = $this->bash->which(
 			'composer',
 			$this->releasesManager->getCurrentReleasePath().'/composer.phar'
 		);
+
+		// Set binary path
+		$this->setBinary($binary);
+	}
+
+	/**
+	 * Change Composer's binary
+	 *
+	 * @param string $binary
+	 */
+	public function setBinary($binary)
+	{
+		parent::setBinary($binary);
 
 		// Prepend PHP command if executing from archive
 		if (strpos($this->getBinary(), 'composer.phar') !== false) {

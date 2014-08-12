@@ -89,41 +89,6 @@ class DeployTest extends RocketeerTestCase
 		));
 	}
 
-	public function testCanConfigureComposerCommands()
-	{
-		$this->swapConfig(array(
-			'rocketeer::scm'             => array(
-				'repository' => 'https://github.com/'.$this->repository,
-				'username'   => '',
-				'password'   => '',
-			),
-			'rocketeer::remote.composer' => function ($composer, $task) {
-				return array(
-					$composer->selfUpdate(),
-					$composer->install([], '--prefer-source'),
-				);
-			},
-		));
-
-		$matcher = array(
-			array(
-				"cd {server}/releases/{release}",
-				"{composer} self-update",
-				"{composer} install --prefer-source",
-			),
-		);
-
-		$composer = $this->pretendTask('Composer');
-		$composer->force = true;
-		$composer->fire();
-
-		$this->assertTaskHistory($this->history->getFlattenedHistory(), $matcher, array(
-			'tests'   => false,
-			'seed'    => false,
-			'migrate' => false
-		));
-	}
-
 	public function testCanUseCopyStrategy()
 	{
 		$this->swapConfig(array(

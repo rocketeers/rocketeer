@@ -201,18 +201,6 @@ class ReleasesManager
 	}
 
 	/**
-	 * Update the contents of the validation file
-	 *
-	 * @param array $validation
-	 */
-	public function saveValidationFile(array $validation)
-	{
-		$this->storage->set($validation);
-
-		$this->state = $validation;
-	}
-
-	/**
 	 * Mark a release as valid
 	 *
 	 * @param string|null $release

@@ -80,4 +80,21 @@ class AbstractTaskTest extends RocketeerTestCase
 		$task = $this->pretendTask('Deploy');
 		$task->fire();
 	}
+
+	public function testCanListenToSubtasks()
+	{
+		$this->swapConfig(array(
+			'rocketeer::hooks' => [],
+		));
+
+		$this->tasks->listenTo('composer.before', ['ls']);
+
+		$this->pretendTask('Deploy')->fire();
+
+		$history = $this->history->getFlattenedOutput();
+		$this->assertHistory(array(
+			'cd {server}/releases/{release}',
+			'ls',
+		), $history[4]);
+	}
 }
