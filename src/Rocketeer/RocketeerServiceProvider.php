@@ -19,6 +19,7 @@ use Illuminate\Support\ServiceProvider;
 use Monolog\Logger;
 use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Console\Commands\BaseTaskCommand;
+use Rocketeer\Exceptions\TaskCompositionException;
 use Rocketeer\Services\ConnectionsHandler;
 use Rocketeer\Services\CredentialsGatherer;
 use Rocketeer\Services\History\History;
@@ -259,11 +260,10 @@ class RocketeerServiceProvider extends ServiceProvider
 			$commandClass = 'Rocketeer\Console\Commands\\'.$task.'Command';
 			$fakeCommand  = !class_exists($commandClass);
 
-			// Build command slug
-			$taskInstance = $this->app['rocketeer.builder']->buildTaskFromClass($task);
-			$taskInstance = $taskInstance instanceof AbstractTask ? $taskInstance : null;
-			if (is_numeric($slug)) {
-				$slug = $taskInstance->getSlug();
+			try {
+				$taskInstance = $this->app['rocketeer.builder']->buildTaskFromClass($task);
+			} catch (TaskCompositionException $exception) {
+				$taskInstance = null;
 			}
 
 			// Bind Task to container

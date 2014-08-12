@@ -12,6 +12,7 @@ namespace Rocketeer\Services\Tasks;
 use Closure;
 use Illuminate\Support\Str;
 use Rocketeer\Abstracts\AbstractTask;
+use Rocketeer\Exceptions\TaskCompositionException;
 use Rocketeer\Traits\HasLocator;
 
 /**
@@ -122,7 +123,8 @@ class TasksBuilder
 	 *
 	 * @param string|AbstractTask $task
 	 *
-	 * @return AbstractTask|string
+	 * @throws TaskCompositionException
+	 * @return AbstractTask
 	 */
 	public function buildTaskFromClass($task)
 	{
@@ -137,7 +139,7 @@ class TasksBuilder
 
 		// Cancel if class doesn't exist
 		if (!class_exists($task)) {
-			return $task;
+			throw new TaskCompositionException('Impossible to build task: '.$task);
 		}
 
 		return new $task($this->app);
