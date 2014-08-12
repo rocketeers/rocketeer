@@ -13,6 +13,9 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 {
 	use HasLocator;
 
+	/**
+	 * Override the trait constructor
+	 */
 	public function __construct()
 	{
 		parent::__construct();

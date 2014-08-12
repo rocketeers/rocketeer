@@ -73,14 +73,11 @@ class RocketeerServiceProvider extends ServiceProvider
 		$this->bindConsoleClasses();
 		$this->bindStrategies();
 
-		// Load the user's events and tasks
-		$this->app['rocketeer.igniter']->loadCustomFiles();
+		// Load the user's events, tasks, and configurations
+		$this->app['rocketeer.igniter']->loadUserConfiguration();
 
 		// Bind commands
 		$this->bindCommands();
-
-		// Load contextual configurations
-		$this->app['rocketeer.rocketeer']->mergeContextualConfigurations();
 	}
 
 	/**

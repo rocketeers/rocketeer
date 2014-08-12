@@ -10,9 +10,12 @@
 namespace Rocketeer;
 
 use Rocketeer\Traits\HasLocator;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 
 /**
- * Finds configurations and paths
+ * Ignites Rocketeer's custom configuration, tasks, events and paths
+ * depending on what Rocketeer is used on
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
@@ -32,46 +35,52 @@ class Igniter
 	}
 
 	//////////////////////////////////////////////////////////////////////
-	//////////////////////////// FILE LOADERS ////////////////////////////
+	///////////////////////// USER CONFIGURATION /////////////////////////
 	//////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Load the custom files (tasks, events, ...)
 	 */
-	public function loadCustomFiles()
+	public function loadUserConfiguration()
 	{
 		$fileLoaders = function () {
 			$this->loadFileOrFolder('tasks');
 			$this->loadFileOrFolder('events');
 		};
 
+		// Defer loading of tasks and events or not
 		if (method_exists($this->app, 'booted')) {
 			$this->app->booted($fileLoaders);
 		} else {
 			$fileLoaders();
 		}
+
+		// Merge contextual configurations
+		$this->mergeContextualConfigurations();
 	}
 
 	/**
-	 * Load a file or its contents if a folder
-	 *
-	 * @param string $handle
+	 * Merge the various contextual configurations defined in userland
 	 */
-	public function loadFileOrFolder($handle)
+	public function mergeContextualConfigurations()
 	{
-		// Bind ourselves into the facade to avoid automatic resolution
-		Facades\Rocketeer::setFacadeApplication($this->app);
+		// Cancel if not ignited yet
+		$storage = $this->app['path.rocketeer.config'];
+		if (!is_dir($storage) or (!is_dir($storage.'/stages') and !is_dir($storage.'/connections'))) {
+			return;
+		}
 
-		// If we have one unified tasks file, include it
-		$file = $this->app['path.rocketeer.'.$handle];
-		if (!is_dir($file) and file_exists($file)) {
-			include $file;
-		} // Else include its contents
-		elseif (is_dir($file)) {
-			$folder = glob($file.'/*.php');
-			foreach ($folder as $file) {
-				include $file;
-			}
+		// Gather custom files
+		$finder = new Finder();
+		$files  = $finder->in($storage.'/{stages,connections}/*')->notName('config.php')->files();
+		$files  = iterator_to_array($files);
+
+		// Bind their contents to the "on" array
+		foreach ($files as $file) {
+			$contents = include $file->getPathname();
+			$handle   = $this->computeHandleFromPath($file);
+
+			$this->config->set($handle, $contents);
 		}
 	}
 
@@ -223,6 +232,49 @@ class Igniter
 	////////////////////////////////////////////////////////////////////
 	/////////////////////////////// HELPERS ////////////////////////////
 	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Computes which configuration handle a config file should bind to
+	 *
+	 * @param SplFileInfo $file
+	 *
+	 * @return string
+	 */
+	protected function computeHandleFromPath(SplFileInfo $file)
+	{
+		// Get realpath
+		$handle = $file->getRealpath();
+
+		// Format appropriately
+		$handle = str_replace($this->app['path.rocketeer.config'].DS, null, $handle);
+		$handle = str_replace('.php', null, $handle);
+		$handle = str_replace(DS, '.', $handle);
+
+		return sprintf('rocketeer::on.%s', $handle);
+	}
+
+	/**
+	 * Load a file or its contents if a folder
+	 *
+	 * @param string $handle
+	 */
+	protected function loadFileOrFolder($handle)
+	{
+		// Bind ourselves into the facade to avoid automatic resolution
+		Facades\Rocketeer::setFacadeApplication($this->app);
+
+		// If we have one unified tasks file, include it
+		$file = $this->app['path.rocketeer.'.$handle];
+		if (!is_dir($file) and file_exists($file)) {
+			include $file;
+		} // Else include its contents
+		elseif (is_dir($file)) {
+			$folder = glob($file.'/*.php');
+			foreach ($folder as $file) {
+				include $file;
+			}
+		}
+	}
 
 	/**
 	 * Unify the slashes to the UNIX mode (forward slashes)

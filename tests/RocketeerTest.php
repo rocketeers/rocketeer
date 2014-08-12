@@ -134,27 +134,4 @@ class RocketeerTest extends RocketeerTestCase
 
 		$this->assertEquals('/bin/php', $path);
 	}
-
-	public function testCanUseFilesAndFoldersForContextualConfig()
-	{
-		$this->mock('config', 'Config', function ($mock) {
-			return $mock->shouldReceive('set')->once()->with('rocketeer::on.connections.production.scm', ['scm' => 'svn']);
-		});
-
-		$file = $this->customConfig.'/connections/production/scm.php';
-		$this->files->makeDirectory(dirname($file), 0755, true);
-		$this->app['path.rocketeer.config'] = realpath($this->customConfig);
-
-		file_put_contents($file, '<?php return array("scm" => "svn");');
-
-		$this->rocketeer->mergeContextualConfigurations();
-	}
-
-	public function testDoesntCrashIfNoSubfolder()
-	{
-		$this->files->makeDirectory($this->customConfig, 0755, true);
-		$this->app['path.rocketeer.config'] = realpath($this->customConfig);
-
-		$this->rocketeer->mergeContextualConfigurations();
-	}
 }

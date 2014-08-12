@@ -12,8 +12,6 @@ namespace Rocketeer;
 use Exception;
 use Illuminate\Support\Str;
 use Rocketeer\Traits\HasLocator;
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\Finder\SplFileInfo;
 
 /**
  * Handles interaction between the User provided informations
@@ -117,49 +115,6 @@ class Rocketeer
 		}
 
 		return $value;
-	}
-
-	/**
-	 * Merge the various contextual configurations defined in userland
-	 */
-	public function mergeContextualConfigurations()
-	{
-		// Cancel if not ignited yet
-		$storage = $this->app['path.rocketeer.config'];
-		if (!is_dir($storage) or (!is_dir($storage.'/stages') and !is_dir($storage.'/connections'))) {
-			return;
-		}
-
-		// Gather custom files
-		$finder = new Finder();
-		$files  = $finder->in($storage.'/{stages,connections}/*')->notName('config.php')->files();
-		$files  = iterator_to_array($files);
-
-		// Bind their contents to the "on" array
-		foreach ($files as $file) {
-			$contents = include $file->getPathname();
-			$handle   = $this->computeHandleFromPath($file);
-
-			$this->config->set($handle, $contents);
-		}
-	}
-
-	/**
-	 * @param SplFileInfo $file
-	 *
-	 * @return string
-	 */
-	protected function computeHandleFromPath(SplFileInfo $file)
-	{
-		// Get realpath
-		$handle = $file->getRealpath();
-
-		// Format appropriately
-		$handle = str_replace($this->app['path.rocketeer.config'].DS, null, $handle);
-		$handle = str_replace('.php', null, $handle);
-		$handle = str_replace(DS, '.', $handle);
-
-		return sprintf('rocketeer::on.%s', $handle);
 	}
 
 	////////////////////////////////////////////////////////////////////

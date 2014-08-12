@@ -144,7 +144,7 @@ class IgniterTest extends RocketeerTestCase
 		$this->files->put($config.'/events/some-event.php', '<?php Rocketeer\Facades\Rocketeer::before("DisplayFiles", "whoami");');
 
 		$this->igniter->bindPaths();
-		$this->igniter->loadCustomFiles();
+		$this->igniter->loadUserConfiguration();
 		$this->tasks->registerConfiguredEvents();
 
 		$task = $this->builder->buildTask('DisplayFiles');
@@ -154,5 +154,28 @@ class IgniterTest extends RocketeerTestCase
 		$events = $this->tasks->getTasksListeners($task, 'before');
 		$this->assertCount(1, $events);
 		$this->assertEquals('whoami', $events[0][0]->getStringTask());
+	}
+
+	public function testCanUseFilesAndFoldersForContextualConfig()
+	{
+		$this->mock('config', 'Config', function ($mock) {
+			return $mock->shouldReceive('set')->once()->with('rocketeer::on.connections.production.scm', ['scm' => 'svn']);
+		});
+
+		$file = $this->customConfig.'/connections/production/scm.php';
+		$this->files->makeDirectory(dirname($file), 0755, true);
+		$this->app['path.rocketeer.config'] = realpath($this->customConfig);
+
+		file_put_contents($file, '<?php return array("scm" => "svn");');
+
+		$this->igniter->mergeContextualConfigurations();
+	}
+
+	public function testDoesntCrashIfNoSubfolder()
+	{
+		$this->files->makeDirectory($this->customConfig, 0755, true);
+		$this->app['path.rocketeer.config'] = realpath($this->customConfig);
+
+		$this->igniter->mergeContextualConfigurations();
 	}
 }
