@@ -216,8 +216,9 @@ abstract class AbstractTask extends Bash
 		$table = new Table($output);
 		$table->setHeaders(['#', 'Path', 'Deployed at', 'Status']);
 
-		// Append the reows
-		$key = 0;
+		// Append the rows
+		$key  = 0;
+		$rows = [];
 		foreach ($releases as $name => $state) {
 			$date  = DateTime::createFromFormat('YmdHis', $name);
 			$date  = $date->format('Y-m-d H:i:s');
@@ -227,12 +228,14 @@ abstract class AbstractTask extends Bash
 			// Add color to row
 			$row    = [$key, $name, $date, $icon];
 			$row[3] = sprintf('<fg=%s>%s</fg=%s>', $color, $row[3], $color);
-
-			$table->addRow($row);
+			$rows[] = $row;
 			$key++;
 		}
 
+		$table->addRows($rows);
 		$table->render();
+
+		return $rows;
 	}
 
 	/**

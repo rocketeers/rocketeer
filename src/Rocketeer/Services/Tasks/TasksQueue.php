@@ -109,11 +109,52 @@ class TasksQueue
 		$queue    = $this->builder->buildTasks($tasks);
 		$pipeline = $this->buildPipeline($queue);
 
+		// Wrap job in closure pipeline
+		foreach ($pipeline as $key => $job) {
+			$pipeline[$key] = function () use ($job) {
+				return $this->executeJob($job);
+			};
+		}
+
 		if ($this->getOption('parallel')) {
 			return $this->runAsynchronously($pipeline);
 		} else {
 			return $this->runSynchronously($pipeline);
 		}
+	}
+
+	/**
+	 * Build a pipeline of jobs for Parallel to execute
+	 *
+	 * @param array $queue
+	 *
+	 * @return Collection
+	 */
+	public function buildPipeline(array $queue)
+	{
+		// First we'll build the queue
+		$pipeline = new Collection();
+
+		// Get the connections to execute the tasks on
+		$connections = (array) $this->connections->getConnections();
+		foreach ($connections as $connection) {
+			$servers = $this->connections->getConnectionCredentials($connection);
+			$stages  = $this->getStages($connection);
+
+			// Add job to pipeline
+			foreach ($servers as $server => $credentials) {
+				foreach ($stages as $stage) {
+					$pipeline[] = new Job(array(
+						'connection' => $connection,
+						'server'     => $server,
+						'stage'      => $stage,
+						'queue'      => $queue,
+					));
+				}
+			}
+		}
+
+		return $pipeline;
 	}
 
 	/**
@@ -146,47 +187,6 @@ class TasksQueue
 		}
 
 		return true;
-	}
-
-	/**
-	 * Build a pipeline of jobs for Parallel to execute
-	 *
-	 * @param array $queue
-	 *
-	 * @return Collection
-	 */
-	protected function buildPipeline(array $queue)
-	{
-		// First we'll build the queue
-		$pipeline = new Collection();
-
-		// Get the connections to execute the tasks on
-		$connections = (array) $this->connections->getConnections();
-		foreach ($connections as $connection) {
-			$servers = $this->connections->getConnectionCredentials($connection);
-			$stages  = $this->getStages($connection);
-
-			// Add job to pipeline
-			foreach ($servers as $server => $credentials) {
-				foreach ($stages as $stage) {
-					$pipeline[] = new Job(array(
-						'connection' => $connection,
-						'server'     => $server,
-						'stage'      => $stage,
-						'queue'      => $queue,
-					));
-				}
-			}
-		}
-
-		// Wrap job in closure pipeline
-		foreach ($pipeline as $key => $job) {
-			$pipeline[$key] = function () use ($job) {
-				return $this->executeJob($job);
-			};
-		}
-
-		return $pipeline;
 	}
 
 	//////////////////////////////////////////////////////////////////////
