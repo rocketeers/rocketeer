@@ -33,7 +33,8 @@
 		"herrera-io/box": "~1.5.3",
 		"phpseclib/phpseclib": "~0.3.5",
 		"d11wtq/boris": "~1.0.8",
-		"raveren/kint": "~0.9.1"
+		"raveren/kint": "~0.9.1",
+		"johnkary/phpunit-speedtrap": "dev-master"
 	},
 	"suggest": {
 		"anahkiasen/rocketeer-campfire": "Campfire plugin to create deployments notifications",
