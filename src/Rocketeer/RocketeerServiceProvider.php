@@ -73,8 +73,16 @@ class RocketeerServiceProvider extends ServiceProvider
 		$this->bindStrategies();
 
 		// Load the user's events and tasks
-		$this->loadFileOrFolder('tasks');
-		$this->loadFileOrFolder('events');
+		$fileLoaders = function() {
+			$this->loadFileOrFolder('tasks');
+			$this->loadFileOrFolder('events');
+		};
+
+		if (method_exists($this->app, 'booted')) {
+			$this->app->booted($fileLoaders);
+		} else {
+			$fileLoaders();
+		}
 
 		// Bind commands
 		$this->bindCommands();
