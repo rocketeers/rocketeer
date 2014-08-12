@@ -133,4 +133,26 @@ class IgniterTest extends RocketeerTestCase
 		$storage = $this->igniter->getStoragePath();
 		$this->assertEquals('local/folder', $storage);
 	}
+
+	public function testCanLoadFilesOrFolder()
+	{
+		$config = $this->customConfig;
+		$this->app['path.base'] = dirname($config);
+
+		$this->files->makeDirectory($config.'/events', 0755, true);
+		$this->files->put($config.'/tasks.php', '<?php Rocketeer\Facades\Rocketeer::task("DisplayFiles", ["ls", "ls"]);');
+		$this->files->put($config.'/events/some-event.php', '<?php Rocketeer\Facades\Rocketeer::before("DisplayFiles", "whoami");');
+
+		$this->igniter->bindPaths();
+		$this->igniter->loadCustomFiles();
+		$this->tasks->registerConfiguredEvents();
+
+		$task = $this->builder->buildTask('DisplayFiles');
+		$this->assertInstanceOf('Rocketeer\Tasks\Closure', $task);
+		$this->assertEquals('DisplayFiles', $task->getName());
+
+		$events = $this->tasks->getTasksListeners($task, 'before');
+		$this->assertCount(1, $events);
+		$this->assertEquals('whoami', $events[0][0]->getStringTask());
+	}
 }

@@ -24,8 +24,8 @@ class TasksQueueTest extends RocketeerTestCase
 	public function testCanRunQueueOnDifferentConnectionsAndStages()
 	{
 		$this->swapConfig(array(
-			'rocketeer::default'       => array('staging', 'production'),
-			'rocketeer::stages.stages' => array('first', 'second'),
+			'rocketeer::default'       => ['staging', 'production'],
+			'rocketeer::stages.stages' => ['first', 'second'],
 		));
 
 		$output = array();

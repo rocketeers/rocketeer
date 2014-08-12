@@ -50,11 +50,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 		// Rocketeer classes ------------------------------------------- /
 
 		$serviceProvider = new RocketeerServiceProvider($this->app);
-		$serviceProvider->bindPaths();
-		$serviceProvider->bindThirdPartyServices();
-		$serviceProvider->bindCoreClasses();
-		$serviceProvider->bindConsoleClasses();
-		$serviceProvider->bindStrategies();
+		$serviceProvider->boot();
 	}
 
 	/**

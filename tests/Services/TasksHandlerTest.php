@@ -8,23 +8,15 @@ class TasksHandlerTest extends RocketeerTestCase
 {
 	public function testCanAddCommandsToArtisan()
 	{
-		$command = $this->tasksQueue()->add('Rocketeer\Tasks\Deploy');
+		$command = $this->tasks->add('Rocketeer\Tasks\Deploy');
 		$this->assertInstanceOf('Rocketeer\Console\Commands\BaseTaskCommand', $command);
 		$this->assertInstanceOf('Rocketeer\Tasks\Deploy', $command->getTask());
-	}
-
-	public function testCanUseFacadeOutsideOfLaravel()
-	{
-		Rocketeer::before('deploy', 'ls');
-		$before = Rocketeer::getTasksListeners('deploy', 'before', true);
-
-		$this->assertEquals(['ls'], $before);
 	}
 
 	public function testCanGetTasksBeforeOrAfterAnotherTask()
 	{
 		$task   = $this->task('Deploy');
-		$before = $this->tasksQueue()->getTasksListeners($task, 'before', true);
+		$before = $this->tasks->getTasksListeners($task, 'before', true);
 
 		$this->assertEquals(['before', 'foobar'], $before);
 	}
@@ -32,26 +24,25 @@ class TasksHandlerTest extends RocketeerTestCase
 	public function testCanAddTasksViaFacade()
 	{
 		$task   = $this->task('Deploy');
-		$before = $this->tasksQueue()->getTasksListeners($task, 'before', true);
+		$before = $this->tasks->getTasksListeners($task, 'before', true);
 
-		$this->tasksQueue()->before('deploy', 'composer install');
+		$this->tasks->before('deploy', 'composer install');
 
 		$newBefore = array_merge($before, array('composer install'));
-		$this->assertEquals($newBefore, $this->tasksQueue()->getTasksListeners($task, 'before', true));
+		$this->assertEquals($newBefore, $this->tasks->getTasksListeners($task, 'before', true));
 	}
 
 	public function testCanAddMultipleTasksViaFacade()
 	{
 		$task  = $this->task('Deploy');
-		$after = $this->tasksQueue()->getTasksListeners($task, 'after', true);
-
-		$this->tasksQueue()->after('deploy', array(
+		$after = $this->tasks->getTasksListeners($task, 'after', true);
+		$this->tasks->after('deploy', array(
 			'composer install',
 			'bower install'
 		));
 
 		$newAfter = array_merge($after, array('composer install', 'bower install'));
-		$this->assertEquals($newAfter, $this->tasksQueue()->getTasksListeners($task, 'after', true));
+		$this->assertEquals($newAfter, $this->tasks->getTasksListeners($task, 'after', true));
 	}
 
 	public function testCanRegisterCustomTask()
@@ -86,34 +77,34 @@ class TasksHandlerTest extends RocketeerTestCase
 	public function testCanAddSurroundTasksToNonExistingTasks()
 	{
 		$task = $this->task('Setup');
-		$this->tasksQueue()->after('setup', 'composer install');
+		$this->tasks->after('setup', 'composer install');
 
 		$after = array('composer install');
-		$this->assertEquals($after, $this->tasksQueue()->getTasksListeners($task, 'after', true));
+		$this->assertEquals($after, $this->tasks->getTasksListeners($task, 'after', true));
 	}
 
 	public function testCanAddSurroundTasksToMultipleTasks()
 	{
-		$this->tasksQueue()->after(array('cleanup', 'setup'), 'composer install');
+		$this->tasks->after(array('cleanup', 'setup'), 'composer install');
 
 		$after = array('composer install');
-		$this->assertEquals($after, $this->tasksQueue()->getTasksListeners('setup', 'after', true));
-		$this->assertEquals($after, $this->tasksQueue()->getTasksListeners('cleanup', 'after', true));
+		$this->assertEquals($after, $this->tasks->getTasksListeners('setup', 'after', true));
+		$this->assertEquals($after, $this->tasks->getTasksListeners('cleanup', 'after', true));
 	}
 
 	public function testCangetTasksListenersOrAfterAnotherTaskBySlug()
 	{
-		$after = $this->tasksQueue()->getTasksListeners('deploy', 'after', true);
+		$after = $this->tasks->getTasksListeners('deploy', 'after', true);
 
 		$this->assertEquals(array('after', 'foobar'), $after);
 	}
 
 	public function testCanAddEventsWithPriority()
 	{
-		$this->tasksQueue()->before('deploy', 'second', -5);
-		$this->tasksQueue()->before('deploy', 'first');
+		$this->tasks->before('deploy', 'second', -5);
+		$this->tasks->before('deploy', 'first');
 
-		$listeners = $this->tasksQueue()->getTasksListeners('deploy', 'before', true);
+		$listeners = $this->tasks->getTasksListeners('deploy', 'before', true);
 		$this->assertEquals(['before', 'foobar', 'first', 'second'], $listeners);
 	}
 
@@ -125,10 +116,10 @@ class TasksHandlerTest extends RocketeerTestCase
 		));
 
 		$this->connections->setStage('hasEvent');
-		$this->assertEquals(['ls'], $this->tasksQueue()->getTasksListeners('check', 'before', true));
+		$this->assertEquals(['ls'], $this->tasks->getTasksListeners('check', 'before', true));
 
 		$this->connections->setStage('noEvent');
-		$this->assertEquals([], $this->tasksQueue()->getTasksListeners('check', 'before', true));
+		$this->assertEquals([], $this->tasks->getTasksListeners('check', 'before', true));
 	}
 
 	public function testCanbuildTasksFromConfigHook()
@@ -142,8 +133,8 @@ class TasksHandlerTest extends RocketeerTestCase
 			'rocketeer::hooks' => ['after' => ['deploy' => $tasks]],
 		));
 
-		$this->tasksQueue()->registerConfiguredEvents();
-		$listeners = $this->tasksQueue()->getTasksListeners('deploy', 'after', true);
+		$this->tasks->registerConfiguredEvents();
+		$listeners = $this->tasks->getTasksListeners('deploy', 'after', true);
 
 		$this->assertEquals($tasks, $listeners);
 	}
@@ -160,14 +151,14 @@ class TasksHandlerTest extends RocketeerTestCase
 			'rocketeer::hooks'                        => [],
 			'rocketeer::on.connections.staging.hooks' => ['after' => ['deploy' => $tasks]],
 		));
-		$this->tasksQueue()->registerConfiguredEvents();
+		$this->tasks->registerConfiguredEvents();
 
 		$this->connections->setConnection('production');
-		$events = $this->tasksQueue()->getTasksListeners('deploy', 'after', true);
+		$events = $this->tasks->getTasksListeners('deploy', 'after', true);
 		$this->assertEmpty($events);
 
 		$this->connections->setConnection('staging');
-		$events = $this->tasksQueue()->getTasksListeners('deploy', 'after', true);
+		$events = $this->tasks->getTasksListeners('deploy', 'after', true);
 
 		$this->assertEquals($tasks, $events);
 	}

@@ -45,7 +45,7 @@ class AbstractNotifierTest extends RocketeerTestCase
 				->shouldReceive('getServerCredentials')->andReturn(['host' => 'foo.bar.com']);
 		});
 
-		$this->task('Deploy')->fireEvent('before');
+		$this->task('deploy')->fireEvent('before');
 	}
 
 	public function testCanAppendStageToDetails()

@@ -43,7 +43,7 @@ abstract class RocketeerTestCase extends ContainerTestCase
 		parent::setUp();
 
 		// Setup local server
-		$this->customConfig    = __DIR__.'/../_meta/config';
+		$this->customConfig    = __DIR__.'/../_meta/.rocketeer';
 		$this->server          = __DIR__.'/../_server/foobar';
 		$this->deploymentsFile = __DIR__.'/../_meta/deployments.json';
 

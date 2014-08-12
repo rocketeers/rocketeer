@@ -174,7 +174,7 @@ class TasksHandler
 
 		// Register events
 		foreach ($listeners as $listener) {
-			$this->events->listen('rocketeer.'.$event, array($listener, 'fire'), $priority);
+			$this->events->listen('rocketeer.'.$event, [$listener, 'fire'], $priority);
 		}
 
 		return $event;
@@ -201,8 +201,14 @@ class TasksHandler
 			return;
 		}
 
+		// Prevent events on anonymous tasks
+		$slug  = $this->builder->buildTask($task)->getSlug();
+		if ($slug == 'closure') {
+			return;
+		}
+
 		// Get event name and register listeners
-		$event = $this->builder->buildTaskFromClass($task)->getSlug().'.'.$event;
+		$event = $slug.'.'.$event;
 		$event = $this->listenTo($event, $listeners, $priority);
 
 		return $event;

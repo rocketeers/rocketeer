@@ -10,6 +10,7 @@
 namespace Rocketeer\Services\Tasks;
 
 use Closure;
+use Illuminate\Support\Str;
 use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Traits\HasLocator;
 
@@ -51,7 +52,7 @@ class TasksBuilder
 	{
 		// Check the handle if possible
 		if (is_string($task)) {
-			$handle = 'rocketeer.tasks.'.$task;
+			$handle = 'rocketeer.tasks.'.Str::snake($task, '-');
 		}
 
 		if ($task instanceof Closure) {
