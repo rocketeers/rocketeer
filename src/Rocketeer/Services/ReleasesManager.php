@@ -10,7 +10,6 @@
 namespace Rocketeer\Services;
 
 use Illuminate\Container\Container;
-use integer;
 use Rocketeer\Services\Storages\ServerStorage;
 use Rocketeer\Traits\HasLocator;
 

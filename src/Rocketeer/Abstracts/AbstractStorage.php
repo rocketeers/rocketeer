@@ -46,8 +46,8 @@ abstract class AbstractStorage
 	/**
 	 * Get a value on the server
 	 *
-	 * @param string|null $key
-	 * @param Closure     $fallback
+	 * @param string|null  $key
+	 * @param Closure|null $fallback
 	 *
 	 * @return string|integer|array
 	 */

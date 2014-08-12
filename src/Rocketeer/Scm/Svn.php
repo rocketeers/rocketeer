@@ -15,6 +15,9 @@ use Rocketeer\Interfaces\ScmInterface;
 /**
  * The Svn implementation of the ScmInterface
  *
+ * @method string co()
+ * @method string up()
+ *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  * @author Gasillo
  */
@@ -106,7 +109,7 @@ class Svn extends AbstractBinary implements ScmInterface
 	/**
 	 * Return credential options
 	 *
-	 * @return string
+	 * @return string[]|array<string,null>
 	 */
 	protected function getCredentials()
 	{

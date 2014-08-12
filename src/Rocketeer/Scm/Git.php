@@ -15,6 +15,11 @@ use Rocketeer\Interfaces\ScmInterface;
 /**
  * The Git implementation of the ScmInterface
  *
+ * @method string revParse()
+ * @method string clone()
+ * @method string pull()
+ * @method string submodule()
+ *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Git extends AbstractBinary implements ScmInterface
@@ -94,7 +99,7 @@ class Git extends AbstractBinary implements ScmInterface
 	 */
 	public function reset()
 	{
-		return $this->getCommand('reset', null, ['--hard']);
+		return $this->getCommand('reset', [], ['--hard']);
 	}
 
 	/**

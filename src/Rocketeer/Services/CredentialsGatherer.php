@@ -120,7 +120,7 @@ class CredentialsGatherer
 	 * Loop through credentials and store the missing ones
 	 *
 	 * @param boolean[] $credentials
-	 * @param string    $current
+	 * @param string[]  $current
 	 * @param string    $handle
 	 *
 	 * @return array

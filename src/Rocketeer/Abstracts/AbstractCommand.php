@@ -22,7 +22,7 @@ use Symfony\Component\Console\Input\InputOption;
 abstract class AbstractCommand extends Command
 {
 	/**
-	 * @param AbstractTask $task
+	 * @param AbstractTask|null $task
 	 */
 	public function __construct(AbstractTask $task = null)
 	{
@@ -48,7 +48,7 @@ abstract class AbstractCommand extends Command
 	/**
 	 * Get the console command options.
 	 *
-	 * @return string[][]
+	 * @return array<string[]|array<string|null>>
 	 */
 	protected function getOptions()
 	{
@@ -58,6 +58,7 @@ abstract class AbstractCommand extends Command
 			['pretend', 'p', InputOption::VALUE_NONE, 'Shows which command would execute without actually doing anything'],
 			['on', 'C', InputOption::VALUE_REQUIRED, 'The connection(s) to execute the Task in'],
 			['stage', 'S', InputOption::VALUE_REQUIRED, 'The stage to execute the Task in'],
+
 			// Credentials
 			['host', null, InputOption::VALUE_REQUIRED, 'The host to use if asked'],
 			['username', null, InputOption::VALUE_REQUIRED, 'The username to use if asked'],

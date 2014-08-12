@@ -46,7 +46,7 @@ class GitTest extends RocketeerTestCase
 
 	public function testCanGetCheckout()
 	{
-		$this->mock('rocketeer.rocketeer', 'Rocketeer', function ($mock) {
+		$this->mock('rocketeer.rocketeer', 'Rocketeer\Rocketeer', function ($mock) {
 			return $mock->shouldReceive('getOption')->once()->with('scm.shallow')->andReturn(true);
 		});
 		$this->mock('rocketeer.connections', 'ConnectionsHandler', function ($mock) {
@@ -62,7 +62,7 @@ class GitTest extends RocketeerTestCase
 
 	public function testCanGetDeepClone()
 	{
-		$this->mock('rocketeer.rocketeer', 'Rocketeer', function ($mock) {
+		$this->mock('rocketeer.rocketeer', 'Rocketeer\Rocketeer', function ($mock) {
 			return $mock->shouldReceive('getOption')->once()->with('scm.shallow')->andReturn(false);
 		});
 		$this->mock('rocketeer.connections', 'ConnectionsHandler', function ($mock) {
