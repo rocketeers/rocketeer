@@ -54,7 +54,7 @@ class BinariesTest extends RocketeerTestCase
 		$this->mock('rocketeer.command', 'Illuminate\Console\Command', function ($mock) {
 			return $mock
 				->shouldReceive('option')->andReturn(array())
-				->shouldReceive('comment')->once();
+				->shouldReceive('info')->once();
 		});
 
 		$this->task->runComposer();
@@ -63,7 +63,7 @@ class BinariesTest extends RocketeerTestCase
 		$this->mock('rocketeer.command', 'Illuminate\Console\Command', function ($mock) {
 			return $mock
 				->shouldReceive('option')->andReturn(array())
-				->shouldReceive('comment')->never();
+				->shouldReceive('info')->never();
 		});
 
 		$this->task->runComposer();

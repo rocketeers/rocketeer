@@ -17,6 +17,7 @@ use Illuminate\Log\Writer;
 use Illuminate\Remote\RemoteManager;
 use Illuminate\Support\ServiceProvider;
 use Monolog\Logger;
+use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Console\Commands\BaseTaskCommand;
 use Rocketeer\Services\ConnectionsHandler;
 use Rocketeer\Services\CredentialsGatherer;
@@ -290,7 +291,7 @@ class RocketeerServiceProvider extends ServiceProvider
 			if (!$fakeCommand) {
 				$this->app->singleton($command, function () use ($commandClass, $taskInstance) {
 					$commandClass = new $commandClass;
-					if (is_object($taskInstance)) {
+					if ($taskInstance instanceof AbstractTask) {
 						$commandClass->setDescription($taskInstance->getDescription());
 					}
 
