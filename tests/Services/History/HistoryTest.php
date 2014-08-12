@@ -5,10 +5,15 @@ use Rocketeer\TestCases\RocketeerTestCase;
 
 class HistoryTest extends RocketeerTestCase
 {
+	/**
+	 * @type integer
+	 */
+	protected $sleep = 5;
+
 	public function testCanGetFlattenedHistory()
 	{
 		$this->bash->toHistory('foo');
-		sleep(1);
+		usleep($this->sleep);
 		$this->bash->toHistory(['bar', 'baz']);
 
 		$history = $this->history->getFlattenedHistory();
@@ -18,7 +23,7 @@ class HistoryTest extends RocketeerTestCase
 	public function testCanGetFlattenedOutput()
 	{
 		$this->bash->toOutput('foo');
-		sleep(1);
+		usleep($this->sleep);
 		$this->bash->toOutput(['bar', 'baz']);
 
 		$history = $this->history->getFlattenedOutput();

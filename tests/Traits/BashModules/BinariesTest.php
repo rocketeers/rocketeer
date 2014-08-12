@@ -48,21 +48,24 @@ class BinariesTest extends RocketeerTestCase
 		$this->assertFalse($this->task->which('fdsf'));
 	}
 
-	public function testDoesntRunComposerIfNotNeeded()
+	public function testCanRunComposer()
 	{
 		$this->usesComposer(true);
 		$this->mock('rocketeer.command', 'Illuminate\Console\Command', function ($mock) {
 			return $mock
-				->shouldReceive('option')->andReturn(array())
+				->shouldReceive('option')->andReturn([])
 				->shouldReceive('info')->once();
 		});
 
 		$this->task->runComposer();
+	}
 
+	public function testDoesntRunComposerIfNotNeeded()
+	{
 		$this->usesComposer(false);
 		$this->mock('rocketeer.command', 'Illuminate\Console\Command', function ($mock) {
 			return $mock
-				->shouldReceive('option')->andReturn(array())
+				->shouldReceive('option')->andReturn([])
 				->shouldReceive('info')->never();
 		});
 

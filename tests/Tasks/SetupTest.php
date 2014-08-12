@@ -47,7 +47,7 @@ class SetupTest extends RocketeerTestCase
 		));
 	}
 
-	public function testRunningSetupKeepsCurrentCongiguredStage()
+	public function testRunningSetupKeepsCurrentConfiguredStage()
 	{
 		$this->mockReleases(function ($mock) {
 			return $mock
@@ -55,7 +55,7 @@ class SetupTest extends RocketeerTestCase
 				->shouldReceive('getCurrentReleasePath')->andReturn('1');
 		});
 		$this->swapConfig(array(
-			'rocketeer::stages.stages' => array('staging', 'production'),
+			'rocketeer::stages.stages' => ['staging', 'production'],
 		));
 
 		$this->connections->setStage('staging');
