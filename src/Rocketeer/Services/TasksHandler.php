@@ -66,13 +66,14 @@ class TasksHandler
 	 *
 	 * @param string|Closure|AbstractTask $task
 	 * @param string|null                 $name
+	 * @param string|null                 $description
 	 *
 	 * @return BaseTaskCommand
 	 */
-	public function add($task, $name = null)
+	public function add($task, $name = null, $description = null)
 	{
 		// Build task if necessary
-		$task = $this->builder->buildTask($task, $name);
+		$task = $this->builder->buildTask($task, $name, $description);
 		$slug = 'rocketeer.tasks.'.$task->getSlug();
 
 		// Add the task to Rocketeer
@@ -92,12 +93,13 @@ class TasksHandler
 	 *
 	 * @param string                      $name
 	 * @param string|Closure|AbstractTask $task
+	 * @param string|null                 $description
 	 *
 	 * @return BaseTaskCommand
 	 */
-	public function task($name, $task)
+	public function task($name, $task, $description = null)
 	{
-		return $this->add($task, $name);
+		return $this->add($task, $name, $description);
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -172,7 +174,7 @@ class TasksHandler
 
 		// Register events
 		foreach ($listeners as $listener) {
-			$this->events->listen('rocketeer.'.$event, array($listener, 'execute'), $priority);
+			$this->events->listen('rocketeer.'.$event, array($listener, 'fire'), $priority);
 		}
 
 		return $event;

@@ -27,13 +27,6 @@ class DeployCommand extends AbstractCommand
 	protected $name = 'deploy:deploy';
 
 	/**
-	 * The console command description.
-	 *
-	 * @var string
-	 */
-	protected $description = 'Deploy the website.';
-
-	/**
 	 * Execute the tasks
 	 *
 	 * @return integer

@@ -27,13 +27,6 @@ class UpdateCommand extends AbstractCommand
 	protected $name = 'deploy:update';
 
 	/**
-	 * The console command description.
-	 *
-	 * @var string
-	 */
-	protected $description = 'Update the remote server without doing a new release.';
-
-	/**
 	 * Execute the tasks
 	 *
 	 * @return integer

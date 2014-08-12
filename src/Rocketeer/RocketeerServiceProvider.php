@@ -288,8 +288,13 @@ class RocketeerServiceProvider extends ServiceProvider
 
 			// Look for an existing command
 			if (!$fakeCommand) {
-				$this->app->singleton($command, function () use ($commandClass) {
-					return new $commandClass;
+				$this->app->singleton($command, function () use ($commandClass, $taskInstance) {
+					$commandClass = new $commandClass;
+					if (is_object($taskInstance)) {
+						$commandClass->setDescription($taskInstance->getDescription());
+					}
+
+					return $commandClass;
 				});
 				// Else create a fake one
 			} else {

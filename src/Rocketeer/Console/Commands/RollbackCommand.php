@@ -28,13 +28,6 @@ class RollbackCommand extends AbstractCommand
 	protected $name = 'deploy:rollback';
 
 	/**
-	 * The console command description.
-	 *
-	 * @var string
-	 */
-	protected $description = 'Rollback to the previous release, or to a specific one';
-
-	/**
 	 * The tasks to execute
 	 *
 	 * @return integer

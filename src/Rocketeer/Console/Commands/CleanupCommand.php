@@ -27,13 +27,6 @@ class CleanupCommand extends AbstractCommand
 	protected $name = 'deploy:cleanup';
 
 	/**
-	 * The console command description.
-	 *
-	 * @var string
-	 */
-	protected $description = 'Clean up old releases from the server.';
-
-	/**
 	 * Execute the tasks
 	 *
 	 * @return integer

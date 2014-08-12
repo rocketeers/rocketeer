@@ -189,7 +189,7 @@ trait Binaries
 		}
 
 		// Run commands
-		$this->command->comment('Installing Composer dependencies');
+		$this->command->info('Installing Composer dependencies');
 		$this->runForCurrentRelease($tasks);
 
 		return $this->checkStatus('Composer could not install dependencies');

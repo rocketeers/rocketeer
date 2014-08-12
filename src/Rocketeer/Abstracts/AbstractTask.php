@@ -10,6 +10,7 @@
 namespace Rocketeer\Abstracts;
 
 use DateTime;
+use Illuminate\Support\Str;
 use Rocketeer\Bash;
 use Symfony\Component\Console\Helper\Table;
 
@@ -46,20 +47,6 @@ abstract class AbstractTask extends Bash
 	////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Change the task's name
-	 *
-	 * @param string $name
-	 *
-	 * @return $this
-	 */
-	public function setName($name)
-	{
-		$this->name = $name ?: $this->name;
-
-		return $this;
-	}
-
-	/**
 	 * Get the name of the task
 	 *
 	 * @return string
@@ -76,7 +63,10 @@ abstract class AbstractTask extends Bash
 	 */
 	public function getSlug()
 	{
-		return strtolower($this->getName());
+		$slug = Str::snake($this->getName(), '-');
+		$slug = Str::slug($slug);
+
+		return $slug;
 	}
 
 	/**
@@ -87,6 +77,24 @@ abstract class AbstractTask extends Bash
 	public function getDescription()
 	{
 		return $this->description;
+	}
+
+	/**
+	 * Change the task's name
+	 *
+	 * @param string $name
+	 */
+	public function setName($name)
+	{
+		$this->name = ucfirst($name) ?: $this->name;
+	}
+
+	/**
+	 * @param string $description
+	 */
+	public function setDescription($description)
+	{
+		$this->description = $description ?: $this->description;
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -107,6 +115,9 @@ abstract class AbstractTask extends Bash
 	 */
 	public function fire()
 	{
+		// Print status
+		$this->displayStatus();
+
 		// Fire the task if the before event passes
 		if ($this->fireEvent('before')) {
 			$results = $this->execute();
@@ -234,6 +245,26 @@ abstract class AbstractTask extends Bash
 	public function executeTask($task)
 	{
 		return $this->builder->buildTaskFromClass($task)->fire();
+	}
+
+	/**
+	 * Display what the command is and does
+	 */
+	protected function displayStatus()
+	{
+		if (!$this->command) {
+			return;
+		}
+
+		$name        = $this->getName();
+		$description = $this->getDescription();
+		$comment     = sprintf('-- Running: %s', $name);
+		if ($description) {
+			if (!is_string($description)) dd($this);
+			$comment .= ' ('.$description.')';
+		}
+
+		$this->command->comment($comment);
 	}
 }
 

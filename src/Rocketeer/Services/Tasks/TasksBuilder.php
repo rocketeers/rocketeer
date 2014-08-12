@@ -43,10 +43,11 @@ class TasksBuilder
 	 *
 	 * @param string|Closure|AbstractTask $task
 	 * @param string|null                 $name
+	 * @param string|null                 $description
 	 *
 	 * @return AbstractTask
 	 */
-	public function buildTask($task, $name = null)
+	public function buildTask($task, $name = null, $description = null)
 	{
 		// Check the handle if possible
 		if (is_string($task)) {
@@ -56,18 +57,22 @@ class TasksBuilder
 		if ($task instanceof Closure) {
 			// If we provided a Closure, build a ClosureTask
 			$task = $this->buildTaskFromClosure($task);
-		} elseif (is_array($task) or $this->isStringCommand($task)) {
-			// If we passed a command, build a ClosureTask
-			$task = $this->buildTaskFromString($task);
 		} elseif (isset($handle) and $this->app->bound($handle)) {
 			// If we passed a task handle, return it
 			$task = $this->app[$handle];
+		} elseif (is_array($task) or $this->isStringCommand($task)) {
+			// If we passed a command, build a ClosureTask
+			$task = $this->buildTaskFromString($task);
 		} elseif (!$task instanceof AbstractTask) {
 			// Else it's a class name, get the appropriated task
 			$task = $this->buildTaskFromClass($task);
 		}
 
-		return $task->setName($name);
+		// Set task properties
+		$task->setName($name);
+		$task->setDescription($description);
+
+		return $task;
 	}
 
 	/**

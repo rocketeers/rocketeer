@@ -128,7 +128,7 @@ class TasksQueue
 		// Set proper server
 		$this->connections->setConnection($job->connection, $job->server);
 
-		foreach ($job->queue as $task) {
+		foreach ($job->queue as $key => $task) {
 			$currentStage = $task->usesStages() ? $job->stage : null;
 			$this->connections->setStage($currentStage);
 

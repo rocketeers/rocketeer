@@ -34,6 +34,29 @@ class Closure extends AbstractTask
 	protected $stringTask;
 
 	/**
+	 * Get the name of the task
+	 *
+	 * @return string
+	 */
+	public function getName()
+	{
+		return parent::getName() ?: 'Arbitrary task';
+	}
+
+	/**
+	 * Get what the task does
+	 *
+	 * @return string
+	 */
+	public function getDescription()
+	{
+		$flattened = (array) $this->getStringTask();
+		$flattened = implode('/', $flattened);
+
+		return parent::getDescription() ?: $flattened;
+	}
+
+	/**
 	 * Create a task from a Closure
 	 *
 	 * @param  AnonymousFunction $closure

@@ -107,7 +107,7 @@ class Check extends AbstractTask
 	 */
 	public function checkScm()
 	{
-		$this->command->comment('Checking presence of '.$this->scm->getBinary());
+		$this->command->info('Checking presence of '.$this->scm->getBinary());
 		$results = $this->scm->execute('check');
 		$this->toOutput($results);
 
@@ -125,7 +125,7 @@ class Check extends AbstractTask
 			return true;
 		}
 
-		$this->command->comment('Checking presence of Composer');
+		$this->command->info('Checking presence of Composer');
 
 		return $this->composer();
 	}
@@ -155,7 +155,7 @@ class Check extends AbstractTask
 			return true;
 		}
 
-		$this->command->comment('Checking PHP version');
+		$this->command->info('Checking PHP version');
 		$version = $this->runLast($this->php('-r "print PHP_VERSION;"'));
 
 		return version_compare($version, $required, '>=');
@@ -217,7 +217,7 @@ class Check extends AbstractTask
 	 */
 	public function checkPhpExtension($extension)
 	{
-		$this->command->comment('Checking presence of '.$extension.' extension');
+		$this->command->info('Checking presence of '.$extension.' extension');
 
 		// Check for HHVM and built-in extensions
 		if ($this->usesHhvm()) {

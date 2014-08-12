@@ -26,6 +26,13 @@ class Deploy extends AbstractTask
 	protected $halting = array();
 
 	/**
+	 * The console command description.
+	 *
+	 * @var string
+	 */
+	protected $description = 'Deploys the website';
+
+	/**
 	 * Run the task
 	 *
 	 * @return  boolean|null

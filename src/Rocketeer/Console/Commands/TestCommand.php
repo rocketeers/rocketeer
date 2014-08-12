@@ -26,13 +26,6 @@ class TestCommand extends AbstractCommand
 	protected $name = 'deploy:test';
 
 	/**
-	 * The console command description.
-	 *
-	 * @var string
-	 */
-	protected $description = 'Run the tests on the server and displays the output';
-
-	/**
 	 * The tasks to execute
 	 *
 	 * @return integer

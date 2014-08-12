@@ -19,6 +19,13 @@ use Rocketeer\Abstracts\AbstractTask;
 class Rollback extends AbstractTask
 {
 	/**
+	 * The console command description.
+	 *
+	 * @var string
+	 */
+	protected $description = 'Rollback to the previous release, or to a specific one';
+
+	/**
 	 * Run the task
 	 *
 	 * @return  void
