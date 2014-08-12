@@ -31,8 +31,52 @@ class Igniter
 		$this->bindConfiguration();
 	}
 
+	//////////////////////////////////////////////////////////////////////
+	//////////////////////////// FILE LOADERS ////////////////////////////
+	//////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Load the custom files (tasks, events, ...)
+	 */
+	public function loadCustomFiles()
+	{
+		$fileLoaders = function() {
+			$this->loadFileOrFolder('tasks');
+			$this->loadFileOrFolder('events');
+		};
+
+		if (method_exists($this->app, 'booted')) {
+			$this->app->booted($fileLoaders);
+		} else {
+			$fileLoaders();
+		}
+	}
+
+	/**
+	 * Load a file or its contents if a folder
+	 *
+	 * @param string $handle
+	 */
+	public function loadFileOrFolder($handle)
+	{
+		// Bind ourselves into the facade to avoid automatic resolution
+		Facades\Rocketeer::setFacadeApplication($this->app);
+
+		// If we have one unified tasks file, include it
+		$file = $this->app['path.rocketeer.'.$handle];
+		if (!is_dir($file) and file_exists($file)) {
+			include $file;
+		} // Else include its contents
+		elseif (is_dir($file)) {
+			$folder = glob($file.'/*.php');
+			foreach ($folder as $file) {
+				include $file;
+			}
+		}
+	}
+
 	////////////////////////////////////////////////////////////////////
-	/////////////////////////////// IGNITION ///////////////////////////
+	///////////////////////////// CONFIGURATION ////////////////////////
 	////////////////////////////////////////////////////////////////////
 
 	/**

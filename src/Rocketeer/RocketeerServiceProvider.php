@@ -74,16 +74,7 @@ class RocketeerServiceProvider extends ServiceProvider
 		$this->bindStrategies();
 
 		// Load the user's events and tasks
-		$fileLoaders = function() {
-			$this->loadFileOrFolder('tasks');
-			$this->loadFileOrFolder('events');
-		};
-
-		if (method_exists($this->app, 'booted')) {
-			$this->app->booted($fileLoaders);
-		} else {
-			$fileLoaders();
-		}
+		$this->app['rocketeer.igniter']->loadCustomFiles();
 
 		// Bind commands
 		$this->bindCommands();
@@ -343,28 +334,5 @@ class RocketeerServiceProvider extends ServiceProvider
 
 			return array_replace($items, $customItems);
 		});
-	}
-
-	/**
-	 * Load a file or its contents if a folder
-	 *
-	 * @param string $handle
-	 */
-	protected function loadFileOrFolder($handle)
-	{
-		// Bind ourselves into the facade to avoid automatic resolution
-		Facades\Rocketeer::setFacadeApplication($this->app);
-
-		// If we have one unified tasks file, include it
-		$file = $this->app['path.rocketeer.'.$handle];
-		if (!is_dir($file) and file_exists($file)) {
-			include $file;
-		} // Else include its contents
-		elseif (is_dir($file)) {
-			$folder = glob($file.'/*.php');
-			foreach ($folder as $file) {
-				include $file;
-			}
-		}
 	}
 }
