@@ -2,6 +2,7 @@
 namespace Services\Tasks;
 
 use ReflectionFunction;
+use Rocketeer\Exceptions\TaskCompositionException;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class TasksBuilderTest extends RocketeerTestCase
@@ -62,5 +63,12 @@ class TasksBuilderTest extends RocketeerTestCase
 		$this->assertInstanceOf('Rocketeer\Tasks\Closure', $queue[0]);
 		$this->assertInstanceOf('Rocketeer\Tasks\Closure', $queue[1]);
 		$this->assertInstanceOf('Rocketeer\Tasks\Deploy', $queue[2]);
+	}
+
+	public function testThrowsExceptionOnUnbuildableTask()
+	{
+		$this->setExpectedException(TaskCompositionException::class);
+
+		$this->builder->buildTaskFromClass('Nope');
 	}
 }
