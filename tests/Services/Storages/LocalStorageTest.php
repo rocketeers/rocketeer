@@ -61,15 +61,6 @@ class LocalStorageTest extends RocketeerTestCase
 		$this->assertEquals(md5('["foo"]["bar"]'), $hash);
 	}
 
-	public function testCanCheckIfComposerIsNeeded()
-	{
-		$this->usesComposer(true);
-		$this->assertTrue($this->localStorage->usesComposer());
-
-		$this->usesComposer(false);
-		$this->assertFalse($this->localStorage->usesComposer());
-	}
-
 	public function testCanSwitchFolder()
 	{
 		$storage = new LocalStorage($this->app, 'foo', '/foo');

@@ -1,7 +1,7 @@
 <?php
 namespace Rocketeer\Strategies\Migrate;
 
-use Rocketeer\Abstracts\AbstractStrategy;
+use Rocketeer\Abstracts\Strategies\AbstractStrategy;
 use Rocketeer\Interfaces\Strategies\MigrateStrategyInterface;
 
 class ArtisanStrategy extends AbstractStrategy implements MigrateStrategyInterface

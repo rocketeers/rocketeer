@@ -1,25 +1,25 @@
 <?php
 namespace Rocketeer\Strategies\Dependencies;
 
-use Rocketeer\Abstracts\AbstractStrategy;
+use Rocketeer\Abstracts\Strategies\AbstractDependenciesStrategy;
+use Rocketeer\Abstracts\Strategies\AbstractStrategy;
 use Rocketeer\Interfaces\Strategies\DependenciesStrategyInterface;
 
-class ComposerStrategy extends AbstractStrategy implements DependenciesStrategyInterface
+class ComposerStrategy extends AbstractDependenciesStrategy implements DependenciesStrategyInterface
 {
 	/**
-	 * Whether this particular strategy is runnable or not
+	 * The name of the manifest file to look for
 	 *
-	 * @return boolean
+	 * @type string
 	 */
-	public function isExecutable()
-	{
-		$composer = $this->composer();
-		if (!$composer->getBinary() or !$this->bash->fileExists($this->rocketeer->getFolder('composer.json'))) {
-			return false;
-		}
+	protected $manifest = 'composer.json';
 
-		return true;
-	}
+	/**
+	 * The name of the binary
+	 *
+	 * @type string
+	 */
+	protected $binary = 'composer';
 
 	/**
 	 * Install the dependencies
@@ -48,7 +48,7 @@ class ComposerStrategy extends AbstractStrategy implements DependenciesStrategyI
 	 */
 	protected function executeHook($hook)
 	{
-		$tasks = $this->getHookedTasks('strategies.composer.'.$hook, [$this->composer(), $this]);
+		$tasks = $this->getHookedTasks('strategies.composer.'.$hook, [$this->getManager(), $this]);
 		if (!$tasks) {
 			return true;
 		}

@@ -175,18 +175,6 @@ class LocalStorage extends AbstractStorage implements StorageInterface
 	}
 
 	/**
-	 * Check if the current project uses Composer
-	 *
-	 * @return boolean
-	 */
-	public function usesComposer()
-	{
-		$path = $this->app['path.base'].DIRECTORY_SEPARATOR.'composer.json';
-
-		return $this->files->exists($path);
-	}
-
-	/**
 	 * Change the folder in use
 	 *
 	 * @param string $folder

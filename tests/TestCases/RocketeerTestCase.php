@@ -182,10 +182,12 @@ abstract class RocketeerTestCase extends ContainerTestCase
 	 */
 	protected function usesComposer($uses = true)
 	{
-		$composer = $this->app['path.base'].DIRECTORY_SEPARATOR.'composer.json';
-		$this->mock('files', 'Illuminate\Filesystem\Filesystem', function ($mock) use ($composer, $uses) {
-			return $mock->makePartial()->shouldReceive('exists')->with($composer)->andReturn($uses);
-		});
+		$composer = $this->server.'/current/composer.json';
+		if ($uses) {
+			$this->files->put($composer, '{}');
+		} else {
+			$this->files->delete($composer);
+		}
 	}
 
 	/**

@@ -1,25 +1,24 @@
 <?php
 namespace Rocketeer\Strategies\Dependencies;
 
-use Rocketeer\Abstracts\AbstractStrategy;
+use Rocketeer\Abstracts\Strategies\AbstractStrategy;
 use Rocketeer\Interfaces\Strategies\DependenciesStrategyInterface;
 
 class BundlerStrategy extends AbstractStrategy implements DependenciesStrategyInterface
 {
 	/**
-	 * Whether this particular strategy is runnable or not
+	 * The name of the manifest file to look for
 	 *
-	 * @return boolean
+	 * @type string
 	 */
-	public function isExecutable()
-	{
-		$bundler = $this->binary('bundle');
-		if (!$bundler->getBinary() or !$this->bash->fileExists($this->rocketeer->getFolder('Gemfile'))) {
-			return false;
-		}
+	protected $manifest = 'Gemfile';
 
-		return true;
-	}
+	/**
+	 * The name of the binary
+	 *
+	 * @type string
+	 */
+	protected $binary = 'bundle';
 
 	/**
 	 * Install the dependencies
@@ -28,7 +27,7 @@ class BundlerStrategy extends AbstractStrategy implements DependenciesStrategyIn
 	 */
 	public function install()
 	{
-		return $this->binary('bundle')->install();
+		return $this->getManager()->install();
 	}
 
 	/**
@@ -38,6 +37,6 @@ class BundlerStrategy extends AbstractStrategy implements DependenciesStrategyIn
 	 */
 	public function update()
 	{
-		return $this->binary('bundle')->update();
+		return $this->getManager()->update();
 	}
 }

@@ -121,7 +121,8 @@ class Check extends AbstractTask
 	 */
 	public function checkComposer()
 	{
-		if (!$this->localStorage->usesComposer()) {
+		$composer = $this->app['path.base'].DIRECTORY_SEPARATOR.'composer.json';
+		if (!file_exists($composer)) {
 			return true;
 		}
 

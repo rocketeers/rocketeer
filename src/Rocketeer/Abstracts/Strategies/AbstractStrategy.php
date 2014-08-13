@@ -1,5 +1,5 @@
 <?php
-namespace Rocketeer\Abstracts;
+namespace Rocketeer\Abstracts\Strategies;
 
 use Illuminate\Support\Str;
 use Rocketeer\Bash;

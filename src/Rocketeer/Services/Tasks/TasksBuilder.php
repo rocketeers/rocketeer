@@ -30,11 +30,15 @@ class TasksBuilder
 
 	/**
 	 * Build a strategy
-	 *
-	 * @param string      $strategy
+
+
+*
+*@param string      $strategy
 	 * @param string|null $concrete
-	 *
-	 * @return \Rocketeer\Abstracts\AbstractStrategy
+
+
+*
+*@return \Rocketeer\Abstracts\Strategies\AbstractStrategy
 	 */
 	public function buildStrategy($strategy, $concrete = null)
 	{
