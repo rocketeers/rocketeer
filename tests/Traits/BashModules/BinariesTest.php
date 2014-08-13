@@ -54,11 +54,11 @@ class BinariesTest extends RocketeerTestCase
 		$this->mock('rocketeer.command', 'Illuminate\Console\Command', function ($mock) {
 			return $mock
 				->shouldReceive('line')
-				->shouldReceive('option')->andReturn([])
-				->shouldReceive('info')->once();
+				->shouldReceive('option')->andReturn([]);
 		});
 
 		$this->task('Composer')->execute();
+		$this->assertCount(3, $this->history->getFlattenedHistory()[0]);
 	}
 
 	public function testDoesntRunComposerIfNotNeeded()
@@ -67,10 +67,10 @@ class BinariesTest extends RocketeerTestCase
 		$this->mock('rocketeer.command', 'Illuminate\Console\Command', function ($mock) {
 			return $mock
 				->shouldReceive('line')
-				->shouldReceive('option')->andReturn([])
-				->shouldReceive('info')->never();
+				->shouldReceive('option')->andReturn([]);
 		});
 
 		$this->task('Composer')->execute();
+		$this->assertEmpty($this->history->getFlattenedHistory());
 	}
 }

@@ -14,28 +14,27 @@ use Illuminate\Container\Container;
 /**
  * A trait for Service Locator-based classes wich adds
  * a few shortcuts to Rocketeer classes
-
-
-*
-*@property \Illuminate\Config\Repository                             config
- * @property \Illuminate\Events\Dispatcher                             events
- * @property \Illuminate\Filesystem\Filesystem                         files
- * @property \Illuminate\Log\Writer                                    log
- * @property \Illuminate\Remote\Connection                             remote
- * @property \Rocketeer\Abstracts\AbstractCommand                      command
- * @property \Rocketeer\Bash                                           bash
- * @property \Rocketeer\Console\Console                                console
- * @property \Rocketeer\Interfaces\ScmInterface                        scm
+ *
+ * @property \Illuminate\Config\Repository                                              config
+ * @property \Illuminate\Events\Dispatcher                                              events
+ * @property \Illuminate\Filesystem\Filesystem                                          files
+ * @property \Illuminate\Log\Writer                                                     log
+ * @property \Illuminate\Remote\Connection                                              remote
+ * @property \Rocketeer\Abstracts\AbstractCommand                                       command
+ * @property \Rocketeer\Bash                                                            bash
+ * @property \Rocketeer\QueueExplainer                                                  explainer
+ * @property \Rocketeer\Console\Console                                                 console
+ * @property \Rocketeer\Interfaces\ScmInterface                                         scm
  * @property \Rocketeer\Interfaces\Strategies\DeployStrategyInterface                   strategy
- * @property \Rocketeer\Rocketeer                                      rocketeer
- * @property \Rocketeer\Services\ConnectionsHandler                    connections
- * @property \Rocketeer\Services\CredentialsGatherer                   credentials
- * @property \Rocketeer\Services\History\History                       history
- * @property \Rocketeer\Services\ReleasesManager                       releasesManager
- * @property \Rocketeer\Services\Storages\LocalStorage                 localStorage
- * @property \Rocketeer\Services\Tasks\TasksBuilder                    builder
- * @property \Rocketeer\Services\Tasks\TasksQueue                      queue
- * @property \Rocketeer\Services\TasksHandler                          tasks
+ * @property \Rocketeer\Rocketeer                                                       rocketeer
+ * @property \Rocketeer\Services\ConnectionsHandler                                     connections
+ * @property \Rocketeer\Services\CredentialsGatherer                                    credentials
+ * @property \Rocketeer\Services\History\History                                        history
+ * @property \Rocketeer\Services\ReleasesManager                                        releasesManager
+ * @property \Rocketeer\Services\Storages\LocalStorage                                  localStorage
+ * @property \Rocketeer\Services\Tasks\TasksBuilder                                     builder
+ * @property \Rocketeer\Services\Tasks\TasksQueue                                       queue
+ * @property \Rocketeer\Services\TasksHandler                                           tasks
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait HasLocator
@@ -73,6 +72,7 @@ trait HasLocator
 			'connections'     => 'rocketeer.connections',
 			'console'         => 'rocketeer.console',
 			'credentials'     => 'rocketeer.credentials',
+			'explainer'       => 'rocketeer.explainer',
 			'history'         => 'rocketeer.history',
 			'localStorage'    => 'rocketeer.storage.local',
 			'logs'            => 'rocketeer.logs',

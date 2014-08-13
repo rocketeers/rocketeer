@@ -15,6 +15,7 @@ use Illuminate\Events\Dispatcher;
 use Illuminate\Http\Request;
 use Illuminate\Log\Writer;
 use Illuminate\Remote\RemoteManager;
+use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\ServiceProvider;
 use Monolog\Logger;
 use Rocketeer\Console\Commands\BaseTaskCommand;
@@ -148,8 +149,13 @@ class RocketeerServiceProvider extends ServiceProvider
 		$this->app->singleton('rocketeer.rocketeer', function ($app) {
 			return new Rocketeer($app);
 		});
+
 		$this->app->singleton('rocketeer.connections', function ($app) {
 			return new ConnectionsHandler($app);
+		});
+
+		$this->app->singleton('rocketeer.explainer', function ($app) {
+			return new QueueExplainer($app);
 		});
 
 		$this->app->singleton('rocketeer.releases', function ($app) {

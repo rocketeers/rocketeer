@@ -22,13 +22,6 @@ use Symfony\Component\Console\Input\InputOption;
 abstract class AbstractCommand extends Command
 {
 	/**
-	 * The level at which to display statuses
-	 *
-	 * @type integer
-	 */
-	public $level = 2;
-
-	/**
 	 * @param AbstractTask|null $task
 	 */
 	public function __construct(AbstractTask $task = null)
@@ -100,38 +93,6 @@ abstract class AbstractCommand extends Command
 	public function isInsideLaravel()
 	{
 		return $this->laravel->bound('artisan');
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	/////////////////////////////// STATUS ///////////////////////////////
-	//////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Execute a task in a level below
-	 *
-	 * @param Closure $callback
-	 *
-	 * @return mixed
-	 */
-	public function belowStatus(Closure $callback)
-	{
-		$this->level++;
-		$results = $callback();
-		$this->level--;
-
-		return $results;
-	}
-
-	/**
-	 * Display a status
-	 *
-	 * @param string $status
-	 */
-	public function displayStatus($status)
-	{
-		$comment = str_repeat('-', $this->level). ' '.$status;
-
-		$this->line($comment);
 	}
 
 	////////////////////////////////////////////////////////////////////
