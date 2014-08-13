@@ -1,9 +1,9 @@
 <?php
-namespace Tasks\Subtasks;
+namespace Strategies\Dependencies;
 
 use Rocketeer\TestCases\RocketeerTestCase;
 
-class ComposerTest extends RocketeerTestCase
+class ComposerStrategyTest extends RocketeerTestCase
 {
 	public function testCanConfigureComposerCommands()
 	{
@@ -41,8 +41,7 @@ class ComposerTest extends RocketeerTestCase
 
 	public function testCancelsIfInvalidComposerRoutine()
 	{
-		$composer        = $this->pretendTask('Dependencies');
-		$composer->force = true;
+		$composer = $this->pretendTask('Dependencies');
 
 		$this->swapConfig(array(
 			'rocketeer::strategies.composer.install' => 'lol',

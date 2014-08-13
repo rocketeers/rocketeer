@@ -1,10 +1,11 @@
 <?php
 namespace Rocketeer\Strategies\Dependencies;
 
+use Rocketeer\Abstracts\Strategies\AbstractDependenciesStrategy;
 use Rocketeer\Abstracts\Strategies\AbstractStrategy;
 use Rocketeer\Interfaces\Strategies\DependenciesStrategyInterface;
 
-class BundlerStrategy extends AbstractStrategy implements DependenciesStrategyInterface
+class BundlerStrategy extends AbstractDependenciesStrategy implements DependenciesStrategyInterface
 {
 	/**
 	 * The name of the manifest file to look for
@@ -27,7 +28,7 @@ class BundlerStrategy extends AbstractStrategy implements DependenciesStrategyIn
 	 */
 	public function install()
 	{
-		return $this->getManager()->install();
+		return $this->getManager()->runForCurrentRelease('install');
 	}
 
 	/**
@@ -37,6 +38,6 @@ class BundlerStrategy extends AbstractStrategy implements DependenciesStrategyIn
 	 */
 	public function update()
 	{
-		return $this->getManager()->update();
+		return $this->getManager()->runForCurrentRelease('update');
 	}
 }

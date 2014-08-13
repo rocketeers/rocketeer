@@ -40,11 +40,6 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
 	 */
 	public function getManager()
 	{
-		$binary = $this->binary;
-		if (method_exists($this, $binary)) {
-			return $this->$binary();
-		}
-
 		return $this->binary($this->binary);
 	}
 }

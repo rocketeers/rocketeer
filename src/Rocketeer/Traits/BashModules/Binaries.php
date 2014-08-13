@@ -41,7 +41,7 @@ trait Binaries
 		$anonymous = new AnonymousBinary($this->app);
 		$anonymous->setBinary($binary);
 
-		return $binary;
+		return $anonymous;
 	}
 
 	/**
