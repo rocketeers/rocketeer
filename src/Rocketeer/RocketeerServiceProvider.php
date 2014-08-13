@@ -218,13 +218,14 @@ class RocketeerServiceProvider extends ServiceProvider
 			return new $scm($app);
 		});
 
-		// Bind strategy
-		$this->app->bind('rocketeer.strategy', function ($app) {
-			$strategy = $app['rocketeer.rocketeer']->getOption('remote.strategy');
-			$strategy = sprintf('Rocketeer\Strategies\%sStrategy', ucfirst($strategy));
-
-			return new $strategy($app);
-		});
+		// Bind strategies
+		$strategies = $this->app['rocketeer.rocketeer']->getOption('strategies');
+		foreach ($strategies as $strategy => $implementation) {
+			$concrete = sprintf('Rocketeer\Strategies\%s%sStrategy', $implementation, ucfirst($strategy));
+			$this->app->bind('rocketeer.strategies.'.$strategy, function ($app) use ($strategy, $concrete) {
+				return new $concrete($app);
+			});
+		}
 	}
 
 	/**

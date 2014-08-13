@@ -1,6 +1,7 @@
 <?php
 namespace Rocketeer\Tasks;
 
+use Rocketeer\Strategies\CopyDeployStrategy;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class DeployTest extends RocketeerTestCase
@@ -31,7 +32,11 @@ class DeployTest extends RocketeerTestCase
 			),
 			array(
 				"cd {server}/releases/{release}",
-				"{php} artisan migrate --seed"
+				"{php} artisan migrate"
+			),
+			array(
+				"cd {server}/releases/{release}",
+				"{php} artisan db:seed"
 			),
 			"mkdir -p {server}/shared/tests",
 			"mv {server}/releases/{release}/tests/Elements {server}/shared/tests/Elements",
@@ -73,7 +78,11 @@ class DeployTest extends RocketeerTestCase
 			),
 			array(
 				"cd {server}/releases/{release}",
-				"{php} artisan migrate --seed"
+				"{php} artisan migrate"
+			),
+			array(
+				"cd {server}/releases/{release}",
+				"{php} artisan db:seed"
 			),
 			"mkdir -p {server}/shared/tests",
 			"mv {server}/releases/{release}/tests/Elements {server}/shared/tests/Elements",
@@ -92,13 +101,14 @@ class DeployTest extends RocketeerTestCase
 	public function testCanUseCopyStrategy()
 	{
 		$this->swapConfig(array(
-			'rocketeer::remote.strategy' => 'copy',
-			'rocketeer::scm'             => array(
+			'rocketeer::scm'        => array(
 				'repository' => 'https://github.com/'.$this->repository,
 				'username'   => '',
 				'password'   => '',
 			)
 		));
+
+		$this->app['rocketeer.strategies.deploy'] = new CopyDeployStrategy($this->app);
 
 		$this->mockState(array(
 			'10000000000000' => true,

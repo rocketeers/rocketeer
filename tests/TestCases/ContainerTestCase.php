@@ -175,7 +175,6 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 		$config->shouldReceive('get')->with('rocketeer::default')->andReturn(array('production'));
 		$config->shouldReceive('get')->with('rocketeer::logs')->andReturn(false);
 		$config->shouldReceive('get')->with('rocketeer::connections')->andReturn(array());
-		$config->shouldReceive('get')->with('rocketeer::remote.strategy')->andReturn('clone');
 		$config->shouldReceive('get')->with('rocketeer::remote.keep_releases')->andReturn(1);
 		$config->shouldReceive('get')->with('rocketeer::remote.permissions.callback')->andReturn(function ($task, $file) {
 			return array(
@@ -215,6 +214,11 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 		$config->shouldReceive('get')->with('rocketeer::scm.scm')->andReturn('git');
 		$config->shouldReceive('get')->with('rocketeer::scm.shallow')->andReturn(true);
 		$config->shouldReceive('get')->with('rocketeer::scm.submodules')->andReturn(true);
+		$config->shouldReceive('get')->with('rocketeer::strategies')->andReturn(array(
+			'deploy'  => 'Clone',
+			'test'    => 'Phpunit',
+			'migrate' => 'Artisan',
+		));
 
 		// Tasks
 		$config->shouldReceive('get')->with('rocketeer::hooks')->andReturn(array(

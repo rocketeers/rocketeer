@@ -3,12 +3,6 @@ use Rocketeer\Binaries\Composer;
 
 return array(
 
-	// The strategy to deploy with
-	// Availables are:
-	// - clone | Clones the repository from scratch on every deploy
-	// - copy  | Copies the previous release and then updates it
-	'strategy' => 'clone',
-
 	// Remote server
 	//////////////////////////////////////////////////////////////////////
 

@@ -14,8 +14,10 @@ use Illuminate\Container\Container;
 /**
  * A trait for Service Locator-based classes wich adds
  * a few shortcuts to Rocketeer classes
- *
- * @property \Illuminate\Config\Repository                             config
+
+
+*
+*@property \Illuminate\Config\Repository                             config
  * @property \Illuminate\Events\Dispatcher                             events
  * @property \Illuminate\Filesystem\Filesystem                         files
  * @property \Illuminate\Log\Writer                                    log
@@ -24,7 +26,7 @@ use Illuminate\Container\Container;
  * @property \Rocketeer\Bash                                           bash
  * @property \Rocketeer\Console\Console                                console
  * @property \Rocketeer\Interfaces\ScmInterface                        scm
- * @property \Rocketeer\Interfaces\StrategyInterface                   strategy
+ * @property \Rocketeer\Interfaces\Strategies\DeployStrategyInterface                   strategy
  * @property \Rocketeer\Rocketeer                                      rocketeer
  * @property \Rocketeer\Services\ConnectionsHandler                    connections
  * @property \Rocketeer\Services\CredentialsGatherer                   credentials

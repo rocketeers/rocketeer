@@ -7,14 +7,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Rocketeer\Interfaces;
+namespace Rocketeer\Interfaces\Strategies;
 
 /**
  * Interface for the various deployment strategies
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-interface StrategyInterface
+interface DeployStrategyInterface
 {
 	/**
 	 * Deploy a new clean copy of the application

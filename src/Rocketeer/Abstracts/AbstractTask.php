@@ -202,6 +202,37 @@ abstract class AbstractTask extends Bash
 		return 'rocketeer.'.$this->getSlug().'.'.$event;
 	}
 
+	//////////////////////////////////////////////////////////////////////
+	////////////////////////////// RUNNERS ///////////////////////////////
+	//////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Get the implementation behind a strategy
+	 *
+	 * @param string $strategy
+	 *
+	 * @return \Rocketeer\Abstracts\AbstractStrategy
+	 */
+	public function getStrategy($strategy)
+	{
+		$strategy = $this->app['rocketeer.strategies.'.strtolower($strategy)];
+		$strategy->displayStatus();
+
+		return $strategy;
+	}
+
+	/**
+	 * Execute another AbstractTask by name
+	 *
+	 * @param string|string[] $tasks
+	 *
+	 * @return string|false
+	 */
+	public function executeTask($tasks)
+	{
+		return $this->queue->run($tasks);
+	}
+
 	////////////////////////////////////////////////////////////////////
 	/////////////////////////////// HELPERS ////////////////////////////
 	////////////////////////////////////////////////////////////////////
@@ -243,18 +274,6 @@ abstract class AbstractTask extends Bash
 		$table->render();
 
 		return $rows;
-	}
-
-	/**
-	 * Execute another AbstractTask by name
-	 *
-	 * @param string|string[] $tasks
-	 *
-	 * @return string|false
-	 */
-	public function executeTask($tasks)
-	{
-		return $this->queue->run($tasks);
 	}
 
 	/**

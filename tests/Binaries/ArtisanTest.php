@@ -13,8 +13,5 @@ class ArtisanTest extends RocketeerTestCase
 
 		$commands = $artisan->migrate();
 		$this->assertEquals($php.' artisan migrate', $commands);
-
-		$commands = $artisan->migrate(true);
-		$this->assertEquals($php.' artisan migrate --seed', $commands);
 	}
 }

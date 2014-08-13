@@ -2,9 +2,9 @@
 namespace Rocketeer\Strategies;
 
 use Rocketeer\Abstracts\AbstractStrategy;
-use Rocketeer\Interfaces\StrategyInterface;
+use Rocketeer\Interfaces\Strategies\DeployStrategyInterface;
 
-class CloneStrategy extends AbstractStrategy implements StrategyInterface
+class CloneDeployStrategy extends AbstractStrategy implements DeployStrategyInterface
 {
 	/**
 	 * Deploy a new clean copy of the application

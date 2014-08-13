@@ -50,17 +50,16 @@ class Deploy extends AbstractTask
 
 
 		// Build and execute subtasks
-		$tasks = ['CreateRelease', 'Composer'];
+		$this->executeTask(['CreateRelease', 'Composer']);
 		if ($this->getOption('tests')) {
-			$tasks[] = 'Phpunit';
+			$this->executeTask('Test');
 		}
-		$this->executeTask($tasks);
 
 		// Set permissions
 		$this->setApplicationPermissions();
 
 		// Run migrations
-		$this->executeTask('Artisan');
+		$this->executeTask('Migrate');
 
 		// Synchronize shared folders and files
 		$this->syncSharedFolders();

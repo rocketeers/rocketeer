@@ -8,7 +8,7 @@ class CloneStrategyTest extends RocketeerTestCase
 	public function testCanDeployRepository()
 	{
 		$task = $this->pretendTask('Deploy');
-		$task->strategy->deploy();
+		$task->getStrategy('Deploy')->deploy();
 
 		$matcher = array(
 			'git clone "{repository}" "{server}/releases/{release}" --branch="master" --depth="1"',
@@ -24,7 +24,7 @@ class CloneStrategyTest extends RocketeerTestCase
 	public function testCanUpdateRepository()
 	{
 		$task = $this->pretendTask('Deploy');
-		$task->strategy->update();
+		$task->getStrategy('Deploy')->update();
 
 		$matcher = array(
 			array(

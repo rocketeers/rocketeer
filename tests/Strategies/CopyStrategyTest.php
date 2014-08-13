@@ -2,7 +2,7 @@
 namespace Strategies;
 
 use Mockery\MockInterface;
-use Rocketeer\Strategies\CopyStrategy;
+use Rocketeer\Strategies\CopyDeployStrategy;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class CopyStrategyTest extends RocketeerTestCase
@@ -12,7 +12,7 @@ class CopyStrategyTest extends RocketeerTestCase
 		parent::setUp();
 
 		$this->app->bind('rocketeer.strategy', function ($app) {
-			return new CopyStrategy($app);
+			return new CopyDeployStrategy($app);
 		});
 
 		$this->pretend();

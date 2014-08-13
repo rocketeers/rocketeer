@@ -12,6 +12,6 @@ class CreateRelease extends AbstractTask
 	 */
 	public function execute()
 	{
-		return $this->strategy->deploy();
+		return $this->getStrategy('Deploy')->deploy();
 	}
 }

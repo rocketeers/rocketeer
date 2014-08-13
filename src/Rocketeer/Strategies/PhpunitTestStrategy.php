@@ -1,16 +1,17 @@
 <?php
-namespace Rocketeer\Tasks\Subtasks;
+namespace Rocketeer\Strategies;
 
-use Rocketeer\Abstracts\AbstractTask;
+use Rocketeer\Abstracts\AbstractStrategy;
+use Rocketeer\Interfaces\Strategies\TestStrategyInterface;
 
-class Phpunit extends AbstractTask
+class PhpunitTestStrategy extends AbstractStrategy implements TestStrategyInterface
 {
 	/**
 	 * Run the task
 	 *
-	 * @return string
+	 * @return boolean
 	 */
-	public function execute()
+	public function test()
 	{
 		// Look for PHPUnit
 		$phpunit = $this->phpunit();
@@ -19,7 +20,6 @@ class Phpunit extends AbstractTask
 		}
 
 		// Run PHPUnit
-		$this->command->info('Running tests');
 		$arguments = ['--stop-on-failure' => null];
 		$output    = $this->runForCurrentRelease(array(
 			$phpunit->getCommand(null, [], $arguments),
@@ -31,5 +31,15 @@ class Phpunit extends AbstractTask
 		}
 
 		return $status;
+	}
+
+	/**
+	 * Run the task
+	 *
+	 * @return string
+	 */
+	public function execute()
+	{
+		// ...
 	}
 }

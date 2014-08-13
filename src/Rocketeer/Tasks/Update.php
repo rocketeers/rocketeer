@@ -31,7 +31,7 @@ class Update extends Deploy
 	public function execute()
 	{
 		// Update repository
-		$this->strategy->update();
+		$this->getStrategy('Deploy')->update();
 
 		// Recreate symlinks if necessary
 		$this->syncSharedFolders();
@@ -43,7 +43,7 @@ class Update extends Deploy
 		$this->setApplicationPermissions();
 
 		// Run migrations
-		$this->executeTask('Artisan');
+		$this->executeTask('Migrate');
 
 		// Clear cache
 		$this->artisan()->runForCurrentRelease('clearCache');

@@ -27,8 +27,12 @@ class UpdateTest extends RocketeerTestCase
 				"chown -R www-data:www-data {server}/releases/20000000000000/tests"
 			),
 			array(
-				"cd {server}/releases/20000000000000",
-				"{php} artisan migrate --seed"
+				"cd {server}/releases/{release}",
+				"{php} artisan migrate"
+			),
+			array(
+				"cd {server}/releases/{release}",
+				"{php} artisan db:seed"
 			),
 			array(
 				"cd {server}/releases/20000000000000",
