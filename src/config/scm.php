@@ -4,7 +4,7 @@
 	//////////////////////////////////////////////////////////////////////
 
 	// The SCM used (supported: "git", "svn")
-	'scm' => 'git',
+	'scm'        => 'git',
 
 	// The SSH/HTTPS address to your repository
 	// Example: https://github.com/vendor/website.git
@@ -24,7 +24,7 @@
 	// or not – this means a clone with just the latest state of your
 	// application (no history)
 	// If you're having problems cloning, try setting this to false
-	'shallow' => true,
+	'shallow'    => true,
 
 	// Recursively pull in submodules. Works only with GIT.
 	'submodules' => true,

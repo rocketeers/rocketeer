@@ -20,7 +20,7 @@
 	),
 
 	// Tasks to execute after the core Rocketeer Tasks
-	'after' => array(
+	'after'  => array(
 		'setup'   => array(),
 		'deploy'  => array(),
 		'cleanup' => array(),
