@@ -1,4 +1,5 @@
 <?php
+use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Binaries\Composer;
 
 return array(
@@ -25,7 +26,7 @@ return array(
 	//////////////////////////////////////////////////////////////////////
 
 	'composer' => array(
-		'install' => function (Composer $composer, Task $task) {
+		'install' => function (Composer $composer, AbstractTask $task) {
 			return $composer->install([], ['--no-interaction' => null, '--no-dev' => null, '--prefer-dist' => null]);
 		},
 		'update' => function (Composer $composer) {
