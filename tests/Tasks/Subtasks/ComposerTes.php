@@ -13,7 +13,7 @@ class ComposerTest extends RocketeerTestCase
 				'username'   => '',
 				'password'   => '',
 			),
-			'rocketeer::remote.composer' => function ($composer, $task) {
+			'rocketeer::strategies.composer.install' => function ($composer, $task) {
 				return array(
 					$composer->selfUpdate(),
 					$composer->install([], '--prefer-source'),
@@ -29,9 +29,8 @@ class ComposerTest extends RocketeerTestCase
 			),
 		);
 
-		$composer        = $this->pretendTask('Composer');
-		$composer->force = true;
-		$composer->fire();
+		$composer        = $this->pretendTask('Dependencies')->getStrategy('Dependencies', true);
+		$composer->install();
 
 		$this->assertTaskHistory($this->history->getFlattenedHistory(), $matcher, array(
 			'tests'   => false,
@@ -42,18 +41,18 @@ class ComposerTest extends RocketeerTestCase
 
 	public function testCancelsIfInvalidComposerRoutine()
 	{
-		$composer        = $this->pretendTask('Composer');
+		$composer        = $this->pretendTask('Dependencies');
 		$composer->force = true;
 
 		$this->swapConfig(array(
-			'rocketeer::remote.composer' => 'lol',
+			'rocketeer::strategies.composer.install' => 'lol',
 		));
 
 		$composer->fire();
 		$this->assertEmpty($this->history->getFlattenedHistory());
 
 		$this->swapConfig(array(
-			'rocketeer::remote.composer' => function () {
+			'rocketeer::strategies.composer.install' => function () {
 				return [];
 			},
 		));

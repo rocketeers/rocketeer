@@ -203,13 +203,14 @@ abstract class AbstractTask extends Bash
 	 * Get the implementation behind a strategy
 	 *
 	 * @param string $strategy
+	 * @param bool   $force
 	 *
 	 * @return \Rocketeer\Abstracts\AbstractStrategy
 	 */
-	public function getStrategy($strategy)
+	public function getStrategy($strategy, $force = false)
 	{
 		$strategy = $this->app['rocketeer.strategies.'.strtolower($strategy)];
-		if (!$strategy->isExecutable()) {
+		if (!$strategy->isExecutable() and !$force) {
 			return;
 		}
 

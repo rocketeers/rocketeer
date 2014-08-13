@@ -14,7 +14,7 @@ class ComposerDependenciesStrategy extends AbstractStrategy implements Dependenc
 	public function isExecutable()
 	{
 		$composer = $this->composer();
-		if (!$this->force and (!$composer->getBinary() or !$this->localStorage->usesComposer())) {
+		if (!$composer->getBinary() or !$this->localStorage->usesComposer()) {
 			return false;
 		}
 

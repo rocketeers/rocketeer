@@ -10,13 +10,6 @@ use Rocketeer\Bash;
 abstract class AbstractStrategy extends Bash
 {
 	/**
-	 * Boolean to bypass certain checks
-	 *
-	 * @type boolean
-	 */
-	public $force = false;
-
-	/**
 	 * Whether this particular strategy is runnable or not
 	 *
 	 * @return boolean

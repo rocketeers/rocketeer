@@ -229,7 +229,7 @@ class RocketeerServiceProvider extends ServiceProvider
 			if (!is_string($implementation)) {
 				continue;
 			}
-			
+
 			$concrete = sprintf('Rocketeer\Strategies\%s%sStrategy', $implementation, ucfirst($strategy));
 			$this->app->bind('rocketeer.strategies.'.$strategy, function ($app) use ($strategy, $concrete) {
 				return new $concrete($app);
