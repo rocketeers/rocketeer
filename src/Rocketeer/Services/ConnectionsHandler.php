@@ -99,7 +99,7 @@ class ConnectionsHandler
 	 */
 	public function getStages()
 	{
-		return $this->rocketeer->getOption('stages.stages');
+		return (array) $this->rocketeer->getOption('stages.stages');
 	}
 
 	////////////////////////////////////////////////////////////////////
