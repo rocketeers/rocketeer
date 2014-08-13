@@ -1,5 +1,5 @@
 <?php
-namespace Strategies;
+namespace Strategies\Deploy;
 
 use Mockery\MockInterface;
 use Rocketeer\Strategies\Deploy\CopyStrategy;

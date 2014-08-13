@@ -12,7 +12,7 @@ class PolyglotStrategy extends AbstractStrategy implements DependenciesStrategyI
 	 *
 	 * @type array
 	 */
-	protected $managers = ['bundler', 'composer', 'npm', 'bower'];
+	protected $managers = ['Bundler', 'Composer', 'Npm', 'Bower'];
 
 	/**
 	 * Install the dependencies

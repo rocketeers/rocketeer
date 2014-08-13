@@ -14,7 +14,7 @@ class ComposerStrategy extends AbstractStrategy implements DependenciesStrategyI
 	public function isExecutable()
 	{
 		$composer = $this->composer();
-		if (!$composer->getBinary() or !$this->localStorage->usesComposer()) {
+		if (!$composer->getBinary() or !$this->bash->fileExists($this->rocketeer->getFolder('composer.json'))) {
 			return false;
 		}
 
