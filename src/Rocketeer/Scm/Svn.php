@@ -14,8 +14,6 @@ use Rocketeer\Interfaces\ScmInterface;
 
 /**
  * The Svn implementation of the ScmInterface
- * @method string co(array $arguments, array $flags = array())
- * @method string up(array $arguments, array $flags = array())
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  * @author Gasillo
