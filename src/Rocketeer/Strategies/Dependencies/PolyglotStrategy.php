@@ -1,11 +1,11 @@
 <?php
-namespace Rocketeer\Strategies;
+namespace Rocketeer\Strategies\Dependencies;
 
 use Closure;
 use Rocketeer\Abstracts\AbstractStrategy;
 use Rocketeer\Interfaces\Strategies\DependenciesStrategyInterface;
 
-class PolyglotDependenciesStrategy extends AbstractStrategy implements DependenciesStrategyInterface
+class PolyglotStrategy extends AbstractStrategy implements DependenciesStrategyInterface
 {
 	/**
 	 * The various dependencies managers

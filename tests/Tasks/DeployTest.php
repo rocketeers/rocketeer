@@ -1,7 +1,7 @@
 <?php
 namespace Rocketeer\Tasks;
 
-use Rocketeer\Strategies\CopyDeployStrategy;
+use Rocketeer\Strategies\Deploy\CopyStrategy;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class DeployTest extends RocketeerTestCase
@@ -108,7 +108,7 @@ class DeployTest extends RocketeerTestCase
 			)
 		));
 
-		$this->app['rocketeer.strategies.deploy'] = new CopyDeployStrategy($this->app);
+		$this->app['rocketeer.strategies.deploy'] = new CopyStrategy($this->app);
 
 		$this->mockState(array(
 			'10000000000000' => true,

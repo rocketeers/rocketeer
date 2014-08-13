@@ -1,10 +1,10 @@
 <?php
-namespace Rocketeer\Strategies;
+namespace Rocketeer\Strategies\Migrate;
 
 use Rocketeer\Abstracts\AbstractStrategy;
 use Rocketeer\Interfaces\Strategies\MigrateStrategyInterface;
 
-class ArtisanMigrateStrategy extends AbstractStrategy implements MigrateStrategyInterface
+class ArtisanStrategy extends AbstractStrategy implements MigrateStrategyInterface
 {
 	/**
 	 * Whether this particular strategy is runnable or not

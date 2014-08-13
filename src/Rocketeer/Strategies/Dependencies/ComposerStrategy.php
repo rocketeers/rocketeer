@@ -1,10 +1,10 @@
 <?php
-namespace Rocketeer\Strategies;
+namespace Rocketeer\Strategies\Dependencies;
 
 use Rocketeer\Abstracts\AbstractStrategy;
 use Rocketeer\Interfaces\Strategies\DependenciesStrategyInterface;
 
-class ComposerDependenciesStrategy extends AbstractStrategy implements DependenciesStrategyInterface
+class ComposerStrategy extends AbstractStrategy implements DependenciesStrategyInterface
 {
 	/**
 	 * Whether this particular strategy is runnable or not

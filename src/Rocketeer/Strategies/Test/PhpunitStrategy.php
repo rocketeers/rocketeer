@@ -1,10 +1,10 @@
 <?php
-namespace Rocketeer\Strategies;
+namespace Rocketeer\Strategies\Test;
 
 use Rocketeer\Abstracts\AbstractStrategy;
 use Rocketeer\Interfaces\Strategies\TestStrategyInterface;
 
-class PhpunitTestStrategy extends AbstractStrategy implements TestStrategyInterface
+class PhpunitStrategy extends AbstractStrategy implements TestStrategyInterface
 {
 	/**
 	 * Whether this particular strategy is runnable or not

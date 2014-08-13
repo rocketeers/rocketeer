@@ -42,7 +42,7 @@ class TasksBuilder
 		// build it, otherwise get the bound one
 		$handle = strtolower($strategy);
 		if ($concrete) {
-			$core     = sprintf('Rocketeer\Strategies\%s%sStrategy', $concrete, ucfirst($strategy));
+			$core     = sprintf('Rocketeer\Strategies\%s\%sStrategy', ucfirst($strategy), $concrete);
 			$concrete = class_exists($core) ? $core : $concrete;
 
 			return new $concrete($this->app);
