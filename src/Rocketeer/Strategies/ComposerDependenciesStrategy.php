@@ -28,15 +28,7 @@ class ComposerDependenciesStrategy extends AbstractStrategy implements Dependenc
 	 */
 	public function install()
 	{
-		// Get the tasks to execute
-		$tasks = $this->getHookedTasks('strategies.composer.install', [$this->composer(), $this]);
-		if (!$tasks) {
-			return true;
-		}
-
-		$this->runForCurrentRelease($tasks);
-
-		return $this->checkStatus('Composer could not install dependencies');
+		return $this->executeHook('install');
 	}
 
 	/**
@@ -46,8 +38,17 @@ class ComposerDependenciesStrategy extends AbstractStrategy implements Dependenc
 	 */
 	public function update()
 	{
-		// Get the tasks to execute
-		$tasks = $this->getHookedTasks('strategies.composer.update', [$this->composer(), $this]);
+		return $this->executeHook('update');
+	}
+
+	/**
+	 * @param string $hook
+	 *
+	 * @return bool
+	 */
+	protected function executeHook($hook)
+	{
+		$tasks = $this->getHookedTasks('strategies.composer.'.$hook, [$this->composer(), $this]);
 		if (!$tasks) {
 			return true;
 		}
