@@ -47,7 +47,7 @@ class PolyglotStrategy extends AbstractStrategy implements DependenciesStrategyI
 	{
 		$results = [];
 		foreach ($this->managers as $manager) {
-			$strategy = $this->getStrategy($manager);
+			$strategy = $this->getStrategy('Dependencies', $manager);
 			if ($strategy) {
 				$results[$manager] = $closure($strategy);
 			}

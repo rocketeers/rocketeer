@@ -32,21 +32,16 @@ class Bash
 
 	/**
 	 * Get the implementation behind a strategy
-
-
-*
-*@param string      $strategy
+	 *
+	 * @param string      $strategy
 	 * @param string|null $concrete
-	 * @param bool        $force
-
-
-*
-*@return \Rocketeer\Abstracts\Strategies\AbstractStrategy
+	 *
+	 * @return \Rocketeer\Abstracts\Strategies\AbstractStrategy
 	 */
-	public function getStrategy($strategy, $concrete = null, $force = false)
+	public function getStrategy($strategy, $concrete = null)
 	{
 		$strategy = $this->builder->buildStrategy($strategy, $concrete);
-		if (!$strategy->isExecutable() and !$force) {
+		if (!$strategy or !$strategy->isExecutable()) {
 			return;
 		}
 

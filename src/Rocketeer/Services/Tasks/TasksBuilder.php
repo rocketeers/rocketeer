@@ -30,15 +30,11 @@ class TasksBuilder
 
 	/**
 	 * Build a strategy
-
-
-*
-*@param string      $strategy
+	 *
+	 * @param string      $strategy
 	 * @param string|null $concrete
-
-
-*
-*@return \Rocketeer\Abstracts\Strategies\AbstractStrategy
+	 *
+	 * @return \Rocketeer\Abstracts\Strategies\AbstractStrategy
 	 */
 	public function buildStrategy($strategy, $concrete = null)
 	{
@@ -46,8 +42,12 @@ class TasksBuilder
 		// build it, otherwise get the bound one
 		$handle = strtolower($strategy);
 		if ($concrete) {
-			$core     = sprintf('Rocketeer\Strategies\%s\%sStrategy', ucfirst($strategy), $concrete);
-			$concrete = class_exists($core) ? $core : $concrete;
+			$concrete = $this->findQualifiedName($concrete, array(
+				'Rocketeer\Strategies\\' .ucfirst($strategy). '\%sStrategy',
+			));
+			if (!$concrete) {
+				return false;
+			}
 
 			return new $concrete($this->app);
 		}
@@ -195,13 +195,30 @@ class TasksBuilder
 	 */
 	protected function taskClassExists($task)
 	{
-		$class = ucfirst($task);
-		if (class_exists('Rocketeer\Tasks\\'.$class)) {
-			return 'Rocketeer\Tasks\\'.$class;
-		} elseif (class_exists('Rocketeer\Tasks\Subtasks\\'.$class)) {
-			return 'Rocketeer\Tasks\Subtasks\\'.$class;
-		} elseif (class_exists($task)) {
-			return $task;
+		return $this->findQualifiedName($task, array(
+			'Rocketeer\Tasks\%s',
+			'Rocketeer\Tasks\Subtasks\%s',
+		));
+	}
+
+	/**
+	 * Find a class in various predefined namespaces
+	 *
+	 * @param string $class
+	 * @param array  $paths
+	 *
+	 * @return string|false
+	 */
+	protected function findQualifiedName($class, $paths = array())
+	{
+		$paths[] = '%s';
+
+		$class = ucfirst($class);
+		foreach ($paths as $path) {
+			$path = sprintf($path, $class);
+			if (class_exists($path)) {
+				return $path;
+			}
 		}
 
 		return false;

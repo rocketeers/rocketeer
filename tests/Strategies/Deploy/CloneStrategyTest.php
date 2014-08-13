@@ -18,7 +18,7 @@ class CloneStrategyTest extends RocketeerTestCase
 			),
 		);
 
-		$this->assertHistory($matcher, $task->history->getFlattenedHistory());
+		$this->assertHistory($matcher);
 	}
 
 	public function testCanUpdateRepository()
@@ -34,6 +34,6 @@ class CloneStrategyTest extends RocketeerTestCase
 			)
 		);
 
-		$this->assertHistory($matcher, $task->history->getFlattenedHistory());
+		$this->assertHistory($matcher);
 	}
 }
