@@ -25,4 +25,43 @@ class Bash
 	use Binaries;
 	use Filesystem;
 	use Flow;
+
+	//////////////////////////////////////////////////////////////////////
+	////////////////////////////// RUNNERS ///////////////////////////////
+	//////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Get the implementation behind a strategy
+	 *
+	 * @param string      $strategy
+	 * @param string|null $concrete
+	 * @param bool        $force
+	 *
+	 * @return \Rocketeer\Abstracts\AbstractStrategy
+	 */
+	public function getStrategy($strategy, $concrete = null, $force = false)
+	{
+		$strategy = $this->builder->buildStrategy($strategy, $concrete);
+		if (!$strategy->isExecutable() and !$force) {
+			return;
+		}
+
+		return $this->explainer->displayBelow(function () use ($strategy) {
+			return $strategy->displayStatus();
+		});
+	}
+
+	/**
+	 * Execute another AbstractTask by name
+	 *
+	 * @param string|string[] $tasks
+	 *
+	 * @return string|false
+	 */
+	public function executeTask($tasks)
+	{
+		return $this->explainer->displayBelow(function () use ($tasks) {
+			return $this->queue->run($tasks);
+		});
+	}
 }
