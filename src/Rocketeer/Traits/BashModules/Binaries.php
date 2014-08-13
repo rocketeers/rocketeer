@@ -25,7 +25,7 @@ trait Binaries
 	/**
 	 * Get an AnonymousBinary instance
 	 *
-	 * @param string      $binary
+	 * @param string $binary
 	 *
 	 * @return \Rocketeer\Abstracts\AbstractBinary
 	 */

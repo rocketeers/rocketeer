@@ -29,7 +29,7 @@ class ComposerTest extends RocketeerTestCase
 			),
 		);
 
-		$composer = $this->pretendTask('Composer');
+		$composer        = $this->pretendTask('Composer');
 		$composer->force = true;
 		$composer->fire();
 
@@ -42,7 +42,7 @@ class ComposerTest extends RocketeerTestCase
 
 	public function testCancelsIfInvalidComposerRoutine()
 	{
-		$composer = $this->pretendTask('Composer');
+		$composer        = $this->pretendTask('Composer');
 		$composer->force = true;
 
 		$this->swapConfig(array(
@@ -53,7 +53,9 @@ class ComposerTest extends RocketeerTestCase
 		$this->assertEmpty($this->history->getFlattenedHistory());
 
 		$this->swapConfig(array(
-			'rocketeer::remote.composer' => function() { return []; },
+			'rocketeer::remote.composer' => function () {
+				return [];
+			},
 		));
 
 		$composer->fire();

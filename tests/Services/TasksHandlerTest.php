@@ -1,7 +1,6 @@
 <?php
 namespace Rocketeer\Services;
 
-use Rocketeer\Facades\Rocketeer;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class TasksHandlerTest extends RocketeerTestCase

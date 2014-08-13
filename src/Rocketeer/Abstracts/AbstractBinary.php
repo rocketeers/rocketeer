@@ -77,8 +77,8 @@ class AbstractBinary
 	{
 		// Execution aliases
 		if (Str::startsWith($name, 'run')) {
-			$command   = array_shift($arguments);
-			$command   = call_user_func_array([$this, $command], $arguments);
+			$command = array_shift($arguments);
+			$command = call_user_func_array([$this, $command], $arguments);
 
 			return $this->bash->$name($command);
 		}
@@ -100,9 +100,9 @@ class AbstractBinary
 	/**
 	 * Returns a command with the SCM's binary
 	 *
-	 * @param string|null $command
-	 * @param string|string[]    $arguments
-	 * @param string|string[]    $flags
+	 * @param string|null     $command
+	 * @param string|string[] $arguments
+	 * @param string|string[] $flags
 	 *
 	 * @return string
 	 */

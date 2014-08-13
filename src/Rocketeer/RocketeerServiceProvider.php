@@ -15,7 +15,6 @@ use Illuminate\Events\Dispatcher;
 use Illuminate\Http\Request;
 use Illuminate\Log\Writer;
 use Illuminate\Remote\RemoteManager;
-use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\ServiceProvider;
 use Monolog\Logger;
 use Rocketeer\Console\Commands\BaseTaskCommand;

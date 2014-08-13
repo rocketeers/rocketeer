@@ -136,7 +136,7 @@ class IgniterTest extends RocketeerTestCase
 
 	public function testCanLoadFilesOrFolder()
 	{
-		$config = $this->customConfig;
+		$config                 = $this->customConfig;
 		$this->app['path.base'] = dirname($config);
 
 		$this->files->makeDirectory($config.'/events', 0755, true);

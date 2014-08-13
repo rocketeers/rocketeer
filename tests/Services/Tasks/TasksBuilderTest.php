@@ -2,7 +2,6 @@
 namespace Services\Tasks;
 
 use ReflectionFunction;
-use Rocketeer\Exceptions\TaskCompositionException;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class TasksBuilderTest extends RocketeerTestCase

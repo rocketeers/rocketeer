@@ -216,6 +216,7 @@ abstract class AbstractTask extends Bash
 	public function getStrategy($strategy)
 	{
 		$strategy = $this->app['rocketeer.strategies.'.strtolower($strategy)];
+
 		return $this->explainer->displayBelow(function () use ($strategy) {
 			$strategy->displayStatus();
 

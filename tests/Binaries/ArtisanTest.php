@@ -8,7 +8,7 @@ class ArtisanTest extends RocketeerTestCase
 {
 	public function testCanRunMigrations()
 	{
-		$php  = exec('which php');
+		$php     = exec('which php');
 		$artisan = new Artisan($this->app);
 
 		$commands = $artisan->migrate();

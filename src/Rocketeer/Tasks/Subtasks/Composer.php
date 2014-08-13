@@ -11,6 +11,7 @@ class Composer extends AbstractTask
 	 * @var string
 	 */
 	protected $description = 'Installs Composer dependencies';
+
 	/**
 	 * Run the task
 	 *

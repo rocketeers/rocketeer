@@ -48,7 +48,6 @@ class Deploy extends AbstractTask
 		// Setup the new release
 		$release = $this->releasesManager->getNextRelease();
 
-
 		// Build and execute subtasks
 		$this->executeTask(['CreateRelease', 'Composer']);
 		if ($this->getOption('tests')) {
