@@ -1,4 +1,7 @@
-<?php return array(
+<?php
+use Rocketeer\Binaries\Composer;
+
+return array(
 
 	// Task strategies
 	//
@@ -16,6 +19,18 @@
 	'migrate'      => 'Artisan',
 
 	// Which strategy to use to install your application's dependencies
-	'dependencies' => 'Polyglot',
+	'dependencies' => 'Composer',
+
+	// Execution hooks
+	//////////////////////////////////////////////////////////////////////
+
+	'composer' => array(
+		'install' => function (Composer $composer, Task $task) {
+			return $composer->install([], ['--no-interaction' => null, '--no-dev' => null, '--prefer-dist' => null]);
+		},
+		'update' => function (Composer $composer) {
+			return $composer->update();
+		},
+	),
 
 );

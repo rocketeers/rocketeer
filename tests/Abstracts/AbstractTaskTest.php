@@ -87,7 +87,7 @@ class AbstractTaskTest extends RocketeerTestCase
 			'rocketeer::hooks' => [],
 		));
 
-		$this->tasks->listenTo('composer.before', ['ls']);
+		$this->tasks->listenTo('dependencies.before', ['ls']);
 
 		$this->pretendTask('Deploy')->fire();
 

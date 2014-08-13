@@ -19,8 +19,12 @@ class Dependencies extends AbstractTask
 	 */
 	public function execute()
 	{
-		$method = $this->getOption('update') ? 'update' : 'install';
+		$method       = $this->getOption('update') ? 'update' : 'install';
+		$dependencies = $this->getStrategy('Dependencies');
+		if (!$dependencies) {
+			return true;
+		}
 
-		return $this->getStrategy('Dependencies')->$method();
+		return $dependencies->$method();
 	}
 }

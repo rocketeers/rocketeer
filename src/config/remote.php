@@ -13,14 +13,6 @@ return array(
 		'line_endings'        => "\n",
 	),
 
-	// The process that will be executed by Composer
-	'composer' => function (Composer $composer, Task $task) {
-		return array(
-			// $composer->selfUpdate(),
-			$composer->install([], ['--no-interaction' => null, '--no-dev' => null, '--prefer-dist' => null]),
-		);
-	},
-
 	// The number of releases to keep at all times
 	'keep_releases'    => 4,
 

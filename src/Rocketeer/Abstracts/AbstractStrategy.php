@@ -10,6 +10,50 @@ use Rocketeer\Bash;
 abstract class AbstractStrategy extends Bash
 {
 	/**
+	 * Boolean to bypass certain checks
+	 *
+	 * @type boolean
+	 */
+	public $force = false;
+
+	/**
+	 * Whether this particular strategy is runnable or not
+	 *
+	 * @return boolean
+	 */
+	public function isExecutable()
+	{
+		return true;
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	////////////////////////////// HELPERS ///////////////////////////////
+	//////////////////////////////////////////////////////////////////////
+
+	/**
+	 * @param string $hook
+	 * @param array  $arguments
+	 *
+	 * @return bool|string
+	 */
+	protected function getHookedTasks($hook, array $arguments)
+	{
+		$tasks = $this->rocketeer->getOption($hook);
+		if (!is_callable($tasks)) {
+			return;
+		}
+
+		// Cancel if no tasks to execute
+		$tasks = (array) call_user_func_array($tasks, $arguments);
+		if (empty($tasks)) {
+			return;
+		}
+
+		// Run commands
+		return $tasks;
+	}
+
+	/**
 	 * Display what the command is and does
 	 */
 	public function displayStatus()

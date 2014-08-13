@@ -20,6 +20,9 @@ class Migrate extends AbstractTask
 	public function execute()
 	{
 		$strategy = $this->getStrategy('Migrate');
+		if (!$strategy) {
+			return true;
+		}
 
 		if ($this->getOption('migrate')) {
 			$this->command->comment('Running outstanding migrations');

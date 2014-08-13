@@ -7,31 +7,33 @@ use Rocketeer\Interfaces\Strategies\DependenciesStrategyInterface;
 class ComposerDependenciesStrategy extends AbstractStrategy implements DependenciesStrategyInterface
 {
 	/**
+	 * Whether this particular strategy is runnable or not
+	 *
+	 * @return boolean
+	 */
+	public function isExecutable()
+	{
+		$composer = $this->composer();
+		if (!$this->force and (!$composer->getBinary() or !$this->localStorage->usesComposer())) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Install the dependencies
 	 *
 	 * @return bool
 	 */
 	public function install()
 	{
-		// Find Composer
-		$composer = $this->composer();
-		if (!$this->force and (!$composer->getBinary() or !$this->localStorage->usesComposer())) {
+		// Get the tasks to execute
+		$tasks = $this->getHookedTasks('strategies.composer.install', [$this->composer(), $this]);
+		if (!$tasks) {
 			return true;
 		}
 
-		// Get the Composer commands to run
-		$tasks = $this->rocketeer->getOption('remote.composer');
-		if (!is_callable($tasks)) {
-			return true;
-		}
-
-		// Cancel if no tasks to execute
-		$tasks = (array) $tasks($composer, $this);
-		if (empty($tasks)) {
-			return true;
-		}
-
-		// Run commands
 		$this->runForCurrentRelease($tasks);
 
 		return $this->checkStatus('Composer could not install dependencies');
@@ -44,6 +46,14 @@ class ComposerDependenciesStrategy extends AbstractStrategy implements Dependenc
 	 */
 	public function update()
 	{
-		// TODO: Implement update() method.
+		// Get the tasks to execute
+		$tasks = $this->getHookedTasks('strategies.composer.update', [$this->composer(), $this]);
+		if (!$tasks) {
+			return true;
+		}
+
+		$this->runForCurrentRelease($tasks);
+
+		return $this->checkStatus('Composer could not install dependencies');
 	}
 }

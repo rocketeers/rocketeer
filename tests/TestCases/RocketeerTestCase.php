@@ -155,6 +155,7 @@ abstract class RocketeerTestCase extends ContainerTestCase
 			'seed'     => false,
 			'stage'    => false,
 			'parallel' => false,
+			'update'   => false,
 		), $options);
 
 		$this->app['rocketeer.command'] = $this->getCommand($expectations, $options);

@@ -37,7 +37,7 @@ class Update extends Deploy
 		$this->syncSharedFolders();
 
 		// Recompile dependencies and stuff
-		$this->executeTask('Composer');
+		$this->executeTask('Dependencies');
 
 		// Set permissions
 		$this->setApplicationPermissions();

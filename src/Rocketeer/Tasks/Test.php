@@ -32,6 +32,11 @@ class Test extends AbstractTask
 	 */
 	public function execute()
 	{
-		return $this->getStrategy('Test')->test();
+		$tester = $this->getStrategy('Test');
+		if (!$tester) {
+			return true;
+		}
+
+		return $tester->test();
 	}
 }

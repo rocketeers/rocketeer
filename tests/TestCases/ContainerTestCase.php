@@ -187,12 +187,6 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 		$config->shouldReceive('get')->with('rocketeer::remote.root_directory')->andReturn(__DIR__.'/../_server/');
 		$config->shouldReceive('get')->with('rocketeer::remote.app_directory')->andReturn(null);
 		$config->shouldReceive('get')->with('rocketeer::remote.shared')->andReturn(array('tests/Elements'));
-		$config->shouldReceive('get')->with('rocketeer::remote.composer')->andReturn(function ($composer) {
-			return array(
-				$composer->selfUpdate(),
-				$composer->install(null, '--no-interaction --no-dev --prefer-dist'),
-			);
-		});
 		$config->shouldReceive('get')->with('rocketeer::stages.default')->andReturn(null);
 		$config->shouldReceive('get')->with('rocketeer::stages.stages')->andReturn(array());
 
@@ -215,10 +209,18 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 		$config->shouldReceive('get')->with('rocketeer::scm.shallow')->andReturn(true);
 		$config->shouldReceive('get')->with('rocketeer::scm.submodules')->andReturn(true);
 		$config->shouldReceive('get')->with('rocketeer::strategies')->andReturn(array(
-			'deploy'  => 'Clone',
-			'test'    => 'Phpunit',
-			'migrate' => 'Artisan',
+			'deploy'       => 'Clone',
+			'test'         => 'Phpunit',
+			'migrate'      => 'Artisan',
+			'dependencies' => 'Composer',
 		));
+
+		$config->shouldReceive('get')->with('rocketeer::strategies.composer.install')->andReturn(function ($composer) {
+			return $composer->install([], ['--no-interaction' => null, '--no-dev' => null, '--prefer-dist' => null]);
+		});
+		$config->shouldReceive('get')->with('rocketeer::strategies.composer.update')->andReturn(function ($composer) {
+			return $composer->update();
+		});
 
 		// Tasks
 		$config->shouldReceive('get')->with('rocketeer::hooks')->andReturn(array(

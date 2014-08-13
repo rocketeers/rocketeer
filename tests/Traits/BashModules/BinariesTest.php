@@ -57,8 +57,8 @@ class BinariesTest extends RocketeerTestCase
 				->shouldReceive('option')->andReturn([]);
 		});
 
-		$this->task('Composer')->execute();
-		$this->assertCount(3, $this->history->getFlattenedHistory()[0]);
+		$this->task('Dependencies')->execute();
+		$this->assertCount(2, $this->history->getFlattenedHistory()[0]);
 	}
 
 	public function testDoesntRunComposerIfNotNeeded()
@@ -70,7 +70,7 @@ class BinariesTest extends RocketeerTestCase
 				->shouldReceive('option')->andReturn([]);
 		});
 
-		$this->task('Composer')->execute();
+		$this->task('Dependencies')->execute();
 		$this->assertEmpty($this->history->getFlattenedHistory());
 	}
 }

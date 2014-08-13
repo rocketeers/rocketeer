@@ -42,13 +42,6 @@ abstract class AbstractTask extends Bash
 	 */
 	protected $halted = false;
 
-	/**
-	 * Boolean to bypass certain checks
-	 *
-	 * @type boolean
-	 */
-	public $force;
-
 	////////////////////////////////////////////////////////////////////
 	////////////////////////////// REFLECTION //////////////////////////
 	////////////////////////////////////////////////////////////////////
@@ -216,6 +209,9 @@ abstract class AbstractTask extends Bash
 	public function getStrategy($strategy)
 	{
 		$strategy = $this->app['rocketeer.strategies.'.strtolower($strategy)];
+		if (!$strategy->isExecutable()) {
+			return;
+		}
 
 		return $this->explainer->displayBelow(function () use ($strategy) {
 			$strategy->displayStatus();

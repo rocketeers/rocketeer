@@ -7,22 +7,26 @@ use Rocketeer\Interfaces\Strategies\TestStrategyInterface;
 class PhpunitTestStrategy extends AbstractStrategy implements TestStrategyInterface
 {
 	/**
+	 * Whether this particular strategy is runnable or not
+	 *
+	 * @return boolean
+	 */
+	public function isExecutable()
+	{
+		return (bool) $this->phpunit()->getBinary();
+	}
+
+	/**
 	 * Run the task
 	 *
 	 * @return boolean
 	 */
 	public function test()
 	{
-		// Look for PHPUnit
-		$phpunit = $this->phpunit();
-		if (!$phpunit->getBinary()) {
-			return true;
-		}
-
 		// Run PHPUnit
 		$arguments = ['--stop-on-failure' => null];
 		$output    = $this->runForCurrentRelease(array(
-			$phpunit->getCommand(null, [], $arguments),
+			$this->phpunit()->getCommand(null, [], $arguments),
 		));
 
 		$status = $this->checkStatus('Tests failed', $output, 'Tests passed successfully');
@@ -31,15 +35,5 @@ class PhpunitTestStrategy extends AbstractStrategy implements TestStrategyInterf
 		}
 
 		return $status;
-	}
-
-	/**
-	 * Run the task
-	 *
-	 * @return string
-	 */
-	public function execute()
-	{
-		// ...
 	}
 }
