@@ -8,7 +8,7 @@ class ComposerTest extends RocketeerTestCase
 	public function testCanConfigureComposerCommands()
 	{
 		$this->swapConfig(array(
-			'rocketeer::scm'             => array(
+			'rocketeer::scm'                         => array(
 				'repository' => 'https://github.com/'.$this->repository,
 				'username'   => '',
 				'password'   => '',
@@ -29,7 +29,7 @@ class ComposerTest extends RocketeerTestCase
 			),
 		);
 
-		$composer        = $this->pretendTask('Dependencies')->getStrategy('Dependencies', true);
+		$composer = $this->pretendTask('Dependencies')->getStrategy('Dependencies', true);
 		$composer->install();
 
 		$this->assertTaskHistory($this->history->getFlattenedHistory(), $matcher, array(
