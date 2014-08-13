@@ -29,7 +29,7 @@ class ComposerTest extends RocketeerTestCase
 			),
 		);
 
-		$composer = $this->pretendTask('Dependencies')->getStrategy('Dependencies', true);
+		$composer = $this->pretendTask('Dependencies')->getStrategy('Dependencies', 'Composer', true);
 		$composer->install();
 
 		$this->assertTaskHistory($this->history->getFlattenedHistory(), $matcher, array(

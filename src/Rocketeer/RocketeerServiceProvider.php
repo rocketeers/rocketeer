@@ -225,14 +225,13 @@ class RocketeerServiceProvider extends ServiceProvider
 
 		// Bind strategies
 		$strategies = $this->app['rocketeer.rocketeer']->getOption('strategies');
-		foreach ($strategies as $strategy => $implementation) {
-			if (!is_string($implementation)) {
+		foreach ($strategies as $strategy => $concrete) {
+			if (!is_string($concrete)) {
 				continue;
 			}
 
-			$concrete = sprintf('Rocketeer\Strategies\%s%sStrategy', $implementation, ucfirst($strategy));
 			$this->app->bind('rocketeer.strategies.'.$strategy, function ($app) use ($strategy, $concrete) {
-				return new $concrete($app);
+				return $app['rocketeer.builder']->buildStrategy($strategy, $concrete);
 			});
 		}
 	}

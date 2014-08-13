@@ -48,6 +48,8 @@ abstract class AbstractStrategy extends Bash
 
 	/**
 	 * Display what the command is and does
+	 *
+	 * @return $this
 	 */
 	public function displayStatus()
 	{
@@ -65,5 +67,7 @@ abstract class AbstractStrategy extends Bash
 		$subject = ucfirst($name);
 
 		$this->explainer->display($object, $subject);
+
+		return $this;
 	}
 }
