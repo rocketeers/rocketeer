@@ -67,7 +67,7 @@ class TasksBuilderTest extends RocketeerTestCase
 
 	public function testThrowsExceptionOnUnbuildableTask()
 	{
-		$this->setExpectedException(TaskCompositionException::class);
+		$this->setExpectedException('Rocketeer\Exceptions\TaskCompositionException');
 
 		$this->builder->buildTaskFromClass('Nope');
 	}
