@@ -6,6 +6,13 @@ use Rocketeer\Abstracts\AbstractTask;
 class Migrate extends AbstractTask
 {
 	/**
+	 * The console command description.
+	 *
+	 * @var string
+	 */
+	protected $description = 'Migrates and/or seed the database';
+
+	/**
 	 * Run the task
 	 *
 	 * @return string

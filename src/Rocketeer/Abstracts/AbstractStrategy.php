@@ -32,8 +32,8 @@ abstract class AbstractStrategy extends Bash
 
 		$name     = array_get($components, 0);
 		$strategy = array_get($components, 1);
-		$comment  = sprintf('==> Running strategy for %s: <info>%s</info>', ucfirst($strategy), ucfirst($name));
+		$comment  = sprintf('Running strategy for %s: <info>%s</info>', ucfirst($strategy), ucfirst($name));
 
-		$this->command->line($comment);
+		$this->command->displayStatus($comment);
 	}
 }

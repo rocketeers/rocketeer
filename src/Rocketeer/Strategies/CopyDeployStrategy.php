@@ -33,7 +33,7 @@ class CopyDeployStrategy extends CloneDeployStrategy implements DeployStrategyIn
 		}
 
 		// Copy old release into new one
-		$this->command->info('Copying previous release "'.$previous.'" in "'.$destination.'"');
+		$this->command->comment('Copying previous release "'.$previous.'" in "'.$destination.'"');
 		$this->bash->copy($previous, $destination);
 
 		// Update repository

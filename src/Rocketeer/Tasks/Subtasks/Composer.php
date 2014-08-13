@@ -6,6 +6,12 @@ use Rocketeer\Abstracts\AbstractTask;
 class Composer extends AbstractTask
 {
 	/**
+	 * A description of what the task does
+	 *
+	 * @var string
+	 */
+	protected $description = 'Installs Composer dependencies';
+	/**
 	 * Run the task
 	 *
 	 * @return string
@@ -31,7 +37,6 @@ class Composer extends AbstractTask
 		}
 
 		// Run commands
-		$this->command->info('Installing Composer dependencies');
 		$this->runForCurrentRelease($tasks);
 
 		return $this->checkStatus('Composer could not install dependencies');

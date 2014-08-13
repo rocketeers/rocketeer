@@ -20,7 +20,7 @@ class CloneDeployStrategy extends AbstractStrategy implements DeployStrategyInte
 		}
 
 		// Executing checkout
-		$this->command->info('Cloning repository in "'.$destination.'"');
+		$this->command->comment('Cloning repository in "'.$destination.'"');
 		$output = $this->scm->run('checkout', $destination);
 
 		// Cancel if failed and forget credentials
@@ -33,8 +33,8 @@ class CloneDeployStrategy extends AbstractStrategy implements DeployStrategyInte
 
 		// Deploy submodules
 		if ($this->rocketeer->getOption('scm.submodules')) {
-			$this->command->info('Initializing submodules if any');
-			$this->bash->runForCurrentRelease($this->scm->submodules());
+			$this->command->comment('Initializing submodules if any');
+			$this->scm->runForCurrentRelease('submodules');
 		}
 
 		return $success;

@@ -216,7 +216,15 @@ abstract class AbstractTask extends Bash
 	public function getStrategy($strategy)
 	{
 		$strategy = $this->app['rocketeer.strategies.'.strtolower($strategy)];
-		$strategy->displayStatus();
+		$status   = function () use ($strategy) {
+			$strategy->displayStatus();
+		};
+
+		if ($this->command) {
+			$this->command->belowStatus($status);
+		} else {
+			$status();
+		}
 
 		return $strategy;
 	}
@@ -230,7 +238,15 @@ abstract class AbstractTask extends Bash
 	 */
 	public function executeTask($tasks)
 	{
-		return $this->queue->run($tasks);
+		$run = function () use ($tasks) {
+			return $this->queue->run($tasks);
+		};
+
+		if ($this->command) {
+			return $this->command->belowStatus($run);
+		}
+
+		return $run();
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -287,11 +303,11 @@ abstract class AbstractTask extends Bash
 
 		$name        = $this->getName();
 		$description = $this->getDescription();
-		$comment     = sprintf('-- Running: <info>%s</info>', $name);
+		$comment     = sprintf('Running: <info>%s</info>', $name);
 		if ($description) {
 			$comment .= ' <comment>('.$description.')</comment>';
 		}
 
-		$this->command->line($comment);
+		$this->command->displayStatus($comment);
 	}
 }
