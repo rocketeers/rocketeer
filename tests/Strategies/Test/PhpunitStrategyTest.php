@@ -1,13 +1,15 @@
 <?php
-namespace Rocketeer\Tasks\Subtasks;
+namespace Rocketeer\Strategies\Test;
 
 use Rocketeer\TestCases\RocketeerTestCase;
 
-class PhpunitTest extends RocketeerTestCase
+class PhpunitStrategyTest extends RocketeerTestCase
 {
 	public function testCanRunTests()
 	{
-		$this->assertTaskHistory('Test', array(
+		$this->builder->buildStrategy('Test', 'Phpunit')->test();
+
+		$this->assertHistory(array(
 			array(
 				'cd {server}/releases/20000000000000',
 				'{phpunit} --stop-on-failure',

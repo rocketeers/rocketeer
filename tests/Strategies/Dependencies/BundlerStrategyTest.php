@@ -7,7 +7,7 @@ class BundlerStrategyTest extends RocketeerTestCase
 {
 	public function testCanInstallDependencies()
 	{
-		$bundler = $this->pretendTask()->getStrategy('Dependencies', 'Bundler', true);
+		$bundler = $this->builder->buildStrategy('Dependencies', 'Bundler');
 		$bundler->install();
 
 		$this->assertHistory(array(
@@ -20,7 +20,7 @@ class BundlerStrategyTest extends RocketeerTestCase
 
 	public function testCanUpdateDependencies()
 	{
-		$bundler = $this->pretendTask()->getStrategy('Dependencies', 'Bundler', true);
+		$bundler = $this->builder->buildStrategy('Dependencies', 'Bundler');
 		$bundler->update();
 
 		$this->assertHistory(array(

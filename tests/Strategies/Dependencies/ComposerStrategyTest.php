@@ -29,7 +29,7 @@ class ComposerStrategyTest extends RocketeerTestCase
 			),
 		);
 
-		$composer = $this->pretendTask('Dependencies')->getStrategy('Dependencies', 'Composer', true);
+		$composer = $this->builder->buildStrategy('Dependencies', 'Composer');
 		$composer->install();
 
 		$this->assertTaskHistory($this->history->getFlattenedHistory(), $matcher, array(
@@ -41,14 +41,14 @@ class ComposerStrategyTest extends RocketeerTestCase
 
 	public function testCancelsIfInvalidComposerRoutine()
 	{
-		$composer = $this->pretendTask('Dependencies');
+		$composer = $this->builder->buildStrategy('Dependencies', 'Composer');
 
 		$this->swapConfig(array(
 			'rocketeer::strategies.composer.install' => 'lol',
 		));
 
-		$composer->fire();
-		$this->assertEmpty($this->history->getFlattenedHistory());
+		$composer->install();
+		$this->assertHistory([]);
 
 		$this->swapConfig(array(
 			'rocketeer::strategies.composer.install' => function () {
@@ -56,7 +56,7 @@ class ComposerStrategyTest extends RocketeerTestCase
 			},
 		));
 
-		$composer->fire();
-		$this->assertEmpty($this->history->getFlattenedHistory());
+		$composer->install();
+		$this->assertHistory([]);
 	}
 }
