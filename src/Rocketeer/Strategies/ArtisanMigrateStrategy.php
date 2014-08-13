@@ -19,7 +19,7 @@ class ArtisanMigrateStrategy extends AbstractStrategy implements MigrateStrategy
 	/**
 	 * Run outstanding migrations
 	 *
-	 * @return boolean
+	 * @return boolean|null
 	 */
 	public function migrate()
 	{
@@ -29,7 +29,7 @@ class ArtisanMigrateStrategy extends AbstractStrategy implements MigrateStrategy
 	/**
 	 * Seed the database
 	 *
-	 * @return boolean
+	 * @return boolean|null
 	 */
 	public function seed()
 	{

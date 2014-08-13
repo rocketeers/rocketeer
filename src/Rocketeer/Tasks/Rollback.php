@@ -60,7 +60,7 @@ class Rollback extends AbstractTask
 	/**
 	 * Get the release to rollback to
 	 *
-	 * @return string|null
+	 * @return integer|null
 	 */
 	protected function getRollbackRelease()
 	{

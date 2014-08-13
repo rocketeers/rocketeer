@@ -1,5 +1,4 @@
 <?php
-use Rocketeer\Binaries\Composer;
 
 return array(
 
