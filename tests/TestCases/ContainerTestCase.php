@@ -14,6 +14,11 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 	use HasLocator;
 
 	/**
+	 * @type arra
+	 */
+	protected $defaults;
+
+	/**
 	 * Override the trait constructor
 	 */
 	public function __construct()
@@ -45,7 +50,6 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 		$this->app->instance('path.storage', '/src/app/storage');
 
 		$this->app['files']             = new Filesystem;
-		$this->app['config']            = $this->getConfig();
 		$this->app['remote']            = $this->getRemote();
 		$this->app['artisan']           = $this->getArtisan();
 		$this->app['rocketeer.command'] = $this->getCommand();
@@ -54,6 +58,10 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 
 		$serviceProvider = new RocketeerServiceProvider($this->app);
 		$serviceProvider->boot();
+
+		// Swap some instances with Mockeries -------------------------- /
+
+		$this->app['config'] = $this->getConfig();
 	}
 
 	/**
@@ -156,90 +164,11 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 		$config = Mockery::mock('Illuminate\Config\Repository');
 		$config->shouldIgnoreMissing();
 
+		$defaults     = $this->getFactoryConfiguration();
+		$expectations = array_merge($defaults, $expectations);
 		foreach ($expectations as $key => $value) {
 			$config->shouldReceive('get')->with($key)->andReturn($value);
 		}
-
-		// Drivers
-		$config->shouldReceive('get')->with('cache.driver')->andReturn('file');
-		$config->shouldReceive('get')->with('database.default')->andReturn('mysql');
-		$config->shouldReceive('get')->with('remote.default')->andReturn('production');
-		$config->shouldReceive('get')->with('remote.connections')->andReturn(array(
-			'production' => array(),
-			'staging'    => array()
-		));
-		$config->shouldReceive('get')->with('session.driver')->andReturn('file');
-
-		// Rocketeer
-		$config->shouldReceive('get')->with('rocketeer::application_name')->andReturn('foobar');
-		$config->shouldReceive('get')->with('rocketeer::default')->andReturn(array('production'));
-		$config->shouldReceive('get')->with('rocketeer::logs')->andReturn(false);
-		$config->shouldReceive('get')->with('rocketeer::connections')->andReturn(array());
-		$config->shouldReceive('get')->with('rocketeer::remote.keep_releases')->andReturn(1);
-		$config->shouldReceive('get')->with('rocketeer::remote.permissions.callback')->andReturn(function ($task, $file) {
-			return array(
-				sprintf('chmod -R 755 %s', $file),
-				sprintf('chmod -R g+s %s', $file),
-				sprintf('chown -R www-data:www-data %s', $file),
-			);
-		});
-		$config->shouldReceive('get')->with('rocketeer::remote.permissions.files')->andReturn(array('tests'));
-		$config->shouldReceive('get')->with('rocketeer::remote.root_directory')->andReturn(__DIR__.'/../_server/');
-		$config->shouldReceive('get')->with('rocketeer::remote.app_directory')->andReturn(null);
-		$config->shouldReceive('get')->with('rocketeer::remote.shared')->andReturn(array('tests/Elements'));
-		$config->shouldReceive('get')->with('rocketeer::stages.default')->andReturn(null);
-		$config->shouldReceive('get')->with('rocketeer::stages.stages')->andReturn(array());
-
-		// Paths
-		$config->shouldReceive('get')->with('rocketeer::paths.php')->andReturn('');
-		$config->shouldReceive('get')->with('rocketeer::paths.composer')->andReturn('');
-		$config->shouldReceive('get')->with('rocketeer::paths.artisan')->andReturn('');
-
-		// SCM
-		$config->shouldReceive('get')->with('rocketeer::scm')->andReturn(array(
-			'branch'     => 'master',
-			'repository' => 'https://github.com/'.$this->repository,
-			'scm'        => 'git',
-			'shallow'    => true,
-			'submodules' => true,
-		));
-		$config->shouldReceive('get')->with('rocketeer::scm.branch')->andReturn('master');
-		$config->shouldReceive('get')->with('rocketeer::scm.repository')->andReturn('https://github.com/'.$this->repository);
-		$config->shouldReceive('get')->with('rocketeer::scm.scm')->andReturn('git');
-		$config->shouldReceive('get')->with('rocketeer::scm.shallow')->andReturn(true);
-		$config->shouldReceive('get')->with('rocketeer::scm.submodules')->andReturn(true);
-		$config->shouldReceive('get')->with('rocketeer::strategies')->andReturn(array(
-			'deploy'       => 'Clone',
-			'test'         => 'Phpunit',
-			'migrate'      => 'Artisan',
-			'dependencies' => 'Composer',
-		));
-
-		$config->shouldReceive('get')->with('rocketeer::strategies.composer.install')->andReturn(function ($composer) {
-			return $composer->install([], ['--no-interaction' => null, '--no-dev' => null, '--prefer-dist' => null]);
-		});
-		$config->shouldReceive('get')->with('rocketeer::strategies.composer.update')->andReturn(function ($composer) {
-			return $composer->update();
-		});
-
-		// Tasks
-		$config->shouldReceive('get')->with('rocketeer::hooks')->andReturn(array(
-			'before' => array(
-				'deploy' => array(
-					'before',
-					'foobar'
-				),
-			),
-			'after'  => array(
-				'check'  => array(
-					'Rocketeer\Dummies\MyCustomTask',
-				),
-				'deploy' => array(
-					'after',
-					'foobar'
-				),
-			),
-		));
 
 		return $config;
 	}
@@ -306,5 +235,75 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 		});
 
 		return $artisan;
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function getFactoryConfiguration()
+	{
+		if ($this->defaults) {
+			return $this->defaults;
+		}
+
+		// Base the mocked configuration off the factory values
+		$defaults = [];
+		$files    = ['config', 'hooks', 'paths', 'remote', 'scm', 'stages', 'strategies'];
+		foreach ($files as $file) {
+			$defaults[$file] = $this->config->get('rocketeer::'.$file);
+		}
+
+		// Build correct keys
+		$defaults = array_dot($defaults);
+		$keys     = array_keys($defaults);
+		$keys     = array_map(function ($key) {
+			return 'rocketeer::'.str_replace('config.', null, $key);
+		}, $keys);
+		$defaults = array_combine($keys, array_values($defaults));
+
+		$overrides = array(
+			'cache.driver'                        => 'file',
+			'database.default'                    => 'mysql',
+			'remote.default'                      => 'production',
+			'session.driver'                      => 'file',
+			'remote.connections'                  => array(
+				'production' => [],
+				'staging'    => []
+			),
+			'rocketeer::application_name'         => 'foobar',
+			'rocketeer::remote.permissions.files' => ['tests'],
+			'rocketeer::remote.shared'            => ['tests/Elements'],
+			'rocketeer::remote.keep_releases'     => 1,
+			'rocketeer::remote.root_directory'    => __DIR__.'/../_server/',
+			'rocketeer::scm'                      => array(
+				'branch'     => 'master',
+				'repository' => 'https://github.com/'.$this->repository,
+				'scm'        => 'git',
+				'shallow'    => true,
+				'submodules' => true,
+			),
+			'rocketeer::hooks'                    => array(
+				'before' => array(
+					'deploy' => array(
+						'before',
+						'foobar'
+					),
+				),
+				'after'  => array(
+					'check'  => array(
+						'Rocketeer\Dummies\MyCustomTask',
+					),
+					'deploy' => array(
+						'after',
+						'foobar'
+					),
+				),
+			)
+		);
+
+		// Assign options to expectations
+		$this->defaults = array_merge($defaults, $overrides);
+
+		return $this->defaults;
 	}
 }
