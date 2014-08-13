@@ -22,10 +22,12 @@ class Migrate extends AbstractTask
 		$strategy = $this->getStrategy('Migrate');
 
 		if ($this->getOption('migrate')) {
+			$this->command->comment('Running outstanding migrations');
 			$strategy->migrate();
 		}
 
 		if ($this->getOption('seed')) {
+			$this->command->comment('Seeding database');
 			$strategy->seed();
 		}
 	}

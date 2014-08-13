@@ -4,6 +4,9 @@ namespace Rocketeer\Binaries;
 use Illuminate\Container\Container;
 use Rocketeer\Abstracts\AbstractBinary;
 
+/**
+ * @method string install(string $arguments, array $flags = array())
+ */
 class Composer extends AbstractBinary
 {
 	/**

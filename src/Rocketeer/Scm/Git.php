@@ -15,7 +15,7 @@ use Rocketeer\Interfaces\ScmInterface;
 /**
  * The Git implementation of the ScmInterface
  * @method string revParse(string $arguments, array $flags = array())
- * @method string clone(string $arguments, array $flags = array())
+ * @method string clone(array $arguments, array $flags = array())
  * @method string pull()
  * @method string submodule(string $arguments, array $flags = array())
  *

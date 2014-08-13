@@ -28,31 +28,21 @@ class Artisan extends AbstractBinary
 	/**
 	 * Run outstranding migrations
 	 *
-	 * @param bool $seed
-	 *
 	 * @return string
 	 */
-	public function migrate($seed = false)
+	public function migrate()
 	{
-		$this->command->comment('Running outstanding migrations');
-		$flags = $seed ? ['--seed' => null] : [];
-
-		return $this->getCommand('migrate', [], $flags);
+		return $this->getCommand('migrate');
 	}
 
 	/**
 	 * Seed the database
 	 *
-	 * @param string|null $class A class to seed
-	 *
 	 * @return string
 	 */
-	public function seed($class = null)
+	public function seed()
 	{
-		$this->command->comment('Seeding database');
-		$flags = $class ? ['--class' => $class] : [];
-
-		return $this->getCommand('db:seed', [], $flags);
+		return $this->getCommand('db:seed');
 	}
 
 	/**

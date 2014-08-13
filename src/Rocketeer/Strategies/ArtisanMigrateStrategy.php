@@ -23,6 +23,6 @@ class ArtisanMigrateStrategy extends AbstractStrategy implements MigrateStrategy
 	 */
 	public function seed()
 	{
-		$this->artisan()->runForCurrentRelease('db:seed');
+		$this->artisan()->runForCurrentRelease('seed');
 	}
 }
