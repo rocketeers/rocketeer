@@ -119,6 +119,7 @@ trait Binaries
 			list($object, $method, $argument) = $locations[$tryout];
 
 			$location = $object->$method($argument);
+			$location = strpos($location, 'not found') !== false ? null : $location;
 			$tryout++;
 		}
 
