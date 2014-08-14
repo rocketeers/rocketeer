@@ -24,10 +24,51 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
 	 */
 	public function isExecutable()
 	{
-		$manager  = $this->getManager();
-		$manifest = $this->rocketeer->getFolder('current/'.$this->manifest);
+		return $this->getManager()->getBinary() and $this->hasManifest();
+	}
 
-		return $manager->getBinary() and $this->bash->fileExists($manifest);
+	//////////////////////////////////////////////////////////////////////
+	////////////////////////////// COMMANDS //////////////////////////////
+	//////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Install the dependencies
+	 *
+	 * @return bool
+	 */
+	public function install()
+	{
+		return $this->getManager()->runForCurrentRelease('install');
+	}
+
+	/**
+	 * Update the dependencies
+	 *
+	 * @return boolean
+	 */
+	public function update()
+	{
+		return $this->getManager()->runForCurrentRelease('update');
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	////////////////////////////// HELPERS ///////////////////////////////
+	//////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Check if the manifest file exists, locally or on server
+	 *
+	 * @return bool
+	 */
+	protected function hasManifest()
+	{
+		$server = $this->rocketeer->getFolder('current/'.$this->manifest);
+		$server = $this->bash->fileExists($server);
+
+		$local = 	$this->app['path.base'].DS.$this->manifest;
+		$local = $this->files->exists($local);
+
+		return $local || $server;
 	}
 
 	/**
@@ -35,7 +76,7 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
 	 *
 	 * @return \Rocketeer\Abstracts\AbstractBinary
 	 */
-	public function getManager()
+	protected function getManager()
 	{
 		return $this->binary($this->binary);
 	}

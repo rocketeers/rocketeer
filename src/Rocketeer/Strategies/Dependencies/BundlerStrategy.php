@@ -19,24 +19,4 @@ class BundlerStrategy extends AbstractDependenciesStrategy implements Dependenci
 	 * @type string
 	 */
 	protected $binary = 'bundle';
-
-	/**
-	 * Install the dependencies
-	 *
-	 * @return bool
-	 */
-	public function install()
-	{
-		return $this->getManager()->runForCurrentRelease('install');
-	}
-
-	/**
-	 * Update the dependencies
-	 *
-	 * @return boolean
-	 */
-	public function update()
-	{
-		return $this->getManager()->runForCurrentRelease('update');
-	}
 }
