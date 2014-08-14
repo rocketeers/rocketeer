@@ -7,6 +7,7 @@ class PhpunitStrategyTest extends RocketeerTestCase
 {
 	public function testCanRunTests()
 	{
+		$this->pretendTask();
 		$this->builder->buildStrategy('Test', 'Phpunit')->test();
 
 		$this->assertHistory(array(
