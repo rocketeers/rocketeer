@@ -7,6 +7,7 @@ class BundlerStrategyTest extends RocketeerTestCase
 {
 	public function testCanInstallDependencies()
 	{
+		$this->pretend();
 		$bundler = $this->builder->buildStrategy('Dependencies', 'Bundler');
 		$bundler->install();
 
@@ -20,6 +21,7 @@ class BundlerStrategyTest extends RocketeerTestCase
 
 	public function testCanUpdateDependencies()
 	{
+		$this->pretend();
 		$bundler = $this->builder->buildStrategy('Dependencies', 'Bundler');
 		$bundler->update();
 

@@ -73,17 +73,16 @@ class TasksQueueTest extends RocketeerTestCase
 			'rocketeer::stages.stages' => array('first', 'second'),
 		));
 
-		$status = $this->queue->on(array('staging', 'production'), function ($task) {
+		$results = $this->queue->on(array('staging', 'production'), function ($task) {
 			return $task->connections->getConnection().' - '.$task->connections->getStage();
 		});
 
-		$this->assertTrue($status);
 		$this->assertEquals(array(
 			'staging - first',
 			'staging - second',
 			'production - first',
 			'production - second',
-		), $this->history->getFlattenedOutput());
+		), $results);
 	}
 
 	public function testCanRunTasksInParallel()
