@@ -39,17 +39,17 @@ class PolyglotStrategy extends AbstractStrategy implements DependenciesStrategyI
 	}
 
 	/**
-	 * @param Closure $closure
+	 * @param Closure $callback
 	 *
 	 * @return array
 	 */
-	protected function onManagers(Closure $closure)
+	protected function onManagers(Closure $callback)
 	{
 		$results = [];
 		foreach ($this->managers as $manager) {
 			$strategy = $this->getStrategy('Dependencies', $manager);
 			if ($strategy) {
-				$results[$manager] = $closure($strategy);
+				$results[$manager] = $callback($strategy);
 			}
 		}
 
