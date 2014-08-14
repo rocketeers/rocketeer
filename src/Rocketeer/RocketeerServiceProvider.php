@@ -269,7 +269,7 @@ class RocketeerServiceProvider extends ServiceProvider
 			$fakeCommand  = !class_exists($commandClass);
 
 			try {
-				$taskInstance = $this->app['rocketeer.builder']->buildTaskFromClass($task);
+				$taskInstance = $this->app['rocketeer.builder']->buildTask($task);
 			} catch (TaskCompositionException $exception) {
 				$taskInstance = null;
 			}

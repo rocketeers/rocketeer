@@ -101,6 +101,11 @@ class TasksBuilder
 			$task = $this->buildTaskFromClass($task);
 		}
 
+		// If the built class is invalid, cancel
+		if (!$task instanceof AbstractTask) {
+			throw new TaskCompositionException('Class '.get_class($task). ' is not a valid task');
+		}
+
 		// Set task properties
 		$task->setName($name);
 		$task->setDescription($description);
