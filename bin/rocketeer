@@ -11,6 +11,7 @@ $vendors = array(
 foreach ($vendors as $vendor) {
 	if (file_exists($vendor)) {
 		require_once $vendor;
+		break;
 	}
 }
 
