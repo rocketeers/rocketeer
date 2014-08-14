@@ -63,7 +63,7 @@ class Rocketeer
 	/**
 	 * Get an option from Rocketeer's config file
 	 *
-	 * @param  string $option
+	 * @param string $option
 	 *
 	 * @return string
 	 */
@@ -85,9 +85,9 @@ class Rocketeer
 	/**
 	 * Get a contextual option
 	 *
-	 * @param  string            $option
-	 * @param  string            $type [stage,connection]
-	 * @param  string|array|null $original
+	 * @param string            $option
+	 * @param string            $type [stage,connection]
+	 * @param string|array|null $original
 	 *
 	 * @return string|array|\Closure
 	 */
@@ -136,7 +136,7 @@ class Rocketeer
 	/**
 	 * Replace patterns in a folder path
 	 *
-	 * @param  string $path
+	 * @param string $path
 	 *
 	 * @return string
 	 */
@@ -159,7 +159,7 @@ class Rocketeer
 	/**
 	 * Get the path to a folder, taking into account application name and stage
 	 *
-	 * @param  string|null $folder
+	 * @param string|null $folder
 	 *
 	 * @return string
 	 */

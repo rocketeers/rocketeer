@@ -169,7 +169,7 @@ class Check extends AbstractTask
 	/**
 	 * Check the presence of the correct database PHP extension
 	 *
-	 * @param  string $database
+	 * @param string $database
 	 *
 	 * @return boolean
 	 */
@@ -190,7 +190,7 @@ class Check extends AbstractTask
 	/**
 	 * Check the presence of the correct cache PHP extension
 	 *
-	 * @param  string $cache
+	 * @param string $cache
 	 *
 	 * @return boolean|string
 	 */
@@ -212,7 +212,7 @@ class Check extends AbstractTask
 	/**
 	 * Check the presence of a PHP extension
 	 *
-	 * @param  string $extension The extension
+	 * @param string $extension The extension
 	 *
 	 * @return boolean
 	 */

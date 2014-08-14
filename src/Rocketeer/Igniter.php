@@ -279,7 +279,7 @@ class Igniter
 	/**
 	 * Unify the slashes to the UNIX mode (forward slashes)
 	 *
-	 * @param  string $path
+	 * @param string $path
 	 *
 	 * @return string
 	 */

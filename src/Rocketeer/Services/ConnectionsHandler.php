@@ -147,7 +147,7 @@ class ConnectionsHandler
 	/**
 	 * Check if a connection has credentials related to it
 	 *
-	 * @param  string $connection
+	 * @param string $connection
 	 *
 	 * @return boolean
 	 */

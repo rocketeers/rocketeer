@@ -24,13 +24,10 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
 	 */
 	public function isExecutable()
 	{
-		$manager = $this->getManager();
+		$manager  = $this->getManager();
 		$manifest = $this->rocketeer->getFolder('current/'.$this->manifest);
-		if (!$manager->getBinary() or !$this->bash->fileExists($manifest)) {
-			return false;
-		}
 
-		return true;
+		return $manager->getBinary() and $this->bash->fileExists($manifest);
 	}
 
 	/**

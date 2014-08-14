@@ -80,7 +80,7 @@ abstract class AbstractStorage
 	/**
 	 * Forget a value from the repository file
 	 *
-	 * @param  string $key
+	 * @param string $key
 	 */
 	public function forget($key)
 	{

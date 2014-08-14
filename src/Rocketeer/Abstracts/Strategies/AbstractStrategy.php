@@ -1,7 +1,6 @@
 <?php
 namespace Rocketeer\Abstracts\Strategies;
 
-use Illuminate\Support\Str;
 use Rocketeer\Bash;
 
 /**
@@ -27,7 +26,7 @@ abstract class AbstractStrategy extends Bash
 	 * @param string $hook
 	 * @param array  $arguments
 	 *
-	 * @return bool|string
+	 * @return string|array|null
 	 */
 	protected function getHookedTasks($hook, array $arguments)
 	{

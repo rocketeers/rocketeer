@@ -131,8 +131,8 @@ trait Binaries
 	/**
 	 * Check the Laravel version
 	 *
-	 * @param  string $version  The version to check against
-	 * @param  string $operator The operator (default: '>=')
+	 * @param string $version  The version to check against
+	 * @param string $operator The operator (default: '>=')
 	 *
 	 * @return bool
 	 */

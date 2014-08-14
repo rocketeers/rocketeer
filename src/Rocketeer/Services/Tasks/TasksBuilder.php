@@ -43,7 +43,7 @@ class TasksBuilder
 		$handle = strtolower($strategy);
 		if ($concrete) {
 			$concrete = $this->findQualifiedName($concrete, array(
-				'Rocketeer\Strategies\\' .ucfirst($strategy). '\%sStrategy',
+				'Rocketeer\Strategies\\'.ucfirst($strategy).'\%sStrategy',
 			));
 			if (!$concrete) {
 				return false;

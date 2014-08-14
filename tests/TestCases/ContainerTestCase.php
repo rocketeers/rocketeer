@@ -176,7 +176,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 	/**
 	 * Swap the current config
 	 *
-	 * @param  array $config
+	 * @param array $config
 	 *
 	 * @return void
 	 */

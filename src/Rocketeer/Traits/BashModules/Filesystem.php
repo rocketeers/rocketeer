@@ -23,8 +23,8 @@ trait Filesystem
 	/**
 	 * Symlinks two folders
 	 *
-	 * @param  string $folder  The folder in shared/
-	 * @param  string $symlink The folder that will symlink to it
+	 * @param string $folder  The folder in shared/
+	 * @param string $symlink The folder that will symlink to it
 	 *
 	 * @return string
 	 */
@@ -47,8 +47,8 @@ trait Filesystem
 	/**
 	 * Move a file
 	 *
-	 * @param  string $origin
-	 * @param  string $destination
+	 * @param string $origin
+	 * @param string $destination
 	 *
 	 * @return string
 	 */
@@ -73,7 +73,7 @@ trait Filesystem
 	/**
 	 * Get the contents of a directory
 	 *
-	 * @param  string $directory
+	 * @param string $directory
 	 *
 	 * @return array
 	 */
@@ -85,7 +85,7 @@ trait Filesystem
 	/**
 	 * Check if a file exists
 	 *
-	 * @param  string $file Path to the file
+	 * @param string $file Path to the file
 	 *
 	 * @return boolean
 	 */
@@ -176,8 +176,8 @@ trait Filesystem
 	/**
 	 * Create a folder in the application's folder
 	 *
-	 * @param  string|null $folder The folder to create
-	 * @param  boolean     $recursive
+	 * @param string|null $folder The folder to create
+	 * @param boolean     $recursive
 	 *
 	 * @return string The task
 	 */
@@ -191,7 +191,7 @@ trait Filesystem
 	/**
 	 * Remove a folder in the application's folder
 	 *
-	 * @param  string|null $folder The folder to remove
+	 * @param string|null $folder The folder to remove
 	 *
 	 * @return string The task
 	 */

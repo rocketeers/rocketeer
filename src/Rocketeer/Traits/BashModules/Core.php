@@ -30,9 +30,9 @@ trait Core
 	/**
 	 * Run actions on the remote server and gather the ouput
 	 *
-	 * @param  string|array $commands One or more commands
-	 * @param  boolean      $silent   Whether the command should stay silent no matter what
-	 * @param  boolean      $array    Whether the output should be returned as an array
+	 * @param string|array $commands One or more commands
+	 * @param boolean      $silent   Whether the command should stay silent no matter what
+	 * @param boolean      $array    Whether the output should be returned as an array
 	 *
 	 * @return string|null
 	 */
@@ -40,7 +40,7 @@ trait Core
 	{
 		$commands = $this->processCommands($commands);
 		$verbose  = $this->getOption('verbose') && !$silent;
-		$pretend = $this->getOption('pretend');
+		$pretend  = $this->getOption('pretend');
 
 		// Log the commands
 		if (!$silent) {
@@ -95,9 +95,9 @@ trait Core
 	 * Run a raw command, without any processing, and
 	 * get its output as a string or array
 	 *
-	 * @param  string  $commands
-	 * @param  boolean $array Whether the output should be returned as an array
-	 * @param  boolean $trim  Whether the output should be trimmed
+	 * @param string  $commands
+	 * @param boolean $array Whether the output should be returned as an array
+	 * @param boolean $trim  Whether the output should be trimmed
 	 *
 	 * @return string|string[]
 	 */
@@ -131,8 +131,8 @@ trait Core
 	/**
 	 * Run commands in a folder
 	 *
-	 * @param  string|null  $folder
-	 * @param  string|array $tasks
+	 * @param string|null  $folder
+	 * @param string|array $tasks
 	 *
 	 * @return string
 	 */
@@ -152,9 +152,9 @@ trait Core
 	/**
 	 * Check the status of the last run command, return an error if any
 	 *
-	 * @param  string      $error   The message to display on error
-	 * @param  string|null $output  The command's output
-	 * @param  string|null $success The message to display on success
+	 * @param string      $error   The message to display on error
+	 * @param string|null $output  The command's output
+	 * @param string|null $success The message to display on success
 	 *
 	 * @return boolean
 	 */
@@ -201,7 +201,7 @@ trait Core
 	/**
 	 * Process an array of commands
 	 *
-	 * @param  string|array $commands
+	 * @param string|array $commands
 	 *
 	 * @return array
 	 */

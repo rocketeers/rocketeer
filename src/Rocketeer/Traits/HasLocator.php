@@ -117,7 +117,7 @@ trait HasLocator
 	 * Get an option from the Command
 	 *
 	 * @param string $option
-	 * @param bool    $loose
+	 * @param bool   $loose
 	 *
 	 * @return string
 	 */

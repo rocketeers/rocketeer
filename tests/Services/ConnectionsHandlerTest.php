@@ -122,9 +122,9 @@ class ConnectionsHandlerTest extends RocketeerTestCase
 	/**
 	 * Make the config return specific SCM config
 	 *
-	 * @param  string $repository
-	 * @param  string $username
-	 * @param  string $password
+	 * @param string $repository
+	 * @param string $username
+	 * @param string $password
 	 *
 	 * @return void
 	 */

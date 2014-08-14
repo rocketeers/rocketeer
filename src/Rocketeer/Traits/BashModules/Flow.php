@@ -48,7 +48,7 @@ trait Flow
 	/**
 	 * Run actions in the current release's folder
 	 *
-	 * @param  string|array $tasks One or more tasks
+	 * @param string|array $tasks One or more tasks
 	 *
 	 * @return string
 	 */
@@ -98,7 +98,7 @@ trait Flow
 	/**
 	 * Share a file or folder between releases
 	 *
-	 * @param  string $file Path to the file in a release folder
+	 * @param string $file Path to the file in a release folder
 	 *
 	 * @return string
 	 */

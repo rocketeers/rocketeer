@@ -161,8 +161,8 @@ class CredentialsGatherer
 	/**
 	 * Check if a credential needs to be filled
 	 *
-	 * @param string[]  $credentials
-	 * @param string $credential
+	 * @param string[] $credentials
+	 * @param string   $credential
 	 *
 	 * @return string
 	 */

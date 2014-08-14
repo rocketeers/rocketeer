@@ -67,7 +67,7 @@ class Git extends AbstractBinary implements ScmInterface
 	/**
 	 * Clone a repository
 	 *
-	 * @param  string $destination
+	 * @param string $destination
 	 *
 	 * @return string
 	 */

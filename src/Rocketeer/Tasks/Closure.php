@@ -59,7 +59,7 @@ class Closure extends AbstractTask
 	/**
 	 * Create a task from a Closure
 	 *
-	 * @param  AnonymousFunction $closure
+	 * @param AnonymousFunction $closure
 	 */
 	public function setClosure(AnonymousFunction $closure)
 	{

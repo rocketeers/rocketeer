@@ -36,7 +36,7 @@ trait HasHistory
 	/**
 	 * Append an entry to the history
 	 *
-	 * @param array|string $command
+	 * @param array|string|boolean $command
 	 */
 	public function toHistory($command)
 	{
@@ -46,7 +46,7 @@ trait HasHistory
 	/**
 	 * Append an entry to the output
 	 *
-	 * @param array|string $output
+	 * @param array|string|boolean $output
 	 */
 	public function toOutput($output)
 	{
@@ -76,8 +76,8 @@ trait HasHistory
 	/**
 	 * Append something to the history
 	 *
-	 * @param string       $type
-	 * @param string|array $command
+	 * @param string               $type
+	 * @param string|array|boolean $command
 	 */
 	protected function appendTo($type, $command)
 	{
