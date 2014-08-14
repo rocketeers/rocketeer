@@ -111,7 +111,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 			return $message;
 		};
 
-		$command = Mockery::mock('Command');
+		$command = Mockery::mock('Command')->shouldIgnoreMissing();
 		$command->shouldReceive('getOutput')->andReturn(null);
 
 		// Bind the output expectations

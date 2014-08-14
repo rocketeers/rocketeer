@@ -40,6 +40,7 @@ trait Core
 	{
 		$commands = $this->processCommands($commands);
 		$verbose  = $this->getOption('verbose') && !$silent;
+		$pretend = $this->getOption('pretend');
 
 		// Log the commands
 		if (!$silent) {
@@ -47,12 +48,14 @@ trait Core
 		}
 
 		// Display for pretend mode
-		if ($verbose or ($this->getOption('pretend') and !$silent)) {
+		if ($verbose or ($pretend and !$silent)) {
 			$this->toOutput($commands);
 			$flattened = implode(PHP_EOL.'$ ', $commands);
 			$this->command->line('<fg=magenta>$ '.$flattened.'</fg=magenta>');
 
-			return count($commands) == 1 ? $commands[0] : $commands;
+			if ($pretend) {
+				return count($commands) == 1 ? $commands[0] : $commands;
+			}
 		}
 
 		// Run commands
