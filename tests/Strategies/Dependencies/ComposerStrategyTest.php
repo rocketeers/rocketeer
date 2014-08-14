@@ -21,21 +21,16 @@ class ComposerStrategyTest extends RocketeerTestCase
 			},
 		));
 
-		$matcher = array(
+		$this->pretendTask();
+		$composer = $this->builder->buildStrategy('Dependencies', 'Composer');
+		$composer->install();
+
+		$this->assertHistory(array(
 			array(
 				"cd {server}/releases/{release}",
 				"{composer} self-update",
 				"{composer} install --prefer-source",
 			),
-		);
-
-		$composer = $this->builder->buildStrategy('Dependencies', 'Composer');
-		$composer->install();
-
-		$this->assertTaskHistory($this->history->getFlattenedHistory(), $matcher, array(
-			'tests'   => false,
-			'seed'    => false,
-			'migrate' => false
 		));
 	}
 
