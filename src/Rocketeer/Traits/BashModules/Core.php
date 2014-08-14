@@ -47,9 +47,10 @@ trait Core
 		}
 
 		// Display for pretend mode
-		if ($this->getOption('pretend') and !$silent) {
+		if ($verbose or ($this->getOption('pretend') and !$silent)) {
 			$this->toOutput($commands);
-			$this->command->line(implode(PHP_EOL, $commands));
+			$flattened = implode(PHP_EOL.'$ ', $commands);
+			$this->command->line('<fg=magenta>$ '.$flattened.'</fg=magenta>');
 
 			return count($commands) == 1 ? $commands[0] : $commands;
 		}
