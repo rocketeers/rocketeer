@@ -56,15 +56,13 @@ abstract class AbstractStrategy extends Bash
 		// Recompose strategy and implementation from
 		// the class name
 		$components = get_class($this);
-		$components = class_basename($components);
-		$components = Str::snake($components);
-		$components = explode('_', $components);
+		$components = explode('\\', $components);
 
-		$name     = array_get($components, 0);
-		$strategy = array_get($components, 1);
+		$name     = array_get($components, sizeof($components) - 1);
+		$strategy = array_get($components, sizeof($components) - 2);
 
 		$object  = 'Running strategy for '.ucfirst($strategy);
-		$subject = ucfirst($name);
+		$subject = str_replace('Strategy', null, $name);
 
 		$this->explainer->display($object, $subject);
 
