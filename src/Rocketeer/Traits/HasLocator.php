@@ -59,7 +59,7 @@ trait HasLocator
 	/**
 	 * Get an instance from the Container
 	 *
-	 * @param  string $key
+	 * @param string $key
 	 *
 	 * @return object
 	 */
@@ -116,12 +116,17 @@ trait HasLocator
 	/**
 	 * Get an option from the Command
 	 *
-	 * @param  string $option
+	 * @param string $option
+	 * @param bool    $loose
 	 *
 	 * @return string
 	 */
-	protected function getOption($option)
+	protected function getOption($option, $loose = false)
 	{
-		return $this->hasCommand() ? $this->command->option($option) : null;
+		if (!$this->hasCommand()) {
+			return null;
+		}
+
+		return $loose ? array_get($this->command->option(), $option) : $this->command->option($option);
 	}
 }
