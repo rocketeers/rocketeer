@@ -21,16 +21,23 @@ class Artisan extends AbstractBinary
 	{
 		parent::__construct($app);
 
-		// Set binary path
-		$this->binary = $this->bash->which(
+		// Set PHP as parent
+		$php = new Php($this->app);
+		$this->setParent($php);
+	}
+
+	/**
+	 * Get an array of default paths to look for
+	 *
+	 * @return array
+	 */
+	protected function getKnownPaths()
+	{
+		return array(
 			'artisan',
 			$this->releasesManager->getCurrentReleasePath().'/artisan',
 			'artisan'
 		);
-
-		// Set PHP as parent
-		$php = new Php($this->app);
-		$this->setParent($php);
 	}
 
 	/**

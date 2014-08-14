@@ -15,19 +15,16 @@ use Rocketeer\Abstracts\AbstractBinary;
 class Composer extends AbstractBinary
 {
 	/**
-	 * @param Container $app
+	 * Get an array of default paths to look for
+	 *
+	 * @return array
 	 */
-	public function __construct(Container $app)
+	protected function getKnownPaths()
 	{
-		parent::__construct($app);
-
-		$binary = $this->bash->which(
+		return array(
 			'composer',
 			$this->releasesManager->getCurrentReleasePath().'/composer.phar'
 		);
-
-		// Set binary path
-		$this->setBinary($binary);
 	}
 
 	/**

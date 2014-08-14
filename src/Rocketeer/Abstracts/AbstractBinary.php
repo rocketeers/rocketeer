@@ -9,6 +9,7 @@
  */
 namespace Rocketeer\Abstracts;
 
+use Illuminate\Container\Container;
 use Illuminate\Support\Str;
 use Rocketeer\Traits\HasLocator;
 
@@ -34,6 +35,30 @@ class AbstractBinary
 	 * @type AbstractBinary|string
 	 */
 	protected $parent;
+
+	/**
+	 * @param Container $app
+	 */
+	public function __construct(Container $app)
+	{
+		$this->app = $app;
+
+		// Assign default paths
+		if ($paths = $this->getKnownPaths()) {
+			$binary = call_user_func_array([$this->bash, 'which'], $paths);
+			$this->setBinary($binary);
+		}
+	}
+
+	/**
+	 * Get an array of default paths to look for
+	 *
+	 * @return array
+	 */
+	protected function getKnownPaths()
+	{
+		return [];
+	}
 
 	//////////////////////////////////////////////////////////////////////
 	///////////////////////////// PROPERTIES /////////////////////////////

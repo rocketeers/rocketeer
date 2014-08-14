@@ -15,14 +15,13 @@ use Rocketeer\Abstracts\AbstractBinary;
 class Phpunit extends AbstractBinary
 {
 	/**
-	 * @param Container $app
+	 * Get an array of default paths to look for
+	 *
+	 * @return array
 	 */
-	public function __construct(Container $app)
+	protected function getKnownPaths()
 	{
-		parent::__construct($app);
-
-		// Set binary path
-		$this->binary = $this->bash->which(
+		return array(
 			'phpunit',
 			$this->releasesManager->getCurrentReleasePath().'/vendor/bin/phpunit'
 		);

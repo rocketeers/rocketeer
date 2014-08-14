@@ -15,13 +15,13 @@ use Rocketeer\Abstracts\AbstractBinary;
 class Php extends AbstractBinary
 {
 	/**
-	 * @param Container $app
+	 * Get an array of default paths to look for
+	 *
+	 * @return array
 	 */
-	public function __construct(Container $app)
+	protected function getKnownPaths()
 	{
-		parent::__construct($app);
-
-		$this->binary = $this->bash->which('php');
+		return ['php'];
 	}
 
 	/**
