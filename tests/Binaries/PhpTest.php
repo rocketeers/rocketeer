@@ -1,5 +1,5 @@
 <?php
-namespace Binaries;
+namespace Rocketeer\Binaries;
 
 use Rocketeer\Binaries\Php;
 use Rocketeer\TestCases\RocketeerTestCase;

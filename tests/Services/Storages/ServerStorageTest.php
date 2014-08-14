@@ -1,5 +1,5 @@
 <?php
-namespace Services\Storages;
+namespace Rocketeer\Services\Storages;
 
 use Rocketeer\Services\Storages\ServerStorage;
 use Rocketeer\TestCases\RocketeerTestCase;

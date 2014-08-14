@@ -1,5 +1,5 @@
 <?php
-namespace Abstracts;
+namespace Rocketeer\Abstracts;
 
 use Rocketeer\TestCases\RocketeerTestCase;
 

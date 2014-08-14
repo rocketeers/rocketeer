@@ -1,5 +1,5 @@
 <?php
-namespace Services\Tasks;
+namespace Rocketeer\Services\Tasks;
 
 use Rocketeer\TestCases\RocketeerTestCase;
 
