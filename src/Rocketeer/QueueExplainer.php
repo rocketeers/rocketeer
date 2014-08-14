@@ -36,7 +36,7 @@ class QueueExplainer
 	 */
 	public function displayBelow(Closure $callback)
 	{
-		if (!$this->command) {
+		if (!$this->hasCommand()) {
 			return $callback();
 		}
 
@@ -56,7 +56,7 @@ class QueueExplainer
 	 */
 	public function display($object, $subject, $details = null)
 	{
-		if (!$this->command) {
+		if (!$this->hasCommand()) {
 			return;
 		}
 
