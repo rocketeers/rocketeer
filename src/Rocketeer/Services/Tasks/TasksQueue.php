@@ -60,7 +60,8 @@ class TasksQueue
 	////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Execute Tasks on the default connection
+	 * Execute Tasks on the default connection and
+	 * return their output
 	 *
 	 * @param string|array|Closure $queue
 	 * @param string|string[]|null $connections
@@ -73,7 +74,10 @@ class TasksQueue
 			$this->connections->setConnections($connections);
 		}
 
-		return $this->run($queue);
+		// Run tasks
+		$this->run($queue);
+
+		return $this->history->getFlattenedOutput();
 	}
 
 	/**

@@ -97,9 +97,9 @@ trait Binaries
 	{
 		$location  = false;
 		$locations = array(
-			array($this->localStorage, 'get', 'paths.'.$binary),
-			array($this->rocketeer, 'getPath', $binary),
-			array($this, 'runSilently', 'which '.$binary),
+			[$this->localStorage, 'get', 'paths.'.$binary],
+			[$this->rocketeer, 'getPath', $binary],
+			[$this, 'runSilently', 'which '.$binary],
 		);
 
 		// Add fallback if provided
