@@ -49,6 +49,11 @@ class QueueTimer
 	 */
 	public function saveTaskTime(AbstractTask $task, $time)
 	{
+		// Don't save times in pretend mode
+		if ($this->getOption('pretend')) {
+			return;
+		}
+
 		// Append the new time to past ones
 		$past   = $this->getTaskTimes($task);
 		$past[] = $time;
