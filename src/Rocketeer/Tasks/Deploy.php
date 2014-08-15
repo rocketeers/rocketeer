@@ -53,28 +53,33 @@ class Deploy extends AbstractTask
 		// Setup the new release
 		$release = $this->releasesManager->getNextRelease();
 
-		// Build and execute subtasks
-		$this->executeTask(['CreateRelease', 'Dependencies']);
+		// Build subtasks
+		$tasks = ['CreateRelease', 'Dependencies'];
 		if ($this->getOption('tests')) {
-			$this->executeTask('Test');
+			$tasks[] = 'Test';
 		}
 
-		// Set permissions
-		$this->setApplicationPermissions();
+		// Create release and set permissions
+		$this->steps->executeTask($tasks);
+		$this->steps->setApplicationPermissions();
 
 		// Run migrations
-		$this->executeTask('Migrate');
+		$this->steps->executeTask('Migrate');
 
 		// Synchronize shared folders and files
-		$this->syncSharedFolders();
+		$this->steps->syncSharedFolders();
 
 		// Run before-symlink events
-		if (!$this->fireEvent('before-symlink')) {
+		$this->steps->fireEvent('before-symlink');
+
+		// Update symlink
+		$this->steps->updateSymlink();
+
+		// Run the steps until one fails
+		if (!$this->runSteps()) {
 			return $this->halt();
 		}
 
-		// Update symlink and mark release as valid
-		$this->updateSymlink();
 		$this->releasesManager->markReleaseAsValid($release);
 
 		$this->command->info('Successfully deployed release '.$release);
@@ -87,13 +92,15 @@ class Deploy extends AbstractTask
 	/**
 	 * Set permissions for the folders used by the application
 	 *
-	 * @return  void
+	 * @return true
 	 */
 	protected function setApplicationPermissions()
 	{
 		$files = (array) $this->rocketeer->getOption('remote.permissions.files');
-		foreach ($files as $file) {
+		foreach ($files as &$file) {
 			$this->setPermissions($file);
 		}
+
+		return $files;
 	}
 }

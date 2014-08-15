@@ -36,19 +36,26 @@ class Update extends Deploy
 		}
 
 		// Update repository
-		$this->getStrategy('Deploy')->update();
+		if (!$this->getStrategy('Deploy')->update()) {
+			return $this->halt();
+		}
 
 		// Recreate symlinks if necessary
-		$this->syncSharedFolders();
+		$this->steps->syncSharedFolders();
 
 		// Recompile dependencies and stuff
-		$this->executeTask('Dependencies');
+		$this->steps->executeTask('Dependencies');
 
 		// Set permissions
-		$this->setApplicationPermissions();
+		$this->steps->setApplicationPermissions();
 
 		// Run migrations
-		$this->executeTask('Migrate');
+		$this->steps->executeTask('Migrate');
+
+		// Run the steps
+		if (!$this->runSteps()) {
+			return $this->halt();
+		}
 
 		// Clear cache
 		$this->artisan()->runForCurrentRelease('clearCache');

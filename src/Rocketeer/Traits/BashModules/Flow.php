@@ -69,9 +69,11 @@ trait Flow
 	protected function syncSharedFolders()
 	{
 		$shared = (array) $this->rocketeer->getOption('remote.shared');
-		foreach ($shared as $file) {
+		foreach ($shared as &$file) {
 			$this->share($file);
 		}
+
+		return $shared;
 	}
 
 	/**
