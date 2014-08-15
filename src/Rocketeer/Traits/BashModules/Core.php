@@ -209,6 +209,8 @@ trait Core
 	{
 		$stage     = $this->connections->getStage();
 		$separator = $this->localStorage->getSeparator();
+		$shell     = $this->rocketeer->getOption('remote.login');
+		$shelled   = ['npm ', 'bundle ', 'grunt'];
 
 		// Cast commands to array
 		if (!is_array($commands)) {
@@ -226,6 +228,11 @@ trait Core
 			// Add stage flag to Artisan commands
 			if (Str::contains($command, 'artisan') and $stage) {
 				$command .= ' --env="'.$stage.'"';
+			}
+
+			// Create shell if asked
+			if ($shell && Str::contains($command, $shelled)) {
+				$command = "bash --login -c '".$command."'";
 			}
 		}
 

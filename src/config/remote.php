@@ -36,6 +36,10 @@ return array(
 	// Permissions
 	////////////////////////////////////////////////////////////////////
 
+	// If enabled will force a shell to be created on some commands
+	// which is requried for some tools like RVM or NVM
+	'login'       => false,
+
 	'permissions' => array(
 
 		// The folders and files to set as web writable
