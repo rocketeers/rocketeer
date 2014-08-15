@@ -64,4 +64,16 @@ class CoreTest extends RocketeerTestCase
 
 		$this->assertEquals('something', $result);
 	}
+
+	public function testCanRunCommandsLocally()
+	{
+		$this->mock('remote', 'Remote', function ($mock) {
+			return $mock->shouldReceive('run')->never();
+		});
+
+		$this->task->setLocal(true);
+		$contents = $this->task->runRaw('ls', true, true);
+
+		$this->assertCount(12, $contents);
+	}
 }

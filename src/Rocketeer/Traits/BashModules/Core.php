@@ -10,6 +10,7 @@
 namespace Rocketeer\Traits\BashModules;
 
 use Illuminate\Support\Str;
+use Rocketeer\LocalConnection;
 use Rocketeer\Traits\HasHistory;
 use Rocketeer\Traits\HasLocator;
 
@@ -22,6 +23,32 @@ trait Core
 {
 	use HasLocator;
 	use HasHistory;
+
+	/**
+	 * Whether to run the commands locally
+	 * or on the server
+	 *
+	 * @type boolean
+	 */
+	protected $local = false;
+
+	/**
+	 * @param boolean $local
+	 */
+	public function setLocal($local)
+	{
+		$this->local = $local;
+	}
+
+	/**
+	 * Get which Connection to call commands with
+	 *
+	 * @return \Illuminate\Remote\ConnectionInterface
+	 */
+	public function getConnection()
+	{
+		return $this->local ? new LocalConnection($this->app) : $this->remote;
+	}
 
 	////////////////////////////////////////////////////////////////////
 	///////////////////////////// CORE METHODS /////////////////////////
@@ -60,11 +87,11 @@ trait Core
 
 		// Run commands
 		$output = null;
-		$this->remote->run($commands, function ($results) use (&$output, $verbose) {
+		$this->getConnection()->run($commands, function ($results) use (&$output, $verbose) {
 			$output .= $results;
 
 			if ($verbose) {
-				$this->remote->display(trim($results));
+				$this->getConnection()->display(trim($results));
 			}
 		});
 
@@ -105,7 +132,7 @@ trait Core
 	{
 		// Run commands
 		$output = null;
-		$this->remote->run($commands, function ($results) use (&$output) {
+		$this->getConnection()->run($commands, function ($results) use (&$output) {
 			$output .= $results;
 		});
 
