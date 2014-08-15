@@ -29,7 +29,7 @@ class QueueTimer
 	 * @param AbstractTask $task
 	 * @param Closure      $callback
 	 *
-	 * @return boolean
+	 * @return boolean|null
 	 */
 	public function time(AbstractTask $task, Closure $callback)
 	{
@@ -101,7 +101,7 @@ class QueueTimer
 
 	/**
 	 * @param AbstractTask $task
-	 * @param array        $past
+	 * @param double[]        $past
 	 */
 	protected function saveTaskTimes(AbstractTask $task, array $past)
 	{

@@ -26,7 +26,7 @@ class Update extends Deploy
 	/**
 	 * Run the task
 	 *
-	 * @return  void
+	 * @return  boolean|null
 	 */
 	public function execute()
 	{

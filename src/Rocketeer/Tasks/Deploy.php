@@ -19,13 +19,6 @@ use Rocketeer\Abstracts\AbstractTask;
 class Deploy extends AbstractTask
 {
 	/**
-	 * Methods that can halt deployment
-	 *
-	 * @var array
-	 */
-	protected $halting = array();
-
-	/**
 	 * The console command description.
 	 *
 	 * @var string

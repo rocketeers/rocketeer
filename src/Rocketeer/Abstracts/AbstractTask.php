@@ -14,7 +14,6 @@ use Illuminate\Container\Container;
 use Illuminate\Support\Str;
 use Rocketeer\Bash;
 use Rocketeer\Services\StepsBuilder;
-use Rocketeer\Traits\HasTimer;
 use Symfony\Component\Console\Helper\Table;
 
 /**
@@ -128,7 +127,7 @@ abstract class AbstractTask extends Bash
 	/**
 	 * Fire the command
 	 *
-	 * @return string|false
+	 * @return boolean
 	 */
 	public function fire()
 	{

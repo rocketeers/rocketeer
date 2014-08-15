@@ -8,7 +8,7 @@ class Bower extends AbstractBinary
 	/**
 	 * Get an array of default paths to look for
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	protected function getKnownPaths()
 	{

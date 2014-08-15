@@ -82,7 +82,7 @@ class LocalConnection implements ConnectionInterface
 	/**
 	 * Get the exit status of the last command.
 	 *
-	 * @return int|bool
+	 * @return integer|null
 	 */
 	public function status()
 	{
@@ -95,7 +95,7 @@ class LocalConnection implements ConnectionInterface
 	 * @param  string $local
 	 * @param  string $remote
 	 *
-	 * @return void
+	 * @return integer
 	 */
 	public function put($local, $remote)
 	{
@@ -136,7 +136,7 @@ class LocalConnection implements ConnectionInterface
 	 * @param  string $remote
 	 * @param  string $contents
 	 *
-	 * @return void
+	 * @return integer
 	 */
 	public function putString($remote, $contents)
 	{

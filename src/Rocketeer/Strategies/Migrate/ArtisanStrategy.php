@@ -21,7 +21,7 @@ class ArtisanStrategy extends AbstractStrategy implements MigrateStrategyInterfa
 	 */
 	public function isExecutable()
 	{
-		return $this->artisan()->getBinary();
+		return (bool) $this->artisan()->getBinary();
 	}
 
 	/**

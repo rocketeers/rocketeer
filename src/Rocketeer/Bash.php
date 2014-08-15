@@ -74,9 +74,9 @@ class Bash
 	}
 
 	/**
-	 * Execute another AbstractTask by name
+	 * Execute another task by name
 	 *
-	 * @param string|string[] $tasks
+	 * @param string|array $tasks
 	 *
 	 * @return string|false
 	 */

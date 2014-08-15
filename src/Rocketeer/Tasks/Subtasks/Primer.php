@@ -28,7 +28,7 @@ class Primer extends AbstractTask
 	/**
 	 * Run the task
 	 *
-	 * @return string
+	 * @return boolean
 	 */
 	public function execute()
 	{

@@ -211,7 +211,7 @@ class TasksBuilder
 	 * Find a class in various predefined namespaces
 	 *
 	 * @param string $class
-	 * @param array  $paths
+	 * @param string[]  $paths
 	 *
 	 * @return string|false
 	 */
