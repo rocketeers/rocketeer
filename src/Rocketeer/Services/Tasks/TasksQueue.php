@@ -11,7 +11,6 @@ namespace Rocketeer\Services\Tasks;
 
 use Closure;
 use Exception;
-use Illuminate\Support\Collection;
 use KzykHys\Parallel\Parallel;
 use Rocketeer\Connection;
 use Rocketeer\Traits\HasHistory;
@@ -106,7 +105,7 @@ class TasksQueue
 	 * @param string|array $tasks An array of tasks
 	 *
 	 * @throws Exception
-	 * @return boolean
+	 * @return Pipeline
 	 */
 	public function run($tasks)
 	{
@@ -121,13 +120,14 @@ class TasksQueue
 			};
 		}
 
+		// Run the tasks and store the results
 		if ($this->getOption('parallel')) {
-			$results = $this->runAsynchronously($pipeline);
+			$pipeline = $this->runAsynchronously($pipeline);
 		} else {
-			$results = $this->runSynchronously($pipeline);
+			$pipeline = $this->runSynchronously($pipeline);
 		}
 
-		return $results;
+		return $pipeline;
 	}
 
 	/**
@@ -135,12 +135,12 @@ class TasksQueue
 	 *
 	 * @param array $queue
 	 *
-	 * @return Collection
+	 * @return Pipeline
 	 */
 	public function buildPipeline(array $queue)
 	{
 		// First we'll build the queue
-		$pipeline = new Collection();
+		$pipeline = new Pipeline();
 
 		// Get the connections to execute the tasks on
 		$connections = (array) $this->connections->getConnections();
@@ -206,38 +206,47 @@ class TasksQueue
 	 * Run the pipeline in order.
 	 * As long as the previous entry didn't fail, continue
 	 *
-	 * @param Collection $pipeline
+	 * @param Pipeline $pipeline
 	 *
-	 * @return boolean
+	 * @return Pipeline
 	 */
-	protected function runSynchronously(Collection $pipeline)
+	protected function runSynchronously(Pipeline $pipeline)
 	{
+		$results = [];
+
 		/** @type Closure $task */
-		foreach ($pipeline as $task) {
-			if (!$task()) {
-				return false;
+		foreach ($pipeline as $key => $task) {
+			$results[$key] = $task();
+			if (!$results[$key]) {
+				break;
 			}
 		}
 
-		return true;
+		// Update Pipeline results
+		$pipeline->setResults($results);
+
+		return $pipeline;
 	}
 
 	/**
-	 * @param Collection $pipeline
+	 * Run the pipeline in parallel order
 	 *
-	 * @return boolean
+	 * @param Pipeline $pipeline
+	 *
+	 * @return Pipeline
 	 * @throws \Exception
 	 */
-	protected function runAsynchronously(Collection $pipeline)
+	protected function runAsynchronously(Pipeline $pipeline)
 	{
 		if (!extension_loaded('pcntl')) {
 			throw new Exception('Parallel jobs require the PCNTL extension');
 		}
 
 		$this->parallel = $this->parallel ?: new Parallel();
-		$this->parallel->run($pipeline->all());
+		$results = $this->parallel->values($pipeline->all());
+		$pipeline->setResults($results);
 
-		return true;
+		return $pipeline;
 	}
 
 	////////////////////////////////////////////////////////////////////

@@ -35,9 +35,9 @@ class TasksQueueTest extends RocketeerTestCase
 			}
 		);
 
-		$status = $this->queue->run($queue);
+		$pipeline = $this->queue->run($queue);
 
-		$this->assertTrue($status);
+		$this->assertTrue($pipeline->succeeded());
 		$this->assertEquals(array(
 			'staging - first',
 			'staging - second',
@@ -52,7 +52,7 @@ class TasksQueueTest extends RocketeerTestCase
 			'rocketeer::default' => 'production',
 		));
 
-		$status = $this->queue->run(array(
+		$pipeline = $this->queue->run(array(
 			'ls -a',
 			function () {
 				return 'JOEY DOESNT SHARE FOOD';
@@ -60,7 +60,7 @@ class TasksQueueTest extends RocketeerTestCase
 		));
 
 		$output = array_slice($this->history->getFlattenedOutput(), 2, 3);
-		$this->assertTrue($status);
+		$this->assertTrue($pipeline->succeeded());
 		$this->assertEquals(array(
 			'.'.PHP_EOL.'..'.PHP_EOL.'.gitkeep',
 			'JOEY DOESNT SHARE FOOD',
@@ -88,13 +88,20 @@ class TasksQueueTest extends RocketeerTestCase
 	public function testCanRunTasksInParallel()
 	{
 		$parallel = Mockery::mock('Parallel')
-		                   ->shouldReceive('run')->once()->with(Mockery::type('array'))
+		                   ->shouldReceive('values')->once()->with(Mockery::type('array'))
 		                   ->mock();
 
 		$this->mockCommand(['parallel' => true]);
-		$this->tasksQueue()->setParallel($parallel);
+		$this->queue->setParallel($parallel);
 
-		$this->tasksQueue()->execute(['ls', 'ls']);
+		$task = function() {
+			sleep(1);
+			return time();
+		};
+
+		$this->queue->execute(array(
+			$task, $task
+		));
 	}
 
 	public function testCanCancelQueueIfTaskFails()
@@ -107,12 +114,12 @@ class TasksQueueTest extends RocketeerTestCase
 			},
 		));
 
-		$status = $this->queue->run(array(
+		$pipeline = $this->queue->run(array(
 			'Rocketeer\Dummies\MyCustomHaltingTask',
 			'Rocketeer\Dummies\MyCustomTask',
 		));
 
-		$this->assertFalse($status);
+		$this->assertTrue($pipeline->failed());
 		$this->assertEquals([false], $this->history->getFlattenedOutput());
 	}
 }
