@@ -56,7 +56,7 @@ class TasksHandlerTest extends RocketeerTestCase
 
 		$this->assertInstanceOf('Rocketeer\Tasks\Closure', $this->builder->buildTask('foobar'));
 
-		$this->tasks->run('foobar');
+		$this->queue->run('foobar');
 		$this->assertHistory([['cd {server}/releases/{release}', 'ls']]);
 	}
 
@@ -69,7 +69,7 @@ class TasksHandlerTest extends RocketeerTestCase
 		$this->tasks->task('foobar', ['ls', 'ls']);
 		$this->assertInstanceOf('Rocketeer\Tasks\Closure', $this->builder->buildTask('foobar'));
 
-		$this->tasks->run('foobar');
+		$this->queue->run('foobar');
 		$this->assertHistory([['cd {server}/releases/{release}', 'ls', 'ls']]);
 	}
 

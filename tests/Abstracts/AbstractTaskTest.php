@@ -42,7 +42,7 @@ class AbstractTaskTest extends RocketeerTestCase
 			echo 'foobar';
 		});
 
-		$this->tasksQueue()->execute(function ($task) {
+		$this->queue->execute(function ($task) {
 			$task->fireEvent('test.foobar');
 		}, 'staging');
 	}

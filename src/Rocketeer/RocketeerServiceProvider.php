@@ -171,7 +171,7 @@ class RocketeerServiceProvider extends ServiceProvider
 			return new ReleasesManager($app);
 		});
 
-		$this->app->bind('rocketeer.storage.local', function ($app) {
+		$this->app->singleton('rocketeer.storage.local', function ($app) {
 			$filename = $app['rocketeer.rocketeer']->getApplicationName();
 			$filename = $filename === '{application_name}' ? 'deployments' : $filename;
 

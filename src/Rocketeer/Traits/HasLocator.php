@@ -87,7 +87,7 @@ trait HasLocator
 		);
 
 		// Replace shortcuts
-		if (array_key_exists($key, $shortcuts)) {
+		if (isset($shortcuts[$key])) {
 			$key = $shortcuts[$key];
 		}
 

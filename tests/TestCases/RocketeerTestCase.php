@@ -239,14 +239,4 @@ abstract class RocketeerTestCase extends ContainerTestCase
 
 		return $this->builder->buildTaskFromClass($task);
 	}
-
-	/**
-	 * Get TasksQueue instance
-	 *
-	 * @return \Rocketeer\Services\TasksHandler
-	 */
-	protected function tasksQueue()
-	{
-		return $this->app['rocketeer.tasks'];
-	}
 }
