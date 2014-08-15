@@ -50,8 +50,8 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 		$this->app->instance('path.storage', '/src/app/storage');
 
 		$this->app['files']             = new Filesystem;
-		$this->app['remote']            = $this->getRemote();
 		$this->app['artisan']           = $this->getArtisan();
+		$this->app['rocketeer.remote']  = $this->getRemote();
 		$this->app['rocketeer.command'] = $this->getCommand();
 
 		// Rocketeer classes ------------------------------------------- /

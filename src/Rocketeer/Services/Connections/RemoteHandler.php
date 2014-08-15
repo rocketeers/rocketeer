@@ -63,6 +63,10 @@ class RemoteHandler
 	 */
 	protected function makeConnection($name, array $credentials)
 	{
+		if (!isset($credentials['host']) || !isset($credentials['username'])) {
+			throw new InvalidArgumentException('Host and/or username is required for '.$name);
+		}
+
 		$connection = new Connection(
 			$name,
 			$credentials['host'],

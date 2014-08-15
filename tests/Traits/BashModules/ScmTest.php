@@ -16,9 +16,9 @@ class ScmTest extends RocketeerTestCase
 		// Create fake remote
 		$remote = $this->getRemote();
 		$remote->shouldReceive('status')->andReturn(1);
+		$this->app['rocketeer.remote'] = $remote;
 
-		$task         = $this->pretendTask();
-		$task->remote = $remote;
+		$task = $this->pretendTask();
 
 		$task->getStrategy('Deploy')->deploy($this->server.'/test');
 		$this->assertNull($this->app['rocketeer.storage.local']->get('credentials'));

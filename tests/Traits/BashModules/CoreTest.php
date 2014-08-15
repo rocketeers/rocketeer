@@ -16,7 +16,7 @@ class CoreTest extends RocketeerTestCase
 	{
 		$this->expectOutputString('An error occured: "Oh noes", while running:'.PHP_EOL.'git clone');
 
-		$this->task->remote = clone $this->getRemote()->shouldReceive('status')->andReturn(1)->mock();
+		$this->app['rocketeer.remote'] = clone $this->getRemote()->shouldReceive('status')->andReturn(1)->mock();
 		$this->mockCommand([], array(
 			'error' => function ($error) {
 				echo $error;
@@ -37,8 +37,8 @@ class CoreTest extends RocketeerTestCase
 
 	public function testCanGetLocalTimestampIfError()
 	{
-		$this->app['remote'] = $this->getRemote('NOPE');
-		$timestamp           = $this->task->getTimestamp();
+		$this->app['rocketeer.remote'] = $this->getRemote('NOPE');
+		$timestamp    = $this->task->getTimestamp();
 
 		$this->assertEquals(date('YmdHis'), $timestamp);
 	}
@@ -59,15 +59,15 @@ class CoreTest extends RocketeerTestCase
 
 	public function testCanRemoveCommonPollutingOutput()
 	{
-		$this->app['remote'] = $this->getRemote('stdin: is not a tty'.PHP_EOL.'something');
-		$result              = $this->bash->run('ls');
+		$this->app['rocketeer.remote'] = $this->getRemote('stdin: is not a tty'.PHP_EOL.'something');
+		$result       = $this->bash->run('ls');
 
 		$this->assertEquals('something', $result);
 	}
 
 	public function testCanRunCommandsLocally()
 	{
-		$this->mock('remote', 'Remote', function ($mock) {
+		$this->mock('rocketeer.remote', 'Remote', function ($mock) {
 			return $mock->shouldReceive('run')->never();
 		});
 

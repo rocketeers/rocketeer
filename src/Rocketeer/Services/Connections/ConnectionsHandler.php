@@ -286,17 +286,9 @@ class ConnectionsHandler
 			return;
 		}
 
-		// Fetch the credentials
-		$credentials = $this->getServerCredentials($connection, $server);
-
 		// Set the connection
 		$this->connection   = $connection;
 		$this->localStorage = $server;
-
-		// Register it with SSH component
-		$name = $connection.'#'.$server;
-		$this->config->set('remote.default', $name);
-		$this->config->set('remote.connections.'.$name, $credentials);
 
 		// Update events
 		$this->tasks->registerConfiguredEvents();
