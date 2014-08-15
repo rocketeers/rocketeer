@@ -1,7 +1,6 @@
 <?php
 namespace Rocketeer\Binaries;
 
-use Rocketeer\Binaries\AnonymousBinary;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class AnonymousBinaryTest extends RocketeerTestCase

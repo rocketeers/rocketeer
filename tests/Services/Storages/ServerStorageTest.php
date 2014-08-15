@@ -1,7 +1,6 @@
 <?php
 namespace Rocketeer\Services\Storages;
 
-use Rocketeer\Services\Storages\ServerStorage;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class ServerStorageTest extends RocketeerTestCase

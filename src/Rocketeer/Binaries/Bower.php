@@ -1,7 +1,6 @@
 <?php
 namespace Rocketeer\Binaries;
 
-use Illuminate\Container\Container;
 use Rocketeer\Abstracts\AbstractBinary;
 
 class Bower extends AbstractBinary

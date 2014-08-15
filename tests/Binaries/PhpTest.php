@@ -1,7 +1,6 @@
 <?php
 namespace Rocketeer\Binaries;
 
-use Rocketeer\Binaries\Php;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class PhpTest extends RocketeerTestCase

@@ -9,7 +9,6 @@
  */
 namespace Rocketeer\Binaries;
 
-use Illuminate\Container\Container;
 use Rocketeer\Abstracts\AbstractBinary;
 
 class Composer extends AbstractBinary

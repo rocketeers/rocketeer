@@ -13,6 +13,7 @@ use Closure;
 use Illuminate\Container\Container;
 use Illuminate\Support\Arr;
 use Rocketeer\Traits\HasLocator;
+
 /**
  * Abstract class for storage implementations
  *

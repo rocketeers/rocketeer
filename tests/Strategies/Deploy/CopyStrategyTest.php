@@ -2,7 +2,6 @@
 namespace Rocketeer\Strategies\Deploy;
 
 use Mockery\MockInterface;
-use Rocketeer\Strategies\Deploy\CopyStrategy;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class CopyStrategyTest extends RocketeerTestCase

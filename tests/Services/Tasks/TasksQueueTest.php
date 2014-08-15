@@ -94,13 +94,15 @@ class TasksQueueTest extends RocketeerTestCase
 		$this->mockCommand(['parallel' => true]);
 		$this->queue->setParallel($parallel);
 
-		$task = function() {
+		$task = function () {
 			sleep(1);
+
 			return time();
 		};
 
 		$this->queue->execute(array(
-			$task, $task
+			$task,
+			$task
 		));
 	}
 

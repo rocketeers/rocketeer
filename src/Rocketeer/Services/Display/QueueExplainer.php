@@ -27,7 +27,7 @@ class QueueExplainer
 	 *
 	 * @type integer
 	 */
-	public $level = 2;
+	public $level = 1;
 
 	//////////////////////////////////////////////////////////////////////
 	/////////////////////////////// STATUS ///////////////////////////////
@@ -59,7 +59,7 @@ class QueueExplainer
 	 * @param string      $object
 	 * @param string      $subject
 	 * @param string|null $details
-	 * @param float|null        $time
+	 * @param float|null  $time
 	 */
 	public function display($object, $subject, $details = null, $time = null)
 	{
@@ -68,7 +68,7 @@ class QueueExplainer
 		}
 
 		// Build status
-		$tree    = str_repeat('-', $this->level);
+		$tree    = '|'.str_repeat('--', $this->level);
 		$comment = sprintf('%s %s: <info>%s</info>', $tree, $object, $subject);
 
 		// Add details
@@ -76,7 +76,7 @@ class QueueExplainer
 			$comment .= ' <comment>('.$details.')</comment>';
 		}
 		if ($time) {
-			$comment .= ' [~' .$time. 's]';
+			$comment .= ' [~'.$time.'s]';
 		}
 
 		$this->command->line($comment);

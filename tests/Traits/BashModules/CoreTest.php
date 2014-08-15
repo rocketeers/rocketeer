@@ -38,7 +38,7 @@ class CoreTest extends RocketeerTestCase
 	public function testCanGetLocalTimestampIfError()
 	{
 		$this->app['rocketeer.remote'] = $this->getRemote('NOPE');
-		$timestamp    = $this->task->getTimestamp();
+		$timestamp                     = $this->task->getTimestamp();
 
 		$this->assertEquals(date('YmdHis'), $timestamp);
 	}
@@ -60,7 +60,7 @@ class CoreTest extends RocketeerTestCase
 	public function testCanRemoveCommonPollutingOutput()
 	{
 		$this->app['rocketeer.remote'] = $this->getRemote('stdin: is not a tty'.PHP_EOL.'something');
-		$result       = $this->bash->run('ls');
+		$result                        = $this->bash->run('ls');
 
 		$this->assertEquals('something', $result);
 	}

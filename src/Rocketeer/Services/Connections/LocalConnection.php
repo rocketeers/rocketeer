@@ -107,7 +107,8 @@ class LocalConnection implements ConnectionInterface
 	/**
 	 * Get the contents of a remote file.
 	 *
-	 * @param  string  $remote
+	 * @param  string $remote
+	 *
 	 * @return string
 	 */
 	public function getString($remote)
@@ -118,7 +119,8 @@ class LocalConnection implements ConnectionInterface
 	/**
 	 * Display the given line using the default output.
 	 *
-	 * @param  string  $line
+	 * @param  string $line
+	 *
 	 * @return void
 	 */
 	public function display($line)

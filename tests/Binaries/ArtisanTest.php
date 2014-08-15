@@ -1,7 +1,6 @@
 <?php
 namespace Rocketeer\Binaries;
 
-use Rocketeer\Binaries\Artisan;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class ArtisanTest extends RocketeerTestCase

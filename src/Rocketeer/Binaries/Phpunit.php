@@ -9,7 +9,6 @@
  */
 namespace Rocketeer\Binaries;
 
-use Illuminate\Container\Container;
 use Rocketeer\Abstracts\AbstractBinary;
 
 class Phpunit extends AbstractBinary
