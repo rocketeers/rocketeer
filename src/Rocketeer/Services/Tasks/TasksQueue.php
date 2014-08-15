@@ -76,8 +76,9 @@ class TasksQueue
 
 		// Run tasks
 		$this->run($queue);
+		$history = $this->history->getFlattenedOutput();
 
-		return $this->history->getFlattenedOutput();
+		return end($history);
 	}
 
 	/**
