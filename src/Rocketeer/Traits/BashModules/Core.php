@@ -209,8 +209,8 @@ trait Core
 	{
 		$stage     = $this->connections->getStage();
 		$separator = $this->localStorage->getSeparator();
-		$shell     = $this->rocketeer->getOption('remote.login');
-		$shelled   = ['npm ', 'bundle ', 'grunt'];
+		$shell     = $this->rocketeer->getOption('remote.shell');
+		$shelled   = $this->rocketeer->getOption('remote.shelled');
 
 		// Cast commands to array
 		if (!is_array($commands)) {

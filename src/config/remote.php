@@ -7,45 +7,51 @@ return array(
 
 	// Variables about the servers. Those can be guessed but in
 	// case of problem it's best to input those manually
-	'variables' => array(
+	'variables'      => array(
 		'directory_separator' => '/',
 		'line_endings'        => "\n",
 	),
 
 	// The number of releases to keep at all times
-	'keep_releases'    => 4,
+	'keep_releases'  => 4,
 
 	// Folders
 	////////////////////////////////////////////////////////////////////
 
 	// The root directory where your applications will be deployed
-	'root_directory'   => '/home/www/',
+	'root_directory' => '/home/www/',
 
 	// The folder the application will be cloned in
 	// Leave empty to use `application_name` as your folder name
-	'app_directory' => '',
+	'app_directory'  => '',
 
 	// A list of folders/file to be shared between releases
 	// Use this to list folders that need to keep their state, like
 	// user uploaded data, file-based databases, etc.
-	'shared' => array(
+	'shared'         => array(
 		'{path.storage}/logs',
 		'{path.storage}/sessions',
 	),
 
+	// Execution
+	//////////////////////////////////////////////////////////////////////
+
+	// If enabled will force a shell to be created
+	// which is requried for some tools like RVM or NVM
+	'shell'          => false,
+
+	// An array of commands to run under shell
+	'shelled'        => ['npm ', 'bundle ', 'grunt'],
+
 	// Permissions
 	////////////////////////////////////////////////////////////////////
 
-	// If enabled will force a shell to be created on some commands
-	// which is requried for some tools like RVM or NVM
-	'login'       => false,
-
-	'permissions' => array(
+	'permissions'    => array(
 
 		// The folders and files to set as web writable
 		// You can pass paths in brackets, so {path.public} will return
 		// the correct path to the public folder
-		'files' => array(
+		'files'    => array(
 			'app/database/production.sqlite',
 			'{path.storage}',
 			'{path.public}',
