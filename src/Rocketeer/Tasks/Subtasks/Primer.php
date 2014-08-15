@@ -11,6 +11,13 @@ use Rocketeer\Abstracts\AbstractTask;
 class Primer extends AbstractTask
 {
 	/**
+	 * A description of what the task does
+	 *
+	 * @var string
+	 */
+	protected $description = 'Run local checks to ensure deploy can proceed';
+
+	/**
 	 * Whether to run the commands locally
 	 * or on the server
 	 *

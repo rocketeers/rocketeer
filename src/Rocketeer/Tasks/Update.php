@@ -30,6 +30,11 @@ class Update extends Deploy
 	 */
 	public function execute()
 	{
+		// Check if local is ready for deployment
+		if (!$this->executeTask('Primer')) {
+			return $this->halt('Project is not ready for deploy. You were almost fired.');
+		}
+
 		// Update repository
 		$this->getStrategy('Deploy')->update();
 
