@@ -47,7 +47,7 @@ trait Core
 	 */
 	public function getConnection()
 	{
-		return $this->local ? new LocalConnection($this->app) : $this->remote;
+		return $this->local ? $this->app['remote.local'] : $this->remote;
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -174,6 +174,16 @@ trait Core
 		array_unshift($tasks, 'cd '.$this->rocketeer->getFolder($folder));
 
 		return $this->run($tasks);
+	}
+
+	/**
+	 * Check the status of the last command
+	 *
+	 * @return bool
+	 */
+	public function status()
+	{
+		return $this->getConnection()->status() == 0;
 	}
 
 	/**

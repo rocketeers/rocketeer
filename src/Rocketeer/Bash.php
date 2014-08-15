@@ -26,6 +26,29 @@ class Bash
 	use Filesystem;
 	use Flow;
 
+	/**
+	 * @param string $hook
+	 * @param array  $arguments
+	 *
+	 * @return string|array|null
+	 */
+	protected function getHookedTasks($hook, array $arguments)
+	{
+		$tasks = $this->rocketeer->getOption('strategies.'.$hook);
+		if (!is_callable($tasks)) {
+			return;
+		}
+
+		// Cancel if no tasks to execute
+		$tasks = (array) call_user_func_array($tasks, $arguments);
+		if (empty($tasks)) {
+			return;
+		}
+
+		// Run commands
+		return $tasks;
+	}
+
 	//////////////////////////////////////////////////////////////////////
 	////////////////////////////// RUNNERS ///////////////////////////////
 	//////////////////////////////////////////////////////////////////////
@@ -59,8 +82,10 @@ class Bash
 	 */
 	public function executeTask($tasks)
 	{
-		return $this->explainer->displayBelow(function () use ($tasks) {
+		$pipeline = $this->explainer->displayBelow(function () use ($tasks) {
 			return $this->queue->run($tasks);
 		});
+
+		return $pipeline->succeeded();
 	}
 }

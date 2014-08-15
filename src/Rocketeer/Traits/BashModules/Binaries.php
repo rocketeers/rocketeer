@@ -124,7 +124,9 @@ trait Binaries
 		}
 
 		// Store found location
-		$this->localStorage->set('paths.'.$binary, $location);
+		if (!$this->local) {
+			$this->localStorage->set('paths.'.$binary, $location);
+		}
 
 		return $location ?: $default;
 	}

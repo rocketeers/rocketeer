@@ -78,6 +78,7 @@ class TasksBuilder
 	 * @param string|null                 $name
 	 * @param string|null                 $description
 	 *
+	 * @throws \Rocketeer\Exceptions\TaskCompositionException
 	 * @return AbstractTask
 	 */
 	public function buildTask($task, $name = null, $description = null)
@@ -103,7 +104,7 @@ class TasksBuilder
 
 		// If the built class is invalid, cancel
 		if (!$task instanceof AbstractTask) {
-			throw new TaskCompositionException('Class '.get_class($task). ' is not a valid task');
+			throw new TaskCompositionException('Class '.get_class($task).' is not a valid task');
 		}
 
 		// Set task properties

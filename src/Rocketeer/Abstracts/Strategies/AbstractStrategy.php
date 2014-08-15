@@ -33,29 +33,6 @@ abstract class AbstractStrategy extends Bash
 	//////////////////////////////////////////////////////////////////////
 
 	/**
-	 * @param string $hook
-	 * @param array  $arguments
-	 *
-	 * @return string|array|null
-	 */
-	protected function getHookedTasks($hook, array $arguments)
-	{
-		$tasks = $this->rocketeer->getOption($hook);
-		if (!is_callable($tasks)) {
-			return;
-		}
-
-		// Cancel if no tasks to execute
-		$tasks = (array) call_user_func_array($tasks, $arguments);
-		if (empty($tasks)) {
-			return;
-		}
-
-		// Run commands
-		return $tasks;
-	}
-
-	/**
 	 * Display what the command is and does
 	 *
 	 * @return $this

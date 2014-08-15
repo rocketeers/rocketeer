@@ -39,10 +39,15 @@ class Deploy extends AbstractTask
 	 */
 	public function execute()
 	{
-		// Setup if necessary
+		// Check if server is ready for deployment
 		if (!$this->isSetup()) {
 			$this->command->error('Server is not ready, running Setup task');
 			$this->executeTask('Setup');
+		}
+
+		// Check if local is ready for deployment
+		if (!$this->executeTask('Primer')) {
+			return $this->halt('Project is not ready for deploy. You were almost fired.');
 		}
 
 		// Setup the new release

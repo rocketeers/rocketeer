@@ -130,6 +130,10 @@ class RocketeerServiceProvider extends ServiceProvider
 			return new RemoteManager($app);
 		}, true);
 
+		$this->app->singleton('remote.local', function ($app) {
+			return new LocalConnection($app);
+		});
+
 		$this->app->bindIf('events', function ($app) {
 			return new Dispatcher($app);
 		}, true);

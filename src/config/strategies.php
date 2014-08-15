@@ -1,5 +1,6 @@
 <?php
 use Rocketeer\Binaries\Composer;
+use Rocketeer\Tasks\Subtasks\Primer;
 
 return array(
 
@@ -32,5 +33,11 @@ return array(
 			return $composer->update();
 		},
 	),
+
+	'primer' => function (Primer $task) {
+		return array(
+			// $task->getStrategy('Test')->test(),
+		);
+	}
 
 );

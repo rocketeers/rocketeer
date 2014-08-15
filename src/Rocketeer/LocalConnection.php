@@ -24,6 +24,13 @@ class LocalConnection implements ConnectionInterface
 	use HasLocator;
 
 	/**
+	 * Return status of the last command
+	 *
+	 * @type integer
+	 */
+	protected $previousStatus;
+
+	/**
 	 * Define a set of commands as a task.
 	 *
 	 * @param  string       $task
@@ -61,13 +68,25 @@ class LocalConnection implements ConnectionInterface
 	{
 		$commands = (array) $commands;
 		foreach ($commands as $command) {
-			exec($command, $output);
+			exec($command, $output, $status);
 
+			$this->previousStatus = $status;
 			if ($callback) {
-				$output = implode(PHP_EOL, $output);
-				$callback($output);
+				foreach ($output as $line) {
+					$callback($line.PHP_EOL);
+				}
 			}
 		}
+	}
+
+	/**
+	 * Get the exit status of the last command.
+	 *
+	 * @return int|bool
+	 */
+	public function status()
+	{
+		return $this->previousStatus;
 	}
 
 	/**
