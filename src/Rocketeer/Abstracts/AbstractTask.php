@@ -12,6 +12,7 @@ namespace Rocketeer\Abstracts;
 use DateTime;
 use Illuminate\Support\Str;
 use Rocketeer\Bash;
+use Rocketeer\Traits\HasTimer;
 use Symfony\Component\Console\Helper\Table;
 
 /**
@@ -116,17 +117,18 @@ abstract class AbstractTask extends Bash
 	public function fire()
 	{
 		// Print status
+		$results = false;
 		$this->displayStatus();
 
 		// Fire the task if the before event passes
 		if ($this->fireEvent('before')) {
-			$results = $this->execute();
+			$this->timer->time($this, function () use (&$results) {
+				$results = $this->execute();
+			});
 			$this->fireEvent('after');
-
-			return $results;
 		}
 
-		return false;
+		return $results;
 	}
 
 	/**
@@ -245,7 +247,8 @@ abstract class AbstractTask extends Bash
 	{
 		$name        = $this->getName();
 		$description = $this->getDescription();
+		$time        = $this->timer->getTaskTime($this);
 
-		$this->explainer->display('Running', $name, $description);
+		$this->explainer->display('Running', $name, $description, $time);
 	}
 }

@@ -21,6 +21,8 @@ use Rocketeer\Console\Commands\BaseTaskCommand;
 use Rocketeer\Exceptions\TaskCompositionException;
 use Rocketeer\Services\ConnectionsHandler;
 use Rocketeer\Services\CredentialsGatherer;
+use Rocketeer\Services\Display\QueueExplainer;
+use Rocketeer\Services\Display\QueueTimer;
 use Rocketeer\Services\History\History;
 use Rocketeer\Services\History\LogsHandler;
 use Rocketeer\Services\ReleasesManager;
@@ -155,6 +157,10 @@ class RocketeerServiceProvider extends ServiceProvider
 
 		$this->app->singleton('rocketeer.explainer', function ($app) {
 			return new QueueExplainer($app);
+		});
+
+		$this->app->bind('rocketeer.timer', function ($app) {
+			return new QueueTimer($app);
 		});
 
 		$this->app->singleton('rocketeer.releases', function ($app) {

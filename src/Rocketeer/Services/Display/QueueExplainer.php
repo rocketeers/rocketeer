@@ -7,11 +7,17 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Rocketeer;
+namespace Rocketeer\Services\Display;
 
 use Closure;
 use Rocketeer\Traits\HasLocator;
 
+/**
+ * Gives some insight into what task is executing,
+ * what it's doing, what its parent is, etc.
+ *
+ * @author Maxime Fabre <ehtnam6@gmail.com>
+ */
 class QueueExplainer
 {
 	use HasLocator;
@@ -53,8 +59,9 @@ class QueueExplainer
 	 * @param string      $object
 	 * @param string      $subject
 	 * @param string|null $details
+	 * @param float|null        $time
 	 */
-	public function display($object, $subject, $details = null)
+	public function display($object, $subject, $details = null, $time = null)
 	{
 		if (!$this->hasCommand()) {
 			return;
@@ -63,8 +70,13 @@ class QueueExplainer
 		// Build status
 		$tree    = str_repeat('-', $this->level);
 		$comment = sprintf('%s %s: <info>%s</info>', $tree, $object, $subject);
+
+		// Add details
 		if ($details) {
 			$comment .= ' <comment>('.$details.')</comment>';
+		}
+		if ($time) {
+			$comment .= ' [~' .$time. 's]';
 		}
 
 		$this->command->line($comment);
