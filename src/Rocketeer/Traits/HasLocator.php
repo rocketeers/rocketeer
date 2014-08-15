@@ -19,7 +19,7 @@ use Illuminate\Container\Container;
  * @property \Illuminate\Events\Dispatcher                            events
  * @property \Illuminate\Filesystem\Filesystem                        files
  * @property \Illuminate\Log\Writer                                   log
- * @property \Illuminate\Remote\Connection                            remote
+ * @property \Rocketeer\Services\Connections\RemoteHandler            remote
  * @property \Rocketeer\Abstracts\AbstractCommand                     command
  * @property \Rocketeer\Bash                                          bash
  * @property \Rocketeer\Services\Display\QueueExplainer               explainer
@@ -28,7 +28,7 @@ use Illuminate\Container\Container;
  * @property \Rocketeer\Interfaces\ScmInterface                       scm
  * @property \Rocketeer\Interfaces\Strategies\DeployStrategyInterface strategy
  * @property \Rocketeer\Rocketeer                                     rocketeer
- * @property \Rocketeer\Services\ConnectionsHandler                   connections
+ * @property \Rocketeer\Services\Connections\ConnectionsHandler       connections
  * @property \Rocketeer\Services\CredentialsGatherer                  credentials
  * @property \Rocketeer\Services\History\History                      history
  * @property \Rocketeer\Services\ReleasesManager                      releasesManager
@@ -79,6 +79,7 @@ trait HasLocator
 			'localStorage'    => 'rocketeer.storage.local',
 			'logs'            => 'rocketeer.logs',
 			'queue'           => 'rocketeer.queue',
+			'remote'          => 'rocketeer.remote',
 			'releasesManager' => 'rocketeer.releases',
 			'rocketeer'       => 'rocketeer.rocketeer',
 			'scm'             => 'rocketeer.scm',

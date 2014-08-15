@@ -10,7 +10,6 @@
 namespace Rocketeer\Traits\BashModules;
 
 use Illuminate\Support\Str;
-use Rocketeer\LocalConnection;
 use Rocketeer\Traits\HasHistory;
 use Rocketeer\Traits\HasLocator;
 

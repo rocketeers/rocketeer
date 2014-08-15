@@ -14,12 +14,13 @@ use Illuminate\Config\Repository;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Http\Request;
 use Illuminate\Log\Writer;
-use Illuminate\Remote\RemoteManager;
 use Illuminate\Support\ServiceProvider;
 use Monolog\Logger;
 use Rocketeer\Console\Commands\BaseTaskCommand;
 use Rocketeer\Exceptions\TaskCompositionException;
-use Rocketeer\Services\ConnectionsHandler;
+use Rocketeer\Services\Connections\ConnectionsHandler;
+use Rocketeer\Services\Connections\LocalConnection;
+use Rocketeer\Services\Connections\RemoteHandler;
 use Rocketeer\Services\CredentialsGatherer;
 use Rocketeer\Services\Display\QueueExplainer;
 use Rocketeer\Services\Display\QueueTimer;
@@ -126,8 +127,8 @@ class RocketeerServiceProvider extends ServiceProvider
 			return new Repository($fileloader, 'config');
 		}, true);
 
-		$this->app->bindIf('remote', function ($app) {
-			return new RemoteManager($app);
+		$this->app->bindIf('rocketeer.remote', function ($app) {
+			return new RemoteHandler($app);
 		}, true);
 
 		$this->app->singleton('remote.local', function ($app) {
