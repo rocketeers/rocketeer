@@ -164,9 +164,8 @@ trait Filesystem
 
 		// Get contents and destination
 		$destination = $destination ?: basename($file);
-		$contents    = file_get_contents($file);
 
-		$this->putFile($destination, $contents);
+		$this->remote->put($file, $destination);
 	}
 
 	////////////////////////////////////////////////////////////////////
