@@ -1,10 +1,10 @@
 # Rocketeer
 
-[![Build Status](http://img.shields.io/travis/Anahkiasen/rocketeer.svg?style=flat)](https://travis-ci.org/Anahkiasen/rocketeer)
-[![Latest Stable Version](http://img.shields.io/packagist/v/Anahkiasen/rocketeer.svg?style=flat)](https://packagist.org/packages/anahkiasen/rocketeer)
-[![Total Downloads](http://img.shields.io/packagist/dt/Anahkiasen/rocketeer.svg?style=flat)](https://packagist.org/packages/anahkiasen/rocketeer)
-[![Scrutinizer Quality Score](http://img.shields.io/scrutinizer/g/Anahkiasen/rocketeer.svg?style=flat)](https://scrutinizer-ci.com/g/Anahkiasen/rocketeer/)
-[![Code Coverage](http://img.shields.io/scrutinizer/coverage/g/Anahkiasen/rocketeer.svg?style=flat)](https://scrutinizer-ci.com/g/Anahkiasen/rocketeer/)
+[![Build Status](http://img.shields.io/travis/rocketeers/rocketeer.svg?style=flat)](https://travis-ci.org/rocketeers/rocketeer)
+[![Latest Stable Version](http://img.shields.io/packagist/v/rocketeers/rocketeer.svg?style=flat)](https://packagist.org/packages/rocketeers/rocketeer)
+[![Total Downloads](http://img.shields.io/packagist/dt/rocketeers/rocketeer.svg?style=flat)](https://packagist.org/packages/rocketeers/rocketeer)
+[![Scrutinizer Quality Score](http://img.shields.io/scrutinizer/g/rocketeers/rocketeer.svg?style=flat)](https://scrutinizer-ci.com/g/rocketeers/rocketeer/)
+[![Code Coverage](http://img.shields.io/scrutinizer/coverage/g/rocketeers/rocketeer.svg?style=flat)](https://scrutinizer-ci.com/g/rocketeers/rocketeer/)
 [![Support via Gittip](http://img.shields.io/gittip/Anahkiasen.svg?style=flat)](https://www.gittip.com/Anahkiasen/)
 
 **Rocketeer** is a task runner and deployment package for the PHP world. It is inspired by the [Laravel Framework](http://laravel.com/) philosophy and thus aims to be fast, elegant, and more importantly easy to use.
@@ -13,7 +13,7 @@
 
 The easiest way is to get the latest compiled version [from the website](http://rocketeer.autopergamene.eu/versions/rocketeer.phar), put it at the root of the project you want to deploy, and hit `php rocketeer.phar ignite`. You'll get asked a series of questions that should get you up and running in no time.
 
-Rocketeer also integrates nicely with the Laravel framework, for that refer to the [Getting Started](https://github.com/Anahkiasen/rocketeer/wiki/Getting-started) pages of the documentation.
+Rocketeer also integrates nicely with the Laravel framework, for that refer to the [Getting Started](https://github.com/rocketeers/rocketeer/wiki/Getting-started) pages of the documentation.
 
 ## Usage
 
@@ -44,23 +44,23 @@ $ phpunit
 
 ## Contributing
 
-Please see [CONTRIBUTING](https://github.com/anahkiasen/rocketeer/blob/master/CONTRIBUTING.md) for details.
+Please see [CONTRIBUTING](https://github.com/rocketeers/rocketeer/blob/master/CONTRIBUTING.md) for details.
 
 ## Credits
 
 - [Anahkiasen](https://github.com/Anahkiasen)
-- [All Contributors](https://github.com/anahkiasen/rocketeer/contributors)
+- [All Contributors](https://github.com/rocketeers/rocketeer/contributors)
 
 ## License
 
-The MIT License (MIT). Please see [License File](https://github.com/anahkiasen/rocketeer/blob/master/LICENSE) for more information.
+The MIT License (MIT). Please see [License File](https://github.com/rocketeers/rocketeer/blob/master/LICENSE) for more information.
 
 -----
 
 ## Available plugins and integrations
 
-- [Campfire](https://github.com/Anahkiasen/rocketeer-campfire)
-- [Slack](https://github.com/Anahkiasen/rocketeer-slack)
+- [Campfire](https://github.com/rocketeers/rocketeer-campfire)
+- [Slack](https://github.com/rocketeers/rocketeer-slack)
 - [HipChat](https://github.com/hannesvdvreken/rocketeer-hipchat)
 - [Wordpress](https://github.com/mykebates/wp-rocketeer)
 
@@ -72,22 +72,3 @@ But, it remains a Ruby package and one that's tightly coupled to Rails in some w
 It's also meant to be a lot easier to comprehend, for first-time users or novices, Capistrano is a lot to take at once – Rocketeer aims to be as simple as possible by providing smart defaults and speeding up the time between installing it and first hitting `deploy`.
 
 It's also more thought out for the PHP world – although you can configure Capistrano to run Composer and PHPUnit, that's not something it expects from the get go, while those tasks that are a part of every PHP developer are integrated in Rocketeer's core deploy process.
-
-## Table of contents
-
-### Getting started
-
-- **[What's Rocketeer](https://github.com/Anahkiasen/rocketeer/wiki/Whats-Rocketeer)**
-- **[Getting Started](https://github.com/Anahkiasen/rocketeer/wiki/Getting-started)**
-
-### Core concepts
-
-- **[Tasks](https://github.com/Anahkiasen/rocketeer/wiki/Tasks)**
-- **[Events](https://github.com/Anahkiasen/rocketeer/wiki/Events)**
-- **[Connections and stages](https://github.com/Anahkiasen/rocketeer/wiki/Connections-Stages)**
-- **[Plugins](https://github.com/Anahkiasen/rocketeer/wiki/Plugins)**
-
-### Going further
-
-- **[Architecture](https://github.com/Anahkiasen/rocketeer/wiki/Architecture)**
-- **[Troubleshooting](https://github.com/Anahkiasen/rocketeer/wiki/Troubleshooting)**
