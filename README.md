@@ -1,10 +1,10 @@
 # Rocketeer
 
-[![Build Status](http://img.shields.io/travis/anahkiasen/rocketeer.svg?style=flat)](https://travis-ci.org/anahkiasen/rocketeer)
+[![Build Status](http://img.shields.io/travis/rocketeers/rocketeer.svg?style=flat)](https://travis-ci.org/rocketeers/rocketeer)
 [![Latest Stable Version](http://img.shields.io/packagist/v/anahkiasen/rocketeer.svg?style=flat)](https://packagist.org/packages/anahkiasen/rocketeer)
 [![Total Downloads](http://img.shields.io/packagist/dt/anahkiasen/rocketeer.svg?style=flat)](https://packagist.org/packages/anahkiasen/rocketeer)
-[![Scrutinizer Quality Score](http://img.shields.io/scrutinizer/g/anahkiasen/rocketeer.svg?style=flat)](https://scrutinizer-ci.com/g/anahkiasen/rocketeer/)
-[![Code Coverage](http://img.shields.io/scrutinizer/coverage/g/anahkiasen/rocketeer.svg?style=flat)](https://scrutinizer-ci.com/g/anahkiasen/rocketeer/)
+[![Scrutinizer Quality Score](http://img.shields.io/scrutinizer/g/rocketeers/rocketeer.svg?style=flat)](https://scrutinizer-ci.com/g/rocketeers/rocketeer/)
+[![Code Coverage](http://img.shields.io/scrutinizer/coverage/g/rocketeers/rocketeer.svg?style=flat)](https://scrutinizer-ci.com/g/rocketeers/rocketeer/)
 [![Support via Gittip](http://img.shields.io/gittip/Anahkiasen.svg?style=flat)](https://www.gittip.com/Anahkiasen/)
 
 **Rocketeer** is a task runner and deployment package for the PHP world. It is inspired by the [Laravel Framework](http://laravel.com/) philosophy and thus aims to be fast, elegant, and more importantly easy to use.
