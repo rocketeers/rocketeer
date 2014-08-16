@@ -41,16 +41,16 @@ class Update extends Deploy
 		}
 
 		// Recreate symlinks if necessary
-		$this->steps->syncSharedFolders();
+		$this->steps()->syncSharedFolders();
 
 		// Recompile dependencies and stuff
-		$this->steps->executeTask('Dependencies');
+		$this->steps()->executeTask('Dependencies');
 
 		// Set permissions
-		$this->steps->setApplicationPermissions();
+		$this->steps()->setApplicationPermissions();
 
 		// Run migrations
-		$this->steps->executeTask('Migrate');
+		$this->steps()->executeTask('Migrate');
 
 		// Run the steps
 		if (!$this->runSteps()) {

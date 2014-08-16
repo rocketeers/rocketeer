@@ -14,6 +14,7 @@ use Illuminate\Container\Container;
 use Illuminate\Support\Str;
 use Rocketeer\Bash;
 use Rocketeer\Services\StepsBuilder;
+use Rocketeer\Traits\StepsRunner;
 use Symfony\Component\Console\Helper\Table;
 
 /**
@@ -23,6 +24,8 @@ use Symfony\Component\Console\Helper\Table;
  */
 abstract class AbstractTask extends Bash
 {
+	use StepsRunner;
+
 	/**
 	 * The name of the task
 	 *
@@ -43,20 +46,6 @@ abstract class AbstractTask extends Bash
 	 * @var boolean
 	 */
 	protected $halted = false;
-
-	/**
-	 * @type StepsBuilder
-	 */
-	protected $steps;
-
-	/**
-	 * @param Container $app
-	 */
-	public function __construct(Container $app)
-	{
-		$this->app   = $app;
-		$this->steps = new StepsBuilder;
-	}
 
 	////////////////////////////////////////////////////////////////////
 	////////////////////////////// REFLECTION //////////////////////////
@@ -173,29 +162,6 @@ abstract class AbstractTask extends Bash
 	public function wasHalted()
 	{
 		return $this->halted === true;
-	}
-
-	////////////////////////////////////////////////////////////////////
-	/////////////////////////////// STEPS //////////////////////////////
-	////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Execute an array of calls until one halts
-	 *
-	 * @return boolean
-	 */
-	protected function runSteps()
-	{
-		foreach ($this->steps->getSteps() as $step) {
-			list($method, $arguments) = $step;
-			$arguments = (array) $arguments;
-
-			if (!call_user_func_array([$this, $method], $arguments)) {
-				return false;
-			}
-		}
-
-		return true;
 	}
 
 	////////////////////////////////////////////////////////////////////

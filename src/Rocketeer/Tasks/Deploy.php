@@ -53,20 +53,20 @@ class Deploy extends AbstractTask
 		}
 
 		// Create release and set permissions
-		$this->steps->executeTask($tasks);
-		$this->steps->setApplicationPermissions();
+		$this->steps()->executeTask($tasks);
+		$this->steps()->setApplicationPermissions();
 
 		// Run migrations
-		$this->steps->executeTask('Migrate');
+		$this->steps()->executeTask('Migrate');
 
 		// Synchronize shared folders and files
-		$this->steps->syncSharedFolders();
+		$this->steps()->syncSharedFolders();
 
 		// Run before-symlink events
-		$this->steps->fireEvent('before-symlink');
+		$this->steps()->fireEvent('before-symlink');
 
 		// Update symlink
-		$this->steps->updateSymlink();
+		$this->steps()->updateSymlink();
 
 		// Run the steps until one fails
 		if (!$this->runSteps()) {
