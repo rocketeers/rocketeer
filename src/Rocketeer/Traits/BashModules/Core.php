@@ -90,7 +90,8 @@ trait Core
 			$output .= $results;
 
 			if ($verbose) {
-				$this->getConnection()->display(trim($results));
+				$display = $this->cleanOutput($results);
+				$this->getConnection()->display(trim($display));
 			}
 		});
 
@@ -276,6 +277,20 @@ trait Core
 	}
 
 	/**
+	 * Clean the output of various intruding bits
+	 *
+	 * @param string $output
+	 *
+	 * @return string
+	 */
+	protected function cleanOutput($output)
+	{
+		return strtr($output, array(
+			'stdin: is not a tty' => null,
+		));
+	}
+
+	/**
 	 * Process the output of a command
 	 *
 	 * @param string|array $output
@@ -287,7 +302,7 @@ trait Core
 	protected function processOutput($output, $array = false, $trim = true)
 	{
 		// Remove polluting strings
-		$output = str_replace('stdin: is not a tty', null, $output);
+		$output = $this->cleanOutput($output);
 
 		// Explode output if necessary
 		if ($array) {
