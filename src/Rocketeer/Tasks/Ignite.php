@@ -85,9 +85,9 @@ class Ignite extends AbstractTask
 			$this->connections->getServerCredentials(),
 			array(
 				'connection'       => preg_replace('/#[0-9]+/', null, $this->connections->getConnection()),
-				'scm_repository'   => $repositoryCredentials['repository'],
-				'scm_username'     => $repositoryCredentials['username'],
-				'scm_password'     => $repositoryCredentials['password'],
+				'scm_repository'   => array_get($repositoryCredentials, 'repository'),
+				'scm_username'     => array_get($repositoryCredentials, 'username'),
+				'scm_password'     => array_get($repositoryCredentials, 'password'),
 				'application_name' => $this->command->ask('What is your application\'s name ? ('.$name.')', $name),
 			)
 		);
