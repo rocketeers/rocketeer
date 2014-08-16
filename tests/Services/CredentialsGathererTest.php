@@ -60,9 +60,17 @@ class CredentialsGathererTest extends RocketeerTestCase
 	public function testDoesntAskForRepositoryCredentialsIfUneeded()
 	{
 		$this->mockAnswers();
-		$this->givenConfiguredRepositoryCredentials(['repository' => $this->repository], false);
+		$this->command->shouldReceive('option')->andReturn(null);
+
+		$this->givenConfiguredRepositoryCredentials([
+				'repository' => $this->repository,
+				'username'   => null,
+				'password'   => null
+			], false);
 		$this->assertStoredCredentialsEquals(array(
 			'repository' => $this->repository,
+			'username'   => null,
+			'password'   => null,
 		));
 
 		$this->credentials->getRepositoryCredentials();
@@ -72,6 +80,7 @@ class CredentialsGathererTest extends RocketeerTestCase
 	{
 		$this->mockAnswers(array(
 			'No username is set for [repository]' => $this->username,
+			'No password is set for [repository]' => null,
 		));
 		$this->command->shouldReceive('option')->andReturn(null);
 

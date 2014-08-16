@@ -22,14 +22,19 @@ class CredentialsGatherer
 	{
 		// Check for repository credentials
 		$repositoryCredentials = $this->connections->getRepositoryCredentials();
-		$credentials           = ['repository' => true];
+
+		// Build credentials array
+		// null values are considered non required
+		$credentials = array(
+			'repository' => true,
+			'username'   => !is_null(array_get($repositoryCredentials, 'username', '')),
+			'password'   => !is_null(array_get($repositoryCredentials, 'password', '')),
+		);
 
 		// If we didn't specify a login/password ask for both the first time
-		if (!$this->getCredential($repositoryCredentials, 'repository')) {
-			$credentials += ['username' => true, 'password' => true];
-		} elseif ($this->connections->needsCredentials()) {
+		if ($this->connections->needsCredentials()) {
 			// Else assume the repository is passwordless and only ask again for username
-			$credentials += ['username' => true, 'password' => false];
+			$credentials += ['username' => true, 'password' => true];
 		}
 
 		// Gather credentials
@@ -87,7 +92,7 @@ class CredentialsGatherer
 		// Get the credentials for the asked connection
 		$connection = $connectionName.'.servers';
 		$connection = !is_null($server) ? $connection.'.'.$server : $connection;
-		$connection = array_get($connections, $connection, array());
+		$connection = array_get($connections, $connection, []);
 
 		// Update connection name
 		$handle = !is_null($server) ? $connectionName.'#'.$server : $connectionName;
