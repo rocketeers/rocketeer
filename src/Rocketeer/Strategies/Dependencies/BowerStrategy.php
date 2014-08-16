@@ -9,6 +9,7 @@
  */
 namespace Rocketeer\Strategies\Dependencies;
 
+use Illuminate\Support\Arr;
 use Rocketeer\Abstracts\Strategies\AbstractDependenciesStrategy;
 use Rocketeer\Interfaces\Strategies\DependenciesStrategyInterface;
 
@@ -64,7 +65,7 @@ class BowerStrategy extends AbstractDependenciesStrategy implements Dependencies
 	protected function getInstallationOptions()
 	{
 		$credentials = $this->connections->getServerCredentials();
-		if (array_get($credentials, 'username') == 'root') {
+		if (Arr::get($credentials, 'username') == 'root') {
 			return ['--allow-root' => null];
 		}
 

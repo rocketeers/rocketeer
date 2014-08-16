@@ -10,6 +10,7 @@
 namespace Rocketeer\Abstracts;
 
 use Illuminate\Container\Container;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Rocketeer\Traits\HasLocator;
 
@@ -169,7 +170,7 @@ class AbstractBinary
 		$flags   = (array) $flags;
 
 		// Flip array if necessary
-		$firstKey = array_get(array_keys($flags), 0);
+		$firstKey = Arr::get(array_keys($flags), 0);
 		if (!is_null($firstKey) and is_int($firstKey)) {
 			$flags = array_combine(
 				array_values($flags),

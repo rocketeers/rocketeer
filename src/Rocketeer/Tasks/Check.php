@@ -9,6 +9,7 @@
  */
 namespace Rocketeer\Tasks;
 
+use Illuminate\Support\Arr;
 use Rocketeer\Abstracts\AbstractTask;
 
 /**
@@ -147,7 +148,7 @@ class Check extends AbstractTask
 			$composer = json_decode($composer, true);
 
 			// Strip versions of constraints
-			$required = (string) array_get($composer, 'require.php');
+			$required = (string) Arr::get($composer, 'require.php');
 			$required = preg_replace('/>=/', '', $required);
 		}
 

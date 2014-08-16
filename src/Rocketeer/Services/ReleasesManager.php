@@ -10,6 +10,7 @@
 namespace Rocketeer\Services;
 
 use Illuminate\Container\Container;
+use Illuminate\Support\Arr;
 use Rocketeer\Services\Storages\ServerStorage;
 use Rocketeer\Traits\HasLocator;
 
@@ -225,7 +226,7 @@ class ReleasesManager
 	 */
 	public function checkReleaseState($release)
 	{
-		return array_get($this->state, $release, true);
+		return Arr::get($this->state, $release, true);
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -239,7 +240,7 @@ class ReleasesManager
 	 */
 	public function getCurrentRelease()
 	{
-		$current = array_get($this->getReleases(), 0);
+		$current = Arr::get($this->getReleases(), 0);
 		$current = $this->sanitizeRelease($current);
 
 		return $this->nextRelease ?: $current;
@@ -263,7 +264,7 @@ class ReleasesManager
 		$key  = !is_int($key) ? -1 : $key;
 		$next = 1;
 		do {
-			$release = array_get($releases, $key + $next);
+			$release = Arr::get($releases, $key + $next);
 			$next++;
 		} while (!$this->checkReleaseState($release));
 

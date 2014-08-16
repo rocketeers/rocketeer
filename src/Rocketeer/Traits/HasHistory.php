@@ -9,6 +9,8 @@
  */
 namespace Rocketeer\Traits;
 
+use Illuminate\Support\Arr;
+
 /**
  * A class that maintains an history of results/commands
  *
@@ -28,7 +30,7 @@ trait HasHistory
 	{
 		$handle  = $this->getHistoryHandle();
 		$history = $this->history[$handle];
-		$history = array_get($history, $type);
+		$history = Arr::get($history, $type);
 
 		return $history;
 	}

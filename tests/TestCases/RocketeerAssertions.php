@@ -1,6 +1,8 @@
 <?php
 namespace Rocketeer\TestCases;
 
+use Illuminate\Support\Arr;
+
 trait RocketeerAssertions
 {
 	/**
@@ -97,9 +99,9 @@ trait RocketeerAssertions
 		// Look for release in history
 		$release = implode(array_flatten($obtained));
 		preg_match_all('/[0-9]{14}/', $release, $releases);
-		$release = array_get($releases, '0.0', date('YmdHis'));
+		$release = Arr::get($releases, '0.0', date('YmdHis'));
 		if ($release === '10000000000000') {
-			$release = array_get($releases, '0.1', date('YmdHis'));
+			$release = Arr::get($releases, '0.1', date('YmdHis'));
 		}
 
 		// Replace placeholders

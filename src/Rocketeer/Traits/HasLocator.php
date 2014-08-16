@@ -10,6 +10,7 @@
 namespace Rocketeer\Traits;
 
 use Illuminate\Container\Container;
+use Illuminate\Support\Arr;
 
 /**
  * A trait for Service Locator-based classes wich adds
@@ -130,6 +131,6 @@ trait HasLocator
 			return null;
 		}
 
-		return $loose ? array_get($this->command->option(), $option) : $this->command->option($option);
+		return $loose ? Arr::get($this->command->option(), $option) : $this->command->option($option);
 	}
 }

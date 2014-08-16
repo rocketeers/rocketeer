@@ -9,6 +9,7 @@
  */
 namespace Rocketeer\Services;
 
+use Illuminate\Support\Arr;
 use Rocketeer\Traits\HasLocator;
 
 class CredentialsGatherer
@@ -27,8 +28,8 @@ class CredentialsGatherer
 		// null values are considered non required
 		$credentials = array(
 			'repository' => true,
-			'username'   => !is_null(array_get($repositoryCredentials, 'username', '')),
-			'password'   => !is_null(array_get($repositoryCredentials, 'password', '')),
+			'username'   => !is_null(Arr::get($repositoryCredentials, 'username', '')),
+			'password'   => !is_null(Arr::get($repositoryCredentials, 'password', '')),
 		);
 
 		// If we didn't specify a login/password ask for both the first time
@@ -70,7 +71,7 @@ class CredentialsGatherer
 
 		// Else loop through the connections and fill in credentials
 		foreach ($activeConnections as $connectionName) {
-			$servers = array_get($availableConnections, $connectionName.'.servers');
+			$servers = Arr::get($availableConnections, $connectionName.'.servers');
 			$servers = array_keys($servers);
 			foreach ($servers as $server) {
 				$this->getConnectionCredentials($connectionName, $server);
@@ -92,7 +93,7 @@ class CredentialsGatherer
 		// Get the credentials for the asked connection
 		$connection = $connectionName.'.servers';
 		$connection = !is_null($server) ? $connection.'.'.$server : $connection;
-		$connection = array_get($connections, $connection, []);
+		$connection = Arr::get($connections, $connection, []);
 
 		// Update connection name
 		$handle = !is_null($server) ? $connectionName.'#'.$server : $connectionName;
@@ -181,7 +182,7 @@ class CredentialsGatherer
 	 */
 	protected function getCredential($credentials, $credential)
 	{
-		$value = array_get($credentials, $credential);
+		$value = Arr::get($credentials, $credential);
 		if (substr($value, 0, 1) === '{') {
 			return;
 		}

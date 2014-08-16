@@ -63,10 +63,10 @@ class CredentialsGathererTest extends RocketeerTestCase
 		$this->command->shouldReceive('option')->andReturn(null);
 
 		$this->givenConfiguredRepositoryCredentials([
-				'repository' => $this->repository,
-				'username'   => null,
-				'password'   => null
-			], false);
+			'repository' => $this->repository,
+			'username'   => null,
+			'password'   => null
+		], false);
 		$this->assertStoredCredentialsEquals(array(
 			'repository' => $this->repository,
 			'username'   => null,

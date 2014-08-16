@@ -9,6 +9,7 @@
  */
 namespace Rocketeer\Scm;
 
+use Illuminate\Support\Arr;
 use Rocketeer\Abstracts\AbstractBinary;
 use Rocketeer\Interfaces\ScmInterface;
 
@@ -114,10 +115,10 @@ class Svn extends AbstractBinary implements ScmInterface
 		$credentials = $this->connections->getRepositoryCredentials();
 
 		// Build command
-		if ($user = array_get($credentials, 'username')) {
+		if ($user = Arr::get($credentials, 'username')) {
 			$options['--username'] = $user;
 		}
-		if ($pass = array_get($credentials, 'password')) {
+		if ($pass = Arr::get($credentials, 'password')) {
 			$options['--password'] = $pass;
 		}
 

@@ -137,7 +137,7 @@ class ConnectionsHandler
 
 		// Unify multiservers
 		foreach ($connections as $key => $servers) {
-			$servers           = array_get($servers, 'servers', [$servers]);
+			$servers           = Arr::get($servers, 'servers', [$servers]);
 			$connections[$key] = ['servers' => array_values($servers)];
 		}
 
@@ -155,7 +155,7 @@ class ConnectionsHandler
 	{
 		$available = (array) $this->getAvailableConnections();
 
-		return (bool) array_get($available, $connection.'.servers');
+		return (bool) Arr::get($available, $connection.'.servers');
 	}
 
 	/**
@@ -203,7 +203,7 @@ class ConnectionsHandler
 			return $this->connection;
 		}
 
-		$connection       = array_get($this->getConnections(), 0);
+		$connection       = Arr::get($this->getConnections(), 0);
 		$this->connection = $connection;
 
 		return $this->connection;
@@ -221,7 +221,7 @@ class ConnectionsHandler
 		$connection = $connection ?: $this->getConnection();
 		$available  = $this->getAvailableConnections();
 
-		return array_get($available, $connection.'.servers');
+		return Arr::get($available, $connection.'.servers');
 	}
 
 	/**
@@ -236,7 +236,7 @@ class ConnectionsHandler
 	{
 		$connection = $this->getConnectionCredentials($connection);
 
-		return array_get($connection, $server);
+		return Arr::get($connection, $server);
 	}
 
 	/**
@@ -329,9 +329,9 @@ class ConnectionsHandler
 	{
 		// Get credentials
 		$repository = $this->getRepositoryCredentials();
-		$username   = array_get($repository, 'username');
-		$password   = array_get($repository, 'password');
-		$repository = array_get($repository, 'repository');
+		$username   = Arr::get($repository, 'username');
+		$password   = Arr::get($repository, 'password');
+		$repository = Arr::get($repository, 'repository');
 
 		// Add credentials if possible
 		if ($username or $password) {

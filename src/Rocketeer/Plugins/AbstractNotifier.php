@@ -9,6 +9,7 @@
  */
 namespace Rocketeer\Plugins;
 
+use Illuminate\Support\Arr;
 use Rocketeer\Abstracts\AbstractPlugin;
 use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Services\TasksHandler;
@@ -71,7 +72,7 @@ abstract class AbstractNotifier extends AbstractPlugin
 
 		// Get hostname
 		$credentials = $this->connections->getServerCredentials($connection, $server);
-		$host        = array_get($credentials, 'host');
+		$host        = Arr::get($credentials, 'host');
 		if ($stage) {
 			$connection = $stage.'@'.$connection;
 		}

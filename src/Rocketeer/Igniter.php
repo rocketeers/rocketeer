@@ -9,6 +9,7 @@
 */
 namespace Rocketeer;
 
+use Illuminate\Support\Arr;
 use Rocketeer\Traits\HasLocator;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
@@ -137,7 +138,7 @@ class Igniter
 		}
 
 		// Change repository in use
-		$application = array_get($values, 'application_name');
+		$application = Arr::get($values, 'application_name');
 		$this->localStorage->setFile($application);
 	}
 
