@@ -314,19 +314,15 @@ class ConnectionsHandler
 	 */
 	public function getRepositoryCredentials()
 	{
-		$credentials = $this->localStorage->get('credentials');
-		if (!$credentials) {
-			$credentials = $this->rocketeer->getOption('scm');
-		}
-
-		// Cast to array
-		$credentials = (array) $credentials;
-
-		return array_merge(array(
+		$config      = (array) $this->rocketeer->getOption('scm');
+		$credentials = (array) $this->localStorage->get('credentials');
+		$defaults = array(
 			'repository' => '',
 			'username'   => '',
 			'password'   => '',
-		), $credentials);
+		);
+
+		return array_merge($defaults, $config, $credentials);
 	}
 
 	/**
