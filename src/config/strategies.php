@@ -36,7 +36,8 @@ return array(
 
 	'primer' => function (Primer $task) {
 		return array(
-			// $task->getStrategy('Test')->test(),
+			// $task->executeTask('Test'),
+			// $task->binary('grunt')->execute('lint'),
 		);
 	}
 
