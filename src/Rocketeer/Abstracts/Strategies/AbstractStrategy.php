@@ -44,8 +44,8 @@ abstract class AbstractStrategy extends Bash
 		$components = get_class($this);
 		$components = explode('\\', $components);
 
-		$name     = array_get($components, sizeof($components) - 1);
-		$strategy = array_get($components, sizeof($components) - 2);
+		$name     = array_get($components, count($components) - 1);
+		$strategy = array_get($components, count($components) - 2);
 
 		$object  = 'Running strategy for '.ucfirst($strategy);
 		$subject = str_replace('Strategy', null, $name);

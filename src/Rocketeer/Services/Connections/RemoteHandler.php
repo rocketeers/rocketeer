@@ -33,6 +33,8 @@ class RemoteHandler
 
 	/**
 	 * Get the current Connection
+	 *
+	 * @return Connection
 	 */
 	public function connection()
 	{

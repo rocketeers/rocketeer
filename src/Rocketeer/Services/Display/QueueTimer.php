@@ -45,7 +45,7 @@ class QueueTimer
 	 * Save the execution time of a task for future reference
 	 *
 	 * @param AbstractTask $task
-	 * @param float        $time
+	 * @param double       $time
 	 */
 	public function saveTaskTime(AbstractTask $task, $time)
 	{
@@ -66,7 +66,7 @@ class QueueTimer
 	 *
 	 * @param AbstractTask $task
 	 *
-	 * @return float
+	 * @return double|null
 	 */
 	public function getTaskTime(AbstractTask $task)
 	{
@@ -101,7 +101,7 @@ class QueueTimer
 
 	/**
 	 * @param AbstractTask $task
-	 * @param double[]        $past
+	 * @param double[]     $past
 	 */
 	protected function saveTaskTimes(AbstractTask $task, array $past)
 	{
