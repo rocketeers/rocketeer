@@ -32,8 +32,8 @@
 		"phpseclib/phpseclib": "~0.3.5"
 	},
 	"suggest": {
-		"rocketeers/rocketeer-campfire": "Campfire plugin to create deployments notifications",
-		"rocketeers/rocketeer-slack": "Slack plugin to create deployments notifications"
+		"anahkiasen/rocketeer-campfire": "Campfire plugin to create deployments notifications",
+		"anahkiasen/rocketeer-slack": "Slack plugin to create deployments notifications"
 	},
 	"bin": [
 		"bin/rocketeer"
