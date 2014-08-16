@@ -52,6 +52,43 @@ class DeployTest extends RocketeerTestCase
 		));
 	}
 
+	public function testStepsRunnerDoesntCancelWithPermissionsAndShared()
+	{
+		$this->swapConfig(array(
+			'rocketeer::remote.shared'            => [],
+			'rocketeer::remote.permissions.files' => [],
+		));
+
+		$matcher = array(
+			'git clone "{repository}" "{server}/releases/{release}" --branch="master" --depth="1"',
+			array(
+				"cd {server}/releases/{release}",
+				"git submodule update --init --recursive"
+			),
+			array(
+				"cd {server}/releases/{release}",
+				exec('which phpunit')." --stop-on-failure"
+			),
+			array(
+				"cd {server}/releases/{release}",
+				"{php} artisan migrate"
+			),
+			array(
+				"cd {server}/releases/{release}",
+				"{php} artisan db:seed"
+			),
+			"mv {server}/current {server}/releases/{release}",
+			"rm -rf {server}/current",
+			"ln -s {server}/releases/{release} {server}/current",
+		);
+
+		$this->assertTaskHistory('Deploy', $matcher, array(
+			'tests'   => true,
+			'seed'    => true,
+			'migrate' => true
+		));
+	}
+
 	public function testCanDisableGitOptions()
 	{
 		$this->swapConfig(array(

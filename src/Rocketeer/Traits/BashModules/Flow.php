@@ -73,7 +73,7 @@ trait Flow
 			$this->share($file);
 		}
 
-		return $shared;
+		return true;
 	}
 
 	/**

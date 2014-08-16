@@ -94,6 +94,6 @@ class Deploy extends AbstractTask
 			$this->setPermissions($file);
 		}
 
-		return $files;
+		return true;
 	}
 }
