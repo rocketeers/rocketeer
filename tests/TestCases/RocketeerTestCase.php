@@ -81,7 +81,7 @@ abstract class RocketeerTestCase extends ContainerTestCase
 		$this->home = $_SERVER['HOME'];
 
 		// Recreate deployments file
-		$this->app['files']->put($this->deploymentsFile, json_encode(array(
+		$this->files->put($this->deploymentsFile, json_encode(array(
 			'foo'                 => 'bar',
 			'directory_separator' => '/',
 			'is_setup'            => true,
@@ -92,8 +92,8 @@ abstract class RocketeerTestCase extends ContainerTestCase
 		$rootPath = $this->server.'/../../..';
 
 		// Recreate altered local server
-		$this->app['files']->deleteDirectory($rootPath.'/storage');
-		$this->app['files']->deleteDirectory($this->server.'/logs');
+		$this->files->deleteDirectory($rootPath.'/storage');
+		$this->files->deleteDirectory($this->server.'/logs');
 		$folders = array(
 			'current',
 			'shared',
@@ -105,9 +105,9 @@ abstract class RocketeerTestCase extends ContainerTestCase
 		foreach ($folders as $folder) {
 			$folder = $this->server.'/'.$folder;
 
-			$this->app['files']->deleteDirectory($folder);
-			$this->app['files']->delete($folder);
-			$this->app['files']->makeDirectory($folder, 0777, true);
+			$this->files->deleteDirectory($folder);
+			$this->files->delete($folder);
+			$this->files->makeDirectory($folder, 0777, true);
 			file_put_contents($folder.'/.gitkeep', '');
 		}
 		file_put_contents($this->server.'/state.json', json_encode(array(
@@ -118,8 +118,8 @@ abstract class RocketeerTestCase extends ContainerTestCase
 
 		// Delete rocketeer config
 		$binary = $rootPath.'/.rocketeer';
-		$this->app['files']->deleteDirectory($binary);
-		$this->app['files']->deleteDirectory($this->customConfig);
+		$this->files->deleteDirectory($binary);
+		$this->files->deleteDirectory($this->customConfig);
 	}
 
 	////////////////////////////////////////////////////////////////////
