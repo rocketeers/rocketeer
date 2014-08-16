@@ -1,5 +1,5 @@
 {
-	"name": "anahkiasen/rocketeer",
+	"name": "rocketeers/rocketeer",
 	"description": "Rocketeer is a fast and simple deployer for the PHP world",
 	"license": "MIT",
 	"keywords": [
@@ -32,8 +32,8 @@
 		"phpseclib/phpseclib": "~0.3.5"
 	},
 	"suggest": {
-		"anahkiasen/rocketeer-campfire": "Campfire plugin to create deployments notifications",
-		"anahkiasen/rocketeer-slack": "Slack plugin to create deployments notifications"
+		"rocketeers/rocketeer-campfire": "Campfire plugin to create deployments notifications",
+		"rocketeers/rocketeer-slack": "Slack plugin to create deployments notifications"
 	},
 	"bin": [
 		"bin/rocketeer"
