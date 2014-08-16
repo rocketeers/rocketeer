@@ -37,8 +37,8 @@
 		"johnkary/phpunit-speedtrap": "dev-master"
 	},
 	"suggest": {
-		"rocketeers/rocketeer-campfire": "Campfire plugin to create deployments notifications",
-		"rocketeers/rocketeer-slack": "Slack plugin to create deployments notifications",
+		"anahkiasen/rocketeer-campfire": "Campfire plugin to create deployments notifications",
+		"anahkiasen/rocketeer-slack": "Slack plugin to create deployments notifications",
 		"ext-pcntl": "Allow parallel deployments"
 	},
 	"bin": [
