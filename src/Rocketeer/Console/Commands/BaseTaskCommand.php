@@ -38,8 +38,10 @@ class BaseTaskCommand extends AbstractCommand
 		parent::__construct($task);
 
 		// Set name
-		$this->name = $name ?: $task->getSlug();
-		$this->name = 'deploy:'.$this->name;
+		if ($this->name == 'deploy:custom') {
+			$this->name = $name ?: $task->getSlug();
+			$this->name = 'deploy:'.$this->name;
+		}
 	}
 
 	/**

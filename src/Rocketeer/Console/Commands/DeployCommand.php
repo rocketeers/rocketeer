@@ -19,6 +19,13 @@ use Symfony\Component\Console\Input\InputOption;
 class DeployCommand extends BaseTaskCommand
 {
 	/**
+	 * The default name
+	 *
+	 * @var string
+	 */
+	protected $name = 'deploy:deploy';
+
+	/**
 	 * Execute the tasks
 	 *
 	 * @return integer
