@@ -238,7 +238,10 @@ class TasksQueue
 	 */
 	protected function runAsynchronously(Pipeline $pipeline)
 	{
-		if (!extension_loaded('pcntl')) {
+		$this->parallel = $this->parallel ?: new Parallel();
+
+		// Check if supported
+		if (!$this->parallel->isSupported()) {
 			throw new Exception('Parallel jobs require the PCNTL extension');
 		}
 
