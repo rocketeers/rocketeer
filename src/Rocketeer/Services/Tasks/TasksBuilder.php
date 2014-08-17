@@ -83,24 +83,8 @@ class TasksBuilder
 	 */
 	public function buildTask($task, $name = null, $description = null)
 	{
-		// Check the handle if possible
-		if (is_string($task)) {
-			$handle = 'rocketeer.tasks.'.Str::snake($task, '-');
-		}
-
-		if ($task instanceof Closure) {
-			// If we provided a Closure, build a ClosureTask
-			$task = $this->buildTaskFromClosure($task);
-		} elseif (isset($handle) and $this->app->bound($handle)) {
-			// If we passed a task handle, return it
-			$task = $this->app[$handle];
-		} elseif (is_array($task) or $this->isStringCommand($task)) {
-			// If we passed a command, build a ClosureTask
-			$task = $this->buildTaskFromString($task);
-		} elseif (!$task instanceof AbstractTask) {
-			// Else it's a class name, get the appropriated task
-			$task = $this->buildTaskFromClass($task);
-		}
+		// Compose the task from their various types
+		$task = $this->composeTask($task);
 
 		// If the built class is invalid, cancel
 		if (!$task instanceof AbstractTask) {
@@ -112,6 +96,41 @@ class TasksBuilder
 		$task->setDescription($description);
 
 		return $task;
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	////////////////////////////// COMPOSING /////////////////////////////
+	//////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Compose a Task from its various types
+	 *
+	 * @param string|Closure|AbstractTask $task
+	 *
+	 * @return mixed|AbstractTask
+	 * @throws \Rocketeer\Exceptions\TaskCompositionException
+	 */
+	protected function composeTask($task)
+	{
+		// If we provided a Closure, build a ClosureTask
+		if ($task instanceof Closure) {
+			return $this->buildTaskFromClosure($task);
+		}
+
+		// If we passed a task handle, return it
+		if ($handle = $this->getTaskHandle($task)) {
+			return $this->app[$handle];
+		}
+
+		// If we passed a command, build a ClosureTask
+		if (is_array($task) or $this->isStringCommand($task)) {
+			return $this->buildTaskFromString($task);
+		}
+
+		// Else it's a class name, get the appropriated task
+		if (!$task instanceof AbstractTask) {
+			return $this->buildTaskFromClass($task);
+		}
 	}
 
 	/**
@@ -179,6 +198,27 @@ class TasksBuilder
 	////////////////////////////////////////////////////////////////////
 	/////////////////////////////// HELPERS ////////////////////////////
 	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Get the handle of a task from its name
+	 *
+	 * @param string $task
+	 *
+	 * @return string|null
+	 */
+	protected function getTaskHandle($task)
+	{
+		// Check the handle if possible
+		if (!is_string($task)) {
+			return;
+		}
+
+		// Compute the handle and check it's bound
+		$handle = 'rocketeer.tasks.'.Str::snake($task, '-');
+		$task   = $this->app->bound($handle) ? $handle : null;
+
+		return $task;
+	}
 
 	/**
 	 * Check if a string is a command or a task
