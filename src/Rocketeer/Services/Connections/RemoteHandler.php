@@ -9,8 +9,8 @@
  */
 namespace Rocketeer\Services\Connections;
 
-use Illuminate\Remote\Connection;
 use InvalidArgumentException;
+use Rocketeer\Exceptions\MissingCredentialsException;
 use Rocketeer\Traits\HasLocator;
 use Symfony\Component\Console\Output\NullOutput;
 
@@ -32,14 +32,17 @@ class RemoteHandler
 	protected $active = [];
 
 	/**
-	 * Get the current Connection
+	 * Create a specific connection or the default one
+	 *
+	 * @param string|null $connection
+	 * @param integer     $server
 	 *
 	 * @return Connection
 	 */
-	public function connection()
+	public function connection($connection = null, $server = 0)
 	{
-		$name   = $this->connections->getConnection();
-		$server = $this->connections->getServer();
+		$name   = $connection ?: $this->connections->getConnection();
+		$server = $server ?: $this->connections->getServer();
 		$handle = $name.'#'.$server;
 
 		// Check the cache
@@ -61,12 +64,13 @@ class RemoteHandler
 	 * @param string $name
 	 * @param array  $credentials
 	 *
+	 * @throws MissingCredentialsException
 	 * @return Connection
 	 */
 	protected function makeConnection($name, array $credentials)
 	{
 		if (!isset($credentials['host']) || !isset($credentials['username'])) {
-			throw new InvalidArgumentException('Host and/or username is required for '.$name);
+			throw new MissingCredentialsException('Host and/or username is required for '.$name);
 		}
 
 		$connection = new Connection(
@@ -103,7 +107,7 @@ class RemoteHandler
 			return array('password' => $config['password']);
 		}
 
-		throw new InvalidArgumentException('Password / key is required.');
+		throw new MissingCredentialsException('Password / key is required.');
 	}
 
 	/**
