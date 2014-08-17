@@ -20,6 +20,19 @@ use Rocketeer\Bash;
 abstract class AbstractStrategy extends Bash
 {
 	/**
+	 * @type string
+	 */
+	protected $description;
+
+	/**
+	 * @return string
+	 */
+	public function getDescription()
+	{
+		return $this->description;
+	}
+
+	/**
 	 * Whether this particular strategy is runnable or not
 	 *
 	 * @return boolean

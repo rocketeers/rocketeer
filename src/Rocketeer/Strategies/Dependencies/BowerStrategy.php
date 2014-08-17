@@ -16,6 +16,11 @@ use Rocketeer\Interfaces\Strategies\DependenciesStrategyInterface;
 class BowerStrategy extends AbstractDependenciesStrategy implements DependenciesStrategyInterface
 {
 	/**
+	 * @type string
+	 */
+	protected $description = 'Installs dependencies with Bower';
+
+	/**
 	 * The name of the manifest file to look for
 	 *
 	 * @type string

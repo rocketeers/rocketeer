@@ -298,7 +298,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 						'foobar'
 					),
 				),
-			)
+			),
 		);
 
 		// Assign options to expectations

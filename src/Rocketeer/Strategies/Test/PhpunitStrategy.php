@@ -15,6 +15,11 @@ use Rocketeer\Interfaces\Strategies\TestStrategyInterface;
 class PhpunitStrategy extends AbstractStrategy implements TestStrategyInterface
 {
 	/**
+	 * @type string
+	 */
+	protected $description = 'Run the tests with PHPUnit';
+
+	/**
 	 * Whether this particular strategy is runnable or not
 	 *
 	 * @return boolean

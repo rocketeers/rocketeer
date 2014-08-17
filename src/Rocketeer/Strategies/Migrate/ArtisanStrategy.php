@@ -15,6 +15,11 @@ use Rocketeer\Interfaces\Strategies\MigrateStrategyInterface;
 class ArtisanStrategy extends AbstractStrategy implements MigrateStrategyInterface
 {
 	/**
+	 * @type string
+	 */
+	protected $description = 'Migrates your database with Laravel\'s Artisan CLI';
+
+	/**
 	 * Whether this particular strategy is runnable or not
 	 *
 	 * @return boolean

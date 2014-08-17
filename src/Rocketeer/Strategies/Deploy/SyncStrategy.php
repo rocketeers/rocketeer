@@ -15,6 +15,11 @@ use Rocketeer\Interfaces\Strategies\DeployStrategyInterface;
 class SyncStrategy extends AbstractStrategy implements DeployStrategyInterface
 {
 	/**
+	 * @type string
+	 */
+	protected $description = 'Uses rsync to create or update a release from the local files';
+
+	/**
 	 * Deploy a new clean copy of the application
 	 *
 	 * @param string|null $destination

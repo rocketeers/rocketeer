@@ -14,6 +14,11 @@ use Rocketeer\Interfaces\Strategies\DeployStrategyInterface;
 class CopyStrategy extends CloneStrategy implements DeployStrategyInterface
 {
 	/**
+	 * @type string
+	 */
+	protected $description = 'Copies the previously cloned instance of the repository and update it';
+
+	/**
 	 * Deploy a new clean copy of the application
 	 *
 	 * @param string|null $destination
