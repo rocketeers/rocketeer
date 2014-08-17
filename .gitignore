@@ -1,16 +1,11 @@
-# Cache and compiled
+# Development
 .idea
+
+# Cache and compiled
 .rocketeer
 bin/phar
 bin/rocketeer.phar
 composer.lock
-storage
-
-# Plugins
-rocketeer-campfire
-
-# Tests
-tests/_meta/coverage
 
 # Dependencies
 vendor
