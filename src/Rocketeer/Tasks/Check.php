@@ -112,7 +112,7 @@ class Check extends AbstractTask
 		$results = $this->scm->run('check');
 		$this->toOutput($results);
 
-		return $this->remote->status() == 0;
+		return $this->getConnection()->status() == 0;
 	}
 
 	/**

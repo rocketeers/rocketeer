@@ -18,25 +18,8 @@ use Symfony\Component\Console\Input\InputOption;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class RollbackCommand extends AbstractCommand
+class RollbackCommand extends BaseTaskCommand
 {
-	/**
-	 * The console command name.
-	 *
-	 * @var string
-	 */
-	protected $name = 'deploy:rollback';
-
-	/**
-	 * The tasks to execute
-	 *
-	 * @return integer
-	 */
-	public function fire()
-	{
-		return $this->fireTasksQueue('rollback');
-	}
-
 	/**
 	 * Get the console command arguments.
 	 *

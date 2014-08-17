@@ -17,25 +17,8 @@ use Symfony\Component\Console\Input\InputOption;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class CleanupCommand extends AbstractCommand
+class CleanupCommand extends BaseTaskCommand
 {
-	/**
-	 * The console command name.
-	 *
-	 * @var string
-	 */
-	protected $name = 'deploy:cleanup';
-
-	/**
-	 * Execute the tasks
-	 *
-	 * @return integer
-	 */
-	public function fire()
-	{
-		return $this->fireTasksQueue('cleanup');
-	}
-
 	/**
 	 * Get the console command options.
 	 *

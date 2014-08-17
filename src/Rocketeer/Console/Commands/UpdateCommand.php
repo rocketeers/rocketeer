@@ -17,25 +17,8 @@ use Symfony\Component\Console\Input\InputOption;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class UpdateCommand extends AbstractCommand
+class UpdateCommand extends BaseTaskCommand
 {
-	/**
-	 * The console command name.
-	 *
-	 * @var string
-	 */
-	protected $name = 'deploy:update';
-
-	/**
-	 * Execute the tasks
-	 *
-	 * @return integer
-	 */
-	public function fire()
-	{
-		return $this->fireTasksQueue('update');
-	}
-
 	/**
 	 * Get the console command options.
 	 *

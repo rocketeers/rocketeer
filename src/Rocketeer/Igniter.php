@@ -50,7 +50,7 @@ class Igniter
 		};
 
 		// Defer loading of tasks and events or not
-		if (method_exists($this->app, 'booted')) {
+		if (is_a($this->app, 'Illuminate\Foundation\Application')) {
 			$this->app->booted($fileLoaders);
 		} else {
 			$fileLoaders();

@@ -85,7 +85,7 @@ class Deploy extends AbstractTask
 	/**
 	 * Set permissions for the folders used by the application
 	 *
-	 * @return true
+	 * @return boolean
 	 */
 	protected function setApplicationPermissions()
 	{

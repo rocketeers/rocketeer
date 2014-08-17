@@ -17,15 +17,8 @@ use Symfony\Component\Console\Input\InputOption;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class DeployCommand extends AbstractCommand
+class DeployCommand extends BaseTaskCommand
 {
-	/**
-	 * The console command name.
-	 *
-	 * @var string
-	 */
-	protected $name = 'deploy:deploy';
-
 	/**
 	 * Execute the tasks
 	 *

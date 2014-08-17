@@ -72,6 +72,7 @@ class LocalConnection implements ConnectionInterface
 
 			$this->previousStatus = $status;
 			if ($callback) {
+				$output = (array) $output;
 				foreach ($output as $line) {
 					$callback($line.PHP_EOL);
 				}

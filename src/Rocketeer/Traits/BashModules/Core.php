@@ -198,7 +198,7 @@ trait Core
 	public function checkStatus($error, $output = null, $success = null)
 	{
 		// If all went well
-		if ($this->remote->status() == 0) {
+		if ($this->getConnection()->status() == 0) {
 			if ($success) {
 				$this->command->comment($success);
 			}

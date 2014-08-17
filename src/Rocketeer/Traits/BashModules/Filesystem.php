@@ -134,7 +134,7 @@ trait Filesystem
 	 */
 	public function getFile($file)
 	{
-		return $this->remote->getString($file);
+		return $this->getConnection()->getString($file);
 	}
 
 	/**
@@ -147,7 +147,7 @@ trait Filesystem
 	 */
 	public function putFile($file, $contents)
 	{
-		$this->remote->putString($file, $contents);
+		$this->getConnection()->putString($file, $contents);
 	}
 
 	/**
@@ -165,7 +165,7 @@ trait Filesystem
 		// Get contents and destination
 		$destination = $destination ?: basename($file);
 
-		$this->remote->put($file, $destination);
+		$this->getConnection()->put($file, $destination);
 	}
 
 	////////////////////////////////////////////////////////////////////

@@ -28,13 +28,6 @@ class BaseTaskCommand extends AbstractCommand
 	protected $name = 'deploy:custom';
 
 	/**
-	 * the task to execute on fire
-	 *
-	 * @var AbstractTask
-	 */
-	protected $task;
-
-	/**
 	 * Build a new custom command
 	 *
 	 * @param AbstractTask $task

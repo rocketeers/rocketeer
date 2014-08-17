@@ -22,6 +22,13 @@ use Symfony\Component\Console\Input\InputOption;
 abstract class AbstractCommand extends Command
 {
 	/**
+	 * the task to execute on fire
+	 *
+	 * @var AbstractTask
+	 */
+	protected $task;
+
+	/**
 	 * @param AbstractTask|null $task
 	 */
 	public function __construct(AbstractTask $task = null)
