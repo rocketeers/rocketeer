@@ -9,7 +9,6 @@
  */
 namespace Rocketeer\Console\Commands;
 
-use Rocketeer\Abstracts\AbstractCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 

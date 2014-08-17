@@ -64,7 +64,7 @@ trait Flow
 	/**
 	 * Sync the requested folders and files
 	 *
-	 * @return void
+	 * @return boolean
 	 */
 	protected function syncSharedFolders()
 	{
