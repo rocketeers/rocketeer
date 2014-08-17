@@ -20,7 +20,7 @@ return array(
 	'migrate'      => 'Artisan',
 
 	// Which strategy to use to install your application's dependencies
-	'dependencies' => 'Composer',
+	'dependencies' => 'Polyglot',
 
 	// Execution hooks
 	//////////////////////////////////////////////////////////////////////

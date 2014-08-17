@@ -282,6 +282,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 				'shallow'    => true,
 				'submodules' => true,
 			),
+			'rocketeer::strategies.dependencies'  => 'Composer',
 			'rocketeer::hooks'                    => array(
 				'before' => array(
 					'deploy' => array(
