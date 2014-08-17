@@ -95,6 +95,8 @@ class QueueExplainer
 	 * Display the results of something
 	 *
 	 * @param string $comment
+	 *
+	 * @return string
 	 */
 	public function results($comment)
 	{
@@ -105,6 +107,8 @@ class QueueExplainer
 		// Build results and display them
 		$comment = $this->getTree('==').'=> '.$comment;
 		$this->command->line($comment);
+
+		return $comment;
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -124,8 +128,8 @@ class QueueExplainer
 
 		// Build possible handles
 		$strings     = [];
-		$connections = $this->connections->getAvailableConnections();
-		$stages      = $this->connections->getStages();
+		$connections = (array) $this->connections->getAvailableConnections();
+		$stages      = (array) $this->connections->getStages();
 		foreach ($connections as $connection => $servers) {
 			foreach ($stages as $stage) {
 				$strings[] = $connection.'/' .sizeof($servers). '/'.$stage;

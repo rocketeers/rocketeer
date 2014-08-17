@@ -89,7 +89,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 	 */
 	protected function mock($handle, $class, Closure $expectations)
 	{
-		$mockery = Mockery::mock($class);
+		$mockery = Mockery::mock($class)->shouldIgnoreMissing();
 		$mockery = $expectations($mockery)->mock();
 
 		$this->app[$handle] = $mockery;

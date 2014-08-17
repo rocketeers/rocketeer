@@ -88,6 +88,7 @@ class TasksQueueTest extends RocketeerTestCase
 	public function testCanRunTasksInParallel()
 	{
 		$parallel = Mockery::mock('Parallel')
+		                   ->shouldReceive('isSupported')->andReturn(true)
 		                   ->shouldReceive('values')->once()->with(Mockery::type('array'))
 		                   ->mock();
 

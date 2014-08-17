@@ -33,7 +33,10 @@ class FilesystemTest extends RocketeerTestCase
 	{
 		$contents = $this->task->listContents($this->server);
 
-		$this->assertEquals(['current', 'releases', 'shared', 'state.json'], $contents);
+		$this->assertContains('current', $contents);
+		$this->assertContains('releases', $contents);
+		$this->assertContains('shared', $contents);
+		$this->assertContains('state.json', $contents);
 	}
 
 	public function testCanCheckIfFileExists()
