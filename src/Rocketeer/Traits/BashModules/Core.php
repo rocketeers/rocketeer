@@ -9,6 +9,7 @@
  */
 namespace Rocketeer\Traits\BashModules;
 
+use Closure;
 use Illuminate\Support\Str;
 use Rocketeer\Traits\HasHistory;
 use Rocketeer\Traits\HasLocator;
@@ -47,6 +48,22 @@ trait Core
 	public function getConnection()
 	{
 		return $this->local ? $this->app['remote.local'] : $this->remote;
+	}
+
+	/**
+	 * Run a series of commands in local
+	 *
+	 * @param Closure $callback
+	 *
+	 * @return boolean
+	 */
+	public function onLocal(Closure $callback)
+	{
+		$this->local = true;
+		$results = $callback($this);
+		$this->local = false;
+
+		return $results;
 	}
 
 	////////////////////////////////////////////////////////////////////
