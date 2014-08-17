@@ -133,9 +133,24 @@ class ReleasesManagerTest extends RocketeerTestCase
 			'20000000000000' => true,
 		));
 
-		$currentRelease = $this->releasesManager->getPreviousRelease();
+		$previous = $this->releasesManager->getPreviousRelease();
 
-		$this->assertEquals(20000000000000, $currentRelease);
+		$this->assertEquals(20000000000000, $previous);
+	}
+
+	public function testCanReturnPreviousReleaseIfNoReleases()
+	{
+		$this->mock('rocketeer.bash', 'Rocketeer\Bash', function ($mock) {
+			return $mock
+				->shouldReceive('getFile')->times(1)
+				->shouldReceive('listContents')->once()->with($this->server.'/releases')->andReturn([]);
+		});
+
+		$this->mockState(array(
+		));
+
+		$previous = $this->releasesManager->getPreviousRelease();
+		$this->assertNull($previous);
 	}
 
 	public function testCanGetFolderInRelease()
