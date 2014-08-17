@@ -97,11 +97,14 @@ class Compiler
 		// Add core files and dependencies
 		$this->addFolder($src);
 		$this->addFolder($vendor, array(
-			'mockery',
-			'patchwork',
+			'd11wtq',
 			'herrera-io',
+			'johnkary',
+			'mockery',
 			'nesbot',
+			'patchwork',
 			'phine',
+			'raveren',
 		));
 
 		// Add binary
