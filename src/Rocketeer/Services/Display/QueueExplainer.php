@@ -153,14 +153,23 @@ class QueueExplainer
 	protected function getTree($dashes = '--')
 	{
 		// Build handle
-		$handle  = $this->connections->getHandle();
-		$spacing = $this->getLongestSize() - strlen($handle);
-		$spacing = $spacing < 1 ? 1 : $spacing;
-		$spacing = str_repeat(' ', $spacing);
+		$numberConnections = count($this->connections->getAvailableConnections());
+		$numberStages      = count($this->connections->getStages());
 
-		// Build tree and command
+		$tree = null;
+		if ($numberConnections > 1 || $numberStages > 1) {
+			$handle  = $this->connections->getHandle();
+			$spacing = $this->getLongestSize() - strlen($handle);
+			$spacing = $spacing < 1 ? 1 : $spacing;
+			$spacing = str_repeat(' ', $spacing);
+
+			// Build tree and command
+			$tree .= sprintf('<fg=cyan>%s</fg=cyan>%s', $handle, $spacing);
+		}
+
+		// Add tree
 		$dashes = $this->level ? str_repeat($dashes, $this->level) : null;
-		$tree   = sprintf('<fg=cyan>%s</fg=cyan>%s|%s', $handle, $spacing, $dashes);
+		$tree .= '|'.$dashes;
 
 		return $tree;
 	}
