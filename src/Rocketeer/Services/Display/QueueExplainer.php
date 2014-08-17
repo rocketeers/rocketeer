@@ -134,7 +134,7 @@ class QueueExplainer
 
 		// Get longest string
 		$strings = array_map('strlen', $strings);
-		$strings = max($strings);
+		$strings = $strings ? max($strings) : 0;
 
 		// Cache value
 		$this->longest = $strings + 1;
@@ -151,7 +151,8 @@ class QueueExplainer
 	{
 		// Build handle
 		$handle  = $this->connections->getHandle();
-		$spacing = $this->getLongestSize() - strlen($handle) ?: 0;
+		$spacing = $this->getLongestSize() - strlen($handle);
+		$spacing = $spacing < 1 ? 1 : $spacing;
 		$spacing = str_repeat(' ', $spacing);
 
 		// Build tree and command

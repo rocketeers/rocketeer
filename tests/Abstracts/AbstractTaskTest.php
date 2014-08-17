@@ -97,4 +97,16 @@ class AbstractTaskTest extends RocketeerTestCase
 			'ls',
 		), $history[5]);
 	}
+
+	public function testDoesntDuplicateQueuesOnSubtasks()
+	{
+		$this->swapConfig(array(
+			'rocketeer::default' => ['staging', 'production'],
+		));
+
+		$this->pretend();
+		$this->queue->run('Deploy');
+
+		$this->assertCount(24, $this->history->getFlattenedHistory());
+	}
 }
