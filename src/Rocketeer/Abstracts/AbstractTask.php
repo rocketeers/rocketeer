@@ -251,6 +251,6 @@ abstract class AbstractTask extends Bash
 		$description = $this->getDescription();
 		$time        = $this->timer->getTaskTime($this);
 
-		$this->explainer->display('Running', $name, $description, $time);
+		$this->explainer->display($name, $description, $time);
 	}
 }

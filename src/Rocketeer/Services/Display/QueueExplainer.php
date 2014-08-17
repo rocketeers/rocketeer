@@ -63,23 +63,22 @@ class QueueExplainer
 	/**
 	 * Display a status
 	 *
-	 * @param string      $object
-	 * @param string      $subject
+	 * @param string      $info
 	 * @param string|null $details
 	 * @param float|null  $time
 	 */
-	public function display($object, $subject = null, $details = null, $time = null)
+	public function display($info = null, $details = null, $time = null)
 	{
 		if (!$this->hasCommand()) {
 			return;
 		}
 
 		// Build handle
-		$comment = $this->getTree().' '.$object;
+		$comment = $this->getTree();
 
 		// Add details
-		if ($subject) {
-			$comment .= ': <info>'.$subject.'</info>';
+		if ($info) {
+			$comment .= ' <info>'.$info.'</info>';
 		}
 		if ($details) {
 			$comment .= ' <comment>('.$details.')</comment>';
@@ -132,7 +131,7 @@ class QueueExplainer
 		$stages      = (array) $this->connections->getStages();
 		foreach ($connections as $connection => $servers) {
 			foreach ($stages as $stage) {
-				$strings[] = $connection.'/' .sizeof($servers). '/'.$stage;
+				$strings[] = $connection.'/'.sizeof($servers).'/'.$stage;
 			}
 		}
 

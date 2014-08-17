@@ -61,10 +61,11 @@ abstract class AbstractStrategy extends Bash
 		$name     = Arr::get($components, count($components) - 1);
 		$strategy = Arr::get($components, count($components) - 2);
 
-		$object  = 'Running strategy for '.ucfirst($strategy);
-		$subject = str_replace('Strategy', null, $name);
+		$parent   = ucfirst($strategy);
+		$concrete = str_replace('Strategy', null, $name);
+		$details  = $this->getDescription();
 
-		$this->explainer->display($object, $subject);
+		$this->explainer->display($parent.'/'.$concrete, $details);
 
 		return $this;
 	}
