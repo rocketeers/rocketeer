@@ -82,10 +82,10 @@ class Bash
 	 */
 	public function executeTask($tasks)
 	{
-		$pipeline = $this->explainer->displayBelow(function () use ($tasks) {
-			return $this->queue->run($tasks);
+		$results = $this->explainer->displayBelow(function () use ($tasks) {
+			return $this->builder->buildTask($tasks)->fire();
 		});
 
-		return $pipeline->succeeded();
+		return $results;
 	}
 }

@@ -46,14 +46,15 @@ class Deploy extends AbstractTask
 		// Setup the new release
 		$release = $this->releasesManager->getNextRelease();
 
-		// Build subtasks
-		$tasks = ['CreateRelease', 'Dependencies'];
+		// Create release and set it up
+		$this->steps()->executeTask('CreateRelease');
+		$this->steps()->executeTask('Dependencies');
+
 		if ($this->getOption('tests')) {
-			$tasks[] = 'Test';
+			$this->steps()->executeTask('Test');
 		}
 
 		// Create release and set permissions
-		$this->steps()->executeTask($tasks);
 		$this->steps()->setApplicationPermissions();
 
 		// Run migrations
