@@ -20,17 +20,17 @@ use Illuminate\Support\Arr;
  * @property \Illuminate\Events\Dispatcher                            events
  * @property \Illuminate\Filesystem\Filesystem                        files
  * @property \Illuminate\Log\Writer                                   log
- * @property \Rocketeer\Services\Connections\RemoteHandler            remote
  * @property \Rocketeer\Abstracts\AbstractCommand                     command
  * @property \Rocketeer\Bash                                          bash
- * @property \Rocketeer\Services\Display\QueueExplainer               explainer
- * @property \Rocketeer\Services\Display\QueueTimer                   timer
  * @property \Rocketeer\Console\Console                               console
  * @property \Rocketeer\Interfaces\ScmInterface                       scm
  * @property \Rocketeer\Interfaces\Strategies\DeployStrategyInterface strategy
  * @property \Rocketeer\Rocketeer                                     rocketeer
  * @property \Rocketeer\Services\Connections\ConnectionsHandler       connections
+ * @property \Rocketeer\Services\Connections\RemoteHandler            remote
  * @property \Rocketeer\Services\CredentialsGatherer                  credentials
+ * @property \Rocketeer\Services\Display\QueueExplainer               explainer
+ * @property \Rocketeer\Services\Display\QueueTimer                   timer
  * @property \Rocketeer\Services\History\History                      history
  * @property \Rocketeer\Services\ReleasesManager                      releasesManager
  * @property \Rocketeer\Services\Storages\LocalStorage                localStorage

@@ -34,7 +34,7 @@ class Cleanup extends AbstractTask
 	{
 		// If no releases to prune
 		if (!$trash = $this->getReleasesToCleanup()) {
-			return $this->command->comment('No releases to prune from the server');
+			return $this->explainer->results('No releases to prune from the server');
 		}
 
 		// Prune releases
@@ -53,7 +53,7 @@ class Cleanup extends AbstractTask
 			$this->releasesManager->markReleaseAsValid();
 		}
 
-		return $this->command->line($message);
+		return $this->explainer->results($message);
 	}
 
 	/**

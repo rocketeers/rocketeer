@@ -75,7 +75,7 @@ class Deploy extends AbstractTask
 
 		$this->releasesManager->markReleaseAsValid($release);
 
-		$this->command->info('Successfully deployed release '.$release);
+		$this->explainer->results('Successfully deployed release '.$release);
 	}
 
 	////////////////////////////////////////////////////////////////////

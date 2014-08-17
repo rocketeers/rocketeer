@@ -51,6 +51,29 @@ class ConnectionsHandler
 	 */
 	protected $connection;
 
+	/**
+	 * Build the current connection's handle
+	 *
+	 * @param string|null  $connection
+	 * @param integer|null $server
+	 * @param string|null  $stage
+	 *
+	 * @return string
+	 */
+	public function getHandle($connection = null, $server = null, $stage = null)
+	{
+		// Get identifiers
+		$connection = $connection ?: $this->getConnection();
+		$server     = $server ?: $this->getServer();
+		$stage      = $stage ?: $this->getStage();
+
+		// Concatenate
+		$handle = [$connection, $server, $stage];
+		$handle = implode('/', $handle);
+
+		return $handle;
+	}
+
 	//////////////////////////////////////////////////////////////////////
 	////////////////////////////// SERVERS ///////////////////////////////
 	//////////////////////////////////////////////////////////////////////

@@ -27,7 +27,14 @@ class QueueExplainer
 	 *
 	 * @type integer
 	 */
-	public $level = 1;
+	public $level = 0;
+
+	/**
+	 * Length of the longest handle to display
+	 *
+	 * @type integer
+	 */
+	protected $longest;
 
 	//////////////////////////////////////////////////////////////////////
 	/////////////////////////////// STATUS ///////////////////////////////
@@ -61,17 +68,19 @@ class QueueExplainer
 	 * @param string|null $details
 	 * @param float|null  $time
 	 */
-	public function display($object, $subject, $details = null, $time = null)
+	public function display($object, $subject = null, $details = null, $time = null)
 	{
 		if (!$this->hasCommand()) {
 			return;
 		}
 
-		// Build status
-		$tree    = '|'.str_repeat('--', $this->level);
-		$comment = sprintf('%s %s: <info>%s</info>', $tree, $object, $subject);
+		// Build handle
+		$comment = $this->getTree().' '.$object;
 
 		// Add details
+		if ($subject) {
+			$comment .= ': <info>'.$subject.'</info>';
+		}
 		if ($details) {
 			$comment .= ' <comment>('.$details.')</comment>';
 		}
@@ -80,5 +89,75 @@ class QueueExplainer
 		}
 
 		$this->command->line($comment);
+	}
+
+	/**
+	 * Display the results of something
+	 *
+	 * @param string $comment
+	 */
+	public function results($comment)
+	{
+		if (!$this->hasCommand()) {
+			return;
+		}
+
+		// Build results and display them
+		$comment = $this->getTree('==').'=> '.$comment;
+		$this->command->line($comment);
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	////////////////////////////// HELPERS ///////////////////////////////
+	//////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Get the longest size an handle can have
+	 *
+	 * @return integer
+	 */
+	protected function getLongestSize()
+	{
+		if ($this->longest) {
+			return $this->longest;
+		}
+
+		// Build possible handles
+		$strings     = [];
+		$connections = $this->connections->getAvailableConnections();
+		$stages      = $this->connections->getStages();
+		foreach ($connections as $connection => $servers) {
+			foreach ($stages as $stage) {
+				$strings[] = $connection.'/' .sizeof($servers). '/'.$stage;
+			}
+		}
+
+		// Get longest string
+		$strings = array_map('strlen', $strings);
+		$strings = max($strings);
+
+		// Cache value
+		$this->longest = $strings + 1;
+
+		return $this->longest;
+	}
+
+	/**
+	 * @param string $dashes
+	 *
+	 * @return string
+	 */
+	protected function getTree($dashes = '--')
+	{
+		// Build handle
+		$handle  = $this->connections->getHandle();
+		$spacing = $this->getLongestSize() - strlen($handle) ?: 0;
+		$spacing = str_repeat(' ', $spacing);
+
+		// Build tree and command
+		$dashes = $this->level ? str_repeat($dashes, $this->level) : null;
+		$tree   = sprintf('<fg=cyan>%s</fg=cyan>%s|%s', $handle, $spacing, $dashes);
+
+		return $tree;
 	}
 }
