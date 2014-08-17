@@ -16,4 +16,19 @@ class StepsRunnerTest extends RocketeerTestCase
 		$this->files->delete($copy);
 		$this->assertTrue($results);
 	}
+
+	public function testStepsAreClearedOnceRun()
+	{
+		$task = $this->task;
+		$task->steps()->run('ls');
+
+		$this->assertEquals(array(
+			['run', ['ls']]
+		), $task->steps()->getSteps());
+		$task->runSteps();
+		$task->steps()->run('php --version');
+		$this->assertEquals(array(
+			['run', ['php --version']]
+		), $task->steps()->getSteps());
+	}
 }

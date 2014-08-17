@@ -43,7 +43,7 @@ trait StepsRunner
 	 */
 	public function runSteps()
 	{
-		foreach ($this->steps()->getSteps() as $step) {
+		foreach ($this->steps()->pullSteps() as $step) {
 			list($method, $arguments) = $step;
 			$arguments = (array) $arguments;
 

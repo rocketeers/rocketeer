@@ -22,6 +22,20 @@ class StepsBuilder
 	}
 
 	/**
+	 * Get and clear the steps
+	 *
+	 * @return array
+	 */
+	public function pullSteps()
+	{
+		$steps = $this->steps;
+
+		$this->steps = [];
+
+		return $steps;
+	}
+
+	/**
 	 * Get the steps to execute
 	 *
 	 * @return array
