@@ -26,6 +26,13 @@ class Primer extends AbstractTask
 	protected $local = true;
 
 	/**
+	 * Whether the task needs to be run on each stage or globally
+	 *
+	 * @var boolean
+	 */
+	public $usesStages = false;
+
+	/**
 	 * Run the task
 	 *
 	 * @return boolean
