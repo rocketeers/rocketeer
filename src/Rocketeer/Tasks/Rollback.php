@@ -49,7 +49,7 @@ class Rollback extends AbstractTask
 		}
 
 		// Rollback release
-		$this->explainer->info('Rolling back to release '.$rollbackRelease);
+		$this->explainer->success('Rolling back to release '.$rollbackRelease);
 		$this->updateSymlink($rollbackRelease);
 	}
 

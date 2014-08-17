@@ -24,7 +24,7 @@ class CurrentRelease extends AbstractTask
 	 *
 	 * @var string
 	 */
-	protected $name = 'current';
+	protected $name = 'Current';
 
 	/**
 	 * A description of what the task does
