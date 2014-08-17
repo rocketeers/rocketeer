@@ -200,7 +200,7 @@ trait Core
 	 */
 	public function status()
 	{
-		return $this->getOption('pretend') ? 0 : $this->getConnection()->status() == 0;
+		return $this->getOption('pretend') ? true : $this->getConnection()->status() == 0;
 	}
 
 	/**
@@ -215,7 +215,7 @@ trait Core
 	public function checkStatus($error, $output = null, $success = null)
 	{
 		// If all went well
-		if ($this->status() == 0) {
+		if ($this->status()) {
 			if ($success) {
 				$this->command->comment($success);
 			}

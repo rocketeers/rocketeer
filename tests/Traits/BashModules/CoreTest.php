@@ -23,7 +23,7 @@ class CoreTest extends RocketeerTestCase
 			}
 		));
 
-		$status = $this->task->checkStatus('Oh noes', 'git clone');
+		$status = $this->task('Deploy')->checkStatus('Oh noes', 'git clone');
 
 		$this->assertFalse($status);
 	}
