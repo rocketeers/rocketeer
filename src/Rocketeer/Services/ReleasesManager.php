@@ -266,7 +266,7 @@ class ReleasesManager
 		do {
 			$release = Arr::get($releases, $key + $next);
 			$next++;
-		} while (!$this->checkReleaseState($release));
+		} while (!$this->checkReleaseState($release) and isset($this->state[$release]));
 
 		return $release ?: $current;
 	}

@@ -47,7 +47,7 @@ class CurrentRelease extends AbstractTask
 		// Check if a release has been deployed already
 		$currentRelease = $this->releasesManager->getCurrentRelease();
 		if (!$currentRelease) {
-			return $this->command->error('No release has yet been deployed'.$stage);
+			return $this->explainer->error('No release has yet been deployed'.$stage);
 		}
 
 		// Create state message
@@ -59,7 +59,7 @@ class CurrentRelease extends AbstractTask
 		);
 
 		// Display current and past releases
-		$this->command->line($message);
+		$this->explainer->line($message);
 		$this->displayReleases();
 
 		return $message;

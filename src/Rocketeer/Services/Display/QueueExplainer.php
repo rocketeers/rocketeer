@@ -90,24 +90,50 @@ class QueueExplainer
 		$this->command->line($comment);
 	}
 
+	//////////////////////////////////////////////////////////////////////
+	////////////////////////////// PROGRESS //////////////////////////////
+	//////////////////////////////////////////////////////////////////////
+
 	/**
-	 * Display the results of something
+	 * Format and send a message by the command
 	 *
-	 * @param string $comment
+	 * @param string      $message
+	 * @param string|null $color
 	 *
 	 * @return string
 	 */
-	public function results($comment)
+	public function line($message, $color = null)
 	{
 		if (!$this->hasCommand()) {
 			return;
 		}
 
-		// Build results and display them
-		$comment = $this->getTree('==').'=> '.$comment;
-		$this->command->line($comment);
+		// Format and pass to Command
+		$message = $color ? sprintf('<fg=%s>%s</fg=%s>', $color, $message, $color) : $message;
+		$message = $this->getTree('==').'=> '.$message;
+		$this->command->line($message);
 
-		return $comment;
+		return $message;
+	}
+
+	/**
+	 * @param $message
+	 *
+	 * @return string
+	 */
+	public function success($message)
+	{
+		return $this->line($message, 'green');
+	}
+
+	/**
+	 * @param $message
+	 *
+	 * @return string
+	 */
+	public function error($message)
+	{
+		return $this->line($message, 'red');
 	}
 
 	//////////////////////////////////////////////////////////////////////

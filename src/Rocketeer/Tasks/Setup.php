@@ -52,7 +52,7 @@ class Setup extends AbstractTask
 		$this->localStorage->set('is_setup', true);
 
 		// Get server informations
-		$this->command->comment('Getting some informations about the server');
+		$this->explainer->line('Getting some informations about the server');
 		$this->localStorage->getSeparator();
 		$this->localStorage->getLineEndings();
 
@@ -61,7 +61,7 @@ class Setup extends AbstractTask
 		$homeFolder  = $this->rocketeer->getHomeFolder();
 		$message     = sprintf('Successfully setup "%s" at "%s"', $application, $homeFolder);
 
-		return $this->command->info($message);
+		return $this->explainer->success($message);
 	}
 
 	////////////////////////////////////////////////////////////////////

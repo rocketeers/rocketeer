@@ -225,7 +225,7 @@ trait Core
 
 		// Else display the error
 		$error = sprintf('An error occured: "%s", while running:'.PHP_EOL.'%s', $error, $output);
-		$this->command->error($error);
+		$this->explainer->error($error);
 
 		return false;
 	}

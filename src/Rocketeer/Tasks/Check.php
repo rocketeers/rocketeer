@@ -71,7 +71,7 @@ class Check extends AbstractTask
 		}
 
 		// Display confirmation message
-		$this->command->info('Your server is ready to deploy');
+		$this->explainer->line('Your server is ready to deploy');
 	}
 
 	/**
@@ -108,7 +108,7 @@ class Check extends AbstractTask
 	 */
 	public function checkScm()
 	{
-		$this->command->info('Checking presence of '.$this->scm->getBinary());
+		$this->explainer->line('Checking presence of '.$this->scm->getBinary());
 		$results = $this->scm->run('check');
 		$this->toOutput($results);
 
@@ -127,7 +127,7 @@ class Check extends AbstractTask
 			return true;
 		}
 
-		$this->command->info('Checking presence of Composer');
+		$this->explainer->line('Checking presence of Composer');
 
 		return $this->composer()->getBinary();
 	}
@@ -219,7 +219,7 @@ class Check extends AbstractTask
 	 */
 	public function checkPhpExtension($extension)
 	{
-		$this->command->info('Checking presence of '.$extension.' extension');
+		$this->explainer->line('Checking presence of '.$extension.' extension');
 
 		// Check for HHVM and built-in extensions
 		if ($this->php()->isHhvm()) {

@@ -34,7 +34,7 @@ class Deploy extends AbstractTask
 	{
 		// Check if server is ready for deployment
 		if (!$this->isSetup()) {
-			$this->command->error('Server is not ready, running Setup task');
+			$this->explainer->error('Server is not ready, running Setup task');
 			$this->executeTask('Setup');
 		}
 
@@ -76,7 +76,7 @@ class Deploy extends AbstractTask
 
 		$this->releasesManager->markReleaseAsValid($release);
 
-		$this->explainer->results('Successfully deployed release '.$release);
+		$this->explainer->line('Successfully deployed release '.$release);
 	}
 
 	////////////////////////////////////////////////////////////////////

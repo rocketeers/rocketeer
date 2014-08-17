@@ -35,7 +35,7 @@ class Rollback extends AbstractTask
 		// Get previous release
 		$rollbackRelease = $this->getRollbackRelease();
 		if (!$rollbackRelease) {
-			return $this->command->error('Rocketeer could not rollback as no releases have yet been deployed');
+			return $this->explainer->error('Rocketeer could not rollback as no releases have yet been deployed');
 		}
 
 		// If no release specified, display the available ones
@@ -49,7 +49,7 @@ class Rollback extends AbstractTask
 		}
 
 		// Rollback release
-		$this->command->info('Rolling back to release '.$rollbackRelease);
+		$this->explainer->info('Rolling back to release '.$rollbackRelease);
 		$this->updateSymlink($rollbackRelease);
 	}
 
