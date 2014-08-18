@@ -60,7 +60,7 @@ trait Core
 	public function onLocal(Closure $callback)
 	{
 		$this->local = true;
-		$results = $callback($this);
+		$results     = $callback($this);
 		$this->local = false;
 
 		return $results;
@@ -224,7 +224,11 @@ trait Core
 		}
 
 		// Else display the error
-		$error = sprintf('An error occured: "%s", while running:'.PHP_EOL.'%s', $error, $output);
+		$error = sprintf('An error occured: "%s"', $error);
+		if ($output) {
+			$error .= 'while running:'.PHP_EOL.$output;
+		}
+
 		$this->explainer->error($error);
 
 		return false;
