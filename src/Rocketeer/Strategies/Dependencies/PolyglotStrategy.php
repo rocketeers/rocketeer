@@ -10,6 +10,7 @@
 namespace Rocketeer\Strategies\Dependencies;
 
 use Closure;
+use Rocketeer\Abstracts\Strategies\AbstractDependenciesStrategy;
 use Rocketeer\Abstracts\Strategies\AbstractStrategy;
 use Rocketeer\Interfaces\Strategies\DependenciesStrategyInterface;
 
@@ -34,7 +35,7 @@ class PolyglotStrategy extends AbstractStrategy implements DependenciesStrategyI
 	 */
 	public function install()
 	{
-		return $this->onManagers(function ($manager) {
+		return $this->onManagers(function (AbstractDependenciesStrategy $manager) {
 			return $manager->install();
 		});
 	}
@@ -46,7 +47,7 @@ class PolyglotStrategy extends AbstractStrategy implements DependenciesStrategyI
 	 */
 	public function update()
 	{
-		return $this->onManagers(function ($manager) {
+		return $this->onManagers(function (AbstractDependenciesStrategy $manager) {
 			return $manager->update();
 		});
 	}

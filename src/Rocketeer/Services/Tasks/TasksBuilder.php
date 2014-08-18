@@ -178,7 +178,7 @@ class TasksBuilder
 	public function buildTaskFromString($task)
 	{
 		$stringTask = $task;
-		$closure    = function ($task) use ($stringTask) {
+		$closure    = function (AbstractTask $task) use ($stringTask) {
 			return $task->runForCurrentRelease($stringTask);
 		};
 

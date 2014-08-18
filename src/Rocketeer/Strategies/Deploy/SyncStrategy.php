@@ -10,6 +10,7 @@
 namespace Rocketeer\Strategies\Deploy;
 
 use Rocketeer\Abstracts\Strategies\AbstractStrategy;
+use Rocketeer\Bash;
 use Rocketeer\Interfaces\Strategies\DeployStrategyInterface;
 
 class SyncStrategy extends AbstractStrategy implements DeployStrategyInterface
@@ -79,7 +80,7 @@ class SyncStrategy extends AbstractStrategy implements DeployStrategyInterface
 		$rsync = $this->binary('rsync');
 		$rsync = $rsync->getCommand(null, ['./', $handle.':'.$destination], $options);
 
-		return $this->bash->onLocal(function ($bash) use ($rsync) {
+		return $this->bash->onLocal(function (Bash $bash) use ($rsync) {
 			return $bash->run($rsync);
 		});
 	}

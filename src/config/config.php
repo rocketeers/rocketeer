@@ -1,4 +1,7 @@
-<?php return array(
+<?php
+use Rocketeer\Services\Connections\ConnectionsHandler;
+
+return array(
 
 	// The name of the application to deploy
 	// This will create a folder of the same name in the root directory
@@ -9,8 +12,8 @@
 	////////////////////////////////////////////////////////////////////
 
 	// The schema to use to name log files
-	'logs' => function ($rocketeer) {
-		return sprintf('%s-%s-%s.log', $rocketeer->getConnection(), $rocketeer->getStage(), date('Ymd'));
+	'logs' => function (ConnectionsHandler $connections) {
+		return sprintf('%s-%s-%s.log', $connections->getConnection(), $connections->getStage(), date('Ymd'));
 	},
 
 	// Remote access
