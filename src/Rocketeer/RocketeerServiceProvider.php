@@ -16,8 +16,6 @@ use Illuminate\Http\Request;
 use Illuminate\Log\Writer;
 use Illuminate\Support\ServiceProvider;
 use Monolog\Logger;
-use Rocketeer\Console\Commands\BaseTaskCommand;
-use Rocketeer\Exceptions\TaskCompositionException;
 use Rocketeer\Services\Connections\ConnectionsHandler;
 use Rocketeer\Services\Connections\LocalConnection;
 use Rocketeer\Services\Connections\RemoteHandler;
@@ -275,30 +273,21 @@ class RocketeerServiceProvider extends ServiceProvider
 
 		// Bind the commands
 		foreach ($tasks as $slug => $task) {
-
-			// Check if we have an actual command to use
-			$commandClass = 'Rocketeer\Console\Commands\\'.$task.'Command';
-			$fakeCommand  = !class_exists($commandClass);
-
-			try {
-				$taskInstance = $this->app['rocketeer.builder']->buildTask($task);
-			} catch (TaskCompositionException $exception) {
-				$taskInstance = null;
-			}
+			$command = $this->app['rocketeer.builder']->buildCommand($task, $slug);
 
 			// Bind Task to container
 			$handle = 'rocketeer.tasks.'.$slug;
-			$this->app->bind($handle, function () use ($taskInstance) {
-				return $taskInstance;
+			$this->app->bind($handle, function () use ($command) {
+				return $command->getTask();
 			});
 
 			// Add command to array
-			$command          = trim('deploy.'.$slug, '.');
-			$this->commands[] = $command;
+			$commandHandle    = trim('deploy.'.$slug, '.');
+			$this->commands[] = $commandHandle;
 
 			// Register command with the container
-			$this->app->singleton($command, function () use ($fakeCommand, $commandClass, $taskInstance, $slug) {
-				return !$fakeCommand ? new $commandClass($taskInstance) : new BaseTaskCommand($taskInstance, $slug);
+			$this->app->singleton($commandHandle, function () use ($command) {
+				return $command;
 			});
 		}
 

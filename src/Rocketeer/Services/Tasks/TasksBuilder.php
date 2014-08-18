@@ -25,6 +25,36 @@ class TasksBuilder
 	use HasLocator;
 
 	//////////////////////////////////////////////////////////////////////
+	////////////////////////////// COMMANDS //////////////////////////////
+	//////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Build the command bound to a task
+	 *
+	 * @param string $task
+	 * @param string|null   $slug
+	 *
+	 * @return \Rocketeer\Abstracts\AbstractCommand
+	 */
+	public function buildCommand($task, $slug = null)
+	{
+		// Build the task instance
+		try {
+			$instance = $this->buildTaskFromClass($task);
+		} catch (TaskCompositionException $exception) {
+			$instance = null;
+		}
+
+		// Get the command name
+		$command = $this->findQualifiedName($task, array(
+			'Rocketeer\Console\Commands\%sCommand',
+			'Rocketeer\Console\Commands\BaseTaskCommand',
+		));
+
+		return new $command($instance, $slug);
+	}
+
+	//////////////////////////////////////////////////////////////////////
 	///////////////////////////// STRATEGIES /////////////////////////////
 	//////////////////////////////////////////////////////////////////////
 
