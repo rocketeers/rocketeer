@@ -40,18 +40,23 @@ class TasksBuilder
 	{
 		// Build the task instance
 		try {
-			$instance = $this->buildTaskFromClass($task);
+			$instance = $this->buildTask($task);
 		} catch (TaskCompositionException $exception) {
 			$instance = null;
 		}
 
 		// Get the command name
-		$command = $this->findQualifiedName($task, array(
+		$name = $instance ? $instance->getName() : null;
+		$name = is_string($task) ? $task : $name;
+		$command = $this->findQualifiedName($name, array(
 			'Rocketeer\Console\Commands\%sCommand',
 			'Rocketeer\Console\Commands\BaseTaskCommand',
 		));
 
-		return new $command($instance, $slug);
+		$command = new $command($instance, $slug);
+		$command->setLaravel($this->app);
+
+		return $command;
 	}
 
 	//////////////////////////////////////////////////////////////////////

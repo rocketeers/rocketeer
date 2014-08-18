@@ -82,7 +82,7 @@ class TasksHandler
 
 		// Bind to Artisan too
 		if ($this->app->bound('artisan')) {
-			$command = new BaseTaskCommand($task);
+			$command = $this->builder->buildCommand($task);
 			$this->app['artisan']->add($command);
 		}
 
