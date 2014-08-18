@@ -36,6 +36,7 @@ class LocalConnection implements ConnectionInterface
 	 * @param  string       $task
 	 * @param  string|array $commands
 	 *
+	 * @codeCoverageIgnore
 	 * @return void
 	 */
 	public function define($task, $commands)
@@ -49,6 +50,7 @@ class LocalConnection implements ConnectionInterface
 	 * @param  string       $task
 	 * @param  Closure|null $callback
 	 *
+	 * @codeCoverageIgnore
 	 * @return void
 	 */
 	public function task($task, Closure $callback = null)
@@ -96,6 +98,7 @@ class LocalConnection implements ConnectionInterface
 	 * @param  string $local
 	 * @param  string $remote
 	 *
+	 * @codeCoverageIgnore
 	 * @return integer
 	 */
 	public function put($local, $remote)
@@ -110,6 +113,7 @@ class LocalConnection implements ConnectionInterface
 	 *
 	 * @param  string $remote
 	 *
+	 * @codeCoverageIgnore
 	 * @return string
 	 */
 	public function getString($remote)
@@ -122,6 +126,7 @@ class LocalConnection implements ConnectionInterface
 	 *
 	 * @param  string $line
 	 *
+	 * @codeCoverageIgnore
 	 * @return void
 	 */
 	public function display($line)
@@ -137,6 +142,7 @@ class LocalConnection implements ConnectionInterface
 	 * @param  string $remote
 	 * @param  string $contents
 	 *
+	 * @codeCoverageIgnore
 	 * @return integer
 	 */
 	public function putString($remote, $contents)

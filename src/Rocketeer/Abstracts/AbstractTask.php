@@ -205,6 +205,8 @@ abstract class AbstractTask extends Bash
 
 	/**
 	 * Display a list of releases and their status
+	 *
+	 * @codeCoverageIgnore
 	 */
 	protected function displayReleases()
 	{
