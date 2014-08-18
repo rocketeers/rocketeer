@@ -64,7 +64,7 @@ class SyncStrategy extends AbstractStrategy implements DeployStrategyInterface
 	{
 		// Build host handle
 		$credentials = $this->connections->getServerCredentials();
-		$handle      = $credentials['host'];
+		$handle      = array_get($credentials, 'host');
 		if ($user = array_get($credentials, 'username')) {
 			$handle = $user.'@'.$handle;
 		}
