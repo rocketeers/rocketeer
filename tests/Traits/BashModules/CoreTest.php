@@ -14,11 +14,11 @@ class CoreTest extends RocketeerTestCase
 
 	public function testCanCheckStatusOfACommand()
 	{
-		$this->expectOutputString('An error occured: "Oh noes", while running:'.PHP_EOL.'git clone');
+		$this->expectOutputRegex('/.+An error occured: "Oh noes", while running:\ngit clone.+/');
 
 		$this->app['rocketeer.remote'] = clone $this->getRemote()->shouldReceive('status')->andReturn(1)->mock();
 		$this->mockCommand([], array(
-			'error' => function ($error) {
+			'line' => function ($error) {
 				echo $error;
 			}
 		));

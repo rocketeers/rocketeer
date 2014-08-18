@@ -40,6 +40,6 @@ class RollbackTest extends RocketeerTestCase
 		});
 
 		$status = $this->task('Rollback')->execute();
-		$this->assertEquals('Rocketeer could not rollback as no releases have yet been deployed', $status);
+		$this->assertContains('Rocketeer could not rollback as no releases have yet been deployed', $status);
 	}
 }
