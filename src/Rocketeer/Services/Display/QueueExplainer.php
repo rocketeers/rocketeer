@@ -63,7 +63,7 @@ class QueueExplainer
 	/**
 	 * Display a status
 	 *
-	 * @param string      $info
+	 * @param string|null $info
 	 * @param string|null $details
 	 * @param float|null  $time
 	 */
@@ -100,7 +100,7 @@ class QueueExplainer
 	 * @param string      $message
 	 * @param string|null $color
 	 *
-	 * @return string
+	 * @return string|null
 	 */
 	public function line($message, $color = null)
 	{
@@ -117,9 +117,9 @@ class QueueExplainer
 	}
 
 	/**
-	 * @param $message
+	 * @param string $message
 	 *
-	 * @return string
+	 * @return string|null
 	 */
 	public function success($message)
 	{
@@ -127,9 +127,9 @@ class QueueExplainer
 	}
 
 	/**
-	 * @param $message
+	 * @param string $message
 	 *
-	 * @return string
+	 * @return string|null
 	 */
 	public function error($message)
 	{
@@ -157,7 +157,7 @@ class QueueExplainer
 		$stages      = (array) $this->connections->getStages();
 		foreach ($connections as $connection => $servers) {
 			foreach ($stages as $stage) {
-				$strings[] = $connection.'/'.sizeof($servers).'/'.$stage;
+				$strings[] = $connection.'/'.count($servers).'/'.$stage;
 			}
 		}
 

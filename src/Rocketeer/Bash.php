@@ -76,7 +76,7 @@ class Bash
 	/**
 	 * Execute another task by name
 	 *
-	 * @param string|array $tasks
+	 * @param string $tasks
 	 *
 	 * @return string|false
 	 */

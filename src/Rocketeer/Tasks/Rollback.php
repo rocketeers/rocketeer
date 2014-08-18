@@ -28,7 +28,7 @@ class Rollback extends AbstractTask
 	/**
 	 * Run the task
 	 *
-	 * @return  void
+	 * @return string|null
 	 */
 	public function execute()
 	{

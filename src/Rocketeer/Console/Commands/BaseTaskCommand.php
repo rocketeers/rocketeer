@@ -30,8 +30,8 @@ class BaseTaskCommand extends AbstractCommand
 	/**
 	 * Build a new custom command
 	 *
-	 * @param AbstractTask $task
-	 * @param string|null  $name A name for the command
+	 * @param AbstractTask|null $task
+	 * @param string|null       $name A name for the command
 	 */
 	public function __construct(AbstractTask $task = null, $name = null)
 	{

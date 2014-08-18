@@ -178,7 +178,7 @@ trait Core
 	 * @param string|null  $folder
 	 * @param string|array $tasks
 	 *
-	 * @return string
+	 * @return string|null
 	 */
 	public function runInFolder($folder = null, $tasks = array())
 	{
@@ -314,9 +314,9 @@ trait Core
 	/**
 	 * Process the output of a command
 	 *
-	 * @param string|array $output
-	 * @param boolean      $array Whether to return an array or a string
-	 * @param boolean      $trim  Whether to trim the output or not
+	 * @param string  $output
+	 * @param boolean $array Whether to return an array or a string
+	 * @param boolean $trim  Whether to trim the output or not
 	 *
 	 * @return string|array
 	 */

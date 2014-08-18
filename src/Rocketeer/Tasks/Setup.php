@@ -35,7 +35,7 @@ class Setup extends AbstractTask
 	/**
 	 * Run the task
 	 *
-	 * @return false|null
+	 * @return string|false|null
 	 */
 	public function execute()
 	{

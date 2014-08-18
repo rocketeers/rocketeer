@@ -31,8 +31,8 @@ class TasksBuilder
 	/**
 	 * Build the command bound to a task
 	 *
-	 * @param string $task
-	 * @param string|null   $slug
+	 * @param string|AbstractTask $task
+	 * @param string|null         $slug
 	 *
 	 * @return \Rocketeer\Abstracts\AbstractCommand
 	 */
@@ -46,8 +46,8 @@ class TasksBuilder
 		}
 
 		// Get the command name
-		$name = $instance ? $instance->getName() : null;
-		$name = is_string($task) ? $task : $name;
+		$name    = $instance ? $instance->getName() : null;
+		$name    = is_string($task) ? $task : $name;
 		$command = $this->findQualifiedName($name, array(
 			'Rocketeer\Console\Commands\%sCommand',
 			'Rocketeer\Console\Commands\BaseTaskCommand',
@@ -237,7 +237,7 @@ class TasksBuilder
 	/**
 	 * Get the handle of a task from its name
 	 *
-	 * @param string $task
+	 * @param string|AbstractTask $task
 	 *
 	 * @return string|null
 	 */
@@ -258,7 +258,7 @@ class TasksBuilder
 	/**
 	 * Check if a string is a command or a task
 	 *
-	 * @param AbstractTask|Closure|string $string
+	 * @param string|Closure|AbstractTask $string
 	 *
 	 * @return boolean
 	 */
