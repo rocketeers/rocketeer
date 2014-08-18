@@ -158,7 +158,7 @@ class TasksBuilder
 		}
 
 		// If we passed a command, build a ClosureTask
-		if (is_array($task) or $this->isStringCommand($task)) {
+		if (is_array($task) || $this->isStringCommand($task)) {
 			return $this->buildTaskFromString($task);
 		}
 
@@ -218,7 +218,7 @@ class TasksBuilder
 	 */
 	public function buildTaskFromClass($task)
 	{
-		if (is_object($task) and $task instanceof AbstractTask) {
+		if (is_object($task) && $task instanceof AbstractTask) {
 			return $task;
 		}
 

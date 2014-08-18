@@ -115,7 +115,7 @@ class LocalStorage extends AbstractStorage implements StorageInterface
 	{
 		$currentHash = $this->get('hash');
 
-		return $currentHash and $currentHash !== $this->getHash();
+		return $currentHash && $currentHash !== $this->getHash();
 	}
 
 	////////////////////////////////////////////////////////////////////

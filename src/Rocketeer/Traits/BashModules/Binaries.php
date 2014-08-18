@@ -117,7 +117,7 @@ trait Binaries
 
 		// Look in all the locations
 		$tryout = 0;
-		while (!$location and array_key_exists($tryout, $locations)) {
+		while (!$location && array_key_exists($tryout, $locations)) {
 			list($object, $method, $argument) = $locations[$tryout];
 
 			$location = $object->$method($argument);

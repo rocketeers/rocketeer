@@ -62,7 +62,7 @@ class CredentialsGatherer
 		$activeConnections    = $this->connections->getConnections();
 
 		// If we didn't set any connection, ask for them
-		if (!$activeConnections or empty($availableConnections)) {
+		if (!$activeConnections || empty($availableConnections)) {
 			$connectionName = $this->command->askWith('No connections have been set, please create one:', 'production');
 			$this->getConnectionCredentials($connectionName);
 
@@ -109,7 +109,7 @@ class CredentialsGatherer
 		), $connection, $handle);
 
 		// Get password or key
-		if (!$credentials['password'] and !$credentials['key']) {
+		if (!$credentials['password'] && !$credentials['key']) {
 			$types = ['key', 'password'];
 			$type  = $this->command->askWith('No password or SSH key is set for ['.$handle.'], which would you use?', 'key', $types);
 			if ($type == 'key') {
@@ -144,7 +144,7 @@ class CredentialsGatherer
 		// Loop throguh credentials and ask missing ones
 		foreach ($credentials as $credential => $required) {
 			$$credential = $this->getCredential($current, $credential);
-			if ($required and !$$credential) {
+			if ($required && !$$credential) {
 				$$credential = $this->gatherCredential($handle, $credential);
 			}
 		}

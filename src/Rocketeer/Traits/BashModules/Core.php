@@ -91,7 +91,7 @@ trait Core
 		}
 
 		// Display for pretend mode
-		if ($verbose or ($pretend and !$silent)) {
+		if ($verbose || ($pretend && !$silent)) {
 			$this->toOutput($commands);
 			$flattened = implode(PHP_EOL.'$ ', $commands);
 			$this->command->line('<fg=magenta>$ '.$flattened.'</fg=magenta>');
@@ -284,7 +284,7 @@ trait Core
 			}
 
 			// Add stage flag to Artisan commands
-			if (Str::contains($command, 'artisan') and $stage) {
+			if (Str::contains($command, 'artisan') && $stage) {
 				$command .= ' --env="'.$stage.'"';
 			}
 

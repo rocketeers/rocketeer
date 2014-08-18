@@ -40,7 +40,7 @@ class Setup extends AbstractTask
 	public function execute()
 	{
 		// Check if requirements are met
-		if ($this->executeTask('Check') === false and !$this->getOption('pretend')) {
+		if ($this->executeTask('Check') === false && !$this->getOption('pretend')) {
 			return false;
 		}
 

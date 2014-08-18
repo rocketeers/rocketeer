@@ -110,7 +110,7 @@ class Rocketeer
 
 		// Merge with defaults
 		$value = $this->config->get($contextual);
-		if (is_array($value) and $original) {
+		if (is_array($value) && $original) {
 			$value = array_replace($original, $value);
 		}
 
@@ -169,7 +169,7 @@ class Rocketeer
 
 		$base  = $this->getHomeFolder().'/';
 		$stage = $this->connections->getStage();
-		if ($folder and $stage) {
+		if ($folder && $stage) {
 			$base .= $stage.'/';
 		}
 		$folder = str_replace($base, null, $folder);

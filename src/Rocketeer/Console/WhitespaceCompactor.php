@@ -29,6 +29,6 @@ class WhitespaceCompactor extends Php
 	 */
 	public function supports($file)
 	{
-		return dirname($file) !== 'src/config' and parent::supports($file);
+		return dirname($file) !== 'src/config' && parent::supports($file);
 	}
 }

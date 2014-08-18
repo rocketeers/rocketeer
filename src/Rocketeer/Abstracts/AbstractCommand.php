@@ -41,7 +41,7 @@ abstract class AbstractCommand extends Command
 			$this->task          = $task;
 			$this->task->command = $this;
 
-			if (!$this->description and $description = $task->getDescription()) {
+			if (!$this->description && $description = $task->getDescription()) {
 				$this->setDescription($description);
 			}
 		}

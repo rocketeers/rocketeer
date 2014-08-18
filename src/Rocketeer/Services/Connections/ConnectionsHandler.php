@@ -207,7 +207,7 @@ class ConnectionsHandler
 		});
 
 		// Return default if no active connection(s) set
-		if (empty($connections) and $default) {
+		if (empty($connections) && $default) {
 			return array($default);
 		}
 
@@ -360,7 +360,7 @@ class ConnectionsHandler
 		$repository = Arr::get($repository, 'repository');
 
 		// Add credentials if possible
-		if ($username or $password) {
+		if ($username || $password) {
 
 			// Build credentials chain
 			$credentials = $password ? $username.':'.$password : $username;

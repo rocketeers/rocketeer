@@ -188,7 +188,7 @@ class TasksQueue
 			$this->toOutput($state);
 
 			// If the task didn't finish, display what the error was
-			if ($task->wasHalted() or $state === false) {
+			if ($task->wasHalted() || $state === false) {
 				$this->command->error('The tasks queue was canceled by task "'.$task->getName().'"');
 
 				return false;
@@ -273,7 +273,7 @@ class TasksQueue
 		}
 
 		// Return all stages if "all"
-		if ($stage == 'all' or !$stage) {
+		if ($stage == 'all' || !$stage) {
 			$stage = $this->connections->getStages();
 		}
 

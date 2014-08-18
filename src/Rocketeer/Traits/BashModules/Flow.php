@@ -42,7 +42,7 @@ trait Flow
 	{
 		$stages = $this->connections->getStages();
 
-		return $this->usesStages and !empty($stages);
+		return $this->usesStages && !empty($stages);
 	}
 
 	/**

@@ -64,7 +64,7 @@ class Bash
 	public function getStrategy($strategy, $concrete = null)
 	{
 		$strategy = $this->builder->buildStrategy($strategy, $concrete);
-		if (!$strategy or !$strategy->isExecutable()) {
+		if (!$strategy || !$strategy->isExecutable()) {
 			return;
 		}
 

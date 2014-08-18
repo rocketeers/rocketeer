@@ -37,7 +37,7 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
 	 */
 	public function isExecutable()
 	{
-		return $this->getManager()->getBinary() and $this->hasManifest();
+		return $this->getManager()->getBinary() && $this->hasManifest();
 	}
 
 	//////////////////////////////////////////////////////////////////////

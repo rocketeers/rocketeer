@@ -181,7 +181,7 @@ class Check extends AbstractTask
 				return $this->checkPhpExtension('pdo_sqlite');
 
 			case 'mysql':
-				return $this->checkPhpExtension('mysql') and $this->checkPhpExtension('pdo_mysql');
+				return $this->checkPhpExtension('mysql') && $this->checkPhpExtension('pdo_mysql');
 
 			default:
 				return true;

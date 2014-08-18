@@ -67,7 +67,7 @@ class Igniter
 	{
 		// Cancel if not ignited yet
 		$storage = $this->app['path.rocketeer.config'];
-		if (!is_dir($storage) or (!is_dir($storage.'/stages') and !is_dir($storage.'/connections'))) {
+		if (!is_dir($storage) || (!is_dir($storage.'/stages') && !is_dir($storage.'/connections'))) {
 			return;
 		}
 
@@ -216,13 +216,13 @@ class Igniter
 		foreach ($paths as $key => $file) {
 
 			// Check whether we provided a file or folder
-			if (!is_dir($file) and file_exists($file.'.php')) {
+			if (!is_dir($file) && file_exists($file.'.php')) {
 				$file .= '.php';
 			}
 
 			// Use configuration in current folder if none found
 			$realpath = realpath('.').'/'.basename($file);
-			if (!file_exists($file) and file_exists($realpath)) {
+			if (!file_exists($file) && file_exists($realpath)) {
 				$file = $realpath;
 			}
 
@@ -266,7 +266,7 @@ class Igniter
 
 		// If we have one unified tasks file, include it
 		$file = $this->app['path.rocketeer.'.$handle];
-		if (!is_dir($file) and file_exists($file)) {
+		if (!is_dir($file) && file_exists($file)) {
 			include $file;
 		} // Else include its contents
 		elseif (is_dir($file)) {
