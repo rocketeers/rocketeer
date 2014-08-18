@@ -1,6 +1,8 @@
 <?php
 namespace Rocketeer\TestCases;
 
+use AspectMock\Kernel;
+use AspectMock\Test;
 use Closure;
 use Illuminate\Container\Container;
 use Illuminate\Filesystem\Filesystem;
@@ -8,6 +10,12 @@ use Mockery;
 use PHPUnit_Framework_TestCase;
 use Rocketeer\RocketeerServiceProvider;
 use Rocketeer\Traits\HasLocator;
+
+$kernel = Kernel::getInstance();
+$kernel->init(array(
+	'debug' => true,
+	'includePaths' => [__DIR__.'/../../src'],
+));
 
 abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 {
@@ -72,6 +80,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 	public function tearDown()
 	{
 		Mockery::close();
+		Test::clean();
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -84,12 +93,17 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 	 * @param string  $handle
 	 * @param string  $class
 	 * @param Closure $expectations
+	 * @param boolean $partial
 	 *
 	 * @return Mockery
 	 */
-	protected function mock($handle, $class, Closure $expectations)
+	protected function mock($handle, $class, Closure $expectations, $partial = true)
 	{
-		$mockery = Mockery::mock($class)->shouldIgnoreMissing();
+		$mockery = Mockery::mock($class);
+		if ($partial) {
+			$mockery = $mockery->shouldIgnoreMissing();
+		}
+
 		$mockery = $expectations($mockery)->mock();
 
 		$this->app[$handle] = $mockery;

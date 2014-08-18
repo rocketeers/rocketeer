@@ -1,10 +1,18 @@
 <?php
 namespace Rocketeer\Strategies\Dependencies;
 
+use AspectMock\Test;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class BowerStrategyTest extends RocketeerTestCase
 {
+	public function setUp()
+	{
+		parent::setUp();
+
+		$this->app['rocketeer.bash'] = Test::double($this->app['rocketeer.bash'], ['which' => 'bower']);
+	}
+
 	public function testCanInstallDependencies()
 	{
 		$this->pretend();
@@ -14,7 +22,7 @@ class BowerStrategyTest extends RocketeerTestCase
 		$this->assertHistory(array(
 			array(
 				'cd {server}/releases/{release}',
-				exec('which bower').' install',
+				'bower install',
 			),
 		));
 	}
@@ -28,7 +36,7 @@ class BowerStrategyTest extends RocketeerTestCase
 		$this->assertHistory(array(
 			array(
 				'cd {server}/releases/{release}',
-				exec('which bower').' update',
+				'bower update',
 			),
 		));
 	}
@@ -46,7 +54,7 @@ class BowerStrategyTest extends RocketeerTestCase
 		$this->assertHistory(array(
 			array(
 				'cd {server}/releases/{release}',
-				exec('which bower').' install --allow-root',
+				'bower install --allow-root',
 			),
 		));
 	}
