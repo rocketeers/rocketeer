@@ -69,6 +69,9 @@ class ConnectionsHandler
 
 		// Concatenate
 		$handle = [$connection, $server, $stage];
+		$handle = array_filter($handle, function ($value) {
+			return !is_null($value);
+		});
 		$handle = implode('/', $handle);
 
 		return $handle;
