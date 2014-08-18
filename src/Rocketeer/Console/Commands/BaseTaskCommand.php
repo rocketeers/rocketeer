@@ -33,12 +33,12 @@ class BaseTaskCommand extends AbstractCommand
 	 * @param AbstractTask $task
 	 * @param string|null  $name A name for the command
 	 */
-	public function __construct(AbstractTask $task, $name = null)
+	public function __construct(AbstractTask $task = null, $name = null)
 	{
 		parent::__construct($task);
 
 		// Set name
-		if ($this->name == 'deploy:custom') {
+		if ($this->name == 'deploy:custom' and $task) {
 			$this->name = $name ?: $task->getSlug();
 			$this->name = 'deploy:'.$this->name;
 		}
@@ -52,15 +52,5 @@ class BaseTaskCommand extends AbstractCommand
 	public function fire()
 	{
 		return $this->fireTasksQueue($this->task->getSlug());
-	}
-
-	/**
-	 * Get the task this command executes
-	 *
-	 * @return AbstractTask
-	 */
-	public function getTask()
-	{
-		return $this->task;
 	}
 }

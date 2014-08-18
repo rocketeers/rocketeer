@@ -48,6 +48,35 @@ abstract class AbstractCommand extends Command
 	}
 
 	/**
+	 * Get the task this command executes
+	 *
+	 * @return AbstractTask
+	 */
+	public function getTask()
+	{
+		return $this->task;
+	}
+
+	/**
+	 * Returns the command name.
+	 *
+	 * @return string The command name
+	 */
+	public function getName()
+	{
+		// Return commands without namespace if standalone
+		if (!$this->isInsideLaravel()) {
+			return str_replace('deploy:', null, $this->name);
+		}
+
+		return $this->name;
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	////////////////////////////// EXECUTION /////////////////////////////
+	//////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Run the tasks
 	 *
 	 * @return void
@@ -76,21 +105,6 @@ abstract class AbstractCommand extends Command
 			['agent', null, InputOption::VALUE_REQUIRED, 'The agent to use if asked'],
 			['repository', null, InputOption::VALUE_REQUIRED, 'The repository to use if asked'],
 		);
-	}
-
-	/**
-	 * Returns the command name.
-	 *
-	 * @return string The command name
-	 */
-	public function getName()
-	{
-		// Return commands without namespace if standalone
-		if (!$this->isInsideLaravel()) {
-			return str_replace('deploy:', null, $this->name);
-		}
-
-		return $this->name;
 	}
 
 	/**
