@@ -1,23 +1,31 @@
 <?php
 namespace Rocketeer\Strategies\Dependencies;
 
-use AspectMock\Test;
+use Rocketeer\Binaries\Bower;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class BowerStrategyTest extends RocketeerTestCase
 {
+	/**
+	 * @type \Rocketeer\Strategies\Dependencies\BowerStrategy
+	 */
+	protected $bower;
+
 	public function setUp()
 	{
 		parent::setUp();
 
-		$this->app['rocketeer.bash'] = Test::double($this->app['rocketeer.bash'], ['which' => 'bower']);
+		$bower = new Bower($this->app);
+		$bower->setBinary('bower');
+
+		$this->bower = $this->builder->buildStrategy('Dependencies', 'Bower');
+		$this->bower->setManager($bower);
 	}
 
 	public function testCanInstallDependencies()
 	{
 		$this->pretend();
-		$bower = $this->builder->buildStrategy('Dependencies', 'Bower');
-		$bower->install();
+		$this->bower->install();
 
 		$this->assertHistory(array(
 			array(
@@ -30,8 +38,7 @@ class BowerStrategyTest extends RocketeerTestCase
 	public function testCanUpdateDependencies()
 	{
 		$this->pretend();
-		$bower = $this->builder->buildStrategy('Dependencies', 'Bower');
-		$bower->update();
+		$this->bower->update();
 
 		$this->assertHistory(array(
 			array(
@@ -48,8 +55,7 @@ class BowerStrategyTest extends RocketeerTestCase
 		});
 
 		$this->pretend();
-		$bower = $this->builder->buildStrategy('Dependencies', 'Bower');
-		$bower->install();
+		$this->bower->install();
 
 		$this->assertHistory(array(
 			array(

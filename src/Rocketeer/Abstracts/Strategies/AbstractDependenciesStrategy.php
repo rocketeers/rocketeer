@@ -9,6 +9,8 @@
  */
 namespace Rocketeer\Abstracts\Strategies;
 
+use Illuminate\Container\Container;
+
 /**
  * Abstract class for Dependencies strategies
  *
@@ -31,13 +33,37 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
 	protected $binary;
 
 	/**
+	 * The package manager instance
+	 *
+	 * @type \Rocketeer\Abstracts\AbstractBinary
+	 */
+	protected $manager;
+
+	/**
+	 * @param Container $app
+	 */
+	public function __construct(Container $app)
+	{
+		$this->app     = $app;
+		$this->manager = $this->binary($this->binary);
+	}
+
+	/**
+	 * @param \Rocketeer\Abstracts\AbstractBinary $manager
+	 */
+	public function setManager($manager)
+	{
+		$this->manager = $manager;
+	}
+
+	/**
 	 * Whether this particular strategy is runnable or not
 	 *
 	 * @return boolean
 	 */
 	public function isExecutable()
 	{
-		return $this->getManager()->getBinary() && $this->hasManifest();
+		return $this->manager->getBinary() && $this->hasManifest();
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -51,7 +77,7 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
 	 */
 	public function install()
 	{
-		return $this->getManager()->runForCurrentRelease('install');
+		return $this->manager->runForCurrentRelease('install');
 	}
 
 	/**
@@ -61,7 +87,7 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
 	 */
 	public function update()
 	{
-		return $this->getManager()->runForCurrentRelease('update');
+		return $this->manager->runForCurrentRelease('update');
 	}
 
 	//////////////////////////////////////////////////////////////////////

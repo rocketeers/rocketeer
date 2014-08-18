@@ -60,7 +60,7 @@ class ComposerStrategy extends AbstractDependenciesStrategy implements Dependenc
 	 */
 	protected function executeHook($hook)
 	{
-		$tasks = $this->getHookedTasks('composer.'.$hook, [$this->getManager(), $this]);
+		$tasks = $this->getHookedTasks('composer.'.$hook, [$this->manager, $this]);
 		if (!$tasks) {
 			return true;
 		}

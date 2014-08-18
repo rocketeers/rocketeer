@@ -1,8 +1,6 @@
 <?php
 namespace Rocketeer\TestCases;
 
-use AspectMock\Kernel;
-use AspectMock\Test;
 use Closure;
 use Illuminate\Container\Container;
 use Illuminate\Filesystem\Filesystem;
@@ -10,12 +8,6 @@ use Mockery;
 use PHPUnit_Framework_TestCase;
 use Rocketeer\RocketeerServiceProvider;
 use Rocketeer\Traits\HasLocator;
-
-$kernel = Kernel::getInstance();
-$kernel->init(array(
-	'debug' => true,
-	'includePaths' => [__DIR__.'/../../src'],
-));
 
 abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 {
@@ -80,7 +72,6 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 	public function tearDown()
 	{
 		Mockery::close();
-		Test::clean();
 	}
 
 	////////////////////////////////////////////////////////////////////

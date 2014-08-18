@@ -45,7 +45,7 @@ class BowerStrategy extends AbstractDependenciesStrategy implements Dependencies
 	 */
 	public function install()
 	{
-		return $this->getManager()->runForCurrentRelease('install', [], $this->getInstallationOptions());
+		return $this->manager->runForCurrentRelease('install', [], $this->getInstallationOptions());
 	}
 
 	/**
@@ -55,7 +55,7 @@ class BowerStrategy extends AbstractDependenciesStrategy implements Dependencies
 	 */
 	public function update()
 	{
-		return $this->getManager()->runForCurrentRelease('update', [], $this->getInstallationOptions());
+		return $this->manager->runForCurrentRelease('update', [], $this->getInstallationOptions());
 	}
 
 	//////////////////////////////////////////////////////////////////////
