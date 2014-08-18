@@ -81,7 +81,7 @@ class TasksHandler
 		$bound = $this->console->add(new BaseTaskCommand($this->app[$slug]));
 
 		// Bind to Artisan too
-		if ($this->app->bound('artisan') and $this->app->resolved('artisan')) {
+		if ($this->app->bound('artisan') && $this->app->resolved('artisan')) {
 			$command = $this->builder->buildCommand($task);
 			$this->app['artisan']->add($command);
 		}
@@ -233,7 +233,7 @@ class TasksHandler
 		// Flatten the queue if requested
 		foreach ($events as $key => $event) {
 			$task = $event[0];
-			if ($flatten and $task instanceof Tasks\Closure and $stringTask = $task->getStringTask()) {
+			if ($flatten && $task instanceof Tasks\Closure && $stringTask = $task->getStringTask()) {
 				$events[$key] = $stringTask;
 			}
 		}
