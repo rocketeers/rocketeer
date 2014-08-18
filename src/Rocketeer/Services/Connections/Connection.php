@@ -17,22 +17,6 @@ namespace Rocketeer\Services\Connections;
 class Connection extends \Illuminate\Remote\Connection
 {
 	/**
-	 * @return array
-	 */
-	public function getAuth()
-	{
-		return $this->auth;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getHost()
-	{
-		return $this->host;
-	}
-
-	/**
 	 * @return string
 	 */
 	public function getName()
