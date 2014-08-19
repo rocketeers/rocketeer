@@ -106,6 +106,23 @@ class Pathfinder
 	}
 
 	/**
+	 * Get the path to the configuration folder
+	 *
+	 * @return string
+	 */
+	public function getConfigurationPath()
+	{
+		// Return path to Laravel configuration
+		if ($this->isInsideLaravel()) {
+			$configuration = $this->app['path'].'/config/packages/anahkiasen/rocketeer';
+		} else {
+			$configuration = $this->app['path.rocketeer.config'];
+		}
+
+		return $this->unifyLocalSlashes($configuration);
+	}
+
+	/**
 	 * Get path to the storage folder
 	 *
 	 * @return string
@@ -164,6 +181,18 @@ class Pathfinder
 	public function unifySlashes($path)
 	{
 		return str_replace('\\', '/', $path);
+	}
+
+	/**
+	 * Unify paths to the local DS
+	 *
+	 * @param string $path
+	 *
+	 * @return string
+	 */
+	public function unifyLocalSlashes($path)
+	{
+		return preg_replace('#(/|\\\)#', DS, $path);
 	}
 
 	/**

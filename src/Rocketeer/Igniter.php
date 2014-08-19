@@ -67,14 +67,16 @@ class Igniter
 	{
 		// Cancel if not ignited yet
 		$storage = $this->app['path.rocketeer.config'];
-		if (!is_dir($storage) || (!is_dir($storage.'/stages') && !is_dir($storage.'/connections'))) {
+		if (!is_dir($storage) || (!is_dir($storage.DS.'stages') && !is_dir($storage.DS.'connections'))) {
 			return;
 		}
 
+		// Get folders to glob
+		$folders = $this->paths->unifyLocalSlashes($storage.'/{stages,connections}/*');
+
 		// Gather custom files
 		$finder = new Finder();
-		$files  = $finder->in($storage.'/{stages,connections}/*')->notName('config.php')->files();
-		$files  = iterator_to_array($files);
+		$files  = $finder->in($folders)->notName('config.php')->files();
 
 		// Bind their contents to the "on" array
 		foreach ($files as $file) {
@@ -90,29 +92,15 @@ class Igniter
 	////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Get the path to the configuration folder
-	 *
-	 * @return string
-	 */
-	public function getConfigurationPath()
-	{
-		// Return path to Laravel configuration
-		if ($this->isInsideLaravel()) {
-			return $this->app['path'].'/config/packages/anahkiasen/rocketeer';
-		}
-
-		return $this->app['path.rocketeer.config'];
-	}
-
-	/**
 	 * Export the configuration files
 	 *
 	 * @return string
 	 */
 	public function exportConfiguration()
 	{
-		$source      = __DIR__.'/../config';
-		$destination = $this->getConfigurationPath();
+		$source      = $this->paths->unifyLocalSlashes(__DIR__.'/../config');
+		$source      = realpath($source);
+		$destination = $this->paths->getConfigurationPath();
 
 		// Unzip configuration files
 		$this->files->copyDirectory($source, $destination);
@@ -165,19 +153,20 @@ class Igniter
 	{
 		// Bind path to the configuration directory
 		if ($this->isInsideLaravel()) {
-			$path    = $this->app['path'].'/config/packages/anahkiasen/rocketeer';
+			$path    = $this->paths->getConfigurationPath();
 			$storage = $this->paths->getStoragePath();
 		} else {
-			$path    = $this->paths->getBasePath().'.rocketeer';
+			$path = $this->paths->getBasePath().'.rocketeer';
+
 			$storage = $path;
 		}
 
 		// Build paths
 		$paths = array(
 			'config' => $path.'',
-			'events' => $path.'/events',
-			'tasks'  => $path.'/tasks',
-			'logs'   => $storage.'/logs',
+			'events' => $path.DS.'events',
+			'tasks'  => $path.DS.'tasks',
+			'logs'   => $storage.DS.'logs',
 		);
 
 		foreach ($paths as $key => $file) {
@@ -188,7 +177,7 @@ class Igniter
 			}
 
 			// Use configuration in current folder if none found
-			$realpath = realpath('.').'/'.basename($file);
+			$realpath = realpath('.').DS.basename($file);
 			if (!file_exists($file) && file_exists($realpath)) {
 				$file = $realpath;
 			}
@@ -237,28 +226,10 @@ class Igniter
 			include $file;
 		} // Else include its contents
 		elseif (is_dir($file)) {
-			$folder = glob($file.'/*.php');
+			$folder = glob($file.DS.'*.php');
 			foreach ($folder as $file) {
 				include $file;
 			}
 		}
-	}
-
-	/**
-	 * Check if this is in Laravel
-	 *
-	 * @return boolean
-	 */
-	protected function isInsideLaravel()
-	{
-		// Return path to Laravel configuration
-		if ($this->app->bound('path')) {
-			$laravel = $this->app['path'].'/config/packages/anahkiasen/rocketeer';
-			if (file_exists($laravel)) {
-				return true;
-			}
-		}
-
-		return false;
 	}
 }

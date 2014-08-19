@@ -145,7 +145,7 @@ abstract class AbstractCommand extends Command
 
 		// Run tasks and display timer
 		$status = $this->time(function () use ($tasks) {
-			return $this->laravel['rocketeer.tasks']->run($tasks, $this);
+			return $this->laravel['rocketeer.queue']->run($tasks);
 		});
 
 		// Remove command instance

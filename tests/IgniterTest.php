@@ -21,6 +21,7 @@ class IgniterTest extends RocketeerTestCase
 
 		$this->igniter = new Igniter($this->app);
 		unset($this->app['path.base']);
+		unset($this->app['path']);
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -58,8 +59,8 @@ class IgniterTest extends RocketeerTestCase
 
 		// Create some fake files
 		$root = realpath(__DIR__.'/../.rocketeer');
-		$this->app['files']->put($root.'/events.php', '');
-		$this->app['files']->makeDirectory($root.'/tasks');
+		$this->files->put($root.'/events.php', '');
+		$this->files->makeDirectory($root.'/tasks');
 
 		$this->igniter->bindPaths();
 

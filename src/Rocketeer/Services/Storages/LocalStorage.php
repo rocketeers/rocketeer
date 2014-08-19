@@ -81,7 +81,7 @@ class LocalStorage extends AbstractStorage implements StorageInterface
 
 		// Get the contents of the configuration folder
 		$salt   = '';
-		$folder = $this->app['rocketeer.igniter']->getConfigurationPath();
+		$folder = $this->paths->getConfigurationPath();
 		$files  = $this->files->glob($folder.'/*.php');
 
 		// Remove custom files and folders
