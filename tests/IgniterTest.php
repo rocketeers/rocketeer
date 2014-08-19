@@ -99,41 +99,6 @@ class IgniterTest extends RocketeerTestCase
 		$this->assertContains('foobar', file_get_contents(__DIR__.'/../.rocketeer/config.php'));
 	}
 
-	public function testCanGetStoragePathWhenNoneBound()
-	{
-		unset($this->app['path.storage']);
-
-		$storage = $this->igniter->getStoragePath();
-		$this->assertEquals('.rocketeer', $storage);
-	}
-
-	public function testCanGetStoragePathIfUnix()
-	{
-		$this->app['path.base']    = '/app';
-		$this->app['path.storage'] = '/app/local/folder';
-
-		$storage = $this->igniter->getStoragePath();
-		$this->assertEquals('local/folder', $storage);
-	}
-
-	public function testCanGetStorageIfWindows()
-	{
-		$this->app['path.base']    = 'C:\Sites\app';
-		$this->app['path.storage'] = 'C:\Sites\app\local\folder';
-
-		$storage = $this->igniter->getStoragePath();
-		$this->assertEquals('local/folder', $storage);
-	}
-
-	public function testCanGetStorageWhenBothForSomeReason()
-	{
-		$this->app['path.base']    = 'C:\Sites\app';
-		$this->app['path.storage'] = 'C:/Sites/app/local/folder';
-
-		$storage = $this->igniter->getStoragePath();
-		$this->assertEquals('local/folder', $storage);
-	}
-
 	public function testCanLoadFilesOrFolder()
 	{
 		$config                 = $this->customConfig;
