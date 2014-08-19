@@ -36,6 +36,14 @@ class PathfinderTest extends RocketeerTestCase
 		$this->assertEquals($this->server.'/', $folder);
 	}
 
+	public function testCanReplacePlaceholdersOnWindows()
+	{
+		$this->app['path.base']   = 'c:\xampp\htdocs\project';
+		$this->app['path.foobar'] = 'c:\xampp\htdocs\project\lol';
+
+		$this->assertEquals($this->server.'/lol', $this->paths->getFolder('{path.foobar}'));
+	}
+
 	public function testCanGetUserHomeFolder()
 	{
 		$_SERVER['HOME'] = '/some/folder';

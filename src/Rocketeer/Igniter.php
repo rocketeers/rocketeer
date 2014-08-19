@@ -147,39 +147,6 @@ class Igniter
 	////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Get the base path
-	 *
-	 * @return string
-	 */
-	public function getBasePath()
-	{
-		$base = $this->app['path.base'] ? $this->app['path.base'].'/' : '';
-		$base = $this->unifySlashes($base);
-
-		return $base;
-	}
-
-	/**
-	 * Get path to the storage folder
-	 *
-	 * @return string
-	 */
-	public function getStoragePath()
-	{
-		// If no path is bound, default to the Rocketeer folder
-		if (!$this->app->bound('path.storage')) {
-			return '.rocketeer';
-		}
-
-		// Unify slashes
-		$storage = $this->app['path.storage'];
-		$storage = $this->unifySlashes($storage);
-		$storage = str_replace($this->getBasePath(), null, $storage);
-
-		return $storage;
-	}
-
-	/**
 	 * Bind the base path to the Container
 	 */
 	protected function bindBase()
@@ -199,9 +166,9 @@ class Igniter
 		// Bind path to the configuration directory
 		if ($this->isInsideLaravel()) {
 			$path    = $this->app['path'].'/config/packages/anahkiasen/rocketeer';
-			$storage = $this->getStoragePath();
+			$storage = $this->paths->getStoragePath();
 		} else {
-			$path    = $this->getBasePath().'.rocketeer';
+			$path    = $this->paths->getBasePath().'.rocketeer';
 			$storage = $path;
 		}
 
@@ -275,18 +242,6 @@ class Igniter
 				include $file;
 			}
 		}
-	}
-
-	/**
-	 * Unify the slashes to the UNIX mode (forward slashes)
-	 *
-	 * @param string $path
-	 *
-	 * @return string
-	 */
-	protected function unifySlashes($path)
-	{
-		return str_replace('\\', '/', $path);
 	}
 
 	/**

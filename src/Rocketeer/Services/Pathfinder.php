@@ -22,6 +22,10 @@ class Pathfinder
 {
 	use HasLocator;
 
+	//////////////////////////////////////////////////////////////////////
+	//////////////////////////////// LOCAL ///////////////////////////////
+	//////////////////////////////////////////////////////////////////////
+
 	/**
 	 * Get a configured path
 	 *
@@ -32,50 +36,6 @@ class Pathfinder
 	public function getPath($path)
 	{
 		return $this->rocketeer->getOption('paths.'.$path);
-	}
-
-	/**
-	 * Replace patterns in a folder path
-	 *
-	 * @param string $path
-	 *
-	 * @return string
-	 */
-	public function replacePatterns($path)
-	{
-		$app = $this->app;
-
-		// Replace folder patterns
-		return preg_replace_callback('/\{[a-z\.]+\}/', function ($match) use ($app) {
-			$folder = substr($match[0], 1, -1);
-
-			if ($app->bound($folder)) {
-				return str_replace($app['path.base'].'/', null, $app->make($folder));
-			}
-
-			return false;
-		}, $path);
-	}
-
-	/**
-	 * Get the path to a folder, taking into account application name and stage
-	 *
-	 * @param string|null $folder
-	 *
-	 * @return string
-	 */
-	public function getFolder($folder = null)
-	{
-		$folder = $this->replacePatterns($folder);
-
-		$base  = $this->getHomeFolder().'/';
-		$stage = $this->connections->getStage();
-		if ($folder && $stage) {
-			$base .= $stage.'/';
-		}
-		$folder = str_replace($base, null, $folder);
-
-		return $base.$folder;
 	}
 
 	/**
@@ -130,5 +90,104 @@ class Pathfinder
 		} else {
 			throw new Exception('Cannot determine user home directory.');
 		}
+	}
+
+	/**
+	 * Get the base path
+	 *
+	 * @return string
+	 */
+	public function getBasePath()
+	{
+		$base = $this->app['path.base'] ? $this->app['path.base'].'/' : '';
+		$base = $this->unifySlashes($base);
+
+		return $base;
+	}
+
+	/**
+	 * Get path to the storage folder
+	 *
+	 * @return string
+	 */
+	public function getStoragePath()
+	{
+		// If no path is bound, default to the Rocketeer folder
+		if (!$this->app->bound('path.storage')) {
+			return '.rocketeer';
+		}
+
+		// Unify slashes
+		$storage = $this->app['path.storage'];
+		$storage = $this->unifySlashes($storage);
+		$storage = str_replace($this->getBasePath(), null, $storage);
+
+		return $storage;
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	/////////////////////////////// SERVER ///////////////////////////////
+	//////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Get the path to a folder, taking into account application name and stage
+	 *
+	 * @param string|null $folder
+	 *
+	 * @return string
+	 */
+	public function getFolder($folder = null)
+	{
+		$folder = $this->replacePatterns($folder);
+
+		$base  = $this->getHomeFolder().'/';
+		$stage = $this->connections->getStage();
+		if ($folder && $stage) {
+			$base .= $stage.'/';
+		}
+		$folder = str_replace($base, null, $folder);
+
+		return $base.$folder;
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	////////////////////////////// HELPERS ///////////////////////////////
+	//////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Unify the slashes to the UNIX mode (forward slashes)
+	 *
+	 * @param string $path
+	 *
+	 * @return string
+	 */
+	public function unifySlashes($path)
+	{
+		return str_replace('\\', '/', $path);
+	}
+
+	/**
+	 * Replace patterns in a folder path
+	 *
+	 * @param string $path
+	 *
+	 * @return string
+	 */
+	public function replacePatterns($path)
+	{
+		$base = $this->getBasePath();
+
+		// Replace folder patterns
+		return preg_replace_callback('/\{[a-z\.]+\}/', function ($match) use ($base) {
+			$folder = substr($match[0], 1, -1);
+
+			// Replace paths from the container
+			if ($this->app->bound($folder)) {
+				$path = $this->app->make($folder);
+				return str_replace($base, null, $this->unifySlashes($path));
+			}
+
+			return false;
+		}, $path);
 	}
 }

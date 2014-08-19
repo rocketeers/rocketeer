@@ -101,6 +101,10 @@ class RocketeerServiceProvider extends ServiceProvider
 	 */
 	public function bindPaths()
 	{
+		$this->app->singleton('rocketeer.paths', function ($app) {
+			return new Pathfinder($app);
+		});
+
 		$this->app->bind('rocketeer.igniter', function ($app) {
 			return new Igniter($app);
 		});
@@ -153,10 +157,6 @@ class RocketeerServiceProvider extends ServiceProvider
 	{
 		$this->app->singleton('rocketeer.rocketeer', function ($app) {
 			return new Rocketeer($app);
-		});
-
-		$this->app->singleton('rocketeer.paths', function ($app) {
-			return new Pathfinder($app);
 		});
 
 		$this->app->singleton('rocketeer.connections', function ($app) {
