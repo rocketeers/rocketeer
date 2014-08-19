@@ -45,7 +45,7 @@ abstract class RocketeerTestCase extends ContainerTestCase
 		// Setup local server
 		$this->customConfig    = __DIR__.'/../_meta/.rocketeer';
 		$this->server          = __DIR__.'/../_server/foobar';
-		$this->deploymentsFile = __DIR__.'/../_meta/deployments.json';
+		$this->deploymentsFile = __DIR__.'/../_server/foobar/deployments.json';
 
 		// Bind new LocalStorage instance
 		$this->app->bind('rocketeer.storage.local', function ($app) {
@@ -80,46 +80,15 @@ abstract class RocketeerTestCase extends ContainerTestCase
 		// Save superglobals
 		$this->home = $_SERVER['HOME'];
 
-		// Recreate deployments file
-		$this->files->put($this->deploymentsFile, json_encode(array(
-			'foo'                 => 'bar',
-			'directory_separator' => '/',
-			'is_setup'            => true,
-			'webuser'             => array('username' => 'www-data', 'group' => 'www-data'),
-			'line_endings'        => "\n",
-		)));
-
-		$rootPath = $this->server.'/../../..';
+		// Cleanup files created by tests
+		$this->files->deleteDirectory($this->server);
+		$this->files->deleteDirectory($this->customConfig);
+		if (is_link($this->server.'/current')) {
+			unlink($this->server.'/current');
+		}
 
 		// Recreate altered local server
-		$this->files->deleteDirectory($rootPath.'/storage');
-		$this->files->deleteDirectory($this->server.'/logs');
-		$folders = array(
-			'current',
-			'shared',
-			'releases',
-			'releases/10000000000000',
-			'releases/15000000000000',
-			'releases/20000000000000'
-		);
-		foreach ($folders as $folder) {
-			$folder = $this->server.'/'.$folder;
-
-			$this->files->deleteDirectory($folder);
-			$this->files->delete($folder);
-			$this->files->makeDirectory($folder, 0777, true);
-			file_put_contents($folder.'/.gitkeep', '');
-		}
-		file_put_contents($this->server.'/state.json', json_encode(array(
-			'10000000000000' => true,
-			'15000000000000' => false,
-			'20000000000000' => true,
-		)));
-
-		// Delete rocketeer config
-		$binary = $rootPath.'/.rocketeer';
-		$this->files->deleteDirectory($binary);
-		$this->files->deleteDirectory($this->customConfig);
+		$this->files->copyDirectory($this->server.'-stub', $this->server);
 	}
 
 	////////////////////////////////////////////////////////////////////

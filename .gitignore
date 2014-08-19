@@ -4,5 +4,8 @@ bin/phar
 bin/rocketeer.phar
 composer.lock
 
+# Tests
+tests/_server/foobar
+
 # Dependencies
 vendor
