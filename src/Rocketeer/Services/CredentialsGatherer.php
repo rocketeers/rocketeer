@@ -147,6 +147,7 @@ class CredentialsGatherer
 				$credentials['keyphrase'] = $this->gatherCredential($handle, 'keyphrase', 'If a keyphrase is required, provide it');
 				break;
 
+			default:
 			case 'password':
 				$credentials['password'] = $this->gatherCredential($handle, 'password');
 				break;

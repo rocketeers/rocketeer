@@ -67,11 +67,17 @@ class ConnectionsHandler
 		$server     = $server ?: $this->getServer();
 		$stage      = $stage ?: $this->getStage();
 
-		// Concatenate
+		// Filter values
 		$handle = [$connection, $server, $stage];
-		$handle = array_filter($handle, function ($value) {
-			return !is_null($value);
-		});
+		if ($this->isMultiserver($connection)) {
+			$handle = array_filter($handle, function ($value) {
+				return !is_null($value);
+			});
+		} else {
+			$handle = array_filter($handle);
+		}
+
+		// Concatenate
 		$handle = implode('/', $handle);
 
 		return $handle;
@@ -87,6 +93,18 @@ class ConnectionsHandler
 	public function getServer()
 	{
 		return $this->currentServer;
+	}
+
+	/**
+	 * Check if a connection is multiserver or not
+	 *
+	 * @param string $connection
+	 *
+	 * @return boolean
+	 */
+	public function isMultiserver($connection)
+	{
+		return (bool) count($this->getConnectionCredentials($connection));
 	}
 
 	////////////////////////////////////////////////////////////////////
