@@ -22,6 +22,14 @@ use Symfony\Component\Console\Input\InputOption;
 abstract class AbstractCommand extends Command
 {
 	/**
+	 * Whether the command's task should be built
+	 * into a pipeline or run straight
+	 *
+	 * @type boolean
+	 */
+	protected $straight = false;
+
+	/**
 	 * the task to execute on fire
 	 *
 	 * @var AbstractTask
@@ -138,15 +146,15 @@ abstract class AbstractCommand extends Command
 		$this->laravel['rocketeer.credentials']->getServerCredentials();
 		$this->laravel['rocketeer.credentials']->getRepositoryCredentials();
 
-		// Convert tasks to array if necessary
-		if (!is_array($tasks)) {
-			$tasks = array($tasks);
+		if ($this->straight) {
+			// If we only have a single task, run it
+			$status = $this->laravel['rocketeer.builder']->buildTask($tasks)->fire();
+		} else {
+			// Run tasks and display timer
+			$status = $this->time(function () use ($tasks) {
+				return $this->laravel['rocketeer.queue']->run($tasks);
+			});
 		}
-
-		// Run tasks and display timer
-		$status = $this->time(function () use ($tasks) {
-			return $this->laravel['rocketeer.queue']->run($tasks);
-		});
 
 		// Remove command instance
 		unset($this->laravel['rocketeer.command']);
