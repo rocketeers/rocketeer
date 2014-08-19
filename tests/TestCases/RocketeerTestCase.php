@@ -43,9 +43,13 @@ abstract class RocketeerTestCase extends ContainerTestCase
 		parent::setUp();
 
 		// Setup local server
-		$this->customConfig    = __DIR__.'/../_meta/.rocketeer';
 		$this->server          = __DIR__.'/../_server/foobar';
-		$this->deploymentsFile = __DIR__.'/../_server/foobar/deployments.json';
+		$this->customConfig    = $this->server.'/../.rocketeer';
+		$this->deploymentsFile = $this->server.'/deployments.json';
+
+		// Bind dummy AbstractTask
+		$this->task = $this->task('Cleanup');
+		$this->recreateVirtualServer();
 
 		// Bind new LocalStorage instance
 		$this->app->bind('rocketeer.storage.local', function ($app) {
@@ -53,10 +57,6 @@ abstract class RocketeerTestCase extends ContainerTestCase
 
 			return new LocalStorage($app, 'deployments', $folder);
 		});
-
-		// Bind dummy AbstractTask
-		$this->task = $this->task('Cleanup');
-		$this->recreateVirtualServer();
 	}
 
 	/**
@@ -81,8 +81,13 @@ abstract class RocketeerTestCase extends ContainerTestCase
 		$this->home = $_SERVER['HOME'];
 
 		// Cleanup files created by tests
-		$this->files->deleteDirectory($this->server);
-		$this->files->deleteDirectory($this->customConfig);
+		$cleanup = array(
+			realpath(__DIR__.'/../../.rocketeer'),
+			realpath(__DIR__.'/../.rocketeer'),
+			realpath($this->server),
+			realpath($this->customConfig),
+		);
+		array_map([$this->files, 'deleteDirectory'], $cleanup);
 		if (is_link($this->server.'/current')) {
 			unlink($this->server.'/current');
 		}
