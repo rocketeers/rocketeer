@@ -98,7 +98,7 @@ class CredentialsGatherer
 		// Update connection name
 		$handle = $this->connections->getHandle($connectionName, $server);
 
-		// Gather credentials
+		// Gather common credentials
 		$credentials = $this->gatherCredentials(array(
 			'host'      => true,
 			'username'  => true,
@@ -109,17 +109,7 @@ class CredentialsGatherer
 		), $connection, $handle);
 
 		// Get password or key
-		if (!$credentials['password'] && !$credentials['key']) {
-			$types = ['key', 'password'];
-			$type  = $this->command->askWith('No password or SSH key is set for ['.$handle.'], which would you use?', 'key', $types);
-			if ($type == 'key') {
-				$default                  = $this->rocketeer->getDefaultKeyPath();
-				$credentials['key']       = $this->command->option('key') ?: $this->command->askWith('Please enter the full path to your key', $default);
-				$credentials['keyphrase'] = $this->gatherCredential($handle, 'keyphrase', 'If a keyphrase is required, provide it');
-			} else {
-				$credentials['password'] = $this->gatherCredential($handle, 'password');
-			}
-		}
+		$credentials = $this->getConnectionAuthentication($credentials, $handle);
 
 		// Save credentials
 		$this->connections->syncConnectionCredentials($connectionName, $credentials, $server);
@@ -131,13 +121,48 @@ class CredentialsGatherer
 	//////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Smart fill-in of the key/password of a connection
+	 *
+	 * @param string[] $credentials
+	 * @param string   $handle
+	 *
+	 * @return string[]
+	 */
+	protected function getConnectionAuthentication(array $credentials, $handle)
+	{
+		// Cancel if already provided
+		if ($credentials['password'] || $credentials['key']) {
+			return $credentials;
+		}
+
+		// Get which type of authentication to use
+		$types   = ['key', 'password'];
+		$keyPath = $this->rocketeer->getDefaultKeyPath();
+		$type    = $this->command->askWith('No password or SSH key is set for ['.$handle.'], which would you use?', 'key', $types);
+
+		// Gather the credentials for each
+		switch ($type) {
+			case 'key':
+				$credentials['key']       = $this->command->option('key') ?: $this->command->askWith('Please enter the full path to your key', $keyPath);
+				$credentials['keyphrase'] = $this->gatherCredential($handle, 'keyphrase', 'If a keyphrase is required, provide it');
+				break;
+
+			case 'password':
+				$credentials['password'] = $this->gatherCredential($handle, 'password');
+				break;
+		}
+
+		return $credentials;
+	}
+
+	/**
 	 * Loop through credentials and store the missing ones
 	 *
 	 * @param boolean[] $credentials
 	 * @param string[]  $current
 	 * @param string    $handle
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	protected function gatherCredentials($credentials, $current, $handle)
 	{
