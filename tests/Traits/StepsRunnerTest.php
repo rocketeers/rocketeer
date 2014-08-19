@@ -1,5 +1,5 @@
 <?php
-namespace Traits;
+namespace Rocketeer\Traits;
 
 use Rocketeer\TestCases\RocketeerTestCase;
 

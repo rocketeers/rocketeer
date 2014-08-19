@@ -9,8 +9,6 @@
  */
 namespace Rocketeer;
 
-use Exception;
-use Illuminate\Support\Str;
 use Rocketeer\Traits\HasLocator;
 
 /**

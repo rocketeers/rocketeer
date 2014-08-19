@@ -1,5 +1,5 @@
 <?php
-namespace Tasks\Subtasks;
+namespace Rocketeer\Tasks\Subtasks;
 
 use Rocketeer\Tasks\Subtasks\Primer;
 use Rocketeer\TestCases\RocketeerTestCase;

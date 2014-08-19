@@ -1,5 +1,5 @@
 <?php
-namespace Services\Connections;
+namespace Rocketeer\Services\Connections;
 
 use Rocketeer\TestCases\RocketeerTestCase;
 

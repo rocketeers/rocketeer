@@ -1,5 +1,5 @@
 <?php
-namespace Services\Connections;
+namespace Rocketeer\Services\Connections;
 
 use Rocketeer\Services\Connections\RemoteHandler;
 use Rocketeer\TestCases\RocketeerTestCase;
