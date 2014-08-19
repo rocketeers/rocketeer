@@ -184,7 +184,7 @@ trait Filesystem
 	{
 		$recursive = $recursive ? '-p ' : null;
 
-		return $this->run('mkdir '.$recursive.$this->rocketeer->getFolder($folder));
+		return $this->run('mkdir '.$recursive.$this->paths->getFolder($folder));
 	}
 
 	/**
@@ -196,7 +196,7 @@ trait Filesystem
 	 */
 	public function removeFolder($folder = null)
 	{
-		return $this->run('rm -rf '.$this->rocketeer->getFolder($folder));
+		return $this->run('rm -rf '.$this->paths->getFolder($folder));
 	}
 
 	////////////////////////////////////////////////////////////////////

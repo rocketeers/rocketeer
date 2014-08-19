@@ -42,7 +42,7 @@ class ServerStorage extends AbstractStorage implements StorageInterface
 	 */
 	public function getFilepath()
 	{
-		return $this->rocketeer->getFolder($this->file.'.json');
+		return $this->paths->getFolder($this->file.'.json');
 	}
 
 	/**

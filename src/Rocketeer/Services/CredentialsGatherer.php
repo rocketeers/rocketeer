@@ -137,7 +137,7 @@ class CredentialsGatherer
 
 		// Get which type of authentication to use
 		$types   = ['key', 'password'];
-		$keyPath = $this->rocketeer->getDefaultKeyPath();
+		$keyPath = $this->paths->getDefaultKeyPath();
 		$type    = $this->command->askWith('No password or SSH key is set for ['.$handle.'], which would you use?', 'key', $types);
 
 		// Gather the credentials for each

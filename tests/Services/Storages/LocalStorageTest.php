@@ -24,7 +24,7 @@ class LocalStorageTest extends RocketeerTestCase
 
 		new LocalStorage($this->app);
 
-		$storage = $this->rocketeer->getRocketeerConfigFolder();
+		$storage = $this->paths->getRocketeerConfigFolder();
 		$exists  = file_exists($storage);
 		$this->files->deleteDirectory($storage);
 		$this->assertTrue($exists);

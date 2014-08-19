@@ -32,6 +32,7 @@ use Illuminate\Support\Arr;
  * @property \Rocketeer\Services\Display\QueueExplainer               explainer
  * @property \Rocketeer\Services\Display\QueueTimer                   timer
  * @property \Rocketeer\Services\History\History                      history
+ * @property \Rocketeer\Services\Pathfinder                           paths
  * @property \Rocketeer\Services\ReleasesManager                      releasesManager
  * @property \Rocketeer\Services\Storages\LocalStorage                localStorage
  * @property \Rocketeer\Services\Tasks\TasksBuilder                   builder
@@ -75,17 +76,18 @@ trait HasLocator
 			'console'         => 'rocketeer.console',
 			'credentials'     => 'rocketeer.credentials',
 			'explainer'       => 'rocketeer.explainer',
-			'timer'           => 'rocketeer.timer',
 			'history'         => 'rocketeer.history',
 			'localStorage'    => 'rocketeer.storage.local',
 			'logs'            => 'rocketeer.logs',
+			'paths'           => 'rocketeer.paths',
 			'queue'           => 'rocketeer.queue',
-			'remote'          => 'rocketeer.remote',
 			'releasesManager' => 'rocketeer.releases',
+			'remote'          => 'rocketeer.remote',
 			'rocketeer'       => 'rocketeer.rocketeer',
 			'scm'             => 'rocketeer.scm',
 			'strategy'        => 'rocketeer.strategy',
 			'tasks'           => 'rocketeer.tasks',
+			'timer'           => 'rocketeer.timer',
 		);
 
 		// Replace shortcuts

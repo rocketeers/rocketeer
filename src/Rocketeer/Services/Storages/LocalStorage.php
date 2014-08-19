@@ -48,7 +48,7 @@ class LocalStorage extends AbstractStorage implements StorageInterface
 
 		// Create personal storage if necessary
 		if (!$this->app->bound('path.storage')) {
-			$folder = $this->rocketeer->getRocketeerConfigFolder();
+			$folder = $this->paths->getRocketeerConfigFolder();
 			$this->files->makeDirectory($folder, 0755, false, true);
 		}
 

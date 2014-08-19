@@ -142,7 +142,7 @@ class ReleasesManager
 	 */
 	public function getReleasesPath()
 	{
-		return $this->rocketeer->getFolder('releases');
+		return $this->paths->getFolder('releases');
 	}
 
 	/**
@@ -154,7 +154,7 @@ class ReleasesManager
 	 */
 	public function getPathToRelease($release)
 	{
-		return $this->rocketeer->getFolder('releases/'.$release);
+		return $this->paths->getFolder('releases/'.$release);
 	}
 
 	/**

@@ -24,6 +24,7 @@ use Rocketeer\Services\Display\QueueExplainer;
 use Rocketeer\Services\Display\QueueTimer;
 use Rocketeer\Services\History\History;
 use Rocketeer\Services\History\LogsHandler;
+use Rocketeer\Services\Pathfinder;
 use Rocketeer\Services\ReleasesManager;
 use Rocketeer\Services\Storages\LocalStorage;
 use Rocketeer\Services\Tasks\TasksBuilder;
@@ -152,6 +153,10 @@ class RocketeerServiceProvider extends ServiceProvider
 	{
 		$this->app->singleton('rocketeer.rocketeer', function ($app) {
 			return new Rocketeer($app);
+		});
+
+		$this->app->singleton('rocketeer.paths', function ($app) {
+			return new Pathfinder($app);
 		});
 
 		$this->app->singleton('rocketeer.connections', function ($app) {

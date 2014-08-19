@@ -161,7 +161,7 @@ class CredentialsGathererTest extends RocketeerTestCase
 
 	public function testCanGetCredentialsForSpecifiedConnection()
 	{
-		$key = $this->rocketeer->getDefaultKeyPath();
+		$key = $this->paths->getDefaultKeyPath();
 		$this->mockAnswers(array(
 			'No host is set for [staging/0]'         => $this->host,
 			'No username is set for [staging/0]'     => $this->username,

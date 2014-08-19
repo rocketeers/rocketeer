@@ -101,7 +101,7 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
 	 */
 	protected function hasManifest()
 	{
-		$server = $this->rocketeer->getFolder('current/'.$this->manifest);
+		$server = $this->paths->getFolder('current/'.$this->manifest);
 		$server = $this->bash->fileExists($server);
 
 		$local = $this->app['path.base'].DS.$this->manifest;

@@ -30,7 +30,7 @@ trait Flow
 	 */
 	public function isSetup()
 	{
-		return $this->fileExists($this->rocketeer->getFolder('current'));
+		return $this->fileExists($this->paths->getFolder('current'));
 	}
 
 	/**
@@ -92,7 +92,7 @@ trait Flow
 
 		// Get path to current/ folder and latest release
 		$currentReleasePath = $this->releasesManager->getCurrentReleasePath();
-		$currentFolder      = $this->rocketeer->getFolder('current');
+		$currentFolder      = $this->paths->getFolder('current');
 
 		return $this->symlink($currentReleasePath, $currentFolder);
 	}

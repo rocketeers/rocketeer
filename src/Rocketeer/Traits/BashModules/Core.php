@@ -188,7 +188,7 @@ trait Core
 		}
 
 		// Prepend folder
-		array_unshift($tasks, 'cd '.$this->rocketeer->getFolder($folder));
+		array_unshift($tasks, 'cd '.$this->paths->getFolder($folder));
 
 		return $this->run($tasks);
 	}

@@ -100,7 +100,7 @@ trait Binaries
 		$location  = false;
 		$locations = array(
 			[$this->localStorage, 'get', 'paths.'.$binary],
-			[$this->rocketeer, 'getPath', $binary],
+			[$this->paths, 'getPath', $binary],
 			[$this, 'runSilently', 'which '.$binary],
 		);
 

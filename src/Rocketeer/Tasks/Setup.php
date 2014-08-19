@@ -58,7 +58,7 @@ class Setup extends AbstractTask
 
 		// Create confirmation message
 		$application = $this->rocketeer->getApplicationName();
-		$homeFolder  = $this->rocketeer->getHomeFolder();
+		$homeFolder  = $this->paths->getHomeFolder();
 		$message     = sprintf('Successfully setup "%s" at "%s"', $application, $homeFolder);
 
 		return $this->explainer->success($message);
