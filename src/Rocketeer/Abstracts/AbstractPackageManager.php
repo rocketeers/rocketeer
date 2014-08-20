@@ -11,6 +11,16 @@ class AbstractPackageManager extends AbstractBinary
 	protected $manifest;
 
 	/**
+	 * Whether the manager is enabled or not
+	 *
+	 * @return boolean
+	 */
+	public function isExecutable()
+	{
+		return $this->getBinary() && $this->hasManifest();
+	}
+
+	/**
 	 * Check if the manifest file exists, locally or on server
 	 *
 	 * @return bool

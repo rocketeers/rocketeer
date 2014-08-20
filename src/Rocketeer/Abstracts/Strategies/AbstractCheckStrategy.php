@@ -45,4 +45,51 @@ class AbstractCheckStrategy extends AbstractStrategy
 	{
 		return $this->manager->isExecutable();
 	}
+
+	/**
+	 * Check that the language used by the
+	 * application is at the required version
+	 *
+	 * @return boolean
+	 */
+	public function language()
+	{
+		$required = null;
+
+		$required = null;
+
+		// Get the minimum version of the application
+		if ($manifest = $this->manager->getManifestContents()) {
+			$required = $this->getLanguageConstraint($manifest);
+		}
+
+		// Cancel if no version constraint
+		if (!$required) {
+			return true;
+		}
+
+		$version = $this->getCurrentVersion();
+
+		return version_compare($version, $required, '>=');
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	////////////////////////////// LANGUAGE //////////////////////////////
+	//////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Get the version constraint which should be checked against
+	 *
+	 * @param string $manifest
+	 *
+	 * @return string
+	 */
+	abstract protected function getLanguageConstraint($manifest);
+
+	/**
+	 * Get the current version in use
+	 *
+	 * @return string
+	 */
+	abstract protected function getCurrentVersion();
 }

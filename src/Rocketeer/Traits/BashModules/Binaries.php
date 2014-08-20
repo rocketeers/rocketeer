@@ -27,7 +27,7 @@ trait Binaries
 	 *
 	 * @param string $binary
 	 *
-	 * @return \Rocketeer\Abstracts\AbstractBinary
+	 * @return \Rocketeer\Abstracts\AbstractBinary|\Rocketeer\Abstracts\AbstractPackageManager
 	 */
 	public function binary($binary)
 	{

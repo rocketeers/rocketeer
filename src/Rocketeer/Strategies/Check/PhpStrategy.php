@@ -36,32 +36,31 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
 	//////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Check that the language used by the
-	 * application is at the required version
+	 * Get the version constraint which should be checked against
 	 *
-	 * @return boolean
+	 * @param string $manifest
+	 *
+	 * @return string
 	 */
-	public function language()
+	protected function getLanguageConstraint($manifest)
 	{
-		$required = null;
+		$manifest = json_decode($manifest, true);
 
-		// Get the minimum PHP version of the application
-		if ($composer = $this->manager->getManifestContents()) {
-			$composer = json_decode($composer, true);
+		// Strip versions of constraints
+		$required = (string) Arr::get($manifest, 'require.php');
+		$required = preg_replace('/>=/', '', $required);
 
-			// Strip versions of constraints
-			$required = (string) Arr::get($composer, 'require.php');
-			$required = preg_replace('/>=/', '', $required);
-		}
+		return $required;
+	}
 
-		// Cancel if no PHP version found
-		if (!$required) {
-			return true;
-		}
-
-		$version = $this->php()->runLast('version');
-
-		return version_compare($version, $required, '>=');
+	/**
+	 * Get the current version in use
+	 *
+	 * @return string
+	 */
+	protected function getCurrentVersion()
+	{
+		return $this->php()->runLast('version');
 	}
 
 	/**

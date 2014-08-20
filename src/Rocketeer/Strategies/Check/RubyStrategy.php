@@ -29,30 +29,31 @@ class RubyStrategy extends AbstractCheckStrategy implements CheckStrategyInterfa
 	//////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Check that the language used by the
-	 * application is at the required version
+	 * Get the version constraint which should be checked against
 	 *
-	 * @return boolean
+	 * @param string $manifest
+	 *
+	 * @return string
 	 */
-	public function language()
+	protected function getLanguageConstraint($manifest)
 	{
-		$required = null;
+		preg_match('/ruby \'(.+)\'/', $manifest, $matches);
+		$required = Arr::get((array) $matches, 1);
 
-		// Get the minimum Ruby version of the application
-		if ($gemfile = $this->manager->getManifestContents()) {
-			preg_match('/ruby \'(.+)\'/', $gemfile, $matches);
-			$required = Arr::get($matches, 1);
-		}
+		return $required;
+	}
 
-		// Cancel if no Ruby version found
-		if (!$required) {
-			return true;
-		}
-
+	/**
+	 * Get the current version in use
+	 *
+	 * @return string
+	 */
+	protected function getCurrentVersion()
+	{
 		$version = $this->binary('ruby')->run('--version');
 		$version = preg_replace('/ruby ([0-9\.]+)p?.+/', '$1', $version);
 
-		return version_compare($version, $required, '>=');
+		return $version;
 	}
 
 	/**
