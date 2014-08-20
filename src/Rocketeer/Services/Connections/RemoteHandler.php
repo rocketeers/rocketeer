@@ -32,6 +32,16 @@ class RemoteHandler
 	protected $active = [];
 
 	/**
+	 * Whether the handler is currently connected to any server
+	 *
+	 * @return boolean
+	 */
+	public function connected()
+	{
+		return (bool) $this->active;
+	}
+
+	/**
 	 * Create a specific connection or the default one
 	 *
 	 * @param string|null $connection

@@ -9,6 +9,11 @@ use Rocketeer\Interfaces\Strategies\CheckStrategyInterface;
 class RubyStrategy extends AbstractCheckStrategy implements CheckStrategyInterface
 {
 	/**
+	 * @type string
+	 */
+	protected $description = 'Checks if the server is ready to receive a Ruby application';
+
+	/**
 	 * The language of the strategy
 	 *
 	 * @type string

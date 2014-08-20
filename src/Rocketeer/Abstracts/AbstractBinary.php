@@ -45,7 +45,7 @@ abstract class AbstractBinary
 		$this->app = $app;
 
 		// Assign default paths
-		if ($paths = $this->getKnownPaths()) {
+		if ($this->remote->connected() && $paths = $this->getKnownPaths()) {
 			$binary = call_user_func_array([$this->bash, 'which'], $paths);
 			$this->setBinary($binary);
 		}

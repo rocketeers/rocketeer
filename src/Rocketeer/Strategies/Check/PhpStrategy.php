@@ -9,6 +9,11 @@ use Rocketeer\Interfaces\Strategies\CheckStrategyInterface;
 class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterface
 {
 	/**
+	 * @type string
+	 */
+	protected $description = 'Checks if the server is ready to receive a PHP application';
+
+	/**
 	 * The language of the strategy
 	 *
 	 * @type string
