@@ -27,19 +27,30 @@ class Migrate extends AbstractTask
 	 */
 	public function execute()
 	{
+		$results = [];
+
+		// Get strategy and options
+		$migrate  = $this->getOption('migrate');
+		$seed     = $this->getOption('seed');
 		$strategy = $this->getStrategy('Migrate');
-		if (!$strategy) {
+
+		// Cancel if nothing to run
+		if (!$strategy || (!$migrate && !$seed)) {
 			return true;
 		}
 
-		if ($this->getOption('migrate')) {
+		// Migrate the database
+		if ($migrate) {
 			$this->command->comment('Running outstanding migrations');
-			$strategy->migrate();
+			$results[] = $strategy->migrate();
 		}
 
-		if ($this->getOption('seed')) {
+		// Seed it
+		if ($seed) {
 			$this->command->comment('Seeding database');
-			$strategy->seed();
+			$results[] = $strategy->seed();
 		}
+
+		return $results;
 	}
 }

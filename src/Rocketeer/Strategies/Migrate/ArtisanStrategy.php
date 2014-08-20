@@ -36,7 +36,7 @@ class ArtisanStrategy extends AbstractStrategy implements MigrateStrategyInterfa
 	 */
 	public function migrate()
 	{
-		$this->artisan()->runForCurrentRelease('migrate');
+		return $this->artisan()->runForCurrentRelease('migrate');
 	}
 
 	/**
@@ -46,6 +46,6 @@ class ArtisanStrategy extends AbstractStrategy implements MigrateStrategyInterfa
 	 */
 	public function seed()
 	{
-		$this->artisan()->runForCurrentRelease('seed');
+		return $this->artisan()->runForCurrentRelease('seed');
 	}
 }
