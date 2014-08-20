@@ -56,8 +56,6 @@ abstract class AbstractCheckStrategy extends AbstractStrategy
 	{
 		$required = null;
 
-		$required = null;
-
 		// Get the minimum version of the application
 		if ($manifest = $this->manager->getManifestContents()) {
 			$required = $this->getLanguageConstraint($manifest);
