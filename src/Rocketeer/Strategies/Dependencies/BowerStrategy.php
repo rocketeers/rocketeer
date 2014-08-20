@@ -21,13 +21,6 @@ class BowerStrategy extends AbstractDependenciesStrategy implements Dependencies
 	protected $description = 'Installs dependencies with Bower';
 
 	/**
-	 * The name of the manifest file to look for
-	 *
-	 * @type string
-	 */
-	protected $manifest = 'bower.json';
-
-	/**
 	 * The name of the binary
 	 *
 	 * @type string

@@ -19,13 +19,6 @@ use Illuminate\Container\Container;
 abstract class AbstractDependenciesStrategy extends AbstractStrategy
 {
 	/**
-	 * The name of the manifest file to look for
-	 *
-	 * @type string
-	 */
-	protected $manifest;
-
-	/**
 	 * The name of the binary
 	 *
 	 * @type string
@@ -35,7 +28,7 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
 	/**
 	 * The package manager instance
 	 *
-	 * @type \Rocketeer\Abstracts\AbstractBinary
+	 * @type \Rocketeer\Abstracts\AbstractPackageManager
 	 */
 	protected $manager;
 
@@ -49,11 +42,21 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
 	}
 
 	/**
-	 * @param \Rocketeer\Abstracts\AbstractBinary $manager
+	 * @param \Rocketeer\Abstracts\AbstractPackageManager $manager
 	 */
 	public function setManager($manager)
 	{
 		$this->manager = $manager;
+	}
+
+	/**
+	 * Get an instance of the Binary
+	 *
+	 * @return \Rocketeer\Abstracts\AbstractPackageManager
+	 */
+	protected function getManager()
+	{
+		return $this->manager;
 	}
 
 	/**
@@ -63,7 +66,7 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
 	 */
 	public function isExecutable()
 	{
-		return $this->manager->getBinary() && $this->hasManifest();
+		return $this->manager->getBinary() && $this->manager->hasManifest();
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -88,43 +91,5 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
 	public function update()
 	{
 		return $this->manager->runForCurrentRelease('update');
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	////////////////////////////// MANIFEST //////////////////////////////
-	//////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Check if the manifest file exists, locally or on server
-	 *
-	 * @return bool
-	 */
-	public function hasManifest()
-	{
-		$server = $this->paths->getFolder('current/'.$this->manifest);
-		$server = $this->bash->fileExists($server);
-
-		$local = $this->app['path.base'].DS.$this->manifest;
-		$local = $this->files->exists($local);
-
-		return $local || $server;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getManifest()
-	{
-		return $this->manifest;
-	}
-
-	/**
-	 * Get an instance of the Binary
-	 *
-	 * @return \Rocketeer\Abstracts\AbstractBinary
-	 */
-	protected function getManager()
-	{
-		return $this->binary($this->binary);
 	}
 }

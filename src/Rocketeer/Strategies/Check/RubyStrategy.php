@@ -29,7 +29,7 @@ class RubyStrategy extends AbstractCheckStrategy implements CheckStrategyInterfa
 	public function __construct(Container $app)
 	{
 		$this->app     = $app;
-		$this->manager = $this->builder->buildStrategy('Dependencies', 'Bundler');
+		$this->manager = $this->binary('bundler');
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -46,17 +46,13 @@ class RubyStrategy extends AbstractCheckStrategy implements CheckStrategyInterfa
 	{
 		$required = null;
 
-		// Get the minimum PHP version of the application
-		$gemfile = $this->app['path.base'].DS.$this->manager->getManifest();
-		if ($this->app['files']->exists($gemfile)) {
-			$gemfile = $this->files->get($gemfile);
-
-			// Strip versions of constraints
+		// Get the minimum Ruby version of the application
+		if ($gemfile = $this->manager->getManifestContents()) {
 			preg_match('/ruby \'(.+)\'/', $gemfile, $matches);
 			$required = Arr::get($matches, 1);
 		}
 
-		// Cancel if no PHP version found
+		// Cancel if no Ruby version found
 		if (!$required) {
 			return true;
 		}

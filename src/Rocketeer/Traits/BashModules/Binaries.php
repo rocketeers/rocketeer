@@ -32,11 +32,17 @@ trait Binaries
 	public function binary($binary)
 	{
 		// Check for an existing Binary
-		$core = sprintf('Rocketeer\Binaries\%s', ucfirst($binary));
-		if (class_exists($core)) {
-			return new $core($this->app);
-		} elseif (class_exists($binary)) {
-			return new $binary($this->app);
+		$paths = array(
+			'Rocketeer\Binaries\PackageManagers\%s',
+			'Rocketeer\Binaries\%s',
+			'%s',
+		);
+
+		foreach ($paths as $path) {
+			$path = sprintf($path, ucfirst($binary));
+			if (class_exists($path)) {
+				return new $path($this->app);
+			}
 		}
 
 		// Else wrap the command in an AnonymousBinary

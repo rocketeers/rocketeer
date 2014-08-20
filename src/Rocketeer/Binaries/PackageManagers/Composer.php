@@ -7,12 +7,21 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Rocketeer\Binaries;
+namespace Rocketeer\Binaries\PackageManagers;
 
 use Rocketeer\Abstracts\AbstractBinary;
+use Rocketeer\Abstracts\AbstractPackageManager;
+use Rocketeer\Binaries\Php;
 
-class Composer extends AbstractBinary
+class Composer extends AbstractPackageManager
 {
+	/**
+	 * The name of the manifest file to look for
+	 *
+	 * @type string
+	 */
+	protected $manifest = 'composer.json';
+
 	/**
 	 * Get an array of default paths to look for
 	 *

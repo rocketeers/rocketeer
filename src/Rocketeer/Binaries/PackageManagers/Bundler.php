@@ -7,12 +7,21 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Rocketeer\Binaries;
+namespace Rocketeer\Binaries\PackageManagers;
 
 use Rocketeer\Abstracts\AbstractBinary;
+use Rocketeer\Abstracts\AbstractPackageManager;
+use Rocketeer\Binaries\Php;
 
-class Bower extends AbstractBinary
+class Bundler extends AbstractPackageManager
 {
+	/**
+	 * The name of the manifest file to look for
+	 *
+	 * @type string
+	 */
+	protected $manifest = 'Gemfile';
+
 	/**
 	 * Get an array of default paths to look for
 	 *
@@ -21,8 +30,7 @@ class Bower extends AbstractBinary
 	protected function getKnownPaths()
 	{
 		return array(
-			'bower',
-			$this->releasesManager->getCurrentReleasePath().'/node_modules/.bin/bower'
+			'bundle',
 		);
 	}
 }

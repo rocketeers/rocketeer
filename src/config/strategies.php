@@ -1,5 +1,5 @@
 <?php
-use Rocketeer\Binaries\Composer;
+use Rocketeer\Binaries\PackageManagers\Composer;
 use Rocketeer\Tasks\Subtasks\Primer;
 
 return array(

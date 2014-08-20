@@ -20,13 +20,6 @@ class NpmStrategy extends AbstractDependenciesStrategy implements DependenciesSt
 	protected $description = 'Installs dependencies with NPM';
 
 	/**
-	 * The name of the manifest file to look for
-	 *
-	 * @type string
-	 */
-	protected $manifest = 'package.json';
-
-	/**
 	 * The name of the binary
 	 *
 	 * @type string

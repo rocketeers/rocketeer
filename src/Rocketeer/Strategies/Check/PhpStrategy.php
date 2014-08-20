@@ -29,7 +29,7 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
 	public function __construct(Container $app)
 	{
 		$this->app     = $app;
-		$this->manager = $this->builder->buildStrategy('Dependencies', 'Composer');
+		$this->manager = $this->binary('composer');
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -47,9 +47,7 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
 		$required = null;
 
 		// Get the minimum PHP version of the application
-		$composer = $this->app['path.base'].DS.$this->manager->getManifest();
-		if ($this->files->exists($composer)) {
-			$composer = $this->files->get($composer);
+		if ($composer = $this->manager->getManifestContents()) {
 			$composer = json_decode($composer, true);
 
 			// Strip versions of constraints

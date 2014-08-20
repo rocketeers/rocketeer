@@ -1,6 +1,7 @@
 <?php
 namespace Rocketeer\Binaries;
 
+use Rocketeer\Binaries\PackageManagers\Composer;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class ComposerTest extends RocketeerTestCase

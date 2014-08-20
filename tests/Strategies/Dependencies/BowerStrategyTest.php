@@ -1,7 +1,7 @@
 <?php
 namespace Rocketeer\Strategies\Dependencies;
 
-use Rocketeer\Binaries\Bower;
+use Rocketeer\Binaries\PackageManagers\Bower;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class BowerStrategyTest extends RocketeerTestCase

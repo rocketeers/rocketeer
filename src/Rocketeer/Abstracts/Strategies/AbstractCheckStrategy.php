@@ -4,7 +4,7 @@ namespace Rocketeer\Abstracts\Strategies;
 class AbstractCheckStrategy extends AbstractStrategy
 {
 	/**
-	 * @type \Rocketeer\Strategies\Dependencies\ComposerStrategy
+	 * @type \Rocketeer\Abstracts\AbstractPackageManager
 	 */
 	protected $manager;
 
@@ -16,7 +16,7 @@ class AbstractCheckStrategy extends AbstractStrategy
 	protected $language;
 
 	/**
-	 * @return \Rocketeer\Strategies\Dependencies\ComposerStrategy
+	 * @return \Rocketeer\Abstracts\AbstractPackageManager
 	 */
 	public function getManager()
 	{
