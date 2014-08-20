@@ -4,6 +4,7 @@
 	"license": "MIT",
 	"keywords": [
 		"laravel",
+		"deploy",
 		"deployment",
 		"ssh"
 	],
