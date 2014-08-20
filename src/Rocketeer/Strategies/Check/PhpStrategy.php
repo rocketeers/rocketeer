@@ -4,7 +4,6 @@ namespace Rocketeer\Strategies\Check;
 use Illuminate\Container\Container;
 use Illuminate\Support\Arr;
 use Rocketeer\Abstracts\Strategies\AbstractCheckStrategy;
-use Rocketeer\Abstracts\Strategies\AbstractStrategy;
 use Rocketeer\Interfaces\Strategies\CheckStrategyInterface;
 
 class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterface

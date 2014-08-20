@@ -9,9 +9,7 @@
  */
 namespace Rocketeer\Binaries\PackageManagers;
 
-use Rocketeer\Abstracts\AbstractBinary;
 use Rocketeer\Abstracts\AbstractPackageManager;
-use Rocketeer\Binaries\Php;
 
 class Npm extends AbstractPackageManager
 {

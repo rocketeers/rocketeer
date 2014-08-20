@@ -49,8 +49,8 @@ class Check extends AbstractTask
 		}
 
 		// Check package manager
-		$manager  = class_basename($check->getManager());
-		$manager  = str_replace('Strategy', null, $manager);
+		$manager = class_basename($check->getManager());
+		$manager = str_replace('Strategy', null, $manager);
 		$this->explainer->line('Checking presence of '.$manager);
 		if (!$check->manager()) {
 			$errors[] = sprintf('The %s package manager could not be found', $manager);
@@ -58,7 +58,7 @@ class Check extends AbstractTask
 
 		// Check language
 		$language = $check->getLanguage();
-		$this->explainer->line('Checking '.$language. ' version');
+		$this->explainer->line('Checking '.$language.' version');
 		if (!$check->language()) {
 			$errors[] = $language.' is not at the required version';
 		}

@@ -9,10 +9,7 @@
  */
 namespace Rocketeer\Strategies\Dependencies;
 
-use Closure;
-use Rocketeer\Abstracts\Strategies\AbstractDependenciesStrategy;
 use Rocketeer\Abstracts\Strategies\AbstractPolyglotStrategy;
-use Rocketeer\Abstracts\Strategies\AbstractStrategy;
 use Rocketeer\Interfaces\Strategies\DependenciesStrategyInterface;
 
 class PolyglotStrategy extends AbstractPolyglotStrategy implements DependenciesStrategyInterface

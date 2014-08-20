@@ -213,6 +213,7 @@ class Pathfinder
 			// Replace paths from the container
 			if ($this->app->bound($folder)) {
 				$path = $this->app->make($folder);
+
 				return str_replace($base, null, $this->unifySlashes($path));
 			}
 

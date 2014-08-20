@@ -1,7 +1,6 @@
 <?php
 namespace Rocketeer\Services\Connections;
 
-use Rocketeer\Services\Connections\RemoteHandler;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class RemoteHandlerTest extends RocketeerTestCase
@@ -88,8 +87,7 @@ class RemoteHandlerTest extends RocketeerTestCase
 
 		$this->swapConfig(array(
 			'rocketeer::connections' => array(
-				'production' => array(
-				),
+				'production' => array(),
 			),
 		));
 

@@ -146,8 +146,7 @@ class ReleasesManagerTest extends RocketeerTestCase
 				->shouldReceive('listContents')->once()->with($this->server.'/releases')->andReturn([]);
 		});
 
-		$this->mockState(array(
-		));
+		$this->mockState(array());
 
 		$previous = $this->releasesManager->getPreviousRelease();
 		$this->assertNull($previous);
