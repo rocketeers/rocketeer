@@ -210,6 +210,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 		};
 
 		$remote = Mockery::mock('Illuminate\Remote\Connection');
+		$remote->shouldReceive('connected')->andReturn(true);
 		$remote->shouldReceive('into')->andReturn(Mockery::self());
 		$remote->shouldReceive('status')->andReturn(0)->byDefault();
 		$remote->shouldReceive('run')->andReturnUsing($run)->byDefault();
