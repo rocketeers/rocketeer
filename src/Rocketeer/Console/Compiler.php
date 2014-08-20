@@ -102,7 +102,6 @@ class Compiler
 			'johnkary',
 			'mockery',
 			'nesbot',
-			'patchwork',
 			'phine',
 			'raveren',
 		));
