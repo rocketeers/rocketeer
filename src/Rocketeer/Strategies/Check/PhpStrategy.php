@@ -3,16 +3,12 @@ namespace Rocketeer\Strategies\Check;
 
 use Illuminate\Container\Container;
 use Illuminate\Support\Arr;
+use Rocketeer\Abstracts\Strategies\AbstractCheckStrategy;
 use Rocketeer\Abstracts\Strategies\AbstractStrategy;
 use Rocketeer\Interfaces\Strategies\CheckStrategyInterface;
 
-class PhpStrategy extends AbstractStrategy implements CheckStrategyInterface
+class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterface
 {
-	/**
-	 * @type \Rocketeer\Strategies\Dependencies\ComposerStrategy
-	 */
-	protected $manager;
-
 	/**
 	 * The language of the strategy
 	 *
@@ -36,36 +32,9 @@ class PhpStrategy extends AbstractStrategy implements CheckStrategyInterface
 		$this->manager = $this->builder->buildStrategy('Dependencies', 'Composer');
 	}
 
-	/**
-	 * @return \Rocketeer\Strategies\Dependencies\ComposerStrategy
-	 */
-	public function getManager()
-	{
-		return $this->manager;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getLanguage()
-	{
-		return $this->language;
-	}
-
 	//////////////////////////////////////////////////////////////////////
 	/////////////////////////////// CHECKS ///////////////////////////////
 	//////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Check that the PM that'll install
-	 * the app's dependencies is present
-	 *
-	 * @return boolean
-	 */
-	public function manager()
-	{
-		return $this->manager->isExecutable();
-	}
 
 	/**
 	 * Check that the language used by the
