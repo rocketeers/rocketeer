@@ -1,15 +1,28 @@
 <?php
 namespace Rocketeer\Strategies\Dependencies;
 
+use Rocketeer\Binaries\PackageManagers\Bundler;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class BundlerStrategyTest extends RocketeerTestCase
 {
+	protected $bundler;
+
+	public function setUp()
+	{
+		parent::setUp();
+
+		$bundler = new Bundler($this->app);
+		$bundler->setBinary('bundle');
+
+		$this->bundler = $this->builder->buildStrategy('Dependencies', 'Bundler');
+		$this->bundler->setManager($bundler);
+	}
+
 	public function testCanInstallDependencies()
 	{
 		$this->pretend();
-		$bundler = $this->builder->buildStrategy('Dependencies', 'Bundler');
-		$bundler->install();
+		$this->bundler->install();
 
 		$this->assertHistory(array(
 			array(
@@ -22,8 +35,7 @@ class BundlerStrategyTest extends RocketeerTestCase
 	public function testCanUpdateDependencies()
 	{
 		$this->pretend();
-		$bundler = $this->builder->buildStrategy('Dependencies', 'Bundler');
-		$bundler->update();
+		$this->bundler->update();
 
 		$this->assertHistory(array(
 			array(

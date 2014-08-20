@@ -24,5 +24,5 @@ class BundlerStrategy extends AbstractDependenciesStrategy implements Dependenci
 	 *
 	 * @type string
 	 */
-	protected $binary = 'bundle';
+	protected $binary = 'bundler';
 }
