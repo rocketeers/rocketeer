@@ -91,7 +91,7 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
 	}
 
 	//////////////////////////////////////////////////////////////////////
-	////////////////////////////// HELPERS ///////////////////////////////
+	////////////////////////////// MANIFEST //////////////////////////////
 	//////////////////////////////////////////////////////////////////////
 
 	/**
@@ -99,7 +99,7 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
 	 *
 	 * @return bool
 	 */
-	protected function hasManifest()
+	public function hasManifest()
 	{
 		$server = $this->paths->getFolder('current/'.$this->manifest);
 		$server = $this->bash->fileExists($server);
@@ -108,6 +108,14 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
 		$local = $this->files->exists($local);
 
 		return $local || $server;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getManifest()
+	{
+		return $this->manifest;
 	}
 
 	/**

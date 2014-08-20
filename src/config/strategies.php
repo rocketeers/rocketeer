@@ -10,6 +10,9 @@ return array(
 	// execute various core parts of your deployment's flow
 	//////////////////////////////////////////////////////////////////////
 
+	// Which strategy to use to check the server
+	'check'        => 'Php',
+
 	// Which strategy to use to create a new release
 	'deploy'       => 'Clone',
 
@@ -25,16 +28,16 @@ return array(
 	// Execution hooks
 	//////////////////////////////////////////////////////////////////////
 
-	'composer' => array(
+	'composer'     => array(
 		'install' => function (Composer $composer, $task) {
 			return $composer->install([], ['--no-interaction' => null, '--no-dev' => null, '--prefer-dist' => null]);
 		},
-		'update' => function (Composer $composer) {
+		'update'  => function (Composer $composer) {
 			return $composer->update();
 		},
 	),
 
-	'primer' => function (Primer $task) {
+	'primer'       => function (Primer $task) {
 		return array(
 			// $task->executeTask('Test'),
 			// $task->binary('grunt')->execute('lint'),
