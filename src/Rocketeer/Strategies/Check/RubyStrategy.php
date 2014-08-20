@@ -17,13 +17,6 @@ class RubyStrategy extends AbstractCheckStrategy implements CheckStrategyInterfa
 	protected $language = 'Ruby';
 
 	/**
-	 * The PHP extensions loaded on server
-	 *
-	 * @var array
-	 */
-	protected $extensions = array();
-
-	/**
 	 * @param Container $app
 	 */
 	public function __construct(Container $app)

@@ -11,10 +11,11 @@ namespace Rocketeer\Strategies\Dependencies;
 
 use Closure;
 use Rocketeer\Abstracts\Strategies\AbstractDependenciesStrategy;
+use Rocketeer\Abstracts\Strategies\AbstractPolyglotStrategy;
 use Rocketeer\Abstracts\Strategies\AbstractStrategy;
 use Rocketeer\Interfaces\Strategies\DependenciesStrategyInterface;
 
-class PolyglotStrategy extends AbstractStrategy implements DependenciesStrategyInterface
+class PolyglotStrategy extends AbstractPolyglotStrategy implements DependenciesStrategyInterface
 {
 	/**
 	 * @type string
@@ -22,11 +23,11 @@ class PolyglotStrategy extends AbstractStrategy implements DependenciesStrategyI
 	protected $description = 'Runs all of the above package managers if necessary';
 
 	/**
-	 * The various dependencies managers
+	 * The various strategies to call
 	 *
 	 * @type array
 	 */
-	protected $managers = ['Bundler', 'Composer', 'Npm', 'Bower'];
+	protected $strategies = ['Bundler', 'Composer', 'Npm', 'Bower'];
 
 	/**
 	 * Install the dependencies
@@ -35,9 +36,7 @@ class PolyglotStrategy extends AbstractStrategy implements DependenciesStrategyI
 	 */
 	public function install()
 	{
-		return $this->onManagers(function (AbstractDependenciesStrategy $manager) {
-			return $manager->install();
-		});
+		return $this->executeStrategiesMethod('install');
 	}
 
 	/**
@@ -47,26 +46,6 @@ class PolyglotStrategy extends AbstractStrategy implements DependenciesStrategyI
 	 */
 	public function update()
 	{
-		return $this->onManagers(function (AbstractDependenciesStrategy $manager) {
-			return $manager->update();
-		});
-	}
-
-	/**
-	 * @param Closure $callback
-	 *
-	 * @return array
-	 */
-	protected function onManagers(Closure $callback)
-	{
-		$results = [];
-		foreach ($this->managers as $manager) {
-			$strategy = $this->getStrategy('Dependencies', $manager);
-			if ($strategy) {
-				$results[$manager] = $callback($strategy);
-			}
-		}
-
-		return $results;
+		return $this->executeStrategiesMethod('update');
 	}
 }
