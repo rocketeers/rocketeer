@@ -48,8 +48,8 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
 
 		// Get the minimum PHP version of the application
 		$composer = $this->app['path.base'].DS.$this->manager->getManifest();
-		if ($this->app['files']->exists($composer)) {
-			$composer = $this->app['files']->get($composer);
+		if ($this->files->exists($composer)) {
+			$composer = $this->files->get($composer);
 			$composer = json_decode($composer, true);
 
 			// Strip versions of constraints
@@ -62,7 +62,7 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
 			return true;
 		}
 
-		$version = $this->bash->runLast($this->php()->version());
+		$version = $this->php()->runLast('version');
 
 		return version_compare($version, $required, '>=');
 	}
