@@ -41,7 +41,7 @@ return array(
 	'shell'          => false,
 
 	// An array of commands to run under shell
-	'shelled'        => ['ruby', 'npm ', 'bundle ', 'grunt'],
+	'shelled'        => ['which', 'ruby', 'npm', 'bundle', 'grunt'],
 
 	// Permissions$
 	////////////////////////////////////////////////////////////////////
