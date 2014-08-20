@@ -1,7 +1,7 @@
 <?php
 namespace Rocketeer\Abstracts;
 
-class AbstractPackageManager extends AbstractBinary
+abstract class AbstractPackageManager extends AbstractBinary
 {
 	/**
 	 * The name of the manifest file to look for

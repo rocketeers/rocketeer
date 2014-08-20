@@ -19,7 +19,7 @@ use Rocketeer\Traits\HasLocator;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class AbstractBinary
+abstract class AbstractBinary
 {
 	use HasLocator;
 

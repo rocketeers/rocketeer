@@ -1,7 +1,7 @@
 <?php
 namespace Rocketeer\Abstracts\Strategies;
 
-class AbstractCheckStrategy extends AbstractStrategy
+abstract class AbstractCheckStrategy extends AbstractStrategy
 {
 	/**
 	 * @type \Rocketeer\Abstracts\AbstractPackageManager

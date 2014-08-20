@@ -11,7 +11,7 @@ namespace Rocketeer\Abstracts\Strategies;
 
 use Closure;
 
-class AbstractPolyglotStrategy extends AbstractStrategy
+abstract class AbstractPolyglotStrategy extends AbstractStrategy
 {
 	/**
 	 * The various strategies to call
