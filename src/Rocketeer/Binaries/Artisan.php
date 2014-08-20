@@ -35,8 +35,7 @@ class Artisan extends AbstractBinary
 	{
 		return array(
 			'artisan',
-			$this->releasesManager->getCurrentReleasePath().'/artisan',
-			'artisan'
+			$this->releasesManager->getCurrentReleasePath().'/artisan'
 		);
 	}
 

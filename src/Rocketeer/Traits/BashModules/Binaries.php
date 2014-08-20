@@ -95,15 +95,14 @@ trait Binaries
 	/**
 	 * Get the path to a binary
 	 *
-	 * @param string         $binary   The name of the binary
-	 * @param string|null    $fallback A fallback location
-	 * @param string|boolean $default  A last resort place to use as binary
+	 * @param string      $binary   The name of the binary
+	 * @param string|null $fallback A fallback location
+	 * @param boolean     $prompt
 	 *
 	 * @return string
 	 */
-	public function which($binary, $fallback = null, $default = false)
+	public function which($binary, $fallback = null, $prompt = true)
 	{
-		$location  = false;
 		$locations = array(
 			[$this->localStorage, 'get', 'paths.'.$binary],
 			[$this->paths, 'getPath', $binary],
@@ -112,14 +111,29 @@ trait Binaries
 
 		// Add fallback if provided
 		if ($fallback) {
-			$locations[] = array($this, 'runSilently', 'which '.$fallback);
+			$locations[] = [$this, 'runSilently', 'which '.$fallback];
 		}
 
 		// Add command prompt if possible
-		if ($this->hasCommand()) {
+		if ($this->hasCommand() && $prompt) {
 			$prompt      = $binary.' could not be found, please enter the path to it';
-			$locations[] = array($this->command, 'ask', $prompt);
+			$locations[] = [$this->command, 'ask', $prompt];
 		}
+
+		return $this->whichFrom($binary, $locations);
+	}
+
+	/**
+	 * Scan an array of locations for a binary
+	 *
+	 * @param string $binary
+	 * @param array  $locations
+	 *
+	 * @return string
+	 */
+	protected function whichFrom($binary, array $locations)
+	{
+		$location = false;
 
 		// Look in all the locations
 		$tryout = 0;
@@ -136,7 +150,7 @@ trait Binaries
 			$this->localStorage->set('paths.'.$binary, $location);
 		}
 
-		return $location ?: $default;
+		return $location ?: $binary;
 	}
 
 	/**
