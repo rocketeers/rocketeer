@@ -9,7 +9,9 @@
  */
 namespace Rocketeer\Services\Connections;
 
+use Exception;
 use InvalidArgumentException;
+use Rocketeer\Exceptions\ConnectionException;
 use Rocketeer\Exceptions\MissingCredentialsException;
 use Rocketeer\Traits\HasLocator;
 use Symfony\Component\Console\Output\NullOutput;
@@ -126,10 +128,18 @@ class RemoteHandler
 	 * @param  string $method
 	 * @param  array  $parameters
 	 *
+	 * @throws \Rocketeer\Exceptions\ConnectionException
 	 * @return mixed
 	 */
 	public function __call($method, $parameters)
 	{
-		return call_user_func_array([$this->connection(), $method], $parameters);
+		try {
+			return call_user_func_array([$this->connection(), $method], $parameters);
+		} catch (Exception $exception) {
+			$exception = new ConnectionException($exception->getMessage());
+			$exception->setCredentials($this->connections->getServerCredentials());
+
+			throw $exception;
+		}
 	}
 }
