@@ -33,6 +33,13 @@ class TasksHandler
 	protected $registeredEvents = array();
 
 	/**
+	 * The registered plugins
+	 *
+	 * @type array
+	 */
+	protected $registeredPlugins = array();
+
+	/**
 	 * Build a new TasksQueue Instance
 	 *
 	 * @param Container $app
@@ -147,6 +154,15 @@ class TasksHandler
 			$this->events->forget('rocketeer.'.$event);
 		}
 
+		// Clean previously registered plugins
+		$plugins = $this->registeredPlugins;
+		$this->registeredPlugins = [];
+
+		// Register plugins again
+		foreach ($plugins as $plugin) {
+			$this->plugin($plugin['plugin'], $plugin['configuration']);
+		}
+
 		// Get the registered events
 		$hooks = (array) $this->rocketeer->getOption('hooks');
 		unset($hooks['custom']);
@@ -256,9 +272,12 @@ class TasksHandler
 	 */
 	public function plugin($plugin, array $configuration = array())
 	{
+		// Store registration of plugin
+		$this->registeredPlugins[] = ['plugin' => $plugin, 'configuration' => $configuration];
+
 		// Build plugin
 		if (is_string($plugin)) {
-			$plugin = $this->app->make($plugin, array($this->app));
+			$plugin = $this->app->make($plugin, [$this->app]);
 		}
 
 		// Register configuration
