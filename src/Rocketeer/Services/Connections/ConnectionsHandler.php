@@ -118,6 +118,10 @@ class ConnectionsHandler
 	 */
 	public function setStage($stage)
 	{
+		if ($stage == $this->stage) {
+			return;
+		}
+
 		$this->stage = $stage;
 
 		// If we do have a stage, cleanup previous events
@@ -326,7 +330,7 @@ class ConnectionsHandler
 	 */
 	public function setConnection($connection, $server = 0)
 	{
-		if (!$this->isValidConnection($connection)) {
+		if (!$this->isValidConnection($connection) || $this->connection == $connection) {
 			return;
 		}
 

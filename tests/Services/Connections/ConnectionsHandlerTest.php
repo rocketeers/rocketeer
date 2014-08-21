@@ -129,6 +129,30 @@ class ConnectionsHandlerTest extends RocketeerTestCase
 		$this->assertEquals('foo/staging', $handle);
 	}
 
+	public function testDoesntResetConnectionIfSameAsCurrent()
+	{
+		$this->mock('rocketeer.tasks', 'TasksHandler', function ($mock) {
+			return $mock
+				->shouldReceive('registerConfiguredEvents')->once();
+		}, false);
+
+		$this->connections->setConnection('production');
+		$this->connections->setConnection('production');
+		$this->connections->setConnection('production');
+	}
+
+	public function testDoesntResetStageIfSameAsCurrent()
+	{
+		$this->mock('rocketeer.tasks', 'TasksHandler', function ($mock) {
+			return $mock
+				->shouldReceive('registerConfiguredEvents')->once();
+		}, false);
+
+		$this->connections->setStage('foobar');
+		$this->connections->setStage('foobar');
+		$this->connections->setStage('foobar');
+	}
+
 	////////////////////////////////////////////////////////////////////
 	//////////////////////////////// HELPERS ///////////////////////////
 	////////////////////////////////////////////////////////////////////
