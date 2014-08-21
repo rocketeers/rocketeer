@@ -1,6 +1,7 @@
 <?php
 namespace Rocketeer\Services;
 
+use Rocketeer\Dummies\DummyNotifier;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class TasksHandlerTest extends RocketeerTestCase
@@ -160,5 +161,26 @@ class TasksHandlerTest extends RocketeerTestCase
 		$events = $this->tasks->getTasksListeners('deploy', 'after', true);
 
 		$this->assertEquals($tasks, $events);
+	}
+
+	public function testPluginsArentDeregisteredWhenSwitchingConnection()
+	{
+		$this->swapConfig(array(
+			'rocketeer::hooks' => ['before' => ['deploy' => 'ls']],
+		));
+
+		$this->tasks->plugin(new DummyNotifier($this->app));
+
+		$listeners = $this->tasks->getTasksListeners('deploy', 'before', true);
+		$this->assertEquals('ls', $listeners[0]);
+		$this->assertCount(2, $listeners);
+		$this->assertCount(2, $listeners[1]);
+
+		$this->connections->setConnection('production');
+
+		$listeners = $this->tasks->getTasksListeners('deploy', 'before', true);
+		$this->assertEquals('ls', $listeners[0]);
+		$this->assertCount(2, $listeners);
+		$this->assertCount(2, $listeners[1]);
 	}
 }
