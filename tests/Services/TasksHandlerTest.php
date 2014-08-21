@@ -183,4 +183,19 @@ class TasksHandlerTest extends RocketeerTestCase
 		$this->assertCount(2, $listeners);
 		$this->assertCount(2, $listeners[1]);
 	}
+
+	public function testDoesntRegisterPluginsTwice()
+	{
+		$this->swapConfig(array(
+			'rocketeer::hooks' => [],
+		));
+
+		$this->tasks->plugin(new DummyNotifier($this->app));
+		$this->tasks->plugin(new DummyNotifier($this->app));
+		$this->tasks->plugin(new DummyNotifier($this->app));
+
+		$listeners = $this->tasks->getTasksListeners('deploy', 'before', true);
+		$this->assertCount(1, $listeners);
+		$this->assertCount(2, $listeners[0]);
+	}
 }

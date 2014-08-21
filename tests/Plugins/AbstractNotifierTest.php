@@ -53,8 +53,8 @@ class AbstractNotifierTest extends RocketeerTestCase
 	{
 		$this->expectOutputString('Jean Eude finished deploying branch "master" on "staging@production" (foo.bar.com)');
 		$this->localStorage->set('notifier.name', 'Jean Eude');
+		$this->tasks->registerConfiguredEvents();
 		$this->connections->setStage('staging');
-		$this->notifier = new DummyNotifier($this->app);
 
 		$this->task('Deploy')->fireEvent('before');
 	}

@@ -272,13 +272,21 @@ class TasksHandler
 	 */
 	public function plugin($plugin, array $configuration = array())
 	{
-		// Store registration of plugin
-		$this->registeredPlugins[] = ['plugin' => $plugin, 'configuration' => $configuration];
-
 		// Build plugin
 		if (is_string($plugin)) {
 			$plugin = $this->app->make($plugin, [$this->app]);
 		}
+
+		// Store registration of plugin
+		$identifier = get_class($plugin);
+		if (isset($this->registeredPlugins[$identifier])) {
+			return;
+		}
+
+		$this->registeredPlugins[$identifier] = array(
+			'plugin'        => $plugin,
+			'configuration' => $configuration
+		);
 
 		// Register configuration
 		$vendor = $plugin->getNamespace();
