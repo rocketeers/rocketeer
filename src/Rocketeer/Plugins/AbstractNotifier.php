@@ -28,13 +28,13 @@ abstract class AbstractNotifier extends AbstractPlugin
 	 */
 	public function onQueue(TasksHandler $queue)
 	{
-		$queue->before('deploy', function ($task) {
+		$queue->addTaskListeners('deploy', 'before', function ($task) {
 			$this->prepareThenSend($task, 'before_deploy');
-		}, -10);
+		}, -10, true);
 
-		$queue->after('deploy', function ($task) {
+		$queue->addTaskListeners('deploy', 'after', function ($task) {
 			$this->prepareThenSend($task, 'after_deploy');
-		}, -10);
+		}, -10, true);
 	}
 
 	/**

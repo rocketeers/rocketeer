@@ -155,7 +155,7 @@ class TasksHandler
 		}
 
 		// Clean previously registered plugins
-		$plugins = $this->registeredPlugins;
+		$plugins                 = $this->registeredPlugins;
 		$this->registeredPlugins = [];
 
 		// Register plugins again
@@ -170,7 +170,7 @@ class TasksHandler
 		// Bind events
 		foreach ($hooks as $event => $tasks) {
 			foreach ($tasks as $task => $listeners) {
-				$this->registeredEvents[] = $this->addTaskListeners($task, $event, $listeners);
+				$this->addTaskListeners($task, $event, $listeners, 0, true);
 			}
 		}
 	}
@@ -205,15 +205,17 @@ class TasksHandler
 	 * @param string         $event
 	 * @param array|callable $listeners
 	 * @param integer        $priority
+	 * @param boolean        $register
 	 *
+	 * @throws \Rocketeer\Exceptions\TaskCompositionException
 	 * @return string|null
 	 */
-	public function addTaskListeners($task, $event, $listeners, $priority = 0)
+	public function addTaskListeners($task, $event, $listeners, $priority = 0, $register = false)
 	{
 		// Recursive call
 		if (is_array($task)) {
 			foreach ($task as $t) {
-				$this->addTaskListeners($t, $event, $listeners, $priority);
+				$this->addTaskListeners($t, $event, $listeners, $priority, $register);
 			}
 
 			return;
@@ -228,6 +230,11 @@ class TasksHandler
 		// Get event name and register listeners
 		$event = $slug.'.'.$event;
 		$event = $this->listenTo($event, $listeners, $priority);
+
+		// Store registered event
+		if ($register) {
+			$this->registeredEvents[] = $event;
+		}
 
 		return $event;
 	}
