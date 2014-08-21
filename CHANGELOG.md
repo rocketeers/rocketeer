@@ -2,13 +2,7 @@
 
 ### 2.0.0
 
-#### Breaking changes
-
-- Minimum requirement is now PHP 5.4+
-- The `Traits` folder was renamed to `Abstracts`, if you were extending `Rocketeer\Traits\Task`, change that accordingly to `Rocketeer\Abstracts\AbstractTask`
-- Connections and stages handling was moved to a ConnectionsHandler class. If you were doing per example `$task->rocketeer->getStage()` you'll need to change it to `$task->connections->getStage()`, etc.
-
-#### Features and bugfixes
+For breaking changes, see the [Upgrade Path](http://rocketeer.autopergamene.eu/#/docs/III-Further/Upgrade-Path)
 
 - **Added ability to run tasks in parallel via the `--parallel` flag (or `-P`)**
 - **Added ability to have multiple servers for one connection, just define them in a `servers` array in your connection, each entry being an usual connection credentials array**
