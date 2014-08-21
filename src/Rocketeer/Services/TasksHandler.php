@@ -170,11 +170,12 @@ class TasksHandler
 	 */
 	public function listenTo($event, $listeners, $priority = 0)
 	{
-		// Create array if it doesn't exist
+		/** @type AbstractTask[] $listeners */
 		$listeners = $this->builder->buildTasks((array) $listeners);
 
 		// Register events
 		foreach ($listeners as $listener) {
+			$listener->setEvent($event);
 			$this->events->listen('rocketeer.'.$event, [$listener, 'fire'], $priority);
 		}
 

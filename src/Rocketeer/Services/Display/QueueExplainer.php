@@ -65,9 +65,10 @@ class QueueExplainer
 	 *
 	 * @param string|null $info
 	 * @param string|null $details
+	 * @param string|null $origin
 	 * @param float|null  $time
 	 */
-	public function display($info = null, $details = null, $time = null)
+	public function display($info = null, $details = null, $origin = null, $time = null)
 	{
 		if (!$this->hasCommand()) {
 			return;
@@ -82,6 +83,9 @@ class QueueExplainer
 		}
 		if ($details) {
 			$comment .= ' <comment>('.$details.')</comment>';
+		}
+		if ($origin) {
+			$comment .= ' fired by <info>'.$origin.'</info>';
 		}
 		if ($time) {
 			$comment .= ' [~'.$time.'s]';

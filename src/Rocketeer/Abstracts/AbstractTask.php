@@ -39,6 +39,13 @@ abstract class AbstractTask extends Bash
 	protected $description;
 
 	/**
+	 * The event this task is answering to
+	 *
+	 * @type string
+	 */
+	protected $event;
+
+	/**
 	 * Whether the task was halted mid-course
 	 *
 	 * @var boolean
@@ -90,6 +97,14 @@ abstract class AbstractTask extends Bash
 	public function setName($name)
 	{
 		$this->name = ucfirst($name) ?: $this->name;
+	}
+
+	/**
+	 * @param string $event
+	 */
+	public function setEvent($event)
+	{
+		$this->event = $event;
 	}
 
 	/**
@@ -255,6 +270,6 @@ abstract class AbstractTask extends Bash
 		$description = $this->getDescription();
 		$time        = $this->timer->getTaskTime($this);
 
-		$this->explainer->display($name, $description, $time);
+		$this->explainer->display($name, $description, $this->event, $time);
 	}
 }
