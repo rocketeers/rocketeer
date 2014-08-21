@@ -58,7 +58,9 @@ class Deploy extends AbstractTask
 		$this->steps()->setApplicationPermissions();
 
 		// Run migrations
-		$this->steps()->executeTask('Migrate');
+		if ($this->getOption('migrate') || $this->getOption('seed')) {
+			$this->steps()->executeTask('Migrate');
+		}
 
 		// Synchronize shared folders and files
 		$this->steps()->syncSharedFolders();

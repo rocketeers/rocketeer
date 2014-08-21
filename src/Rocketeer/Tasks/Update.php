@@ -50,7 +50,9 @@ class Update extends Deploy
 		$this->steps()->setApplicationPermissions();
 
 		// Run migrations
-		$this->steps()->executeTask('Migrate');
+		if ($this->getOption('migrate') || $this->getOption('seed')) {
+			$this->steps()->executeTask('Migrate');
+		}
 
 		// Run the steps
 		if (!$this->runSteps()) {
