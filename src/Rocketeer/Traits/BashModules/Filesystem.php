@@ -190,13 +190,17 @@ trait Filesystem
 	/**
 	 * Remove a folder in the application's folder
 	 *
-	 * @param string|null $folder The folder to remove
+	 * @param array|string|null $folders The folder to remove
 	 *
 	 * @return string The task
 	 */
-	public function removeFolder($folder = null)
+	public function removeFolder($folders = null)
 	{
-		return $this->run('rm -rf '.$this->paths->getFolder($folder));
+		$folders = (array) $folders;
+		$folders = array_map([$this->paths, 'getFolder'], $folders);
+		$folders = implode(' ', $folders);
+
+		return $this->run('rm -rf '.$folders);
 	}
 
 	////////////////////////////////////////////////////////////////////

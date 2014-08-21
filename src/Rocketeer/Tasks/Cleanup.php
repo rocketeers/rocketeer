@@ -38,9 +38,8 @@ class Cleanup extends AbstractTask
 		}
 
 		// Prune releases
-		foreach ($trash as $release) {
-			$this->removeFolder($this->releasesManager->getPathToRelease($release));
-		}
+		$trash = array_map([$this->releasesManager, 'getPathToRelease'], $trash);
+		$this->removeFolder($trash);
 
 		// Create final message
 		$trash   = count($trash);

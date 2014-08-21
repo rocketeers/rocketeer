@@ -49,7 +49,7 @@ class Teardown extends AbstractTask
 		}
 
 		// Remove remote folders
-		$this->removeFolder();
+		$this->removeFolder($this->paths->getFolder());
 
 		// Remove deployments file
 		$this->localStorage->destroy();
