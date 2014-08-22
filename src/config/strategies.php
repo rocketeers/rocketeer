@@ -37,6 +37,10 @@ return array(
 		},
 	),
 
+	// Here you can configure the Primer tasks
+	// which will run a set of commands on the local
+	// machine, determining whether the deploy can proceed
+	// or not
 	'primer'       => function (Primer $task) {
 		return array(
 			// $task->executeTask('Test'),

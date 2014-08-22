@@ -12,7 +12,7 @@ return array(
 	////////////////////////////////////////////////////////////////////
 
 	// The schema to use to name log files
-	'logs' => function (ConnectionsHandler $connections) {
+	'logs'             => function (ConnectionsHandler $connections) {
 		return sprintf('%s-%s-%s.log', $connections->getConnection(), $connections->getStage(), date('Ymd'));
 	},
 
@@ -22,13 +22,13 @@ return array(
 	////////////////////////////////////////////////////////////////////
 
 	// The default remote connection(s) to execute tasks on
-	'default' => array('{connection}'),
+	'default'          => array('{connection}'),
 
 	// The various connections you defined
 	// You can leave all of this empty or remove it entirely if you don't want
 	// to track files with credentials : Rocketeer will prompt you for your credentials
 	// and store them locally
-	'connections' => array(
+	'connections'      => array(
 		'production' => array(
 			'host'      => '{host}',
 			'username'  => '{username}',
@@ -57,12 +57,10 @@ return array(
 	'on' => array(
 
 		// Stages configurations
-		'stages' => array(
-		),
+		'stages'      => array(),
 
 		// Connections configuration
-		'connections' => array(
-		),
+		'connections' => array(),
 
 	),
 

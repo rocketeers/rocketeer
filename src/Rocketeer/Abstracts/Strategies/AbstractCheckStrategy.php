@@ -1,6 +1,8 @@
 <?php
 namespace Rocketeer\Abstracts\Strategies;
 
+use Illuminate\Support\Arr;
+
 abstract class AbstractCheckStrategy extends AbstractStrategy
 {
 	/**

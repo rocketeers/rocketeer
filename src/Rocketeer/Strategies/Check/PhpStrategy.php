@@ -2,7 +2,6 @@
 namespace Rocketeer\Strategies\Check;
 
 use Illuminate\Container\Container;
-use Illuminate\Support\Arr;
 use Rocketeer\Abstracts\Strategies\AbstractCheckStrategy;
 use Rocketeer\Interfaces\Strategies\CheckStrategyInterface;
 
