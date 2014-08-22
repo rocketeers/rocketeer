@@ -12,7 +12,7 @@ class DummyNotifier extends AbstractNotifier
 	 *
 	 * @return string
 	 */
-	protected function getMessageFormat($message)
+	public function getMessageFormat($message)
 	{
 		return '{1} finished deploying branch "{2}" on "{3}" ({4})';
 	}

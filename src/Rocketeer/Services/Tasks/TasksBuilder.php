@@ -147,6 +147,11 @@ class TasksBuilder
 	 */
 	protected function composeTask($task)
 	{
+		// If already built, return it
+		if ($task instanceof AbstractTask) {
+			return $task;
+		}
+
 		// If we provided a Closure, build a ClosureTask
 		if ($task instanceof Closure) {
 			return $this->buildTaskFromClosure($task);
