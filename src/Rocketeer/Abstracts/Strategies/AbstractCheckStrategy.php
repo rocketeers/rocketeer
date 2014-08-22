@@ -90,4 +90,23 @@ abstract class AbstractCheckStrategy extends AbstractStrategy
 	 * @return string
 	 */
 	abstract protected function getCurrentVersion();
+
+	//////////////////////////////////////////////////////////////////////
+	////////////////////////////// HELPERS ///////////////////////////////
+	//////////////////////////////////////////////////////////////////////
+
+	/**
+	 * @param string $manifest
+	 * @param string $handle
+	 *
+	 * @return string
+	 */
+	protected function getLanguageConstraintFromJson($manifest, $handle)
+	{
+		$manifest   = json_decode($manifest, true);
+		$constraint = (string) Arr::get($manifest, $handle);
+		$constraint = preg_replace('/[~>= ]+ ?(.+)/', '$1', $constraint);
+
+		return $constraint;
+	}
 }

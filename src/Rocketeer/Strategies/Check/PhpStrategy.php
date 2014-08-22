@@ -49,13 +49,7 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
 	 */
 	protected function getLanguageConstraint($manifest)
 	{
-		$manifest = json_decode($manifest, true);
-
-		// Strip versions of constraints
-		$required = (string) Arr::get($manifest, 'require.php');
-		$required = preg_replace('/>=/', '', $required);
-
-		return $required;
+		return $this->getLanguageConstraintFromJson($manifest, 'require.php');
 	}
 
 	/**

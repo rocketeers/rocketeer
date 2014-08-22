@@ -176,7 +176,7 @@ class TasksBuilder
 	/**
 	 * Build a task from a string
 	 *
-	 * @param string $task
+	 * @param string|string[] $task
 	 *
 	 * @return AbstractTask
 	 */

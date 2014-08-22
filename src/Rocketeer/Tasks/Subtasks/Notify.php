@@ -37,7 +37,7 @@ class Notify extends AbstractTask
 	/**
 	 * Run the task
 	 *
-	 * @return string
+	 * @return string|null
 	 */
 	public function execute()
 	{

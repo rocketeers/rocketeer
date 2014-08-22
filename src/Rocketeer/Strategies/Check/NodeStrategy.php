@@ -33,11 +33,7 @@ class NodeStrategy extends AbstractCheckStrategy implements CheckStrategyInterfa
 	 */
 	protected function getLanguageConstraint($manifest)
 	{
-		$manifest   = json_decode($manifest, true);
-		$constraint = Arr::get($manifest, 'engines.node');
-		$constraint = preg_replace('/[~>= ]+ ?(.+)/', '$1', $constraint);
-
-		return $constraint;
+		return $this->getLanguageConstraintFromJson($manifest, 'engines.node');
 	}
 
 	/**

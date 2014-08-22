@@ -23,7 +23,7 @@ class Migrate extends AbstractTask
 	/**
 	 * Run the task
 	 *
-	 * @return boolean|null
+	 * @return boolean|boolean[]
 	 */
 	public function execute()
 	{
