@@ -24,7 +24,6 @@ use Illuminate\Support\Arr;
  * @property \Rocketeer\Bash                                          bash
  * @property \Rocketeer\Console\Console                               console
  * @property \Rocketeer\Interfaces\ScmInterface                       scm
- * @property \Rocketeer\Interfaces\Strategies\DeployStrategyInterface strategy
  * @property \Rocketeer\Rocketeer                                     rocketeer
  * @property \Rocketeer\Services\Connections\ConnectionsHandler       connections
  * @property \Rocketeer\Services\Connections\RemoteHandler            remote
@@ -85,7 +84,6 @@ trait HasLocator
 			'remote'          => 'rocketeer.remote',
 			'rocketeer'       => 'rocketeer.rocketeer',
 			'scm'             => 'rocketeer.scm',
-			'strategy'        => 'rocketeer.strategy',
 			'tasks'           => 'rocketeer.tasks',
 			'timer'           => 'rocketeer.timer',
 		);

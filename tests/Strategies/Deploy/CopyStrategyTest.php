@@ -10,16 +10,12 @@ class CopyStrategyTest extends RocketeerTestCase
 	{
 		parent::setUp();
 
-		$this->app->bind('rocketeer.strategy', function ($app) {
-			return new CopyStrategy($app);
-		});
-
 		$this->pretend();
 	}
 
 	public function testCanCopyPreviousRelease()
 	{
-		$this->strategy->deploy();
+		$this->builder->buildStrategy('Deploy', 'Copy')->deploy();
 
 		$matcher = array(
 			'cp -r {server}/releases/10000000000000 {server}/releases/20000000000000',
@@ -40,7 +36,7 @@ class CopyStrategyTest extends RocketeerTestCase
 			            ->shouldReceive('getCurrentReleasePath')->andReturn($this->server.'/releases/10000000000000');
 		});
 
-		$this->strategy->deploy();
+		$this->builder->buildStrategy('Deploy', 'Copy')->deploy();
 
 		$matcher = array(
 			'git clone "{repository}" "{server}/releases/{release}" --branch="master" --depth="1"',
@@ -62,7 +58,7 @@ class CopyStrategyTest extends RocketeerTestCase
 			            ->shouldReceive('getCurrentReleasePath')->andReturn($this->server.'/releases/10000000000000');
 		});
 
-		$this->strategy->deploy();
+		$this->builder->buildStrategy('Deploy', 'Copy')->deploy();
 
 		$matcher = array(
 			'git clone "{repository}" "{server}/releases/{release}" --branch="master" --depth="1"',
