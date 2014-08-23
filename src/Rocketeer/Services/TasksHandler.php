@@ -259,6 +259,8 @@ class TasksHandler
 			$task = $event[0];
 			if ($flatten && $task instanceof Tasks\Closure && $stringTask = $task->getStringTask()) {
 				$events[$key] = $stringTask;
+			} elseif ($flatten && $task instanceof AbstractTask) {
+				$events[$key] = $task->getSlug();
 			}
 		}
 
