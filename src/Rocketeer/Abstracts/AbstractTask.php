@@ -162,6 +162,7 @@ abstract class AbstractTask extends Bash
 			$this->command->error($errors);
 		}
 
+		$this->fireEvent('halt');
 		$this->halted = true;
 
 		return false;
