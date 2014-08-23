@@ -6,14 +6,20 @@
 ### Added
 - Added ability to run tasks in parallel via the `--parallel` flag (or `-P`)
 - Added ability to have multiple servers for one connection, just define them in a `servers` array in your connection, each entry being an usual connection credentials array
+- Added support for defining contextual configurations in files (`.rocketeer/connections/{connection}/scm.php`, same for stages)
+- Core tasks (Deploy, Check, Test, Migrate) now use a module system called Strategies
+- Added a `Sync` DeployStrategy in addition to `Clone` and `Copy` that uses rsync to create a new release 
 - Added static helper `Rocketeer::getDetectedStage` to get the stage Rocketeer think's he's in on the server (for environment mappings)
 - Added support for checking of HHVM extensions
 - Added `Task::upload(file, destination)` to upload files to remote, destination can be null and the basename of the file would then be used
 
 ### Changed
+- Output now lists which tasks were fired by which task/events, how long they should take, in a tree-like format that clarifies tasks and subtasks
 - For breaking changes, see the [Upgrade Path](http://rocketeer.autopergamene.eu/#/docs/III-Further/Upgrade-Path)
 
 ### Fixed
+- Fixed the `Copy` strategy
+- Fixed a bug where registered events in `hooks` would make the notifier plugins fail
 - Fixed a bug where `rocketeer current` would fail to find the related task
 - Fixed a bug where Artisan wouldn't be found even if at the default location
 - Fixed a bug where ignition would fail when the default connection isn't `production`
