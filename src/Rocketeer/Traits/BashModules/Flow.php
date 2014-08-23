@@ -115,7 +115,7 @@ trait Flow
 			$this->move($currentFile, $sharedFile);
 		}
 
-		$this->command->comment('Sharing file '.$currentFile);
+		$this->explainer->line('Sharing file '.$currentFile);
 
 		return $this->symlink($sharedFile, $currentFile);
 	}

@@ -111,7 +111,7 @@ trait Filesystem
 	{
 		// Get path to folder
 		$folder = $this->releasesManager->getCurrentReleasePath($folder);
-		$this->command->comment('Setting permissions for '.$folder);
+		$this->explainer->line('Setting permissions for '.$folder);
 
 		// Get permissions options
 		$callback = $this->rocketeer->getOption('remote.permissions.callback');

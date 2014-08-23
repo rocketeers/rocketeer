@@ -41,13 +41,13 @@ class Migrate extends AbstractTask
 
 		// Migrate the database
 		if ($migrate) {
-			$this->command->comment('Running outstanding migrations');
+			$this->explainer->line('Running outstanding migrations');
 			$results[] = $strategy->migrate();
 		}
 
 		// Seed it
 		if ($seed) {
-			$this->command->comment('Seeding database');
+			$this->explainer->line('Seeding database');
 			$results[] = $strategy->seed();
 		}
 

@@ -217,7 +217,7 @@ trait Core
 		// If all went well
 		if ($this->status()) {
 			if ($success) {
-				$this->command->comment($success);
+				$this->explainer->success($success);
 			}
 
 			return $output || true;
