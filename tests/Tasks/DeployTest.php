@@ -38,8 +38,6 @@ class DeployTest extends RocketeerTestCase
 				"cd {server}/releases/{release}",
 				"{php} artisan db:seed"
 			),
-			"mkdir -p {server}/shared/tests",
-			"mv {server}/releases/{release}/tests/Elements {server}/shared/tests/Elements",
 			"mv {server}/current {server}/releases/{release}",
 			"rm -rf {server}/current",
 			"ln -s {server}/releases/{release} {server}/current",
@@ -121,8 +119,6 @@ class DeployTest extends RocketeerTestCase
 				"cd {server}/releases/{release}",
 				"{php} artisan db:seed"
 			),
-			"mkdir -p {server}/shared/tests",
-			"mv {server}/releases/{release}/tests/Elements {server}/shared/tests/Elements",
 			"mv {server}/current {server}/releases/{release}",
 			"rm -rf {server}/current",
 			"ln -s {server}/releases/{release} {server}/current",
@@ -164,8 +160,6 @@ class DeployTest extends RocketeerTestCase
 				"chmod -R g+s {server}/releases/{release}/tests",
 				"chown -R www-data:www-data {server}/releases/{release}/tests"
 			),
-			"mkdir -p {server}/shared/tests",
-			"mv {server}/releases/{release}/tests/Elements {server}/shared/tests/Elements",
 			"mv {server}/current {server}/releases/{release}",
 			"rm -rf {server}/current",
 			"ln -s {server}/releases/{release} {server}/current",
@@ -196,8 +190,6 @@ class DeployTest extends RocketeerTestCase
 				"cd {server}/releases/{release}",
 				"{php} artisan db:seed"
 			),
-			"mkdir -p {server}/shared/tests",
-			"mv {server}/releases/{release}/tests/Elements {server}/shared/tests/Elements",
 			"mv {server}/current {server}/releases/{release}",
 			"rm -rf {server}/current",
 			"ln -s {server}/releases/{release} {server}/current",

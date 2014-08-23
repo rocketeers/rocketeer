@@ -18,8 +18,6 @@ class UpdateTest extends RocketeerTestCase
 				"git reset --hard",
 				"git pull"
 			),
-			"mkdir -p {server}/shared/tests",
-			"mv {server}/releases/20000000000000/tests/Elements {server}/shared/tests/Elements",
 			array(
 				"cd {server}/releases/20000000000000",
 				"chmod -R 755 {server}/releases/20000000000000/tests",
