@@ -24,6 +24,13 @@ class ConnectionsHandler
 	use HasLocator;
 
 	/**
+	 * The current handle
+	 *
+	 * @type string
+	 */
+	protected $handle;
+
+	/**
 	 * The current stage
 	 *
 	 * @var string
@@ -62,6 +69,10 @@ class ConnectionsHandler
 	 */
 	public function getHandle($connection = null, $server = null, $stage = null)
 	{
+		if ($this->handle) {
+			return $this->handle;
+		}
+
 		// Get identifiers
 		$connection = $connection ?: $this->getConnection();
 		$server     = $server ?: $this->getServer();
@@ -78,7 +89,8 @@ class ConnectionsHandler
 		}
 
 		// Concatenate
-		$handle = implode('/', $handle);
+		$handle       = implode('/', $handle);
+		$this->handle = $handle;
 
 		return $handle;
 	}
@@ -112,6 +124,16 @@ class ConnectionsHandler
 	////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Get the current stage
+	 *
+	 * @return string
+	 */
+	public function getStage()
+	{
+		return $this->stage;
+	}
+
+	/**
 	 * Set the stage Tasks will execute on
 	 *
 	 * @param string|null $stage
@@ -122,22 +144,13 @@ class ConnectionsHandler
 			return;
 		}
 
-		$this->stage = $stage;
+		$this->stage  = $stage;
+		$this->handle = null;
 
 		// If we do have a stage, cleanup previous events
 		if ($stage) {
 			$this->tasks->registerConfiguredEvents();
 		}
-	}
-
-	/**
-	 * Get the current stage
-	 *
-	 * @return string
-	 */
-	public function getStage()
-	{
-		return $this->stage;
 	}
 
 	/**
@@ -240,6 +253,21 @@ class ConnectionsHandler
 	}
 
 	/**
+	 * Set the active connections
+	 *
+	 * @param string|string[] $connections
+	 */
+	public function setConnections($connections)
+	{
+		if (!is_array($connections)) {
+			$connections = explode(',', $connections);
+		}
+
+		$this->connections = $connections;
+		$this->handle      = null;
+	}
+
+	/**
 	 * Get the active connection
 	 *
 	 * @return string
@@ -255,6 +283,27 @@ class ConnectionsHandler
 		$this->connection = $connection;
 
 		return $this->connection;
+	}
+
+	/**
+	 * Set the current connection
+	 *
+	 * @param string $connection
+	 * @param int    $server
+	 */
+	public function setConnection($connection, $server = 0)
+	{
+		if (!$this->isValidConnection($connection) || $this->connection == $connection) {
+			return;
+		}
+
+		// Set the connection
+		$this->handle       = null;
+		$this->connection   = $connection;
+		$this->localStorage = $server;
+
+		// Update events
+		$this->tasks->registerConfiguredEvents();
 	}
 
 	/**
@@ -306,40 +355,6 @@ class ConnectionsHandler
 		$credentials = $this->getConnectionCredentials($connection);
 
 		$this->config->set('remote.connections.'.$connection, $credentials);
-	}
-
-	/**
-	 * Set the active connections
-	 *
-	 * @param string|string[] $connections
-	 */
-	public function setConnections($connections)
-	{
-		if (!is_array($connections)) {
-			$connections = explode(',', $connections);
-		}
-
-		$this->connections = $connections;
-	}
-
-	/**
-	 * Set the current connection
-	 *
-	 * @param string $connection
-	 * @param int    $server
-	 */
-	public function setConnection($connection, $server = 0)
-	{
-		if (!$this->isValidConnection($connection) || $this->connection == $connection) {
-			return;
-		}
-
-		// Set the connection
-		$this->connection   = $connection;
-		$this->localStorage = $server;
-
-		// Update events
-		$this->tasks->registerConfiguredEvents();
 	}
 
 	/**
