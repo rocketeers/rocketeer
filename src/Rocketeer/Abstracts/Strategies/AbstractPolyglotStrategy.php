@@ -25,7 +25,7 @@ abstract class AbstractPolyglotStrategy extends AbstractStrategy
 	 *
 	 * @param string $method
 	 *
-	 * @return array
+	 * @return boolean[]
 	 */
 	protected function executeStrategiesMethod($method)
 	{

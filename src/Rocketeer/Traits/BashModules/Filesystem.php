@@ -50,7 +50,7 @@ trait Filesystem
 	 * @param string $origin
 	 * @param string $destination
 	 *
-	 * @return string
+	 * @return string|null
 	 */
 	public function move($origin, $destination)
 	{

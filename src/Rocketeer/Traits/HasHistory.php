@@ -84,8 +84,8 @@ trait HasHistory
 	protected function appendTo($type, $command)
 	{
 		// Flatten one-liners
-		$command = (array) $command;
-		$command = array_values($command);
+		$command   = (array) $command;
+		$command   = array_values($command);
 		$flattened = count($command) == 1 ? $command[0] : $command;
 
 		// Save to logs

@@ -284,7 +284,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 				'staging'    => []
 			),
 			'rocketeer::application_name'         => 'foobar',
-			'rocketeer::logs'         => null,
+			'rocketeer::logs'                     => null,
 			'rocketeer::remote.permissions.files' => ['tests'],
 			'rocketeer::remote.shared'            => ['tests/Elements'],
 			'rocketeer::remote.keep_releases'     => 1,

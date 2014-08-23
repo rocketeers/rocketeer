@@ -9,7 +9,6 @@
  */
 namespace Rocketeer\Services\History;
 
-use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
 class History extends Collection
@@ -42,7 +41,6 @@ class History extends Collection
 	 * Get a flattened list of a certain type
 	 *
 	 * @param string  $type
-	 * @param boolean $timestamps
 	 *
 	 * @return string[]|string[][]
 	 */

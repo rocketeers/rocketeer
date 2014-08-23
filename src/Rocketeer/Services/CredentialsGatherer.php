@@ -166,7 +166,7 @@ class CredentialsGatherer
 	 */
 	protected function gatherCredentials($credentials, $current, $handle)
 	{
-		// Loop throguh credentials and ask missing ones
+		// Loop through credentials and ask missing ones
 		foreach ($credentials as $credential => $required) {
 			$$credential = $this->getCredential($current, $credential);
 			if ($required && !$$credential) {

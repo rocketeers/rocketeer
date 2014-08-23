@@ -29,7 +29,7 @@ class PolyglotStrategy extends AbstractPolyglotStrategy implements DependenciesS
 	/**
 	 * Install the dependencies
 	 *
-	 * @return boolean
+	 * @return boolean[]
 	 */
 	public function install()
 	{
@@ -39,7 +39,7 @@ class PolyglotStrategy extends AbstractPolyglotStrategy implements DependenciesS
 	/**
 	 * Update the dependencies
 	 *
-	 * @return boolean
+	 * @return boolean[]
 	 */
 	public function update()
 	{
