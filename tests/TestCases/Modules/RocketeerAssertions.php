@@ -1,7 +1,9 @@
 <?php
-namespace Rocketeer\TestCases;
+namespace Rocketeer\TestCases\Modules;
 
 use Illuminate\Support\Arr;
+use Rocketeer\TestCases\AbstractTask;
+use Rocketeer\TestCases\Assertion;
 
 trait RocketeerAssertions
 {

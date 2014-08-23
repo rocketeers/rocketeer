@@ -3,7 +3,7 @@ namespace Rocketeer\Strategies\Check;
 
 use Rocketeer\TestCases\RocketeerTestCase;
 
-class PhpTest extends RocketeerTestCase
+class PhpStrategyTest extends RocketeerTestCase
 {
 	/**
 	 * @type \Rocketeer\Strategies\Check\PhpStrategy
@@ -54,8 +54,8 @@ class PhpTest extends RocketeerTestCase
 
 	public function testCanCheckForHhvmExtensions()
 	{
-		$this->app['rocketeer.remote'] = $this->getRemote('HipHop VM 3.0.1 (rel)'.PHP_EOL.'Some more stuff');
-		$exists                        = $this->strategy->checkPhpExtension('_hhvm');
+		$this->mockRemote('HipHop VM 3.0.1 (rel)'.PHP_EOL.'Some more stuff');
+		$exists = $this->strategy->checkPhpExtension('_hhvm');
 
 		$this->assertTrue($exists);
 	}

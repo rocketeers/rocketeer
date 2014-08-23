@@ -194,7 +194,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 	/**
 	 * Mock the Remote component
 	 *
-	 * @param null $mockedOutput
+	 * @param string|array|null $mockedOutput
 	 *
 	 * @return Mockery
 	 */
@@ -213,7 +213,6 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 		$remote->shouldReceive('connected')->andReturn(true);
 		$remote->shouldReceive('into')->andReturn(Mockery::self());
 		$remote->shouldReceive('status')->andReturn(0)->byDefault();
-		$remote->shouldReceive('run')->andReturnUsing($run)->byDefault();
 		$remote->shouldReceive('runRaw')->andReturnUsing($run)->byDefault();
 		$remote->shouldReceive('getString')->andReturnUsing(function ($file) {
 			return file_get_contents($file);
@@ -224,6 +223,14 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 		$remote->shouldReceive('display')->andReturnUsing(function ($line) {
 			print $line.PHP_EOL;
 		});
+
+		if (is_array($mockedOutput)) {
+			foreach ($mockedOutput as $command => $output) {
+				$remote->shouldReceive('run')->with($command)->andReturn($output);
+			}
+		} else {
+			$remote->shouldReceive('run')->andReturnUsing($run)->byDefault();
+		}
 
 		return $remote;
 	}

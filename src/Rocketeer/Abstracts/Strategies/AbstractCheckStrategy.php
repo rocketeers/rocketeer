@@ -26,6 +26,14 @@ abstract class AbstractCheckStrategy extends AbstractStrategy
 	}
 
 	/**
+	 * @param \Rocketeer\Abstracts\AbstractPackageManager $manager
+	 */
+	public function setManager($manager)
+	{
+		$this->manager = $manager;
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getLanguage()

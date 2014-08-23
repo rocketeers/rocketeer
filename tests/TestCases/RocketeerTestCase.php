@@ -1,13 +1,15 @@
 <?php
 namespace Rocketeer\TestCases;
 
-use Closure;
 use Mockery;
 use Rocketeer\Services\Storages\LocalStorage;
+use Rocketeer\TestCases\Modules\RocketeerAssertions;
+use Rocketeer\TestCases\Modules\RocketeerMockeries;
 
 abstract class RocketeerTestCase extends ContainerTestCase
 {
 	use RocketeerAssertions;
+	use RocketeerMockeries;
 
 	/**
 	 * The path to the local fake server
@@ -97,85 +99,8 @@ abstract class RocketeerTestCase extends ContainerTestCase
 	}
 
 	////////////////////////////////////////////////////////////////////
-	////////////////////////////// MOCKERIES ///////////////////////////
-	////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Mock the ReleasesManager
-	 *
-	 * @param Closure $expectations
-	 *
-	 * @return Mockery
-	 */
-	protected function mockReleases(Closure $expectations)
-	{
-		return $this->mock('rocketeer.releases', 'ReleasesManager', $expectations);
-	}
-
-	/**
-	 * Mock a Command
-	 *
-	 * @param array $options
-	 * @param array $expectations
-	 */
-	protected function mockCommand($options = array(), $expectations = array())
-	{
-		// Default options
-		$options = array_merge(array(
-			'pretend'  => false,
-			'verbose'  => false,
-			'tests'    => false,
-			'migrate'  => false,
-			'seed'     => false,
-			'stage'    => false,
-			'parallel' => false,
-			'update'   => false,
-		), $options);
-
-		$this->app['rocketeer.command'] = $this->getCommand($expectations, $options);
-	}
-
-	/**
-	 * @param array $state
-	 */
-	protected function mockState(array $state)
-	{
-		file_put_contents($this->server.'/state.json', json_encode($state));
-	}
-
-	////////////////////////////////////////////////////////////////////
 	/////////////////////////////// HELPERS ////////////////////////////
 	////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Mock the Composer check
-	 *
-	 * @param boolean $uses
-	 *
-	 * @return void
-	 */
-	protected function usesComposer($uses = true)
-	{
-		$composer = $this->server.'/current/composer.json';
-		if ($uses) {
-			$this->files->put($composer, '{}');
-		} else {
-			$this->files->delete($composer);
-		}
-	}
-
-	/**
-	 * Set Rocketeer in pretend mode
-	 *
-	 * @param array $options
-	 * @param array $expectations
-	 */
-	protected function pretend($options = array(), $expectations = array())
-	{
-		$options['pretend'] = true;
-
-		$this->mockCommand($options, $expectations);
-	}
 
 	/**
 	 * Get a pretend AbstractTask to run bogus commands

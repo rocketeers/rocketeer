@@ -95,4 +95,21 @@ class RemoteHandlerTest extends RocketeerTestCase
 		$this->assertInstanceOf('Rocketeer\Services\Connections\Connection', $connection);
 		$this->assertEquals('production', $connection->getName());
 	}
+
+	public function testThrowsExceptionIfUnableToConnect()
+	{
+		$this->setExpectedException('Rocketeer\Exceptions\ConnectionException');
+
+		$this->swapConfig(array(
+			'rocketeer::connections' => array(
+				'production' => array(
+					'host'     => 'foobar.com',
+					'username' => 'foobar',
+					'password' => 'foobar',
+				),
+			),
+		));
+
+		$this->handler->run('ls');
+	}
 }
