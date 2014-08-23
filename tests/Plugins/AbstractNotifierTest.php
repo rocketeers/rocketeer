@@ -1,7 +1,6 @@
 <?php
 namespace Rocketeer\Plugins;
 
-use Rocketeer\Dummies\DummyBeforeAfterNotifier;
 use Rocketeer\Dummies\DummyNotifier;
 use Rocketeer\TestCases\RocketeerTestCase;
 
