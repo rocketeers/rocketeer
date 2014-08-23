@@ -159,6 +159,9 @@ abstract class AbstractCommand extends Command
 		// Remove command instance
 		unset($this->laravel['rocketeer.command']);
 
+		// Save history to logs
+		$this->laravel['rocketeer.logs']->fromHistory();
+
 		return $status ? 0 : 1;
 	}
 

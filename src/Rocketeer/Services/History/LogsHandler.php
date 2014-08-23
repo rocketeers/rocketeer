@@ -19,34 +19,14 @@ class LogsHandler
 	use HasLocator;
 
 	/**
-	 * The loggers instances
-	 *
-	 * @var array
+	 * Create logs from the History
 	 */
-	protected $loggers = array();
-
-	/**
-	 * Log by level
-	 *
-	 * @param string $method
-	 * @param array  $parameters
-	 */
-	public function __call($method, $parameters)
+	public function fromHistory()
 	{
-		$this->log($parameters[0], $method);
-	}
+		$file = $this->getCurrentLogsFile();
+		$history = $this->history->getLogs();
 
-	/**
-	 * Log a piece of text
-	 *
-	 * @param string $informations
-	 * @param string $level
-	 */
-	public function log($informations, $level = 'info')
-	{
-		if ($file = $this->getCurrentLogsFile()) {
-			$this->getLogger($file)->$level($informations);
-		}
+		$this->files->put($file, implode(PHP_EOL, $history));
 	}
 
 	/**
@@ -64,30 +44,11 @@ class LogsHandler
 
 		$file = $logs($this->connections);
 		$file = $this->app['path.rocketeer.logs'].'/'.$file;
-
-		return $file;
-	}
-
-	/**
-	 * Get a logger instance by context
-	 *
-	 * @param string $file
-	 *
-	 * @return \Illuminate\Log\Writer
-	 */
-	protected function getLogger($file)
-	{
-		// Create logger instance if necessary
-		if (!array_key_exists($file, $this->loggers)) {
+		if (!$this->files->exists($file)) {
 			$this->createLogsFile($file);
-
-			// Store specific logger instance
-			$logger = clone $this->log;
-			$logger->useFiles($file);
-			$this->loggers[$file] = $logger;
 		}
 
-		return $this->loggers[$file];
+		return $file;
 	}
 
 	/**
