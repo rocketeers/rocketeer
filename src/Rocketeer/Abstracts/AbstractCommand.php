@@ -160,7 +160,10 @@ abstract class AbstractCommand extends Command
 		unset($this->laravel['rocketeer.command']);
 
 		// Save history to logs
-		$this->laravel['rocketeer.logs']->fromHistory();
+		$logs = $this->laravel['rocketeer.logs']->write();
+		foreach ($logs as $log) {
+			$this->info('Saved logs to '.$log);
+		}
 
 		return $status ? 0 : 1;
 	}

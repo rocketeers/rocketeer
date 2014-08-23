@@ -34,33 +34,6 @@ class History extends Collection
 		return $this->getFlattened('output');
 	}
 
-	/**
-	 * Get the merged logs of history/output
-	 *
-	 * @return array
-	 */
-	public function getLogs()
-	{
-		// Fetch history
-		$history = $this->getFlattened('history', true);
-		$history = Arr::dot($history);
-
-		// Fetch output
-		$output = $this->getFlattened('output', true);
-		$output = Arr::dot($output);
-
-		// Add command marker to history
-		$history = array_map(function ($command) {
-			return '$ '.$command;
-		}, $history);
-
-		// Merge and sort
-		$logs = array_merge($history, $output);
-		ksort($logs);
-
-		return array_values($logs);
-	}
-
 	//////////////////////////////////////////////////////////////////////
 	////////////////////////////// HELPERS ///////////////////////////////
 	//////////////////////////////////////////////////////////////////////
@@ -73,7 +46,7 @@ class History extends Collection
 	 *
 	 * @return string[]|string[][]
 	 */
-	protected function getFlattened($type, $timestamps = false)
+	protected function getFlattened($type)
 	{
 		$history = [];
 		foreach ($this->items as $class => $entries) {
@@ -82,11 +55,6 @@ class History extends Collection
 
 		ksort($history);
 
-		// Prune timestamps if necessary
-		if (!$timestamps) {
-			$history = array_values($history);
-		}
-
-		return $history;
+		return array_values($history);
 	}
 }

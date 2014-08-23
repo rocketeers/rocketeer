@@ -9,6 +9,7 @@
  */
 namespace Rocketeer\Services\History;
 
+use Illuminate\Support\Arr;
 use Rocketeer\Traits\HasLocator;
 
 /**
@@ -19,14 +20,52 @@ class LogsHandler
 	use HasLocator;
 
 	/**
-	 * Create logs from the History
+	 * Cache of the logs file to be written
+	 *
+	 * @type array
 	 */
-	public function fromHistory()
-	{
-		$file = $this->getCurrentLogsFile();
-		$history = $this->history->getLogs();
+	protected $logs = [];
 
-		$this->files->put($file, implode(PHP_EOL, $history));
+	/**
+	 * The closure used to name logs
+	 *
+	 * @type \Closure
+	 */
+	protected $namer;
+
+	/**
+	 * Save something for the logs
+	 *
+	 * @param string $string
+	 */
+	public function log($string)
+	{
+		// Create entry in the logs
+		$file = $this->getCurrentLogsFile();
+		if (!isset($this->logs[$file])) {
+			$this->logs[$file] = [];
+		}
+
+		$this->logs[$file][] = $string;
+	}
+
+	/**
+	 * Write the stored logs
+	 *
+	 * @return array
+	 */
+	public function write()
+	{
+		foreach ($this->logs as $file => $entries) {
+			$entries = Arr::flatten($entries);
+			if (!$this->files->exists($file)) {
+				$this->createLogsFile($file);
+			}
+
+			$this->files->put($file, implode(PHP_EOL, $entries));
+		}
+
+		return array_keys($this->logs);
 	}
 
 	/**
@@ -36,17 +75,18 @@ class LogsHandler
 	 */
 	public function getCurrentLogsFile()
 	{
-		/** @type \Callable $logs */
-		$logs = $this->config->get('rocketeer::logs');
-		if (!$logs) {
+		if (!$this->namer) {
+			$this->namer = $this->config->get('rocketeer::logs');
+		}
+
+		// Cancel if invalid namer
+		if (!$this->namer || !is_callable($this->namer)) {
 			return false;
 		}
 
-		$file = $logs($this->connections);
+		$namer = $this->namer;
+		$file = $namer($this->connections);
 		$file = $this->app['path.rocketeer.logs'].'/'.$file;
-		if (!$this->files->exists($file)) {
-			$this->createLogsFile($file);
-		}
 
 		return $file;
 	}

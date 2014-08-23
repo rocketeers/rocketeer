@@ -86,7 +86,16 @@ trait HasHistory
 		// Flatten one-liners
 		$command = (array) $command;
 		$command = array_values($command);
-		$command = count($command) == 1 ? $command[0] : $command;
+		$flattened = count($command) == 1 ? $command[0] : $command;
+
+		// Save to logs
+		if ($type == 'history') {
+			$command = array_map(function ($command) {
+				return '$ '.$command;
+			}, $command);
+		}
+
+		$this->logs->log($command);
 
 		// Get the various handles
 		$handle    = $this->getHistoryHandle();
@@ -94,7 +103,7 @@ trait HasHistory
 		$timestamp = (string) microtime(true);
 
 		// Set new history on correct handle
-		$history[$type][$timestamp] = $command;
+		$history[$type][$timestamp] = $flattened;
 
 		$this->history[$handle] = $history;
 	}
