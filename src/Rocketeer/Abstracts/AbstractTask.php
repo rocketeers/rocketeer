@@ -190,10 +190,19 @@ abstract class AbstractTask extends Bash
 	 */
 	public function fireEvent($event)
 	{
+		$event     = $this->getQualifiedEvent($event);
+		$listeners = $this->events->getListeners($event);
+
 		// Fire the event
-		$event  = $this->getQualifiedEvent($event);
-		$result = $this->explainer->displayBelow(function () use ($event) {
-			return $this->events->fire($event, [$this]);
+		$result = $this->explainer->displayBelow(function () use ($listeners) {
+			foreach ($listeners as $listener) {
+				$response = call_user_func_array($listener, [$this]);
+				if ($response === false) {
+					return false;
+				}
+			}
+
+			return true;
 		});
 
 		// If the event returned a strict false, halt the task
