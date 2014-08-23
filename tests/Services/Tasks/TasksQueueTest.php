@@ -125,4 +125,17 @@ class TasksQueueTest extends RocketeerTestCase
 		$this->assertTrue($pipeline->failed());
 		$this->assertEquals([false], $this->history->getFlattenedOutput());
 	}
+
+	public function testFallbacksToSynchonousIfErrorWhenRunningParallels()
+	{
+		$parallel = Mockery::mock('Parallel')
+		                   ->shouldReceive('isSupported')->andReturn(true)
+		                   ->shouldReceive('values')->once()->andThrow('LogicException')
+		                   ->mock();
+
+		$this->mockCommand(['parallel' => true]);
+		$this->queue->setParallel($parallel);
+
+		$this->queue->run(['ls']);
+	}
 }

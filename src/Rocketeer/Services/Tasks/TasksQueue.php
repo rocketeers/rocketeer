@@ -12,6 +12,7 @@ namespace Rocketeer\Services\Tasks;
 use Closure;
 use Exception;
 use KzykHys\Parallel\Parallel;
+use LogicException;
 use Rocketeer\Connection;
 use Rocketeer\Traits\HasHistory;
 use Rocketeer\Traits\HasLocator;
@@ -245,9 +246,13 @@ class TasksQueue
 			throw new Exception('Parallel jobs require the PCNTL extension');
 		}
 
-		$this->parallel = $this->parallel ?: new Parallel();
-		$results        = $this->parallel->values($pipeline->all());
-		$pipeline->setResults($results);
+		try {
+			$this->parallel = $this->parallel ?: new Parallel();
+			$results        = $this->parallel->values($pipeline->all());
+			$pipeline->setResults($results);
+		} catch (LogicException $exception) {
+			return $this->runSynchronously($pipeline);
+		}
 
 		return $pipeline;
 	}
