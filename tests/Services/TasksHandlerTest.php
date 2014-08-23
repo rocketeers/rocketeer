@@ -172,16 +172,12 @@ class TasksHandlerTest extends RocketeerTestCase
 		$this->tasks->plugin(new DummyNotifier($this->app));
 
 		$listeners = $this->tasks->getTasksListeners('deploy', 'before', true);
-		$this->assertEquals('ls', $listeners[0]);
-		$this->assertCount(2, $listeners);
-		$this->assertCount(2, $listeners[1]);
+		$this->assertEquals(['ls', 'notify'], $listeners);
 
 		$this->connections->setConnection('production');
 
 		$listeners = $this->tasks->getTasksListeners('deploy', 'before', true);
-		$this->assertEquals('ls', $listeners[0]);
-		$this->assertCount(2, $listeners);
-		$this->assertCount(2, $listeners[1]);
+		$this->assertEquals(['ls', 'notify'], $listeners);
 	}
 
 	public function testDoesntRegisterPluginsTwice()
@@ -195,7 +191,6 @@ class TasksHandlerTest extends RocketeerTestCase
 		$this->tasks->plugin(new DummyNotifier($this->app));
 
 		$listeners = $this->tasks->getTasksListeners('deploy', 'before', true);
-		$this->assertCount(1, $listeners);
-		$this->assertCount(2, $listeners[0]);
+		$this->assertEquals(['notify'], $listeners);
 	}
 }
