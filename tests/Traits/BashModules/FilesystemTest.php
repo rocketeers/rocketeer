@@ -44,4 +44,11 @@ class FilesystemTest extends RocketeerTestCase
 		$this->assertTrue($this->task->fileExists($this->server));
 		$this->assertFalse($this->task->fileExists($this->server.'/nope'));
 	}
+
+	public function testDoesntTryToMoveUnexistingFolders()
+	{
+		$this->pretendTask()->move('foobar', 'bazqux');
+
+		$this->assertEmpty($this->history->getFlattenedOutput());
+	}
 }

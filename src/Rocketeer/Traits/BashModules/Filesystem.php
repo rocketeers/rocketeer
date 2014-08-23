@@ -54,6 +54,10 @@ trait Filesystem
 	 */
 	public function move($origin, $destination)
 	{
+		if (!$this->fileExists($origin)) {
+			return;
+		}
+
 		return $this->fromTo('mv', $origin, $destination);
 	}
 
