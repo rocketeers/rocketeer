@@ -30,26 +30,19 @@ class LogsHandlerTest extends RocketeerTestCase
 
 	public function testCanLogInformations()
 	{
-		$this->logs->log('foobar', 'error');
+		$this->logs->log('foobar');
+		$this->logs->write();
 		$logs = $this->logs->getCurrentLogsFile();
 		$logs = file_get_contents($logs);
 
-		$this->assertContains('rocketeer.ERROR: foobar [] []', $logs);
-	}
-
-	public function testCanLogViaMagicMethods()
-	{
-		$this->logs->error('foobar');
-		$logs = $this->logs->getCurrentLogsFile();
-		$logs = file_get_contents($logs);
-
-		$this->assertContains('rocketeer.ERROR: foobar [] []', $logs);
+		$this->assertContains('foobar', $logs);
 	}
 
 	public function testCanCreateLogsFolderIfItDoesntExistAlready()
 	{
 		$this->app['path.rocketeer.logs'] = $this->server.'/newlogs';
-		$this->logs->error('foobar');
+		$this->logs->log('foobar');
+		$this->logs->write();
 		$logs = $this->logs->getCurrentLogsFile();
 
 		$this->assertFileExists($logs);
