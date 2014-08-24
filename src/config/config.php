@@ -8,6 +8,14 @@ return array(
 	// configured above, so be careful about the characters used
 	'application_name' => '{application_name}',
 
+	// Plugins
+	////////////////////////////////////////////////////////////////////
+
+	// The plugins to load
+	'plugins' => array(
+		// 'Rocketeer\Plugins\Slack\RocketeerSlack',
+	),
+
 	// Logging
 	////////////////////////////////////////////////////////////////////
 

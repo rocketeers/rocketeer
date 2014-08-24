@@ -7,9 +7,10 @@
 * For the full copyright and license information, please view the LICENSE
 * file that was distributed with this source code.
 */
-namespace Rocketeer;
+namespace Rocketeer\Ignition;
 
 use Illuminate\Support\Arr;
+use Rocketeer\Facades;
 use Rocketeer\Traits\HasLocator;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
@@ -56,6 +57,11 @@ class Igniter
 			$fileLoaders();
 		}
 
+		// Load plugins
+		foreach ($this->config->get('rocketeer::plugins') as $plugin) {
+			$this->tasks->plugin($plugin);
+		}
+
 		// Merge contextual configurations
 		$this->mergeContextualConfigurations();
 	}
@@ -72,7 +78,7 @@ class Igniter
 		}
 
 		// Get folders to glob
-		$folders = $this->paths->unifyLocalSlashes($storage.'/{stages,connections}/*');
+		$folders = $this->paths->unifyLocalSlashes($storage.'/{stages,connections,plugins}/*');
 
 		// Gather custom files
 		$finder = new Finder();
@@ -163,10 +169,11 @@ class Igniter
 
 		// Build paths
 		$paths = array(
-			'config' => $path.'',
-			'events' => $path.DS.'events',
-			'tasks'  => $path.DS.'tasks',
-			'logs'   => $storage.DS.'logs',
+			'config'  => $path.'',
+			'events'  => $path.DS.'events',
+			'plugins' => $path.DS.'plugins',
+			'tasks'   => $path.DS.'tasks',
+			'logs'    => $storage.DS.'logs',
 		);
 
 		foreach ($paths as $key => $file) {

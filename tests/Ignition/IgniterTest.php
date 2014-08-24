@@ -1,5 +1,5 @@
 <?php
-namespace Rocketeer;
+namespace Rocketeer\Ignition;
 
 use Rocketeer\TestCases\RocketeerTestCase;
 

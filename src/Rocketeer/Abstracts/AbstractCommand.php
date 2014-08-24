@@ -72,12 +72,15 @@ abstract class AbstractCommand extends Command
 	 */
 	public function getName()
 	{
-		// Return commands without namespace if standalone
-		if (!$this->isInsideLaravel()) {
-			return str_replace('deploy:', null, $this->name);
+		// Return commands as is in Laravel
+		if ($this->isInsideLaravel()) {
+			return $this->name;
 		}
 
-		return $this->name;
+		$name = str_replace('deploy:', null, $this->name);
+		$name = str_replace('-', ':', $name);
+
+		return $name;
 	}
 
 	//////////////////////////////////////////////////////////////////////

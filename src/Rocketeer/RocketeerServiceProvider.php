@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Log\Writer;
 use Illuminate\Support\ServiceProvider;
 use Monolog\Logger;
+use Rocketeer\Ignition\Igniter;
 use Rocketeer\Services\Connections\ConnectionsHandler;
 use Rocketeer\Services\Connections\LocalConnection;
 use Rocketeer\Services\Connections\RemoteHandler;
@@ -75,7 +76,7 @@ class RocketeerServiceProvider extends ServiceProvider
 		$this->bindConsoleClasses();
 		$this->bindStrategies();
 
-		// Load the user's events, tasks, and configurations
+		// Load the user's events, tasks, plugins, and configurations
 		$this->app['rocketeer.igniter']->loadUserConfiguration();
 
 		// Bind commands
@@ -270,6 +271,7 @@ class RocketeerServiceProvider extends ServiceProvider
 			'teardown'   => 'Teardown',
 			'test'       => 'Test',
 			'update'     => 'Update',
+			'plugin-config' => 'Plugins\ConfigPublisher',
 		);
 
 		// Add User commands
