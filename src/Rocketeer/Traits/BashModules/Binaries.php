@@ -9,8 +9,6 @@
  */
 namespace Rocketeer\Traits\BashModules;
 
-use Rocketeer\Binaries\AnonymousBinary;
-
 /**
  * Handles finding and calling binaries
  *

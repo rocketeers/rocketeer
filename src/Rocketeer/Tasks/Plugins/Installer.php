@@ -22,7 +22,7 @@ class Installer extends AbstractTask
 	{
 		// Get package and destination folder
 		$package = $this->command->argument('package');
-		$folder = $this->paths->getRocketeerConfigFolder();
+		$folder  = $this->paths->getRocketeerConfigFolder();
 
 		// Add version if necessary
 		if (strpos($package, ':') === false) {
