@@ -33,6 +33,10 @@ class Installer extends AbstractTask
 			'--working-dir' => $folder
 		));
 
-		return $this->run($this->shellCommand($command));
+		// Install plugin
+		$this->run($this->shellCommand($command));
+
+		// Prune duplicate Rocketeer
+		$this->files->deleteDirectory($folder.'/vendor/anahkiasen/rocketeer');
 	}
 }

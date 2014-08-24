@@ -2,6 +2,7 @@
 namespace Rocketeer\Console\Commands\Plugins;
 
 use Rocketeer\Abstracts\AbstractCommand;
+use Symfony\Component\Console\Helper\Table;
 
 class ListCommand extends AbstractCommand
 {
@@ -34,8 +35,15 @@ class ListCommand extends AbstractCommand
 	 */
 	public function fire()
 	{
-		!dd(class_exists('Rocketeer\Plugins\Slack\RocketeerSlack'));
+		$rows = [];
 		$plugins = $this->laravel['rocketeer.tasks']->getRegisteredPlugins();
-		!dd($plugins);
+		foreach ($plugins as $plugin => $instance) {
+			$rows[] = [$plugin];
+		}
+
+		$table = new Table($this->getOutput());
+		$table->setHeaders(['Plugin']);
+		$table->addRows($rows);
+		$table->render();
 	}
 }
