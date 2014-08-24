@@ -2,7 +2,7 @@
 namespace Rocketeer\Console\Commands\Plugins;
 
 use Rocketeer\Abstracts\AbstractCommand;
-use Rocketeer\Ignition\PluginsConfigurationPublisher;
+use Rocketeer\Services\Ignition\Plugins;
 use Symfony\Component\Console\Input\InputArgument;
 
 class ConfigPublisherCommand extends AbstractCommand
@@ -36,7 +36,7 @@ class ConfigPublisherCommand extends AbstractCommand
 	 */
 	public function fire()
 	{
-		$publisher = new PluginsConfigurationPublisher($this->laravel);
+		$publisher = new Plugins($this->laravel);
 		$publisher->publish($this->argument('package'));
 	}
 

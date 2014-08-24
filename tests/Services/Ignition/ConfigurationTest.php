@@ -1,14 +1,14 @@
 <?php
-namespace Rocketeer\Ignition;
+namespace Rocketeer\Services\Ignition;
 
 use Rocketeer\TestCases\RocketeerTestCase;
 
-class IgniterTest extends RocketeerTestCase
+class ConfigurationTest extends RocketeerTestCase
 {
 	/**
 	 * The igniter instance
 	 *
-	 * @var Igniter
+	 * @var Configuration
 	 */
 	protected $igniter;
 
@@ -19,7 +19,7 @@ class IgniterTest extends RocketeerTestCase
 	{
 		parent::setUp();
 
-		$this->igniter = new Igniter($this->app);
+		$this->igniter = new Configuration($this->app);
 		unset($this->app['path.base']);
 		unset($this->app['path']);
 	}

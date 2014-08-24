@@ -48,7 +48,7 @@ class IgniteTest extends RocketeerTestCase
 		$command = $this->getCommand(array('ask' => 'foobar'));
 
 		$server = $this->server;
-		$this->mock('rocketeer.igniter', 'Igniter', function ($mock) use ($server) {
+		$this->mock('rocketeer.igniter', 'Configuration', function ($mock) use ($server) {
 			return $mock
 				->shouldReceive('exportConfiguration')->once()->andReturn($server)
 				->shouldReceive('updateConfiguration')->once()->with($server, array(
@@ -69,7 +69,7 @@ class IgniteTest extends RocketeerTestCase
 		$command->shouldReceive('call')->with('config:publish', array('package' => 'anahkiasen/rocketeer'))->andReturn('foobar');
 
 		$path = $this->app['path'].'/config/packages/anahkiasen/rocketeer';
-		$this->mock('rocketeer.igniter', 'Igniter', function ($mock) use ($path) {
+		$this->mock('rocketeer.igniter', 'Configuration', function ($mock) use ($path) {
 			return $mock
 				->shouldReceive('exportConfiguration')->never()
 				->shouldReceive('updateConfiguration')->once()->with($path, array(

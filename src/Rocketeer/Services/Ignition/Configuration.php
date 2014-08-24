@@ -7,7 +7,7 @@
 * For the full copyright and license information, please view the LICENSE
 * file that was distributed with this source code.
 */
-namespace Rocketeer\Ignition;
+namespace Rocketeer\Services\Ignition;
 
 use Illuminate\Support\Arr;
 use Rocketeer\Facades;
@@ -21,7 +21,7 @@ use Symfony\Component\Finder\SplFileInfo;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class Igniter
+class Configuration
 {
 	use HasLocator;
 

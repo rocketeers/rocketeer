@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Log\Writer;
 use Illuminate\Support\ServiceProvider;
 use Monolog\Logger;
-use Rocketeer\Ignition\Igniter;
+use Rocketeer\Services\Ignition\Configuration;
 use Rocketeer\Services\Connections\ConnectionsHandler;
 use Rocketeer\Services\Connections\LocalConnection;
 use Rocketeer\Services\Connections\RemoteHandler;
@@ -107,7 +107,7 @@ class RocketeerServiceProvider extends ServiceProvider
 		});
 
 		$this->app->bind('rocketeer.igniter', function ($app) {
-			return new Igniter($app);
+			return new Configuration($app);
 		});
 
 		// Bind paths
