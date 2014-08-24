@@ -58,12 +58,14 @@ class Igniter
 		}
 
 		// Load plugins
+		var_dump($this->config->get('rocketeer::config'));
 		foreach ($this->config->get('rocketeer::plugins') as $plugin) {
 			$this->tasks->plugin($plugin);
 		}
 
 		// Merge contextual configurations
 		$this->mergeContextualConfigurations();
+		$this->mergePluginsConfiguration();
 	}
 
 	/**
@@ -72,13 +74,13 @@ class Igniter
 	public function mergeContextualConfigurations()
 	{
 		// Cancel if not ignited yet
-		$storage = $this->app['path.rocketeer.config'];
-		if (!is_dir($storage) || (!is_dir($storage.DS.'stages') && !is_dir($storage.DS.'connections'))) {
+		$configuration = $this->app['path.rocketeer.config'];
+		if (!is_dir($configuration) || (!is_dir($configuration.DS.'stages') && !is_dir($configuration.DS.'connections'))) {
 			return;
 		}
 
 		// Get folders to glob
-		$folders = $this->paths->unifyLocalSlashes($storage.'/{stages,connections,plugins}/*');
+		$folders = $this->paths->unifyLocalSlashes($configuration.'/{stages,connections}/*');
 
 		// Gather custom files
 		$finder = new Finder();
@@ -88,6 +90,31 @@ class Igniter
 		foreach ($files as $file) {
 			$contents = include $file->getPathname();
 			$handle   = $this->computeHandleFromPath($file);
+
+			$this->config->set($handle, $contents);
+		}
+	}
+
+	public function mergePluginsConfiguration()
+	{
+		// Cancel if no plugins
+		$configuration = $this->app['path.rocketeer.config'];
+		if (!is_dir($configuration) || !is_dir($configuration.DS.'plugins')) {
+			return;
+		}
+
+		// Get folders to glob
+		$folders = $this->paths->unifyLocalSlashes($configuration.'/plugins/*');
+
+		// Gather custom files
+		$finder = new Finder();
+		$files  = $finder->in($folders)->files();
+
+		// Bind their contents to the "on" array
+		foreach ($files as $file) {
+			$contents = include $file->getPathname();
+			$handle   = basename(dirname($file->getPathname()));
+			$handle .= '::'.$file->getBasename('.php');
 
 			$this->config->set($handle, $contents);
 		}
