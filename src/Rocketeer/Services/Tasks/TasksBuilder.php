@@ -12,6 +12,7 @@ namespace Rocketeer\Services\Tasks;
 use Closure;
 use Illuminate\Support\Str;
 use Rocketeer\Abstracts\AbstractTask;
+use Rocketeer\Binaries\AnonymousBinary;
 use Rocketeer\Exceptions\TaskCompositionException;
 use Rocketeer\Traits\HasLocator;
 
@@ -23,6 +24,32 @@ use Rocketeer\Traits\HasLocator;
 class TasksBuilder
 {
 	use HasLocator;
+
+	/**
+	 * Build a binary
+	 *
+	 * @param string $binary
+	 *
+	 * @return \Rocketeer\Abstracts\AbstractBinary|\Rocketeer\Abstracts\AbstractPackageManager
+	 */
+	public function buildBinary($binary)
+	{
+		$class = $this->findQualifiedName($binary, array(
+			'Rocketeer\Binaries\PackageManagers\%s',
+			'Rocketeer\Binaries\%s',
+		));
+
+		// If there is a class by that name
+		if ($class) {
+			return new $class($this->app);
+		}
+
+		// Else wrap the command in an AnonymousBinary
+		$anonymous = new AnonymousBinary($this->app);
+		$anonymous->setBinary($binary);
+
+		return $anonymous;
+	}
 
 	//////////////////////////////////////////////////////////////////////
 	////////////////////////////// COMMANDS //////////////////////////////
@@ -91,7 +118,7 @@ class TasksBuilder
 	}
 
 	////////////////////////////////////////////////////////////////////
-	/////////////////////////////// BUILDING ///////////////////////////
+	//////////////////////////////// TASKS /////////////////////////////
 	////////////////////////////////////////////////////////////////////
 
 	/**

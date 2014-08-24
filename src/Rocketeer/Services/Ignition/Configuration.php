@@ -58,8 +58,9 @@ class Configuration
 		}
 
 		// Load plugins
-		var_dump($this->config->get('rocketeer::config'));
-		foreach ($this->config->get('rocketeer::plugins') as $plugin) {
+		$plugins = $this->config->get('rocketeer::plugins');
+		$plugins  = array_filter($plugins, 'class_exists');
+		foreach ($plugins as $plugin) {
 			$this->tasks->plugin($plugin);
 		}
 

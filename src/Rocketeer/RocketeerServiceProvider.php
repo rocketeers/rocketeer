@@ -16,7 +16,6 @@ use Illuminate\Http\Request;
 use Illuminate\Log\Writer;
 use Illuminate\Support\ServiceProvider;
 use Monolog\Logger;
-use Rocketeer\Services\Ignition\Configuration;
 use Rocketeer\Services\Connections\ConnectionsHandler;
 use Rocketeer\Services\Connections\LocalConnection;
 use Rocketeer\Services\Connections\RemoteHandler;
@@ -25,6 +24,7 @@ use Rocketeer\Services\Display\QueueExplainer;
 use Rocketeer\Services\Display\QueueTimer;
 use Rocketeer\Services\History\History;
 use Rocketeer\Services\History\LogsHandler;
+use Rocketeer\Services\Ignition\Configuration;
 use Rocketeer\Services\Pathfinder;
 use Rocketeer\Services\ReleasesManager;
 use Rocketeer\Services\Storages\LocalStorage;
@@ -258,20 +258,22 @@ class RocketeerServiceProvider extends ServiceProvider
 	{
 		// Base commands
 		$tasks = array(
-			''           => 'Rocketeer',
-			'check'      => 'Check',
-			'cleanup'    => 'Cleanup',
-			'current'    => 'CurrentRelease',
-			'deploy'     => 'Deploy',
-			'flush'      => 'Flush',
-			'ignite'     => 'Ignite',
-			'rollback'   => 'Rollback',
-			'setup'      => 'Setup',
-			'strategies' => 'Strategies',
-			'teardown'   => 'Teardown',
-			'test'       => 'Test',
-			'update'     => 'Update',
-			'plugin-config' => 'Plugins\ConfigPublisher',
+			''               => 'Rocketeer',
+			'check'          => 'Check',
+			'cleanup'        => 'Cleanup',
+			'current'        => 'CurrentRelease',
+			'deploy'         => 'Deploy',
+			'flush'          => 'Flush',
+			'ignite'         => 'Ignite',
+			'rollback'       => 'Rollback',
+			'setup'          => 'Setup',
+			'strategies'     => 'Strategies',
+			'teardown'       => 'Teardown',
+			'test'           => 'Test',
+			'update'         => 'Update',
+			'plugin-publish' => 'Plugins\Publish',
+			'plugin-list'    => 'Plugins\List',
+			'plugin-install' => 'Plugins\Install',
 		);
 
 		// Add User commands

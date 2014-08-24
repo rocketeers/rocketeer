@@ -271,6 +271,15 @@ class TasksHandler
 	/////////////////////////////// PLUGINS ////////////////////////////
 	////////////////////////////////////////////////////////////////////
 
+
+	/**
+	 * @return array
+	 */
+	public function getRegisteredPlugins()
+	{
+		return $this->registeredPlugins;
+	}
+
 	/**
 	 * Register a Rocketeer plugin with Rocketeer
 	 *

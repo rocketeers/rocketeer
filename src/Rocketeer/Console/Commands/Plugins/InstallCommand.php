@@ -5,21 +5,21 @@ use Rocketeer\Abstracts\AbstractCommand;
 use Rocketeer\Services\Ignition\Plugins;
 use Symfony\Component\Console\Input\InputArgument;
 
-class ConfigPublisherCommand extends AbstractCommand
+class InstallCommand extends AbstractCommand
 {
 	/**
 	 * The default name
 	 *
 	 * @var string
 	 */
-	protected $name = 'deploy:plugin-config';
+	protected $name = 'deploy:plugin-install';
 
 	/**
 	 * The console command description.
 	 *
 	 * @var string
 	 */
-	protected $description = 'Publishes the configuration of packages';
+	protected $description = 'Install a plugin';
 
 	/**
 	 * Whether the command's task should be built
@@ -36,8 +36,7 @@ class ConfigPublisherCommand extends AbstractCommand
 	 */
 	public function fire()
 	{
-		$publisher = new Plugins($this->laravel);
-		$publisher->publish($this->argument('package'));
+		return $this->fireTasksQueue('Plugins\Installer');
 	}
 
 	/**

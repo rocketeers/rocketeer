@@ -10,6 +10,7 @@
 namespace Rocketeer\Services\Ignition;
 
 use Illuminate\Support\Arr;
+use Rocketeer\Tasks\Plugins\Installer;
 use Rocketeer\Traits\HasLocator;
 
 /**

@@ -2,17 +2,25 @@
 <?php
 
 $vendors = array(
-	__DIR__.'/../vendor/autoload.php',
-	__DIR__.'/../../../autoload.php'
+	__DIR__.'/../vendor',
+	__DIR__.'/../../..'
 );
 
 // Loop through the possible vendor folders and require the first
 // one available
 foreach ($vendors as $vendor) {
+	$vendor .= '/autoload.php';
+
 	if (file_exists($vendor)) {
 		require_once $vendor;
 		break;
 	}
+}
+
+// Load plugins
+$plugins = $_SERVER['HOME'].'/.rocketeer/vendor/autoload.php';
+if (file_exists($plugins)) {
+	require_once $plugins;
 }
 
 // Then we launch the console application

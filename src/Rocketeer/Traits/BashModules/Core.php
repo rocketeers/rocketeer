@@ -290,7 +290,7 @@ trait Core
 
 			// Create shell if asked
 			if ($shell && Str::contains($command, $shelled)) {
-				$command = "bash --login -c '".$command."'";
+				$command = $this->shellCommand($command);
 			}
 		}
 
@@ -309,6 +309,18 @@ trait Core
 		return strtr($output, array(
 			'stdin: is not a tty' => null,
 		));
+	}
+
+	/**
+	 * Pass a command through shell execution
+	 *
+	 * @param string $command
+	 *
+	 * @return string
+	 */
+	protected function shellCommand($command)
+	{
+		return "bash --login -c '".$command."'";
 	}
 
 	/**

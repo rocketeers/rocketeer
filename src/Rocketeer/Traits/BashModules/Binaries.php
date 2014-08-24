@@ -31,25 +31,7 @@ trait Binaries
 	 */
 	public function binary($binary)
 	{
-		// Check for an existing Binary
-		$paths = array(
-			'Rocketeer\Binaries\PackageManagers\%s',
-			'Rocketeer\Binaries\%s',
-			'%s',
-		);
-
-		foreach ($paths as $path) {
-			$path = sprintf($path, ucfirst($binary));
-			if (class_exists($path)) {
-				return new $path($this->app);
-			}
-		}
-
-		// Else wrap the command in an AnonymousBinary
-		$anonymous = new AnonymousBinary($this->app);
-		$anonymous->setBinary($binary);
-
-		return $anonymous;
+		return $this->builder->buildBinary($binary);
 	}
 
 	/**
