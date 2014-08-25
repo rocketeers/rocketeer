@@ -75,7 +75,7 @@ class Configuration
 	 */
 	public function mergeContextualConfigurations()
 	{
-		$this->mergeConfigurationFolders(['plugins'], function (SplFileInfo $file) {
+		$this->mergeConfigurationFolders(['stages', 'connections'], function (SplFileInfo $file) {
 			return $this->computeHandleFromPath($file);
 		}, 'config.php');
 	}
