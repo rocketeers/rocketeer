@@ -32,7 +32,7 @@ class InstallCommand extends AbstractCommand
 	/**
 	 * Run the tasks
 	 *
-	 * @return void
+	 * @return integer
 	 */
 	public function fire()
 	{

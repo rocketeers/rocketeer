@@ -10,7 +10,6 @@
 namespace Rocketeer\Services\Ignition;
 
 use Illuminate\Support\Arr;
-use Rocketeer\Tasks\Plugins\Installer;
 use Rocketeer\Traits\HasLocator;
 
 /**
@@ -27,7 +26,7 @@ class Plugins
 	 *
 	 * @param string $package
 	 *
-	 * @return boolean
+	 * @return boolean|null
 	 */
 	public function publish($package)
 	{
