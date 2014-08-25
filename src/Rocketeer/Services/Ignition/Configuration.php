@@ -9,6 +9,7 @@
 */
 namespace Rocketeer\Services\Ignition;
 
+use Closure;
 use Illuminate\Support\Arr;
 use Rocketeer\Facades;
 use Rocketeer\Traits\HasLocator;
@@ -74,56 +75,23 @@ class Configuration
 	 */
 	public function mergeContextualConfigurations()
 	{
-		// Cancel if not ignited yet
-		$configuration = $this->app['path.rocketeer.config'];
-		if (!is_dir($configuration) || (!is_dir($configuration.DS.'stages') && !is_dir($configuration.DS.'connections'))) {
-			return;
-		}
-
-		// Get folders to glob
-		$folders = $this->paths->unifyLocalSlashes($configuration.'/{stages,connections}/*');
-
-		// Gather custom files
-		$finder = new Finder();
-		$files  = $finder->in($folders)->notName('config.php')->files();
-
-		// Bind their contents to the "on" array
-		foreach ($files as $file) {
-			$contents = include $file->getPathname();
-			$handle   = $this->computeHandleFromPath($file);
-
-			$this->config->set($handle, $contents);
-		}
+		$this->mergeConfigurationFolders(['plugins'], function (SplFileInfo $file) {
+			return $this->computeHandleFromPath($file);
+		}, 'config.php');
 	}
 
+	/**
+	 * Merge the plugin configurations defined in userland
+	 */
 	public function mergePluginsConfiguration()
 	{
-		// Cancel if no plugins
-		$configuration = $this->app['path.rocketeer.config'];
-		if (!is_dir($configuration) || !is_dir($configuration.DS.'plugins')) {
-			return;
-		}
-
-		// Get folders to glob
-		$folders = $this->paths->unifyLocalSlashes($configuration.'/plugins/*');
-
-		// Gather custom files
-		$finder = new Finder();
-		$files  = $finder->in($folders)->files();
-
-		// Bind their contents to the "on" array
-		foreach ($files as $file) {
-			$contents = include $file->getPathname();
-			$handle   = basename(dirname($file->getPathname()));
+		$this->mergeConfigurationFolders(['plugins'], function (SplFileInfo $file) {
+			$handle = basename(dirname($file->getPathname()));
 			$handle .= '::'.$file->getBasename('.php');
 
-			$this->config->set($handle, $contents);
-		}
+			return $handle;
+		});
 	}
-
-	////////////////////////////////////////////////////////////////////
-	///////////////////////////// CONFIGURATION ////////////////////////
-	////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Export the configuration files
@@ -141,6 +109,10 @@ class Configuration
 
 		return $destination;
 	}
+
+	////////////////////////////////////////////////////////////////////
+	///////////////////////////// CONFIGURATION ////////////////////////
+	////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Replace placeholders in configuration
@@ -162,6 +134,49 @@ class Configuration
 		// Change repository in use
 		$application = Arr::get($values, 'application_name');
 		$this->localStorage->setFile($application);
+	}
+
+	/**
+	 * Merge configuration files from userland
+	 *
+	 * @param array       $folders
+	 * @param callable    $computeHandle
+	 * @param string|null $exclude
+	 */
+	protected function mergeConfigurationFolders(array $folders = [], Closure $computeHandle, $exclude = null)
+	{
+		// Cancel if not ignited yet
+		$configuration = $this->app['path.rocketeer.config'];
+		if (!is_dir($configuration)) {
+			return;
+		}
+
+		// Cancel if the subfolders don't exist
+		$existing = array_filter($folders, function ($path) use ($configuration) {
+			return is_dir($configuration.DS.$path);
+		});
+		if (!$existing) {
+			return;
+		}
+
+		// Get folders to glob
+		$folders = $this->paths->unifyLocalSlashes($configuration.'/{'.implode(',', $folders).'}/*');
+
+		// Gather custom files
+		$finder = new Finder();
+		$finder = $finder->in($folders);
+		if ($exclude) {
+			$finder = $finder->notName($exclude);
+		}
+
+		// Bind their contents to the "on" array
+		$files = $finder->files();
+		foreach ($files as $file) {
+			$contents = include $file->getPathname();
+			$handle   = $computeHandle($file);
+
+			$this->config->set($handle, $contents);
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////
