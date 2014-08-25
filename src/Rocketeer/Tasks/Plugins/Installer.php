@@ -6,6 +6,13 @@ use Rocketeer\Abstracts\AbstractTask;
 class Installer extends AbstractTask
 {
 	/**
+	 * The console command description.
+	 *
+	 * @var string
+	 */
+	protected $description = 'Installs plugins';
+
+	/**
 	 * Whether to run the commands locally
 	 * or on the server
 	 *
@@ -34,6 +41,7 @@ class Installer extends AbstractTask
 		));
 
 		// Install plugin
+		$this->explainer->line('Installing '.$package);
 		$this->run($this->shellCommand($command));
 
 		// Prune duplicate Rocketeer
