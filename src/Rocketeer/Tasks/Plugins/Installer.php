@@ -23,7 +23,7 @@ class Installer extends AbstractTask
 	/**
 	 * Run the task
 	 *
-	 * @return string
+	 * @return null
 	 */
 	public function execute()
 	{

@@ -83,6 +83,7 @@ class Plugins
 	{
 		// Get the vendor and package
 		preg_match('/vendor\/([^\/]+)\/([^\/]+)/', $path, $handle);
+		$handle  = (array) $handle;
 		$package = Arr::get($handle, 2);
 
 		// Compute and create the destination foldser
