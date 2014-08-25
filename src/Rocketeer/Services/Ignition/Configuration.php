@@ -58,8 +58,8 @@ class Configuration
 		}
 
 		// Load plugins
-		$plugins = $this->config->get('rocketeer::plugins');
-		$plugins  = array_filter($plugins, 'class_exists');
+		$plugins = (array) $this->config->get('rocketeer::plugins');
+		$plugins = array_filter($plugins, 'class_exists');
 		foreach ($plugins as $plugin) {
 			$this->tasks->plugin($plugin);
 		}
@@ -132,7 +132,7 @@ class Configuration
 	 */
 	public function exportConfiguration()
 	{
-		$source      = $this->paths->unifyLocalSlashes(__DIR__.'/../config');
+		$source      = $this->paths->unifyLocalSlashes(__DIR__.'/../../../config');
 		$source      = realpath($source);
 		$destination = $this->paths->getConfigurationPath();
 

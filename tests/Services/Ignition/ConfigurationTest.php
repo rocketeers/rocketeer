@@ -41,14 +41,14 @@ class ConfigurationTest extends RocketeerTestCase
 	{
 		$this->igniter->bindPaths();
 
-		$this->assertEquals(realpath(__DIR__.'/..'), $this->app['path.base']);
+		$this->assertEquals(realpath(__DIR__.'/../../..'), $this->app['path.base']);
 	}
 
 	public function testCanBindConfigurationPaths()
 	{
 		$this->igniter->bindPaths();
 
-		$root = realpath(__DIR__.'/..');
+		$root = realpath(__DIR__.'/../../..');
 		$this->assertEquals($root.'/.rocketeer', $this->app['path.rocketeer.config']);
 	}
 
@@ -58,7 +58,7 @@ class ConfigurationTest extends RocketeerTestCase
 		$this->igniter->exportConfiguration();
 
 		// Create some fake files
-		$root = realpath(__DIR__.'/../.rocketeer');
+		$root = realpath(__DIR__.'/../../../.rocketeer');
 		$this->files->put($root.'/events.php', '');
 		$this->files->makeDirectory($root.'/tasks');
 
@@ -73,7 +73,7 @@ class ConfigurationTest extends RocketeerTestCase
 		$this->igniter->bindPaths();
 		$this->igniter->exportConfiguration();
 
-		$this->assertFileExists(__DIR__.'/../.rocketeer');
+		$this->assertFileExists(__DIR__.'/../../../.rocketeer');
 	}
 
 	public function testCanReplaceStubsInConfigurationFile()
@@ -82,8 +82,8 @@ class ConfigurationTest extends RocketeerTestCase
 		$path = $this->igniter->exportConfiguration();
 		$this->igniter->updateConfiguration($path, array('scm_username' => 'foobar'));
 
-		$this->assertFileExists(__DIR__.'/../.rocketeer');
-		$this->assertContains('foobar', file_get_contents(__DIR__.'/../.rocketeer/scm.php'));
+		$this->assertFileExists(__DIR__.'/../../../.rocketeer');
+		$this->assertContains('foobar', file_get_contents(__DIR__.'/../../../.rocketeer/scm.php'));
 	}
 
 	public function testCanSetCurrentApplication()
@@ -96,8 +96,8 @@ class ConfigurationTest extends RocketeerTestCase
 		$path = $this->igniter->exportConfiguration();
 		$this->igniter->updateConfiguration($path, array('application_name' => 'foobar', 'scm_username' => 'foobar'));
 
-		$this->assertFileExists(__DIR__.'/../.rocketeer');
-		$this->assertContains('foobar', file_get_contents(__DIR__.'/../.rocketeer/config.php'));
+		$this->assertFileExists(__DIR__.'/../../../.rocketeer');
+		$this->assertContains('foobar', file_get_contents(__DIR__.'/../../../.rocketeer/config.php'));
 	}
 
 	public function testCanLoadFilesOrFolder()
