@@ -85,8 +85,8 @@ class LogsHandler
 		}
 
 		$namer = $this->namer;
-		$file = $namer($this->connections);
-		$file = $this->app['path.rocketeer.logs'].'/'.$file;
+		$file  = $namer($this->connections);
+		$file  = $this->app['path.rocketeer.logs'].'/'.$file;
 
 		return $file;
 	}

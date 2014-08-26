@@ -40,7 +40,7 @@ class History extends Collection
 	/**
 	 * Get a flattened list of a certain type
 	 *
-	 * @param string  $type
+	 * @param string $type
 	 *
 	 * @return string[]|string[][]
 	 */
