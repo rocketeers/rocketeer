@@ -42,10 +42,13 @@ class Plugins
 			$this->paths->getHomeFolder().'/.composer/vendor/%s/config',
 		);
 
-		foreach ($paths as &$path) {
-			$path = sprintf($path, $package);
-		}
-		$paths = array_filter($paths, 'is_dir');
+		// Check for the first configuration path that exists
+		$paths = array_filter($paths, function ($path) use ($package) {
+			return $this->files->isDirectory(sprintf($path, $package));
+		});
+		$paths = array_values($paths);
+
+		// Cancel if no valid paths
 		if (empty($paths)) {
 			return $this->command->error('No configuration found for '.$package);
 		}
@@ -89,7 +92,7 @@ class Plugins
 		// Compute and create the destination foldser
 		$destination = $this->app['path.rocketeer.config'];
 		$destination = $destination.'/plugins/rocketeers/'.$package;
-		if (!$this->files->exists($destination)) {
+		if (!$this->files->isDirectory($destination)) {
 			$this->files->makeDirectory($destination, 0755, true);
 		}
 

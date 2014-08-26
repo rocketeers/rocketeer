@@ -88,14 +88,17 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 	 *
 	 * @return Mockery
 	 */
-	protected function mock($handle, $class, Closure $expectations, $partial = true)
+	protected function mock($handle, $class = null, Closure $expectations = null, $partial = true)
 	{
+		$class = $class ?: $handle;
 		$mockery = Mockery::mock($class);
 		if ($partial) {
 			$mockery = $mockery->shouldIgnoreMissing();
 		}
 
-		$mockery = $expectations($mockery)->mock();
+		if ($expectations) {
+			$mockery = $expectations($mockery)->mock();
+		}
 
 		$this->app[$handle] = $mockery;
 
