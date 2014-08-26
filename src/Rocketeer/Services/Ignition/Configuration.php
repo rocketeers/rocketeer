@@ -143,7 +143,7 @@ class Configuration
 	 * @param callable    $computeHandle
 	 * @param string|null $exclude
 	 */
-	protected function mergeConfigurationFolders(array $folders = [], Closure $computeHandle, $exclude = null)
+	protected function mergeConfigurationFolders(array $folders, Closure $computeHandle, $exclude = null)
 	{
 		// Cancel if not ignited yet
 		$configuration = $this->app['path.rocketeer.config'];
