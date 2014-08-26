@@ -69,7 +69,7 @@ class Plugins
 		$path        = $this->app['path'].'/config/packages/'.$package;
 		$destination = preg_replace('/packages\/([^\/]+)/', 'packages/rocketeers', $path);
 
-		return $this->files->copyDirectory($path, $destination);
+		return $this->files->move($path, $destination);
 	}
 
 	/**
