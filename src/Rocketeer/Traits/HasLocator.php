@@ -129,7 +129,7 @@ trait HasLocator
 	 *
 	 * @return string
 	 */
-	protected function getOption($option, $loose = false)
+	public function getOption($option, $loose = false)
 	{
 		if (!$this->hasCommand()) {
 			return null;
