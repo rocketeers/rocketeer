@@ -95,4 +95,12 @@ trait RocketeerMockeries
 	{
 		$this->app['rocketeer.remote'] = $this->getRemote($expectations);
 	}
+
+	/**
+	 * @param Closure|null $expectations
+	 */
+	protected function mockFiles(Closure $expectations = null)
+	{
+		$this->mock('files', 'Illuminate\Filesystem\Filesystem', $expectations);
+	}
 }

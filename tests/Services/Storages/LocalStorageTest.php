@@ -46,7 +46,7 @@ class LocalStorageTest extends RocketeerTestCase
 
 	public function testCanComputeHashAccordingToContentsOfFiles()
 	{
-		$this->mock('files', 'Filesystem', function ($mock) {
+		$this->mockFiles(function ($mock) {
 			return $mock
 				->shouldReceive('put')->once()
 				->shouldReceive('exists')->twice()->andReturn(false)

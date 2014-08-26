@@ -14,7 +14,7 @@ class IgniteTest extends RocketeerTestCase
 		$provider = new RocketeerServiceProvider($this->app);
 		$provider->bindPaths();
 
-		$this->mock('files', 'Filesystem', function ($mock) {
+		$this->mockFiles(function ($mock) {
 			return $mock
 				->shouldReceive('files')->andReturn([])
 				->shouldReceive('glob')->andReturn([])
@@ -32,7 +32,7 @@ class IgniteTest extends RocketeerTestCase
 		$provider = new RocketeerServiceProvider($this->app);
 		$provider->bindPaths();
 
-		$this->mock('files', 'Filesystem', function ($mock) {
+		$this->mockFiles(function ($mock) {
 			return $mock
 				->shouldReceive('exists')->andReturn(true)
 				->shouldReceive('files')->andReturn([])

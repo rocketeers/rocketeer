@@ -19,7 +19,7 @@ class PhpStrategyTest extends RocketeerTestCase
 
 	public function testCanCheckPhpVersion()
 	{
-		$this->mock('files', 'Filesystem', function ($mock) {
+		$this->mockFiles(function ($mock) {
 			return $mock
 				->shouldReceive('put')
 				->shouldReceive('glob')->andReturn(array())
@@ -29,7 +29,7 @@ class PhpStrategyTest extends RocketeerTestCase
 		$this->assertTrue($this->strategy->language());
 
 		// This is is going to come bite me in the ass in 10 years
-		$this->mock('files', 'Filesystem', function ($mock) {
+		$this->mockFiles(function ($mock) {
 			return $mock
 				->shouldReceive('put')
 				->shouldReceive('glob')->andReturn(array())
