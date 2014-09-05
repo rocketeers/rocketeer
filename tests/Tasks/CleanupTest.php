@@ -55,7 +55,7 @@ class CleanupTest extends RocketeerTestCase
 		$this->pretendTask('Cleanup')->execute();
 
 		$this->assertHistory(array(
-			'rm -rf {server}/1 {server}/2'
+			'rm -rf {server}/1 {server}/2',
 		));
 	}
 

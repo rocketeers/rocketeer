@@ -30,7 +30,7 @@ class Composer extends AbstractPackageManager
 	{
 		return array(
 			'composer',
-			$this->releasesManager->getCurrentReleasePath().'/composer.phar'
+			$this->releasesManager->getCurrentReleasePath().'/composer.phar',
 		);
 	}
 

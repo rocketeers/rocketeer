@@ -1,7 +1,6 @@
 <?php
 namespace Rocketeer\Tasks;
 
-use Mockery;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class RollbackTest extends RocketeerTestCase

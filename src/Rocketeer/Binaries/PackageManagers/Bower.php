@@ -29,7 +29,7 @@ class Bower extends AbstractPackageManager
 	{
 		return array(
 			'bower',
-			$this->releasesManager->getCurrentReleasePath().'/node_modules/.bin/bower'
+			$this->releasesManager->getCurrentReleasePath().'/node_modules/.bin/bower',
 		);
 	}
 }

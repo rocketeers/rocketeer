@@ -54,7 +54,7 @@ class TasksBuilderTest extends RocketeerTestCase
 			function () {
 				return 'lol';
 			},
-			'Rocketeer\Tasks\Deploy'
+			'Rocketeer\Tasks\Deploy',
 		);
 
 		$queue = $this->builder->buildTasks($queue);

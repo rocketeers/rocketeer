@@ -17,7 +17,7 @@ class TasksQueueTest extends RocketeerTestCase
 		$this->queue->run(array(
 			function () {
 				print 'JOEY DOESNT SHARE FOOD';
-			}
+			},
 		), $this->getCommand());
 	}
 
@@ -32,7 +32,7 @@ class TasksQueueTest extends RocketeerTestCase
 		$queue  = array(
 			function ($task) use (&$output) {
 				$output[] = $task->connections->getConnection().' - '.$task->connections->getStage();
-			}
+			},
 		);
 
 		$pipeline = $this->queue->run($queue);
@@ -56,7 +56,7 @@ class TasksQueueTest extends RocketeerTestCase
 			'ls -a',
 			function () {
 				return 'JOEY DOESNT SHARE FOOD';
-			}
+			},
 		));
 
 		$output = array_slice($this->history->getFlattenedOutput(), 2, 3);
@@ -103,7 +103,7 @@ class TasksQueueTest extends RocketeerTestCase
 
 		$this->queue->execute(array(
 			$task,
-			$task
+			$task,
 		));
 	}
 

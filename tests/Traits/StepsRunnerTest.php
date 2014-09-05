@@ -23,12 +23,12 @@ class StepsRunnerTest extends RocketeerTestCase
 		$task->steps()->run('ls');
 
 		$this->assertEquals(array(
-			['run', ['ls']]
+			['run', ['ls']],
 		), $task->steps()->getSteps());
 		$task->runSteps();
 		$task->steps()->run('php --version');
 		$this->assertEquals(array(
-			['run', ['php --version']]
+			['run', ['php --version']],
 		), $task->steps()->getSteps());
 	}
 }

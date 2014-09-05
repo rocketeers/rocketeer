@@ -37,7 +37,7 @@ class Installer extends AbstractTask
 		}
 
 		$command = $this->composer()->require($package, array(
-			'--working-dir' => $folder
+			'--working-dir' => $folder,
 		));
 
 		// Install plugin

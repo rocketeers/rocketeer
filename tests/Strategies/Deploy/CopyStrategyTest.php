@@ -42,7 +42,7 @@ class CopyStrategyTest extends RocketeerTestCase
 			'git clone "{repository}" "{server}/releases/{release}" --branch="master" --depth="1"',
 			array(
 				"cd {server}/releases/{release}",
-				"git submodule update --init --recursive"
+				"git submodule update --init --recursive",
 			),
 		);
 
@@ -64,7 +64,7 @@ class CopyStrategyTest extends RocketeerTestCase
 			'git clone "{repository}" "{server}/releases/{release}" --branch="master" --depth="1"',
 			array(
 				"cd {server}/releases/{release}",
-				"git submodule update --init --recursive"
+				"git submodule update --init --recursive",
 			),
 		);
 

@@ -31,7 +31,7 @@ class CredentialsGathererTest extends RocketeerTestCase
 		$this->assertStoredCredentialsEquals(array(
 			'repository' => $this->repository,
 			'username'   => $this->username,
-			'password'   => $this->password
+			'password'   => $this->password,
 		));
 
 		$this->credentials->getRepositoryCredentials();
@@ -51,7 +51,7 @@ class CredentialsGathererTest extends RocketeerTestCase
 		$this->assertStoredCredentialsEquals(array(
 			'repository' => $this->repository,
 			'username'   => $this->username,
-			'password'   => $this->password
+			'password'   => $this->password,
 		));
 
 		$this->credentials->getRepositoryCredentials();
@@ -65,7 +65,7 @@ class CredentialsGathererTest extends RocketeerTestCase
 		$this->givenConfiguredRepositoryCredentials([
 			'repository' => $this->repository,
 			'username'   => null,
-			'password'   => null
+			'password'   => null,
 		], false);
 		$this->assertStoredCredentialsEquals(array(
 			'repository' => $this->repository,

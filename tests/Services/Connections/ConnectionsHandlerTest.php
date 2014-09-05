@@ -108,7 +108,7 @@ class ConnectionsHandlerTest extends RocketeerTestCase
 				'password'  => '',
 				'keyphrase' => '',
 				'key'       => '/Users/user/.ssh/id_rsa',
-				'agent'     => ''
+				'agent'     => '',
 			),
 		));
 		$connections = $this->connections->getAvailableConnections();

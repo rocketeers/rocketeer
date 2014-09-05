@@ -22,7 +22,7 @@ class Phpunit extends AbstractBinary
 	{
 		return array(
 			'phpunit',
-			$this->releasesManager->getCurrentReleasePath().'/vendor/bin/phpunit'
+			$this->releasesManager->getCurrentReleasePath().'/vendor/bin/phpunit',
 		);
 	}
 }

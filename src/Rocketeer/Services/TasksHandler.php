@@ -302,7 +302,7 @@ class TasksHandler
 
 		$this->registeredPlugins[$identifier] = array(
 			'plugin'        => $plugin,
-			'configuration' => $configuration
+			'configuration' => $configuration,
 		);
 
 		// Register configuration

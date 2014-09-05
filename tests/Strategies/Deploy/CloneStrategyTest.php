@@ -14,7 +14,7 @@ class CloneStrategyTest extends RocketeerTestCase
 			'git clone "{repository}" "{server}/releases/{release}" --branch="master" --depth="1"',
 			array(
 				"cd {server}/releases/{release}",
-				"git submodule update --init --recursive"
+				"git submodule update --init --recursive",
 			),
 		);
 
@@ -31,7 +31,7 @@ class CloneStrategyTest extends RocketeerTestCase
 				"cd $this->server/releases/20000000000000",
 				"git reset --hard",
 				"git pull",
-			)
+			),
 		);
 
 		$this->assertHistory($matcher);

@@ -90,7 +90,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 	 */
 	protected function mock($handle, $class = null, Closure $expectations = null, $partial = true)
 	{
-		$class = $class ?: $handle;
+		$class   = $class ?: $handle;
 		$mockery = Mockery::mock($class);
 		if ($partial) {
 			$mockery = $mockery->shouldIgnoreMissing();
@@ -284,7 +284,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 			'session.driver'                      => 'file',
 			'remote.connections'                  => array(
 				'production' => [],
-				'staging'    => []
+				'staging'    => [],
 			),
 			'rocketeer::application_name'         => 'foobar',
 			'rocketeer::logs'                     => null,
@@ -304,7 +304,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 				'before' => array(
 					'deploy' => array(
 						'before',
-						'foobar'
+						'foobar',
 					),
 				),
 				'after'  => array(
@@ -313,7 +313,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 					),
 					'deploy' => array(
 						'after',
-						'foobar'
+						'foobar',
 					),
 				),
 			),

@@ -1,7 +1,6 @@
 <?php
 namespace Rocketeer\TestCases;
 
-use Mockery;
 use Rocketeer\Services\Storages\LocalStorage;
 use Rocketeer\TestCases\Modules\RocketeerAssertions;
 use Rocketeer\TestCases\Modules\RocketeerMockeries;

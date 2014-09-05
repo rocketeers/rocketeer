@@ -38,7 +38,7 @@ class TasksHandlerTest extends RocketeerTestCase
 		$after = $this->tasks->getTasksListeners($task, 'after', true);
 		$this->tasks->after('deploy', array(
 			'composer install',
-			'bower install'
+			'bower install',
 		));
 
 		$newAfter = array_merge($after, array('composer install', 'bower install'));

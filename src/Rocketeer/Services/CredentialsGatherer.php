@@ -105,7 +105,7 @@ class CredentialsGatherer
 			'password'  => false,
 			'keyphrase' => null,
 			'key'       => false,
-			'agent'     => false
+			'agent'     => false,
 		), $connection, $handle);
 
 		// Get password or key

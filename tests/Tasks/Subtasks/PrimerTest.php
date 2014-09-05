@@ -11,7 +11,7 @@ class PrimerTest extends RocketeerTestCase
 			'rocketeer::default'           => 'production',
 			'rocketeer::strategies.primer' => function () {
 				return 'ls';
-			}
+			},
 		));
 
 		$this->assertTaskHistory('Primer', ['ls']);

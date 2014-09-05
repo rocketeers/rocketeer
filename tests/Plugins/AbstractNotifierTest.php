@@ -15,7 +15,7 @@ class AbstractNotifierTest extends RocketeerTestCase
 			'rocketeer::hooks'         => array(),
 			'rocketeer::connections'   => array(
 				'production' => array(
-					'host' => 'foo.bar.com'
+					'host' => 'foo.bar.com',
 				),
 			),
 		));

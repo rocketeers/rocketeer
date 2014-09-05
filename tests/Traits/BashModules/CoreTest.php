@@ -20,7 +20,7 @@ class CoreTest extends RocketeerTestCase
 		$this->mockCommand([], array(
 			'line' => function ($error) {
 				echo $error;
-			}
+			},
 		));
 
 		$status = $this->task('Deploy')->checkStatus('Oh noes', 'git clone');

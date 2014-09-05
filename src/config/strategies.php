@@ -46,6 +46,6 @@ return array(
 			// $task->executeTask('Test'),
 			// $task->binary('grunt')->execute('lint'),
 		);
-	}
+	},
 
 );
