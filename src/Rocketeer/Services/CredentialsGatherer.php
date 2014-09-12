@@ -193,8 +193,9 @@ class CredentialsGatherer
 	{
 		$question = $question ?: 'No '.$credential.' is set for ['.$handle.'], please provide one:';
 		$option   = $this->command->option($credential);
+		$method   = $credential == 'password' ? 'askSecretly' : 'askWith';
 
-		return $option ?: $this->command->askWith($question);
+		return $option ?: $this->command->$method($question);
 	}
 
 	/**

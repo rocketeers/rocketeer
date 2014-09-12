@@ -186,6 +186,42 @@ abstract class AbstractCommand extends Command
 	 */
 	public function askWith($question, $default = null, $choices = array())
 	{
+		$question = $this->formatQuestion($question, $default, $choices);
+
+		// If we provided choices, autocomplete
+		if ($choices) {
+			return $this->askWithCompletion($question, $choices, $default);
+		}
+
+		return $this->ask($question, $default);
+	}
+
+	/**
+	 * Ask a question to the user, hiding the input
+	 *
+	 * @param string      $question
+	 * @param string|null $default
+	 *
+	 * @return string
+	 */
+	public function askSecretly($question, $default = null)
+	{
+		$question = $this->formatQuestion($question, $default);
+
+		return $this->secret($question, $default);
+	}
+
+	/**
+	 * Adds additional information to a question
+	 *
+	 * @param string $question
+	 * @param string $default
+	 * @param array  $choices
+	 *
+	 * @return string
+	 */
+	protected function formatQuestion($question, $default, $choices = array())
+	{
 		// If default, show it in the question
 		if (!is_null($default)) {
 			$question .= ' ('.$default.')';
@@ -194,11 +230,9 @@ abstract class AbstractCommand extends Command
 		// If multiple choices, show them
 		if ($choices) {
 			$question .= ' ['.implode('/', $choices).']';
-
-			return $this->askWithCompletion($question, $choices, $default);
 		}
 
-		return $this->ask($question, $default);
+		return $question;
 	}
 
 	/**
