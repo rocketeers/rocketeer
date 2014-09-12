@@ -79,7 +79,7 @@ class Pathfinder
 	 * @throws Exception
 	 * @return string
 	 */
-	public function getUserHomeFolder()
+	public static function getUserHomeFolder()
 	{
 		// Get home folder if available (Unix)
 		if (!empty($_SERVER['HOME'])) {

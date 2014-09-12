@@ -54,10 +54,22 @@ class PathfinderTest extends RocketeerTestCase
 
 	public function testCanGetWindowsHomeFolder()
 	{
-		$_SERVER['HOME']      = null;
+		unset($_SERVER['HOME']);
+
 		$_SERVER['HOMEDRIVE'] = 'C:';
 		$_SERVER['HOMEPATH']  = '\Users\someuser';
 		$home                 = $this->paths->getUserHomeFolder();
+
+		$this->assertEquals('C:\Users\someuser', $home);
+	}
+
+	public function testCanGetWindowsHomeFolderStatically()
+	{
+		unset($_SERVER['HOME']);
+
+		$_SERVER['HOMEDRIVE'] = 'C:';
+		$_SERVER['HOMEPATH']  = '\Users\someuser';
+		$home                 = Pathfinder::getUserHomeFolder();
 
 		$this->assertEquals('C:\Users\someuser', $home);
 	}
