@@ -339,7 +339,8 @@ trait Core
 
 		// Explode output if necessary
 		if ($array) {
-			$output = explode($this->localStorage->getLineEndings(), $output);
+			$delimiter = $this->localStorage->getLineEndings() ?: PHP_EOL;
+			$output    = explode($delimiter, $output);
 		}
 
 		// Trim output

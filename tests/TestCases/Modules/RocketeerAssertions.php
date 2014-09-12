@@ -142,12 +142,13 @@ trait RocketeerAssertions
 			}
 
 			$replaced[$key] = strtr($entries, array(
-				'{php}'        => exec('which php'),
-				'{phpunit}'    => exec('which phpunit'),
+				'{php}'        => $this->binaries['php'],
+				'{bundle}'     => $this->binaries['bundle'],
+				'{phpunit}'    => $this->binaries['phpunit'],
 				'{repository}' => 'https://github.com/'.$this->repository,
 				'{server}'     => $this->server,
 				'{release}'    => $release,
-				'{composer}'   => exec('which composer'),
+				'{composer}'   => $this->binaries['composer'],
 			));
 		}
 

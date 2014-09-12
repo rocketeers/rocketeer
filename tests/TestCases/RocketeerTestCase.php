@@ -37,6 +37,13 @@ abstract class RocketeerTestCase extends ContainerTestCase
 	protected $task;
 
 	/**
+	 * Cache of the paths to binaries
+	 *
+	 * @type array
+	 */
+	protected $binaries = [];
+
+	/**
 	 * Set up the tests
 	 */
 	public function setUp()
@@ -58,6 +65,14 @@ abstract class RocketeerTestCase extends ContainerTestCase
 
 			return new LocalStorage($app, 'deployments', $folder);
 		});
+
+		// Cache paths
+		$this->binaries = array(
+			'php'      => exec('which php') ?: 'php',
+			'bundle'   => exec('which bundle') ?: 'bundle',
+			'phpunit'  => exec('which phpunit') ?: 'phpunit',
+			'composer' => exec('which composer') ?: 'composer',
+		);
 	}
 
 	/**

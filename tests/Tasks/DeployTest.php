@@ -22,7 +22,7 @@ class DeployTest extends RocketeerTestCase
 			),
 			array(
 				"cd {server}/releases/{release}",
-				exec('which phpunit')." --stop-on-failure",
+				"{phpunit} --stop-on-failure",
 			),
 			array(
 				"cd {server}/releases/{release}",
@@ -65,7 +65,7 @@ class DeployTest extends RocketeerTestCase
 			),
 			array(
 				"cd {server}/releases/{release}",
-				exec('which phpunit')." --stop-on-failure",
+				"{phpunit} --stop-on-failure",
 			),
 			array(
 				"cd {server}/releases/{release}",
@@ -103,7 +103,7 @@ class DeployTest extends RocketeerTestCase
 			'git clone "{repository}" "{server}/releases/{release}" --branch="master"',
 			array(
 				"cd {server}/releases/{release}",
-				exec('which phpunit').' --stop-on-failure',
+				'{phpunit} --stop-on-failure',
 			),
 			array(
 				"cd {server}/releases/{release}",

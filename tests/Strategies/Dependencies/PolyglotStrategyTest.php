@@ -16,7 +16,7 @@ class PolyglotStrategyTest extends RocketeerTestCase
 		$this->assertHistory(array(
 			array(
 				'cd {server}/releases/{release}',
-				exec('which bundle').' install',
+				'{bundle} install',
 			),
 			array(
 				'cd {server}/releases/{release}',

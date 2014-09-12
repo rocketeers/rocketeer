@@ -170,7 +170,7 @@ class LocalStorage extends AbstractStorage implements StorageInterface
 			$endings = $this->bash->runRaw('php -r "echo PHP_EOL;"');
 			$this->set('line_endings', $endings);
 
-			return $endings;
+			return $endings ?: PHP_EOL;
 		});
 	}
 
