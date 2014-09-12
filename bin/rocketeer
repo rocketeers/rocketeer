@@ -18,7 +18,7 @@ foreach ($vendors as $vendor) {
 }
 
 // Load plugins
-$plugins = Pathfinder::getUserHomeFolder().'/.rocketeer/vendor/autoload.php';
+$plugins = Rocketeer\Services\Pathfinder::getUserHomeFolder().'/.rocketeer/vendor/autoload.php';
 if (file_exists($plugins)) {
 	require_once $plugins;
 }
