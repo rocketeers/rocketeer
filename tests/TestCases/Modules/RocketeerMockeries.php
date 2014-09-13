@@ -103,4 +103,12 @@ trait RocketeerMockeries
 	{
 		$this->mock('files', 'Illuminate\Filesystem\Filesystem', $expectations);
 	}
+
+	/**
+	 * @param array $configuration
+	 */
+	public function mockConfig(array $configuration)
+	{
+		$this->app['config'] = $this->getConfig($configuration);
+	}
 }

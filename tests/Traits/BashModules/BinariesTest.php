@@ -7,24 +7,32 @@ class BinariesTest extends RocketeerTestCase
 {
 	public function testCanSetCustomPathsForBinaries()
 	{
-		$this->app['config'] = $this->getConfig(array('rocketeer::paths.composer' => 'foobar'));
+		$this->mockConfig(['rocketeer::paths.composer' => __FILE__]);
 
-		$this->assertEquals('foobar', $this->task->which('composer'));
+		$this->assertEquals(__FILE__, $this->task->which('composer'));
+	}
+
+	public function testStoredPathsAreInvalidatedIfIncorrect()
+	{
+		$this->localStorage->set('paths.composer', 'foobar');
+
+		$this->assertEquals($this->binaries['composer'], $this->task->which('composer'));
+		$this->assertNull($this->localStorage->get('paths.composer'));
 	}
 
 	public function testCanSetPathToPhpAndArtisan()
 	{
-		$this->app['config'] = $this->getConfig(array(
-			'rocketeer::paths.php'     => '/usr/local/bin/php',
-			'rocketeer::paths.artisan' => './laravel/artisan',
+		$this->mockConfig(array(
+			'rocketeer::paths.php'     => $this->binaries['php'],
+			'rocketeer::paths.artisan' => $this->binaries['php'],
 		));
 
-		$this->assertEquals('/usr/local/bin/php ./laravel/artisan migrate', $this->task->artisan()->migrate());
+		$this->assertEquals($this->binaries['php']. ' ' .$this->binaries['php']. ' migrate', $this->task->artisan()->migrate());
 	}
 
 	public function testFetchesBinaryIfNotSpecifiedOrNull()
 	{
-		$this->app['config'] = $this->getConfig(array(
+		$this->mockConfig(array(
 			'rocketeer::paths.php' => '/usr/local/bin/php',
 		));
 

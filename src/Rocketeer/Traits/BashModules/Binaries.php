@@ -120,14 +120,24 @@ trait Binaries
 		while (!$location && array_key_exists($tryout, $locations)) {
 			list($object, $method, $argument) = $locations[$tryout];
 
+			// Execute method
 			$location = $object->$method($argument);
-			$location = strpos($location, 'not found') !== false ? null : $location;
+
+			// Verify existence of returned path
+			if (strpos($location, 'not found') !== false || !$this->fileExists($location)) {
+				$location = null;
+			}
+
 			$tryout++;
 		}
 
-		// Store found location
+		// Store found location or remove it if invalid
 		if (!$this->local) {
-			$this->localStorage->set('paths.'.$binary, $location);
+			if ($location) {
+				$this->localStorage->set('paths.'.$binary, $location);
+			} else {
+				$this->localStorage->forget('paths.'.$binary);
+			}
 		}
 
 		return $location ?: $binary;
