@@ -208,7 +208,7 @@ abstract class AbstractCommand extends Command
 	{
 		$question = $this->formatQuestion($question, $default);
 
-		return $this->secret($question, $default);
+		return $this->secret($question) ?: $default;
 	}
 
 	/**
