@@ -110,13 +110,13 @@ class RemoteHandler
 	protected function getAuth(array $config)
 	{
 		if (isset($config['agent']) && $config['agent'] === true) {
-			return array('agent' => true);
+			return ['agent' => true];
 		} elseif (isset($config['key']) && trim($config['key']) != '') {
-			return array('key' => $config['key'], 'keyphrase' => $config['keyphrase']);
+			return ['key' => $config['key'], 'keyphrase' => $config['keyphrase']];
 		} elseif (isset($config['keytext']) && trim($config['keytext']) != '') {
-			return array('keytext' => $config['keytext']);
+			return ['keytext' => $config['keytext']];
 		} elseif (isset($config['password'])) {
-			return array('password' => $config['password']);
+			return ['password' => $config['password']];
 		}
 
 		throw new MissingCredentialsException('Password / key is required.');

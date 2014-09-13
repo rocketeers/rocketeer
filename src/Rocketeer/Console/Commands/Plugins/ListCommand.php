@@ -41,9 +41,6 @@ class ListCommand extends AbstractCommand
 			$rows[] = [$plugin];
 		}
 
-		$table = new Table($this->getOutput());
-		$table->setHeaders(['Plugin']);
-		$table->addRows($rows);
-		$table->render();
+		$this->table(['Plugin'], $rows);
 	}
 }

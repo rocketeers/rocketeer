@@ -13,7 +13,6 @@ use DateTime;
 use Illuminate\Support\Str;
 use Rocketeer\Bash;
 use Rocketeer\Traits\StepsRunner;
-use Symfony\Component\Console\Helper\Table;
 
 /**
  * An abstract AbstractTask with common helpers, from which all Tasks derive
@@ -237,36 +236,32 @@ abstract class AbstractTask extends Bash
 	 */
 	protected function displayReleases()
 	{
-		$releases = $this->releasesManager->getValidationFile();
-		$this->command->comment('Here are the available releases :');
-
-		$output = $this->command->getOutput();
-		if (!$output) {
+		if (!$this->command) {
 			return;
 		}
 
-		// Build table
-		$table = new Table($output);
-		$table->setHeaders(['#', 'Path', 'Deployed at', 'Status']);
+		$key      = 0;
+		$rows     = [];
+		$releases = $this->releasesManager->getValidationFile();
 
 		// Append the rows
-		$key  = 0;
-		$rows = [];
 		foreach ($releases as $name => $state) {
-			$date  = DateTime::createFromFormat('YmdHis', $name);
-			$date  = $date->format('Y-m-d H:i:s');
 			$icon  = $state ? '✓' : '✘';
 			$color = $state ? 'green' : 'red';
+			$date  = DateTime::createFromFormat('YmdHis', $name)->format('Y-m-d H:i:s');
+			$date  = sprintf('<fg=%s>%s</fg=%s>', $color, $date, $color);
 
 			// Add color to row
-			$row    = [$key, $name, $date, $icon];
-			$row[3] = sprintf('<fg=%s>%s</fg=%s>', $color, $row[3], $color);
-			$rows[] = $row;
+			$rows[] = [$key, $name, $date, $icon];
 			$key++;
 		}
 
-		$table->addRows($rows);
-		$table->render();
+		// Render table
+		$this->command->comment('Here are the available releases :');
+		$this->command->table(
+			['#', 'Path', 'Deployed at', 'Status'],
+			$rows
+		);
 
 		return $rows;
 	}

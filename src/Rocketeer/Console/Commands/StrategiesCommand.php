@@ -48,15 +48,14 @@ class StrategiesCommand extends AbstractCommand
 			'dependencies' => ['Composer', 'Bundler', 'Npm', 'Bower', 'Polyglot'],
 		);
 
-		$table = new Table($this->getOutput());
-		$table->setHeaders(['Strategy', 'Implementation', 'Description']);
+		$rows = [];
 		foreach ($strategies as $strategy => $implementations) {
 			foreach ($implementations as $implementation) {
 				$instance = $this->laravel['rocketeer.builder']->buildStrategy($strategy, $implementation);
-				$table->addRow([$strategy, $implementation, $instance->getDescription()]);
+				$rows[] = [$strategy, $implementation, $instance->getDescription()];
 			}
 		}
 
-		$table->render();
+		$this->table(['Strategy', 'Implementation', 'Description'], $rows);
 	}
 }
