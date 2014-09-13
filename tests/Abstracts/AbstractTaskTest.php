@@ -122,4 +122,20 @@ class AbstractTaskTest extends RocketeerTestCase
 
 		$this->pretendTask('Deploy')->fire();
 	}
+
+	public function testCanDisplayReleasesTable()
+	{
+		$headers  = ['#', 'Path', 'Deployed at', 'Status'];
+		$releases = array(
+			[0, 20000000000000, '<fg=green>1999-11-30 00:00:00</fg=green>', '✓'],
+			[1, 15000000000000, '<fg=red>1499-11-30 00:00:00</fg=red>', '✘'],
+			[2, 10000000000000, '<fg=green>0999-11-30 00:00:00</fg=green>', '✓'],
+		);
+
+		$this->app['rocketeer.command'] = $this->getCommand()
+		                                       ->shouldReceive('table')->with($headers, $releases)->andReturn(null)->once()
+		                                       ->mock();
+
+		$this->task('CurrentRelease')->execute();
+	}
 }
