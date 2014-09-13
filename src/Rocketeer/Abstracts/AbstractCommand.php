@@ -203,7 +203,7 @@ abstract class AbstractCommand extends Command
 	 * @param string      $question
 	 * @param string|null $default
 	 *
-	 * @return string
+	 * @return string|null
 	 */
 	public function askSecretly($question, $default = null)
 	{

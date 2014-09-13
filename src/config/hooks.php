@@ -25,7 +25,7 @@
 		'deploy'  => array(),
 		'cleanup' => array(),
 	),
-
+	
 	// Custom Tasks to register with Rocketeer
 	'custom' => array(),
 

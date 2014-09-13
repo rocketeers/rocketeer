@@ -37,7 +37,7 @@ class BinariesTest extends RocketeerTestCase
 			'rocketeer::paths.artisan' => $this->binaries['php'],
 		));
 
-		$this->assertEquals($this->binaries['php']. ' ' .$this->binaries['php']. ' migrate', $this->task->artisan()->migrate());
+		$this->assertEquals($this->binaries['php'].' '.$this->binaries['php'].' migrate', $this->task->artisan()->migrate());
 	}
 
 	public function testFetchesBinaryIfNotSpecifiedOrNull()
