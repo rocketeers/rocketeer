@@ -26,7 +26,7 @@ class BinariesTest extends RocketeerTestCase
 
 		$this->localStorage->set('paths.composer', 'foobar');
 
-		$this->assertEquals($this->binaries['composer'], $this->task->which('composer', $this->binaries['composer']));
+		$this->assertEquals('composer', $this->task->which('composer'));
 		$this->assertNull($this->localStorage->get('paths.composer'));
 	}
 
