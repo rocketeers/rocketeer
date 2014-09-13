@@ -1,6 +1,7 @@
 <?php
 namespace Rocketeer\Traits\BashModules;
 
+use Mockery;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class BinariesTest extends RocketeerTestCase
@@ -14,6 +15,14 @@ class BinariesTest extends RocketeerTestCase
 
 	public function testStoredPathsAreInvalidatedIfIncorrect()
 	{
+		$this->mock('rocketeer.remote', 'Remote', function ($mock) {
+			return $mock
+				->shouldReceive('run')->with(['which composer'], Mockery::any())->andReturn($this->binaries['composer'])
+				->shouldReceive('run')->with('[ -e  ] && echo "true"', Mockery::any())->andReturn('false')
+				->shouldReceive('run')->with('[ -e foobar ] && echo "true"', Mockery::any())->andReturn('false')
+				->shouldReceive('runRaw')->andReturn('false');
+		}, false);
+
 		$this->localStorage->set('paths.composer', 'foobar');
 
 		$this->assertEquals($this->binaries['composer'], $this->task->which('composer'));
