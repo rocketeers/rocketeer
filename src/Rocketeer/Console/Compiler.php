@@ -103,7 +103,6 @@ class Compiler
 			'mockery',
 			'nesbot',
 			'phine',
-			'raveren',
 		));
 
 		// Add binary
