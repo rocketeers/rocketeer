@@ -1,16 +1,26 @@
 <?php
 namespace Rocketeer\TestCases;
 
-use Rocketeer\Server;
+use Rocketeer\Services\Storages\LocalStorage;
+use Rocketeer\TestCases\Modules\RocketeerAssertions;
+use Rocketeer\TestCases\Modules\RocketeerMockeries;
 
 abstract class RocketeerTestCase extends ContainerTestCase
 {
+	use RocketeerAssertions;
+	use RocketeerMockeries;
+
 	/**
 	 * The path to the local fake server
 	 *
 	 * @var string
 	 */
 	protected $server;
+
+	/**
+	 * @type string
+	 */
+	protected $customConfig;
 
 	/**
 	 * The path to the local deployments file
@@ -20,18 +30,18 @@ abstract class RocketeerTestCase extends ContainerTestCase
 	protected $deploymentsFile;
 
 	/**
-	 * A dummy Task to use for helpers tests
+	 * A dummy AbstractTask to use for helpers tests
 	 *
-	 * @var Task
+	 * @var \Rocketeer\Abstracts\AbstractTask
 	 */
 	protected $task;
 
 	/**
-	 * The test repository
+	 * Cache of the paths to binaries
 	 *
-	 * @var string
+	 * @type array
 	 */
-	protected $repository = 'Anahkiasen/html-object.git';
+	protected $binaries = [];
 
 	/**
 	 * Set up the tests
@@ -42,17 +52,38 @@ abstract class RocketeerTestCase extends ContainerTestCase
 
 		// Setup local server
 		$this->server          = __DIR__.'/../_server/foobar';
-		$this->deploymentsFile = __DIR__.'/../_meta/deployments.json';
+		$this->customConfig    = $this->server.'/../.rocketeer';
+		$this->deploymentsFile = $this->server.'/deployments.json';
 
-		// Bind new Server instance
-		$meta = dirname($this->deploymentsFile);
-		$this->app->bind('rocketeer.server', function ($app) use ($meta) {
-			return new Server($app, 'deployments', $meta);
-		});
-
-		// Bind dummy Task
+		// Bind dummy AbstractTask
 		$this->task = $this->task('Cleanup');
 		$this->recreateVirtualServer();
+
+		// Bind new LocalStorage instance
+		$this->app->bind('rocketeer.storage.local', function ($app) {
+			$folder = dirname($this->deploymentsFile);
+
+			return new LocalStorage($app, 'deployments', $folder);
+		});
+
+		// Cache paths
+		$this->binaries = array(
+			'php'      => exec('which php') ?: 'php',
+			'bundle'   => exec('which bundle') ?: 'bundle',
+			'phpunit'  => exec('which phpunit') ?: 'phpunit',
+			'composer' => exec('which composer') ?: 'composer',
+		);
+	}
+
+	/**
+	 * Cleanup tests
+	 */
+	public function tearDown()
+	{
+		parent::tearDown();
+
+		// Restore superglobals
+		$_SERVER['HOME'] = $this->home;
 	}
 
 	/**
@@ -62,144 +93,23 @@ abstract class RocketeerTestCase extends ContainerTestCase
 	 */
 	protected function recreateVirtualServer()
 	{
-		// Recreate deployments file
-		$this->app['files']->put($this->deploymentsFile, json_encode(array(
-			'foo'                 => 'bar',
-			'current_release'     => array('production' => 20000000000000),
-			'directory_separator' => '/',
-			'is_setup'            => true,
-			'webuser'             => array('username' => 'www-data','group' => 'www-data'),
-			'line_endings'        => "\n",
-		)));
+		// Save superglobals
+		$this->home = $_SERVER['HOME'];
 
-		$rootPath = $this->server.'/../../..';
+		// Cleanup files created by tests
+		$cleanup = array(
+			realpath(__DIR__.'/../../.rocketeer'),
+			realpath(__DIR__.'/../.rocketeer'),
+			realpath($this->server),
+			realpath($this->customConfig),
+		);
+		array_map([$this->files, 'deleteDirectory'], $cleanup);
+		if (is_link($this->server.'/current')) {
+			unlink($this->server.'/current');
+		}
 
 		// Recreate altered local server
-		$this->app['files']->deleteDirectory($rootPath.'/storage');
-		$this->app['files']->deleteDirectory($this->server.'/logs');
-		$folders = array('current', 'shared', 'releases','releases/10000000000000', 'releases/15000000000000', 'releases/20000000000000');
-		foreach ($folders as $folder) {
-			$folder = $this->server.'/'.$folder;
-
-			$this->app['files']->deleteDirectory($folder);
-			$this->app['files']->delete($folder);
-			$this->app['files']->makeDirectory($folder, 0777, true);
-			file_put_contents($folder.'/.gitkeep', '');
-		}
-		file_put_contents($this->server.'/state.json', json_encode(array(
-			'10000000000000' => true,
-			'15000000000000' => false,
-			'20000000000000' => true,
-		)));
-
-		// Delete rocketeer config
-		$binary = $rootPath.'/.rocketeer';
-		$this->app['files']->deleteDirectory($binary);
-	}
-
-	////////////////////////////////////////////////////////////////////
-	///////////////////////////// ASSERTIONS ///////////////////////////
-	////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Assert a task has a particular output
-	 *
-	 * @param string  $task
-	 * @param string  $output
-	 * @param Mockery $command
-	 *
-	 * @return Assertion
-	 */
-	protected function assertTaskOutput($task, $output, $command = null)
-	{
-		return $this->assertContains($output, $this->task($task, $command)->execute());
-	}
-
-	/**
-	 * Assert a task's history matches an array
-	 *
-	 * @param string|Task  $task
-	 * @param array        $history
-	 * @param array        $options
-	 *
-	 * @return string
-	 */
-	protected function assertTaskHistory($task, array $expectedHistory, array $options = array())
-	{
-		// Create task if needed
-		if (is_string($task)) {
-			$task = $this->pretendTask($task, $options);
-		}
-
-		// Execute task and get history
-		if (is_array($task)) {
-			$results     = '';
-			$taskHistory = $task;
-		} else {
-			$results     = $task->execute();
-			$taskHistory = $task->getHistory();
-		}
-
-		// Look for release in history
-		$release = join(array_flatten($taskHistory));
-		preg_match_all('/[0-9]{14}/', $release, $releases);
-		$release = array_get($releases, '0.0', date('YmdHis'));
-		if ($release === '10000000000000') {
-			$release = array_get($releases, '0.1', date('YmdHis'));
-		}
-
-		// Replace placeholders
-		$expectedHistory = $this->replaceHistoryPlaceholders($expectedHistory, $release);
-
-		// Check equality
-		$this->assertEquals($expectedHistory, $taskHistory);
-
-		return $results;
-	}
-
-	/**
-	 * Replace placeholders in an history
-	 *
-	 * @param array $history
-	 *
-	 * @return array
-	 */
-	protected function replaceHistoryPlaceholders($history, $release = null)
-	{
-		$release = $release ?: date('YmdHis');
-
-		foreach ($history as $key => $entries) {
-			if (is_array($entries)) {
-				$history[$key] = $this->replaceHistoryPlaceholders($entries, $release);
-				continue;
-			}
-
-			$history[$key] = strtr($entries, array(
-				'{php}'      => exec('which php'),
-				'{phpunit}'  => exec('which phpunit'),
-				'{server}'   => $this->server,
-				'{release}'  => $release,
-				'{composer}' => exec('which composer'),
-			));
-		}
-
-		return $history;
-	}
-
-	////////////////////////////////////////////////////////////////////
-	////////////////////////////// MOCKERIES ///////////////////////////
-	////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Mock the ReleasesManager
-	 *
-	 * @param Closure $expectations
-	 *
-	 * @return Mockery
-	 */
-	protected function mockReleases($expectations)
-	{
-		return $this->mock('rocketeer.releases', 'ReleasesManager', $expectations);
+		$this->files->copyDirectory($this->server.'-stub', $this->server);
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -207,66 +117,39 @@ abstract class RocketeerTestCase extends ContainerTestCase
 	////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Mock the Composer check
+	 * Get a pretend AbstractTask to run bogus commands
 	 *
-	 * @param boolean $uses
+	 * @param string $task
+	 * @param array  $options
+	 * @param array  $expectations
 	 *
-	 * @return void
-	 */
-	protected function usesComposer($uses = true)
-	{
-		$composer = $this->app['path.base'].DIRECTORY_SEPARATOR.'composer.json';
-		$this->mock('files', 'Illuminate\Filesystem\Filesystem', function ($mock) use ($composer, $uses) {
-			return $mock->makePartial()->shouldReceive('exists')->with($composer)->andReturn($uses);
-		});
-	}
-
-	/**
-	 * Get a pretend Task to run bogus commands
-	 *
-	 * @return Task
+	 * @return \Rocketeer\Abstracts\AbstractTask
 	 */
 	protected function pretendTask($task = 'Deploy', $options = array(), array $expectations = array())
 	{
-		// Default options
-		$options = array_merge(array(
-			'pretend' => true,
-			'verbose' => false,
-			'tests'   => false,
-			'migrate' => false,
-			'seed'    => false,
-		), $options);
+		$this->pretend($options, $expectations);
 
-		return $this->task($task, $this->getCommand($expectations, $options));
+		return $this->task($task);
 	}
 
 	/**
-	 * Get Task instance
+	 * Get AbstractTask instance
 	 *
-	 * @param  string $task
+	 * @param string $task
+	 * @param array  $options
 	 *
-	 * @return Task
+	 * @return \Rocketeer\Abstracts\AbstractTask
 	 */
-	protected function task($task = null, $command = null)
+	protected function task($task = null, $options = array())
 	{
-		if ($command) {
-			$this->app['rocketeer.command'] = $command;
+		if ($options) {
+			$this->mockCommand($options);
 		}
 
 		if (!$task) {
 			return $this->task;
 		}
 
-		return $this->tasksQueue()->buildTaskFromClass('Rocketeer\Tasks\\'.$task);
-	}
-
-	/**
-	 * Get TasksQueue instance
-	 *
-	 * @return TasksQueue
-	 */
-	protected function tasksQueue()
-	{
-		return $this->app['rocketeer.tasks'];
+		return $this->builder->buildTaskFromClass($task);
 	}
 }

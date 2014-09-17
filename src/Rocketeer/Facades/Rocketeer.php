@@ -13,8 +13,7 @@ namespace Rocketeer\Facades;
  * Facade for Rocketeer's CLI
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
- *
- * @see Rocketeer\TasksQueue
+ * @see    Rocketeer\TasksQueue
  */
 class Rocketeer extends StandaloneFacade
 {

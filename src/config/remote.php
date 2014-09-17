@@ -1,59 +1,58 @@
-<?php return array(
+<?php
 
-	// The strategory to deploy with
-	// Availables are:
-	// - clone | Clones the repository from scratch on every deploy
-	// - copy  | Copies the previous release and then updates it
-	'strategy' => 'clone',
+return array(
 
 	// Remote server
 	//////////////////////////////////////////////////////////////////////
 
 	// Variables about the servers. Those can be guessed but in
 	// case of problem it's best to input those manually
-	'variables' => array(
+	'variables'      => array(
 		'directory_separator' => '/',
 		'line_endings'        => "\n",
 	),
 
-	// The process that will be executed by Composer
-	'composer' => function ($task) {
-		return array(
-			// $task->composer('self-update'),
-			$task->composer('install --no-interaction --no-dev --prefer-dist'),
-		);
-	},
-
 	// The number of releases to keep at all times
-	'keep_releases'    => 4,
+	'keep_releases'  => 4,
 
 	// Folders
 	////////////////////////////////////////////////////////////////////
 
 	// The root directory where your applications will be deployed
-	'root_directory'   => '/home/www/',
+	// This path *needs* to start at the root, ie. start with a /
+	'root_directory' => '/home/www/',
 
 	// The folder the application will be cloned in
 	// Leave empty to use `application_name` as your folder name
-	'app_directory' => '',
+	'app_directory'  => '',
 
 	// A list of folders/file to be shared between releases
 	// Use this to list folders that need to keep their state, like
 	// user uploaded data, file-based databases, etc.
-	'shared' => array(
+	'shared'         => array(
 		'{path.storage}/logs',
 		'{path.storage}/sessions',
 	),
 
-	// Permissions
+	// Execution
+	//////////////////////////////////////////////////////////////////////
+
+	// If enabled will force a shell to be created
+	// which is required for some tools like RVM or NVM
+	'shell'          => false,
+
+	// An array of commands to run under shell
+	'shelled'        => ['which', 'ruby', 'npm', 'bower', 'bundle', 'grunt'],
+
+	// Permissions$
 	////////////////////////////////////////////////////////////////////
 
-	'permissions' => array(
+	'permissions'    => array(
 
 		// The folders and files to set as web writable
 		// You can pass paths in brackets, so {path.public} will return
 		// the correct path to the public folder
-		'files' => array(
+		'files'    => array(
 			'app/database/production.sqlite',
 			'{path.storage}',
 			'{path.public}',

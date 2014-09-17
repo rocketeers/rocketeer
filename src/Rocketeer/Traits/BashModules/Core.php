@@ -9,35 +9,61 @@
  */
 namespace Rocketeer\Traits\BashModules;
 
+use Closure;
 use Illuminate\Support\Str;
-use Rocketeer\Traits\AbstractLocatorClass;
+use Rocketeer\Traits\HasHistory;
+use Rocketeer\Traits\HasLocator;
 
 /**
  * Core handling of running commands and returning output
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class Core extends AbstractLocatorClass
+trait Core
 {
-	/**
-	 * An history of executed commands
-	 *
-	 * @var array
-	 */
-	protected $history = array();
-
-	////////////////////////////////////////////////////////////////////
-	/////////////////////////////// HISTORY ////////////////////////////
-	////////////////////////////////////////////////////////////////////
+	use HasLocator;
+	use HasHistory;
 
 	/**
-	 * Get the Task's history
+	 * Whether to run the commands locally
+	 * or on the server
 	 *
-	 * @return array
+	 * @type boolean
 	 */
-	public function getHistory()
+	protected $local = false;
+
+	/**
+	 * @param boolean $local
+	 */
+	public function setLocal($local)
 	{
-		return $this->history;
+		$this->local = $local;
+	}
+
+	/**
+	 * Get which Connection to call commands with
+	 *
+	 * @return \Illuminate\Remote\ConnectionInterface
+	 */
+	public function getConnection()
+	{
+		return $this->local ? $this->app['remote.local'] : $this->remote;
+	}
+
+	/**
+	 * Run a series of commands in local
+	 *
+	 * @param Closure $callback
+	 *
+	 * @return boolean
+	 */
+	public function onLocal(Closure $callback)
+	{
+		$this->local = true;
+		$results     = $callback($this);
+		$this->local = false;
+
+		return $results;
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -47,42 +73,48 @@ class Core extends AbstractLocatorClass
 	/**
 	 * Run actions on the remote server and gather the ouput
 	 *
-	 * @param  string|array $commands  One or more commands
-	 * @param  boolean      $silent    Whether the command should stay silent no matter what
-	 * @param  boolean      $array     Whether the output should be returned as an array
+	 * @param string|array $commands One or more commands
+	 * @param boolean      $silent   Whether the command should stay silent no matter what
+	 * @param boolean      $array    Whether the output should be returned as an array
 	 *
-	 * @return string|array
+	 * @return string|null
 	 */
 	public function run($commands, $silent = false, $array = false)
 	{
 		$commands = $this->processCommands($commands);
 		$verbose  = $this->getOption('verbose') && !$silent;
+		$pretend  = $this->getOption('pretend');
 
-		// Log the commands for pretend
-		if ($this->getOption('pretend') and !$silent) {
-			return $this->addCommandsToHistory($commands);
+		// Log the commands
+		if (!$silent) {
+			$this->toHistory($commands);
+		}
+
+		// Display for pretend mode
+		if ($verbose || ($pretend && !$silent)) {
+			$this->toOutput($commands);
+			$flattened = implode(PHP_EOL.'$ ', $commands);
+			$this->command->line('<fg=magenta>$ '.$flattened.'</fg=magenta>');
+
+			if ($pretend) {
+				return count($commands) == 1 ? $commands[0] : $commands;
+			}
 		}
 
 		// Run commands
-		$me     = $this;
 		$output = null;
-		$this->remote->run($commands, function ($results) use (&$output, $verbose, $me) {
+		$this->getConnection()->run($commands, function ($results) use (&$output, $verbose) {
 			$output .= $results;
 
 			if ($verbose) {
-				$me->remote->display(trim($results));
+				$display = $this->cleanOutput($results);
+				$this->getConnection()->display(trim($display));
 			}
 		});
 
 		// Process and log the output and commands
 		$output = $this->processOutput($output, $array, true);
-		$this->logs->log($commands);
-		$this->logs->log($output);
-
-		// Append output
-		if (!$silent) {
-			$this->history[] = $output;
-		}
+		$this->toOutput($output);
 
 		return $output;
 	}
@@ -91,7 +123,7 @@ class Core extends AbstractLocatorClass
 	 * Run a command get the last line output to
 	 * prevent noise
 	 *
-	 * @param string|array  $commands
+	 * @param string $commands
 	 *
 	 * @return string
 	 */
@@ -107,17 +139,17 @@ class Core extends AbstractLocatorClass
 	 * Run a raw command, without any processing, and
 	 * get its output as a string or array
 	 *
-	 * @param  string|array $commands
-	 * @param  boolean      $array     Whether the output should be returned as an array
-	 * @param  boolean      $trim      Whether the output should be trimmed
+	 * @param string  $commands
+	 * @param boolean $array Whether the output should be returned as an array
+	 * @param boolean $trim  Whether the output should be trimmed
 	 *
-	 * @return string
+	 * @return string|string[]
 	 */
 	public function runRaw($commands, $array = false, $trim = false)
 	{
 		// Run commands
 		$output = null;
-		$this->remote->run($commands, function ($results) use (&$output) {
+		$this->getConnection()->run($commands, function ($results) use (&$output) {
 			$output .= $results;
 		});
 
@@ -130,10 +162,10 @@ class Core extends AbstractLocatorClass
 	/**
 	 * Run commands silently
 	 *
-	 * @param string|array  $commands
-	 * @param boolean       $array
+	 * @param string|array $commands
+	 * @param boolean      $array
 	 *
-	 * @return string
+	 * @return string|null
 	 */
 	public function runSilently($commands, $array = false)
 	{
@@ -143,10 +175,10 @@ class Core extends AbstractLocatorClass
 	/**
 	 * Run commands in a folder
 	 *
-	 * @param  string        $folder
-	 * @param  string|array  $tasks
+	 * @param string|null  $folder
+	 * @param string|array $tasks
 	 *
-	 * @return string
+	 * @return string|null
 	 */
 	public function runInFolder($folder = null, $tasks = array())
 	{
@@ -156,34 +188,48 @@ class Core extends AbstractLocatorClass
 		}
 
 		// Prepend folder
-		array_unshift($tasks, 'cd '.$this->rocketeer->getFolder($folder));
+		array_unshift($tasks, 'cd '.$this->paths->getFolder($folder));
 
 		return $this->run($tasks);
 	}
 
 	/**
+	 * Check the status of the last command
+	 *
+	 * @return bool
+	 */
+	public function status()
+	{
+		return $this->getOption('pretend') ? true : $this->getConnection()->status() == 0;
+	}
+
+	/**
 	 * Check the status of the last run command, return an error if any
 	 *
-	 * @param  string $error        The message to display on error
-	 * @param  string $output       The command's output
-	 * @param  string $success      The message to display on success
+	 * @param string      $error   The message to display on error
+	 * @param string|null $output  The command's output
+	 * @param string|null $success The message to display on success
 	 *
-	 * @return boolean|string
+	 * @return boolean
 	 */
 	public function checkStatus($error, $output = null, $success = null)
 	{
 		// If all went well
-		if ($this->remote->status() == 0) {
+		if ($this->status()) {
 			if ($success) {
-				$this->command->comment($success);
+				$this->explainer->success($success);
 			}
 
 			return $output || true;
 		}
 
-		// Else
-		$this->command->error($error);
-		print $output.PHP_EOL;
+		// Else display the error
+		$error = sprintf('An error occured: "%s"', $error);
+		if ($output) {
+			$error .= ', while running:'.PHP_EOL.$output;
+		}
+
+		$this->explainer->error($error);
 
 		return false;
 	}
@@ -206,32 +252,6 @@ class Core extends AbstractLocatorClass
 		return $timestamp;
 	}
 
-	/**
-	 * Get an option from the Command
-	 *
-	 * @param  string $option
-	 *
-	 * @return string
-	 */
-	protected function getOption($option)
-	{
-		return $this->hasCommand() ? $this->command->option($option) : null;
-	}
-
-	/**
-	 * Add an array/command to the history
-	 *
-	 * @param string|array $commands
-	 */
-	protected function addCommandsToHistory($commands)
-	{
-		$this->command->line(implode(PHP_EOL, $commands));
-		$commands = (sizeof($commands) == 1) ? $commands[0] : $commands;
-		$this->history[] = $commands;
-
-		return $commands;
-	}
-
 	////////////////////////////////////////////////////////////////////
 	///////////////////////////// PROCESSORS ///////////////////////////
 	////////////////////////////////////////////////////////////////////
@@ -239,14 +259,16 @@ class Core extends AbstractLocatorClass
 	/**
 	 * Process an array of commands
 	 *
-	 * @param  string|array  $commands
+	 * @param string|array $commands
 	 *
 	 * @return array
 	 */
-	protected function processCommands($commands)
+	public function processCommands($commands)
 	{
-		$stage     = $this->rocketeer->getStage();
-		$separator = $this->server->getSeparator();
+		$stage     = $this->connections->getStage();
+		$separator = $this->localStorage->getSeparator();
+		$shell     = $this->rocketeer->getOption('remote.shell');
+		$shelled   = $this->rocketeer->getOption('remote.shelled');
 
 		// Cast commands to array
 		if (!is_array($commands)) {
@@ -262,29 +284,63 @@ class Core extends AbstractLocatorClass
 			}
 
 			// Add stage flag to Artisan commands
-			if (Str::contains($command, 'artisan') and $stage) {
-				$command .= ' --env='.$stage;
+			if (Str::contains($command, 'artisan') && $stage) {
+				$command .= ' --env="'.$stage.'"';
 			}
 
+			// Create shell if asked
+			if ($shell && Str::contains($command, $shelled)) {
+				$command = $this->shellCommand($command);
+			}
 		}
 
 		return $commands;
 	}
 
 	/**
+	 * Clean the output of various intruding bits
+	 *
+	 * @param string $output
+	 *
+	 * @return string
+	 */
+	protected function cleanOutput($output)
+	{
+		return strtr($output, array(
+			'stdin: is not a tty' => null,
+		));
+	}
+
+	/**
+	 * Pass a command through shell execution
+	 *
+	 * @param string $command
+	 *
+	 * @return string
+	 */
+	protected function shellCommand($command)
+	{
+		return "bash --login -c '".$command."'";
+	}
+
+	/**
 	 * Process the output of a command
 	 *
-	 * @param string|array  $output
-	 * @param boolean       $array   Whether to return an array or a string
-	 * @param boolean       $trim    Whether to trim the output or not
+	 * @param string  $output
+	 * @param boolean $array Whether to return an array or a string
+	 * @param boolean $trim  Whether to trim the output or not
 	 *
 	 * @return string|array
 	 */
 	protected function processOutput($output, $array = false, $trim = true)
 	{
+		// Remove polluting strings
+		$output = $this->cleanOutput($output);
+
 		// Explode output if necessary
 		if ($array) {
-			$output = explode($this->server->getLineEndings(), $output);
+			$delimiter = $this->localStorage->getLineEndings() ?: PHP_EOL;
+			$output    = explode($delimiter, $output);
 		}
 
 		// Trim output

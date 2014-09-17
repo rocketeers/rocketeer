@@ -1,20 +1,37 @@
 <?php
 namespace Rocketeer\TestCases;
 
+use Closure;
 use Illuminate\Container\Container;
 use Illuminate\Filesystem\Filesystem;
 use Mockery;
 use PHPUnit_Framework_TestCase;
 use Rocketeer\RocketeerServiceProvider;
+use Rocketeer\Traits\HasLocator;
 
 abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 {
+	use HasLocator;
+
 	/**
-	 * The IoC Container
-	 *
-	 * @var Container
+	 * @type arra
 	 */
-	protected $app;
+	protected $defaults;
+
+	/**
+	 * Override the trait constructor
+	 */
+	public function __construct()
+	{
+		parent::__construct();
+	}
+
+	/**
+	 * The test repository
+	 *
+	 * @var string
+	 */
+	protected $repository = 'Anahkiasen/html-object.git';
 
 	/**
 	 * Set up the tests
@@ -27,24 +44,24 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 
 		// Laravel classes --------------------------------------------- /
 
-		$this->app->instance('path.base',    '/src');
-		$this->app->instance('path',         '/src/app');
-		$this->app->instance('path.public',  '/src/public');
+		$this->app->instance('path.base', '/src');
+		$this->app->instance('path', '/src/app');
+		$this->app->instance('path.public', '/src/public');
 		$this->app->instance('path.storage', '/src/app/storage');
 
 		$this->app['files']             = new Filesystem;
-		$this->app['config']            = $this->getConfig();
-		$this->app['remote']            = $this->getRemote();
 		$this->app['artisan']           = $this->getArtisan();
+		$this->app['rocketeer.remote']  = $this->getRemote();
 		$this->app['rocketeer.command'] = $this->getCommand();
 
 		// Rocketeer classes ------------------------------------------- /
 
 		$serviceProvider = new RocketeerServiceProvider($this->app);
-		$this->app = $serviceProvider->bindPaths($this->app);
-		$this->app = $serviceProvider->bindCoreClasses($this->app);
-		$this->app = $serviceProvider->bindClasses($this->app);
-		$this->app = $serviceProvider->bindScm($this->app);
+		$serviceProvider->boot();
+
+		// Swap some instances with Mockeries -------------------------- /
+
+		$this->app['config'] = $this->getConfig();
 	}
 
 	/**
@@ -67,13 +84,21 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 	 * @param string  $handle
 	 * @param string  $class
 	 * @param Closure $expectations
+	 * @param boolean $partial
 	 *
 	 * @return Mockery
 	 */
-	protected function mock($handle, $class, $expectations)
+	protected function mock($handle, $class = null, Closure $expectations = null, $partial = true)
 	{
+		$class   = $class ?: $handle;
 		$mockery = Mockery::mock($class);
-		$mockery = $expectations($mockery)->mock();
+		if ($partial) {
+			$mockery = $mockery->shouldIgnoreMissing();
+		}
+
+		if ($expectations) {
+			$mockery = $expectations($mockery)->mock();
+		}
 
 		$this->app[$handle] = $mockery;
 
@@ -94,11 +119,16 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 			return $message;
 		};
 
-		$command = Mockery::mock('Command');
-		$command->shouldReceive('comment')->andReturnUsing($message);
-		$command->shouldReceive('error')->andReturnUsing($message);
-		$command->shouldReceive('line')->andReturnUsing($message);
-		$command->shouldReceive('info')->andReturnUsing($message);
+		$command = Mockery::mock('Command')->shouldIgnoreMissing();
+		$command->shouldReceive('getOutput')->andReturn(null);
+
+		// Bind the output expectations
+		$types = ['comment', 'error', 'line', 'info'];
+		foreach ($types as $type) {
+			if (!array_key_exists($type, $expectations)) {
+				$command->shouldReceive($type)->andReturnUsing($message);
+			}
+		}
 
 		// Merge defaults
 		$expectations = array_merge(array(
@@ -115,7 +145,8 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 			if ($key === 'option') {
 				$command->shouldReceive($key)->andReturn($value)->byDefault();
 			} else {
-				$command->shouldReceive($key)->andReturn($value);
+				$returnMethod = $value instanceof Closure ? 'andReturnUsing' : 'andReturn';
+				$command->shouldReceive($key)->$returnMethod($value);
 			}
 		}
 
@@ -141,74 +172,11 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 		$config = Mockery::mock('Illuminate\Config\Repository');
 		$config->shouldIgnoreMissing();
 
+		$defaults     = $this->getFactoryConfiguration();
+		$expectations = array_merge($defaults, $expectations);
 		foreach ($expectations as $key => $value) {
 			$config->shouldReceive('get')->with($key)->andReturn($value);
 		}
-
-		// Drivers
-		$config->shouldReceive('get')->with('cache.driver')->andReturn('file');
-		$config->shouldReceive('get')->with('database.default')->andReturn('mysql');
-		$config->shouldReceive('get')->with('remote.default')->andReturn('production');
-		$config->shouldReceive('get')->with('remote.connections')->andReturn(array('production' => array(), 'staging' => array()));
-		$config->shouldReceive('get')->with('session.driver')->andReturn('file');
-
-		// Rocketeer
-		$config->shouldReceive('get')->with('rocketeer::application_name')->andReturn('foobar');
-		$config->shouldReceive('get')->with('rocketeer::default')->andReturn(array('production', 'staging'));
-		$config->shouldReceive('get')->with('rocketeer::logs')->andReturn(false);
-		$config->shouldReceive('get')->with('rocketeer::connections')->andReturn(array());
-		$config->shouldReceive('get')->with('rocketeer::remote.strategy')->andReturn('clone');
-		$config->shouldReceive('get')->with('rocketeer::remote.keep_releases')->andReturn(1);
-		$config->shouldReceive('get')->with('rocketeer::remote.permissions.callback')->andReturn(function ($task, $file) {
-			return array(
-				sprintf('chmod -R 755 %s', $file),
-				sprintf('chmod -R g+s %s', $file),
-				sprintf('chown -R www-data:www-data %s', $file),
-			);
-		});
-		$config->shouldReceive('get')->with('rocketeer::remote.permissions.files')->andReturn(array('tests'));
-		$config->shouldReceive('get')->with('rocketeer::remote.root_directory')->andReturn(__DIR__.'/../_server/');
-		$config->shouldReceive('get')->with('rocketeer::remote.app_directory')->andReturn(null);
-		$config->shouldReceive('get')->with('rocketeer::remote.shared')->andReturn(array('tests/Elements'));
-		$config->shouldReceive('get')->with('rocketeer::remote.composer')->andReturn(function ($task) {
-			return array(
-				$task->composer('self-update'),
-				$task->composer('install --no-interaction --no-dev --prefer-dist'),
-			);
-		});
-		$config->shouldReceive('get')->with('rocketeer::stages.default')->andReturn(null);
-		$config->shouldReceive('get')->with('rocketeer::stages.stages')->andReturn(array());
-
-		// Paths
-		$config->shouldReceive('get')->with('rocketeer::paths.php')->andReturn('');
-		$config->shouldReceive('get')->with('rocketeer::paths.composer')->andReturn('');
-		$config->shouldReceive('get')->with('rocketeer::paths.artisan')->andReturn('');
-
-		// SCM
-		$config->shouldReceive('get')->with('rocketeer::scm.branch')->andReturn('master');
-		$config->shouldReceive('get')->with('rocketeer::scm.repository')->andReturn('https://github.com/'.$this->repository);
-		$config->shouldReceive('get')->with('rocketeer::scm.scm')->andReturn('git');
-		$config->shouldReceive('get')->with('rocketeer::scm.shallow')->andReturn(true);
-		$config->shouldReceive('get')->with('rocketeer::scm.submodules')->andReturn(true);
-
-		// Tasks
-		$config->shouldReceive('get')->with('rocketeer::hooks')->andReturn(array(
-			'before' => array(
-				'deploy' => array(
-					'before',
-					'foobar'
-				),
-			),
-			'after' => array(
-				'check' => array(
-					'Rocketeer\Dummies\MyCustomTask',
-				),
-				'deploy' => array(
-					'after',
-					'foobar'
-				),
-			),
-		));
 
 		return $config;
 	}
@@ -216,18 +184,20 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 	/**
 	 * Swap the current config
 	 *
-	 * @param  array $config
+	 * @param array $config
 	 *
 	 * @return void
 	 */
 	protected function swapConfig($config)
 	{
-		$this->app['rocketeer.rocketeer']->disconnect();
+		$this->connections->disconnect();
 		$this->app['config'] = $this->getConfig($config);
 	}
 
 	/**
 	 * Mock the Remote component
+	 *
+	 * @param string|array|null $mockedOutput
 	 *
 	 * @return Mockery
 	 */
@@ -243,9 +213,9 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 		};
 
 		$remote = Mockery::mock('Illuminate\Remote\Connection');
+		$remote->shouldReceive('connected')->andReturn(true);
 		$remote->shouldReceive('into')->andReturn(Mockery::self());
 		$remote->shouldReceive('status')->andReturn(0)->byDefault();
-		$remote->shouldReceive('run')->andReturnUsing($run)->byDefault();
 		$remote->shouldReceive('runRaw')->andReturnUsing($run)->byDefault();
 		$remote->shouldReceive('getString')->andReturnUsing(function ($file) {
 			return file_get_contents($file);
@@ -256,6 +226,14 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 		$remote->shouldReceive('display')->andReturnUsing(function ($line) {
 			print $line.PHP_EOL;
 		});
+
+		if (is_array($mockedOutput)) {
+			foreach ($mockedOutput as $command => $output) {
+				$remote->shouldReceive('run')->with($command)->andReturn($output);
+			}
+		} else {
+			$remote->shouldReceive('run')->andReturnUsing($run)->byDefault();
+		}
 
 		return $remote;
 	}
@@ -273,5 +251,77 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 		});
 
 		return $artisan;
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function getFactoryConfiguration()
+	{
+		if ($this->defaults) {
+			return $this->defaults;
+		}
+
+		// Base the mocked configuration off the factory values
+		$defaults = [];
+		$files    = ['config', 'hooks', 'paths', 'remote', 'scm', 'stages', 'strategies'];
+		foreach ($files as $file) {
+			$defaults[$file] = $this->config->get('rocketeer::'.$file);
+		}
+
+		// Build correct keys
+		$defaults = array_dot($defaults);
+		$keys     = array_keys($defaults);
+		$keys     = array_map(function ($key) {
+			return 'rocketeer::'.str_replace('config.', null, $key);
+		}, $keys);
+		$defaults = array_combine($keys, array_values($defaults));
+
+		$overrides = array(
+			'cache.driver'                        => 'file',
+			'database.default'                    => 'mysql',
+			'remote.default'                      => 'production',
+			'session.driver'                      => 'file',
+			'remote.connections'                  => array(
+				'production' => [],
+				'staging'    => [],
+			),
+			'rocketeer::application_name'         => 'foobar',
+			'rocketeer::logs'                     => null,
+			'rocketeer::remote.permissions.files' => ['tests'],
+			'rocketeer::remote.shared'            => ['tests/Elements'],
+			'rocketeer::remote.keep_releases'     => 1,
+			'rocketeer::remote.root_directory'    => __DIR__.'/../_server/',
+			'rocketeer::scm'                      => array(
+				'branch'     => 'master',
+				'repository' => 'https://github.com/'.$this->repository,
+				'scm'        => 'git',
+				'shallow'    => true,
+				'submodules' => true,
+			),
+			'rocketeer::strategies.dependencies'  => 'Composer',
+			'rocketeer::hooks'                    => array(
+				'before' => array(
+					'deploy' => array(
+						'before',
+						'foobar',
+					),
+				),
+				'after'  => array(
+					'check'  => array(
+						'Rocketeer\Dummies\MyCustomTask',
+					),
+					'deploy' => array(
+						'after',
+						'foobar',
+					),
+				),
+			),
+		);
+
+		// Assign options to expectations
+		$this->defaults = array_merge($defaults, $overrides);
+
+		return $this->defaults;
 	}
 }

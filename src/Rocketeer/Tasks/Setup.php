@@ -9,38 +9,38 @@
  */
 namespace Rocketeer\Tasks;
 
-use Rocketeer\Traits\Task;
+use Rocketeer\Abstracts\AbstractTask;
 
 /**
  * Set up the remote server for deployment
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class Setup extends Task
+class Setup extends AbstractTask
 {
-	 /**
-	 * A description of what the Task does
+	/**
+	 * A description of what the task does
 	 *
 	 * @var string
 	 */
 	protected $description = 'Set up the remote server for deployment';
 
 	/**
-	 * Whether the Task needs to be run on each stage or globally
+	 * Whether the task needs to be run on each stage or globally
 	 *
 	 * @var boolean
 	 */
 	public $usesStages = false;
 
 	/**
-	 * Run the Task
+	 * Run the task
 	 *
-	 * @return  void
+	 * @return string|false|null
 	 */
 	public function execute()
 	{
-		// Check if requirments are met
-		if ($this->executeTask('Check') === false and !$this->getOption('pretend')) {
+		// Check if requirements are met
+		if ($this->executeTask('Check') === false && !$this->getOption('pretend')) {
 			return false;
 		}
 
@@ -49,19 +49,19 @@ class Setup extends Task
 		$this->createStages();
 
 		// Set setup to true
-		$this->server->setValue('is_setup', true);
+		$this->localStorage->set('is_setup', true);
 
 		// Get server informations
-		$this->command->comment('Getting some informations about the server');
-		$this->server->getSeparator();
-		$this->server->getLineEndings();
+		$this->explainer->line('Getting some informations about the server');
+		$this->localStorage->getSeparator();
+		$this->localStorage->getLineEndings();
 
 		// Create confirmation message
 		$application = $this->rocketeer->getApplicationName();
-		$homeFolder  = $this->rocketeer->getHomeFolder();
+		$homeFolder  = $this->paths->getHomeFolder();
 		$message     = sprintf('Successfully setup "%s" at "%s"', $application, $homeFolder);
 
-		return $this->command->info($message);
+		return $this->explainer->success($message);
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -76,22 +76,22 @@ class Setup extends Task
 	protected function createStages()
 	{
 		// Get stages
-		$availableStages = $this->rocketeer->getStages();
-		$originalStage   = $this->rocketeer->getStage();
+		$availableStages = $this->connections->getStages();
+		$originalStage   = $this->connections->getStage();
 		if (empty($availableStages)) {
-			$availableStages = array(null);
+			$availableStages = [null];
 		}
 
 		// Create folders
 		foreach ($availableStages as $stage) {
-			$this->rocketeer->setStage($stage);
+			$this->connections->setStage($stage);
 			$this->createFolder('releases', true);
 			$this->createFolder('current', true);
 			$this->createFolder('shared', true);
 		}
 
 		if ($originalStage) {
-			$this->rocketeer->setStage($originalStage);
+			$this->connections->setStage($originalStage);
 		}
 	}
 }

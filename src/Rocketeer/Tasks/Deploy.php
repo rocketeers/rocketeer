@@ -9,107 +9,76 @@
  */
 namespace Rocketeer\Tasks;
 
-use Rocketeer\Traits\Task;
+use Rocketeer\Abstracts\AbstractTask;
 
 /**
  * Deploy the website
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class Deploy extends Task
+class Deploy extends AbstractTask
 {
 	/**
-	 * Methods that can halt deployment
+	 * The console command description.
 	 *
-	 * @var array
+	 * @var string
 	 */
-	protected $halting = array();
+	protected $description = 'Deploys the website';
 
 	/**
-	 * Run the Task
+	 * Run the task
 	 *
-	 * @return  void
+	 * @return  boolean|null
 	 */
 	public function execute()
 	{
-		// Create halting events
-		$this->createEvents();
-
-		// Setup if necessary
+		// Check if server is ready for deployment
 		if (!$this->isSetup()) {
-			$this->command->error('Server is not ready, running Setup task');
+			$this->explainer->error('Server is not ready, running Setup task');
 			$this->executeTask('Setup');
 		}
 
-		// Update current release
-		$release = $this->releasesManager->updateCurrentRelease();
-
-		// Run halting methods
-		foreach ($this->halting as $method) {
-			if (!$this->fireEvent($method)) {
-				return false;
-			}
-
-			if (!$this->$method()) {
-				return $this->halt();
-			}
+		// Check if local is ready for deployment
+		if (!$this->executeTask('Primer')) {
+			return $this->halt('Project is not ready for deploy. You were almost fired.');
 		}
 
-		// Set permissions
-		$this->setApplicationPermissions();
+		// Setup the new release
+		$release = $this->releasesManager->getNextRelease();
+
+		// Create release and set it up
+		$this->steps()->executeTask('CreateRelease');
+		$this->steps()->executeTask('Dependencies');
+
+		if ($this->getOption('tests')) {
+			$this->steps()->executeTask('Test');
+		}
+
+		// Create release and set permissions
+		$this->steps()->setApplicationPermissions();
 
 		// Run migrations
-		$this->runMigrationsAndSeed();
+		if ($this->getOption('migrate') || $this->getOption('seed')) {
+			$this->steps()->executeTask('Migrate');
+		}
 
 		// Synchronize shared folders and files
-		$this->syncSharedFolders();
+		$this->steps()->syncSharedFolders();
 
 		// Run before-symlink events
-		if (!$this->fireEvent('before-symlink')) {
+		$this->steps()->fireEvent('before-symlink');
+
+		// Update symlink
+		$this->steps()->updateSymlink();
+
+		// Run the steps until one fails
+		if (!$this->runSteps()) {
 			return $this->halt();
 		}
 
-		// Update symlink and mark release as valid
-		$this->updateSymlink();
 		$this->releasesManager->markReleaseAsValid($release);
 
-		$this->command->info('Successfully deployed release '.$release);
-	}
-
-	////////////////////////////////////////////////////////////////////
-	/////////////////////////////// SUBTASKS ///////////////////////////
-	////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Run PHPUnit tests
-	 *
-	 * @return void
-	 */
-	protected function checkTestsResults()
-	{
-		if ($this->getOption('tests') and !$this->runTests()) {
-			$this->command->error('Tests failed');
-
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * Run migrations and seed database
-	 *
-	 * @return void
-	 */
-	protected function runMigrationsAndSeed()
-	{
-		$seed = $this->getOption('seed');
-
-		if ($this->getOption('migrate')) {
-			return $this->runMigrations($seed);
-		} elseif ($seed) {
-			return $this->runSeed();
-		}
+		$this->explainer->line('Successfully deployed release '.$release);
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -117,30 +86,17 @@ class Deploy extends Task
 	////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Create the events Deploy will run
-	 *
-	 * @return void
-	 */
-	protected function createEvents()
-	{
-		$strategy = $this->rocketeer->getOption('remote.strategy');
-		$this->halting = array(
-			$strategy.'Repository',
-			'runComposer',
-			'checkTestsResults',
-		);
-	}
-
-	/**
 	 * Set permissions for the folders used by the application
 	 *
-	 * @return  void
+	 * @return boolean
 	 */
 	protected function setApplicationPermissions()
 	{
 		$files = (array) $this->rocketeer->getOption('remote.permissions.files');
-		foreach ($files as $file) {
+		foreach ($files as &$file) {
 			$this->setPermissions($file);
 		}
+
+		return true;
 	}
 }

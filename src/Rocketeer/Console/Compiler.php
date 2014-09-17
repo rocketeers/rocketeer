@@ -56,8 +56,6 @@ class Compiler
 	 * Extract an existing Phar
 	 *
 	 * @param string $destination
-	 *
-	 * @return void
 	 */
 	public function extract($destination)
 	{
@@ -99,9 +97,10 @@ class Compiler
 		// Add core files and dependencies
 		$this->addFolder($src);
 		$this->addFolder($vendor, array(
-			'mockery',
-			'patchwork',
+			'd11wtq',
 			'herrera-io',
+			'johnkary',
+			'mockery',
 			'nesbot',
 			'phine',
 		));
@@ -123,33 +122,31 @@ class Compiler
 
 	/**
 	 * Set the stub to use
-	 *
-	 * @return string
 	 */
 	protected function setStub()
 	{
-		$this->box->getPhar()->setStub(
-			StubGenerator::create()
-				->index('bin/rocketeer')
-				->generate()
-		);
+		$stub = StubGenerator::create()
+		                     ->index('bin/rocketeer')
+		                     ->generate();
+
+		$this->box->getPhar()->setStub($stub);
 	}
 
 	/**
 	 * Add a folder to the PHAR
 	 *
-	 * @param string $folder
-	 * @param array  $ignore
+	 * @param string   $folder
+	 * @param string[] $ignore
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	protected function addFolder($folder, array $ignore = array())
 	{
 		$finder = new Finder();
 		$finder = $finder->files()
-			->ignoreVCS(true)
-			->name('*.php')
-			->in($folder);
+		                 ->ignoreVCS(true)
+		                 ->name('*.php')
+		                 ->in($folder);
 
 		// Ignore some files or folders
 		if ($ignore) {

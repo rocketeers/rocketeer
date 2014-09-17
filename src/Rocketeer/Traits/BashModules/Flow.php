@@ -14,8 +14,15 @@ namespace Rocketeer\Traits\BashModules;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class Flow extends Scm
+trait Flow
 {
+	/**
+	 * Whether the task needs to be run on each stage or globally
+	 *
+	 * @var boolean
+	 */
+	public $usesStages = true;
+
 	/**
 	 * Check if the remote server is setup
 	 *
@@ -23,25 +30,25 @@ class Flow extends Scm
 	 */
 	public function isSetup()
 	{
-		return $this->fileExists($this->rocketeer->getFolder('current'));
+		return $this->fileExists($this->paths->getFolder('current'));
 	}
 
 	/**
-	 * Check if the Task uses stages
+	 * Check if the task uses stages
 	 *
 	 * @return boolean
 	 */
 	public function usesStages()
 	{
-		$stages = $this->rocketeer->getStages();
+		$stages = $this->connections->getStages();
 
-		return $this->usesStages and !empty($stages);
+		return $this->usesStages && !empty($stages);
 	}
 
 	/**
 	 * Run actions in the current release's folder
 	 *
-	 * @param  string|array $tasks One or more tasks
+	 * @param string|array $tasks One or more tasks
 	 *
 	 * @return string
 	 */
@@ -57,20 +64,22 @@ class Flow extends Scm
 	/**
 	 * Sync the requested folders and files
 	 *
-	 * @return void
+	 * @return boolean
 	 */
 	protected function syncSharedFolders()
 	{
 		$shared = (array) $this->rocketeer->getOption('remote.shared');
-		foreach ($shared as $file) {
+		foreach ($shared as &$file) {
 			$this->share($file);
 		}
+
+		return true;
 	}
 
 	/**
 	 * Update the current symlink
 	 *
-	 * @param integer $release A release to mark as current
+	 * @param integer|null $release A release to mark as current
 	 *
 	 * @return string
 	 */
@@ -78,12 +87,12 @@ class Flow extends Scm
 	{
 		// If the release is specified, update to make it the current one
 		if ($release) {
-			$this->releasesManager->updateCurrentRelease($release);
+			$this->releasesManager->setNextRelease($release);
 		}
 
 		// Get path to current/ folder and latest release
 		$currentReleasePath = $this->releasesManager->getCurrentReleasePath();
-		$currentFolder      = $this->rocketeer->getFolder('current');
+		$currentFolder      = $this->paths->getFolder('current');
 
 		return $this->symlink($currentReleasePath, $currentFolder);
 	}
@@ -91,7 +100,7 @@ class Flow extends Scm
 	/**
 	 * Share a file or folder between releases
 	 *
-	 * @param  string $file Path to the file in a release folder
+	 * @param string $file Path to the file in a release folder
 	 *
 	 * @return string
 	 */
@@ -106,7 +115,7 @@ class Flow extends Scm
 			$this->move($currentFile, $sharedFile);
 		}
 
-		$this->command->comment('Sharing file '.$currentFile);
+		$this->explainer->line('Sharing file '.$currentFile);
 
 		return $this->symlink($sharedFile, $currentFile);
 	}

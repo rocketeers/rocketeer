@@ -17,6 +17,6 @@
 	'composer' => '',
 
 	// Path to the Artisan CLI
-	'artisan'  => '',
+	'artisan'  => 'artisan',
 
 );

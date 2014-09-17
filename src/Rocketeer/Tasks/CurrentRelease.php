@@ -10,46 +10,56 @@
 namespace Rocketeer\Tasks;
 
 use DateTime;
-use Rocketeer\Traits\Task;
+use Rocketeer\Abstracts\AbstractTask;
 
 /**
  * Display what the current release is
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class CurrentRelease extends Task
+class CurrentRelease extends AbstractTask
 {
-	 /**
-	 * A description of what the Task does
+	/**
+	 * The slug of the task
+	 *
+	 * @var string
+	 */
+	protected $name = 'Current';
+
+	/**
+	 * A description of what the task does
 	 *
 	 * @var string
 	 */
 	protected $description = 'Display what the current release is';
 
 	/**
-	 * Run the Task
+	 * Run the task
 	 *
-	 * @return  void
+	 * @return string|null
 	 */
 	public function execute()
 	{
 		// Get the current stage
-		$stage = $this->rocketeer->getStage();
+		$stage = $this->connections->getStage();
 		$stage = $stage ? ' for stage '.$stage : '';
 
 		// Check if a release has been deployed already
 		$currentRelease = $this->releasesManager->getCurrentRelease();
 		if (!$currentRelease) {
-			return $this->command->error('No release has yet been deployed'.$stage);
+			return $this->explainer->error('No release has yet been deployed'.$stage);
 		}
 
 		// Create state message
 		$date    = DateTime::createFromFormat('YmdHis', $currentRelease)->format('Y-m-d H:i:s');
 		$state   = $this->runForCurrentRelease($this->scm->currentState());
-		$message = sprintf('The current release' .$stage. ' is <info>%s</info> (<comment>%s</comment> deployed at <comment>%s</comment>)', $currentRelease, $state, $date);
+		$message = sprintf(
+			'The current release'.$stage.' is <info>%s</info> (<comment>%s</comment> deployed at <comment>%s</comment>)',
+			$currentRelease, $state, $date
+		);
 
 		// Display current and past releases
-		$this->command->line($message);
+		$this->explainer->line($message);
 		$this->displayReleases();
 
 		return $message;

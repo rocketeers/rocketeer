@@ -1,0 +1,22 @@
+#!/usr/bin/env php
+<?php
+use Boris\Boris;
+use Illuminate\Container\Container;
+use Rocketeer\Facades\Rocketeer;
+use Rocketeer\RocketeerServiceProvider;
+
+require __DIR__.'/../vendor/autoload.php';
+
+$container = new Container();
+$rocketeer = new RocketeerServiceProvider($container);
+$rocketeer->boot();
+
+$app = Rocketeer::getFacadeApplication();
+
+// Compile new phar and extract it
+$boris = new Boris('rocketeer> ');
+$boris->setLocal(array(
+	'app' => $app,
+));
+
+$boris->start();

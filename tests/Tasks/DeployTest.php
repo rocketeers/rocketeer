@@ -1,6 +1,7 @@
 <?php
 namespace Rocketeer\Tasks;
 
+use Rocketeer\Strategies\Deploy\CopyStrategy;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class DeployTest extends RocketeerTestCase
@@ -14,27 +15,29 @@ class DeployTest extends RocketeerTestCase
 		));
 
 		$matcher = array(
-			'git clone --depth 1 -b master "https://github.com/Anahkiasen/html-object.git" {server}/releases/{release}',
+			'git clone "{repository}" "{server}/releases/{release}" --branch="master" --depth="1"',
 			array(
 				"cd {server}/releases/{release}",
-				"git submodule update --init --recursive"
+				"git submodule update --init --recursive",
 			),
 			array(
 				"cd {server}/releases/{release}",
-				exec('which phpunit')." --stop-on-failure "
+				"{phpunit} --stop-on-failure",
 			),
 			array(
 				"cd {server}/releases/{release}",
 				"chmod -R 755 {server}/releases/{release}/tests",
 				"chmod -R g+s {server}/releases/{release}/tests",
-				"chown -R www-data:www-data {server}/releases/{release}/tests"
+				"chown -R www-data:www-data {server}/releases/{release}/tests",
 			),
 			array(
 				"cd {server}/releases/{release}",
-				"{php} artisan migrate --seed"
+				"{php} artisan migrate",
 			),
-			"mkdir -p {server}/shared/tests",
-			"mv {server}/releases/{release}/tests/Elements {server}/shared/tests/Elements",
+			array(
+				"cd {server}/releases/{release}",
+				"{php} artisan db:seed",
+			),
 			"mv {server}/current {server}/releases/{release}",
 			"rm -rf {server}/current",
 			"ln -s {server}/releases/{release} {server}/current",
@@ -43,7 +46,44 @@ class DeployTest extends RocketeerTestCase
 		$this->assertTaskHistory('Deploy', $matcher, array(
 			'tests'   => true,
 			'seed'    => true,
-			'migrate' => true
+			'migrate' => true,
+		));
+	}
+
+	public function testStepsRunnerDoesntCancelWithPermissionsAndShared()
+	{
+		$this->swapConfig(array(
+			'rocketeer::remote.shared'            => [],
+			'rocketeer::remote.permissions.files' => [],
+		));
+
+		$matcher = array(
+			'git clone "{repository}" "{server}/releases/{release}" --branch="master" --depth="1"',
+			array(
+				"cd {server}/releases/{release}",
+				"git submodule update --init --recursive",
+			),
+			array(
+				"cd {server}/releases/{release}",
+				"{phpunit} --stop-on-failure",
+			),
+			array(
+				"cd {server}/releases/{release}",
+				"{php} artisan migrate",
+			),
+			array(
+				"cd {server}/releases/{release}",
+				"{php} artisan db:seed",
+			),
+			"mv {server}/current {server}/releases/{release}",
+			"rm -rf {server}/current",
+			"ln -s {server}/releases/{release} {server}/current",
+		);
+
+		$this->assertTaskHistory('Deploy', $matcher, array(
+			'tests'   => true,
+			'seed'    => true,
+			'migrate' => true,
 		));
 	}
 
@@ -52,31 +92,33 @@ class DeployTest extends RocketeerTestCase
 		$this->swapConfig(array(
 			'rocketeer::scm.shallow'    => false,
 			'rocketeer::scm.submodules' => false,
-			'rocketeer::scm' => array(
+			'rocketeer::scm'            => array(
 				'repository' => 'https://github.com/'.$this->repository,
 				'username'   => '',
 				'password'   => '',
-			)
+			),
 		));
 
 		$matcher = array(
-			'git clone -b master "https://github.com/Anahkiasen/html-object.git" {server}/releases/{release}',
+			'git clone "{repository}" "{server}/releases/{release}" --branch="master"',
 			array(
 				"cd {server}/releases/{release}",
-				exec('which phpunit')." --stop-on-failure "
+				'{phpunit} --stop-on-failure',
 			),
 			array(
 				"cd {server}/releases/{release}",
 				"chmod -R 755 {server}/releases/{release}/tests",
 				"chmod -R g+s {server}/releases/{release}/tests",
-				"chown -R www-data:www-data {server}/releases/{release}/tests"
+				"chown -R www-data:www-data {server}/releases/{release}/tests",
 			),
 			array(
 				"cd {server}/releases/{release}",
-				"{php} artisan migrate --seed"
+				"{php} artisan migrate",
 			),
-			"mkdir -p {server}/shared/tests",
-			"mv {server}/releases/{release}/tests/Elements {server}/shared/tests/Elements",
+			array(
+				"cd {server}/releases/{release}",
+				"{php} artisan db:seed",
+			),
 			"mv {server}/current {server}/releases/{release}",
 			"rm -rf {server}/current",
 			"ln -s {server}/releases/{release} {server}/current",
@@ -85,57 +127,28 @@ class DeployTest extends RocketeerTestCase
 		$this->assertTaskHistory('Deploy', $matcher, array(
 			'tests'   => true,
 			'seed'    => true,
-			'migrate' => true
-		));
-	}
-
-	public function testCanConfigureComposerCommands()
-	{
-		$this->swapConfig(array(
-			'rocketeer::scm' => array(
-				'repository' => 'https://github.com/'.$this->repository,
-				'username'   => '',
-				'password'   => '',
-			),
-			'rocketeer::remote.composer' => function ($task) {
-				return array(
-					$task->composer('self-update'),
-					$task->composer('install --prefer-source'),
-				);
-			},
-		));
-
-		$matcher = array(
-			array(
-				"cd {server}/releases/{release}",
-			  "{composer} self-update",
-			  "{composer} install --prefer-source",
-			),
-		);
-
-		$deploy = $this->pretendTask('Deploy');
-		$deploy->runComposer(true);
-
-		$this->assertTaskHistory($deploy->getHistory(), $matcher, array(
-			'tests'   => false,
-			'seed'    => false,
-			'migrate' => false
+			'migrate' => true,
 		));
 	}
 
 	public function testCanUseCopyStrategy()
 	{
 		$this->swapConfig(array(
-			'rocketeer::remote.strategy' => 'copy',
 			'rocketeer::scm' => array(
 				'repository' => 'https://github.com/'.$this->repository,
 				'username'   => '',
 				'password'   => '',
-			)
+			),
+		));
+
+		$this->app['rocketeer.strategies.deploy'] = new CopyStrategy($this->app);
+
+		$this->mockState(array(
+			'10000000000000' => true,
 		));
 
 		$matcher = array(
-			'cp {server}/releases/10000000000000 {server}/releases/{release}',
+			'cp -r {server}/releases/10000000000000 {server}/releases/{release}',
 			array(
 				'cd {server}/releases/{release}',
 				'git reset --hard',
@@ -145,10 +158,8 @@ class DeployTest extends RocketeerTestCase
 				"cd {server}/releases/{release}",
 				"chmod -R 755 {server}/releases/{release}/tests",
 				"chmod -R g+s {server}/releases/{release}/tests",
-				"chown -R www-data:www-data {server}/releases/{release}/tests"
+				"chown -R www-data:www-data {server}/releases/{release}/tests",
 			),
-			"mkdir -p {server}/shared/tests",
-			"mv {server}/releases/{release}/tests/Elements {server}/shared/tests/Elements",
 			"mv {server}/current {server}/releases/{release}",
 			"rm -rf {server}/current",
 			"ln -s {server}/releases/{release} {server}/current",
@@ -157,30 +168,28 @@ class DeployTest extends RocketeerTestCase
 		$this->assertTaskHistory('Deploy', $matcher, array(
 			'tests'   => false,
 			'seed'    => false,
-			'migrate' => false
+			'migrate' => false,
 		));
 	}
 
 	public function testCanRunDeployWithSeed()
 	{
 		$matcher = array(
-			'git clone --depth 1 -b master "" {server}/releases/{release}',
+			'git clone "{repository}" "{server}/releases/{release}" --branch="master" --depth="1"',
 			array(
 				"cd {server}/releases/{release}",
-				"git submodule update --init --recursive"
+				"git submodule update --init --recursive",
 			),
 			array(
 				"cd {server}/releases/{release}",
 				"chmod -R 755 {server}/releases/{release}/tests",
 				"chmod -R g+s {server}/releases/{release}/tests",
-				"chown -R www-data:www-data {server}/releases/{release}/tests"
+				"chown -R www-data:www-data {server}/releases/{release}/tests",
 			),
 			array(
 				"cd {server}/releases/{release}",
-				"{php} artisan db:seed"
+				"{php} artisan db:seed",
 			),
-			"mkdir -p {server}/shared/tests",
-			"mv {server}/releases/{release}/tests/Elements {server}/shared/tests/Elements",
 			"mv {server}/current {server}/releases/{release}",
 			"rm -rf {server}/current",
 			"ln -s {server}/releases/{release} {server}/current",

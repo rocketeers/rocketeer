@@ -25,26 +25,24 @@ class Console extends Application
 	 */
 	public function getHelp()
 	{
-		$help = str_replace($this->getLongVersion(), null, parent::getHelp());
+		$help  = str_replace($this->getLongVersion(), null, parent::getHelp());
+		$state = $this->buildBlock('Current state', $this->getCurrentState());
+		$help  = sprintf('%s'.PHP_EOL.PHP_EOL.'%s%s', $this->getLongVersion(), $state, $help);
 
-		return
-			$this->getLongVersion().
-			PHP_EOL.PHP_EOL.
-			$this->buildBlock('Current state', $this->getCurrentState()).
-			$help;
+		return $help;
 	}
 
 	/**
 	 * Build an help block
 	 *
-	 * @param string $title
-	 * @param array  $informations
+	 * @param string   $title
+	 * @param string[] $informations
 	 *
 	 * @return string
 	 */
 	protected function buildBlock($title, $informations)
 	{
-		$message = '<comment>' .$title. '</comment>';
+		$message = '<comment>'.$title.'</comment>';
 		foreach ($informations as $name => $info) {
 			$message .= PHP_EOL.sprintf('  <info>%-15s</info> %s', $name, $info);
 		}
@@ -55,7 +53,7 @@ class Console extends Application
 	/**
 	 * Get current state of the CLI
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	protected function getCurrentState()
 	{

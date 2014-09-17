@@ -14,6 +14,8 @@ class SetupTest extends RocketeerTestCase
 		});
 
 		$this->assertTaskHistory('Setup', array(
+			'git --version',
+			'{php} -m',
 			"mkdir {server}/",
 			"mkdir -p {server}/releases",
 			"mkdir -p {server}/current",
@@ -33,6 +35,8 @@ class SetupTest extends RocketeerTestCase
 		));
 
 		$this->assertTaskHistory('Setup', array(
+			'git --version',
+			'{php} -m',
 			"mkdir {server}/",
 			"mkdir -p {server}/staging/releases",
 			"mkdir -p {server}/staging/current",
@@ -43,7 +47,7 @@ class SetupTest extends RocketeerTestCase
 		));
 	}
 
-	public function testRunningSetupKeepsCurrentCongiguredStage()
+	public function testRunningSetupKeepsCurrentConfiguredStage()
 	{
 		$this->mockReleases(function ($mock) {
 			return $mock
@@ -51,12 +55,14 @@ class SetupTest extends RocketeerTestCase
 				->shouldReceive('getCurrentReleasePath')->andReturn('1');
 		});
 		$this->swapConfig(array(
-			'rocketeer::stages.stages' => array('staging', 'production'),
+			'rocketeer::stages.stages' => ['staging', 'production'],
 		));
 
-		$this->app['rocketeer.rocketeer']->setStage('staging');
-		$this->assertEquals('staging', $this->app['rocketeer.rocketeer']->getStage());
+		$this->connections->setStage('staging');
+		$this->assertEquals('staging', $this->connections->getStage());
 		$this->assertTaskHistory('Setup', array(
+			'git --version',
+			'{php} -m',
 			"mkdir {server}/",
 			"mkdir -p {server}/staging/releases",
 			"mkdir -p {server}/staging/current",
@@ -67,6 +73,6 @@ class SetupTest extends RocketeerTestCase
 		), array(
 			'stage' => 'staging',
 		));
-		$this->assertEquals('staging', $this->app['rocketeer.rocketeer']->getStage());
+		$this->assertEquals('staging', $this->connections->getStage());
 	}
 }

@@ -11,13 +11,26 @@ namespace Rocketeer;
 
 use Illuminate\Config\FileLoader;
 use Illuminate\Config\Repository;
-use Illuminate\Container\Container;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Http\Request;
 use Illuminate\Log\Writer;
-use Illuminate\Remote\RemoteManager;
 use Illuminate\Support\ServiceProvider;
 use Monolog\Logger;
+use Rocketeer\Services\Connections\ConnectionsHandler;
+use Rocketeer\Services\Connections\LocalConnection;
+use Rocketeer\Services\Connections\RemoteHandler;
+use Rocketeer\Services\CredentialsGatherer;
+use Rocketeer\Services\Display\QueueExplainer;
+use Rocketeer\Services\Display\QueueTimer;
+use Rocketeer\Services\History\History;
+use Rocketeer\Services\History\LogsHandler;
+use Rocketeer\Services\Ignition\Configuration;
+use Rocketeer\Services\Pathfinder;
+use Rocketeer\Services\ReleasesManager;
+use Rocketeer\Services\Storages\LocalStorage;
+use Rocketeer\Services\Tasks\TasksBuilder;
+use Rocketeer\Services\Tasks\TasksQueue;
+use Rocketeer\Services\TasksHandler;
 
 // Define DS
 if (!defined('DS')) {
@@ -55,18 +68,29 @@ class RocketeerServiceProvider extends ServiceProvider
 	 */
 	public function boot()
 	{
-		// Register classes and commands
-		$this->app = static::make($this->app);
+		$this->bindPaths();
+		$this->bindThirdPartyServices();
+
+		// Bind Rocketeer's classes
+		$this->bindCoreClasses();
+		$this->bindConsoleClasses();
+		$this->bindStrategies();
+
+		// Load the user's events, tasks, plugins, and configurations
+		$this->app['rocketeer.igniter']->loadUserConfiguration();
+
+		// Bind commands
+		$this->bindCommands();
 	}
 
 	/**
 	 * Get the services provided by the provider.
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	public function provides()
 	{
-		return array('rocketeer');
+		return ['rocketeer'];
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -74,189 +98,182 @@ class RocketeerServiceProvider extends ServiceProvider
 	////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Make a Rocketeer container
-	 *
-	 * @param Container $app
-	 *
-	 * @return Container
-	 */
-	public static function make($app = null)
-	{
-		if (!$app) {
-			$app = new Container;
-		}
-
-		$serviceProvider = new static($app);
-
-		// Bind core paths and classes
-		$app = $serviceProvider->bindPaths($app);
-		$app = $serviceProvider->bindCoreClasses($app);
-
-		// Bind Rocketeer's classes
-		$app = $serviceProvider->bindClasses($app);
-		$app = $serviceProvider->bindScm($app);
-
-		// Load the user's events and tasks
-		$app = $serviceProvider->loadFileOrFolder($app, 'tasks');
-		$app = $serviceProvider->loadFileOrFolder($app, 'events');
-
-		// Bind commands
-		$app = $serviceProvider->bindCommands($app);
-
-		return $app;
-	}
-
-	/**
 	 * Bind the Rocketeer paths
-	 *
-	 * @param Container $app
-	 *
-	 * @return Container
 	 */
-	public function bindPaths(Container $app)
+	public function bindPaths()
 	{
-		$app->bind('rocketeer.igniter', function ($app) {
-			return new Igniter($app);
+		$this->app->singleton('rocketeer.paths', function ($app) {
+			return new Pathfinder($app);
+		});
+
+		$this->app->bind('rocketeer.igniter', function ($app) {
+			return new Configuration($app);
 		});
 
 		// Bind paths
-		$app['rocketeer.igniter']->bindPaths();
-
-		return $app;
+		$this->app['rocketeer.igniter']->bindPaths();
 	}
 
 	/**
 	 * Bind the core classes
-	 *
-	 * @param  Container $app
-	 *
-	 * @return Container
 	 */
-	public function bindCoreClasses(Container $app)
+	public function bindThirdPartyServices()
 	{
-		$app->bindIf('files', 'Illuminate\Filesystem\Filesystem');
+		$this->app->bindIf('files', 'Illuminate\Filesystem\Filesystem');
 
-		$app->bindIf('request', function () {
+		$this->app->bindIf('request', function () {
 			return Request::createFromGlobals();
 		}, true);
 
-		$app->bindIf('config', function ($app) {
+		$this->app->bindIf('config', function ($app) {
 			$fileloader = new FileLoader($app['files'], __DIR__.'/../config');
 
 			return new Repository($fileloader, 'config');
 		}, true);
 
-		$app->bindIf('remote', function ($app) {
-			return new RemoteManager($app);
+		$this->app->bindIf('rocketeer.remote', function ($app) {
+			return new RemoteHandler($app);
 		}, true);
 
-		$app->bindIf('events', function ($app) {
+		$this->app->singleton('remote.local', function ($app) {
+			return new LocalConnection($app);
+		});
+
+		$this->app->bindIf('events', function ($app) {
 			return new Dispatcher($app);
 		}, true);
 
-		$app->bindIf('log', function () {
+		$this->app->bindIf('log', function () {
 			return new Writer(new Logger('rocketeer'));
 		}, true);
 
 		// Register factory and custom configurations
-		$app = $this->registerConfig($app);
-
-		return $app;
+		$this->registerConfig();
 	}
 
 	/**
 	 * Bind the Rocketeer classes to the Container
-	 *
-	 * @param  Container $app
-	 *
-	 * @return Container
 	 */
-	public function bindClasses(Container $app)
+	public function bindCoreClasses()
 	{
-		$app->singleton('rocketeer.rocketeer', function ($app) {
+		$this->app->singleton('rocketeer.rocketeer', function ($app) {
 			return new Rocketeer($app);
 		});
 
-		$app->bind('rocketeer.releases', function ($app) {
+		$this->app->singleton('rocketeer.connections', function ($app) {
+			return new ConnectionsHandler($app);
+		});
+
+		$this->app->singleton('rocketeer.explainer', function ($app) {
+			return new QueueExplainer($app);
+		});
+
+		$this->app->bind('rocketeer.timer', function ($app) {
+			return new QueueTimer($app);
+		});
+
+		$this->app->singleton('rocketeer.releases', function ($app) {
 			return new ReleasesManager($app);
 		});
 
-		$app->bind('rocketeer.server', function ($app) {
+		$this->app->singleton('rocketeer.storage.local', function ($app) {
 			$filename = $app['rocketeer.rocketeer']->getApplicationName();
 			$filename = $filename === '{application_name}' ? 'deployments' : $filename;
 
-			return new Server($app, $filename);
+			return new LocalStorage($app, $filename);
 		});
 
-		$app->bind('rocketeer.bash', function ($app) {
+		$this->app->bind('rocketeer.bash', function ($app) {
 			return new Bash($app);
 		});
 
-		$app->singleton('rocketeer.queue', function ($app) {
+		$this->app->singleton('rocketeer.queue', function ($app) {
 			return new TasksQueue($app);
 		});
 
-		$app->singleton('rocketeer.tasks', function ($app) {
+		$this->app->bind('rocketeer.builder', function ($app) {
+			return new TasksBuilder($app);
+		});
+
+		$this->app->singleton('rocketeer.tasks', function ($app) {
 			return new TasksHandler($app);
 		});
 
-		$app->singleton('rocketeer.logs', function ($app) {
-			return new LogsHandler($app);
+		$this->app->singleton('rocketeer.history', function () {
+			return new History;
 		});
 
-		$app->singleton('rocketeer.console', function () {
+		$this->app->singleton('rocketeer.logs', function ($app) {
+			return new LogsHandler($app);
+		});
+	}
+
+	/**
+	 * Bind the CredentialsGatherer and Console application
+	 */
+	public function bindConsoleClasses()
+	{
+		$this->app->singleton('rocketeer.credentials', function ($app) {
+			return new CredentialsGatherer($app);
+		});
+
+		$this->app->singleton('rocketeer.console', function () {
 			return new Console\Console('Rocketeer', Rocketeer::VERSION);
 		});
 
-		$app['rocketeer.console']->setLaravel($app);
-		$app['rocketeer.rocketeer']->syncConnectionCredentials();
-
-		return $app;
+		$this->app['rocketeer.console']->setLaravel($this->app);
+		$this->app['rocketeer.connections']->syncConnectionCredentials();
 	}
 
 	/**
 	 * Bind the SCM instance
-	 *
-	 * @param  Container $app
-	 *
-	 * @return Container
 	 */
-	public function bindScm(Container $app)
+	public function bindStrategies()
 	{
-		// Currently only one
+		// Bind SCM class
 		$scm = $this->app['rocketeer.rocketeer']->getOption('scm.scm');
 		$scm = 'Rocketeer\Scm\\'.ucfirst($scm);
 
-		$app->bind('rocketeer.scm', function ($app) use ($scm) {
+		$this->app->bind('rocketeer.scm', function ($app) use ($scm) {
 			return new $scm($app);
 		});
 
-		return $app;
+		// Bind strategies
+		$strategies = $this->app['rocketeer.rocketeer']->getOption('strategies');
+		foreach ($strategies as $strategy => $concrete) {
+			if (!is_string($concrete)) {
+				continue;
+			}
+
+			$this->app->bind('rocketeer.strategies.'.$strategy, function ($app) use ($strategy, $concrete) {
+				return $app['rocketeer.builder']->buildStrategy($strategy, $concrete);
+			});
+		}
 	}
 
 	/**
 	 * Bind the commands to the Container
-	 *
-	 * @param  Container $app
-	 *
-	 * @return Container
 	 */
-	public function bindCommands(Container $app)
+	public function bindCommands()
 	{
 		// Base commands
 		$tasks = array(
-			''         => 'Rocketeer',
-			'check'    => 'Check',
-			'cleanup'  => 'Cleanup',
-			'current'  => 'CurrentRelease',
-			'deploy'   => 'Deploy',
-			'flush'    => 'Flush',
-			'ignite'   => 'Ignite',
-			'rollback' => 'Rollback',
-			'setup'    => 'Setup',
-			'teardown' => 'Teardown',
-			'test'     => 'Test',
-			'update'   => 'Update',
+			''               => 'Rocketeer',
+			'check'          => 'Check',
+			'cleanup'        => 'Cleanup',
+			'current'        => 'CurrentRelease',
+			'deploy'         => 'Deploy',
+			'flush'          => 'Flush',
+			'ignite'         => 'Ignite',
+			'rollback'       => 'Rollback',
+			'setup'          => 'Setup',
+			'strategies'     => 'Strategies',
+			'teardown'       => 'Teardown',
+			'test'           => 'Test',
+			'update'         => 'Update',
+			'plugin-publish' => 'Plugins\Publish',
+			'plugin-list'    => 'Plugins\List',
+			'plugin-install' => 'Plugins\Install',
 		);
 
 		// Add User commands
@@ -265,51 +282,31 @@ class RocketeerServiceProvider extends ServiceProvider
 
 		// Bind the commands
 		foreach ($tasks as $slug => $task) {
-
-			// Check if we have an actual command to use
-			$commandClass = 'Rocketeer\Commands\\'.$task.'Command';
-			$fakeCommand  = !class_exists($commandClass);
-
-			// Build command slug
-			$taskInstance = $this->app['rocketeer.tasks']->buildTaskFromClass($task);
-			if (is_numeric($slug)) {
-				$slug = $taskInstance->getSlug();
-			}
+			$command = $this->app['rocketeer.builder']->buildCommand($task, $slug);
 
 			// Bind Task to container
 			$handle = 'rocketeer.tasks.'.$slug;
-			$this->app->bind($handle, function () use ($taskInstance) {
-				return $taskInstance;
+			$this->app->bind($handle, function () use ($command) {
+				return $command->getTask();
 			});
 
 			// Add command to array
-			$command = trim('deploy.'.$slug, '.');
-			$this->commands[] = $command;
+			$commandHandle    = trim('deploy.'.$slug, '.');
+			$this->commands[] = $commandHandle;
 
-			// Look for an existing command
-			if (!$fakeCommand) {
-				$this->app->singleton($command, function () use ($commandClass) {
-					return new $commandClass;
-				});
-
-			// Else create a fake one
-			} else {
-				$this->app->bind($command, function () use ($taskInstance, $slug) {
-					return new Commands\BaseTaskCommand($taskInstance, $slug);
-				});
-			}
-
+			// Register command with the container
+			$this->app->singleton($commandHandle, function () use ($command) {
+				return $command;
+			});
 		}
 
 		// Add commands to Artisan
 		foreach ($this->commands as $command) {
-			$app['rocketeer.console']->add($app[$command]);
-			if (isset($app['events'])) {
+			$this->app['rocketeer.console']->add($this->app[$command]);
+			if (isset($this->app['events'])) {
 				$this->commands($command);
 			}
 		}
-
-		return $app;
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -318,62 +315,28 @@ class RocketeerServiceProvider extends ServiceProvider
 
 	/**
 	 * Register factory and custom configurations
-	 *
-	 * @param  Container $app
-	 *
-	 * @return Container
 	 */
-	protected function registerConfig(Container $app)
+	protected function registerConfig()
 	{
 		// Register config file
-		$app['config']->package('anahkiasen/rocketeer', __DIR__.'/../config');
-		$app['config']->getLoader();
+		$this->app['config']->package('anahkiasen/rocketeer', __DIR__.'/../config');
+		$this->app['config']->getLoader();
 
 		// Register custom config
-		$custom = $app['path.rocketeer.config'];
-		if (file_exists($custom)) {
-			$app['config']->afterLoading('rocketeer', function ($me, $group, $items) use ($custom) {
-				$customItems = $custom.'/'.$group.'.php';
-				if (!file_exists($customItems)) {
-					return $items;
-				}
-
-				$customItems = include $customItems;
-
-				return array_replace($items, $customItems);
-			});
+		$set = $this->app['path.rocketeer.config'];
+		if (!file_exists($set)) {
+			return;
 		}
 
-		return $app;
-	}
-
-	/**
-	 * Load a file or its contents if a folder
-	 *
-	 * @param Container $app
-	 * @param string    $handle
-	 *
-	 * @return Container
-	 */
-	protected function loadFileOrFolder(Container $app, $handle)
-	{
-		// Bind ourselves into the facade to avoid automatic resolution
-		Facades\Rocketeer::setFacadeApplication($app);
-
-		// If we have one unified tasks file, include it
-		$file = $app['path.rocketeer.'.$handle];
-		if (!is_dir($file) and file_exists($file)) {
-			include $file;
-		}
-
-		// Else include its contents
-		elseif (is_dir($file)) {
-			$folder = glob($file.'/*.php');
-			foreach ($folder as $file) {
-				include $file;
+		$this->app['config']->afterLoading('rocketeer', function ($me, $group, $items) use ($set) {
+			$customItems = $set.'/'.$group.'.php';
+			if (!file_exists($customItems)) {
+				return $items;
 			}
-		}
 
-		return $app;
+			$customItems = include $customItems;
+
+			return array_replace($items, $customItems);
+		});
 	}
 }

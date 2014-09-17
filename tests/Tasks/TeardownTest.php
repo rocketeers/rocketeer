@@ -7,10 +7,10 @@ class TeardownTest extends RocketeerTestCase
 {
 	public function testCanTeardownServer()
 	{
-		$this->mock('rocketeer.server', 'Server', function ($mock) {
+		$this->mock('rocketeer.storage.local', 'LocalStorage', function ($mock) {
 			return $mock
 				->shouldReceive('getSeparator')->andReturn(DIRECTORY_SEPARATOR)
-				->shouldReceive('deleteRepository')->once();
+				->shouldReceive('destroy')->once();
 		});
 
 		$this->assertTaskHistory('Teardown', array(
@@ -20,10 +20,10 @@ class TeardownTest extends RocketeerTestCase
 
 	public function testCanAbortTeardown()
 	{
-		$this->mock('rocketeer.server', 'Server', function ($mock) {
+		$this->mock('rocketeer.storage.local', 'LocalStorage', function ($mock) {
 			return $mock
 				->shouldReceive('getSeparator')->andReturn(DIRECTORY_SEPARATOR)
-				->shouldReceive('deleteRepository')->never();
+				->shouldReceive('destroy')->never();
 		});
 
 		$task    = $this->pretendTask('Teardown', array(), array('confirm' => false));

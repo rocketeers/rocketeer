@@ -1,14 +1,11 @@
 # Cache and compiled
-bin/rocketeer.phar
-bin/phar
-storage
 .rocketeer
-
-# Plugins
-rocketeer-campfire
+bin/phar
+bin/rocketeer.phar
+composer.lock
 
 # Tests
-tests/_meta/coverage
+tests/_server/foobar
 
 # Dependencies
 vendor

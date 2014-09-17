@@ -9,40 +9,47 @@
  */
 namespace Rocketeer\Tasks;
 
-use Rocketeer\Traits\Task;
+use Rocketeer\Abstracts\AbstractTask;
 
 /**
  * Rollback to the previous release, or to a specific one
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class Rollback extends Task
+class Rollback extends AbstractTask
 {
 	/**
-	 * Run the Task
+	 * The console command description.
 	 *
-	 * @return  void
+	 * @var string
+	 */
+	protected $description = 'Rollback to the previous release, or to a specific one';
+
+	/**
+	 * Run the task
+	 *
+	 * @return string|null
 	 */
 	public function execute()
 	{
 		// Get previous release
 		$rollbackRelease = $this->getRollbackRelease();
 		if (!$rollbackRelease) {
-			$this->command->error('Rocketeer could not rollback as no releases have yet been deployed');
+			return $this->explainer->error('Rocketeer could not rollback as no releases have yet been deployed');
 		}
 
 		// If no release specified, display the available ones
-		if (array_get($this->command->option(), 'list')) {
+		if ($this->command->option('list')) {
 			$releases = $this->releasesManager->getReleases();
 			$this->displayReleases();
 
 			// Get actual release name from date
-			$rollbackRelease = $this->command->ask('Which one do you want to go back to ? (0)', 0);
+			$rollbackRelease = $this->command->askWith('Which one do you want to go back to ?', 0);
 			$rollbackRelease = $releases[$rollbackRelease];
 		}
 
 		// Rollback release
-		$this->command->info('Rolling back to release '.$rollbackRelease);
+		$this->explainer->success('Rolling back to release '.$rollbackRelease);
 		$this->updateSymlink($rollbackRelease);
 	}
 
@@ -53,11 +60,11 @@ class Rollback extends Task
 	/**
 	 * Get the release to rollback to
 	 *
-	 * @return integer
+	 * @return integer|null
 	 */
 	protected function getRollbackRelease()
 	{
-		$release = array_get($this->command->argument(), 'release');
+		$release = $this->command->argument('release');
 		if (!$release) {
 			$release = $this->releasesManager->getPreviousRelease();
 		}

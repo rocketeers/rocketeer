@@ -16,39 +16,51 @@ namespace Rocketeer\Tasks;
  */
 class Update extends Deploy
 {
-	 /**
-	 * A description of what the Task does
+	/**
+	 * A description of what the task does
 	 *
 	 * @var string
 	 */
 	protected $description = 'Update the remote server without doing a new release';
 
 	/**
-	 * Run the Task
+	 * Run the task
 	 *
-	 * @return  void
+	 * @return  boolean|null
 	 */
 	public function execute()
 	{
+		// Check if local is ready for deployment
+		if (!$this->executeTask('Primer')) {
+			return $this->halt('Project is not ready for deploy. You were almost fired.');
+		}
+
 		// Update repository
-		$this->updateRepository();
+		if (!$this->getStrategy('Deploy')->update()) {
+			return $this->halt();
+		}
 
 		// Recreate symlinks if necessary
-		$this->syncSharedFolders();
+		$this->steps()->syncSharedFolders();
 
 		// Recompile dependencies and stuff
-		$this->runComposer();
+		$this->steps()->executeTask('Dependencies');
 
 		// Set permissions
-		$this->setApplicationPermissions();
+		$this->steps()->setApplicationPermissions();
 
 		// Run migrations
-		if ($this->getOption('migrate')) {
-			$this->runMigrations($this->getOption('seed'));
+		if ($this->getOption('migrate') || $this->getOption('seed')) {
+			$this->steps()->executeTask('Migrate');
+		}
+
+		// Run the steps
+		if (!$this->runSteps()) {
+			return $this->halt();
 		}
 
 		// Clear cache
-		$this->runForCurrentRelease($this->artisan('cache:clear'));
+		$this->artisan()->runForCurrentRelease('clearCache');
 
 		$this->command->info('Successfully updated application');
 	}

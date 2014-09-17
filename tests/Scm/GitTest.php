@@ -8,7 +8,7 @@ class GitTest extends RocketeerTestCase
 	/**
 	 * The current SCM instance
 	 *
-	 * @var Rocketeer\Scm\Git
+	 * @var Git
 	 */
 	protected $scm;
 
@@ -46,30 +46,34 @@ class GitTest extends RocketeerTestCase
 
 	public function testCanGetCheckout()
 	{
-		$this->mock('rocketeer.rocketeer', 'Rocketeer', function ($mock) {
+		$this->mock('rocketeer.rocketeer', 'Rocketeer\Rocketeer', function ($mock) {
+			return $mock->shouldReceive('getOption')->once()->with('scm.shallow')->andReturn(true);
+		});
+		$this->mock('rocketeer.connections', 'ConnectionsHandler', function ($mock) {
 			return $mock
-				->shouldReceive('getOption')->once()->with('scm.shallow')->andReturn(true)
-				->shouldReceive('getRepository')->once()->andReturn('http://github.com/my/repository')
+				->shouldReceive('getRepositoryEndpoint')->once()->andReturn('http://github.com/my/repository')
 				->shouldReceive('getRepositoryBranch')->once()->andReturn('develop');
 		});
 
 		$command = $this->scm->checkout($this->server);
 
-		$this->assertEquals('git clone --depth 1 -b develop "http://github.com/my/repository" ' .$this->server, $command);
+		$this->assertEquals('git clone "http://github.com/my/repository" "'.$this->server.'" --branch="develop" --depth="1"', $command);
 	}
 
 	public function testCanGetDeepClone()
 	{
-		$this->mock('rocketeer.rocketeer', 'Rocketeer', function ($mock) {
+		$this->mock('rocketeer.rocketeer', 'Rocketeer\Rocketeer', function ($mock) {
+			return $mock->shouldReceive('getOption')->once()->with('scm.shallow')->andReturn(false);
+		});
+		$this->mock('rocketeer.connections', 'ConnectionsHandler', function ($mock) {
 			return $mock
-				->shouldReceive('getOption')->once()->with('scm.shallow')->andReturn(false)
-				->shouldReceive('getRepository')->once()->andReturn('http://github.com/my/repository')
+				->shouldReceive('getRepositoryEndpoint')->once()->andReturn('http://github.com/my/repository')
 				->shouldReceive('getRepositoryBranch')->once()->andReturn('develop');
 		});
 
 		$command = $this->scm->checkout($this->server);
 
-		$this->assertEquals('git clone -b develop "http://github.com/my/repository" ' .$this->server, $command);
+		$this->assertEquals('git clone "http://github.com/my/repository" "'.$this->server.'" --branch="develop"', $command);
 	}
 
 	public function testCanGetReset()

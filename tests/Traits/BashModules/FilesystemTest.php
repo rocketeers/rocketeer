@@ -7,9 +7,9 @@ class FilesystemTest extends RocketeerTestCase
 {
 	public function testCancelsSymlinkForUnexistingFolders()
 	{
-		$task    = $this->pretendTask();
-		$folder  = '{path.storage}/logs';
-		$share   = $task->share($folder);
+		$task   = $this->pretendTask();
+		$folder = '{path.storage}/logs';
+		$share  = $task->share($folder);
 
 		$this->assertFalse($share);
 	}
@@ -33,12 +33,22 @@ class FilesystemTest extends RocketeerTestCase
 	{
 		$contents = $this->task->listContents($this->server);
 
-		$this->assertEquals(array('current', 'releases', 'shared', 'state.json'), $contents);
+		$this->assertContains('current', $contents);
+		$this->assertContains('releases', $contents);
+		$this->assertContains('shared', $contents);
+		$this->assertContains('state.json', $contents);
 	}
 
 	public function testCanCheckIfFileExists()
 	{
 		$this->assertTrue($this->task->fileExists($this->server));
 		$this->assertFalse($this->task->fileExists($this->server.'/nope'));
+	}
+
+	public function testDoesntTryToMoveUnexistingFolders()
+	{
+		$this->pretendTask()->move('foobar', 'bazqux');
+
+		$this->assertEmpty($this->history->getFlattenedOutput());
 	}
 }

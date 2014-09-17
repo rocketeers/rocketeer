@@ -4,7 +4,7 @@ require __DIR__.'/../vendor/autoload.php';
 
 // Create Phar
 $compiler = new Rocketeer\Console\Compiler;
-$phar = $compiler->compile();
+$phar     = $compiler->compile();
 
 // Set permissions
 chmod($phar, 0755);

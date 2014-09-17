@@ -9,6 +9,7 @@
  */
 namespace Rocketeer\Facades;
 
+use Illuminate\Container\Container;
 use Illuminate\Support\Facades\Facade;
 use Rocketeer\RocketeerServiceProvider;
 
@@ -16,8 +17,7 @@ use Rocketeer\RocketeerServiceProvider;
  * Facade for Rocketeer's CLI
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
- *
- * @see Rocketeer\Console\Console
+ * @see    Rocketeer\Console\Console
  */
 abstract class StandaloneFacade extends Facade
 {
@@ -36,7 +36,11 @@ abstract class StandaloneFacade extends Facade
 	protected static function getFacadeAccessor()
 	{
 		if (!static::$app) {
-			static::$app = RocketeerServiceProvider::make();
+			$container = new Container();
+			$provider  = new RocketeerServiceProvider($container);
+			$provider->boot();
+
+			static::$app = $container;
 		}
 
 		return static::$accessor;

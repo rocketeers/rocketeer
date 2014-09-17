@@ -14,7 +14,7 @@ namespace Rocketeer\Traits\BashModules;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class Filesystem extends Core
+trait Filesystem
 {
 	////////////////////////////////////////////////////////////////////
 	/////////////////////////////// COMMON /////////////////////////////
@@ -23,8 +23,8 @@ class Filesystem extends Core
 	/**
 	 * Symlinks two folders
 	 *
-	 * @param  string $folder   The folder in shared/
-	 * @param  string $symlink  The folder that will symlink to it
+	 * @param string $folder  The folder in shared/
+	 * @param string $symlink The folder that will symlink to it
 	 *
 	 * @return string
 	 */
@@ -47,13 +47,17 @@ class Filesystem extends Core
 	/**
 	 * Move a file
 	 *
-	 * @param  string $origin
-	 * @param  string $destination
+	 * @param string $origin
+	 * @param string $destination
 	 *
-	 * @return string
+	 * @return string|null
 	 */
 	public function move($origin, $destination)
 	{
+		if (!$this->fileExists($origin)) {
+			return;
+		}
+
 		return $this->fromTo('mv', $origin, $destination);
 	}
 
@@ -67,13 +71,13 @@ class Filesystem extends Core
 	 */
 	public function copy($origin, $destination)
 	{
-		return $this->fromTo('cp', $origin, $destination);
+		return $this->fromTo('cp -r', $origin, $destination);
 	}
 
 	/**
 	 * Get the contents of a directory
 	 *
-	 * @param  string $directory
+	 * @param string $directory
 	 *
 	 * @return array
 	 */
@@ -85,13 +89,13 @@ class Filesystem extends Core
 	/**
 	 * Check if a file exists
 	 *
-	 * @param  string $file Path to the file
+	 * @param string $file Path to the file
 	 *
 	 * @return boolean
 	 */
 	public function fileExists($file)
 	{
-		$exists = $this->runRaw('[ -e ' .$file. ' ] && echo "true"');
+		$exists = $this->runRaw('[ -e '.$file.' ] && echo "true"');
 
 		return trim($exists) == 'true';
 	}
@@ -107,7 +111,7 @@ class Filesystem extends Core
 	{
 		// Get path to folder
 		$folder = $this->releasesManager->getCurrentReleasePath($folder);
-		$this->command->comment('Setting permissions for '.$folder);
+		$this->explainer->line('Setting permissions for '.$folder);
 
 		// Get permissions options
 		$callback = $this->rocketeer->getOption('remote.permissions.callback');
@@ -134,7 +138,7 @@ class Filesystem extends Core
 	 */
 	public function getFile($file)
 	{
-		return $this->remote->getString($file);
+		return $this->getConnection()->getString($file);
 	}
 
 	/**
@@ -147,7 +151,25 @@ class Filesystem extends Core
 	 */
 	public function putFile($file, $contents)
 	{
-		$this->remote->putString($file, $contents);
+		$this->getConnection()->putString($file, $contents);
+	}
+
+	/**
+	 * Upload a local file to remote
+	 *
+	 * @param string      $file
+	 * @param string|null $destination
+	 */
+	public function upload($file, $destination = null)
+	{
+		if (!file_exists($file)) {
+			return;
+		}
+
+		// Get contents and destination
+		$destination = $destination ?: basename($file);
+
+		$this->getConnection()->put($file, $destination);
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -157,8 +179,8 @@ class Filesystem extends Core
 	/**
 	 * Create a folder in the application's folder
 	 *
-	 * @param  string  $folder       The folder to create
-	 * @param  boolean $recursive
+	 * @param string|null $folder The folder to create
+	 * @param boolean     $recursive
 	 *
 	 * @return string The task
 	 */
@@ -166,19 +188,23 @@ class Filesystem extends Core
 	{
 		$recursive = $recursive ? '-p ' : null;
 
-		return $this->run('mkdir '.$recursive.$this->rocketeer->getFolder($folder));
+		return $this->run('mkdir '.$recursive.$this->paths->getFolder($folder));
 	}
 
 	/**
 	 * Remove a folder in the application's folder
 	 *
-	 * @param  string $folder       The folder to remove
+	 * @param array|string|null $folders The folder to remove
 	 *
 	 * @return string The task
 	 */
-	public function removeFolder($folder = null)
+	public function removeFolder($folders = null)
 	{
-		return $this->run('rm -rf '.$this->rocketeer->getFolder($folder));
+		$folders = (array) $folders;
+		$folders = array_map([$this->paths, 'getFolder'], $folders);
+		$folders = implode(' ', $folders);
+
+		return $this->run('rm -rf '.$folders);
 	}
 
 	////////////////////////////////////////////////////////////////////

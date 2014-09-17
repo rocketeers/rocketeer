@@ -9,17 +9,18 @@
  */
 namespace Rocketeer\Tasks;
 
-use Rocketeer\Traits\Task;
+use Illuminate\Support\Arr;
+use Rocketeer\Abstracts\AbstractTask;
 
 /**
  * A task to ignite Rocketeer
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class Ignite extends Task
+class Ignite extends AbstractTask
 {
-	 /**
-	 * A description of what the Task does
+	/**
+	 * A description of what the task does
 	 *
 	 * @var string
 	 */
@@ -78,16 +79,17 @@ class Ignite extends Task
 	protected function getConfigurationInformations()
 	{
 		// Replace credentials
-		$repositoryCredentials = $this->rocketeer->getCredentials();
-		$name = basename($this->app['path.base']);
+		$repositoryCredentials = $this->connections->getRepositoryCredentials();
+		$name                  = basename($this->app['path.base']);
 
 		return array_merge(
-			$this->rocketeer->getConnectionCredentials(),
+			$this->connections->getServerCredentials(),
 			array(
-				'scm_repository'   => $repositoryCredentials['repository'],
-				'scm_username'     => $repositoryCredentials['username'],
-				'scm_password'     => $repositoryCredentials['password'],
-				'application_name' => $this->command->ask("What is your application's name ? (" .$name. ")", $name),
+				'connection'       => preg_replace('/#[0-9]+/', null, $this->connections->getConnection()),
+				'scm_repository'   => Arr::get($repositoryCredentials, 'repository'),
+				'scm_username'     => Arr::get($repositoryCredentials, 'username'),
+				'scm_password'     => Arr::get($repositoryCredentials, 'password'),
+				'application_name' => $this->command->ask('What is your application\'s name ? ('.$name.')', $name),
 			)
 		);
 	}

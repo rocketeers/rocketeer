@@ -10,50 +10,55 @@
 namespace Rocketeer\Tasks;
 
 use Illuminate\Support\Str;
-use Rocketeer\Traits\Task;
+use Rocketeer\Abstracts\AbstractTask;
+use Rocketeer\Services\Storages\ServerStorage;
 
 /**
  * Clean up old releases from the server
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class Cleanup extends Task
+class Cleanup extends AbstractTask
 {
-	 /**
-	 * A description of what the Task does
+	/**
+	 * A description of what the task does
 	 *
 	 * @var string
 	 */
 	protected $description = 'Clean up old releases from the server';
 
 	/**
-	 * Run the Task
-	 *
-	 * @return  void
+	 * Run the task
 	 */
 	public function execute()
 	{
 		// If no releases to prune
 		if (!$trash = $this->getReleasesToCleanup()) {
-			return $this->command->comment('No releases to prune from the server');
+			return $this->explainer->line('No releases to prune from the server');
 		}
 
 		// Prune releases
-		foreach ($trash as $release) {
-			$this->removeFolder($this->releasesManager->getPathToRelease($release));
-		}
+		$trash = array_map([$this->releasesManager, 'getPathToRelease'], $trash);
+		$this->removeFolder($trash);
 
 		// Create final message
-		$trash   = sizeof($trash);
+		$trash   = count($trash);
 		$message = sprintf('Removing <info>%d %s</info> from the server', $trash, Str::plural('release', $trash));
 
-		return $this->command->line($message);
+		// Delete state file
+		if ($this->getOption('clean-all')) {
+			$state = new ServerStorage($this->app, 'state');
+			$state->destroy();
+			$this->releasesManager->markReleaseAsValid();
+		}
+
+		return $this->explainer->line($message);
 	}
 
 	/**
 	 * Get an array of releases to prune
 	 *
-	 * @return array
+	 * @return integer[]
 	 */
 	protected function getReleasesToCleanup()
 	{
