@@ -28,7 +28,7 @@ The fastest way is to grab the binary:
 curl http://rocketeer.autopergamene.eu/versions/rocketeer.phar > /usr/local/bin/rocketeer && chmod 755 /usr/local/bin/rocketeer
 ```
 
-More ways to setup Rocketeer can be found in the [official documentation](http://rocketeer.autopergamene.eu/#/docs/I-Introduction/Getting-started).
+More ways to setup Rocketeer can be found in the [official documentation](http://rocketeer.autopergamene.eu/#/docs/docs/I-Introduction/Getting-started).
 
 ## Usage
 
@@ -52,7 +52,7 @@ $ php rocketeer
   update       Update the remote server without doing a new release
 ```
 
-Documentation can be [found here](https://github.com/rocketeers/docs)
+Documentation can be [found here](http://rocketeer.autopergamene.eu/#/docs/rocketeer/README)
 
 ## Testing
 
