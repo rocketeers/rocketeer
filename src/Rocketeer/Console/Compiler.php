@@ -125,10 +125,7 @@ class Compiler
 	 */
 	protected function setStub()
 	{
-		$stub = StubGenerator::create()
-		                     ->index('bin/rocketeer')
-		                     ->generate();
-
+		$stub = StubGenerator::create()->index('bin/rocketeer')->generate();
 		$this->box->getPhar()->setStub($stub);
 	}
 
@@ -143,10 +140,7 @@ class Compiler
 	protected function addFolder($folder, array $ignore = array())
 	{
 		$finder = new Finder();
-		$finder = $finder->files()
-		                 ->ignoreVCS(true)
-		                 ->name('*.php')
-		                 ->in($folder);
+		$finder = $finder->files()->ignoreVCS(true)->name('*.php')->in($folder);
 
 		// Ignore some files or folders
 		if ($ignore) {
