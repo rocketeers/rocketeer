@@ -44,6 +44,13 @@ abstract class RocketeerTestCase extends ContainerTestCase
 	protected $binaries = [];
 
 	/**
+	 * Number of files an ls should yield
+	 *
+	 * @type integer
+	 */
+	protected $numberFiles = 11;
+
+	/**
 	 * Set up the tests
 	 */
 	public function setUp()
