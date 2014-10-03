@@ -102,13 +102,21 @@ abstract class AbstractCommand extends Command
 	 */
 	protected function getOptions()
 	{
-		return array(
-			// Options
+		// General options
+		$global = array(
 			['parallel', 'P', InputOption::VALUE_NONE, 'Run the tasks asynchronously instead of sequentially'],
 			['pretend', 'p', InputOption::VALUE_NONE, 'Shows which command would execute without actually doing anything'],
+		);
+
+		// Options that override the predefined configuration
+		$overrides = array(
 			['on', 'C', InputOption::VALUE_REQUIRED, 'The connection(s) to execute the Task in'],
 			['stage', 'S', InputOption::VALUE_REQUIRED, 'The stage to execute the Task in'],
-			// Credentials
+			['branch', 'B', InputOption::VALUE_REQUIRED, 'The branch to deploy'],
+		);
+
+		// Additional credentials passed to Rocketeer
+		$credentials = array(
 			['host', null, InputOption::VALUE_REQUIRED, 'The host to use if asked'],
 			['username', null, InputOption::VALUE_REQUIRED, 'The username to use if asked'],
 			['password', null, InputOption::VALUE_REQUIRED, 'The password to use if asked'],
@@ -116,6 +124,12 @@ abstract class AbstractCommand extends Command
 			['keyphrase', null, InputOption::VALUE_REQUIRED, 'The keyphrase to use if asked'],
 			['agent', null, InputOption::VALUE_REQUIRED, 'The agent to use if asked'],
 			['repository', null, InputOption::VALUE_REQUIRED, 'The repository to use if asked'],
+		);
+
+		return array_merge(
+			$global,
+			$overrides,
+			$credentials
 		);
 	}
 

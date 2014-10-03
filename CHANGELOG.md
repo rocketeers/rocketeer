@@ -3,8 +3,10 @@
 2.0.1
 -----
 
-### Fixed
+### Added
+- Added ability to pass the branch/tag/commit to deploy via `--branch` or `-B`
 
+### Fixed
 - Fixed a bug where ignition wouldn't work from the PHAR archive
 - Fixed a missing dependency registered as a dev-dependency
 

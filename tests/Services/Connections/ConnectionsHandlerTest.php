@@ -96,6 +96,13 @@ class ConnectionsHandlerTest extends RocketeerTestCase
 		$this->assertEquals('master', $this->connections->getRepositoryBranch());
 	}
 
+	public function testCanPassRepositoryBranchAsFlag()
+	{
+		$this->mockCommand(['branch' => '1.0']);
+
+		$this->assertEquals('1.0', $this->connections->getRepositoryBranch());
+	}
+
 	public function testFillsConnectionCredentialsHoles()
 	{
 		$connections = $this->connections->getAvailableConnections();

@@ -412,12 +412,18 @@ class ConnectionsHandler
 	}
 
 	/**
-	 * Get the Git branch
+	 * Get the repository branch to use
 	 *
 	 * @return string
 	 */
 	public function getRepositoryBranch()
 	{
+		// If we passed a branch, use it
+		if ($branch = $this->getOption('branch')) {
+			return $branch;
+		}
+
+		// Compute the fallback branch
 		exec($this->scm->currentBranch(), $fallback);
 		$fallback = Arr::get($fallback, 0, 'master');
 		$fallback = trim($fallback);
