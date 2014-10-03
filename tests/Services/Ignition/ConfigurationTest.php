@@ -144,4 +144,21 @@ class ConfigurationTest extends RocketeerTestCase
 
 		$this->igniter->mergeContextualConfigurations();
 	}
+
+	public function testCanExportConfigurationFromArchive()
+	{
+		$pharPath = 'phar:///rocketeer/bin/rocketeer.phar/src/Rocketeer/Services/Ignition/../../../config';
+
+		$this->mock('rocketeer.paths', 'Pathfinder', function ($mock) use ($pharPath) {
+			return $mock
+				->shouldReceive('unifyLocalSlashes')->andReturn($pharPath)
+				->shouldReceive('getConfigurationPath')->andReturn('config');
+		});
+
+		$this->mockFiles(function ($mock) use ($pharPath) {
+			return $mock->shouldReceive('copyDirectory')->with($pharPath, 'config');
+		});
+
+		$this->igniter->exportConfiguration();
+	}
 }

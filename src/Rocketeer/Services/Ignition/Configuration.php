@@ -11,6 +11,7 @@ namespace Rocketeer\Services\Ignition;
 
 use Closure;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Rocketeer\Facades;
 use Rocketeer\Traits\HasLocator;
 use Symfony\Component\Finder\Finder;
@@ -101,7 +102,7 @@ class Configuration
 	public function exportConfiguration()
 	{
 		$source      = $this->paths->unifyLocalSlashes(__DIR__.'/../../../config');
-		$source      = realpath($source);
+		$source      = Str::contains($source, 'phar://') ? $source : realpath($source);
 		$destination = $this->paths->getConfigurationPath();
 
 		// Unzip configuration files
