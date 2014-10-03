@@ -1,14 +1,21 @@
 # Changelog
 
-2.0.0
+2.0.1
 -----
+
+### Fixed
+
+- Fixed a bug where ignition wouldn't work from the PHAR archive
+
+2.0.0 - 2014-09-17
+------------------
 
 ### Added
 - Added ability to run tasks in parallel via the `--parallel` flag (or `-P`)
 - Added ability to have multiple servers for one connection, just define them in a `servers` array in your connection, each entry being an usual connection credentials array
 - Added support for defining contextual configurations in files (`.rocketeer/connections/{connection}/scm.php`, same for stages)
 - Core tasks (Deploy, Check, Test, Migrate) now use a module system called Strategies
-- Added a `Sync` DeployStrategy in addition to `Clone` and `Copy` that uses rsync to create a new release 
+- Added a `Sync` DeployStrategy in addition to `Clone` and `Copy` that uses rsync to create a new release
 - Added static helper `Rocketeer::getDetectedStage` to get the stage Rocketeer think's he's in on the server (for environment mappings)
 - Added support for checking of HHVM extensions
 - Added `Task::upload(file, destination)` to upload files to remote, destination can be null and the basename of the file would then be used

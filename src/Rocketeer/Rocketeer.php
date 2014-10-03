@@ -26,7 +26,7 @@ class Rocketeer
 	 *
 	 * @var string
 	 */
-	const VERSION = '2.0.0';
+	const VERSION = '2.0.1';
 
 	/**
 	 * Returns what stage Rocketeer thinks he's in
