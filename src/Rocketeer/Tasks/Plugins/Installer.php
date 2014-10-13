@@ -31,11 +31,6 @@ class Installer extends AbstractTask
 		$package = $this->command->argument('package');
 		$folder  = $this->paths->getRocketeerConfigFolder();
 
-		// Add version if necessary
-		if (strpos($package, ':') === false) {
-			$package .= ':dev-master';
-		}
-
 		$command = $this->composer()->require($package, array(
 			'--working-dir' => $folder,
 		));
