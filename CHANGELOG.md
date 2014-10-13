@@ -5,6 +5,7 @@
 
 ### Added
 - Added ability to pass the branch/tag/commit to deploy via `--branch` or `-B`
+- Added ability to declare tasks fluently via `Rocketeer::task('name')->description('description')->does(string|array|Closure)`
 
 ### Fixed
 - Fixed a bug where ignition wouldn't work from the PHAR archive

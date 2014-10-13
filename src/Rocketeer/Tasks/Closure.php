@@ -33,6 +33,49 @@ class Closure extends AbstractTask
 	 */
 	protected $stringTask;
 
+	//////////////////////////////////////////////////////////////////////
+	////////////////////////// FLUENT INTERFACE //////////////////////////
+	//////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Change what the task does
+	 *
+	 * @param string|array|\Closure $task
+	 *
+	 * @return self
+	 */
+	public function does($task)
+	{
+		$this->setStringTask($task);
+
+		// Wrap string tasks
+		if (is_string($task) || is_array($task)) {
+			$task = $this->builder->wrapStringTasks($task);
+		}
+
+		$this->setClosure($task);
+
+		return $this;
+	}
+
+	/**
+	 * Fluent alias for setDescription
+	 *
+	 * @param string $description
+	 *
+	 * @return self
+	 */
+	public function description($description)
+	{
+		$this->setDescription($description);
+
+		return $this;
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	//////////////////////// GETTERS AND SETTERS /////////////////////////
+	//////////////////////////////////////////////////////////////////////
+
 	/**
 	 * Get the name of the task
 	 *

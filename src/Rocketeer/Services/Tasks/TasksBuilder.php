@@ -190,7 +190,7 @@ class TasksBuilder
 		}
 
 		// If we passed a command, build a ClosureTask
-		if (is_array($task) || $this->isStringCommand($task)) {
+		if (is_array($task) || $this->isStringCommand($task) || is_null($task)) {
 			return $this->buildTaskFromString($task);
 		}
 
@@ -209,12 +209,9 @@ class TasksBuilder
 	 */
 	public function buildTaskFromString($task)
 	{
-		$stringTask = $task;
-		$closure    = function (AbstractTask $task) use ($stringTask) {
-			return $task->runForCurrentRelease($stringTask);
-		};
+		$closure = $this->wrapStringTasks($task);
 
-		return $this->buildTaskFromClosure($closure, $stringTask);
+		return $this->buildTaskFromClosure($closure, $task);
 	}
 
 	/**
@@ -335,5 +332,17 @@ class TasksBuilder
 		}
 
 		return false;
+	}
+
+	/**
+	 * @param string|array $stringTask
+	 *
+	 * @return Closure
+	 */
+	public function wrapStringTasks($stringTask)
+	{
+		return function (AbstractTask $task) use ($stringTask) {
+			return $task->runForCurrentRelease($stringTask);
+		};
 	}
 }

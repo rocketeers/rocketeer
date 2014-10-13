@@ -99,15 +99,15 @@ class TasksHandler
 	/**
 	 * Register a task with Rocketeer
 	 *
-	 * @param string                      $name
-	 * @param string|Closure|AbstractTask $task
-	 * @param string|null                 $description
+	 * @param string                           $name
+	 * @param string|Closure|AbstractTask|null $task
+	 * @param string|null                      $description
 	 *
 	 * @return BaseTaskCommand
 	 */
-	public function task($name, $task, $description = null)
+	public function task($name, $task = null, $description = null)
 	{
-		return $this->add($task, $name, $description);
+		return $this->add($task, $name, $description)->getTask();
 	}
 
 	////////////////////////////////////////////////////////////////////

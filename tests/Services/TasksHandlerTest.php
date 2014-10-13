@@ -193,4 +193,17 @@ class TasksHandlerTest extends RocketeerTestCase
 		$listeners = $this->tasks->getTasksListeners('deploy', 'before', true);
 		$this->assertEquals(['notify'], $listeners);
 	}
+
+	public function testCanBuildTasksFluently()
+	{
+		$this->tasks->task('phpunit')
+			->does('foobar')
+			->description('description');
+
+		$task = $this->builder->buildTask('phpunit');
+
+		$this->assertInstanceOf('Rocketeer\Tasks\Closure', $task);
+		$this->assertEquals('description', $task->getDescription());
+		$this->assertEquals('foobar', $task->getStringTask());
+	}
 }
