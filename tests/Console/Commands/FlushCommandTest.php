@@ -8,12 +8,10 @@ class FlushCommandTest extends RocketeerTestCase
 {
 	public function testCanFlushLocalStorage()
 	{
-		$flush = $this->app['rocketeer.commands.flush'];
 		$this->localStorage->set('foo', 'bar');
 
 		$this->assertEquals('bar', $this->localStorage->get('foo'));
-		$tester = new CommandTester($flush);
-		$tester->execute(['command' => $flush->getName()]);
+		$tester = $this->executeCommand('flush');
 
 		$this->assertContains('has been properly', $tester->getDisplay());
 		$this->assertNull($this->localStorage->get('foo'));

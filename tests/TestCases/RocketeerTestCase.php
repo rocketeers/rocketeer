@@ -4,6 +4,7 @@ namespace Rocketeer\TestCases;
 use Rocketeer\Services\Storages\LocalStorage;
 use Rocketeer\TestCases\Modules\RocketeerAssertions;
 use Rocketeer\TestCases\Modules\RocketeerMockeries;
+use Symfony\Component\Console\Tester\CommandTester;
 
 abstract class RocketeerTestCase extends ContainerTestCase
 {
@@ -122,6 +123,32 @@ abstract class RocketeerTestCase extends ContainerTestCase
 	////////////////////////////////////////////////////////////////////
 	/////////////////////////////// HELPERS ////////////////////////////
 	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Get and execute a command
+	 *
+	 * @param string|null $command
+	 * @param array       $options
+	 *
+	 * @return CommandTester
+	 */
+	protected function executeCommand($command = null, $options = array())
+	{
+		// Fetch command
+		$command = $command ? '.'.$command : null;
+		$command  = $this->app['rocketeer.commands'.$command];
+
+		// Build options
+		$options = array_merge(array(
+			'command' => $command->getName(),
+		), $options);
+
+		// Execute
+		$tester = new CommandTester($command);
+		$tester->execute($options);
+
+		return $tester;
+	}
 
 	/**
 	 * Get a pretend AbstractTask to run bogus commands
