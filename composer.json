@@ -1,58 +1,61 @@
 {
-	"name": "rocketeers/rocketeer",
-	"description": "Rocketeer is a fast and simple deployer for the PHP world",
-	"license": "MIT",
-	"keywords": [
-		"laravel",
-		"deploy",
-		"deployment",
-		"ssh"
-	],
-	"authors": [
-		{
-			"name": "Maxime Fabre",
-			"email": "ehtnam6@gmail.com"
-		}
-	],
-	"require": {
-		"php": ">=5.4.0",
-		"illuminate/support": "~4.2",
-		"illuminate/config": "~4.2",
-		"illuminate/console": "~4.2",
-		"illuminate/container": "~4.2",
-		"illuminate/filesystem": "~4.2",
-		"illuminate/events": "~4.2",
-		"illuminate/remote": "~4.2",
-		"illuminate/log": "~4.2",
-		"patchwork/utf8": "~1.1",
-		"kzykhys/parallel": "~0.1.0"
-	},
-	"require-dev": {
-		"phpunit/phpunit": "~4.0",
-		"mockery/mockery": "~0.9",
-		"nesbot/carbon": "~1.4",
-		"herrera-io/box": "~1.5.3",
-		"phpseclib/phpseclib": "~0.3.5",
-		"d11wtq/boris": "~1.0.8",
-		"raveren/kint": "~0.9.1",
-		"johnkary/phpunit-speedtrap": "dev-master"
-	},
-	"suggest": {
-		"anahkiasen/rocketeer-campfire": "Campfire plugin to create deployments notifications",
-		"anahkiasen/rocketeer-slack": "Slack plugin to create deployments notifications",
-		"ext-pcntl": "Allow parallel deployments"
-	},
-	"bin": [
-		"bin/rocketeer"
-	],
-	"autoload": {
-		"psr-4": {
-			"Rocketeer\\": ["src/Rocketeer", "tests"]
-		}
-	},
-	"extra": {
-		"branch-alias": {
-			"dev-develop": "2.0-dev"
-		}
-	}
+  "name": "rocketeers/rocketeer",
+  "description": "Rocketeer is a fast and simple deployer for the PHP world",
+  "license": "MIT",
+  "keywords": [
+    "laravel",
+    "deploy",
+    "deployment",
+    "ssh"
+  ],
+  "authors": [
+    {
+      "name": "Maxime Fabre",
+      "email": "ehtnam6@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.4.0",
+    "illuminate/support": "~4.2",
+    "illuminate/config": "~4.2",
+    "illuminate/console": "~4.2",
+    "illuminate/container": "~4.2",
+    "illuminate/filesystem": "~4.2",
+    "illuminate/events": "~4.2",
+    "illuminate/remote": "~4.2",
+    "illuminate/log": "~4.2",
+    "patchwork/utf8": "~1.1",
+    "kzykhys/parallel": "~0.1.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~4.0",
+    "mockery/mockery": "~0.9",
+    "nesbot/carbon": "~1.4",
+    "herrera-io/box": "~1.5.3",
+    "phpseclib/phpseclib": "~0.3.5",
+    "d11wtq/boris": "~1.0.8",
+    "raveren/kint": "~0.9.1",
+    "johnkary/phpunit-speedtrap": "dev-master"
+  },
+  "suggest": {
+    "anahkiasen/rocketeer-campfire": "Campfire plugin to create deployments notifications",
+    "anahkiasen/rocketeer-slack": "Slack plugin to create deployments notifications",
+    "ext-pcntl": "Allow parallel deployments"
+  },
+  "bin": [
+    "bin/rocketeer"
+  ],
+  "autoload": {
+    "psr-4": {
+      "Rocketeer\\": [
+        "src/Rocketeer",
+        "tests"
+      ]
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-develop": "2.0-dev"
+    }
+  }
 }
