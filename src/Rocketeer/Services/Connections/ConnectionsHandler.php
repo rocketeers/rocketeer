@@ -293,7 +293,7 @@ class ConnectionsHandler
 	 */
 	public function setConnection($connection, $server = 0)
 	{
-		if (!$this->isValidConnection($connection) || $this->connection == $connection) {
+		if (!$this->isValidConnection($connection) && $this->connection == $connection) {
 			return;
 		}
 
