@@ -11,6 +11,7 @@
 ### Fixed
 - Fixed a bug where ignition wouldn't work from the PHAR archive
 - Fixed a missing dependency registered as a dev-dependency
+- Fixed strictness of which system that would fail on some binaries
 
 2.0.0 - 2014-09-17
 ------------------

@@ -8,9 +8,10 @@ class BinariesTest extends RocketeerTestCase
 {
 	public function testCanSetCustomPathsForBinaries()
 	{
-		$this->mockConfig(['rocketeer::paths.composer' => __FILE__]);
+		$binary = __DIR__.'/../../../bin/rocketeer';
+		$this->mockConfig(['rocketeer::paths.composer' => $binary]);
 
-		$this->assertEquals(__FILE__, $this->task->which('composer'));
+		$this->assertEquals($binary, $this->task->which('composer'));
 	}
 
 	public function testStoredPathsAreInvalidatedIfIncorrect()
@@ -18,9 +19,9 @@ class BinariesTest extends RocketeerTestCase
 		$this->mock('rocketeer.remote', 'Remote', function ($mock) {
 			return $mock
 				->shouldReceive('run')->with(['which composer'], Mockery::any())->andReturn(null)
+				->shouldReceive('run')->with(['which'], Mockery::any())->andReturn(null)
+				->shouldReceive('run')->with(['which foobar'], Mockery::any())->andReturn('foobar not found')
 				->shouldReceive('run')->with(['which '.$this->binaries['composer']], Mockery::any())->andReturn($this->binaries['composer'])
-				->shouldReceive('run')->with('[ -e  ] && echo "true"', Mockery::any())->andReturn('false')
-				->shouldReceive('run')->with('[ -e foobar ] && echo "true"', Mockery::any())->andReturn('false')
 				->shouldReceive('runRaw')->andReturn('false');
 		}, false);
 

@@ -84,14 +84,14 @@ trait Binaries
 	public function which($binary, $fallback = null, $prompt = true)
 	{
 		$locations = array(
-			[$this->localStorage, 'get', 'paths.'.$binary],
-			[$this->paths, 'getPath', $binary],
-			[$this, 'runSilently', 'which '.$binary],
+			$this->localStorage->get('paths.'.$binary),
+			$this->paths->getPath($binary),
+			$binary,
 		);
 
 		// Add fallback if provided
 		if ($fallback) {
-			$locations[] = [$this, 'runSilently', 'which '.$fallback];
+			$locations[] = $fallback;
 		}
 
 		// Add command prompt if possible
@@ -118,14 +118,20 @@ trait Binaries
 		// Look in all the locations
 		$tryout = 0;
 		while (!$location && array_key_exists($tryout, $locations)) {
-			list($object, $method, $argument) = $locations[$tryout];
 
-			// Execute method
-			$location = $object->$method($argument);
+			// Execute method if required
+			$location = $locations[$tryout];
+			if (is_array($location)) {
+				list($object, $method, $argument) = $location;
+				$location = $object->$method($argument);
+			}
 
 			// Verify existence of returned path
-			if (strpos($location, 'not found') !== false || !$this->fileExists($location)) {
-				$location = null;
+			if ($location) {
+				$location = $this->runSilently('which '.$location);
+				if (strpos($location, 'not found') !== false) {
+					$location = null;
+				}
 			}
 
 			$tryout++;
