@@ -143,9 +143,9 @@ class ConnectionsHandlerTest extends RocketeerTestCase
 				->shouldReceive('registerConfiguredEvents')->once();
 		}, false);
 
-		$this->connections->setConnection('production');
-		$this->connections->setConnection('production');
-		$this->connections->setConnection('production');
+		$this->connections->setConnection('staging');
+		$this->connections->setConnection('staging');
+		$this->connections->setConnection('staging');
 	}
 
 	public function testDoesntResetStageIfSameAsCurrent()

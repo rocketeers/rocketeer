@@ -61,7 +61,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 
 		// Swap some instances with Mockeries -------------------------- /
 
-		$this->app['config'] = $this->getConfig();
+		$this->swapConfig();
 	}
 
 	/**
@@ -188,10 +188,11 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 */
-	protected function swapConfig($config)
+	protected function swapConfig($config = [])
 	{
 		$this->connections->disconnect();
 		$this->app['config'] = $this->getConfig($config);
+		$this->tasks->registerConfiguredEvents();
 	}
 
 	/**

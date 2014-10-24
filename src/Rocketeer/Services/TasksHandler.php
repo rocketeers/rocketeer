@@ -47,7 +47,6 @@ class TasksHandler
 	public function __construct(Container $app)
 	{
 		$this->app = $app;
-		$this->registerConfiguredEvents();
 	}
 
 	/**

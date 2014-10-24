@@ -78,6 +78,7 @@ class RocketeerServiceProvider extends ServiceProvider
 
 		// Load the user's events, tasks, plugins, and configurations
 		$this->app['rocketeer.igniter']->loadUserConfiguration();
+		$this->app['rocketeer.tasks']->registerConfiguredEvents();
 
 		// Bind commands
 		$this->bindCommands();
