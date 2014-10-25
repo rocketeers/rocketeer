@@ -1,7 +1,7 @@
-# Changelog
+# CHANGELOG
 
-2.0.1
------
+2.0.1 - 2014-10-25
+------------------
 
 ### Added
 - Added ability to pass the branch/tag/commit to deploy via `--branch` or `-B`
