@@ -47,10 +47,12 @@
   ],
   "autoload": {
     "psr-4": {
-      "Rocketeer\\": [
-        "src/Rocketeer",
-        "tests"
-      ]
+      "Rocketeer\\": "src/Rocketeer"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Rocketeer\\": "tests"
     }
   },
   "extra": {
