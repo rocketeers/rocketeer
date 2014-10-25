@@ -1,17 +1,20 @@
 {
   "name": "rocketeers/rocketeer",
   "description": "Rocketeer is a fast and simple deployer for the PHP world",
+  "homepage": "http://rocketeer.autopergamene.eu",
   "license": "MIT",
   "keywords": [
     "laravel",
     "deploy",
     "deployment",
+    "task",
     "ssh"
   ],
   "authors": [
     {
       "name": "Maxime Fabre",
-      "email": "ehtnam6@gmail.com"
+      "email": "ehtnam6@gmail.com",
+      "homepage": "http://autopergamene.eu/en"
     }
   ],
   "require": {
