@@ -39,8 +39,7 @@ class DeployTest extends RocketeerTestCase
 				"{php} artisan db:seed",
 			),
 			"mv {server}/current {server}/releases/{release}",
-			"rm -rf {server}/current",
-			"ln -s {server}/releases/{release} {server}/current",
+			"ln -s {server}/releases/{release} {server}/current-temp && mv -Tf {server}/current-temp {server}/current",
 		);
 
 		$this->assertTaskHistory('Deploy', $matcher, array(
@@ -76,8 +75,7 @@ class DeployTest extends RocketeerTestCase
 				"{php} artisan db:seed",
 			),
 			"mv {server}/current {server}/releases/{release}",
-			"rm -rf {server}/current",
-			"ln -s {server}/releases/{release} {server}/current",
+			"ln -s {server}/releases/{release} {server}/current-temp && mv -Tf {server}/current-temp {server}/current",
 		);
 
 		$this->assertTaskHistory('Deploy', $matcher, array(
@@ -120,8 +118,7 @@ class DeployTest extends RocketeerTestCase
 				"{php} artisan db:seed",
 			),
 			"mv {server}/current {server}/releases/{release}",
-			"rm -rf {server}/current",
-			"ln -s {server}/releases/{release} {server}/current",
+			"ln -s {server}/releases/{release} {server}/current-temp && mv -Tf {server}/current-temp {server}/current",
 		);
 
 		$this->assertTaskHistory('Deploy', $matcher, array(
@@ -148,7 +145,7 @@ class DeployTest extends RocketeerTestCase
 		));
 
 		$matcher = array(
-			'cp -r {server}/releases/10000000000000 {server}/releases/{release}',
+			'cp -a {server}/releases/10000000000000 {server}/releases/{release}',
 			array(
 				'cd {server}/releases/{release}',
 				'git reset --hard',
@@ -161,8 +158,7 @@ class DeployTest extends RocketeerTestCase
 				"chown -R www-data:www-data {server}/releases/{release}/tests",
 			),
 			"mv {server}/current {server}/releases/{release}",
-			"rm -rf {server}/current",
-			"ln -s {server}/releases/{release} {server}/current",
+			"ln -s {server}/releases/{release} {server}/current-temp && mv -Tf {server}/current-temp {server}/current",
 		);
 
 		$this->assertTaskHistory('Deploy', $matcher, array(
@@ -191,8 +187,7 @@ class DeployTest extends RocketeerTestCase
 				"{php} artisan db:seed",
 			),
 			"mv {server}/current {server}/releases/{release}",
-			"rm -rf {server}/current",
-			"ln -s {server}/releases/{release} {server}/current",
+			"ln -s {server}/releases/{release} {server}/current-temp && mv -Tf {server}/current-temp {server}/current",
 		);
 
 		$this->assertTaskHistory('Deploy', $matcher, array(

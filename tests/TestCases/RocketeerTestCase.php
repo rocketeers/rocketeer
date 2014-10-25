@@ -112,12 +112,10 @@ abstract class RocketeerTestCase extends ContainerTestCase
 			realpath($this->customConfig),
 		);
 		array_map([$this->files, 'deleteDirectory'], $cleanup);
-		if (is_link($this->server.'/current')) {
-			unlink($this->server.'/current');
-		}
 
 		// Recreate altered local server
-		$this->files->copyDirectory($this->server.'-stub', $this->server);
+		exec(sprintf('rm -rf %s', $this->server));
+		exec(sprintf('cp -a %s %s', $this->server.'-stub', $this->server));
 	}
 
 	////////////////////////////////////////////////////////////////////

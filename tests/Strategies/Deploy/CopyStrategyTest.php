@@ -18,7 +18,7 @@ class CopyStrategyTest extends RocketeerTestCase
 		$this->builder->buildStrategy('Deploy', 'Copy')->deploy();
 
 		$matcher = array(
-			'cp -r {server}/releases/10000000000000 {server}/releases/20000000000000',
+			'cp -a {server}/releases/10000000000000 {server}/releases/20000000000000',
 			array(
 				"cd {server}/releases/{release}",
 				"git reset --hard",
