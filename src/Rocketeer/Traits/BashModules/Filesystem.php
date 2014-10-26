@@ -38,10 +38,9 @@ trait Filesystem
 			$this->move($symlink, $folder);
 		}
 
-		// Remove existing symlink
-		$this->removeFolder($symlink);
+		$tempLink = $symlink.'-temp';
 
-		return $this->run(sprintf('ln -s %s %s', $folder, $symlink));
+		return $this->run(sprintf('ln -s %s %s && mv -Tf %s %s', $folder, $tempLink, $tempLink, $symlink));
 	}
 
 	/**
@@ -71,7 +70,7 @@ trait Filesystem
 	 */
 	public function copy($origin, $destination)
 	{
-		return $this->fromTo('cp -r', $origin, $destination);
+		return $this->fromTo('cp -a', $origin, $destination);
 	}
 
 	/**
