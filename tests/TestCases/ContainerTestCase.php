@@ -301,6 +301,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 				'submodules' => true,
 			),
 			'rocketeer::strategies.dependencies'  => 'Composer',
+			'rocketeer::hooks.custom'             => ['Rocketeer\Dummies\MyCustomTask'],
 			'rocketeer::hooks'                    => array(
 				'before' => array(
 					'deploy' => array(

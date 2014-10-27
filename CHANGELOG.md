@@ -6,6 +6,9 @@
 ### Changed
 - Better way to operate around symlinks
 
+### Fixed
+- Fix custom tasks not being properly bound to container
+
 2.0.1 - 2014-10-25
 ------------------
 

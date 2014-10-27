@@ -25,6 +25,7 @@ use Rocketeer\Services\Display\QueueTimer;
 use Rocketeer\Services\History\History;
 use Rocketeer\Services\History\LogsHandler;
 use Rocketeer\Services\Ignition\Configuration;
+use Rocketeer\Services\Ignition\Tasks;
 use Rocketeer\Services\Pathfinder;
 use Rocketeer\Services\ReleasesManager;
 use Rocketeer\Services\Storages\LocalStorage;
@@ -44,13 +45,6 @@ if (!defined('DS')) {
  */
 class RocketeerServiceProvider extends ServiceProvider
 {
-	/**
-	 * The commands to register
-	 *
-	 * @var array
-	 */
-	protected $commands;
-
 	/**
 	 * Register the service provider.
 	 *
@@ -109,6 +103,10 @@ class RocketeerServiceProvider extends ServiceProvider
 
 		$this->app->bind('rocketeer.igniter', function ($app) {
 			return new Configuration($app);
+		});
+
+		$this->app->bind('rocketeer.igniter.tasks', function ($app) {
+			return new Tasks($app);
 		});
 
 		// Bind paths
@@ -258,51 +256,13 @@ class RocketeerServiceProvider extends ServiceProvider
 	public function bindCommands()
 	{
 		// Base commands
-		$tasks = array(
-			''               => 'Rocketeer',
-			'check'          => 'Check',
-			'cleanup'        => 'Cleanup',
-			'current'        => 'CurrentRelease',
-			'deploy'         => 'Deploy',
-			'flush'          => 'Flush',
-			'ignite'         => 'Ignite',
-			'rollback'       => 'Rollback',
-			'setup'          => 'Setup',
-			'strategies'     => 'Strategies',
-			'teardown'       => 'Teardown',
-			'test'           => 'Test',
-			'update'         => 'Update',
-			'plugin-publish' => 'Plugins\Publish',
-			'plugin-list'    => 'Plugins\List',
-			'plugin-install' => 'Plugins\Install',
-		);
+		$tasks = $this->app['rocketeer.igniter.tasks']->getPredefinedTasks();
 
-		// Add User commands
-		$userTasks = (array) $this->app['config']->get('rocketeer::hooks.custom');
-		$tasks     = array_merge($tasks, $userTasks);
-
-		// Bind the commands
-		foreach ($tasks as $slug => $task) {
-			$command = $this->app['rocketeer.builder']->buildCommand($task, $slug);
-
-			// Bind Task to container
-			$handle = 'rocketeer.tasks.'.$slug;
-			$this->app->bind($handle, function () use ($command) {
-				return $command->getTask();
-			});
-
-			// Add command to array
-			$commandHandle    = trim('rocketeer.commands.'.$slug, '.');
-			$this->commands[] = $commandHandle;
-
-			// Register command with the container
-			$this->app->singleton($commandHandle, function () use ($command) {
-				return $command;
-			});
-		}
+		// Register the tasks and their commands
+		$commands = $this->app['rocketeer.igniter.tasks']->registerTasksAndCommands($tasks);
 
 		// Add commands to Artisan
-		foreach ($this->commands as $command) {
+		foreach ($commands as $command) {
 			$this->app['rocketeer.console']->add($this->app[$command]);
 			if (isset($this->app['events'])) {
 				$this->commands($command);
