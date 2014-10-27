@@ -209,7 +209,7 @@ class CredentialsGathererTest extends RocketeerTestCase
 
 			foreach ($answers as $question => $answer) {
 				$question = strpos($question, 'is set for') !== false ? $question.', please provide one:' : $question;
-				$method   = strpos($question, 'password') !== false ? 'askSecretly' : 'askWith';
+				$method   = strpos($question, 'password') !== false || strpos($question, 'keyphrase') !== false ? 'askSecretly' : 'askWith';
 				$mock     = $mock->shouldReceive($method)->with($question)->andReturn($answer);
 			}
 
