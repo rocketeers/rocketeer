@@ -39,7 +39,10 @@ class DeployTest extends RocketeerTestCase
 				"{php} artisan db:seed",
 			),
 			"mv {server}/current {server}/releases/{release}",
-			"ln -s {server}/releases/{release} {server}/current-temp && mv -Tf {server}/current-temp {server}/current",
+			array(
+				"ln -s {server}/releases/{release} {server}/current-temp",
+				"mv -Tf {server}/current-temp {server}/current",
+			),
 		);
 
 		$this->assertTaskHistory('Deploy', $matcher, array(
@@ -75,7 +78,10 @@ class DeployTest extends RocketeerTestCase
 				"{php} artisan db:seed",
 			),
 			"mv {server}/current {server}/releases/{release}",
-			"ln -s {server}/releases/{release} {server}/current-temp && mv -Tf {server}/current-temp {server}/current",
+			array(
+				"ln -s {server}/releases/{release} {server}/current-temp",
+				"mv -Tf {server}/current-temp {server}/current",
+			),
 		);
 
 		$this->assertTaskHistory('Deploy', $matcher, array(
@@ -118,7 +124,10 @@ class DeployTest extends RocketeerTestCase
 				"{php} artisan db:seed",
 			),
 			"mv {server}/current {server}/releases/{release}",
-			"ln -s {server}/releases/{release} {server}/current-temp && mv -Tf {server}/current-temp {server}/current",
+			array(
+				"ln -s {server}/releases/{release} {server}/current-temp",
+				"mv -Tf {server}/current-temp {server}/current",
+			),
 		);
 
 		$this->assertTaskHistory('Deploy', $matcher, array(
@@ -158,7 +167,10 @@ class DeployTest extends RocketeerTestCase
 				"chown -R www-data:www-data {server}/releases/{release}/tests",
 			),
 			"mv {server}/current {server}/releases/{release}",
-			"ln -s {server}/releases/{release} {server}/current-temp && mv -Tf {server}/current-temp {server}/current",
+			array(
+				"ln -s {server}/releases/{release} {server}/current-temp",
+				"mv -Tf {server}/current-temp {server}/current",
+			),
 		);
 
 		$this->assertTaskHistory('Deploy', $matcher, array(
@@ -187,7 +199,10 @@ class DeployTest extends RocketeerTestCase
 				"{php} artisan db:seed",
 			),
 			"mv {server}/current {server}/releases/{release}",
-			"ln -s {server}/releases/{release} {server}/current-temp && mv -Tf {server}/current-temp {server}/current",
+			array(
+				"ln -s {server}/releases/{release} {server}/current-temp",
+				"mv -Tf {server}/current-temp {server}/current",
+			),
 		);
 
 		$this->assertTaskHistory('Deploy', $matcher, array(

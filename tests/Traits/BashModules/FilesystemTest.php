@@ -25,7 +25,10 @@ class FilesystemTest extends RocketeerTestCase
 		$folder  = '{path.base}/foobar.txt';
 		$share   = $task->share($folder);
 		$tempLink = $this->server.'/releases/20000000000000//src/foobar.txt-temp';
-		$matcher = sprintf('ln -s %s %s && mv -Tf %s %s', $this->server.'/shared//src/foobar.txt', $tempLink, $tempLink, $this->server.'/releases/20000000000000//src/foobar.txt');
+		$matcher = array(
+			sprintf('ln -s %s %s', $this->server.'/shared//src/foobar.txt', $tempLink, $tempLink),
+			sprintf('mv -Tf %s %s', $tempLink, $this->server.'/releases/20000000000000//src/foobar.txt'),
+		);
 
 		$this->assertEquals($matcher, $share);
 	}
