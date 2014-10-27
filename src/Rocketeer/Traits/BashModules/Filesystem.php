@@ -38,9 +38,13 @@ trait Filesystem
 			$this->move($symlink, $folder);
 		}
 
-		$tempLink = $symlink.'-temp';
+		// Define name of temporary link
+		$temporary = $symlink.'-temp';
 
-		return $this->run(sprintf('ln -s %s %s && mv -Tf %s %s', $folder, $tempLink, $tempLink, $symlink));
+		return $this->run(array(
+			sprintf('ln -s %s %s', $folder, $temporary),
+			sprintf('mv -Tf %s %s', $temporary, $symlink),
+		));
 	}
 
 	/**
