@@ -217,6 +217,11 @@ class Pathfinder
 				return str_replace($base, null, $this->unifySlashes($path));
 			}
 
+			// Replace paths from configuration
+			if ($custom = $this->getPath($folder)) {
+				return $custom;
+			}
+
 			return false;
 		}, $path);
 	}

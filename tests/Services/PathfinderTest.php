@@ -136,4 +136,12 @@ class PathfinderTest extends RocketeerTestCase
 		$storage = $this->paths->getStoragePath();
 		$this->assertEquals('local/folder', $storage);
 	}
+
+	public function testCanReplacePatternsWithPathsFile()
+	{
+		$this->swapConfig(['rocketeer::paths.foo' => 'bar']);
+		$replaced = $this->paths->replacePatterns('{foo}');
+
+		$this->assertEquals('bar', $replaced);
+	}
 }

@@ -3,6 +3,9 @@
 2.0.2
 -----
 
+### Added
+- Added back the ability to define custom paths in `paths.php` and reference them via `{key}`
+
 ### Changed
 - Better way to operate around symlinks
 
