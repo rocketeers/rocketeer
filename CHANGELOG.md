@@ -1,5 +1,11 @@
 # CHANGELOG
 
+2.0.2
+-----
+
+### Changed
+- Better way to operate around symlinks
+
 2.0.1 - 2014-10-25
 ------------------
 
