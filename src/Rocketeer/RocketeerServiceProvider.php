@@ -199,7 +199,7 @@ class RocketeerServiceProvider extends ServiceProvider
 		});
 
 		$this->app->singleton('rocketeer.history', function () {
-			return new History;
+			return new History();
 		});
 
 		$this->app->singleton('rocketeer.logs', function ($app) {

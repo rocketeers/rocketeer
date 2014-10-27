@@ -30,7 +30,7 @@ trait StepsRunner
 	public function steps()
 	{
 		if (!$this->steps) {
-			$this->steps = new StepsBuilder;
+			$this->steps = new StepsBuilder();
 		}
 
 		return $this->steps;

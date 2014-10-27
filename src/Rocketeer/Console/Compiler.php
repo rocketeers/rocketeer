@@ -48,7 +48,7 @@ class Compiler
 	 */
 	public function __construct()
 	{
-		$this->files = new Filesystem;
+		$this->files = new Filesystem();
 		$this->phar  = __DIR__.'/../../../bin/rocketeer.phar';
 	}
 
@@ -92,7 +92,7 @@ class Compiler
 		$this->box = Box::create($this->phar, 0, basename($this->phar));
 
 		// Add compactors
-		$this->box->addCompactor(new WhitespaceCompactor);
+		$this->box->addCompactor(new WhitespaceCompactor());
 
 		// Add core files and dependencies
 		$this->addFolder($src);

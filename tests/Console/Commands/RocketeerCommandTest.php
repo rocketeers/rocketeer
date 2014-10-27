@@ -14,7 +14,7 @@ class RocketeerCommandTest extends RocketeerTestCase
 
 		$output = $tester->getDisplay(true);
 		$output = trim($output);
-		
+
 		$this->assertEquals('Rocketeer version '.Rocketeer::VERSION, $output);
 	}
 }

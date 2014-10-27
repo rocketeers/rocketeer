@@ -28,7 +28,7 @@ class UpdateCommand extends BaseTaskCommand
 		return array_merge(parent::getOptions(), array(
 			['migrate', 'm', InputOption::VALUE_NONE, 'Run the migrations'],
 			['seed', 's', InputOption::VALUE_NONE, 'Seed the database after migrating the database'],
-			['no-clear', null, InputOption::VALUE_NONE, "Don't clear the application's cache after the update"]
+			['no-clear', null, InputOption::VALUE_NONE, "Don't clear the application's cache after the update"],
 		));
 	}
 }

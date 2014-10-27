@@ -11,7 +11,6 @@ namespace Rocketeer\Abstracts;
 
 use Closure;
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputOption;
 
 /**

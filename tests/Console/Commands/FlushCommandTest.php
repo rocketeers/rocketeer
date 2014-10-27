@@ -2,7 +2,6 @@
 namespace Rocketeer\Console\Commands;
 
 use Rocketeer\TestCases\RocketeerTestCase;
-use Symfony\Component\Console\Tester\CommandTester;
 
 class FlushCommandTest extends RocketeerTestCase
 {
