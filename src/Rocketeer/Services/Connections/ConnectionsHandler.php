@@ -406,6 +406,7 @@ class ConnectionsHandler
 			// Add them in chain
 			$repository = preg_replace('#https://(.+)@#', 'https://', $repository);
 			$repository = str_replace('https://', 'https://'.$credentials, $repository);
+
 		}
 
 		return $repository;

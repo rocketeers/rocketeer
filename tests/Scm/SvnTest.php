@@ -72,6 +72,31 @@ class SvnTest extends RocketeerTestCase
 		$this->assertEquals('svn co http://github.com/my/repository/develop '.$this->server.' --non-interactive --username="foo" --password="bar"', $command);
 	}
 
+	public function testDoesntDuplicateCredentials()
+	{
+		$this->mock('rocketeer.connections', 'ConnectionsHandler', function ($mock) {
+			return $mock
+				->shouldReceive('getRepositoryCredentials')->once()->andReturn(['username' => 'foo', 'password' => 'bar'])
+				->shouldReceive('getRepositoryEndpoint')->once()->andReturn('http://foo:bar@github.com/my/repository')
+				->shouldReceive('getRepositoryBranch')->once()->andReturn('develop');
+		});
+
+		$command = $this->scm->checkout($this->server);
+
+		$this->assertEquals('svn co http://github.com/my/repository/develop '.$this->server.' --non-interactive --username="foo" --password="bar"', $command);
+
+		$this->mock('rocketeer.connections', 'ConnectionsHandler', function ($mock) {
+			return $mock
+				->shouldReceive('getRepositoryCredentials')->once()->andReturn(['username' => 'foo', 'password' => null])
+				->shouldReceive('getRepositoryEndpoint')->once()->andReturn('http://foo@github.com/my/repository')
+				->shouldReceive('getRepositoryBranch')->once()->andReturn('develop');
+		});
+
+		$command = $this->scm->checkout($this->server);
+
+		$this->assertEquals('svn co http://github.com/my/repository/develop '.$this->server.' --non-interactive --username="foo"', $command);
+	}
+
 	public function testCanGetReset()
 	{
 		$command = $this->scm->reset();
