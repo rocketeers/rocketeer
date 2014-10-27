@@ -35,17 +35,8 @@ class Plugins
 		}
 
 		// Find the plugin's configuration
-		$paths = array(
-			$this->app['path.base'].'/vendor/%s/src/config',
-			$this->app['path.base'].'/vendor/%s/config',
-			$this->paths->getHomeFolder().'/.composer/vendor/%s/src/config',
-			$this->paths->getHomeFolder().'/.composer/vendor/%s/config',
-		);
-
-		// Check for the first configuration path that exists
-		$paths = array_filter($paths, function ($path) use ($package) {
-			return $this->files->isDirectory(sprintf($path, $package));
-		});
+		$paths = $this->findPackageConfiguration($package);
+		$paths = array_filter($paths, [$this->files, 'isDirectory']);
 		$paths = array_values($paths);
 
 		// Cancel if no valid paths
@@ -54,6 +45,32 @@ class Plugins
 		}
 
 		return $this->publishConfiguration($paths[0]);
+	}
+
+	/**
+	 * Find all the possible locations for a package's configuration
+	 *
+	 * @param string $package
+	 *
+	 * @return string[]
+	 */
+	public function findPackageConfiguration($package)
+	{
+		$paths = array(
+			$this->app['path.base'].'/vendor/%s/src/config',
+			$this->app['path.base'].'/vendor/%s/config',
+			$this->paths->getUserHomeFolder().'/.rocketeer/vendor/%s/src/config',
+			$this->paths->getUserHomeFolder().'/.rocketeer/vendor/%s/config',
+			$this->paths->getUserHomeFolder().'/.composer/vendor/%s/src/config',
+			$this->paths->getUserHomeFolder().'/.composer/vendor/%s/config',
+		);
+
+		// Check for the first configuration path that exists
+		$paths = array_map(function ($path) use ($package) {
+			return sprintf($path, $package);
+		}, $paths);
+
+		return $paths;
 	}
 
 	/**
@@ -95,6 +112,9 @@ class Plugins
 		if (!$this->files->isDirectory($destination)) {
 			$this->files->makeDirectory($destination, 0755, true);
 		}
+
+		// Display success
+		$this->explainer->success('Publishing configuration from '.$path.' to '.$destination);
 
 		return $this->files->copyDirectory($path, $destination);
 	}

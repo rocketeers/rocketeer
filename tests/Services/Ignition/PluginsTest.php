@@ -69,4 +69,13 @@ class PluginsTest extends RocketeerTestCase
 
 		$this->plugins->publish('anahkiasen/rocketeer-slack');
 	}
+
+	public function testCanProperlyFindPackageConfiguration()
+	{
+		$paths = $this->plugins->findPackageConfiguration('foo/bar');
+
+		$this->assertContains('/src/vendor/foo/bar/src/config', $paths);
+		$this->assertContains($this->home.'/.composer/vendor/foo/bar/src/config', $paths);
+		$this->assertContains($this->home.'/.rocketeer/vendor/foo/bar/src/config', $paths);
+	}
 }
