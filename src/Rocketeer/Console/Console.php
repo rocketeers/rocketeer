@@ -53,7 +53,7 @@ class Console extends Application
 	/**
 	 * Get current state of the CLI
 	 *
-	 * @return string[]
+	 * @return array
 	 */
 	protected function getCurrentState()
 	{

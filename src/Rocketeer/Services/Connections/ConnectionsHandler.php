@@ -373,7 +373,7 @@ class ConnectionsHandler
 	/**
 	 * Get the credentials for the repository
 	 *
-	 * @return string[]
+	 * @return array
 	 */
 	public function getRepositoryCredentials()
 	{

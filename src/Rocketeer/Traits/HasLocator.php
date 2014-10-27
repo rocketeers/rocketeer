@@ -19,6 +19,7 @@ use Illuminate\Support\Arr;
  * @property \Illuminate\Config\Repository                            config
  * @property \Illuminate\Events\Dispatcher                            events
  * @property \Illuminate\Filesystem\Filesystem                        files
+ * @property \Illuminate\Foundation\Artisan                           artisan
  * @property \Illuminate\Log\Writer                                   log
  * @property \Rocketeer\Abstracts\AbstractCommand                     command
  * @property \Rocketeer\Bash                                          bash

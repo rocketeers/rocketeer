@@ -96,7 +96,7 @@ class TasksBuilder
 	 * @param string      $strategy
 	 * @param string|null $concrete
 	 *
-	 * @return \Rocketeer\Abstracts\Strategies\AbstractStrategy
+	 * @return \Rocketeer\Abstracts\Strategies\AbstractStrategy|false
 	 */
 	public function buildStrategy($strategy, $concrete = null)
 	{
@@ -107,6 +107,7 @@ class TasksBuilder
 			$concrete = $this->findQualifiedName($concrete, array(
 				'Rocketeer\Strategies\\'.ucfirst($strategy).'\%sStrategy',
 			));
+
 			if (!$concrete) {
 				return false;
 			}
@@ -203,7 +204,7 @@ class TasksBuilder
 	/**
 	 * Build a task from a string
 	 *
-	 * @param string|string[] $task
+	 * @param string|string[]|null $task
 	 *
 	 * @return AbstractTask
 	 */

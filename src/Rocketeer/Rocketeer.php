@@ -63,7 +63,7 @@ class Rocketeer
 	 *
 	 * @param string $option
 	 *
-	 * @return string
+	 * @return string|array|Closure
 	 */
 	public function getOption($option)
 	{
