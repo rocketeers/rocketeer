@@ -7,7 +7,8 @@
 - Better way to operate around symlinks
 
 ### Fixed
-- Fix custom tasks not being properly bound to container
+- Fixed a bug where credentials were passed twice to SVN checkout (once in the URL, once via options)
+- Fixed custom tasks not being properly bound to container
 
 2.0.1 - 2014-10-25
 ------------------
