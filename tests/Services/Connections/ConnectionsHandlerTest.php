@@ -160,6 +160,13 @@ class ConnectionsHandlerTest extends RocketeerTestCase
 		$this->connections->setStage('foobar');
 	}
 
+	public function testValidatesConnectionOnMultiset()
+	{
+		$this->connections->setConnections(['foo', 'bar']);
+
+		$this->assertEquals(['production'], $this->connections->getConnections());
+	}
+
 	////////////////////////////////////////////////////////////////////
 	//////////////////////////////// HELPERS ///////////////////////////
 	////////////////////////////////////////////////////////////////////

@@ -263,8 +263,12 @@ class ConnectionsHandler
 			$connections = explode(',', $connections);
 		}
 
-		$this->connections = $connections;
-		$this->handle      = null;
+		// Sanitize and set connections
+		$connections = array_filter($connections, [$this, 'isValidConnection']);
+		if ($connections) {
+			$this->connections = $connections;
+			$this->handle      = null;
+		}
 	}
 
 	/**
