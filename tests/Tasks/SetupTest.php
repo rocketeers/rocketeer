@@ -18,6 +18,7 @@ class SetupTest extends RocketeerTestCase
 			'{php} -m',
 			"mkdir {server}/",
 			"mkdir -p {server}/releases",
+			"mkdir -p {server}/current",
 			"mkdir -p {server}/shared",
 		));
 	}
@@ -38,8 +39,10 @@ class SetupTest extends RocketeerTestCase
 			'{php} -m',
 			"mkdir {server}/",
 			"mkdir -p {server}/staging/releases",
+			"mkdir -p {server}/staging/current",
 			"mkdir -p {server}/staging/shared",
 			"mkdir -p {server}/production/releases",
+			"mkdir -p {server}/production/current",
 			"mkdir -p {server}/production/shared",
 		));
 	}
@@ -62,8 +65,10 @@ class SetupTest extends RocketeerTestCase
 			'{php} -m',
 			"mkdir {server}/",
 			"mkdir -p {server}/staging/releases",
+			"mkdir -p {server}/staging/current",
 			"mkdir -p {server}/staging/shared",
 			"mkdir -p {server}/production/releases",
+			"mkdir -p {server}/production/current",
 			"mkdir -p {server}/production/shared",
 		), array(
 			'stage' => 'staging',
