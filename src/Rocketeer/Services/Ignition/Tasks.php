@@ -87,12 +87,13 @@ class Tasks
 	 *
 	 * @return string|null
 	 */
-	protected function getTaskHandle($slug, AbstractTask $task)
+	public function getTaskHandle($slug, AbstractTask $task = null)
 	{
-		if ($task instanceof Closure && $task->getStringTask() == 'Rocketeer') {
+		$slug = ($slug || !$task) ? $slug : $task->getSlug();
+		if ($slug == 'closure') {
 			return;
 		}
 
-		return $slug ?: $task->getSlug();
+		return $slug;
 	}
 }

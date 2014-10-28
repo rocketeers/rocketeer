@@ -30,6 +30,8 @@ class RocketeerCommand extends DeployCommand
 	 */
 	public function fire()
 	{
+		$this->laravel->instance('rocketeer.command', $this);
+
 		// Display version
 		if ($this->option('version')) {
 			return $this->line('<info>Rocketeer</info> version <comment>'.Rocketeer::VERSION.'</comment>');
