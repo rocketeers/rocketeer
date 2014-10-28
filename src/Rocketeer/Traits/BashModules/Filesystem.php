@@ -38,7 +38,7 @@ trait Filesystem
 			$this->move($symlink, $folder);
 		}
 
-		if (is_dir($folder) && ! is_link($folder)) {
+		if (is_dir($symlink) && ! is_link($symlink)) {
 			$this->removeFolder($symlink);
 		}
 

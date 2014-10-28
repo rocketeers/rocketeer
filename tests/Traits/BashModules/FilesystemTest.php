@@ -33,6 +33,22 @@ class FilesystemTest extends RocketeerTestCase
 		$this->assertEquals($matcher, $share);
 	}
 
+	public function testCanOverwriteFolderWithSymlink()
+	{
+		// Create dummy folders
+		$folderCurrent = $this->server.'/dummy-current';
+		mkdir($folderCurrent);
+		$folderRelease = $this->server.'/dummy-release';
+		mkdir($folderRelease);
+
+		$this->bash->symlink($folderRelease, $folderCurrent);
+
+		clearstatcache();
+		$check = (is_dir($folderCurrent) && is_link($folderCurrent));
+
+		$this->assertTrue($check);
+	}
+
 	public function testCanListContentsOfAFolder()
 	{
 		$contents = $this->task->listContents($this->server);
