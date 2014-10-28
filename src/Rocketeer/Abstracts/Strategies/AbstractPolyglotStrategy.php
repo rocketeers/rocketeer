@@ -62,8 +62,8 @@ abstract class AbstractPolyglotStrategy extends AbstractStrategy
 				if ($instance) {
 					$results[$strategy] = $callback($instance);
 				} else {
-                    $results[$strategy] = true;
-                }
+					$results[$strategy] = true;
+				}
 			}
 
 			return $results;
