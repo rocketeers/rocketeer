@@ -103,7 +103,7 @@ class RemoteHandlerTest extends RocketeerTestCase
 		$this->swapConfig(array(
 			'rocketeer::connections' => array(
 				'production' => array(
-					'host'     => 'foobar.com',
+					'host'     => '127.0.0.1',
 					'username' => 'foobar',
 					'password' => 'foobar',
 				),
