@@ -40,4 +40,37 @@ class UpdateTest extends RocketeerTestCase
 
 		$this->assertTaskHistory($task, $matcher);
 	}
+
+	public function testCanDisableCacheClearing()
+	{
+		$task = $this->pretendTask('Update', array(
+			'migrate'  => true,
+			'seed'     => true,
+			'no-clear' => true,
+		));
+
+		$matcher = array(
+			array(
+				"cd {server}/releases/20000000000000",
+				"git reset --hard",
+				"git pull",
+			),
+			array(
+				"cd {server}/releases/20000000000000",
+				"chmod -R 755 {server}/releases/20000000000000/tests",
+				"chmod -R g+s {server}/releases/20000000000000/tests",
+				"chown -R www-data:www-data {server}/releases/20000000000000/tests",
+			),
+			array(
+				"cd {server}/releases/{release}",
+				"{php} artisan migrate",
+			),
+			array(
+				"cd {server}/releases/{release}",
+				"{php} artisan db:seed",
+			),
+		);
+
+		$this->assertTaskHistory($task, $matcher);
+	}
 }

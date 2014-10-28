@@ -60,7 +60,7 @@ class Update extends Deploy
 		}
 
 		// Clear cache
-		if (!$this->getOption('no-cache')) {
+		if (!$this->getOption('no-clear')) {
 			$this->artisan()->runForCurrentRelease('clearCache');
 		}
 
