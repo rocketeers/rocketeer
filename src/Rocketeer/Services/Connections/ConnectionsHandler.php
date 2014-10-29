@@ -297,14 +297,15 @@ class ConnectionsHandler
 	 */
 	public function setConnection($connection, $server = 0)
 	{
-		if (!$this->isValidConnection($connection) || $this->connection == $connection) {
-			return;
-		}
+//		if (!$this->isValidConnection($connection) || $this->connection == $connection) {
+//			return;
+//		}
 
 		// Set the connection
 		$this->handle       = null;
 		$this->connection   = $connection;
 		$this->localStorage = $server;
+        $this->currentServer = $server;
 
 		// Update events
 		$this->tasks->registerConfiguredEvents();
