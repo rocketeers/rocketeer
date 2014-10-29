@@ -9,3 +9,7 @@ tests/_server/foobar
 
 # Dependencies
 vendor
+/nbproject/private/
+
+# Netbeans
+nbproject/
