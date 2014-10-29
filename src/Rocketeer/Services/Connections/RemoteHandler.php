@@ -63,8 +63,12 @@ class RemoteHandler
 		}
 
 		// Create connection
-		$credentials = $this->connections->getServerCredentials();
-		$connection  = $this->makeConnection($name, $credentials);
+        /*
+         * This is pulling the wrong credentials, even though is being passed
+         * the right parameters.
+         */
+		$credentials = $this->connections->getServerCredentials($connection, $server);
+		$connection  = $this->makeConnection($handle, $credentials);
 
 		// Save to cache
 		$this->active[$handle] = $connection;
