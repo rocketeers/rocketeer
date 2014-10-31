@@ -42,7 +42,6 @@ class Migrate extends AbstractTask {
          * iI it's NOT a multiserver connection, then proceed as usual.
          */
 
-        echo $this->getName();
         $server_credentials = $this->connections->getServerCredentials();
         $multiserver        = $this->connections->isMultiserver($this->connections->getConnection());
         $has_role           = (isset($server_credentials['role']) && $server_credentials['role'] == 'db') ? true : false;
