@@ -13,7 +13,8 @@ namespace Rocketeer\Tasks;
 
 use Rocketeer\Abstracts\AbstractTask;
 
-class Migrate extends AbstractTask {
+class Migrate extends AbstractTask
+{
 
     /**
      * The console command description.
@@ -27,12 +28,13 @@ class Migrate extends AbstractTask {
      *
      * @return boolean|boolean[]
      */
-    public function execute() {
+    public function execute()
+    {
         $results = [];
 
         // Get strategy and options
-        $migrate  = $this->getOption('migrate');
-        $seed     = $this->getOption('seed');
+        $migrate = $this->getOption('migrate');
+        $seed = $this->getOption('seed');
         $strategy = $this->getStrategy('Migrate');
 
         /*
@@ -43,11 +45,12 @@ class Migrate extends AbstractTask {
          */
 
         $server_credentials = $this->connections->getServerCredentials();
-        $multiserver        = $this->connections->isMultiserver($this->connections->getConnection());
-        $has_role           = (isset($server_credentials['role']) && $server_credentials['role'] == 'db') ? true : false;
-
+        $multiserver = $this->connections->isMultiserver($this->connections->getConnection());
+        $has_role = (isset($server_credentials['db_role']) && $server_credentials['db_role'] );
+        $use_roles = $this->config->get('rocketeer::use_roles');
+        
         // Cancel if nothing to run
-        if (!$strategy || (!$migrate && !$seed) || ($multiserver && !$has_role)) {
+        if (!$strategy || (!$migrate && !$seed) || ($use_roles && $multiserver && !$has_role)) {
             $this->explainer->line('No outstanding migrations or server not assigned db role');
             return true;
         }
