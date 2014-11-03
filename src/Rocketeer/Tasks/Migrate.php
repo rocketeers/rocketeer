@@ -44,25 +44,25 @@ class Migrate extends AbstractTask
          * iI it's NOT a multiserver connection, then proceed as usual.
          */
 
-        $server_credentials = $this->connections->getServerCredentials();
+        $serverCredentials = $this->connections->getServerCredentials();
         $multiserver = $this->connections->isMultiserver($this->connections->getConnection());
-        $has_role = (isset($server_credentials['db_role']) && $server_credentials['db_role'] );
-        $use_roles = $this->config->get('rocketeer::use_roles');
+        $hasRole = (isset($serverCredentials['db_role']) && $serverCredentials['db_role'] );
+        $useRoles = $this->config->get('rocketeer::use_roles');
         
         // Cancel if nothing to run
-        if (!$strategy || (!$migrate && !$seed) || ($use_roles && $multiserver && !$has_role)) {
+        if ($strategy === false || ($migrate === false && $seed === false) || ($useRoles === true && $multiserver === true && $hasRole === false)) {
             $this->explainer->line('No outstanding migrations or server not assigned db role');
             return true;
         }
 
         // Migrate the database
-        if ($migrate) {
+        if ($migrate === true) {
             $this->explainer->line('Running outstanding migrations');
             $results[] = $strategy->migrate();
         }
 
         // Seed it
-        if ($seed) {
+        if ($seed === true) {
             $this->explainer->line('Seeding database');
             $results[] = $strategy->seed();
         }
