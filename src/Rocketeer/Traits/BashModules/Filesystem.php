@@ -38,6 +38,10 @@ trait Filesystem
 			$this->move($symlink, $folder);
 		}
 
+		if (is_dir($symlink) && ! is_link($symlink)) {
+			$this->removeFolder($symlink);
+		}
+
 		// Define name of temporary link
 		$temporary = $symlink.'-temp';
 
