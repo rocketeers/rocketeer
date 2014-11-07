@@ -17,7 +17,7 @@ trait RocketeerAssertions
 		$this->assertEquals($connection, $this->connections->getConnection());
 	}
 
-    /**
+	/**
 	 * Assert that the current server is a specific one
 	 *
 	 * @param string $connection
@@ -26,6 +26,7 @@ trait RocketeerAssertions
 	{
 		$this->assertEquals($server, $this->connections->getServer());
 	}
+
 	/**
 	 * Assert that the current repository equals
 	 *

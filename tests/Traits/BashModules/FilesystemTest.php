@@ -21,11 +21,11 @@ class FilesystemTest extends RocketeerTestCase
 		mkdir($folder);
 		file_put_contents($folder.'/foobar.txt', 'test');
 
-		$task    = $this->pretendTask();
-		$folder  = '{path.base}/foobar.txt';
-		$share   = $task->share($folder);
+		$task     = $this->pretendTask();
+		$folder   = '{path.base}/foobar.txt';
+		$share    = $task->share($folder);
 		$tempLink = $this->server.'/releases/20000000000000//src/foobar.txt-temp';
-		$matcher = array(
+		$matcher  = array(
 			sprintf('ln -s %s %s', $this->server.'/shared//src/foobar.txt', $tempLink, $tempLink),
 			sprintf('mv -Tf %s %s', $tempLink, $this->server.'/releases/20000000000000//src/foobar.txt'),
 		);

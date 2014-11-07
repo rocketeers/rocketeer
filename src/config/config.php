@@ -12,8 +12,7 @@ return array(
 	////////////////////////////////////////////////////////////////////
 
 	// The plugins to load
-	'plugins' => array(
-		// 'Rocketeer\Plugins\Slack\RocketeerSlack',
+	'plugins'          => array(// 'Rocketeer\Plugins\Slack\RocketeerSlack',
 	),
 
 	// Logging
@@ -44,18 +43,19 @@ return array(
 			'key'       => '{key}',
 			'keyphrase' => '{keyphrase}',
 			'agent'     => '{agent}',
-            'db_role'   => true //(see below)
+			'db_role'   => true,
 		),
 	),
 
-    /*
-     * In most multiserver scenarios, migrations must be run in an exclusive server.
-     * In the event of not having a separate database server (in which case it can
-     * be handled through connections), you can assign a 'db_role' => true to the 
-     * server's configuration and it will only run the migrations in that specific
-     * server at the time of deployment.
-     */
-    'use_roles' => false,
+	/*
+	 * In most multiserver scenarios, migrations must be run in an exclusive server.
+	 * In the event of not having a separate database server (in which case it can
+	 * be handled through connections), you can assign a 'db_role' => true to the
+	 * server's configuration and it will only run the migrations in that specific
+	 * server at the time of deployment.
+	 */
+	'use_roles'        => false,
+
 	// Contextual options
 	//
 	// In this section you can fine-tune the above configuration according
@@ -71,11 +71,10 @@ return array(
 	// ),
 	////////////////////////////////////////////////////////////////////
 
-	'on' => array(
+	'on'               => array(
 
 		// Stages configurations
 		'stages'      => array(),
-
 		// Connections configuration
 		'connections' => array(),
 

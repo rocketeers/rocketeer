@@ -65,7 +65,7 @@ class RemoteHandler
 		// Create connection
 		$credentials = $this->connections->getServerCredentials($connection, $server);
 		$connection  = $this->makeConnection($name, $credentials);
-        
+
 		// Save to cache
 		$this->active[$handle] = $connection;
 

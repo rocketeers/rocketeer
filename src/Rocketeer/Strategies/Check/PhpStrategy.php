@@ -78,7 +78,7 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
 		// Check PHP extensions
 		$errors = [];
 		foreach ($extensions as $check) {
-			list ($method, $extension) = $check;
+			list($method, $extension) = $check;
 
 			if (!$this->$method($extension)) {
 				$errors[] = $extension;

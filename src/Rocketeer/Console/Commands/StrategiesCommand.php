@@ -10,7 +10,6 @@
 namespace Rocketeer\Console\Commands;
 
 use Rocketeer\Abstracts\AbstractCommand;
-use Symfony\Component\Console\Helper\Table;
 
 /**
  * Lists the available options for each strategy
@@ -52,7 +51,7 @@ class StrategiesCommand extends AbstractCommand
 		foreach ($strategies as $strategy => $implementations) {
 			foreach ($implementations as $implementation) {
 				$instance = $this->laravel['rocketeer.builder']->buildStrategy($strategy, $implementation);
-				$rows[] = [$strategy, $implementation, $instance->getDescription()];
+				$rows[]   = [$strategy, $implementation, $instance->getDescription()];
 			}
 		}
 

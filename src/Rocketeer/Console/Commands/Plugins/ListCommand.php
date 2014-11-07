@@ -2,7 +2,6 @@
 namespace Rocketeer\Console\Commands\Plugins;
 
 use Rocketeer\Abstracts\AbstractCommand;
-use Symfony\Component\Console\Helper\Table;
 
 class ListCommand extends AbstractCommand
 {

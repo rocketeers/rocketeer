@@ -2,7 +2,6 @@
 namespace Rocketeer\Services\Ignition;
 
 use Rocketeer\Abstracts\AbstractTask;
-use Rocketeer\Tasks\Closure;
 use Rocketeer\Traits\HasLocator;
 
 class Tasks

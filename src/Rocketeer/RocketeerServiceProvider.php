@@ -29,9 +29,9 @@ use Rocketeer\Services\Ignition\Tasks;
 use Rocketeer\Services\Pathfinder;
 use Rocketeer\Services\ReleasesManager;
 use Rocketeer\Services\Storages\LocalStorage;
+use Rocketeer\Services\TasksHandler;
 use Rocketeer\Services\Tasks\TasksBuilder;
 use Rocketeer\Services\Tasks\TasksQueue;
-use Rocketeer\Services\TasksHandler;
 
 // Define DS
 if (!defined('DS')) {

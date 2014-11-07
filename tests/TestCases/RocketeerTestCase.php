@@ -134,7 +134,7 @@ abstract class RocketeerTestCase extends ContainerTestCase
 	{
 		// Fetch command
 		$command = $command ? '.'.$command : null;
-		$command  = $this->app['rocketeer.commands'.$command];
+		$command = $this->app['rocketeer.commands'.$command];
 
 		// Build options
 		$options = array_merge(array(

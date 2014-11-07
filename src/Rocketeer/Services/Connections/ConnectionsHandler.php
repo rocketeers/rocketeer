@@ -302,10 +302,10 @@ class ConnectionsHandler
 		}
 
 		// Set the connection
-		$this->handle       = null;
-		$this->connection   = $connection;
-		$this->localStorage = $server;
-        $this->currentServer = $server;
+		$this->handle        = null;
+		$this->connection    = $connection;
+		$this->localStorage  = $server;
+		$this->currentServer = $server;
 
 		// Update events
 		$this->tasks->registerConfiguredEvents();
@@ -411,7 +411,6 @@ class ConnectionsHandler
 			// Add them in chain
 			$repository = preg_replace('#https://(.+)@#', 'https://', $repository);
 			$repository = str_replace('https://', 'https://'.$credentials, $repository);
-
 		}
 
 		return $repository;

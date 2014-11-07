@@ -112,50 +112,47 @@ class RemoteHandlerTest extends RocketeerTestCase
 
 		$this->handler->run('ls');
 	}
-    
-    
-    public function testDoesntReturnWrongCredentials() {
-        $this->swapConfig(
-                array(
-                    'rocketeer::connections' => array(
-                        'production' => array(
-                            'servers' => array(
-                                array(
-                                    'host'     => 'foo.com',
-                                    'username' => 'foo',
-                                    'password' => 'foo'
-                                ),
-                                array(
-                                    'host'     => 'bar.com',
-                                    'username' => 'bar',
-                                    'password' => 'bar'
-                                ),
-                            ),
-                        ),
-                    ),
-                )
-        );
-        /*
-         * Setting connection to server 1
-         */
-        $this->connections->setConnection('production',1);
-        $connection = $this->handler->connection('production',1);
+
+	public function testDoesntReturnWrongCredentials()
+	{
+		$this->swapConfig(
+			array(
+				'rocketeer::connections' => array(
+					'production' => array(
+						'servers' => array(
+							array(
+								'host'     => 'foo.com',
+								'username' => 'foo',
+								'password' => 'foo',
+							),
+							array(
+								'host'     => 'bar.com',
+								'username' => 'bar',
+								'password' => 'bar',
+							),
+						),
+					),
+				),
+			)
+		);
+		/*
+		 * Setting connection to server 1
+		 */
+		$this->connections->setConnection('production', 1);
+		$connection = $this->handler->connection('production', 1);
 
 		$this->assertInstanceOf('Rocketeer\Services\Connections\Connection', $connection);
 		$this->assertEquals('production', $connection->getName());
 		$this->assertEquals('bar', $connection->getUsername());
-        
-        /*
-         * Setting connection to server 0
-         */
-        $this->connections->setConnection('production',0);
-        $connection = $this->handler->connection('production',0);
+
+		/*
+		 * Setting connection to server 0
+		 */
+		$this->connections->setConnection('production', 0);
+		$connection = $this->handler->connection('production', 0);
 
 		$this->assertInstanceOf('Rocketeer\Services\Connections\Connection', $connection);
 		$this->assertEquals('production', $connection->getName());
 		$this->assertEquals('foo', $connection->getUsername());
-        
-        
-    }
-
+	}
 }
