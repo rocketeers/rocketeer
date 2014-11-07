@@ -44,7 +44,7 @@ class FilesystemTest extends RocketeerTestCase
 		$this->bash->symlink($folderRelease, $folderCurrent);
 
 		clearstatcache();
-		$check = (is_dir($folderCurrent) && is_link($folderCurrent));
+		$check = is_dir($folderCurrent) && is_link($folderCurrent);
 
 		$this->assertTrue($check);
 	}
