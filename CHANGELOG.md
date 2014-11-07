@@ -1,7 +1,7 @@
 # CHANGELOG
 
-2.0.2
------
+2.0.2 - 2014-11-07
+------------------
 
 ### Added
 - Added back the ability to define custom paths in `paths.php` and reference them via `{key}`
