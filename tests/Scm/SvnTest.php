@@ -97,6 +97,20 @@ class SvnTest extends RocketeerTestCase
 		$this->assertEquals('svn co http://github.com/my/repository/develop '.$this->server.' --non-interactive --username="foo"', $command);
 	}
 
+	public function testDoesntStripRevisionFromUrl()
+	{
+		$this->mock('rocketeer.connections', 'ConnectionsHandler', function ($mock) {
+			return $mock
+				->shouldReceive('getRepositoryCredentials')->once()->andReturn(['username' => 'foo', 'password' => 'bar'])
+				->shouldReceive('getRepositoryEndpoint')->once()->andReturn('url://user:login@example.com/test')
+				->shouldReceive('getRepositoryBranch')->once()->andReturn('trunk@1234');
+		});
+
+		$command = $this->scm->checkout($this->server);
+
+		$this->assertEquals('svn co url://example.com/test/trunk@1234 '.$this->server.' --non-interactive --username="foo" --password="bar"', $command);
+	}
+
 	public function testCanGetReset()
 	{
 		$command = $this->scm->reset();
