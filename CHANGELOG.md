@@ -8,10 +8,16 @@
 
 ### Changed
 - Better way to operate around symlinks
+- The `passphrase` credential is now asked secretely
 
 ### Fixed
 - Fixed a bug where credentials were passed twice to SVN checkout (once in the URL, once via options)
 - Fixed custom tasks not being properly bound to container
+- Fixed a bug in the `plugin:publish` command
+- Fixed a bug where plugins installed globally wouldn't be found by Rocketeer
+- Fixed the `no-clear` option name not being recognized during `update`
+- Fixed some issues with SVN credentials
+- Fixed a bug where multiserver connections would share some credentials instead of using their own
 
 2.0.1 - 2014-10-25
 ------------------
