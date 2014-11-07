@@ -44,9 +44,18 @@ return array(
 			'key'       => '{key}',
 			'keyphrase' => '{keyphrase}',
 			'agent'     => '{agent}',
+            'db_role'   => true //(see below)
 		),
 	),
 
+    /*
+     * In most multiserver scenarios, migrations must be run in an exclusive server.
+     * In the event of not having a separate database server (in which case it can
+     * be handled through connections), you can assign a 'db_role' => true to the 
+     * server's configuration and it will only run the migrations in that specific
+     * server at the time of deployment.
+     */
+    'use_roles' => false,
 	// Contextual options
 	//
 	// In this section you can fine-tune the above configuration according

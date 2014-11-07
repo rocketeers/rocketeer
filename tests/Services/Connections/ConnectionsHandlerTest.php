@@ -166,6 +166,17 @@ class ConnectionsHandlerTest extends RocketeerTestCase
 
 		$this->assertEquals(['production'], $this->connections->getConnections());
 	}
+    
+    
+    public function testDoesntReuseConnectionIfDifferentServer(){
+        $this->connections->setConnection('staging',0);
+		$this->assertConnectionEquals('staging');
+        $this->assertCurrentServerEquals(0);
+        
+        $this->connections->setConnection('staging',1);
+		$this->assertConnectionEquals('staging');
+        $this->assertCurrentServerEquals(1);        
+    }
 
 	////////////////////////////////////////////////////////////////////
 	//////////////////////////////// HELPERS ///////////////////////////
