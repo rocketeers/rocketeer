@@ -237,7 +237,7 @@ trait Filesystem
 	 */
 	protected function checkStatement($condition)
 	{
-		$condition = $this->runRaw('[[ '.$condition.' ]] && echo "true"');
+		$condition = $this->runRaw('[ '.$condition.' ] && echo "true"');
 
 		return trim($condition) == 'true';
 	}
