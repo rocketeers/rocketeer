@@ -29,7 +29,7 @@ trait Filesystem
 	 */
 	public function isSymlink($folder)
 	{
-		return $this->checkStatement('-L "'.$folder.'" && -d "'.$folder.'"');
+		return $this->checkStatement('-L "'.$folder.'" && -d "'.$folder.'"', true);
 	}
 
 	/**
@@ -230,14 +230,17 @@ trait Filesystem
 
 	/**
 	 * Check a condition via Bash
+
 	 *
-	 * @param string $condition
+*@param string  $condition
+	 * @param boolean $double
 	 *
-	 * @return boolean
+*@return boolean
 	 */
-	protected function checkStatement($condition)
+	protected function checkStatement($condition, $double = false)
 	{
-		$condition = '[[ '.$condition.' ]] && echo "true"';
+		$condition = $double ? '[[ '.$condition.' ]]' : '[ '.$condition.' ]';
+		$condition .= '&& echo "true"';
 		$condition = $this->runRaw($condition);
 
 		return trim($condition) == 'true';
