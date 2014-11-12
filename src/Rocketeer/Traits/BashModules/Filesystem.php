@@ -47,6 +47,7 @@ trait Filesystem
 
 		return $this->run(array(
 			sprintf('ln -s %s %s', $folder, $temporary),
+			sprintf('rm -R %s', $symlink),
 			sprintf('mv -Tf %s %s', $temporary, $symlink),
 		));
 	}
