@@ -21,6 +21,18 @@ trait Filesystem
 	////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Check if a file or folder is a symlink
+	 *
+	 * @param string $folder
+	 *
+	 * @return boolean
+	 */
+	public function isSymlink($folder)
+	{
+		return $this->checkStatement('-L '.$folder.' && -d '.$folder);
+	}
+
+	/**
 	 * Symlinks two folders
 	 *
 	 * @param string $folder  The folder in shared/
@@ -38,7 +50,7 @@ trait Filesystem
 			$this->move($symlink, $folder);
 		}
 
-		if (is_dir($symlink) && !is_link($symlink)) {
+		if ($this->fileExists($symlink) && !$this->isSymlink($symlink)) {
 			$this->removeFolder($symlink);
 		}
 
@@ -102,9 +114,7 @@ trait Filesystem
 	 */
 	public function fileExists($file)
 	{
-		$exists = $this->runRaw('[ -e '.$file.' ] && echo "true"');
-
-		return trim($exists) == 'true';
+		return $this->checkStatement('-e '.$file);
 	}
 
 	/**
@@ -217,6 +227,20 @@ trait Filesystem
 	////////////////////////////////////////////////////////////////////
 	/////////////////////////////// HELPERS ////////////////////////////
 	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Check a condition via Bash
+	 *
+	 * @param string $condition
+	 *
+	 * @return boolean
+	 */
+	protected function checkStatement($condition)
+	{
+		$condition = $this->runRaw('[[ '.$condition.' ]] && echo "true"');
+
+		return trim($condition) == 'true';
+	}
 
 	/**
 	 * Execute a "from/to" style command
