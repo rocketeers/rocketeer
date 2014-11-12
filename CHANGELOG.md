@@ -1,5 +1,11 @@
 # CHANGELOG
 
+2.0.3 - 2014-11-12
+------------------
+
+### Fixed
+- Fixed symlink overwrite issue
+
 2.0.2 - 2014-11-07
 ------------------
 
