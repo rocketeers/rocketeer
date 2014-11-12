@@ -29,7 +29,7 @@ trait Filesystem
 	 */
 	public function isSymlink($folder)
 	{
-		return $this->checkStatement('-L '.$folder.' && -d '.$folder);
+		return $this->checkStatement('-L "'.$folder.'" && -d "'.$folder.'"');
 	}
 
 	/**
@@ -114,7 +114,7 @@ trait Filesystem
 	 */
 	public function fileExists($file)
 	{
-		return $this->checkStatement('-e '.$file);
+		return $this->checkStatement('-e "'.$file.'"');
 	}
 
 	/**
@@ -237,7 +237,8 @@ trait Filesystem
 	 */
 	protected function checkStatement($condition)
 	{
-		$condition = $this->runRaw('[ '.$condition.' ] && echo "true"');
+		$condition = '[[ '.$condition.' ]] && echo "true"';
+		$condition = $this->runRaw($condition);
 
 		return trim($condition) == 'true';
 	}
