@@ -49,7 +49,7 @@ class Svn extends AbstractBinary implements ScmInterface
 	 */
 	public function currentState()
 	{
-		return $this->getCommand('info -r "HEAD" | grep "Revision"');
+		return $this->getCommand('info | grep "Revision"');
 	}
 
 	/**
