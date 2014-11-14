@@ -14,6 +14,18 @@ class BinariesTest extends RocketeerTestCase
 		$this->assertEquals($binary, $this->task->which('composer'));
 	}
 
+	public function testConsidersAllPossibleWhichOutputs()
+	{
+		$this->mock('rocketeer.bash', 'Bash', function ($mockery) {
+			return $mockery
+				->shouldReceive('runSilently')->with('which foobar')->andReturn('foobar not found')
+				->shouldReceive('runSilently')->with('which npm')->andReturn('which: no npm in (/usr/local/bin:/bin:/usr/bin)');
+		});
+
+		$this->assertEquals(false, $this->bash->rawWhich('foobar'));
+		$this->assertEquals(false, $this->bash->rawWhich('npm'));
+	}
+
 	public function testStoredPathsAreInvalidatedIfIncorrect()
 	{
 		$this->mock('rocketeer.remote', 'Remote', function ($mock) {

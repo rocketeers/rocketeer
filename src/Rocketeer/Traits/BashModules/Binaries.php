@@ -128,10 +128,7 @@ trait Binaries
 
 			// Verify existence of returned path
 			if ($location) {
-				$location = $this->runSilently('which '.$location);
-				if (strpos($location, 'not found') !== false || strpos($location, 'in (') !== false) {
-					$location = null;
-				}
+				$location = $this->rawWhich($location);
 			}
 
 			$tryout++;
@@ -147,6 +144,23 @@ trait Binaries
 		}
 
 		return $location ?: $binary;
+	}
+
+	/**
+	 * Do a straight call to which
+	 *
+	 * @param string $location
+	 *
+	 * @return string|false
+	 */
+	public function rawWhich($location)
+	{
+		$location = $this->bash->runSilently('which '.$location);
+		if (strpos($location, 'not found') !== false || strpos($location, 'in (') !== false) {
+			return false;
+		}
+
+		return $location;
 	}
 
 	/**
