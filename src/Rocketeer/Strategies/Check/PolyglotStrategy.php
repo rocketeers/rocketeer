@@ -14,9 +14,9 @@ class PolyglotStrategy extends AbstractPolyglotStrategy implements CheckStrategy
 	 */
 	public function manager()
 	{
-		$results = $this->executeStrategiesMethod('manager');
+		$this->executeStrategiesMethod('manager');
 
-		return $this->checkStrategiesResults($results);
+		return $this->passed();
 	}
 
 	/**
@@ -27,9 +27,9 @@ class PolyglotStrategy extends AbstractPolyglotStrategy implements CheckStrategy
 	 */
 	public function language()
 	{
-		$results = $this->executeStrategiesMethod('language');
+		$this->executeStrategiesMethod('language');
 
-		return $this->checkStrategiesResults($results);
+		return $this->passed();
 	}
 
 	/**
