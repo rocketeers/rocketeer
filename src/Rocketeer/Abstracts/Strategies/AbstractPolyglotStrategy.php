@@ -21,6 +21,13 @@ abstract class AbstractPolyglotStrategy extends AbstractStrategy
 	protected $strategies = [];
 
 	/**
+	 * Results of the last operation that was run
+	 *
+	 * @type array
+	 */
+	protected $results;
+
+	/**
 	 * Execute a method on all sub-strategies
 	 *
 	 * @param string $method
@@ -35,6 +42,42 @@ abstract class AbstractPolyglotStrategy extends AbstractStrategy
 	}
 
 	/**
+	 * @param Closure $callback
+	 *
+	 * @return array
+	 */
+	protected function onStrategies(Closure $callback)
+	{
+		return $this->explainer->displayBelow(function () use ($callback) {
+			$this->results = [];
+			foreach ($this->strategies as $strategy) {
+				$instance = $this->getStrategy('Dependencies', $strategy);
+				if ($instance) {
+					$this->results[$strategy] = $callback($instance);
+				} else {
+					$this->results[$strategy] = true;
+				}
+			}
+
+			return $this->results;
+		});
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	////////////////////////////// RESULTS ///////////////////////////////
+	//////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Whether the strategy passed or not
+	 *
+	 * @return boolean
+	 */
+	public function passed()
+	{
+		return $this->checkStrategiesResults($this->results);
+	}
+
+	/**
 	 * Assert that the results of a command are all true
 	 *
 	 * @param boolean[] $results
@@ -43,28 +86,10 @@ abstract class AbstractPolyglotStrategy extends AbstractStrategy
 	 */
 	protected function checkStrategiesResults($results)
 	{
-		$results = array_filter($results);
+		$results = array_filter($results, function ($value) {
+			return $value !== false;
+		});
 
 		return count($results) == count($this->strategies);
-	}
-
-	/**
-	 * @param Closure $callback
-	 *
-	 * @return array
-	 */
-	protected function onStrategies(Closure $callback)
-	{
-		return $this->explainer->displayBelow(function () use ($callback) {
-			$results = [];
-			foreach ($this->strategies as $strategy) {
-				$instance = $this->getStrategy('Dependencies', $strategy);
-				if ($instance) {
-					$results[$strategy] = $callback($instance);
-				}
-			}
-
-			return $results;
-		});
 	}
 }
