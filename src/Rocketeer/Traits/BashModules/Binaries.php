@@ -129,7 +129,7 @@ trait Binaries
 			// Verify existence of returned path
 			if ($location) {
 				$location = $this->runSilently('which '.$location);
-				if (strpos($location, 'not found') !== false) {
+				if (strpos($location, 'not found') !== false || strpos($location, 'in (') !== false) {
 					$location = null;
 				}
 			}
