@@ -1,5 +1,11 @@
 # CHANGELOG
 
+2.0.4
+-----
+
+### Fixed
+- Fixed loading of strategies in `.rocketeer/strategies`
+
 2.0.3 - 2014-11-12
 ------------------
 

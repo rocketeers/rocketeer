@@ -122,6 +122,22 @@ class ConfigurationTest extends RocketeerTestCase
 		$this->assertEquals('whoami', $events[0][0]->getStringTask());
 	}
 
+	public function testCanLoadCustomStrategies()
+	{
+		$config                 = $this->customConfig;
+		$this->app['path.base'] = dirname($config);
+
+		$this->files->makeDirectory($config.'/strategies', 0755, true);
+		$this->files->put($config.'/strategies/Foobar.php', '<?php namespace Lol; class Foobar extends \Rocketeer\Abstracts\Strategies\AbstractStrategy { public function fire() { $this->runForCurrentRelease("ls"); } }');
+
+		$this->igniter->bindPaths();
+		$this->igniter->loadUserConfiguration();
+		$this->tasks->registerConfiguredEvents();
+
+		$strategy = $this->builder->buildStrategy('test', 'Lol\Foobar');
+		$this->assertInstanceOf('Lol\Foobar', $strategy);
+	}
+
 	public function testCanUseFilesAndFoldersForContextualConfig()
 	{
 		$this->mock('config', 'Config', function ($mock) {

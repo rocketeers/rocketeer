@@ -50,6 +50,7 @@ class Configuration
 		$fileLoaders = function () {
 			$this->loadFileOrFolder('tasks');
 			$this->loadFileOrFolder('events');
+			$this->loadFileOrFolder('strategies');
 		};
 
 		// Defer loading of tasks and events or not
@@ -213,11 +214,12 @@ class Configuration
 
 		// Build paths
 		$paths = array(
-			'config'  => $path.'',
-			'events'  => $path.DS.'events',
-			'plugins' => $path.DS.'plugins',
-			'tasks'   => $path.DS.'tasks',
-			'logs'    => $storage.DS.'logs',
+			'config'     => $path.'',
+			'events'     => $path.DS.'events',
+			'plugins'    => $path.DS.'plugins',
+			'strategies' => $path.DS.'strategies',
+			'tasks'      => $path.DS.'tasks',
+			'logs'       => $storage.DS.'logs',
 		);
 
 		foreach ($paths as $key => $file) {
@@ -273,7 +275,7 @@ class Configuration
 
 		// If we have one unified tasks file, include it
 		$file = $this->app['path.rocketeer.'.$handle];
-		if (!is_dir($file) && file_exists($file)) {
+		if (!is_dir($file) && file_exists($file) && $file !== 'strategies.php') {
 			include $file;
 		} // Else include its contents
 		elseif (is_dir($file)) {
