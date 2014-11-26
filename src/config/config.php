@@ -23,6 +23,9 @@ return array(
 		return sprintf('%s-%s-%s.log', $connections->getConnection(), $connections->getStage(), date('Ymd'));
 	},
 
+	// Uncomment below if you need to create relative symlinks
+	// 'symlink' => 'relative',
+
 	// Remote access
 	//
 	// You can either use a single connection or an array of connections
