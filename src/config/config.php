@@ -80,7 +80,4 @@ return array(
 
 	),
 
-	// Uncomment below if you need to create relative symlinks
-	// 'symlink' => 'relative',
-
 );

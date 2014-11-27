@@ -34,6 +34,9 @@ return array(
 		'{path.storage}/sessions',
 	),
 
+	// The way symlinks are created. Possible values: 'absolute', 'relative'
+	'symlink' => 'absolute',
+
 	// Execution
 	//////////////////////////////////////////////////////////////////////
 
