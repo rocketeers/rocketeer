@@ -270,6 +270,10 @@ trait Core
 		$shell     = $this->rocketeer->getOption('remote.shell');
 		$shelled   = $this->rocketeer->getOption('remote.shelled');
 
+		// Prepare paths replacer
+		$pattern     = sprintf('#\%s([\w\d\s])#', DS);
+		$replacement = sprintf('\%s$1', $separator);
+
 		// Cast commands to array
 		if (!is_array($commands)) {
 			$commands = array($commands);
@@ -280,7 +284,7 @@ trait Core
 
 			// Replace directory separators
 			if (DS !== $separator) {
-				$command = str_replace(DS, $separator, $command);
+				$command = preg_replace($pattern, $replacement, $command);
 			}
 
 			// Add stage flag to Artisan commands

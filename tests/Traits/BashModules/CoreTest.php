@@ -76,4 +76,29 @@ class CoreTest extends RocketeerTestCase
 
 		$this->assertCount($this->numberFiles, $contents);
 	}
+
+	public function testCanConvertDirectorySeparators()
+	{
+		$this->mockConfig(array(
+			'rocketeer::remote.variables.directory_separator' => '\\',
+		));
+
+		$commands  = 'cd C:/_bar?/12baz';
+		$processed = $this->task->processCommands($commands);
+
+
+		$this->assertEquals(['cd C:\_bar?\12baz'], $processed);
+	}
+
+	public function testDoesntConvertSlashesThatArentDirectorySeparators()
+	{
+		$this->mockConfig(array(
+			'rocketeer::remote.variables.directory_separator' => '\\',
+		));
+
+		$commands  = 'find runtime -name "cache" -follow -exec rm -rf "{}" ' .DS. ';';
+		$processed = $this->task->processCommands($commands);
+
+		$this->assertEquals([$commands], $processed);
+	}
 }
