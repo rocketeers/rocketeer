@@ -41,13 +41,19 @@ class Cleanup extends AbstractTask
 		$trash = array_map([$this->releasesManager, 'getPathToRelease'], $trash);
 		$this->removeFolder($trash);
 
+		// Remove from state file
+		$storage = $this->getServerStorage();
+		foreach ($trash as $release) {
+			$storage->forget($release);
+		}
+
 		// Create final message
 		$trash   = count($trash);
 		$message = sprintf('Removing <info>%d %s</info> from the server', $trash, Str::plural('release', $trash));
 
 		// Delete state file
 		if ($this->getOption('clean-all')) {
-			$state = new ServerStorage($this->app, 'state');
+			$state = $this->getServerStorage();
 			$state->destroy();
 			$this->releasesManager->markReleaseAsValid();
 		}
@@ -65,5 +71,13 @@ class Cleanup extends AbstractTask
 		return $this->getOption('clean-all')
 			? $this->releasesManager->getNonCurrentReleases()
 			: $this->releasesManager->getDeprecatedReleases();
+	}
+
+	/**
+	 * @return ServerStorage
+	 */
+	protected function getServerStorage()
+	{
+		return new ServerStorage($this->app, 'state');
 	}
 }

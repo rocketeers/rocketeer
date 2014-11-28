@@ -1,6 +1,7 @@
 <?php
 namespace Rocketeer\Tasks;
 
+use Rocketeer\Services\Storages\ServerStorage;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class CleanupTest extends RocketeerTestCase
@@ -66,5 +67,27 @@ class CleanupTest extends RocketeerTestCase
 		});
 
 		$this->assertTaskOutput('Cleanup', 'No releases to prune from the server');
+	}
+
+	public function testAlsoCleansStateFileWhenCleaning()
+	{
+		$this->mockState(array(
+			0 => true,
+			1 => true,
+			2 => true,
+		));
+
+		$this->mockReleases(function ($mock) {
+			return $mock
+				->shouldReceive('getDeprecatedReleases')->once()->andReturn(array(1, 2))
+				->shouldReceive('getPathToRelease')->times(2)->andReturnUsing(function ($release) {
+					return $release;
+				});
+		});
+
+		$this->pretendTask('Cleanup')->execute();
+
+		$storage = new ServerStorage($this->app, 'state');
+		$this->assertEquals([true], $storage->get());
 	}
 }

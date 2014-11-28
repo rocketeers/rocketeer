@@ -5,6 +5,7 @@
 
 ### Changed
 - Better way to get SVN revision (doesn't require auth anymore)
+- Releases are now also pruned from the `states.json` file when cleaning up
 
 ### Fixed
 - Fixed loading of strategies in `.rocketeer/strategies`
