@@ -49,7 +49,7 @@ abstract class AbstractPackageManager extends AbstractBinary
 			return $this->files->get($manifest);
 		}
 
-		return null;
+		return;
 	}
 
 	/**

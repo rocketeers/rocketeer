@@ -133,7 +133,7 @@ trait HasLocator
 	public function getOption($option, $loose = false)
 	{
 		if (!$this->hasCommand()) {
-			return null;
+			return;
 		}
 
 		return $loose ? Arr::get($this->command->option(), $option) : $this->command->option($option);

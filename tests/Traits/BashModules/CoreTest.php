@@ -86,7 +86,6 @@ class CoreTest extends RocketeerTestCase
 		$commands  = 'cd C:/_bar?/12baz';
 		$processed = $this->task->processCommands($commands);
 
-
 		$this->assertEquals(['cd C:\_bar?\12baz'], $processed);
 	}
 
@@ -96,7 +95,7 @@ class CoreTest extends RocketeerTestCase
 			'rocketeer::remote.variables.directory_separator' => '\\',
 		));
 
-		$commands  = 'find runtime -name "cache" -follow -exec rm -rf "{}" ' .DS. ';';
+		$commands  = 'find runtime -name "cache" -follow -exec rm -rf "{}" '.DS.';';
 		$processed = $this->task->processCommands($commands);
 
 		$this->assertEquals([$commands], $processed);
