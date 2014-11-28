@@ -76,6 +76,7 @@ class BinariesTest extends RocketeerTestCase
 		$this->mock('rocketeer.command', 'Illuminate\Console\Command', function ($mock) {
 			return $mock
 				->shouldIgnoreMissing()
+				->shouldReceive('getOutput')->andReturn($this->getCommandOutput())
 				->shouldReceive('line')
 				->shouldReceive('option')->andReturn([]);
 		});
@@ -90,6 +91,7 @@ class BinariesTest extends RocketeerTestCase
 		$this->mock('rocketeer.command', 'Illuminate\Console\Command', function ($mock) {
 			return $mock
 				->shouldIgnoreMissing()
+				->shouldReceive('getOutput')->andReturn($this->getCommandOutput())
 				->shouldReceive('line')
 				->shouldReceive('option')->andReturn([]);
 		});
