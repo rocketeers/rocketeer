@@ -118,8 +118,8 @@ class TasksQueueTest extends RocketeerTestCase
 		));
 
 		$pipeline = $this->queue->run(array(
-			'Rocketeer\Dummies\MyCustomHaltingTask',
-			'Rocketeer\Dummies\MyCustomTask',
+			'Rocketeer\Dummies\Tasks\MyCustomHaltingTask',
+			'Rocketeer\Dummies\Tasks\MyCustomTask',
 		));
 
 		$this->assertTrue($pipeline->failed());

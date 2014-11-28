@@ -114,7 +114,7 @@ class AbstractTaskTest extends RocketeerTestCase
 	{
 		$this->expectOutputString('halted');
 
-		$this->tasks->before('deploy', 'Rocketeer\Dummies\MyCustomHaltingTask');
+		$this->tasks->before('deploy', 'Rocketeer\Dummies\Tasks\MyCustomHaltingTask');
 
 		$this->tasks->listenTo('deploy.halt', function () {
 			echo 'halted';

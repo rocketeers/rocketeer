@@ -301,7 +301,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 				'submodules' => true,
 			),
 			'rocketeer::strategies.dependencies'  => 'Composer',
-			'rocketeer::hooks.custom'             => ['Rocketeer\Dummies\MyCustomTask'],
+			'rocketeer::hooks.custom'             => ['Rocketeer\Dummies\Tasks\MyCustomTask'],
 			'rocketeer::hooks'                    => array(
 				'before' => array(
 					'deploy' => array(
@@ -311,7 +311,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 				),
 				'after'  => array(
 					'check'  => array(
-						'Rocketeer\Dummies\MyCustomTask',
+						'Rocketeer\Dummies\Tasks\MyCustomTask',
 					),
 					'deploy' => array(
 						'after',

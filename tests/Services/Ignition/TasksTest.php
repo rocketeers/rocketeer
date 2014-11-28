@@ -11,7 +11,7 @@ class TasksTest extends RocketeerTestCase
 		$userTasks = (array) $this->app['config']->get('rocketeer::hooks.custom');
 		$this->app['rocketeer.igniter.tasks']->registerTasksAndCommands($userTasks);
 
-		$this->assertInstanceOf('Rocketeer\Dummies\MyCustomTask', $this->app['rocketeer.tasks.my-custom-task']);
+		$this->assertInstanceOf('Rocketeer\Dummies\Tasks\MyCustomTask', $this->app['rocketeer.tasks.my-custom-task']);
 	}
 
 	public function testCanComputeSlugWithoutTask()

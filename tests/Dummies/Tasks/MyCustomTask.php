@@ -1,5 +1,5 @@
 <?php
-namespace Rocketeer\Dummies;
+namespace Rocketeer\Dummies\Tasks;
 
 use Rocketeer\Abstracts\AbstractTask;
 

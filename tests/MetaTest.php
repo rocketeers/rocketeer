@@ -1,7 +1,7 @@
 <?php
 namespace Rocketeer;
 
-use Rocketeer\Dummies\MyCustomTask;
+use Rocketeer\Dummies\Tasks\MyCustomTask;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class MetaTest extends RocketeerTestCase
