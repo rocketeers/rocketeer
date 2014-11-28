@@ -6,6 +6,7 @@
 ### Changed
 - Better way to get SVN revision (doesn't require auth anymore)
 - Releases are now also pruned from the `states.json` file when cleaning up
+- Running with debug verbosity (`-vvv`) now outputs *all* commands being executed (some were hidden)
 
 ### Fixed
 - Fixed loading of strategies in `.rocketeer/strategies`
