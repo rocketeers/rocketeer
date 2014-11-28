@@ -119,8 +119,11 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 			return $message;
 		};
 
+		$output = Mockery::mock('OutputInterface')->shouldIgnoreMissing();
+		$output->shouldReceive('getVerbosity')->andReturn(1);
+
 		$command = Mockery::mock('Command')->shouldIgnoreMissing();
-		$command->shouldReceive('getOutput')->andReturn(null);
+		$command->shouldReceive('getOutput')->andReturn($output);
 
 		// Bind the output expectations
 		$types = ['comment', 'error', 'line', 'info'];
