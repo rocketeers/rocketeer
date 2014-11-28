@@ -32,6 +32,8 @@ class Rollback extends AbstractTask
 	 */
 	public function execute()
 	{
+		$releases = $this->releasesManager->getReleases();
+
 		// Get previous release
 		$rollbackRelease = $this->getRollbackRelease();
 		if (!$rollbackRelease) {
@@ -40,12 +42,16 @@ class Rollback extends AbstractTask
 
 		// If no release specified, display the available ones
 		if ($this->command->option('list')) {
-			$releases = $this->releasesManager->getReleases();
 			$this->displayReleases();
 
 			// Get actual release name from date
 			$rollbackRelease = $this->command->askWith('Which one do you want to go back to ?', 0);
 			$rollbackRelease = $releases[$rollbackRelease];
+		}
+
+		// Check if release actually exists
+		if (!in_array($rollbackRelease, $releases)) {
+			return $this->explainer->error('Unable to find release:' .$rollbackRelease);
 		}
 
 		// Rollback release

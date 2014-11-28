@@ -11,6 +11,7 @@
 - Fixed polyglot strategies considered failures if non executable
 - Fixed for alternative `which` responses being considered paths
 - Fixed incorrect replacing of slashs and backslashes outside of paths
+- Fixed ability to pass an unexisting release to the Rollback task
 
 2.0.3 - 2014-11-12
 ------------------

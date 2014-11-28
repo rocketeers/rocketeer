@@ -41,4 +41,14 @@ class RollbackTest extends RocketeerTestCase
 		$status = $this->task('Rollback')->execute();
 		$this->assertContains('Rocketeer could not rollback as no releases have yet been deployed', $status);
 	}
+
+	public function testCantRollbackToUnexistingRelease()
+	{
+		$this->mockCommand([], ['argument' => 'foobar']);
+		$this->command->shouldReceive('option')->andReturn([]);
+
+		$this->task('Rollback')->execute();
+
+		$this->assertEquals(20000000000000, $this->releasesManager->getCurrentRelease());
+	}
 }
