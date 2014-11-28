@@ -9,6 +9,7 @@
  */
 namespace Rocketeer\Tasks;
 
+use Illuminate\Container\Container;
 use Illuminate\Support\Str;
 use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Services\Storages\ServerStorage;
@@ -28,6 +29,21 @@ class Cleanup extends AbstractTask
 	protected $description = 'Clean up old releases from the server';
 
 	/**
+	 * @type ServerStorage
+	 */
+	protected $serverStorage;
+
+	/**
+	 * @param Container $app
+	 */
+	public function __construct(Container $app)
+	{
+		parent::__construct($app);
+
+		$this->serverStorage = new ServerStorage($this->app, 'state');;
+	}
+
+	/**
 	 * Run the task
 	 */
 	public function execute()
@@ -42,10 +58,7 @@ class Cleanup extends AbstractTask
 		$this->removeFolder($trash);
 
 		// Remove from state file
-		$storage = $this->getServerStorage();
-		foreach ($trash as $release) {
-			$storage->forget($release);
-		}
+		$this->cleanStates($trash);
 
 		// Create final message
 		$trash   = count($trash);
@@ -53,8 +66,7 @@ class Cleanup extends AbstractTask
 
 		// Delete state file
 		if ($this->getOption('clean-all')) {
-			$state = $this->getServerStorage();
-			$state->destroy();
+			$this->serverStorage->destroy();
 			$this->releasesManager->markReleaseAsValid();
 		}
 
@@ -74,10 +86,14 @@ class Cleanup extends AbstractTask
 	}
 
 	/**
-	 * @return ServerStorage
+	 * Clean the releases from the states file
+	 *
+	 * @param array $trash
 	 */
-	protected function getServerStorage()
+	protected function cleanStates(array $trash)
 	{
-		return new ServerStorage($this->app, 'state');
+		foreach ($trash as $release) {
+			$this->serverStorage->forget($release);
+		}
 	}
 }
