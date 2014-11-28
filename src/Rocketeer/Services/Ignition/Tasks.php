@@ -27,6 +27,7 @@ class Tasks
 			'setup'          => 'Setup',
 			'strategies'     => 'Strategies',
 			'teardown'       => 'Teardown',
+			'tinker'         => 'Tinker',
 			'test'           => 'Test',
 			'update'         => 'Update',
 			'plugin-publish' => 'Plugins\Publish',

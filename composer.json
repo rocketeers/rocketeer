@@ -28,6 +28,7 @@
     "illuminate/remote": "~4.2",
     "illuminate/log": "~4.2",
     "patchwork/utf8": "~1.1",
+    "d11wtq/boris": "~1.0.8",
     "kzykhys/parallel": "~0.1.0"
   },
   "require-dev": {
@@ -36,7 +37,6 @@
     "nesbot/carbon": "~1.4",
     "herrera-io/box": "~1.5.3",
     "phpseclib/phpseclib": "~0.3.5",
-    "d11wtq/boris": "~1.0.8",
     "raveren/kint": "~0.9.1",
     "johnkary/phpunit-speedtrap": "dev-master"
   },
