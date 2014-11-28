@@ -53,7 +53,7 @@ abstract class AbstractCheckStrategy extends AbstractStrategy
 	 */
 	public function manager()
 	{
-		return $this->manager->isExecutable();
+		return $this->manager && $this->manager->isExecutable();
 	}
 
 	/**
@@ -67,7 +67,7 @@ abstract class AbstractCheckStrategy extends AbstractStrategy
 		$required = null;
 
 		// Get the minimum version of the application
-		if ($manifest = $this->manager->getManifestContents()) {
+		if ($this->manager && $manifest = $this->manager->getManifestContents()) {
 			$required = $this->getLanguageConstraint($manifest);
 		}
 

@@ -1,6 +1,7 @@
 <?php
 namespace Rocketeer\Strategies\Check;
 
+use Illuminate\Container\Container;
 use Rocketeer\Abstracts\Strategies\AbstractCheckStrategy;
 use Rocketeer\Interfaces\Strategies\CheckStrategyInterface;
 
@@ -22,6 +23,15 @@ class NodeStrategy extends AbstractCheckStrategy implements CheckStrategyInterfa
 	 * @type string
 	 */
 	protected $language = 'Node';
+
+	/**
+	 * @param Container $app
+	 */
+	public function __construct(Container $app)
+	{
+		$this->app     = $app;
+		$this->manager = $this->binary('npm');
+	}
 
 	/**
 	 * Get the version constraint which should be checked against
