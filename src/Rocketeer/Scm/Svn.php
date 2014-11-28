@@ -133,6 +133,6 @@ class Svn extends AbstractBinary implements ScmInterface
 	 */
 	public function submodules()
 	{
-		return '';
+		return;
 	}
 }

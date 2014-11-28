@@ -1,6 +1,7 @@
 <?php
 namespace Rocketeer\Strategies\Deploy;
 
+use Rocketeer\Scm\Svn;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class CloneStrategyTest extends RocketeerTestCase
@@ -32,6 +33,20 @@ class CloneStrategyTest extends RocketeerTestCase
 				"git reset --hard",
 				"git pull",
 			),
+		);
+
+		$this->assertHistory($matcher);
+	}
+
+	public function testDoesntRunSubmodulesCheckoutForSvn()
+	{
+		$this->app['rocketeer.scm'] = new Svn($this->app);
+
+		$task = $this->pretendTask('Deploy');
+		$task->getStrategy('Deploy')->deploy();
+
+		$matcher = array(
+			'svn co {repository}/master {server}/releases/{release} --non-interactive',
 		);
 
 		$this->assertHistory($matcher);
