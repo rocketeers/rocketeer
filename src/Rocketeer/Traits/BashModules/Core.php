@@ -93,8 +93,7 @@ trait Core
 		// Display for pretend mode
 		if ($verbose || ($pretend && !$silent)) {
 			$this->toOutput($commands);
-			$flattened = implode(PHP_EOL.'$ ', $commands);
-			$this->command->line('<fg=magenta>$ '.$flattened.'</fg=magenta>');
+			$this->displayCommands($commands);
 
 			if ($pretend) {
 				return count($commands) == 1 ? $commands[0] : $commands;
@@ -147,6 +146,8 @@ trait Core
 	 */
 	public function runRaw($commands, $array = false, $trim = false)
 	{
+		$this->displayCommands($commands, 4);
+
 		// Run commands
 		$output = null;
 		$this->getConnection()->run($commands, function ($results) use (&$output) {
@@ -255,6 +256,24 @@ trait Core
 	////////////////////////////////////////////////////////////////////
 	///////////////////////////// PROCESSORS ///////////////////////////
 	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Display the passed commands
+	 *
+	 * @param string|array $commands
+	 * @param integer      $verbosity
+	 */
+	protected function displayCommands($commands, $verbosity = 1)
+	{
+		// Format command and verbosity level
+		$flattened = (array) $commands;
+		$flattened = implode(PHP_EOL.'$ ', $flattened);
+
+		// Print out command if verbosity level allows it
+		if ($verbosity && ($this->command->getOutput()->getVerbosity() >= $verbosity)) {
+			$this->command->line('<fg=magenta>$ '.$flattened.'</fg=magenta>', $verbosity);
+		}
+	}
 
 	/**
 	 * Process an array of commands
