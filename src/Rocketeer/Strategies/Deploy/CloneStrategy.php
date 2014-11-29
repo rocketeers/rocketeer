@@ -48,6 +48,7 @@ class CloneStrategy extends AbstractStrategy implements DeployStrategyInterface
 		if ($this->rocketeer->getOption('scm.submodules') && $this->scm->submodules()) {
 			$this->explainer->line('Initializing submodules if any');
 			$this->scm->runForCurrentRelease('submodules');
+			$success = $this->status();
 		}
 
 		return $success;
