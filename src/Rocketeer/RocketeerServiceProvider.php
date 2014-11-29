@@ -182,7 +182,7 @@ class RocketeerServiceProvider extends ServiceProvider
 			return new LocalStorage($app, $filename);
 		});
 
-		$this->app->bind('rocketeer.bash', function ($app) {
+		$this->app->singleton('rocketeer.bash', function ($app) {
 			return new Bash($app);
 		});
 
