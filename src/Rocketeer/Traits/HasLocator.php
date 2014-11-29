@@ -136,6 +136,11 @@ trait HasLocator
 			return;
 		}
 
+		// Verbosity levels
+		if ($option == 'verbose') {
+			return $this->command->getOutput()->getVerbosity();
+		}
+
 		return $loose ? Arr::get($this->command->option(), $option) : $this->command->option($option);
 	}
 
