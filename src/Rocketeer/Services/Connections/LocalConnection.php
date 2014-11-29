@@ -118,7 +118,7 @@ class LocalConnection implements ConnectionInterface
 	 */
 	public function getString($remote)
 	{
-		return $this->files->get($remote);
+		return $this->files->exists($remote) ? $this->files->get($remote) : null;
 	}
 
 	/**

@@ -53,8 +53,7 @@ class ServerStorage extends AbstractStorage implements StorageInterface
 	protected function getContents()
 	{
 		$file = $this->getFilepath();
-		$file = $this->bash->fileExists($file) ? $this->bash->getFile($file) : null;
-		$file = $file ?: '{}';
+		$file = $this->bash->getFile($file) ?: '{}';
 		$file = (array) json_decode($file, true);
 
 		return $file;
