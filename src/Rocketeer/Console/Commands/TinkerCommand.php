@@ -2,7 +2,6 @@
 namespace Rocketeer\Console\Commands;
 
 use Boris\Boris;
-use Illuminate\Console\Command;
 use Rocketeer\Abstracts\AbstractCommand;
 
 class TinkerCommand extends AbstractCommand
@@ -27,6 +26,7 @@ class TinkerCommand extends AbstractCommand
 		$boris = new Boris('rocketeer> ');
 		$boris->setLocal(array(
 			'rocketeer' => $this->laravel,
+			'ssh'       => $this->laravel['rocketeer.bash'],
 		));
 
 		$boris->start();
