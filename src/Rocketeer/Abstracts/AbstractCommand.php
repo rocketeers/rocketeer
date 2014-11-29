@@ -160,8 +160,10 @@ abstract class AbstractCommand extends Command
 		$this->laravel->instance('rocketeer.command', $this);
 
 		// Check for credentials
-		$this->laravel['rocketeer.credentials']->getServerCredentials();
-		$this->laravel['rocketeer.credentials']->getRepositoryCredentials();
+		if (!$this->laravel['rocketeer']->isLocal()) {
+			$this->laravel['rocketeer.credentials']->getServerCredentials();
+			$this->laravel['rocketeer.credentials']->getRepositoryCredentials();
+		}
 
 		if ($this->straight) {
 			// If we only have a single task, run it
