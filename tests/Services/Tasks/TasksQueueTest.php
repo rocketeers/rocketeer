@@ -59,7 +59,7 @@ class TasksQueueTest extends RocketeerTestCase
 			},
 		));
 
-		$output = array_slice($this->history->getFlattenedOutput(), 2, 3);
+		$output = array_slice($this->history->getFlattenedOutput(), 3, 4);
 		$this->assertTrue($pipeline->succeeded());
 		$this->assertEquals(array(
 			'.'.PHP_EOL.'..'.PHP_EOL.'.gitkeep',
