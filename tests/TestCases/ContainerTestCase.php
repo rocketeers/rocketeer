@@ -119,8 +119,9 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 			return $message;
 		};
 
+		$verbose = array_get($options, 'verbose') ? 1 : 0;
 		$command = Mockery::mock('Command')->shouldIgnoreMissing();
-		$command->shouldReceive('getOutput')->andReturn($this->getCommandOutput());
+		$command->shouldReceive('getOutput')->andReturn($this->getCommandOutput($verbose));
 
 		// Bind the output expectations
 		$types = ['comment', 'error', 'line', 'info'];
@@ -325,13 +326,15 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 		$this->defaults = array_merge($defaults, $overrides);
 
 		return $this->defaults;
-	}/**
- * @return Mockery\Mock
- */
-	protected function getCommandOutput()
+	}
+
+	/**
+	 * @return Mockery\Mock
+	 */
+	protected function getCommandOutput($verbosity = 0)
 	{
 		$output = Mockery::mock('OutputInterface')->shouldIgnoreMissing();
-		$output->shouldReceive('getVerbosity')->andReturn(1);
+		$output->shouldReceive('getVerbosity')->andReturn($verbosity);
 
 		return $output;
 	}

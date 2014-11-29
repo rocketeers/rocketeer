@@ -14,4 +14,4 @@ matrix:
     - php: hhvm-nightly
   fast_finish: true
 
-script: phpunit --debug
+script: phpunit
