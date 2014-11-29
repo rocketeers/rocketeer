@@ -7,7 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Rocketeer\Console;
+namespace Rocketeer\Console\Compilation;
 
 use Herrera\Box\Box;
 use Herrera\Box\StubGenerator;
@@ -44,12 +44,41 @@ class Compiler
 	protected $phar;
 
 	/**
-	 * Build a new Compiler instance
+	 * Path to the binaries folder
+	 *
+	 * @type string
 	 */
-	public function __construct()
+	protected $binary;
+
+	/**
+	 * Name of the PHAR
+	 *
+	 * @type string
+	 */
+	protected $name;
+
+	/**
+	 * Dependencies to exclude
+	 *
+	 * @type array
+	 */
+	protected $dependencies;
+
+	/**
+	 * Build a new Compiler instance
+	 *
+	 * @param       $folder
+	 * @param       $name
+	 * @param array $dependencies
+	 */
+	public function __construct($folder, $name, $dependencies = [])
 	{
 		$this->files = new Filesystem();
-		$this->phar  = __DIR__.'/../../../bin/rocketeer.phar';
+		$this->phar  = $folder.'/'.$name.'.phar';
+
+		$this->folder       = $folder;
+		$this->name         = $name;
+		$this->dependencies = $dependencies;
 	}
 
 	/**
@@ -84,7 +113,7 @@ class Compiler
 		}
 
 		// Store some path variables
-		$root   = __DIR__.'/../../..';
+		$root   = $this->folder.'/..';
 		$src    = $root.'/src';
 		$vendor = $root.'/vendor';
 
@@ -96,19 +125,12 @@ class Compiler
 
 		// Add core files and dependencies
 		$this->addFolder($src);
-		$this->addFolder($vendor, array(
-			'd11wtq',
-			'herrera-io',
-			'johnkary',
-			'mockery',
-			'nesbot',
-			'phine',
-		));
+		$this->addFolder($vendor, $this->dependencies);
 
 		// Add binary
-		$binary = file_get_contents($root.'/bin/rocketeer');
+		$binary = file_get_contents($root.'/bin/'.$this->name);
 		$binary = str_replace('#!/usr/bin/env php', null, $binary);
-		$this->box->addFromString('bin/rocketeer', $binary);
+		$this->box->addFromString('bin/'.$this->name, $binary);
 
 		// Set stub
 		$this->setStub();
@@ -125,7 +147,7 @@ class Compiler
 	 */
 	protected function setStub()
 	{
-		$stub = StubGenerator::create()->index('bin/rocketeer')->generate();
+		$stub = StubGenerator::create()->index('bin/'.$this->name)->generate();
 		$this->box->getPhar()->setStub($stub);
 	}
 
