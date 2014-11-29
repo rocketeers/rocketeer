@@ -83,17 +83,6 @@ abstract class AbstractCommand extends Command
 		return $name;
 	}
 
-	/**
-	 * Set the local state
-	 *
-	 * @param boolean $local
-	 */
-	public function setLocal($local)
-	{
-		$this->laravel['rocketeer.bash']->setLocal($local);
-		$this->task->setLocal($local);
-	}
-
 	//////////////////////////////////////////////////////////////////////
 	////////////////////////////// EXECUTION /////////////////////////////
 	//////////////////////////////////////////////////////////////////////
@@ -114,7 +103,6 @@ abstract class AbstractCommand extends Command
 	{
 		// General options
 		$global = array(
-			['local', null, InputOption::VALUE_NONE, 'Run everything locally'],
 			['parallel', 'P', InputOption::VALUE_NONE, 'Run the tasks asynchronously instead of sequentially'],
 			['pretend', 'p', InputOption::VALUE_NONE, 'Shows which command would execute without actually doing anything'],
 		);
@@ -168,11 +156,6 @@ abstract class AbstractCommand extends Command
 	 */
 	protected function fireTasksQueue($tasks)
 	{
-		// Set local mode
-		if ($this->option('local')) {
-			$this->setLocal(true);
-		}
-
 		// Bind command to container
 		$this->laravel->instance('rocketeer.command', $this);
 

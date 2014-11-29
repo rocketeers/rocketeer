@@ -68,11 +68,6 @@ class Bash
 			return;
 		}
 
-		// Propagate local mode
-		if ($this->local) {
-			$strategy->setLocal($this->local);
-		}
-
 		return $this->explainer->displayBelow(function () use ($strategy) {
 			return $strategy->displayStatus();
 		});
@@ -88,10 +83,7 @@ class Bash
 	public function executeTask($tasks)
 	{
 		$results = $this->explainer->displayBelow(function () use ($tasks) {
-			$task = $this->builder->buildTask($tasks);
-			$task->setLocal($this->local);
-
-			return $task->fire();
+			return $this->builder->buildTask($tasks)->fire();
 		});
 
 		return $results;
