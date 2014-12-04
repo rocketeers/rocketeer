@@ -43,6 +43,7 @@ return array(
 			'key'       => '{key}',
 			'keyphrase' => '{keyphrase}',
 			'agent'     => '{agent}',
+			'agent-forward' => '{agent-forward}',
 			'db_role'   => true,
 		),
 	),
