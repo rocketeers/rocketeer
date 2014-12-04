@@ -110,7 +110,11 @@ class RemoteHandler
 	protected function getAuth(array $config)
 	{
 		if (isset($config['agent']) && $config['agent'] === true) {
-			return ['agent' => true];
+			if (isset($config['agent-forward']) && $config['agent-forward'] === true) { 
+				return ['agent' => true, 'agent-forward' => true];
+			} else {
+				return ['agent' => true];
+			}
 		} elseif (isset($config['key']) && trim($config['key']) != '') {
 			return ['key' => $config['key'], 'keyphrase' => $config['keyphrase']];
 		} elseif (isset($config['keytext']) && trim($config['keytext']) != '') {
