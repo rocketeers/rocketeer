@@ -1,7 +1,7 @@
 # CHANGELOG
 
-2.0.4
------
+2.0.4 - 2014-12-08
+------------------
 
 ### Changed
 - Better way to get SVN revision (doesn't require auth anymore)
