@@ -15,6 +15,7 @@
 - Fixed incorrect replacing of slashs and backslashes outside of paths
 - Fixed ability to pass an unexisting release to the Rollback task
 - Fixed a bug where using SVN would cause Rocketeer to execute empty commands during cloning
+- Fixed an issue where binaries paths would be shared between connections
 
 2.0.3 - 2014-11-12
 ------------------

@@ -84,7 +84,7 @@ trait Binaries
 	public function which($binary, $fallback = null, $prompt = true)
 	{
 		$locations = array(
-			$this->localStorage->get('paths.'.$binary),
+			$this->localStorage->get($this->getBinaryStoragePath($binary)),
 			$this->paths->getPath($binary),
 			$binary,
 		);
@@ -137,9 +137,9 @@ trait Binaries
 		// Store found location or remove it if invalid
 		if (!$this->local) {
 			if ($location) {
-				$this->localStorage->set('paths.'.$binary, $location);
+				$this->localStorage->set($this->getBinaryStoragePath($binary), $location);
 			} else {
-				$this->localStorage->forget('paths.'.$binary);
+				$this->localStorage->forget($this->getBinaryStoragePath($binary));
 			}
 		}
 
@@ -179,5 +179,17 @@ trait Binaries
 		}
 
 		return false;
+	}
+
+	/**
+	 * Get the path in which to store/retrieve a binary's path
+	 *
+	 * @param string $binary
+	 *
+	 * @return string
+	 */
+	protected function getBinaryStoragePath($binary)
+	{
+		return 'paths.'.$this->connections->getConnection().'.'.$binary;
 	}
 }
