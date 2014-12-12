@@ -76,6 +76,17 @@ class BinariesTest extends RocketeerTestCase
 		$this->assertEquals($this->binaries['php'].' '.$this->binaries['php'].' migrate', $this->task->artisan()->migrate());
 	}
 
+	public function testAlwaysRespectsCustomPath()
+	{
+		$this->mockConfig(array(
+			'rocketeer::paths.php'      => 'foo',
+			'rocketeer::paths.composer' => 'php /some/composer.phar',
+		));
+
+		$this->assertEquals('foo', $this->bash->php()->getBinary());
+		$this->assertEquals('php /some/composer.phar', $this->bash->composer()->getBinary());
+	}
+
 	public function testFetchesBinaryIfNotSpecifiedOrNull()
 	{
 		$this->mockConfig(array(
