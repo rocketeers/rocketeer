@@ -25,4 +25,11 @@ class EnvironmentTest extends RocketeerTestCase
 
 		$this->assertEquals(PHP_OS, $this->environment->getOperatingSystem());
 	}
+
+	public function testCanProperlyComputeVariablePath()
+	{
+		$this->connections->setConnection('staging', 1);
+
+		$this->assertEquals('staging.1.os', $this->environment->getVariablePath('os'));
+	}
 }

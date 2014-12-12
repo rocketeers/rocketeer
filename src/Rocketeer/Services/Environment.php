@@ -62,9 +62,9 @@ class Environment
 	 *
 	 * @return string
 	 */
-	protected function getVariablePath($variable)
+	public function getVariablePath($variable)
 	{
-		return $this->connections->getHandle().'.'.$variable;
+		return str_replace('/', '.', $this->connections->getHandle()).'.'.$variable;
 	}
 
 	/**
