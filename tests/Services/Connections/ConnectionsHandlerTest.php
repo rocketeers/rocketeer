@@ -42,6 +42,26 @@ class ConnectionsHandlerTest extends RocketeerTestCase
 		$this->assertEquals(array('staging', 'production'), $this->connections->getConnections());
 	}
 
+	public function testUsesCurrentServerWhenGettingServerCredentials()
+	{
+		$this->swapConfig(array(
+			'rocketeer::connections' => array(
+				'production' => array(
+					'servers' => array(
+						['host' => 'server1.com'],
+						['host' => 'server2.com'],
+					)
+				)
+			)
+		));
+
+		$this->connections->setConnection('production', 0);
+		$this->assertEquals(['host' => 'server1.com'], $this->connections->getServerCredentials());
+
+		$this->connections->setConnection('production', 1);
+		$this->assertEquals(['host' => 'server2.com'], $this->connections->getServerCredentials());
+	}
+
 	public function testCanUseSshRepository()
 	{
 		$repository = 'git@github.com:'.$this->repository;
