@@ -28,6 +28,7 @@ use Illuminate\Support\Arr;
  * @property \Rocketeer\Rocketeer                                     rocketeer
  * @property \Rocketeer\Services\Connections\ConnectionsHandler       connections
  * @property \Rocketeer\Services\Connections\RemoteHandler            remote
+ * @property \Rocketeer\Services\Environment                          environment
  * @property \Rocketeer\Services\CredentialsGatherer                  credentials
  * @property \Rocketeer\Services\Display\QueueExplainer               explainer
  * @property \Rocketeer\Services\Display\QueueTimer                   timer
@@ -75,6 +76,7 @@ trait HasLocator
 			'connections'     => 'rocketeer.connections',
 			'console'         => 'rocketeer.console',
 			'credentials'     => 'rocketeer.credentials',
+			'environment'     => 'rocketeer.environment',
 			'explainer'       => 'rocketeer.explainer',
 			'history'         => 'rocketeer.history',
 			'localStorage'    => 'rocketeer.storage.local',

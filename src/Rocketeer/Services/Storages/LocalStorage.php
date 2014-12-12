@@ -28,7 +28,7 @@ class LocalStorage extends AbstractStorage implements StorageInterface
 	protected $hash;
 
 	/**
-	 * The folder where file resides
+	 * The folder where the file resides
 	 *
 	 * @type string
 	 */
@@ -117,38 +117,8 @@ class LocalStorage extends AbstractStorage implements StorageInterface
 	}
 
 	////////////////////////////////////////////////////////////////////
-	/////////////////////////// REMOTE VARIABLES ///////////////////////
+	////////////////////////// REPOSITORY FILE /////////////////////////
 	////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Get the directory separators on the remove server
-	 *
-	 * @return string
-	 */
-	public function getSeparator()
-	{
-		return $this->getPhpConstant('directory_separator', 'DIRECTORY_SEPARATOR');
-	}
-
-	/**
-	 * Get the remote line endings on the remove server
-	 *
-	 * @return string
-	 */
-	public function getLineEndings()
-	{
-		return $this->getPhpConstant('line_endings', 'PHP_EOL');
-	}
-
-	/**
-	 * Get the remote operating system
-	 *
-	 * @return string
-	 */
-	public function getOperatingSystem()
-	{
-		return $this->getPhpConstant('os', 'PHP_OS');
-	}
 
 	/**
 	 * Change the folder in use
@@ -167,10 +137,6 @@ class LocalStorage extends AbstractStorage implements StorageInterface
 	{
 		return $this->folder;
 	}
-
-	////////////////////////////////////////////////////////////////////
-	////////////////////////// REPOSITORY FILE /////////////////////////
-	////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Get the full path to the file
@@ -220,45 +186,5 @@ class LocalStorage extends AbstractStorage implements StorageInterface
 	public function destroy()
 	{
 		return $this->files->delete($this->getFilepath());
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	////////////////////////////// HELPERS ///////////////////////////////
-	//////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Get a cached server variable or compute it
-	 *
-	 * @param string   $variable
-	 * @param callable $callback
-	 *
-	 * @return string
-	 */
-	protected function computeServerVariable($variable, callable $callback)
-	{
-		$user = $this->rocketeer->getOption('remote.variables.'.$variable);
-		if ($user) {
-			return $user;
-		}
-
-		return $this->get($variable, $callback);
-	}
-
-	/**
-	 * Get a PHP constant from the server
-	 *
-	 * @param string $variable
-	 * @param string $constant
-	 *
-	 * @return string
-	 */
-	protected function getPhpConstant($variable, $constant)
-	{
-		return $this->computeServerVariable($variable, function () use ($variable, $constant) {
-			$value = $this->bash->runRaw('php -r "echo '.$constant.';"');
-			$this->set($variable, $value);
-
-			return $value ?: constant($constant);
-		});
 	}
 }

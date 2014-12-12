@@ -285,7 +285,7 @@ trait Core
 	public function processCommands($commands)
 	{
 		$stage     = $this->connections->getStage();
-		$separator = $this->localStorage->getSeparator();
+		$separator = $this->environment->getSeparator();
 		$shell     = $this->rocketeer->getOption('remote.shell');
 		$shelled   = $this->rocketeer->getOption('remote.shelled');
 
@@ -362,7 +362,7 @@ trait Core
 
 		// Explode output if necessary
 		if ($array) {
-			$delimiter = $this->localStorage->getLineEndings() ?: PHP_EOL;
+			$delimiter = $this->environment->getLineEndings() ?: PHP_EOL;
 			$output    = explode($delimiter, $output);
 		}
 

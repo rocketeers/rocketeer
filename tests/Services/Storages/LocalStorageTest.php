@@ -30,27 +30,6 @@ class LocalStorageTest extends RocketeerTestCase
 		$this->assertTrue($exists);
 	}
 
-	public function testCanGetLineEndings()
-	{
-		$this->localStorage->destroy();
-
-		$this->assertEquals(PHP_EOL, $this->localStorage->getLineEndings());
-	}
-
-	public function testCanGetSeparators()
-	{
-		$this->localStorage->destroy();
-
-		$this->assertEquals(DIRECTORY_SEPARATOR, $this->localStorage->getSeparator());
-	}
-
-	public function testCanGetOperatingSystem()
-	{
-		$this->localStorage->destroy();
-
-		$this->assertEquals(PHP_OS, $this->localStorage->getOperatingSystem());
-	}
-
 	public function testCanComputeHashAccordingToContentsOfFiles()
 	{
 		$this->mockFiles(function ($mock) {
