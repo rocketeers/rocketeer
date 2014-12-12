@@ -198,6 +198,28 @@ class ConnectionsHandlerTest extends RocketeerTestCase
 		$this->assertCurrentServerEquals(1);
 	}
 
+	public function testCanSpecifyServersViaOptions()
+	{
+		$this->swapConfig(array(
+			'rocketeer::connections' => array(
+				'production' => array(
+					'servers' => array(
+						['host' => 'server1.com'],
+						['host' => 'server2.com'],
+						['host' => 'server3.com'],
+					)
+				)
+			),
+		));
+
+		$this->mockCommand(array(
+			'on' => 'production',
+			'server' => '0,1',
+		));
+
+		$this->assertArrayNotHasKey(2, $this->connections->getConnectionCredentials('production'));
+	}
+
 	////////////////////////////////////////////////////////////////////
 	//////////////////////////////// HELPERS ///////////////////////////
 	////////////////////////////////////////////////////////////////////

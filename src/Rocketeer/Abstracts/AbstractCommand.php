@@ -111,6 +111,7 @@ abstract class AbstractCommand extends Command
 		$overrides = array(
 			['on', 'C', InputOption::VALUE_REQUIRED, 'The connection(s) to execute the Task in'],
 			['stage', 'S', InputOption::VALUE_REQUIRED, 'The stage to execute the Task in'],
+			['server', null, InputOption::VALUE_REQUIRED, 'The server to execute the Task in'],
 			['branch', 'B', InputOption::VALUE_REQUIRED, 'The branch to deploy'],
 		);
 

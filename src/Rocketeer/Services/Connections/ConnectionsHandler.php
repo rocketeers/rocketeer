@@ -323,7 +323,14 @@ class ConnectionsHandler
 		$connection = $connection ?: $this->getConnection();
 		$available  = $this->getAvailableConnections();
 
-		return Arr::get($available, $connection.'.servers');
+		// Get and filter servers
+		$servers = Arr::get($available, $connection.'.servers');
+		if ($this->hasCommand() && $allowed = $this->command->option('server')) {
+			$allowed = explode(',', $allowed);
+			$servers = array_intersect_key((array) $servers, array_flip($allowed));
+		}
+
+		return $servers;
 	}
 
 	/**
