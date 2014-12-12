@@ -62,6 +62,21 @@ class LocalStorage extends AbstractStorage implements StorageInterface
 		$this->set('hash', $this->getHash());
 	}
 
+	/**
+	 * Delegate methods to Environment for BC
+	 *
+	 * @todo Remove in 3.0
+	 *
+	 * @param string $name
+	 * @param array  $arguments
+	 *
+	 * @return mixed
+	 */
+	public function __call($name, $arguments)
+	{
+		return call_user_func_array([$this->environment, $name], $arguments);
+	}
+
 	////////////////////////////////////////////////////////////////////
 	//////////////////////////////// SALTS /////////////////////////////
 	////////////////////////////////////////////////////////////////////
