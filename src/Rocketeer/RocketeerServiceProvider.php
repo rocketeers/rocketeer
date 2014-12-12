@@ -22,6 +22,7 @@ use Rocketeer\Services\Connections\RemoteHandler;
 use Rocketeer\Services\CredentialsGatherer;
 use Rocketeer\Services\Display\QueueExplainer;
 use Rocketeer\Services\Display\QueueTimer;
+use Rocketeer\Services\Environment;
 use Rocketeer\Services\History\History;
 use Rocketeer\Services\History\LogsHandler;
 use Rocketeer\Services\Ignition\Configuration;
@@ -188,6 +189,10 @@ class RocketeerServiceProvider extends ServiceProvider
 
 		$this->app->singleton('rocketeer.queue', function ($app) {
 			return new TasksQueue($app);
+		});
+
+		$this->app->bind('rocketeer.environment', function ($app) {
+			return new Environment($app);
 		});
 
 		$this->app->bind('rocketeer.builder', function ($app) {
