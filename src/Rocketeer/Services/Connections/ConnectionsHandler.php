@@ -329,14 +329,15 @@ class ConnectionsHandler
 	/**
 	 * Get thecredentials for as server
 	 *
-	 * @param string|null $connection
-	 * @param int         $server
+	 * @param string|null  $connection
+	 * @param integer|null $server
 	 *
 	 * @return mixed
 	 */
-	public function getServerCredentials($connection = null, $server = 0)
+	public function getServerCredentials($connection = null, $server = null)
 	{
 		$connection = $this->getConnectionCredentials($connection);
+		$server     = !is_null($server) ? $server : $this->currentServer;
 
 		return Arr::get($connection, $server);
 	}
