@@ -270,7 +270,7 @@ trait Core
 		$flattened = implode(PHP_EOL.'$ ', $flattened);
 
 		// Print out command if verbosity level allows it
-		if ($verbosity && ($this->command->getOutput()->getVerbosity() >= $verbosity)) {
+		if ($verbosity && $this->hasCommand() && ($this->command->getOutput()->getVerbosity() >= $verbosity)) {
 			$this->command->line('<fg=magenta>$ '.$flattened.'</fg=magenta>', $verbosity);
 		}
 	}
