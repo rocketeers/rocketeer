@@ -7,6 +7,7 @@
 - Add ability to use relative symlinks
 
 ### Fixed
+- Fixed symlink issues on non-GNU/Linux OSes
 - Fixed paths defined in `paths.php` sometimes being ignored
 - Fixed some jobs using the wrong server on multiserver connections
 
