@@ -57,6 +57,10 @@ trait Filesystem
 		// Define name of temporary link
 		$temporary = $symlink.'-temp';
 
+		if ($this->rocketeer->getOption('remote.symlink') === 'relative') {
+			$folder = str_ireplace($this->paths->getFolder(''), '', $folder);
+		}
+
 		return $this->run(array(
 			sprintf('ln -s %s %s', $folder, $temporary),
 			sprintf('mv -Tf %s %s', $temporary, $symlink),
