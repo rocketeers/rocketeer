@@ -74,6 +74,10 @@ abstract class RocketeerTestCase extends ContainerTestCase
 			return new LocalStorage($app, 'deployments', $folder);
 		});
 
+		// Mock OS
+		$this->localStorage->set('production.0.os', 'Linux');
+		$this->localStorage->set('staging.0.os', 'Linux');
+
 		// Cache paths
 		$this->binaries = array(
 			'php'      => exec('which php') ?: 'php',
