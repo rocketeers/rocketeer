@@ -127,7 +127,7 @@ trait Binaries
 			}
 
 			// Verify existence of returned path
-			if ($location) {
+			if ($location && $location !== $this->paths->getPath($binary)) {
 				$location = $this->rawWhich($location);
 			}
 
