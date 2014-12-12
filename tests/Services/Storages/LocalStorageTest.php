@@ -44,6 +44,13 @@ class LocalStorageTest extends RocketeerTestCase
 		$this->assertEquals(DIRECTORY_SEPARATOR, $this->localStorage->getSeparator());
 	}
 
+	public function testCanGetOperatingSystem()
+	{
+		$this->localStorage->destroy();
+
+		$this->assertEquals(PHP_OS, $this->localStorage->getOperatingSystem());
+	}
+
 	public function testCanComputeHashAccordingToContentsOfFiles()
 	{
 		$this->mockFiles(function ($mock) {

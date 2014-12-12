@@ -9,7 +9,6 @@
  */
 namespace Rocketeer\Services\Storages;
 
-use Exception;
 use Illuminate\Container\Container;
 use Rocketeer\Abstracts\AbstractStorage;
 use Rocketeer\Interfaces\StorageInterface;
@@ -128,28 +127,7 @@ class LocalStorage extends AbstractStorage implements StorageInterface
 	 */
 	public function getSeparator()
 	{
-		// If manually set by the user, return it
-		$user = $this->rocketeer->getOption('remote.variables.directory_separator');
-		if ($user) {
-			return $user;
-		}
-
-		return $this->get('directory_separator', function () {
-			$separator = $this->bash->runLast('php -r "echo DIRECTORY_SEPARATOR;"');
-
-			// Throw an Exception if we receive invalid output
-			if (strlen($separator) > 1) {
-				throw new Exception(
-					'An error occured while fetching the directory separators used on the server.'.PHP_EOL.
-					'Output received was : '.$separator
-				);
-			}
-
-			// Cache separator
-			$this->set('directory_separator', $separator);
-
-			return $separator;
-		});
+		return $this->getPhpConstant('directory_separator', 'DIRECTORY_SEPARATOR');
 	}
 
 	/**
@@ -159,18 +137,17 @@ class LocalStorage extends AbstractStorage implements StorageInterface
 	 */
 	public function getLineEndings()
 	{
-		// If manually set by the user, return it
-		$user = $this->rocketeer->getOption('remote.variables.line_endings');
-		if ($user) {
-			return $user;
-		}
+		return $this->getPhpConstant('line_endings', 'PHP_EOL');
+	}
 
-		return $this->get('line_endings', function () {
-			$endings = $this->bash->runRaw('php -r "echo PHP_EOL;"');
-			$this->set('line_endings', $endings);
-
-			return $endings ?: PHP_EOL;
-		});
+	/**
+	 * Get the remote operating system
+	 *
+	 * @return string
+	 */
+	public function getOperatingSystem()
+	{
+		return $this->getPhpConstant('os', 'PHP_OS');
 	}
 
 	/**
@@ -243,5 +220,45 @@ class LocalStorage extends AbstractStorage implements StorageInterface
 	public function destroy()
 	{
 		return $this->files->delete($this->getFilepath());
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	////////////////////////////// HELPERS ///////////////////////////////
+	//////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Get a cached server variable or compute it
+	 *
+	 * @param string   $variable
+	 * @param callable $callback
+	 *
+	 * @return string
+	 */
+	protected function computeServerVariable($variable, callable $callback)
+	{
+		$user = $this->rocketeer->getOption('remote.variables.'.$variable);
+		if ($user) {
+			return $user;
+		}
+
+		return $this->get($variable, $callback);
+	}
+
+	/**
+	 * Get a PHP constant from the server
+	 *
+	 * @param string $variable
+	 * @param string $constant
+	 *
+	 * @return string
+	 */
+	protected function getPhpConstant($variable, $constant)
+	{
+		return $this->computeServerVariable($variable, function () use ($variable, $constant) {
+			$value = $this->bash->runRaw('php -r "echo '.$constant.';"');
+			$this->set($variable, $value);
+
+			return $value ?: constant($constant);
+		});
 	}
 }
