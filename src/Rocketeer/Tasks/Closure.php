@@ -28,7 +28,7 @@ class Closure extends AbstractTask
 	/**
 	 * A string task to execute in the Closure
 	 *
-	 * @var string
+	 * @var string|string[]|callable
 	 */
 	protected $stringTask;
 
@@ -45,6 +45,7 @@ class Closure extends AbstractTask
 	 */
 	public function does($task)
 	{
+		// Store the original task before transformation
 		$this->setStringTask($task);
 
 		// Wrap string tasks
@@ -131,7 +132,7 @@ class Closure extends AbstractTask
 	/**
 	 * Set the string task
 	 *
-	 * @param string $task
+	 * @param string|string[]|callabke $task
 	 */
 	public function setStringTask($task)
 	{

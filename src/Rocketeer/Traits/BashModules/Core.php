@@ -42,7 +42,7 @@ trait Core
 	/**
 	 * Get which Connection to call commands with
 	 *
-	 * @return \Illuminate\Remote\ConnectionInterface
+	 * @return \Rocketeer\Interfaces\ConnectionInterface
 	 */
 	public function getConnection()
 	{
