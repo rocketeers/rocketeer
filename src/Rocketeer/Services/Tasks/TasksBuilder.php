@@ -218,12 +218,12 @@ class TasksBuilder
 	/**
 	 * Build a task from a Closure or a string command
 	 *
-	 * @param Closure     $callback
+	 * @param callable     $callback
 	 * @param string|null $stringTask
 	 *
 	 * @return AbstractTask
 	 */
-	public function buildTaskFromClosure(Closure $callback, $stringTask = null)
+	public function buildTaskFromClosure(callable $callback, $stringTask = null)
 	{
 		/** @type \Rocketeer\Tasks\Closure $task */
 		$task = $this->buildTaskFromClass('Rocketeer\Tasks\Closure');

@@ -53,11 +53,11 @@ trait Core
 	/**
 	 * Run a series of commands in local
 	 *
-	 * @param Closure $callback
+	 * @param callable $callback
 	 *
 	 * @return boolean
 	 */
-	public function onLocal(Closure $callback)
+	public function onLocal(callable $callback)
 	{
 		$this->local = true;
 		$results     = $callback($this);

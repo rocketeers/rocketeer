@@ -259,11 +259,11 @@ abstract class AbstractCommand extends Command
 	/**
 	 * Time an operation and display it afterwards
 	 *
-	 * @param Closure $callback
+	 * @param callable $callback
 	 *
 	 * @return boolean
 	 */
-	public function time(Closure $callback)
+	public function time(callable $callback)
 	{
 		// Start timer, execute callback, close timer
 		$timerStart = microtime(true);

@@ -42,11 +42,11 @@ abstract class AbstractPolyglotStrategy extends AbstractStrategy
 	}
 
 	/**
-	 * @param Closure $callback
+	 * @param callable $callback
 	 *
 	 * @return array
 	 */
-	protected function onStrategies(Closure $callback)
+	protected function onStrategies(callable $callback)
 	{
 		return $this->explainer->displayBelow(function () use ($callback) {
 			$this->results = [];
