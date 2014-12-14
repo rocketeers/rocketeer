@@ -48,8 +48,6 @@ class RocketeerServiceProvider extends ServiceProvider
 {
 	/**
 	 * Register the service provider.
-	 *
-	 * @return void
 	 */
 	public function register()
 	{
@@ -58,8 +56,6 @@ class RocketeerServiceProvider extends ServiceProvider
 
 	/**
 	 * Bind classes and commands
-	 *
-	 * @return void
 	 */
 	public function boot()
 	{

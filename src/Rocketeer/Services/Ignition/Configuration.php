@@ -29,8 +29,6 @@ class Configuration
 
 	/**
 	 * Bind paths to the container
-	 *
-	 * @return void
 	 */
 	public function bindPaths()
 	{

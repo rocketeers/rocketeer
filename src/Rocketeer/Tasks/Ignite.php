@@ -28,8 +28,6 @@ class Ignite extends AbstractTask
 
 	/**
 	 * Execute ignite
-	 *
-	 * @return void
 	 */
 	public function execute()
 	{

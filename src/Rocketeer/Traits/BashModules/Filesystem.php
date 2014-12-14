@@ -193,8 +193,6 @@ trait Filesystem
 	 *
 	 * @param string $file
 	 * @param string $contents
-	 *
-	 * @return void
 	 */
 	public function putFile($file, $contents)
 	{

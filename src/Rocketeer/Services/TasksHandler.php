@@ -119,8 +119,6 @@ class TasksHandler
 	 * @param string  $task
 	 * @param Closure $listeners
 	 * @param integer $priority
-	 *
-	 * @return void
 	 */
 	public function before($task, $listeners, $priority = 0)
 	{
@@ -133,8 +131,6 @@ class TasksHandler
 	 * @param string  $task
 	 * @param Closure $listeners
 	 * @param integer $priority
-	 *
-	 * @return void
 	 */
 	public function after($task, $listeners, $priority = 0)
 	{
@@ -143,8 +139,6 @@ class TasksHandler
 
 	/**
 	 * Register with the Dispatcher the events in the configuration
-	 *
-	 * @return void
 	 */
 	public function registerConfiguredEvents()
 	{
@@ -283,8 +277,6 @@ class TasksHandler
 	 *
 	 * @param string $plugin
 	 * @param array  $configuration
-	 *
-	 * @return void
 	 */
 	public function plugin($plugin, array $configuration = array())
 	{

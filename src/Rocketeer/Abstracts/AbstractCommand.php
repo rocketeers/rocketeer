@@ -89,8 +89,6 @@ abstract class AbstractCommand extends Command
 
 	/**
 	 * Run the tasks
-	 *
-	 * @return void
 	 */
 	abstract public function fire();
 

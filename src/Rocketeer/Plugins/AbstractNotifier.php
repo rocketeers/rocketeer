@@ -22,8 +22,6 @@ abstract class AbstractNotifier extends AbstractPlugin
 	 * Register Tasks with Rocketeer
 	 *
 	 * @param \Rocketeer\Services\TasksHandler $queue
-	 *
-	 * @return void
 	 */
 	public function onQueue(TasksHandler $queue)
 	{

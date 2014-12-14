@@ -37,8 +37,6 @@ class ListCommand extends AbstractCommand
 
 	/**
 	 * Run the tasks
-	 *
-	 * @return void
 	 */
 	public function fire()
 	{

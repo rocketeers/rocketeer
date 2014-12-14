@@ -70,8 +70,6 @@ class Setup extends AbstractTask
 
 	/**
 	 * Create the Application's folders
-	 *
-	 * @return void
 	 */
 	protected function createStages()
 	{
