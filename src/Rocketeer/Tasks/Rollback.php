@@ -51,7 +51,7 @@ class Rollback extends AbstractTask
 
 		// Check if release actually exists
 		if (!in_array($rollbackRelease, $releases)) {
-			return $this->explainer->error('Unable to find release:' .$rollbackRelease);
+			return $this->explainer->error('Unable to find release:'.$rollbackRelease);
 		}
 
 		// Rollback release

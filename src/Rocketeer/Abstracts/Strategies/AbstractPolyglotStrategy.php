@@ -9,8 +9,6 @@
  */
 namespace Rocketeer\Abstracts\Strategies;
 
-use Closure;
-
 abstract class AbstractPolyglotStrategy extends AbstractStrategy
 {
 	/**

@@ -9,7 +9,6 @@
  */
 namespace Rocketeer\Services\Display;
 
-use Closure;
 use Rocketeer\Traits\HasLocator;
 
 /**

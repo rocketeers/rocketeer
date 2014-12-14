@@ -9,7 +9,6 @@
  */
 namespace Rocketeer\Services\Display;
 
-use Closure;
 use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Traits\HasLocator;
 
@@ -27,7 +26,7 @@ class QueueTimer
 	 * Time a task operation
 	 *
 	 * @param AbstractTask $task
-	 * @param callable      $callback
+	 * @param callable     $callback
 	 *
 	 * @return boolean|null
 	 */

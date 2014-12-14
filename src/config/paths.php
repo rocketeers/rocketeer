@@ -12,7 +12,7 @@
 
 	// Where you application resides
 	// relatively to the configuration
-	'app' => getcwd(),
+	'app'      => getcwd(),
 
 	// Path to the PHP binary
 	'php'      => '',

@@ -9,7 +9,6 @@
 */
 namespace Rocketeer\Services\Ignition;
 
-use Closure;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Rocketeer\Facades;

@@ -218,7 +218,7 @@ class TasksBuilder
 	/**
 	 * Build a task from a Closure or a string command
 	 *
-	 * @param callable     $callback
+	 * @param callable    $callback
 	 * @param string|null $stringTask
 	 *
 	 * @return AbstractTask

@@ -9,7 +9,6 @@
  */
 namespace Rocketeer\Traits\BashModules;
 
-use Closure;
 use Illuminate\Support\Str;
 use Rocketeer\Traits\HasHistory;
 use Rocketeer\Traits\HasLocator;
