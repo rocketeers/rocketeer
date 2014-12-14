@@ -12,10 +12,17 @@
 namespace Rocketeer\Tasks;
 
 use Rocketeer\Abstracts\AbstractTask;
+use Rocketeer\Interfaces\Strategies\MigrateStrategyInterface;
+
+/*
+ * For Multi-Server environments, usually the migrations need to be run in
+ * one server only. For that reason I use a 'role' array in the connection (or servers) array
+ * to show in which server the migration should be run.
+ * If it's NOT a multiserver connection, then proceed as usual.
+ */
 
 class Migrate extends AbstractTask
 {
-
 	/**
 	 * The console command description.
 	 *
@@ -24,50 +31,81 @@ class Migrate extends AbstractTask
 	protected $description = 'Migrates and/or seed the database';
 
 	/**
+	 * @type MigrateStrategyInterface
+	 */
+	protected $strategy;
+
+	/**
+	 * @type array
+	 */
+	protected $results = [];
+
+	/**
 	 * Run the task
 	 *
 	 * @return boolean|boolean[]
 	 */
 	public function execute()
 	{
-		$results = [];
-
-		// Get strategy and options
-		$migrate  = $this->getOption('migrate');
-		$seed     = $this->getOption('seed');
-		$strategy = $this->getStrategy('Migrate');
-
-		/*
-		 * For Multi-Server environments, usually the migrations need to be run in
-		 * one server only. For that reason I use a 'role' array in the connection (or servers) array
-		 * to show in which server the migration should be run.
-		 * iI it's NOT a multiserver connection, then proceed as usual.
-		 */
-
-		$serverCredentials = $this->connections->getServerCredentials();
-		$multiserver       = $this->connections->isMultiserver($this->connections->getConnection());
-		$hasRole           = (isset($serverCredentials['db_role']) && $serverCredentials['db_role']);
-		$useRoles          = $this->config->get('rocketeer::use_roles');
+		// Prepare method
+		$this->strategy = $this->getStrategy('Migrate');
+		$this->results  = [];
 
 		// Cancel if nothing to run
-		if ($strategy === false || ($migrate === false && $seed === false) || ($useRoles === true && $multiserver === true && $hasRole === false)) {
+		if (!$this->canRunMigrations()) {
 			$this->explainer->line('No outstanding migrations or server not assigned db role');
 
 			return true;
 		}
 
 		// Migrate the database
-		if ($migrate === true) {
-			$this->explainer->line('Running outstanding migrations');
-			$results[] = $strategy->migrate();
+		$this->migrateDatabase();
+		$this->seedDatabase();
+
+		return $this->results;
+	}
+
+	/**
+	 * Check if the command can be run
+	 *
+	 * @return boolean
+	 */
+	protected function canRunMigrations()
+	{
+		$serverCredentials = $this->connections->getServerCredentials();
+		$multiserver       = $this->connections->isMultiserver($this->connections->getConnection());
+		$hasRole           = array_get($serverCredentials, 'db_role');
+		$useRoles          = $this->rocketeer->getOption('uses_roles');
+
+		return
+			$this->strategy &&
+			($this->getOption('migrate') || $this->getOption('seed')) &&
+			(!$useRoles || ($multiserver && $useRoles && $hasRole));
+	}
+
+	/**
+	 * Migrates the database
+	 */
+	protected function migrateDatabase()
+	{
+		if (!$this->getOption('migrate')) {
+			return;
 		}
 
-		// Seed it
-		if ($seed === true) {
-			$this->explainer->line('Seeding database');
-			$results[] = $strategy->seed();
+		$this->explainer->line('Running outstanding migrations');
+		$this->results[] = $this->strategy->migrate();
+	}
+
+	/**
+	 * Seeds the database
+	 */
+	protected function seedDatabase()
+	{
+		if (!$this->getOption('seed')) {
+			return;
 		}
 
-		return $results;
+		$this->explainer->line('Seeding database');
+		$this->results[] = $this->strategy->seed();
 	}
 }
