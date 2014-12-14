@@ -231,9 +231,9 @@ abstract class AbstractCommand extends Command
 	/**
 	 * Adds additional information to a question
 	 *
-	 * @param string $question
-	 * @param string $default
-	 * @param array  $choices
+	 * @param string   $question
+	 * @param string   $default
+	 * @param string[] $choices
 	 *
 	 * @return string
 	 */

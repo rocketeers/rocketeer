@@ -85,7 +85,7 @@ class LocalConnection implements ConnectionInterface
 	/**
 	 * Get the exit status of the last command.
 	 *
-	 * @return integer|null
+	 * @return integer
 	 */
 	public function status()
 	{

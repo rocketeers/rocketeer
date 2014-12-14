@@ -75,9 +75,9 @@ class Compiler
 	/**
 	 * Build a new Compiler instance
 	 *
-	 * @param       $folder
-	 * @param       $name
-	 * @param array $dependencies
+	 * @param string   $folder
+	 * @param string   $name
+	 * @param string[] $dependencies
 	 */
 	public function __construct($folder, $name, $dependencies = [])
 	{

@@ -40,7 +40,7 @@ class Cleanup extends AbstractTask
 	{
 		parent::__construct($app);
 
-		$this->serverStorage = new ServerStorage($this->app, 'state');;
+		$this->serverStorage = new ServerStorage($this->app, 'state');
 	}
 
 	/**
