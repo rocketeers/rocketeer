@@ -10,6 +10,10 @@
 	// Rocketeer might go looking for
 	////////////////////////////////////////////////////////////////////
 
+	// Where you application resides
+	// relatively to the configuration
+	'app' => getcwd(),
+
 	// Path to the PHP binary
 	'php'      => '',
 

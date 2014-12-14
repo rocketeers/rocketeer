@@ -144,4 +144,15 @@ class PathfinderTest extends RocketeerTestCase
 
 		$this->assertEquals('bar', $replaced);
 	}
+
+	public function testCanConfigureApplicationPath()
+	{
+		$this->assertEquals($this->app['path.base'].DS, $this->paths->getApplicationPath());
+
+		$this->swapConfig(array(
+			'rocketeer::paths.app' => __DIR__,
+		));
+
+		$this->assertEquals(__DIR__.DS, $this->paths->getApplicationPath());
+	}
 }

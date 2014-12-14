@@ -174,7 +174,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 		$config->shouldIgnoreMissing();
 
 		$defaults     = $this->getFactoryConfiguration();
-		$expectations = array_merge($defaults, $expectations);
+		$expectations = array_merge($defaults, ['rocketeer::paths.app' => $this->app['path.base']], $expectations);
 		foreach ($expectations as $key => $value) {
 			$config->shouldReceive('get')->with($key)->andReturn($value);
 		}

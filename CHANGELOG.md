@@ -6,6 +6,7 @@
 ### Added
 - Add ability to use relative symlinks
 - Add ability to pass allowed servers via flag (eg. `deploy --on="production" --server="1"`)
+- Add ability to configure the application's path (in case it's not where Rocketeer is being run in)
 
 ### Fixed
 - Fixed symlink issues on non-GNU/Linux OSes

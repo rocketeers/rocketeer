@@ -106,6 +106,19 @@ class Pathfinder
 	}
 
 	/**
+	 * Get the path to the application
+	 *
+	 * @return string
+	 */
+	public function getApplicationPath()
+	{
+		$app = $this->getPath('app').'/' ?: $this->getBasePath();
+		$app = $this->unifySlashes($app);
+
+		return $app;
+	}
+
+	/**
 	 * Get the path to the configuration folder
 	 *
 	 * @return string

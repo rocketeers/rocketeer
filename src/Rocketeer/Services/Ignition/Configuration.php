@@ -207,8 +207,7 @@ class Configuration
 			$path    = $this->paths->getConfigurationPath();
 			$storage = $this->paths->getStoragePath();
 		} else {
-			$path = $this->paths->getBasePath().'.rocketeer';
-
+			$path    = $this->paths->getBasePath().'.rocketeer';
 			$storage = $path;
 		}
 
