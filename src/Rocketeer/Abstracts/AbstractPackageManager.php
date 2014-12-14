@@ -38,7 +38,7 @@ abstract class AbstractPackageManager extends AbstractBinary
 		$server = $this->paths->getFolder('current/'.$this->manifest);
 		$server = $this->bash->fileExists($server);
 
-		$local = $this->app['path.base'].DS.$this->manifest;
+		$local = $this->getManifestPath();
 		$local = $this->files->exists($local);
 
 		return $local || $server;
@@ -52,7 +52,7 @@ abstract class AbstractPackageManager extends AbstractBinary
 	 */
 	public function getManifestContents()
 	{
-		$manifest = $this->app['path.base'].DS.$this->manifest;
+		$manifest = $this->getManifestPath();
 		if ($this->files->exists($manifest)) {
 			return $this->files->get($manifest);
 		}
@@ -61,10 +61,22 @@ abstract class AbstractPackageManager extends AbstractBinary
 	}
 
 	/**
+	 * Get the name of the manifest file
+	 *
 	 * @return string
 	 */
 	public function getManifest()
 	{
 		return $this->manifest;
+	}
+
+	/**
+	 * Get the path to the manifest file
+	 *
+	 * @return string
+	 */
+	public function getManifestPath()
+	{
+		return $this->paths->getBasePath().$this->manifest;
 	}
 }

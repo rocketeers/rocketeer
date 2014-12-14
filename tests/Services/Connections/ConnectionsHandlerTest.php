@@ -213,7 +213,7 @@ class ConnectionsHandlerTest extends RocketeerTestCase
 		));
 
 		$this->mockCommand(array(
-			'on' => 'production',
+			'on'     => 'production',
 			'server' => '0,1',
 		));
 

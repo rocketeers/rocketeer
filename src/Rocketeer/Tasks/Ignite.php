@@ -80,7 +80,7 @@ class Ignite extends AbstractTask
 	{
 		// Replace credentials
 		$repositoryCredentials = $this->connections->getRepositoryCredentials();
-		$name                  = basename($this->app['path.base']);
+		$name                  = basename($this->paths->getBasePath());
 
 		return array_merge(
 			$this->connections->getServerCredentials(),
