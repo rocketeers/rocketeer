@@ -37,6 +37,14 @@ class Compiler
 	protected $files;
 
 	/**
+	 * The path where the PHAR
+	 * will go when compiled
+	 *
+	 * @type string
+	 */
+	protected $folder;
+
+	/**
 	 * The path to the final phar
 	 *
 	 * @var string
