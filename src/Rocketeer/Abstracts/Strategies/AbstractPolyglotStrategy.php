@@ -88,6 +88,6 @@ abstract class AbstractPolyglotStrategy extends AbstractStrategy
 			return $value !== false;
 		});
 
-		return count($results) == count($this->strategies);
+		return count($results) === count($this->strategies);
 	}
 }

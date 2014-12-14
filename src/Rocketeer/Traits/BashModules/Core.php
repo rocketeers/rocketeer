@@ -95,7 +95,7 @@ trait Core
 			$this->displayCommands($commands);
 
 			if ($pretend) {
-				return count($commands) == 1 ? $commands[0] : $commands;
+				return count($commands) === 1 ? $commands[0] : $commands;
 			}
 		}
 
@@ -200,7 +200,7 @@ trait Core
 	 */
 	public function status()
 	{
-		return $this->getOption('pretend') ? true : $this->getConnection()->status() == 0;
+		return $this->getOption('pretend') ? true : $this->getConnection()->status() === 0;
 	}
 
 	/**

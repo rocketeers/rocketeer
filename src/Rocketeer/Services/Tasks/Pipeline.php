@@ -39,7 +39,7 @@ class Pipeline extends Collection
 	{
 		$succeeded = count(array_filter($this->results));
 
-		return $succeeded != $this->count();
+		return $succeeded !== $this->count();
 	}
 
 	/**

@@ -98,7 +98,7 @@ class Tasks
 	public function getTaskHandle($slug, AbstractTask $task = null)
 	{
 		$slug = ($slug || !$task) ? $slug : $task->getSlug();
-		if ($slug == 'closure') {
+		if ($slug === 'closure') {
 			return;
 		}
 

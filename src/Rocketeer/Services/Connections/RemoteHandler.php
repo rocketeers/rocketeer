@@ -111,9 +111,9 @@ class RemoteHandler
 	{
 		if (isset($config['agent']) && $config['agent'] === true) {
 			return ['agent' => true];
-		} elseif (isset($config['key']) && trim($config['key']) != '') {
+		} elseif (isset($config['key']) && trim($config['key']) !== '') {
 			return ['key' => $config['key'], 'keyphrase' => $config['keyphrase']];
-		} elseif (isset($config['keytext']) && trim($config['keytext']) != '') {
+		} elseif (isset($config['keytext']) && trim($config['keytext']) !== '') {
 			return ['keytext' => $config['keytext']];
 		} elseif (isset($config['password'])) {
 			return ['password' => $config['password']];

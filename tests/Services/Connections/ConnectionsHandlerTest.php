@@ -50,9 +50,9 @@ class ConnectionsHandlerTest extends RocketeerTestCase
 					'servers' => array(
 						['host' => 'server1.com'],
 						['host' => 'server2.com'],
-					)
-				)
-			)
+					),
+				),
+			),
 		));
 
 		$this->connections->setConnection('production', 0);
@@ -207,8 +207,8 @@ class ConnectionsHandlerTest extends RocketeerTestCase
 						['host' => 'server1.com'],
 						['host' => 'server2.com'],
 						['host' => 'server3.com'],
-					)
-				)
+					),
+				),
 			),
 		));
 

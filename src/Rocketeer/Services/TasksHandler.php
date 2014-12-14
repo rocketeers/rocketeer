@@ -216,7 +216,7 @@ class TasksHandler
 
 		// Prevent events on anonymous tasks
 		$slug = $this->builder->buildTask($task)->getSlug();
-		if ($slug == 'closure') {
+		if ($slug === 'closure') {
 			return;
 		}
 

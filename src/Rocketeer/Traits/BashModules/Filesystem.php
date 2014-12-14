@@ -268,7 +268,7 @@ trait Filesystem
 		$condition = '[ '.$condition.' ] && echo "true"';
 		$condition = $this->runRaw($condition);
 
-		return trim($condition) == 'true';
+		return trim($condition) === 'true';
 	}
 
 	/**

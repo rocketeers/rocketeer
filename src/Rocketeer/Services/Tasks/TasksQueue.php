@@ -278,7 +278,7 @@ class TasksQueue
 		}
 
 		// Return all stages if "all"
-		if ($stage == 'all' || !$stage) {
+		if ($stage === 'all' || !$stage) {
 			$stage = $this->connections->getStages();
 		}
 

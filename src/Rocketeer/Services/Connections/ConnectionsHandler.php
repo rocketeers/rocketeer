@@ -140,7 +140,7 @@ class ConnectionsHandler
 	 */
 	public function setStage($stage)
 	{
-		if ($stage == $this->stage) {
+		if ($stage === $this->stage) {
 			return;
 		}
 
@@ -297,7 +297,7 @@ class ConnectionsHandler
 	 */
 	public function setConnection($connection, $server = 0)
 	{
-		if (!$this->isValidConnection($connection) || (($this->connection == $connection) && ($this->currentServer == $server))) {
+		if (!$this->isValidConnection($connection) || (($this->connection === $connection) && ($this->currentServer === $server))) {
 			return;
 		}
 
