@@ -1,20 +1,18 @@
 # CHANGELOG
 
-2.0.5
------
+## 2.0.5
 
 ### Added
 - Add ability to use relative symlinks
 - Add ability to pass allowed servers via flag (eg. `deploy --on="production" --server="1"`)
-- Add ability to configure the application's path (in case it's not where Rocketeer is being run in)
+- Add ability to configure the application's path (in case it's not where Rocketeer is being run in)<
 
 ### Fixed
 - Fixed symlink issues on non-GNU/Linux OSes
 - Fixed paths defined in `paths.php` sometimes being ignored
 - Fixed some jobs using the wrong server on multiserver connections
 
-2.0.4 - 2014-12-08
-------------------
+## 2.0.4 - 2014-12-08
 
 ### Changed
 - Better way to get SVN revision (doesn't require auth anymore)
@@ -30,14 +28,12 @@
 - Fixed a bug where using SVN would cause Rocketeer to execute empty commands during cloning
 - Fixed an issue where binaries paths would be shared between connections
 
-2.0.3 - 2014-11-12
-------------------
+## 2.0.3 - 2014-11-12
 
 ### Fixed
 - Fixed symlink overwrite issue
 
-2.0.2 - 2014-11-07
-------------------
+## 2.0.2 - 2014-11-07
 
 ### Added
 - Added back the ability to define custom paths in `paths.php` and reference them via `{key}`
@@ -55,8 +51,7 @@
 - Fixed some issues with SVN credentials
 - Fixed a bug where multiserver connections would share some credentials instead of using their own
 
-2.0.1 - 2014-10-25
-------------------
+## 2.0.1 - 2014-10-25
 
 ### Added
 - Added ability to pass the branch/tag/commit to deploy via `--branch` or `-B`
@@ -69,8 +64,7 @@
 - Fixed strictness of `which` system that would fail on some binaries
 - Fixed a bug where events would never be registered when using only `hooks.php` with one connection/stage
 
-2.0.0 - 2014-09-17
-------------------
+## 2.0.0 - 2014-09-17
 
 ### Added
 - Added ability to run tasks in parallel via the `--parallel` flag (or `-P`)
@@ -98,8 +92,7 @@
 - Fixed a bug where events wouldn't be properly rebooted when using connections other than the default ones
 - Fixed a bug where Rocketeer would ask for credentials again after switching connection
 
-1.2.2 - 2014-06-05
-------------------
+## 1.2.2 - 2014-06-05
 
 ### Added
 - Add ability to disable composer completely
@@ -114,8 +107,7 @@
 - Fixed a bug where Composer-related tasks would be run even without a `composer.json` is found
 - Fixed some compatibility issue with Laravel 4.2
 
-1.2.1 - 2014-03-31
-------------------
+## 1.2.1 - 2014-03-31
 
 ### Changed
 - Split `remote/application_name` in `config/application_name` and `remote/app_directory` to allow contextual application folder name
@@ -126,8 +118,7 @@
 - Fixed a bug where empty arrays wouldn't override defaults in the configuration
 - Fixed path to home folder not being properly found in Windows environment
 
-1.2.0 - 2014-03-08
-------------------
+## 1.2.0 - 2014-03-08
 
 ### Added
 - Added various SSH task-running helpers such as `Rocketeer::task(taskname, task)`
@@ -140,8 +131,7 @@
 - Fixed a bug when running Setup would cancel the `--stage` option
 - Fixed a bug where contextual options weren't properly merged with default ones
 
-1.1.2 - 2014-02-12
-------------------
+## 1.1.2 - 2014-02-12
 
 ### Added
 - Added a `Rocketeer\Plugins\Notifier` class to easily add third-party deployment notification plugins
@@ -149,15 +139,13 @@
 ### Fixed
 - Fixed a bug where the custom tasks/events file/folders might not exist
 
-1.1.1 - 2014-02-08
-------------------
+## 1.1.1 - 2014-02-08
 
 ### Fixed
 - Fixed a bug where the `before` event if halting wouldn't cancel the Task firing
 - Fixed a bug where some calls to the facade would crash in `tasks.php`
 
-1.1.0 - 2014-02-08
-------------------
+## 1.1.0 - 2014-02-08
 
 ### Added
 - Events can now cancel the queue by returning false or returning `$task->halt(error)`
@@ -171,8 +159,7 @@
 - Use the server's time to timestamp releases instead of the local time
 - Fixed a bug where incorrect current release would be returned for multi-servers setups
 
-1.0.0 - 2014-01-13
-------------------
+## 1.0.0 - 2014-01-13
 
 ### Added
 - Rocketeer is now available as a [standalone PHAR](http://rocketeer.autopergamene.eu/versions/rocketeer.phar)
@@ -192,8 +179,7 @@
 - Fix some multiconnections related bugs
 - Fixed some minor behaviors that were causing `--pretend` and/or `--verbose` to not output SCM commands
 
-0.9.0 - 2013-11-15
-------------------
+## 0.9.0 - 2013-11-15
 
 ### Added
 - Rocketeer now supports SVN
@@ -201,8 +187,7 @@
 - Add option to manually set remote variables when encountering problems
 - Add keyphrase support
 
-0.8.0 - 2013-10-19
-------------------
+## 0.8.0 - 2013-10-19
 
 ### Added
 - Rocketeer can now have specific configurations for stages and connections
@@ -212,8 +197,7 @@
 - Added the `--on` flag to all commands to specify which connections the task should be executed on (ex. `production`, `staging,production`)
 - Added `deploy:flush` to clear Rocketeer's cache of credentials
 
-0.7.0 - 2013-08-16
-------------------
+## 0.7.0 - 2013-08-16
 
 ### Added
 - Rocketeer can now work outside of Laravel
@@ -226,8 +210,7 @@
 ### Changed
 - Share `sessions` folder by default
 
-0.6.5 - 2013-07-29
-------------------
+## 0.6.5 - 2013-07-29
 
 ### Added
 - Make Rocketeer prompt for both server and SCM credentials if they're not stored
@@ -237,8 +220,7 @@
 ### Fixed
 - Fix a bug where incorrect SCM urls would be generated
 
-0.6.4 - 2013-07-16
-------------------
+## 0.6.4 - 2013-07-16
 
 ### Added
 - Make the output of commands in realtime when `--verbose` instead of when the command is done
@@ -250,8 +232,7 @@
 - Fix a bug where custom Task classes would be analyzed as string commands
 - Fix Rocketeeer not taking into account custom paths to **app/**, **storage/**, **public/** etc.
 
-0.6.3 - 2013-07-11
-------------------
+## 0.6.3 - 2013-07-11
 
 ### Changed
 - Application name is now always sluggified as a security
@@ -260,8 +241,7 @@
 - Fix a bug where the Check task would fail on pretend mode
 - Fix a bug where invalid directory separators would get cached and used
 
-0.6.2 - 2013-07-11
-------------------
+## 0.6.2 - 2013-07-11
 
 ### Added
 - Make the Check task check for the remote presence of the configured SCM
@@ -269,14 +249,12 @@
 ### Fixed
 - Fix Rocketeer not being able to use a `composer.phar` on the server
 
-0.6.1 - 2013-07-10
-------------------
+## 0.6.1 - 2013-07-10
 
 ### Fixed
 - Fixed a bug where the configured user would not have the rights to set permissions
 
-0.6.0 - 2013-07-06
-------------------
+## 0.6.0 - 2013-07-06
 
 ### Added
 - Add multistage strategy
@@ -295,8 +273,7 @@
 - Fixed a bug where string tasks would not be run in latest release folder
 - Fixed Apache username and group using `www-data` by default
 
-0.5.0 - 2013-07-01
-------------------
+## 0.5.0 - 2013-07-01
 
 ### Added
 - Added a `deploy:update` task that updates the remote server without doing a new release
@@ -308,8 +285,7 @@
 - Added a `$silent` flag to make a `Task::run` call silent no matter what
 - Rocketeer now displays how long the task took
 
-0.4.0 - 2013-06-26
-------------------
+## 0.4.0 - 2013-06-26
 
 ### Added
 - Added ability to share files and folders between releases
@@ -322,20 +298,17 @@
 ### Fixed
 - Fixed `Task::runComposer` not taking into account a local `composer.phar`
 
-0.3.2 - 2013-06-25
-------------------
+## 0.3.2 - 2013-06-25
 
 ### Fixed
 - Fixed wrong tag used in `deploy:cleanup`
 
-0.3.1 - 2013-06-24
-------------------
+## 0.3.1 - 2013-06-24
 
 ### Added
 - Added `--pretend` flag on all commands to print out a list of the commands that would have been executed instead of running them
 
-0.3.0 - 2013-06-24
-------------------
+## 0.3.0 - 2013-06-24
 
 ### Added
 - Added `Task::runInFolder` to run tasks in a specific folder
@@ -346,22 +319,19 @@
 ### Fixed
 - Fixed a bug where `Task::run` would only return the last line of the command's output
 
-0.2.0 - 2013-06-24
-------------------
+## 0.2.0 - 2013-06-24
 
 ### Added
 - The core of Rocketeer's actions is now split into a system of Tasks for flexibility
 - Added a `Rocketeer` facade to easily add tasks via `before` and `after` (see Tasks docs)
 
-0.1.1 - 2013-06-23
-------------------
+## 0.1.1 - 2013-06-23
 
 ### Fixed
 - Fixed a bug where the commands would try to connect to the remote hosts on construct
 - Fixed `ReleasesManager::getPreviousRelease` returning the wrong release
 
-0.1.0 - 2013-06-23
-------------------
+## 0.1.0 - 2013-06-23
 
 ### Added
 - Added `deploy:teardown` to remove the application from remote servers

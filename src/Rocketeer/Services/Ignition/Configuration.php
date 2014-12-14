@@ -138,7 +138,7 @@ class Configuration
 	/**
 	 * Merge configuration files from userland
 	 *
-	 * @param array       $folders
+	 * @param string[]    $folders
 	 * @param callable    $computeHandle
 	 * @param string|null $exclude
 	 */

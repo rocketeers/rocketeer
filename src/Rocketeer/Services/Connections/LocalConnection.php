@@ -10,7 +10,7 @@
 namespace Rocketeer\Services\Connections;
 
 use Closure;
-use Illuminate\Remote\ConnectionInterface;
+use Rocketeer\Interfaces\ConnectionInterface;
 use Rocketeer\Traits\HasLocator;
 
 /**
@@ -110,7 +110,7 @@ class LocalConnection implements ConnectionInterface
 	 * @param  string $remote
 	 *
 	 * @codeCoverageIgnore
-	 * @return string
+	 * @return string|null
 	 */
 	public function getString($remote)
 	{

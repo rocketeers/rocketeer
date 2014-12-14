@@ -9,12 +9,14 @@
  */
 namespace Rocketeer\Services\Connections;
 
+use Rocketeer\Interfaces\ConnectionInterface;
+
 /**
  * Base connection class with additional setters
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class Connection extends \Illuminate\Remote\Connection
+class Connection extends \Illuminate\Remote\Connection implements ConnectionInterface
 {
 	/**
 	 * @return string

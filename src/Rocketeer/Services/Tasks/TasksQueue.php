@@ -66,7 +66,7 @@ class TasksQueue
 	 * @param string|array|Closure $queue
 	 * @param string|string[]|null $connections
 	 *
-	 * @return boolean
+	 * @return string|string[]|false
 	 */
 	public function execute($queue, $connections = null)
 	{
@@ -87,7 +87,7 @@ class TasksQueue
 	 * @param string|string[]      $connections
 	 * @param string|array|Closure $queue
 	 *
-	 * @return boolean
+	 * @return string|string[]|false
 	 */
 	public function on($connections, $queue)
 	{

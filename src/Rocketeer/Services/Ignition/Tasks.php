@@ -90,8 +90,8 @@ class Tasks
 	/**
 	 * Get the handle matching a task
 	 *
-	 * @param string       $slug
-	 * @param AbstractTask $task
+	 * @param string            $slug
+	 * @param AbstractTask|null $task
 	 *
 	 * @return string|null
 	 */
