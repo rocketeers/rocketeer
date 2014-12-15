@@ -75,7 +75,7 @@ class ReleasesManager
 	public function getReleases()
 	{
 		// Get releases on server
-		if (is_null($this->releases)) {
+		if ($this->releases === null) {
 			$releases = $this->getReleasesPath();
 			$releases = (array) $this->bash->listContents($releases);
 

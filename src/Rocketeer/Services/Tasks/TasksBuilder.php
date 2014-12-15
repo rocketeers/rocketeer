@@ -191,7 +191,7 @@ class TasksBuilder
 		}
 
 		// If we passed a command, build a ClosureTask
-		if (is_array($task) || $this->isStringCommand($task) || is_null($task)) {
+		if (is_array($task) || $this->isStringCommand($task) || $task === null) {
 			return $this->buildTaskFromString($task);
 		}
 

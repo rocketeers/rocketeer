@@ -239,7 +239,7 @@ abstract class AbstractCommand extends Command
 	protected function formatQuestion($question, $default, $choices = array())
 	{
 		// If default, show it in the question
-		if (!is_null($default)) {
+		if ($default !== null) {
 			$question .= ' ('.$default.')';
 		}
 

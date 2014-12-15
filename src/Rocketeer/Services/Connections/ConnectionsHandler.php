@@ -82,7 +82,7 @@ class ConnectionsHandler
 		$handle = [$connection, $server, $stage];
 		if ($this->isMultiserver($connection)) {
 			$handle = array_filter($handle, function ($value) {
-				return !is_null($value);
+				return $value !== null;
 			});
 		} else {
 			$handle = array_filter($handle);
@@ -344,7 +344,7 @@ class ConnectionsHandler
 	public function getServerCredentials($connection = null, $server = null)
 	{
 		$connection = $this->getConnectionCredentials($connection);
-		$server     = !is_null($server) ? $server : $this->currentServer;
+		$server     = $server !== null ? $server : $this->currentServer;
 
 		return Arr::get($connection, $server);
 	}

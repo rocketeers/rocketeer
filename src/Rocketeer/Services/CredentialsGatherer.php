@@ -28,8 +28,8 @@ class CredentialsGatherer
 		// null values are considered non required
 		$credentials = array(
 			'repository' => true,
-			'username'   => !is_null(Arr::get($repositoryCredentials, 'username', '')),
-			'password'   => !is_null(Arr::get($repositoryCredentials, 'password', '')),
+			'username'   => Arr::get($repositoryCredentials, 'username', '') !== null,
+			'password'   => Arr::get($repositoryCredentials, 'password', '') !== null,
 		);
 
 		// If we didn't specify a login/password ask for both the first time
@@ -92,7 +92,7 @@ class CredentialsGatherer
 
 		// Get the credentials for the asked connection
 		$connection = $connectionName.'.servers';
-		$connection = !is_null($server) ? $connection.'.'.$server : $connection;
+		$connection = $server !== null ? $connection.'.'.$server : $connection;
 		$connection = Arr::get($connections, $connection, []);
 
 		// Update connection name

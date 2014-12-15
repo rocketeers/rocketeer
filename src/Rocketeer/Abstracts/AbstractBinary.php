@@ -177,7 +177,7 @@ abstract class AbstractBinary
 
 		// Flip array if necessary
 		$firstKey = Arr::get(array_keys($flags), 0);
-		if (!is_null($firstKey) && is_int($firstKey)) {
+		if ($firstKey !== null && is_int($firstKey)) {
 			$flags = array_combine(
 				array_values($flags),
 				array_fill(0, count($flags), null)
