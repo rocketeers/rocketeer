@@ -1,13 +1,16 @@
 # CHANGELOG
 
-## 2.0.5
+## 2.1.0
 
 ### Added
+- Add ability to configure tasks via `Rocketeer::configure('task', ['option' => 'value'])`
+- Add `shared_dependencies` to `Dependencies` task to automatically share dependencies between releases
 - Add ability to use relative symlinks
 - Add ability to pass allowed servers via flag (eg. `deploy --on="production" --server="1"`)
 - Add ability to configure the application's path (in case it's not where Rocketeer is being run in)<
 
 ### Fixed
+- Fixed a bug where trying to use an invalid connection would just fallback silently to the default one
 - Fixed symlink issues on non-GNU/Linux OSes
 - Fixed paths defined in `paths.php` sometimes being ignored
 - Fixed some jobs using the wrong server on multiserver connections
