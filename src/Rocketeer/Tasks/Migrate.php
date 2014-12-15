@@ -59,8 +59,8 @@ class Migrate extends AbstractTask
 		}
 
 		// Migrate the database
-		$this->migrateDatabase();
-		$this->seedDatabase();
+		$this->runStrategyCommand('migrate', 'Running outstanding migrations');
+		$this->runStrategyCommand('seed', 'Seeding database');
 
 		return $this->results;
 	}
@@ -84,28 +84,18 @@ class Migrate extends AbstractTask
 	}
 
 	/**
-	 * Migrates the database
+	 * Run a method on the strategy if asked to
+	 *
+	 * @param string $method
+	 * @param string $message
 	 */
-	protected function migrateDatabase()
+	protected function runStrategyCommand($method, $message)
 	{
-		if (!$this->getOption('migrate')) {
+		if (!$this->getOption($method)) {
 			return;
 		}
 
-		$this->explainer->line('Running outstanding migrations');
-		$this->results[] = $this->strategy->migrate();
-	}
-
-	/**
-	 * Seeds the database
-	 */
-	protected function seedDatabase()
-	{
-		if (!$this->getOption('seed')) {
-			return;
-		}
-
-		$this->explainer->line('Seeding database');
-		$this->results[] = $this->strategy->seed();
+		$this->explainer->line($message);
+		$this->results[] = $this->strategy->$method();
 	}
 }
