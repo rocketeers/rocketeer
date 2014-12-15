@@ -198,6 +198,8 @@ class LocalStorage extends AbstractStorage implements StorageInterface
 	 */
 	protected function saveContents($contents)
 	{
+		$this->contents = $contents;
+
 		// Yup. Don't look at me like that.
 		@$this->files->put($this->getFilepath(), json_encode($contents));
 	}
@@ -209,6 +211,8 @@ class LocalStorage extends AbstractStorage implements StorageInterface
 	 */
 	public function destroy()
 	{
+		$this->contents = [];
+
 		return $this->files->delete($this->getFilepath());
 	}
 }

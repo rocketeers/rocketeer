@@ -14,9 +14,16 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 	use HasLocator;
 
 	/**
-	 * @type arra
+	 * @type array
 	 */
 	protected $defaults;
+
+	/**
+	 * The test repository
+	 *
+	 * @var string
+	 */
+	protected $repository = 'Anahkiasen/html-object.git';
 
 	/**
 	 * Override the trait constructor
@@ -25,13 +32,6 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 	{
 		parent::__construct();
 	}
-
-	/**
-	 * The test repository
-	 *
-	 * @var string
-	 */
-	protected $repository = 'Anahkiasen/html-object.git';
 
 	/**
 	 * Set up the tests

@@ -79,7 +79,7 @@ abstract class RocketeerTestCase extends ContainerTestCase
 		$this->localStorage->set('staging.0.os', 'Linux');
 
 		// Cache paths
-		$this->binaries = array(
+		$this->binaries = $this->binaries ?: array(
 			'php'      => exec('which php') ?: 'php',
 			'bundle'   => exec('which bundle') ?: 'bundle',
 			'phpunit'  => exec('which phpunit') ?: 'phpunit',
