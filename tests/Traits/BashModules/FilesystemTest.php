@@ -56,7 +56,7 @@ class FilesystemTest extends RocketeerTestCase
 
 	public function testCanOverwriteFolderWithSymlink()
 	{
-		$this->localStorage->set('production.os', PHP_OS);
+		$this->mockOperatingSystem();
 
 		// Create dummy folders
 		$folderCurrent = $this->server.'/dummy-current';

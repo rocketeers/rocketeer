@@ -166,8 +166,8 @@ class CredentialsGathererTest extends RocketeerTestCase
 	{
 		$key = $this->paths->getDefaultKeyPath();
 		$this->mockAnswers(array(
-			'No host is set for [staging]'         => $this->host,
-			'No username is set for [staging]'     => $this->username,
+			'No host is set for [staging]'           => $this->host,
+			'No username is set for [staging]'       => $this->username,
 			'If a keyphrase is required, provide it' => 'KEYPHRASE',
 		));
 

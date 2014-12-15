@@ -7,6 +7,7 @@ class RollbackTest extends RocketeerTestCase
 {
 	public function testCanRollbackRelease()
 	{
+		$this->mockOperatingSystem();
 		$this->task('Rollback')->execute();
 
 		$this->assertEquals(10000000000000, $this->releasesManager->getCurrentRelease());
@@ -14,6 +15,7 @@ class RollbackTest extends RocketeerTestCase
 
 	public function testCanRollbackToSpecificRelease()
 	{
+		$this->mockOperatingSystem();
 		$this->mockCommand([], ['argument' => 15000000000000]);
 		$this->command->shouldReceive('option')->andReturn([]);
 
@@ -24,6 +26,7 @@ class RollbackTest extends RocketeerTestCase
 
 	public function testCanGetShownAvailableReleases()
 	{
+		$this->mockOperatingSystem();
 		$this->command = $this->mockCommand(['list' => true]);
 		$this->command->shouldReceive('askWith')->andReturn(1);
 

@@ -70,8 +70,7 @@ abstract class RocketeerTestCase extends ContainerTestCase
 		});
 
 		// Mock OS
-		$this->localStorage->set('production.os', 'Linux');
-		$this->localStorage->set('staging.os', 'Linux');
+		$this->mockOperatingSystem('Linux');
 
 		// Cache paths
 		$this->binaries = $this->binaries ?: array(

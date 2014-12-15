@@ -10,6 +10,17 @@ trait RocketeerMockeries
 	//////////////////////////////////////////////////////////////////////
 
 	/**
+	 * @param string|null $system
+	 */
+	protected function mockOperatingSystem($system = null)
+	{
+		$system = $system ?: PHP_OS;
+
+		$this->localStorage->set('production.os', $system);
+		$this->localStorage->set('staging.os', $system);
+	}
+
+	/**
 	 * Mock the Composer check
 	 *
 	 * @param boolean $uses
@@ -109,7 +120,7 @@ trait RocketeerMockeries
 	 */
 	public function mockConfig(array $expectations)
 	{
-		$defaults     = $this->getFactoryConfiguration();
+		$defaults = $this->getFactoryConfiguration();
 		$defaults = array_merge($defaults, ['rocketeer::paths.app' => $this->app['path.base']]);
 
 		// Set core expectations
