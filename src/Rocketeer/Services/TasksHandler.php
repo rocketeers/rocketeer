@@ -60,7 +60,18 @@ class TasksHandler
 	 */
 	public function __call($method, $parameters)
 	{
-		return call_user_func_array(array($this->queue, $method), $parameters);
+		// Delegate calls to TasksQueue for facade purposes
+		if (method_exists($this->queue, $method)) {
+			return call_user_func_array(array($this->queue, $method), $parameters);
+		}
+
+		// Else we execute actions on the task
+		$task = array_shift($parameters);
+		$task = $this->builder->buildTask($task);
+		call_user_func_array([$task, $method], $parameters);
+
+		// And save it
+		$this->app->instance('rocketeer.tasks.'.$task->getSlug(), $task);
 	}
 
 	////////////////////////////////////////////////////////////////////

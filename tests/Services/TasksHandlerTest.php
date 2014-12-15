@@ -206,4 +206,11 @@ class TasksHandlerTest extends RocketeerTestCase
 		$this->assertEquals('description', $task->getDescription());
 		$this->assertEquals('foobar', $task->getStringTask());
 	}
+
+	public function testCanDelegateCallsToTasks()
+	{
+		$this->tasks->configure('deploy', ['foo' => 'bar']);
+
+		$this->assertEquals(['foo' => 'bar'], $this->builder->buildTask('deploy')->getOptions());
+	}
 }
