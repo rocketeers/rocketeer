@@ -11,6 +11,7 @@ namespace Rocketeer\Abstracts\Strategies;
 
 use Illuminate\Support\Arr;
 use Rocketeer\Bash;
+use Rocketeer\Traits\Configurable;
 
 /**
  * Core class for strategies
@@ -19,6 +20,8 @@ use Rocketeer\Bash;
  */
 abstract class AbstractStrategy extends Bash
 {
+	use Configurable;
+
 	/**
 	 * @type string
 	 */
