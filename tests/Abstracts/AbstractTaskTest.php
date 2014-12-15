@@ -138,4 +138,17 @@ class AbstractTaskTest extends RocketeerTestCase
 
 		$this->task('CurrentRelease')->execute();
 	}
+
+	public function testCanGetOptionsViaCommandOrSetters()
+	{
+		$this->pretend();
+		$this->command->shouldReceive('option')->withNoArgs()->andReturn(['foo' => 'bar']);
+
+		$task = $this->task('Deploy');
+		$task->configure(['baz' => 'qux']);
+
+		$this->assertEquals(true, $task->getOption('pretend'));
+		$this->assertEquals('bar', $task->getOption('foo', true));
+		$this->assertEquals('qux', $task->getOption('baz', true));
+	}
 }

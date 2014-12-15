@@ -134,16 +134,24 @@ trait HasLocator
 	 */
 	public function getOption($option, $loose = false)
 	{
-		if (!$this->hasCommand()) {
-			return;
-		}
-
 		// Verbosity levels
-		if ($option === 'verbose') {
+		if ($this->hasCommand() && $option === 'verbose') {
 			return $this->command->getOutput()->getVerbosity();
 		}
 
-		return $loose ? Arr::get($this->command->option(), $option) : $this->command->option($option);
+		// Gather options
+		$options = isset($this->options) ? $this->options : [];
+
+		// If we have a command and a matching option, get it
+		if ($this->hasCommand()) {
+			if (!$loose) {
+				return $this->command->option($option);
+			}
+
+			$options = array_merge($options, (array) $this->command->option());
+		}
+
+		return Arr::get($options, $option);
 	}
 
 	//////////////////////////////////////////////////////////////////////

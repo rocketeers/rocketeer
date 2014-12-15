@@ -109,7 +109,7 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
 	protected function shareDependenciesFolder()
 	{
 		$folder      = $this->manager->getDependenciesFolder();
-		$shouldShare = array_get($this->options, 'shared_dependencies');
+		$shouldShare = $this->getOptions('shared_dependencies', true);
 		if (!$shouldShare || !$folder) {
 			return;
 		}
