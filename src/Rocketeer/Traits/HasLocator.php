@@ -96,7 +96,7 @@ trait HasLocator
 			$key = $shortcuts[$key];
 		}
 
-		return $this->app[$key];
+		return $this->app->make($key);
 	}
 
 	/**

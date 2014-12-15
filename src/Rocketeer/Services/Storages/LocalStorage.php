@@ -35,6 +35,13 @@ class LocalStorage extends AbstractStorage implements StorageInterface
 	protected $folder;
 
 	/**
+	 * A cache of the contents
+	 *
+	 * @type array
+	 */
+	protected $contents;
+
+	/**
 	 * Build a new LocalStorage
 	 *
 	 * @param Container   $app
@@ -176,10 +183,12 @@ class LocalStorage extends AbstractStorage implements StorageInterface
 		}
 
 		// Get and parse file
-		$contents = $this->files->get($this->getFilepath());
-		$contents = json_decode($contents, true);
+		if ($this->contents === null) {
+			$this->contents = $this->files->get($this->getFilepath());
+			$this->contents = json_decode($this->contents, true);
+		}
 
-		return $contents;
+		return $this->contents;
 	}
 
 	/**
