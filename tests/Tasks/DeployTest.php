@@ -8,10 +8,10 @@ class DeployTest extends RocketeerTestCase
 {
 	public function testCanDeployToServer()
 	{
-		$this->app['config']->shouldReceive('get')->with('rocketeer::scm')->andReturn(array(
-			'repository' => 'https://github.com/'.$this->repository,
-			'username'   => '',
-			'password'   => '',
+		$this->swapConfig(array(
+			'rocketeer::scm.repository' => 'https://github.com/'.$this->repository,
+			'rocketeer::scm.username'   => '',
+			'rocketeer::scm.password'   => '',
 		));
 
 		$matcher = array(
@@ -96,11 +96,9 @@ class DeployTest extends RocketeerTestCase
 		$this->swapConfig(array(
 			'rocketeer::scm.shallow'    => false,
 			'rocketeer::scm.submodules' => false,
-			'rocketeer::scm'            => array(
-				'repository' => 'https://github.com/'.$this->repository,
-				'username'   => '',
-				'password'   => '',
-			),
+			'rocketeer::scm.repository' => 'https://github.com/'.$this->repository,
+			'rocketeer::scm.username'   => '',
+			'rocketeer::scm.password'   => '',
 		));
 
 		$matcher = array(
@@ -214,7 +212,6 @@ class DeployTest extends RocketeerTestCase
 
 	public function testNoDbRoleNoMigrationsNorSeedsAreRun()
 	{
-
 		$this->swapConfig(array(
 			'rocketeer::connections' => array(
 				'production' => array(
@@ -227,10 +224,10 @@ class DeployTest extends RocketeerTestCase
 			),
 		));
 
-		$this->app['config']->shouldReceive('get')->with('rocketeer::scm')->andReturn(array(
-			'repository' => 'https://github.com/'.$this->repository,
-			'username'   => '',
-			'password'   => '',
+		$this->swapConfig(array(
+			'rocketeer::scm.repository' => 'https://github.com/'.$this->repository,
+			'rocketeer::scm.username'   => '',
+			'rocketeer::scm.password'   => '',
 		));
 
 		$matcher = array(
@@ -285,10 +282,10 @@ class DeployTest extends RocketeerTestCase
 			),
 		));
 
-		$this->app['config']->shouldReceive('get')->with('rocketeer::scm')->andReturn(array(
-			'repository' => 'https://github.com/'.$this->repository,
-			'username'   => '',
-			'password'   => '',
+		$this->swapConfig(array(
+			'rocketeer::scm.repository' => 'https://github.com/'.$this->repository,
+			'rocketeer::scm.username'   => '',
+			'rocketeer::scm.password'   => '',
 		));
 
 		$matcher = array(

@@ -5,6 +5,9 @@ use Rocketeer\TestCases\RocketeerTestCase;
 
 class CredentialsGathererTest extends RocketeerTestCase
 {
+	/**
+	 * @type string
+	 */
 	protected $key = '/.ssh/id_rsa';
 
 	public function setUp()
@@ -163,8 +166,8 @@ class CredentialsGathererTest extends RocketeerTestCase
 	{
 		$key = $this->paths->getDefaultKeyPath();
 		$this->mockAnswers(array(
-			'No host is set for [staging/0]'         => $this->host,
-			'No username is set for [staging/0]'     => $this->username,
+			'No host is set for [staging]'         => $this->host,
+			'No username is set for [staging]'     => $this->username,
 			'If a keyphrase is required, provide it' => 'KEYPHRASE',
 		));
 
@@ -174,7 +177,7 @@ class CredentialsGathererTest extends RocketeerTestCase
 			'Please enter the full path to your key', $key
 		)->andReturn($key);
 		$this->command->shouldReceive('askWith')->with(
-			'No password or SSH key is set for [staging/0], which would you use?',
+			'No password or SSH key is set for [staging], which would you use?',
 			'key', ['key', 'password']
 		)->andReturn('key');
 

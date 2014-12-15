@@ -116,7 +116,7 @@ class ConnectionsHandler
 	 */
 	public function isMultiserver($connection)
 	{
-		return (bool) count($this->getConnectionCredentials($connection));
+		return count($this->getConnectionCredentials($connection)) > 1;
 	}
 
 	////////////////////////////////////////////////////////////////////

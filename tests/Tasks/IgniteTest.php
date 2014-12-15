@@ -52,10 +52,17 @@ class IgniteTest extends RocketeerTestCase
 			return $mock
 				->shouldReceive('exportConfiguration')->once()->andReturn($server)
 				->shouldReceive('updateConfiguration')->once()->with($server, array(
+					'host'             => '{host}',
+					'username'         => '{username}',
+					'password'         => '{password}',
+					'key'              => '{key}',
+					'keyphrase'        => '{keyphrase}',
+					'agent'            => '{agent}',
+					'db_role'          => true,
 					'connection'       => 'production',
 					'scm_repository'   => 'https://github.com/'.$this->repository,
-					'scm_username'     => '',
-					'scm_password'     => '',
+					'scm_username'     => null,
+					'scm_password'     => null,
 					'application_name' => 'foobar',
 				));
 		});
@@ -73,10 +80,17 @@ class IgniteTest extends RocketeerTestCase
 			return $mock
 				->shouldReceive('exportConfiguration')->never()
 				->shouldReceive('updateConfiguration')->once()->with($path, array(
+					'host'             => '{host}',
+					'username'         => '{username}',
+					'password'         => '{password}',
+					'key'              => '{key}',
+					'keyphrase'        => '{keyphrase}',
+					'agent'            => '{agent}',
+					'db_role'          => true,
 					'connection'       => 'production',
 					'scm_repository'   => 'https://github.com/'.$this->repository,
-					'scm_username'     => '',
-					'scm_password'     => '',
+					'scm_username'     => null,
+					'scm_password'     => null,
 					'application_name' => '',
 				));
 		});

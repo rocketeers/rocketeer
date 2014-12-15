@@ -2,15 +2,10 @@
 namespace Rocketeer\TestCases;
 
 use Rocketeer\Services\Storages\LocalStorage;
-use Rocketeer\TestCases\Modules\RocketeerAssertions;
-use Rocketeer\TestCases\Modules\RocketeerMockeries;
 use Symfony\Component\Console\Tester\CommandTester;
 
 abstract class RocketeerTestCase extends ContainerTestCase
 {
-	use RocketeerAssertions;
-	use RocketeerMockeries;
-
 	/**
 	 * The path to the local fake server
 	 *
@@ -75,8 +70,8 @@ abstract class RocketeerTestCase extends ContainerTestCase
 		});
 
 		// Mock OS
-		$this->localStorage->set('production.0.os', 'Linux');
-		$this->localStorage->set('staging.0.os', 'Linux');
+		$this->localStorage->set('production.os', 'Linux');
+		$this->localStorage->set('staging.os', 'Linux');
 
 		// Cache paths
 		$this->binaries = $this->binaries ?: array(

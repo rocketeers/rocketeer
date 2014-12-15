@@ -105,10 +105,21 @@ trait RocketeerMockeries
 	}
 
 	/**
-	 * @param array $configuration
+	 * @param array $expectations
 	 */
-	public function mockConfig(array $configuration)
+	public function mockConfig(array $expectations)
 	{
-		$this->app['config'] = $this->getConfig($configuration);
+		$defaults     = $this->getFactoryConfiguration();
+		$defaults = array_merge($defaults, ['rocketeer::paths.app' => $this->app['path.base']]);
+
+		// Set core expectations
+		foreach ($defaults as $key => $value) {
+			$this->config->set($key, $value);
+		}
+
+		// Set additional expectations
+		foreach ($expectations as $key => $value) {
+			$this->config->set($key, $value);
+		}
 	}
 }

@@ -7,11 +7,15 @@ use Illuminate\Filesystem\Filesystem;
 use Mockery;
 use PHPUnit_Framework_TestCase;
 use Rocketeer\RocketeerServiceProvider;
+use Rocketeer\TestCases\Modules\RocketeerAssertions;
+use Rocketeer\TestCases\Modules\RocketeerMockeries;
 use Rocketeer\Traits\HasLocator;
 
 abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 {
 	use HasLocator;
+	use RocketeerMockeries;
+	use RocketeerAssertions;
 
 	/**
 	 * @type array
@@ -162,27 +166,6 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Mock the Config component
-	 *
-	 * @param array $expectations
-	 *
-	 * @return Mockery
-	 */
-	protected function getConfig($expectations = array())
-	{
-		$config = Mockery::mock('Illuminate\Config\Repository');
-		$config->shouldIgnoreMissing();
-
-		$defaults     = $this->getFactoryConfiguration();
-		$expectations = array_merge($defaults, ['rocketeer::paths.app' => $this->app['path.base']], $expectations);
-		foreach ($expectations as $key => $value) {
-			$config->shouldReceive('get')->with($key)->andReturn($value);
-		}
-
-		return $config;
-	}
-
-	/**
 	 * Swap the current config
 	 *
 	 * @param array $config
@@ -192,7 +175,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 	protected function swapConfig($config = [])
 	{
 		$this->connections->disconnect();
-		$this->app['config'] = $this->getConfig($config);
+		$this->mockConfig($config);
 		$this->tasks->registerConfiguredEvents();
 	}
 
@@ -302,8 +285,8 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 				'submodules' => true,
 			),
 			'rocketeer::strategies.dependencies'  => 'Composer',
-			'rocketeer::hooks.custom'             => ['Rocketeer\Dummies\Tasks\MyCustomTask'],
 			'rocketeer::hooks'                    => array(
+				'custom' => ['Rocketeer\Dummies\Tasks\MyCustomTask'],
 				'before' => array(
 					'deploy' => array(
 						'before',
@@ -329,6 +312,8 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * @param integer $verbosity
+	 *
 	 * @return Mockery\Mock
 	 */
 	protected function getCommandOutput($verbosity = 0)
