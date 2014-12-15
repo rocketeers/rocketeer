@@ -33,6 +33,8 @@ class ComposerStrategy extends AbstractDependenciesStrategy implements Dependenc
 	 */
 	public function install()
 	{
+		$this->shareDependenciesFolder();
+
 		return $this->executeHook('install');
 	}
 

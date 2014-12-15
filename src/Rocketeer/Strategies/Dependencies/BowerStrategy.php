@@ -38,6 +38,8 @@ class BowerStrategy extends AbstractDependenciesStrategy implements Dependencies
 	 */
 	public function install()
 	{
+		$this->shareDependenciesFolder();
+
 		return $this->manager->runForCurrentRelease('install', [], $this->getInstallationOptions());
 	}
 

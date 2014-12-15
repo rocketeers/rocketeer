@@ -88,10 +88,7 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
 	 */
 	public function install()
 	{
-		// If dependencies sharing is enabled, share the folder
-		if (array_get($this->options, 'shared_dependencies') && $folder = $this->manager->getDependenciesFolder()) {
-			$this->bash->share($folder);
-		}
+		$this->shareDependenciesFolder();
 
 		return $this->manager->runForCurrentRelease('install');
 	}
@@ -104,5 +101,19 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
 	public function update()
 	{
 		return $this->manager->runForCurrentRelease('update');
+	}
+
+	/**
+	 * Share the dependencies folder if possible
+	 */
+	protected function shareDependenciesFolder()
+	{
+		$folder      = $this->manager->getDependenciesFolder();
+		$shouldShare = array_get($this->options, 'shared_dependencies');
+		if (!$shouldShare || !$folder) {
+			return;
+		}
+
+		$this->bash->share($folder);
 	}
 }
