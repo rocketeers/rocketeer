@@ -31,4 +31,14 @@ class Bundler extends AbstractPackageManager
 			'bundle',
 		);
 	}
+
+	/**
+	 * Get where dependencies are installed
+	 *
+	 * @return string|null
+	 */
+	public function getDependenciesFolder()
+	{
+		return;
+	}
 }

@@ -32,4 +32,24 @@ class Bower extends AbstractPackageManager
 			$this->releasesManager->getCurrentReleasePath().'/node_modules/.bin/bower',
 		);
 	}
+
+	/**
+	 * Get where dependencies are installed
+	 *
+	 * @return string
+	 */
+	public function getDependenciesFolder()
+	{
+		// Look for a configuration file
+		$paths = array_filter(array(
+			$this->paths->getApplicationPath().'.bowerrc',
+			$this->paths->getUserHomeFolder().'/.bowerrc',
+		));
+
+		$file = head($paths);
+		$file = file_get_contents($file);
+		$file = json_decode($file, true);
+
+		return array_get($file, 'directory', 'bower_components');
+	}
 }

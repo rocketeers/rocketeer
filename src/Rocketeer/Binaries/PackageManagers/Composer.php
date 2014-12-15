@@ -49,4 +49,14 @@ class Composer extends AbstractPackageManager
 			$this->setParent($php);
 		}
 	}
+
+	/**
+	 * Get where dependencies are installed
+	 *
+	 * @return string
+	 */
+	public function getDependenciesFolder()
+	{
+		return 'vendor';
+	}
 }

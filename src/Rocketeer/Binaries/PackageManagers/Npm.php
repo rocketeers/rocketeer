@@ -31,4 +31,14 @@ class Npm extends AbstractPackageManager
 			'npm',
 		);
 	}
+
+	/**
+	 * Get where dependencies are installed
+	 *
+	 * @return string|null
+	 */
+	public function getDependenciesFolder()
+	{
+		return 'node_modules';
+	}
 }

@@ -79,4 +79,11 @@ abstract class AbstractPackageManager extends AbstractBinary
 	{
 		return $this->paths->getApplicationPath().$this->manifest;
 	}
+
+	/**
+	 * Get where dependencies are installed
+	 *
+	 * @return string|null
+	 */
+	abstract public function getDependenciesFolder();
 }
