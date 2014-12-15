@@ -48,7 +48,7 @@ class Bower extends AbstractPackageManager
 
 		$file = head($paths);
 		if ($file) {
-			$file = file_get_contents($file);
+			$file = $this->files->get($file);
 			$file = json_decode($file, true);
 		}
 

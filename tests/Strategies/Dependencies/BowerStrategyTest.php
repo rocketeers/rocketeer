@@ -65,6 +65,25 @@ class BowerStrategyTest extends RocketeerTestCase
 		));
 	}
 
+	public function testCanGetDependenciesFolder()
+	{
+		$this->mockFiles(function ($mock) {
+			return $mock
+				->shouldReceive('exists')->with($this->paths->getUserHomeFolder().'/.bowerrc')->andReturn(true)
+				->shouldReceive('get')->once()->andReturn('{"directory": "components"}');
+		});
+
+		$bower = $this->builder->buildBinary('Bower');
+		$this->assertEquals('components', $bower->getDependenciesFolder());
+
+		$this->mockFiles(function ($mock) {
+			return $mock->shouldReceive('exists')->andReturn(false);
+		});
+
+		$bower = $this->builder->buildBinary('Bower');
+		$this->assertEquals('bower_components', $bower->getDependenciesFolder());
+	}
+
 	public function testCanShareDependenciesFolder()
 	{
 		$this->mockFiles(function ($mock) {
