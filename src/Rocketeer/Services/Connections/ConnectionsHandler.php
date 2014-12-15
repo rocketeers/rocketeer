@@ -352,9 +352,9 @@ class ConnectionsHandler
 	/**
 	 * Sync Rocketeer's credentials with Laravel's
 	 *
-	 * @param string|null   $connection
-	 * @param string[]|null $credentials
-	 * @param int           $server
+	 * @param string|null $connection
+	 * @param array       $credentials
+	 * @param int         $server
 	 */
 	public function syncConnectionCredentials($connection = null, array $credentials = array(), $server = 0)
 	{
