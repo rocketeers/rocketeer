@@ -11,6 +11,7 @@ namespace Rocketeer\Services\Connections;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Rocketeer\Exceptions\ConnectionException;
 use Rocketeer\Traits\HasLocator;
 
 /**
@@ -256,6 +257,8 @@ class ConnectionsHandler
 	 * Set the active connections
 	 *
 	 * @param string|string[] $connections
+	 *
+	 * @throws ConnectionException
 	 */
 	public function setConnections($connections)
 	{
@@ -264,11 +267,13 @@ class ConnectionsHandler
 		}
 
 		// Sanitize and set connections
-		$connections = array_filter($connections, [$this, 'isValidConnection']);
-		if ($connections) {
-			$this->connections = $connections;
-			$this->handle      = null;
+		$filtered = array_filter($connections, [$this, 'isValidConnection']);
+		if (!$filtered) {
+			throw new ConnectionException('Invalid connection(s): '.implode(', ', $connections));
 		}
+
+		$this->connections = $filtered;
+		$this->handle      = null;
 	}
 
 	/**
