@@ -132,7 +132,7 @@ class Closure extends AbstractTask
 	/**
 	 * Set the string task
 	 *
-	 * @param string|string[]|callabke $task
+	 * @param string|string[]|callable $task
 	 */
 	public function setStringTask($task)
 	{
