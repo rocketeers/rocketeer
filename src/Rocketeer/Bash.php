@@ -58,17 +58,24 @@ class Bash
 	 *
 	 * @param string      $strategy
 	 * @param string|null $concrete
+	 * @param array       $options
 	 *
-	 * @return \Rocketeer\Abstracts\Strategies\AbstractStrategy
+	 * @return Abstracts\Strategies\AbstractStrategy
 	 */
-	public function getStrategy($strategy, $concrete = null)
+	public function getStrategy($strategy, $concrete = null, $options = array())
 	{
+		// Try to build the strategy
 		$strategy = $this->builder->buildStrategy($strategy, $concrete);
 		if (!$strategy || !$strategy->isExecutable()) {
 			return;
 		}
 
-		return $this->explainer->displayBelow(function () use ($strategy) {
+		// Configure strategy
+		if ($options) {
+			$strategy->setOptions((array) $options);
+		}
+
+		return $this->explainer->displayBelow(function () use ($strategy, $options) {
 			return $strategy->displayStatus();
 		});
 	}

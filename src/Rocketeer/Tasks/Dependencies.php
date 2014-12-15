@@ -21,6 +21,13 @@ class Dependencies extends AbstractTask
 	protected $description = 'Installs or update the dependencies on server';
 
 	/**
+	 * @type array
+	 */
+	protected $options = array(
+		'shared_dependencies' => false,
+	);
+
+	/**
 	 * Run the task
 	 *
 	 * @return boolean
@@ -28,7 +35,7 @@ class Dependencies extends AbstractTask
 	public function execute()
 	{
 		$method       = $this->getOption('update', true) ? 'update' : 'install';
-		$dependencies = $this->getStrategy('Dependencies');
+		$dependencies = $this->getStrategy('Dependencies', null, $this->options);
 		if (!$dependencies) {
 			return true;
 		}

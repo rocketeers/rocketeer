@@ -23,6 +23,11 @@ abstract class AbstractStrategy extends Bash
 	use Configurable;
 
 	/**
+	 * @type array
+	 */
+	protected $options = [];
+
+	/**
 	 * @type string
 	 */
 	protected $description;

@@ -49,7 +49,7 @@ abstract class AbstractPolyglotStrategy extends AbstractStrategy
 		return $this->explainer->displayBelow(function () use ($callback) {
 			$this->results = [];
 			foreach ($this->strategies as $strategy) {
-				$instance = $this->getStrategy('Dependencies', $strategy);
+				$instance = $this->getStrategy('Dependencies', $strategy, $this->options);
 				if ($instance) {
 					$this->results[$strategy] = $callback($instance);
 				} else {
