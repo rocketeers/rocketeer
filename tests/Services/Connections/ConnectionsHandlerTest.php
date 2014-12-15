@@ -182,7 +182,7 @@ class ConnectionsHandlerTest extends RocketeerTestCase
 
 	public function testValidatesConnectionOnMultiset()
 	{
-		$this->connections->setConnections(['foo', 'bar']);
+		$this->connections->setConnections(['production', 'bar']);
 
 		$this->assertEquals(['production'], $this->connections->getConnections());
 	}
@@ -196,6 +196,35 @@ class ConnectionsHandlerTest extends RocketeerTestCase
 		$this->connections->setConnection('staging', 1);
 		$this->assertConnectionEquals('staging');
 		$this->assertCurrentServerEquals(1);
+	}
+
+	public function testCanSpecifyServersViaOptions()
+	{
+		$this->swapConfig(array(
+			'rocketeer::connections' => array(
+				'production' => array(
+					'servers' => array(
+						['host' => 'server1.com'],
+						['host' => 'server2.com'],
+						['host' => 'server3.com'],
+					),
+				),
+			),
+		));
+
+		$this->mockCommand(array(
+			'on'     => 'production',
+			'server' => '0,1',
+		));
+
+		$this->assertArrayNotHasKey(2, $this->connections->getConnectionCredentials('production'));
+	}
+
+	public function testThrowsExceptionWhenTryingToSetInvalidConnection()
+	{
+		$this->setExpectedException('Rocketeer\Exceptions\ConnectionException', 'Invalid connection(s): foo, bar');
+
+		$this->connections->setConnections('foo,bar');
 	}
 
 	////////////////////////////////////////////////////////////////////
