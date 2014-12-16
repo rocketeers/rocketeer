@@ -103,13 +103,17 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
 		return $this->manager->runForCurrentRelease('update');
 	}
 
+	//////////////////////////////////////////////////////////////////////
+	///////////////////////// SHARED DEPENDENCIES ////////////////////////
+	//////////////////////////////////////////////////////////////////////
+
 	/**
 	 * Share the dependencies folder if possible
 	 */
 	protected function shareDependenciesFolder()
 	{
 		$folder      = $this->manager->getDependenciesFolder();
-		$shouldShare = $this->getOptions('shared_dependencies', true);
+		$shouldShare = $this->getOption('shared_dependencies', true);
 		if (!$shouldShare || !$folder) {
 			return;
 		}

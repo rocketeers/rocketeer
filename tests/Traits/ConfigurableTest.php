@@ -16,4 +16,13 @@ class ConfigurableTest extends RocketeerTestCase
 		$task->configure(['baz' => 'qux']);
 		$this->assertEquals(['foo' => 'bar', 'baz' => 'qux'], $task->getOptions());
 	}
+
+	public function testRespectsDefaults()
+	{
+		$task = $this->builder->buildTask('Dependencies');
+		$strategy = $this->builder->buildStrategy('Dependencies', 'Composer');
+
+		$this->assertFalse($task->getOption('shared_dependencies', true));
+		$this->assertFalse($strategy->getOption('shared_dependencies', true));
+	}
 }
