@@ -27,6 +27,13 @@ class PolyglotStrategy extends AbstractPolyglotStrategy implements DependenciesS
 	protected $strategies = ['Bundler', 'Composer', 'Npm', 'Bower'];
 
 	/**
+	 * The type of the sub-strategies
+	 *
+	 * @type string
+	 */
+	protected $type = 'Dependencies';
+
+	/**
 	 * Install the dependencies
 	 *
 	 * @return boolean[]

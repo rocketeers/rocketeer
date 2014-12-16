@@ -19,6 +19,13 @@ abstract class AbstractPolyglotStrategy extends AbstractStrategy
 	protected $strategies = [];
 
 	/**
+	 * The type of the sub-strategies
+	 *
+	 * @type string
+	 */
+	protected $type;
+
+	/**
 	 * Results of the last operation that was run
 	 *
 	 * @type array
@@ -40,6 +47,24 @@ abstract class AbstractPolyglotStrategy extends AbstractStrategy
 	}
 
 	/**
+	 * Gather the missing X from a method
+	 *
+	 * @param string $method
+	 *
+	 * @return string[]
+	 */
+	protected function gatherMissingFromMethod($method)
+	{
+		$missing = [];
+		$gathered = $this->executeStrategiesMethod($method);
+		foreach ($gathered as $value) {
+			$missing = array_merge($missing, $value);
+		}
+
+		return $missing;
+	}
+
+	/**
 	 * @param callable $callback
 	 *
 	 * @return array
@@ -49,7 +74,7 @@ abstract class AbstractPolyglotStrategy extends AbstractStrategy
 		return $this->explainer->displayBelow(function () use ($callback) {
 			$this->results = [];
 			foreach ($this->strategies as $strategy) {
-				$instance = $this->getStrategy('Dependencies', $strategy, $this->options);
+				$instance = $this->getStrategy($this->type, $strategy, $this->options);
 				if ($instance) {
 					$this->results[$strategy] = $callback($instance);
 					if (!$this->results[$strategy]) {

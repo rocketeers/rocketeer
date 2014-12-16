@@ -27,7 +27,6 @@ class NodeStrategyTest extends RocketeerTestCase
 		$this->strategy->setManager($manager);
 
 		$this->mockRemote('0.8.0');
-
 		$this->assertFalse($this->strategy->language());
 
 		$this->mockRemote('0.11.0');
