@@ -64,24 +64,40 @@ class SyncStrategy extends AbstractStrategy implements DeployStrategyInterface
 	{
 		// Build host handle
 		$credentials = $this->connections->getServerCredentials();
-		$handle      = array_get($credentials, 'host');
-		if ($user = array_get($credentials, 'username')) {
-			$handle = $user.'@'.$handle;
-		}
+                $handle      = array_get($credentials, 'host');
+                $explodedHandle = explode(':', $handle);
+                $port = null;
+                $arguments = array();
+                
+                if (count($explodedHandle) === 2) {
+                    $port = $explodedHandle[1];
+                    $handle = $explodedHandle[0];
+                }
+                if ($user = array_get($credentials, 'username')) {
+                    $handle = $user.'@'.$handle;
+                }
 
 		// Create options
-		$options  = '--verbose --recursive --rsh="ssh"';
-		$excludes = ['.git', 'vendor'];
+                $options  = '--verbose --recursive';
+                if ($port === null) {
+                    $options .= ' --rsh="ssh';
+                } else {
+                    $arguments[] = '-e \'ssh -p '.$port.'\'';
+                }
+                $arguments[] = './';
+                $arguments[] = $handle.':'.$destination;
+                
+		$excludes = ['.git'];
 		foreach ($excludes as $exclude) {
 			$options .= ' --exclude="'.$exclude.'"';
 		}
 
 		// Create binary and command
 		$rsync = $this->binary('rsync');
-		$rsync = $rsync->getCommand(null, ['./', $handle.':'.$destination], $options);
+		$command = $rsync->getCommand(null, $arguments, $options);
 
-		return $this->bash->onLocal(function (Bash $bash) use ($rsync) {
-			return $bash->run($rsync);
+		return $this->bash->onLocal(function (Bash $bash) use ($command) {
+			return $bash->run($command);
 		});
 	}
 }
