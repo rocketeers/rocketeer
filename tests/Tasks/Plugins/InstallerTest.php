@@ -9,7 +9,7 @@ class InstallerTest extends RocketeerTestCase
 	{
 		$this->pretend();
 		$this->mockCommand(array(
-			'package' => 'anahkiasen/rocketeer-slack'
+			'package' => 'anahkiasen/rocketeer-slack',
 		));
 
 		$this->assertTaskHistory('Plugins\Installer', array(

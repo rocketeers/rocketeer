@@ -55,7 +55,6 @@ abstract class AbstractPolyglotStrategy extends AbstractStrategy
 					if (!$this->results[$strategy]) {
 						break;
 					}
-
 				} else {
 					$this->results[$strategy] = true;
 				}

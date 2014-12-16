@@ -187,8 +187,8 @@ abstract class AbstractBinary
 		// Build flags
 		foreach ($flags as $flag => $value) {
 			if (is_array($value)) {
-				foreach($value as $v) {
-					$options[] = $flag.'="' .$v. '"';
+				foreach ($value as $v) {
+					$options[] = $flag.'="'.$v.'"';
 				}
 			} else {
 				$options[] = $value ? $flag.'="'.$value.'"' : $flag;

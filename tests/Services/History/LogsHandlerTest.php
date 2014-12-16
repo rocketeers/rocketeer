@@ -56,6 +56,7 @@ class LogsHandlerTest extends RocketeerTestCase
 		$this->swapConfig(array(
 			'rocketeer::logs' => function () {
 				echo 'test';
+
 				return 'foobar.log';
 			},
 		));

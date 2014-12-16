@@ -19,7 +19,7 @@ class ConfigurableTest extends RocketeerTestCase
 
 	public function testRespectsDefaults()
 	{
-		$task = $this->builder->buildTask('Dependencies');
+		$task     = $this->builder->buildTask('Dependencies');
 		$strategy = $this->builder->buildStrategy('Dependencies', 'Composer');
 
 		$this->assertFalse($task->getOption('shared_dependencies', true));
