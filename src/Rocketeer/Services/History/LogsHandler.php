@@ -27,11 +27,11 @@ class LogsHandler
 	protected $logs = [];
 
 	/**
-	 * The closure used to name logs
+	 * The name of the logs file
 	 *
-	 * @type \Closure
+	 * @type string
 	 */
-	protected $namer;
+	protected $name;
 
 	/**
 	 * Save something for the logs
@@ -75,20 +75,23 @@ class LogsHandler
 	 */
 	public function getCurrentLogsFile()
 	{
-		if (!$this->namer) {
-			$this->namer = $this->config->get('rocketeer::logs');
+		if ($this->name) {
+			return $this->name;
 		}
 
+		// Get the namer closure
+		$namer = $this->config->get('rocketeer::logs');
+
 		// Cancel if invalid namer
-		if (!$this->namer || !is_callable($this->namer)) {
+		if (!$namer || !is_callable($namer)) {
 			return false;
 		}
 
-		$namer = $this->namer;
-		$file  = $namer($this->connections);
-		$file  = $this->app['path.rocketeer.logs'].'/'.$file;
+		// Compute name and save
+		$this->name = $namer($this->connections);
+		$this->name = $this->app['path.rocketeer.logs'].'/'.$this->name;
 
-		return $file;
+		return $this->name;
 	}
 
 	/**
