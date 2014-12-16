@@ -12,7 +12,8 @@ return array(
 	////////////////////////////////////////////////////////////////////
 
 	// The plugins to load
-	'plugins'          => array(// 'Rocketeer\Plugins\Slack\RocketeerSlack',
+	'plugins'          => array(
+		// 'Rocketeer\Plugins\Slack\RocketeerSlack',
 	),
 
 	// Logging
@@ -34,7 +35,12 @@ return array(
 	// The various connections you defined
 	// You can leave all of this empty or remove it entirely if you don't want
 	// to track files with credentials : Rocketeer will prompt you for your credentials
-	// and store them locally
+	// and store them locally.
+	// There are four ways to define a credential:
+	// 'foobar'   - value is required, will never be prompted for it
+	// ''         - value is required, will be prompted for it once, then saved
+	// true       - value is required, will be prompted for it every time
+	// false|null - value is not required, will never be prompted for it
 	'connections'      => array(
 		'production' => array(
 			'host'      => '{host}',

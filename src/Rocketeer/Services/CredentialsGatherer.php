@@ -98,12 +98,12 @@ class CredentialsGatherer
 		// Update connection name
 		$handle = $this->connections->getHandle($connectionName, $server);
 
-		// Gather common credentials
+		// Gather credentials
 		$credentials = $this->gatherCredentials(array(
 			'host'      => true,
 			'username'  => true,
 			'password'  => false,
-			'keyphrase' => null,
+			'keyphrase' => false,
 			'key'       => false,
 			'agent'     => false,
 		), $connection, $handle);
@@ -166,11 +166,16 @@ class CredentialsGatherer
 	 */
 	protected function gatherCredentials($credentials, $current, $handle)
 	{
+		$unprompted = ['key', 'keyphrase'];
+
 		// Loop through credentials and ask missing ones
-		foreach ($credentials as $credential => $required) {
-			$$credential = $this->getCredential($current, $credential);
-			if ($required && !$$credential) {
-				$$credential = $this->gatherCredential($handle, $credential);
+		foreach ($credentials as $type => $required) {
+			$credential = $this->getCredential($current, $type);
+			$prompt     = $this->shouldPromptFor($credential);
+			$$type      = (string) $credential;
+
+			if (!in_array($type, $unprompted) && ($prompt || ($required && !$$type))) {
+				$$type = $this->gatherCredential($handle, $type);
 			}
 		}
 
@@ -192,7 +197,7 @@ class CredentialsGatherer
 	protected function gatherCredential($handle, $credential, $question = null)
 	{
 		$question = $question ?: 'No '.$credential.' is set for ['.$handle.'], please provide one:';
-		$option   = $this->command->option($credential);
+		$option   = $this->getOption($credential, true);
 		$method   = in_array($credential, ['password', 'keyphrase']) ? 'askSecretly' : 'askWith';
 
 		return $option ?: $this->command->$method($question);
@@ -213,6 +218,24 @@ class CredentialsGatherer
 			return;
 		}
 
-		return $value ?: $this->command->option($credential);
+		return $value !== null ? $value : $this->command->option($credential);
+	}
+
+	/**
+	 * Whether Rocketeer should prompt for a credential or not
+	 *
+	 * @param string|boolean|null $credential
+	 *
+	 * @return boolean
+	 */
+	protected function shouldPromptFor($credential)
+	{
+		if (is_string($credential)) {
+			return !$credential;
+		} elseif (is_bool($credential) || $credential === null) {
+			return (bool) $credential;
+		}
+
+		return false;
 	}
 }

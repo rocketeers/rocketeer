@@ -1,6 +1,7 @@
 <?php
 namespace Rocketeer\Services;
 
+use Mockery;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class CredentialsGathererTest extends RocketeerTestCase
@@ -9,6 +10,11 @@ class CredentialsGathererTest extends RocketeerTestCase
 	 * @type string
 	 */
 	protected $key = '/.ssh/id_rsa';
+
+	protected $repository;
+	protected $username;
+	protected $password;
+	protected $host;
 
 	public function setUp()
 	{
@@ -145,9 +151,10 @@ class CredentialsGathererTest extends RocketeerTestCase
 			'No password or SSH key is set for [production], which would you use?',
 			'key', ['key', 'password']
 		)->andReturn('password');
-		$this->command->shouldReceive('option')->with('host')->andReturn($this->host);
-		$this->command->shouldReceive('option')->with('password')->andReturn($this->password);
-		$this->command->shouldReceive('option')->andReturn(null);
+		$this->command->shouldReceive('option')->withNoArgs()->andReturn([
+			'host'     => $this->host,
+			'password' => $this->password
+		]);
 
 		$this->credentials->getServerCredentials();
 
@@ -190,6 +197,40 @@ class CredentialsGathererTest extends RocketeerTestCase
 			'password'  => null,
 			'keyphrase' => 'KEYPHRASE',
 			'key'       => $key,
+			'agent'     => null,
+		), $credentials);
+	}
+
+	public function testCanHaveMultipleTypesOfCredentials()
+	{
+		$this->swapConfig(array(
+			'rocketeer::connections' => [
+				'production' => [
+					'host'      => $this->host,
+					'username'  => '',
+					'password'  => false,
+					'key'       => '',
+					'keyphrase' => true,
+				],
+			],
+		));
+
+		$this->mockAnswers(array(
+			'No username is set for [production]'    => $this->username,
+			'If a keyphrase is required, provide it' => 'keyphrase',
+		));
+		$this->command->shouldReceive('askWith')->with('Please enter the full path to your key', Mockery::any())->once()->andReturn($this->key);
+		$this->command->shouldReceive('askWith')->with('No password or SSH key is set for [production], which would you use?', Mockery::any(), Mockery::any())->once()->andReturn('key');
+
+		$this->credentials->getServerCredentials();
+
+		$credentials = $this->connections->getServerCredentials('production', 0);
+		$this->assertEquals(array(
+			'host'      => $this->host,
+			'username'  => $this->username,
+			'password'  => null,
+			'keyphrase' => 'keyphrase',
+			'key'       => $this->key,
 			'agent'     => null,
 		), $credentials);
 	}
