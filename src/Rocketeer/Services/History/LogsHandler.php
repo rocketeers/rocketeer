@@ -29,9 +29,9 @@ class LogsHandler
 	/**
 	 * The name of the logs file
 	 *
-	 * @type string
+	 * @type string[]
 	 */
-	protected $name;
+	protected $name = [];
 
 	/**
 	 * Save something for the logs
@@ -75,8 +75,9 @@ class LogsHandler
 	 */
 	public function getCurrentLogsFile()
 	{
-		if ($this->name) {
-			return $this->name;
+		$hash = $this->connections->getHandle();
+		if (array_key_exists($hash, $this->name)) {
+			return $this->name[$hash];
 		}
 
 		// Get the namer closure
@@ -87,11 +88,14 @@ class LogsHandler
 			return false;
 		}
 
-		// Compute name and save
-		$this->name = $namer($this->connections);
-		$this->name = $this->app['path.rocketeer.logs'].'/'.$this->name;
+		// Compute name
+		$name = $namer($this->connections);
+		$name = $this->app['path.rocketeer.logs'].'/'.$name;
 
-		return $this->name;
+		// Save for reuse
+		$this->name[$hash] = $name;
+
+		return $name;
 	}
 
 	/**
