@@ -63,37 +63,37 @@ class SyncStrategy extends AbstractStrategy implements DeployStrategyInterface
 	protected function rsyncTo($destination)
 	{
 		// Build host handle
-		$credentials = $this->connections->getServerCredentials();
-                $handle      = array_get($credentials, 'host');
-                $explodedHandle = explode(':', $handle);
-                $port = null;
-                $arguments = array();
-                
-                if (count($explodedHandle) === 2) {
-                    $port = $explodedHandle[1];
-                    $handle = $explodedHandle[0];
-                }
-                if ($user = array_get($credentials, 'username')) {
-                    $handle = $user.'@'.$handle;
-                }
+		$credentials    = $this->connections->getServerCredentials();
+		$handle         = array_get($credentials, 'host');
+		$explodedHandle = explode(':', $handle);
+		$port           = null;
+		$arguments      = array();
+
+		if (count($explodedHandle) === 2) {
+			$port   = $explodedHandle[1];
+			$handle = $explodedHandle[0];
+		}
+		if ($user = array_get($credentials, 'username')) {
+			$handle = $user.'@'.$handle;
+		}
 
 		// Create options
-                $options  = '--verbose --recursive';
-                if ($port === null) {
-                    $options .= ' --rsh="ssh';
-                } else {
-                    $arguments[] = '-e \'ssh -p '.$port.'\'';
-                }
-                $arguments[] = './';
-                $arguments[] = $handle.':'.$destination;
-                
-		$excludes = ['.git'];
+		$options = '--verbose --recursive';
+		if ($port === null) {
+			$options .= ' --rsh="ssh';
+		} else {
+			$arguments[] = '-e \'ssh -p '.$port.'\'';
+		}
+		$arguments[] = './';
+		$arguments[] = $handle.':'.$destination;
+
+		$excludes = ['.git', 'vendor'];
 		foreach ($excludes as $exclude) {
 			$options .= ' --exclude="'.$exclude.'"';
 		}
 
 		// Create binary and command
-		$rsync = $this->binary('rsync');
+		$rsync   = $this->binary('rsync');
 		$command = $rsync->getCommand(null, $arguments, $options);
 
 		return $this->bash->onLocal(function (Bash $bash) use ($command) {
