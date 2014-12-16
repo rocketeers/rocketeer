@@ -48,4 +48,19 @@ class LogsHandlerTest extends RocketeerTestCase
 		$this->assertFileExists($logs);
 		$this->app['files']->deleteDirectory(dirname($logs));
 	}
+
+	public function testDoesntRecomputeTheLogsFilenameEveryTime()
+	{
+		$this->expectOutputString('test');
+
+		$this->swapConfig(array(
+			'rocketeer::logs' => function () {
+				echo 'test';
+				return 'foobar.log';
+			},
+		));
+
+		$this->logs->getCurrentLogsFile();
+		$this->logs->getCurrentLogsFile();
+	}
 }
