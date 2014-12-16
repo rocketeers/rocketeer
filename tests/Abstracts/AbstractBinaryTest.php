@@ -20,4 +20,12 @@ class AbstractBinaryTest extends RocketeerTestCase
 
 		$this->assertEquals($expected[0], $command);
 	}
+
+	public function testCanProperlyBuildMultivalueOptions()
+	{
+		$binary = new Git($this->app);
+		$command = $binary->getCommand('foobar', [], ['--foo' => ['bar', 'baz']]);
+
+		$this->assertEquals('git foobar --foo="bar" --foo="baz"', $command);
+	}
 }

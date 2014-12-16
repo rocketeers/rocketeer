@@ -21,6 +21,14 @@ class SyncStrategy extends AbstractStrategy implements DeployStrategyInterface
 	protected $description = 'Uses rsync to create or update a release from the local files';
 
 	/**
+	 * @type array
+	 */
+	protected $options = array(
+		'port'     => null,
+		'excluded' => ['.git', 'vendor'],
+	);
+
+	/**
 	 * Deploy a new clean copy of the application
 	 *
 	 * @param string|null $destination
@@ -63,34 +71,21 @@ class SyncStrategy extends AbstractStrategy implements DeployStrategyInterface
 	protected function rsyncTo($destination)
 	{
 		// Build host handle
-		$credentials    = $this->connections->getServerCredentials();
-		$handle         = array_get($credentials, 'host');
-		$explodedHandle = explode(':', $handle);
-		$port           = null;
-		$arguments      = array();
-
-		if (count($explodedHandle) === 2) {
-			$port   = $explodedHandle[1];
-			$handle = $explodedHandle[0];
-		}
-		if ($user = array_get($credentials, 'username')) {
-			$handle = $user.'@'.$handle;
-		}
+		$arguments = [];
+		$handle    = $this->getSyncHandle();
 
 		// Create options
-		$options = '--verbose --recursive';
-		if ($port === null) {
-			$options .= ' --rsh="ssh"';
-		} else {
-			$arguments[] = '-e \'ssh -p '.$port.'\'';
+		$options = ['--verbose' => null, '--recursive' => null, '--rsh' => 'ssh'];
+		if ($port = $this->getOption('port', true)) {
+			$options['--rsh'] = 'ssh -p '.$port;
 		}
+
+		// Build arguments
 		$arguments[] = './';
 		$arguments[] = $handle.':'.$destination;
 
-		$excludes = ['.git', 'vendor'];
-		foreach ($excludes as $exclude) {
-			$options .= ' --exclude="'.$exclude.'"';
-		}
+		// Set excluded files and folders
+		$options['--exclude'] = ['.git', 'vendor'];
 
 		// Create binary and command
 		$rsync   = $this->binary('rsync');
@@ -99,5 +94,30 @@ class SyncStrategy extends AbstractStrategy implements DeployStrategyInterface
 		return $this->bash->onLocal(function (Bash $bash) use ($command) {
 			return $bash->run($command);
 		});
+	}
+
+	/**
+	 * Get the handle to connect with
+	 *
+	 * @return string
+	 */
+	protected function getSyncHandle()
+	{
+		$credentials    = $this->connections->getServerCredentials();
+		$handle         = array_get($credentials, 'host');
+		$explodedHandle = explode(':', $handle);
+
+		// Extract port
+		if (count($explodedHandle) === 2) {
+			$this->options['port'] = $explodedHandle[1];
+			$handle                = $explodedHandle[0];
+		}
+
+		// Add username
+		if ($user = array_get($credentials, 'username')) {
+			$handle = $user.'@'.$handle;
+		}
+
+		return $handle;
 	}
 }
