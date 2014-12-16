@@ -9,7 +9,8 @@ Rocketeer follows the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.ht
 - Added `shared_dependencies` to `Dependencies` task to automatically share dependencies between releases
 - Added ability to use relative symlinks
 - Added ability to pass allowed servers via flag (eg. `deploy --on="production" --server="1"`)
-- Added ability to configure the application's path (in case it's not where Rocketeer is being run in)<
+- Added ability to configure the application's path (in case it's not where Rocketeer is being run in)
+- Added ability to configure credentials more in depth: which are always prompted or not, which are saved, etc.
 
 ### Fixed
 - Fixed a bug where trying to use an invalid connection would just fallback silently to the default one

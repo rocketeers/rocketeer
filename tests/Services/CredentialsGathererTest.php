@@ -233,6 +233,15 @@ class CredentialsGathererTest extends RocketeerTestCase
 			'key'       => $this->key,
 			'agent'     => null,
 		), $credentials);
+
+		$stored = $this->localStorage->get('connections.production.servers.0');
+		$this->assertEquals(array(
+			'host'      => $this->host,
+			'username'  => $this->username,
+			'password'  => null,
+			'key'       => $this->key,
+			'agent'     => null,
+		), $stored);
 	}
 
 	//////////////////////////////////////////////////////////////////////

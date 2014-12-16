@@ -186,22 +186,19 @@ class ConnectionsHandler
 	public function getAvailableConnections()
 	{
 		// Fetch stored credentials
-		$storage = (array) $this->localStorage->get('connections');
+		$storage = $this->localStorage->get('connections');
+		$storage = $this->unifyMultiserversDeclarations($storage);
 
 		// Merge with defaults from config file
-		$configuration = (array) $this->config->get('rocketeer::connections');
+		$configuration = $this->config->get('rocketeer::connections');
+		$configuration = $this->unifyMultiserversDeclarations($configuration);
 
 		// Fetch from remote file
-		$remote = (array) $this->config->get('remote.connections');
+		$remote = $this->config->get('remote.connections');
+		$remote = $this->unifyMultiserversDeclarations($remote);
 
 		// Merge configurations
 		$connections = array_replace_recursive($remote, $configuration, $storage);
-
-		// Unify multiservers
-		foreach ($connections as $key => $servers) {
-			$servers           = Arr::get($servers, 'servers', [$servers]);
-			$connections[$key] = ['servers' => array_values($servers)];
-		}
 
 		return $connections;
 	}
@@ -365,14 +362,40 @@ class ConnectionsHandler
 	{
 		// Store credentials if any
 		if ($credentials) {
-			$this->localStorage->set('connections.'.$connection.'.servers.'.$server, $credentials);
+			$filtered = $this->filterUnsavableCredentials($connection, $server, $credentials);
+			$this->localStorage->set('connections.'.$connection.'.servers.'.$server, $filtered);
+
+			$handle = $this->getHandle($connection, $server);
+			$this->config->set('rocketeer::connections.'.$handle, $credentials);
 		}
 
 		// Get connection
 		$connection  = $connection ?: $this->getConnection();
-		$credentials = $this->getConnectionCredentials($connection);
+		$credentials = $credentials ?: $this->getConnectionCredentials($connection);
 
 		$this->config->set('remote.connections.'.$connection, $credentials);
+	}
+
+	/**
+	 * Filter the credentials and remove the ones that
+	 * can't be saved to disk
+	 *
+	 * @param string  $connection
+	 * @param integer $server
+	 * @param array   $credentials
+	 *
+	 * @return string[]
+	 */
+	protected function filterUnsavableCredentials($connection, $server, $credentials)
+	{
+		$defined = $this->getServerCredentials($connection, $server);
+		foreach ($credentials as $key => $value) {
+			if (array_get($defined, $key) === true) {
+				unset($credentials[$key]);
+			}
+		}
+
+		return $credentials;
 	}
 
 	/**
@@ -448,5 +471,23 @@ class ConnectionsHandler
 		$branch   = $this->rocketeer->getOption('scm.branch') ?: $fallback;
 
 		return $branch;
+	}
+
+	/**
+	 * Unify a connection's declaration into the servers form
+	 *
+	 * @param array $connection
+	 *
+	 * @return array
+	 */
+	protected function unifyMultiserversDeclarations($connection)
+	{
+		$connection = (array) $connection;
+		foreach ($connection as $key => $servers) {
+			$servers          = Arr::get($servers, 'servers', [$servers]);
+			$connection[$key] = ['servers' => array_values($servers)];
+		}
+
+		return $connection;
 	}
 }
