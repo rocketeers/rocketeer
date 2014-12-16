@@ -80,7 +80,7 @@ class SyncStrategy extends AbstractStrategy implements DeployStrategyInterface
 		// Create options
 		$options = '--verbose --recursive';
 		if ($port === null) {
-			$options .= ' --rsh="ssh';
+			$options .= ' --rsh="ssh"';
 		} else {
 			$arguments[] = '-e \'ssh -p '.$port.'\'';
 		}
