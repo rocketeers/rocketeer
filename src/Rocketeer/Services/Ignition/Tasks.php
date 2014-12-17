@@ -38,6 +38,7 @@ class Tasks
 			'test'           => 'Test',
 			'update'         => 'Update',
 			'tinker'         => 'Development\Tinker',
+			'self-update'    => 'Development\SelfUpdate',
 			'plugin-publish' => 'Plugins\Publish',
 			'plugin-list'    => 'Plugins\List',
 			'plugin-install' => 'Plugins\Install',
