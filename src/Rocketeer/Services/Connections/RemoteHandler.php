@@ -102,7 +102,7 @@ class RemoteHandler
 	/**
 	 * Format the appropriate authentication array payload.
 	 *
-	 * @param  array $config
+	 * @param array $config
 	 *
 	 * @return array
 	 * @throws InvalidArgumentException
@@ -125,8 +125,8 @@ class RemoteHandler
 	/**
 	 * Dynamically pass methods to the default connection.
 	 *
-	 * @param  string $method
-	 * @param  array  $parameters
+	 * @param string $method
+	 * @param array  $parameters
 	 *
 	 * @throws \Rocketeer\Exceptions\ConnectionException
 	 * @return mixed

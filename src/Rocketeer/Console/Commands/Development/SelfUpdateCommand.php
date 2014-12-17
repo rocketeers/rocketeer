@@ -30,7 +30,7 @@ class SelfUpdateCommand extends AbstractCommand
 	/**
 	 * Run the tasks
 	 *
-	 * @return void
+	 * @return integer|null
 	 */
 	public function fire()
 	{
@@ -49,9 +49,9 @@ class SelfUpdateCommand extends AbstractCommand
 	/**
 	 * Write a string as error output.
 	 *
-	 * @param  string $string
+	 * @param string $string
 	 *
-	 * @return void
+	 * @return integer
 	 */
 	public function error($string)
 	{

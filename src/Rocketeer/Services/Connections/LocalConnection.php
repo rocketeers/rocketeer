@@ -33,8 +33,8 @@ class LocalConnection implements ConnectionInterface
 	/**
 	 * Define a set of commands as a task.
 	 *
-	 * @param  string       $task
-	 * @param  string|array $commands
+	 * @param string       $task
+	 * @param string|array $commands
 	 *
 	 * @codeCoverageIgnore
 	 */
@@ -46,8 +46,8 @@ class LocalConnection implements ConnectionInterface
 	/**
 	 * Run a task against the connection.
 	 *
-	 * @param  string       $task
-	 * @param  Closure|null $callback
+	 * @param string       $task
+	 * @param Closure|null $callback
 	 *
 	 * @codeCoverageIgnore
 	 */
@@ -59,8 +59,8 @@ class LocalConnection implements ConnectionInterface
 	/**
 	 * Run a set of commands against the connection.
 	 *
-	 * @param  string|array $commands
-	 * @param  Closure|null $callback
+	 * @param string|array $commands
+	 * @param Closure|null $callback
 	 */
 	public function run($commands, Closure $callback = null)
 	{
@@ -91,8 +91,8 @@ class LocalConnection implements ConnectionInterface
 	/**
 	 * Upload a local file to the server.
 	 *
-	 * @param  string $local
-	 * @param  string $remote
+	 * @param string $local
+	 * @param string $remote
 	 *
 	 * @codeCoverageIgnore
 	 * @return integer
@@ -107,7 +107,7 @@ class LocalConnection implements ConnectionInterface
 	/**
 	 * Get the contents of a remote file.
 	 *
-	 * @param  string $remote
+	 * @param string $remote
 	 *
 	 * @codeCoverageIgnore
 	 * @return string|null
@@ -120,7 +120,7 @@ class LocalConnection implements ConnectionInterface
 	/**
 	 * Display the given line using the default output.
 	 *
-	 * @param  string $line
+	 * @param string $line
 	 *
 	 * @codeCoverageIgnore
 	 */
@@ -134,8 +134,8 @@ class LocalConnection implements ConnectionInterface
 	/**
 	 * Upload a string to to the given file on the server.
 	 *
-	 * @param  string $remote
-	 * @param  string $contents
+	 * @param string $remote
+	 * @param string $contents
 	 *
 	 * @codeCoverageIgnore
 	 * @return integer
