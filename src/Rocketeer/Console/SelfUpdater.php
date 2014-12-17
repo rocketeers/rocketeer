@@ -40,7 +40,7 @@ class SelfUpdater
 	 * @param string    $current
 	 * @param string    $version
 	 */
-	public function __construct(Container $app, $current, $version)
+	public function __construct(Container $app, $current, $version = null)
 	{
 		$this->output  = new NullOutput();
 		$this->current = $current;
@@ -56,6 +56,12 @@ class SelfUpdater
 		$this->output = $output;
 	}
 
+	/**
+	 * Update Rocketeer
+	 *
+	 * @throws Exception
+	 * @throws FileNotFoundException
+	 */
 	public function update()
 	{
 		$latest = $this->getTargetArchive();
@@ -70,7 +76,7 @@ class SelfUpdater
 			throw new FileNotFoundException($latest);
 		}
 
-		$tempFilename = $folder.DS.basename($this->current, '.phar').'-temp.phar';
+		$tempFilename = $folder.DS.basename($this->current, '.phar').'-'.($this->version ?: 'latest').'-temp.phar';
 		$this->files->put($tempFilename, $contents);
 
 		$this->output->writeLn('3. Updating Rocketeer');
@@ -117,7 +123,7 @@ class SelfUpdater
 				$phar = new Phar($newFilename);
 				unset($phar);
 			}
-			rename($newFilename, $this->current);
+			$this->files->move($newFilename, $this->current);
 		} catch (Exception $exception) {
 			if (!$exception instanceof UnexpectedValueException && !$exception instanceof PharException) {
 				throw $exception;
@@ -133,10 +139,10 @@ class SelfUpdater
 	 */
 	protected function checkPermissions($folder, $localFilename)
 	{
-		if (!is_writable($folder)) {
+		if (!$this->files->isWritable($folder)) {
 			throw new RuntimeException('Temporary folder '.$folder.' used for download could not be written');
 		}
-		if (!is_writable($localFilename)) {
+		if (!$this->files->isWritable($localFilename)) {
 			throw new RuntimeException('File '.$localFilename.' could not be written');
 		}
 	}
