@@ -23,7 +23,7 @@ class DeployCommand extends BaseTaskCommand
 	 *
 	 * @var string
 	 */
-	protected $name = 'deploy:deploy';
+	protected $name = 'deploy';
 
 	/**
 	 * Execute the tasks

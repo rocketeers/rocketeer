@@ -10,6 +10,7 @@
 namespace Rocketeer\Abstracts;
 
 use Illuminate\Console\Command;
+use Rocketeer\Console\Commands\RocketeerCommand;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
@@ -72,14 +73,14 @@ abstract class AbstractCommand extends Command
 	public function getName()
 	{
 		// Return commands as is in Laravel
-		if ($this->isInsideLaravel()) {
-			return $this->name;
+		if ($this->isInsideLaravel() && !$this instanceof RocketeerCommand) {
+			$name = str_replace('-', ':', $this->name);
+			$name = 'deploy:'.$name;
+
+			return $name;
 		}
 
-		$name = str_replace('deploy:', null, $this->name);
-		$name = str_replace('-', ':', $name);
-
-		return $name;
+		return $this->name;
 	}
 
 	//////////////////////////////////////////////////////////////////////

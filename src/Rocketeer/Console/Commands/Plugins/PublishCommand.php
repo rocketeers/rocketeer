@@ -20,7 +20,7 @@ class PublishCommand extends AbstractCommand
 	 *
 	 * @var string
 	 */
-	protected $name = 'deploy:plugin-config';
+	protected $name = 'plugin-config';
 
 	/**
 	 * The console command description.

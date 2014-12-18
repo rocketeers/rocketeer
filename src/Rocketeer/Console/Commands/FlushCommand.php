@@ -23,7 +23,7 @@ class FlushCommand extends AbstractCommand
 	 *
 	 * @var string
 	 */
-	protected $name = 'deploy:flush';
+	protected $name = 'flush';
 
 	/**
 	 * The console command description.

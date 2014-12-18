@@ -25,7 +25,7 @@ class BaseTaskCommand extends AbstractCommand
 	 *
 	 * @var string
 	 */
-	protected $name = 'deploy:custom';
+	protected $name = 'custom';
 
 	/**
 	 * Build a new custom command
@@ -38,9 +38,8 @@ class BaseTaskCommand extends AbstractCommand
 		parent::__construct($task);
 
 		// Set name
-		if ($this->name === 'deploy:custom' && $task) {
+		if ($this->name === 'custom' && $task) {
 			$this->name = $name ?: $task->getSlug();
-			$this->name = 'deploy:'.$this->name;
 		}
 	}
 

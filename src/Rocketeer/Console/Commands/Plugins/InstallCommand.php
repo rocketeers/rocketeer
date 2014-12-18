@@ -19,7 +19,7 @@ class InstallCommand extends AbstractCommand
 	 *
 	 * @var string
 	 */
-	protected $name = 'deploy:plugin-install';
+	protected $name = 'plugin-install';
 
 	/**
 	 * The console command description.

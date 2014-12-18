@@ -23,7 +23,7 @@ class StrategiesCommand extends AbstractCommand
 	 *
 	 * @var string
 	 */
-	protected $name = 'deploy:strategies';
+	protected $name = 'strategies';
 
 	/**
 	 * The console command description.
