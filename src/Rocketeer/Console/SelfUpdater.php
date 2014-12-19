@@ -130,7 +130,7 @@ class SelfUpdater
 	{
 		try {
 			@chmod($newFilename, 0777 & ~umask());
-			if (!ini_get('phar.readonly')) {
+			if (!ini_get('phar.readonly') && file_exists($newFilename)) {
 				$phar = new Phar($newFilename);
 				unset($phar);
 			}
