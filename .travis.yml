@@ -17,7 +17,7 @@ env:
 # Dependencies
 install:
   - composer self-update
-  - travis_retry composer install --no-interaction --prefer-source --dev $PREFER_LOWEST
+  - travis_retry composer update --no-interaction --prefer-source --dev $PREFER_LOWEST
 
 script: phpunit
 
