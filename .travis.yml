@@ -12,8 +12,6 @@ php:
 # Special environments
 matrix:
   fast_finish: true
-  allow_failures:
-    - php: hhvm-nightly
   include:
     - php: 5.4
       env: dependencies=lowest
