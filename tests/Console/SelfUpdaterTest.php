@@ -46,8 +46,8 @@ class SelfUpdaterTest extends RocketeerTestCase
 	protected function mockCurl($input, $output)
 	{
 		return Mockery::mock('anlutro\cURL\cURL')
-		               ->shouldReceive('newRequest')->with('GET', 'http://rocketeer.autopergamene.eu/versions/'.$input, Mockery::any())->andReturnSelf()
-		               ->shouldReceive('send')->andReturn($output)
-		               ->mock();
+		              ->shouldReceive('newRequest')->with('GET', 'http://rocketeer.autopergamene.eu/versions/'.$input, Mockery::any())->andReturnSelf()
+		              ->shouldReceive('send')->andReturn($output)
+		              ->mock();
 	}
 }

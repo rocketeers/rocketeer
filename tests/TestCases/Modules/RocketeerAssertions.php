@@ -146,7 +146,7 @@ trait RocketeerAssertions
 
 		$replaced = [];
 		foreach ($history as $key => $entries) {
-			if ($hhvm && $entries == '{php} -m') {
+			if ($hhvm && $entries === '{php} -m') {
 				continue;
 			}
 

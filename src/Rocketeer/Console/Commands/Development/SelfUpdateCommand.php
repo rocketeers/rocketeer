@@ -6,7 +6,6 @@ use Illuminate\Filesystem\FileNotFoundException;
 use Rocketeer\Abstracts\AbstractCommand;
 use Rocketeer\Console\SelfUpdater;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Self update command for Rocketeer

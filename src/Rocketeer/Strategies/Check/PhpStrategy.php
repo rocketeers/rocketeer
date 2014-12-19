@@ -211,6 +211,6 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
 			$this->extensions = (array) $this->bash->run($this->php()->extensions(), false, true);
 		}
 
-		return in_array($extension, $this->extensions);
+		return in_array($extension, $this->extensions, true);
 	}
 }

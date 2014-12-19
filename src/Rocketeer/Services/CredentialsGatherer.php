@@ -174,7 +174,7 @@ class CredentialsGatherer
 			$prompt     = $this->shouldPromptFor($credential);
 			$$type      = (string) $credential;
 
-			if (!in_array($type, $unprompted) && ($prompt || ($required && !$$type))) {
+			if (!in_array($type, $unprompted, true) && ($prompt || ($required && !$$type))) {
 				$$type = $this->gatherCredential($handle, $type);
 			}
 		}
@@ -198,7 +198,7 @@ class CredentialsGatherer
 	{
 		$question = $question ?: 'No '.$credential.' is set for ['.$handle.'], please provide one:';
 		$option   = $this->getOption($credential, true);
-		$method   = in_array($credential, ['password', 'keyphrase']) ? 'askSecretly' : 'askWith';
+		$method   = in_array($credential, ['password', 'keyphrase'], true) ? 'askSecretly' : 'askWith';
 
 		return $option ?: $this->command->$method($question);
 	}

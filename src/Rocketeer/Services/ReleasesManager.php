@@ -260,7 +260,7 @@ class ReleasesManager
 		$current  = $release ?: $this->getCurrentRelease();
 
 		// Get the one before that, or default to current
-		$key  = array_search($current, $releases);
+		$key  = array_search($current, $releases, true);
 		$key  = !is_int($key) ? -1 : $key;
 		$next = 1;
 		do {

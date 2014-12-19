@@ -153,7 +153,7 @@ class CredentialsGathererTest extends RocketeerTestCase
 		)->andReturn('password');
 		$this->command->shouldReceive('option')->withNoArgs()->andReturn([
 			'host'     => $this->host,
-			'password' => $this->password
+			'password' => $this->password,
 		]);
 
 		$this->credentials->getServerCredentials();
@@ -236,11 +236,11 @@ class CredentialsGathererTest extends RocketeerTestCase
 
 		$stored = $this->localStorage->get('connections.production.servers.0');
 		$this->assertEquals(array(
-			'host'      => $this->host,
-			'username'  => $this->username,
-			'password'  => null,
-			'key'       => $this->key,
-			'agent'     => null,
+			'host'     => $this->host,
+			'username' => $this->username,
+			'password' => null,
+			'key'      => $this->key,
+			'agent'    => null,
 		), $stored);
 	}
 

@@ -26,7 +26,7 @@ class PhpStrategyTest extends RocketeerTestCase
 				->shouldReceive('put')
 				->shouldReceive('glob')->andReturn(array())
 				->shouldReceive('exists')->andReturn(true)
-				->shouldReceive('get')->andReturn('{"require":{"php":">=' .$version. '"}}');
+				->shouldReceive('get')->andReturn('{"require":{"php":">='.$version.'"}}');
 		});
 		$this->assertTrue($this->strategy->language());
 

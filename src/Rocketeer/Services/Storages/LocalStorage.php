@@ -108,7 +108,7 @@ class LocalStorage extends AbstractStorage implements StorageInterface
 		// Remove custom files and folders
 		foreach (['events', 'tasks'] as $handle) {
 			$path  = $this->app['path.rocketeer.'.$handle];
-			$index = array_search($path, $files);
+			$index = array_search($path, $files, true);
 			if ($index !== false) {
 				unset($files[$index]);
 			}

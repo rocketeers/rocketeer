@@ -52,7 +52,7 @@ class Php extends AbstractBinary
 	{
 		$isHhvm = $this->getCommand(null, null, '-r "print defined(\'HHVM_VERSION\');"');
 		$isHhvm = $this->bash->runRaw($isHhvm);
-		$isHhvm = $isHhvm == '1';
+		$isHhvm = $isHhvm === '1';
 
 		return $isHhvm;
 	}

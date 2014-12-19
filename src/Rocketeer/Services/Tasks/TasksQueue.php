@@ -298,6 +298,6 @@ class TasksQueue
 	 */
 	public function isValidStage($stage)
 	{
-		return in_array($stage, $this->connections->getStages());
+		return in_array($stage, $this->connections->getStages(), true);
 	}
 }
