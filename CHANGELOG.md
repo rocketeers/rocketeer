@@ -21,6 +21,7 @@ Rocketeer follows the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.ht
 - Fixed an issue where polyglot strategies would keep running after one of their child failed
 - Fixed an issue where the logs filename would get recomputed every call
 - Fixed an issue where using `hostname:port` would fail with the Rsync strategy
+- Fixed HHVM support
 
 ## [2.0.4] - 2014-12-08
 
