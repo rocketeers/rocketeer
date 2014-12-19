@@ -1,6 +1,7 @@
 <?php
 namespace Rocketeer\Console;
 
+use anlutro\cURL\cURL;
 use Exception;
 use Illuminate\Container\Container;
 use Illuminate\Filesystem\FileNotFoundException;
@@ -31,6 +32,11 @@ class SelfUpdater
 	protected $version;
 
 	/**
+	 * @type cURL
+	 */
+	protected $curl;
+
+	/**
 	 * @type OutputInterface
 	 */
 	protected $output;
@@ -43,6 +49,7 @@ class SelfUpdater
 	public function __construct(Container $app, $current, $version = null)
 	{
 		$this->output  = new NullOutput();
+		$this->curl    = new cURL();
 		$this->current = $current;
 		$this->version = $version;
 		$this->app     = $app;
@@ -54,6 +61,14 @@ class SelfUpdater
 	public function setOutput(OutputInterface $output)
 	{
 		$this->output = $output;
+	}
+
+	/**
+	 * @param cURL $curl
+	 */
+	public function setCurl(cURL $curl)
+	{
+		$this->curl = $curl;
 	}
 
 	/**
@@ -96,15 +111,11 @@ class SelfUpdater
 	 */
 	protected function getRemoteFileContents($latest)
 	{
-		$curl = curl_init();
-		curl_setopt($curl, CURLOPT_URL, $latest);
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($curl, CURLOPT_TIMEOUT, 5);
+		$curl = $this->curl->newRequest('GET', $latest, array(
+			CURLOPT_TIMEOUT => 5,
+		));
 
-		$contents = curl_exec($curl);
-		curl_close($curl);
-
-		return $contents;
+		return $curl->send();
 	}
 
 	/**
