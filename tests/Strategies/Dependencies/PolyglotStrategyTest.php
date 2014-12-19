@@ -7,6 +7,8 @@ class PolyglotStrategyTest extends RocketeerTestCase
 {
 	public function testCanInstallAllDependencies()
 	{
+		$this->pretend();
+
 		$this->usesComposer(true);
 		$this->files->put($this->server.'/current/Gemfile', '');
 
