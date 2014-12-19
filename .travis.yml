@@ -9,19 +9,15 @@ php:
   - 5.6
   - hhvm
 
-# Special environments
-matrix:
-  fast_finish: true
-  include:
-    - php: 5.4
-      env: dependencies=lowest
+env:
+  matrix:
+    - PREFER_LOWEST="--prefer-lowest"
+    - PREFER_LOWEST=""
 
 # Dependencies
-before_script:
+install:
   - composer self-update
-  - travis_retry composer install --no-interaction --prefer-source --dev
-  - if [ "$dependencies" = "lowest" ]; then composer update --prefer-lowest --prefer-stable -n; fi;
-
+  - travis_retry composer install --no-interaction --prefer-source --dev $PREFER_LOWEST
 
 script: phpunit
 
