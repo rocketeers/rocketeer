@@ -119,6 +119,10 @@ trait RocketeerAssertions
 		// Replace placeholders
 		$expected = $this->replaceHistoryPlaceholders($expected, $release);
 
+		// Unify keys
+		$expected = array_values($expected);
+		$obtained = array_values($obtained);
+
 		// Check equality
 		$this->assertEquals($expected, $obtained);
 	}
