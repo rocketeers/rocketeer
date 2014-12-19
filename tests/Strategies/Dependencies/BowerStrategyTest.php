@@ -83,19 +83,4 @@ class BowerStrategyTest extends RocketeerTestCase
 		$bower = $this->builder->buildBinary('Bower');
 		$this->assertEquals('bower_components', $bower->getDependenciesFolder());
 	}
-
-	public function testCanShareDependenciesFolder()
-	{
-		$this->mockFiles(function ($mock) {
-			return $mock->shouldReceive('exists')->with($this->paths->getUserHomeFolder().'/.bowerrc')->andReturn(true);
-		});
-
-		$this->mock('rocketeer.bash', 'Bash', function ($mock) {
-			return $mock->shouldReceive('share')->once();
-		});
-
-		$this->pretend();
-		$this->bower->configure(['shared_dependencies' => true]);
-		$this->bower->install();
-	}
 }

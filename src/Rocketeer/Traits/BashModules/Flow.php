@@ -119,4 +119,25 @@ trait Flow
 
 		return $this->symlink($sharedFile, $currentFile);
 	}
+
+	/**
+	 * Copy a folder/file from the previous release
+	 *
+	 * @param string $folder
+	 *
+	 * @return string
+	 */
+	public function copyFromPreviousRelease($folder)
+	{
+		$previous = $this->releasesManager->getPreviousRelease();
+		if (!$previous) {
+			return;
+		}
+
+		$this->explainer->line('Copying file/folder '.$folder.' from previous release');
+		$previous = $this->releasesManager->getPathToRelease($previous.'/'.$folder);
+		$folder   = $this->releasesManager->getCurrentReleasePath($folder);
+
+		return $this->copy($previous, $folder);
+	}
 }
