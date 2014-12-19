@@ -5,6 +5,7 @@ use Exception;
 use Illuminate\Filesystem\FileNotFoundException;
 use Rocketeer\Abstracts\AbstractCommand;
 use Rocketeer\Console\SelfUpdater;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
@@ -35,7 +36,7 @@ class SelfUpdateCommand extends AbstractCommand
 	public function fire()
 	{
 		$localFilename = realpath($_SERVER['argv'][0]) ?: $_SERVER['argv'][0];
-		$updater       = new SelfUpdater($this->laravel, $localFilename, $this->option('version'));
+		$updater       = new SelfUpdater($this->laravel, $localFilename, $this->argument('version'));
 
 		try {
 			$updater->update();
@@ -63,10 +64,10 @@ class SelfUpdateCommand extends AbstractCommand
 	/**
 	 * @return array
 	 */
-	public function getOptions()
+	public function getArguments()
 	{
 		return array(
-			['version', 'V', InputOption::VALUE_REQUIRED, 'The version to update to'],
+			['version', InputArgument::OPTIONAL, 'The version to update to'],
 		);
 	}
 }
