@@ -9,7 +9,9 @@
  */
 namespace Rocketeer\Console;
 
+use DateTime;
 use Illuminate\Console\Application;
+use Rocketeer\Rocketeer;
 
 /**
  * A standalone Rocketeer CLI
@@ -30,6 +32,22 @@ class Console extends Application
 		$help  = sprintf('%s'.PHP_EOL.PHP_EOL.'%s%s', $this->getLongVersion(), $state, $help);
 
 		return $help;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getLongVersion()
+	{
+		$commit = Rocketeer::COMMIT;
+		$commit = substr($commit, 0, 1) != '@' ? ' ('.$commit.')' : null;
+
+		return sprintf(
+			'<info>%s</info> version <comment>%s%s</comment>',
+			$this->getName(),
+			$this->getVersion(),
+			$commit
+		);
 	}
 
 	/**

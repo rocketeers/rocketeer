@@ -73,6 +73,13 @@ class Compiler
 	protected $dependencies;
 
 	/**
+	 * Values to replace
+	 *
+	 * @type array
+	 */
+	protected $values;
+
+	/**
 	 * Build a new Compiler instance
 	 *
 	 * @param string   $folder
@@ -87,6 +94,14 @@ class Compiler
 		$this->folder       = $folder;
 		$this->name         = $name;
 		$this->dependencies = $dependencies;
+	}
+
+	/**
+	 * @param array $values
+	 */
+	public function setValues($values)
+	{
+		$this->values = $values;
 	}
 
 	/**
@@ -128,6 +143,11 @@ class Compiler
 		// Create Box
 		$this->box = Box::create($this->phar, 0, basename($this->phar));
 
+		// Replace values
+		if ($this->values) {
+			$this->box->setValues($this->values);
+		}
+
 		// Add compactors
 		$this->box->addCompactor(new WhitespaceCompactor());
 
@@ -156,6 +176,7 @@ class Compiler
 	protected function setStub()
 	{
 		$stub = StubGenerator::create()->index('bin/'.$this->name)->generate();
+
 		$this->box->getPhar()->setStub($stub);
 	}
 

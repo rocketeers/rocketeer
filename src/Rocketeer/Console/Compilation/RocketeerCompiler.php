@@ -29,6 +29,14 @@ class RocketeerCompiler
 			'nesbot',
 			'phine',
 		));
+
+		// Get current commit
+		$commit = shell_exec('git rev-parse HEAD');
+		$commit = trim($commit);
+
+		$this->compiler->setValues(array(
+			'@commit@' => $commit,
+		));
 	}
 
 	/**

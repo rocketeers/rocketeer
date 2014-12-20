@@ -29,6 +29,11 @@ class Rocketeer
 	const VERSION = '2.1.0';
 
 	/**
+	 * The specific commit built
+	 */
+	const COMMIT = '@commit@';
+
+	/**
 	 * Global local mode
 	 *
 	 * @type boolean
