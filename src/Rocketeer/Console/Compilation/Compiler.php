@@ -170,7 +170,7 @@ class Compiler
 	protected function addFolder($folder, array $ignore = array())
 	{
 		$finder = new Finder();
-		$finder = $finder->files()->ignoreVCS(true)->name('*.php')->in($folder);
+		$finder = $finder->files()->ignoreVCS(true)->name('/\.(php|exe)/')->in($folder);
 
 		// Ignore some files or folders
 		if ($ignore) {
