@@ -13,33 +13,33 @@ use Rocketeer\Abstracts\AbstractTask;
 
 class Dependencies extends AbstractTask
 {
-	/**
-	 * A description of what the task does
-	 *
-	 * @var string
-	 */
-	protected $description = 'Installs or update the dependencies on server';
+    /**
+     * A description of what the task does
+     *
+     * @var string
+     */
+    protected $description = 'Installs or update the dependencies on server';
 
-	/**
-	 * @type array
-	 */
-	protected $options = array(
-		'shared_dependencies' => false,
-	);
+    /**
+     * @type array
+     */
+    protected $options = array(
+        'shared_dependencies' => false,
+    );
 
-	/**
-	 * Run the task
-	 *
-	 * @return boolean
-	 */
-	public function execute()
-	{
-		$method       = $this->getOption('update', true) ? 'update' : 'install';
-		$dependencies = $this->getStrategy('Dependencies', null, $this->options);
-		if (!$dependencies) {
-			return true;
-		}
+    /**
+     * Run the task
+     *
+     * @return boolean
+     */
+    public function execute()
+    {
+        $method       = $this->getOption('update', true) ? 'update' : 'install';
+        $dependencies = $this->getStrategy('Dependencies', null, $this->options);
+        if (!$dependencies) {
+            return true;
+        }
 
-		return $dependencies->$method();
-	}
+        return $dependencies->$method();
+    }
 }

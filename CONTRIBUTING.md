@@ -1,7 +1,7 @@
 # How to make a pull request
 
 Please make all pull requests to the `develop` branch, not the `master` branch.
-Coding standards are PSR2-tabs.
+Coding standards is [Symfony]() (minus the yoda conditions).
 
 # Before posting an issue
 
@@ -14,3 +14,5 @@ Once you cloned the repository in local, in order to test your changes, two solu
 
 - You can execute `php bin/rocketeer` which is what gets compiled as the entry point of the PHAR. This will directly read the files of the repository.
 - You can also compile the PHAR by doing `php bin/compile` which will output to `bin/rocketeer.phar`. In order to compile it you'll need to have the `phar.readonly` set to **On** in your `php.ini`.
+
+[Symfony]: http://symfony.com/doc/current/contributing/code/standards.html

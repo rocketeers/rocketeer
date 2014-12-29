@@ -20,91 +20,91 @@ use Rocketeer\Traits\HasLocator;
  */
 class QueueTimer
 {
-	use HasLocator;
+    use HasLocator;
 
-	/**
-	 * Time a task operation
-	 *
-	 * @param AbstractTask $task
-	 * @param callable     $callback
-	 *
-	 * @return boolean|null
-	 */
-	public function time(AbstractTask $task, callable $callback)
-	{
-		// Start timer, execute callback, close timer
-		$timerStart = microtime(true);
-		$callback();
-		$time = round(microtime(true) - $timerStart, 4);
+    /**
+     * Time a task operation
+     *
+     * @param AbstractTask $task
+     * @param callable     $callback
+     *
+     * @return boolean|null
+     */
+    public function time(AbstractTask $task, callable $callback)
+    {
+        // Start timer, execute callback, close timer
+        $timerStart = microtime(true);
+        $callback();
+        $time = round(microtime(true) - $timerStart, 4);
 
-		$this->saveTaskTime($task, $time);
-	}
+        $this->saveTaskTime($task, $time);
+    }
 
-	/**
-	 * Save the execution time of a task for future reference
-	 *
-	 * @param AbstractTask $task
-	 * @param double       $time
-	 */
-	public function saveTaskTime(AbstractTask $task, $time)
-	{
-		// Don't save times in pretend mode
-		if ($this->getOption('pretend')) {
-			return;
-		}
+    /**
+     * Save the execution time of a task for future reference
+     *
+     * @param AbstractTask $task
+     * @param double       $time
+     */
+    public function saveTaskTime(AbstractTask $task, $time)
+    {
+        // Don't save times in pretend mode
+        if ($this->getOption('pretend')) {
+            return;
+        }
 
-		// Append the new time to past ones
-		$past   = $this->getTaskTimes($task);
-		$past[] = $time;
+        // Append the new time to past ones
+        $past   = $this->getTaskTimes($task);
+        $past[] = $time;
 
-		$this->saveTaskTimes($task, $past);
-	}
+        $this->saveTaskTimes($task, $past);
+    }
 
-	/**
-	 * Compute the predicted execution time of a task
-	 *
-	 * @param AbstractTask $task
-	 *
-	 * @return double|null
-	 */
-	public function getTaskTime(AbstractTask $task)
-	{
-		$past = $this->getTaskTimes($task);
-		if (!$past) {
-			return;
-		}
+    /**
+     * Compute the predicted execution time of a task
+     *
+     * @param AbstractTask $task
+     *
+     * @return double|null
+     */
+    public function getTaskTime(AbstractTask $task)
+    {
+        $past = $this->getTaskTimes($task);
+        if (!$past) {
+            return;
+        }
 
-		// Compute average time
-		$average = array_sum($past) / count($past);
-		$average = round($average, 2);
+        // Compute average time
+        $average = array_sum($past) / count($past);
+        $average = round($average, 2);
 
-		return $average;
-	}
+        return $average;
+    }
 
-	//////////////////////////////////////////////////////////////////////
-	////////////////////////// SETTERS/GETTERS ///////////////////////////
-	//////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+    ////////////////////////// SETTERS/GETTERS ///////////////////////////
+    //////////////////////////////////////////////////////////////////////
 
-	/**
-	 * @param AbstractTask $task
-	 *
-	 * @return array
-	 */
-	protected function getTaskTimes(AbstractTask $task)
-	{
-		$handle = sprintf('times.%s', $task->getSlug());
-		$past   = $this->localStorage->get($handle, []);
+    /**
+     * @param AbstractTask $task
+     *
+     * @return array
+     */
+    protected function getTaskTimes(AbstractTask $task)
+    {
+        $handle = sprintf('times.%s', $task->getSlug());
+        $past   = $this->localStorage->get($handle, []);
 
-		return $past;
-	}
+        return $past;
+    }
 
-	/**
-	 * @param AbstractTask $task
-	 * @param double[]     $past
-	 */
-	protected function saveTaskTimes(AbstractTask $task, array $past)
-	{
-		$handle = sprintf('times.%s', $task->getSlug());
-		$this->localStorage->set($handle, $past);
-	}
+    /**
+     * @param AbstractTask $task
+     * @param double[]     $past
+     */
+    protected function saveTaskTimes(AbstractTask $task, array $past)
+    {
+        $handle = sprintf('times.%s', $task->getSlug());
+        $this->localStorage->set($handle, $past);
+    }
 }

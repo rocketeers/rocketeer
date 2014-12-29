@@ -6,13 +6,13 @@ use Rocketeer\TestCases\RocketeerTestCase;
 
 class MetaTest extends RocketeerTestCase
 {
-	public function testCanOverwriteTasksViaContainer()
-	{
-		$this->app->bind('rocketeer.tasks.cleanup', function ($app) {
-			return new MyCustomTask($app);
-		});
+    public function testCanOverwriteTasksViaContainer()
+    {
+        $this->app->bind('rocketeer.tasks.cleanup', function ($app) {
+            return new MyCustomTask($app);
+        });
 
-		$this->queue->on('production', ['cleanup'], $this->getCommand());
-		$this->assertEquals(['foobar'], $this->history->getFlattenedOutput());
-	}
+        $this->queue->on('production', ['cleanup'], $this->getCommand());
+        $this->assertEquals(['foobar'], $this->history->getFlattenedOutput());
+    }
 }

@@ -20,92 +20,92 @@ use Rocketeer\Plugins\AbstractNotifier;
  */
 class Notify extends AbstractTask
 {
-	/**
-	 * The message format
-	 *
-	 * @type AbstractNotifier
-	 */
-	protected $notifier;
+    /**
+     * The message format
+     *
+     * @type AbstractNotifier
+     */
+    protected $notifier;
 
-	/**
-	 * A description of what the task does
-	 *
-	 * @var string
-	 */
-	protected $description = 'Notify a third-party service';
+    /**
+     * A description of what the task does
+     *
+     * @var string
+     */
+    protected $description = 'Notify a third-party service';
 
-	/**
-	 * Run the task
-	 *
-	 * @return string|null
-	 */
-	public function execute()
-	{
-		$hook = str_replace('deploy.', null, $this->event).'_deploy';
+    /**
+     * Run the task
+     *
+     * @return string|null
+     */
+    public function execute()
+    {
+        $hook = str_replace('deploy.', null, $this->event).'_deploy';
 
-		$this->prepareThenSend($hook);
-	}
+        $this->prepareThenSend($hook);
+    }
 
-	/**
-	 * @param AbstractNotifier $notifier
-	 */
-	public function setNotifier($notifier)
-	{
-		$this->notifier = $notifier;
-	}
+    /**
+     * @param AbstractNotifier $notifier
+     */
+    public function setNotifier($notifier)
+    {
+        $this->notifier = $notifier;
+    }
 
-	////////////////////////////////////////////////////////////////////
-	/////////////////////////////// MESSAGE ////////////////////////////
-	////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+    /////////////////////////////// MESSAGE ////////////////////////////
+    ////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Get the message's components
-	 *
-	 * @return string[]
-	 */
-	protected function getComponents()
-	{
-		// Get user name
-		$user = $this->localStorage->get('notifier.name');
-		if (!$user) {
-			$user = $this->command->ask('Who is deploying ?');
-			$this->localStorage->set('notifier.name', $user);
-		}
+    /**
+     * Get the message's components
+     *
+     * @return string[]
+     */
+    protected function getComponents()
+    {
+        // Get user name
+        $user = $this->localStorage->get('notifier.name');
+        if (!$user) {
+            $user = $this->command->ask('Who is deploying ?');
+            $this->localStorage->set('notifier.name', $user);
+        }
 
-		// Get what was deployed
-		$branch     = $this->connections->getRepositoryBranch();
-		$stage      = $this->connections->getStage();
-		$connection = $this->connections->getConnection();
-		$server     = $this->connections->getServer();
+        // Get what was deployed
+        $branch     = $this->connections->getRepositoryBranch();
+        $stage      = $this->connections->getStage();
+        $connection = $this->connections->getConnection();
+        $server     = $this->connections->getServer();
 
-		// Get hostname
-		$credentials = $this->connections->getServerCredentials($connection, $server);
-		$host        = Arr::get($credentials, 'host');
-		if ($stage) {
-			$connection = $stage.'@'.$connection;
-		}
+        // Get hostname
+        $credentials = $this->connections->getServerCredentials($connection, $server);
+        $host        = Arr::get($credentials, 'host');
+        if ($stage) {
+            $connection = $stage.'@'.$connection;
+        }
 
-		return compact('user', 'branch', 'connection', 'host');
-	}
+        return compact('user', 'branch', 'connection', 'host');
+    }
 
-	/**
-	 * Prepare and send a message
-	 *
-	 * @param string $message
-	 */
-	public function prepareThenSend($message)
-	{
-		// Don't send a notification if pretending to deploy
-		if ($this->command->option('pretend')) {
-			return;
-		}
+    /**
+     * Prepare and send a message
+     *
+     * @param string $message
+     */
+    public function prepareThenSend($message)
+    {
+        // Don't send a notification if pretending to deploy
+        if ($this->command->option('pretend')) {
+            return;
+        }
 
-		// Build message
-		$message = $this->notifier->getMessageFormat($message);
-		$message = preg_replace('#\{([0-9])\}#', '%$1\$s', $message);
-		$message = vsprintf($message, $this->getComponents());
+        // Build message
+        $message = $this->notifier->getMessageFormat($message);
+        $message = preg_replace('#\{([0-9])\}#', '%$1\$s', $message);
+        $message = vsprintf($message, $this->getComponents());
 
-		// Send it
-		$this->notifier->send($message);
-	}
+        // Send it
+        $this->notifier->send($message);
+    }
 }

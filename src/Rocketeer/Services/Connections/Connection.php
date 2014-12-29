@@ -18,19 +18,19 @@ use Rocketeer\Interfaces\ConnectionInterface;
  */
 class Connection extends \Illuminate\Remote\Connection implements ConnectionInterface
 {
-	/**
-	 * @return string
-	 */
-	public function getName()
-	{
-		return $this->name;
-	}
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getUsername()
-	{
-		return $this->username;
-	}
+    /**
+     * @return string
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
 }

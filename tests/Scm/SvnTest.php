@@ -5,130 +5,145 @@ use Rocketeer\TestCases\RocketeerTestCase;
 
 class SvnTest extends RocketeerTestCase
 {
-	/**
-	 * The current SCM instance
-	 *
-	 * @var Git
-	 */
-	protected $scm;
+    /**
+     * The current SCM instance
+     *
+     * @var Git
+     */
+    protected $scm;
 
-	public function setUp()
-	{
-		parent::setUp();
+    public function setUp()
+    {
+        parent::setUp();
 
-		$this->scm = new Svn($this->app);
-	}
+        $this->scm = new Svn($this->app);
+    }
 
-	////////////////////////////////////////////////////////////////////
-	//////////////////////////////// TESTS /////////////////////////////
-	////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+    //////////////////////////////// TESTS /////////////////////////////
+    ////////////////////////////////////////////////////////////////////
 
-	public function testCanGetCheck()
-	{
-		$command = $this->scm->check();
+    public function testCanGetCheck()
+    {
+        $command = $this->scm->check();
 
-		$this->assertEquals('svn --version', $command);
-	}
+        $this->assertEquals('svn --version', $command);
+    }
 
-	public function testCanGetCurrentState()
-	{
-		$command = $this->scm->currentState();
+    public function testCanGetCurrentState()
+    {
+        $command = $this->scm->currentState();
 
-		$this->assertEquals('svn info | grep "Revision"', $command);
-	}
+        $this->assertEquals('svn info | grep "Revision"', $command);
+    }
 
-	public function testCanGetCurrentBranch()
-	{
-		$command = $this->scm->currentBranch();
+    public function testCanGetCurrentBranch()
+    {
+        $command = $this->scm->currentBranch();
 
-		$this->assertEquals('echo trunk', $command);
-	}
+        $this->assertEquals('echo trunk', $command);
+    }
 
-	public function testCanGetCheckout()
-	{
-		$this->mock('rocketeer.connections', 'ConnectionsHandler', function ($mock) {
-			return $mock
-				->shouldReceive('getRepositoryCredentials')->once()->andReturn(['username' => 'foo', 'password' => 'bar'])
-				->shouldReceive('getRepositoryEndpoint')->once()->andReturn('http://github.com/my/repository')
-				->shouldReceive('getRepositoryBranch')->once()->andReturn('develop');
-		});
+    public function testCanGetCheckout()
+    {
+        $this->mock('rocketeer.connections', 'ConnectionsHandler', function ($mock) {
+            return $mock
+                ->shouldReceive('getRepositoryCredentials')->once()->andReturn([
+                    'username' => 'foo',
+                    'password' => 'bar'
+                ])
+                ->shouldReceive('getRepositoryEndpoint')->once()->andReturn('http://github.com/my/repository')
+                ->shouldReceive('getRepositoryBranch')->once()->andReturn('develop');
+        });
 
-		$command = $this->scm->checkout($this->server);
+        $command = $this->scm->checkout($this->server);
 
-		$this->assertEquals('svn co http://github.com/my/repository/develop '.$this->server.' --non-interactive --username="foo" --password="bar"', $command);
-	}
+        $this->assertEquals('svn co http://github.com/my/repository/develop '.$this->server.' --non-interactive --username="foo" --password="bar"', $command);
+    }
 
-	public function testCanGetDeepClone()
-	{
-		$this->mock('rocketeer.connections', 'ConnectionsHandler', function ($mock) {
-			return $mock
-				->shouldReceive('getRepositoryCredentials')->once()->andReturn(['username' => 'foo', 'password' => 'bar'])
-				->shouldReceive('getRepositoryEndpoint')->once()->andReturn('http://github.com/my/repository')
-				->shouldReceive('getRepositoryBranch')->once()->andReturn('develop');
-		});
+    public function testCanGetDeepClone()
+    {
+        $this->mock('rocketeer.connections', 'ConnectionsHandler', function ($mock) {
+            return $mock
+                ->shouldReceive('getRepositoryCredentials')->once()->andReturn([
+                    'username' => 'foo',
+                    'password' => 'bar'
+                ])
+                ->shouldReceive('getRepositoryEndpoint')->once()->andReturn('http://github.com/my/repository')
+                ->shouldReceive('getRepositoryBranch')->once()->andReturn('develop');
+        });
 
-		$command = $this->scm->checkout($this->server);
+        $command = $this->scm->checkout($this->server);
 
-		$this->assertEquals('svn co http://github.com/my/repository/develop '.$this->server.' --non-interactive --username="foo" --password="bar"', $command);
-	}
+        $this->assertEquals('svn co http://github.com/my/repository/develop '.$this->server.' --non-interactive --username="foo" --password="bar"', $command);
+    }
 
-	public function testDoesntDuplicateCredentials()
-	{
-		$this->mock('rocketeer.connections', 'ConnectionsHandler', function ($mock) {
-			return $mock
-				->shouldReceive('getRepositoryCredentials')->once()->andReturn(['username' => 'foo', 'password' => 'bar'])
-				->shouldReceive('getRepositoryEndpoint')->once()->andReturn('http://foo:bar@github.com/my/repository')
-				->shouldReceive('getRepositoryBranch')->once()->andReturn('develop');
-		});
+    public function testDoesntDuplicateCredentials()
+    {
+        $this->mock('rocketeer.connections', 'ConnectionsHandler', function ($mock) {
+            return $mock
+                ->shouldReceive('getRepositoryCredentials')->once()->andReturn([
+                    'username' => 'foo',
+                    'password' => 'bar'
+                ])
+                ->shouldReceive('getRepositoryEndpoint')->once()->andReturn('http://foo:bar@github.com/my/repository')
+                ->shouldReceive('getRepositoryBranch')->once()->andReturn('develop');
+        });
 
-		$command = $this->scm->checkout($this->server);
+        $command = $this->scm->checkout($this->server);
 
-		$this->assertEquals('svn co http://github.com/my/repository/develop '.$this->server.' --non-interactive --username="foo" --password="bar"', $command);
+        $this->assertEquals('svn co http://github.com/my/repository/develop '.$this->server.' --non-interactive --username="foo" --password="bar"', $command);
 
-		$this->mock('rocketeer.connections', 'ConnectionsHandler', function ($mock) {
-			return $mock
-				->shouldReceive('getRepositoryCredentials')->once()->andReturn(['username' => 'foo', 'password' => null])
-				->shouldReceive('getRepositoryEndpoint')->once()->andReturn('http://foo@github.com/my/repository')
-				->shouldReceive('getRepositoryBranch')->once()->andReturn('develop');
-		});
+        $this->mock('rocketeer.connections', 'ConnectionsHandler', function ($mock) {
+            return $mock
+                ->shouldReceive('getRepositoryCredentials')->once()->andReturn([
+                    'username' => 'foo',
+                    'password' => null
+                ])
+                ->shouldReceive('getRepositoryEndpoint')->once()->andReturn('http://foo@github.com/my/repository')
+                ->shouldReceive('getRepositoryBranch')->once()->andReturn('develop');
+        });
 
-		$command = $this->scm->checkout($this->server);
+        $command = $this->scm->checkout($this->server);
 
-		$this->assertEquals('svn co http://github.com/my/repository/develop '.$this->server.' --non-interactive --username="foo"', $command);
-	}
+        $this->assertEquals('svn co http://github.com/my/repository/develop '.$this->server.' --non-interactive --username="foo"', $command);
+    }
 
-	public function testDoesntStripRevisionFromUrl()
-	{
-		$this->mock('rocketeer.connections', 'ConnectionsHandler', function ($mock) {
-			return $mock
-				->shouldReceive('getRepositoryCredentials')->once()->andReturn(['username' => 'foo', 'password' => 'bar'])
-				->shouldReceive('getRepositoryEndpoint')->once()->andReturn('url://user:login@example.com/test')
-				->shouldReceive('getRepositoryBranch')->once()->andReturn('trunk@1234');
-		});
+    public function testDoesntStripRevisionFromUrl()
+    {
+        $this->mock('rocketeer.connections', 'ConnectionsHandler', function ($mock) {
+            return $mock
+                ->shouldReceive('getRepositoryCredentials')->once()->andReturn([
+                    'username' => 'foo',
+                    'password' => 'bar'
+                ])
+                ->shouldReceive('getRepositoryEndpoint')->once()->andReturn('url://user:login@example.com/test')
+                ->shouldReceive('getRepositoryBranch')->once()->andReturn('trunk@1234');
+        });
 
-		$command = $this->scm->checkout($this->server);
+        $command = $this->scm->checkout($this->server);
 
-		$this->assertEquals('svn co url://example.com/test/trunk@1234 '.$this->server.' --non-interactive --username="foo" --password="bar"', $command);
-	}
+        $this->assertEquals('svn co url://example.com/test/trunk@1234 '.$this->server.' --non-interactive --username="foo" --password="bar"', $command);
+    }
 
-	public function testCanGetReset()
-	{
-		$command = $this->scm->reset();
+    public function testCanGetReset()
+    {
+        $command = $this->scm->reset();
 
-		$this->assertEquals("svn status -q | grep -v '^[~XI ]' | awk '{print $2;}' | xargs svn revert", $command);
-	}
+        $this->assertEquals("svn status -q | grep -v '^[~XI ]' | awk '{print $2;}' | xargs svn revert", $command);
+    }
 
-	public function testCanGetUpdate()
-	{
-		$command = $this->scm->update();
+    public function testCanGetUpdate()
+    {
+        $command = $this->scm->update();
 
-		$this->assertEquals('svn up --non-interactive', $command);
-	}
+        $this->assertEquals('svn up --non-interactive', $command);
+    }
 
-	public function testCanGetSubmodules()
-	{
-		$command = $this->scm->submodules();
+    public function testCanGetSubmodules()
+    {
+        $command = $this->scm->submodules();
 
-		$this->assertEmpty($command);
-	}
+        $this->assertEmpty($command);
+    }
 }

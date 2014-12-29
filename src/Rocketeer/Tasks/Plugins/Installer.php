@@ -13,41 +13,41 @@ use Rocketeer\Abstracts\AbstractTask;
 
 class Installer extends AbstractTask
 {
-	/**
-	 * The console command description.
-	 *
-	 * @var string
-	 */
-	protected $description = 'Installs plugins';
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Installs plugins';
 
-	/**
-	 * Whether to run the commands locally
-	 * or on the server
-	 *
-	 * @type boolean
-	 */
-	protected $local = true;
+    /**
+     * Whether to run the commands locally
+     * or on the server
+     *
+     * @type boolean
+     */
+    protected $local = true;
 
-	/**
-	 * Run the task
-	 *
-	 * @return null
-	 */
-	public function execute()
-	{
-		// Get package and destination folder
-		$package = $this->command->argument('package');
-		$folder  = $this->paths->getRocketeerConfigFolder();
+    /**
+     * Run the task
+     *
+     * @return null
+     */
+    public function execute()
+    {
+        // Get package and destination folder
+        $package = $this->command->argument('package');
+        $folder  = $this->paths->getRocketeerConfigFolder();
 
-		$command = $this->composer()->require($package, array(
-			'--working-dir' => $folder,
-		));
+        $command = $this->composer()->require($package, array(
+            '--working-dir' => $folder,
+        ));
 
-		// Install plugin
-		$this->explainer->line('Installing '.$package);
-		$this->run($this->shellCommand($command));
+        // Install plugin
+        $this->explainer->line('Installing '.$package);
+        $this->run($this->shellCommand($command));
 
-		// Prune duplicate Rocketeer
-		$this->files->deleteDirectory($folder.'/vendor/anahkiasen/rocketeer');
-	}
+        // Prune duplicate Rocketeer
+        $this->files->deleteDirectory($folder.'/vendor/anahkiasen/rocketeer');
+    }
 }

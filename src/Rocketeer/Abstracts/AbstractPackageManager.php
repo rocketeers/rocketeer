@@ -11,79 +11,79 @@ namespace Rocketeer\Abstracts;
 
 abstract class AbstractPackageManager extends AbstractBinary
 {
-	/**
-	 * The name of the manifest file to look for
-	 *
-	 * @type string
-	 */
-	protected $manifest;
+    /**
+     * The name of the manifest file to look for
+     *
+     * @type string
+     */
+    protected $manifest;
 
-	/**
-	 * Whether the manager is enabled or not
-	 *
-	 * @return boolean
-	 */
-	public function isExecutable()
-	{
-		return $this->getBinary() && $this->hasManifest();
-	}
+    /**
+     * Whether the manager is enabled or not
+     *
+     * @return boolean
+     */
+    public function isExecutable()
+    {
+        return $this->getBinary() && $this->hasManifest();
+    }
 
-	/**
-	 * Check if the manifest file exists, locally or on server
-	 *
-	 * @return bool
-	 */
-	public function hasManifest()
-	{
-		$server = $this->paths->getFolder('current/'.$this->manifest);
-		$server = $this->bash->fileExists($server);
+    /**
+     * Check if the manifest file exists, locally or on server
+     *
+     * @return bool
+     */
+    public function hasManifest()
+    {
+        $server = $this->paths->getFolder('current/'.$this->manifest);
+        $server = $this->bash->fileExists($server);
 
-		$local = $this->getManifestPath();
-		$local = $this->files->exists($local);
+        $local = $this->getManifestPath();
+        $local = $this->files->exists($local);
 
-		return $local || $server;
-	}
+        return $local || $server;
+    }
 
-	/**
-	 * Get the contents of the manifest file
-	 *
-	 * @return string|null
-	 * @throws \Illuminate\Filesystem\FileNotFoundException
-	 */
-	public function getManifestContents()
-	{
-		$manifest = $this->getManifestPath();
-		if ($this->files->exists($manifest)) {
-			return $this->files->get($manifest);
-		}
+    /**
+     * Get the contents of the manifest file
+     *
+     * @return string|null
+     * @throws \Illuminate\Filesystem\FileNotFoundException
+     */
+    public function getManifestContents()
+    {
+        $manifest = $this->getManifestPath();
+        if ($this->files->exists($manifest)) {
+            return $this->files->get($manifest);
+        }
 
-		return;
-	}
+        return;
+    }
 
-	/**
-	 * Get the name of the manifest file
-	 *
-	 * @return string
-	 */
-	public function getManifest()
-	{
-		return $this->manifest;
-	}
+    /**
+     * Get the name of the manifest file
+     *
+     * @return string
+     */
+    public function getManifest()
+    {
+        return $this->manifest;
+    }
 
-	/**
-	 * Get the path to the manifest file
-	 *
-	 * @return string
-	 */
-	public function getManifestPath()
-	{
-		return $this->paths->getApplicationPath().$this->manifest;
-	}
+    /**
+     * Get the path to the manifest file
+     *
+     * @return string
+     */
+    public function getManifestPath()
+    {
+        return $this->paths->getApplicationPath().$this->manifest;
+    }
 
-	/**
-	 * Get where dependencies are installed
-	 *
-	 * @return string|null
-	 */
-	abstract public function getDependenciesFolder();
+    /**
+     * Get where dependencies are installed
+     *
+     * @return string|null
+     */
+    abstract public function getDependenciesFolder();
 }

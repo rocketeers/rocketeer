@@ -23,79 +23,79 @@ use Rocketeer\Interfaces\Strategies\MigrateStrategyInterface;
 
 class Migrate extends AbstractTask
 {
-	/**
-	 * The console command description.
-	 *
-	 * @var string
-	 */
-	protected $description = 'Migrates and/or seed the database';
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Migrates and/or seed the database';
 
-	/**
-	 * @type MigrateStrategyInterface
-	 */
-	protected $strategy;
+    /**
+     * @type MigrateStrategyInterface
+     */
+    protected $strategy;
 
-	/**
-	 * @type array
-	 */
-	protected $results = [];
+    /**
+     * @type array
+     */
+    protected $results = [];
 
-	/**
-	 * Run the task
-	 *
-	 * @return boolean|boolean[]
-	 */
-	public function execute()
-	{
-		// Prepare method
-		$this->strategy = $this->getStrategy('Migrate');
-		$this->results  = [];
+    /**
+     * Run the task
+     *
+     * @return boolean|boolean[]
+     */
+    public function execute()
+    {
+        // Prepare method
+        $this->strategy = $this->getStrategy('Migrate');
+        $this->results  = [];
 
-		// Cancel if nothing to run
-		if (!$this->canRunMigrations()) {
-			$this->explainer->line('No outstanding migrations or server not assigned db role');
+        // Cancel if nothing to run
+        if (!$this->canRunMigrations()) {
+            $this->explainer->line('No outstanding migrations or server not assigned db role');
 
-			return true;
-		}
+            return true;
+        }
 
-		// Migrate the database
-		$this->runStrategyCommand('migrate', 'Running outstanding migrations');
-		$this->runStrategyCommand('seed', 'Seeding database');
+        // Migrate the database
+        $this->runStrategyCommand('migrate', 'Running outstanding migrations');
+        $this->runStrategyCommand('seed', 'Seeding database');
 
-		return $this->results;
-	}
+        return $this->results;
+    }
 
-	/**
-	 * Check if the command can be run
-	 *
-	 * @return boolean
-	 */
-	protected function canRunMigrations()
-	{
-		$serverCredentials = $this->connections->getServerCredentials();
-		$multiserver       = $this->connections->isMultiserver($this->connections->getConnection());
-		$hasRole           = array_get($serverCredentials, 'db_role');
-		$useRoles          = $this->rocketeer->getOption('uses_roles');
+    /**
+     * Check if the command can be run
+     *
+     * @return boolean
+     */
+    protected function canRunMigrations()
+    {
+        $serverCredentials = $this->connections->getServerCredentials();
+        $multiserver       = $this->connections->isMultiserver($this->connections->getConnection());
+        $hasRole           = array_get($serverCredentials, 'db_role');
+        $useRoles          = $this->rocketeer->getOption('uses_roles');
 
-		return
-			$this->strategy &&
-			($this->getOption('migrate') || $this->getOption('seed')) &&
-			(!$useRoles || ($multiserver && $useRoles && $hasRole));
-	}
+        return
+            $this->strategy &&
+            ($this->getOption('migrate') || $this->getOption('seed')) &&
+            (!$useRoles || ($multiserver && $useRoles && $hasRole));
+    }
 
-	/**
-	 * Run a method on the strategy if asked to
-	 *
-	 * @param string $method
-	 * @param string $message
-	 */
-	protected function runStrategyCommand($method, $message)
-	{
-		if (!$this->getOption($method)) {
-			return;
-		}
+    /**
+     * Run a method on the strategy if asked to
+     *
+     * @param string $method
+     * @param string $message
+     */
+    protected function runStrategyCommand($method, $message)
+    {
+        if (!$this->getOption($method)) {
+            return;
+        }
 
-		$this->explainer->line($message);
-		$this->results[] = $this->strategy->$method();
-	}
+        $this->explainer->line($message);
+        $this->results[] = $this->strategy->$method();
+    }
 }

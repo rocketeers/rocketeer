@@ -14,49 +14,49 @@ use Rocketeer\Binaries\Php;
 
 class Composer extends AbstractPackageManager
 {
-	/**
-	 * The name of the manifest file to look for
-	 *
-	 * @type string
-	 */
-	protected $manifest = 'composer.json';
+    /**
+     * The name of the manifest file to look for
+     *
+     * @type string
+     */
+    protected $manifest = 'composer.json';
 
-	/**
-	 * Get an array of default paths to look for
-	 *
-	 * @return string[]
-	 */
-	protected function getKnownPaths()
-	{
-		return array(
-			'composer',
-			$this->releasesManager->getCurrentReleasePath().'/composer.phar',
-		);
-	}
+    /**
+     * Get an array of default paths to look for
+     *
+     * @return string[]
+     */
+    protected function getKnownPaths()
+    {
+        return array(
+            'composer',
+            $this->releasesManager->getCurrentReleasePath().'/composer.phar',
+        );
+    }
 
-	/**
-	 * Change Composer's binary
-	 *
-	 * @param string $binary
-	 */
-	public function setBinary($binary)
-	{
-		parent::setBinary($binary);
+    /**
+     * Change Composer's binary
+     *
+     * @param string $binary
+     */
+    public function setBinary($binary)
+    {
+        parent::setBinary($binary);
 
-		// Prepend PHP command if executing from archive
-		if (strpos($this->getBinary(), 'composer.phar') !== false) {
-			$php = new Php($this->app);
-			$this->setParent($php);
-		}
-	}
+        // Prepend PHP command if executing from archive
+        if (strpos($this->getBinary(), 'composer.phar') !== false) {
+            $php = new Php($this->app);
+            $this->setParent($php);
+        }
+    }
 
-	/**
-	 * Get where dependencies are installed
-	 *
-	 * @return string
-	 */
-	public function getDependenciesFolder()
-	{
-		return 'vendor';
-	}
+    /**
+     * Get where dependencies are installed
+     *
+     * @return string
+     */
+    public function getDependenciesFolder()
+    {
+        return 'vendor';
+    }
 }

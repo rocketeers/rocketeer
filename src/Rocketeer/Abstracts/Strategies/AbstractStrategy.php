@@ -20,61 +20,61 @@ use Rocketeer\Traits\Configurable;
  */
 abstract class AbstractStrategy extends Bash
 {
-	use Configurable;
+    use Configurable;
 
-	/**
-	 * @type array
-	 */
-	protected $options = [];
+    /**
+     * @type array
+     */
+    protected $options = [];
 
-	/**
-	 * @type string
-	 */
-	protected $description;
+    /**
+     * @type string
+     */
+    protected $description;
 
-	/**
-	 * @return string
-	 */
-	public function getDescription()
-	{
-		return $this->description;
-	}
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
 
-	/**
-	 * Whether this particular strategy is runnable or not
-	 *
-	 * @return boolean
-	 */
-	public function isExecutable()
-	{
-		return true;
-	}
+    /**
+     * Whether this particular strategy is runnable or not
+     *
+     * @return boolean
+     */
+    public function isExecutable()
+    {
+        return true;
+    }
 
-	//////////////////////////////////////////////////////////////////////
-	////////////////////////////// HELPERS ///////////////////////////////
-	//////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+    ////////////////////////////// HELPERS ///////////////////////////////
+    //////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Display what the command is and does
-	 *
-	 * @return $this
-	 */
-	public function displayStatus()
-	{
-		// Recompose strategy and implementation from
-		// the class name
-		$components = get_class($this);
-		$components = explode('\\', $components);
+    /**
+     * Display what the command is and does
+     *
+     * @return $this
+     */
+    public function displayStatus()
+    {
+        // Recompose strategy and implementation from
+        // the class name
+        $components = get_class($this);
+        $components = explode('\\', $components);
 
-		$name     = Arr::get($components, count($components) - 1);
-		$strategy = Arr::get($components, count($components) - 2);
+        $name     = Arr::get($components, count($components) - 1);
+        $strategy = Arr::get($components, count($components) - 2);
 
-		$parent   = ucfirst($strategy);
-		$concrete = str_replace('Strategy', null, $name);
-		$details  = $this->getDescription();
+        $parent   = ucfirst($strategy);
+        $concrete = str_replace('Strategy', null, $name);
+        $details  = $this->getDescription();
 
-		$this->explainer->display($parent.'/'.$concrete, $details);
+        $this->explainer->display($parent.'/'.$concrete, $details);
 
-		return $this;
-	}
+        return $this;
+    }
 }

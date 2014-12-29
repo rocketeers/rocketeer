@@ -20,36 +20,36 @@ use Rocketeer\Abstracts\AbstractTask;
  */
 class BaseTaskCommand extends AbstractCommand
 {
-	/**
-	 * The default name
-	 *
-	 * @var string
-	 */
-	protected $name = 'custom';
+    /**
+     * The default name
+     *
+     * @var string
+     */
+    protected $name = 'custom';
 
-	/**
-	 * Build a new custom command
-	 *
-	 * @param AbstractTask|null $task
-	 * @param string|null       $name A name for the command
-	 */
-	public function __construct(AbstractTask $task = null, $name = null)
-	{
-		parent::__construct($task);
+    /**
+     * Build a new custom command
+     *
+     * @param AbstractTask|null $task
+     * @param string|null       $name A name for the command
+     */
+    public function __construct(AbstractTask $task = null, $name = null)
+    {
+        parent::__construct($task);
 
-		// Set name
-		if ($this->name === 'custom' && $task) {
-			$this->name = $name ?: $task->getSlug();
-		}
-	}
+        // Set name
+        if ($this->name === 'custom' && $task) {
+            $this->name = $name ?: $task->getSlug();
+        }
+    }
 
-	/**
-	 * Fire the custom Task
-	 *
-	 * @return integer
-	 */
-	public function fire()
-	{
-		return $this->fireTasksQueue($this->task->getSlug());
-	}
+    /**
+     * Fire the custom Task
+     *
+     * @return integer
+     */
+    public function fire()
+    {
+        return $this->fireTasksQueue($this->task->getSlug());
+    }
 }

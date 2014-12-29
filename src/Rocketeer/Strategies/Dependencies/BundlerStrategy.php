@@ -14,15 +14,15 @@ use Rocketeer\Interfaces\Strategies\DependenciesStrategyInterface;
 
 class BundlerStrategy extends AbstractDependenciesStrategy implements DependenciesStrategyInterface
 {
-	/**
-	 * @type string
-	 */
-	protected $description = 'Installs dependencies with Bundler';
+    /**
+     * @type string
+     */
+    protected $description = 'Installs dependencies with Bundler';
 
-	/**
-	 * The name of the binary
-	 *
-	 * @type string
-	 */
-	protected $binary = 'bundler';
+    /**
+     * The name of the binary
+     *
+     * @type string
+     */
+    protected $binary = 'bundler';
 }

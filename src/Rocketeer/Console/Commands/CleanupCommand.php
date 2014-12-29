@@ -18,15 +18,15 @@ use Symfony\Component\Console\Input\InputOption;
  */
 class CleanupCommand extends BaseTaskCommand
 {
-	/**
-	 * Get the console command options.
-	 *
-	 * @return array<string[]|array<string|null>>
-	 */
-	protected function getOptions()
-	{
-		return array_merge(parent::getOptions(), array(
-			['clean-all', null, InputOption::VALUE_NONE, 'Cleans up all non-current releases'],
-		));
-	}
+    /**
+     * Get the console command options.
+     *
+     * @return array<string[]|array<string|null>>
+     */
+    protected function getOptions()
+    {
+        return array_merge(parent::getOptions(), array(
+            ['clean-all', null, InputOption::VALUE_NONE, 'Cleans up all non-current releases'],
+        ));
+    }
 }

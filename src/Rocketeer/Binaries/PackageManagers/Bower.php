@@ -13,45 +13,45 @@ use Rocketeer\Abstracts\AbstractPackageManager;
 
 class Bower extends AbstractPackageManager
 {
-	/**
-	 * The name of the manifest file to look for
-	 *
-	 * @type string
-	 */
-	protected $manifest = 'bower.json';
+    /**
+     * The name of the manifest file to look for
+     *
+     * @type string
+     */
+    protected $manifest = 'bower.json';
 
-	/**
-	 * Get an array of default paths to look for
-	 *
-	 * @return string[]
-	 */
-	protected function getKnownPaths()
-	{
-		return array(
-			'bower',
-			$this->releasesManager->getCurrentReleasePath().'/node_modules/.bin/bower',
-		);
-	}
+    /**
+     * Get an array of default paths to look for
+     *
+     * @return string[]
+     */
+    protected function getKnownPaths()
+    {
+        return array(
+            'bower',
+            $this->releasesManager->getCurrentReleasePath().'/node_modules/.bin/bower',
+        );
+    }
 
-	/**
-	 * Get where dependencies are installed
-	 *
-	 * @return string
-	 */
-	public function getDependenciesFolder()
-	{
-		// Look for a configuration file
-		$paths = array_filter(array(
-			$this->paths->getApplicationPath().'.bowerrc',
-			$this->paths->getUserHomeFolder().'/.bowerrc',
-		), [$this->files, 'exists']);
+    /**
+     * Get where dependencies are installed
+     *
+     * @return string
+     */
+    public function getDependenciesFolder()
+    {
+        // Look for a configuration file
+        $paths = array_filter(array(
+            $this->paths->getApplicationPath().'.bowerrc',
+            $this->paths->getUserHomeFolder().'/.bowerrc',
+        ), [$this->files, 'exists']);
 
-		$file = head($paths);
-		if ($file) {
-			$file = $this->files->get($file);
-			$file = json_decode($file, true);
-		}
+        $file = head($paths);
+        if ($file) {
+            $file = $this->files->get($file);
+            $file = json_decode($file, true);
+        }
 
-		return array_get($file, 'directory', 'bower_components');
-	}
+        return array_get($file, 'directory', 'bower_components');
+    }
 }

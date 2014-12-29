@@ -18,31 +18,31 @@ use Rocketeer\Abstracts\AbstractCommand;
  */
 class FlushCommand extends AbstractCommand
 {
-	/**
-	 * The console command name.
-	 *
-	 * @var string
-	 */
-	protected $name = 'flush';
+    /**
+     * The console command name.
+     *
+     * @var string
+     */
+    protected $name = 'flush';
 
-	/**
-	 * The console command description.
-	 *
-	 * @var string
-	 */
-	protected $description = "Flushes Rocketeer's cache of credentials";
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = "Flushes Rocketeer's cache of credentials";
 
-	/**
-	 * Execute the tasks
-	 *
-	 * @return integer
-	 */
-	public function fire()
-	{
-		// Clear the cache of credentials
-		$this->laravel['rocketeer.storage.local']->destroy();
-		$this->info("Rocketeer's cache has been properly flushed");
+    /**
+     * Execute the tasks
+     *
+     * @return integer
+     */
+    public function fire()
+    {
+        // Clear the cache of credentials
+        $this->laravel['rocketeer.storage.local']->destroy();
+        $this->info("Rocketeer's cache has been properly flushed");
 
-		return 0;
-	}
+        return 0;
+    }
 }

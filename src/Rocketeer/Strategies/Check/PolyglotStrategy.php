@@ -14,63 +14,63 @@ use Rocketeer\Interfaces\Strategies\CheckStrategyInterface;
 
 class PolyglotStrategy extends AbstractPolyglotStrategy implements CheckStrategyInterface
 {
-	/**
-	 * The various strategies to call
-	 *
-	 * @type array
-	 */
-	protected $strategies = ['Node', 'Php', 'Ruby'];
+    /**
+     * The various strategies to call
+     *
+     * @type array
+     */
+    protected $strategies = ['Node', 'Php', 'Ruby'];
 
-	/**
-	 * The type of the sub-strategies
-	 *
-	 * @type string
-	 */
-	protected $type = 'Check';
+    /**
+     * The type of the sub-strategies
+     *
+     * @type string
+     */
+    protected $type = 'Check';
 
-	/**
-	 * Check that the PM that'll install
-	 * the app's dependencies is present
-	 *
-	 * @return boolean
-	 */
-	public function manager()
-	{
-		$this->executeStrategiesMethod('manager');
+    /**
+     * Check that the PM that'll install
+     * the app's dependencies is present
+     *
+     * @return boolean
+     */
+    public function manager()
+    {
+        $this->executeStrategiesMethod('manager');
 
-		return $this->passed();
-	}
+        return $this->passed();
+    }
 
-	/**
-	 * Check that the language used by the
-	 * application is at the required version
-	 *
-	 * @return boolean
-	 */
-	public function language()
-	{
-		$this->executeStrategiesMethod('language');
+    /**
+     * Check that the language used by the
+     * application is at the required version
+     *
+     * @return boolean
+     */
+    public function language()
+    {
+        $this->executeStrategiesMethod('language');
 
-		return $this->passed();
-	}
+        return $this->passed();
+    }
 
-	/**
-	 * Check for the required extensions
-	 *
-	 * @return array
-	 */
-	public function extensions()
-	{
-		return $this->gatherMissingFromMethod('extensions');
-	}
+    /**
+     * Check for the required extensions
+     *
+     * @return array
+     */
+    public function extensions()
+    {
+        return $this->gatherMissingFromMethod('extensions');
+    }
 
-	/**
-	 * Check for the required drivers
-	 *
-	 * @return array
-	 */
-	public function drivers()
-	{
-		return $this->gatherMissingFromMethod('drivers');
-	}
+    /**
+     * Check for the required drivers
+     *
+     * @return array
+     */
+    public function drivers()
+    {
+        return $this->gatherMissingFromMethod('drivers');
+    }
 }

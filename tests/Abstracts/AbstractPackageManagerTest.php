@@ -5,10 +5,10 @@ use Rocketeer\TestCases\RocketeerTestCase;
 
 class AbstractPackageManagerTest extends RocketeerTestCase
 {
-	public function testCanGetManifestPath()
-	{
-		$composer = $this->bash->composer();
+    public function testCanGetManifestPath()
+    {
+        $composer = $this->bash->composer();
 
-		$this->assertEquals($this->app['path.base'].'/'.$composer->getManifest(), $composer->getManifestPath());
-	}
+        $this->assertEquals($this->app['path.base'].'/'.$composer->getManifest(), $composer->getManifestPath());
+    }
 }

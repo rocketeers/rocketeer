@@ -13,47 +13,47 @@ use Rocketeer\Abstracts\AbstractBinary;
 
 class Php extends AbstractBinary
 {
-	/**
-	 * Get an array of default paths to look for
-	 *
-	 * @return string[]
-	 */
-	protected function getKnownPaths()
-	{
-		return ['php'];
-	}
+    /**
+     * Get an array of default paths to look for
+     *
+     * @return string[]
+     */
+    protected function getKnownPaths()
+    {
+        return ['php'];
+    }
 
-	/**
-	 * Get the running version of PHP
-	 *
-	 * @return string
-	 */
-	public function version()
-	{
-		return $this->getCommand(null, null, '-r "print defined(\'HHVM_VERSION\') ? HHVM_VERSION : PHP_VERSION;"');
-	}
+    /**
+     * Get the running version of PHP
+     *
+     * @return string
+     */
+    public function version()
+    {
+        return $this->getCommand(null, null, '-r "print defined(\'HHVM_VERSION\') ? HHVM_VERSION : PHP_VERSION;"');
+    }
 
-	/**
-	 * Get the installed extensions
-	 *
-	 * @return string
-	 */
-	public function extensions()
-	{
-		return $this->getCommand(null, null, ['-m' => null]);
-	}
+    /**
+     * Get the installed extensions
+     *
+     * @return string
+     */
+    public function extensions()
+    {
+        return $this->getCommand(null, null, ['-m' => null]);
+    }
 
-	/**
-	 * Whether this PHP installation is an HHVM one or not
-	 *
-	 * @return bool
-	 */
-	public function isHhvm()
-	{
-		$isHhvm = $this->getCommand(null, null, '-r "print defined(\'HHVM_VERSION\');"');
-		$isHhvm = $this->bash->runRaw($isHhvm);
-		$isHhvm = $isHhvm === '1';
+    /**
+     * Whether this PHP installation is an HHVM one or not
+     *
+     * @return bool
+     */
+    public function isHhvm()
+    {
+        $isHhvm = $this->getCommand(null, null, '-r "print defined(\'HHVM_VERSION\');"');
+        $isHhvm = $this->bash->runRaw($isHhvm);
+        $isHhvm = $isHhvm === '1';
 
-		return $isHhvm;
-	}
+        return $isHhvm;
+    }
 }

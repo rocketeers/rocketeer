@@ -11,17 +11,17 @@ namespace Rocketeer\Interfaces\Strategies;
 
 interface DependenciesStrategyInterface
 {
-	/**
-	 * Install the dependencies
-	 *
-	 * @return boolean
-	 */
-	public function install();
+    /**
+     * Install the dependencies
+     *
+     * @return boolean
+     */
+    public function install();
 
-	/**
-	 * Update the dependencies
-	 *
-	 * @return boolean
-	 */
-	public function update();
+    /**
+     * Update the dependencies
+     *
+     * @return boolean
+     */
+    public function update();
 }

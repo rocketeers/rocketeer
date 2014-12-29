@@ -22,5 +22,5 @@ use Illuminate\Support\Fluent;
  */
 class Job extends Fluent
 {
-	// ...
+    // ...
 }

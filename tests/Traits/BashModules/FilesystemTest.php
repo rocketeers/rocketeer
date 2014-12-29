@@ -5,93 +5,93 @@ use Rocketeer\TestCases\RocketeerTestCase;
 
 class FilesystemTest extends RocketeerTestCase
 {
-	public function testCancelsSymlinkForUnexistingFolders()
-	{
-		$task   = $this->pretendTask();
-		$folder = '{path.storage}/logs';
-		$share  = $task->share($folder);
+    public function testCancelsSymlinkForUnexistingFolders()
+    {
+        $task   = $this->pretendTask();
+        $folder = '{path.storage}/logs';
+        $share  = $task->share($folder);
 
-		$this->assertFalse($share);
-	}
+        $this->assertFalse($share);
+    }
 
-	public function testCanSymlinkFolders()
-	{
-		// Create dummy file
-		$folder = $this->server.'/releases/20000000000000/src';
-		mkdir($folder);
-		file_put_contents($folder.'/foobar.txt', 'test');
+    public function testCanSymlinkFolders()
+    {
+        // Create dummy file
+        $folder = $this->server.'/releases/20000000000000/src';
+        mkdir($folder);
+        file_put_contents($folder.'/foobar.txt', 'test');
 
-		$task     = $this->pretendTask();
-		$folder   = '{path.base}/foobar.txt';
-		$share    = $task->share($folder);
-		$tempLink = $this->server.'/releases/20000000000000//src/foobar.txt-temp';
-		$matcher  = array(
-			sprintf('ln -s %s %s', $this->server.'/shared//src/foobar.txt', $tempLink, $tempLink),
-			sprintf('mv -Tf %s %s', $tempLink, $this->server.'/releases/20000000000000//src/foobar.txt'),
-		);
+        $task     = $this->pretendTask();
+        $folder   = '{path.base}/foobar.txt';
+        $share    = $task->share($folder);
+        $tempLink = $this->server.'/releases/20000000000000//src/foobar.txt-temp';
+        $matcher  = array(
+            sprintf('ln -s %s %s', $this->server.'/shared//src/foobar.txt', $tempLink, $tempLink),
+            sprintf('mv -Tf %s %s', $tempLink, $this->server.'/releases/20000000000000//src/foobar.txt'),
+        );
 
-		$this->assertEquals($matcher, $share);
-	}
+        $this->assertEquals($matcher, $share);
+    }
 
-	public function testCanCreateRelativeSymlinks()
-	{
-		$this->swapConfig(['rocketeer::remote.symlink' => 'relative']);
+    public function testCanCreateRelativeSymlinks()
+    {
+        $this->swapConfig(['rocketeer::remote.symlink' => 'relative']);
 
-		// Create dummy file
-		$folder = $this->server.'/releases/20000000000000/src';
-		mkdir($folder);
-		file_put_contents($folder.'/foobar.txt', 'test');
+        // Create dummy file
+        $folder = $this->server.'/releases/20000000000000/src';
+        mkdir($folder);
+        file_put_contents($folder.'/foobar.txt', 'test');
 
-		$task     = $this->pretendTask();
-		$folder   = '{path.base}/foobar.txt';
-		$share    = $task->share($folder);
-		$tempLink = $this->server.'/releases/20000000000000//src/foobar.txt-temp';
-		$matcher  = array(
-			sprintf('ln -s %s %s', 'shared//src/foobar.txt', $tempLink, $tempLink),
-			sprintf('mv -Tf %s %s', $tempLink, $this->server.'/releases/20000000000000//src/foobar.txt'),
-		);
+        $task     = $this->pretendTask();
+        $folder   = '{path.base}/foobar.txt';
+        $share    = $task->share($folder);
+        $tempLink = $this->server.'/releases/20000000000000//src/foobar.txt-temp';
+        $matcher  = array(
+            sprintf('ln -s %s %s', 'shared//src/foobar.txt', $tempLink, $tempLink),
+            sprintf('mv -Tf %s %s', $tempLink, $this->server.'/releases/20000000000000//src/foobar.txt'),
+        );
 
-		$this->assertEquals($matcher, $share);
-	}
+        $this->assertEquals($matcher, $share);
+    }
 
-	public function testCanOverwriteFolderWithSymlink()
-	{
-		$this->mockOperatingSystem();
+    public function testCanOverwriteFolderWithSymlink()
+    {
+        $this->mockOperatingSystem();
 
-		// Create dummy folders
-		$folderCurrent = $this->server.'/dummy-current';
-		mkdir($folderCurrent);
-		$folderRelease = $this->server.'/dummy-release';
-		mkdir($folderRelease);
+        // Create dummy folders
+        $folderCurrent = $this->server.'/dummy-current';
+        mkdir($folderCurrent);
+        $folderRelease = $this->server.'/dummy-release';
+        mkdir($folderRelease);
 
-		$this->bash->symlink($folderRelease, $folderCurrent);
+        $this->bash->symlink($folderRelease, $folderCurrent);
 
-		clearstatcache();
-		$check = is_dir($folderCurrent) && is_link($folderCurrent);
+        clearstatcache();
+        $check = is_dir($folderCurrent) && is_link($folderCurrent);
 
-		$this->assertTrue($check);
-	}
+        $this->assertTrue($check);
+    }
 
-	public function testCanListContentsOfAFolder()
-	{
-		$contents = $this->task->listContents($this->server);
+    public function testCanListContentsOfAFolder()
+    {
+        $contents = $this->task->listContents($this->server);
 
-		$this->assertContains('current', $contents);
-		$this->assertContains('releases', $contents);
-		$this->assertContains('shared', $contents);
-		$this->assertContains('state.json', $contents);
-	}
+        $this->assertContains('current', $contents);
+        $this->assertContains('releases', $contents);
+        $this->assertContains('shared', $contents);
+        $this->assertContains('state.json', $contents);
+    }
 
-	public function testCanCheckIfFileExists()
-	{
-		$this->assertTrue($this->task->fileExists($this->server));
-		$this->assertFalse($this->task->fileExists($this->server.'/nope'));
-	}
+    public function testCanCheckIfFileExists()
+    {
+        $this->assertTrue($this->task->fileExists($this->server));
+        $this->assertFalse($this->task->fileExists($this->server.'/nope'));
+    }
 
-	public function testDoesntTryToMoveUnexistingFolders()
-	{
-		$this->pretendTask()->move('foobar', 'bazqux');
+    public function testDoesntTryToMoveUnexistingFolders()
+    {
+        $this->pretendTask()->move('foobar', 'bazqux');
 
-		$this->assertEmpty($this->history->getFlattenedOutput());
-	}
+        $this->assertEmpty($this->history->getFlattenedOutput());
+    }
 }

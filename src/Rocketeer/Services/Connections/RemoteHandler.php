@@ -24,122 +24,122 @@ use Symfony\Component\Console\Output\NullOutput;
  */
 class RemoteHandler
 {
-	use HasLocator;
+    use HasLocator;
 
-	/**
-	 * A storage of active connections
-	 *
-	 * @type Connection[]
-	 */
-	protected $active = [];
+    /**
+     * A storage of active connections
+     *
+     * @type Connection[]
+     */
+    protected $active = [];
 
-	/**
-	 * Whether the handler is currently connected to any server
-	 *
-	 * @return boolean
-	 */
-	public function connected()
-	{
-		return (bool) $this->active;
-	}
+    /**
+     * Whether the handler is currently connected to any server
+     *
+     * @return boolean
+     */
+    public function connected()
+    {
+        return (bool) $this->active;
+    }
 
-	/**
-	 * Create a specific connection or the default one
-	 *
-	 * @param string|null $connection
-	 * @param integer     $server
-	 *
-	 * @return Connection
-	 */
-	public function connection($connection = null, $server = 0)
-	{
-		$name   = $connection ?: $this->connections->getConnection();
-		$server = $server ?: $this->connections->getServer();
-		$handle = $this->connections->getHandle($name, $server);
+    /**
+     * Create a specific connection or the default one
+     *
+     * @param string|null $connection
+     * @param integer     $server
+     *
+     * @return Connection
+     */
+    public function connection($connection = null, $server = 0)
+    {
+        $name   = $connection ?: $this->connections->getConnection();
+        $server = $server ?: $this->connections->getServer();
+        $handle = $this->connections->getHandle($name, $server);
 
-		// Check the cache
-		if (isset($this->active[$handle])) {
-			return $this->active[$handle];
-		}
+        // Check the cache
+        if (isset($this->active[$handle])) {
+            return $this->active[$handle];
+        }
 
-		// Create connection
-		$credentials = $this->connections->getServerCredentials($connection, $server);
-		$connection  = $this->makeConnection($name, $credentials);
+        // Create connection
+        $credentials = $this->connections->getServerCredentials($connection, $server);
+        $connection  = $this->makeConnection($name, $credentials);
 
-		// Save to cache
-		$this->active[$handle] = $connection;
+        // Save to cache
+        $this->active[$handle] = $connection;
 
-		return $connection;
-	}
+        return $connection;
+    }
 
-	/**
-	 * @param string $name
-	 * @param array  $credentials
-	 *
-	 * @throws MissingCredentialsException
-	 * @return Connection
-	 */
-	protected function makeConnection($name, array $credentials)
-	{
-		if (!isset($credentials['host']) || !isset($credentials['username'])) {
-			throw new MissingCredentialsException('Host and/or username is required for '.$name);
-		}
+    /**
+     * @param string $name
+     * @param array  $credentials
+     *
+     * @throws MissingCredentialsException
+     * @return Connection
+     */
+    protected function makeConnection($name, array $credentials)
+    {
+        if (!isset($credentials['host']) || !isset($credentials['username'])) {
+            throw new MissingCredentialsException('Host and/or username is required for '.$name);
+        }
 
-		$connection = new Connection(
-			$name,
-			$credentials['host'],
-			$credentials['username'],
-			$this->getAuth($credentials)
-		);
+        $connection = new Connection(
+            $name,
+            $credentials['host'],
+            $credentials['username'],
+            $this->getAuth($credentials)
+        );
 
-		// Set output on connection
-		$output = $this->hasCommand() ? $this->command->getOutput() : new NullOutput();
-		$connection->setOutput($output);
+        // Set output on connection
+        $output = $this->hasCommand() ? $this->command->getOutput() : new NullOutput();
+        $connection->setOutput($output);
 
-		return $connection;
-	}
+        return $connection;
+    }
 
-	/**
-	 * Format the appropriate authentication array payload.
-	 *
-	 * @param array $config
-	 *
-	 * @return array
-	 * @throws InvalidArgumentException
-	 */
-	protected function getAuth(array $config)
-	{
-		if (isset($config['agent']) && $config['agent'] === true) {
-			return ['agent' => true];
-		} elseif (isset($config['key']) && trim($config['key']) !== '') {
-			return ['key' => $config['key'], 'keyphrase' => $config['keyphrase']];
-		} elseif (isset($config['keytext']) && trim($config['keytext']) !== '') {
-			return ['keytext' => $config['keytext']];
-		} elseif (isset($config['password'])) {
-			return ['password' => $config['password']];
-		}
+    /**
+     * Format the appropriate authentication array payload.
+     *
+     * @param array $config
+     *
+     * @return array
+     * @throws InvalidArgumentException
+     */
+    protected function getAuth(array $config)
+    {
+        if (isset($config['agent']) && $config['agent'] === true) {
+            return ['agent' => true];
+        } elseif (isset($config['key']) && trim($config['key']) !== '') {
+            return ['key' => $config['key'], 'keyphrase' => $config['keyphrase']];
+        } elseif (isset($config['keytext']) && trim($config['keytext']) !== '') {
+            return ['keytext' => $config['keytext']];
+        } elseif (isset($config['password'])) {
+            return ['password' => $config['password']];
+        }
 
-		throw new MissingCredentialsException('Password / key is required.');
-	}
+        throw new MissingCredentialsException('Password / key is required.');
+    }
 
-	/**
-	 * Dynamically pass methods to the default connection.
-	 *
-	 * @param string $method
-	 * @param array  $parameters
-	 *
-	 * @throws \Rocketeer\Exceptions\ConnectionException
-	 * @return mixed
-	 */
-	public function __call($method, $parameters)
-	{
-		try {
-			return call_user_func_array([$this->connection(), $method], $parameters);
-		} catch (Exception $exception) {
-			$exception = new ConnectionException($exception->getMessage());
-			$exception->setCredentials($this->connections->getServerCredentials());
+    /**
+     * Dynamically pass methods to the default connection.
+     *
+     * @param string $method
+     * @param array  $parameters
+     *
+     * @throws \Rocketeer\Exceptions\ConnectionException
+     * @return mixed
+     */
+    public function __call($method, $parameters)
+    {
+        try {
+            return call_user_func_array([$this->connection(), $method], $parameters);
+        } catch (Exception $exception) {
+            $exception = new ConnectionException($exception->getMessage());
+            $exception->setCredentials($this->connections->getServerCredentials());
 
-			throw $exception;
-		}
-	}
+            throw $exception;
+        }
+    }
 }

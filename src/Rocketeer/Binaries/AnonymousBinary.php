@@ -16,5 +16,5 @@ use Rocketeer\Abstracts\AbstractBinary;
  */
 class AnonymousBinary extends AbstractBinary
 {
-	// ...
+    // ...
 }

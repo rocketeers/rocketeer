@@ -17,10 +17,10 @@ namespace Rocketeer\Facades;
  */
 class Console extends StandaloneFacade
 {
-	/**
-	 * The class to fetch from the container
-	 *
-	 * @var string
-	 */
-	protected static $accessor = 'rocketeer.console';
+    /**
+     * The class to fetch from the container
+     *
+     * @var string
+     */
+    protected static $accessor = 'rocketeer.console';
 }

@@ -22,186 +22,186 @@ use Symfony\Component\Finder\Finder;
  */
 class Compiler
 {
-	/**
-	 * The current Box instance
-	 *
-	 * @var Box
-	 */
-	protected $box;
+    /**
+     * The current Box instance
+     *
+     * @var Box
+     */
+    protected $box;
 
-	/**
-	 * The Filesystem instance
-	 *
-	 * @var Filesystem
-	 */
-	protected $files;
+    /**
+     * The Filesystem instance
+     *
+     * @var Filesystem
+     */
+    protected $files;
 
-	/**
-	 * The path where the PHAR
-	 * will go when compiled
-	 *
-	 * @type string
-	 */
-	protected $folder;
+    /**
+     * The path where the PHAR
+     * will go when compiled
+     *
+     * @type string
+     */
+    protected $folder;
 
-	/**
-	 * The path to the final phar
-	 *
-	 * @var string
-	 */
-	protected $phar;
+    /**
+     * The path to the final phar
+     *
+     * @var string
+     */
+    protected $phar;
 
-	/**
-	 * Path to the binaries folder
-	 *
-	 * @type string
-	 */
-	protected $binary;
+    /**
+     * Path to the binaries folder
+     *
+     * @type string
+     */
+    protected $binary;
 
-	/**
-	 * Name of the PHAR
-	 *
-	 * @type string
-	 */
-	protected $name;
+    /**
+     * Name of the PHAR
+     *
+     * @type string
+     */
+    protected $name;
 
-	/**
-	 * Dependencies to exclude
-	 *
-	 * @type array
-	 */
-	protected $dependencies;
+    /**
+     * Dependencies to exclude
+     *
+     * @type array
+     */
+    protected $dependencies;
 
-	/**
-	 * Values to replace
-	 *
-	 * @type array
-	 */
-	protected $values;
+    /**
+     * Values to replace
+     *
+     * @type array
+     */
+    protected $values;
 
-	/**
-	 * Build a new Compiler instance
-	 *
-	 * @param string   $folder
-	 * @param string   $name
-	 * @param string[] $dependencies
-	 */
-	public function __construct($folder, $name, $dependencies = [])
-	{
-		$this->files = new Filesystem();
-		$this->phar  = $folder.'/'.$name.'.phar';
+    /**
+     * Build a new Compiler instance
+     *
+     * @param string   $folder
+     * @param string   $name
+     * @param string[] $dependencies
+     */
+    public function __construct($folder, $name, $dependencies = [])
+    {
+        $this->files = new Filesystem();
+        $this->phar  = $folder.'/'.$name.'.phar';
 
-		$this->folder       = $folder;
-		$this->name         = $name;
-		$this->dependencies = $dependencies;
-	}
+        $this->folder       = $folder;
+        $this->name         = $name;
+        $this->dependencies = $dependencies;
+    }
 
-	/**
-	 * @param array $values
-	 */
-	public function setValues($values)
-	{
-		$this->values = $values;
-	}
+    /**
+     * @param array $values
+     */
+    public function setValues($values)
+    {
+        $this->values = $values;
+    }
 
-	/**
-	 * Extract an existing Phar
-	 *
-	 * @param string $destination
-	 */
-	public function extract($destination)
-	{
-		// Recompile phar archive
-		$this->compile();
+    /**
+     * Extract an existing Phar
+     *
+     * @param string $destination
+     */
+    public function extract($destination)
+    {
+        // Recompile phar archive
+        $this->compile();
 
-		// Remove any already extracted archive
-		if (file_exists($destination)) {
-			$this->files->deleteDirectory($destination);
-		}
+        // Remove any already extracted archive
+        if (file_exists($destination)) {
+            $this->files->deleteDirectory($destination);
+        }
 
-		$phar = new Phar($this->phar);
-		$phar->extractTo($destination);
-	}
+        $phar = new Phar($this->phar);
+        $phar->extractTo($destination);
+    }
 
-	/**
-	 * Compile the final PHAR
-	 *
-	 * @return string Path to the created phar
-	 */
-	public function compile()
-	{
-		// Remove existing PHAR
-		if (file_exists($this->phar)) {
-			unlink($this->phar);
-		}
+    /**
+     * Compile the final PHAR
+     *
+     * @return string Path to the created phar
+     */
+    public function compile()
+    {
+        // Remove existing PHAR
+        if (file_exists($this->phar)) {
+            unlink($this->phar);
+        }
 
-		// Store some path variables
-		$root   = $this->folder.'/..';
-		$src    = $root.'/src';
-		$vendor = $root.'/vendor';
+        // Store some path variables
+        $root   = $this->folder.'/..';
+        $src    = $root.'/src';
+        $vendor = $root.'/vendor';
 
-		// Create Box
-		$this->box = Box::create($this->phar, 0, basename($this->phar));
+        // Create Box
+        $this->box = Box::create($this->phar, 0, basename($this->phar));
 
-		// Replace values
-		if ($this->values) {
-			$this->box->setValues($this->values);
-		}
+        // Replace values
+        if ($this->values) {
+            $this->box->setValues($this->values);
+        }
 
-		// Add compactors
-		$this->box->addCompactor(new WhitespaceCompactor());
+        // Add compactors
+        $this->box->addCompactor(new WhitespaceCompactor());
 
-		// Add core files and dependencies
-		$this->addFolder($src);
-		$this->addFolder($vendor, $this->dependencies);
+        // Add core files and dependencies
+        $this->addFolder($src);
+        $this->addFolder($vendor, $this->dependencies);
 
-		// Add binary
-		$binary = file_get_contents($root.'/bin/'.$this->name);
-		$binary = str_replace('#!/usr/bin/env php', null, $binary);
-		$this->box->addFromString('bin/'.$this->name, $binary);
+        // Add binary
+        $binary = file_get_contents($root.'/bin/'.$this->name);
+        $binary = str_replace('#!/usr/bin/env php', null, $binary);
+        $this->box->addFromString('bin/'.$this->name, $binary);
 
-		// Set stub
-		$this->setStub();
+        // Set stub
+        $this->setStub();
 
-		return $this->phar;
-	}
+        return $this->phar;
+    }
 
-	////////////////////////////////////////////////////////////////////
-	/////////////////////////////// HELPERS ////////////////////////////
-	////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+    /////////////////////////////// HELPERS ////////////////////////////
+    ////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Set the stub to use
-	 */
-	protected function setStub()
-	{
-		$stub = StubGenerator::create()->index('bin/'.$this->name)->generate();
+    /**
+     * Set the stub to use
+     */
+    protected function setStub()
+    {
+        $stub = StubGenerator::create()->index('bin/'.$this->name)->generate();
 
-		$this->box->getPhar()->setStub($stub);
-	}
+        $this->box->getPhar()->setStub($stub);
+    }
 
-	/**
-	 * Add a folder to the PHAR
-	 *
-	 * @param string   $folder
-	 * @param string[] $ignore
-	 *
-	 * @return string[]
-	 */
-	protected function addFolder($folder, array $ignore = array())
-	{
-		$finder = new Finder();
-		$finder = $finder->files()->ignoreVCS(true)->name('/\.(php|exe)/')->in($folder);
+    /**
+     * Add a folder to the PHAR
+     *
+     * @param string   $folder
+     * @param string[] $ignore
+     *
+     * @return string[]
+     */
+    protected function addFolder($folder, array $ignore = array())
+    {
+        $finder = new Finder();
+        $finder = $finder->files()->ignoreVCS(true)->name('/\.(php|exe)/')->in($folder);
 
-		// Ignore some files or folders
-		if ($ignore) {
-			foreach ($ignore as $file) {
-				$finder->exclude($file);
-			}
-		}
+        // Ignore some files or folders
+        if ($ignore) {
+            foreach ($ignore as $file) {
+                $finder->exclude($file);
+            }
+        }
 
-		$this->box->buildFromIterator($finder, dirname($folder));
+        $this->box->buildFromIterator($finder, dirname($folder));
 
-		return iterator_to_array($finder);
-	}
+        return iterator_to_array($finder);
+    }
 }

@@ -18,36 +18,36 @@ use Rocketeer\Tasks\Subtasks\Notify;
  */
 abstract class AbstractNotifier extends AbstractPlugin
 {
-	/**
-	 * Register Tasks with Rocketeer
-	 *
-	 * @param \Rocketeer\Services\TasksHandler $queue
-	 */
-	public function onQueue(TasksHandler $queue)
-	{
-		// Create the task instance
-		$notify = new Notify($this->app);
-		$notify->setNotifier($this);
+    /**
+     * Register Tasks with Rocketeer
+     *
+     * @param \Rocketeer\Services\TasksHandler $queue
+     */
+    public function onQueue(TasksHandler $queue)
+    {
+        // Create the task instance
+        $notify = new Notify($this->app);
+        $notify->setNotifier($this);
 
-		$queue->addTaskListeners('deploy', 'before', [clone $notify], -10, true);
-		$queue->addTaskListeners('deploy', 'after', [clone $notify], -10, true);
-	}
+        $queue->addTaskListeners('deploy', 'before', [clone $notify], -10, true);
+        $queue->addTaskListeners('deploy', 'after', [clone $notify], -10, true);
+    }
 
-	/**
-	 * Send a given message
-	 *
-	 * @param string $message
-	 *
-	 * @return void
-	 */
-	abstract public function send($message);
+    /**
+     * Send a given message
+     *
+     * @param string $message
+     *
+     * @return void
+     */
+    abstract public function send($message);
 
-	/**
-	 * Get the default message format
-	 *
-	 * @param string $message The message handle
-	 *
-	 * @return string
-	 */
-	abstract public function getMessageFormat($message);
+    /**
+     * Get the default message format
+     *
+     * @param string $message The message handle
+     *
+     * @return string
+     */
+    abstract public function getMessageFormat($message);
 }

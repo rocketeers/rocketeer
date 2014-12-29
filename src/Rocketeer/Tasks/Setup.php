@@ -18,78 +18,78 @@ use Rocketeer\Abstracts\AbstractTask;
  */
 class Setup extends AbstractTask
 {
-	/**
-	 * A description of what the task does
-	 *
-	 * @var string
-	 */
-	protected $description = 'Set up the remote server for deployment';
+    /**
+     * A description of what the task does
+     *
+     * @var string
+     */
+    protected $description = 'Set up the remote server for deployment';
 
-	/**
-	 * Whether the task needs to be run on each stage or globally
-	 *
-	 * @var boolean
-	 */
-	public $usesStages = false;
+    /**
+     * Whether the task needs to be run on each stage or globally
+     *
+     * @var boolean
+     */
+    public $usesStages = false;
 
-	/**
-	 * Run the task
-	 *
-	 * @return string|false|null
-	 */
-	public function execute()
-	{
-		// Check if requirements are met
-		if ($this->executeTask('Check') === false && !$this->getOption('pretend')) {
-			return false;
-		}
+    /**
+     * Run the task
+     *
+     * @return string|false|null
+     */
+    public function execute()
+    {
+        // Check if requirements are met
+        if ($this->executeTask('Check') === false && !$this->getOption('pretend')) {
+            return false;
+        }
 
-		// Create base folder
-		$this->createFolder();
-		$this->createStages();
+        // Create base folder
+        $this->createFolder();
+        $this->createStages();
 
-		// Set setup to true
-		$this->localStorage->set('is_setup', true);
+        // Set setup to true
+        $this->localStorage->set('is_setup', true);
 
-		// Get server informations
-		$this->explainer->line('Getting some informations about the server');
-		$this->environment->getSeparator();
-		$this->environment->getLineEndings();
+        // Get server informations
+        $this->explainer->line('Getting some informations about the server');
+        $this->environment->getSeparator();
+        $this->environment->getLineEndings();
 
-		// Create confirmation message
-		$application = $this->rocketeer->getApplicationName();
-		$homeFolder  = $this->paths->getHomeFolder();
-		$message     = sprintf('Successfully setup "%s" at "%s"', $application, $homeFolder);
+        // Create confirmation message
+        $application = $this->rocketeer->getApplicationName();
+        $homeFolder  = $this->paths->getHomeFolder();
+        $message     = sprintf('Successfully setup "%s" at "%s"', $application, $homeFolder);
 
-		return $this->explainer->success($message);
-	}
+        return $this->explainer->success($message);
+    }
 
-	////////////////////////////////////////////////////////////////////
-	/////////////////////////////// HELPERS ////////////////////////////
-	////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+    /////////////////////////////// HELPERS ////////////////////////////
+    ////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Create the Application's folders
-	 */
-	protected function createStages()
-	{
-		// Get stages
-		$availableStages = $this->connections->getStages();
-		$originalStage   = $this->connections->getStage();
-		if (empty($availableStages)) {
-			$availableStages = [null];
-		}
+    /**
+     * Create the Application's folders
+     */
+    protected function createStages()
+    {
+        // Get stages
+        $availableStages = $this->connections->getStages();
+        $originalStage   = $this->connections->getStage();
+        if (empty($availableStages)) {
+            $availableStages = [null];
+        }
 
-		// Create folders
-		foreach ($availableStages as $stage) {
-			$this->connections->setStage($stage);
-			$this->createFolder('releases', true);
-			$this->createFolder('current', true);
-			$this->createFolder('shared', true);
-		}
+        // Create folders
+        foreach ($availableStages as $stage) {
+            $this->connections->setStage($stage);
+            $this->createFolder('releases', true);
+            $this->createFolder('current', true);
+            $this->createFolder('shared', true);
+        }
 
-		if ($originalStage) {
-			$this->connections->setStage($originalStage);
-		}
-	}
+        if ($originalStage) {
+            $this->connections->setStage($originalStage);
+        }
+    }
 }

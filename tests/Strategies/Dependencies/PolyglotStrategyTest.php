@@ -5,25 +5,25 @@ use Rocketeer\TestCases\RocketeerTestCase;
 
 class PolyglotStrategyTest extends RocketeerTestCase
 {
-	public function testCanInstallAllDependencies()
-	{
-		$this->pretend();
+    public function testCanInstallAllDependencies()
+    {
+        $this->pretend();
 
-		$this->usesComposer(true);
-		$this->files->put($this->server.'/current/Gemfile', '');
+        $this->usesComposer(true);
+        $this->files->put($this->server.'/current/Gemfile', '');
 
-		$polyglot = $this->builder->buildStrategy('Dependencies', 'Polyglot');
-		$polyglot->install();
+        $polyglot = $this->builder->buildStrategy('Dependencies', 'Polyglot');
+        $polyglot->install();
 
-		$this->assertHistory(array(
-			array(
-				'cd {server}/releases/{release}',
-				'{bundle} install',
-			),
-			array(
-				'cd {server}/releases/{release}',
-				'{composer} install --no-interaction --no-dev --prefer-dist',
-			),
-		));
-	}
+        $this->assertHistory(array(
+            array(
+                'cd {server}/releases/{release}',
+                '{bundle} install',
+            ),
+            array(
+                'cd {server}/releases/{release}',
+                '{composer} install --no-interaction --no-dev --prefer-dist',
+            ),
+        ));
+    }
 }

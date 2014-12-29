@@ -18,25 +18,25 @@ use Rocketeer\Abstracts\AbstractTask;
  */
 class Test extends AbstractTask
 {
-	/**
-	 * A description of what the task does
-	 *
-	 * @var string
-	 */
-	protected $description = 'Run the tests on the server and displays the output';
+    /**
+     * A description of what the task does
+     *
+     * @var string
+     */
+    protected $description = 'Run the tests on the server and displays the output';
 
-	/**
-	 * Run the task
-	 *
-	 * @return boolean
-	 */
-	public function execute()
-	{
-		$tester = $this->getStrategy('Test');
-		if (!$tester) {
-			return true;
-		}
+    /**
+     * Run the task
+     *
+     * @return boolean
+     */
+    public function execute()
+    {
+        $tester = $this->getStrategy('Test');
+        if (!$tester) {
+            return true;
+        }
 
-		return $tester->test();
-	}
+        return $tester->test();
+    }
 }

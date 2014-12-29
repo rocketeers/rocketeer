@@ -18,26 +18,26 @@ use Rocketeer\Rocketeer;
  */
 class RocketeerCommand extends DeployCommand
 {
-	/**
-	 * The console command name.
-	 *
-	 * @var string
-	 */
-	protected $name = 'deploy';
+    /**
+     * The console command name.
+     *
+     * @var string
+     */
+    protected $name = 'deploy';
 
-	/**
-	 * Displays the current version
-	 */
-	public function fire()
-	{
-		$this->laravel->instance('rocketeer.command', $this);
+    /**
+     * Displays the current version
+     */
+    public function fire()
+    {
+        $this->laravel->instance('rocketeer.command', $this);
 
-		// Display version
-		if ($this->option('version')) {
-			return $this->line('<info>Rocketeer</info> version <comment>'.Rocketeer::VERSION.'</comment>');
-		}
+        // Display version
+        if ($this->option('version')) {
+            return $this->line('<info>Rocketeer</info> version <comment>'.Rocketeer::VERSION.'</comment>');
+        }
 
-		// Else run the Deploy task
-		return parent::fire();
-	}
+        // Else run the Deploy task
+        return parent::fire();
+    }
 }

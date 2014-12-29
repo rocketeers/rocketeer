@@ -18,41 +18,41 @@ use Rocketeer\Abstracts\AbstractCommand;
  */
 class StrategiesCommand extends AbstractCommand
 {
-	/**
-	 * The console command name.
-	 *
-	 * @var string
-	 */
-	protected $name = 'strategies';
+    /**
+     * The console command name.
+     *
+     * @var string
+     */
+    protected $name = 'strategies';
 
-	/**
-	 * The console command description.
-	 *
-	 * @var string
-	 */
-	protected $description = 'Lists the available options for each strategy';
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Lists the available options for each strategy';
 
-	/**
-	 * Run the tasks
-	 */
-	public function fire()
-	{
-		$strategies = array(
-			'check'        => ['Php', 'Ruby', 'Node', 'Polyglot'],
-			'deploy'       => ['Clone', 'Copy', 'Sync'],
-			'test'         => ['Phpunit'],
-			'migrate'      => ['Artisan'],
-			'dependencies' => ['Composer', 'Bundler', 'Npm', 'Bower', 'Polyglot'],
-		);
+    /**
+     * Run the tasks
+     */
+    public function fire()
+    {
+        $strategies = array(
+            'check'        => ['Php', 'Ruby', 'Node', 'Polyglot'],
+            'deploy'       => ['Clone', 'Copy', 'Sync'],
+            'test'         => ['Phpunit'],
+            'migrate'      => ['Artisan'],
+            'dependencies' => ['Composer', 'Bundler', 'Npm', 'Bower', 'Polyglot'],
+        );
 
-		$rows = [];
-		foreach ($strategies as $strategy => $implementations) {
-			foreach ($implementations as $implementation) {
-				$instance = $this->laravel['rocketeer.builder']->buildStrategy($strategy, $implementation);
-				$rows[]   = [$strategy, $implementation, $instance->getDescription()];
-			}
-		}
+        $rows = [];
+        foreach ($strategies as $strategy => $implementations) {
+            foreach ($implementations as $implementation) {
+                $instance = $this->laravel['rocketeer.builder']->buildStrategy($strategy, $implementation);
+                $rows[]   = [$strategy, $implementation, $instance->getDescription()];
+            }
+        }
 
-		$this->table(['Strategy', 'Implementation', 'Description'], $rows);
-	}
+        $this->table(['Strategy', 'Implementation', 'Description'], $rows);
+    }
 }

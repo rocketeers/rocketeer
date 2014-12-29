@@ -17,10 +17,10 @@ namespace Rocketeer\Facades;
  */
 class Rocketeer extends StandaloneFacade
 {
-	/**
-	 * The class to fetch from the container
-	 *
-	 * @var string
-	 */
-	protected static $accessor = 'rocketeer.tasks';
+    /**
+     * The class to fetch from the container
+     *
+     * @var string
+     */
+    protected static $accessor = 'rocketeer.tasks';
 }
