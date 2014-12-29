@@ -9,7 +9,6 @@
  */
 namespace Rocketeer\Console;
 
-use DateTime;
 use Illuminate\Console\Application;
 use Rocketeer\Rocketeer;
 
