@@ -169,7 +169,7 @@ class QueueExplainer
         $strings = $strings ? max($strings) : 0;
 
         // Cache value
-        $this->longest = $strings + 1;
+        $this->longest = $strings;
 
         return $this->longest;
     }

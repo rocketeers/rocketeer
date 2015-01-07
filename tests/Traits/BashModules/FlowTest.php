@@ -14,4 +14,13 @@ class FlowTest extends RocketeerTestCase
             'cp -a {server}/releases/10000000000000/foobar {server}/releases/20000000000000/foobar',
         ));
     }
+
+    public function testCanCheckIfUsesStages()
+    {
+        $this->config->set('rocketeer::stages.stages', ['foobar']);
+        $this->assertTrue($this->task('Deploy')->usesStages());
+
+        $this->config->set('rocketeer::stages.stages', []);
+        $this->assertFalse($this->task('Deploy')->usesStages());
+    }
 }
