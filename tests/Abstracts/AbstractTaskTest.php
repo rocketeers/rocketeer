@@ -135,7 +135,7 @@ class AbstractTaskTest extends RocketeerTestCase
             },
             function () {
                 echo 'foobar';
-            }
+            },
         ));
     }
 

@@ -50,7 +50,7 @@ class SvnTest extends RocketeerTestCase
             return $mock
                 ->shouldReceive('getRepositoryCredentials')->once()->andReturn([
                     'username' => 'foo',
-                    'password' => 'bar'
+                    'password' => 'bar',
                 ])
                 ->shouldReceive('getRepositoryEndpoint')->once()->andReturn('http://github.com/my/repository')
                 ->shouldReceive('getRepositoryBranch')->once()->andReturn('develop');
@@ -67,7 +67,7 @@ class SvnTest extends RocketeerTestCase
             return $mock
                 ->shouldReceive('getRepositoryCredentials')->once()->andReturn([
                     'username' => 'foo',
-                    'password' => 'bar'
+                    'password' => 'bar',
                 ])
                 ->shouldReceive('getRepositoryEndpoint')->once()->andReturn('http://github.com/my/repository')
                 ->shouldReceive('getRepositoryBranch')->once()->andReturn('develop');
@@ -84,7 +84,7 @@ class SvnTest extends RocketeerTestCase
             return $mock
                 ->shouldReceive('getRepositoryCredentials')->once()->andReturn([
                     'username' => 'foo',
-                    'password' => 'bar'
+                    'password' => 'bar',
                 ])
                 ->shouldReceive('getRepositoryEndpoint')->once()->andReturn('http://foo:bar@github.com/my/repository')
                 ->shouldReceive('getRepositoryBranch')->once()->andReturn('develop');
@@ -98,7 +98,7 @@ class SvnTest extends RocketeerTestCase
             return $mock
                 ->shouldReceive('getRepositoryCredentials')->once()->andReturn([
                     'username' => 'foo',
-                    'password' => null
+                    'password' => null,
                 ])
                 ->shouldReceive('getRepositoryEndpoint')->once()->andReturn('http://foo@github.com/my/repository')
                 ->shouldReceive('getRepositoryBranch')->once()->andReturn('develop');
@@ -115,7 +115,7 @@ class SvnTest extends RocketeerTestCase
             return $mock
                 ->shouldReceive('getRepositoryCredentials')->once()->andReturn([
                     'username' => 'foo',
-                    'password' => 'bar'
+                    'password' => 'bar',
                 ])
                 ->shouldReceive('getRepositoryEndpoint')->once()->andReturn('url://user:login@example.com/test')
                 ->shouldReceive('getRepositoryBranch')->once()->andReturn('trunk@1234');

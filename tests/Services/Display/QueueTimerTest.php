@@ -25,6 +25,5 @@ class QueueTimerTest extends RocketeerTestCase
 
         $time = $this->timer->getTaskTime($task);
         $this->assertNull($time);
-
     }
 }

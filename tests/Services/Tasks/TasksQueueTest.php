@@ -6,7 +6,6 @@ use Rocketeer\TestCases\RocketeerTestCase;
 
 class TasksQueueTest extends RocketeerTestCase
 {
-
     public function testCanRunQueue()
     {
         $this->swapConfig(array(

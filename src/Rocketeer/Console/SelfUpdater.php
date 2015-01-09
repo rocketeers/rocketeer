@@ -42,9 +42,9 @@ class SelfUpdater
     protected $output;
 
     /**
-     * @param Container $app
-     * @param string    $current
-     * @param string    $version
+     * @param Container   $app
+     * @param string      $current
+     * @param string|null $version
      */
     public function __construct(Container $app, $current, $version = null)
     {
@@ -123,7 +123,7 @@ class SelfUpdater
      *
      * @param string $newFilename
      *
-     * @return Exception
+     * @return null|PharException|UnexpectedValueException
      * @throws Exception
      */
     protected function updateBinary($newFilename)

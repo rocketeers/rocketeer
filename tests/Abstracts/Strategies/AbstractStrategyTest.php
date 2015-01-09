@@ -23,9 +23,9 @@ class AbstractStrategyTest extends RocketeerTestCase
         $this->expectOutputRegex('#<fg=cyan>\w+</fg=cyan> \| <info>Deploy/Clone</info> <comment>\(.+\)</comment>#');
 
         $this->mock('rocketeer.command', 'Command', function (MockInterface $mock) {
-           return $mock->shouldReceive('line')->andReturnUsing(function ($input) {
-               echo $input;
-           });
+            return $mock->shouldReceive('line')->andReturnUsing(function ($input) {
+                echo $input;
+            });
         });
 
         $strategy = $this->builder->buildStrategy('Deploy', 'Clone');

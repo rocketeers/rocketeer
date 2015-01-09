@@ -121,7 +121,7 @@ class ConnectionsHandlerTest extends RocketeerTestCase
     {
         $this->config->set('rocketeer::scm.branch', null);
         $this->mock('rocketeer.bash', 'Bash', function (MockInterface $mock) {
-           return $mock->shouldReceive('onLocal')->andReturn('  foobar  ');
+            return $mock->shouldReceive('onLocal')->andReturn('  foobar  ');
         });
 
         $this->assertEquals('foobar', $this->connections->getRepositoryBranch());

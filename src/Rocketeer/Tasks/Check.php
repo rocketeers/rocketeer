@@ -7,6 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Tasks;
 
 use Rocketeer\Abstracts\AbstractTask;
@@ -18,7 +19,6 @@ use Rocketeer\Abstracts\AbstractTask;
  */
 class Check extends AbstractTask
 {
-
     /**
      * A description of what the task does
      *

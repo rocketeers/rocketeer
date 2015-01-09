@@ -7,6 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Traits\BashModules;
 
 /**
@@ -152,7 +153,7 @@ trait Filesystem
      *
      * @param string $folder
      *
-     * @return  string
+     * @return string
      */
     public function setPermissions($folder)
     {
@@ -276,17 +277,17 @@ trait Filesystem
      *
      * @param string $command
      * @param string $from
-     * @param string $to
+     * @param string $destination
      *
      * @return string
      */
-    protected function fromTo($command, $from, $to)
+    protected function fromTo($command, $from, $destination)
     {
-        $folder = dirname($to);
+        $folder = dirname($destination);
         if (!$this->fileExists($folder)) {
             $this->createFolder($folder, true);
         }
 
-        return $this->run(sprintf('%s %s %s', $command, $from, $to));
+        return $this->run(sprintf('%s %s %s', $command, $from, $destination));
     }
 }

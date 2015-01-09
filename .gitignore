@@ -3,6 +3,7 @@
 bin/phar
 bin/rocketeer.phar
 composer.lock
+src/.php_cs.cache
 
 # Tests
 humbuglog.txt

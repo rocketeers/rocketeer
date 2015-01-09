@@ -11,16 +11,16 @@ class QueueExplainerTest extends RocketeerTestCase
         parent::setUp();
 
         $this->mock('rocketeer.command', 'Command', function (MockInterface $mock) {
-           return $mock->shouldReceive('line')->andReturnUsing(function ($input) {
-              echo $input;
-           });
+            return $mock->shouldReceive('line')->andReturnUsing(function ($input) {
+                echo $input;
+            });
         });
     }
 
     public function testDoesntDisplayHandleIfOnlyOneConnection()
     {
         $this->config->set('remote.connections', array(
-           'production' => [],
+            'production' => [],
         ));
 
         $this->expectOutputString('|=> foobar');
@@ -38,7 +38,6 @@ class QueueExplainerTest extends RocketeerTestCase
         $this->expectOutputString('|=> foobar');
 
         $this->explainer->line('foobar');
-
     }
 
     public function testDisplayHandleIfMultipleStages()
@@ -83,8 +82,8 @@ class QueueExplainerTest extends RocketeerTestCase
         );
 
         $this->explainer->line('foo');
-        $this->explainer->displayBelow(function() {
-           $this->explainer->line('bar');
+        $this->explainer->displayBelow(function () {
+            $this->explainer->line('bar');
         });
         $this->explainer->line('foo');
     }

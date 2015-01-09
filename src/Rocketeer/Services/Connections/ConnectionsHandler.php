@@ -7,6 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services\Connections;
 
 use Illuminate\Support\Arr;
@@ -465,8 +466,8 @@ class ConnectionsHandler
         }
 
         // Compute the fallback branch
-        $fallback = $this->bash->onLocal(function() {
-           return $this->scm->runSilently('currentBranch');
+        $fallback = $this->bash->onLocal(function () {
+            return $this->scm->runSilently('currentBranch');
         });
         $fallback = $fallback ?: 'master';
         $fallback = trim($fallback);
