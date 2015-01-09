@@ -13,7 +13,7 @@ class QueueTimerTest extends RocketeerTestCase
         });
 
         $time = (string) $this->timer->getTaskTime($task);
-        $this->assertRegExp('#\d\.\d{2}#', $time);
+        $this->assertRegExp('#\d\.\d{1,2}#', $time);
     }
 
     public function testDoesntSaveTimeOfPretendTasks()
