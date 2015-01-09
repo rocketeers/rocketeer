@@ -115,7 +115,13 @@ class TasksBuilder
             return new $concrete($this->app);
         }
 
-        return $this->app['rocketeer.strategies.'.$handle];
+        // Cancel if no matching strategy instance
+        $handle = 'rocketeer.strategies.'.$handle;
+        if (!$this->app->bound($handle)) {
+            return;
+        }
+
+        return $this->app[$handle];
     }
 
     ////////////////////////////////////////////////////////////////////

@@ -85,4 +85,14 @@ class TasksBuilderTest extends RocketeerTestCase
         $this->assertInstanceOf('Rocketeer\Console\Commands\BaseTaskCommand', $command);
         $this->assertEquals('deploy:ls', $command->getName());
     }
+
+    public function testReturnsNullOnUnbuildableStrategy()
+    {
+        $built = $this->builder->buildStrategy('Check', '');
+        $this->assertInstanceOf('Rocketeer\Strategies\Check\PhpStrategy', $built);
+
+        unset($this->app['rocketeer.strategies.check']);
+        $built = $this->builder->buildStrategy('Check', '');
+        $this->assertNull($built);
+    }
 }
