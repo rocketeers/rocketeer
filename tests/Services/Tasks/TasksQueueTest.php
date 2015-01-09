@@ -46,6 +46,28 @@ class TasksQueueTest extends RocketeerTestCase
         ), $output);
     }
 
+    public function testDoesntSettingStageDefaultsToAll()
+    {
+        $this->swapConfig(array(
+            'rocketeer::stages.default' => [],
+            'rocketeer::stages.stages'  => ['first', 'second'],
+        ));
+
+        $this->assertEquals(['first', 'second'], $this->queue->getStages('production'));
+    }
+
+    public function testCanRunTaskOnAllStages()
+    {
+        $this->mockCommand(array(
+            'stage' => 'all',
+        ));
+        $this->swapConfig(array(
+            'rocketeer::stages.stages' => ['first', 'second'],
+        ));
+
+        $this->assertEquals(['first', 'second'], $this->queue->getStages('production'));
+    }
+
     public function testCanRunQueueViaExecute()
     {
         $this->swapConfig(array(

@@ -17,6 +17,42 @@ class QueueExplainerTest extends RocketeerTestCase
         });
     }
 
+    public function testDoesntDisplayHandleIfOnlyOneConnection()
+    {
+        $this->config->set('remote.connections', array(
+           'production' => [],
+        ));
+
+        $this->expectOutputString('|=> foobar');
+
+        $this->explainer->line('foobar');
+    }
+
+    public function testDoesntDisplayHandleIfOnlyOneStage()
+    {
+        $this->config->set('remote.connections', array(
+            'production' => [],
+        ));
+        $this->config->set('rocketeer::stages.stages', ['staging']);
+
+        $this->expectOutputString('|=> foobar');
+
+        $this->explainer->line('foobar');
+
+    }
+
+    public function testDisplayHandleIfMultipleStages()
+    {
+        $this->config->set('remote.connections', array(
+            'production' => [],
+        ));
+        $this->config->set('rocketeer::stages.stages', ['staging', 'production']);
+
+        $this->expectOutputString('<fg=cyan>production</fg=cyan>             |=> foobar');
+
+        $this->explainer->line('foobar');
+    }
+
     public function testCanDisplayBasicMessage()
     {
         $this->expectOutputString('<fg=cyan>production</fg=cyan> |=> foobar');
@@ -42,13 +78,15 @@ class QueueExplainerTest extends RocketeerTestCase
     {
         $this->expectOutputString(
             '<fg=cyan>production</fg=cyan> |=> foo'.
-            '<fg=cyan>production</fg=cyan> |===> bar'
+            '<fg=cyan>production</fg=cyan> |===> bar'.
+            '<fg=cyan>production</fg=cyan> |=> foo'
         );
 
         $this->explainer->line('foo');
         $this->explainer->displayBelow(function() {
            $this->explainer->line('bar');
         });
+        $this->explainer->line('foo');
     }
 
     public function testCanDisplayStatus()

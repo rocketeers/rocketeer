@@ -77,8 +77,10 @@ class AbstractTaskTest extends RocketeerTestCase
             },
         ));
 
-        $task = $this->pretendTask('Deploy');
-        $task->fire();
+        $task    = $this->pretendTask('Deploy');
+        $results = $task->fire();
+
+        $this->assertFalse($results);
     }
 
     public function testCanListenToSubtasks()
@@ -95,7 +97,7 @@ class AbstractTaskTest extends RocketeerTestCase
         $this->assertHistory(array(
             'cd {server}/releases/{release}',
             'ls',
-        ), array_get($history, 3));
+        ), array_get($history, 4));
     }
 
     public function testDoesntDuplicateQueuesOnSubtasks()
@@ -121,6 +123,20 @@ class AbstractTaskTest extends RocketeerTestCase
         });
 
         $this->pretendTask('Deploy')->fire();
+    }
+
+    public function testHaltingCancelsQueue()
+    {
+        $this->expectOutputString('');
+
+        $this->queue->run(array(
+            function (AbstractTask $task) {
+                $task->halt('foobar');
+            },
+            function () {
+                echo 'foobar';
+            }
+        ));
     }
 
     public function testCanDisplayReleasesTable()

@@ -1,6 +1,7 @@
 <?php
 namespace Rocketeer\Services\Connections;
 
+use Mockery\MockInterface;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class ConnectionsHandlerTest extends RocketeerTestCase
@@ -113,6 +114,26 @@ class ConnectionsHandlerTest extends RocketeerTestCase
 
     public function testCangetRepositoryBranch()
     {
+        $this->assertEquals('master', $this->connections->getRepositoryBranch());
+    }
+
+    public function testCanExtractCurrentBranchIfNoneSpecified()
+    {
+        $this->config->set('rocketeer::scm.branch', null);
+        $this->mock('rocketeer.bash', 'Bash', function (MockInterface $mock) {
+           return $mock->shouldReceive('onLocal')->andReturn('  foobar  ');
+        });
+
+        $this->assertEquals('foobar', $this->connections->getRepositoryBranch());
+    }
+
+    public function testCanDefaultToMasterIfNoBranchFound()
+    {
+        $this->config->set('rocketeer::scm.branch', null);
+        $this->mock('rocketeer.bash', 'Bash', function (MockInterface $mock) {
+            return $mock->shouldReceive('onLocal')->andReturn(null);
+        });
+
         $this->assertEquals('master', $this->connections->getRepositoryBranch());
     }
 

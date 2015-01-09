@@ -5,6 +5,7 @@ bin/rocketeer.phar
 composer.lock
 
 # Tests
+humbuglog.txt
 tests/_server/foobar
 
 # Dependencies

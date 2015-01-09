@@ -189,7 +189,7 @@ class QueueExplainer
         if ($numberConnections > 1 || $numberStages > 1) {
             $handle  = $this->connections->getHandle();
             $spacing = $this->getLongestSize() - strlen($handle);
-            $spacing = $spacing < 1 ? 1 : $spacing;
+            $spacing = max(1, $spacing);
             $spacing = str_repeat(' ', $spacing);
 
             // Build tree and command

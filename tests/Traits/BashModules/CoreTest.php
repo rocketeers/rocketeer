@@ -1,6 +1,7 @@
 <?php
 namespace Rocketeer\Traits\BashModules;
 
+use Mockery\MockInterface;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class CoreTest extends RocketeerTestCase
@@ -26,6 +27,11 @@ class CoreTest extends RocketeerTestCase
         $status = $this->task('Deploy')->checkStatus('Oh noes', 'git clone');
 
         $this->assertFalse($status);
+    }
+
+    public function testCheckStatusReturnsTrueSuccessful()
+    {
+        $this->assertTrue($this->pretendTask()->checkStatus('Oh noes'));
     }
 
     public function testCanGetTimestampOffServer()
@@ -99,5 +105,35 @@ class CoreTest extends RocketeerTestCase
         $processed = $this->task->processCommands($commands);
 
         $this->assertEquals([$commands], $processed);
+    }
+
+    public function testShowsRawCommandsIfVerboseEnough()
+    {
+        $this->expectOutputString('<fg=magenta>$ ls</fg=magenta>');
+
+        $this->mock('rocketeer.command', 'Command', function (MockInterface $mock) {
+            $mock->shouldReceive('getOutput->getVerbosity')->andReturn(4)->mock();
+
+            return $mock->shouldReceive('line')->andReturnUsing(function ($input) {
+                echo $input;
+            });
+        });
+
+        $this->bash->runRaw('ls');
+    }
+
+    public function testDoesntShowRawCommandsIfVerbosityNotHighEnough()
+    {
+        $this->expectOutputString('');
+
+        $this->mock('rocketeer.command', 'Command', function (MockInterface $mock) {
+            $mock->shouldReceive('getOutput->getVerbosity')->andReturn(1)->mock();
+
+            return $mock->shouldReceive('line')->andReturnUsing(function ($input) {
+                echo $input;
+            });
+        });
+
+        $this->bash->runRaw('ls');
     }
 }
