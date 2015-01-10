@@ -115,6 +115,7 @@ class LocalStorage extends AbstractStorage implements StorageInterface
             ->in($folder)
             ->name('*.php')
             ->notName('/(events|tasks)\.php/')
+            ->sortByName()
             ->files();
 
         // Compute the salts
