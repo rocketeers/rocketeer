@@ -197,7 +197,8 @@ class TasksHandler
         // Register events
         foreach ($listeners as $listener) {
             $listener->setEvent($event);
-            $this->events->listen('rocketeer.'.$event, [$listener, 'fire'], $priority);
+            $handle = $this->getEventHandle($event);
+            $this->events->listen($handle, [$listener, 'fire'], $priority);
         }
 
         return $event;
@@ -233,7 +234,7 @@ class TasksHandler
         }
 
         // Get event name and register listeners
-        $event = $slug.'.'.$event;
+        $event = $this->getEventHandle($slug, $event);
         $event = $this->listenTo($event, $listeners, $priority);
 
         // Store registered event
@@ -257,7 +258,8 @@ class TasksHandler
     {
         // Get events
         $task   = $this->builder->buildTaskFromClass($task)->getSlug();
-        $events = $this->events->getListeners('rocketeer.'.$task.'.'.$event);
+        $handle = $this->getEventHandle($task, $event);
+        $events = $this->events->getListeners($handle);
 
         // Flatten the queue if requested
         foreach ($events as $key => $event) {
@@ -320,5 +322,25 @@ class TasksHandler
 
         // Add hooks to TasksHandler
         $plugin->onQueue($this);
+    }
+
+    //////////////////////////////////////////////////////////////////////
+    ////////////////////////////// HELPERS ///////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+
+    /**
+     * Get the handle of a task
+     *
+     * @param string      $task
+     * @param string|null $event
+     *
+     * @return string
+     */
+    public function getEventHandle($task, $event = null)
+    {
+        // Concatenate task and event if it's not already done
+        $event = $event ? $task.'.'.$event : $task;
+
+        return 'rocketeer.'.$event;
     }
 }
