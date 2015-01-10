@@ -1,6 +1,7 @@
 <?php
 namespace Rocketeer\Services\Storages;
 
+use Mockery\MockInterface;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class LocalStorageTest extends RocketeerTestCase
@@ -32,19 +33,18 @@ class LocalStorageTest extends RocketeerTestCase
 
     public function testCanComputeHashAccordingToContentsOfFiles()
     {
-        $this->mockFiles(function ($mock) {
-            return $mock
-                ->shouldReceive('put')->once()
-                ->shouldReceive('exists')->twice()->andReturn(false)
-                ->shouldReceive('glob')->once()->andReturn(['foo', 'bar'])
-                ->shouldReceive('getRequire')->once()->with('foo')->andReturn(['foo'])
-                ->shouldReceive('getRequire')->once()->with('bar')->andReturn(['bar']);
+        $this->mock('rocketeer.paths', 'Pathfinder', function (MockInterface $mock) {
+           return $mock->shouldReceive('getConfigurationPath')->andReturn($this->server);
         });
+
+        $this->files->put($this->server.'/foo.php', '<?php return ["foo"];');
+        $this->files->put($this->server.'/bar.php', '<?php return ["bar"];');
+        $this->files->put($this->server.'/tasks.php', '<?php return ["tasks"];');
 
         $storage = new LocalStorage($this->app, 'deployments', $this->server);
         $hash    = $storage->getHash();
 
-        $this->assertEquals(md5('["foo"]["bar"]'), $hash);
+        $this->assertEquals(md5('["bar"]["foo"]'), $hash);
     }
 
     public function testCanSwitchFolder()

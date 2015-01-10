@@ -13,6 +13,8 @@ namespace Rocketeer\Services\Storages;
 use Illuminate\Container\Container;
 use Rocketeer\Abstracts\AbstractStorage;
 use Rocketeer\Interfaces\StorageInterface;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 
 /**
  * Provides and persists informations in local
@@ -104,21 +106,22 @@ class LocalStorage extends AbstractStorage implements StorageInterface
         // Get the contents of the configuration folder
         $salt   = '';
         $folder = $this->paths->getConfigurationPath();
-        $files  = (array) $this->files->glob($folder.'/*.php');
-
-        // Remove custom files and folders
-        foreach (['events', 'tasks'] as $handle) {
-            $path  = $this->app['path.rocketeer.'.$handle];
-            $index = array_search($path, $files, true);
-            if ($index !== false) {
-                unset($files[$index]);
-            }
+        if (!is_dir($folder)) {
+            return;
         }
 
+        $finder = new Finder();
+        $files  = $finder
+            ->in($folder)
+            ->name('*.php')
+            ->notName('/(events|tasks)\.php/')
+            ->files();
+
         // Compute the salts
+        /** @type SplFileInfo[] $files */
         foreach ($files as $file) {
-            $file = $this->files->getRequire($file);
-            $salt .= json_encode($file);
+            $contents = $this->files->getRequire($file);
+            $salt .= json_encode($contents);
         }
 
         // Cache it
