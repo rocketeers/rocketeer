@@ -12,6 +12,7 @@ Rocketeer follows the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.ht
 - Added ability to configure the application's path (in case it's not where Rocketeer is being run in)
 - Added ability to configure credentials more in depth: which are always prompted or not, which are saved, etc.
 - Added a `rocketeer selfupdate` command to update to the latest stable version
+- Added **Mercurial** available as an SCM option
 
 ### Fixed
 - Fixed a bug where trying to use an invalid connection would just fallback silently to the default one
@@ -21,6 +22,10 @@ Rocketeer follows the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.ht
 - Fixed an issue where polyglot strategies would keep running after one of their child failed
 - Fixed an issue where the logs filename would get recomputed every call
 - Fixed an issue where using `hostname:port` would fail with the Rsync strategy
+- Fixed an issue where hidden inputs wouldn't work on Windows using the PHAR
+- Fixed an issue where setting a strategy to `''` to skip it would crash
+- Fixed an issue where events would sometimes not fire when passing a stage/connection
+- Fixed an infinite loop issue on Windows
 - Fixed HHVM support
 
 ## [2.0.4] - 2014-12-08

@@ -3,7 +3,7 @@
     // SCM repository
     //////////////////////////////////////////////////////////////////////
 
-    // The SCM used (supported: "git", "svn")
+    // The SCM used (supported: "git", "svn", "hg")
     'scm'        => 'git',
 
     // The SSH/HTTPS address to your repository
