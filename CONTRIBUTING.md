@@ -13,6 +13,6 @@ Coding standards is [Symfony]() (minus the yoda conditions).
 Once you cloned the repository in local, in order to test your changes, two solutions :
 
 - You can execute `php bin/rocketeer` which is what gets compiled as the entry point of the PHAR. This will directly read the files of the repository.
-- You can also compile the PHAR by doing `php bin/compile` which will output to `bin/rocketeer.phar`. In order to compile it you'll need to have the `phar.readonly` set to **On** in your `php.ini`.
+- You can also compile the PHAR by doing `php bin/compile` which will output to `bin/rocketeer.phar`. In order to compile it you'll need to have the `phar.readonly` set to **Off** in your `php.ini`.
 
 [Symfony]: http://symfony.com/doc/current/contributing/code/standards.html
