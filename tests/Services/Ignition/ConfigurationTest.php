@@ -122,6 +122,33 @@ class ConfigurationTest extends RocketeerTestCase
         $this->assertEquals('whoami', $events[0][0]->getStringTask());
     }
 
+    public function testCanProperlyMergeDifferentTypesOfEvents()
+    {
+        $this->config->set('rocketeer::hooks', array(
+           'before' => array(
+             'deploy' => [],
+           ),
+        ));
+
+        $config                 = $this->customConfig;
+        $this->app['path.base'] = dirname($config);
+
+        $this->files->makeDirectory($config, 0755, true);
+        $this->files->put($config.'/tasks.php', <<<EOF
+<?php
+\Rocketeer\Facades\Rocketeer::listenTo('deploy.before', 'foo');
+\Rocketeer\Facades\Rocketeer::listenTo('deploy.before', 'bar');
+EOF
+        );
+
+        $this->igniter->bindPaths();
+        $this->igniter->loadUserConfiguration();
+        $this->tasks->registerConfiguredEvents();
+
+        $events = $this->tasks->getTasksListeners('deploy', 'before', true);
+        $this->assertEquals(['foo', 'bar'], $events);
+    }
+
     public function testCanLoadCustomStrategies()
     {
         $config                 = $this->customConfig;
