@@ -227,6 +227,11 @@ class TasksHandler
             return;
         }
 
+        // Cancel if no listeners
+        if (!$listeners) {
+            return;
+        }
+
         // Prevent events on anonymous tasks
         $slug = $this->builder->buildTask($task)->getSlug();
         if ($slug === 'closure') {
