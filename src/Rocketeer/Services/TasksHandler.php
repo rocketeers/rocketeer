@@ -345,6 +345,7 @@ class TasksHandler
     {
         // Concatenate task and event if it's not already done
         $event = $event ? $task.'.'.$event : $task;
+        $event = str_replace('rocketeer.', null, $event);
 
         return 'rocketeer.'.$event;
     }
