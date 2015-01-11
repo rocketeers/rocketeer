@@ -167,7 +167,7 @@ class TasksHandler
     public function registerConfiguredEvents()
     {
         // Clean previously registered events
-        //$this->clearRegisteredEvents();
+        $this->clearRegisteredEvents();
 
         // Clean previously registered plugins
         $plugins                 = $this->registeredPlugins;
