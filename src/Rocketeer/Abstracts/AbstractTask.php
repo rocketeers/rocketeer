@@ -232,7 +232,7 @@ abstract class AbstractTask extends Bash
      */
     public function getQualifiedEvent($event)
     {
-        return 'rocketeer.'.$this->getSlug().'.'.$event;
+        return $this->tasks->getEventHandle($this->getSlug(), $event);
     }
 
     ////////////////////////////////////////////////////////////////////

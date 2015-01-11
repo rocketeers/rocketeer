@@ -156,7 +156,7 @@ class TasksHandler
     {
         // Clean previously registered events
         foreach ($this->registeredEvents as $event) {
-            $this->events->forget('rocketeer.'.$event);
+            $this->events->forget($event);
         }
 
         // Clean previously registered plugins
