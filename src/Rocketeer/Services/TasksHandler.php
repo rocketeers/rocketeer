@@ -150,14 +150,24 @@ class TasksHandler
     }
 
     /**
+     * Clear the previously registered events
+     */
+    public function clearRegisteredEvents()
+    {
+        foreach ($this->registeredEvents as $event) {
+            $this->events->forget($event);
+        }
+
+        $this->registeredEvents = [];
+    }
+
+    /**
      * Register with the Dispatcher the events in the configuration
      */
     public function registerConfiguredEvents()
     {
         // Clean previously registered events
-        foreach ($this->registeredEvents as $event) {
-            $this->events->forget($event);
-        }
+        //$this->clearRegisteredEvents();
 
         // Clean previously registered plugins
         $plugins                 = $this->registeredPlugins;
