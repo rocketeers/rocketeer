@@ -114,6 +114,7 @@ class LocalStorage extends AbstractStorage implements StorageInterface
         $files  = $finder
             ->in($folder)
             ->name('*.php')
+            ->exclude(['tasks', 'events'])
             ->notName('/(events|tasks)\.php/')
             ->sortByName()
             ->files();

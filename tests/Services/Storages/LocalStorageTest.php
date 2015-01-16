@@ -37,9 +37,11 @@ class LocalStorageTest extends RocketeerTestCase
            return $mock->shouldReceive('getConfigurationPath')->andReturn($this->server);
         });
 
+        $this->files->makeDirectory($this->server.'/tasks');
         $this->files->put($this->server.'/bar.php', '<?php return ["bar"];');
         $this->files->put($this->server.'/foo.php', '<?php return ["foo"];');
         $this->files->put($this->server.'/tasks.php', '<?php return ["tasks"];');
+        $this->files->put($this->server.'/tasks/test123r.php', '<?php return ["tasks"];');
 
         $storage = new LocalStorage($this->app, 'deployments', $this->server);
         $hash    = $storage->getHash();
