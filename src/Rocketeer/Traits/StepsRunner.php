@@ -47,7 +47,7 @@ trait StepsRunner
         $steps = $this->steps()->pullSteps();
         foreach ($steps as $step) {
             list($method, $arguments) = $step;
-            $arguments = (array) $arguments;
+            $arguments                = (array) $arguments;
 
             $results = call_user_func_array([$this, $method], $arguments);
             $results = $results ?: $this->status();

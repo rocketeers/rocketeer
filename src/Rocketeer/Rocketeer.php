@@ -117,7 +117,7 @@ class Rocketeer
      * Get a contextual option
      *
      * @param string            $option
-     * @param string            $type [stage,connection]
+     * @param string            $type     [stage,connection]
      * @param string|array|null $original
      *
      * @return string|array|\Closure
