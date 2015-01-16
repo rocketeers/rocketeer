@@ -91,7 +91,7 @@ class Svn extends AbstractBinary implements ScmInterface
      */
     public function reset()
     {
-        $command = sprintf('status -q | grep -v \'^[~XI ]\' | awk \'{print $2;}\' | xargs %s revert', $this->binary);
+        $command = sprintf('status -q | grep -v \'^[~XI ]\' | awk \'{print $2;}\' | xargs --no-run-if-empty %s revert', $this->binary);
 
         return $this->getCommand($command);
     }
