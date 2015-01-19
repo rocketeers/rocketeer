@@ -94,7 +94,7 @@ class LocalStorage extends AbstractStorage implements StorageInterface
     /**
      * Get the current salt in use
      *
-     * @return string
+     * @return string|null
      */
     public function getHash()
     {
