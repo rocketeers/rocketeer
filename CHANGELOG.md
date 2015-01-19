@@ -7,10 +7,12 @@ Rocketeer follows the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.ht
 ### Added
 - Added `shared_dependencies` option to `Dependencies` task to automatically share dependencies between releases
 - Added a `rocketeer selfupdate` command to update to the latest stable version
+- Added ability for plugins to register additional commands via `AbstractPlugin::onConsole`
 - Added ability to configure credentials more in depth: which are always prompted or not, which are saved, etc.
 - Added ability to configure tasks via `Rocketeer::configure('task', ['option' => 'value'])`
 - Added ability to configure the application's path (in case it's not where Rocketeer is being run in)
 - Added ability to pass allowed servers via flag (eg. `deploy --on="production" --server="1"`)
+- Added ability to tail remote files via `$task->task(file, continuous)`
 - Added ability to use **Mercurial** as an SCM option
 - Added ability to use relative symlinks
 
