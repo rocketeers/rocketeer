@@ -5,30 +5,30 @@ Rocketeer follows the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.ht
 ## [2.1.0] - Unreleased
 
 ### Added
-- Added ability to configure tasks via `Rocketeer::configure('task', ['option' => 'value'])`
-- Added `shared_dependencies` to `Dependencies` task to automatically share dependencies between releases
-- Added ability to use relative symlinks
-- Added ability to pass allowed servers via flag (eg. `deploy --on="production" --server="1"`)
-- Added ability to configure the application's path (in case it's not where Rocketeer is being run in)
-- Added ability to configure credentials more in depth: which are always prompted or not, which are saved, etc.
+- Added `shared_dependencies` option to `Dependencies` task to automatically share dependencies between releases
 - Added a `rocketeer selfupdate` command to update to the latest stable version
-- Added **Mercurial** available as an SCM option
+- Added ability to configure credentials more in depth: which are always prompted or not, which are saved, etc.
+- Added ability to configure tasks via `Rocketeer::configure('task', ['option' => 'value'])`
+- Added ability to configure the application's path (in case it's not where Rocketeer is being run in)
+- Added ability to pass allowed servers via flag (eg. `deploy --on="production" --server="1"`)
+- Added ability to use **Mercurial** as an SCM option
+- Added ability to use relative symlinks
 
 ### Fixed
-- Fixed a bug where trying to use an invalid connection would just fallback silently to the default one
-- Fixed symlink issues on non-GNU/Linux OSes
-- Fixed paths defined in `paths.php` sometimes being ignored
-- Fixed some jobs using the wrong server on multiserver connections
-- Fixed an issue where polyglot strategies would keep running after one of their child failed
-- Fixed an issue where the logs filename would get recomputed every call
-- Fixed an issue where using `hostname:port` would fail with the Rsync strategy
-- Fixed an issue where hidden inputs wouldn't work on Windows using the PHAR
-- Fixed an issue where setting a strategy to `''` to skip it would crash
-- Fixed an issue where events would sometimes not fire when passing a stage/connection
-- Fixed an issue when updating an application with SVN
 - Fixed an infinite loop issue on Windows
+- Fixed an issue when updating an application with SVN
+- Fixed an issue where events would sometimes not fire when passing a stage/connection
+- Fixed an issue where hidden inputs wouldn't work on Windows using the PHAR
+- Fixed an issue where jobs would use the wrong server on multiserver connections
+- Fixed an issue where polyglot strategies would keep running after one of their child failed
 - Fixed an issue where Rocketeer would trust the releases present on one server to deploy to all the other ones
+- Fixed an issue where setting a strategy to `''` to skip it would crash
+- Fixed an issue where the logs filename would get recomputed every call
+- Fixed an issue where trying to use an invalid connection would just fallback silently to the default one
+- Fixed an issue where using `hostname:port` would fail with the Rsync strategy
+- Fixed an issue with symlinks on non-GNU/Linux OSes
 - Fixed HHVM support
+- Fixed paths defined in `paths.php` sometimes being ignored
 
 ## [2.0.4] - 2014-12-08
 
