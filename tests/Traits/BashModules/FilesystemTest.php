@@ -94,4 +94,11 @@ class FilesystemTest extends RocketeerTestCase
 
         $this->assertEmpty($this->history->getFlattenedOutput());
     }
+
+    public function testCanTailFile()
+    {
+        $contents = $this->task()->tail($this->server.'/state.json', false);
+
+        $this->assertEquals(file_get_contents($this->server.'/state.json'), $contents);
+    }
 }

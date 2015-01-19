@@ -218,6 +218,20 @@ trait Filesystem
         $this->getConnection()->put($file, $destination);
     }
 
+    /**
+     * Tail the contents of a file
+     *
+     * @param string  $file
+     * @param boolean $continuous
+     */
+    public function tail($file, $continuous = true)
+    {
+        $continuous = $continuous ? ' -f' : null;
+        $command    = sprintf('tail %s %s', $continuous, $file);
+
+        return $this->run($command);
+    }
+
     ////////////////////////////////////////////////////////////////////
     /////////////////////////////// FOLDERS ////////////////////////////
     ////////////////////////////////////////////////////////////////////
@@ -225,7 +239,7 @@ trait Filesystem
     /**
      * Create a folder in the application's folder
      *
-     * @param string|null $folder    The folder to create
+     * @param string|null $folder The folder to create
      * @param boolean     $recursive
      *
      * @return string The task
