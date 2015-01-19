@@ -19,7 +19,7 @@ class ListCommand extends AbstractCommand
      *
      * @var string
      */
-    protected $name = 'plugin-list';
+    protected $name = 'plugin:list';
 
     /**
      * The console command description.

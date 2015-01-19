@@ -75,7 +75,7 @@ abstract class AbstractCommand extends Command
     {
         // Return commands as is in Laravel
         if ($this->isInsideLaravel() && !$this instanceof RocketeerCommand) {
-            $name = str_replace('-', ':', $this->name);
+            $name = str_replace(':', '-', $this->name);
             $name = 'deploy:'.$name;
 
             return $name;
