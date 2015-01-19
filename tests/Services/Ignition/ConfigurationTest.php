@@ -1,6 +1,7 @@
 <?php
 namespace Rocketeer\Services\Ignition;
 
+use Mockery\MockInterface;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class ConfigurationTest extends RocketeerTestCase
@@ -88,7 +89,7 @@ class ConfigurationTest extends RocketeerTestCase
 
     public function testCanSetCurrentApplication()
     {
-        $this->mock('rocketeer.storage.local', 'LocalStorage', function ($mock) {
+        $this->mock('rocketeer.storage.local', 'LocalStorage', function (MockInterface $mock) {
             return $mock->shouldReceive('setFile')->once()->with('foobar');
         });
 
@@ -140,7 +141,7 @@ class ConfigurationTest extends RocketeerTestCase
 
     public function testCanUseFilesAndFoldersForContextualConfig()
     {
-        $this->mock('config', 'Config', function ($mock) {
+        $this->mock('config', 'Config', function (MockInterface $mock) {
             return $mock->shouldReceive('set')->once()->with('rocketeer::on.connections.production.scm', ['scm' => 'svn']);
         });
 
@@ -165,13 +166,13 @@ class ConfigurationTest extends RocketeerTestCase
     {
         $pharPath = 'phar:///rocketeer/bin/rocketeer.phar/src/Rocketeer/Services/Ignition/../../../config';
 
-        $this->mock('rocketeer.paths', 'Pathfinder', function ($mock) use ($pharPath) {
+        $this->mock('rocketeer.paths', 'Pathfinder', function (MockInterface $mock) use ($pharPath) {
             return $mock
                 ->shouldReceive('unifyLocalSlashes')->andReturn($pharPath)
                 ->shouldReceive('getConfigurationPath')->andReturn('config');
         });
 
-        $this->mockFiles(function ($mock) use ($pharPath) {
+        $this->mockFiles(function (MockInterface $mock) use ($pharPath) {
             return $mock->shouldReceive('copyDirectory')->with($pharPath, 'config');
         });
 

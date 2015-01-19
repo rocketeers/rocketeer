@@ -1,6 +1,7 @@
 <?php
 namespace Rocketeer\Tasks;
 
+use Mockery\MockInterface;
 use Rocketeer\Services\Storages\ServerStorage;
 use Rocketeer\TestCases\RocketeerTestCase;
 
@@ -8,7 +9,7 @@ class CleanupTest extends RocketeerTestCase
 {
     public function testCanCleanupServer()
     {
-        $this->mockReleases(function ($mock) {
+        $this->mockReleases(function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('getDeprecatedReleases')->once()->andReturn(array(1, 2))
                 ->shouldReceive('getPathToRelease')->times(2)->andReturnUsing(function ($release) {
@@ -21,7 +22,7 @@ class CleanupTest extends RocketeerTestCase
 
     public function testCanPruneAllReleasesIfCleanAll()
     {
-        $this->mockReleases(function ($mock) {
+        $this->mockReleases(function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('getDeprecatedReleases')->never()
                 ->shouldReceive('getNonCurrentReleases')->once()->andReturn(array(1, 2))
@@ -44,7 +45,7 @@ class CleanupTest extends RocketeerTestCase
 
     public function testCanRemoveAllReleasesAtOnce()
     {
-        $this->mockReleases(function ($mock) {
+        $this->mockReleases(function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('getDeprecatedReleases')->never()
                 ->shouldReceive('getDeprecatedReleases')->once()->andReturn(array(1, 2))
@@ -62,7 +63,7 @@ class CleanupTest extends RocketeerTestCase
 
     public function testPrintsMessageIfNoCleanup()
     {
-        $this->mockReleases(function ($mock) {
+        $this->mockReleases(function (MockInterface $mock) {
             return $mock->shouldReceive('getDeprecatedReleases')->once()->andReturn(array());
         });
 
@@ -77,7 +78,7 @@ class CleanupTest extends RocketeerTestCase
             2 => true,
         ));
 
-        $this->mockReleases(function ($mock) {
+        $this->mockReleases(function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('getDeprecatedReleases')->once()->andReturn(array(1, 2))
                 ->shouldReceive('getPathToRelease')->times(2)->andReturnUsing(function ($release) {

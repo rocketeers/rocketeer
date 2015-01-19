@@ -2,6 +2,7 @@
 namespace Rocketeer\Strategies\Check;
 
 use Mockery;
+use Mockery\MockInterface;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class PolyglotStrategyCheckTest extends RocketeerTestCase
@@ -20,7 +21,7 @@ class PolyglotStrategyCheckTest extends RocketeerTestCase
 
     public function testCanCheckLanguage()
     {
-        $this->mock('rocketeer.builder', 'Builder', function ($mock) {
+        $this->mock('rocketeer.builder', 'Builder', function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('buildStrategy')->with('Check', 'Node')->andReturn($this->getDummyStrategy('Node', 'language', true))
                 ->shouldReceive('buildStrategy')->with('Check', 'Ruby')->andReturn($this->getDummyStrategy('Ruby', 'language', true))
@@ -32,7 +33,7 @@ class PolyglotStrategyCheckTest extends RocketeerTestCase
 
     public function testCanCheckMissingExtensions()
     {
-        $this->mock('rocketeer.builder', 'Builder', function ($mock) {
+        $this->mock('rocketeer.builder', 'Builder', function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('buildStrategy')->with('Check', 'Node')->andReturn($this->getDummyStrategy('Node', 'extensions', ['Node']))
                 ->shouldReceive('buildStrategy')->with('Check', 'Ruby')->andReturn($this->getDummyStrategy('Ruby', 'extensions', ['Ruby']))

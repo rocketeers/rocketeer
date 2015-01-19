@@ -1,6 +1,7 @@
 <?php
 namespace Rocketeer\Tasks;
 
+use Mockery\MockInterface;
 use Rocketeer\RocketeerServiceProvider;
 use Rocketeer\TestCases\RocketeerTestCase;
 
@@ -14,7 +15,7 @@ class IgniteTest extends RocketeerTestCase
         $provider = new RocketeerServiceProvider($this->app);
         $provider->bindPaths();
 
-        $this->mockFiles(function ($mock) {
+        $this->mockFiles(function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('files')->andReturn([])
                 ->shouldReceive('glob')->andReturn([])
@@ -32,7 +33,7 @@ class IgniteTest extends RocketeerTestCase
         $provider = new RocketeerServiceProvider($this->app);
         $provider->bindPaths();
 
-        $this->mockFiles(function ($mock) {
+        $this->mockFiles(function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('exists')->andReturn(true)
                 ->shouldReceive('files')->andReturn([])
@@ -48,7 +49,7 @@ class IgniteTest extends RocketeerTestCase
         $command = $this->getCommand(array('ask' => 'foobar'));
 
         $server = $this->server;
-        $this->mock('rocketeer.igniter', 'Configuration', function ($mock) use ($server) {
+        $this->mock('rocketeer.igniter', 'Configuration', function (MockInterface $mock) use ($server) {
             return $mock
                 ->shouldReceive('exportConfiguration')->once()->andReturn($server)
                 ->shouldReceive('updateConfiguration')->once()->with($server, array(
@@ -76,7 +77,7 @@ class IgniteTest extends RocketeerTestCase
         $command->shouldReceive('call')->with('config:publish', array('package' => 'anahkiasen/rocketeer'))->andReturn('foobar');
 
         $path = $this->app['path'].'/config/packages/anahkiasen/rocketeer';
-        $this->mock('rocketeer.igniter', 'Configuration', function ($mock) use ($path) {
+        $this->mock('rocketeer.igniter', 'Configuration', function (MockInterface $mock) use ($path) {
             return $mock
                 ->shouldReceive('exportConfiguration')->never()
                 ->shouldReceive('updateConfiguration')->once()->with($path, array(

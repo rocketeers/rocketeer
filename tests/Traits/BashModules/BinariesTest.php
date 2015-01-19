@@ -2,6 +2,7 @@
 namespace Rocketeer\Traits\BashModules;
 
 use Mockery;
+use Mockery\MockInterface;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class BinariesTest extends RocketeerTestCase
@@ -28,7 +29,7 @@ class BinariesTest extends RocketeerTestCase
 
     public function testStoredPathsAreInvalidatedIfIncorrect()
     {
-        $this->mock('rocketeer.remote', 'Remote', function ($mock) {
+        $this->mock('rocketeer.remote', 'Remote', function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('run')->with(['which composer'], Mockery::any())->andReturn(null)
                 ->shouldReceive('run')->with(['which'], Mockery::any())->andReturn(null)
@@ -45,7 +46,7 @@ class BinariesTest extends RocketeerTestCase
 
     public function testPathsAreScopedToConnection()
     {
-        $this->mock('rocketeer.remote', 'Remote', function ($mock) {
+        $this->mock('rocketeer.remote', 'Remote', function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('run')->with(['which'], Mockery::any())->andReturn(null)
                 ->shouldReceive('run')->with(['which composer'], Mockery::any())->andReturn(null)
@@ -107,7 +108,7 @@ class BinariesTest extends RocketeerTestCase
     public function testCanRunComposer()
     {
         $this->usesComposer(true);
-        $this->mock('rocketeer.command', 'Illuminate\Console\Command', function ($mock) {
+        $this->mock('rocketeer.command', 'Illuminate\Console\Command', function (MockInterface $mock) {
             return $mock
                 ->shouldIgnoreMissing()
                 ->shouldReceive('getOutput')->andReturn($this->getCommandOutput())
@@ -122,7 +123,7 @@ class BinariesTest extends RocketeerTestCase
     public function testDoesntRunComposerIfNotNeeded()
     {
         $this->usesComposer(false);
-        $this->mock('rocketeer.command', 'Illuminate\Console\Command', function ($mock) {
+        $this->mock('rocketeer.command', 'Illuminate\Console\Command', function (MockInterface $mock) {
             return $mock
                 ->shouldIgnoreMissing()
                 ->shouldReceive('getOutput')->andReturn($this->getCommandOutput())

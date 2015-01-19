@@ -1,6 +1,7 @@
 <?php
 namespace Rocketeer\Strategies\Check;
 
+use Mockery\MockInterface;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class PhpStrategyTest extends RocketeerTestCase
@@ -21,7 +22,7 @@ class PhpStrategyTest extends RocketeerTestCase
     {
         $version = $this->bash->php()->run('version');
 
-        $this->mockFiles(function ($mock) use ($version) {
+        $this->mockFiles(function (MockInterface $mock) use ($version) {
             return $mock
                 ->shouldReceive('put')
                 ->shouldReceive('glob')->andReturn(array())
@@ -31,7 +32,7 @@ class PhpStrategyTest extends RocketeerTestCase
         $this->assertTrue($this->strategy->language());
 
         // This is is going to come bite me in the ass in 10 years
-        $this->mockFiles(function ($mock) {
+        $this->mockFiles(function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('put')
                 ->shouldReceive('glob')->andReturn(array())

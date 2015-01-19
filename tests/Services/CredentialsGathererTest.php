@@ -2,6 +2,7 @@
 namespace Rocketeer\Services;
 
 use Mockery;
+use Mockery\MockInterface;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class CredentialsGathererTest extends RocketeerTestCase
@@ -255,7 +256,7 @@ class CredentialsGathererTest extends RocketeerTestCase
      */
     protected function mockAnswers($answers = array())
     {
-        $this->mock('rocketeer.command', 'Command', function ($mock) use ($answers) {
+        $this->mock('rocketeer.command', 'Command', function (MockInterface $mock) use ($answers) {
             if (!$answers) {
                 return $mock->shouldReceive('ask')->never();
             }
@@ -277,7 +278,7 @@ class CredentialsGathererTest extends RocketeerTestCase
      */
     protected function assertStoredCredentialsEquals(array $credentials)
     {
-        $this->mock('rocketeer.storage.local', 'LocalStorage', function ($mock) use ($credentials) {
+        $this->mock('rocketeer.storage.local', 'LocalStorage', function (MockInterface $mock) use ($credentials) {
             return $mock->shouldReceive('set')->with('credentials', $credentials);
         });
     }
@@ -288,7 +289,10 @@ class CredentialsGathererTest extends RocketeerTestCase
      */
     protected function givenConfiguredRepositoryCredentials(array $credentials, $need = false)
     {
-        $this->mock('rocketeer.connections', 'ConnectionsHandler', function ($mock) use ($need, $credentials) {
+        $this->mock('rocketeer.connections', 'ConnectionsHandler', function (MockInterface $mock) use (
+            $need,
+            $credentials
+        ) {
             return $mock
                 ->shouldReceive('needsCredentials')->andReturn($need)
                 ->shouldReceive('getRepositoryCredentials')->andReturn($credentials);

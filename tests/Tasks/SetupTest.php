@@ -1,6 +1,7 @@
 <?php
 namespace Rocketeer\Tasks;
 
+use Mockery\MockInterface;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class SetupTest extends RocketeerTestCase
@@ -8,7 +9,7 @@ class SetupTest extends RocketeerTestCase
     public function testCanSetupServer()
     {
         $this->pretend();
-        $this->mockReleases(function ($mock) {
+        $this->mockReleases(function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('getCurrentRelease')->andReturn(null)
                 ->shouldReceive('getCurrentReleasePath')->andReturn('1');
@@ -27,7 +28,7 @@ class SetupTest extends RocketeerTestCase
     public function testCanSetupStages()
     {
         $this->pretend();
-        $this->mockReleases(function ($mock) {
+        $this->mockReleases(function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('getCurrentRelease')->andReturn(null)
                 ->shouldReceive('getCurrentReleasePath')->andReturn('1');
@@ -52,7 +53,7 @@ class SetupTest extends RocketeerTestCase
     public function testRunningSetupKeepsCurrentConfiguredStage()
     {
         $this->pretend();
-        $this->mockReleases(function ($mock) {
+        $this->mockReleases(function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('getCurrentRelease')->andReturn(null)
                 ->shouldReceive('getCurrentReleasePath')->andReturn('1');

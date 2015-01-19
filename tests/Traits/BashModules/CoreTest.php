@@ -73,7 +73,7 @@ class CoreTest extends RocketeerTestCase
 
     public function testCanRunCommandsLocally()
     {
-        $this->mock('rocketeer.remote', 'Remote', function ($mock) {
+        $this->mock('rocketeer.remote', 'Remote', function (MockInterface $mock) {
             return $mock->shouldReceive('run')->never();
         });
 

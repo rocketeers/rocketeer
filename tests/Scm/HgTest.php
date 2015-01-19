@@ -5,42 +5,42 @@ use Rocketeer\TestCases\RocketeerTestCase;
 
 class HgTest extends RocketeerTestCase
 {
-	/**
-	 * The current SCM instance
-	 *
-	 * @var Hg
-	 */
-	protected $scm;
+    /**
+     * The current SCM instance
+     *
+     * @var Hg
+     */
+    protected $scm;
 
-	public function setUp()
-	{
-		parent::setUp();
+    public function setUp()
+    {
+        parent::setUp();
 
-		$this->scm = new Hg($this->app);
-	}
+        $this->scm = new Hg($this->app);
+    }
 
-	////////////////////////////////////////////////////////////////////
-	//////////////////////////////// TESTS /////////////////////////////
-	////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+    //////////////////////////////// TESTS /////////////////////////////
+    ////////////////////////////////////////////////////////////////////
 
-	public function testCanGetCheck()
-	{
-		$command = $this->scm->check();
+    public function testCanGetCheck()
+    {
+        $command = $this->scm->check();
 
-		$this->assertEquals('hg --version', $command);
-	}
+        $this->assertEquals('hg --version', $command);
+    }
 
-	public function testCanGetCurrentState()
-	{
-		$command = $this->scm->currentState();
+    public function testCanGetCurrentState()
+    {
+        $command = $this->scm->currentState();
 
-		$this->assertEquals('hg identify -i', $command);
-	}
+        $this->assertEquals('hg identify -i', $command);
+    }
 
-	public function testCanGetCurrentBranch()
-	{
-		$command = $this->scm->currentBranch();
+    public function testCanGetCurrentBranch()
+    {
+        $command = $this->scm->currentBranch();
 
-		$this->assertEquals('hg branch', $command);
-	}
+        $this->assertEquals('hg branch', $command);
+    }
 }

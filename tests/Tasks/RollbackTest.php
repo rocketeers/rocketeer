@@ -1,6 +1,7 @@
 <?php
 namespace Rocketeer\Tasks;
 
+use Mockery\MockInterface;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class RollbackTest extends RocketeerTestCase
@@ -37,7 +38,7 @@ class RollbackTest extends RocketeerTestCase
 
     public function testCantRollbackIfNoPreviousRelease()
     {
-        $this->mockReleases(function ($mock) {
+        $this->mockReleases(function (MockInterface $mock) {
             return $mock->shouldReceive('getPreviousRelease')->andReturn(null);
         });
 

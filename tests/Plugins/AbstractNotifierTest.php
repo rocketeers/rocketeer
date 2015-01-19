@@ -1,6 +1,7 @@
 <?php
 namespace Rocketeer\Plugins;
 
+use Mockery\MockInterface;
 use Rocketeer\Dummies\DummyNotifier;
 use Rocketeer\TestCases\RocketeerTestCase;
 
@@ -30,14 +31,14 @@ class AbstractNotifierTest extends RocketeerTestCase
         $this->expectOutputString('foobar finished deploying branch "master" on "staging@production" (foo.bar.com)');
 
         $this->mockCommand([], ['ask' => 'foobar']);
-        $this->mock('rocketeer.storage.local', 'LocalStorage', function ($mock) {
+        $this->mock('rocketeer.storage.local', 'LocalStorage', function (MockInterface $mock) {
             return $mock
                 ->shouldIgnoreMissing()
                 ->shouldReceive('get')->with('connections')
                 ->shouldReceive('get')->with('notifier.name')->andReturn(null)
                 ->shouldReceive('set')->once()->with('notifier.name', 'foobar');
         });
-        $this->mock('rocketeer.connections', 'ConnectionsHandler', function ($mock) {
+        $this->mock('rocketeer.connections', 'ConnectionsHandler', function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('getRepositoryBranch')->andReturn('master')
                 ->shouldReceive('getStage')->andReturn('staging')

@@ -34,7 +34,7 @@ class LocalStorageTest extends RocketeerTestCase
     public function testCanComputeHashAccordingToContentsOfFiles()
     {
         $this->mock('rocketeer.paths', 'Pathfinder', function (MockInterface $mock) {
-           return $mock->shouldReceive('getConfigurationPath')->andReturn($this->server);
+            return $mock->shouldReceive('getConfigurationPath')->andReturn($this->server);
         });
 
         $this->files->makeDirectory($this->server.'/tasks');

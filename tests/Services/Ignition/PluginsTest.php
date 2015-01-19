@@ -1,6 +1,7 @@
 <?php
 namespace Rocketeer\Services\Ignition;
 
+use Mockery\MockInterface;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class PluginsTest extends RocketeerTestCase
@@ -27,7 +28,7 @@ class PluginsTest extends RocketeerTestCase
     {
         unset($this->app['path']);
 
-        $this->mockFiles(function ($mock) {
+        $this->mockFiles(function (MockInterface $mock) {
             $destination = $this->app['path.rocketeer.config'].'/plugins/rocketeers/rocketeer-slack';
 
             return $mock
@@ -44,7 +45,7 @@ class PluginsTest extends RocketeerTestCase
     {
         unset($this->app['path']);
 
-        $this->mockFiles(function ($mock) {
+        $this->mockFiles(function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('isDirectory')->with($this->from)->andReturn(false)
                 ->shouldReceive('copyDirectory')->never();
@@ -57,7 +58,7 @@ class PluginsTest extends RocketeerTestCase
     {
         $this->mock('artisan');
 
-        $this->mockFiles(function ($mock) {
+        $this->mockFiles(function (MockInterface $mock) {
             $destination = $this->app['path'].'/config/packages/rocketeers/rocketeer-slack';
 
             return $mock

@@ -1,6 +1,7 @@
 <?php
 namespace Rocketeer\Scm;
 
+use Mockery\MockInterface;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class SvnTest extends RocketeerTestCase
@@ -46,7 +47,7 @@ class SvnTest extends RocketeerTestCase
 
     public function testCanGetCheckout()
     {
-        $this->mock('rocketeer.connections', 'ConnectionsHandler', function ($mock) {
+        $this->mock('rocketeer.connections', 'ConnectionsHandler', function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('getRepositoryCredentials')->once()->andReturn([
                     'username' => 'foo',
@@ -63,7 +64,7 @@ class SvnTest extends RocketeerTestCase
 
     public function testCanGetDeepClone()
     {
-        $this->mock('rocketeer.connections', 'ConnectionsHandler', function ($mock) {
+        $this->mock('rocketeer.connections', 'ConnectionsHandler', function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('getRepositoryCredentials')->once()->andReturn([
                     'username' => 'foo',
@@ -80,7 +81,7 @@ class SvnTest extends RocketeerTestCase
 
     public function testDoesntDuplicateCredentials()
     {
-        $this->mock('rocketeer.connections', 'ConnectionsHandler', function ($mock) {
+        $this->mock('rocketeer.connections', 'ConnectionsHandler', function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('getRepositoryCredentials')->once()->andReturn([
                     'username' => 'foo',
@@ -94,7 +95,7 @@ class SvnTest extends RocketeerTestCase
 
         $this->assertEquals('svn co http://github.com/my/repository/develop '.$this->server.' --non-interactive --username="foo" --password="bar"', $command);
 
-        $this->mock('rocketeer.connections', 'ConnectionsHandler', function ($mock) {
+        $this->mock('rocketeer.connections', 'ConnectionsHandler', function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('getRepositoryCredentials')->once()->andReturn([
                     'username' => 'foo',
@@ -111,7 +112,7 @@ class SvnTest extends RocketeerTestCase
 
     public function testDoesntStripRevisionFromUrl()
     {
-        $this->mock('rocketeer.connections', 'ConnectionsHandler', function ($mock) {
+        $this->mock('rocketeer.connections', 'ConnectionsHandler', function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('getRepositoryCredentials')->once()->andReturn([
                     'username' => 'foo',

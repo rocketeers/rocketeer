@@ -1,13 +1,14 @@
 <?php
 namespace Rocketeer\Tasks;
 
+use Mockery\MockInterface;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class CurrentReleaseTest extends RocketeerTestCase
 {
     public function testCanGetCurrentRelease()
     {
-        $this->mockReleases(function ($mock) {
+        $this->mockReleases(function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('getValidationFile')->once()->andReturn(array(10000000000000 => true))
                 ->shouldReceive('getCurrentRelease')->once()->andReturn('20000000000000')
@@ -19,7 +20,7 @@ class CurrentReleaseTest extends RocketeerTestCase
 
     public function testPrintsMessageIfNoReleaseDeployed()
     {
-        $this->mockReleases(function ($mock) {
+        $this->mockReleases(function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('getValidationFile')->never()
                 ->shouldReceive('getCurrentRelease')->once()->andReturn(null)

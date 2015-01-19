@@ -179,7 +179,7 @@ class ConnectionsHandlerTest extends RocketeerTestCase
 
     public function testDoesntResetConnectionIfSameAsCurrent()
     {
-        $this->mock('rocketeer.tasks', 'TasksHandler', function ($mock) {
+        $this->mock('rocketeer.tasks', 'TasksHandler', function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('registerConfiguredEvents')->once();
         }, false);
@@ -191,7 +191,7 @@ class ConnectionsHandlerTest extends RocketeerTestCase
 
     public function testDoesntResetStageIfSameAsCurrent()
     {
-        $this->mock('rocketeer.tasks', 'TasksHandler', function ($mock) {
+        $this->mock('rocketeer.tasks', 'TasksHandler', function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('registerConfiguredEvents')->once();
         }, false);
