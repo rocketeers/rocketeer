@@ -199,4 +199,20 @@ class ReleasesManagerTest extends RocketeerTestCase
 
         $this->assertEmpty($releases);
     }
+
+    public function testResetsReleasesCacheWhenSwitchingServer()
+    {
+        $this->mock('rocketeer.bash', 'Rocketeer\Bash', function ($mock) {
+            return $mock
+                ->shouldReceive('getFile')->once()
+                ->shouldReceive('listContents')->twice()->with($this->server.'/releases')->andReturn([20000000000000]);
+        });
+
+        $releases = $this->releasesManager->getReleases();
+        $this->assertEquals([20000000000000], $releases);
+
+        $this->connections->setConnection('staging');
+        $releases = $this->releasesManager->getReleases();
+        $this->assertEquals([20000000000000], $releases);
+    }
 }

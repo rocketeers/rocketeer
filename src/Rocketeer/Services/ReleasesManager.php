@@ -29,14 +29,14 @@ class ReleasesManager
      *
      * @var array
      */
-    protected $state = array();
+    protected $state = [];
 
     /**
      * Cache of the releases
      *
      * @type array
      */
-    public $releases;
+    public $releases = [];
 
     /**
      * The next release to come
@@ -76,7 +76,8 @@ class ReleasesManager
     public function getReleases()
     {
         // Get releases on server
-        if ($this->releases === null) {
+        $connection = $this->connections->getConnection();
+        if (!array_key_exists($connection, $this->releases)) {
             $releases = $this->getReleasesPath();
             $releases = (array) $this->bash->listContents($releases);
 
@@ -87,10 +88,10 @@ class ReleasesManager
 
             rsort($releases);
 
-            $this->releases = (array) $releases;
+            $this->releases[$connection] = (array) $releases;
         }
 
-        return $this->releases;
+        return $this->releases[$connection];
     }
 
     /**
