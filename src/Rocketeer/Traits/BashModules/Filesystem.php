@@ -227,7 +227,7 @@ trait Filesystem
     public function tail($file, $continuous = true)
     {
         $continuous = $continuous ? ' -f' : null;
-        $command    = sprintf('tail %s %s', $continuous, $file);
+        $command    = sprintf('tail %s %s', $file, $continuous);
 
         return $this->run($command);
     }

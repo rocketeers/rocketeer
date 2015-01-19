@@ -47,7 +47,12 @@ trait Core
      */
     public function getConnection()
     {
-        return ($this->local || $this->rocketeer->isLocal()) ? $this->app['remote.local'] : $this->remote;
+        // Return LocalConnection if in local mode
+        if ($this->local || $this->rocketeer->isLocal()) {
+            return $this->app['remote.local'];
+        }
+
+        return $this->remote;
     }
 
     /**
