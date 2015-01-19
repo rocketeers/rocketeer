@@ -2,6 +2,7 @@
 namespace Rocketeer\Services;
 
 use Rocketeer\Dummies\DummyNotifier;
+use Rocketeer\Dummies\Plugins\DummyConsolePlugin;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class TasksHandlerTest extends RocketeerTestCase
@@ -212,5 +213,12 @@ class TasksHandlerTest extends RocketeerTestCase
         $this->tasks->configure('deploy', ['foo' => 'bar']);
 
         $this->assertEquals(['foo' => 'bar'], $this->builder->buildTask('deploy')->getOptions());
+    }
+
+    public function testCanAddCommandsViaPlugins()
+    {
+        $this->tasks->plugin('Rocketeer\Dummies\Plugins\DummyConsolePlugin');
+
+        $this->assertInstanceOf('Rocketeer\Dummies\Plugins\DummyPluginCommand', $this->app['rocketeer.console']->get('foobar'));
     }
 }

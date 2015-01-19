@@ -12,6 +12,7 @@ namespace Rocketeer\Abstracts;
 
 use Illuminate\Container\Container;
 use Illuminate\Support\Str;
+use Rocketeer\Console\Console;
 use Rocketeer\Services\TasksHandler;
 use Rocketeer\Traits\HasLocator;
 
@@ -58,11 +59,24 @@ abstract class AbstractPlugin
     }
 
     /**
+     * Register additional commands
+     *
+     * @param Console $console
+     */
+    public function onConsole(Console $console)
+    {
+        // ...
+    }
+
+    /**
      * Register Tasks with Rocketeer
      *
      * @param \Rocketeer\Services\TasksHandler $queue
      *
      * @return void
      */
-    abstract public function onQueue(TasksHandler $queue);
+    public function onQueue(TasksHandler $queue)
+    {
+        // ...
+    }
 }

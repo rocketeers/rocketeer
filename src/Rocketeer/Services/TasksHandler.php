@@ -334,6 +334,7 @@ class TasksHandler
 
         // Bind instances
         $this->app = $plugin->register($this->app);
+        $plugin->onConsole($this->app['rocketeer.console']);
 
         // Add hooks to TasksHandler
         $plugin->onQueue($this);
