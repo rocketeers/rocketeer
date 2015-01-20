@@ -48,6 +48,20 @@ abstract class AbstractPolyglotStrategy extends AbstractStrategy
     }
 
     /**
+     * Execute and check results of a method on all sub-strategies
+     *
+     * @param string $method
+     *
+     * @return boolean
+     */
+    protected function checkStrategiesMethod($method)
+    {
+        $results = $this->executeStrategiesMethod($method);
+
+        return $this->checkStrategiesResults($results);
+    }
+
+    /**
      * Gather the missing X from a method
      *
      * @param string $method
@@ -114,7 +128,7 @@ abstract class AbstractPolyglotStrategy extends AbstractStrategy
     protected function checkStrategiesResults($results)
     {
         $results = array_filter($results, function ($value) {
-            return $value !== false;
+            return $value !== false && (!is_string($value) || strpos($value, 'not found') === false);
         });
 
         return count($results) === count($this->strategies);

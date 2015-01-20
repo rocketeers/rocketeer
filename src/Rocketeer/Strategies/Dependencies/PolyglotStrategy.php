@@ -41,7 +41,7 @@ class PolyglotStrategy extends AbstractPolyglotStrategy implements DependenciesS
      */
     public function install()
     {
-        return $this->executeStrategiesMethod('install');
+        return $this->checkStrategiesMethod('install');
     }
 
     /**
@@ -51,6 +51,6 @@ class PolyglotStrategy extends AbstractPolyglotStrategy implements DependenciesS
      */
     public function update()
     {
-        return $this->executeStrategiesMethod('update');
+        return $this->checkStrategiesMethod('update');
     }
 }
