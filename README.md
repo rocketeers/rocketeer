@@ -81,6 +81,7 @@ The MIT License (MIT). Please see [License File](https://github.com/rocketeers/r
 - [Slack](https://github.com/rocketeers/rocketeer-slack)
 - [HipChat](https://github.com/hannesvdvreken/rocketeer-hipchat)
 - [Wordpress](https://github.com/mykebates/wp-rocketeer)
+- [Bugsnag](https://github.com/bramdevries/rocketeer-bugsnag)
 
 ## Why not Capistrano?
 
