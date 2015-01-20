@@ -66,15 +66,15 @@ class LocalConnection implements ConnectionInterface
     public function run($commands, Closure $callback = null)
     {
         $commands = (array) $commands;
-        foreach ($commands as $command) {
-            exec($command, $output, $status);
+        $command  = implode(' && ', $commands);
 
-            $this->previousStatus = $status;
-            if ($callback) {
-                $output = (array) $output;
-                foreach ($output as $line) {
-                    $callback($line.PHP_EOL);
-                }
+        exec($command, $output, $status);
+
+        $this->previousStatus = $status;
+        if ($callback) {
+            $output = (array) $output;
+            foreach ($output as $line) {
+                $callback($line.PHP_EOL);
             }
         }
     }
