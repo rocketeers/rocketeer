@@ -42,7 +42,7 @@ return array(
 
     // If enabled will force a shell to be created
     // which is required for some tools like RVM or NVM
-    'shell'          => false,
+    'shell'          => true,
 
     // An array of commands to run under shell
     'shelled'        => ['which', 'ruby', 'npm', 'bower', 'bundle', 'grunt'],
@@ -54,7 +54,6 @@ return array(
 
         // The folders and files to set as web writable
         'files'    => array(
-            'app/database/production.sqlite',
             'storage',
             'public',
         ),
