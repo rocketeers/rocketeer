@@ -30,6 +30,6 @@ class EnvironmentTest extends RocketeerTestCase
     {
         $this->connections->setConnection('staging', 1);
 
-        $this->assertEquals('staging.1.os', $this->environment->getVariablePath('os'));
+        $this->assertEquals('staging.os', $this->environment->getVariablePath('os'));
     }
 }

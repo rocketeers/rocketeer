@@ -80,15 +80,14 @@ class ConnectionsHandler
         $server     = $server ?: $this->getServer();
         $stage      = $stage ?: $this->getStage();
 
+        // Replace server index by hostname
+        $server = array_get($this->getServerCredentials($connection, $server), 'host', $server);
+
         // Filter values
-        $handle = [$connection, $server, $stage];
-        if ($this->isMultiserver($connection)) {
-            $handle = array_filter($handle, function ($value) {
-                return $value !== null;
-            });
-        } else {
-            $handle = array_filter($handle);
-        }
+        $handle = $this->isMultiserver($connection) ? [$connection, $server, $stage] : [$connection, $stage];
+        $handle = array_filter($handle, function ($value) {
+            return $value !== null;
+        });
 
         // Concatenate
         $handle       = implode('/', $handle);

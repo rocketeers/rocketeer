@@ -167,7 +167,7 @@ class ConnectionsHandlerTest extends RocketeerTestCase
     {
         $handle = $this->connections->getHandle('foo', 2, 'staging');
 
-        $this->assertEquals('foo/2/staging', $handle);
+        $this->assertEquals('foo/staging', $handle);
     }
 
     public function testDoesntDisplayServerNumberIfNotMultiserver()
@@ -175,6 +175,24 @@ class ConnectionsHandlerTest extends RocketeerTestCase
         $handle = $this->connections->getHandle('foo', 0, 'staging');
 
         $this->assertEquals('foo/staging', $handle);
+    }
+
+    public function testCanUseHostnameOfServerInHandleIfPresent()
+    {
+        $this->swapConfig(array(
+            'rocketeer::connections' => array(
+                'production' => array(
+                    'servers' => array(
+                        ['host' => 'server1.com'],
+                        ['host' => 'server2.com'],
+                    ),
+                ),
+            ),
+        ));
+
+        $handle = $this->connections->getHandle('production', 1);
+
+        $this->assertEquals('production/server2.com', $handle);
     }
 
     public function testDoesntResetConnectionIfSameAsCurrent()
