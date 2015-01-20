@@ -22,6 +22,7 @@ Rocketeer follows the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.ht
 - Fixed an issue where events would sometimes not fire when passing a stage/connection
 - Fixed an issue where hidden inputs wouldn't work on Windows using the PHAR
 - Fixed an issue where jobs would use the wrong server on multiserver connections
+- Fixed an issue where local tasks wouldn't execute in the correct directories
 - Fixed an issue where polyglot strategies would keep running after one of their child failed
 - Fixed an issue where Rocketeer would trust the releases present on one server to deploy to all the other ones
 - Fixed an issue where setting a strategy to `''` to skip it would crash
