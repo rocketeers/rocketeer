@@ -76,10 +76,6 @@ class ConnectionsHandler
             return 'local';
         }
 
-        if ($this->handle) {
-            return $this->handle;
-        }
-
         // Get identifiers
         $connection = $connection ?: $this->getConnection();
         $server     = $server ?: $this->getServer();
