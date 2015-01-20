@@ -89,11 +89,11 @@ trait HasHistory
         $command   = array_values($command);
         $flattened = count($command) === 1 ? $command[0] : $command;
 
-        // Save to logs
-        if ($type === 'history') {
-            $command = array_map(function ($command) {
-                return '$ '.$command;
-            }, $command);
+        // Format commands
+        foreach ($command as $key => $entry) {
+            $entry         = $type === 'history' ? '$ '.$entry : $entry;
+            $entry         = sprintf('[%s@%s] %s', $this->connections->getCurrentUsername(), $this->connections->getHandle(), $entry);
+            $command[$key] = $entry;
         }
 
         $this->logs->log($command);

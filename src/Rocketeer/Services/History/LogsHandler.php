@@ -58,16 +58,19 @@ class LogsHandler
     public function write()
     {
         foreach ($this->logs as $file => $entries) {
-            $entries = Arr::flatten($entries);
             if (!$this->files->exists($file)) {
                 $this->createLogsFile($file);
             }
 
-            $this->files->put($file, implode(PHP_EOL, $entries));
+            $this->files->put($file, $this->formatEntries($entries));
         }
 
         return array_keys($this->logs);
     }
+
+    //////////////////////////////////////////////////////////////////////
+    //////////////////////////// CURRENT LOGS ////////////////////////////
+    //////////////////////////////////////////////////////////////////////
 
     /**
      * Get the logs file being currently used
@@ -100,6 +103,30 @@ class LogsHandler
     }
 
     /**
+     * Get the current logs
+     *
+     * @return array
+     */
+    public function getLogs()
+    {
+        return array_get($this->logs, $this->getCurrentLogsFile());
+    }
+
+    /**
+     * Get the current logs, flattened
+     *
+     * @return string
+     */
+    public function getFlattenedLogs()
+    {
+        return $this->formatEntries($this->getLogs());
+    }
+
+    //////////////////////////////////////////////////////////////////////
+    ////////////////////////////// HELPERS ///////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+
+    /**
      * Create a logs file if it doesn't exist
      *
      * @param string $file
@@ -117,5 +144,20 @@ class LogsHandler
         if (!file_exists($file)) {
             $this->files->put($file, '');
         }
+    }
+
+    /**
+     * Format entries to a string
+     *
+     * @param array $entries
+     *
+     * @return string
+     */
+    protected function formatEntries($entries)
+    {
+        $entries = Arr::flatten($entries);
+        $entries = implode(PHP_EOL, $entries);
+
+        return $entries;
     }
 }

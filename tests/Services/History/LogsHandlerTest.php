@@ -64,4 +64,15 @@ class LogsHandlerTest extends RocketeerTestCase
         $this->logs->getCurrentLogsFile();
         $this->logs->getCurrentLogsFile();
     }
+
+    public function testPrependsLogsWithConnectionHandles()
+    {
+        $this->task()->toHistory('pwd');
+        $this->task()->toOutput('Some path');
+
+        $logs    = $this->logs->getFlattenedLogs();
+        $matcher = '[anahkiasen@production] $ pwd'.PHP_EOL.'[anahkiasen@production] Some path';
+
+        $this->assertEquals($matcher, $logs);
+    }
 }

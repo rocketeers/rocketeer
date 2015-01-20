@@ -202,6 +202,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         $remote->shouldReceive('into')->andReturn(Mockery::self());
         $remote->shouldReceive('status')->andReturn(0)->byDefault();
         $remote->shouldReceive('runRaw')->andReturnUsing($run)->byDefault();
+        $remote->shouldReceive('getUsername')->andReturn('anahkiasen');
         $remote->shouldReceive('getString')->andReturnUsing(function ($file) {
             return file_get_contents($file);
         });

@@ -96,6 +96,16 @@ class ConnectionsHandler
         return $handle;
     }
 
+    /**
+     * Get the currently authenticated user
+     *
+     * @return string
+     */
+    public function getCurrentUsername()
+    {
+        return $this->remote->connected() ? $this->remote->getUsername() : null;
+    }
+
     //////////////////////////////////////////////////////////////////////
     ////////////////////////////// SERVERS ///////////////////////////////
     //////////////////////////////////////////////////////////////////////
