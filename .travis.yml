@@ -26,3 +26,12 @@ cache:
   directories:
     - vendor
     - $HOME/.composer/cache
+
+# Gitter notifications
+notifications:
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/c7e5d662086972567218
+    on_success: change
+    on_failure: always
+    on_start: false
