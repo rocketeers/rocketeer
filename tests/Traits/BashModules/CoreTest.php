@@ -136,4 +136,14 @@ class CoreTest extends RocketeerTestCase
 
         $this->bash->runRaw('ls');
     }
+
+    public function testCanFlattenCommands()
+    {
+        $commands = $this->pretendTask()->processCommands(array(
+            ['foo', 'bar'],
+            'baz',
+        ));
+
+        $this->assertEquals(['foo', 'bar', 'baz'], $commands);
+    }
 }

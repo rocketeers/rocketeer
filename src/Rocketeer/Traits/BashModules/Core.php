@@ -10,6 +10,7 @@
 
 namespace Rocketeer\Traits\BashModules;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Rocketeer\Traits\HasHistory;
 use Rocketeer\Traits\HasLocator;
@@ -303,7 +304,8 @@ trait Core
             $commands = array($commands);
         }
 
-        // Process commands
+        // Flatten and process commands
+        $commands = Arr::flatten($commands);
         foreach ($commands as &$command) {
 
             // Replace directory separators
