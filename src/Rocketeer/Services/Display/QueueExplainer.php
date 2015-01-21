@@ -112,12 +112,15 @@ class QueueExplainer
             return;
         }
 
-        // Format and pass to Command
-        $message = $color ? sprintf('<fg=%s>%s</fg=%s>', $color, $message, $color) : $message;
-        $message = $this->getTree('==').'=> '.$message;
-        $this->command->line($message);
+        // Format the message
+        $formatted = $color ? sprintf('<fg=%s>%s</fg=%s>', $color, $message, $color) : $message;
+        $formatted = $this->getTree('==').'=> '.$formatted;
 
-        return $message;
+        // Pass to command and log
+        $this->command->line($formatted);
+        $this->logs->log($message);
+
+        return $formatted;
     }
 
     /**

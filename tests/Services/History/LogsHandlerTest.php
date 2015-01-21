@@ -75,4 +75,15 @@ class LogsHandlerTest extends RocketeerTestCase
 
         $this->assertEquals($matcher, $logs);
     }
+
+    public function testLogsMessagesFromExplainerToo()
+    {
+        $this->task()->toHistory('pwd');
+        $this->explainer->success('Getting the current path');
+
+        $logs    = $this->logs->getFlattenedLogs();
+        $matcher = '[anahkiasen@production] $ pwd'.PHP_EOL.'Getting the current path';
+
+        $this->assertEquals($matcher, $logs);
+    }
 }
