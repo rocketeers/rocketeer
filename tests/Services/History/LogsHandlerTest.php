@@ -82,7 +82,7 @@ class LogsHandlerTest extends RocketeerTestCase
         $this->explainer->success('Getting the current path');
 
         $logs    = $this->logs->getFlattenedLogs();
-        $matcher = '[anahkiasen@production] $ pwd'.PHP_EOL.'Getting the current path';
+        $matcher = '[anahkiasen@production] $ pwd'.PHP_EOL.'[anahkiasen@production] Getting the current path';
 
         $this->assertEquals($matcher, $logs);
     }

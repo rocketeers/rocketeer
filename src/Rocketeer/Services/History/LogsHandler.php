@@ -37,7 +37,7 @@ class LogsHandler
     /**
      * Save something for the logs
      *
-     * @param string $string
+     * @param string|string[] $string
      */
     public function log($string)
     {
@@ -47,7 +47,8 @@ class LogsHandler
             $this->logs[$file] = [];
         }
 
-        $this->logs[$file][] = $string;
+        // Prepend currenth handle
+        $this->logs[$file][] = $this->prependHandle($string);
     }
 
     /**
@@ -159,5 +160,22 @@ class LogsHandler
         $entries = implode(PHP_EOL, $entries);
 
         return $entries;
+    }
+
+    /**
+     * Prepend the connection handle to each log entry
+     *
+     * @param string|string[] $entries
+     *
+     * @return string|string[]
+     */
+    protected function prependHandle($entries)
+    {
+        $entries = (array) $entries;
+        foreach ($entries as $key => $entry) {
+            $entries[$key] = sprintf('[%s@%s] %s', $this->connections->getCurrentUsername(), $this->connections->getHandle(), $entry);
+        }
+
+        return count($entries) === 1 ? $entries[0] : $entries;
     }
 }

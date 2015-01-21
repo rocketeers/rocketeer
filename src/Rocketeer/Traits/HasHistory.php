@@ -91,9 +91,7 @@ trait HasHistory
 
         // Format commands
         foreach ($command as $key => $entry) {
-            $entry         = $type === 'history' ? '$ '.$entry : $entry;
-            $entry         = sprintf('[%s@%s] %s', $this->connections->getCurrentUsername(), $this->connections->getHandle(), $entry);
-            $command[$key] = $entry;
+            $command[$key] = $type === 'history' ? '$ '.$entry : $entry;
         }
 
         $this->logs->log($command);
