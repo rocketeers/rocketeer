@@ -1,5 +1,7 @@
 # Rocketeer
 
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/rocketeers/rocketeer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![Build Status](http://img.shields.io/travis/rocketeers/rocketeer.svg?style=flat)](https://travis-ci.org/rocketeers/rocketeer)
 [![Latest Stable Version](http://img.shields.io/packagist/v/anahkiasen/rocketeer.svg?style=flat)](https://packagist.org/packages/anahkiasen/rocketeer)
 [![Total Downloads](http://img.shields.io/packagist/dt/anahkiasen/rocketeer.svg?style=flat)](https://packagist.org/packages/anahkiasen/rocketeer)
