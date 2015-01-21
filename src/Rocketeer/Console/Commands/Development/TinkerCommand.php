@@ -10,7 +10,7 @@
 
 namespace Rocketeer\Console\Commands\Development;
 
-use Boris\Boris;
+use Psy\Shell;
 use Rocketeer\Abstracts\AbstractCommand;
 
 class TinkerCommand extends AbstractCommand
@@ -32,12 +32,12 @@ class TinkerCommand extends AbstractCommand
      */
     public function fire()
     {
-        $boris = new Boris('rocketeer> ');
-        $boris->setLocal(array(
+        $shell = new Shell();
+        $shell->setScopeVariables(array(
             'rocketeer' => $this->laravel,
             'ssh'       => $this->laravel['rocketeer.bash'],
         ));
 
-        $boris->start();
+        return $shell->run();
     }
 }

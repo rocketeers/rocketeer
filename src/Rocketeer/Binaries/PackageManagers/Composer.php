@@ -31,6 +31,7 @@ class Composer extends AbstractPackageManager
     {
         return array(
             'composer',
+            $this->paths->getHomeFolder().'/composer.phar',
             $this->releasesManager->getCurrentReleasePath().'/composer.phar',
         );
     }
