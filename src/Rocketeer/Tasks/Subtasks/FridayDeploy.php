@@ -11,31 +11,31 @@ use Rocketeer\Abstracts\AbstractTask;
  */
 class FridayDeploy extends AbstractTask
 {
-	/**
-	 * A description of what the task does
-	 *
-	 * @var string
-	 */
-	protected $description = 'Wishes you good luck on friday';
+    /**
+     * A description of what the task does
+     *
+     * @var string
+     */
+    protected $description = 'Wishes you good luck on friday';
 
-	/**
-	 * Run the task
-	 *
-	 * @return string
-	 */
-	public function execute()
-	{
-		$this->explainer->line('');
-		$this->explainer->line('┓┏┓┏┓┃');
-		$this->explainer->line('┛┗┛┗┛┃＼○／');
-		$this->explainer->line('┓┏┓┏┓┃  /      Friday');
-		$this->explainer->line('┛┗┛┗┛┃ノ)');
-		$this->explainer->line('┓┏┓┏┓┃         deploy,');
-		$this->explainer->line('┛┗┛┗┛┃');
-		$this->explainer->line('┓┏┓┏┓┃         good');
-		$this->explainer->line('┛┗┛┗┛┃');
-		$this->explainer->line('┓┏┓┏┓┃         luck!');
-		$this->explainer->line('┃┃┃┃┃┃');
-		$this->explainer->line('┻┻┻┻┻┻');
-	}
+    /**
+     * Run the task
+     *
+     * @return string
+     */
+    public function execute()
+    {
+        $this->explainer->line('');
+        $this->explainer->line('┓┏┓┏┓┃');
+        $this->explainer->line('┛┗┛┗┛┃＼○／');
+        $this->explainer->line('┓┏┓┏┓┃  /      Friday');
+        $this->explainer->line('┛┗┛┗┛┃ノ)');
+        $this->explainer->line('┓┏┓┏┓┃         deploy,');
+        $this->explainer->line('┛┗┛┗┛┃');
+        $this->explainer->line('┓┏┓┏┓┃         good');
+        $this->explainer->line('┛┗┛┗┛┃');
+        $this->explainer->line('┓┏┓┏┓┃         luck!');
+        $this->explainer->line('┃┃┃┃┃┃');
+        $this->explainer->line('┻┻┻┻┻┻');
+    }
 }
