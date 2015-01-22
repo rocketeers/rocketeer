@@ -44,6 +44,11 @@ class Deploy extends AbstractTask
             return $this->halt('Project is not ready for deploy. You were almost fired.');
         }
 
+        // If it's friday, display a motivational message
+        if (date('N') === '5') {
+            $this->executeTask('FridayDeploy');
+        }
+
         // Setup the new release
         $release = $this->releasesManager->getNextRelease();
 
