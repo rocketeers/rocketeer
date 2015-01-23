@@ -25,9 +25,9 @@ class FridayDeploy extends AbstractTask
     {
         $this->explainer->line('');
         $this->explainer->line('┓┏┓┏┓┃');
-        $this->explainer->line('┛┗┛┗┛┃＼○／');
-        $this->explainer->line('┓┏┓┏┓┃  /      Friday');
-        $this->explainer->line('┛┗┛┗┛┃ノ)');
+        $this->explainer->line('┛┗┛┗┛┃ ＼○／');
+        $this->explainer->line('┓┏┓┏┓┃   /     Friday');
+        $this->explainer->line('┛┗┛┗┛┃ ノ)');
         $this->explainer->line('┓┏┓┏┓┃         deploy,');
         $this->explainer->line('┛┗┛┗┛┃');
         $this->explainer->line('┓┏┓┏┓┃         good');
