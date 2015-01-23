@@ -55,6 +55,7 @@ class CredentialsGathererTest extends RocketeerTestCase
             'No password is set for [repository]'   => $this->password,
         ));
         $this->command->shouldReceive('option')->andReturn(null);
+        $this->command->shouldReceive('askWith')->with(Mockery::any(), 'key', Mockery::any())->never();
 
         $this->givenConfiguredRepositoryCredentials([]);
 
@@ -243,6 +244,28 @@ class CredentialsGathererTest extends RocketeerTestCase
             'key'      => $this->key,
             'agent'    => null,
         ), $stored);
+    }
+
+    public function testDoesntAskForKeyphraseOnlyOnce()
+    {
+        $this->swapConfig(array(
+            'rocketeer::connections' => [
+                'production' => [
+                    'host'      => $this->host,
+                    'username'  => '',
+                    'password'  => false,
+                    'key'       => $this->key,
+                    'keyphrase' => true,
+                ],
+            ],
+        ));
+
+        $this->mockAnswers(array(
+            'No username is set for [production]'    => $this->username,
+            'If a keyphrase is required, provide it' => 'keyphrase',
+        ));
+
+        $this->credentials->getServerCredentials();
     }
 
     public function testPreservesCredentialsTypes()

@@ -116,7 +116,6 @@ class CredentialsGatherer
 
         // Gather credentials
         $credentials = $this->gatherCredentials($this->rules['server'], $connection, $handle);
-        $credentials = $this->getConnectionAuthentication($credentials, $handle);
 
         // Save credentials
         $this->connections->syncConnectionCredentials($connectionName, $credentials, $server);
@@ -128,38 +127,25 @@ class CredentialsGatherer
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Smart fill-in of the key/password of a connection
+     * Whether SSH is used to connect to a server, or password
      *
-     * @param string[] $credentials
-     * @param string   $handle
+     * @param string $handle
+     * @param array  $credentials
      *
-     * @return string[]
+     * @return boolean
      */
-    protected function getConnectionAuthentication(array $credentials, $handle)
+    protected function usesSsh($handle, array $credentials)
     {
-        // Cancel if already provided
-        if ($credentials['password'] || $credentials['key']) {
-            return $credentials;
+        $password = $this->getCredential($credentials, 'password');
+        $key      = $this->getCredential($credentials, 'key');
+        if ($password || $key) {
+            return (bool) $key;
         }
 
-        // Get which type of authentication to use
-        $types   = ['key', 'password'];
-        $keyPath = $this->paths->getDefaultKeyPath();
-        $type    = $this->command->askWith('No password or SSH key is set for ['.$handle.'], which would you use?', 'key', $types);
+        $types = ['key', 'password'];
+        $type  = $this->command->askWith('No password or SSH key is set for ['.$handle.'], which would you use?', 'key', $types);
 
-        // Gather the credentials for each
-        switch ($type) {
-            case 'key':
-                $credentials['key']       = $this->command->option('key') ?: $this->command->askWith('Please enter the full path to your key', $keyPath);
-                $credentials['keyphrase'] = $this->gatherCredential($handle, 'keyphrase', 'If a keyphrase is required, provide it');
-                break;
-
-            case 'password':
-                $credentials['password'] = $this->gatherCredential($handle, 'password');
-                break;
-        }
-
-        return $credentials;
+        return $type === 'key';
     }
 
     /**
@@ -173,23 +159,51 @@ class CredentialsGatherer
      */
     protected function gatherCredentials($rules, $current, $handle)
     {
-        $unprompted = ['key', 'keyphrase'];
+        // Alter rules depending on connection type
+        $authCredentials = ['key', 'password', 'keyphrase'];
+        $unprompted      = $this->alterRules($rules, $current, $handle);
 
         // Loop through credentials and ask missing ones
         foreach ($rules as $type => $required) {
-            $credential = $this->getCredential($current, $type);
-            $prompt     = $this->shouldPromptFor($credential);
-            $$type      = $credential;
+            $credential   = $this->getCredential($current, $type);
+            $shouldPrompt = $this->shouldPromptFor($credential);
+            $shouldPrompt = !in_array($type, $unprompted) && ($shouldPrompt || ($required && !$credential && $credential !== false));
+            $$type        = $credential;
 
-            if (!in_array($type, $unprompted, true) && ($prompt || ($required && !$$type))) {
-                $$type = $this->gatherCredential($handle, $type);
+            if ($shouldPrompt) {
+                $method = in_array($type, $authCredentials) ? 'gatherAuthCredential' : 'gatherCredential';
+                $$type  = $this->$method($handle, $type);
             }
         }
 
         // Reform array
-        $rules = compact(array_keys($rules));
+        $credentials = compact(array_keys($rules));
 
-        return $rules;
+        return $credentials;
+    }
+
+    /**
+     * Gather an auth-related credential
+     *
+     * @param string              $handle
+     * @param string|boolean|null $type
+     *
+     * @return string
+     */
+    protected function gatherAuthCredential($handle, $type)
+    {
+        $keyPath = $this->paths->getDefaultKeyPath();
+
+        switch ($type) {
+            case 'keyphrase':
+                return $this->gatherCredential($handle, 'keyphrase', 'If a keyphrase is required, provide it');
+
+            case 'key':
+                return $this->command->option('key') ?: $this->command->askWith('Please enter the full path to your key', $keyPath);
+
+            case 'password':
+                return $this->gatherCredential($handle, 'password');
+        }
     }
 
     /**
@@ -231,18 +245,44 @@ class CredentialsGatherer
     /**
      * Whether Rocketeer should prompt for a credential or not
      *
-     * @param string|boolean|null $credential
+     * @param string|boolean|null $value
      *
      * @return boolean
      */
-    protected function shouldPromptFor($credential)
+    protected function shouldPromptFor($value)
     {
-        if (is_string($credential)) {
-            return !$credential;
-        } elseif (is_bool($credential) || $credential === null) {
-            return (bool) $credential;
+        if (is_string($value)) {
+            return !$value;
+        } elseif (is_bool($value) || $value === null) {
+            return (bool) $value;
         }
 
         return false;
+    }
+
+    /**
+     * @param array  $rules
+     * @param array  $credentials
+     * @param string $handle
+     *
+     * @return string[]
+     */
+    protected function alterRules(array &$rules, array $credentials, $handle)
+    {
+        // Cancel if repository rules
+        if (array_key_exists('repository', $rules)) {
+            return [];
+        }
+
+        if ($this->usesSsh($handle, $credentials)) {
+            $rules['key']       = true;
+            $rules['keyphrase'] = true;
+
+            return ['password'];
+        } else {
+            $rules['password'] = true;
+
+            return ['key', 'keyphrase'];
+        }
     }
 }
