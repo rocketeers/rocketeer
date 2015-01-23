@@ -32,6 +32,7 @@ abstract class AbstractNotifier extends AbstractPlugin
 
         $queue->addTaskListeners('deploy', 'before', [clone $notify], -10, true);
         $queue->addTaskListeners('deploy', 'after', [clone $notify], -10, true);
+        $queue->addTaskListeners('rollback', 'after', [clone $notify], -10, true);
     }
 
     /**
