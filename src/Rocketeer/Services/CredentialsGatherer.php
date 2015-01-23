@@ -210,16 +210,16 @@ class CredentialsGatherer
      * Look for a credential in the flags or ask for it
      *
      * @param string      $handle
-     * @param string      $credential
+     * @param string      $type
      * @param string|null $question
      *
      * @return string
      */
-    protected function gatherCredential($handle, $credential, $question = null)
+    protected function gatherCredential($handle, $type, $question = null)
     {
-        $question = $question ?: 'No '.$credential.' is set for ['.$handle.'], please provide one:';
-        $option   = $this->getOption($credential, true);
-        $method   = in_array($credential, ['password', 'keyphrase'], true) ? 'askSecretly' : 'askWith';
+        $question = $question ?: 'No '.$type.' is set for ['.$handle.'], please provide one:';
+        $option   = $this->getOption($type, true);
+        $method   = in_array($type, ['password', 'keyphrase'], true) ? 'askSecretly' : 'askWith';
 
         return $option ?: $this->command->$method($question);
     }
