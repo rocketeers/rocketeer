@@ -20,8 +20,6 @@ class FridayDeploy extends AbstractTask
 
     /**
      * Run the task
-     *
-     * @return string
      */
     public function execute()
     {

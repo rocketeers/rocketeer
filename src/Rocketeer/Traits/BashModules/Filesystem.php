@@ -223,6 +223,8 @@ trait Filesystem
      *
      * @param string  $file
      * @param boolean $continuous
+     *
+     * @return string|null
      */
     public function tail($file, $continuous = true)
     {
@@ -239,7 +241,7 @@ trait Filesystem
     /**
      * Create a folder in the application's folder
      *
-     * @param string|null $folder The folder to create
+     * @param string|null $folder    The folder to create
      * @param boolean     $recursive
      *
      * @return string The task

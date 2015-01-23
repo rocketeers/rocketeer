@@ -44,7 +44,7 @@ class PolyglotStrategyTest extends RocketeerTestCase
         $this->files->put($this->server.'/current/Gemfile', '');
 
         $polyglot = $this->builder->buildStrategy('Dependencies', 'Polyglot');
-        $results = $polyglot->install();
+        $results  = $polyglot->install();
 
         $this->assertFalse($results);
     }

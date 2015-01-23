@@ -17,7 +17,7 @@ class DummyFailingCommand extends AbstractCommand
      */
     public function fire()
     {
-        return $this->fireTasksQueue(function() {
+        return $this->fireTasksQueue(function () {
            return false;
         });
     }
