@@ -18,6 +18,28 @@ class CredentialsGatherer
     use HasLocator;
 
     /**
+     * Rules for which credentials are
+     * strictly required or not
+     *
+     * @type array
+     */
+    protected $rules = array(
+        'server'     => array(
+            'host'      => true,
+            'username'  => true,
+            'password'  => false,
+            'keyphrase' => false,
+            'key'       => false,
+            'agent'     => false,
+        ),
+        'repository' => array(
+            'repository' => true,
+            'username'   => false,
+            'password'   => false,
+        ),
+    );
+
+    /**
      * Get the Repository's credentials
      */
     public function getRepositoryCredentials()
@@ -25,22 +47,15 @@ class CredentialsGatherer
         // Check for repository credentials
         $repositoryCredentials = $this->connections->getRepositoryCredentials();
 
-        // Build credentials array
-        // null values are considered non required
-        $credentials = array(
-            'repository' => true,
-            'username'   => false,
-            'password'   => false,
-        );
-
         // If we didn't specify a login/password ask for both the first time
+        $rules = $this->rules['repository'];
         if ($this->connections->needsCredentials()) {
             // Else assume the repository is passwordless and only ask again for username
-            $credentials += ['username' => true, 'password' => true];
+            $rules += ['username' => true, 'password' => true];
         }
 
         // Gather credentials
-        $credentials = $this->gatherCredentials($credentials, $repositoryCredentials, 'repository');
+        $credentials = $this->gatherCredentials($rules, $repositoryCredentials, 'repository');
 
         // Save them to local storage and runtime configuration
         $this->localStorage->set('credentials', $credentials);
@@ -100,16 +115,7 @@ class CredentialsGatherer
         $handle = $this->connections->getHandle($connectionName, $server);
 
         // Gather credentials
-        $credentials = $this->gatherCredentials(array(
-            'host'      => true,
-            'username'  => true,
-            'password'  => false,
-            'keyphrase' => false,
-            'key'       => false,
-            'agent'     => false,
-        ), $connection, $handle);
-
-        // Get password or key
+        $credentials = $this->gatherCredentials($this->rules['server'], $connection, $handle);
         $credentials = $this->getConnectionAuthentication($credentials, $handle);
 
         // Save credentials
@@ -159,18 +165,18 @@ class CredentialsGatherer
     /**
      * Loop through credentials and store the missing ones
      *
-     * @param boolean[] $credentials
+     * @param boolean[] $rules
      * @param string[]  $current
      * @param string    $handle
      *
      * @return string[]
      */
-    protected function gatherCredentials($credentials, $current, $handle)
+    protected function gatherCredentials($rules, $current, $handle)
     {
         $unprompted = ['key', 'keyphrase'];
 
         // Loop through credentials and ask missing ones
-        foreach ($credentials as $type => $required) {
+        foreach ($rules as $type => $required) {
             $credential = $this->getCredential($current, $type);
             $prompt     = $this->shouldPromptFor($credential);
             $$type      = $credential;
@@ -181,9 +187,9 @@ class CredentialsGatherer
         }
 
         // Reform array
-        $credentials = compact(array_keys($credentials));
+        $rules = compact(array_keys($rules));
 
-        return $credentials;
+        return $rules;
     }
 
     /**
