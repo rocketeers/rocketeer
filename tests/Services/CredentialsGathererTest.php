@@ -245,6 +245,24 @@ class CredentialsGathererTest extends RocketeerTestCase
         ), $stored);
     }
 
+    public function testPreservesCredentialsTypes()
+    {
+        $this->localStorage->set('connections.production.servers.0', array(
+            'host'     => $this->host,
+            'username' => '',
+            'password' => false,
+            'agent'    => true,
+        ));
+
+        $this->credentials->getServerCredentials();
+        $credentials = $this->localStorage->get('connections.production.servers.0');
+
+        $this->assertEquals($this->host, $credentials['host']);
+        $this->assertEquals('', $credentials['username']);
+        $this->assertFalse($credentials['password']);
+        $this->assertArrayNotHasKey('agent', $credentials);
+    }
+
     //////////////////////////////////////////////////////////////////////
     ////////////////////////////// HELPERS ///////////////////////////////
     //////////////////////////////////////////////////////////////////////

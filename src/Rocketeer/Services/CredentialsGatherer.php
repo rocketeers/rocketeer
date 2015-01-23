@@ -29,8 +29,8 @@ class CredentialsGatherer
         // null values are considered non required
         $credentials = array(
             'repository' => true,
-            'username'   => Arr::get($repositoryCredentials, 'username', '') !== null,
-            'password'   => Arr::get($repositoryCredentials, 'password', '') !== null,
+            'username'   => false,
+            'password'   => false,
         );
 
         // If we didn't specify a login/password ask for both the first time
@@ -173,7 +173,7 @@ class CredentialsGatherer
         foreach ($credentials as $type => $required) {
             $credential = $this->getCredential($current, $type);
             $prompt     = $this->shouldPromptFor($credential);
-            $$type      = (string) $credential;
+            $$type      = $credential;
 
             if (!in_array($type, $unprompted, true) && ($prompt || ($required && !$$type))) {
                 $$type = $this->gatherCredential($handle, $type);
