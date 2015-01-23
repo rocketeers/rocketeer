@@ -281,7 +281,10 @@ class ReleasesManager
     public function getNextRelease()
     {
         if (!$this->nextRelease) {
-            $this->nextRelease = $this->bash->getTimestamp();
+            $manual = $this->getOption('release');
+            $manual = $this->isRelease($manual) ? $manual : null;
+
+            $this->nextRelease = $manual ?: $this->bash->getTimestamp();
         }
 
         return $this->nextRelease;
