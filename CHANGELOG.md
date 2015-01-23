@@ -5,6 +5,7 @@ Rocketeer follows the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.ht
 ## [2.1.0] - Unreleased
 
 ### Added
+- Added `rollback.after` event listener to Notifier plugins
 - Added `shared_dependencies` option to `Dependencies` task to automatically share dependencies between releases
 - Added a `rocketeer selfupdate` command to update to the latest stable version
 - Added ability for plugins to register additional commands via `AbstractPlugin::onConsole`
@@ -12,9 +13,17 @@ Rocketeer follows the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.ht
 - Added ability to configure tasks via `Rocketeer::configure('task', ['option' => 'value'])`
 - Added ability to configure the application's path (in case it's not where Rocketeer is being run in)
 - Added ability to pass allowed servers via flag (eg. `deploy --on="production" --server="1"`)
+- Added ability to specify what to tag the next release as via the `--release="/[0-9]{14}/"` flag
 - Added ability to tail remote files via `$task->task(file, continuous)`
 - Added ability to use **Mercurial** as an SCM option
 - Added ability to use relative symlinks
+- Added motivational message when deploying on fridays
+
+### Changed
+- Logs now always display username and connection handle of all entries
+- [Psysh](http://psysh.org/) is now used for `rocketeer tinker` instead of Boris
+- Servers are now displayed as their hostname instead of their index on multiserver connections (ie. `production/staging.foobar.com` instead of `production/0`)
+- Status and progress messages are now logged also
 
 ### Fixed
 - Fixed an infinite loop issue on Windows
