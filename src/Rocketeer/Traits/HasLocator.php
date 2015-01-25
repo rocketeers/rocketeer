@@ -38,6 +38,7 @@ use Illuminate\Support\Arr;
  * @property \Rocketeer\Services\Pathfinder                      paths
  * @property \Rocketeer\Services\ReleasesManager                 releasesManager
  * @property \Rocketeer\Services\Storages\LocalStorage           localStorage
+ * @property \Rocketeer\Services\RolesManager                    roles
  * @property \Rocketeer\Services\Tasks\TasksBuilder              builder
  * @property \Rocketeer\Services\Tasks\TasksQueue                queue
  * @property \Rocketeer\Services\TasksHandler                    tasks
@@ -88,6 +89,7 @@ trait HasLocator
             'releasesManager' => 'rocketeer.releases',
             'remote'          => 'rocketeer.remote',
             'rocketeer'       => 'rocketeer.rocketeer',
+            'roles'           => 'rocketeer.roles',
             'scm'             => 'rocketeer.scm',
             'tasks'           => 'rocketeer.tasks',
             'timer'           => 'rocketeer.timer',

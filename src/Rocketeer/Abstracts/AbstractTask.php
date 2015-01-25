@@ -13,7 +13,9 @@ namespace Rocketeer\Abstracts;
 use DateTime;
 use Illuminate\Support\Str;
 use Rocketeer\Bash;
+use Rocketeer\Interfaces\HasRolesInterface;
 use Rocketeer\Traits\Configurable;
+use Rocketeer\Traits\HasRoles;
 use Rocketeer\Traits\StepsRunner;
 
 /**
@@ -21,10 +23,11 @@ use Rocketeer\Traits\StepsRunner;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-abstract class AbstractTask extends Bash
+abstract class AbstractTask extends Bash implements HasRolesInterface
 {
     use StepsRunner;
     use Configurable;
+    use HasRoles;
 
     /**
      * The name of the task

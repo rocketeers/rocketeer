@@ -12,7 +12,9 @@ namespace Rocketeer\Services\Connections;
 
 use Closure;
 use Rocketeer\Interfaces\ConnectionInterface;
+use Rocketeer\Interfaces\HasRolesInterface;
 use Rocketeer\Traits\HasLocator;
+use Rocketeer\Traits\HasRoles;
 
 /**
  * Stub of local connections to make Rocketeer work
@@ -20,9 +22,10 @@ use Rocketeer\Traits\HasLocator;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class LocalConnection implements ConnectionInterface
+class LocalConnection implements ConnectionInterface, HasRolesInterface
 {
     use HasLocator;
+    use HasRoles;
 
     /**
      * Return status of the last command

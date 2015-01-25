@@ -11,14 +11,18 @@
 namespace Rocketeer\Services\Connections;
 
 use Rocketeer\Interfaces\ConnectionInterface;
+use Rocketeer\Interfaces\HasRolesInterface;
+use Rocketeer\Traits\HasRoles;
 
 /**
  * Base connection class with additional setters
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class Connection extends \Illuminate\Remote\Connection implements ConnectionInterface
+class Connection extends \Illuminate\Remote\Connection implements ConnectionInterface, HasRolesInterface
 {
+    use HasRoles;
+
     /**
      * @return string
      */

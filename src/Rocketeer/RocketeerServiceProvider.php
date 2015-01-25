@@ -30,6 +30,7 @@ use Rocketeer\Services\Ignition\Configuration;
 use Rocketeer\Services\Ignition\Tasks;
 use Rocketeer\Services\Pathfinder;
 use Rocketeer\Services\ReleasesManager;
+use Rocketeer\Services\RolesManager;
 use Rocketeer\Services\Storages\LocalStorage;
 use Rocketeer\Services\Tasks\TasksBuilder;
 use Rocketeer\Services\Tasks\TasksQueue;
@@ -198,6 +199,10 @@ class RocketeerServiceProvider extends ServiceProvider
 
         $this->app->singleton('rocketeer.tasks', function ($app) {
             return new TasksHandler($app);
+        });
+
+        $this->app->singleton('rocketeer.roles', function ($app) {
+            return new RolesManager($app);
         });
 
         $this->app->singleton('rocketeer.history', function () {

@@ -1,0 +1,31 @@
+<?php
+namespace Rocketeer\Interfaces;
+
+interface HasRolesInterface
+{
+    /**
+     * @return array
+     */
+    public function getRoles();
+
+    /**
+     * @param array $roles
+     */
+    public function setRoles($roles);
+
+    /**
+     * @param string $role
+     *
+     * @return boolean
+     */
+    public function hasRole($role);
+
+    /**
+     * Check if an entity is compatible with another
+     *
+     * @param HasRolesInterface $hasRoles
+     *
+     * @return boolean
+     */
+    public function isCompatibleWith(HasRolesInterface $hasRoles);
+}
