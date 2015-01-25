@@ -188,7 +188,7 @@ class CredentialsGatherer
      * @param string              $handle
      * @param string|boolean|null $type
      *
-     * @return string
+     * @return string|null
      */
     protected function gatherAuthCredential($handle, $type)
     {
@@ -213,7 +213,7 @@ class CredentialsGatherer
      * @param string      $type
      * @param string|null $question
      *
-     * @return string
+     * @return string|null
      */
     protected function gatherCredential($handle, $type, $question = null)
     {
@@ -230,7 +230,7 @@ class CredentialsGatherer
      * @param string[] $credentials
      * @param string   $credential
      *
-     * @return string
+     * @return string|null
      */
     protected function getCredential($credentials, $credential)
     {
