@@ -47,10 +47,11 @@ trait StepsRunner
         $steps = $this->steps()->pullSteps();
         foreach ($steps as $step) {
             list($method, $arguments) = $step;
-            $arguments                = (array) $arguments;
+            $callable  = is_callable($method) ? $method : [$this, $method];
+            $arguments = (array) $arguments;
 
-            $results = call_user_func_array([$this, $method], $arguments);
-            $results = $results ?: $this->status();
+            $results = call_user_func_array($callable, $arguments);
+            $results = is_bool($results) ? $results : $this->status();
             if (!$results) {
                 return false;
             }

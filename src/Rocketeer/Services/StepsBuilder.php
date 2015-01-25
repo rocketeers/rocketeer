@@ -37,6 +37,17 @@ class StepsBuilder
     }
 
     /**
+     * Add a callable to the steps
+     *
+     * @param callable $callable
+     * @param array    $arguments
+     */
+    public function addStep(callable $callable, $arguments = [])
+    {
+        $this->steps[] = [$callable, $arguments];
+    }
+
+    /**
      * Get and clear the steps
      *
      * @return array
