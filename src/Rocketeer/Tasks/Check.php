@@ -54,14 +54,14 @@ class Check extends AbstractTask
         $check = $this->getStrategy('Check');
 
         // Execute various checks
-        $this->checkScm();
-        $this->checkPackageManagers($check);
-        $this->checkLanguages($check);
-        $this->checkExtensions($check);
-        $this->checkDrivers($check);
+        $this->steps()->checkScm();
+        $this->steps()->checkPackageManagers($check);
+        $this->steps()->checkLanguages($check);
+        $this->steps()->checkExtensions($check);
+        $this->steps()->checkDrivers($check);
 
         // Return false if any error
-        if (!empty($this->errors)) {
+        if (!$this->runSteps()) {
             return $this->halt(implode(PHP_EOL, $this->errors));
         }
 
@@ -75,25 +75,30 @@ class Check extends AbstractTask
 
     /**
      * Check the presence of an SCM on the server
+     *
+     * @return boolean
      */
     public function checkScm()
     {
         // Cancel if not using any SCM
         if ($this->rocketeer->getOption('strategies.deploy') === 'sync') {
-            return;
+            return true;
         }
 
         $this->explainer->line('Checking presence of '.$this->scm->getBinary());
         $results = $this->scm->run('check');
         $this->toOutput($results);
 
-        if ($this->getConnection()->status() !== 0) {
-            $this->errors[] = $this->scm->getBinary().' could not be found';
-        }
+        return $this->executeCheck(
+            $this->getConnection()->status() === 0,
+            $this->scm->getBinary().' could not be found'
+        );
     }
 
     /**
      * @param AbstractCheckStrategy $check
+     *
+     * @return boolean
      */
     protected function checkPackageManagers(AbstractCheckStrategy $check)
     {
@@ -101,47 +106,78 @@ class Check extends AbstractTask
         $manager = str_replace('Strategy', null, $manager);
         $this->explainer->line('Checking presence of '.$manager);
 
-        if (!$check->manager()) {
-            $this->errors[] = sprintf('The %s package manager could not be found', $manager);
-        }
+        return $this->executeCheck(
+            $check->manager(),
+            sprintf('The %s package manager could not be found', $manager)
+        );
     }
 
     /**
      * @param AbstractCheckStrategy $check
+     *
+     * @return boolean
      */
     protected function checkLanguages(AbstractCheckStrategy $check)
     {
         $language = $check->getLanguage();
         $this->explainer->line('Checking '.$language.' version');
 
-        if (!$check->language()) {
-            $this->errors[] = $language.' is not at the required version';
-        }
+        return $this->executeCheck(
+            $check->language(),
+            $language.' is not at the required version'
+        );
     }
 
     /**
      * @param AbstractCheckStrategy $check
+     *
+     * @return boolean
      */
     protected function checkExtensions(AbstractCheckStrategy $check)
     {
         $this->explainer->line('Checking presence of required extensions');
         $extensions = $check->extensions();
 
-        if (!empty($extensions)) {
-            $this->errors[] = 'The following extensions could not be found: '.implode(', ', $extensions);
-        }
+        return $this->executeCheck(
+            empty($extensions),
+            'The following extensions could not be found: '.implode(', ', $extensions)
+        );
     }
 
     /**
      * @param AbstractCheckStrategy $check
+     *
+     * @return boolean
      */
     protected function checkDrivers(AbstractCheckStrategy $check)
     {
         $this->explainer->line('Checking presence of required drivers');
         $drivers = $check->drivers();
 
-        if (!empty($drivers)) {
-            $this->errors[] = 'The following drivers could not be found: '.implode(', ', $drivers);
+        return $this->executeCheck(
+            empty($drivers),
+            'The following drivers could not be found: '.implode(', ', $drivers)
+        );
+    }
+
+    //////////////////////////////////////////////////////////////////////
+    /////////////////////////////// HEPERS ///////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+
+    /**
+     * Execute a check and log the error if not
+     *
+     * @param boolean $condition
+     * @param string  $error
+     *
+     * @return boolean
+     */
+    protected function executeCheck($condition, $error)
+    {
+        if (!$condition) {
+            $this->errors[] = $error;
         }
+
+        return (bool) $condition;
     }
 }
