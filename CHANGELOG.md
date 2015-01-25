@@ -7,6 +7,7 @@ Rocketeer follows the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.ht
 ### Added
 - Added `rollback.after` event listener to Notifier plugins
 - Added `shared_dependencies` option to `Dependencies` task to automatically share dependencies between releases
+- Added `StepsBuilder::addStep(callable, arguments)` allowing to pass closures to the StepsBuilder
 - Added a `rocketeer selfupdate` command to update to the latest stable version
 - Added ability for plugins to register additional commands via `AbstractPlugin::onConsole`
 - Added ability to configure credentials more in depth: which are always prompted or not, which are saved, etc.
