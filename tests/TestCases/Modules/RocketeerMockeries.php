@@ -23,13 +23,21 @@ trait RocketeerMockeries
     /**
      * Mock the Composer check
      *
-     * @param boolean $uses
-     *
-     * @return void
+     * @param boolean     $uses
+     * @param string|null $stage
      */
-    protected function usesComposer($uses = true)
+    protected function usesComposer($uses = true, $stage = null)
     {
-        $composer = $this->server.'/current/composer.json';
+        $composer = $this->server.'/';
+        $composer .= $stage ? $stage.'/' : null;
+        $composer .= 'current/composer.json';
+
+        // Create directory if necessary
+        $folder = dirname($composer);
+        if (!is_dir($folder)) {
+            mkdir($folder, 0777, true);
+        }
+
         if ($uses) {
             $this->files->put($composer, '{}');
         } else {
@@ -122,8 +130,9 @@ trait RocketeerMockeries
     {
         $defaults = $this->getFactoryConfiguration();
         $defaults = array_merge($defaults, array(
-            'rocketeer::remote.shell' => false,
-            'rocketeer::paths.app' => $this->app['path.base'], )
+                'rocketeer::remote.shell' => false,
+                'rocketeer::paths.app'    => $this->app['path.base'],
+            )
         );
 
         // Set core expectations

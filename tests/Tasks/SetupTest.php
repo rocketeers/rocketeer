@@ -8,7 +8,9 @@ class SetupTest extends RocketeerTestCase
 {
     public function testCanSetupServer()
     {
+        $this->usesComposer(true);
         $this->pretend();
+
         $this->mockReleases(function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('getCurrentRelease')->andReturn(null)
@@ -27,7 +29,9 @@ class SetupTest extends RocketeerTestCase
 
     public function testCanSetupStages()
     {
+        $this->usesComposer(true);
         $this->pretend();
+
         $this->mockReleases(function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('getCurrentRelease')->andReturn(null)
@@ -52,12 +56,15 @@ class SetupTest extends RocketeerTestCase
 
     public function testRunningSetupKeepsCurrentConfiguredStage()
     {
+        $this->usesComposer(true, 'staging');
         $this->pretend();
+
         $this->mockReleases(function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('getCurrentRelease')->andReturn(null)
                 ->shouldReceive('getCurrentReleasePath')->andReturn('1');
         });
+
         $this->swapConfig(array(
             'rocketeer::stages.stages' => ['staging', 'production'],
         ));
@@ -77,6 +84,7 @@ class SetupTest extends RocketeerTestCase
         ), array(
             'stage' => 'staging',
         ));
+
         $this->assertEquals('staging', $this->connections->getStage());
     }
 }

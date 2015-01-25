@@ -8,6 +8,8 @@ class CheckTest extends RocketeerTestCase
 {
     public function testCanCheckScmVersionIfRequired()
     {
+        $this->usesComposer(true);
+
         $this->assertTaskHistory('Check', array(
             'git --version',
             '{php} -m',
@@ -16,6 +18,8 @@ class CheckTest extends RocketeerTestCase
 
     public function testSkipsScmCheckIfNotRequired()
     {
+        $this->usesComposer(true);
+
         $this->swapConfig(array(
             'rocketeer::strategies.deploy' => 'sync',
         ));

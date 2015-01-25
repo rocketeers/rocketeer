@@ -55,8 +55,8 @@ class Check extends AbstractTask
 
         // Execute various checks
         $this->steps()->checkScm();
-        $this->steps()->checkPackageManagers($check);
         $this->steps()->checkLanguages($check);
+        $this->steps()->checkPackageManagers($check);
         $this->steps()->checkExtensions($check);
         $this->steps()->checkDrivers($check);
 
