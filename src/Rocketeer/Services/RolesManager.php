@@ -33,11 +33,28 @@ class RolesManager
      *
      * @return array
      */
-    public function getRoles($connection = null, $server = null)
+    public function getConnectionRoles($connection = null, $server = null)
     {
         $credentials = $this->connections->getServerCredentials($connection, $server);
 
         return Arr::get($credentials, 'roles', []);
+    }
+
+    /**
+     * Assign roles to multiple tasks
+     *
+     * @param array $roles
+     */
+    public function assignTasksRoles(array $roles)
+    {
+        foreach ($roles as $roles => $tasks) {
+            $tasks = (array) $tasks;
+            $roles = (array) $roles;
+
+            foreach ($tasks as $task) {
+                $this->builder->buildTask($task)->setRoles($roles);
+            }
+        }
     }
 
     /**

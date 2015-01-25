@@ -17,7 +17,7 @@ class RolesManagerTest extends RocketeerTestCase
            ),
         ));
 
-        $this->assertEquals($roles, $this->roles->getRoles('production'));
+        $this->assertEquals($roles, $this->roles->getConnectionRoles('production'));
     }
 
     public function testCanCheckIfConnectionCanExecuteTask()
@@ -31,5 +31,18 @@ class RolesManagerTest extends RocketeerTestCase
 
         $this->task->setRoles(['foo', 'baz']);
         $this->assertFalse($this->roles->canExecuteTask($connection, $this->task));
+    }
+
+    public function testCanAssignRolesToTask()
+    {
+        $this->roles->assignTasksRoles(array(
+           'web' => ['Deploy', 'Check'],
+        ));
+
+        $roles = $this->builder->buildTask('Deploy')->getRoles();
+        $this->assertEquals(['web'], $roles);
+
+        $roles = $this->builder->buildTask('Check')->getRoles();
+        $this->assertEquals(['web'], $roles);
     }
 }
