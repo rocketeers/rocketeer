@@ -11,6 +11,7 @@
 namespace Rocketeer\Services\Connections;
 
 use Exception;
+use Illuminate\Support\Arr;
 use InvalidArgumentException;
 use Rocketeer\Exceptions\ConnectionException;
 use Rocketeer\Exceptions\MissingCredentialsException;
@@ -63,9 +64,13 @@ class RemoteHandler
             return $this->active[$handle];
         }
 
-        // Create connection
+        // Get credentials and roles
         $credentials = $this->connections->getServerCredentials($connection, $server);
-        $connection  = $this->makeConnection($name, $credentials);
+        $roles       = Arr::get($credentials, 'roles', []);
+
+        // Create connection
+        $connection = $this->makeConnection($name, $credentials);
+        $connection->setRoles($roles);
 
         // Save to cache
         $this->active[$handle] = $connection;

@@ -155,4 +155,23 @@ class RemoteHandlerTest extends RocketeerTestCase
         $this->assertEquals('production', $connection->getName());
         $this->assertEquals('foo', $connection->getUsername());
     }
+
+    public function testSetsRolesOnCreation()
+    {
+        $this->swapConfig(array(
+            'rocketeer::connections' => array(
+                'production' => array(
+                    'host'     => 'foobar.com',
+                    'username' => 'foobar',
+                    'password' => 'foobar',
+                    'roles'    => ['foo', 'bar'],
+                ),
+            ),
+        ));
+
+        $connection = $this->handler->connection();
+
+        $this->assertInstanceOf('Rocketeer\Services\Connections\Connection', $connection);
+        $this->assertEquals(['foo', 'bar'], $connection->getRoles());
+    }
 }
