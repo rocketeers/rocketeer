@@ -57,8 +57,8 @@ class Check extends AbstractTask
         $this->steps()->checkScm();
         $this->steps()->checkLanguages($check);
         $this->steps()->checkPackageManagers($check);
-        $this->steps()->checkExtensions($check);
-        $this->steps()->checkDrivers($check);
+        $this->steps()->checkExtensions($check, 'extensions');
+        $this->steps()->checkExtensions($check, 'drivers');
 
         // Return false if any error
         if (!$this->runSteps()) {
@@ -130,33 +130,18 @@ class Check extends AbstractTask
 
     /**
      * @param AbstractCheckStrategy $check
+     * @param string                $type
      *
      * @return boolean
      */
-    protected function checkExtensions(AbstractCheckStrategy $check)
+    protected function checkExtensions(AbstractCheckStrategy $check, $type)
     {
-        $this->explainer->line('Checking presence of required extensions');
-        $extensions = $check->extensions();
+        $this->explainer->line('Checking presence of required '.$type);
+        $entries = $check->$type();
 
         return $this->executeCheck(
-            empty($extensions),
-            'The following extensions could not be found: '.implode(', ', $extensions)
-        );
-    }
-
-    /**
-     * @param AbstractCheckStrategy $check
-     *
-     * @return boolean
-     */
-    protected function checkDrivers(AbstractCheckStrategy $check)
-    {
-        $this->explainer->line('Checking presence of required drivers');
-        $drivers = $check->drivers();
-
-        return $this->executeCheck(
-            empty($drivers),
-            'The following drivers could not be found: '.implode(', ', $drivers)
+            empty($entries),
+            'The following '.$type.' could not be found: '.implode(', ', $entries)
         );
     }
 
