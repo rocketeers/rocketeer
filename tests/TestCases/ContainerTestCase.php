@@ -320,7 +320,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
      */
     protected function getCommandOutput($verbosity = 0)
     {
-        $output = Mockery::mock('OutputInterface')->shouldIgnoreMissing();
+        $output = Mockery::mock('Symfony\Component\Console\Output\OutputInterface')->shouldIgnoreMissing();
         $output->shouldReceive('getVerbosity')->andReturn($verbosity);
 
         return $output;
