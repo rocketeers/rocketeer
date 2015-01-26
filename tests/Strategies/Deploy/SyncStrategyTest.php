@@ -9,12 +9,10 @@ class SyncStrategyTest extends RocketeerTestCase
     {
         parent::setUp();
 
-        $this->swapConfig(array(
-            'rocketeer::connections' => array(
-                'production' => array(
-                    'host'     => 'bar.com',
-                    'username' => 'foo',
-                ),
+        $this->swapConnections(array(
+            'production' => array(
+                'host'     => 'bar.com',
+                'username' => 'foo',
             ),
         ));
     }
@@ -39,12 +37,10 @@ class SyncStrategyTest extends RocketeerTestCase
 
     public function testCanSpecifyPortViaHostname()
     {
-        $this->swapConfig(array(
-            'rocketeer::connections' => array(
-                'production' => array(
-                    'host'     => 'bar.com:12345',
-                    'username' => 'foo',
-                ),
+        $this->swapConnections(array(
+            'production' => array(
+                'host'     => 'bar.com:12345',
+                'username' => 'foo',
             ),
         ));
 

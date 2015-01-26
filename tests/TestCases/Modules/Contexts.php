@@ -73,4 +73,16 @@ trait Contexts
         $this->mockConfig($config);
         $this->tasks->registerConfiguredEvents();
     }
+
+    /**
+     * Swap the configured connections
+     *
+     * @param array $connections
+     */
+    protected function swapConnections(array $connections)
+    {
+        $this->swapConfig(array(
+            'rocketeer::connections' => $connections,
+        ));
+    }
 }

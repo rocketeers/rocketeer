@@ -205,15 +205,13 @@ class CredentialsGathererTest extends RocketeerTestCase
 
     public function testCanHaveMultipleTypesOfCredentials()
     {
-        $this->swapConfig(array(
-            'rocketeer::connections' => [
-                'production' => [
-                    'host'      => $this->host,
-                    'username'  => '',
-                    'password'  => false,
-                    'key'       => '',
-                    'keyphrase' => true,
-                ],
+        $this->swapConnections(array(
+            'production' => [
+                'host'      => $this->host,
+                'username'  => '',
+                'password'  => false,
+                'key'       => '',
+                'keyphrase' => true,
             ],
         ));
 
@@ -248,15 +246,13 @@ class CredentialsGathererTest extends RocketeerTestCase
 
     public function testDoesntAskForKeyphraseOnlyOnce()
     {
-        $this->swapConfig(array(
-            'rocketeer::connections' => [
-                'production' => [
-                    'host'      => $this->host,
-                    'username'  => '',
-                    'password'  => false,
-                    'key'       => $this->key,
-                    'keyphrase' => true,
-                ],
+        $this->swapConnections(array(
+            'production' => [
+                'host'      => $this->host,
+                'username'  => '',
+                'password'  => false,
+                'key'       => $this->key,
+                'keyphrase' => true,
             ],
         ));
 

@@ -166,19 +166,17 @@ class TasksQueueTest extends RocketeerTestCase
         $this->pretend();
 
         $this->app['rocketeer.remote'] = new RemoteHandler($this->app);
-        $this->swapConfig(array(
-            'rocketeer::connections' => array(
-                'production' => array(
-                    'host'     => 'foobar.com',
-                    'username' => 'foobar',
-                    'password' => 'foobar',
-                    'roles'    => ['foo', 'bar'],
-                ),
+        $this->swapConnections(array(
+            'production' => array(
+                'host'     => 'foobar.com',
+                'username' => 'foobar',
+                'password' => 'foobar',
+                'roles'    => ['foo', 'bar'],
             ),
         ));
 
         $this->tasks->task('YES', function ($task) {
-           $task->run('YES');
+            $task->run('YES');
         });
         $this->tasks->task('NO', function ($task) {
             $task->run('NO');

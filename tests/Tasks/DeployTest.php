@@ -212,13 +212,11 @@ class DeployTest extends RocketeerTestCase
 
     public function testNoDbRoleNoMigrationsNorSeedsAreRun()
     {
-        $this->swapConfig(array(
-            'rocketeer::connections' => array(
-                'production' => array(
-                    'servers' => array(
-                        array(
-                            'db_role' => false,
-                        ),
+        $this->swapConnections(array(
+            'production' => array(
+                'servers' => array(
+                    array(
+                        'db_role' => false,
                     ),
                 ),
             ),
@@ -270,13 +268,11 @@ class DeployTest extends RocketeerTestCase
 
     public function testDbRoleMigrationsAndSeedsAreRun()
     {
-        $this->swapConfig(array(
-            'rocketeer::connections' => array(
-                'production' => array(
-                    'servers' => array(
-                        array(
-                            'db_role' => true,
-                        ),
+        $this->swapConnections(array(
+            'production' => array(
+                'servers' => array(
+                    array(
+                        'db_role' => true,
                     ),
                 ),
             ),

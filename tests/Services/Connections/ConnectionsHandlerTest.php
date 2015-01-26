@@ -45,13 +45,11 @@ class ConnectionsHandlerTest extends RocketeerTestCase
 
     public function testUsesCurrentServerWhenGettingServerCredentials()
     {
-        $this->swapConfig(array(
-            'rocketeer::connections' => array(
-                'production' => array(
-                    'servers' => array(
-                        ['host' => 'server1.com'],
-                        ['host' => 'server2.com'],
-                    ),
+        $this->swapConnections(array(
+            'production' => array(
+                'servers' => array(
+                    ['host' => 'server1.com'],
+                    ['host' => 'server2.com'],
                 ),
             ),
         ));
@@ -179,13 +177,11 @@ class ConnectionsHandlerTest extends RocketeerTestCase
 
     public function testCanUseHostnameOfServerInHandleIfPresent()
     {
-        $this->swapConfig(array(
-            'rocketeer::connections' => array(
-                'production' => array(
-                    'servers' => array(
-                        ['host' => 'server1.com'],
-                        ['host' => 'server2.com'],
-                    ),
+        $this->swapConnections(array(
+            'production' => array(
+                'servers' => array(
+                    ['host' => 'server1.com'],
+                    ['host' => 'server2.com'],
                 ),
             ),
         ));
@@ -239,14 +235,12 @@ class ConnectionsHandlerTest extends RocketeerTestCase
 
     public function testCanSpecifyServersViaOptions()
     {
-        $this->swapConfig(array(
-            'rocketeer::connections' => array(
-                'production' => array(
-                    'servers' => array(
-                        ['host' => 'server1.com'],
-                        ['host' => 'server2.com'],
-                        ['host' => 'server3.com'],
-                    ),
+        $this->swapConnections(array(
+            'production' => array(
+                'servers' => array(
+                    ['host' => 'server1.com'],
+                    ['host' => 'server2.com'],
+                    ['host' => 'server3.com'],
                 ),
             ),
         ));

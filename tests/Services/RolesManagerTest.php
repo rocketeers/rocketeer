@@ -9,12 +9,10 @@ class RolesManagerTest extends RocketeerTestCase
     public function testCanGetRolesOfConnection()
     {
         $roles = ['assets', 'web'];
-        $this->swapConfig(array(
-           'rocketeer::connections' => array(
-             'production' => array(
-               'roles' => $roles,
-             ),
-           ),
+        $this->swapConnections(array(
+            'production' => array(
+                'roles' => $roles,
+            ),
         ));
 
         $this->assertEquals($roles, $this->roles->getConnectionRoles('production'));
@@ -22,7 +20,7 @@ class RolesManagerTest extends RocketeerTestCase
 
     public function testCanCheckIfConnectionCanExecuteTask()
     {
-        $remote = new RemoteHandler($this->app);
+        $remote     = new RemoteHandler($this->app);
         $connection = $remote->connection('production');
         $connection->setRoles(['foo', 'bar']);
 
@@ -36,7 +34,7 @@ class RolesManagerTest extends RocketeerTestCase
     public function testCanAssignRolesToTask()
     {
         $this->roles->assignTasksRoles(array(
-           'web' => ['Deploy', 'Check'],
+            'web' => ['Deploy', 'Check'],
         ));
 
         $roles = $this->builder->buildTask('Deploy')->getRoles();
