@@ -7,15 +7,17 @@ use Illuminate\Filesystem\Filesystem;
 use Mockery;
 use PHPUnit_Framework_TestCase;
 use Rocketeer\RocketeerServiceProvider;
-use Rocketeer\TestCases\Modules\RocketeerAssertions;
-use Rocketeer\TestCases\Modules\RocketeerMockeries;
+use Rocketeer\TestCases\Modules\Assertions;
+use Rocketeer\TestCases\Modules\Mocks;
+use Rocketeer\TestCases\Modules\Contexts;
 use Rocketeer\Traits\HasLocator;
 
 abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 {
     use HasLocator;
-    use RocketeerMockeries;
-    use RocketeerAssertions;
+    use Mocks;
+    use Assertions;
+    use Contexts;
 
     /**
      * @type array
@@ -163,20 +165,6 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         }
 
         return $command;
-    }
-
-    /**
-     * Swap the current config
-     *
-     * @param array $config
-     *
-     * @return void
-     */
-    protected function swapConfig($config = [])
-    {
-        $this->connections->disconnect();
-        $this->mockConfig($config);
-        $this->tasks->registerConfiguredEvents();
     }
 
     /**
