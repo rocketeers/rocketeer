@@ -21,9 +21,19 @@ trait HasRoles
     /**
      * @param array $roles
      */
-    public function setRoles($roles)
+    public function setRoles(array $roles)
     {
         $this->roles = $roles;
+    }
+
+    /**
+     * Add new roles to the entity
+     *
+     * @param array $roles
+     */
+    public function addRoles(array $roles)
+    {
+        $this->roles = array_merge($this->roles, $roles);
     }
 
     /**

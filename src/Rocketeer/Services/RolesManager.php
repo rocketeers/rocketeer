@@ -52,7 +52,7 @@ class RolesManager
             $roles = (array) $roles;
 
             foreach ($tasks as $task) {
-                $this->builder->buildTask($task)->setRoles($roles);
+                $this->builder->buildTask($task)->addRoles($roles);
             }
         }
     }
