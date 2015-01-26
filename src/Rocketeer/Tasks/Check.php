@@ -49,16 +49,17 @@ class Check extends AbstractTask
     public function execute()
     {
         $this->errors = [];
+        $this->steps()->checkScm();
 
+        // Execute strategy checks
         /** @type AbstractCheckStrategy $check */
         $check = $this->getStrategy('Check');
-
-        // Execute various checks
-        $this->steps()->checkScm();
-        $this->steps()->checkLanguages($check);
-        $this->steps()->checkPackageManagers($check);
-        $this->steps()->checkExtensions($check, 'extensions');
-        $this->steps()->checkExtensions($check, 'drivers');
+        if ($check) {
+            $this->steps()->checkLanguages($check);
+            $this->steps()->checkPackageManagers($check);
+            $this->steps()->checkExtensions($check, 'extensions');
+            $this->steps()->checkExtensions($check, 'drivers');
+        }
 
         // Return false if any error
         if (!$this->runSteps()) {

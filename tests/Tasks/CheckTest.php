@@ -58,4 +58,14 @@ class CheckTest extends RocketeerTestCase
         $this->task('Check')->fire();
         $this->assertContains('[anahkiasen@production] The Composer package manager could not be found', $this->logs->getLogs());
     }
+
+    public function testCanSkipStrategyChecks()
+    {
+        $this->pretend();
+        $this->usesComposer(true);
+        unset($this->app['rocketeer.strategies.check']);
+
+        $this->task('Check')->fire();
+        $this->assertHistoryNotContains('{php} -m');
+    }
 }
