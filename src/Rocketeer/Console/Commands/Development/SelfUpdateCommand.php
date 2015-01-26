@@ -35,7 +35,7 @@ class SelfUpdateCommand extends AbstractCommand
     public function fire()
     {
         $localFilename = realpath($_SERVER['argv'][0]) ?: $_SERVER['argv'][0];
-        $updater       = new SelfUpdater($this->laravel, $localFilename, $this->argument('version'));
+        $updater       = new SelfUpdater($this->laravel, $localFilename, $this->argument('target'));
 
         try {
             $updater->update();
@@ -66,7 +66,7 @@ class SelfUpdateCommand extends AbstractCommand
     public function getArguments()
     {
         return array(
-            ['version', InputArgument::OPTIONAL, 'The version to update to'],
+            ['target', InputArgument::OPTIONAL, 'The version to update to'],
         );
     }
 }
