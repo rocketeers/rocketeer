@@ -44,6 +44,6 @@ class AbstractCommandTest extends RocketeerTestCase
 
         $tester = $this->executeCommand($command, [], ['interactive' => false]);
 
-        $this->assertContains('non interactive mode', $tester->getDisplay());
+        $this->assertContains('prompt was skipped: No host is set for [production]', $tester->getDisplay());
     }
 }

@@ -164,7 +164,8 @@ abstract class AbstractCommand extends Command
 
         // Check for credentials
         if (!$this->laravel['rocketeer.rocketeer']->isLocal()) {
-            $this->gatherCredentials();
+            $this->laravel['rocketeer.credentials']->getServerCredentials();
+            $this->laravel['rocketeer.credentials']->getRepositoryCredentials();
         }
 
         if ($this->straight) {
@@ -207,6 +208,9 @@ abstract class AbstractCommand extends Command
     public function askWith($question, $default = null, $choices = array())
     {
         $question = $this->formatQuestion($question, $default, $choices);
+        if ($this->checkInteractivity($question)) {
+            return $default;
+        }
 
         // If we provided choices, autocomplete
         if ($choices) {
@@ -227,6 +231,9 @@ abstract class AbstractCommand extends Command
     public function askSecretly($question, $default = null)
     {
         $question = $this->formatQuestion($question, $default);
+        if ($this->checkInteractivity($question)) {
+            return $default;
+        }
 
         return $this->secret($question) ?: $default;
     }
@@ -279,15 +286,17 @@ abstract class AbstractCommand extends Command
     }
 
     /**
-     * Gather the missing credentials
+     * @param string $question
+     *
+     * @return boolean
      */
-    protected function gatherCredentials()
+    protected function checkInteractivity($question)
     {
-        if (!$this->input->isInteractive()) {
-            return $this->error('Rocketeer is running in non interactive mode, some credentials prompt will be skipped and may cause errors');
+        $nonInteractive = !$this->input->isInteractive();
+        if ($nonInteractive) {
+            $this->error('Running in non interactive mode, prompt was skipped: '.$question);
         }
 
-        $this->laravel['rocketeer.credentials']->getServerCredentials();
-        $this->laravel['rocketeer.credentials']->getRepositoryCredentials();
+        return $nonInteractive;
     }
 }
