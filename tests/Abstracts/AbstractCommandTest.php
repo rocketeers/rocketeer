@@ -36,4 +36,14 @@ class AbstractCommandTest extends RocketeerTestCase
 
         $this->assertEquals(1, $code);
     }
+
+    public function testDisplaysWarningInNonInteractiveMode()
+    {
+        $command = new DummyFailingCommand();
+        $command->setLaravel($this->app);
+
+        $tester = $this->executeCommand($command, [], ['interactive' => false]);
+
+        $this->assertContains('non interactive mode', $tester->getDisplay());
+    }
 }

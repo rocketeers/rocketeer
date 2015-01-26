@@ -1,6 +1,7 @@
 <?php
 namespace Rocketeer\TestCases;
 
+use Illuminate\Console\Command;
 use Rocketeer\Services\Storages\LocalStorage;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -123,25 +124,23 @@ abstract class RocketeerTestCase extends ContainerTestCase
     /**
      * Get and execute a command
      *
-     * @param string|null $command
-     * @param array       $options
+     * @param Command|string|null $command
+     * @param array               $arguments
+     * @param array               $options
      *
      * @return CommandTester
      */
-    protected function executeCommand($command = null, $options = array())
+    protected function executeCommand($command = null, $arguments = [], $options = [])
     {
-        // Fetch command
-        $command = $command ? '.'.$command : null;
-        $command = $this->app['rocketeer.commands'.$command];
-
-        // Build options
-        $options = array_merge(array(
-            'command' => $command->getName(),
-        ), $options);
+        // Fetch command from Container if necessary
+        if (!$command instanceof Command) {
+            $command = $command ? '.'.$command : null;
+            $command = $this->app['rocketeer.commands'.$command];
+        }
 
         // Execute
         $tester = new CommandTester($command);
-        $tester->execute($options);
+        $tester->execute($arguments, $options);
 
         return $tester;
     }

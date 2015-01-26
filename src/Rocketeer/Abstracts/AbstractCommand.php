@@ -164,8 +164,7 @@ abstract class AbstractCommand extends Command
 
         // Check for credentials
         if (!$this->laravel['rocketeer.rocketeer']->isLocal()) {
-            $this->laravel['rocketeer.credentials']->getServerCredentials();
-            $this->laravel['rocketeer.credentials']->getRepositoryCredentials();
+            $this->gatherCredentials();
         }
 
         if ($this->straight) {
@@ -277,5 +276,18 @@ abstract class AbstractCommand extends Command
         $this->line('Execution time: <comment>'.$time.'s</comment>');
 
         return $results;
+    }
+
+    /**
+     * Gather the missing credentials
+     */
+    protected function gatherCredentials()
+    {
+        if (!$this->input->isInteractive()) {
+            return $this->error('Rocketeer is running in non interactive mode, some credentials prompt will be skipped and may cause errors');
+        }
+
+        $this->laravel['rocketeer.credentials']->getServerCredentials();
+        $this->laravel['rocketeer.credentials']->getRepositoryCredentials();
     }
 }
