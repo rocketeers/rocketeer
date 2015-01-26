@@ -42,13 +42,6 @@ class TasksQueue
     protected $tasks;
 
     /**
-     * The Remote connection
-     *
-     * @var Connection
-     */
-    protected $remote;
-
-    /**
      * @param Parallel $parallel
      */
     public function setParallel($parallel)
@@ -182,6 +175,11 @@ class TasksQueue
             if ($task->usesStages()) {
                 $stage = $task->usesStages() ? $job->stage : null;
                 $this->connections->setStage($stage);
+            }
+
+            // Check if the current server can run the task
+            if (!$this->remote->connection()->isCompatibleWith($task)) {
+                continue;
             }
 
             // Here we fire the task, save its

@@ -2,6 +2,7 @@
 namespace Rocketeer\Services\Tasks;
 
 use Mockery;
+use Rocketeer\Services\Connections\RemoteHandler;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class TasksQueueTest extends RocketeerTestCase
@@ -158,5 +159,42 @@ class TasksQueueTest extends RocketeerTestCase
         $this->queue->setParallel($parallel);
 
         $this->queue->run(['ls']);
+    }
+
+    public function testSkipsTasksThatArentFitForConnection()
+    {
+        $this->pretend();
+
+        $this->app['rocketeer.remote'] = new RemoteHandler($this->app);
+        $this->swapConfig(array(
+            'rocketeer::connections' => array(
+                'production' => array(
+                    'host'     => 'foobar.com',
+                    'username' => 'foobar',
+                    'password' => 'foobar',
+                    'roles'    => ['foo', 'bar'],
+                ),
+            ),
+        ));
+
+        $this->tasks->task('YES', function ($task) {
+           $task->run('YES');
+        });
+        $this->tasks->task('NO', function ($task) {
+            $task->run('NO');
+        });
+
+        $this->roles->assignTasksRoles(array(
+            'baz' => 'NO',
+            'foo' => 'YES',
+        ));
+
+        $this->queue->run(array(
+            'YES',
+            'NO',
+        ));
+
+        $this->assertHistoryContains('YES');
+        $this->assertHistoryNotContains('NO');
     }
 }
