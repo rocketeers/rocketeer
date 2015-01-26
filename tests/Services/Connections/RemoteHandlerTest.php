@@ -153,4 +153,18 @@ class RemoteHandlerTest extends RocketeerTestCase
         $this->assertInstanceOf('Rocketeer\Services\Connections\Connection', $connection);
         $this->assertEquals(['foo', 'bar'], $connection->getRoles());
     }
+
+    public function testShowsConnectionDetailsOnMissingCredentials()
+    {
+        $this->setExpectedException('Rocketeer\Exceptions\MissingCredentialsException', 'With credentials');
+
+        $this->swapConnections(array(
+            'production' => array(
+                'host'     => 'foobar.com',
+                'username' => 'foobar',
+            ),
+        ));
+
+        $this->handler->connection();
+    }
 }

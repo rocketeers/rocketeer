@@ -125,7 +125,7 @@ class RemoteHandler
             return ['password' => $config['password']];
         }
 
-        throw new MissingCredentialsException('Password / key is required.');
+        throw $this->throwExceptionWithCredentials(new MissingCredentialsException('Password / key is required.'));
     }
 
     /**
@@ -142,10 +142,25 @@ class RemoteHandler
         try {
             return call_user_func_array([$this->connection(), $method], $parameters);
         } catch (Exception $exception) {
-            $exception = new ConnectionException($exception->getMessage());
-            $exception->setCredentials($this->connections->getServerCredentials());
-
-            throw $exception;
+            throw $this->throwExceptionWithCredentials(new ConnectionException($exception->getMessage()));
         }
+    }
+
+    //////////////////////////////////////////////////////////////////////
+    ////////////////////////////// HELPERS ///////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+
+    /**
+     * Throw an exception and display the credentials that failed with it
+     *
+     * @param Exception $exception
+     *
+     * @return ConnectionException|MissingCredentialsException
+     */
+    protected function throwExceptionWithCredentials(Exception $exception)
+    {
+        $exception->setCredentials($this->connections->getServerCredentials());
+
+        return $exception;
     }
 }

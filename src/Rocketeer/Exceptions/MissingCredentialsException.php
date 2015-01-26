@@ -11,8 +11,9 @@
 namespace Rocketeer\Exceptions;
 
 use InvalidArgumentException;
+use Rocketeer\Traits\Exceptions\WithCredentials;
 
 class MissingCredentialsException extends InvalidArgumentException
 {
-    // ...
+    use WithCredentials;
 }
