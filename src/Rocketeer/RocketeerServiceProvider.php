@@ -251,7 +251,7 @@ class RocketeerServiceProvider extends ServiceProvider
                 continue;
             }
 
-            $this->app->bind('rocketeer.strategies.'.$strategy, function ($app) use ($strategy, $concrete) {
+            $this->app->singleton('rocketeer.strategies.'.$strategy, function ($app) use ($strategy, $concrete) {
                 return $app['rocketeer.builder']->buildStrategy($strategy, $concrete);
             });
         }

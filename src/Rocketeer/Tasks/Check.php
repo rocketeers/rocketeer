@@ -102,13 +102,17 @@ class Check extends AbstractTask
      */
     protected function checkPackageManagers(AbstractCheckStrategy $check)
     {
-        $manager = class_basename($check->getManager());
-        $manager = str_replace('Strategy', null, $manager);
-        $this->explainer->line('Checking presence of '.$manager);
+        $manager     = $check->getManager();
+        $managerName = str_replace('Strategy', null, $manager->getName());
+        $this->explainer->line('Checking presence of '.$managerName);
+
+        $message = $manager->hasManifest()
+            ? sprintf('The %s package manager could not be found', $managerName)
+            : sprintf('No manifest (%s) was found for %s', $manager->getManifest(), $managerName);
 
         return $this->executeCheck(
             $check->manager(),
-            sprintf('The %s package manager could not be found', $manager)
+            $message
         );
     }
 
