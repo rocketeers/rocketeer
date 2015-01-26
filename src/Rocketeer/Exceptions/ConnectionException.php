@@ -11,6 +11,7 @@
 namespace Rocketeer\Exceptions;
 
 use Exception;
+use Rocketeer\Traits\Exceptions\WithCredentials;
 
 /**
  * Exception when Rocketeer can't connect to a server
@@ -19,13 +20,5 @@ use Exception;
  */
 class ConnectionException extends Exception
 {
-    /**
-     * Set the credentials that failed to connect
-     *
-     * @param array $credentials
-     */
-    public function setCredentials(array $credentials)
-    {
-        $this->message .= PHP_EOL.'With credentials:'.PHP_EOL.json_encode($credentials);
-    }
+    use WithCredentials;
 }
