@@ -55,4 +55,20 @@ class RolesManagerTest extends RocketeerTestCase
 
         $this->assertEquals(['web', 'assets'], $this->builder->buildTask('Deploy')->getRoles());
     }
+
+    public function testTasksWithoutRolesAreCompatibleWithAnyServer()
+    {
+        $this->app['rocketeer.remote'] = new RemoteHandler($this->app);
+        $this->swapConnections(array(
+            'production' => array(
+                'host'     => 'foobar.com',
+                'username' => 'foobar',
+                'password' => 'foobar',
+                'roles'    => ['web', 'assets'],
+            ),
+        ));
+
+        $compatible = $this->roles->canExecuteTask($this->remote->connection(), $this->builder->buildTask('Deploy'));
+        $this->assertTrue($compatible);
+    }
 }
