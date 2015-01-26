@@ -43,4 +43,16 @@ class RolesManagerTest extends RocketeerTestCase
         $roles = $this->builder->buildTask('Check')->getRoles();
         $this->assertEquals(['web'], $roles);
     }
+
+    public function testCanAssignRolesFromConfiguration()
+    {
+        $this->swapConfig(array(
+            'rocketeer::hooks.roles' => array(
+                'web'    => 'Deploy',
+                'assets' => 'Deploy',
+            ),
+        ));
+
+        $this->assertEquals(['web', 'assets'], $this->builder->buildTask('Deploy')->getRoles());
+    }
 }

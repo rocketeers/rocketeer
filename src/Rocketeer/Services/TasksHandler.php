@@ -12,6 +12,7 @@ namespace Rocketeer\Services;
 
 use Closure;
 use Illuminate\Container\Container;
+use Illuminate\Support\Arr;
 use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Console\Commands\BaseTaskCommand;
 use Rocketeer\Tasks;
@@ -181,6 +182,7 @@ class TasksHandler
         // Get the registered events
         $hooks = (array) $this->rocketeer->getOption('hooks');
         unset($hooks['custom']);
+        unset($hooks['roles']);
 
         // Bind events
         foreach ($hooks as $event => $tasks) {
@@ -188,6 +190,10 @@ class TasksHandler
                 $this->addTaskListeners($task, $event, $listeners, 0, true);
             }
         }
+
+        // Assign roles
+        $roles = (array) $this->rocketeer->getOption('hooks.roles');
+        $this->roles->assignTasksRoles($roles);
     }
 
     /**
