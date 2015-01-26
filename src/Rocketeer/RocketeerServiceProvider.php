@@ -12,29 +12,11 @@ namespace Rocketeer;
 
 use Illuminate\Config\FileLoader;
 use Illuminate\Config\Repository;
-use Illuminate\Events\Dispatcher;
 use Illuminate\Http\Request;
 use Illuminate\Log\Writer;
 use Illuminate\Support\ServiceProvider;
 use Monolog\Logger;
-use Rocketeer\Services\Connections\ConnectionsHandler;
-use Rocketeer\Services\Connections\LocalConnection;
-use Rocketeer\Services\Connections\RemoteHandler;
-use Rocketeer\Services\CredentialsGatherer;
-use Rocketeer\Services\Display\QueueExplainer;
-use Rocketeer\Services\Display\QueueTimer;
-use Rocketeer\Services\Environment;
-use Rocketeer\Services\History\History;
-use Rocketeer\Services\History\LogsHandler;
-use Rocketeer\Services\Ignition\Configuration;
-use Rocketeer\Services\Ignition\Tasks;
-use Rocketeer\Services\Pathfinder;
-use Rocketeer\Services\ReleasesManager;
-use Rocketeer\Services\RolesManager;
 use Rocketeer\Services\Storages\LocalStorage;
-use Rocketeer\Services\Tasks\TasksBuilder;
-use Rocketeer\Services\Tasks\TasksQueue;
-use Rocketeer\Services\TasksHandler;
 
 // Define DS
 if (!defined('DS')) {
@@ -61,6 +43,10 @@ class RocketeerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        if (!$this->app->bound('Illuminate\Container\Container')) {
+            $this->app->instance('Illuminate\Container\Container', $this->app);
+        }
+
         $this->bindPaths();
         $this->bindThirdPartyServices();
 
@@ -96,17 +82,9 @@ class RocketeerServiceProvider extends ServiceProvider
      */
     public function bindPaths()
     {
-        $this->app->singleton('rocketeer.paths', function ($app) {
-            return new Pathfinder($app);
-        });
-
-        $this->app->bind('rocketeer.igniter', function ($app) {
-            return new Configuration($app);
-        });
-
-        $this->app->bind('rocketeer.igniter.tasks', function ($app) {
-            return new Tasks($app);
-        });
+        $this->app->singleton('rocketeer.paths', 'Rocketeer\Services\Pathfinder');
+        $this->app->bind('rocketeer.igniter', 'Rocketeer\Services\Ignition\Configuration');
+        $this->app->bind('rocketeer.igniter.tasks', 'Rocketeer\Services\Ignition\Tasks');
 
         // Bind paths
         $this->app['rocketeer.igniter']->bindPaths();
@@ -129,17 +107,9 @@ class RocketeerServiceProvider extends ServiceProvider
             return new Repository($fileloader, 'config');
         }, true);
 
-        $this->app->bindIf('rocketeer.remote', function ($app) {
-            return new RemoteHandler($app);
-        }, true);
-
-        $this->app->singleton('remote.local', function ($app) {
-            return new LocalConnection($app);
-        });
-
-        $this->app->bindIf('events', function ($app) {
-            return new Dispatcher($app);
-        }, true);
+        $this->app->bindIf('rocketeer.remote', 'Rocketeer\Services\Connections\RemoteHandler');
+        $this->app->singleton('remote.local', 'Rocketeer\Services\Connections\LocalConnection');
+        $this->app->bindIf('events', 'Illuminate\Events\Dispatcher', true);
 
         $this->app->bindIf('log', function () {
             return new Writer(new Logger('rocketeer'));
@@ -154,63 +124,25 @@ class RocketeerServiceProvider extends ServiceProvider
      */
     public function bindCoreClasses()
     {
-        $this->app->singleton('rocketeer.rocketeer', function ($app) {
-            return new Rocketeer($app);
-        });
-
-        $this->app->singleton('rocketeer.connections', function ($app) {
-            return new ConnectionsHandler($app);
-        });
-
-        $this->app->singleton('rocketeer.explainer', function ($app) {
-            return new QueueExplainer($app);
-        });
-
-        $this->app->bind('rocketeer.timer', function ($app) {
-            return new QueueTimer($app);
-        });
-
-        $this->app->singleton('rocketeer.releases', function ($app) {
-            return new ReleasesManager($app);
-        });
+        $this->app->bind('rocketeer.builder', 'Rocketeer\Services\Tasks\TasksBuilder');
+        $this->app->bind('rocketeer.environment', 'Rocketeer\Services\Environment');
+        $this->app->bind('rocketeer.timer', 'Rocketeer\Services\Display\QueueTimer');
+        $this->app->singleton('rocketeer.bash', 'Rocketeer\Bash');
+        $this->app->singleton('rocketeer.connections', 'Rocketeer\Services\Connections\ConnectionsHandler');
+        $this->app->singleton('rocketeer.explainer', 'Rocketeer\Services\Display\QueueExplainer');
+        $this->app->singleton('rocketeer.history', 'Rocketeer\Services\History\History');
+        $this->app->singleton('rocketeer.logs', 'Rocketeer\Services\History\LogsHandler');
+        $this->app->singleton('rocketeer.queue', 'Rocketeer\Services\Tasks\TasksQueue');
+        $this->app->singleton('rocketeer.releases', 'Rocketeer\Services\ReleasesManager');
+        $this->app->singleton('rocketeer.rocketeer', 'Rocketeer\Rocketeer');
+        $this->app->singleton('rocketeer.roles', 'Rocketeer\Services\RolesManager');
+        $this->app->singleton('rocketeer.tasks', 'Rocketeer\Services\TasksHandler');
 
         $this->app->singleton('rocketeer.storage.local', function ($app) {
             $filename = $app['rocketeer.rocketeer']->getApplicationName();
             $filename = $filename === '{application_name}' ? 'deployments' : $filename;
 
             return new LocalStorage($app, $filename);
-        });
-
-        $this->app->singleton('rocketeer.bash', function ($app) {
-            return new Bash($app);
-        });
-
-        $this->app->singleton('rocketeer.queue', function ($app) {
-            return new TasksQueue($app);
-        });
-
-        $this->app->bind('rocketeer.environment', function ($app) {
-            return new Environment($app);
-        });
-
-        $this->app->bind('rocketeer.builder', function ($app) {
-            return new TasksBuilder($app);
-        });
-
-        $this->app->singleton('rocketeer.tasks', function ($app) {
-            return new TasksHandler($app);
-        });
-
-        $this->app->singleton('rocketeer.roles', function ($app) {
-            return new RolesManager($app);
-        });
-
-        $this->app->singleton('rocketeer.history', function () {
-            return new History();
-        });
-
-        $this->app->singleton('rocketeer.logs', function ($app) {
-            return new LogsHandler($app);
         });
     }
 
@@ -219,10 +151,7 @@ class RocketeerServiceProvider extends ServiceProvider
      */
     public function bindConsoleClasses()
     {
-        $this->app->singleton('rocketeer.credentials', function ($app) {
-            return new CredentialsGatherer($app);
-        });
-
+        $this->app->singleton('rocketeer.credentials', 'Rocketeer\Services\CredentialsGatherer');
         $this->app->singleton('rocketeer.console', function () {
             return new Console\Console('Rocketeer', Rocketeer::VERSION);
         });
