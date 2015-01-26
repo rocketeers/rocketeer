@@ -7,7 +7,7 @@ class QueueTimerTest extends RocketeerTestCase
 {
     public function testCanTimeTasks()
     {
-        $task = $this->builder->buildTask('ls');
+        $task = $this->task('ls');
         $this->timer->time($task, function () use ($task) {
             $task->fire();
         });

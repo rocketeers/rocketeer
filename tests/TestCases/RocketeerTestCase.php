@@ -180,6 +180,6 @@ abstract class RocketeerTestCase extends ContainerTestCase
             return $this->task;
         }
 
-        return $this->builder->buildTaskFromClass($task);
+        return $this->builder->buildTask($task);
     }
 }

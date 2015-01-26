@@ -37,10 +37,10 @@ class RolesManagerTest extends RocketeerTestCase
             'web' => ['Deploy', 'Check'],
         ));
 
-        $roles = $this->builder->buildTask('Deploy')->getRoles();
+        $roles = $this->task('Deploy')->getRoles();
         $this->assertEquals(['web'], $roles);
 
-        $roles = $this->builder->buildTask('Check')->getRoles();
+        $roles = $this->task('Check')->getRoles();
         $this->assertEquals(['web'], $roles);
     }
 
@@ -53,7 +53,7 @@ class RolesManagerTest extends RocketeerTestCase
             ),
         ));
 
-        $this->assertEquals(['web', 'assets'], $this->builder->buildTask('Deploy')->getRoles());
+        $this->assertEquals(['web', 'assets'], $this->task('Deploy')->getRoles());
     }
 
     public function testTasksWithoutRolesAreCompatibleWithAnyServer()
@@ -68,7 +68,7 @@ class RolesManagerTest extends RocketeerTestCase
             ),
         ));
 
-        $compatible = $this->roles->canExecuteTask($this->remote->connection(), $this->builder->buildTask('Deploy'));
+        $compatible = $this->roles->canExecuteTask($this->remote->connection(), $this->task('Deploy'));
         $this->assertTrue($compatible);
     }
 }

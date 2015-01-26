@@ -114,7 +114,7 @@ class ConfigurationTest extends RocketeerTestCase
         $this->igniter->loadUserConfiguration();
         $this->tasks->registerConfiguredEvents();
 
-        $task = $this->builder->buildTask('DisplayFiles');
+        $task = $this->task('DisplayFiles');
         $this->assertInstanceOf('Rocketeer\Tasks\Closure', $task);
         $this->assertEquals('DisplayFiles', $task->getName());
 

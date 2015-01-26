@@ -56,7 +56,7 @@ class TasksHandlerTest extends RocketeerTestCase
             $task->runForCurrentRelease('ls');
         });
 
-        $this->assertInstanceOf('Rocketeer\Tasks\Closure', $this->builder->buildTask('foobar'));
+        $this->assertInstanceOf('Rocketeer\Tasks\Closure', $this->task('foobar'));
 
         $this->queue->run('foobar');
         $this->assertHistory([['cd {server}/releases/{release}', 'ls']]);
@@ -69,7 +69,7 @@ class TasksHandlerTest extends RocketeerTestCase
         ));
 
         $this->tasks->task('foobar', ['ls', 'ls']);
-        $this->assertInstanceOf('Rocketeer\Tasks\Closure', $this->builder->buildTask('foobar'));
+        $this->assertInstanceOf('Rocketeer\Tasks\Closure', $this->task('foobar'));
 
         $this->queue->run('foobar');
         $this->assertHistory([['cd {server}/releases/{release}', 'ls', 'ls']]);
@@ -201,7 +201,7 @@ class TasksHandlerTest extends RocketeerTestCase
                     ->does('foobar')
                     ->description('description');
 
-        $task = $this->builder->buildTask('phpunit');
+        $task = $this->task('phpunit');
 
         $this->assertInstanceOf('Rocketeer\Tasks\Closure', $task);
         $this->assertEquals('description', $task->getDescription());
@@ -212,7 +212,7 @@ class TasksHandlerTest extends RocketeerTestCase
     {
         $this->tasks->configure('deploy', ['foo' => 'bar']);
 
-        $this->assertEquals(['foo' => 'bar'], $this->builder->buildTask('deploy')->getOptions());
+        $this->assertEquals(['foo' => 'bar'], $this->task('deploy')->getOptions());
     }
 
     public function testCanAddCommandsViaPlugins()

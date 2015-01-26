@@ -7,7 +7,7 @@ class ConfigurableTest extends RocketeerTestCase
 {
     public function testCanConfigureTask()
     {
-        $task = $this->builder->buildTask('Deploy');
+        $task = $this->task('Deploy');
         $this->assertEmpty($task->getOptions());
 
         $task->setOptions(['foo' => 'bar']);
@@ -19,7 +19,7 @@ class ConfigurableTest extends RocketeerTestCase
 
     public function testRespectsDefaults()
     {
-        $task     = $this->builder->buildTask('Dependencies');
+        $task     = $this->task('Dependencies');
         $strategy = $this->builder->buildStrategy('Dependencies', 'Composer');
 
         $this->assertFalse($task->getOption('shared_dependencies', true));
