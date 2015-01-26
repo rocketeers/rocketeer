@@ -59,7 +59,7 @@ class HgTest extends RocketeerTestCase
 
         $command = $this->scm->checkout($this->server);
 
-        $this->assertEquals('hg clone "http://github.com/my/repository" -b develop "' .$this->server. '" --config ui.interactive="no" --config auth.x.prefix="http://" --config auth.x.username="foo" --config auth.x.password="bar"', $command);
+        $this->assertEquals('hg clone "http://github.com/my/repository" -b develop "'.$this->server.'" --config ui.interactive="no" --config auth.x.prefix="http://" --config auth.x.username="foo" --config auth.x.password="bar"', $command);
     }
 
     public function testCanGetReset()

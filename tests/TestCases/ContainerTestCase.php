@@ -8,8 +8,8 @@ use Mockery;
 use PHPUnit_Framework_TestCase;
 use Rocketeer\RocketeerServiceProvider;
 use Rocketeer\TestCases\Modules\Assertions;
-use Rocketeer\TestCases\Modules\Mocks;
 use Rocketeer\TestCases\Modules\Contexts;
+use Rocketeer\TestCases\Modules\Mocks;
 use Rocketeer\Traits\HasLocator;
 
 abstract class ContainerTestCase extends PHPUnit_Framework_TestCase

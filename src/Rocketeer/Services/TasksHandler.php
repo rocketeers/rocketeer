@@ -12,7 +12,6 @@ namespace Rocketeer\Services;
 
 use Closure;
 use Illuminate\Container\Container;
-use Illuminate\Support\Arr;
 use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Console\Commands\BaseTaskCommand;
 use Rocketeer\Tasks;
