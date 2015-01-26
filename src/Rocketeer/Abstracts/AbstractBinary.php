@@ -89,6 +89,16 @@ abstract class AbstractBinary
     }
 
     /**
+     * Get the name of the binary class
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return class_basename($this);
+    }
+
+    /**
      * Get the current binary name
      *
      * @return string
