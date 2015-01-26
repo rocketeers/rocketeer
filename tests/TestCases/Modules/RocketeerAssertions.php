@@ -20,7 +20,7 @@ trait RocketeerAssertions
     /**
      * Assert that the current server is a specific one
      *
-     * @param string $connection
+     * @param integer $server
      */
     protected function assertCurrentServerEquals($server)
     {
@@ -102,29 +102,45 @@ trait RocketeerAssertions
      * @param array $expected
      * @param array $obtained
      */
-    public function assertHistory(array $expected, array $obtained = array())
+    public function assertHistory(array $expected, array $obtained = [])
     {
         if (!$obtained) {
             $obtained = $this->history->getFlattenedHistory();
         }
 
-        // Look for release in history
-        $release = implode(array_flatten($obtained));
-        preg_match_all('/[0-9]{14}/', $release, $releases);
-        $release = Arr::get($releases, '0.0', date('YmdHis'));
-        if ($release === '10000000000000') {
-            $release = Arr::get($releases, '0.1', date('YmdHis'));
-        }
-
-        // Replace placeholders
-        $expected = $this->replaceHistoryPlaceholders($expected, $release);
-
-        // Unify keys
-        $expected = array_values($expected);
+        $expected = $this->transformHistory($expected, $obtained);
         $obtained = array_values($obtained);
 
         // Check equality
         $this->assertEquals($expected, $obtained);
+    }
+
+    /**
+     * Assert the history contains a particular entry
+     *
+     * @param array $expected
+     */
+    public function assertHistoryContains($expected)
+    {
+        $obtained = $this->history->getFlattenedHistory();
+        $expected = $this->transformHistory($expected, $obtained);
+        $expected = count($expected) === 1 ? $expected[0] : $expected;
+
+        $this->assertContains($expected, $obtained);
+    }
+
+    /**
+     * Assert the history does not contains a particular entry
+     *
+     * @param array $expected
+     */
+    public function assertHistoryNotContains($expected)
+    {
+        $obtained = $this->history->getFlattenedHistory();
+        $expected = $this->transformHistory($expected, $obtained);
+        $expected = count($expected) === 1 ? $expected[0] : $expected;
+
+        $this->assertNotContains($expected, $obtained);
     }
 
     //////////////////////////////////////////////////////////////////////
@@ -167,5 +183,28 @@ trait RocketeerAssertions
         }
 
         return $replaced;
+    }
+
+    /**
+     * @param string|array $expected
+     * @param array        $obtained
+     *
+     * @return array
+     */
+    protected function transformHistory($expected, array $obtained)
+    {
+        // Look for release in history
+        $release = implode(array_flatten($obtained));
+        preg_match_all('/[0-9]{14}/', $release, $releases);
+        $release = Arr::get($releases, '0.0', date('YmdHis'));
+        if ($release === '10000000000000') {
+            $release = Arr::get($releases, '0.1', date('YmdHis'));
+        }
+
+        // Replace placeholders
+        $expected = (array) $expected;
+        $expected = $this->replaceHistoryPlaceholders($expected, $release);
+
+        return array_values($expected);
     }
 }
