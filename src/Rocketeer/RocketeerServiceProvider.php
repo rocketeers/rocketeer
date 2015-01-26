@@ -107,7 +107,7 @@ class RocketeerServiceProvider extends ServiceProvider
             return new Repository($fileloader, 'config');
         }, true);
 
-        $this->app->bindIf('rocketeer.remote', 'Rocketeer\Services\Connections\RemoteHandler');
+        $this->app->bindIf('rocketeer.remote', 'Rocketeer\Services\Connections\RemoteHandler', true);
         $this->app->singleton('remote.local', 'Rocketeer\Services\Connections\LocalConnection');
         $this->app->bindIf('events', 'Illuminate\Events\Dispatcher', true);
 
