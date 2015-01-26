@@ -189,7 +189,7 @@ class TasksQueue
 
             // If the task didn't finish, display what the error was
             if ($task->wasHalted() || $state === false) {
-                $this->command->error('The tasks queue was canceled by task "'.$task->getName().'"');
+                $this->explainer->error('The tasks queue was canceled by task "'.$task->getName().'"');
 
                 return false;
             }

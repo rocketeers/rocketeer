@@ -171,7 +171,7 @@ abstract class AbstractTask extends Bash implements HasRolesInterface
     {
         // Display errors
         if ($errors) {
-            $this->command->error($errors);
+            $this->explainer->error($errors);
         }
 
         $this->fireEvent('halt');

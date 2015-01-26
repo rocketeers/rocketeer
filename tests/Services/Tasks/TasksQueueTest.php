@@ -2,6 +2,7 @@
 namespace Rocketeer\Services\Tasks;
 
 use Mockery;
+use Mockery\MockInterface;
 use Rocketeer\Services\Connections\RemoteHandler;
 use Rocketeer\TestCases\RocketeerTestCase;
 
@@ -133,11 +134,11 @@ class TasksQueueTest extends RocketeerTestCase
     {
         $this->expectOutputString('The tasks queue was canceled by task "MyCustomHaltingTask"');
 
-        $this->mockCommand([], array(
-            'error' => function ($error) {
-                echo $error;
-            },
-        ));
+        $this->mock('rocketeer.explainer', 'QueueExplainer', function (MockInterface $mock) {
+            return $mock->shouldReceive('error')->andReturnUsing(function($string) {
+                echo $string;
+            });
+        });
 
         $pipeline = $this->queue->run(array(
             'Rocketeer\Dummies\Tasks\MyCustomHaltingTask',
