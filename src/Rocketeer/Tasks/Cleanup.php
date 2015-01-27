@@ -66,7 +66,7 @@ class Cleanup extends AbstractTask
         $message = sprintf('Removing <info>%d %s</info> from the server', $trash, Str::plural('release', $trash));
 
         // Delete state file
-        if ($this->getOption('clean-all')) {
+        if ($this->getOption('clean-all', true)) {
             $this->serverStorage->destroy();
             $this->releasesManager->markReleaseAsValid();
         }
@@ -81,7 +81,7 @@ class Cleanup extends AbstractTask
      */
     protected function getReleasesToCleanup()
     {
-        return $this->getOption('clean-all')
+        return $this->getOption('clean-all', true)
             ? $this->releasesManager->getNonCurrentReleases()
             : $this->releasesManager->getDeprecatedReleases();
     }
