@@ -40,6 +40,26 @@ class QueueTimerTest extends RocketeerTestCase
         $this->assertTime($time);
     }
 
+    public function testCanGetLastRecordedTime()
+    {
+        $task = $this->task('ls');
+        $this->timer->time($task, function () use ($task) {
+            $task->fire();
+        });
+        $this->timer->time($task, function () use ($task) {
+            $task->fire();
+        });
+
+        $times = $this->timer->getTimes($task);
+        $last  = $this->timer->getLatestTime($task);
+
+        $this->assertEquals($last, $times[3]);
+    }
+
+    //////////////////////////////////////////////////////////////////////
+    ////////////////////////////// HELPERS ///////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+
     /**
      * @param string $time
      */

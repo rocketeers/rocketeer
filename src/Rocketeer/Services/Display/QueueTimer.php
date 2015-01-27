@@ -33,7 +33,7 @@ class QueueTimer
      * @param IdentifierInterface $entity
      * @param callable            $callback
      *
-     * @return boolean|null
+     * @return mixed
      */
     public function time(IdentifierInterface $entity, callable $callback)
     {
@@ -97,7 +97,7 @@ class QueueTimer
      *
      * @return array
      */
-    protected function getTimes(IdentifierInterface $entity)
+    public function getTimes(IdentifierInterface $entity)
     {
         $handle = $this->getTimerHandle($entity);
         $past   = $this->localStorage->get($handle, []);
@@ -106,10 +106,24 @@ class QueueTimer
     }
 
     /**
+     * Get the last recorded time
+     *
+     * @param IdentifierInterface $entity
+     *
+     * @return double|null
+     */
+    public function getLatestTime(IdentifierInterface $entity)
+    {
+        $times = $this->getTimes($entity);
+
+        return end($times);
+    }
+
+    /**
      * @param IdentifierInterface $entity
      * @param double[]            $past
      */
-    protected function saveTimes(IdentifierInterface $entity, array $past)
+    public function saveTimes(IdentifierInterface $entity, array $past)
     {
         $handle = $this->getTimerHandle($entity);
 
