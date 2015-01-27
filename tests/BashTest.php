@@ -9,7 +9,7 @@ class BashTest extends RocketeerTestCase
     {
         $contents = $this->task->runRaw('ls', true, true);
         if (count($contents) !== $this->numberFiles) {
-            !dd($contents);
+            !dd(count($contents), $this->numberFiles, $contents);
         }
 
         $this->assertCount($this->numberFiles, $contents);
