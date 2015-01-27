@@ -211,8 +211,10 @@ class TasksHandlerTest extends RocketeerTestCase
     public function testCanDelegateCallsToTasks()
     {
         $this->tasks->configure('deploy', ['foo' => 'bar']);
+        $task = $this->builder->buildTask('Deploy');
 
-        $this->assertEquals(['foo' => 'bar'], $this->task('deploy')->getOptions());
+        $this->assertInstanceOf('Rocketeer\Tasks\Deploy', $task);
+        $this->assertEquals(['foo' => 'bar'], $task->getOptions());
     }
 
     public function testCanAddCommandsViaPlugins()

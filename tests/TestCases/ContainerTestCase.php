@@ -159,6 +159,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 
         // Bind options
         if ($options) {
+            $command->shouldReceive('option')->withNoArgs()->andReturn($options);
             foreach ($options as $key => $value) {
                 $command->shouldReceive('option')->with($key)->andReturn($value);
             }
