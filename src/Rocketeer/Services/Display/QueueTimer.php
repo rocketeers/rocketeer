@@ -10,7 +10,7 @@
 
 namespace Rocketeer\Services\Display;
 
-use Rocketeer\Abstracts\AbstractTask;
+use Rocketeer\Interfaces\IdentifierInterface;
 use Rocketeer\Traits\HasLocator;
 
 /**
@@ -23,31 +23,37 @@ class QueueTimer
 {
     use HasLocator;
 
+    //////////////////////////////////////////////////////////////////////
+    /////////////////////////////// TASKS ////////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+
     /**
      * Time a task operation
      *
-     * @param AbstractTask $task
-     * @param callable     $callback
+     * @param IdentifierInterface $entity
+     * @param callable            $callback
      *
      * @return boolean|null
      */
-    public function time(AbstractTask $task, callable $callback)
+    public function time(IdentifierInterface $entity, callable $callback)
     {
         // Start timer, execute callback, close timer
         $timerStart = microtime(true);
-        $callback();
-        $time = round(microtime(true) - $timerStart, 4);
+        $results    = $callback();
+        $time       = round(microtime(true) - $timerStart, 4);
 
-        $this->saveTaskTime($task, $time);
+        $this->saveTime($entity, $time);
+
+        return $results;
     }
 
     /**
      * Save the execution time of a task for future reference
      *
-     * @param AbstractTask $task
-     * @param double       $time
+     * @param IdentifierInterface $entity
+     * @param double              $time
      */
-    public function saveTaskTime(AbstractTask $task, $time)
+    public function saveTime(IdentifierInterface $entity, $time)
     {
         // Don't save times in pretend mode
         if ($this->getOption('pretend')) {
@@ -55,22 +61,22 @@ class QueueTimer
         }
 
         // Append the new time to past ones
-        $past   = $this->getTaskTimes($task);
+        $past   = $this->getTimes($entity);
         $past[] = $time;
 
-        $this->saveTaskTimes($task, $past);
+        $this->saveTimes($entity, $past);
     }
 
     /**
      * Compute the predicted execution time of a task
      *
-     * @param AbstractTask $task
+     * @param IdentifierInterface $entity
      *
      * @return double|null
      */
-    public function getTaskTime(AbstractTask $task)
+    public function getTime(IdentifierInterface $entity)
     {
-        $past = $this->getTaskTimes($task);
+        $past = $this->getTimes($entity);
         if (!$past) {
             return;
         }
@@ -87,25 +93,40 @@ class QueueTimer
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * @param AbstractTask $task
+     * @param IdentifierInterface $entity
      *
      * @return array
      */
-    protected function getTaskTimes(AbstractTask $task)
+    protected function getTimes(IdentifierInterface $entity)
     {
-        $handle = sprintf('times.%s', $task->getSlug());
+        $handle = $this->getTimerHandle($entity);
         $past   = $this->localStorage->get($handle, []);
 
         return $past;
     }
 
     /**
-     * @param AbstractTask $task
-     * @param double[]     $past
+     * @param IdentifierInterface $entity
+     * @param double[]            $past
      */
-    protected function saveTaskTimes(AbstractTask $task, array $past)
+    protected function saveTimes(IdentifierInterface $entity, array $past)
     {
-        $handle = sprintf('times.%s', $task->getSlug());
+        $handle = $this->getTimerHandle($entity);
+
         $this->localStorage->set($handle, $past);
+    }
+
+    //////////////////////////////////////////////////////////////////////
+    ////////////////////////////// HELPERS ///////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+
+    /**
+     * @param IdentifierInterface $entity
+     *
+     * @return string
+     */
+    protected function getTimerHandle(IdentifierInterface $entity)
+    {
+        return sprintf('times.%s', $entity->getIdentifier());
     }
 }

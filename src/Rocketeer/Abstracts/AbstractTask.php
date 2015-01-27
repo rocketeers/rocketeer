@@ -297,7 +297,7 @@ abstract class AbstractTask extends Bash implements HasRolesInterface, Identifie
     {
         $name        = $this->getName();
         $description = $this->getDescription();
-        $time        = $this->timer->getTaskTime($this);
+        $time        = $this->timer->getTime($this);
 
         $this->explainer->display($name, $description, $this->event, $time);
     }
