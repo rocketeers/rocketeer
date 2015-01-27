@@ -436,4 +436,16 @@ class ConnectionsHandler
 
 		return $branch;
 	}
+
+	/**
+	 * Get repository name to use
+	 *
+	 * @return  string
+	 */
+	public function getRepositoryName()
+	{
+		$repository = $this->getRepositoryCredentials();
+		$repository = Arr::get($repository, 'repository');
+		return str_replace('.git', '', basename($repository));
+	}
 }
