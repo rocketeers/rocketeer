@@ -12,6 +12,7 @@ namespace Rocketeer\Abstracts;
 
 use Illuminate\Console\Command;
 use Rocketeer\Console\Commands\RocketeerCommand;
+use Rocketeer\Interfaces\IdentifierInterface;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
@@ -20,7 +21,7 @@ use Symfony\Component\Console\Input\InputOption;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-abstract class AbstractCommand extends Command
+abstract class AbstractCommand extends Command implements IdentifierInterface
 {
     /**
      * Whether the command's task should be built
@@ -82,6 +83,16 @@ abstract class AbstractCommand extends Command
         }
 
         return $this->name;
+    }
+
+    /**
+     * Get a global identifier for this entity
+     *
+     * @return string
+     */
+    public function getIdentifier()
+    {
+        return 'commands.'.$this->getName();
     }
 
     //////////////////////////////////////////////////////////////////////

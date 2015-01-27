@@ -14,6 +14,7 @@ use DateTime;
 use Illuminate\Support\Str;
 use Rocketeer\Bash;
 use Rocketeer\Interfaces\HasRolesInterface;
+use Rocketeer\Interfaces\IdentifierInterface;
 use Rocketeer\Traits\Configurable;
 use Rocketeer\Traits\HasRoles;
 use Rocketeer\Traits\StepsRunner;
@@ -23,7 +24,7 @@ use Rocketeer\Traits\StepsRunner;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-abstract class AbstractTask extends Bash implements HasRolesInterface
+abstract class AbstractTask extends Bash implements HasRolesInterface, IdentifierInterface
 {
     use StepsRunner;
     use Configurable;
@@ -89,6 +90,16 @@ abstract class AbstractTask extends Bash implements HasRolesInterface
         $slug = Str::slug($slug);
 
         return $slug;
+    }
+
+    /**
+     * Get a global identifier for this entity
+     *
+     * @return string
+     */
+    public function getIdentifier()
+    {
+        return 'tasks.'.$this->getSlug();
     }
 
     /**
