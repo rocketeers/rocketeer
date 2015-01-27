@@ -73,6 +73,7 @@ class Notify extends AbstractTask
 		}
 
 		// Get what was deployed
+		$repo       = $this->connections->getRepositoryName();
 		$branch     = $this->connections->getRepositoryBranch();
 		$stage      = $this->connections->getStage();
 		$connection = $this->connections->getConnection();
@@ -85,7 +86,7 @@ class Notify extends AbstractTask
 			$connection = $stage.'@'.$connection;
 		}
 
-		return compact('user', 'branch', 'connection', 'host');
+		return compact('user', 'branch', 'connection', 'host', 'repo');
 	}
 
 	/**
