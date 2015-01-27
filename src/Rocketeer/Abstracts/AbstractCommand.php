@@ -286,10 +286,8 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
      */
     public function time(callable $callback)
     {
-        // Start timer, execute callback, close timer
-        $timerStart = microtime(true);
-        $results    = $callback();
-        $time       = round(microtime(true) - $timerStart, 4);
+        $results = $this->laravel['rocketeer.timer']->time($this, $callback);
+        $time    = $this->laravel['rocketeer.timer']->getLatestTime($this);
 
         $this->line('Execution time: <comment>'.$time.'s</comment>');
 
