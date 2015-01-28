@@ -260,6 +260,20 @@ class ConnectionsHandlerTest extends RocketeerTestCase
         $this->connections->setConnections('foo,bar');
     }
 
+    public function testCanGetLocalHandle()
+    {
+        $this->rocketeer->setLocal(true);
+
+        $this->assertEquals('local', $this->connections->getHandle());
+    }
+
+    public function testCanGetLongHandle()
+    {
+        $this->rocketeer->setLocal(true);
+
+        $this->assertEquals('anahkiasen@local', $this->connections->getLongHandle());
+    }
+
     ////////////////////////////////////////////////////////////////////
     //////////////////////////////// HELPERS ///////////////////////////
     ////////////////////////////////////////////////////////////////////

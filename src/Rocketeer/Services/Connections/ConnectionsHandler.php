@@ -75,6 +75,11 @@ class ConnectionsHandler
             return $this->handle;
         }
 
+        // Return local handle
+        if ($this->rocketeer->isLocal()) {
+            return 'local';
+        }
+
         // Get identifiers
         $connection = $connection ?: $this->getConnection();
         $server     = $server ?: $this->getServer();
