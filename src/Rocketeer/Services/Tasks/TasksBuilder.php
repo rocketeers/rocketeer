@@ -15,6 +15,7 @@ use Illuminate\Support\Str;
 use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Binaries\AnonymousBinary;
 use Rocketeer\Exceptions\TaskCompositionException;
+use Rocketeer\Tasks\Closure as ClosureTask;
 use Rocketeer\Traits\HasLocator;
 
 /**
@@ -187,7 +188,12 @@ class TasksBuilder
             return $task;
         }
 
-        // If we provided a Closure, build a ClosureTask
+        // If we passed a callable, build a Closure Task
+        if (is_callable($task) && !$task instanceof Closure) {
+            return $this->buildTaskFromCallable($task);
+        }
+
+        // If we provided a Closure, build a Closure Task
         if ($task instanceof Closure) {
             return $this->buildTaskFromClosure($task);
         }
@@ -197,7 +203,7 @@ class TasksBuilder
             return $this->app[$handle];
         }
 
-        // If we passed a command, build a ClosureTask
+        // If we passed a command, build a Closure Task
         if (is_array($task) || $this->isStringCommand($task) || $task === null) {
             return $this->buildTaskFromString($task);
         }
@@ -232,7 +238,7 @@ class TasksBuilder
      */
     public function buildTaskFromClosure(callable $callback, $stringTask = null)
     {
-        /** @type \Rocketeer\Tasks\Closure $task */
+        /** @type ClosureTask $task */
         $task = $this->buildTaskFromClass('Rocketeer\Tasks\Closure');
         $task->setClosure($callback);
 
@@ -265,6 +271,25 @@ class TasksBuilder
         }
 
         return new $class($this->app);
+    }
+
+    /**
+     * Build a task from a callable
+     *
+     * @param callable $callable
+     *
+     * @return ClosureTask
+     */
+    protected function buildTaskFromCallable($callable)
+    {
+        $task = new ClosureTask($this->app);
+        $task->setClosure(function () use ($callable, $task) {
+            $callable = is_array($callable) ? $callable : explode('::', $callable);
+
+           return call_user_func_array([$this->app->make($callable[0]), $callable[1]], [$task]);
+        });
+
+        return $task;
     }
 
     ////////////////////////////////////////////////////////////////////

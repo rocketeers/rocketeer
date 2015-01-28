@@ -95,4 +95,13 @@ class TasksBuilderTest extends RocketeerTestCase
         $built = $this->builder->buildStrategy('Check', '');
         $this->assertNull($built);
     }
+
+    public function testCanBuildByCallable()
+    {
+        $task  = $this->builder->buildTask(['Rocketeer\Dummies\Tasks\CallableTask', 'someMethod']);
+        $this->assertEquals('Rocketeer\Tasks\Closure', $task->fire());
+
+        $task  = $this->builder->buildTask('Rocketeer\Dummies\Tasks\CallableTask::someMethod');
+        $this->assertEquals('Rocketeer\Tasks\Closure', $task->fire());
+    }
 }
