@@ -8,7 +8,7 @@ class SetupTest extends RocketeerTestCase
 {
     public function testCanSetupServer()
     {
-        $this->usesComposer(true);
+        $this->usesComposer();
         $this->pretend();
 
         $this->mockReleases(function (MockInterface $mock) {
@@ -29,7 +29,7 @@ class SetupTest extends RocketeerTestCase
 
     public function testCanSetupStages()
     {
-        $this->usesComposer(true);
+        $this->usesComposer();
         $this->pretend();
 
         $this->mockReleases(function (MockInterface $mock) {

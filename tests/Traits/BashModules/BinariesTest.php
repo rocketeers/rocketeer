@@ -109,7 +109,7 @@ class BinariesTest extends RocketeerTestCase
 
     public function testCanRunComposer()
     {
-        $this->usesComposer(true);
+        $this->usesComposer();
         $this->mock('rocketeer.command', 'Illuminate\Console\Command', function (MockInterface $mock) {
             return $mock
                 ->shouldIgnoreMissing()

@@ -10,8 +10,8 @@ class PolyglotStrategyTest extends RocketeerTestCase
     public function testCanInstallAllDependencies()
     {
         $this->pretend();
-        $this->usesComposer(true);
-        $this->files->put($this->server.'/current/Gemfile', '');
+        $this->usesComposer();
+        $this->usesBundler();
 
         $polyglot = $this->builder->buildStrategy('Dependencies', 'Polyglot');
         $polyglot->install();
@@ -41,8 +41,8 @@ class PolyglotStrategyTest extends RocketeerTestCase
                ->shouldReceive('runForCurrentRelease')->with('bundle install')->andReturn('bash: bundler: command not found');
         });
 
-        $this->usesComposer(true);
-        $this->files->put($this->server.'/current/Gemfile', '');
+        $this->usesComposer();
+        $this->usesBundler();
 
         $polyglot = $this->builder->buildStrategy('Dependencies', 'Polyglot');
         $results  = $polyglot->install();

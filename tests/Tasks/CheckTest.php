@@ -9,7 +9,7 @@ class CheckTest extends RocketeerTestCase
 {
     public function testCanCheckScmVersionIfRequired()
     {
-        $this->usesComposer(true);
+        $this->usesComposer();
 
         $this->assertTaskHistory('Check', array(
             'git --version',
@@ -19,7 +19,7 @@ class CheckTest extends RocketeerTestCase
 
     public function testSkipsScmCheckIfNotRequired()
     {
-        $this->usesComposer(true);
+        $this->usesComposer();
 
         $this->swapConfig(array(
             'rocketeer::strategies.deploy' => 'sync',
@@ -62,7 +62,7 @@ class CheckTest extends RocketeerTestCase
     public function testCanSkipStrategyChecks()
     {
         $this->pretend();
-        $this->usesComposer(true);
+        $this->usesComposer();
         unset($this->app['rocketeer.strategies.check']);
 
         $this->task('Check')->fire();

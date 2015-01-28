@@ -15,31 +15,6 @@ trait Contexts
     }
 
     /**
-     * Mock the Composer check
-     *
-     * @param boolean     $uses
-     * @param string|null $stage
-     */
-    protected function usesComposer($uses = true, $stage = null)
-    {
-        $composer = $this->server.'/';
-        $composer .= $stage ? $stage.'/' : null;
-        $composer .= 'current/composer.json';
-
-        // Create directory if necessary
-        $folder = dirname($composer);
-        if (!is_dir($folder)) {
-            mkdir($folder, 0777, true);
-        }
-
-        if ($uses) {
-            $this->files->put($composer, '{}');
-        } else {
-            $this->files->delete($composer);
-        }
-    }
-
-    /**
      * @param array $state
      */
     protected function mockState(array $state)
@@ -84,5 +59,58 @@ trait Contexts
         $this->swapConfig(array(
             'rocketeer::connections' => $connections,
         ));
+    }
+
+    //////////////////////////////////////////////////////////////////////
+    ////////////////////////// PACKAGE MANAGERS //////////////////////////
+    //////////////////////////////////////////////////////////////////////
+
+    /**
+     * Mock the Composer check
+     *
+     * @param boolean     $uses
+     * @param string|null $stage
+     */
+    protected function usesComposer($uses = true, $stage = null)
+    {
+        $this->mockPackageManagerUsage($uses, 'composer.json', $stage, '{}');
+    }
+
+    /**
+     * Mock the Bundler check
+     *
+     * @param boolean     $uses
+     * @param string|null $stage
+     */
+    protected function usesBundler($uses = true, $stage = null)
+    {
+        $this->mockPackageManagerUsage($uses, 'Gemfile', $stage);
+    }
+
+    /**
+     * Mock the use of a package manager
+     *
+     * @param boolean     $uses
+     * @param string      $filename
+     * @param string|null $stage
+     * @param string|null $contents
+     */
+    protected function mockPackageManagerUsage($uses, $filename, $stage = null, $contents = null)
+    {
+        $manifest = $this->server.'/';
+        $manifest .= $stage ? $stage.'/' : null;
+        $manifest .= 'releases/20000000000000/'.$filename;
+
+        // Create directory if necessary
+        $folder = dirname($manifest);
+        if (!is_dir($folder)) {
+            mkdir($folder, 0777, true);
+        }
+
+        if ($uses) {
+            $this->files->put($manifest, $contents);
+        } else {
+            $this->files->delete($manifest);
+        }
     }
 }
