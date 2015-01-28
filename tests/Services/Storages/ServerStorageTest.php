@@ -13,4 +13,14 @@ class ServerStorageTest extends RocketeerTestCase
 
         $this->assertFileNotExists($file);
     }
+
+    public function testDoesntWriteInPretendMode()
+    {
+        $this->pretend();
+
+        $server = new ServerStorage($this->app, 'state');
+        $server->set('foo', 'bar');
+
+        $this->assertNull($server->get('foo'));
+    }
 }
