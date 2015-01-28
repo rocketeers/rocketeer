@@ -1,5 +1,5 @@
 <?php
-namespace Rocketeer\Traits;
+namespace Rocketeer\Traits\Properties;
 
 use Rocketeer\Interfaces\HasRolesInterface;
 

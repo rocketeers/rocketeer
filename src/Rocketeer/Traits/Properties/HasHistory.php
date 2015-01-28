@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Rocketeer\Traits;
+namespace Rocketeer\Traits\Properties;
 
 use Illuminate\Support\Arr;
 

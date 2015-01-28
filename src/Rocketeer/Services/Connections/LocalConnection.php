@@ -14,7 +14,6 @@ use Closure;
 use Rocketeer\Interfaces\ConnectionInterface;
 use Rocketeer\Interfaces\HasRolesInterface;
 use Rocketeer\Traits\HasLocator;
-use Rocketeer\Traits\HasRoles;
 
 /**
  * Stub of local connections to make Rocketeer work
@@ -25,7 +24,7 @@ use Rocketeer\Traits\HasRoles;
 class LocalConnection implements ConnectionInterface, HasRolesInterface
 {
     use HasLocator;
-    use HasRoles;
+    use \Rocketeer\Traits\Properties\HasRoles;
 
     /**
      * Return status of the last command

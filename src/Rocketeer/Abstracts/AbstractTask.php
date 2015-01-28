@@ -15,8 +15,6 @@ use Illuminate\Support\Str;
 use Rocketeer\Bash;
 use Rocketeer\Interfaces\HasRolesInterface;
 use Rocketeer\Interfaces\IdentifierInterface;
-use Rocketeer\Traits\Configurable;
-use Rocketeer\Traits\HasRoles;
 use Rocketeer\Traits\StepsRunner;
 
 /**
@@ -27,8 +25,8 @@ use Rocketeer\Traits\StepsRunner;
 abstract class AbstractTask extends Bash implements HasRolesInterface, IdentifierInterface
 {
     use StepsRunner;
-    use Configurable;
-    use HasRoles;
+    use \Rocketeer\Traits\Properties\Configurable;
+    use \Rocketeer\Traits\Properties\HasRoles;
 
     /**
      * The name of the task

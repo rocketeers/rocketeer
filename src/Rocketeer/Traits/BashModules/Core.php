@@ -12,7 +12,6 @@ namespace Rocketeer\Traits\BashModules;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Rocketeer\Traits\HasHistory;
 use Rocketeer\Traits\HasLocator;
 
 /**
@@ -23,7 +22,7 @@ use Rocketeer\Traits\HasLocator;
 trait Core
 {
     use HasLocator;
-    use HasHistory;
+    use \Rocketeer\Traits\Properties\HasHistory;
 
     /**
      * Whether to run the commands locally

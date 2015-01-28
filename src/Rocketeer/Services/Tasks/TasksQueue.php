@@ -15,7 +15,6 @@ use Exception;
 use KzykHys\Parallel\Parallel;
 use LogicException;
 use Rocketeer\Connection;
-use Rocketeer\Traits\HasHistory;
 use Rocketeer\Traits\HasLocator;
 
 /**
@@ -27,7 +26,7 @@ use Rocketeer\Traits\HasLocator;
 class TasksQueue
 {
     use HasLocator;
-    use HasHistory;
+    use \Rocketeer\Traits\Properties\HasHistory;
 
     /**
      * @type Parallel
