@@ -72,6 +72,29 @@ trait HasLocator
      */
     public function __get($key)
     {
+        $key = $this->getLocatorHandle($key);
+
+        return $this->app->make($key);
+    }
+
+    /**
+     * Set an instance on the Container
+     *
+     * @param string $key
+     * @param object $value
+     */
+    public function __set($key, $value)
+    {
+        $this->app[$key] = $value;
+    }
+
+    /**
+     * @param string $key
+     *
+     * @return string
+     */
+    protected function getLocatorHandle($key)
+    {
         $shortcuts = array(
             'bash'            => 'rocketeer.bash',
             'builder'         => 'rocketeer.builder',
@@ -98,20 +121,11 @@ trait HasLocator
         // Replace shortcuts
         if (isset($shortcuts[$key])) {
             $key = $shortcuts[$key];
+
+            return $key;
         }
 
-        return $this->app->make($key);
-    }
-
-    /**
-     * Set an instance on the Container
-     *
-     * @param string $key
-     * @param object $value
-     */
-    public function __set($key, $value)
-    {
-        $this->app[$key] = $value;
+        return $key;
     }
 
     //////////////////////////////////////////////////////////////////////

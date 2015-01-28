@@ -13,6 +13,7 @@ namespace Rocketeer\Abstracts;
 use Illuminate\Console\Command;
 use Rocketeer\Console\Commands\RocketeerCommand;
 use Rocketeer\Interfaces\IdentifierInterface;
+use Rocketeer\Traits\HasLocator;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
@@ -23,6 +24,8 @@ use Symfony\Component\Console\Input\InputOption;
  */
 abstract class AbstractCommand extends Command implements IdentifierInterface
 {
+    use HasLocator;
+
     /**
      * Whether the command's task should be built
      * into a pipeline or run straight
@@ -56,6 +59,19 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
             }
         }
     }
+
+    /**
+     * @param string $key
+     *
+     * @return mixed
+     */
+    public function __get($key)
+    {
+        $key = $this->getLocatorHandle($key);
+
+        return $this->laravel->make($key);
+    }
+
 
     /**
      * Get the task this command executes
@@ -174,18 +190,18 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
         $this->laravel->instance('rocketeer.command', $this);
 
         // Check for credentials
-        if (!$this->laravel['rocketeer.rocketeer']->isLocal()) {
-            $this->laravel['rocketeer.credentials']->getServerCredentials();
-            $this->laravel['rocketeer.credentials']->getRepositoryCredentials();
+        if (!$this->rocketeer->isLocal()) {
+            $this->credentials->getServerCredentials();
+            $this->credentials->getRepositoryCredentials();
         }
 
         if ($this->straight) {
             // If we only have a single task, run it
-            $status = $this->laravel['rocketeer.builder']->buildTask($tasks)->fire();
+            $status = $this->builder->buildTask($tasks)->fire();
         } else {
             // Run tasks and display timer
             $status = $this->time(function () use ($tasks) {
-                $pipeline = $this->laravel['rocketeer.queue']->run($tasks);
+                $pipeline = $this->queue->run($tasks);
 
                 return $pipeline->succeeded();
             });
@@ -195,7 +211,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
         unset($this->laravel['rocketeer.command']);
 
         // Save history to logs
-        $logs = $this->laravel['rocketeer.logs']->write();
+        $logs = $this->logs->write();
         foreach ($logs as $log) {
             $this->info('Saved logs to '.$log);
         }
@@ -286,10 +302,10 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
      */
     public function time(callable $callback)
     {
-        $results = $this->laravel['rocketeer.timer']->time($this, $callback);
-        $time    = $this->laravel['rocketeer.timer']->getLatestTime($this);
+        $results = $this->timer->time($this, $callback);
+        $time    = $this->timer->getLatestTime($this);
 
-        $this->laravel['rocketeer.explainer']->line('Execution time: <comment>'.$time.'s</comment>');
+        $this->explainer->line('Execution time: <comment>'.$time.'s</comment>');
 
         return $results;
     }
@@ -303,7 +319,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
     {
         $nonInteractive = !$this->input->isInteractive();
         if ($nonInteractive) {
-            $this->laravel['rocketeer.explainer']->error('Running in non interactive mode, prompt was skipped: '.$question);
+            $this->explainer->error('Running in non interactive mode, prompt was skipped: '.$question);
         }
 
         return $nonInteractive;

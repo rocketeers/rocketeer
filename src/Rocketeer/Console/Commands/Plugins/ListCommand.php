@@ -42,7 +42,7 @@ class ListCommand extends AbstractCommand
     public function fire()
     {
         $rows    = [];
-        $plugins = $this->laravel['rocketeer.tasks']->getRegisteredPlugins();
+        $plugins = $this->tasks->getRegisteredPlugins();
         foreach ($plugins as $plugin => $instance) {
             $rows[] = [$plugin];
         }

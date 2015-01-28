@@ -49,7 +49,7 @@ class StrategiesCommand extends AbstractCommand
         $rows = [];
         foreach ($strategies as $strategy => $implementations) {
             foreach ($implementations as $implementation) {
-                $instance = $this->laravel['rocketeer.builder']->buildStrategy($strategy, $implementation);
+                $instance = $this->builder->buildStrategy($strategy, $implementation);
                 $rows[]   = [$strategy, $implementation, $instance->getDescription()];
             }
         }

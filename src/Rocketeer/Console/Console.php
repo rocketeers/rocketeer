@@ -76,9 +76,9 @@ class Console extends Application
     protected function getCurrentState()
     {
         return array(
-            'application_name' => $this->laravel['rocketeer.rocketeer']->getApplicationName(),
-            'application'      => $this->laravel['rocketeer.paths']->getApplicationPath(),
-            'configuration'    => $this->laravel['rocketeer.paths']->getConfigurationPath(),
+            'application_name' => $this->rocketeer->getApplicationName(),
+            'application'      => $this->paths->getApplicationPath(),
+            'configuration'    => $this->paths->getConfigurationPath(),
             'tasks'            => $this->laravel['path.rocketeer.tasks'],
             'events'           => $this->laravel['path.rocketeer.events'],
             'logs'             => $this->laravel['path.rocketeer.logs'],

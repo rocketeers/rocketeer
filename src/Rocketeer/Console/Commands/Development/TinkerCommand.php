@@ -43,7 +43,7 @@ class TinkerCommand extends AbstractCommand
         $shell = new Shell();
         $shell->setScopeVariables(array(
             'rocketeer' => $this->laravel,
-            'ssh'       => $this->laravel['rocketeer.bash'],
+            'ssh'       => $this->bash,
         ));
 
         return $shell->run();
