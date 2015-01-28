@@ -114,7 +114,7 @@ class QueueExplainer
         }
 
         // Format the message
-        $formatted = $color ? sprintf('<fg=%s>%s</fg=%s>', $color, $message, $color) : $message;
+        $formatted = $this->colorize($message, $color);
         $formatted = $withTree ? $this->getTree('==').'=> '.$formatted : $formatted;
 
         // Pass to command and log
@@ -139,9 +139,29 @@ class QueueExplainer
      *
      * @return string|null
      */
+    public function comment($message)
+    {
+        return $this->line($message, 'comment');
+    }
+
+    /**
+     * @param string $message
+     *
+     * @return string|null
+     */
+    public function info($message)
+    {
+        return $this->line($message, 'info');
+    }
+
+    /**
+     * @param string $message
+     *
+     * @return string|null
+     */
     public function error($message)
     {
-        return $this->line($message, 'red');
+        return $this->line($message, 'error');
     }
 
     //////////////////////////////////////////////////////////////////////
@@ -206,5 +226,25 @@ class QueueExplainer
         $tree .= '|'.$dashes;
 
         return $tree;
+    }
+
+    /**
+     * Colorize text using Symfony Console tags
+     *
+     * @param string      $message
+     * @param string|null $color
+     *
+     * @return string
+     */
+    protected function colorize($message, $color = null)
+    {
+        if (!$color) {
+            return $message;
+        }
+
+        // Create tag
+        $tag = in_array($color, ['error', 'comment', 'info']) ? $color : 'fg='.$color;
+
+        return sprintf('<%s>%s</%s>', $tag, $message, $tag);
     }
 }
