@@ -45,7 +45,7 @@ class Ignite extends AbstractTask
         $folder  = basename(dirname($path)).'/'.basename($path);
         $message = '<comment>The Rocketeer configuration was created at</comment> <info>'.$folder.'</info>';
 
-        return $this->command->line($message);
+        return $this->explainer->success($message);
     }
 
     /**

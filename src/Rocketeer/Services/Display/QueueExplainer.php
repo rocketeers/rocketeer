@@ -103,10 +103,11 @@ class QueueExplainer
      *
      * @param string      $message
      * @param string|null $color
+     * @param boolean     $withTree
      *
-     * @return string|null
+     * @return null|string
      */
-    public function line($message, $color = null)
+    public function line($message, $color = null, $withTree = true)
     {
         if (!$this->hasCommand()) {
             return;
@@ -114,7 +115,7 @@ class QueueExplainer
 
         // Format the message
         $formatted = $color ? sprintf('<fg=%s>%s</fg=%s>', $color, $message, $color) : $message;
-        $formatted = $this->getTree('==').'=> '.$formatted;
+        $formatted = $withTree ? $this->getTree('==').'=> '.$formatted : $formatted;
 
         // Pass to command and log
         $this->command->line($formatted);

@@ -130,9 +130,7 @@ class LocalConnection implements ConnectionInterface, HasRolesInterface
      */
     public function display($line)
     {
-        $lead = '<comment>[local]</comment>';
-
-        $this->command->line($lead.' '.$line);
+        $this->explainer->line($line);
     }
 
     /**

@@ -277,7 +277,7 @@ trait Core
 
         // Print out command if verbosity level allows it
         if ($verbosity && $this->hasCommand() && ($this->command->getOutput()->getVerbosity() >= $verbosity)) {
-            $this->command->line('<fg=magenta>$ '.$flattened.'</fg=magenta>', $verbosity);
+            $this->explainer->line('$ '.$flattened, 'magenta', false);
         }
     }
 
