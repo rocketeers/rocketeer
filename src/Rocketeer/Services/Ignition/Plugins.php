@@ -42,7 +42,7 @@ class Plugins
 
         // Cancel if no valid paths
         if (empty($paths)) {
-            return $this->command->error('No configuration found for '.$package);
+            return $this->explainer->error('No configuration found for '.$package);
         }
 
         return $this->publishConfiguration($paths[0]);

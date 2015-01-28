@@ -40,9 +40,9 @@ class SelfUpdateCommand extends AbstractCommand
         try {
             $updater->update();
         } catch (FileNotFoundException $exception) {
-            return $this->error('Unable to find archive: '.$exception->getMessage());
+            return $this->laravel['rocketeer.explainer']->error('Unable to find archive: '.$exception->getMessage());
         } catch (Exception $exception) {
-            return $this->error('An error occured while updated: '.$exception->getMessage());
+            return $this->laravel['rocketeer.explainer']->error('An error occured while updated: '.$exception->getMessage());
         }
     }
 

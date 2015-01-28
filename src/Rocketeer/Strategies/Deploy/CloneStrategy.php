@@ -64,7 +64,7 @@ class CloneStrategy extends AbstractStrategy implements DeployStrategyInterface
      */
     public function update($reset = true)
     {
-        $this->command->info('Pulling changes');
+        $this->explainer->info('Pulling changes');
         $tasks = [$this->scm->update()];
 
         // Reset if requested

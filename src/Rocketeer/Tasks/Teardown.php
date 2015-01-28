@@ -46,7 +46,7 @@ class Teardown extends AbstractTask
         );
 
         if (!$confirm) {
-            return $this->command->info('Teardown aborted');
+            return $this->explainer->info('Teardown aborted');
         }
 
         // Remove remote folders
@@ -55,6 +55,6 @@ class Teardown extends AbstractTask
         // Remove deployments file
         $this->localStorage->destroy();
 
-        $this->command->info('The application was successfully removed from the remote servers');
+        $this->explainer->info('The application was successfully removed from the remote servers');
     }
 }
