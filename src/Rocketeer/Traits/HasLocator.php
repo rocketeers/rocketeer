@@ -28,17 +28,18 @@ use Illuminate\Support\Arr;
  * @property \Rocketeer\Interfaces\ScmInterface                  scm
  * @property \Rocketeer\Rocketeer                                rocketeer
  * @property \Rocketeer\Services\Connections\ConnectionsHandler  connections
+ * @property \Rocketeer\Services\Connections\Coordinator         coordinator
  * @property \Rocketeer\Services\Connections\RemoteHandler       remote
- * @property \Rocketeer\Services\Environment                     environment
  * @property \Rocketeer\Services\CredentialsGatherer             credentials
  * @property \Rocketeer\Services\Display\QueueExplainer          explainer
  * @property \Rocketeer\Services\Display\QueueTimer              timer
+ * @property \Rocketeer\Services\Environment                     environment
  * @property \Rocketeer\Services\History\History                 history
  * @property \Rocketeer\Services\History\LogsHandler             logs
  * @property \Rocketeer\Services\Pathfinder                      paths
  * @property \Rocketeer\Services\ReleasesManager                 releasesManager
- * @property \Rocketeer\Services\Storages\LocalStorage           localStorage
  * @property \Rocketeer\Services\RolesManager                    roles
+ * @property \Rocketeer\Services\Storages\LocalStorage           localStorage
  * @property \Rocketeer\Services\Tasks\TasksBuilder              builder
  * @property \Rocketeer\Services\Tasks\TasksQueue                queue
  * @property \Rocketeer\Services\TasksHandler                    tasks
@@ -101,6 +102,7 @@ trait HasLocator
             'command'         => 'rocketeer.command',
             'connections'     => 'rocketeer.connections',
             'console'         => 'rocketeer.console',
+            'coordinator'     => 'rocketeer.coordinator',
             'credentials'     => 'rocketeer.credentials',
             'environment'     => 'rocketeer.environment',
             'explainer'       => 'rocketeer.explainer',

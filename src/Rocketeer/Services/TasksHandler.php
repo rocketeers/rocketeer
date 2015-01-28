@@ -190,9 +190,20 @@ class TasksHandler
             }
         }
 
+        // Bind core events
+        $this->registerCoreEvents();
+
         // Assign roles
         $roles = (array) $this->rocketeer->getOption('hooks.roles');
         $this->roles->assignTasksRoles($roles);
+    }
+
+    /**
+     * Bind the core events
+     */
+    public function registerCoreEvents()
+    {
+        $this->listenTo('deploy.before-symlink', [['rocketeer.coordinator', 'beforeSymlink']], -50);
     }
 
     /**
