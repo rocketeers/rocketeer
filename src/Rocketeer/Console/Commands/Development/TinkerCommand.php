@@ -32,6 +32,14 @@ class TinkerCommand extends AbstractCommand
      */
     public function fire()
     {
+        // Check for Psysh existence
+        if (!class_exists('Psy\Shell')) {
+            $this->error('Psysh is a required dependency for tinker, run the following command:');
+            $this->comment('$ composer require psy/psysh');
+
+            return false;
+        }
+
         $shell = new Shell();
         $shell->setScopeVariables(array(
             'rocketeer' => $this->laravel,
