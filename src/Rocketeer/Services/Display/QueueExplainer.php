@@ -125,6 +125,20 @@ class QueueExplainer
     }
 
     /**
+     * Display a server-related message
+     *
+     * @param string $message
+     *
+     * @return string
+     */
+    public function server($message)
+    {
+        $message = sprintf('<comment>[%s]</comment> %s', $this->connections->getLongHandle(), $message);
+
+        return $this->line($message, null, false);
+    }
+
+    /**
      * @param string $message
      *
      * @return string|null

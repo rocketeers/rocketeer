@@ -122,18 +122,6 @@ class LocalConnection implements ConnectionInterface, HasRolesInterface
     }
 
     /**
-     * Display the given line using the default output.
-     *
-     * @param string $line
-     *
-     * @codeCoverageIgnore
-     */
-    public function display($line)
-    {
-        $this->explainer->line($line);
-    }
-
-    /**
      * Upload a string to to the given file on the server.
      *
      * @param string $remote

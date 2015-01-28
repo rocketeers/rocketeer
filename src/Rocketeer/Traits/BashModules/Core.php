@@ -113,7 +113,7 @@ trait Core
 
             if ($verbose) {
                 $display = $this->cleanOutput($results);
-                $this->getConnection()->display(trim($display));
+                $this->explainer->server(trim($display));
             }
         });
 
