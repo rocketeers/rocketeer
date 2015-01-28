@@ -289,7 +289,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
         $results = $this->laravel['rocketeer.timer']->time($this, $callback);
         $time    = $this->laravel['rocketeer.timer']->getLatestTime($this);
 
-        $this->line('Execution time: <comment>'.$time.'s</comment>');
+        $this->laravel['rocketeer.explainer']->line('Execution time: <comment>'.$time.'s</comment>');
 
         return $results;
     }
@@ -303,7 +303,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
     {
         $nonInteractive = !$this->input->isInteractive();
         if ($nonInteractive) {
-            $this->error('Running in non interactive mode, prompt was skipped: '.$question);
+            $this->laravel['rocketeer.explainer']->error('Running in non interactive mode, prompt was skipped: '.$question);
         }
 
         return $nonInteractive;
