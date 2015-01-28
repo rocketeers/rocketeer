@@ -36,7 +36,7 @@ abstract class AbstractPackageManager extends AbstractBinary
      */
     public function hasManifest()
     {
-        $server = $this->paths->getFolder('current/'.$this->manifest);
+        $server = $this->releasesManager->getCurrentReleasePath($this->manifest);
         $server = $this->bash->fileExists($server);
 
         $local = $this->getManifestPath();
