@@ -189,7 +189,7 @@ class TasksBuilder
         }
 
         // If we passed a callable, build a Closure Task
-        if (is_callable($task) && !$task instanceof Closure) {
+        if ($this->isCallable($task)) {
             return $this->buildTaskFromCallable($task);
         }
 
@@ -327,6 +327,23 @@ class TasksBuilder
     protected function isStringCommand($string)
     {
         return is_string($string) && !$this->taskClassExists($string) && !$this->app->bound('rocketeer.tasks.'.$string);
+    }
+
+    /**
+     * Check if a task is a callable
+     *
+     * @param array|string $task
+     *
+     * @return boolean
+     */
+    protected function isCallable($task)
+    {
+        // Check for container bindings
+        if (is_array($task)) {
+            return count($task) === 2 && $this->app->bound($task[0]);
+        }
+
+        return is_callable($task) && !$task instanceof Closure;
     }
 
     /**
