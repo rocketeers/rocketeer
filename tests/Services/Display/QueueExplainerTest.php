@@ -68,7 +68,7 @@ class QueueExplainerTest extends RocketeerTestCase
 
     public function testCanDisplayErrors()
     {
-        $this->expectOutputString('<fg=cyan>production</fg=cyan> |=> <fg=red>foobar</fg=red>');
+        $this->expectOutputString('<fg=cyan>production</fg=cyan> |=> <error>foobar</error>');
 
         $this->explainer->error('foobar');
     }

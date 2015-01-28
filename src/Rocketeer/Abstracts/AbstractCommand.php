@@ -173,6 +173,16 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
         return $this->laravel->bound('artisan');
     }
 
+    /**
+     * Check if the current instance has a Command bound
+     *
+     * @return boolean
+     */
+    protected function hasCommand()
+    {
+        return $this->laravel->bound('rocketeer.command');
+    }
+
     ////////////////////////////////////////////////////////////////////
     ///////////////////////////// CORE METHODS /////////////////////////
     ////////////////////////////////////////////////////////////////////

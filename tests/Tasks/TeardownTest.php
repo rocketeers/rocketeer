@@ -30,6 +30,6 @@ class TeardownTest extends RocketeerTestCase
         $task    = $this->pretendTask('Teardown', array(), array('confirm' => false));
         $message = $this->assertTaskHistory($task, array());
 
-        $this->assertEquals('Teardown aborted', $message);
+        $this->assertContains('Teardown aborted', $message);
     }
 }
