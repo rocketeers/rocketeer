@@ -86,4 +86,13 @@ class LogsHandlerTest extends RocketeerTestCase
 
         $this->assertEquals($matcher, $logs);
     }
+
+    public function testCanHaveStaticFilenames()
+    {
+        $this->swapConfig(array(
+           'rocketeer::logs' => 'foobar.txt',
+        ));
+
+        $this->assertEquals($this->server.'/logs/foobar.txt', $this->logs->getCurrentLogsFile());
+    }
 }

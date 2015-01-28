@@ -89,12 +89,12 @@ class LogsHandler
         $namer = $this->config->get('rocketeer::logs');
 
         // Cancel if invalid namer
-        if (!$namer || !is_callable($namer)) {
+        if (!$namer) {
             return false;
         }
 
         // Compute name
-        $name = $namer($this->connections);
+        $name = is_callable($namer) ? $namer($this->connections) : $namer;
         $name = $this->app['path.rocketeer.logs'].'/'.$name;
 
         // Save for reuse
