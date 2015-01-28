@@ -32,11 +32,11 @@ class DeployTest extends RocketeerTestCase
             ),
             array(
                 "cd {server}/releases/{release}",
-                "{php} artisan migrate",
+                "{php} artisan migrate --force",
             ),
             array(
                 "cd {server}/releases/{release}",
-                "{php} artisan db:seed",
+                "{php} artisan db:seed --force",
             ),
             "mv {server}/current {server}/releases/{release}",
             array(
@@ -71,11 +71,11 @@ class DeployTest extends RocketeerTestCase
             ),
             array(
                 "cd {server}/releases/{release}",
-                "{php} artisan migrate",
+                "{php} artisan migrate --force",
             ),
             array(
                 "cd {server}/releases/{release}",
-                "{php} artisan db:seed",
+                "{php} artisan db:seed --force",
             ),
             "mv {server}/current {server}/releases/{release}",
             array(
@@ -115,11 +115,11 @@ class DeployTest extends RocketeerTestCase
             ),
             array(
                 "cd {server}/releases/{release}",
-                "{php} artisan migrate",
+                "{php} artisan migrate --force",
             ),
             array(
                 "cd {server}/releases/{release}",
-                "{php} artisan db:seed",
+                "{php} artisan db:seed --force",
             ),
             "mv {server}/current {server}/releases/{release}",
             array(
@@ -194,7 +194,7 @@ class DeployTest extends RocketeerTestCase
             ),
             array(
                 "cd {server}/releases/{release}",
-                "{php} artisan db:seed",
+                "{php} artisan db:seed --force",
             ),
             "mv {server}/current {server}/releases/{release}",
             array(
@@ -246,11 +246,11 @@ class DeployTest extends RocketeerTestCase
             ),
             array(
                 "cd {server}/releases/{release}",
-                "{php} artisan migrate",
+                "{php} artisan migrate --force",
             ),
             array(
                 "cd {server}/releases/{release}",
-                "{php} artisan db:seed",
+                "{php} artisan db:seed --force",
             ),
             "mv {server}/current {server}/releases/{release}",
             array(
@@ -302,11 +302,11 @@ class DeployTest extends RocketeerTestCase
             ),
             array(
                 "cd {server}/releases/{release}",
-                "{php} artisan migrate",
+                "{php} artisan migrate --force",
             ),
             array(
                 "cd {server}/releases/{release}",
-                "{php} artisan db:seed",
+                "{php} artisan db:seed --force",
             ),
             "mv {server}/current {server}/releases/{release}",
             array(
