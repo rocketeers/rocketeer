@@ -97,6 +97,20 @@ class ConnectionsHandler
     }
 
     /**
+     * Get the long form of the handle
+     *
+     * @param string|null $connection
+     * @param string|null $server
+     * @param string|null $stage
+     *
+     * @return string
+     */
+    public function getLongHandle($connection = null, $server = null, $stage = null)
+    {
+        return $this->getCurrentUsername().'@'.$this->getHandle($connection, $server, $stage);
+    }
+
+    /**
      * Get the currently authenticated user
      *
      * @return string

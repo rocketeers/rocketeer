@@ -173,7 +173,7 @@ class LogsHandler
     {
         $entries = (array) $entries;
         foreach ($entries as $key => $entry) {
-            $entries[$key] = sprintf('[%s@%s] %s', $this->connections->getCurrentUsername(), $this->connections->getHandle(), $entry);
+            $entries[$key] = sprintf('[%s] %s', $this->connections->getLongHandle(), $entry);
         }
 
         return count($entries) === 1 ? $entries[0] : $entries;
