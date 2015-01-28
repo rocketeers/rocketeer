@@ -59,6 +59,11 @@ class LogsHandler
     public function write()
     {
         foreach ($this->logs as $file => $entries) {
+            if (!$file) {
+                continue;
+            }
+
+            // Create the file if it doesn't exist
             if (!$this->files->exists($file)) {
                 $this->createLogsFile($file);
             }

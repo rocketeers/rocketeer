@@ -1,6 +1,7 @@
 <?php
 namespace Rocketeer\Services\History;
 
+use Mockery\MockInterface;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class LogsHandlerTest extends RocketeerTestCase
@@ -94,5 +95,20 @@ class LogsHandlerTest extends RocketeerTestCase
         ));
 
         $this->assertEquals($this->server.'/logs/foobar.txt', $this->logs->getCurrentLogsFile());
+    }
+
+    public function testDoesntCreateLogsIfInvalidFilename()
+    {
+        $this->mockFiles(function (MockInterface $mock) {
+           return $mock->shouldReceive('put')->with(0)->never();
+        });
+
+        $this->swapConfig(array(
+            'rocketeer::logs' => false,
+        ));
+
+        $this->assertFalse($this->logs->getCurrentLogsFile());
+        $this->logs->log('foobar');
+        $this->logs->write();
     }
 }
