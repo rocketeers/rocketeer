@@ -11,6 +11,15 @@ class ArtisanTest extends RocketeerTestCase
         $artisan = new Artisan($this->app);
 
         $commands = $artisan->migrate();
-        $this->assertEquals($php.' artisan migrate', $commands);
+        $this->assertEquals($php.' artisan migrate --force', $commands);
+    }
+
+    public function testCanSeedDatabase()
+    {
+        $php     = $this->binaries['php'];
+        $artisan = new Artisan($this->app);
+
+        $commands = $artisan->seed();
+        $this->assertEquals($php.' artisan db:seed --force', $commands);
     }
 }

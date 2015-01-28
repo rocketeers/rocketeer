@@ -47,7 +47,7 @@ class Artisan extends AbstractBinary
      */
     public function migrate()
     {
-        return $this->getCommand('migrate');
+        return $this->getCommand('migrate', [], ['--force']);
     }
 
     /**
@@ -57,7 +57,7 @@ class Artisan extends AbstractBinary
      */
     public function seed()
     {
-        return $this->getCommand('db:seed');
+        return $this->getCommand('db:seed', [], ['--force']);
     }
 
     /**
