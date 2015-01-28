@@ -22,14 +22,4 @@ class LocalConnectionTest extends RocketeerTestCase
 
         $this->assertEquals(realpath($this->server.'/releases/20000000000000'), $results);
     }
-
-    public function testCanDisplayCorrectCommandHandle()
-    {
-        $this->mockCommand(['verbose' => true]);
-        $this->rocketeer->setLocal(true);
-
-        $this->task->getConnection()->display('foobar');
-
-        $this->assertEquals(['[anahkiasen@local] foobar'], $this->logs->getLogs());
-    }
 }

@@ -22,8 +22,9 @@ trait Mocks
      *
      * @param array $options
      * @param array $expectations
+     * @param bool  $print
      */
-    protected function mockCommand($options = array(), $expectations = array())
+    protected function mockCommand($options = array(), $expectations = array(), $print = false)
     {
         // Default options
         $options = array_merge(array(
@@ -37,7 +38,7 @@ trait Mocks
             'update'   => false,
         ), $options);
 
-        $this->app['rocketeer.command'] = $this->getCommand($expectations, $options);
+        $this->app['rocketeer.command'] = $this->getCommand($expectations, $options, $print);
     }
 
     /**

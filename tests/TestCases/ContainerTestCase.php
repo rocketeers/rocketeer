@@ -116,12 +116,17 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
      *
      * @param array $expectations
      * @param array $options
+     * @param bool  $print
      *
      * @return Mockery
      */
-    protected function getCommand(array $expectations = array(), array $options = array())
+    protected function getCommand(array $expectations = array(), array $options = array(), $print = false)
     {
-        $message = function ($message) {
+        $message = function ($message) use ($print) {
+            if ($print) {
+                print $message;
+            }
+
             return $message;
         };
 

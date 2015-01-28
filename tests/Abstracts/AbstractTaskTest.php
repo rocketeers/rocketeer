@@ -7,15 +7,12 @@ class AbstractTaskTest extends RocketeerTestCase
 {
     public function testCanDisplayOutputOfCommandsIfVerbose()
     {
-        $task = $this->task('Check', array(
-            'verbose' => true,
-        ));
+        $this->expectOutputRegex('/tests/');
 
-        ob_start();
+        $this->mockCommand(['verbose' => true], [], true);
+        $task = $this->task('Check');
+
         $task->run('ls');
-        $output = ob_get_clean();
-
-        $this->assertContains('tests', $output);
     }
 
     public function testCanPretendToRunTasks()
