@@ -339,8 +339,8 @@ class TasksBuilder
     protected function isCallable($task)
     {
         // Check for container bindings
-        if (is_array($task)) {
-            return count($task) === 2 && $this->app->bound($task[0]);
+        if (is_array($task) ) {
+            return count($task) === 2 && $this->app->bound($task[0]) || is_callable($task);
         }
 
         return is_callable($task) && !$task instanceof Closure;
