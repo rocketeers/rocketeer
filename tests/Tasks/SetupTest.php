@@ -11,11 +11,7 @@ class SetupTest extends RocketeerTestCase
         $this->usesComposer();
         $this->pretend();
 
-        $this->mockReleases(function (MockInterface $mock) {
-            return $mock
-                ->shouldReceive('getCurrentRelease')->andReturn(null)
-                ->shouldReceive('getCurrentReleasePath')->andReturn('1');
-        });
+        $this->mockNoCurrentRelease();
 
         $this->assertTaskHistory('Setup', array(
             'git --version',
@@ -31,12 +27,7 @@ class SetupTest extends RocketeerTestCase
     {
         $this->usesComposer();
         $this->pretend();
-
-        $this->mockReleases(function (MockInterface $mock) {
-            return $mock
-                ->shouldReceive('getCurrentRelease')->andReturn(null)
-                ->shouldReceive('getCurrentReleasePath')->andReturn('1');
-        });
+        $this->mockNoCurrentRelease();
         $this->swapConfig(array(
             'rocketeer::stages.stages' => array('staging', 'production'),
         ));
@@ -58,13 +49,7 @@ class SetupTest extends RocketeerTestCase
     {
         $this->usesComposer(true, 'staging');
         $this->pretend();
-
-        $this->mockReleases(function (MockInterface $mock) {
-            return $mock
-                ->shouldReceive('getCurrentRelease')->andReturn(null)
-                ->shouldReceive('getCurrentReleasePath')->andReturn('1');
-        });
-
+        $this->mockNoCurrentRelease('staging');
         $this->swapConfig(array(
             'rocketeer::stages.stages' => ['staging', 'production'],
         ));
@@ -86,5 +71,18 @@ class SetupTest extends RocketeerTestCase
         ));
 
         $this->assertEquals('staging', $this->connections->getStage());
+    }
+
+    protected function mockNoCurrentRelease($stage = null)
+    {
+        $this->mockReleases(function (MockInterface $mock) use ($stage) {
+            return $mock
+                ->shouldReceive('getCurrentRelease')->andReturn(null)
+                ->shouldReceive('getCurrentReleasePath')->andReturnUsing(function ($path = null) use ($stage) {
+                    $stage = $stage ? $stage.'/' : null;
+
+                    return $this->server.'/'.$stage.'releases/20000000000000/'.$path;
+                });
+        });
     }
 }
