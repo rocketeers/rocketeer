@@ -45,7 +45,7 @@ abstract class RocketeerTestCase extends ContainerTestCase
      *
      * @type integer
      */
-    protected $numberFiles;
+    protected static $numberFiles;
 
     /**
      * Set up the tests
@@ -55,8 +55,10 @@ abstract class RocketeerTestCase extends ContainerTestCase
         parent::setUp();
 
         // Compute ls results
-        $files = scandir(__DIR__.'/../..');
-        $this->numberFiles = count($files) - 8;
+        if (!static::$numberFiles) {
+            $files = preg_grep('/^([^.0])/', scandir(__DIR__.'/../..'));
+            static::$numberFiles = count($files);
+        }
 
         // Setup local server
         $this->server          = __DIR__.'/../_server/foobar';

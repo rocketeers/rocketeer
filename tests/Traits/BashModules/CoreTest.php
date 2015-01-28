@@ -10,7 +10,7 @@ class CoreTest extends RocketeerTestCase
     {
         $contents = $this->task->runRaw('ls', true, true);
 
-        $this->assertCount($this->numberFiles, $contents);
+        $this->assertCount(static::$numberFiles, $contents);
     }
 
     public function testCanCheckStatusOfACommand()
@@ -80,7 +80,7 @@ class CoreTest extends RocketeerTestCase
         $this->task->setLocal(true);
         $contents = $this->task->runRaw('ls', true, true);
 
-        $this->assertCount($this->numberFiles, $contents);
+        $this->assertCount(static::$numberFiles, $contents);
     }
 
     public function testCanConvertDirectorySeparators()
