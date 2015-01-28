@@ -111,4 +111,11 @@ class LogsHandlerTest extends RocketeerTestCase
         $this->logs->log('foobar');
         $this->logs->write();
     }
+
+    public function testDoesntDuplicateConnectionHandle()
+    {
+        $this->explainer->server('foobar');
+
+        $this->assertEquals(['[anahkiasen@production] foobar'], $this->logs->getLogs());
+    }
 }

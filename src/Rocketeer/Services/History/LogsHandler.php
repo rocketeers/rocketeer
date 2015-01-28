@@ -177,8 +177,13 @@ class LogsHandler
     protected function prependHandle($entries)
     {
         $entries = (array) $entries;
+        $handle  = $this->connections->getLongHandle();
+
         foreach ($entries as $key => $entry) {
-            $entries[$key] = sprintf('[%s] %s', $this->connections->getLongHandle(), $entry);
+            $entry = str_replace('<comment>['.$handle.']</comment> ', null, $entry);
+            $entry = sprintf('[%s] %s', $handle, $entry);
+
+            $entries[$key] = $entry;
         }
 
         return count($entries) === 1 ? $entries[0] : $entries;
