@@ -13,6 +13,7 @@ namespace Rocketeer\Abstracts;
 use Illuminate\Container\Container;
 use Illuminate\Support\Str;
 use Rocketeer\Console\Console;
+use Rocketeer\Services\Tasks\TasksBuilder;
 use Rocketeer\Services\TasksHandler;
 use Rocketeer\Traits\HasLocator;
 
@@ -31,6 +32,14 @@ abstract class AbstractPlugin
      * @var string
      */
     public $configurationFolder;
+
+    /**
+     * Additional lookups to
+     * add to Rocketeer
+     *
+     * @type array
+     */
+    protected $lookups = [];
 
     /**
      * Get the package namespace
@@ -71,12 +80,22 @@ abstract class AbstractPlugin
     /**
      * Register Tasks with Rocketeer
      *
-     * @param \Rocketeer\Services\TasksHandler $queue
+     * @param TasksHandler $queue
      *
      * @return void
      */
     public function onQueue(TasksHandler $queue)
     {
         // ...
+    }
+
+    /**
+     * Register additional places to build from
+     *
+     * @param TasksBuilder $builder
+     */
+    public function onBuilder(TasksBuilder $builder)
+    {
+        $builder->registerLookups($this->lookups);
     }
 }

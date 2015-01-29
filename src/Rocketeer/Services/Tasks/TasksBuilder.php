@@ -320,14 +320,26 @@ class TasksBuilder
     /**
      * Add additional places to look for classes
      *
-     * @param string $type
-     * @param string|array  $lookups
+     * @param string       $type
+     * @param string|array $lookups
      */
-    public function registerLookups($type, $lookups = [])
+    public function registerLookup($type, $lookups = [])
     {
         $lookups = (array) $lookups;
 
         $this->lookups[$type] = array_merge($this->lookups[$type], $lookups);
+    }
+
+    /**
+     * Add additional places to look for multiple types
+     *
+     * @param array $lookups
+     */
+    public function registerLookups(array $lookups)
+    {
+        foreach ($lookups as $type => $lookup) {
+            $this->registerLookup($type, $lookup);
+        }
     }
 
     /**

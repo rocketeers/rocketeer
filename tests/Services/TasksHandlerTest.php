@@ -216,10 +216,12 @@ class TasksHandlerTest extends RocketeerTestCase
         $this->assertEquals(['foo' => 'bar'], $task->getOptions());
     }
 
-    public function testCanAddCommandsViaPlugins()
+    public function testCanAddLookupsViaPlugins()
     {
-        $this->tasks->plugin('Rocketeer\Dummies\Plugins\DummyConsolePlugin');
+        $this->tasks->plugin('Rocketeer\Dummies\Plugins\DummyBuilderPlugin');
 
-        $this->assertInstanceOf('Rocketeer\Dummies\Plugins\DummyPluginCommand', $this->app['rocketeer.console']->get('foobar'));
+        $task = $this->builder->buildTask('MyCustomTask');
+
+        $this->assertInstanceOf('Rocketeer\Dummies\Tasks\MyCustomTask', $task);
     }
 }
