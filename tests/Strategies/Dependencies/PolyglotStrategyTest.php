@@ -33,12 +33,12 @@ class PolyglotStrategyTest extends RocketeerTestCase
         $this->pretend();
 
         $this->mock('rocketeer.bash', 'Bash', function (MockInterface $mock) {
-           return $mock
-               ->shouldReceive('fileExists')->andReturn(true)
-               ->shouldReceive('which')->with('composer', Mockery::any(), false)->andReturn('composer')
-               ->shouldReceive('which')->with('bundle', Mockery::any(), false)->andReturn('bundle')
-               ->shouldReceive('runForCurrentRelease')->with('composer install')->andReturn('YUP')
-               ->shouldReceive('runForCurrentRelease')->with('bundle install')->andReturn('bash: bundler: command not found');
+            return $mock
+                ->shouldReceive('fileExists')->andReturn(true)
+                ->shouldReceive('which')->with('composer', Mockery::any(), false)->andReturn('composer')
+                ->shouldReceive('which')->with('bundle', Mockery::any(), false)->andReturn('bundle')
+                ->shouldReceive('runForCurrentRelease')->with('composer install')->andReturn('YUP')
+                ->shouldReceive('runForCurrentRelease')->with('bundle install')->andReturn('bash: bundler: command not found');
         });
 
         $this->usesComposer();

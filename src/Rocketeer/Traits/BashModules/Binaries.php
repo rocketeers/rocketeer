@@ -124,7 +124,7 @@ trait Binaries
             $location = $locations[$tryout];
             if (is_array($location)) {
                 list($object, $method, $argument) = $location;
-                $location                         = $object->$method($argument);
+                $location = $object->$method($argument);
             }
 
             // Verify existence of returned path

@@ -2,7 +2,6 @@
 namespace Rocketeer\Services;
 
 use Rocketeer\Dummies\DummyNotifier;
-use Rocketeer\Dummies\Plugins\DummyConsolePlugin;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class TasksHandlerTest extends RocketeerTestCase

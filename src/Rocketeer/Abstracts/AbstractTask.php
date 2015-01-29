@@ -160,7 +160,7 @@ abstract class AbstractTask extends Bash implements HasRolesInterface, Identifie
     {
         $this->displayStatus();
 
-        return $this->runWithBeforeAfterEvents(function() {
+        return $this->runWithBeforeAfterEvents(function () {
             return $this->execute();
         });
     }

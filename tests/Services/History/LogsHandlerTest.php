@@ -91,7 +91,7 @@ class LogsHandlerTest extends RocketeerTestCase
     public function testCanHaveStaticFilenames()
     {
         $this->swapConfig(array(
-           'rocketeer::logs' => 'foobar.txt',
+            'rocketeer::logs' => 'foobar.txt',
         ));
 
         $this->assertEquals($this->server.'/logs/foobar.txt', $this->logs->getCurrentLogsFile());
@@ -100,7 +100,7 @@ class LogsHandlerTest extends RocketeerTestCase
     public function testDoesntCreateLogsIfInvalidFilename()
     {
         $this->mockFiles(function (MockInterface $mock) {
-           return $mock->shouldReceive('put')->with(0)->never();
+            return $mock->shouldReceive('put')->with(0)->never();
         });
 
         $this->swapConfig(array(

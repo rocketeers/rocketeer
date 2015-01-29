@@ -1,7 +1,6 @@
 <?php
 namespace Rocketeer\Services\Connections;
 
-use Mockery\MockInterface;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class CoordinatorTest extends RocketeerTestCase

@@ -6,11 +6,8 @@ use Mockery\MockInterface;
 use Rocketeer\Console\Commands\Plugins\InstallCommand;
 use Rocketeer\Dummies\DummyFailingCommand;
 use Rocketeer\TestCases\RocketeerTestCase;
-use Symfony\Component\Console\Helper\HelperSet;
-use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\NullOutput;
-use Symfony\Component\Console\Tests\Helper\HelperSetTest;
 
 class AbstractCommandTest extends RocketeerTestCase
 {
@@ -55,7 +52,7 @@ class AbstractCommandTest extends RocketeerTestCase
         $this->rocketeer->setLocal(true);
         $this->expectOutputString('foobar');
 
-        $this->tasks->listenTo('commands.nope.before', function() {
+        $this->tasks->listenTo('commands.nope.before', function () {
             echo 'foobar';
 
             return false;

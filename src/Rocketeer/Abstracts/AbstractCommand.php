@@ -77,7 +77,6 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
         return $this->laravel->make($key);
     }
 
-
     /**
      * Get the task this command executes
      *

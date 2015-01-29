@@ -99,10 +99,10 @@ class TasksBuilderTest extends RocketeerTestCase
 
     public function testCanBuildByCallable()
     {
-        $task  = $this->builder->buildTask(['Rocketeer\Dummies\Tasks\CallableTask', 'someMethod']);
+        $task = $this->builder->buildTask(['Rocketeer\Dummies\Tasks\CallableTask', 'someMethod']);
         $this->assertEquals('Rocketeer\Tasks\Closure', $task->fire());
 
-        $task  = $this->builder->buildTask('Rocketeer\Dummies\Tasks\CallableTask::someMethod');
+        $task = $this->builder->buildTask('Rocketeer\Dummies\Tasks\CallableTask::someMethod');
         $this->assertEquals('Rocketeer\Tasks\Closure', $task->fire());
     }
 
@@ -110,7 +110,7 @@ class TasksBuilderTest extends RocketeerTestCase
     {
         $this->app->instance('foobar', new CallableTask());
 
-        $task  = $this->builder->buildTask(['foobar', 'someMethod']);
+        $task = $this->builder->buildTask(['foobar', 'someMethod']);
         $this->assertEquals('Rocketeer\Tasks\Closure', $task->fire());
     }
 }

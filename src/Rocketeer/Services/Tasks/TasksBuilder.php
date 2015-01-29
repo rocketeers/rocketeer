@@ -286,7 +286,7 @@ class TasksBuilder
         $task->setClosure(function () use ($callable, $task) {
             $callable = is_array($callable) ? $callable : explode('::', $callable);
 
-           return call_user_func_array([$this->app->make($callable[0]), $callable[1]], [$task]);
+            return call_user_func_array([$this->app->make($callable[0]), $callable[1]], [$task]);
         });
 
         return $task;
@@ -339,7 +339,7 @@ class TasksBuilder
     protected function isCallable($task)
     {
         // Check for container bindings
-        if (is_array($task) ) {
+        if (is_array($task)) {
             return count($task) === 2 && $this->app->bound($task[0]) || is_callable($task);
         }
 
