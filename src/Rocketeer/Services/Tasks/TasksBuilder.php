@@ -65,7 +65,7 @@ class TasksBuilder
      */
     public function buildBinary($binary)
     {
-        $class = $this->findQualifiedName($binary, 'binary');
+        $class = $this->findQualifiedName($binary, 'binaries');
 
         // If there is a class by that name
         if ($class) {
