@@ -205,7 +205,15 @@ class TasksHandler
      */
     public function registerCoreEvents()
     {
-        $this->listenTo('deploy.before-symlink', [['rocketeer.coordinator', 'beforeSymlink']], -50);
+        $events = array(
+            'commands.deploy.before' => 'Primer',
+            'deploy.before-symink'   => [['rocketeer.coordinator', 'beforeSymlink']],
+        );
+
+        foreach ($events as $event => $listeners) {
+            $this->registeredEvents[] = 'rocketeer.'.$event;
+            $this->listenTo($event, $listeners);
+        }
     }
 
     /**
@@ -221,7 +229,7 @@ class TasksHandler
     {
         /** @type AbstractTask[] $listeners */
         $listeners = $this->builder->buildTasks((array) $listeners);
-        $event = Str::contains($event, ['commands.', 'tasks.']) ? $event : 'tasks.'.$event;
+        $event     = Str::contains($event, ['commands.', 'tasks.']) ? $event : 'tasks.'.$event;
 
         // Register events
         foreach ($listeners as $listener) {

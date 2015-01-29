@@ -54,7 +54,11 @@ class Primer extends AbstractTask
         }
 
         $this->run($tasks);
+        $status = $this->status();
+        if (!$status) {
+            $this->explainer->error('Project is not ready for deploy. You were almost fired.');
+        }
 
-        return $this->status();
+        return $status;
     }
 }

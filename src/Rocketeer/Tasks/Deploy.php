@@ -39,11 +39,6 @@ class Deploy extends AbstractTask
             $this->executeTask('Setup');
         }
 
-        // Check if local is ready for deployment
-        if (!$this->executeTask('Primer')) {
-            return $this->halt('Project is not ready for deploy. You were almost fired.');
-        }
-
         // If it's friday, display a motivational message
         if (date('N') === '5') {
             $this->executeTask('FridayDeploy');

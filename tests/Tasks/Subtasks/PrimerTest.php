@@ -16,4 +16,18 @@ class PrimerTest extends RocketeerTestCase
 
         $this->assertTaskHistory('Primer', ['ls']);
     }
+
+    public function testIsRunBeforeDeployCommand()
+    {
+        $this->rocketeer->setLocal(true);
+        $this->expectOutputString('FIRED');
+
+        $this->swapConfig(array(
+            'rocketeer::strategies.primer' => function () {
+                echo 'FIRED';
+            },
+        ));
+
+        $this->executeCommand('deploy', ['--pretend' => true]);
+    }
 }
