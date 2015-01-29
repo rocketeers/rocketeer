@@ -11,6 +11,7 @@
 namespace Rocketeer\Services\Tasks;
 
 use Closure;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Binaries\AnonymousBinary;
@@ -28,6 +29,34 @@ class TasksBuilder
     use HasLocator;
 
     /**
+     * The possible locations of
+     * the various types
+     *
+     * @type array
+     */
+    protected $lookups = array(
+        'binaries'   => array(
+            'Rocketeer\Binaries\PackageManagers\%s',
+            'Rocketeer\Binaries\%s',
+        ),
+        'tasks'      => array(
+            'Rocketeer\Tasks\%s',
+            'Rocketeer\Tasks\Subtasks\%s',
+        ),
+        'commands'   => array(
+            'Rocketeer\Console\Commands\%sCommand',
+            'Rocketeer\Console\Commands\BaseTaskCommand',
+        ),
+        'strategies' => array(
+            'Rocketeer\Strategies\Check\%sStrategy',
+            'Rocketeer\Strategies\Dependencies\%sStrategy',
+            'Rocketeer\Strategies\Deploy\%sStrategy',
+            'Rocketeer\Strategies\Migrate\%sStrategy',
+            'Rocketeer\Strategies\Test\%sStrategy',
+        ),
+    );
+
+    /**
      * Build a binary
      *
      * @param string $binary
@@ -36,10 +65,7 @@ class TasksBuilder
      */
     public function buildBinary($binary)
     {
-        $class = $this->findQualifiedName($binary, array(
-            'Rocketeer\Binaries\PackageManagers\%s',
-            'Rocketeer\Binaries\%s',
-        ));
+        $class = $this->findQualifiedName($binary, 'binary');
 
         // If there is a class by that name
         if ($class) {
@@ -77,10 +103,7 @@ class TasksBuilder
         // Get the command name
         $name    = $instance ? $instance->getName() : null;
         $name    = is_string($task) ? $task : $name;
-        $command = $this->findQualifiedName($name, array(
-            'Rocketeer\Console\Commands\%sCommand',
-            'Rocketeer\Console\Commands\BaseTaskCommand',
-        ));
+        $command = $this->findQualifiedName($name, 'commands');
 
         $command = new $command($instance, $slug);
         $command->setLaravel($this->app);
@@ -106,9 +129,7 @@ class TasksBuilder
         // build it, otherwise get the bound one
         $handle = strtolower($strategy);
         if ($concrete) {
-            $concrete = $this->findQualifiedName($concrete, array(
-                'Rocketeer\Strategies\\'.ucfirst($strategy).'\%sStrategy',
-            ));
+            $concrete = $this->findQualifiedName($concrete, 'strategies');
 
             if (!$concrete) {
                 return false;
@@ -292,6 +313,59 @@ class TasksBuilder
         return $task;
     }
 
+    //////////////////////////////////////////////////////////////////////
+    ////////////////////////////// LOOKUPS ///////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+
+    /**
+     * Add additional places to look for classes
+     *
+     * @param string $type
+     * @param string|array  $lookups
+     */
+    public function registerLookups($type, $lookups = [])
+    {
+        $lookups = (array) $lookups;
+
+        $this->lookups[$type] = array_merge($this->lookups[$type], $lookups);
+    }
+
+    /**
+     * Check if a class with the given task name exists
+     *
+     * @param string $task
+     *
+     * @return string|false
+     */
+    protected function taskClassExists($task)
+    {
+        return $this->findQualifiedName($task, 'tasks');
+    }
+
+    /**
+     * Find a class in various predefined namespaces
+     *
+     * @param string $class
+     * @param string $type
+     *
+     * @return string|false
+     */
+    protected function findQualifiedName($class, $type)
+    {
+        $paths   = (array) Arr::get($this->lookups, $type);
+        $paths[] = '%s';
+
+        $class = ucfirst($class);
+        foreach ($paths as $path) {
+            $path = sprintf($path, $class);
+            if (class_exists($path)) {
+                return $path;
+            }
+        }
+
+        return false;
+    }
+
     ////////////////////////////////////////////////////////////////////
     /////////////////////////////// HELPERS ////////////////////////////
     ////////////////////////////////////////////////////////////////////
@@ -344,44 +418,6 @@ class TasksBuilder
         }
 
         return is_callable($task) && !$task instanceof Closure;
-    }
-
-    /**
-     * Check if a class with the given task name exists
-     *
-     * @param string $task
-     *
-     * @return string|false
-     */
-    protected function taskClassExists($task)
-    {
-        return $this->findQualifiedName($task, array(
-            'Rocketeer\Tasks\%s',
-            'Rocketeer\Tasks\Subtasks\%s',
-        ));
-    }
-
-    /**
-     * Find a class in various predefined namespaces
-     *
-     * @param string   $class
-     * @param string[] $paths
-     *
-     * @return string|false
-     */
-    protected function findQualifiedName($class, $paths = array())
-    {
-        $paths[] = '%s';
-
-        $class = ucfirst($class);
-        foreach ($paths as $path) {
-            $path = sprintf($path, $class);
-            if (class_exists($path)) {
-                return $path;
-            }
-        }
-
-        return false;
     }
 
     /**
