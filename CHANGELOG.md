@@ -2,7 +2,7 @@
 
 Rocketeer follows the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.html) spec.
 
-## [2.1.0] - Unreleased
+## [3.0.0] - Unreleased
 
 ### Added
 - Added `rollback.after` event listener to Notifier plugins
@@ -374,7 +374,7 @@ Rocketeer follows the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.ht
 - Added config file
 - Added `deploy:setup` and `deploy:deploy` commands
 
-[2.1.0]: https://github.com/rocketeers/rocketeer/compare/2.0.4...develop
+[3.0.0]: https://github.com/rocketeers/rocketeer/compare/2.0.4...develop
 [2.0.4]: https://github.com/rocketeers/rocketeer/compare/2.0.3...2.0.4
 [2.0.3]: https://github.com/rocketeers/rocketeer/compare/2.0.2...2.0.3
 [2.0.2]: https://github.com/rocketeers/rocketeer/compare/2.0.1...2.0.2
