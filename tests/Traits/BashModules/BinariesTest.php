@@ -136,4 +136,17 @@ class BinariesTest extends RocketeerTestCase
         $this->task('Dependencies')->execute();
         $this->assertEmpty($this->history->getFlattenedHistory());
     }
+
+    public function testCanGetBinariesViaMagicMethods()
+    {
+        $binary = $this->bash->php();
+        $this->assertInstanceOf('Rocketeer\Binaries\Php', $binary);
+    }
+
+    public function testCanRunBinariesMethodsViaMagicMethods()
+    {
+        $results = $this->bash->composer('--help');
+
+        $this->assertContains('Usage:', $results);
+    }
 }

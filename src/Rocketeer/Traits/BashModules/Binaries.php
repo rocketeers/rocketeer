@@ -17,6 +17,24 @@ namespace Rocketeer\Traits\BashModules;
  */
 trait Binaries
 {
+    /**
+     * Get a binary
+     *
+     * @param string $name
+     * @param array $arguments
+     *
+     * @return \Rocketeer\Abstracts\AbstractPackageManager
+     */
+    public function __call($name, $arguments = [])
+    {
+        $binary = $this->binary($name);
+        if ($arguments) {
+            return call_user_func_array([$binary, 'run'], $arguments);
+        }
+
+        return $binary;
+    }
+
     ////////////////////////////////////////////////////////////////////
     /////////////////////////////// BINARIES ///////////////////////////
     ////////////////////////////////////////////////////////////////////
@@ -26,47 +44,11 @@ trait Binaries
      *
      * @param string $binary
      *
-     * @return \Rocketeer\Abstracts\AbstractBinary|\Rocketeer\Abstracts\AbstractPackageManager
+     * @return \Rocketeer\Abstracts\AbstractPackageManager
      */
     public function binary($binary)
     {
         return $this->builder->buildBinary($binary);
-    }
-
-    /**
-     * Prefix a command with the right path to PHP
-     *
-     * @return \Rocketeer\Binaries\Php
-     */
-    public function php()
-    {
-        return $this->binary('php');
-    }
-
-    /**
-     * Prefix a command with the right path to Composer
-     *
-     * @return \Rocketeer\Binaries\Composer
-     */
-    public function composer()
-    {
-        return $this->binary('composer');
-    }
-
-    /**
-     * @return \Rocketeer\Binaries\Phpunit
-     */
-    public function phpunit()
-    {
-        return $this->binary('phpunit');
-    }
-
-    /**
-     * @return \Rocketeer\Binaries\Artisan
-     */
-    public function artisan()
-    {
-        return $this->binary('artisan');
     }
 
     ////////////////////////////////////////////////////////////////////
