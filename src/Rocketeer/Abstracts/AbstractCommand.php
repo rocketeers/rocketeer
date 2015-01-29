@@ -70,6 +70,9 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
     public function __get($key)
     {
         $key = $this->getLocatorHandle($key);
+        if ($key === 'rocketeer.command') {
+            return $this;
+        }
 
         return $this->laravel->make($key);
     }
@@ -207,17 +210,16 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
             $this->credentials->getRepositoryCredentials();
         }
 
-        if ($this->straight) {
-            // If we only have a single task, run it
-            $status = $this->builder->buildTask($tasks)->fire();
-        } else {
-            // Run tasks and display timer
-            $status = $this->time(function () use ($tasks) {
-                $pipeline = $this->queue->run($tasks);
+        // Fire tasks and events arround them
+        $status = $this->runWithBeforeAfterEvents(function () use ($tasks) {
+            if ($this->straight) {
+                return $this->builder->buildTask($tasks)->fire();
+            }
 
-                return $pipeline->succeeded();
-            });
-        }
+            $pipeline = $this->queue->run($tasks);
+
+            return $pipeline->succeeded();
+        });
 
         // Remove command instance
         unset($this->laravel['rocketeer.command']);

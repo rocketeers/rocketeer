@@ -9,6 +9,26 @@ namespace Rocketeer\Traits\Properties;
 trait HasEvents
 {
     /**
+     * Run a callable and fire a before/after event arround it
+     *
+     * @param callable $callable
+     *
+     * @return boolean
+     */
+    public function runWithBeforeAfterEvents(callable $callable)
+    {
+        $results = false;
+
+        // Fire the task if the before event passes
+        if ($this->fireEvent('before')) {
+            $results = $this->timer->time($this, $callable);
+            $this->fireEvent('after');
+        }
+
+        return $results;
+    }
+
+    /**
      * Fire an event related to this task
      *
      * @param string $event
