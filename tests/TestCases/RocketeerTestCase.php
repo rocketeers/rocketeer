@@ -3,6 +3,8 @@ namespace Rocketeer\TestCases;
 
 use Illuminate\Console\Command;
 use Rocketeer\Services\Storages\LocalStorage;
+use Symfony\Component\Console\Helper\HelperSet;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Tester\CommandTester;
 
 abstract class RocketeerTestCase extends ContainerTestCase
@@ -56,7 +58,7 @@ abstract class RocketeerTestCase extends ContainerTestCase
 
         // Compute ls results
         if (!static::$numberFiles) {
-            $files = preg_grep('/^([^.0])/', scandir(__DIR__.'/../..'));
+            $files               = preg_grep('/^([^.0])/', scandir(__DIR__.'/../..'));
             static::$numberFiles = count($files);
         }
 
@@ -138,11 +140,7 @@ abstract class RocketeerTestCase extends ContainerTestCase
      */
     protected function executeCommand($command = null, $arguments = [], $options = [])
     {
-        // Fetch command from Container if necessary
-        if (!$command instanceof Command) {
-            $command = $command ? '.'.$command : null;
-            $command = $this->app['rocketeer.commands'.$command];
-        }
+        $command = $this->command($command);
 
         // Execute
         $tester = new CommandTester($command);
@@ -186,5 +184,24 @@ abstract class RocketeerTestCase extends ContainerTestCase
         }
 
         return $this->builder->buildTask($task);
+    }
+
+    /**
+     * @param $command
+     *
+     * @return Command
+     */
+    protected function command($command)
+    {
+        // Fetch command from Container if necessary
+        if (!$command instanceof Command) {
+            $command = $command ? '.'.$command : null;
+            $command = $this->app['rocketeer.commands'.$command];
+        } elseif (!$command->getLaravel()) {
+            $command->setLaravel($this->app);
+            $command->setHelperSet(new HelperSet(['question' => new QuestionHelper()]));
+        }
+
+        return $command;
     }
 }

@@ -14,6 +14,7 @@ use Illuminate\Console\Command;
 use Rocketeer\Console\Commands\RocketeerCommand;
 use Rocketeer\Interfaces\IdentifierInterface;
 use Rocketeer\Traits\HasLocator;
+use Rocketeer\Traits\Properties\HasEvents;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
@@ -25,6 +26,7 @@ use Symfony\Component\Console\Input\InputOption;
 abstract class AbstractCommand extends Command implements IdentifierInterface
 {
     use HasLocator;
+    use HasEvents;
 
     /**
      * Whether the command's task should be built
@@ -108,7 +110,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
      */
     public function getIdentifier()
     {
-        return 'commands.'.$this->getName();
+        return 'commands.'.str_replace(':', '.', $this->name);
     }
 
     //////////////////////////////////////////////////////////////////////

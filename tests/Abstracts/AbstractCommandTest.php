@@ -6,8 +6,11 @@ use Mockery\MockInterface;
 use Rocketeer\Console\Commands\Plugins\InstallCommand;
 use Rocketeer\Dummies\DummyFailingCommand;
 use Rocketeer\TestCases\RocketeerTestCase;
+use Symfony\Component\Console\Helper\HelperSet;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\NullOutput;
+use Symfony\Component\Console\Tests\Helper\HelperSetTest;
 
 class AbstractCommandTest extends RocketeerTestCase
 {
@@ -45,5 +48,19 @@ class AbstractCommandTest extends RocketeerTestCase
         $tester = $this->executeCommand($command, [], ['interactive' => false]);
 
         $this->assertContains('prompt was skipped: No host is set for [production]', $tester->getDisplay());
+    }
+
+    public function testCanFireEvents()
+    {
+        $this->rocketeer->setLocal(true);
+        $this->expectOutputString('foobar');
+
+        $this->tasks->listenTo('commands.nope.before', function() {
+            echo 'foobar';
+
+            return false;
+        });
+
+        $this->executeCommand(new DummyFailingCommand());
     }
 }
