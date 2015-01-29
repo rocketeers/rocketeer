@@ -12,8 +12,10 @@ namespace Rocketeer\Services;
 
 use Closure;
 use Illuminate\Container\Container;
+use Illuminate\Support\Str;
 use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Console\Commands\BaseTaskCommand;
+use Rocketeer\Interfaces\IdentifierInterface;
 use Rocketeer\Tasks;
 use Rocketeer\Traits\HasLocator;
 
@@ -219,11 +221,12 @@ class TasksHandler
     {
         /** @type AbstractTask[] $listeners */
         $listeners = $this->builder->buildTasks((array) $listeners);
+        $event = Str::contains($event, ['commands.', 'tasks.']) ? $event : 'tasks.'.$event;
 
         // Register events
         foreach ($listeners as $listener) {
             $listener->setEvent($event);
-            $handle = $this->getEventHandle($event);
+            $handle = $this->getEventHandle(null, $event);
             $this->events->listen($handle, [$listener, 'fire'], $priority);
         }
 
@@ -259,13 +262,13 @@ class TasksHandler
         }
 
         // Prevent events on anonymous tasks
-        $slug = $this->builder->buildTask($task)->getSlug();
-        if ($slug === 'closure') {
+        $task = $this->builder->buildTask($task);
+        if ($task->getSlug() === 'closure') {
             return;
         }
 
         // Get event name and register listeners
-        $event = $this->getEventHandle($slug, $event);
+        $event = $this->getEventHandle($task, $event);
         $event = $this->listenTo($event, $listeners, $priority);
 
         // Store registered event
@@ -288,7 +291,7 @@ class TasksHandler
     public function getTasksListeners($task, $event, $flatten = false)
     {
         // Get events
-        $task   = $this->builder->buildTaskFromClass($task)->getSlug();
+        $task   = $this->builder->buildTaskFromClass($task);
         $handle = $this->getEventHandle($task, $event);
         $events = $this->events->getListeners($handle);
 
@@ -361,17 +364,17 @@ class TasksHandler
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Get the handle of a task
+     * Get the handle of an event
      *
-     * @param string      $task
-     * @param string|null $event
+     * @param IdentifierInterface $entity
+     * @param string|null         $event
      *
      * @return string
      */
-    public function getEventHandle($task, $event = null)
+    public function getEventHandle(IdentifierInterface $entity = null, $event = null)
     {
-        // Concatenate task and event if it's not already done
-        $event = $event ? $task.'.'.$event : $task;
+        // Concatenate identifier and event if it's not already done
+        $event = $entity ? $entity->getIdentifier().'.'.$event : $event;
         $event = str_replace('rocketeer.', null, $event);
 
         return 'rocketeer.'.$event;

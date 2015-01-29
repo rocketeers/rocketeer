@@ -15,6 +15,9 @@ use Illuminate\Support\Str;
 use Rocketeer\Bash;
 use Rocketeer\Interfaces\HasRolesInterface;
 use Rocketeer\Interfaces\IdentifierInterface;
+use Rocketeer\Traits\Properties\Configurable;
+use Rocketeer\Traits\Properties\HasEvents;
+use Rocketeer\Traits\Properties\HasRoles;
 use Rocketeer\Traits\StepsRunner;
 
 /**
@@ -24,9 +27,10 @@ use Rocketeer\Traits\StepsRunner;
  */
 abstract class AbstractTask extends Bash implements HasRolesInterface, IdentifierInterface
 {
+    use Configurable;
+    use HasEvents;
+    use HasRoles;
     use StepsRunner;
-    use \Rocketeer\Traits\Properties\Configurable;
-    use \Rocketeer\Traits\Properties\HasRoles;
 
     /**
      * The name of the task
@@ -197,54 +201,6 @@ abstract class AbstractTask extends Bash implements HasRolesInterface, Identifie
     public function wasHalted()
     {
         return $this->halted === true;
-    }
-
-    ////////////////////////////////////////////////////////////////////
-    /////////////////////////////// EVENTS /////////////////////////////
-    ////////////////////////////////////////////////////////////////////
-
-    /**
-     * Fire an event related to this task
-     *
-     * @param string $event
-     *
-     * @return boolean
-     */
-    public function fireEvent($event)
-    {
-        $event     = $this->getQualifiedEvent($event);
-        $listeners = $this->events->getListeners($event);
-
-        // Fire the event
-        $result = $this->explainer->displayBelow(function () use ($listeners) {
-            foreach ($listeners as $listener) {
-                $response = call_user_func_array($listener, [$this]);
-                if ($response === false) {
-                    return false;
-                }
-            }
-
-            return true;
-        });
-
-        // If the event returned a strict false, halt the task
-        if ($result === false) {
-            $this->halt();
-        }
-
-        return $result !== false;
-    }
-
-    /**
-     * Get the fully qualified event name
-     *
-     * @param string $event
-     *
-     * @return string
-     */
-    public function getQualifiedEvent($event)
-    {
-        return $this->tasks->getEventHandle($this->getSlug(), $event);
     }
 
     ////////////////////////////////////////////////////////////////////

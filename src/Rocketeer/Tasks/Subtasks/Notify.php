@@ -42,7 +42,7 @@ class Notify extends AbstractTask
      */
     public function execute()
     {
-        $hook = str_replace('rocketeer.', null, $this->event);
+        $hook = str_replace('rocketeer.tasks.', null, $this->event);
         $hook = explode('.', $hook);
         $hook = $hook[1].'_'.$hook[0];
 
