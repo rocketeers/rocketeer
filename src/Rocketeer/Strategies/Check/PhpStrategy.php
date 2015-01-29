@@ -77,12 +77,7 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
      */
     public function extensions()
     {
-        $extensions = array(
-            'mcrypt'   => ['checkPhpExtension', 'mcrypt'],
-            'database' => ['checkDatabaseDriver', $this->app['config']->get('database.default')],
-            'cache'    => ['checkCacheDriver', $this->app['config']->get('cache.driver')],
-            'session'  => ['checkCacheDriver', $this->app['config']->get('session.driver')],
-        );
+        $extensions = $this->getExtensions();
 
         // Check PHP extensions
         $errors = [];
@@ -213,5 +208,20 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
         }
 
         return in_array($extension, $this->extensions, true);
+    }
+
+    /**
+     * Get the required extensions
+     *
+     * @return array
+     */
+    protected function getExtensions()
+    {
+        return array(
+            'mcrypt'   => ['checkPhpExtension', 'mcrypt'],
+            'database' => ['checkDatabaseDriver', $this->app['config']->get('database.default')],
+            'cache'    => ['checkCacheDriver', $this->app['config']->get('cache.driver')],
+            'session'  => ['checkCacheDriver', $this->app['config']->get('session.driver')],
+        );
     }
 }
