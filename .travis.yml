@@ -15,8 +15,10 @@ env:
     - PREFER_LOWEST=""
 
 # Dependencies
-install:
+before_install:
   - composer self-update
+  
+install:
   - travis_retry composer update --no-interaction --prefer-source --dev $PREFER_LOWEST
 
 script: phpunit
