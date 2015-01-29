@@ -2,9 +2,37 @@
 namespace Rocketeer\TestCases\Modules;
 
 use Closure;
+use Mockery;
 
 trait Mocks
 {
+    /**
+     * Bind a mocked instance in the Container
+     *
+     * @param string  $handle
+     * @param string  $class
+     * @param Closure $expectations
+     * @param boolean $partial
+     *
+     * @return Mockery
+     */
+    protected function mock($handle, $class = null, Closure $expectations = null, $partial = true)
+    {
+        $class   = $class ?: $handle;
+        $mockery = Mockery::mock($class);
+        if ($partial) {
+            $mockery = $mockery->shouldIgnoreMissing();
+        }
+
+        if ($expectations) {
+            $mockery = $expectations($mockery)->mock();
+        }
+
+        $this->app[$handle] = $mockery;
+
+        return $mockery;
+    }
+
     /**
      * Mock the ReleasesManager
      *

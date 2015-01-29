@@ -8,6 +8,7 @@ use Mockery;
 use PHPUnit_Framework_TestCase;
 use Rocketeer\RocketeerServiceProvider;
 use Rocketeer\TestCases\Modules\Assertions;
+use Rocketeer\TestCases\Modules\Building;
 use Rocketeer\TestCases\Modules\Contexts;
 use Rocketeer\TestCases\Modules\Mocks;
 use Rocketeer\Traits\HasLocator;
@@ -18,18 +19,12 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
     use Mocks;
     use Assertions;
     use Contexts;
+    use Building;
 
     /**
      * @type array
      */
     protected $defaults;
-
-    /**
-     * The test repository
-     *
-     * @var string
-     */
-    protected $repository = 'Anahkiasen/html-object.git';
 
     /**
      * Override the trait constructor
@@ -83,33 +78,6 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
     ////////////////////////////////////////////////////////////////////
     ///////////////////////// MOCKED INSTANCES /////////////////////////
     ////////////////////////////////////////////////////////////////////
-
-    /**
-     * Bind a mocked instance in the Container
-     *
-     * @param string  $handle
-     * @param string  $class
-     * @param Closure $expectations
-     * @param boolean $partial
-     *
-     * @return Mockery
-     */
-    protected function mock($handle, $class = null, Closure $expectations = null, $partial = true)
-    {
-        $class   = $class ?: $handle;
-        $mockery = Mockery::mock($class);
-        if ($partial) {
-            $mockery = $mockery->shouldIgnoreMissing();
-        }
-
-        if ($expectations) {
-            $mockery = $expectations($mockery)->mock();
-        }
-
-        $this->app[$handle] = $mockery;
-
-        return $mockery;
-    }
 
     /**
      * Mock the Command class
