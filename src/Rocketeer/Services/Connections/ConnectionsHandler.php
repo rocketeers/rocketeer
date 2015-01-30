@@ -71,13 +71,13 @@ class ConnectionsHandler
      */
     public function getHandle($connection = null, $server = null, $stage = null)
     {
-        if ($this->handle) {
-            return $this->handle;
-        }
-
         // Return local handle
         if ($this->rocketeer->isLocal()) {
             return 'local';
+        }
+
+        if ($this->handle) {
+            return $this->handle;
         }
 
         // Get identifiers

@@ -65,9 +65,11 @@ trait Core
      */
     public function onLocal(callable $callback)
     {
-        $this->local = true;
-        $results     = $callback($this);
-        $this->local = false;
+        $this->rocketeer->setLocal(true);
+
+        $results = $callback($this);
+
+        $this->rocketeer->setLocal(false);
 
         return $results;
     }
@@ -145,8 +147,8 @@ trait Core
      * get its output as a string or array
      *
      * @param string  $commands
-     * @param boolean $array    Whether the output should be returned as an array
-     * @param boolean $trim     Whether the output should be trimmed
+     * @param boolean $array Whether the output should be returned as an array
+     * @param boolean $trim  Whether the output should be trimmed
      *
      * @return string|string[]
      */
@@ -356,8 +358,8 @@ trait Core
      * Process the output of a command
      *
      * @param string  $output
-     * @param boolean $array  Whether to return an array or a string
-     * @param boolean $trim   Whether to trim the output or not
+     * @param boolean $array Whether to return an array or a string
+     * @param boolean $trim  Whether to trim the output or not
      *
      * @return string|array
      */

@@ -163,4 +163,16 @@ class AbstractTaskTest extends RocketeerTestCase
         $this->assertEquals('bar', $task->getOption('foo', true));
         $this->assertEquals('qux', $task->getOption('baz', true));
     }
+
+    public function testCanSetLocalModeIfOnlyTaskIsLocal()
+    {
+        $this->pretend();
+        $task = $this->builder->buildTask(function(AbstractTask $task) {
+            return $task->connections->getLongHandle();
+        });
+        $task->setLocal(true);
+        $results = $task->fire();
+
+        $this->assertEquals('anahkiasen@local', $results);
+    }
 }

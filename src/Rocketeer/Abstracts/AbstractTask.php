@@ -159,9 +159,12 @@ abstract class AbstractTask extends Bash implements HasRolesInterface, Identifie
     public function fire()
     {
         $this->displayStatus();
-
-        return $this->runWithBeforeAfterEvents(function () {
+        $callback = function () {
             return $this->execute();
+        };
+
+        return $this->runWithBeforeAfterEvents(function () use ($callback) {
+            return $this->local ? $this->onLocal($callback) : $callback();
         });
     }
 
