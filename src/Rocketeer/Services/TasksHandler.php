@@ -234,8 +234,8 @@ class TasksHandler
 
         // Register events
         foreach ($listeners as $listener) {
-            $listener->setEvent($event);
             $handle = $this->getEventHandle(null, $event);
+            $listener->setEvent($handle);
             $this->events->listen($handle, [$listener, 'fire'], $priority);
         }
 
