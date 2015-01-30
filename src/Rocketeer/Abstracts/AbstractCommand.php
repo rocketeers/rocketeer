@@ -200,14 +200,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
      */
     protected function fireTasksQueue($tasks)
     {
-        // Bind command to container
-        $this->laravel->instance('rocketeer.command', $this);
-
-        // Check for credentials
-        if (!$this->rocketeer->isLocal()) {
-            $this->credentials->getServerCredentials();
-            $this->credentials->getRepositoryCredentials();
-        }
+        $this->prepareEnvironment();
 
         // Fire tasks and events arround them
         $status = $this->runWithBeforeAfterEvents(function () use ($tasks) {
@@ -336,5 +329,20 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
         }
 
         return $nonInteractive;
+    }
+
+    /**
+     * Prepare the environment
+     */
+    protected function prepareEnvironment()
+    {
+        // Bind command to container
+        $this->laravel->instance('rocketeer.command', $this);
+
+        // Check for credentials
+        if (!$this->rocketeer->isLocal()) {
+            $this->credentials->getServerCredentials();
+            $this->credentials->getRepositoryCredentials();
+        }
     }
 }
