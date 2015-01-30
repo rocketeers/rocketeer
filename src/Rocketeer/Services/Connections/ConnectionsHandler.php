@@ -486,6 +486,18 @@ class ConnectionsHandler
     }
 
     /**
+     * Get repository name to use
+     *
+     * @return string
+     */
+    public function getRepositoryName()
+    {
+    	$repository = $this->getRepositoryCredentials();
+	$url        = Arr::get($repository, 'repository');
+	return str_replace('.git', '', basename($url);
+    }
+
+    /**
      * Unify a connection's declaration into the servers form
      *
      * @param array $connection
