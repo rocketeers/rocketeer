@@ -12,6 +12,7 @@ namespace Rocketeer\Console\Commands\Development;
 
 use Psy\Shell;
 use Rocketeer\Abstracts\AbstractCommand;
+use Rocketeer\Console\TinkerApplication;
 
 class TinkerCommand extends AbstractCommand
 {
@@ -44,7 +45,7 @@ class TinkerCommand extends AbstractCommand
 
         $shell = new Shell();
         $shell->setScopeVariables(array(
-            'app' => $this->laravel,
+            'app' => new TinkerApplication($this->laravel),
             'ssh' => $this->bash,
         ));
 
