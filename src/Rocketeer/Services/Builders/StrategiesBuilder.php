@@ -1,8 +1,6 @@
 <?php
 namespace Rocketeer\Services\Builders;
 
-use Rocketeer\Abstracts\AbstractBuilder;
-
 trait StrategiesBuilder
 {
     /**

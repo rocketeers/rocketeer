@@ -167,7 +167,7 @@ class AbstractTaskTest extends RocketeerTestCase
     public function testCanSetLocalModeIfOnlyTaskIsLocal()
     {
         $this->pretend();
-        $task = $this->builder->buildTask(function(AbstractTask $task) {
+        $task = $this->builder->buildTask(function (AbstractTask $task) {
             return $task->connections->getLongHandle();
         });
         $task->setLocal(true);

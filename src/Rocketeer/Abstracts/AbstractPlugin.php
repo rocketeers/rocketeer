@@ -14,7 +14,6 @@ use Illuminate\Container\Container;
 use Illuminate\Support\Str;
 use Rocketeer\Console\Console;
 use Rocketeer\Services\Builders\Builder;
-use Rocketeer\Services\Tasks\TasksBuilder;
 use Rocketeer\Services\TasksHandler;
 use Rocketeer\Traits\HasLocator;
 

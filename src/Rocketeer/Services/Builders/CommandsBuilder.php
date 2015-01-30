@@ -1,7 +1,6 @@
 <?php
 namespace Rocketeer\Services\Builders;
 
-use Rocketeer\Abstracts\AbstractBuilder;
 use Rocketeer\Exceptions\TaskCompositionException;
 
 trait CommandsBuilder

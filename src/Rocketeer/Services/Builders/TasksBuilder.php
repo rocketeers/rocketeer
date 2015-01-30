@@ -11,14 +11,10 @@
 namespace Rocketeer\Services\Builders;
 
 use Closure;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Rocketeer\Abstracts\AbstractBuilder;
 use Rocketeer\Abstracts\AbstractTask;
-use Rocketeer\Binaries\AnonymousBinary;
 use Rocketeer\Exceptions\TaskCompositionException;
 use Rocketeer\Tasks\Closure as ClosureTask;
-use Rocketeer\Traits\HasLocator;
 
 /**
  * Handles creating tasks from strings, closures, AbstractTask children, etc.
@@ -27,7 +23,6 @@ use Rocketeer\Traits\HasLocator;
  */
 trait TasksBuilder
 {
-
     /**
      * Build an array of tasks
      *

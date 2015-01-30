@@ -21,7 +21,7 @@ trait Binaries
      * Get a binary
      *
      * @param string $name
-     * @param array $arguments
+     * @param array  $arguments
      *
      * @return \Rocketeer\Abstracts\AbstractPackageManager
      */
