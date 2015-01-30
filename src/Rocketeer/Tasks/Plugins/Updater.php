@@ -12,14 +12,14 @@ namespace Rocketeer\Tasks\Plugins;
 
 use Rocketeer\Abstracts\AbstractTask;
 
-class Installer extends AbstractTask
+class Updater extends AbstractTask
 {
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Installs plugins';
+    protected $description = 'Updates plugins';
 
     /**
      * Whether to run the commands locally
@@ -38,12 +38,11 @@ class Installer extends AbstractTask
         $package = $this->command->argument('package');
         $folder  = $this->paths->getRocketeerConfigFolder();
 
-        $command = $this->composer()->require($package, array(
+        $arguments = $package ? [$package] : null;
+        $command   = $this->composer()->update($arguments, array(
             '--working-dir' => $folder,
         ));
 
-        // Install plugin
-        $this->explainer->line('Installing '.$package);
         $this->run($this->shellCommand($command));
 
         // Prune duplicate Rocketeer

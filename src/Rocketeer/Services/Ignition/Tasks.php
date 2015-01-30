@@ -43,6 +43,7 @@ class Tasks
             'plugin-publish' => 'Plugins\Publish',
             'plugin-list'    => 'Plugins\List',
             'plugin-install' => 'Plugins\Install',
+            'plugin-update'  => 'Plugins\Update',
         );
 
         // Add user commands
