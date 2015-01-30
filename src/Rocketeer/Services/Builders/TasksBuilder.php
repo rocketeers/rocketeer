@@ -8,11 +8,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Rocketeer\Services\Tasks;
+namespace Rocketeer\Services\Builders;
 
 use Closure;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Rocketeer\Abstracts\AbstractBuilder;
 use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Binaries\AnonymousBinary;
 use Rocketeer\Exceptions\TaskCompositionException;
@@ -24,128 +25,8 @@ use Rocketeer\Traits\HasLocator;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class TasksBuilder
+trait TasksBuilder
 {
-    use HasLocator;
-
-    /**
-     * The possible locations of
-     * the various types
-     *
-     * @type array
-     */
-    protected $lookups = array(
-        'binaries'   => array(
-            'Rocketeer\Binaries\PackageManagers\%s',
-            'Rocketeer\Binaries\%s',
-        ),
-        'tasks'      => array(
-            'Rocketeer\Tasks\%s',
-            'Rocketeer\Tasks\Subtasks\%s',
-        ),
-        'commands'   => array(
-            'Rocketeer\Console\Commands\%sCommand',
-            'Rocketeer\Console\Commands\BaseTaskCommand',
-        ),
-        'strategies' => array(
-            'Rocketeer\Strategies\%sStrategy',
-        ),
-    );
-
-    /**
-     * Build a binary
-     *
-     * @param string $binary
-     *
-     * @return \Rocketeer\Abstracts\AbstractBinary|\Rocketeer\Abstracts\AbstractPackageManager
-     */
-    public function buildBinary($binary)
-    {
-        $class = $this->findQualifiedName($binary, 'binaries');
-
-        // If there is a class by that name
-        if ($class) {
-            return new $class($this->app);
-        }
-
-        // Else wrap the command in an AnonymousBinary
-        $anonymous = new AnonymousBinary($this->app);
-        $anonymous->setBinary($binary);
-
-        return $anonymous;
-    }
-
-    //////////////////////////////////////////////////////////////////////
-    ////////////////////////////// COMMANDS //////////////////////////////
-    //////////////////////////////////////////////////////////////////////
-
-    /**
-     * Build the command bound to a task
-     *
-     * @param string|AbstractTask $task
-     * @param string|null         $slug
-     *
-     * @return \Rocketeer\Abstracts\AbstractCommand
-     */
-    public function buildCommand($task, $slug = null)
-    {
-        // Build the task instance
-        try {
-            $instance = $this->buildTask($task);
-        } catch (TaskCompositionException $exception) {
-            $instance = null;
-        }
-
-        // Get the command name
-        $name    = $instance ? $instance->getName() : null;
-        $name    = is_string($task) ? $task : $name;
-        $command = $this->findQualifiedName($name, 'commands');
-
-        $command = new $command($instance, $slug);
-        $command->setLaravel($this->app);
-
-        return $command;
-    }
-
-    //////////////////////////////////////////////////////////////////////
-    ///////////////////////////// STRATEGIES /////////////////////////////
-    //////////////////////////////////////////////////////////////////////
-
-    /**
-     * Build a strategy
-     *
-     * @param string      $strategy
-     * @param string|null $concrete
-     *
-     * @return \Rocketeer\Abstracts\Strategies\AbstractStrategy|false
-     */
-    public function buildStrategy($strategy, $concrete = null)
-    {
-        // If we passed a concrete implementation
-        // build it, otherwise get the bound one
-        $handle = strtolower($strategy);
-        if ($concrete) {
-            $concrete = $this->findQualifiedName($concrete, 'strategies', $strategy);
-
-            if (!$concrete) {
-                return false;
-            }
-
-            return new $concrete($this->app);
-        }
-
-        // Cancel if no matching strategy instance
-        $handle = 'rocketeer.strategies.'.$handle;
-        if (!$this->app->bound($handle)) {
-            return;
-        }
-
-        return $this->app[$handle];
-    }
-
-    ////////////////////////////////////////////////////////////////////
-    //////////////////////////////// TASKS /////////////////////////////
-    ////////////////////////////////////////////////////////////////////
 
     /**
      * Build an array of tasks
@@ -314,31 +195,6 @@ class TasksBuilder
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Add additional places to look for classes
-     *
-     * @param string       $type
-     * @param string|array $lookups
-     */
-    public function registerLookup($type, $lookups = [])
-    {
-        $lookups = (array) $lookups;
-
-        $this->lookups[$type] = array_merge($this->lookups[$type], $lookups);
-    }
-
-    /**
-     * Add additional places to look for multiple types
-     *
-     * @param array $lookups
-     */
-    public function registerLookups(array $lookups)
-    {
-        foreach ($lookups as $type => $lookup) {
-            $this->registerLookup($type, $lookup);
-        }
-    }
-
-    /**
      * Check if a class with the given task name exists
      *
      * @param string $task
@@ -348,43 +204,6 @@ class TasksBuilder
     protected function taskClassExists($task)
     {
         return $this->findQualifiedName($task, 'tasks');
-    }
-
-    /**
-     * Find a class in various predefined namespaces
-     *
-     * @param string      $class
-     * @param string      $type
-     * @param string|null $namespace
-     *
-     * @return false|string
-     */
-    protected function findQualifiedName($class, $type, $namespace = null)
-    {
-        $paths   = (array) Arr::get($this->lookups, $type);
-        $paths[] = '%s';
-
-        // Create classes array
-        $class   = ucfirst($class);
-        $classes = [$class];
-        if ($namespace) {
-            $classes = array(
-                ucfirst($namespace).'\\'.$class,
-                $class,
-            );
-        }
-
-        // Search for first existing class
-        foreach ($classes as $class) {
-            foreach ($paths as $path) {
-                $path = sprintf($path, $class);
-                if (class_exists($path)) {
-                    return $path;
-                }
-            }
-        }
-
-        return false;
     }
 
     ////////////////////////////////////////////////////////////////////

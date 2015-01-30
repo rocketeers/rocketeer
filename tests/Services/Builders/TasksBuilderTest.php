@@ -1,5 +1,5 @@
 <?php
-namespace Rocketeer\Services\Tasks;
+namespace Rocketeer\Services\Builders;
 
 use ReflectionFunction;
 use Rocketeer\Dummies\Tasks\CallableTask;
@@ -72,31 +72,6 @@ class TasksBuilderTest extends RocketeerTestCase
         $this->builder->buildTaskFromClass('Nope');
     }
 
-    public function testCanCreateCommandOfTask()
-    {
-        $command = $this->builder->buildCommand('Rocketeer', '');
-        $this->assertInstanceOf('Rocketeer\Console\Commands\RocketeerCommand', $command);
-        $this->assertEquals('deploy', $command->getName());
-
-        $command = $this->builder->buildCommand('Deploy', 'lol');
-        $this->assertInstanceOf('Rocketeer\Console\Commands\DeployCommand', $command);
-        $this->assertEquals('deploy:deploy', $command->getName());
-
-        $command = $this->builder->buildCommand('ls', 'ls');
-        $this->assertInstanceOf('Rocketeer\Console\Commands\BaseTaskCommand', $command);
-        $this->assertEquals('deploy:ls', $command->getName());
-    }
-
-    public function testReturnsNullOnUnbuildableStrategy()
-    {
-        $built = $this->builder->buildStrategy('Check', '');
-        $this->assertInstanceOf('Rocketeer\Strategies\Check\PhpStrategy', $built);
-
-        unset($this->app['rocketeer.strategies.check']);
-        $built = $this->builder->buildStrategy('Check', '');
-        $this->assertNull($built);
-    }
-
     public function testCanBuildByCallable()
     {
         $task = $this->builder->buildTask(['Rocketeer\Dummies\Tasks\CallableTask', 'someMethod']);
@@ -112,21 +87,5 @@ class TasksBuilderTest extends RocketeerTestCase
 
         $task = $this->builder->buildTask(['foobar', 'someMethod']);
         $this->assertEquals('Rocketeer\Tasks\Closure', $task->fire());
-    }
-
-    public function testCanAddLookups()
-    {
-        $this->builder->registerLookup('tasks', 'Rocketeer\Dummies\Tasks\%s');
-        $task = $this->builder->buildTask('MyCustomTask');
-
-        $this->assertInstanceOf('Rocketeer\Dummies\Tasks\MyCustomTask', $task);
-    }
-
-    public function testCanAddLookupsOfMultipleTypes()
-    {
-        $this->builder->registerLookups(['tasks' => 'Rocketeer\Dummies\Tasks\%s']);
-        $task = $this->builder->buildTask('MyCustomTask');
-
-        $this->assertInstanceOf('Rocketeer\Dummies\Tasks\MyCustomTask', $task);
     }
 }

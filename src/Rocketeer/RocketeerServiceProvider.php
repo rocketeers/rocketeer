@@ -126,7 +126,7 @@ class RocketeerServiceProvider extends ServiceProvider
     {
         $this->app->bind('rocketeer.environment', 'Rocketeer\Services\Environment');
         $this->app->bind('rocketeer.timer', 'Rocketeer\Services\Display\QueueTimer');
-        $this->app->singleton('rocketeer.builder', 'Rocketeer\Services\Tasks\TasksBuilder');
+        $this->app->singleton('rocketeer.builder', 'Rocketeer\Services\Builders\Builder');
         $this->app->singleton('rocketeer.bash', 'Rocketeer\Bash');
         $this->app->singleton('rocketeer.connections', 'Rocketeer\Services\Connections\ConnectionsHandler');
         $this->app->singleton('rocketeer.coordinator', 'Rocketeer\Services\Connections\Coordinator');
