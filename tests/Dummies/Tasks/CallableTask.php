@@ -14,4 +14,9 @@ class CallableTask
     {
         return get_class($task);
     }
+
+    public function fire()
+    {
+        echo 'FIRED';
+    }
 }

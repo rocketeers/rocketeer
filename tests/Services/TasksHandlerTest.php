@@ -224,4 +224,16 @@ class TasksHandlerTest extends RocketeerTestCase
 
         $this->assertInstanceOf('Rocketeer\Dummies\Tasks\MyCustomTask', $task);
     }
+
+    public function testCanUseCallableAsEventListener()
+    {
+        $this->expectOutputString('FIRED');
+
+        $this->swapConfig(array(
+            'rocketeer::hooks' => [],
+        ));
+
+        $this->tasks->listenTo('deploy.before', ['Rocketeer\Dummies\Tasks\CallableTask', 'fire']);
+        $this->task('Deploy')->fireEvent('before');
+    }
 }

@@ -245,7 +245,7 @@ trait TasksBuilder
      *
      * @return boolean
      */
-    protected function isCallable($task)
+    public function isCallable($task)
     {
         // Check for container bindings
         if (is_array($task)) {

@@ -229,7 +229,8 @@ class TasksHandler
     public function listenTo($event, $listeners, $priority = 0)
     {
         /** @type AbstractTask[] $listeners */
-        $listeners = $this->builder->buildTasks((array) $listeners);
+        $listeners = $this->builder->isCallable($listeners) ? [$listeners] : (array) $listeners;
+        $listeners = $this->builder->buildTasks($listeners);
         $event     = Str::contains($event, ['commands.', 'tasks.']) ? $event : 'tasks.'.$event;
 
         // Register events
