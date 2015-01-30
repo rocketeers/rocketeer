@@ -31,7 +31,8 @@ class Plugins
      */
     public function publish($package)
     {
-        if ($this->getFramework()->getName() === 'laravel') {
+        $framework = $this->getFramework();
+        if ($framework && $framework->getName() === 'laravel') {
             return $this->publishLaravelConfiguration($package);
         }
 

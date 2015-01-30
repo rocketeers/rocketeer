@@ -38,4 +38,14 @@ class LaravelStrategy extends AbstractStrategy implements FrameworkStrategyInter
     {
         $this->app['artisan']->add($command);
     }
+
+    /**
+     * Get the path to export the configuration to
+     *
+     * @return string
+     */
+    public function getConfigurationPath()
+    {
+        return $this->app['path'].'/config/packages/anahkiasen/rocketeer';
+    }
 }

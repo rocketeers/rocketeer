@@ -13,6 +13,13 @@ interface FrameworkStrategyInterface
     public function getName();
 
     /**
+     * Get the path to export the configuration to
+     *
+     * @return string
+     */
+    public function getConfigurationPath();
+
+    /**
      * Clear the application's cache
      *
      * @return void

@@ -185,6 +185,6 @@ trait HasLocator
      */
     public function getFramework()
     {
-        return $this->builder->buildStrategy('Framework');
+        return $this->app->bound('rocketeer.builder') ? $this->builder->buildStrategy('Framework') : null;
     }
 }

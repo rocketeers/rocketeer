@@ -167,6 +167,16 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
     }
 
     /**
+     * Check if the class is executed inside a Laravel application
+     *
+     * @return \Rocketeer\Interfaces\Strategies\FrameworkStrategyInterface
+     */
+    public function getFramework()
+    {
+        return $this->laravel->bound('rocketeer.builder') ? $this->builder->buildStrategy('Framework') : null;
+    }
+
+    /**
      * Check if the current instance has a Command bound
      *
      * @return boolean

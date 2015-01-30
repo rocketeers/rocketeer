@@ -13,11 +13,12 @@ class AbstractCommandTest extends RocketeerTestCase
 {
     public function testProperlyNamespacesCommands()
     {
+        $this->usesLaravel(true);
         $command = new InstallCommand();
         $command->setLaravel($this->app);
         $this->assertEquals('deploy:plugin-install', $command->getName());
 
-        unset($this->app['artisan']);
+        $this->usesLaravel(false);
         $command = new InstallCommand();
         $command->setLaravel($this->app);
         $this->assertEquals('plugin:install', $command->getName());

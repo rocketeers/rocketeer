@@ -65,6 +65,15 @@ trait Contexts
     ////////////////////////// PACKAGE MANAGERS //////////////////////////
     //////////////////////////////////////////////////////////////////////
 
+    protected function usesLaravel($uses = true)
+    {
+        if ($uses) {
+            $this->app->bind('rocketeer.strategies.framework', 'Rocketeer\Strategies\Frameworks\LaravelStrategy');
+        } else {
+            unset($this->app['rocketeer.strategies.framework']);
+        }
+    }
+
     /**
      * Mock the Composer check
      *

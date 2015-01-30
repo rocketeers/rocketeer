@@ -126,12 +126,9 @@ class Pathfinder
      */
     public function getConfigurationPath()
     {
-        // Return path to Laravel configuration
-        if ($this->getFramework() === 'laravel') {
-            $configuration = $this->app['path'].'/config/packages/anahkiasen/rocketeer';
-        } else {
-            $configuration = $this->app['path.rocketeer.config'];
-        }
+        // Get path to configuration
+        $framework     = $this->getFramework();
+        $configuration = $framework ? $framework->getConfigurationPath() : $this->app['path.rocketeer.config'];
 
         return $this->unifyLocalSlashes($configuration);
     }
