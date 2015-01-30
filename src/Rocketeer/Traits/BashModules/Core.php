@@ -290,7 +290,6 @@ trait Core
      */
     public function processCommands($commands)
     {
-        $stage     = $this->connections->getStage();
         $separator = $this->environment->getSeparator();
         $shell     = $this->rocketeer->getOption('remote.shell');
         $shelled   = $this->rocketeer->getOption('remote.shelled');
@@ -313,9 +312,9 @@ trait Core
                 $command = preg_replace($pattern, $replacement, $command);
             }
 
-            // Add stage flag to Artisan commands
-            if (Str::contains($command, 'artisan') && $stage) {
-                $command .= ' --env="'.$stage.'"';
+            // Let framework process commands
+            if ($framework = $this->getFramework()) {
+                $command = $framework->processCommand($command);
             }
 
             // Create shell if asked

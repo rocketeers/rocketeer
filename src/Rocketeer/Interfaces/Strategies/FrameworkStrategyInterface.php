@@ -27,6 +27,16 @@ interface FrameworkStrategyInterface
     public function clearCache();
 
     /**
+     * Apply modifiers to some commands before
+     * they're executed
+     *
+     * @param string $command
+     *
+     * @return string
+     */
+    public function processCommand($command);
+
+    /**
      * Register a command with the application's CLI
      *
      * @param Command $command
