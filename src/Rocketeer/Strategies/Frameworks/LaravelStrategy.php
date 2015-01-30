@@ -45,19 +45,24 @@ class LaravelStrategy extends AbstractStrategy implements FrameworkStrategyInter
      *
      * @return string
      */
-    public function EtgetConfigurationPath()
+    public function getConfigurationPath()
     {
         return $this->app['path'].'/config/packages/anahkiasen/rocketeer';
     }
 
     /**
-     * Get the path to export the configuration to
+     * Get the path to export the plugins configurations to
+     *
+     * @param string $plugin
      *
      * @return string
      */
-    public function getConfigurationPath()
+    public function getPluginConfigurationPath($plugin)
     {
-        // TODO: Implement getConfigurationPath() method.
+        $path        = $this->app['path'].'/config/packages/'.$plugin;
+        $destination = preg_replace('/packages\/([^\/]+)/', 'packages/rocketeers', $path);
+
+        return $destination;
     }
 
     /**
@@ -68,8 +73,10 @@ class LaravelStrategy extends AbstractStrategy implements FrameworkStrategyInter
      *
      * @return string
      */
-    public function processCommand($command)
-    {
+    public
+    function processCommand(
+        $command
+    ) {
         // Add environment flag to commands
         $stage = $this->connections->getStage();
         if (Str::contains($command, 'artisan') && $stage) {
@@ -78,4 +85,19 @@ class LaravelStrategy extends AbstractStrategy implements FrameworkStrategyInter
 
         return $command;
     }
+}
+
+/**
+ * Apply modifiers to some commands before
+ * they're executed
+ *
+ * @param string $command
+ *
+ * @return string
+ */
+public
+function processCommand($command)
+{
+    // TODO: Implement processCommand() method.
+}
 }

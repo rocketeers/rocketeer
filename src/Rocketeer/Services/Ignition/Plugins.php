@@ -31,17 +31,12 @@ class Plugins
      */
     public function publish($package)
     {
-        $framework = $this->getFramework();
-        if ($framework && $framework->getName() === 'laravel') {
-            return $this->publishLaravelConfiguration($package);
-        }
-
         // Find the plugin's configuration
         $paths = $this->findPackageConfiguration($package);
-        $paths = array_filter($paths, [$this->files, 'isDirectory']);
-        $paths = array_values($paths);
 
         // Cancel if no valid paths
+        $paths = array_filter($paths, [$this->files, 'isDirectory']);
+        $paths = array_values($paths);
         if (empty($paths)) {
             return $this->explainer->error('No configuration found for '.$package);
         }
@@ -76,25 +71,6 @@ class Plugins
     }
 
     /**
-     * Publishes a configuration within a Laravel application
-     *
-     * @param string $package
-     *
-     * @return boolean
-     */
-    protected function publishLaravelConfiguration($package)
-    {
-        // Publish initial configuration
-        $this->artisan->call('config:publish', ['package' => $package]);
-
-        // Move under Rocketeer namespace
-        $path        = $this->app['path'].'/config/packages/'.$package;
-        $destination = preg_replace('/packages\/([^\/]+)/', 'packages/rocketeers', $path);
-
-        return $this->files->move($path, $destination);
-    }
-
-    /**
      * Publishes a configuration within a classic application
      *
      * @param string $path
@@ -109,8 +85,13 @@ class Plugins
         $package = Arr::get($handle, 2);
 
         // Compute and create the destination foldser
-        $destination = $this->app['path.rocketeer.config'];
-        $destination = $destination.'/plugins/rocketeers/'.$package;
+        if ($framework = $this->getFramework()) {
+            $destination = $framework->getPluginConfigurationPath($package);
+        } else {
+            $destination = $this->app['path.rocketeer.config'];
+            $destination = $destination.'/plugins/rocketeers/'.$package;
+        }
+
         if (!$this->files->isDirectory($destination)) {
             $this->files->makeDirectory($destination, 0755, true);
         }

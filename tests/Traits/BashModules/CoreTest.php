@@ -49,7 +49,7 @@ class CoreTest extends RocketeerTestCase
         $this->assertEquals(date('YmdHis'), $timestamp);
     }
 
-    public function testDoesntAppendEnvironmentToStandardTasks()
+    public function testCanLetFrameworkProcessCommands()
     {
         $this->connections->setStage('staging');
         $commands = $this->pretendTask()->processCommands(array(
