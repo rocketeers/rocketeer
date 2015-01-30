@@ -512,9 +512,9 @@ class ConnectionsHandler
     public function getRepositoryName()
     {
         $repository = $this->getRepositoryEndpoint();
-        $repository = str_replace('.git', null, $repository);
+        $repository = preg_replace('#https?://(.+)\.com/(.+)/([^.]+)(\..+)?#', '$2/$3', $repository);
 
-        return basename($repository);
+        return $repository;
     }
 
     /**

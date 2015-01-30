@@ -274,6 +274,11 @@ class ConnectionsHandlerTest extends RocketeerTestCase
         $this->assertEquals('anahkiasen@local', $this->connections->getLongHandle());
     }
 
+    public function testCanGetRepositoryName()
+    {
+        $this->assertEquals('Anahkiasen/html-object', $this->connections->getRepositoryName());
+    }
+
     ////////////////////////////////////////////////////////////////////
     //////////////////////////////// HELPERS ///////////////////////////
     ////////////////////////////////////////////////////////////////////

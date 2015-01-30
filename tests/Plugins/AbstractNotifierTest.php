@@ -28,7 +28,7 @@ class AbstractNotifierTest extends RocketeerTestCase
 
     public function testCanAskForNameIfNoneProvided()
     {
-        $this->expectOutputString('foobar finished deploying branch "master" on "staging@production" (foo.bar.com)');
+        $this->expectOutputString('foobar finished deploying rocketeers/rocketeer/master on "staging@production" (foo.bar.com)');
 
         $this->mockCommand([], ['ask' => 'foobar']);
         $this->mock('rocketeer.storage.local', 'LocalStorage', function (MockInterface $mock) {
@@ -40,6 +40,7 @@ class AbstractNotifierTest extends RocketeerTestCase
         });
         $this->mock('rocketeer.connections', 'ConnectionsHandler', function (MockInterface $mock) {
             return $mock
+                ->shouldReceive('getRepositoryName')->andReturn('rocketeers/rocketeer')
                 ->shouldReceive('getRepositoryBranch')->andReturn('master')
                 ->shouldReceive('getStage')->andReturn('staging')
                 ->shouldReceive('getConnection')->andReturn('production')
@@ -52,7 +53,7 @@ class AbstractNotifierTest extends RocketeerTestCase
 
     public function testCanAppendStageToDetails()
     {
-        $this->expectOutputString('Jean Eude finished deploying branch "master" on "staging@production" (foo.bar.com)');
+        $this->expectOutputString('Jean Eude finished deploying Anahkiasen/html-object/master on "staging@production" (foo.bar.com)');
         $this->localStorage->set('notifier.name', 'Jean Eude');
         $this->tasks->registerConfiguredEvents();
         $this->connections->setStage('staging');
@@ -62,7 +63,7 @@ class AbstractNotifierTest extends RocketeerTestCase
 
     public function testCanSendDeploymentsNotifications()
     {
-        $this->expectOutputString('Jean Eude finished deploying branch "master" on "production" (foo.bar.com)');
+        $this->expectOutputString('Jean Eude finished deploying Anahkiasen/html-object/master on "production" (foo.bar.com)');
         $this->localStorage->set('notifier.name', 'Jean Eude');
 
         $this->task('Deploy')->fireEvent('after');
@@ -70,7 +71,7 @@ class AbstractNotifierTest extends RocketeerTestCase
 
     public function testCanSendRollbackNotifications()
     {
-        $this->expectOutputString('Jean Eude rolled back branch "master" on "production" to previous version (foo.bar.com)');
+        $this->expectOutputString('Jean Eude rolled back Anahkiasen/html-object/master on "production" to previous version (foo.bar.com)');
         $this->localStorage->set('notifier.name', 'Jean Eude');
 
         $this->task('Rollback')->fireEvent('after');
