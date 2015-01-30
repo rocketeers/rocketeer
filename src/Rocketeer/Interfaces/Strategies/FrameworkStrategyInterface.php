@@ -12,6 +12,14 @@ interface FrameworkStrategyInterface
      */
     public function getName();
 
+    /**
+     * Whether Rocketeer is used as a dependency of
+     * this application or globally
+     *
+     * @return boolean
+     */
+    public function isInsideApplication();
+
     //////////////////////////////////////////////////////////////////////
     //////////////////////////// CONFIGURATION ///////////////////////////
     //////////////////////////////////////////////////////////////////////
