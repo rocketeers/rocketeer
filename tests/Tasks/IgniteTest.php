@@ -9,7 +9,7 @@ class IgniteTest extends RocketeerTestCase
 {
     public function testCanIgniteConfigurationOnWindows()
     {
-        unset($this->app['path']);
+        $this->usesLaravel(false);
         $this->app['path.base'] = 'E:\workspace\test';
 
         $provider = new RocketeerServiceProvider($this->app);

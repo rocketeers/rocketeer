@@ -22,7 +22,7 @@ class ConfigurationTest extends RocketeerTestCase
 
         $this->igniter = new Configuration($this->app);
         unset($this->app['path.base']);
-        unset($this->app['path']);
+        $this->usesLaravel(false);
     }
 
     ////////////////////////////////////////////////////////////////////

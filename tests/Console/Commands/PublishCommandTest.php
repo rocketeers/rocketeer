@@ -7,7 +7,7 @@ class PublishCommandTest extends RocketeerTestCase
 {
     public function testCanFlushLocalStorage()
     {
-        unset($this->app['path']);
+        $this->usesLaravel(false);
 
         $tester = $this->executeCommand('plugin-publish', ['package' => 'foo/bar']);
         $this->assertContains('No configuration found', $tester->getDisplay());

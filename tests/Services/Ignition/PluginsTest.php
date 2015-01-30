@@ -26,7 +26,7 @@ class PluginsTest extends RocketeerTestCase
 
     public function testCanPublishClassicPluginConfiguration()
     {
-        unset($this->app['path']);
+        $this->usesLaravel(false);
 
         $this->mockFiles(function (MockInterface $mock) {
             $destination = $this->app['path.rocketeer.config'].'/plugins/rocketeers/rocketeer-slack';
@@ -43,7 +43,7 @@ class PluginsTest extends RocketeerTestCase
 
     public function testCancelsIfNoValidConfigurationPath()
     {
-        unset($this->app['path']);
+        $this->usesLaravel(false);
 
         $this->mockFiles(function (MockInterface $mock) {
             return $mock

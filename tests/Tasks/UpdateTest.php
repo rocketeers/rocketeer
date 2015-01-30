@@ -25,14 +25,6 @@ class UpdateTest extends RocketeerTestCase
                 "chown -R www-data:www-data {server}/releases/20000000000000/tests",
             ),
             array(
-                "cd {server}/releases/{release}",
-                "{php} artisan migrate --force",
-            ),
-            array(
-                "cd {server}/releases/{release}",
-                "{php} artisan db:seed --force",
-            ),
-            array(
                 "cd {server}/releases/20000000000000",
                 "{php} artisan cache:clear",
             ),
@@ -60,14 +52,6 @@ class UpdateTest extends RocketeerTestCase
                 "chmod -R 755 {server}/releases/20000000000000/tests",
                 "chmod -R g+s {server}/releases/20000000000000/tests",
                 "chown -R www-data:www-data {server}/releases/20000000000000/tests",
-            ),
-            array(
-                "cd {server}/releases/{release}",
-                "{php} artisan migrate --force",
-            ),
-            array(
-                "cd {server}/releases/{release}",
-                "{php} artisan db:seed --force",
             ),
         );
 

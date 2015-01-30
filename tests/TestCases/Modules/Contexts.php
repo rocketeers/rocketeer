@@ -65,6 +65,11 @@ trait Contexts
     ////////////////////////// PACKAGE MANAGERS //////////////////////////
     //////////////////////////////////////////////////////////////////////
 
+    /**
+     * Mock usage of Laravel framework
+     *
+     * @param boolean $uses
+     */
     protected function usesLaravel($uses = true)
     {
         if ($uses) {

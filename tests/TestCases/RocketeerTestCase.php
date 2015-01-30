@@ -82,6 +82,7 @@ abstract class RocketeerTestCase extends ContainerTestCase
         });
 
         // Mock OS
+        $this->usesLaravel(true);
         $this->mockOperatingSystem('Linux');
 
         // Cache paths

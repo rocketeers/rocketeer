@@ -30,14 +30,6 @@ class DeployTest extends RocketeerTestCase
                 "chmod -R g+s {server}/releases/{release}/tests",
                 "chown -R www-data:www-data {server}/releases/{release}/tests",
             ),
-            array(
-                "cd {server}/releases/{release}",
-                "{php} artisan migrate --force",
-            ),
-            array(
-                "cd {server}/releases/{release}",
-                "{php} artisan db:seed --force",
-            ),
             "mv {server}/current {server}/releases/{release}",
             array(
                 "ln -s {server}/releases/{release} {server}/current-temp",
@@ -68,14 +60,6 @@ class DeployTest extends RocketeerTestCase
             array(
                 "cd {server}/releases/{release}",
                 "{phpunit} --stop-on-failure",
-            ),
-            array(
-                "cd {server}/releases/{release}",
-                "{php} artisan migrate --force",
-            ),
-            array(
-                "cd {server}/releases/{release}",
-                "{php} artisan db:seed --force",
             ),
             "mv {server}/current {server}/releases/{release}",
             array(
@@ -112,14 +96,6 @@ class DeployTest extends RocketeerTestCase
                 "chmod -R 755 {server}/releases/{release}/tests",
                 "chmod -R g+s {server}/releases/{release}/tests",
                 "chown -R www-data:www-data {server}/releases/{release}/tests",
-            ),
-            array(
-                "cd {server}/releases/{release}",
-                "{php} artisan migrate --force",
-            ),
-            array(
-                "cd {server}/releases/{release}",
-                "{php} artisan db:seed --force",
             ),
             "mv {server}/current {server}/releases/{release}",
             array(
@@ -192,10 +168,6 @@ class DeployTest extends RocketeerTestCase
                 "chmod -R g+s {server}/releases/{release}/tests",
                 "chown -R www-data:www-data {server}/releases/{release}/tests",
             ),
-            array(
-                "cd {server}/releases/{release}",
-                "{php} artisan db:seed --force",
-            ),
             "mv {server}/current {server}/releases/{release}",
             array(
                 "ln -s {server}/releases/{release} {server}/current-temp",
@@ -244,14 +216,6 @@ class DeployTest extends RocketeerTestCase
                 "chmod -R g+s {server}/releases/{release}/tests",
                 "chown -R www-data:www-data {server}/releases/{release}/tests",
             ),
-            array(
-                "cd {server}/releases/{release}",
-                "{php} artisan migrate --force",
-            ),
-            array(
-                "cd {server}/releases/{release}",
-                "{php} artisan db:seed --force",
-            ),
             "mv {server}/current {server}/releases/{release}",
             array(
                 "ln -s {server}/releases/{release} {server}/current-temp",
@@ -299,14 +263,6 @@ class DeployTest extends RocketeerTestCase
                 "chmod -R 755 {server}/releases/{release}/tests",
                 "chmod -R g+s {server}/releases/{release}/tests",
                 "chown -R www-data:www-data {server}/releases/{release}/tests",
-            ),
-            array(
-                "cd {server}/releases/{release}",
-                "{php} artisan migrate --force",
-            ),
-            array(
-                "cd {server}/releases/{release}",
-                "{php} artisan db:seed --force",
             ),
             "mv {server}/current {server}/releases/{release}",
             array(
