@@ -39,7 +39,8 @@
     "phpseclib/phpseclib": "^0.3.5",
     "raveren/kint": "0.9.*",
     "johnkary/phpunit-speedtrap": "~1.0@dev",
-    "psy/psysh": "0.3.*"
+    "psy/psysh": "0.3.*",
+    "rocketeers/rocketeer-laravel": "1.0.*@dev"
   },
   "suggest": {
     "psy/psysh": "Required for the 'tinker' command",

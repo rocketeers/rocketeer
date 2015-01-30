@@ -73,8 +73,7 @@ class IgniteTest extends RocketeerTestCase
 
     public function testCanIgniteConfigurationInLaravel()
     {
-        $command = $this->getCommand(array('isInsideLaravel' => true));
-        $command->shouldReceive('call')->with('config:publish', array('package' => 'anahkiasen/rocketeer'))->andReturn('foobar');
+        $this->usesLaravel(true);
 
         $path = $this->app['path'].'/config/packages/anahkiasen/rocketeer';
         $this->mock('rocketeer.igniter', 'Configuration', function (MockInterface $mock) use ($path) {
@@ -96,6 +95,6 @@ class IgniteTest extends RocketeerTestCase
                 ));
         });
 
-        $this->assertTaskOutput('Ignite', 'anahkiasen/rocketeer', $command);
+        $this->assertTaskOutput('Ignite', 'anahkiasen/rocketeer');
     }
 }

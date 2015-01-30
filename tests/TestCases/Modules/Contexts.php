@@ -73,7 +73,7 @@ trait Contexts
     protected function usesLaravel($uses = true)
     {
         if ($uses) {
-            $this->app->bind('rocketeer.strategies.framework', 'Rocketeer\Strategies\Frameworks\LaravelStrategy');
+            $this->tasks->plugin('Rocketeer\Plugins\Laravel\LaravelPlugin');
         } else {
             unset($this->app['rocketeer.strategies.framework']);
         }
