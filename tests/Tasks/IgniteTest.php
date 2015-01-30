@@ -70,31 +70,4 @@ class IgniteTest extends RocketeerTestCase
 
         $this->assertTaskOutput('Ignite', 'Rocketeer configuration was created', $command);
     }
-
-    public function testCanIgniteConfigurationInLaravel()
-    {
-        $this->usesLaravel(true);
-
-        $path = $this->app['path'].'/config/packages/anahkiasen/rocketeer';
-        $this->mock('rocketeer.igniter', 'Configuration', function (MockInterface $mock) use ($path) {
-            return $mock
-                ->shouldReceive('exportConfiguration')->never()
-                ->shouldReceive('updateConfiguration')->once()->with($path, array(
-                    'host'             => '{host}',
-                    'username'         => '{username}',
-                    'password'         => '{password}',
-                    'key'              => '{key}',
-                    'keyphrase'        => '{keyphrase}',
-                    'agent'            => '{agent}',
-                    'db_role'          => true,
-                    'connection'       => 'production',
-                    'scm_repository'   => 'https://github.com/'.$this->repository,
-                    'scm_username'     => null,
-                    'scm_password'     => null,
-                    'application_name' => '',
-                ));
-        });
-
-        $this->assertTaskOutput('Ignite', 'anahkiasen/rocketeer');
-    }
 }
