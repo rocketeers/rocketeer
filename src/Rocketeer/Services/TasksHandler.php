@@ -103,7 +103,7 @@ class TasksHandler
         // Bind to framework too
         if ($framework = $this->getFramework()) {
             $command = $this->builder->buildCommand($task);
-            $framework->registerCommand($command);
+            $framework->registerConsoleCommand($command);
         }
 
         return $bound;

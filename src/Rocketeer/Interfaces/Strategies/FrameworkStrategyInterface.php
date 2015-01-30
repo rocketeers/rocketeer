@@ -33,5 +33,5 @@ interface FrameworkStrategyInterface
      *
      * @return void
      */
-    public function registerCommand(Command $command);
+    public function registerConsoleCommand(Command $command);
 }
