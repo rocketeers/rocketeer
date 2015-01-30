@@ -116,7 +116,7 @@ class TasksBuilderTest extends RocketeerTestCase
 
     public function testCanAddLookups()
     {
-        $this->builder->registerLookups('tasks', 'Rocketeer\Dummies\Tasks\%s');
+        $this->builder->registerLookup('tasks', 'Rocketeer\Dummies\Tasks\%s');
         $task = $this->builder->buildTask('MyCustomTask');
 
         $this->assertInstanceOf('Rocketeer\Dummies\Tasks\MyCustomTask', $task);

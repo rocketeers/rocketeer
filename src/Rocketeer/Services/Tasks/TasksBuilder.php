@@ -48,11 +48,7 @@ class TasksBuilder
             'Rocketeer\Console\Commands\BaseTaskCommand',
         ),
         'strategies' => array(
-            'Rocketeer\Strategies\Check\%sStrategy',
-            'Rocketeer\Strategies\Dependencies\%sStrategy',
-            'Rocketeer\Strategies\Deploy\%sStrategy',
-            'Rocketeer\Strategies\Migrate\%sStrategy',
-            'Rocketeer\Strategies\Test\%sStrategy',
+            'Rocketeer\Strategies\%sStrategy',
         ),
     );
 
@@ -129,7 +125,7 @@ class TasksBuilder
         // build it, otherwise get the bound one
         $handle = strtolower($strategy);
         if ($concrete) {
-            $concrete = $this->findQualifiedName($concrete, 'strategies');
+            $concrete = $this->findQualifiedName($concrete, 'strategies', $strategy);
 
             if (!$concrete) {
                 return false;
@@ -357,21 +353,34 @@ class TasksBuilder
     /**
      * Find a class in various predefined namespaces
      *
-     * @param string $class
-     * @param string $type
+     * @param string      $class
+     * @param string      $type
+     * @param string|null $namespace
      *
-     * @return string|false
+     * @return false|string
      */
-    protected function findQualifiedName($class, $type)
+    protected function findQualifiedName($class, $type, $namespace = null)
     {
         $paths   = (array) Arr::get($this->lookups, $type);
         $paths[] = '%s';
 
-        $class = ucfirst($class);
-        foreach ($paths as $path) {
-            $path = sprintf($path, $class);
-            if (class_exists($path)) {
-                return $path;
+        // Create classes array
+        $class   = ucfirst($class);
+        $classes = [$class];
+        if ($namespace) {
+            $classes = array(
+                ucfirst($namespace).'\\'.$class,
+                $class,
+            );
+        }
+
+        // Search for first existing class
+        foreach ($classes as $class) {
+            foreach ($paths as $path) {
+                $path = sprintf($path, $class);
+                if (class_exists($path)) {
+                    return $path;
+                }
             }
         }
 

@@ -25,7 +25,7 @@ trait Binaries
      *
      * @return \Rocketeer\Abstracts\AbstractPackageManager
      */
-    public function __call($name, $arguments = [])
+    public function __call($name, $arguments)
     {
         $binary = $this->binary($name);
         if ($arguments) {
