@@ -95,7 +95,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
     public function getName()
     {
         // Return commands as is in Laravel
-        if ($this->isInsideLaravel() && !$this instanceof RocketeerCommand) {
+        if ($this->getFramework() && !$this instanceof RocketeerCommand) {
             $name = str_replace(':', '-', $this->name);
             $name = 'deploy:'.$name;
 
@@ -164,17 +164,6 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
             $overrides,
             $credentials
         );
-    }
-
-    /**
-     * Check if the current command is run in the scope of
-     * Laravel or standalone
-     *
-     * @return boolean
-     */
-    public function isInsideLaravel()
-    {
-        return $this->laravel->bound('artisan');
     }
 
     /**

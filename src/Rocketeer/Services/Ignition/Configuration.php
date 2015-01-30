@@ -201,7 +201,7 @@ class Configuration
     protected function bindConfiguration()
     {
         // Bind path to the configuration directory
-        if ($this->isInsideLaravel()) {
+        if ($this->getFramework() === 'laravel') {
             $path    = $this->paths->getConfigurationPath();
             $storage = $this->paths->getStoragePath();
         } else {

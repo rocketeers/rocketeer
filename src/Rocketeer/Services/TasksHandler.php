@@ -100,10 +100,10 @@ class TasksHandler
         $this->app->instance($slug, $task);
         $bound = $this->console->add(new BaseTaskCommand($this->app[$slug]));
 
-        // Bind to Artisan too
-        if ($this->app->bound('artisan') && $this->app->resolved('artisan')) {
+        // Bind to framework too
+        if ($framework = $this->getFramework()) {
             $command = $this->builder->buildCommand($task);
-            $this->app['artisan']->add($command);
+            $framework->registerCommand($command);
         }
 
         return $bound;

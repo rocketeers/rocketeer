@@ -20,7 +20,7 @@ return array(
     'test'         => 'Phpunit',
 
     // Which strategy to use to migrate your database
-    'migrate'      => 'Artisan',
+    'migrate'      => null,
 
     // Which strategy to use to install your application's dependencies
     'dependencies' => 'Polyglot',

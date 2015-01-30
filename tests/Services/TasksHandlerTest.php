@@ -6,7 +6,7 @@ use Rocketeer\TestCases\RocketeerTestCase;
 
 class TasksHandlerTest extends RocketeerTestCase
 {
-    public function testCanAddCommandsToArtisan()
+    public function testCanCreateCommandsWithTask()
     {
         $command = $this->tasks->add('Rocketeer\Tasks\Deploy');
         $this->assertInstanceOf('Rocketeer\Console\Commands\BaseTaskCommand', $command);

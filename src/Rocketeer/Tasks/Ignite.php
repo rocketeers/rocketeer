@@ -33,7 +33,7 @@ class Ignite extends AbstractTask
     public function execute()
     {
         // Export configuration
-        $path = $this->command->isInsideLaravel()
+        $path = ($this->command->getFramework() === 'laravel')
             ? $this->createLaravelConfiguration()
             : $this->createOutsideConfiguration();
 

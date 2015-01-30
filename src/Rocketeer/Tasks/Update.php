@@ -62,7 +62,7 @@ class Update extends Deploy
 
         // Clear cache
         if (!$this->getOption('no-clear')) {
-            $this->artisan()->runForCurrentRelease('clearCache');
+            $this->getFramework()->clearCache();
         }
 
         $this->explainer->success('Successfully updated application');

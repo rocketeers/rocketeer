@@ -181,10 +181,10 @@ trait HasLocator
     /**
      * Check if the class is executed inside a Laravel application
      *
-     * @return boolean
+     * @return \Rocketeer\Interfaces\Strategies\FrameworkStrategyInterface
      */
-    public function isInsideLaravel()
+    public function getFramework()
     {
-        return $this->app->bound('path');
+        return $this->builder->buildStrategy('Framework');
     }
 }

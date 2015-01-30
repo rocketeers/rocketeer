@@ -20,7 +20,4 @@
     // Path to Composer
     'composer' => '',
 
-    // Path to the Artisan CLI
-    'artisan'  => 'artisan',
-
 );
