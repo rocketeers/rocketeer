@@ -23,14 +23,14 @@ class CurrentRelease extends AbstractTask
     /**
      * The slug of the task
      *
-     * @var string
+     * @type string
      */
     protected $name = 'Current';
 
     /**
      * A description of what the task does
      *
-     * @var string
+     * @type string
      */
     protected $description = 'Display what the current release is';
 

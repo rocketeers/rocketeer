@@ -19,7 +19,7 @@ class Hg extends AbstractBinary implements ScmInterface
     /**
      * The core binary
      *
-     * @var string
+     * @type string
      */
     protected $binary = 'hg';
 

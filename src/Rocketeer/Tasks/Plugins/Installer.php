@@ -17,7 +17,7 @@ class Installer extends AbstractTask
     /**
      * The console command description.
      *
-     * @var string
+     * @type string
      */
     protected $description = 'Installs plugins';
 

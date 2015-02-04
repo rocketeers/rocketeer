@@ -22,7 +22,7 @@ class Deploy extends AbstractTask
     /**
      * The console command description.
      *
-     * @var string
+     * @type string
      */
     protected $description = 'Deploys the website';
 

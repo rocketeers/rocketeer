@@ -23,14 +23,14 @@ class Check extends AbstractTask
     /**
      * A description of what the task does
      *
-     * @var string
+     * @type string
      */
     protected $description = 'Check if the server is ready to receive the application';
 
     /**
      * Whether the task needs to be run on each stage or globally
      *
-     * @var boolean
+     * @type boolean
      */
     public $usesStages = false;
 

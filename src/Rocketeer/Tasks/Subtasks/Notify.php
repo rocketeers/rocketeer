@@ -31,7 +31,7 @@ class Notify extends AbstractTask
     /**
      * A description of what the task does
      *
-     * @var string
+     * @type string
      */
     protected $description = 'Notify a third-party service';
 

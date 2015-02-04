@@ -19,7 +19,7 @@ class TinkerCommand extends AbstractCommand
     /**
      * The console command name.
      *
-     * @var string
+     * @type string
      */
     protected $name = 'tinker';
 

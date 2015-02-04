@@ -19,35 +19,35 @@ class SeclibGateway implements GatewayInterface
     /**
      * The host name of the server.
      *
-     * @var string
+     * @type string
      */
     protected $host;
 
     /**
      * The SSH port on the server.
      *
-     * @var int
+     * @type int
      */
     protected $port = 22;
 
     /**
      * The authentication credential set.
      *
-     * @var array
+     * @type array
      */
     protected $auth;
 
     /**
      * The filesystem instance.
      *
-     * @var Filesystem
+     * @type Filesystem
      */
     protected $files;
 
     /**
      * The SecLib connection instance.
      *
-     * @var Net_SFTP
+     * @type Net_SFTP
      */
     protected $connection;
 

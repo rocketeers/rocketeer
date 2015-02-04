@@ -17,7 +17,7 @@ class Updater extends AbstractTask
     /**
      * The console command description.
      *
-     * @var string
+     * @type string
      */
     protected $description = 'Updates plugins';
 

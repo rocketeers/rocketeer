@@ -22,7 +22,7 @@ class RocketeerCommand extends DeployCommand
     /**
      * The console command name.
      *
-     * @var string
+     * @type string
      */
     protected $name = 'deploy';
 

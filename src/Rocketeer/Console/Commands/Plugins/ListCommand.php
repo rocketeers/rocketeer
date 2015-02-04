@@ -17,14 +17,14 @@ class ListCommand extends AbstractCommand
     /**
      * The default name
      *
-     * @var string
+     * @type string
      */
     protected $name = 'plugin:list';
 
     /**
      * The console command description.
      *
-     * @var string
+     * @type string
      */
     protected $description = 'Lists the currently enabled plugins';
 

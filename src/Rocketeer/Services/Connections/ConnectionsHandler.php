@@ -35,7 +35,7 @@ class ConnectionsHandler
     /**
      * The current stage
      *
-     * @var string
+     * @type string
      */
     protected $stage;
 
@@ -49,14 +49,14 @@ class ConnectionsHandler
     /**
      * The connections to use
      *
-     * @var array|null
+     * @type array|null
      */
     protected $connections;
 
     /**
      * The current connection
      *
-     * @var string|null
+     * @type string|null
      */
     protected $connection;
 

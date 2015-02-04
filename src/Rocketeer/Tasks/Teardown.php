@@ -22,14 +22,14 @@ class Teardown extends AbstractTask
     /**
      * A description of what the task does
      *
-     * @var string
+     * @type string
      */
     protected $description = 'Remove the remote applications and existing caches';
 
     /**
      * Whether the task needs to be run on each stage or globally
      *
-     * @var boolean
+     * @type boolean
      */
     public $usesStages = false;
 

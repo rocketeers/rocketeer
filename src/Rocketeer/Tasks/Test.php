@@ -22,7 +22,7 @@ class Test extends AbstractTask
     /**
      * A description of what the task does
      *
-     * @var string
+     * @type string
      */
     protected $description = 'Run the tests on the server and displays the output';
 

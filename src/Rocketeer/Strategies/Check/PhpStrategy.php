@@ -31,7 +31,7 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
     /**
      * The PHP extensions loaded on server
      *
-     * @var array
+     * @type array
      */
     protected $extensions = array();
 

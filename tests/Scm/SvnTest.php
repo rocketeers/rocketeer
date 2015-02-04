@@ -9,7 +9,7 @@ class SvnTest extends RocketeerTestCase
     /**
      * The current SCM instance
      *
-     * @var Svn
+     * @type Svn
      */
     protected $scm;
 

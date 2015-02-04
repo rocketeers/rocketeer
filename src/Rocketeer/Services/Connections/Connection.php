@@ -34,42 +34,42 @@ class Connection implements ConnectionInterface, HasRolesInterface
     /**
      * The SSH gateway implementation.
      *
-     * @var GatewayInterface
+     * @type GatewayInterface
      */
     protected $gateway;
 
     /**
      * The name of the connection.
      *
-     * @var string
+     * @type string
      */
     protected $name;
 
     /**
      * The host name of the server.
      *
-     * @var string
+     * @type string
      */
     protected $host;
 
     /**
      * The username for the connection.
      *
-     * @var string
+     * @type string
      */
     protected $username;
 
     /**
      * All of the defined tasks.
      *
-     * @var array
+     * @type array
      */
     protected $tasks = array();
 
     /**
      * The output implementation for the connection.
      *
-     * @var OutputInterface
+     * @type OutputInterface
      */
     protected $output;
 

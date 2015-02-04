@@ -35,14 +35,14 @@ abstract class AbstractTask extends Bash implements HasRolesInterface, Identifie
     /**
      * The name of the task
      *
-     * @var string
+     * @type string
      */
     protected $name;
 
     /**
      * A description of what the task does
      *
-     * @var string
+     * @type string
      */
     protected $description;
 
@@ -63,7 +63,7 @@ abstract class AbstractTask extends Bash implements HasRolesInterface, Identifie
     /**
      * Whether the task was halted mid-course
      *
-     * @var boolean
+     * @type boolean
      */
     protected $halted = false;
 

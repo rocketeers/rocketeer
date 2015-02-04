@@ -8,14 +8,14 @@ abstract class RocketeerTestCase extends ContainerTestCase
     /**
      * The test repository
      *
-     * @var string
+     * @type string
      */
     protected $repository = 'Anahkiasen/html-object.git';
 
     /**
      * The path to the local fake server
      *
-     * @var string
+     * @type string
      */
     protected $server;
 
@@ -27,14 +27,14 @@ abstract class RocketeerTestCase extends ContainerTestCase
     /**
      * The path to the local deployments file
      *
-     * @var string
+     * @type string
      */
     protected $deploymentsFile;
 
     /**
      * A dummy AbstractTask to use for helpers tests
      *
-     * @var \Rocketeer\Abstracts\AbstractTask
+     * @type \Rocketeer\Abstracts\AbstractTask
      */
     protected $task;
 

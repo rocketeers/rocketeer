@@ -21,7 +21,7 @@ class Console extends StandaloneFacade
     /**
      * The class to fetch from the container
      *
-     * @var string
+     * @type string
      */
     protected static $accessor = 'rocketeer.console';
 }

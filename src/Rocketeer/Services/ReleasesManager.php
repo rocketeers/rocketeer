@@ -27,7 +27,7 @@ class ReleasesManager
     /**
      * Cache of the validation file
      *
-     * @var array
+     * @type array
      */
     protected $state = [];
 

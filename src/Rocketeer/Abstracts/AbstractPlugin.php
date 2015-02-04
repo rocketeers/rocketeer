@@ -29,7 +29,7 @@ abstract class AbstractPlugin
     /**
      * The path to the configuration folder
      *
-     * @var string
+     * @type string
      */
     public $configurationFolder;
 

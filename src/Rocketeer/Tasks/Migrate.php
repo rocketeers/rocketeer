@@ -26,7 +26,7 @@ class Migrate extends AbstractTask
     /**
      * The console command description.
      *
-     * @var string
+     * @type string
      */
     protected $description = 'Migrates and/or seed the database';
 

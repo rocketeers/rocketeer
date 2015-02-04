@@ -39,7 +39,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
     /**
      * the task to execute on fire
      *
-     * @var AbstractTask
+     * @type AbstractTask
      */
     protected $task;
 

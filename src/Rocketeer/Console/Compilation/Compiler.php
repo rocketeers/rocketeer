@@ -26,14 +26,14 @@ class Compiler
     /**
      * The current Box instance
      *
-     * @var Box
+     * @type Box
      */
     protected $box;
 
     /**
      * The Filesystem instance
      *
-     * @var Filesystem
+     * @type Filesystem
      */
     protected $files;
 
@@ -48,7 +48,7 @@ class Compiler
     /**
      * The path to the final phar
      *
-     * @var string
+     * @type string
      */
     protected $phar;
 

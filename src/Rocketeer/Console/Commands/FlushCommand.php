@@ -22,14 +22,14 @@ class FlushCommand extends AbstractCommand
     /**
      * The console command name.
      *
-     * @var string
+     * @type string
      */
     protected $name = 'flush';
 
     /**
      * The console command description.
      *
-     * @var string
+     * @type string
      */
     protected $description = "Flushes Rocketeer's cache of credentials";
 

@@ -22,7 +22,7 @@ class Rollback extends AbstractTask
     /**
      * The console command description.
      *
-     * @var string
+     * @type string
      */
     protected $description = 'Rollback to the previous release, or to a specific one';
 

@@ -27,7 +27,7 @@ abstract class AbstractBinary
     /**
      * The core binary
      *
-     * @var string
+     * @type string
      */
     protected $binary;
 

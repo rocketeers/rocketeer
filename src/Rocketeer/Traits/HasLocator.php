@@ -50,7 +50,7 @@ trait HasLocator
     /**
      * The IoC Container
      *
-     * @var Container
+     * @type Container
      */
     protected $app;
 

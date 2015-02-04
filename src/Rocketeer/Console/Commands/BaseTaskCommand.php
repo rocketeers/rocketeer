@@ -24,7 +24,7 @@ class BaseTaskCommand extends AbstractCommand
     /**
      * The default name
      *
-     * @var string
+     * @type string
      */
     protected $name = 'custom';
 

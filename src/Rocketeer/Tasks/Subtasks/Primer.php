@@ -22,7 +22,7 @@ class Primer extends AbstractTask
     /**
      * A description of what the task does
      *
-     * @var string
+     * @type string
      */
     protected $description = 'Run local checks to ensure deploy can proceed';
 
@@ -37,7 +37,7 @@ class Primer extends AbstractTask
     /**
      * Whether the task needs to be run on each stage or globally
      *
-     * @var boolean
+     * @type boolean
      */
     public $usesStages = false;
 

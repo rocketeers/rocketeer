@@ -31,7 +31,7 @@ class TasksHandler
     /**
      * The registered events
      *
-     * @var array
+     * @type array
      */
     protected $registeredEvents = array();
 

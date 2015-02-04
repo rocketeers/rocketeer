@@ -25,7 +25,7 @@ class Cleanup extends AbstractTask
     /**
      * A description of what the task does
      *
-     * @var string
+     * @type string
      */
     protected $description = 'Clean up old releases from the server';
 

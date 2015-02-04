@@ -9,7 +9,7 @@ class ConfigurationTest extends RocketeerTestCase
     /**
      * The igniter instance
      *
-     * @var Configuration
+     * @type Configuration
      */
     protected $igniter;
 

@@ -36,7 +36,7 @@ class TasksQueue
     /**
      * A list of Tasks to execute
      *
-     * @var array
+     * @type array
      */
     protected $tasks;
 

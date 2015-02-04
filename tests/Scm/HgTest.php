@@ -9,7 +9,7 @@ class HgTest extends RocketeerTestCase
     /**
      * The current SCM instance
      *
-     * @var Hg
+     * @type Hg
      */
     protected $scm;
 

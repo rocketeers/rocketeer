@@ -18,14 +18,14 @@ class InstallCommand extends AbstractCommand
     /**
      * The default name
      *
-     * @var string
+     * @type string
      */
     protected $name = 'plugin:install';
 
     /**
      * The console command description.
      *
-     * @var string
+     * @type string
      */
     protected $description = 'Install a plugin';
 

@@ -26,7 +26,7 @@ class LocalStorage extends AbstractStorage implements StorageInterface
     /**
      * The current hash in use
      *
-     * @var string
+     * @type string
      */
     protected $hash;
 

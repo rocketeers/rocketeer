@@ -9,7 +9,7 @@ class GitTest extends RocketeerTestCase
     /**
      * The current SCM instance
      *
-     * @var Git
+     * @type Git
      */
     protected $scm;
 

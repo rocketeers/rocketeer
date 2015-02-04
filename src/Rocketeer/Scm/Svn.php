@@ -25,7 +25,7 @@ class Svn extends AbstractBinary implements ScmInterface
     /**
      * The core binary
      *
-     * @var string
+     * @type string
      */
     public $binary = 'svn';
 

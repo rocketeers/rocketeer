@@ -22,7 +22,7 @@ class CreateRelease extends AbstractTask
     /**
      * A description of what the task does
      *
-     * @var string
+     * @type string
      */
     protected $description = 'Creates a new release on the server';
 

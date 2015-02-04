@@ -20,7 +20,7 @@ class Update extends Deploy
     /**
      * A description of what the task does
      *
-     * @var string
+     * @type string
      */
     protected $description = 'Update the remote server without doing a new release';
 

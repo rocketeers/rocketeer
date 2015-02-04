@@ -19,14 +19,14 @@ class PublishCommand extends AbstractCommand
     /**
      * The default name
      *
-     * @var string
+     * @type string
      */
     protected $name = 'plugin:config';
 
     /**
      * The console command description.
      *
-     * @var string
+     * @type string
      */
     protected $description = 'Publishes the configuration of a plugin';
 

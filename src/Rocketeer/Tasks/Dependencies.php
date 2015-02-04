@@ -17,7 +17,7 @@ class Dependencies extends AbstractTask
     /**
      * A description of what the task does
      *
-     * @var string
+     * @type string
      */
     protected $description = 'Installs or update the dependencies on server';
 

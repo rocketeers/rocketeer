@@ -22,14 +22,14 @@ class StrategiesCommand extends AbstractCommand
     /**
      * The console command name.
      *
-     * @var string
+     * @type string
      */
     protected $name = 'strategies';
 
     /**
      * The console command description.
      *
-     * @var string
+     * @type string
      */
     protected $description = 'Lists the available options for each strategy';
 

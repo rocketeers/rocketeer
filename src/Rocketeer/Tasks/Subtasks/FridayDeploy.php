@@ -14,7 +14,7 @@ class FridayDeploy extends AbstractTask
     /**
      * A description of what the task does
      *
-     * @var string
+     * @type string
      */
     protected $description = 'Wishes you good luck on friday';
 

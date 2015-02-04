@@ -18,14 +18,14 @@ class UpdateCommand extends AbstractCommand
     /**
      * The default name
      *
-     * @var string
+     * @type string
      */
     protected $name = 'plugin:update';
 
     /**
      * The console command description.
      *
-     * @var string
+     * @type string
      */
     protected $description = 'Update one or all plugin(s)';
 

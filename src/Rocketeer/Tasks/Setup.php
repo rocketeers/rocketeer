@@ -22,14 +22,14 @@ class Setup extends AbstractTask
     /**
      * A description of what the task does
      *
-     * @var string
+     * @type string
      */
     protected $description = 'Set up the remote server for deployment';
 
     /**
      * Whether the task needs to be run on each stage or globally
      *
-     * @var boolean
+     * @type boolean
      */
     public $usesStages = false;
 

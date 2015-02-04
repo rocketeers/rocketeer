@@ -25,7 +25,7 @@ abstract class StandaloneFacade extends Facade
     /**
      * The class to fetch from the container
      *
-     * @var string
+     * @type string
      */
     protected static $accessor;
 

@@ -20,7 +20,7 @@ trait Flow
     /**
      * Whether the task needs to be run on each stage or globally
      *
-     * @var boolean
+     * @type boolean
      */
     public $usesStages = true;
 

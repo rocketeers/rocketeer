@@ -25,7 +25,7 @@ class Rocketeer
     /**
      * The Rocketeer version
      *
-     * @var string
+     * @type string
      */
     const VERSION = '3.0.0';
 

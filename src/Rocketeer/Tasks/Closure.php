@@ -22,14 +22,14 @@ class Closure extends AbstractTask
     /**
      * A callable to execute at runtime
      *
-     * @var callable
+     * @type callable
      */
     protected $closure;
 
     /**
      * A string task to execute in the Closure
      *
-     * @var string|string[]|callable
+     * @type string|string[]|callable
      */
     protected $stringTask;
 
