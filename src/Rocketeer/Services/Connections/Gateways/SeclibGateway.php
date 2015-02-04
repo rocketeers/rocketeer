@@ -54,9 +54,9 @@ class SeclibGateway implements GatewayInterface
     /**
      * Create a new gateway implementation.
      *
-     * @param  string     $host
-     * @param  array      $auth
-     * @param  Filesystem $files
+     * @param string     $host
+     * @param array      $auth
+     * @param Filesystem $files
      */
     public function __construct($host, array $auth, Filesystem $files)
     {
@@ -68,7 +68,7 @@ class SeclibGateway implements GatewayInterface
     /**
      * Set the host and port from a full host string.
      *
-     * @param  string $host
+     * @param string $host
      */
     protected function setHostAndPort($host)
     {
@@ -84,7 +84,7 @@ class SeclibGateway implements GatewayInterface
     /**
      * Connect to the SSH server.
      *
-     * @param  string $username
+     * @param string $username
      *
      * @return bool
      */
@@ -106,7 +106,7 @@ class SeclibGateway implements GatewayInterface
     /**
      * Run a command against the server (non-blocking).
      *
-     * @param  string $command
+     * @param string $command
      */
     public function run($command)
     {
@@ -116,8 +116,8 @@ class SeclibGateway implements GatewayInterface
     /**
      * Download the contents of a remote file.
      *
-     * @param  string $remote
-     * @param  string $local
+     * @param string $remote
+     * @param string $local
      */
     public function get($remote, $local)
     {
@@ -127,7 +127,7 @@ class SeclibGateway implements GatewayInterface
     /**
      * Get the contents of a remote file.
      *
-     * @param  string $remote
+     * @param string $remote
      *
      * @return string
      */
@@ -139,8 +139,8 @@ class SeclibGateway implements GatewayInterface
     /**
      * Upload a local file to the server.
      *
-     * @param  string $local
-     * @param  string $remote
+     * @param string $local
+     * @param string $remote
      */
     public function put($local, $remote)
     {
@@ -150,8 +150,8 @@ class SeclibGateway implements GatewayInterface
     /**
      * Upload a string to to the given file on the server.
      *
-     * @param  string $remote
-     * @param  string $contents
+     * @param string $remote
+     * @param string $contents
      */
     public function putString($remote, $contents)
     {
@@ -214,7 +214,7 @@ class SeclibGateway implements GatewayInterface
     /**
      * Load the RSA key instance.
      *
-     * @param  array $auth
+     * @param array $auth
      *
      * @return Crypt_RSA
      */
@@ -228,7 +228,7 @@ class SeclibGateway implements GatewayInterface
     /**
      * Read the contents of the RSA key.
      *
-     * @param  array $auth
+     * @param array $auth
      *
      * @return string
      */
@@ -244,7 +244,7 @@ class SeclibGateway implements GatewayInterface
     /**
      * Create a new RSA key instance.
      *
-     * @param  array $auth
+     * @param array $auth
      *
      * @return \Crypt_RSA
      */
@@ -272,7 +272,7 @@ class SeclibGateway implements GatewayInterface
      */
     public function getAgent()
     {
-        return new System_SSH_Agent;
+        return new System_SSH_Agent();
     }
 
     /**
@@ -282,7 +282,7 @@ class SeclibGateway implements GatewayInterface
      */
     public function getNewKey()
     {
-        return new Crypt_RSA;
+        return new Crypt_RSA();
     }
 
     /**
@@ -329,4 +329,3 @@ class SeclibGateway implements GatewayInterface
         return $this->connection = new Net_SFTP($this->host, $this->port);
     }
 }
-

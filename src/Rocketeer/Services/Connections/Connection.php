@@ -76,11 +76,11 @@ class Connection implements ConnectionInterface, HasRolesInterface
     /**
      * Create a new SSH connection instance.
      *
-     * @param  string           $name
-     * @param  string           $host
-     * @param  string           $username
-     * @param  array            $auth
-     * @param  GatewayInterface $gateway
+     * @param string           $name
+     * @param string           $host
+     * @param string           $username
+     * @param array            $auth
+     * @param GatewayInterface $gateway
      */
     public function __construct($name, $host, $username, array $auth, GatewayInterface $gateway = null)
     {
@@ -93,8 +93,8 @@ class Connection implements ConnectionInterface, HasRolesInterface
     /**
      * Run a set of commands against the connection.
      *
-     * @param  string|array $commands
-     * @param  Closure      $callback
+     * @param string|array $commands
+     * @param Closure      $callback
      */
     public function run($commands, Closure $callback = null)
     {
@@ -119,8 +119,8 @@ class Connection implements ConnectionInterface, HasRolesInterface
     /**
      * Download the contents of a remote file.
      *
-     * @param  string $remote
-     * @param  string $local
+     * @param string $remote
+     * @param string $local
      */
     public function get($remote, $local)
     {
@@ -130,7 +130,7 @@ class Connection implements ConnectionInterface, HasRolesInterface
     /**
      * Get the contents of a remote file.
      *
-     * @param  string $remote
+     * @param string $remote
      *
      * @return string
      */
@@ -142,8 +142,8 @@ class Connection implements ConnectionInterface, HasRolesInterface
     /**
      * Upload a local file to the server.
      *
-     * @param  string $local
-     * @param  string $remote
+     * @param string $local
+     * @param string $remote
      */
     public function put($local, $remote)
     {
@@ -153,8 +153,8 @@ class Connection implements ConnectionInterface, HasRolesInterface
     /**
      * Upload a string to to the given file on the server.
      *
-     * @param  string $remote
-     * @param  string $contents
+     * @param string $remote
+     * @param string $contents
      */
     public function putString($remote, $contents)
     {
@@ -164,7 +164,7 @@ class Connection implements ConnectionInterface, HasRolesInterface
     /**
      * Display the given line using the default output.
      *
-     * @param  string $line
+     * @param string $line
      */
     public function display($line)
     {
@@ -178,7 +178,7 @@ class Connection implements ConnectionInterface, HasRolesInterface
     /**
      * Format the given command set.
      *
-     * @param  string|array $commands
+     * @param string|array $commands
      *
      * @return string
      */
@@ -229,7 +229,7 @@ class Connection implements ConnectionInterface, HasRolesInterface
     /**
      * Set the output implementation.
      *
-     * @param  OutputInterface $output
+     * @param OutputInterface $output
      */
     public function setOutput(OutputInterface $output)
     {

@@ -8,8 +8,8 @@ interface ConnectionInterface
     /**
      * Run a set of commands against the connection.
      *
-     * @param  string|array $commands
-     * @param  Closure      $callback
+     * @param string|array $commands
+     * @param Closure      $callback
      *
      * @return void
      */
@@ -18,8 +18,8 @@ interface ConnectionInterface
     /**
      * Upload a local file to the server.
      *
-     * @param  string $local
-     * @param  string $remote
+     * @param string $local
+     * @param string $remote
      *
      * @return void
      */
@@ -28,8 +28,8 @@ interface ConnectionInterface
     /**
      * Upload a string to to the given file on the server.
      *
-     * @param  string $remote
-     * @param  string $contents
+     * @param string $remote
+     * @param string $contents
      *
      * @return void
      */
