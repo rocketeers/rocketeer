@@ -11,6 +11,7 @@
 namespace Rocketeer\Services\Connections\Gateways;
 
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Str;
 use InvalidArgumentException;
 use phpseclib\Crypt\RSA;
 use phpseclib\Net\SFTP;
@@ -82,7 +83,7 @@ class SeclibGateway implements GatewayInterface
      */
     protected function setHostAndPort($host)
     {
-        if (!str_contains($host, ':')) {
+        if (!Str::contains($host, ':')) {
             $this->host = $host;
         } else {
             list($this->host, $this->port) = explode(':', $host);
@@ -189,7 +190,7 @@ class SeclibGateway implements GatewayInterface
     protected function getAuthForLogin()
     {
         if ($this->useAgent()) {
-            return $this->getAgent();
+            return new Agent();
         }
 
         // If a "key" was specified in the auth credentials, we will load it into a
@@ -230,7 +231,8 @@ class SeclibGateway implements GatewayInterface
      */
     protected function loadRsaKey(array $auth)
     {
-        with($key = $this->getKey($auth))->loadKey($this->readRsaKey($auth));
+        $key = $this->getKey($auth);
+        $key->loadKey($this->readRsaKey($auth));
 
         return $key;
     }
@@ -256,11 +258,12 @@ class SeclibGateway implements GatewayInterface
      *
      * @param array $auth
      *
-     * @return \Crypt_RSA
+     * @return RSA
      */
     protected function getKey(array $auth)
     {
-        with($key = $this->getNewKey())->setPassword(array_get($auth, 'keyphrase'));
+        $key = new RSA();
+        $key->setPassword(array_get($auth, 'keyphrase'));
 
         return $key;
     }
@@ -273,26 +276,6 @@ class SeclibGateway implements GatewayInterface
     protected function useAgent()
     {
         return isset($this->auth['agent']) && $this->auth['agent'] === true;
-    }
-
-    /**
-     * Get a new SSH Agent instance.
-     *
-     * @return System_SSH_Agent
-     */
-    public function getAgent()
-    {
-        return new Agent();
-    }
-
-    /**
-     * Get a new RSA key instance.
-     *
-     * @return Crypt_RSA
-     */
-    public function getNewKey()
-    {
-        return new RSA();
     }
 
     /**

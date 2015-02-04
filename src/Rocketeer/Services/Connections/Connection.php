@@ -162,20 +162,6 @@ class Connection implements ConnectionInterface, HasRolesInterface
     }
 
     /**
-     * Display the given line using the default output.
-     *
-     * @param string $line
-     */
-    public function display($line)
-    {
-        $server = $this->username.'@'.$this->host;
-
-        $lead = '<comment>['.$server.']</comment> <info>('.$this->name.')</info>';
-
-        $this->getOutput()->writeln($lead.' '.$line);
-    }
-
-    /**
      * Format the given command set.
      *
      * @param string|array $commands
