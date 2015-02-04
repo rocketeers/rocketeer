@@ -54,8 +54,8 @@ class SeclibGateway implements GatewayInterface
     /**
      * Create a new gateway implementation.
      *
-     * @param  string                            $host
-     * @param  array                             $auth
+     * @param  string     $host
+     * @param  array      $auth
      * @param  Filesystem $files
      */
     public function __construct($host, array $auth, Filesystem $files)
