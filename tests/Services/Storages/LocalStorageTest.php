@@ -38,15 +38,18 @@ class LocalStorageTest extends RocketeerTestCase
         });
 
         $this->files->makeDirectory($this->server.'/tasks');
+        $this->files->makeDirectory($this->server.'/strategies');
         $this->files->put($this->server.'/bar.php', '<?php return ["bar"];');
         $this->files->put($this->server.'/foo.php', '<?php return ["foo"];');
+        $this->files->put($this->server.'/strategies.php', '<?php return ["baz"];');
         $this->files->put($this->server.'/tasks.php', '<?php return ["tasks"];');
         $this->files->put($this->server.'/tasks/test123r.php', '<?php return ["tasks"];');
+        $this->files->put($this->server.'/strategies/MyStrategy.php', '<?php return ["strategies"];');
 
         $storage = new LocalStorage($this->app, 'deployments', $this->server);
         $hash    = $storage->getHash();
 
-        $this->assertEquals(md5('["bar"]["foo"]'), $hash);
+        $this->assertEquals(md5('["bar"]["foo"]["baz"]'), $hash);
     }
 
     public function testCanSwitchFolder()
