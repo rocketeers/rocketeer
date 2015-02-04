@@ -53,7 +53,7 @@ trait Core
             return $this->app['remote.local'];
         }
 
-        return $this->remote->connection();
+        return $this->remote;
     }
 
     /**

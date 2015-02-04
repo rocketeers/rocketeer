@@ -190,7 +190,7 @@ class SeclibGateway implements GatewayInterface
     protected function getAuthForLogin()
     {
         if ($this->useAgent()) {
-            return new Agent();
+            return $this->getAgent();
         }
 
         // If a "key" was specified in the auth credentials, we will load it into a
@@ -262,7 +262,7 @@ class SeclibGateway implements GatewayInterface
      */
     protected function getKey(array $auth)
     {
-        $key = new RSA();
+        $key = $this->getNewKey();
         $key->setPassword(array_get($auth, 'keyphrase'));
 
         return $key;
@@ -276,6 +276,26 @@ class SeclibGateway implements GatewayInterface
     protected function useAgent()
     {
         return isset($this->auth['agent']) && $this->auth['agent'] === true;
+    }
+
+    /**
+     * Get a new SSH Agent instance.
+     *
+     * @return System_SSH_Agent
+     */
+    public function getAgent()
+    {
+        return new Agent();
+    }
+
+    /**
+     * Get a new RSA key instance.
+     *
+     * @return Crypt_RSA
+     */
+    public function getNewKey()
+    {
+        return new RSA();
     }
 
     /**
