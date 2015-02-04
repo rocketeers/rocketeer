@@ -5,7 +5,7 @@ use Crypt_RSA;
 use Illuminate\Filesystem\Filesystem;
 use InvalidArgumentException;
 use Net_SFTP;
-use Rocketeer\Services\Connections\GatewayInterface;
+use Rocketeer\Interfaces\GatewayInterface;
 use System_SSH_Agent;
 
 /**

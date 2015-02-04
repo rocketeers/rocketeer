@@ -80,8 +80,7 @@ class Connection implements ConnectionInterface, HasRolesInterface
      * @param  string  $host
      * @param  string  $username
      * @param  array   $auth
-     * @param  GatewayInterface
-     * @param
+     * @param  GatewayInterface $gateway
      */
     public function __construct($name, $host, $username, array $auth, GatewayInterface $gateway = null)
     {

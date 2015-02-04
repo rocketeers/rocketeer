@@ -22,7 +22,7 @@ use Symfony\Component\Console\Output\NullOutput;
  * Handle creationg and caching of connections
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
- * @author Taylor Otwell
+ * @author Taylor Otwell <taylorotwell@gmail.com>
  */
 class RemoteHandler
 {
