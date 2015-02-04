@@ -25,18 +25,17 @@
     "illuminate/container": "^4.2.7",
     "illuminate/filesystem": "~4.2",
     "illuminate/events": "~4.2",
-    "illuminate/remote": "~4.2",
     "illuminate/log": "~4.2",
     "patchwork/utf8": "~1.1",
     "kzykhys/parallel": "0.1.*",
-    "anlutro/curl": "0.6.*"
+    "anlutro/curl": "0.6.*",
+    "phpseclib/phpseclib": "0.3.*"
   },
   "require-dev": {
     "phpunit/phpunit": "~4.4",
     "mockery/mockery": "^0.9.1",
     "nesbot/carbon": "~1.13",
     "herrera-io/box": "~1.6",
-    "phpseclib/phpseclib": "^0.3.5",
     "raveren/kint": "0.9.*",
     "johnkary/phpunit-speedtrap": "~1.0@dev",
     "psy/psysh": "0.3.*",
