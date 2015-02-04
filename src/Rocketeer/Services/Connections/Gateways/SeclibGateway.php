@@ -10,12 +10,13 @@
 
 namespace Rocketeer\Services\Connections\Gateways;
 
-use Crypt_RSA;
 use Illuminate\Filesystem\Filesystem;
 use InvalidArgumentException;
-use Net_SFTP;
+use phpseclib\Crypt\RSA;
+use phpseclib\Net\SFTP;
+use phpseclib\Net\SSH2;
+use phpseclib\System\SSH\Agent;
 use Rocketeer\Interfaces\GatewayInterface;
-use System_SSH_Agent;
 
 /**
  * A wrapper around phpseclib
@@ -153,7 +154,7 @@ class SeclibGateway implements GatewayInterface
      */
     public function put($local, $remote)
     {
-        $this->getConnection()->put($remote, $local, NET_SFTP_LOCAL_FILE);
+        $this->getConnection()->put($remote, $local, SFTP::SOURCE_LOCAL_FILE);
     }
 
     /**
@@ -174,7 +175,7 @@ class SeclibGateway implements GatewayInterface
      */
     public function nextLine()
     {
-        $value = $this->getConnection()->_get_channel_packet(NET_SSH2_CHANNEL_EXEC);
+        $value = $this->getConnection()->_get_channel_packet(SSH2::CHANNEL_EXEC);
 
         return $value === true ? null : $value;
     }
@@ -281,7 +282,7 @@ class SeclibGateway implements GatewayInterface
      */
     public function getAgent()
     {
-        return new System_SSH_Agent();
+        return new Agent();
     }
 
     /**
@@ -291,7 +292,7 @@ class SeclibGateway implements GatewayInterface
      */
     public function getNewKey()
     {
-        return new Crypt_RSA();
+        return new RSA();
     }
 
     /**
@@ -335,6 +336,6 @@ class SeclibGateway implements GatewayInterface
             return $this->connection;
         }
 
-        return $this->connection = new Net_SFTP($this->host, $this->port);
+        return $this->connection = new SFTP($this->host, $this->port);
     }
 }
