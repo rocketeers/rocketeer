@@ -95,8 +95,6 @@ class Connection implements ConnectionInterface, HasRolesInterface
      *
      * @param  string|array $commands
      * @param  Closure      $callback
-     *
-     * @return void
      */
     public function run($commands, Closure $callback = null)
     {
@@ -123,8 +121,6 @@ class Connection implements ConnectionInterface, HasRolesInterface
      *
      * @param  string $remote
      * @param  string $local
-     *
-     * @return void
      */
     public function get($remote, $local)
     {
@@ -148,8 +144,6 @@ class Connection implements ConnectionInterface, HasRolesInterface
      *
      * @param  string $local
      * @param  string $remote
-     *
-     * @return void
      */
     public function put($local, $remote)
     {
@@ -161,8 +155,6 @@ class Connection implements ConnectionInterface, HasRolesInterface
      *
      * @param  string $remote
      * @param  string $contents
-     *
-     * @return void
      */
     public function putString($remote, $contents)
     {
@@ -173,8 +165,6 @@ class Connection implements ConnectionInterface, HasRolesInterface
      * Display the given line using the default output.
      *
      * @param  string $line
-     *
-     * @return void
      */
     public function display($line)
     {
@@ -225,7 +215,7 @@ class Connection implements ConnectionInterface, HasRolesInterface
     /**
      * Get the output implementation for the connection.
      *
-     * @return \Symfony\Component\Console\Output\OutputInterface
+     * @return OutputInterface
      */
     public function getOutput()
     {
@@ -239,9 +229,7 @@ class Connection implements ConnectionInterface, HasRolesInterface
     /**
      * Set the output implementation.
      *
-     * @param  \Symfony\Component\Console\Output\OutputInterface $output
-     *
-     * @return void
+     * @param  OutputInterface $output
      */
     public function setOutput(OutputInterface $output)
     {

@@ -40,14 +40,14 @@ class SeclibGateway implements GatewayInterface
     /**
      * The filesystem instance.
      *
-     * @var \Illuminate\Filesystem\Filesystem
+     * @var Filesystem
      */
     protected $files;
 
     /**
      * The SecLib connection instance.
      *
-     * @var \Net_SFTP
+     * @var Net_SFTP
      */
     protected $connection;
 
@@ -69,8 +69,6 @@ class SeclibGateway implements GatewayInterface
      * Set the host and port from a full host string.
      *
      * @param  string $host
-     *
-     * @return void
      */
     protected function setHostAndPort($host)
     {
@@ -109,8 +107,6 @@ class SeclibGateway implements GatewayInterface
      * Run a command against the server (non-blocking).
      *
      * @param  string $command
-     *
-     * @return void
      */
     public function run($command)
     {
@@ -122,8 +118,6 @@ class SeclibGateway implements GatewayInterface
      *
      * @param  string $remote
      * @param  string $local
-     *
-     * @return void
      */
     public function get($remote, $local)
     {
@@ -147,8 +141,6 @@ class SeclibGateway implements GatewayInterface
      *
      * @param  string $local
      * @param  string $remote
-     *
-     * @return void
      */
     public function put($local, $remote)
     {
@@ -160,8 +152,6 @@ class SeclibGateway implements GatewayInterface
      *
      * @param  string $remote
      * @param  string $contents
-     *
-     * @return void
      */
     public function putString($remote, $contents)
     {
