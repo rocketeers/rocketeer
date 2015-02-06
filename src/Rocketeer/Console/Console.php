@@ -33,6 +33,20 @@ class Console extends Application
 	}
 
 	/**
+	 * @return string
+	 */
+	public function getLongVersion()
+	{
+		$version = Rocketeer::COMMIT ?: Rocketeer::VERSION;
+
+		return sprintf(
+			'<info>%s</info> version <comment>%s</comment>',
+			$this->getName(),
+			$version
+		);
+	}
+
+	/**
 	 * Build an help block
 	 *
 	 * @param string   $title

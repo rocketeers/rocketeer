@@ -35,9 +35,7 @@
     "phpunit/phpunit": "~4.0",
     "mockery/mockery": "^0.9.1",
     "nesbot/carbon": "~1.4",
-    "herrera-io/box": "~1.5.3",
     "phpseclib/phpseclib": "~0.3.5",
-    "raveren/kint": "~0.9.1",
     "johnkary/phpunit-speedtrap": "dev-master"
   },
   "suggest": {
