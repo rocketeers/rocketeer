@@ -35,8 +35,6 @@
     "phpunit/phpunit": "~4.4",
     "mockery/mockery": "^0.9.1",
     "nesbot/carbon": "~1.13",
-    "herrera-io/box": "~1.6",
-    "raveren/kint": "0.9.*",
     "johnkary/phpunit-speedtrap": "~1.0@dev",
     "psy/psysh": "0.3.*",
     "rocketeers/rocketeer-laravel": "1.0.*@dev"

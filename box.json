@@ -1,0 +1,39 @@
+{
+  "chmod": "0755",
+  "banner-file": "bin/banner.txt",
+  "extract": true,
+  "bootstrap": "src/Rocketeer/Console/Compilation/WhitespaceCompactor.php",
+  "compactors": [
+    "Herrera\\Box\\Compactor\\Json",
+    "Rocketeer\\Console\\Compilation\\WhitespaceCompactor"
+  ],
+  "directories": [
+    "src"
+  ],
+  "files": [
+    "LICENSE"
+  ],
+  "finder": [
+    {
+      "name": "/\\.(php|exe)/",
+      "exclude": [
+        "tests",
+
+        "nesbot",
+
+        "johnkary",
+        "mockery",
+        "nesbot",
+        "phpdocumentor",
+        "phpspec",
+        "phpunit",
+        "sebastian"
+      ],
+      "in": "vendor"
+    }
+  ],
+  "git-version": "commit",
+  "main": "bin/rocketeer",
+  "output": "bin/rocketeer.phar",
+  "stub": true
+}
