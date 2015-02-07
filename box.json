@@ -15,7 +15,7 @@
   ],
   "finder": [
     {
-      "name": "/\\.(php|exe)/",
+      "name": "/\\.(php|json|exe)/",
       "exclude": [
         "tests",
 

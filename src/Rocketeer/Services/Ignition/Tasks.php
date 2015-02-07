@@ -10,6 +10,8 @@
 
 namespace Rocketeer\Services\Ignition;
 
+use KevinGH\Amend\Command;
+use KevinGH\Amend\Helper;
 use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Traits\HasLocator;
 
@@ -86,6 +88,17 @@ class Tasks
                 return $command;
             });
         }
+
+        // Add self update command
+        $this->app->singleton('rocketeer.commands.self-update', function () {
+            $command = new Command('self-update');
+            $command->setManifestUri('http://rocketeer.autopergamene.eu/versions/manifest.json');
+
+            return $command;
+        });
+
+        // Add manifest helper
+        $this->app['rocketeer.console']->getHelperSet()->set(new Helper());
 
         return $commands;
     }
