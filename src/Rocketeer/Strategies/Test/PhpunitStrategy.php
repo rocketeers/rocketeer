@@ -39,7 +39,7 @@ class PhpunitStrategy extends AbstractStrategy implements TestStrategyInterface
     {
         // Run PHPUnit
         $arguments = ['--stop-on-failure' => null];
-        $output    = $this->runForCurrentRelease(array(
+        $output    = $this->runForApplication(array(
             $this->phpunit()->getCommand(null, [], $arguments),
         ));
 

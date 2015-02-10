@@ -91,7 +91,7 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
     {
         $this->shareDependenciesFolder();
 
-        return $this->manager->runForCurrentRelease('install');
+        return $this->manager->runForApplication('install');
     }
 
     /**
@@ -101,7 +101,7 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
      */
     public function update()
     {
-        return $this->manager->runForCurrentRelease('update');
+        return $this->manager->runForApplication('update');
     }
 
     //////////////////////////////////////////////////////////////////////

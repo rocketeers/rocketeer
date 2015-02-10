@@ -61,7 +61,7 @@ class ComposerStrategy extends AbstractDependenciesStrategy implements Dependenc
             return true;
         }
 
-        $this->runForCurrentRelease($tasks);
+        $this->runForApplication($tasks);
 
         return $this->checkStatus('Composer could not install dependencies');
     }
