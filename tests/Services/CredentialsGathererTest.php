@@ -311,7 +311,7 @@ class CredentialsGathererTest extends RocketeerTestCase
         ), $credentials);
 
         // also check handle generation as handles are used for connection cache keying in RemoteHandler
-        $this->assertEquals("production-multiserver/0", $this->connections->getHandle("production-multiserver", 0));
+        $this->assertEquals("production-multiserver/10.1.1.1", $this->connections->getHandle("production-multiserver", 0));
 
         $credentials = $this->connections->getServerCredentials('production-multiserver', 1);
         $this->assertEquals(array(
@@ -325,7 +325,7 @@ class CredentialsGathererTest extends RocketeerTestCase
             'db_role' => false
         ), $credentials);
 
-        $this->assertEquals("production-multiserver/1", $this->connections->getHandle("production-multiserver", 1));
+        $this->assertEquals("production-multiserver/10.1.1.2", $this->connections->getHandle("production-multiserver", 1));
 
         $credentials = $this->connections->getServerCredentials('production-multiserver', 2);
         $this->assertEquals(array(
@@ -339,7 +339,7 @@ class CredentialsGathererTest extends RocketeerTestCase
             'db_role' => false
         ), $credentials);
 
-        $this->assertEquals("production-multiserver/2", $this->connections->getHandle("production-multiserver", 2));
+        $this->assertEquals("production-multiserver/10.1.1.3", $this->connections->getHandle("production-multiserver", 2));
     }
 
     //////////////////////////////////////////////////////////////////////
