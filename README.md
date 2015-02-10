@@ -2,13 +2,13 @@
 
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/rocketeers/rocketeer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-[![Build Status](http://img.shields.io/travis/rocketeers/rocketeer.svg?style=flat)](https://travis-ci.org/rocketeers/rocketeer)
-[![Latest Stable Version](http://img.shields.io/packagist/v/anahkiasen/rocketeer.svg?style=flat)](https://packagist.org/packages/anahkiasen/rocketeer)
-[![Total Downloads](http://img.shields.io/packagist/dt/anahkiasen/rocketeer.svg?style=flat)](https://packagist.org/packages/anahkiasen/rocketeer)
-[![Scrutinizer Quality Score](http://img.shields.io/scrutinizer/g/rocketeers/rocketeer.svg?style=flat)](https://scrutinizer-ci.com/g/rocketeers/rocketeer/)
-[![Code Coverage](http://img.shields.io/scrutinizer/coverage/g/rocketeers/rocketeer.svg?style=flat)](https://scrutinizer-ci.com/g/rocketeers/rocketeer/)
-[![Dependency Status](https://www.versioneye.com/user/projects/53f1c65f13bb0677b1000744/badge.svg?style=flat)](https://www.versioneye.com/user/projects/53f1c65f13bb0677b1000744)
-[![Support via Gittip](http://img.shields.io/gittip/Anahkiasen.svg?style=flat)](https://www.gittip.com/Anahkiasen/)
+[![Build Status](http://img.shields.io/travis/rocketeers/rocketeer.svg?style=flat-square)](https://travis-ci.org/rocketeers/rocketeer)
+[![Latest Stable Version](http://img.shields.io/packagist/v/anahkiasen/rocketeer.svg?style=flat-square)](https://packagist.org/packages/anahkiasen/rocketeer)
+[![Total Downloads](http://img.shields.io/packagist/dt/anahkiasen/rocketeer.svg?style=flat-square)](https://packagist.org/packages/anahkiasen/rocketeer)
+[![Scrutinizer Quality Score](http://img.shields.io/scrutinizer/g/rocketeers/rocketeer.svg?style=flat-square)](https://scrutinizer-ci.com/g/rocketeers/rocketeer/)
+[![Code Coverage](http://img.shields.io/scrutinizer/coverage/g/rocketeers/rocketeer.svg?style=flat-square)](https://scrutinizer-ci.com/g/rocketeers/rocketeer/)
+[![Dependency Status](https://www.versioneye.com/user/projects/53f1c65f13bb0677b1000744/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/53f1c65f13bb0677b1000744)
+[![Support via Gittip](http://img.shields.io/gittip/Anahkiasen.svg?style=flat-square)](https://www.gittip.com/Anahkiasen/)
 
 **Rocketeer** is a modern PHP task runner and deployment package. It is inspired by the [Laravel Framework](http://laravel.com/) philosophy and thus aims to be fast, elegant, and more importantly easy to use.
 
@@ -27,7 +27,9 @@ Like the latter, emphasis is put on smart defaults and modern development. While
 The fastest way is to grab the binary:
 
 ```bash
-curl http://rocketeer.autopergamene.eu/versions/rocketeer.phar > /usr/local/bin/rocketeer && chmod 755 /usr/local/bin/rocketeer
+$ wget http://rocketeer.autopergamene.eu/versions/rocketeer.phar
+$ chmod +x rocketeer.phar
+$ mv rocketeer.phar /usr/local/bin/rocketeer
 ```
 
 More ways to setup Rocketeer can be found in the [official documentation](http://rocketeer.autopergamene.eu/#/docs/docs/I-Introduction/Getting-started).
@@ -83,6 +85,7 @@ The MIT License (MIT). Please see [License File](https://github.com/rocketeers/r
 - [Slack](https://github.com/rocketeers/rocketeer-slack)
 - [HipChat](https://github.com/hannesvdvreken/rocketeer-hipchat)
 - [Wordpress](https://github.com/mykebates/wp-rocketeer)
+- [Bugsnag](https://github.com/bramdevries/rocketeer-bugsnag)
 
 ## Why not Capistrano?
 
