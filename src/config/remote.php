@@ -26,6 +26,10 @@ return array(
     // Leave empty to use `application_name` as your folder name
     'app_directory'  => '',
 
+    // If the core of your application (ie. where dependencies/migrations/etc need to be run)
+    // is in a subdirectory, specify it there (per example 'my_subdirectory')
+    'subdirectory' => null,
+
     // A list of folders/file to be shared between releases
     // Use this to list folders that need to keep their state, like
     // user uploaded data, file-based databases, etc.

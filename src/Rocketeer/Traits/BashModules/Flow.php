@@ -58,6 +58,21 @@ trait Flow
         return $this->runInFolder($this->releasesManager->getCurrentReleasePath(), $tasks);
     }
 
+    /**
+     * Run actions for the core of the application itself
+     *
+     * @param string|array $tasks
+     *
+     * @return string
+     */
+    public function runForApplication($tasks)
+    {
+        $folder = $this->rocketeer->getOption('remote.subdirectory');
+        $folder = $this->releasesManager->getCurrentReleasePath($folder);
+
+        return $this->runInFolder($folder, $tasks);
+    }
+
     ////////////////////////////////////////////////////////////////////
     //////////////////////////// SHARED FOLDERS ////////////////////////
     ////////////////////////////////////////////////////////////////////

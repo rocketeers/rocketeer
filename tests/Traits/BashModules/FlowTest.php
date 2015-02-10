@@ -23,4 +23,27 @@ class FlowTest extends RocketeerTestCase
         $this->config->set('rocketeer::stages.stages', []);
         $this->assertFalse($this->task('Deploy')->usesStages());
     }
+
+    public function testCanRunCommandsInSubdirectoryIfRequired()
+    {
+        $this->pretend();
+
+        $this->swapConfig(['rocketeer::remote.subdirectory' => 'laravel']);
+        $this->bash->runForApplication('ls');
+        $this->assertHistoryContains(array(
+            array(
+               'cd {server}/releases/{release}/laravel',
+                'ls',
+            ),
+        ));
+
+        $this->swapConfig(['rocketeer::remote.subdirectory' => null]);
+        $this->bash->runForApplication('ls');
+        $this->assertHistoryContains(array(
+            array(
+                'cd {server}/releases/{release}',
+                'ls',
+            ),
+        ));
+    }
 }
