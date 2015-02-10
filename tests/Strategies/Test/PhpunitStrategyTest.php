@@ -17,4 +17,19 @@ class PhpunitStrategyTest extends RocketeerTestCase
             ),
         ));
     }
+
+    public function testCanRunTestsInSubfolder()
+    {
+        $this->swapConfig(['rocketeer::remote.subdirectory' => 'laravel']);
+
+        $this->pretendTask();
+        $this->builder->buildStrategy('Test', 'Phpunit')->test();
+
+        $this->assertHistory(array(
+            array(
+                'cd {server}/releases/20000000000000/laravel',
+                '{phpunit} --stop-on-failure',
+            ),
+        ));
+    }
 }
