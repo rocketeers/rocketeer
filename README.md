@@ -27,7 +27,9 @@ Like the latter, emphasis is put on smart defaults and modern development. While
 The fastest way is to grab the binary:
 
 ```bash
-curl http://rocketeer.autopergamene.eu/versions/rocketeer.phar > /usr/local/bin/rocketeer && chmod 755 /usr/local/bin/rocketeer
+$ wget http://rocketeer.autopergamene.eu/versions/rocketeer.phar
+$ chmod +x rocketeer.phar
+$ mv rocketeer.phar /usr/local/bin/rocketeer
 ```
 
 More ways to setup Rocketeer can be found in the [official documentation](http://rocketeer.autopergamene.eu/#/docs/docs/I-Introduction/Getting-started).
