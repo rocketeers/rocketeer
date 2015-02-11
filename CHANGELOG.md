@@ -33,17 +33,22 @@ Rocketeer follows the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.ht
 - Fixed an issue when updating an application with SVN
 - Fixed an issue where events would sometimes not fire when passing a stage/connection
 - Fixed an issue where hidden inputs wouldn't work on Windows using the PHAR
-- Fixed an issue where jobs would use the wrong server on multiserver connections
 - Fixed an issue where local tasks wouldn't execute in the correct directories
-- Fixed an issue where polyglot strategies would keep running after one of their child failed
 - Fixed an issue where Rocketeer would trust the releases present on one server to deploy to all the other ones
 - Fixed an issue where setting a strategy to `''` to skip it would crash
-- Fixed an issue where the logs filename would get recomputed every call
-- Fixed an issue where trying to use an invalid connection would just fallback silently to the default one
 - Fixed an issue where using `hostname:port` would fail with the Rsync strategy
-- Fixed an issue with symlinks on non-GNU/Linux OSes
 - Fixed HHVM support
+
+## [2.0.5] - 2015-02-11
+
+### Fixed
+- Fixed an issue where trying to use an invalid connection would just fallback silently to the default one
+- Fixed an issue where polyglot strategies would keep running after one of their child failed
+- Fixed an issue where the logs filename would get recomputed every call
+- Fixed a missing dependency in generated PHARs
 - Fixed paths defined in `paths.php` sometimes being ignored
+- Fixed an issue where jobs would use the wrong server on multiserver connections
+- Fixed an issue with symlinks on non-GNU/Linux OSes
 
 ## [2.0.4] - 2014-12-08
 
@@ -375,6 +380,7 @@ Rocketeer follows the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.ht
 - Added `deploy:setup` and `deploy:deploy` commands
 
 [3.0.0]: https://github.com/rocketeers/rocketeer/compare/2.0.4...develop
+[2.0.5]: https://github.com/rocketeers/rocketeer/compare/2.0.4...2.0.5
 [2.0.4]: https://github.com/rocketeers/rocketeer/compare/2.0.3...2.0.4
 [2.0.3]: https://github.com/rocketeers/rocketeer/compare/2.0.2...2.0.3
 [2.0.2]: https://github.com/rocketeers/rocketeer/compare/2.0.1...2.0.2

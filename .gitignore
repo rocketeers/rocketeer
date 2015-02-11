@@ -4,6 +4,7 @@
 bin/rocketeer.phar
 bin/rocketeer.phar-contents
 composer.lock
+.php_cs.cache
 
 # Tests
 humbuglog.txt
