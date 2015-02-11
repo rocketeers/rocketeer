@@ -14,7 +14,6 @@ class RocketeerCompiler
 	public function __construct()
 	{
 		$this->compiler = new Compiler(__DIR__.'/../../../../bin', 'rocketeer', array(
-			'd11wtq',
 			'herrera-io',
 			'johnkary',
 			'mockery',

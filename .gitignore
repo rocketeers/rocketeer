@@ -3,6 +3,7 @@
 bin/phar
 bin/rocketeer.phar
 composer.lock
+.php_cs.cache
 
 # Tests
 tests/_server/foobar
