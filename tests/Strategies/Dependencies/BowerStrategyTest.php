@@ -84,4 +84,22 @@ class BowerStrategyTest extends RocketeerTestCase
         $bower = $this->builder->buildBinary('Bower');
         $this->assertEquals('bower_components', $bower->getDependenciesFolder());
     }
+
+    public function testCanAddFlags()
+    {
+        $this->mock('rocketeer.connections', 'Connections', function (MockInterface $mock) {
+            return $mock->shouldReceive('getServerCredentials')->andReturn(['username' => 'root']);
+        });
+
+        $this->pretend();
+        $this->bower->setFlags(['install' => ['--foo' => 'bar']]);
+        $this->bower->install();
+
+        $this->assertHistory(array(
+            array(
+                'cd {server}/releases/{release}',
+                'bower install --foo="bar" --allow-root',
+            ),
+        ));
+    }
 }

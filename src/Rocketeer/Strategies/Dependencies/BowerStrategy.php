@@ -41,7 +41,7 @@ class BowerStrategy extends AbstractDependenciesStrategy implements Dependencies
     {
         $this->shareDependenciesFolder();
 
-        return $this->manager->runForApplication('install', [], $this->getInstallationOptions());
+        return $this->manager->runForApplication('install', [], $this->getInstallationOptions('install'));
     }
 
     /**
@@ -51,7 +51,7 @@ class BowerStrategy extends AbstractDependenciesStrategy implements Dependencies
      */
     public function update()
     {
-        return $this->manager->runForApplication('update', [], $this->getInstallationOptions());
+        return $this->manager->runForApplication('update', [], $this->getInstallationOptions('update'));
     }
 
     //////////////////////////////////////////////////////////////////////
@@ -61,15 +61,18 @@ class BowerStrategy extends AbstractDependenciesStrategy implements Dependencies
     /**
      * Get the options to run Bower with
      *
+     * @param string $command
+     *
      * @return array
      */
-    protected function getInstallationOptions()
+    protected function getInstallationOptions($command)
     {
+        $flags       = $this->getFlags($command);
         $credentials = $this->connections->getServerCredentials();
         if (Arr::get($credentials, 'username') === 'root') {
-            return ['--allow-root' => null];
+            return array_merge($flags, ['--allow-root' => null]);
         }
 
-        return [];
+        return $flags;
     }
 }
