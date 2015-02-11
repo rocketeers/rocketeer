@@ -5,6 +5,8 @@
 
 ### Fixed
 - Fixed missing dependency in generated PHARs
+- Fixed paths defined in `paths.php` sometimes being ignored
+- Fixed some jobs using the wrong server on multiserver connections
 
 2.0.4 - 2014-12-08
 ------------------
