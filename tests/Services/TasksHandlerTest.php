@@ -218,11 +218,17 @@ class TasksHandlerTest extends RocketeerTestCase
 
     public function testCanDelegateCallsToStrategies()
     {
-        $this->tasks->configureStrategy('Test', ['foo' => 'bar']);
-        $task = $this->builder->buildStrategy('Test');
+        $this->tasks->configureStrategy('Check', ['foo' => 'bar']);
+        $this->tasks->configureStrategy(['Check', 'Ruby'], ['baz' => 'qux']);
 
-        $this->assertInstanceOf('Rocketeer\Strategies\Test\PhpunitStrategy', $task);
-        $this->assertEquals(['foo' => 'bar'], $task->getOptions());
+        $php = $this->builder->buildStrategy('Check', 'Php');
+        $ruby = $this->builder->buildStrategy('Check', 'Ruby');
+
+        $this->assertInstanceOf('Rocketeer\Strategies\Check\PhpStrategy', $php);
+        $this->assertInstanceOf('Rocketeer\Strategies\Check\RubyStrategy', $ruby);
+
+        $this->assertEquals(['foo' => 'bar'], $php->getOptions());
+        $this->assertEquals(['baz' => 'qux'], $ruby->getOptions());
     }
 
     public function testCanAddLookupsViaPlugins()

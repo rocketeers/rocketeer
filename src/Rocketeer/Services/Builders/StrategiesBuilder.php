@@ -23,24 +23,37 @@ trait StrategiesBuilder
     public function buildStrategy($strategy, $concrete = null)
     {
         // If we passed a concrete implementation
-        // build it, otherwise get the bound one
+        // look for it specifically
         $handle = strtolower($strategy);
         if ($concrete) {
-            $concrete = $this->findQualifiedName($concrete, 'strategies', $strategy);
-
-            if (!$concrete) {
-                return false;
-            }
-
-            return new $concrete($this->app);
+            $handle .= '.'.strtolower($concrete);
         }
 
         // Cancel if no matching strategy instance
         $handle = 'rocketeer.strategies.'.$handle;
         if (!$this->app->bound($handle)) {
-            return;
+            return $concrete ? $this->buildStrategyFromName($strategy, $concrete) : null;
         }
 
         return $this->app[$handle];
+    }
+
+    /**
+     * Find a build a strategy by its class name
+     *
+     * @param string $strategy
+     * @param string $concrete
+     *
+     * @return boolean
+     */
+    protected function buildStrategyFromName($strategy, $concrete)
+    {
+        $concrete = $this->findQualifiedName($concrete, 'strategies', $strategy);
+
+        if (!$concrete) {
+            return false;
+        }
+
+        return new $concrete($this->app);
     }
 }

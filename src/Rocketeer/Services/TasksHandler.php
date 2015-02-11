@@ -388,9 +388,8 @@ class TasksHandler
      */
     protected function delegateAndRebind($method, array $parameters, $builder)
     {
-
-        $object = array_shift($parameters);
-        $object = $this->builder->$builder($object);
+        $object = (array) array_shift($parameters);
+        $object = call_user_func_array([$this->builder, $builder], $object);
         call_user_func_array([$object, $method], $parameters);
 
         $this->app->instance('rocketeer.'.$object->getIdentifier(), $object);
