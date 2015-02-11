@@ -1,7 +1,7 @@
 # CHANGELOG
 
-2.0.5
------
+2.0.5 - 2015-02-11
+------------------
 
 ### Fixed
 - Fixed a bug where trying to use an invalid connection would just fallback silently to the default one
