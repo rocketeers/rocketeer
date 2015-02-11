@@ -28,15 +28,6 @@ return array(
     // Execution hooks
     //////////////////////////////////////////////////////////////////////
 
-    'composer'     => array(
-        'install' => function (Composer $composer, $task) {
-            return $composer->install([], ['--no-interaction' => null, '--no-dev' => null, '--prefer-dist' => null]);
-        },
-        'update'  => function (Composer $composer) {
-            return $composer->update();
-        },
-    ),
-
     // Here you can configure the Primer tasks
     // which will run a set of commands on the local
     // machine, determining whether the deploy can proceed

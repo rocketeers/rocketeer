@@ -15,6 +15,13 @@ use Rocketeer\Interfaces\Strategies\DependenciesStrategyInterface;
 
 class ComposerStrategy extends AbstractDependenciesStrategy implements DependenciesStrategyInterface
 {
+    protected $options = array(
+        'shared_dependencies' => false,
+        'flags'               => array(
+            'install' => ['--no-interaction' => null, '--no-dev' => null, '--prefer-dist' => null],
+        ),
+    );
+
     /**
      * @type string
      */
@@ -26,43 +33,4 @@ class ComposerStrategy extends AbstractDependenciesStrategy implements Dependenc
      * @type string
      */
     protected $binary = 'composer';
-
-    /**
-     * Install the dependencies
-     *
-     * @return bool
-     */
-    public function install()
-    {
-        $this->shareDependenciesFolder();
-
-        return $this->executeHook('install');
-    }
-
-    /**
-     * Update the dependencies
-     *
-     * @return boolean
-     */
-    public function update()
-    {
-        return $this->executeHook('update');
-    }
-
-    /**
-     * @param string $hook
-     *
-     * @return bool
-     */
-    protected function executeHook($hook)
-    {
-        $tasks = $this->getHookedTasks('composer.'.$hook, [$this->manager, $this]);
-        if (!$tasks) {
-            return true;
-        }
-
-        $this->runForApplication($tasks);
-
-        return $this->checkStatus('Composer could not install dependencies');
-    }
 }

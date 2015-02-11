@@ -22,6 +22,11 @@ class ComposerStrategyTest extends RocketeerTestCase
         ));
 
         $this->pretendTask();
+        $this->tasks->configureStrategy(['Dependencies', 'Composer'], ['flags' => ['install' => ['--prefer-source' => null]]]);
+        $this->tasks->listenTo('strategies.dependencies.composer.before', function ($task) {
+            $task->composer()->runForCurrentRelease('selfUpdate');
+        });
+
         $composer = $this->builder->buildStrategy('Dependencies', 'Composer');
         $composer->install();
 
@@ -29,29 +34,11 @@ class ComposerStrategyTest extends RocketeerTestCase
             array(
                 "cd {server}/releases/{release}",
                 "{composer} self-update",
+            ),
+            array(
+                "cd {server}/releases/{release}",
                 "{composer} install --prefer-source",
             ),
         ));
-    }
-
-    public function testCancelsIfInvalidComposerRoutine()
-    {
-        $composer = $this->builder->buildStrategy('Dependencies', 'Composer');
-
-        $this->swapConfig(array(
-            'rocketeer::strategies.composer.install' => 'lol',
-        ));
-
-        $composer->install();
-        $this->assertHistory([]);
-
-        $this->swapConfig(array(
-            'rocketeer::strategies.composer.install' => function () {
-                return [];
-            },
-        ));
-
-        $composer->install();
-        $this->assertHistory([]);
     }
 }
