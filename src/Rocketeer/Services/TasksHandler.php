@@ -234,7 +234,7 @@ class TasksHandler
         /** @type AbstractTask[] $listeners */
         $listeners = $this->builder->isCallable($listeners) ? [$listeners] : (array) $listeners;
         $listeners = $this->builder->buildTasks($listeners);
-        $event     = Str::contains($event, ['commands.', 'tasks.']) ? $event : 'tasks.'.$event;
+        $event     = Str::contains($event, ['commands.', 'strategies.', 'tasks.']) ? $event : 'tasks.'.$event;
 
         // Register events
         foreach ($listeners as $listener) {

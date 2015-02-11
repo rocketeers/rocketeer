@@ -14,6 +14,7 @@ use Illuminate\Support\Arr;
 use Rocketeer\Bash;
 use Rocketeer\Interfaces\IdentifierInterface;
 use Rocketeer\Traits\Properties\Configurable;
+use Rocketeer\Traits\Properties\HasEvents;
 use Rocketeer\Traits\Sluggable;
 
 /**
@@ -25,6 +26,7 @@ abstract class AbstractStrategy extends Bash implements IdentifierInterface
 {
     use Configurable;
     use Sluggable;
+    use HasEvents;
 
     /**
      * @type array

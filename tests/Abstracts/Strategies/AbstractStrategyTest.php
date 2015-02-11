@@ -38,4 +38,16 @@ class AbstractStrategyTest extends RocketeerTestCase
 
         $this->assertEquals('strategies.dependencies.polyglot', $strategy->getIdentifier());
     }
+
+    public function testCanFireEvents()
+    {
+        $this->expectOutputString('foobar');
+
+        $this->tasks->listenTo('strategies.dependencies.composer.before', function ($task) {
+            echo 'foobar';
+        });
+
+        $composer = $this->builder->buildStrategy('Dependencies', 'Composer');
+        $composer->install();
+    }
 }
