@@ -25,4 +25,26 @@ class ConfigurableTest extends RocketeerTestCase
         $this->assertFalse($task->getOption('shared_dependencies', true));
         $this->assertFalse($strategy->getOption('shared_dependencies', true));
     }
+
+    public function testCanGetFlags()
+    {
+        $expected = ['foo', 'bar'];
+
+        $task = $this->task('Dependencies');
+        $task->setFlags($expected);
+        $flags = $task->getFlags();
+
+        $this->assertEquals($expected, $flags);
+    }
+
+    public function testCanGetFlagsForCommand()
+    {
+        $expected = ['--foo' => true];
+
+        $task = $this->task('Dependencies');
+        $task->setFlags(['install' => $expected]);
+        $flags = $task->getFlags('install');
+
+        $this->assertEquals($expected, $flags);
+    }
 }
