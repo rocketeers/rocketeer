@@ -1,5 +1,11 @@
 # CHANGELOG
 
+2.0.5
+-----
+
+### Fixed
+- Fixed missing dependency in generated PHARs
+
 2.0.4 - 2014-12-08
 ------------------
 
