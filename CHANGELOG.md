@@ -4,6 +4,7 @@
 -----
 
 ### Fixed
+- Fixed a bug where trying to use an invalid connection would just fallback silently to the default one
 - Fixed missing dependency in generated PHARs
 - Fixed symlink issues on non-GNU/Linux OSes
 - Fixed paths defined in `paths.php` sometimes being ignored
