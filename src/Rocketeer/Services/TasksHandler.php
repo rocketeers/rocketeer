@@ -69,12 +69,15 @@ class TasksHandler
         }
 
         // Else we execute actions on the task
-        $task = array_shift($parameters);
-        $task = $this->builder->buildTask($task);
-        call_user_func_array([$task, $method], $parameters);
+        $this->delegateAndRebind($method, $parameters, 'buildTask');
+    }
 
-        // And save it
-        $this->app->instance('rocketeer.tasks.'.$task->getSlug(), $task);
+    /**
+     * Configure a strategy
+     */
+    public function configureStrategy()
+    {
+        $this->delegateAndRebind('configure', func_get_args(), 'buildStrategy');
     }
 
     ////////////////////////////////////////////////////////////////////
@@ -373,6 +376,25 @@ class TasksHandler
     //////////////////////////////////////////////////////////////////////
     ////////////////////////////// HELPERS ///////////////////////////////
     //////////////////////////////////////////////////////////////////////
+
+    /**
+     * Call a method on an object, and rebind it into the container
+     *
+     * @param string $method
+     * @param array  $parameters
+     * @param string $builder
+     *
+     * @throws \Rocketeer\Exceptions\TaskCompositionException
+     */
+    protected function delegateAndRebind($method, array $parameters, $builder)
+    {
+
+        $object = array_shift($parameters);
+        $object = $this->builder->$builder($object);
+        call_user_func_array([$object, $method], $parameters);
+
+        $this->app->instance('rocketeer.'.$object->getIdentifier(), $object);
+    }
 
     /**
      * Get the handle of an event

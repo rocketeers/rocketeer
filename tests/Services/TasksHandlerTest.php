@@ -216,6 +216,15 @@ class TasksHandlerTest extends RocketeerTestCase
         $this->assertEquals(['foo' => 'bar'], $task->getOptions());
     }
 
+    public function testCanDelegateCallsToStrategies()
+    {
+        $this->tasks->configureStrategy('Test', ['foo' => 'bar']);
+        $task = $this->builder->buildStrategy('Test');
+
+        $this->assertInstanceOf('Rocketeer\Strategies\Test\PhpunitStrategy', $task);
+        $this->assertEquals(['foo' => 'bar'], $task->getOptions());
+    }
+
     public function testCanAddLookupsViaPlugins()
     {
         $this->tasks->plugin('Rocketeer\Dummies\Plugins\DummyBuilderPlugin');

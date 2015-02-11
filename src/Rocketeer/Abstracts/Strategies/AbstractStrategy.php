@@ -48,7 +48,7 @@ abstract class AbstractStrategy extends Bash implements IdentifierInterface
 
         return $name;
     }
-    
+
     /**
      * Get a global identifier for this entity
      *
