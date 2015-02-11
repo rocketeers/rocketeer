@@ -31,4 +31,11 @@ class AbstractStrategyTest extends RocketeerTestCase
         $strategy = $this->builder->buildStrategy('Deploy', 'Clone');
         $strategy->displayStatus();
     }
+
+    public function testCanGetIdentifier()
+    {
+        $strategy = $this->builder->buildStrategy('Dependencies');
+
+        $this->assertEquals('strategies.dependencies.polyglot', $strategy->getIdentifier());
+    }
 }

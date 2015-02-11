@@ -43,8 +43,19 @@ abstract class AbstractStrategy extends Bash implements IdentifierInterface
      */
     public function getName()
     {
-        $name = class_basename($this);
-        $name = str_replace('Strategy', null, $name);
+        return str_replace('Strategy', null, class_basename($this));
+    }
+
+    /**
+     * Get the type of strategy
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        $name = get_class($this);
+        $name = explode('\\', $name);
+        $name = $name[count($name) - 2];
 
         return $name;
     }
@@ -56,7 +67,7 @@ abstract class AbstractStrategy extends Bash implements IdentifierInterface
      */
     public function getIdentifier()
     {
-        return 'strategies.'.$this->getSlug();
+        return 'strategies.'.strtolower($this->getType()).'.'.$this->getSlug();
     }
 
     /**
