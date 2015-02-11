@@ -28,7 +28,7 @@ class ConfigurableTest extends RocketeerTestCase
 
     public function testCanGetFlags()
     {
-        $expected = ['foo', 'bar'];
+        $expected = ['foo' => ['bar']];
 
         $task = $this->task('Dependencies');
         $task->setFlags($expected);
