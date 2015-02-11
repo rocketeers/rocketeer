@@ -91,7 +91,7 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
     {
         $this->shareDependenciesFolder();
 
-        return $this->manager->runForApplication('install');
+        return $this->manager->runForApplication('install', [], $this->getInstallationOptions('install'));
     }
 
     /**
@@ -101,7 +101,7 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
      */
     public function update()
     {
-        return $this->manager->runForApplication('update');
+        return $this->manager->runForApplication('update', [], $this->getInstallationOptions('update'));
     }
 
     //////////////////////////////////////////////////////////////////////
@@ -124,5 +124,21 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
         } else {
             $this->bash->share($folder);
         }
+    }
+
+    //////////////////////////////////////////////////////////////////////
+    ////////////////////////////// HELPERS ///////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+
+    /**
+     * Get the options to run Bower with
+     *
+     * @param string $command
+     *
+     * @return array
+     */
+    protected function getInstallationOptions($command)
+    {
+        return $this->getFlags($command);
     }
 }

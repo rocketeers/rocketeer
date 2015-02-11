@@ -29,32 +29,6 @@ class BowerStrategy extends AbstractDependenciesStrategy implements Dependencies
     protected $binary = 'bower';
 
     //////////////////////////////////////////////////////////////////////
-    ////////////////////////////// COMMANDS //////////////////////////////
-    //////////////////////////////////////////////////////////////////////
-
-    /**
-     * Install the dependencies
-     *
-     * @return bool
-     */
-    public function install()
-    {
-        $this->shareDependenciesFolder();
-
-        return $this->manager->runForApplication('install', [], $this->getInstallationOptions('install'));
-    }
-
-    /**
-     * Update the dependencies
-     *
-     * @return boolean
-     */
-    public function update()
-    {
-        return $this->manager->runForApplication('update', [], $this->getInstallationOptions('update'));
-    }
-
-    //////////////////////////////////////////////////////////////////////
     ////////////////////////////// HELPERS ///////////////////////////////
     //////////////////////////////////////////////////////////////////////
 
