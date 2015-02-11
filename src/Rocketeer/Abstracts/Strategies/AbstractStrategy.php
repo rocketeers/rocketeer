@@ -12,15 +12,19 @@ namespace Rocketeer\Abstracts\Strategies;
 
 use Illuminate\Support\Arr;
 use Rocketeer\Bash;
+use Rocketeer\Interfaces\IdentifierInterface;
+use Rocketeer\Traits\Properties\Configurable;
+use Rocketeer\Traits\Sluggable;
 
 /**
  * Core class for strategies
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-abstract class AbstractStrategy extends Bash
+abstract class AbstractStrategy extends Bash implements IdentifierInterface
 {
-    use \Rocketeer\Traits\Properties\Configurable;
+    use Configurable;
+    use Sluggable;
 
     /**
      * @type array
@@ -31,6 +35,29 @@ abstract class AbstractStrategy extends Bash
      * @type string
      */
     protected $description;
+
+    /**
+     * Get the name of the entity
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        $name = class_basename($this);
+        $name = str_replace('Strategy', null, $name);
+
+        return $name;
+    }
+    
+    /**
+     * Get a global identifier for this entity
+     *
+     * @return string
+     */
+    public function getIdentifier()
+    {
+        return 'strategies.'.$this->getSlug();
+    }
 
     /**
      * @return string

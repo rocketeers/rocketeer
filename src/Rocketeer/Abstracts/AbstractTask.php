@@ -18,6 +18,7 @@ use Rocketeer\Interfaces\IdentifierInterface;
 use Rocketeer\Traits\Properties\Configurable;
 use Rocketeer\Traits\Properties\HasEvents;
 use Rocketeer\Traits\Properties\HasRoles;
+use Rocketeer\Traits\Sluggable;
 use Rocketeer\Traits\StepsRunner;
 
 /**
@@ -31,6 +32,7 @@ abstract class AbstractTask extends Bash implements HasRolesInterface, Identifie
     use HasEvents;
     use HasRoles;
     use StepsRunner;
+    use Sluggable;
 
     /**
      * The name of the task
@@ -70,29 +72,6 @@ abstract class AbstractTask extends Bash implements HasRolesInterface, Identifie
     ////////////////////////////////////////////////////////////////////
     ////////////////////////////// REFLECTION //////////////////////////
     ////////////////////////////////////////////////////////////////////
-
-    /**
-     * Get the name of the task
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name ?: class_basename($this);
-    }
-
-    /**
-     * Get the basic name of the task
-     *
-     * @return string
-     */
-    public function getSlug()
-    {
-        $slug = Str::snake($this->getName(), '-');
-        $slug = Str::slug($slug);
-
-        return $slug;
-    }
 
     /**
      * Get a global identifier for this entity
