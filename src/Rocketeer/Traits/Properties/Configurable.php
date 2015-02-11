@@ -10,6 +10,8 @@
 
 namespace Rocketeer\Traits\Properties;
 
+use InvalidArgumentException;
+
 /**
  * A class that can be configured via a set of options
  *
@@ -58,6 +60,12 @@ trait Configurable
      */
     public function setFlags(array $flags)
     {
+        // Check types of flags
+        $types = array_filter($flags, 'is_array');
+        if (count($types) !== count($flags)) {
+            throw new InvalidArgumentException('Flags must be passed as an array');
+        }
+
         $this->options['flags'] = $flags;
     }
 

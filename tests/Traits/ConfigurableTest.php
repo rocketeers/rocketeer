@@ -47,4 +47,12 @@ class ConfigurableTest extends RocketeerTestCase
 
         $this->assertEquals($expected, $flags);
     }
+
+    public function testDoesntAllowStringFlags()
+    {
+        $this->setExpectedException('InvalidArgumentException');
+
+        $task = $this->task('Dependencies');
+        $task->setFlags(['install' => 'foobar']);
+    }
 }
