@@ -19,10 +19,10 @@
   ],
   "require": {
     "php": ">=5.4.0",
-    "illuminate/support": "~4.2",
+    "illuminate/support": "^4.2.7",
     "illuminate/config": "~4.2",
     "illuminate/console": "~4.2",
-    "illuminate/container": "~4.2",
+    "illuminate/container": "^4.2.7",
     "illuminate/filesystem": "~4.2",
     "illuminate/events": "~4.2",
     "illuminate/remote": "~4.2",
@@ -33,7 +33,7 @@
   },
   "require-dev": {
     "phpunit/phpunit": "~4.0",
-    "mockery/mockery": "~0.9",
+    "mockery/mockery": "^0.9.1",
     "nesbot/carbon": "~1.4",
     "herrera-io/box": "~1.5.3",
     "phpseclib/phpseclib": "~0.3.5",
