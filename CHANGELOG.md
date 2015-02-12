@@ -1,5 +1,11 @@
 # CHANGELOG
 
+2.0.6 - 2015-02-12
+------------------
+
+### Fixed
+- Fixed an issue when updating an application with SVN
+
 2.0.5 - 2015-02-11
 ------------------
 

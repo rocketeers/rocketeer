@@ -115,7 +115,7 @@ class SvnTest extends RocketeerTestCase
 	{
 		$command = $this->scm->reset();
 
-		$this->assertEquals("svn status -q | grep -v '^[~XI ]' | awk '{print $2;}' | xargs svn revert", $command);
+		$this->assertEquals("svn status -q | grep -v '^[~XI ]' | awk '{print $2;}' | xargs --no-run-if-empty svn revert", $command);
 	}
 
 	public function testCanGetUpdate()
