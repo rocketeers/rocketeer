@@ -27,6 +27,11 @@ class Rocketeer
 	 * @var string
 	 */
 	const VERSION = '2.0.6';
+	
+	/**
+	 * The specific commit built
+	 */
+	const COMMIT = '@commit@';
 
 	/**
 	 * Global local mode
