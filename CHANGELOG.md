@@ -5,6 +5,7 @@
 
 ### Fixed
 - Fixed an issue when updating an application with SVN
+- Fixed incorrect version in generated PHAR
 
 2.0.5 - 2015-02-11
 ------------------
