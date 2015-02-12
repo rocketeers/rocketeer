@@ -49,7 +49,7 @@ abstract class RocketeerTestCase extends ContainerTestCase
 	 *
 	 * @type integer
 	 */
-	protected $numberFiles = 11;
+	protected $numberFiles = 12;
 
 	/**
 	 * Set up the tests

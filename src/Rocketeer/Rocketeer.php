@@ -27,7 +27,7 @@ class Rocketeer
 	 * @var string
 	 */
 	const VERSION = '2.0.6';
-	
+
 	/**
 	 * The specific commit built
 	 */
