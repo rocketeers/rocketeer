@@ -58,7 +58,7 @@ class SeclibGateway implements GatewayInterface
     /**
      * The SecLib connection instance.
      *
-     * @type Net_SFTP
+     * @type SFTP
      */
     protected $connection;
 

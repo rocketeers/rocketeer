@@ -10,6 +10,7 @@
 
 namespace Rocketeer\Tasks\Subtasks;
 
+use Rocketeer\Interfaces\Strategies\DeployStrategyInterface;
 use Rocketeer\Abstracts\AbstractTask;
 
 /**
@@ -33,6 +34,9 @@ class CreateRelease extends AbstractTask
      */
     public function execute()
     {
-        return $this->getStrategy('Deploy')->deploy();
+        /** @type DeployStrategyInterface $strategy */
+        $strategy = $this->getStrategy('Deploy');
+
+        return $strategy->deploy();
     }
 }

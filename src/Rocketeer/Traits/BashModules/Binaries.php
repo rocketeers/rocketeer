@@ -13,6 +13,13 @@ namespace Rocketeer\Traits\BashModules;
 /**
  * Handles finding and calling binaries
  *
+ * @method \Rocketeer\Binaries\PackageManagers\Bower bower()
+ * @method \Rocketeer\Binaries\PackageManagers\Bundler bundler()
+ * @method \Rocketeer\Binaries\PackageManagers\Composer composer()
+ * @method \Rocketeer\Binaries\PackageManagers\Npm npm()
+ * @method \Rocketeer\Binaries\Php php()
+ * @method \Rocketeer\Binaries\Phpunit phpunit()
+ *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait Binaries
