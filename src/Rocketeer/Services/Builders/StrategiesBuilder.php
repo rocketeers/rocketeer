@@ -18,7 +18,7 @@ trait StrategiesBuilder
      * @param string      $strategy
      * @param string|null $concrete
      *
-     * @return \Rocketeer\Abstracts\Strategies\AbstractStrategy|false
+     * @return \Rocketeer\Abstracts\Strategies\AbstractStrategy|\Rocketeer\Interfaces\Strategies\FrameworkStrategyInterface|false
      */
     public function buildStrategy($strategy, $concrete = null)
     {
