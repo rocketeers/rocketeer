@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Rocketeer\Scm;
+namespace Rocketeer\Binaries\Scm;
 
 use Illuminate\Support\Arr;
 use Rocketeer\Abstracts\AbstractBinary;

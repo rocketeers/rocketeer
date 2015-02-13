@@ -1,7 +1,7 @@
 <?php
 namespace Rocketeer\Strategies\Deploy;
 
-use Rocketeer\Scm\Svn;
+use Rocketeer\Binaries\Scm\Svn;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class CloneStrategyTest extends RocketeerTestCase

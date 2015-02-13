@@ -2,7 +2,7 @@
 namespace Rocketeer\Abstracts;
 
 use Mockery\MockInterface;
-use Rocketeer\Scm\Git;
+use Rocketeer\Binaries\Scm\Git;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class AbstractBinaryTest extends RocketeerTestCase

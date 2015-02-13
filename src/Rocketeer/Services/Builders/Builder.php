@@ -34,6 +34,7 @@ class Builder
     protected $lookups = array(
         'binaries'   => array(
             'Rocketeer\Binaries\PackageManagers\%s',
+            'Rocketeer\Binaries\Scm\%s',
             'Rocketeer\Binaries\%s',
         ),
         'tasks'      => array(

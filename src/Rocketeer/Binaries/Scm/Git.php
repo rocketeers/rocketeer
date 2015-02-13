@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Rocketeer\Scm;
+namespace Rocketeer\Binaries\Scm;
 
 use Rocketeer\Abstracts\AbstractBinary;
 use Rocketeer\Interfaces\ScmInterface;

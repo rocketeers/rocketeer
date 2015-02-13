@@ -168,10 +168,8 @@ class RocketeerServiceProvider extends ServiceProvider
     {
         // Bind SCM class
         $scm = $this->app['rocketeer.rocketeer']->getOption('scm.scm');
-        $scm = 'Rocketeer\Scm\\'.ucfirst($scm);
-
         $this->app->bind('rocketeer.scm', function ($app) use ($scm) {
-            return new $scm($app);
+            return $app['rocketeer.builder']->buildBinary($scm);
         });
 
         // Bind strategies

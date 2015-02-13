@@ -2,6 +2,7 @@
 namespace Rocketeer\Scm;
 
 use Mockery\MockInterface;
+use Rocketeer\Binaries\Scm\Hg;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class HgTest extends RocketeerTestCase

@@ -2,6 +2,7 @@
 namespace Rocketeer\Scm;
 
 use Mockery\MockInterface;
+use Rocketeer\Binaries\Scm\Git;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class GitTest extends RocketeerTestCase

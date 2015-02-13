@@ -2,6 +2,7 @@
 namespace Rocketeer\Scm;
 
 use Mockery\MockInterface;
+use Rocketeer\Binaries\Scm\Svn;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class SvnTest extends RocketeerTestCase
