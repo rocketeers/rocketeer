@@ -8,7 +8,7 @@ class CoordinatorTest extends RocketeerTestCase
     public function testCanGetStatusOfServer()
     {
         $this->assertEquals(0, $this->coordinator->getStatus('production'));
-        $this->task('Deploy')->fireEvent('before-symlink');
+        $this->task('Deploy')->fireEvent('symlink.before');
         $this->assertEquals(1, $this->coordinator->getStatus('production'));
     }
 }
