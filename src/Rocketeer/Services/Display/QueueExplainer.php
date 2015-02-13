@@ -105,7 +105,7 @@ class QueueExplainer
      * @param string|null $color
      * @param boolean     $withTree
      *
-     * @return null|string
+     * @return string|null
      */
     public function line($message, $color = null, $withTree = true)
     {
@@ -129,7 +129,7 @@ class QueueExplainer
      *
      * @param string $message
      *
-     * @return string
+     * @return string|null
      */
     public function server($message)
     {

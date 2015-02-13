@@ -18,7 +18,7 @@ interface ConnectionInterface
      * Run a set of commands against the connection.
      *
      * @param string|array $commands
-     * @param Closure      $callback
+     * @param Closure|null $callback
      *
      * @return void
      */

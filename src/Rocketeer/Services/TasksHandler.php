@@ -398,8 +398,8 @@ class TasksHandler
     /**
      * Get the handle of an event
      *
-     * @param IdentifierInterface $entity
-     * @param string|null         $event
+     * @param IdentifierInterface|null $entity
+     * @param string|null              $event
      *
      * @return string
      */

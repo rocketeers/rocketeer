@@ -227,7 +227,7 @@ class SeclibGateway implements GatewayInterface
      *
      * @param array $auth
      *
-     * @return Crypt_RSA
+     * @return RSA
      */
     protected function loadRsaKey(array $auth)
     {
@@ -281,7 +281,7 @@ class SeclibGateway implements GatewayInterface
     /**
      * Get a new SSH Agent instance.
      *
-     * @return System_SSH_Agent
+     * @return Agent
      */
     public function getAgent()
     {
@@ -291,7 +291,7 @@ class SeclibGateway implements GatewayInterface
     /**
      * Get a new RSA key instance.
      *
-     * @return Crypt_RSA
+     * @return RSA
      */
     public function getNewKey()
     {
@@ -331,7 +331,7 @@ class SeclibGateway implements GatewayInterface
     /**
      * Get the underlying Net_SFTP connection.
      *
-     * @return Net_SFTP
+     * @return SFTP
      */
     public function getConnection()
     {

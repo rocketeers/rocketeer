@@ -15,6 +15,7 @@ use Illuminate\Support\Arr;
 use InvalidArgumentException;
 use Rocketeer\Exceptions\ConnectionException;
 use Rocketeer\Exceptions\MissingCredentialsException;
+use Rocketeer\Interfaces\CredentialsExceptionInterface;
 use Rocketeer\Traits\HasLocator;
 use Symfony\Component\Console\Output\NullOutput;
 
@@ -111,7 +112,7 @@ class RemoteHandler
      * @param array $config
      *
      * @return array
-     * @throws InvalidArgumentException
+     * @throws CredentialsExceptionInterface
      */
     protected function getAuth(array $config)
     {
@@ -134,7 +135,7 @@ class RemoteHandler
      * @param string $method
      * @param array  $parameters
      *
-     * @throws \Rocketeer\Exceptions\ConnectionException
+     * @throws CredentialsExceptionInterface
      * @return mixed
      */
     public function __call($method, $parameters)
@@ -153,11 +154,11 @@ class RemoteHandler
     /**
      * Throw an exception and display the credentials that failed with it
      *
-     * @param Exception $exception
+     * @param CredentialsExceptionInterface $exception
      *
-     * @return ConnectionException|MissingCredentialsException
+     * @return CredentialsExceptionInterface
      */
-    protected function throwExceptionWithCredentials(Exception $exception)
+    protected function throwExceptionWithCredentials(CredentialsExceptionInterface $exception)
     {
         $exception->setCredentials($this->connections->getServerCredentials());
 

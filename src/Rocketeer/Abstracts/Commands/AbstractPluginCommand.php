@@ -1,7 +1,9 @@
 <?php
 namespace Rocketeer\Abstracts\Commands;
 
-class AbstractPluginCommand
+use Symfony\Component\Console\Input\InputArgument;
+
+class AbstractPluginCommand extends AbstractCommand
 {
     /**
      * The plugin task to fire

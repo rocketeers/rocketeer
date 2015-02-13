@@ -10,6 +10,8 @@
 
 namespace Rocketeer\Services\Builders;
 
+use Rocketeer\Abstracts\AbstractTask;
+use Rocketeer\Abstracts\Commands\AbstractCommand;
 use Rocketeer\Exceptions\TaskCompositionException;
 
 trait CommandsBuilder
@@ -20,7 +22,7 @@ trait CommandsBuilder
      * @param string|AbstractTask $task
      * @param string|null         $slug
      *
-     * @return \Rocketeer\Abstracts\AbstractCommand
+     * @return AbstractCommand
      */
     public function buildCommand($task, $slug = null)
     {

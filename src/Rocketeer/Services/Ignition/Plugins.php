@@ -27,7 +27,7 @@ class Plugins
      *
      * @param string $package
      *
-     * @return boolean|null
+     * @return boolean|string|null
      */
     public function publish($package)
     {

@@ -10,6 +10,8 @@
 
 namespace Rocketeer\Tasks;
 
+use Rocketeer\Interfaces\Strategies\DeployStrategyInterface;
+
 /**
  * Update the remote server without doing a new release
  *
@@ -36,8 +38,11 @@ class Update extends Deploy
             return $this->halt('Project is not ready for deploy. You were almost fired.');
         }
 
+        /** @type DeployStrategyInterface $strategy */
+        $strategy = $this->getStrategy('Deploy');
+
         // Update repository
-        if (!$this->getStrategy('Deploy')->update()) {
+        if (!$strategy->update()) {
             return $this->halt();
         }
 

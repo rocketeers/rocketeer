@@ -45,8 +45,11 @@ class PublishCommand extends AbstractCommand
     {
         $this->laravel->instance('rocketeer.command', $this);
 
+        /** @type string $package */
+        $package = $this->argument('package');
+
         $publisher = new Plugins($this->laravel);
-        $publisher->publish($this->argument('package'));
+        $publisher->publish($package);
     }
 
     /**

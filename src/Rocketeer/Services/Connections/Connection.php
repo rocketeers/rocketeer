@@ -76,11 +76,11 @@ class Connection implements ConnectionInterface, HasRolesInterface
     /**
      * Create a new SSH connection instance.
      *
-     * @param string           $name
-     * @param string           $host
-     * @param string           $username
-     * @param array            $auth
-     * @param GatewayInterface $gateway
+     * @param string                $name
+     * @param string                $host
+     * @param string                $username
+     * @param array                 $auth
+     * @param GatewayInterface|null $gateway
      */
     public function __construct($name, $host, $username, array $auth, GatewayInterface $gateway = null)
     {
@@ -94,7 +94,7 @@ class Connection implements ConnectionInterface, HasRolesInterface
      * Run a set of commands against the connection.
      *
      * @param string|array $commands
-     * @param Closure      $callback
+     * @param Closure|null $callback
      */
     public function run($commands, Closure $callback = null)
     {
@@ -192,7 +192,7 @@ class Connection implements ConnectionInterface, HasRolesInterface
     public function getGateway()
     {
         if (!$this->gateway->connected() && !$this->gateway->connect($this->username)) {
-            throw new RuntimeException("Unable to connect to remote server.");
+            throw new RuntimeException('Unable to connect to remote server.');
         }
 
         return $this->gateway;
@@ -205,7 +205,7 @@ class Connection implements ConnectionInterface, HasRolesInterface
      */
     public function getOutput()
     {
-        if (is_null($this->output)) {
+        if ($this->output === null) {
             $this->output = new NullOutput();
         }
 

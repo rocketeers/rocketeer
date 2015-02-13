@@ -11,6 +11,7 @@
 namespace Rocketeer\Exceptions;
 
 use Exception;
+use Rocketeer\Interfaces\CredentialsExceptionInterface;
 use Rocketeer\Traits\Exceptions\WithCredentials;
 
 /**
@@ -18,7 +19,7 @@ use Rocketeer\Traits\Exceptions\WithCredentials;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class ConnectionException extends Exception
+class ConnectionException extends Exception implements CredentialsExceptionInterface
 {
     use WithCredentials;
 }

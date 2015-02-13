@@ -14,6 +14,7 @@ use Closure;
 use Rocketeer\Interfaces\ConnectionInterface;
 use Rocketeer\Interfaces\HasRolesInterface;
 use Rocketeer\Traits\HasLocator;
+use Rocketeer\Traits\Properties\HasRoles;
 
 /**
  * Stub of local connections to make Rocketeer work
@@ -24,7 +25,7 @@ use Rocketeer\Traits\HasLocator;
 class LocalConnection implements ConnectionInterface, HasRolesInterface
 {
     use HasLocator;
-    use \Rocketeer\Traits\Properties\HasRoles;
+    use HasRoles;
 
     /**
      * Return status of the last command
@@ -32,32 +33,6 @@ class LocalConnection implements ConnectionInterface, HasRolesInterface
      * @type integer
      */
     protected $previousStatus;
-
-    /**
-     * Define a set of commands as a task.
-     *
-     * @param string       $task
-     * @param string|array $commands
-     *
-     * @codeCoverageIgnore
-     */
-    public function define($task, $commands)
-    {
-        // ...
-    }
-
-    /**
-     * Run a task against the connection.
-     *
-     * @param string       $task
-     * @param Closure|null $callback
-     *
-     * @codeCoverageIgnore
-     */
-    public function task($task, Closure $callback = null)
-    {
-        // ...
-    }
 
     /**
      * Run a set of commands against the connection.

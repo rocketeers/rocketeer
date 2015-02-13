@@ -110,7 +110,7 @@ trait TasksBuilder
     /**
      * Build a task from a string
      *
-     * @param string|string[]|null $task
+     * @param string|string[] $task
      *
      * @return AbstractTask
      */
@@ -124,12 +124,12 @@ trait TasksBuilder
     /**
      * Build a task from a Closure or a string command
      *
-     * @param callable    $callback
+     * @param Closure     $callback
      * @param string|null $stringTask
      *
      * @return AbstractTask
      */
-    public function buildTaskFromClosure(callable $callback, $stringTask = null)
+    public function buildTaskFromClosure(Closure $callback, $stringTask = null)
     {
         /** @type ClosureTask $task */
         $task = $this->buildTaskFromClass('Rocketeer\Tasks\Closure');
@@ -177,9 +177,9 @@ trait TasksBuilder
     {
         $task = new ClosureTask($this->app);
         $task->setClosure(function () use ($callable, $task) {
-            $callable = is_array($callable) ? $callable : explode('::', $callable);
+            list($class, $method) = is_array($callable) ? $callable : explode('::', $callable);
 
-            return call_user_func_array([$this->app->make($callable[0]), $callable[1]], [$task]);
+            return call_user_func_array([$this->app->make($class), $method], [$task]);
         });
 
         return $task;
@@ -241,7 +241,7 @@ trait TasksBuilder
     /**
      * Check if a task is a callable
      *
-     * @param array|string $task
+     * @param array|string|Closure $task
      *
      * @return boolean
      */

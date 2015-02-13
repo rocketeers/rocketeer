@@ -44,7 +44,7 @@ trait StrategiesBuilder
      * @param string $strategy
      * @param string $concrete
      *
-     * @return boolean
+     * @return object|false
      */
     protected function buildStrategyFromName($strategy, $concrete)
     {

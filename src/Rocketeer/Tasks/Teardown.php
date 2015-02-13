@@ -36,7 +36,7 @@ class Teardown extends AbstractTask
     /**
      * Run the task
      *
-     * @return void
+     * @return string|null
      */
     public function execute()
     {
