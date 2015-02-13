@@ -170,7 +170,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
     /**
      * Check if the class is executed inside a Laravel application
      *
-     * @return \Rocketeer\Interfaces\Strategies\FrameworkStrategyInterface
+     * @return \Rocketeer\Interfaces\Strategies\FrameworkStrategyInterface|null
      */
     public function getFramework()
     {
@@ -236,7 +236,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
      * @param string|null $default
      * @param string[]    $choices
      *
-     * @return string
+     * @return string|null
      */
     public function askWith($question, $default = null, $choices = array())
     {
