@@ -118,7 +118,7 @@ class BinariesTest extends RocketeerTestCase
                 ->shouldReceive('option')->andReturn([]);
         });
 
-        $this->task('Dependencies')->execute();
+        $this->pretendTask('Dependencies')->execute();
         $this->assertCount(2, $this->history->getFlattenedHistory()[0]);
     }
 
@@ -133,7 +133,7 @@ class BinariesTest extends RocketeerTestCase
                 ->shouldReceive('option')->andReturn([]);
         });
 
-        $this->task('Dependencies')->execute();
+        $this->pretendTask('Dependencies')->execute();
         $this->assertEmpty($this->history->getFlattenedHistory());
     }
 
