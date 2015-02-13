@@ -10,8 +10,8 @@
 
 namespace Rocketeer\Console\Commands;
 
-use Rocketeer\Abstracts\AbstractCommand;
 use Rocketeer\Abstracts\AbstractTask;
+use Rocketeer\Abstracts\Commands\AbstractCommand;
 
 /**
  * A command that wraps around a task class and runs

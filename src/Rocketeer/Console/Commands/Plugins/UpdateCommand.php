@@ -10,11 +10,17 @@
 
 namespace Rocketeer\Console\Commands\Plugins;
 
-use Rocketeer\Abstracts\AbstractCommand;
+use Rocketeer\Abstracts\Commands\AbstractCommand;
+use Rocketeer\Abstracts\Commands\AbstractPluginCommand;
 use Symfony\Component\Console\Input\InputArgument;
 
-class UpdateCommand extends AbstractCommand
+class UpdateCommand extends AbstractPluginCommand
 {
+    /**
+     * @type string
+     */
+    protected $pluginTask = 'Updater';
+
     /**
      * The default name
      *
@@ -28,34 +34,4 @@ class UpdateCommand extends AbstractCommand
      * @type string
      */
     protected $description = 'Update one or all plugin(s)';
-
-    /**
-     * Whether the command's task should be built
-     * into a pipeline or run straight
-     *
-     * @type boolean
-     */
-    protected $straight = true;
-
-    /**
-     * Run the tasks
-     *
-     * @return integer
-     */
-    public function fire()
-    {
-        return $this->fireTasksQueue('Plugins\Updater');
-    }
-
-    /**
-     * Get the console command arguments.
-     *
-     * @return string[][]
-     */
-    protected function getArguments()
-    {
-        return array(
-            ['package', InputArgument::OPTIONAL, 'The package to publish the configuration for'],
-        );
-    }
 }

@@ -8,9 +8,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Rocketeer\Abstracts;
+namespace Rocketeer\Abstracts\Commands;
 
 use Illuminate\Console\Command;
+use Rocketeer\Abstracts\AbstractTask;
+use Rocketeer\Abstracts\Closure;
 use Rocketeer\Console\Commands\RocketeerCommand;
 use Rocketeer\Interfaces\IdentifierInterface;
 use Rocketeer\Traits\HasLocator;
@@ -194,7 +196,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
     /**
      * Fire a Tasks Queue
      *
-     * @param string|string[]|\Rocketeer\Abstracts\AbstractTask[] $tasks
+     * @param string|string[]|Closure|Closure[]|\Rocketeer\Abstracts\AbstractTask[] $tasks
      *
      * @return integer
      */

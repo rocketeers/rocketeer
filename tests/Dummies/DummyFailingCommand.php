@@ -1,7 +1,7 @@
 <?php
 namespace Rocketeer\Dummies;
 
-use Rocketeer\Abstracts\AbstractCommand;
+use Rocketeer\Abstracts\Commands\AbstractCommand;
 
 class DummyFailingCommand extends AbstractCommand
 {
