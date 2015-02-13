@@ -7,7 +7,7 @@ class ConfigurableTest extends RocketeerTestCase
 {
     public function testCanConfigureTask()
     {
-        $task = $this->task('Deploy');
+        $task = $this->task('Check');
         $this->assertEmpty($task->getOptions());
 
         $task->setOptions(['foo' => 'bar']);

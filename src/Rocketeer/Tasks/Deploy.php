@@ -27,6 +27,13 @@ class Deploy extends AbstractTask
     protected $description = 'Deploys the website';
 
     /**
+     * @type array
+     */
+    protected $options = array(
+        'coordinated' => false,
+    );
+
+    /**
      * Run the task
      *
      * @return boolean|null
@@ -66,17 +73,17 @@ class Deploy extends AbstractTask
         // Synchronize shared folders and files
         $this->steps()->syncSharedFolders();
 
-        // Run before-symlink events
-        $this->steps()->addStepWithEvents('symlink', 'updateSymlink');
-
         // Run the steps until one fails
         if (!$this->runSteps()) {
             return $this->halt();
         }
 
-        $this->releasesManager->markReleaseAsValid($release);
-
-        $this->explainer->line('Successfully deployed release '.$release);
+        // Swap symlink
+        if ($this->getOption('coordinated', true)) {
+            $this->coordinator->whenAllServersReadyTo('symlink', 'SwapSymlink');
+        } else {
+            $this->executeTask('SwapSymlink');
+        }
     }
 
     ////////////////////////////////////////////////////////////////////

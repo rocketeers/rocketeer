@@ -16,6 +16,7 @@ use KzykHys\Parallel\Parallel;
 use LogicException;
 use Rocketeer\Connection;
 use Rocketeer\Traits\HasLocator;
+use Rocketeer\Traits\Properties\HasHistory;
 
 /**
  * Handles running an array of tasks sequentially
@@ -26,7 +27,7 @@ use Rocketeer\Traits\HasLocator;
 class TasksQueue
 {
     use HasLocator;
-    use \Rocketeer\Traits\Properties\HasHistory;
+    use HasHistory;
 
     /**
      * @type Parallel
@@ -165,7 +166,7 @@ class TasksQueue
      *
      * @return boolean
      */
-    protected function executeJob(Job $job)
+    public function executeJob(Job $job)
     {
         // Set proper server
         $this->connections->setConnection($job->connection, $job->server);

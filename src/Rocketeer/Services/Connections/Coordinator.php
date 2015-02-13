@@ -10,7 +10,7 @@
 
 namespace Rocketeer\Services\Connections;
 
-use Rocketeer\Abstracts\AbstractTask;
+use Rocketeer\Services\Tasks\Job;
 use Rocketeer\Traits\HasLocator;
 
 class Coordinator
@@ -44,19 +44,66 @@ class Coordinator
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Trigger for when a server gets right to before symlink
+     * Execute a listener when all servers are at the same point
      *
-     * @param AbstractTask $task
+     * @param string   $event
+     * @param callable $listener
      */
-    public function beforeSymlink(AbstractTask $task)
+    public function whenAllServersReadyTo($event, callable $listener)
     {
-        $handle                  = $this->connections->getHandle();
-        $this->statuses[$handle] = static::WAITING;
+        // Set status
+        $event  = $this->getPromiseHandle($event);
+        $handle = $this->connections->getHandle();
+
+        // Initiate statuses
+        if (!isset($this->statuses[$event])) {
+            $this->statuses[$event] = [];
+        }
+
+        // Bind listener
+        $this->statuses[$event][$handle] = self::WAITING;
+        $this->registerJobListener($event, $listener);
+
+        // Fire when all servers are ready
+        if ($this->allServerAre($event, static::WAITING)) {
+            $this->events->fire($event);
+        }
     }
 
     //////////////////////////////////////////////////////////////////////
     ////////////////////////////// STATUSES //////////////////////////////
     //////////////////////////////////////////////////////////////////////
+
+    /**
+     * Assert whether all servers are at a particular state
+     *
+     * @param         $event
+     * @param integer $expected
+     *
+     * @return bool
+     */
+    public function allServerAre($event, $expected)
+    {
+        $targets  = $this->computeNumberOfTargets();
+        $statuses = array_filter($this->statuses[$event], function ($server) use ($expected) {
+            return $server === $expected;
+        });
+
+        return $targets === count($statuses);
+    }
+
+    /**
+     * Update a status
+     *
+     * @param string $event
+     * @param integer $status
+     */
+    public function setStatus($event, $status)
+    {
+        $handle = $this->connections->getHandle();
+
+        $this->statuses[$event][$handle] = $status;
+    }
 
     /**
      * Get the status of all servers
@@ -68,19 +115,55 @@ class Coordinator
         return $this->statuses;
     }
 
+    //////////////////////////////////////////////////////////////////////
+    ////////////////////////////// HELPERS ///////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+
     /**
-     * Get the status of a server
+     * @param string $event
      *
-     * @param string       $connection
-     * @param integer|null $server
-     * @param string|null  $stage
+     * @return string
+     */
+    protected function getPromiseHandle($event)
+    {
+        return 'rocketeer.promises.'.$event;
+    }
+
+    /**
+     * @param          $event
+     * @param callable $listener
+     */
+    protected function registerJobListener($event, callable $listener)
+    {
+        $job = new Job(array(
+            'connection' => $this->connections->getConnection(),
+            'server'     => $this->connections->getServer(),
+            'stage'      => $this->connections->getStage(),
+            'queue'      => $this->builder->buildTasks([$listener]),
+        ));
+
+        $this->events->listen($event, function () use ($job) {
+            $this->queue->executeJob($job);
+        });
+    }
+
+    /**
+     * Get the number of servers to wait for
+     * before triggering a promise
      *
      * @return integer
      */
-    public function getStatus($connection, $server = null, $stage = null)
+    protected function computeNumberOfTargets()
     {
-        $handle = $this->connections->getHandle($connection, $server, $stage);
+        $targets = 0;
 
-        return array_get($this->statuses, $handle, static::IDLE);
+        $connections = $this->connections->getConnections();
+        foreach ($connections as $connection) {
+            $stages  = $this->connections->getStages();
+            $servers = $this->connections->getConnectionCredentials($connection);
+            $targets += count($servers) * count($stages);
+        }
+
+        return $targets;
     }
 }
