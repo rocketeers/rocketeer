@@ -67,10 +67,7 @@ class Deploy extends AbstractTask
         $this->steps()->syncSharedFolders();
 
         // Run before-symlink events
-        $this->steps()->fireEvent('before-symlink');
-
-        // Update symlink
-        $this->steps()->updateSymlink();
+        $this->steps()->addStepWithEvents('symlink', 'updateSymlink');
 
         // Run the steps until one fails
         if (!$this->runSteps()) {

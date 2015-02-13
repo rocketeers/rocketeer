@@ -33,18 +33,32 @@ class StepsBuilder
      */
     public function __call($name, $arguments)
     {
-        $this->steps[] = [$name, $arguments];
+        $this->addStep($name, $arguments);
     }
 
     /**
      * Add a callable to the steps
      *
-     * @param callable $callable
-     * @param array    $arguments
+     * @param string|callable $callable
+     * @param array           $arguments
      */
-    public function addStep(callable $callable, $arguments = [])
+    public function addStep($callable, $arguments = [])
     {
         $this->steps[] = [$callable, $arguments];
+    }
+
+    /**
+     * Add a step and fire an event before/after
+     *
+     * @param string          $event
+     * @param string|callable $callable
+     * @param array           $arguments
+     */
+    public function addStepWithEvents($event, $callable, $arguments = [])
+    {
+        $this->addStep('fireEvent', [$event.'.before']);
+        $this->addStep($callable, $arguments);
+        $this->addStep('fireEvent', [$event.'.after']);
     }
 
     /**

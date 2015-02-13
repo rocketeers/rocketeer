@@ -58,4 +58,23 @@ class StepsRunnerTest extends RocketeerTestCase
 
         $this->task->runSteps();
     }
+
+    public function testCanFireEventAroundStep()
+    {
+        $this->expectOutputString('abc');
+
+        $this->tasks->listenTo('tasks.cleanup.foobar.before', function () {
+            echo 'a';
+        });
+
+        $this->tasks->listenTo('tasks.cleanup.foobar.after', function () {
+           echo 'c';
+        });
+
+        $this->task->steps()->addStepWithEvents('foobar', function() {
+           echo 'b';
+        });
+
+        $this->task->runSteps();
+    }
 }
