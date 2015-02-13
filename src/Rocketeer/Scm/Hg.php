@@ -14,6 +14,11 @@ use Illuminate\Support\Arr;
 use Rocketeer\Abstracts\AbstractBinary;
 use Rocketeer\Interfaces\ScmInterface;
 
+/**
+ * The Mercury implementation of the ScmInterface
+ *
+ * @author Maxime Fabre <ehtnam6@gmail.com>
+ */
 class Hg extends AbstractBinary implements ScmInterface
 {
     /**
@@ -71,21 +76,6 @@ class Hg extends AbstractBinary implements ScmInterface
         return $this->clone($arguments, $this->getCredentials());
     }
 
-    private function getCredentials()
-    {
-        $options = ['--config ui.interactive' => 'no', '--config auth.x.prefix' => 'http://'];
-
-        $credentials = $this->connections->getRepositoryCredentials();
-        if ($user = Arr::get($credentials, 'username')) {
-            $options['--config auth.x.username'] = $user;
-        }
-        if ($pass = Arr::get($credentials, 'password')) {
-            $options['--config auth.x.password'] = $pass;
-        }
-
-        return $options;
-    }
-
     /**
      * Resets the repository
      *
@@ -114,5 +104,29 @@ class Hg extends AbstractBinary implements ScmInterface
     public function submodules()
     {
         return;
+    }
+
+    //////////////////////////////////////////////////////////////////////
+    ////////////////////////////// HELPERS ///////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+
+    /**
+     * Get the credentials required for cloning
+     *
+     * @return array
+     */
+    private function getCredentials()
+    {
+        $options = ['--config ui.interactive' => 'no', '--config auth.x.prefix' => 'http://'];
+
+        $credentials = $this->connections->getRepositoryCredentials();
+        if ($user = Arr::get($credentials, 'username')) {
+            $options['--config auth.x.username'] = $user;
+        }
+        if ($pass = Arr::get($credentials, 'password')) {
+            $options['--config auth.x.password'] = $pass;
+        }
+
+        return $options;
     }
 }
