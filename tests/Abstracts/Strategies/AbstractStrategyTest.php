@@ -41,11 +41,7 @@ class AbstractStrategyTest extends RocketeerTestCase
 
     public function testCanFireEvents()
     {
-        $this->expectOutputString('foobar');
-
-        $this->tasks->listenTo('strategies.dependencies.composer.before', function ($task) {
-            echo 'foobar';
-        });
+        $this->expectFiredEvent('strategies.dependencies.composer.before');
 
         $composer = $this->builder->buildStrategy('Dependencies', 'Composer');
         $composer->install();

@@ -8,6 +8,20 @@ use Rocketeer\TestCases\Assertion;
 trait Assertions
 {
     /**
+     * Assert that an even will be fired
+     *
+     * @param string $event
+     */
+    protected function expectFiredEvent($event)
+    {
+        $this->expectOutputRegex('/' .$event. '/');
+
+        $this->tasks->listenTo($event, function() use ($event) {
+           echo $event;
+        });
+    }
+
+    /**
      * Assert that the current connection is a specific one
      *
      * @param string $connection

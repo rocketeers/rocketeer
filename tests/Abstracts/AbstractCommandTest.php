@@ -51,13 +51,7 @@ class AbstractCommandTest extends RocketeerTestCase
     public function testCanFireEvents()
     {
         $this->rocketeer->setLocal(true);
-        $this->expectOutputString('foobar');
-
-        $this->tasks->listenTo('commands.nope.before', function () {
-            echo 'foobar';
-
-            return false;
-        });
+        $this->expectFiredEvent('commands.nope.before');
 
         $this->executeCommand(new DummyFailingCommand());
     }
