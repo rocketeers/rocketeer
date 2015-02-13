@@ -43,6 +43,16 @@ class TasksHandler
     protected $registeredPlugins = array();
 
     /**
+     * The core events
+     *
+     * @type array
+     */
+    protected $coreEvents = array(
+        'commands.deploy.before' => 'Primer',
+        'deploy.symlink.before'  => [['rocketeer.coordinator', 'beforeSymlink']],
+    );
+
+    /**
      * Build a new TasksQueue Instance
      *
      * @param Container $app
@@ -208,12 +218,7 @@ class TasksHandler
      */
     public function registerCoreEvents()
     {
-        $events = array(
-            'commands.deploy.before' => 'Primer',
-            'deploy.before-symlink'  => [['rocketeer.coordinator', 'beforeSymlink']],
-        );
-
-        foreach ($events as $event => $listeners) {
+        foreach ($this->coreEvents as $event => $listeners) {
             $this->registeredEvents[] = 'rocketeer.'.$event;
             $priority                 = $event === 'deploy.before-symlink' ? -50 : 0;
             $this->listenTo($event, $listeners, $priority);
