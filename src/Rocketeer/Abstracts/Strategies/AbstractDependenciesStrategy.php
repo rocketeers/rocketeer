@@ -91,7 +91,7 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
     {
         $this->shareDependenciesFolder();
 
-        return $this->runWithBeforeAfterEvents(function() {
+        return $this->runWithBeforeAfterEvents(function () {
             return $this->manager->runForApplication('install', [], $this->getInstallationOptions('install'));
         });
     }
@@ -103,7 +103,7 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
      */
     public function update()
     {
-        return $this->runWithBeforeAfterEvents(function() {
+        return $this->runWithBeforeAfterEvents(function () {
             return $this->manager->runForApplication('update', [], $this->getInstallationOptions('update'));
         });
     }

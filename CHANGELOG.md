@@ -39,7 +39,6 @@ Rocketeer follows the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.ht
 - Fixed an issue where using `hostname:port` would fail with the Rsync strategy
 - Fixed HHVM support
 
-
 ## [2.0.6] - 2015-02-12
 
 ### Fixed

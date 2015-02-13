@@ -221,7 +221,7 @@ class TasksHandlerTest extends RocketeerTestCase
         $this->tasks->configureStrategy('Check', ['foo' => 'bar']);
         $this->tasks->configureStrategy(['Check', 'Ruby'], ['baz' => 'qux']);
 
-        $php = $this->builder->buildStrategy('Check', 'Php');
+        $php  = $this->builder->buildStrategy('Check', 'Php');
         $ruby = $this->builder->buildStrategy('Check', 'Ruby');
 
         $this->assertInstanceOf('Rocketeer\Strategies\Check\PhpStrategy', $php);

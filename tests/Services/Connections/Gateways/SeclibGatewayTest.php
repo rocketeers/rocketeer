@@ -26,11 +26,11 @@ class SeclibGatewayTest extends RocketeerTestCase
 
     public function testKeyTextCanBeSetManually()
     {
-        $files = Mockery::mock('Illuminate\Filesystem\Filesystem');
+        $files   = Mockery::mock('Illuminate\Filesystem\Filesystem');
         $gateway = Mockery::mock('Rocketeer\Services\Connections\Gateways\SeclibGateway', array(
             '127.0.0.1:22',
             array('username' => 'taylor', 'keytext' => 'keystuff'),
-            $files
+            $files,
         ))->makePartial();
         $gateway->shouldReceive('getConnection')->andReturn(Mockery::mock('StdClass'));
         $gateway->shouldReceive('getNewKey')->andReturn($key = Mockery::mock('StdClass'));
@@ -49,7 +49,7 @@ class SeclibGatewayTest extends RocketeerTestCase
         $gateway = Mockery::mock('Rocketeer\Services\Connections\Gateways\SeclibGateway', array(
             '127.0.0.1:22',
             ['username' => 'taylor', 'key' => 'keypath', 'keyphrase' => 'keyphrase'],
-            $files
+            $files,
         ))->makePartial();
         $gateway->shouldReceive('getConnection')->andReturn(Mockery::mock('StdClass'));
 

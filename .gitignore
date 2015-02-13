@@ -1,10 +1,8 @@
 # Cache and compiled
-.php_cs.cache
 .rocketeer
 bin/rocketeer.phar
 bin/rocketeer.phar-contents
 composer.lock
-.php_cs.cache
 
 # Tests
 humbuglog.txt

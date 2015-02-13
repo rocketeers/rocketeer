@@ -55,7 +55,7 @@ class CheckTest extends RocketeerTestCase
             'getManifestContents' => null,
             'isExecutable'        => false,
             'hasManifest'         => false,
-            'getManifest'         => 'composer.json'
+            'getManifest'         => 'composer.json',
         ]);
         $this->app['rocketeer.strategies.check']->setManager($manager);
         $this->task('Check')->fire();
@@ -66,7 +66,7 @@ class CheckTest extends RocketeerTestCase
             'getManifestContents' => null,
             'isExecutable'        => false,
             'hasManifest'         => true,
-            'getManifest'         => 'composer.json'
+            'getManifest'         => 'composer.json',
         ]);
         $this->app['rocketeer.strategies.check']->setManager($manager);
         $this->task('Check')->fire();
