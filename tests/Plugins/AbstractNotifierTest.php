@@ -13,7 +13,7 @@ class AbstractNotifierTest extends RocketeerTestCase
 
         $this->swapConfig(array(
             'rocketeer::stages.stages' => array('staging', 'production'),
-            'rocketeer::hooks'         => array(),
+            'rocketeer::hooks'         => [],
             'rocketeer::connections'   => array(
                 'production' => array(
                     'host' => 'foo.bar.com',

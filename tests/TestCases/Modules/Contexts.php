@@ -50,6 +50,16 @@ trait Contexts
     }
 
     /**
+     * Disable the test events
+     */
+    protected function disableTestEvents()
+    {
+        $this->swapConfig(array(
+            'rocketeer::hooks' => array(),
+        ));
+    }
+
+    /**
      * Swap the configured connections
      *
      * @param array $connections

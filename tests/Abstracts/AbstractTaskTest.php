@@ -32,7 +32,7 @@ class AbstractTaskTest extends RocketeerTestCase
 
     public function testCanFireEventsDuringTasks()
     {
-        $this->swapConfig(['rocketeer::hooks' => []]);
+        $this->disableTestEvents();
         $this->expectFiredEvent('closure.test.foobar');
 
         $this->queue->execute(function ($task) {
@@ -43,10 +43,7 @@ class AbstractTaskTest extends RocketeerTestCase
     public function testTaskCancelsIfEventHalts()
     {
         $this->expectOutputString('abc');
-
-        $this->swapConfig(array(
-            'rocketeer::hooks' => [],
-        ));
+        $this->disableTestEvents();
 
         $this->tasks->registerConfiguredEvents();
         $this->tasks->listenTo('deploy.before', array(
@@ -78,10 +75,7 @@ class AbstractTaskTest extends RocketeerTestCase
 
     public function testCanListenToSubtasks()
     {
-        $this->swapConfig(array(
-            'rocketeer::hooks' => [],
-        ));
-
+        $this->disableTestEvents();
         $this->tasks->listenTo('dependencies.before', ['ls']);
 
         $this->pretendTask('Deploy')->fire();

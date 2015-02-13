@@ -9,10 +9,7 @@ class NotifyTest extends RocketeerTestCase
 {
     public function testDoesntSendTheSameNotificationTwice()
     {
-        $this->swapConfig(array(
-            'rocketeer::hooks' => array(),
-        ));
-
+        $this->disableTestEvents();
         $this->tasks->plugin(new DummyBeforeAfterNotifier($this->app));
 
         $this->expectOutputString('before_deployafter_deployafter_rollback');
@@ -25,10 +22,7 @@ class NotifyTest extends RocketeerTestCase
 
     public function testCanProperlyComputeHandleFromCommandEvent()
     {
-        $this->swapConfig(array(
-            'rocketeer::hooks' => array(),
-        ));
-
+        $this->disableTestEvents();
         $this->tasks->plugin(new DummyCommandNotifier($this->app));
 
         $this->expectOutputString('before_deployafter_deploy');

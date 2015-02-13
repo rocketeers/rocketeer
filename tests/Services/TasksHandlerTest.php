@@ -182,9 +182,7 @@ class TasksHandlerTest extends RocketeerTestCase
 
     public function testDoesntRegisterPluginsTwice()
     {
-        $this->swapConfig(array(
-            'rocketeer::hooks' => [],
-        ));
+        $this->disableTestEvents();
 
         $this->tasks->plugin(new DummyNotifier($this->app));
         $this->tasks->plugin(new DummyNotifier($this->app));
@@ -243,10 +241,7 @@ class TasksHandlerTest extends RocketeerTestCase
     public function testCanUseCallableAsEventListener()
     {
         $this->expectOutputString('FIRED');
-
-        $this->swapConfig(array(
-            'rocketeer::hooks' => [],
-        ));
+        $this->disableTestEvents();
 
         $this->tasks->listenTo('deploy.before', ['Rocketeer\Dummies\Tasks\CallableTask', 'fire']);
         $this->task('Deploy')->fireEvent('before');
