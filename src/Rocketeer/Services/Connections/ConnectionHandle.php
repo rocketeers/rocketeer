@@ -188,6 +188,6 @@ class ConnectionHandle implements ArrayableInterface, JsonSerializable
      */
     public function jsonSerialize()
     {
-        return json_decode($this->toArray());
+        return json_encode($this->toArray(), JSON_PRETTY_PRINT);
     }
 }
