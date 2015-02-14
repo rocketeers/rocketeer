@@ -27,9 +27,11 @@ class ConnectionHandle implements ArrayableInterface, JsonSerializable
     public $username;
 
     /**
-     * @type boolean
+     * The credentials of the various servers
+     *
+     * @type array
      */
-    public $multiserver = false;
+    public $servers = [];
 
     /**
      * @param string      $name
@@ -45,6 +47,10 @@ class ConnectionHandle implements ArrayableInterface, JsonSerializable
         $this->username = $username;
     }
 
+    //////////////////////////////////////////////////////////////////////
+    //////////////////////////// INFORMATIONS ////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+
     /**
      * @param ConnectionHandle|string $connection
      *
@@ -57,15 +63,29 @@ class ConnectionHandle implements ArrayableInterface, JsonSerializable
             return $this->name === $connection;
         }
 
-        return $this->toArray() === $connection->toArray();
+        return $this->toHandle() === $connection->toHandle();
     }
+
+    /**
+     * Check if a connection is multiserver or not
+     *
+     * @return boolean
+     */
+    public function isMultiserver()
+    {
+        return count($this->servers) > 1;
+    }
+
+    //////////////////////////////////////////////////////////////////////
+    /////////////////////////////// HANDLES //////////////////////////////
+    //////////////////////////////////////////////////////////////////////
 
     /**
      * @return string
      */
     public function toHandle()
     {
-        $components = $this->multiserver ? [$this->name, $this->stage] : [$this->name, $this->server, $this->stage];
+        $components = !$this->isMultiserver() ? [$this->name, $this->stage] : [$this->name, $this->server, $this->stage];
         $components = array_filter($components, function ($value) {
             return $value !== null;
         });
@@ -101,7 +121,8 @@ class ConnectionHandle implements ArrayableInterface, JsonSerializable
             'server'      => $this->server,
             'stage'       => $this->stage,
             'username'    => $this->username,
-            'multiserver' => $this->multiserver,
+            'servers'     => $this->servers,
+            'multiserver' => $this->isMultiserver(),
         );
     }
 

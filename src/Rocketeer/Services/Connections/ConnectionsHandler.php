@@ -62,9 +62,11 @@ class ConnectionsHandler
         // Concatenate
         $handle = new ConnectionHandle($connection, $server, $stage, $this->getCurrentUsername());
 
+        // Populate credentials
+        $handle->servers = $this->getConnectionCredentials($handle);
+
         // Replace server index by hostname
-        $handle->multiserver = $this->isMultiserver($handle);
-        $handle->server      = array_get($this->getServerCredentials($handle), 'host', $server);
+        $handle->server = array_get($this->getServerCredentials($handle), 'host', $server);
 
         return $handle;
     }
@@ -110,7 +112,7 @@ class ConnectionsHandler
      */
     public function isMultiserver(ConnectionHandle $connection)
     {
-        return count($this->getConnectionCredentials($connection)) > 1;
+        return $connection->isMultiserver();
     }
 
     ////////////////////////////////////////////////////////////////////
