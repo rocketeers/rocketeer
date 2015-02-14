@@ -69,16 +69,6 @@ class ConnectionsHandler
     }
 
     /**
-     * Get the long form of the handle
-     *
-     * @return string
-     */
-    public function getLongHandle()
-    {
-        return $this->getCurrent()->toLongHandle();
-    }
-
-    /**
      * Get the currently authenticated user
      *
      * @return string

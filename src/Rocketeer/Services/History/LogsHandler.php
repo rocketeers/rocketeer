@@ -177,7 +177,7 @@ class LogsHandler
     protected function prependHandle($entries)
     {
         $entries = (array) $entries;
-        $handle  = $this->connections->getLongHandle();
+        $handle  = $this->connections->getCurrent()->toLongHandle();
 
         foreach ($entries as $key => $entry) {
             $entry = str_replace('<comment>['.$handle.']</comment> ', null, $entry);

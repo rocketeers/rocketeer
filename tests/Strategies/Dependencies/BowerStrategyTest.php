@@ -51,9 +51,11 @@ class BowerStrategyTest extends RocketeerTestCase
 
     public function testUsesAllowRootIfRoot()
     {
-        $this->mock('rocketeer.connections', 'Connections', function (MockInterface $mock) {
-            return $mock->shouldReceive('getServerCredentials')->andReturn(['username' => 'root']);
-        });
+        $this->swapConnections(array(
+            'production' => array(
+                'username' => 'root',
+            ),
+        ));
 
         $this->pretend();
         $this->bower->install();
@@ -87,9 +89,11 @@ class BowerStrategyTest extends RocketeerTestCase
 
     public function testCanAddFlags()
     {
-        $this->mock('rocketeer.connections', 'Connections', function (MockInterface $mock) {
-            return $mock->shouldReceive('getServerCredentials')->andReturn(['username' => 'root']);
-        });
+        $this->swapConnections(array(
+            'production' => array(
+                'username' => 'root',
+            ),
+        ));
 
         $this->pretend();
         $this->bower->setFlags(['install' => ['--foo' => 'bar']]);

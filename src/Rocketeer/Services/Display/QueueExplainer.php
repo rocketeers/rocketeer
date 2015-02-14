@@ -133,7 +133,7 @@ class QueueExplainer
      */
     public function server($message)
     {
-        $message = sprintf('<comment>[%s]</comment> %s', $this->connections->getLongHandle(), $message);
+        $message = sprintf('<comment>[%s]</comment> %s', $this->connections->getCurrent()->toLongHandle(), $message);
 
         return $this->line($message, null, false);
     }
