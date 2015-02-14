@@ -331,7 +331,7 @@ class CredentialsGathererTest extends RocketeerTestCase
             $credentials
         ) {
             return $mock
-                ->shouldReceive('needsCredentials')->andReturn($need)
+                ->shouldReceive('repositoryNeedsCredentials')->andReturn($need)
                 ->shouldReceive('getRepositoryCredentials')->andReturn($credentials);
         });
     }

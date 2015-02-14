@@ -75,7 +75,7 @@ class Setup extends AbstractTask
     protected function createStages()
     {
         // Get stages
-        $availableStages = $this->connections->getStages();
+        $availableStages = $this->connections->getAvailableStages();
         $originalStage   = $this->connections->getCurrent()->stage;
         if (empty($availableStages)) {
             $availableStages = [null];

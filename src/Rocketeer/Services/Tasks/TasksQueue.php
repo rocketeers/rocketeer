@@ -280,7 +280,7 @@ class TasksQueue
 
         // Return all stages if "all"
         if ($stage === 'all' || !$stage) {
-            $stage = $this->connections->getStages();
+            $stage = $this->connections->getAvailableStages();
         }
 
         // Sanitize and filter
@@ -299,6 +299,6 @@ class TasksQueue
      */
     public function isValidStage($stage)
     {
-        return in_array($stage, $this->connections->getStages(), true);
+        return in_array($stage, $this->connections->getAvailableStages(), true);
     }
 }

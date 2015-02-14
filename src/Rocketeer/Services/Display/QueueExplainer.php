@@ -196,7 +196,7 @@ class QueueExplainer
         // Build possible handles
         $strings     = [];
         $connections = (array) $this->connections->getAvailableConnections();
-        $stages      = (array) $this->connections->getStages();
+        $stages      = (array) $this->connections->getAvailableStages();
         foreach ($connections as $connection => $servers) {
             foreach ($stages as $stage) {
                 $strings[] = $connection.'/'.count($servers).'/'.$stage;
@@ -222,7 +222,7 @@ class QueueExplainer
     {
         // Build handle
         $numberConnections = count($this->connections->getAvailableConnections());
-        $numberStages      = count($this->connections->getStages());
+        $numberStages      = count($this->connections->getAvailableStages());
 
         $tree = null;
         if ($numberConnections > 1 || $numberStages > 1) {

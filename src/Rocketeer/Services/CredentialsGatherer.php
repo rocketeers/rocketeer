@@ -50,7 +50,7 @@ class CredentialsGatherer
 
         // If we didn't specify a login/password ask for both the first time
         $rules = $this->rules['repository'];
-        if ($this->connections->needsCredentials()) {
+        if ($this->connections->repositoryNeedsCredentials()) {
             // Else assume the repository is passwordless and only ask again for username
             $rules += ['username' => true, 'password' => true];
         }

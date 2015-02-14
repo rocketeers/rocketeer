@@ -107,7 +107,7 @@ class ConnectionsHandler
      *
      * @return array
      */
-    public function getStages()
+    public function getAvailableStages()
     {
         return (array) $this->rocketeer->getOption('stages.stages');
     }
@@ -121,7 +121,7 @@ class ConnectionsHandler
      *
      * @return boolean
      */
-    public function needsCredentials()
+    public function repositoryNeedsCredentials()
     {
         return Str::contains($this->getRepositoryEndpoint(), 'https://');
     }

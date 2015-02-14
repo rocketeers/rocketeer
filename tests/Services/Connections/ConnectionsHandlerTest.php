@@ -104,7 +104,7 @@ class ConnectionsHandlerTest extends RocketeerTestCase
     public function testCanCheckIfRepositoryNeedsCredentials()
     {
         $this->expectRepositoryConfig('https://github.com/'.$this->repository, '', '');
-        $this->assertTrue($this->connections->needsCredentials());
+        $this->assertTrue($this->connections->repositoryNeedsCredentials());
     }
 
     public function testCangetRepositoryBranch()

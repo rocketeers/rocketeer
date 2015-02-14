@@ -41,7 +41,7 @@ trait Flow
      */
     public function usesStages()
     {
-        $stages = $this->connections->getStages();
+        $stages = $this->connections->getAvailableStages();
 
         return $this->usesStages && !empty($stages);
     }
