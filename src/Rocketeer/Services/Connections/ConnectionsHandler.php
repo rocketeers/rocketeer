@@ -65,9 +65,6 @@ class ConnectionsHandler
         // Populate credentials
         $handle->servers = $this->getConnectionCredentials($handle);
 
-        // Replace server index by hostname
-        $handle->server = array_get($this->getServerCredentials($handle), 'host', $server);
-
         return $handle;
     }
 
@@ -140,6 +137,7 @@ class ConnectionsHandler
             return;
         }
 
+        $this->current = clone $this->current;
         $this->current->stage = $stage;
 
         // If we do have a stage, cleanup previous events
@@ -298,11 +296,15 @@ class ConnectionsHandler
      * @param ConnectionHandle|string $connection
      * @param integer                 $server
      */
-    public function setConnection($connection, $server = 0)
+    public function setConnection($connection, $server = null)
     {
         $connection = $connection instanceof ConnectionHandle ? $connection : $this->getHandle($connection, $server);
-        if (!$this->isValidConnection($connection) || ($this->getCurrent()->is($connection->name))) {
+        if (!$this->isValidConnection($connection) || ($this->getCurrent()->is($connection))) {
             return;
+        }
+
+        if ($server) {
+            $connection->server = $server;
         }
 
         // Set the connection
@@ -316,11 +318,11 @@ class ConnectionsHandler
     /**
      * Get the credentials for a particular connection
      *
-     * @param ConnectionHandle|null $connection
+     * @param ConnectionHandle|string|null $connection
      *
      * @return string[][]
      */
-    public function getConnectionCredentials(ConnectionHandle $connection = null)
+    public function getConnectionCredentials($connection = null)
     {
         $connection = $connection ?: $this->getCurrent();
         $connection = $this->sanitizeConnection($connection);
@@ -337,18 +339,18 @@ class ConnectionsHandler
     }
 
     /**
-     * Get thecredentials for as server
+     * Get the credentials for as server
      *
-     * @param ConnectionHandle|null $connection
+     * @param ConnectionHandle|string|null $connection
+     * @param integer                          $server
      *
-     * @return mixed
+     * @return array
      */
-    public function getServerCredentials(ConnectionHandle $connection = null)
+    public function getServerCredentials($connection = null, $server = 0)
     {
-        $servers = $this->getConnectionCredentials($connection);
-        $server  = $connection && $connection->server !== null ? $connection->server : $this->current->server;
+        $connection = $connection ? $this->getHandle($connection, $server) : $this->getCurrent();
 
-        return Arr::get($servers, $server);
+        return $connection->getServerCredentials();
     }
 
     /**

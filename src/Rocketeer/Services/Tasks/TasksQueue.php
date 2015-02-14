@@ -141,17 +141,16 @@ class TasksQueue
         $connections = (array) $this->connections->getConnections();
         foreach ($connections as $connection) {
             $connection = $this->connections->getHandle($connection);
-            $servers    = $this->connections->getConnectionCredentials($connection);
             $stages     = $this->getStages($connection);
 
             // Add job to pipeline
-            foreach ($servers as $server => $credentials) {
+            foreach ($connection->servers as $server => $credentials) {
                 foreach ($stages as $stage) {
                     $connection->server = $server;
-                    $connection->stage = $stage;
+                    $connection->stage  = $stage;
 
                     $pipeline[] = new Job(array(
-                        'connection' => $connection,
+                        'connection' => clone $connection,
                         'queue'      => $queue,
                     ));
                 }
@@ -171,11 +170,12 @@ class TasksQueue
     public function executeJob(Job $job)
     {
         // Set proper server
-        $this->connections->setConnection($job->connection, $job->server);
+        $connection = $job->connection;
+        $this->connections->setConnection($connection);
 
         foreach ($job->queue as $key => $task) {
             if ($task->usesStages()) {
-                $stage = $task->usesStages() ? $job->stage : null;
+                $stage = $task->usesStages() ? $connection->stage : null;
                 $this->connections->setStage($stage);
             }
 

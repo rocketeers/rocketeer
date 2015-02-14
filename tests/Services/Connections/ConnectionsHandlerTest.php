@@ -188,7 +188,7 @@ class ConnectionsHandlerTest extends RocketeerTestCase
 
         $handle = $this->connections->getHandle('production', 1);
 
-        $this->assertEquals('production/server2.com', $handle);
+        $this->assertEquals('production/server2.com', $handle->toHandle());
     }
 
     public function testDoesntResetConnectionIfSameAsCurrent()

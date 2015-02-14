@@ -78,15 +78,12 @@ class Notify extends AbstractTask
         // Get what was deployed
         $repository = $this->connections->getRepositoryName();
         $branch     = $this->connections->getRepositoryBranch();
-        $stage      = $this->connections->getStage();
         $connection = $this->connections->getCurrent();
-        $server     = $this->connections->getServer();
 
         // Get hostname
-        $credentials = $this->connections->getServerCredentials($connection, $server);
-        $host        = Arr::get($credentials, 'host');
-        if ($stage) {
-            $connection = $stage.'@'.$connection;
+        $host        = Arr::get($connection->getServerCredentials(), 'host');
+        if ($connection->stage) {
+            $connection = $connection->stage.'@'.$connection->name;
         }
 
         return compact('user', 'branch', 'connection', 'host', 'repository');

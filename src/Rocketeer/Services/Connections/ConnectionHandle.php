@@ -1,6 +1,7 @@
 <?php
 namespace Rocketeer\Services\Connections;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Contracts\ArrayableInterface;
 use JsonSerializable;
 
@@ -48,6 +49,20 @@ class ConnectionHandle implements ArrayableInterface, JsonSerializable
     }
 
     //////////////////////////////////////////////////////////////////////
+    ///////////////////////////// CREDENTIALS ////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+
+    /**
+     * Get the credentials of the current server
+     *
+     * @return array
+     */
+    public function getServerCredentials()
+    {
+        return Arr::get($this->servers, $this->server);
+    }
+
+    //////////////////////////////////////////////////////////////////////
     //////////////////////////// INFORMATIONS ////////////////////////////
     //////////////////////////////////////////////////////////////////////
 
@@ -63,7 +78,7 @@ class ConnectionHandle implements ArrayableInterface, JsonSerializable
             return $this->name === $connection;
         }
 
-        return $this->toHandle() === $connection->toHandle();
+        return $this->name === $connection->name && $this->server === $connection->server;
     }
 
     /**
@@ -85,7 +100,8 @@ class ConnectionHandle implements ArrayableInterface, JsonSerializable
      */
     public function toHandle()
     {
-        $components = !$this->isMultiserver() ? [$this->name, $this->stage] : [$this->name, $this->server, $this->stage];
+        $server     = Arr::get($this->servers, $this->server.'.host', $this->server);
+        $components = !$this->isMultiserver() ? [$this->name, $this->stage] : [$this->name, $server, $this->stage];
         $components = array_filter($components, function ($value) {
             return $value !== null;
         });
