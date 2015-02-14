@@ -48,7 +48,7 @@ class ConnectionsHandler
      *
      * @return ConnectionHandle
      */
-    public function getHandle($connection = null, $server = null, $stage = null)
+    public function createHandle($connection = null, $server = null, $stage = null)
     {
         if ($connection instanceof ConnectionHandle) {
             return $connection;
@@ -262,7 +262,7 @@ class ConnectionsHandler
         } elseif ($this->current && $this->current->name) {
             $handle = $this->current;
         } else {
-            $this->current = $handle = $this->getHandle();
+            $this->current = $handle = $this->createHandle();
         }
 
         return $handle;
@@ -276,7 +276,7 @@ class ConnectionsHandler
      */
     public function setConnection($connection, $server = null)
     {
-        $connection = $connection instanceof ConnectionHandle ? $connection : $this->getHandle($connection, $server);
+        $connection = $connection instanceof ConnectionHandle ? $connection : $this->createHandle($connection, $server);
         if (!$this->isValidConnection($connection) || ($this->getCurrent()->is($connection))) {
             return;
         }
@@ -326,7 +326,7 @@ class ConnectionsHandler
      */
     public function getServerCredentials($connection = null, $server = 0)
     {
-        $connection = $connection ? $this->getHandle($connection, $server) : $this->getCurrent();
+        $connection = $connection ? $this->createHandle($connection, $server) : $this->getCurrent();
 
         return $connection->getServerCredentials();
     }
@@ -490,6 +490,6 @@ class ConnectionsHandler
      */
     protected function sanitizeConnection($connection)
     {
-        return $connection instanceof ConnectionHandle ? $connection : $this->getHandle($connection);
+        return $connection instanceof ConnectionHandle ? $connection : $this->createHandle($connection);
     }
 }
