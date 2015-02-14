@@ -78,18 +78,6 @@ class ConnectionsHandler
         return $this->remote->connected() ? $this->remote->getUsername() : null;
     }
 
-    //////////////////////////////////////////////////////////////////////
-    ////////////////////////////// SERVERS ///////////////////////////////
-    //////////////////////////////////////////////////////////////////////
-
-    /**
-     * @return int
-     */
-    public function getServer()
-    {
-        return $this->current->server;
-    }
-
     ////////////////////////////////////////////////////////////////////
     //////////////////////////////// STAGES ////////////////////////////
     ////////////////////////////////////////////////////////////////////
@@ -200,20 +188,14 @@ class ConnectionsHandler
             return $this->connections;
         }
 
-        // Get all and defaults
+        // Get default connections and sanitize them
         $connections = (array) $this->config->get('rocketeer::default');
-        $default     = $this->config->get('remote.default');
-
-        // Remove invalid connections
         $connections = array_filter($connections, [$this, 'isValidConnection']);
 
-        // Return default if no active connection(s) set
-        if (empty($connections) && $default) {
-            return array($default);
-        }
-
         // Set current connection as default
-        $this->connections = $connections;
+        if ($connections) {
+            $this->connections = $connections;
+        }
 
         return $connections;
     }

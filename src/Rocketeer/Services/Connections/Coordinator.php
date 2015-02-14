@@ -135,10 +135,10 @@ class Coordinator
      */
     protected function registerJobListener($event, callable $listener)
     {
+        $connection = $this->connections->getCurrent();
+
         $job = new Job(array(
-            'connection' => $this->connections->getCurrent(),
-            'server'     => $this->connections->getServer(),
-            'stage'      => $this->connections->getStage(),
+            'connection' => $connection,
             'queue'      => $this->builder->buildTasks([$listener]),
         ));
 

@@ -22,9 +22,6 @@ class ConnectionsHandlerTest extends RocketeerTestCase
 
     public function testCanGetCurrentConnection()
     {
-        $this->swapConfig(array('rocketeer::default' => 'foobar'));
-        $this->assertConnectionEquals('production');
-
         $this->swapConfig(array('rocketeer::default' => 'production'));
         $this->assertConnectionEquals('production');
 

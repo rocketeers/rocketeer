@@ -231,7 +231,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         $overrides = array(
             'cache.driver'                        => 'file',
             'database.default'                    => 'mysql',
-            'remote.default'                      => 'production',
+            'rocketeer::default'                      => 'production',
             'session.driver'                      => 'file',
             'remote.connections'                  => array(
                 'production' => [],
