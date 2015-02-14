@@ -92,9 +92,7 @@ class SyncStrategy extends AbstractStrategy implements DeployStrategyInterface
         $rsync   = $this->binary('rsync');
         $command = $rsync->getCommand(null, $arguments, $options);
 
-        return $this->bash->onLocal(function (Bash $bash) use ($command) {
-            return $bash->run($command);
-        });
+        return $this->bash->runLocally($command);
     }
 
     /**

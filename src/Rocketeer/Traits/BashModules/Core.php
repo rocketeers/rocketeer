@@ -33,6 +33,10 @@ trait Core
      */
     protected $local = false;
 
+    //////////////////////////////////////////////////////////////////////
+    /////////////////////////////// LOCAL ////////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+
     /**
      * @param boolean $local
      */
@@ -72,6 +76,20 @@ trait Core
         $this->rocketeer->setLocal(false);
 
         return $results;
+    }
+
+    /**
+     * Rune actions locally
+     *
+     * @param string|array $commands
+     *
+     * @return string|null
+     */
+    public function runLocally($commands)
+    {
+        return $this->onLocal(function () use ($commands) {
+           return $this->run($commands);
+        });
     }
 
     ////////////////////////////////////////////////////////////////////
