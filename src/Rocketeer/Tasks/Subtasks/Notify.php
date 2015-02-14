@@ -79,7 +79,7 @@ class Notify extends AbstractTask
         $repository = $this->connections->getRepositoryName();
         $branch     = $this->connections->getRepositoryBranch();
         $stage      = $this->connections->getStage();
-        $connection = $this->connections->getConnection();
+        $connection = $this->connections->getCurrent();
         $server     = $this->connections->getServer();
 
         // Get hostname

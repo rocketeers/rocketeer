@@ -11,6 +11,7 @@
 namespace Rocketeer\Services;
 
 use Illuminate\Support\Arr;
+use Rocketeer\Services\Connections\ConnectionHandle;
 use Rocketeer\Traits\HasLocator;
 
 class CredentialsGatherer
@@ -118,8 +119,9 @@ class CredentialsGatherer
         $credentials = $this->gatherCredentials($this->rules['server'], $connection, $handle);
 
         // Save credentials
-        $this->connections->syncConnectionCredentials($connectionName, $credentials, $server);
-        $this->connections->setConnection($connectionName);
+        $connection = new ConnectionHandle($connectionName, $server);
+        $this->connections->syncConnectionCredentials($connection, $credentials);
+        $this->connections->setConnection($connection);
     }
 
     //////////////////////////////////////////////////////////////////////

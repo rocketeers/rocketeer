@@ -140,16 +140,18 @@ class TasksQueue
         // Get the connections to execute the tasks on
         $connections = (array) $this->connections->getConnections();
         foreach ($connections as $connection) {
-            $servers = $this->connections->getConnectionCredentials($connection);
-            $stages  = $this->getStages($connection);
+            $connection = $this->connections->getHandle($connection);
+            $servers    = $this->connections->getConnectionCredentials($connection);
+            $stages     = $this->getStages($connection);
 
             // Add job to pipeline
             foreach ($servers as $server => $credentials) {
                 foreach ($stages as $stage) {
+                    $connection->server = $server;
+                    $connection->stage = $stage;
+
                     $pipeline[] = new Job(array(
                         'connection' => $connection,
-                        'server'     => $server,
-                        'stage'      => $stage,
                         'queue'      => $queue,
                     ));
                 }

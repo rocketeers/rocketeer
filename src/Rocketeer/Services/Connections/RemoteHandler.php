@@ -56,7 +56,7 @@ class RemoteHandler
      */
     public function connection($connection = null, $server = 0)
     {
-        $name   = $connection ?: $this->connections->getConnection();
+        $name   = $connection ?: $this->connections->getCurrent();
         $server = $server ?: $this->connections->getServer();
         $handle = (string) $this->connections->getHandle($name, $server);
 

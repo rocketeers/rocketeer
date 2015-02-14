@@ -43,7 +43,7 @@ class AbstractNotifierTest extends RocketeerTestCase
                 ->shouldReceive('getRepositoryName')->andReturn('rocketeers/rocketeer')
                 ->shouldReceive('getRepositoryBranch')->andReturn('master')
                 ->shouldReceive('getStage')->andReturn('staging')
-                ->shouldReceive('getConnection')->andReturn('production')
+                ->shouldReceive('getCurrent')->andReturn('production')
                 ->shouldReceive('getServer')->andReturn('0')
                 ->shouldReceive('getServerCredentials')->andReturn(['host' => 'foo.bar.com']);
         });

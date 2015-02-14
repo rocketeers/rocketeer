@@ -131,7 +131,7 @@ class Rocketeer
                 break;
 
             case 'connections':
-                $contextual = sprintf('rocketeer::on.connections.%s.%s', $this->connections->getConnection(), $option);
+                $contextual = sprintf('rocketeer::on.connections.%s.%s', $this->connections->getCurrent(), $option);
                 break;
 
             default:

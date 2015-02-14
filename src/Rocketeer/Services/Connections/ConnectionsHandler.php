@@ -26,25 +26,11 @@ class ConnectionsHandler
     use HasLocator;
 
     /**
-     * The current handle
+     * The current connection
      *
      * @type ConnectionHandle
      */
-    protected $handle;
-
-    /**
-     * The current stage
-     *
-     * @type string
-     */
-    protected $stage;
-
-    /**
-     * The current server
-     *
-     * @type integer
-     */
-    protected $currentServer = 0;
+    protected $current;
 
     /**
      * The connections to use
@@ -54,45 +40,33 @@ class ConnectionsHandler
     protected $connections;
 
     /**
-     * The current connection
-     *
-     * @type string|null
-     */
-    protected $connection;
-
-    /**
      * Build the current connection's handle
      *
-     * @param string|null  $connection
-     * @param integer|null $server
-     * @param string|null  $stage
+     * @param ConnectionHandle|string|null $connection
+     * @param integer|null                 $server
+     * @param string|null                  $stage
      *
      * @return ConnectionHandle
      */
     public function getHandle($connection = null, $server = null, $stage = null)
     {
-        // Return local handle
-        if ($this->rocketeer->isLocal()) {
-            return new ConnectionHandle('local', null, null, $this->getCurrentUsername());
-        }
-
-        if ($this->handle) {
-            return $this->handle;
+        if ($connection instanceof ConnectionHandle) {
+            return $connection;
         }
 
         // Get identifiers
-        $connection = $connection ?: $this->getConnection();
-        $server     = $server ?: $this->getServer();
-        $stage      = $stage ?: $this->getStage();
-
-        // Replace server index by hostname
-        $server = array_get($this->getServerCredentials($connection, $server), 'host', $server);
-        $server = $this->isMultiserver($connection) ? $server : null;
+        $connection = $connection ?: Arr::get($this->getConnections(), 0);
+        $server     = $server ?: 0;
+        $stage      = $stage ?: null;
 
         // Concatenate
-        $this->handle = new ConnectionHandle($connection, $server, $stage, $this->getCurrentUsername());
+        $handle = new ConnectionHandle($connection, $server, $stage, $this->getCurrentUsername());
 
-        return $this->handle;
+        // Replace server index by hostname
+        $handle->multiserver = $this->isMultiserver($handle);
+        $handle->server      = array_get($this->getServerCredentials($handle), 'host', $server);
+
+        return $handle;
     }
 
     /**
@@ -128,17 +102,17 @@ class ConnectionsHandler
      */
     public function getServer()
     {
-        return $this->currentServer;
+        return $this->current->server;
     }
 
     /**
      * Check if a connection is multiserver or not
      *
-     * @param string $connection
+     * @param ConnectionHandle $connection
      *
      * @return boolean
      */
-    public function isMultiserver($connection)
+    public function isMultiserver(ConnectionHandle $connection)
     {
         return count($this->getConnectionCredentials($connection)) > 1;
     }
@@ -154,7 +128,7 @@ class ConnectionsHandler
      */
     public function getStage()
     {
-        return $this->stage;
+        return $this->getCurrent('stage');
     }
 
     /**
@@ -164,12 +138,11 @@ class ConnectionsHandler
      */
     public function setStage($stage)
     {
-        if ($stage === $this->stage) {
+        if ($stage === $this->getCurrent()->stage) {
             return;
         }
 
-        $this->stage  = $stage;
-        $this->handle = null;
+        $this->current->stage = $stage;
 
         // If we do have a stage, cleanup previous events
         if ($stage) {
@@ -229,12 +202,13 @@ class ConnectionsHandler
     /**
      * Check if a connection has credentials related to it
      *
-     * @param string $connection
+     * @param ConnectionHandle|string $connection
      *
      * @return boolean
      */
     public function isValidConnection($connection)
     {
+        $connection = $connection instanceof ConnectionHandle ? $connection->name : $connection;
         $available = (array) $this->getAvailableConnections();
 
         return (bool) Arr::get($available, $connection.'.servers');
@@ -257,10 +231,7 @@ class ConnectionsHandler
         $default     = $this->config->get('remote.default');
 
         // Remove invalid connections
-        $instance    = $this;
-        $connections = array_filter($connections, function ($value) use ($instance) {
-            return $instance->isValidConnection($value);
-        });
+        $connections = array_filter($connections, [$this, 'isValidConnection']);
 
         // Return default if no active connection(s) set
         if (empty($connections) && $default) {
@@ -271,6 +242,14 @@ class ConnectionsHandler
         $this->connections = $connections;
 
         return $connections;
+    }
+
+    /**
+     * @return string
+     */
+    public function getConnection()
+    {
+        return $this->getCurrent('name');
     }
 
     /**
@@ -293,44 +272,44 @@ class ConnectionsHandler
         }
 
         $this->connections = $filtered;
-        $this->handle      = null;
+        $this->current     = null;
     }
 
     /**
      * Get the active connection
      *
+     * @param string|null $property
+     *
      * @return string
      */
-    public function getConnection()
+    public function getCurrent($property = null)
     {
-        // Get cached resolved connection
-        if ($this->connection) {
-            return $this->connection;
+        // Return local handle
+        if ($this->rocketeer->isLocal()) {
+            $handle = new ConnectionHandle('local', null, null, $this->getCurrentUsername());
+        } elseif ($this->current) {
+            $handle = $this->current;
+        } else {
+            $this->current = $handle = $this->getHandle();
         }
 
-        $connection       = Arr::get($this->getConnections(), 0);
-        $this->connection = $connection;
-
-        return $this->connection;
+        return $property ? $handle->$property : $handle;
     }
 
     /**
      * Set the current connection
      *
-     * @param string $connection
-     * @param int    $server
+     * @param ConnectionHandle $connection
      */
-    public function setConnection($connection, $server = 0)
+    public function setConnection(ConnectionHandle $connection)
     {
-        if (!$this->isValidConnection($connection) || ($this->connection === $connection && $this->currentServer === $server)) {
+        if (!$this->isValidConnection($connection) || ($this->current->is($connection))) {
             return;
         }
 
         // Set the connection
-        $this->handle        = null;
-        $this->connection    = $connection;
-        $this->localStorage  = $server;
-        $this->currentServer = $server;
+        $this->current      = $this->getHandle($connection->name, $connection->server);
+        $this->localStorage = $connection->server;
 
         // Update events
         $this->tasks->registerConfiguredEvents();
@@ -339,17 +318,17 @@ class ConnectionsHandler
     /**
      * Get the credentials for a particular connection
      *
-     * @param string|null $connection
+     * @param ConnectionHandle|null $connection
      *
      * @return string[][]
      */
-    public function getConnectionCredentials($connection = null)
+    public function getConnectionCredentials(ConnectionHandle $connection = null)
     {
-        $connection = $connection ?: $this->getConnection();
+        $connection = $connection ?: $this->getCurrent();
         $available  = $this->getAvailableConnections();
 
         // Get and filter servers
-        $servers = Arr::get($available, $connection.'.servers');
+        $servers = Arr::get($available, $connection->name.'.servers');
         if ($this->hasCommand() && $allowed = $this->command->option('server')) {
             $allowed = explode(',', $allowed);
             $servers = array_intersect_key((array) $servers, array_flip($allowed));
@@ -361,57 +340,53 @@ class ConnectionsHandler
     /**
      * Get thecredentials for as server
      *
-     * @param string|null  $connection
-     * @param integer|null $server
+     * @param ConnectionHandle|null $connection
      *
      * @return mixed
      */
-    public function getServerCredentials($connection = null, $server = null)
+    public function getServerCredentials(ConnectionHandle $connection = null)
     {
-        $connection = $this->getConnectionCredentials($connection);
-        $server     = $server !== null ? $server : $this->currentServer;
+        $servers = $this->getConnectionCredentials($connection);
+        $server  = $connection && $connection->server !== null ? $connection->server : $this->current->server;
 
-        return Arr::get($connection, $server);
+        return Arr::get($servers, $server);
     }
 
     /**
      * Sync Rocketeer's credentials with Laravel's
      *
-     * @param string|null $connection
-     * @param array       $credentials
-     * @param int         $server
+     * @param ConnectionHandle|null $connection
+     * @param array                 $credentials
      */
-    public function syncConnectionCredentials($connection = null, array $credentials = array(), $server = 0)
+    public function syncConnectionCredentials(ConnectionHandle $connection = null, array $credentials = [])
     {
         // Store credentials if any
         if ($credentials) {
-            $filtered = $this->filterUnsavableCredentials($connection, $server, $credentials);
-            $this->localStorage->set('connections.'.$connection.'.servers.'.$server, $filtered);
+            $filtered = $this->filterUnsavableCredentials($connection, $credentials);
+            $this->localStorage->set('connections.'.$connection.'.servers.'.$connection->server, $filtered);
 
-            $handle = $this->getHandle($connection, $server);
-            $this->config->set('rocketeer::connections.'.$handle, $credentials);
+            $this->config->set('rocketeer::connections.'.$connection->toHandle(), $credentials);
         }
 
         // Get connection
-        $connection  = $connection ?: $this->getConnection();
+        $connection  = $connection ?: $this->getHandle();
         $credentials = $credentials ?: $this->getConnectionCredentials($connection);
 
-        $this->config->set('remote.connections.'.$connection, $credentials);
+        $this->config->set('remote.connections.'.$connection->name, $credentials);
     }
 
     /**
      * Filter the credentials and remove the ones that
      * can't be saved to disk
      *
-     * @param string  $connection
-     * @param integer $server
-     * @param array   $credentials
+     * @param ConnectionHandle $connection
+     * @param array            $credentials
      *
      * @return string[]
      */
-    protected function filterUnsavableCredentials($connection, $server, $credentials)
+    protected function filterUnsavableCredentials(ConnectionHandle $connection, $credentials)
     {
-        $defined = $this->getServerCredentials($connection, $server);
+        $defined = $this->getServerCredentials($connection);
         foreach ($credentials as $key => $value) {
             if (array_get($defined, $key) === true) {
                 unset($credentials[$key]);
