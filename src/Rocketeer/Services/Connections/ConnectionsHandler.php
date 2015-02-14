@@ -83,16 +83,6 @@ class ConnectionsHandler
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Get the current stage
-     *
-     * @return string
-     */
-    public function getStage()
-    {
-        return $this->getCurrent()->stage;
-    }
-
-    /**
      * Set the stage Tasks will execute on
      *
      * @param string|null $stage

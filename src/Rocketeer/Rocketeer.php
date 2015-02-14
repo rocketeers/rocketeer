@@ -117,21 +117,23 @@ class Rocketeer
      * Get a contextual option
      *
      * @param string            $option
-     * @param string            $type     [stage,connection]
+     * @param string            $type [stage,connection]
      * @param string|array|null $original
      *
      * @return string|array|\Closure
      */
     protected function getContextualOption($option, $type, $original = null)
     {
+        $current = $this->connections->getCurrent();
+
         // Switch context
         switch ($type) {
             case 'stages':
-                $contextual = sprintf('rocketeer::on.stages.%s.%s', $this->connections->getStage(), $option);
+                $contextual = sprintf('rocketeer::on.stages.%s.%s', $current->stage, $option);
                 break;
 
             case 'connections':
-                $contextual = sprintf('rocketeer::on.connections.%s.%s', $this->connections->getCurrent(), $option);
+                $contextual = sprintf('rocketeer::on.connections.%s.%s', $current->name, $option);
                 break;
 
             default:
