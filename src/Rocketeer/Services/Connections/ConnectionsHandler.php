@@ -40,35 +40,6 @@ class ConnectionsHandler
     protected $connections;
 
     /**
-     * Build the current connection's handle
-     *
-     * @param ConnectionHandle|string|null $connection
-     * @param integer|null                 $server
-     * @param string|null                  $stage
-     *
-     * @return ConnectionHandle
-     */
-    public function createHandle($connection = null, $server = null, $stage = null)
-    {
-        if ($connection instanceof ConnectionHandle) {
-            return $connection;
-        }
-
-        // Get identifiers
-        $connection = $connection ?: Arr::get($this->getConnections(), 0);
-        $server     = $server ?: 0;
-        $stage      = $stage ?: null;
-
-        // Concatenate
-        $handle = new ConnectionHandle($connection, $server, $stage, $this->getCurrentUsername());
-
-        // Populate credentials
-        $handle->servers = $this->getConnectionCredentials($handle);
-
-        return $handle;
-    }
-
-    /**
      * Get the currently authenticated user
      *
      * @return string
@@ -93,7 +64,7 @@ class ConnectionsHandler
             return;
         }
 
-        $this->current = clone $this->current;
+        $this->current        = clone $this->current;
         $this->current->stage = $stage;
 
         // If we do have a stage, cleanup previous events
@@ -113,18 +84,8 @@ class ConnectionsHandler
     }
 
     ////////////////////////////////////////////////////////////////////
-    ///////////////////////////// APPLICATION //////////////////////////
+    ///////////////////////////// CONNECTIONS //////////////////////////
     ////////////////////////////////////////////////////////////////////
-
-    /**
-     * Whether the repository used is using SSH or HTTPS
-     *
-     * @return boolean
-     */
-    public function repositoryNeedsCredentials()
-    {
-        return Str::contains($this->getRepositoryEndpoint(), 'https://');
-    }
 
     /**
      * Get the available connections
@@ -266,7 +227,6 @@ class ConnectionsHandler
      */
     public function getConnectionCredentials($connection = null)
     {
-        $connection = $connection ?: $this->getCurrent();
         $connection = $this->sanitizeConnection($connection);
         $available  = $this->getAvailableConnections();
 
@@ -284,15 +244,13 @@ class ConnectionsHandler
      * Get the credentials for as server
      *
      * @param ConnectionHandle|string|null $connection
-     * @param integer                          $server
+     * @param integer                      $server
      *
      * @return array
      */
     public function getServerCredentials($connection = null, $server = 0)
     {
-        $connection = $connection ? $this->createHandle($connection, $server) : $this->getCurrent();
-
-        return $connection->getServerCredentials();
+        return $this->sanitizeConnection($connection, $server)->getServerCredentials();
     }
 
     /**
@@ -312,31 +270,10 @@ class ConnectionsHandler
         }
 
         // Get connection
-        $connection  = $connection ?: $this->getCurrent();
+        $connection  = $this->sanitizeConnection($connection);
         $credentials = $credentials ?: $this->getConnectionCredentials($connection);
 
         $this->config->set('remote.connections.'.$connection->name, $credentials);
-    }
-
-    /**
-     * Filter the credentials and remove the ones that
-     * can't be saved to disk
-     *
-     * @param ConnectionHandle $connection
-     * @param array            $credentials
-     *
-     * @return string[]
-     */
-    protected function filterUnsavableCredentials(ConnectionHandle $connection, $credentials)
-    {
-        $defined = $this->getServerCredentials($connection);
-        foreach ($credentials as $key => $value) {
-            if (array_get($defined, $key) === true) {
-                unset($credentials[$key]);
-            }
-        }
-
-        return $credentials;
     }
 
     /**
@@ -349,8 +286,18 @@ class ConnectionsHandler
     }
 
     ////////////////////////////////////////////////////////////////////
-    /////////////////////////// GIT REPOSITORY /////////////////////////
+    ///////////////////////////// REPOSITORY ///////////////////////////
     ////////////////////////////////////////////////////////////////////
+
+    /**
+     * Whether the repository used is using SSH or HTTPS
+     *
+     * @return boolean
+     */
+    public function repositoryNeedsCredentials()
+    {
+        return Str::contains($this->getRepositoryEndpoint(), 'https://');
+    }
 
     /**
      * Get the credentials for the repository
@@ -429,6 +376,81 @@ class ConnectionsHandler
         return $repository;
     }
 
+    //////////////////////////////////////////////////////////////////////
+    ////////////////////////////// HANDLES ///////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+
+    /**
+     * Build the current connection's handle
+     *
+     * @param ConnectionHandle|string|null $connection
+     * @param integer|null                 $server
+     * @param string|null                  $stage
+     *
+     * @return ConnectionHandle
+     */
+    public function createHandle($connection = null, $server = null, $stage = null)
+    {
+        if ($connection instanceof ConnectionHandle) {
+            return $connection;
+        }
+
+        // Get identifiers
+        $connection = $connection ?: Arr::get($this->getConnections(), 0);
+        $server     = $server ?: 0;
+        $stage      = $stage ?: null;
+
+        // Concatenate
+        $handle = new ConnectionHandle($connection, $server, $stage, $this->getCurrentUsername());
+
+        // Populate credentials
+        $handle->servers = $this->getConnectionCredentials($handle);
+
+        return $handle;
+    }
+
+    /**
+     * Transform an instance/credentials into a ConnectionHandle
+     *
+     * @param ConnectionHandle|string|null $connection
+     * @param integer|null                 $server
+     *
+     * @return ConnectionHandle
+     */
+    protected function sanitizeConnection($connection = null, $server = null)
+    {
+        if (!$connection) {
+            return $this->getCurrent();
+        }
+
+        return $connection instanceof ConnectionHandle ? $connection : $this->createHandle($connection, $server);
+    }
+
+    //////////////////////////////////////////////////////////////////////
+    ////////////////////////////// HELPERS ///////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+
+    /**
+     * Filter the credentials and remove the ones that
+     * can't be saved to disk
+     *
+     * @param ConnectionHandle $connection
+     * @param array            $credentials
+     *
+     * @return string[]
+     */
+    protected function filterUnsavableCredentials(ConnectionHandle $connection, $credentials)
+    {
+        $defined = $this->getServerCredentials($connection);
+        foreach ($credentials as $key => $value) {
+            if (array_get($defined, $key) === true) {
+                unset($credentials[$key]);
+            }
+        }
+
+        return $credentials;
+    }
+
     /**
      * Unify a connection's declaration into the servers form
      *
@@ -445,15 +467,5 @@ class ConnectionsHandler
         }
 
         return $connection;
-    }
-
-    /**
-     * @param ConnectionHandle|string $connection
-     *
-     * @return ConnectionHandle
-     */
-    protected function sanitizeConnection($connection)
-    {
-        return $connection instanceof ConnectionHandle ? $connection : $this->createHandle($connection);
     }
 }
