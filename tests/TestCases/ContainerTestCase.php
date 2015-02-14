@@ -233,9 +233,9 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
             'database.default'                    => 'mysql',
             'rocketeer::default'                      => 'production',
             'session.driver'                      => 'file',
-            'remote.connections'                  => array(
-                'production' => [],
-                'staging'    => [],
+            'rocketeer::connections'                  => array(
+                'production' => ['username' => 'anahkiasen'],
+                'staging'    => ['username' => 'anahkiasen'],
             ),
             'rocketeer::application_name'         => 'foobar',
             'rocketeer::logs'                     => null,

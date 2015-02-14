@@ -102,12 +102,8 @@ class ConnectionsHandler
         $configuration = $this->config->get('rocketeer::connections');
         $configuration = $this->unifyMultiserversDeclarations($configuration);
 
-        // Fetch from remote file
-        $remote = $this->config->get('remote.connections');
-        $remote = $this->unifyMultiserversDeclarations($remote);
-
         // Merge configurations
-        $connections = array_replace_recursive($remote, $configuration, $storage);
+        $connections = array_replace_recursive($configuration, $storage);
 
         return $connections;
     }
