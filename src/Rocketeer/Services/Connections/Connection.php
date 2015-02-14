@@ -41,30 +41,9 @@ class Connection implements ConnectionInterface, HasRolesInterface
     /**
      * The name of the connection.
      *
-     * @type string
+     * @type ConnectionHandle
      */
-    protected $name;
-
-    /**
-     * The host name of the server.
-     *
-     * @type string
-     */
-    protected $host;
-
-    /**
-     * The username for the connection.
-     *
-     * @type string
-     */
-    protected $username;
-
-    /**
-     * All of the defined tasks.
-     *
-     * @type array
-     */
-    protected $tasks = array();
+    protected $handle;
 
     /**
      * The output implementation for the connection.
@@ -76,18 +55,15 @@ class Connection implements ConnectionInterface, HasRolesInterface
     /**
      * Create a new SSH connection instance.
      *
-     * @param string                $name
-     * @param string                $host
-     * @param string                $username
+     * @param ConnectionHandle      $handle
      * @param array                 $auth
      * @param GatewayInterface|null $gateway
      */
-    public function __construct($name, $host, $username, array $auth, GatewayInterface $gateway = null)
+    public function __construct(ConnectionHandle $handle, array $auth, GatewayInterface $gateway = null)
     {
-        $this->name     = $name;
-        $this->host     = $host;
-        $this->username = $username;
-        $this->gateway  = $gateway ?: new SeclibGateway($host, $auth, new Filesystem());
+        $this->handle  = $handle;
+        $this->gateway = $gateway ?: new SeclibGateway($handle->getServerCredential('host'), $auth, new Filesystem());
+        $this->roles   = $handle->getServerCredential('roles');
     }
 
     /**
@@ -191,7 +167,7 @@ class Connection implements ConnectionInterface, HasRolesInterface
      */
     public function getGateway()
     {
-        if (!$this->gateway->connected() && !$this->gateway->connect($this->username)) {
+        if (!$this->gateway->connected() && !$this->gateway->connect($this->getUsername())) {
             throw new RuntimeException('Unable to connect to remote server.');
         }
 
@@ -223,11 +199,19 @@ class Connection implements ConnectionInterface, HasRolesInterface
     }
 
     /**
+     * @return ConnectionHandle
+     */
+    public function getHandle()
+    {
+        return $this->handle;
+    }
+
+    /**
      * @return string
      */
     public function getName()
     {
-        return $this->name;
+        return $this->handle->name;
     }
 
     /**
@@ -235,6 +219,6 @@ class Connection implements ConnectionInterface, HasRolesInterface
      */
     public function getUsername()
     {
-        return $this->username;
+        return $this->handle->username;
     }
 }

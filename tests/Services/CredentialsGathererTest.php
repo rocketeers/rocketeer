@@ -22,7 +22,7 @@ class CredentialsGathererTest extends RocketeerTestCase
         parent::setUp();
 
         $this->repository = 'git@github.com:Anahkiasen/rocketeer.git';
-        $this->username   = 'Anahkiasen';
+        $this->username   = 'anahkiasen';
         $this->password   = 'foobar';
         $this->host       = 'some.host';
     }
@@ -99,7 +99,7 @@ class CredentialsGathererTest extends RocketeerTestCase
 
         $this->assertStoredCredentialsEquals(array(
             'repository' => $this->repository,
-            'username'   => 'Anahkiasen',
+            'username'   => 'anahkiasen',
             'password'   => null,
         ));
 
@@ -109,7 +109,7 @@ class CredentialsGathererTest extends RocketeerTestCase
     public function testCanGetServerCredentialsIfNoneDefined()
     {
         $this->swapConfig(array(
-            'remote.connections' => [],
+            'rocketeer::connections' => [],
         ));
 
         $this->mockAnswers(array(
@@ -141,7 +141,7 @@ class CredentialsGathererTest extends RocketeerTestCase
     public function testCanPassCredentialsAsFlags()
     {
         $this->swapConfig(array(
-            'remote.connections' => [],
+            'rocketeer::connections' => [],
         ));
 
         $this->mockAnswers(array(

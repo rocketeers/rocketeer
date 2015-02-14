@@ -39,16 +39,6 @@ class ConnectionsHandler
      */
     protected $connections;
 
-    /**
-     * Get the currently authenticated user
-     *
-     * @return string
-     */
-    public function getCurrentUsername()
-    {
-        return $this->remote->connected() ? $this->remote->getUsername() : null;
-    }
-
     ////////////////////////////////////////////////////////////////////
     //////////////////////////////// STAGES ////////////////////////////
     ////////////////////////////////////////////////////////////////////
@@ -179,7 +169,8 @@ class ConnectionsHandler
     {
         // Return local handle
         if ($this->rocketeer->isLocal()) {
-            $handle = new ConnectionHandle('local', null, null, $this->getCurrentUsername());
+            $handle = $this->createHandle('local');
+            $handle->username = $this->remote->connected() ? $this->remote->connection()->getUsername() : null;
         } elseif ($this->current && $this->current->name) {
             $handle = $this->current;
         } else {
@@ -269,7 +260,7 @@ class ConnectionsHandler
         $connection  = $this->sanitizeConnection($connection);
         $credentials = $credentials ?: $this->getConnectionCredentials($connection);
 
-        $this->config->set('remote.connections.'.$connection->name, $credentials);
+        $this->config->set('rocketeer::connections.'.$connection->name, $credentials);
     }
 
     /**
@@ -397,10 +388,10 @@ class ConnectionsHandler
         $stage      = $stage ?: null;
 
         // Concatenate
-        $handle = new ConnectionHandle($connection, $server, $stage, $this->getCurrentUsername());
+        $handle = new ConnectionHandle($connection, $server, $stage);
 
         // Populate credentials
-        $handle->servers = $this->getConnectionCredentials($handle);
+        $handle->servers  = $this->getConnectionCredentials($handle);
 
         return $handle;
     }

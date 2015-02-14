@@ -231,11 +231,11 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         $overrides = array(
             'cache.driver'                        => 'file',
             'database.default'                    => 'mysql',
-            'rocketeer::default'                      => 'production',
+            'rocketeer::default'                  => 'production',
             'session.driver'                      => 'file',
-            'rocketeer::connections'                  => array(
-                'production' => ['username' => 'anahkiasen'],
-                'staging'    => ['username' => 'anahkiasen'],
+            'rocketeer::connections'              => array(
+                'production' => ['host' => '{host}', 'username' => '{username}', 'password' => '{password}'],
+                'staging'    => ['host' => '{host}', 'username' => '{username}', 'password' => '{password}'],
             ),
             'rocketeer::application_name'         => 'foobar',
             'rocketeer::logs'                     => null,

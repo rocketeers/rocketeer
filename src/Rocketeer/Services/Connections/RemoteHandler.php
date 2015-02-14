@@ -63,13 +63,8 @@ class RemoteHandler
             return $this->active[$handle];
         }
 
-        // Get credentials and roles
-        $credentials = $this->connections->getServerCredentials($connection, $connection->server);
-        $roles       = Arr::get($credentials, 'roles', []);
-
         // Create connection
-        $connection = $this->makeConnection($connection->name, $credentials);
-        $connection->setRoles($roles);
+        $connection = $this->makeConnection($connection);
 
         // Save to cache
         $this->active[$handle] = $connection;
@@ -78,22 +73,21 @@ class RemoteHandler
     }
 
     /**
-     * @param string $name
-     * @param array  $credentials
+     * @param ConnectionHandle $connection
      *
-     * @throws MissingCredentialsException
      * @return Connection
+     * @throws CredentialsExceptionInterface
      */
-    protected function makeConnection($name, array $credentials)
+    protected function makeConnection(ConnectionHandle $connection)
     {
+        $credentials = $connection->getServerCredentials();
+
         if (!isset($credentials['host']) || !isset($credentials['username'])) {
-            throw new MissingCredentialsException('Host and/or username is required for '.$name);
+            throw new MissingCredentialsException('Host and/or username is required for '.$connection->name);
         }
 
         $connection = new Connection(
-            $name,
-            $credentials['host'],
-            $credentials['username'],
+            $connection,
             $this->getAuth($credentials)
         );
 

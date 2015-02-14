@@ -5,6 +5,17 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Contracts\ArrayableInterface;
 use JsonSerializable;
 
+/**
+ * @property string  host
+ * @property string  username
+ * @property string  password
+ * @property string  key
+ * @property string  keyphrase
+ * @property string  agent
+ * @property boolean db_role
+ * @property roles   array
+ * @author Maxime Fabre <ehtnam6@gmail.com>
+ */
 class ConnectionHandle implements ArrayableInterface, JsonSerializable
 {
     /**
@@ -23,11 +34,6 @@ class ConnectionHandle implements ArrayableInterface, JsonSerializable
     public $stage;
 
     /**
-     * @type string
-     */
-    public $username;
-
-    /**
      * The credentials of the various servers
      *
      * @type array
@@ -38,14 +44,35 @@ class ConnectionHandle implements ArrayableInterface, JsonSerializable
      * @param string      $name
      * @param string|null $server
      * @param string|null $stage
-     * @param string|null $username
      */
-    public function __construct($name, $server = null, $stage = null, $username = null)
+    public function __construct($name, $server = null, $stage = null)
     {
-        $this->name     = $name;
-        $this->server   = $server;
-        $this->stage    = $stage;
-        $this->username = $username;
+        $this->name   = $name;
+        $this->server = $server;
+        $this->stage  = $stage;
+    }
+
+    /**
+     * Get attributes from the credentials
+     *
+     * @param string $name
+     *
+     * @return array|string
+     */
+    public function __get($name)
+    {
+        return $this->getServerCredential($name);
+    }
+
+    /**
+     * Chane a server credential
+     *
+     * @param string $name
+     * @param mixed  $value
+     */
+    function __set($name, $value)
+    {
+        $this->servers[$this->server][$name] = $value;
     }
 
     //////////////////////////////////////////////////////////////////////
@@ -60,6 +87,18 @@ class ConnectionHandle implements ArrayableInterface, JsonSerializable
     public function getServerCredentials()
     {
         return Arr::get($this->servers, $this->server);
+    }
+
+    /**
+     * Get a credential in particular
+     *
+     * @param string $credential
+     *
+     * @return string|array
+     */
+    public function getServerCredential($credential)
+    {
+        return Arr::get($this->getServerCredentials(), $credential);
     }
 
     //////////////////////////////////////////////////////////////////////

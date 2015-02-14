@@ -19,7 +19,7 @@ class QueueExplainerTest extends RocketeerTestCase
 
     public function testDoesntDisplayHandleIfOnlyOneConnection()
     {
-        $this->config->set('remote.connections', array(
+        $this->config->set('rocketeer::connections', array(
             'production' => [],
         ));
 
@@ -30,7 +30,7 @@ class QueueExplainerTest extends RocketeerTestCase
 
     public function testDoesntDisplayHandleIfOnlyOneStage()
     {
-        $this->config->set('remote.connections', array(
+        $this->config->set('rocketeer::connections', array(
             'production' => [],
         ));
         $this->config->set('rocketeer::stages.stages', ['staging']);
@@ -42,7 +42,7 @@ class QueueExplainerTest extends RocketeerTestCase
 
     public function testDisplayHandleIfMultipleStages()
     {
-        $this->config->set('remote.connections', array(
+        $this->config->set('rocketeer::connections', array(
             'production' => [],
         ));
         $this->config->set('rocketeer::stages.stages', ['staging', 'production']);

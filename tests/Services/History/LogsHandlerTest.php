@@ -73,7 +73,7 @@ class LogsHandlerTest extends RocketeerTestCase
         $this->task()->toOutput('Some path');
 
         $logs    = $this->logs->getFlattenedLogs();
-        $matcher = '[anahkiasen@production] $ pwd'.PHP_EOL.'[anahkiasen@production] Some path';
+        $matcher = '[{username}@production] $ pwd'.PHP_EOL.'[{username}@production] Some path';
 
         $this->assertEquals($matcher, $logs);
     }
@@ -84,7 +84,7 @@ class LogsHandlerTest extends RocketeerTestCase
         $this->explainer->success('Getting the current path');
 
         $logs    = $this->logs->getFlattenedLogs();
-        $matcher = '[anahkiasen@production] $ pwd'.PHP_EOL.'[anahkiasen@production] Getting the current path';
+        $matcher = '[{username}@production] $ pwd'.PHP_EOL.'[{username}@production] Getting the current path';
 
         $this->assertEquals($matcher, $logs);
     }
@@ -117,6 +117,6 @@ class LogsHandlerTest extends RocketeerTestCase
     {
         $this->explainer->server('foobar');
 
-        $this->assertEquals(['[anahkiasen@production] foobar'], $this->logs->getLogs());
+        $this->assertEquals(['[{username}@production] foobar'], $this->logs->getLogs());
     }
 }

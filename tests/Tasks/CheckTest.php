@@ -59,7 +59,7 @@ class CheckTest extends RocketeerTestCase
         ]);
         $this->app['rocketeer.strategies.check']->setManager($manager);
         $this->task('Check')->fire();
-        $this->assertContains('[anahkiasen@production] No manifest (composer.json) was found for Composer', $this->logs->getLogs());
+        $this->assertContains('[{username}@production] No manifest (composer.json) was found for Composer', $this->logs->getLogs());
 
         $manager = Mockery::mock('Composer', [
             'getName'             => 'Composer',
@@ -70,7 +70,7 @@ class CheckTest extends RocketeerTestCase
         ]);
         $this->app['rocketeer.strategies.check']->setManager($manager);
         $this->task('Check')->fire();
-        $this->assertContains('[anahkiasen@production] The Composer package manager could not be found', $this->logs->getLogs());
+        $this->assertContains('[{username}@production] The Composer package manager could not be found', $this->logs->getLogs());
     }
 
     public function testCanSkipStrategyChecks()
