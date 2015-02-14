@@ -264,7 +264,7 @@ class ConnectionsHandlerTest extends RocketeerTestCase
     {
         $this->rocketeer->setLocal(true);
 
-        $this->assertEquals('local', $this->connections->getHandle());
+        $this->assertEquals('local', $this->connections->getCurrent());
     }
 
     public function testCanGetLongHandle()

@@ -85,7 +85,7 @@ class LogsHandler
      */
     public function getCurrentLogsFile()
     {
-        $hash = (string) $this->connections->getHandle();
+        $hash = (string) $this->connections->getCurrent();
         if (array_key_exists($hash, $this->name)) {
             return $this->name[$hash];
         }

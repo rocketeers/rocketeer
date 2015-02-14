@@ -53,7 +53,7 @@ class Coordinator
     {
         // Set status
         $event  = $this->getPromiseHandle($event);
-        $handle = (string) $this->connections->getHandle();
+        $handle = (string) $this->connections->getCurrent();
 
         // Initiate statuses
         if (!isset($this->statuses[$event])) {
@@ -100,7 +100,7 @@ class Coordinator
      */
     public function setStatus($event, $status)
     {
-        $handle = (string) $this->connections->getHandle();
+        $handle = (string) $this->connections->getCurrent();
 
         $this->statuses[$event][$handle] = $status;
     }

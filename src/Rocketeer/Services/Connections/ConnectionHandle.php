@@ -46,12 +46,17 @@ class ConnectionHandle implements ArrayableInterface, JsonSerializable
     }
 
     /**
-     * @param ConnectionHandle $connection
+     * @param ConnectionHandle|string $connection
      *
      * @return boolean
      */
-    public function is(ConnectionHandle $connection)
+    public function is($connection)
     {
+        // If we only passed the name, check this
+        if (is_string($connection)) {
+            return $this->name === $connection;
+        }
+
         return $this->toArray() === $connection->toArray();
     }
 

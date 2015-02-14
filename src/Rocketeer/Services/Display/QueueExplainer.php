@@ -226,7 +226,7 @@ class QueueExplainer
 
         $tree = null;
         if ($numberConnections > 1 || $numberStages > 1) {
-            $handle  = $this->connections->getHandle();
+            $handle  = $this->connections->getCurrent();
             $spacing = $this->getLongestSize() - strlen($handle);
             $spacing = max(1, $spacing);
             $spacing = str_repeat(' ', $spacing);

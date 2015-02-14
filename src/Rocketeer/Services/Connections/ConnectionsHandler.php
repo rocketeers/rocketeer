@@ -72,15 +72,11 @@ class ConnectionsHandler
     /**
      * Get the long form of the handle
      *
-     * @param string|null $connection
-     * @param string|null $server
-     * @param string|null $stage
-     *
      * @return string
      */
-    public function getLongHandle($connection = null, $server = null, $stage = null)
+    public function getLongHandle()
     {
-        return $this->getHandle($connection, $server, $stage)->toLongHandle();
+        return $this->getCurrent()->toLongHandle();
     }
 
     /**
@@ -128,7 +124,7 @@ class ConnectionsHandler
      */
     public function getStage()
     {
-        return $this->getCurrent('stage');
+        return $this->getCurrent()->stage;
     }
 
     /**
@@ -208,10 +204,10 @@ class ConnectionsHandler
      */
     public function isValidConnection($connection)
     {
-        $connection = $connection instanceof ConnectionHandle ? $connection->name : $connection;
-        $available = (array) $this->getAvailableConnections();
+        $connection = $this->sanitizeConnection($connection);
+        $available  = (array) $this->getAvailableConnections();
 
-        return (bool) Arr::get($available, $connection.'.servers');
+        return (bool) Arr::get($available, $connection->name.'.servers');
     }
 
     /**
@@ -249,7 +245,7 @@ class ConnectionsHandler
      */
     public function getConnection()
     {
-        return $this->getCurrent('name');
+        return $this->getCurrent()->name;
     }
 
     /**
@@ -278,37 +274,37 @@ class ConnectionsHandler
     /**
      * Get the active connection
      *
-     * @param string|null $property
-     *
-     * @return string
+     * @return ConnectionHandle
      */
-    public function getCurrent($property = null)
+    public function getCurrent()
     {
         // Return local handle
         if ($this->rocketeer->isLocal()) {
             $handle = new ConnectionHandle('local', null, null, $this->getCurrentUsername());
-        } elseif ($this->current) {
+        } elseif ($this->current && $this->current->name) {
             $handle = $this->current;
         } else {
             $this->current = $handle = $this->getHandle();
         }
 
-        return $property ? $handle->$property : $handle;
+        return $handle;
     }
 
     /**
      * Set the current connection
      *
-     * @param ConnectionHandle $connection
+     * @param ConnectionHandle|string $connection
+     * @param integer                 $server
      */
-    public function setConnection(ConnectionHandle $connection)
+    public function setConnection($connection, $server = 0)
     {
-        if (!$this->isValidConnection($connection) || ($this->current->is($connection))) {
+        $connection = $connection instanceof ConnectionHandle ? $connection : $this->getHandle($connection, $server);
+        if (!$this->isValidConnection($connection) || ($this->getCurrent()->is($connection->name))) {
             return;
         }
 
         // Set the connection
-        $this->current      = $this->getHandle($connection->name, $connection->server);
+        $this->current      = $connection;
         $this->localStorage = $connection->server;
 
         // Update events
@@ -325,6 +321,7 @@ class ConnectionsHandler
     public function getConnectionCredentials(ConnectionHandle $connection = null)
     {
         $connection = $connection ?: $this->getCurrent();
+        $connection = $this->sanitizeConnection($connection);
         $available  = $this->getAvailableConnections();
 
         // Get and filter servers
@@ -369,7 +366,7 @@ class ConnectionsHandler
         }
 
         // Get connection
-        $connection  = $connection ?: $this->getHandle();
+        $connection  = $connection ?: $this->getCurrent();
         $credentials = $credentials ?: $this->getConnectionCredentials($connection);
 
         $this->config->set('remote.connections.'.$connection->name, $credentials);
@@ -401,7 +398,7 @@ class ConnectionsHandler
      */
     public function disconnect()
     {
-        $this->connection  = null;
+        $this->current     = null;
         $this->connections = null;
     }
 
@@ -502,5 +499,15 @@ class ConnectionsHandler
         }
 
         return $connection;
+    }
+
+    /**
+     * @param ConnectionHandle|string $connection
+     *
+     * @return ConnectionHandle
+     */
+    protected function sanitizeConnection($connection)
+    {
+        return $connection instanceof ConnectionHandle ? $connection : $this->getHandle($connection);
     }
 }

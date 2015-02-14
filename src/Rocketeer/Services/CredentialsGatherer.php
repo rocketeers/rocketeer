@@ -119,9 +119,8 @@ class CredentialsGatherer
         $credentials = $this->gatherCredentials($this->rules['server'], $connection, $handle);
 
         // Save credentials
-        $connection = new ConnectionHandle($connectionName, $server);
-        $this->connections->syncConnectionCredentials($connection, $credentials);
-        $this->connections->setConnection($connection);
+        $this->connections->syncConnectionCredentials($handle, $credentials);
+        $this->connections->setConnection($handle);
     }
 
     //////////////////////////////////////////////////////////////////////

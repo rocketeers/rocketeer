@@ -65,7 +65,7 @@ class Environment
      */
     public function getVariablePath($variable)
     {
-        return str_replace('/', '.', $this->connections->getHandle()).'.'.$variable;
+        return str_replace('/', '.', $this->connections->getCurrent()).'.'.$variable;
     }
 
     /**
