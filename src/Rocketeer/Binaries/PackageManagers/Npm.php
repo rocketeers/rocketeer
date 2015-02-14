@@ -7,28 +7,39 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Binaries\PackageManagers;
 
 use Rocketeer\Abstracts\AbstractPackageManager;
 
 class Npm extends AbstractPackageManager
 {
-	/**
-	 * The name of the manifest file to look for
-	 *
-	 * @type string
-	 */
-	protected $manifest = 'package.json';
+    /**
+     * The name of the manifest file to look for
+     *
+     * @type string
+     */
+    protected $manifest = 'package.json';
 
-	/**
-	 * Get an array of default paths to look for
-	 *
-	 * @return string[]
-	 */
-	protected function getKnownPaths()
-	{
-		return array(
-			'npm',
-		);
-	}
+    /**
+     * Get an array of default paths to look for
+     *
+     * @return string[]
+     */
+    protected function getKnownPaths()
+    {
+        return array(
+            'npm',
+        );
+    }
+
+    /**
+     * Get where dependencies are installed
+     *
+     * @return string|null
+     */
+    public function getDependenciesFolder()
+    {
+        return 'node_modules';
+    }
 }

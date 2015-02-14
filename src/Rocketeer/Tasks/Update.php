@@ -7,7 +7,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Tasks;
+
+use Rocketeer\Interfaces\Strategies\DeployStrategyInterface;
 
 /**
  * Update the remote server without doing a new release
@@ -16,54 +19,57 @@ namespace Rocketeer\Tasks;
  */
 class Update extends Deploy
 {
-	/**
-	 * A description of what the task does
-	 *
-	 * @var string
-	 */
-	protected $description = 'Update the remote server without doing a new release';
+    /**
+     * A description of what the task does
+     *
+     * @type string
+     */
+    protected $description = 'Update the remote server without doing a new release';
 
-	/**
-	 * Run the task
-	 *
-	 * @return  boolean|null
-	 */
-	public function execute()
-	{
-		// Check if local is ready for deployment
-		if (!$this->executeTask('Primer')) {
-			return $this->halt('Project is not ready for deploy. You were almost fired.');
-		}
+    /**
+     * Run the task
+     *
+     * @return boolean|null
+     */
+    public function execute()
+    {
+        // Check if local is ready for deployment
+        if (!$this->executeTask('Primer')) {
+            return $this->halt('Project is not ready for deploy. You were almost fired.');
+        }
 
-		// Update repository
-		if (!$this->getStrategy('Deploy')->update()) {
-			return $this->halt();
-		}
+        /** @type DeployStrategyInterface $strategy */
+        $strategy = $this->getStrategy('Deploy');
 
-		// Recreate symlinks if necessary
-		$this->steps()->syncSharedFolders();
+        // Update repository
+        if (!$strategy->update()) {
+            return $this->halt();
+        }
 
-		// Recompile dependencies and stuff
-		$this->steps()->executeTask('Dependencies');
+        // Recreate symlinks if necessary
+        $this->steps()->syncSharedFolders();
 
-		// Set permissions
-		$this->steps()->setApplicationPermissions();
+        // Recompile dependencies and stuff
+        $this->steps()->executeTask('Dependencies');
 
-		// Run migrations
-		if ($this->getOption('migrate') || $this->getOption('seed')) {
-			$this->steps()->executeTask('Migrate');
-		}
+        // Set permissions
+        $this->steps()->setApplicationPermissions();
 
-		// Run the steps
-		if (!$this->runSteps()) {
-			return $this->halt();
-		}
+        // Run migrations
+        if ($this->getOption('migrate') || $this->getOption('seed')) {
+            $this->steps()->executeTask('Migrate');
+        }
 
-		// Clear cache
-		if (!$this->getOption('no-clear')) {
-			$this->artisan()->runForCurrentRelease('clearCache');
-		}
+        // Run the steps
+        if (!$this->runSteps()) {
+            return $this->halt();
+        }
 
-		$this->command->info('Successfully updated application');
-	}
+        // Clear cache
+        if (!$this->getOption('no-clear')) {
+            $this->getFramework()->clearCache();
+        }
+
+        $this->explainer->success('Successfully updated application');
+    }
 }

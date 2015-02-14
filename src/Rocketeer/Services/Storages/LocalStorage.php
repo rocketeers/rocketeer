@@ -7,11 +7,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services\Storages;
 
 use Illuminate\Container\Container;
 use Rocketeer\Abstracts\AbstractStorage;
 use Rocketeer\Interfaces\StorageInterface;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 
 /**
  * Provides and persists informations in local
@@ -20,186 +23,202 @@ use Rocketeer\Interfaces\StorageInterface;
  */
 class LocalStorage extends AbstractStorage implements StorageInterface
 {
-	/**
-	 * The current hash in use
-	 *
-	 * @var string
-	 */
-	protected $hash;
+    /**
+     * The current hash in use
+     *
+     * @type string
+     */
+    protected $hash;
 
-	/**
-	 * The folder where the file resides
-	 *
-	 * @type string
-	 */
-	protected $folder;
+    /**
+     * The folder where the file resides
+     *
+     * @type string
+     */
+    protected $folder;
 
-	/**
-	 * Build a new LocalStorage
-	 *
-	 * @param Container   $app
-	 * @param string      $file
-	 * @param string|null $folder
-	 */
-	public function __construct(Container $app, $file = 'deployments', $folder = null)
-	{
-		parent::__construct($app, $file);
+    /**
+     * A cache of the contents
+     *
+     * @type array
+     */
+    protected $contents;
 
-		// Create personal storage if necessary
-		if (!$this->app->bound('path.storage')) {
-			$folder = $this->paths->getRocketeerConfigFolder();
-			$this->files->makeDirectory($folder, 0755, false, true);
-		}
+    /**
+     * Build a new LocalStorage
+     *
+     * @param Container   $app
+     * @param string      $file
+     * @param string|null $folder
+     */
+    public function __construct(Container $app, $file = 'deployments', $folder = null)
+    {
+        parent::__construct($app, $file);
 
-		// Set path to storage folder
-		$this->folder = $folder ?: $this->app['path.storage'].DS.'meta';
+        // Create personal storage if necessary
+        if (!$this->app->bound('path.storage')) {
+            $folder = $this->paths->getRocketeerConfigFolder();
+            $this->files->makeDirectory($folder, 0755, false, true);
+        }
 
-		// Flush if necessary
-		if ($this->shouldFlush()) {
-			$this->destroy();
-		}
+        // Set path to storage folder
+        $this->folder = $folder ?: $this->app['path.storage'].DS.'meta';
 
-		$this->set('hash', $this->getHash());
-	}
+        // Flush if necessary
+        if ($this->shouldFlush()) {
+            $this->destroy();
+        }
 
-	/**
-	 * Delegate methods to Environment for BC
-	 *
-	 * @todo Remove in 3.0
-	 *
-	 * @param string $name
-	 * @param array  $arguments
-	 *
-	 * @return mixed
-	 */
-	public function __call($name, $arguments)
-	{
-		return call_user_func_array([$this->environment, $name], $arguments);
-	}
+        $this->set('hash', $this->getHash());
+    }
 
-	////////////////////////////////////////////////////////////////////
-	//////////////////////////////// SALTS /////////////////////////////
-	////////////////////////////////////////////////////////////////////
+    /**
+     * Delegate methods to Environment for BC
+     *
+     * @todo Remove in 3.0
+     *
+     * @param string $name
+     * @param array  $arguments
+     *
+     * @return mixed
+     */
+    public function __call($name, $arguments)
+    {
+        return call_user_func_array([$this->environment, $name], $arguments);
+    }
 
-	/**
-	 * Get the current salt in use
-	 *
-	 * @return string
-	 */
-	public function getHash()
-	{
-		// Return cached hash if any
-		if ($this->hash) {
-			return $this->hash;
-		}
+    ////////////////////////////////////////////////////////////////////
+    //////////////////////////////// SALTS /////////////////////////////
+    ////////////////////////////////////////////////////////////////////
 
-		// Get the contents of the configuration folder
-		$salt   = '';
-		$folder = $this->paths->getConfigurationPath();
-		$files  = (array) $this->files->glob($folder.'/*.php');
+    /**
+     * Get the current salt in use
+     *
+     * @return string|null
+     */
+    public function getHash()
+    {
+        // Return cached hash if any
+        if ($this->hash) {
+            return $this->hash;
+        }
 
-		// Remove custom files and folders
-		foreach (['events', 'tasks'] as $handle) {
-			$path  = $this->app['path.rocketeer.'.$handle];
-			$index = array_search($path, $files);
-			if ($index !== false) {
-				unset($files[$index]);
-			}
-		}
+        // Get the contents of the configuration folder
+        $salt   = '';
+        $folder = $this->paths->getConfigurationPath();
+        if (!is_dir($folder)) {
+            return;
+        }
 
-		// Compute the salts
-		foreach ($files as $file) {
-			$file = $this->files->getRequire($file);
-			$salt .= json_encode($file);
-		}
+        $finder = new Finder();
+        $files  = $finder
+            ->in($folder)
+            ->name('*.php')
+            ->exclude(['tasks', 'events', 'strategies'])
+            ->notName('/(events|tasks)\.php/')
+            ->sortByName()
+            ->files();
 
-		// Cache it
-		$this->hash = md5($salt);
+        // Compute the salts
+        /** @type SplFileInfo[] $files */
+        foreach ($files as $file) {
+            $contents = $this->files->getRequire($file);
+            $salt .= json_encode($contents);
+        }
 
-		return $this->hash;
-	}
+        // Cache it
+        $this->hash = md5($salt);
 
-	/**
-	 * Flushes the repository if required
-	 *
-	 * @return boolean
-	 */
-	public function shouldFlush()
-	{
-		$currentHash = $this->get('hash');
+        return $this->hash;
+    }
 
-		return $currentHash && $currentHash !== $this->getHash();
-	}
+    /**
+     * Flushes the repository if required
+     *
+     * @return boolean
+     */
+    public function shouldFlush()
+    {
+        $currentHash = $this->get('hash');
 
-	////////////////////////////////////////////////////////////////////
-	////////////////////////// REPOSITORY FILE /////////////////////////
-	////////////////////////////////////////////////////////////////////
+        return $currentHash && $currentHash !== $this->getHash();
+    }
 
-	/**
-	 * Change the folder in use
-	 *
-	 * @param string $folder
-	 */
-	public function setFolder($folder)
-	{
-		$this->folder = $folder;
-	}
+    ////////////////////////////////////////////////////////////////////
+    ////////////////////////// REPOSITORY FILE /////////////////////////
+    ////////////////////////////////////////////////////////////////////
 
-	/**
-	 * @return string
-	 */
-	public function getFolder()
-	{
-		return $this->folder;
-	}
+    /**
+     * Change the folder in use
+     *
+     * @param string $folder
+     */
+    public function setFolder($folder)
+    {
+        $this->folder = $folder;
+    }
 
-	/**
-	 * Get the full path to the file
-	 *
-	 * @return string
-	 */
-	public function getFilepath()
-	{
-		return $this->folder.'/'.$this->file.'.json';
-	}
+    /**
+     * @return string
+     */
+    public function getFolder()
+    {
+        return $this->folder;
+    }
 
-	/**
-	 * Get the contents of a file
-	 *
-	 * @return array
-	 */
-	protected function getContents()
-	{
-		// Cancel if the file doesn't exist
-		if (!$this->files->exists($this->getFilepath())) {
-			return [];
-		}
+    /**
+     * Get the full path to the file
+     *
+     * @return string
+     */
+    public function getFilepath()
+    {
+        return $this->folder.'/'.$this->file.'.json';
+    }
 
-		// Get and parse file
-		$contents = $this->files->get($this->getFilepath());
-		$contents = json_decode($contents, true);
+    /**
+     * Get the contents of a file
+     *
+     * @return array
+     */
+    protected function getContents()
+    {
+        // Cancel if the file doesn't exist
+        if (!$this->files->exists($this->getFilepath())) {
+            return [];
+        }
 
-		return $contents;
-	}
+        // Get and parse file
+        if ($this->contents === null) {
+            $this->contents = $this->files->get($this->getFilepath());
+            $this->contents = json_decode($this->contents, true);
+        }
 
-	/**
-	 * Save the contents of a file
-	 *
-	 * @param array $contents
-	 */
-	protected function saveContents($contents)
-	{
-		// Yup. Don't look at me like that.
-		@$this->files->put($this->getFilepath(), json_encode($contents));
-	}
+        return $this->contents;
+    }
 
-	/**
-	 * Destroy the file
-	 *
-	 * @return boolean
-	 */
-	public function destroy()
-	{
-		return $this->files->delete($this->getFilepath());
-	}
+    /**
+     * Save the contents of a file
+     *
+     * @param array $contents
+     */
+    protected function saveContents($contents)
+    {
+        $this->contents = $contents;
+
+        // Yup. Don't look at me like that.
+        @$this->files->put($this->getFilepath(), json_encode($contents));
+    }
+
+    /**
+     * Destroy the file
+     *
+     * @return boolean
+     */
+    public function destroy()
+    {
+        $this->contents = [];
+
+        return $this->files->delete($this->getFilepath());
+    }
 }

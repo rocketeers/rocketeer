@@ -7,6 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Interfaces;
 
 /**
@@ -16,61 +17,61 @@ namespace Rocketeer\Interfaces;
  */
 interface ScmInterface
 {
-	/**
-	 * Get the current binary name
-	 *
-	 * @return string
-	 */
-	public function getBinary();
+    /**
+     * Get the current binary name
+     *
+     * @return string
+     */
+    public function getBinary();
 
-	/**
-	 * Check if the SCM is available
-	 *
-	 * @return string
-	 */
-	public function check();
+    /**
+     * Check if the SCM is available
+     *
+     * @return string
+     */
+    public function check();
 
-	/**
-	 * Get the current state
-	 *
-	 * @return string
-	 */
-	public function currentState();
+    /**
+     * Get the current state
+     *
+     * @return string
+     */
+    public function currentState();
 
-	/**
-	 * Get the current branch
-	 *
-	 * @return string
-	 */
-	public function currentBranch();
+    /**
+     * Get the current branch
+     *
+     * @return string
+     */
+    public function currentBranch();
 
-	/**
-	 * Clone a repository
-	 *
-	 * @param string $destination
-	 *
-	 * @return string
-	 */
-	public function checkout($destination);
+    /**
+     * Clone a repository
+     *
+     * @param string $destination
+     *
+     * @return string
+     */
+    public function checkout($destination);
 
-	/**
-	 * Resets the repository
-	 *
-	 * @return string
-	 */
-	public function reset();
+    /**
+     * Resets the repository
+     *
+     * @return string
+     */
+    public function reset();
 
-	/**
-	 * Updates the repository
-	 *
-	 * @return string
-	 */
-	public function update();
+    /**
+     * Updates the repository
+     *
+     * @return string
+     */
+    public function update();
 
-	/**
-	 * Checkout the repository's submodules
-	 *
-	 * @return string
-	 */
-	public function submodules();
+    /**
+     * Checkout the repository's submodules
+     *
+     * @return string
+     */
+    public function submodules();
 }

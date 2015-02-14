@@ -7,6 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Binaries;
 
 use Rocketeer\Abstracts\AbstractBinary;
@@ -16,5 +17,5 @@ use Rocketeer\Abstracts\AbstractBinary;
  */
 class AnonymousBinary extends AbstractBinary
 {
-	// ...
+    // ...
 }

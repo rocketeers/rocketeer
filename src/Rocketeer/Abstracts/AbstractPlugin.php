@@ -7,10 +7,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Abstracts;
 
 use Illuminate\Container\Container;
 use Illuminate\Support\Str;
+use Rocketeer\Console\Console;
+use Rocketeer\Services\Builders\Builder;
 use Rocketeer\Services\TasksHandler;
 use Rocketeer\Traits\HasLocator;
 
@@ -21,47 +24,78 @@ use Rocketeer\Traits\HasLocator;
  */
 abstract class AbstractPlugin
 {
-	use HasLocator;
+    use HasLocator;
 
-	/**
-	 * The path to the configuration folder
-	 *
-	 * @var string
-	 */
-	public $configurationFolder;
+    /**
+     * The path to the configuration folder
+     *
+     * @type string
+     */
+    public $configurationFolder;
 
-	/**
-	 * Get the package namespace
-	 *
-	 * @return string
-	 */
-	public function getNamespace()
-	{
-		$namespace = str_replace('\\', '/', get_class($this));
-		$namespace = Str::snake(basename($namespace));
-		$namespace = str_replace('_', '-', $namespace);
+    /**
+     * Additional lookups to
+     * add to Rocketeer
+     *
+     * @type array
+     */
+    protected $lookups = [];
 
-		return $namespace;
-	}
+    /**
+     * Get the package namespace
+     *
+     * @return string
+     */
+    public function getNamespace()
+    {
+        $namespace = str_replace('\\', '/', get_class($this));
+        $namespace = Str::snake(basename($namespace));
+        $namespace = str_replace('_', '-', $namespace);
 
-	/**
-	 * Bind additional classes to the Container
-	 *
-	 * @param Container $app
-	 *
-	 * @return Container
-	 */
-	public function register(Container $app)
-	{
-		return $app;
-	}
+        return $namespace;
+    }
 
-	/**
-	 * Register Tasks with Rocketeer
-	 *
-	 * @param \Rocketeer\Services\TasksHandler $queue
-	 *
-	 * @return void
-	 */
-	abstract public function onQueue(TasksHandler $queue);
+    /**
+     * Bind additional classes to the Container
+     *
+     * @param Container $app
+     *
+     * @return Container
+     */
+    public function register(Container $app)
+    {
+        return $app;
+    }
+
+    /**
+     * Register additional commands
+     *
+     * @param Console $console
+     */
+    public function onConsole(Console $console)
+    {
+        // ...
+    }
+
+    /**
+     * Register Tasks with Rocketeer
+     *
+     * @param TasksHandler $queue
+     *
+     * @return void
+     */
+    public function onQueue(TasksHandler $queue)
+    {
+        // ...
+    }
+
+    /**
+     * Register additional places to build from
+     *
+     * @param Builder $builder
+     */
+    public function onBuilder(Builder $builder)
+    {
+        $builder->registerLookups($this->lookups);
+    }
 }

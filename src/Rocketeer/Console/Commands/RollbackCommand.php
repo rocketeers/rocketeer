@@ -7,6 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Console\Commands;
 
 use Symfony\Component\Console\Input\InputArgument;
@@ -19,27 +20,27 @@ use Symfony\Component\Console\Input\InputOption;
  */
 class RollbackCommand extends BaseTaskCommand
 {
-	/**
-	 * Get the console command arguments.
-	 *
-	 * @return string[][]
-	 */
-	protected function getArguments()
-	{
-		return array(
-			['release', InputArgument::OPTIONAL, 'The release to rollback to'],
-		);
-	}
+    /**
+     * Get the console command arguments.
+     *
+     * @return string[][]
+     */
+    protected function getArguments()
+    {
+        return array(
+            ['release', InputArgument::OPTIONAL, 'The release to rollback to'],
+        );
+    }
 
-	/**
-	 * Get the console command options.
-	 *
-	 * @return array<string[]|array<string|null>>
-	 */
-	protected function getOptions()
-	{
-		return array_merge(parent::getOptions(), array(
-			['list', 'L', InputOption::VALUE_NONE, 'Shows the available releases to rollback to'],
-		));
-	}
+    /**
+     * Get the console command options.
+     *
+     * @return array<string[]|array<string|null>>
+     */
+    protected function getOptions()
+    {
+        return array_merge(parent::getOptions(), array(
+            ['list', 'L', InputOption::VALUE_NONE, 'Shows the available releases to rollback to'],
+        ));
+    }
 }

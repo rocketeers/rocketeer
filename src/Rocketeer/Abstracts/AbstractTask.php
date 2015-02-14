@@ -7,11 +7,17 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Abstracts;
 
 use DateTime;
-use Illuminate\Support\Str;
 use Rocketeer\Bash;
+use Rocketeer\Interfaces\HasRolesInterface;
+use Rocketeer\Interfaces\IdentifierInterface;
+use Rocketeer\Traits\Properties\Configurable;
+use Rocketeer\Traits\Properties\HasEvents;
+use Rocketeer\Traits\Properties\HasRoles;
+use Rocketeer\Traits\Sluggable;
 use Rocketeer\Traits\StepsRunner;
 
 /**
@@ -19,262 +25,207 @@ use Rocketeer\Traits\StepsRunner;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-abstract class AbstractTask extends Bash
+abstract class AbstractTask extends Bash implements HasRolesInterface, IdentifierInterface
 {
-	use StepsRunner;
+    use Configurable;
+    use HasEvents;
+    use HasRoles;
+    use StepsRunner;
+    use Sluggable;
 
-	/**
-	 * The name of the task
-	 *
-	 * @var string
-	 */
-	protected $name;
+    /**
+     * The name of the task
+     *
+     * @type string
+     */
+    protected $name;
 
-	/**
-	 * A description of what the task does
-	 *
-	 * @var string
-	 */
-	protected $description;
+    /**
+     * A description of what the task does
+     *
+     * @type string
+     */
+    protected $description;
 
-	/**
-	 * The event this task is answering to
-	 *
-	 * @type string
-	 */
-	protected $event;
+    /**
+     * A set of options that guide the entity
+     *
+     * @type array
+     */
+    protected $options = [];
 
-	/**
-	 * Whether the task was halted mid-course
-	 *
-	 * @var boolean
-	 */
-	protected $halted = false;
+    /**
+     * The event this task is answering to
+     *
+     * @type string
+     */
+    protected $event;
 
-	////////////////////////////////////////////////////////////////////
-	////////////////////////////// REFLECTION //////////////////////////
-	////////////////////////////////////////////////////////////////////
+    /**
+     * Whether the task was halted mid-course
+     *
+     * @type boolean
+     */
+    protected $halted = false;
 
-	/**
-	 * Get the name of the task
-	 *
-	 * @return string
-	 */
-	public function getName()
-	{
-		return $this->name ?: class_basename($this);
-	}
+    ////////////////////////////////////////////////////////////////////
+    ////////////////////////////// REFLECTION //////////////////////////
+    ////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Get the basic name of the task
-	 *
-	 * @return string
-	 */
-	public function getSlug()
-	{
-		$slug = Str::snake($this->getName(), '-');
-		$slug = Str::slug($slug);
+    /**
+     * Get a global identifier for this entity
+     *
+     * @return string
+     */
+    public function getIdentifier()
+    {
+        return 'tasks.'.$this->getSlug();
+    }
 
-		return $slug;
-	}
+    /**
+     * Get what the task does
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
 
-	/**
-	 * Get what the task does
-	 *
-	 * @return string
-	 */
-	public function getDescription()
-	{
-		return $this->description;
-	}
+    /**
+     * Change the task's name
+     *
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = ucfirst($name) ?: $this->name;
+    }
 
-	/**
-	 * Change the task's name
-	 *
-	 * @param string $name
-	 */
-	public function setName($name)
-	{
-		$this->name = ucfirst($name) ?: $this->name;
-	}
+    /**
+     * @param string $event
+     */
+    public function setEvent($event)
+    {
+        $this->event = $event;
+    }
 
-	/**
-	 * @param string $event
-	 */
-	public function setEvent($event)
-	{
-		$this->event = $event;
-	}
+    /**
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description ?: $this->description;
+    }
 
-	/**
-	 * @param string $description
-	 */
-	public function setDescription($description)
-	{
-		$this->description = $description ?: $this->description;
-	}
+    ////////////////////////////////////////////////////////////////////
+    ////////////////////////////// EXECUTION ///////////////////////////
+    ////////////////////////////////////////////////////////////////////
 
-	////////////////////////////////////////////////////////////////////
-	////////////////////////////// EXECUTION ///////////////////////////
-	////////////////////////////////////////////////////////////////////
+    /**
+     * Run the task
+     *
+     * @return string
+     */
+    abstract public function execute();
 
-	/**
-	 * Run the task
-	 *
-	 * @return string
-	 */
-	abstract public function execute();
+    /**
+     * Fire the command
+     *
+     * @return boolean
+     */
+    public function fire()
+    {
+        $this->displayStatus();
+        $callback = function () {
+            return $this->execute();
+        };
 
-	/**
-	 * Fire the command
-	 *
-	 * @return boolean
-	 */
-	public function fire()
-	{
-		// Print status
-		$results = false;
-		$this->displayStatus();
+        return $this->runWithBeforeAfterEvents(function () use ($callback) {
+            return $this->local ? $this->onLocal($callback) : $callback();
+        });
+    }
 
-		// Fire the task if the before event passes
-		if ($this->fireEvent('before')) {
-			$this->timer->time($this, function () use (&$results) {
-				$results = $this->execute();
-			});
-			$this->fireEvent('after');
-		}
+    /**
+     * Cancel the task
+     *
+     * @param string|null $errors Potential errors to display
+     *
+     * @return boolean
+     */
+    public function halt($errors = null)
+    {
+        // Display errors
+        if ($errors) {
+            $this->explainer->error($errors);
+        }
 
-		return $results;
-	}
+        $this->fireEvent('halt');
+        $this->halted = true;
 
-	/**
-	 * Cancel the task
-	 *
-	 * @param string|null $errors Potential errors to display
-	 *
-	 * @return boolean
-	 */
-	public function halt($errors = null)
-	{
-		// Display errors
-		if ($errors) {
-			$this->command->error($errors);
-		}
+        return false;
+    }
 
-		$this->fireEvent('halt');
-		$this->halted = true;
+    /**
+     * Whether the task was halted mid-course
+     *
+     * @return boolean
+     */
+    public function wasHalted()
+    {
+        return $this->halted === true;
+    }
 
-		return false;
-	}
+    ////////////////////////////////////////////////////////////////////
+    /////////////////////////////// HELPERS ////////////////////////////
+    ////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Whether the task was halted mid-course
-	 *
-	 * @return boolean
-	 */
-	public function wasHalted()
-	{
-		return $this->halted === true;
-	}
+    /**
+     * Display a list of releases and their status
+     *
+     * @codeCoverageIgnore
+     */
+    protected function displayReleases()
+    {
+        if (!$this->command) {
+            return;
+        }
 
-	////////////////////////////////////////////////////////////////////
-	/////////////////////////////// EVENTS /////////////////////////////
-	////////////////////////////////////////////////////////////////////
+        $key      = 0;
+        $rows     = [];
+        $releases = $this->releasesManager->getValidationFile();
 
-	/**
-	 * Fire an event related to this task
-	 *
-	 * @param string $event
-	 *
-	 * @return boolean
-	 */
-	public function fireEvent($event)
-	{
-		$event     = $this->getQualifiedEvent($event);
-		$listeners = $this->events->getListeners($event);
+        // Append the rows
+        foreach ($releases as $name => $state) {
+            $icon  = $state ? '✓' : '✘';
+            $color = $state ? 'green' : 'red';
+            $date  = DateTime::createFromFormat('YmdHis', $name)->format('Y-m-d H:i:s');
+            $date  = sprintf('<fg=%s>%s</fg=%s>', $color, $date, $color);
 
-		// Fire the event
-		$result = $this->explainer->displayBelow(function () use ($listeners) {
-			foreach ($listeners as $listener) {
-				$response = call_user_func_array($listener, [$this]);
-				if ($response === false) {
-					return false;
-				}
-			}
+            // Add color to row
+            $rows[] = [$key, $name, $date, $icon];
+            $key++;
+        }
 
-			return true;
-		});
+        // Render table
+        $this->command->comment('Here are the available releases :');
+        $this->command->table(
+            ['#', 'Path', 'Deployed at', 'Status'],
+            $rows
+        );
 
-		// If the event returned a strict false, halt the task
-		if ($result === false) {
-			$this->halt();
-		}
+        return $rows;
+    }
 
-		return $result !== false;
-	}
+    /**
+     * Display what the command is and does
+     */
+    protected function displayStatus()
+    {
+        $name        = $this->getName();
+        $description = $this->getDescription();
+        $time        = $this->timer->getTime($this);
 
-	/**
-	 * Get the fully qualified event name
-	 *
-	 * @param string $event
-	 *
-	 * @return string
-	 */
-	public function getQualifiedEvent($event)
-	{
-		return 'rocketeer.'.$this->getSlug().'.'.$event;
-	}
-
-	////////////////////////////////////////////////////////////////////
-	/////////////////////////////// HELPERS ////////////////////////////
-	////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Display a list of releases and their status
-	 *
-	 * @codeCoverageIgnore
-	 */
-	protected function displayReleases()
-	{
-		if (!$this->command) {
-			return;
-		}
-
-		$key      = 0;
-		$rows     = [];
-		$releases = $this->releasesManager->getValidationFile();
-
-		// Append the rows
-		foreach ($releases as $name => $state) {
-			$icon  = $state ? '✓' : '✘';
-			$color = $state ? 'green' : 'red';
-			$date  = DateTime::createFromFormat('YmdHis', $name)->format('Y-m-d H:i:s');
-			$date  = sprintf('<fg=%s>%s</fg=%s>', $color, $date, $color);
-
-			// Add color to row
-			$rows[] = [$key, $name, $date, $icon];
-			$key++;
-		}
-
-		// Render table
-		$this->command->comment('Here are the available releases :');
-		$this->command->table(
-			['#', 'Path', 'Deployed at', 'Status'],
-			$rows
-		);
-
-		return $rows;
-	}
-
-	/**
-	 * Display what the command is and does
-	 */
-	protected function displayStatus()
-	{
-		$name        = $this->getName();
-		$description = $this->getDescription();
-		$time        = $this->timer->getTaskTime($this);
-
-		$this->explainer->display($name, $description, $this->event, $time);
-	}
+        $this->explainer->display($name, $description, $this->event, $time);
+    }
 }

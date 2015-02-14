@@ -7,6 +7,7 @@
 * For the full copyright and license information, please view the LICENSE
 * file that was distributed with this source code.
 */
+
 namespace Rocketeer\Services\Ignition;
 
 use Illuminate\Support\Arr;
@@ -19,103 +20,85 @@ use Rocketeer\Traits\HasLocator;
  */
 class Plugins
 {
-	use HasLocator;
+    use HasLocator;
 
-	/**
-	 * Publishes a package's configuration
-	 *
-	 * @param string $package
-	 *
-	 * @return boolean|null
-	 */
-	public function publish($package)
-	{
-		if ($this->isInsideLaravel()) {
-			return $this->publishLaravelConfiguration($package);
-		}
+    /**
+     * Publishes a package's configuration
+     *
+     * @param string $package
+     *
+     * @return boolean|string|null
+     */
+    public function publish($package)
+    {
+        // Find the plugin's configuration
+        $paths = $this->findPackageConfiguration($package);
 
-		// Find the plugin's configuration
-		$paths = $this->findPackageConfiguration($package);
-		$paths = array_filter($paths, [$this->files, 'isDirectory']);
-		$paths = array_values($paths);
+        // Cancel if no valid paths
+        $paths = array_filter($paths, [$this->files, 'isDirectory']);
+        $paths = array_values($paths);
+        if (empty($paths)) {
+            return $this->explainer->error('No configuration found for '.$package);
+        }
 
-		// Cancel if no valid paths
-		if (empty($paths)) {
-			return $this->command->error('No configuration found for '.$package);
-		}
+        return $this->publishConfiguration($paths[0]);
+    }
 
-		return $this->publishConfiguration($paths[0]);
-	}
+    /**
+     * Find all the possible locations for a package's configuration
+     *
+     * @param string $package
+     *
+     * @return string[]
+     */
+    public function findPackageConfiguration($package)
+    {
+        $paths = array(
+            $this->paths->getApplicationPath().'vendor/%s/src/config',
+            $this->paths->getApplicationPath().'vendor/%s/config',
+            $this->paths->getUserHomeFolder().'/.rocketeer/vendor/%s/src/config',
+            $this->paths->getUserHomeFolder().'/.rocketeer/vendor/%s/config',
+            $this->paths->getUserHomeFolder().'/.composer/vendor/%s/src/config',
+            $this->paths->getUserHomeFolder().'/.composer/vendor/%s/config',
+        );
 
-	/**
-	 * Find all the possible locations for a package's configuration
-	 *
-	 * @param string $package
-	 *
-	 * @return string[]
-	 */
-	public function findPackageConfiguration($package)
-	{
-		$paths = array(
-			$this->app['path.base'].'/vendor/%s/src/config',
-			$this->app['path.base'].'/vendor/%s/config',
-			$this->paths->getUserHomeFolder().'/.rocketeer/vendor/%s/src/config',
-			$this->paths->getUserHomeFolder().'/.rocketeer/vendor/%s/config',
-			$this->paths->getUserHomeFolder().'/.composer/vendor/%s/src/config',
-			$this->paths->getUserHomeFolder().'/.composer/vendor/%s/config',
-		);
+        // Check for the first configuration path that exists
+        $paths = array_map(function ($path) use ($package) {
+            return sprintf($path, $package);
+        }, $paths);
 
-		// Check for the first configuration path that exists
-		$paths = array_map(function ($path) use ($package) {
-			return sprintf($path, $package);
-		}, $paths);
+        return $paths;
+    }
 
-		return $paths;
-	}
+    /**
+     * Publishes a configuration within a classic application
+     *
+     * @param string $path
+     *
+     * @return boolean
+     */
+    protected function publishConfiguration($path)
+    {
+        // Get the vendor and package
+        preg_match('/vendor\/([^\/]+)\/([^\/]+)/', $path, $handle);
+        $handle  = (array) $handle;
+        $package = Arr::get($handle, 2);
 
-	/**
-	 * Publishes a configuration within a Laravel application
-	 *
-	 * @param string $package
-	 *
-	 * @return boolean
-	 */
-	protected function publishLaravelConfiguration($package)
-	{
-		// Publish initial configuration
-		$this->artisan->call('config:publish', ['package' => $package]);
+        // Compute and create the destination foldser
+        if ($framework = $this->getFramework()) {
+            $destination = $framework->getPluginConfigurationPath($package);
+        } else {
+            $destination = $this->app['path.rocketeer.config'];
+            $destination = $destination.'/plugins/rocketeers/'.$package;
+        }
 
-		// Move under Rocketeer namespace
-		$path        = $this->app['path'].'/config/packages/'.$package;
-		$destination = preg_replace('/packages\/([^\/]+)/', 'packages/rocketeers', $path);
+        if (!$this->files->isDirectory($destination)) {
+            $this->files->makeDirectory($destination, 0755, true);
+        }
 
-		return $this->files->move($path, $destination);
-	}
+        // Display success
+        $this->explainer->success('Publishing configuration from '.$path.' to '.$destination);
 
-	/**
-	 * Publishes a configuration within a classic application
-	 *
-	 * @param string $path
-	 *
-	 * @return boolean
-	 */
-	protected function publishConfiguration($path)
-	{
-		// Get the vendor and package
-		preg_match('/vendor\/([^\/]+)\/([^\/]+)/', $path, $handle);
-		$handle  = (array) $handle;
-		$package = Arr::get($handle, 2);
-
-		// Compute and create the destination foldser
-		$destination = $this->app['path.rocketeer.config'];
-		$destination = $destination.'/plugins/rocketeers/'.$package;
-		if (!$this->files->isDirectory($destination)) {
-			$this->files->makeDirectory($destination, 0755, true);
-		}
-
-		// Display success
-		$this->explainer->success('Publishing configuration from '.$path.' to '.$destination);
-
-		return $this->files->copyDirectory($path, $destination);
-	}
+        return $this->files->copyDirectory($path, $destination);
+    }
 }

@@ -7,12 +7,15 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services;
 
 use Closure;
 use Illuminate\Container\Container;
+use Illuminate\Support\Str;
 use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Console\Commands\BaseTaskCommand;
+use Rocketeer\Interfaces\IdentifierInterface;
 use Rocketeer\Tasks;
 use Rocketeer\Traits\HasLocator;
 
@@ -23,298 +26,394 @@ use Rocketeer\Traits\HasLocator;
  */
 class TasksHandler
 {
-	use HasLocator;
+    use HasLocator;
 
-	/**
-	 * The registered events
-	 *
-	 * @var array
-	 */
-	protected $registeredEvents = array();
+    /**
+     * The registered events
+     *
+     * @type array
+     */
+    protected $registeredEvents = array();
 
-	/**
-	 * The registered plugins
-	 *
-	 * @type array
-	 */
-	protected $registeredPlugins = array();
+    /**
+     * The registered plugins
+     *
+     * @type array
+     */
+    protected $registeredPlugins = array();
 
-	/**
-	 * Build a new TasksQueue Instance
-	 *
-	 * @param Container $app
-	 */
-	public function __construct(Container $app)
-	{
-		$this->app = $app;
-	}
+    /**
+     * The core events
+     *
+     * @type array
+     */
+    protected $coreEvents = array(
+        'commands.deploy.before' => 'Primer',
+        'deploy.symlink.before'  => [['rocketeer.coordinator', 'beforeSymlink']],
+    );
 
-	/**
-	 * Delegate methods to TasksQueue for now to
-	 * keep public API intact
-	 *
-	 * @param string $method
-	 * @param array  $parameters
-	 *
-	 * @return mixed
-	 */
-	public function __call($method, $parameters)
-	{
-		return call_user_func_array(array($this->queue, $method), $parameters);
-	}
+    /**
+     * Build a new TasksQueue Instance
+     *
+     * @param Container $app
+     */
+    public function __construct(Container $app)
+    {
+        $this->app = $app;
+    }
 
-	////////////////////////////////////////////////////////////////////
-	///////////////////////////// REGISTRATION /////////////////////////
-	////////////////////////////////////////////////////////////////////
+    /**
+     * Delegate methods to TasksQueue for now to
+     * keep public API intact
+     *
+     * @param string $method
+     * @param array  $parameters
+     *
+     * @return mixed
+     */
+    public function __call($method, $parameters)
+    {
+        // Delegate calls to TasksQueue for facade purposes
+        if (method_exists($this->queue, $method)) {
+            return call_user_func_array(array($this->queue, $method), $parameters);
+        }
 
-	/**
-	 * Register a custom task with Rocketeer
-	 *
-	 * @param string|Closure|AbstractTask $task
-	 * @param string|null                 $name
-	 * @param string|null                 $description
-	 *
-	 * @return BaseTaskCommand
-	 */
-	public function add($task, $name = null, $description = null)
-	{
-		// Build task if necessary
-		$task = $this->builder->buildTask($task, $name, $description);
-		$slug = 'rocketeer.tasks.'.$task->getSlug();
+        // Else we execute actions on the task
+        $this->delegateAndRebind($method, $parameters, 'buildTask');
+    }
 
-		// Add the task to Rocketeer
-		$this->app->instance($slug, $task);
-		$bound = $this->console->add(new BaseTaskCommand($this->app[$slug]));
+    /**
+     * Configure a strategy
+     */
+    public function configureStrategy()
+    {
+        $this->delegateAndRebind('configure', func_get_args(), 'buildStrategy');
+    }
 
-		// Bind to Artisan too
-		if ($this->app->bound('artisan') && $this->app->resolved('artisan')) {
-			$command = $this->builder->buildCommand($task);
-			$this->app['artisan']->add($command);
-		}
+    ////////////////////////////////////////////////////////////////////
+    ///////////////////////////// REGISTRATION /////////////////////////
+    ////////////////////////////////////////////////////////////////////
 
-		return $bound;
-	}
+    /**
+     * Register a custom task with Rocketeer
+     *
+     * @param string|Closure|AbstractTask $task
+     * @param string|null                 $name
+     * @param string|null                 $description
+     *
+     * @return BaseTaskCommand
+     */
+    public function add($task, $name = null, $description = null)
+    {
+        // Build task if necessary
+        $task = $this->builder->buildTask($task, $name, $description);
+        $slug = 'rocketeer.tasks.'.$task->getSlug();
 
-	/**
-	 * Register a task with Rocketeer
-	 *
-	 * @param string                           $name
-	 * @param string|Closure|AbstractTask|null $task
-	 * @param string|null                      $description
-	 *
-	 * @return BaseTaskCommand
-	 */
-	public function task($name, $task = null, $description = null)
-	{
-		return $this->add($task, $name, $description)->getTask();
-	}
+        // Add the task to Rocketeer
+        $this->app->instance($slug, $task);
+        $bound = $this->console->add(new BaseTaskCommand($this->app[$slug]));
 
-	////////////////////////////////////////////////////////////////////
-	/////////////////////////////// EVENTS /////////////////////////////
-	////////////////////////////////////////////////////////////////////
+        // Bind to framework too
+        if ($framework = $this->getFramework()) {
+            $command = $this->builder->buildCommand($task);
+            $framework->registerConsoleCommand($command);
+        }
 
-	/**
-	 * Execute a task before another one
-	 *
-	 * @param string  $task
-	 * @param Closure $listeners
-	 * @param integer $priority
-	 *
-	 * @return void
-	 */
-	public function before($task, $listeners, $priority = 0)
-	{
-		$this->addTaskListeners($task, 'before', $listeners, $priority);
-	}
+        return $bound;
+    }
 
-	/**
-	 * Execute a task after another one
-	 *
-	 * @param string  $task
-	 * @param Closure $listeners
-	 * @param integer $priority
-	 *
-	 * @return void
-	 */
-	public function after($task, $listeners, $priority = 0)
-	{
-		$this->addTaskListeners($task, 'after', $listeners, $priority);
-	}
+    /**
+     * Register a task with Rocketeer
+     *
+     * @param string                           $name
+     * @param string|Closure|AbstractTask|null $task
+     * @param string|null                      $description
+     *
+     * @return BaseTaskCommand
+     */
+    public function task($name, $task = null, $description = null)
+    {
+        return $this->add($task, $name, $description)->getTask();
+    }
 
-	/**
-	 * Register with the Dispatcher the events in the configuration
-	 *
-	 * @return void
-	 */
-	public function registerConfiguredEvents()
-	{
-		// Clean previously registered events
-		foreach ($this->registeredEvents as $event) {
-			$this->events->forget('rocketeer.'.$event);
-		}
+    ////////////////////////////////////////////////////////////////////
+    /////////////////////////////// EVENTS /////////////////////////////
+    ////////////////////////////////////////////////////////////////////
 
-		// Clean previously registered plugins
-		$plugins                 = $this->registeredPlugins;
-		$this->registeredPlugins = [];
+    /**
+     * Execute a task before another one
+     *
+     * @param string  $task
+     * @param Closure $listeners
+     * @param integer $priority
+     */
+    public function before($task, $listeners, $priority = 0)
+    {
+        $this->addTaskListeners($task, 'before', $listeners, $priority);
+    }
 
-		// Register plugins again
-		foreach ($plugins as $plugin) {
-			$this->plugin($plugin['plugin'], $plugin['configuration']);
-		}
+    /**
+     * Execute a task after another one
+     *
+     * @param string  $task
+     * @param Closure $listeners
+     * @param integer $priority
+     */
+    public function after($task, $listeners, $priority = 0)
+    {
+        $this->addTaskListeners($task, 'after', $listeners, $priority);
+    }
 
-		// Get the registered events
-		$hooks = (array) $this->rocketeer->getOption('hooks');
-		unset($hooks['custom']);
+    /**
+     * Clear the previously registered events
+     */
+    public function clearRegisteredEvents()
+    {
+        foreach ($this->registeredEvents as $event) {
+            $this->events->forget($event);
+        }
 
-		// Bind events
-		foreach ($hooks as $event => $tasks) {
-			foreach ($tasks as $task => $listeners) {
-				$this->addTaskListeners($task, $event, $listeners, 0, true);
-			}
-		}
-	}
+        $this->registeredEvents = [];
+    }
 
-	/**
-	 * Register listeners for a particular event
-	 *
-	 * @param string         $event
-	 * @param array|callable $listeners
-	 * @param integer        $priority
-	 *
-	 * @return string
-	 */
-	public function listenTo($event, $listeners, $priority = 0)
-	{
-		/** @type AbstractTask[] $listeners */
-		$listeners = $this->builder->buildTasks((array) $listeners);
+    /**
+     * Register with the Dispatcher the events in the configuration
+     */
+    public function registerConfiguredEvents()
+    {
+        // Clean previously registered events
+        $this->clearRegisteredEvents();
 
-		// Register events
-		foreach ($listeners as $listener) {
-			$listener->setEvent($event);
-			$this->events->listen('rocketeer.'.$event, [$listener, 'fire'], $priority);
-		}
+        // Clean previously registered plugins
+        $plugins                 = $this->registeredPlugins;
+        $this->registeredPlugins = [];
 
-		return $event;
-	}
+        // Register plugins again
+        foreach ($plugins as $plugin) {
+            $this->plugin($plugin['plugin'], $plugin['configuration']);
+        }
 
-	/**
-	 * Bind a listener to a task
-	 *
-	 * @param string|array   $task
-	 * @param string         $event
-	 * @param array|callable $listeners
-	 * @param integer        $priority
-	 * @param boolean        $register
-	 *
-	 * @throws \Rocketeer\Exceptions\TaskCompositionException
-	 * @return string|null
-	 */
-	public function addTaskListeners($task, $event, $listeners, $priority = 0, $register = false)
-	{
-		// Recursive call
-		if (is_array($task)) {
-			foreach ($task as $t) {
-				$this->addTaskListeners($t, $event, $listeners, $priority, $register);
-			}
+        // Get the registered events
+        $hooks = (array) $this->rocketeer->getOption('hooks');
+        unset($hooks['custom']);
+        unset($hooks['roles']);
 
-			return;
-		}
+        // Bind events
+        foreach ($hooks as $event => $tasks) {
+            foreach ($tasks as $task => $listeners) {
+                $this->addTaskListeners($task, $event, $listeners, 0, true);
+            }
+        }
 
-		// Prevent events on anonymous tasks
-		$slug = $this->builder->buildTask($task)->getSlug();
-		if ($slug == 'closure') {
-			return;
-		}
+        // Bind core events
+        $this->registerCoreEvents();
 
-		// Get event name and register listeners
-		$event = $slug.'.'.$event;
-		$event = $this->listenTo($event, $listeners, $priority);
+        // Assign roles
+        $roles = (array) $this->rocketeer->getOption('hooks.roles');
+        $this->roles->assignTasksRoles($roles);
+    }
 
-		// Store registered event
-		if ($register) {
-			$this->registeredEvents[] = $event;
-		}
+    /**
+     * Bind the core events
+     */
+    public function registerCoreEvents()
+    {
+        foreach ($this->coreEvents as $event => $listeners) {
+            $this->registeredEvents[] = 'rocketeer.'.$event;
+            $priority                 = $event === 'deploy.symlink.before' ? -50 : 0;
+            $this->listenTo($event, $listeners, $priority);
+        }
+    }
 
-		return $event;
-	}
+    /**
+     * Register listeners for a particular event
+     *
+     * @param string         $event
+     * @param array|callable $listeners
+     * @param integer        $priority
+     *
+     * @return string
+     */
+    public function listenTo($event, $listeners, $priority = 0)
+    {
+        /** @type AbstractTask[] $listeners */
+        $listeners = $this->builder->isCallable($listeners) ? [$listeners] : (array) $listeners;
+        $listeners = $this->builder->buildTasks($listeners);
+        $event     = Str::contains($event, ['commands.', 'strategies.', 'tasks.']) ? $event : 'tasks.'.$event;
 
-	/**
-	 * Get all of a task's listeners
-	 *
-	 * @param string|AbstractTask $task
-	 * @param string              $event
-	 * @param boolean             $flatten
-	 *
-	 * @return array
-	 */
-	public function getTasksListeners($task, $event, $flatten = false)
-	{
-		// Get events
-		$task   = $this->builder->buildTaskFromClass($task)->getSlug();
-		$events = $this->events->getListeners('rocketeer.'.$task.'.'.$event);
+        // Register events
+        foreach ($listeners as $listener) {
+            $handle = $this->getEventHandle(null, $event);
+            $listener->setEvent($handle);
+            $this->events->listen($handle, [$listener, 'fire'], $priority);
+        }
 
-		// Flatten the queue if requested
-		foreach ($events as $key => $event) {
-			$task = $event[0];
-			if ($flatten && $task instanceof Tasks\Closure && $stringTask = $task->getStringTask()) {
-				$events[$key] = $stringTask;
-			} elseif ($flatten && $task instanceof AbstractTask) {
-				$events[$key] = $task->getSlug();
-			}
-		}
+        return $event;
+    }
 
-		return $events;
-	}
+    /**
+     * Bind a listener to a task
+     *
+     * @param string|array   $task
+     * @param string         $event
+     * @param array|callable $listeners
+     * @param integer        $priority
+     * @param boolean        $register
+     *
+     * @throws \Rocketeer\Exceptions\TaskCompositionException
+     * @return string|null
+     */
+    public function addTaskListeners($task, $event, $listeners, $priority = 0, $register = false)
+    {
+        // Recursive call
+        if (is_array($task)) {
+            foreach ($task as $t) {
+                $this->addTaskListeners($t, $event, $listeners, $priority, $register);
+            }
 
-	////////////////////////////////////////////////////////////////////
-	/////////////////////////////// PLUGINS ////////////////////////////
-	////////////////////////////////////////////////////////////////////
+            return;
+        }
 
-	/**
-	 * @return array
-	 */
-	public function getRegisteredPlugins()
-	{
-		return $this->registeredPlugins;
-	}
+        // Cancel if no listeners
+        if (!$listeners) {
+            return;
+        }
 
-	/**
-	 * Register a Rocketeer plugin with Rocketeer
-	 *
-	 * @param string $plugin
-	 * @param array  $configuration
-	 *
-	 * @return void
-	 */
-	public function plugin($plugin, array $configuration = array())
-	{
-		// Build plugin
-		if (is_string($plugin)) {
-			$plugin = $this->app->make($plugin, [$this->app]);
-		}
+        // Prevent events on anonymous tasks
+        $task = $this->builder->buildTask($task);
+        if ($task->getSlug() === 'closure') {
+            return;
+        }
 
-		// Store registration of plugin
-		$identifier = get_class($plugin);
-		if (isset($this->registeredPlugins[$identifier])) {
-			return;
-		}
+        // Get event name and register listeners
+        $event = $this->getEventHandle($task, $event);
+        $event = $this->listenTo($event, $listeners, $priority);
 
-		$this->registeredPlugins[$identifier] = array(
-			'plugin'        => $plugin,
-			'configuration' => $configuration,
-		);
+        // Store registered event
+        if ($register) {
+            $this->registeredEvents[] = $event;
+        }
 
-		// Register configuration
-		$vendor = $plugin->getNamespace();
-		$this->config->package('rocketeers/'.$vendor, $plugin->configurationFolder);
-		if ($configuration) {
-			$this->config->set($vendor.'::config', $configuration);
-		}
+        return $event;
+    }
 
-		// Bind instances
-		$this->app = $plugin->register($this->app);
+    /**
+     * Get all of a task's listeners
+     *
+     * @param string|AbstractTask $task
+     * @param string              $event
+     * @param boolean             $flatten
+     *
+     * @return array
+     */
+    public function getTasksListeners($task, $event, $flatten = false)
+    {
+        // Get events
+        $task   = $this->builder->buildTaskFromClass($task);
+        $handle = $this->getEventHandle($task, $event);
+        $events = $this->events->getListeners($handle);
 
-		// Add hooks to TasksHandler
-		$plugin->onQueue($this);
-	}
+        // Flatten the queue if requested
+        foreach ($events as $key => $event) {
+            $task = $event[0];
+            if ($flatten && $task instanceof Tasks\Closure && $stringTask = $task->getStringTask()) {
+                $events[$key] = $stringTask;
+            } elseif ($flatten && $task instanceof AbstractTask) {
+                $events[$key] = $task->getSlug();
+            }
+        }
+
+        return $events;
+    }
+
+    ////////////////////////////////////////////////////////////////////
+    /////////////////////////////// PLUGINS ////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+
+    /**
+     * @return array
+     */
+    public function getRegisteredPlugins()
+    {
+        return $this->registeredPlugins;
+    }
+
+    /**
+     * Register a Rocketeer plugin with Rocketeer
+     *
+     * @param string $plugin
+     * @param array  $configuration
+     */
+    public function plugin($plugin, array $configuration = array())
+    {
+        // Build plugin
+        if (is_string($plugin)) {
+            $plugin = $this->app->make($plugin, [$this->app]);
+        }
+
+        // Store registration of plugin
+        $identifier = get_class($plugin);
+        if (isset($this->registeredPlugins[$identifier])) {
+            return;
+        }
+
+        $this->registeredPlugins[$identifier] = array(
+            'plugin'        => $plugin,
+            'configuration' => $configuration,
+        );
+
+        // Register configuration
+        $vendor = $plugin->getNamespace();
+        $this->config->package('rocketeers/'.$vendor, $plugin->configurationFolder);
+        if ($configuration) {
+            $this->config->set($vendor.'::config', $configuration);
+        }
+
+        // Bind instances
+        $this->app = $plugin->register($this->app);
+        $plugin->onConsole($this->app['rocketeer.console']);
+        $plugin->onBuilder($this->app['rocketeer.builder']);
+
+        // Add hooks to TasksHandler
+        $plugin->onQueue($this);
+    }
+
+    //////////////////////////////////////////////////////////////////////
+    ////////////////////////////// HELPERS ///////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+
+    /**
+     * Call a method on an object, and rebind it into the container
+     *
+     * @param string $method
+     * @param array  $parameters
+     * @param string $builder
+     *
+     * @throws \Rocketeer\Exceptions\TaskCompositionException
+     */
+    protected function delegateAndRebind($method, array $parameters, $builder)
+    {
+        $object = (array) array_shift($parameters);
+        $object = call_user_func_array([$this->builder, $builder], $object);
+        call_user_func_array([$object, $method], $parameters);
+
+        $this->app->instance('rocketeer.'.$object->getIdentifier(), $object);
+    }
+
+    /**
+     * Get the handle of an event
+     *
+     * @param IdentifierInterface|null $entity
+     * @param string|null              $event
+     *
+     * @return string
+     */
+    public function getEventHandle(IdentifierInterface $entity = null, $event = null)
+    {
+        // Concatenate identifier and event if it's not already done
+        $event = $entity ? $entity->getIdentifier().'.'.$event : $event;
+        $event = str_replace('rocketeer.', null, $event);
+
+        return 'rocketeer.'.$event;
+    }
 }

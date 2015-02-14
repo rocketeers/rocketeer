@@ -7,9 +7,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Tasks;
 
 use Rocketeer\Abstracts\AbstractTask;
+use Rocketeer\Abstracts\Strategies\AbstractCheckStrategy;
 
 /**
  * Check if the server is ready to receive the application
@@ -18,89 +20,154 @@ use Rocketeer\Abstracts\AbstractTask;
  */
 class Check extends AbstractTask
 {
+    /**
+     * A description of what the task does
+     *
+     * @type string
+     */
+    protected $description = 'Check if the server is ready to receive the application';
 
-	/**
-	 * A description of what the task does
-	 *
-	 * @var string
-	 */
-	protected $description = 'Check if the server is ready to receive the application';
+    /**
+     * Whether the task needs to be run on each stage or globally
+     *
+     * @type boolean
+     */
+    public $usesStages = false;
 
-	/**
-	 * Whether the task needs to be run on each stage or globally
-	 *
-	 * @var boolean
-	 */
-	public $usesStages = false;
+    /**
+     * The checks that failed
+     *
+     * @type array
+     */
+    protected $errors = [];
 
-	/**
-	 * Run the task
-	 *
-	 * @return boolean|null
-	 */
-	public function execute()
-	{
-		$check  = $this->getStrategy('Check');
-		$errors = [];
+    /**
+     * Run the task
+     *
+     * @return boolean|null
+     */
+    public function execute()
+    {
+        $this->errors = [];
+        $this->steps()->checkScm();
 
-		// Check the depoy strategy
-		if ($this->rocketeer->getOption('strategies.deploy') !== 'sync' && !$this->checkScm()) {
-			$errors[] = $this->scm->getBinary().' could not be found';
-		}
+        // Execute strategy checks
+        /** @type AbstractCheckStrategy $check */
+        $check = $this->getStrategy('Check');
+        if ($check) {
+            $this->steps()->checkLanguages($check);
+            $this->steps()->checkPackageManagers($check);
+            $this->steps()->checkExtensions($check, 'extensions');
+            $this->steps()->checkExtensions($check, 'drivers');
+        }
 
-		// Check package manager
-		$manager = class_basename($check->getManager());
-		$manager = str_replace('Strategy', null, $manager);
-		$this->explainer->line('Checking presence of '.$manager);
-		if (!$check->manager()) {
-			$errors[] = sprintf('The %s package manager could not be found', $manager);
-		}
+        // Return false if any error
+        if (!$this->runSteps()) {
+            return $this->halt(implode(PHP_EOL, $this->errors));
+        }
 
-		// Check language
-		$language = $check->getLanguage();
-		$this->explainer->line('Checking '.$language.' version');
-		if (!$check->language()) {
-			$errors[] = $language.' is not at the required version';
-		}
+        // Display confirmation message
+        $this->explainer->line('Your server is ready to deploy');
+    }
 
-		// Check extensions
-		$this->explainer->line('Checking presence of required extensions');
-		$extensions = $check->extensions();
-		if (!empty($extensions)) {
-			$errors[] = 'The following extensions could not be found: '.implode(', ', $extensions);
-		}
+    ////////////////////////////////////////////////////////////////////
+    /////////////////////////////// CHECKS /////////////////////////////
+    ////////////////////////////////////////////////////////////////////
 
-		// Check drivers
-		$this->explainer->line('Checking presence of required drivers');
-		$drivers = $check->drivers();
-		if (!empty($drivers)) {
-			$errors[] = 'The following drivers could not be found: '.implode(', ', $drivers);
-		}
+    /**
+     * Check the presence of an SCM on the server
+     *
+     * @return boolean
+     */
+    public function checkScm()
+    {
+        // Cancel if not using any SCM
+        if ($this->rocketeer->getOption('strategies.deploy') === 'sync') {
+            return true;
+        }
 
-		// Return false if any error
-		if (!empty($errors)) {
-			return $this->halt(implode(PHP_EOL, $errors));
-		}
+        $this->explainer->line('Checking presence of '.$this->scm->getBinary());
+        $results = $this->scm->run('check');
+        $this->toOutput($results);
 
-		// Display confirmation message
-		$this->explainer->line('Your server is ready to deploy');
-	}
+        return $this->executeCheck(
+            $this->getConnection()->status() === 0,
+            $this->scm->getBinary().' could not be found'
+        );
+    }
 
-	////////////////////////////////////////////////////////////////////
-	/////////////////////////////// CHECKS /////////////////////////////
-	////////////////////////////////////////////////////////////////////
+    /**
+     * @param AbstractCheckStrategy $check
+     *
+     * @return boolean
+     */
+    protected function checkPackageManagers(AbstractCheckStrategy $check)
+    {
+        $manager     = $check->getManager();
+        $managerName = str_replace('Strategy', null, $manager->getName());
+        $this->explainer->line('Checking presence of '.$managerName);
 
-	/**
-	 * Check the presence of an SCM on the server
-	 *
-	 * @return boolean
-	 */
-	public function checkScm()
-	{
-		$this->explainer->line('Checking presence of '.$this->scm->getBinary());
-		$results = $this->scm->run('check');
-		$this->toOutput($results);
+        $message = $manager->hasManifest()
+            ? sprintf('The %s package manager could not be found', $managerName)
+            : sprintf('No manifest (%s) was found for %s', $manager->getManifest(), $managerName);
 
-		return $this->getConnection()->status() == 0;
-	}
+        return $this->executeCheck(
+            $check->manager(),
+            $message
+        );
+    }
+
+    /**
+     * @param AbstractCheckStrategy $check
+     *
+     * @return boolean
+     */
+    protected function checkLanguages(AbstractCheckStrategy $check)
+    {
+        $language = $check->getLanguage();
+        $this->explainer->line('Checking '.$language.' version');
+
+        return $this->executeCheck(
+            $check->language(),
+            $language.' is not at the required version'
+        );
+    }
+
+    /**
+     * @param AbstractCheckStrategy $check
+     * @param string                $type
+     *
+     * @return boolean
+     */
+    protected function checkExtensions(AbstractCheckStrategy $check, $type)
+    {
+        $this->explainer->line('Checking presence of required '.$type);
+        $entries = $check->$type();
+
+        return $this->executeCheck(
+            empty($entries),
+            'The following '.$type.' could not be found: '.implode(', ', $entries)
+        );
+    }
+
+    //////////////////////////////////////////////////////////////////////
+    /////////////////////////////// HEPERS ///////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+
+    /**
+     * Execute a check and log the error if not
+     *
+     * @param boolean $condition
+     * @param string  $error
+     *
+     * @return boolean
+     */
+    protected function executeCheck($condition, $error)
+    {
+        if (!$condition) {
+            $this->errors[] = $error;
+        }
+
+        return (bool) $condition;
+    }
 }

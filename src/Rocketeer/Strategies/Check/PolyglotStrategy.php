@@ -1,4 +1,13 @@
 <?php
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Strategies\Check;
 
 use Rocketeer\Abstracts\Strategies\AbstractPolyglotStrategy;
@@ -6,61 +15,63 @@ use Rocketeer\Interfaces\Strategies\CheckStrategyInterface;
 
 class PolyglotStrategy extends AbstractPolyglotStrategy implements CheckStrategyInterface
 {
-	/**
-	 * Check that the PM that'll install
-	 * the app's dependencies is present
-	 *
-	 * @return boolean
-	 */
-	public function manager()
-	{
-		$this->executeStrategiesMethod('manager');
+    /**
+     * The various strategies to call
+     *
+     * @type array
+     */
+    protected $strategies = ['Node', 'Php', 'Ruby'];
 
-		return $this->passed();
-	}
+    /**
+     * The type of the sub-strategies
+     *
+     * @type string
+     */
+    protected $type = 'Check';
 
-	/**
-	 * Check that the language used by the
-	 * application is at the required version
-	 *
-	 * @return boolean
-	 */
-	public function language()
-	{
-		$this->executeStrategiesMethod('language');
+    /**
+     * Check that the PM that'll install
+     * the app's dependencies is present
+     *
+     * @return boolean
+     */
+    public function manager()
+    {
+        $this->executeStrategiesMethod('manager');
 
-		return $this->passed();
-	}
+        return $this->passed();
+    }
 
-	/**
-	 * Check for the required extensions
-	 *
-	 * @return array
-	 */
-	public function extensions()
-	{
-		$missing    = [];
-		$extensions = $this->executeStrategiesMethod('extensions');
-		foreach ($extensions as $extension) {
-			$missing = array_merge($missing, $extension);
-		}
+    /**
+     * Check that the language used by the
+     * application is at the required version
+     *
+     * @return boolean
+     */
+    public function language()
+    {
+        $this->executeStrategiesMethod('language');
 
-		return $missing;
-	}
+        return $this->passed();
+    }
 
-	/**
-	 * Check for the required drivers
-	 *
-	 * @return array
-	 */
-	public function drivers()
-	{
-		$missing = [];
-		$drivers = $this->executeStrategiesMethod('drivers');
-		foreach ($drivers as $driver) {
-			$missing = array_merge($missing, $driver);
-		}
+    /**
+     * Check for the required extensions
+     *
+     * @return array
+     */
+    public function extensions()
+    {
+        return $this->gatherMissingFromMethod('extensions');
+    }
 
-		return $missing;
-	}
+    /**
+     * Check for the required drivers
+     *
+     * @return array
+     */
+    public function drivers()
+    {
+        return $this->gatherMissingFromMethod('drivers');
+    }
 }

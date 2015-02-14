@@ -2,190 +2,130 @@
 namespace Rocketeer\TestCases;
 
 use Rocketeer\Services\Storages\LocalStorage;
-use Rocketeer\TestCases\Modules\RocketeerAssertions;
-use Rocketeer\TestCases\Modules\RocketeerMockeries;
-use Symfony\Component\Console\Tester\CommandTester;
 
 abstract class RocketeerTestCase extends ContainerTestCase
 {
-	use RocketeerAssertions;
-	use RocketeerMockeries;
+    /**
+     * The test repository
+     *
+     * @type string
+     */
+    protected $repository = 'Anahkiasen/html-object.git';
 
-	/**
-	 * The path to the local fake server
-	 *
-	 * @var string
-	 */
-	protected $server;
+    /**
+     * The path to the local fake server
+     *
+     * @type string
+     */
+    protected $server;
 
-	/**
-	 * @type string
-	 */
-	protected $customConfig;
+    /**
+     * @type string
+     */
+    protected $customConfig;
 
-	/**
-	 * The path to the local deployments file
-	 *
-	 * @var string
-	 */
-	protected $deploymentsFile;
+    /**
+     * The path to the local deployments file
+     *
+     * @type string
+     */
+    protected $deploymentsFile;
 
-	/**
-	 * A dummy AbstractTask to use for helpers tests
-	 *
-	 * @var \Rocketeer\Abstracts\AbstractTask
-	 */
-	protected $task;
+    /**
+     * A dummy AbstractTask to use for helpers tests
+     *
+     * @type \Rocketeer\Abstracts\AbstractTask
+     */
+    protected $task;
 
-	/**
-	 * Cache of the paths to binaries
-	 *
-	 * @type array
-	 */
-	protected $binaries = [];
+    /**
+     * Cache of the paths to binaries
+     *
+     * @type array
+     */
+    protected $binaries = [];
 
-	/**
-	 * Number of files an ls should yield
-	 *
-	 * @type integer
-	 */
-	protected $numberFiles = 12;
+    /**
+     * Number of files an ls should yield
+     *
+     * @type integer
+     */
+    protected static $numberFiles;
 
-	/**
-	 * Set up the tests
-	 */
-	public function setUp()
-	{
-		parent::setUp();
+    /**
+     * Set up the tests
+     */
+    public function setUp()
+    {
+        parent::setUp();
 
-		// Setup local server
-		$this->server          = __DIR__.'/../_server/foobar';
-		$this->customConfig    = $this->server.'/../.rocketeer';
-		$this->deploymentsFile = $this->server.'/deployments.json';
+        // Compute ls results
+        if (!static::$numberFiles) {
+            $files               = preg_grep('/^([^.0])/', scandir(__DIR__.'/../..'));
+            static::$numberFiles = count($files);
+        }
 
-		// Bind dummy AbstractTask
-		$this->task = $this->task('Cleanup');
-		$this->recreateVirtualServer();
+        // Setup local server
+        $this->server          = __DIR__.'/../_server/foobar';
+        $this->customConfig    = $this->server.'/../.rocketeer';
+        $this->deploymentsFile = $this->server.'/deployments.json';
 
-		// Bind new LocalStorage instance
-		$this->app->bind('rocketeer.storage.local', function ($app) {
-			$folder = dirname($this->deploymentsFile);
+        // Bind dummy AbstractTask
+        $this->task = $this->task('Cleanup');
+        $this->recreateVirtualServer();
 
-			return new LocalStorage($app, 'deployments', $folder);
-		});
+        // Bind new LocalStorage instance
+        $this->app->bind('rocketeer.storage.local', function ($app) {
+            $folder = dirname($this->deploymentsFile);
 
-		// Mock OS
-		$this->localStorage->set('production.0.os', 'Linux');
-		$this->localStorage->set('staging.0.os', 'Linux');
+            return new LocalStorage($app, 'deployments', $folder);
+        });
 
-		// Cache paths
-		$this->binaries = array(
-			'php'      => exec('which php') ?: 'php',
-			'bundle'   => exec('which bundle') ?: 'bundle',
-			'phpunit'  => exec('which phpunit') ?: 'phpunit',
-			'composer' => exec('which composer') ?: 'composer',
-		);
-	}
+        // Mock OS
+        $this->usesLaravel(true);
+        $this->mockOperatingSystem('Linux');
 
-	/**
-	 * Cleanup tests
-	 */
-	public function tearDown()
-	{
-		parent::tearDown();
+        // Cache paths
+        $this->binaries = $this->binaries ?: array(
+            'php'      => exec('which php') ?: 'php',
+            'bundle'   => exec('which bundle') ?: 'bundle',
+            'phpunit'  => exec('which phpunit') ?: 'phpunit',
+            'composer' => exec('which composer') ?: 'composer',
+        );
+    }
 
-		// Restore superglobals
-		$_SERVER['HOME'] = $this->home;
-	}
+    /**
+     * Cleanup tests
+     */
+    public function tearDown()
+    {
+        parent::tearDown();
 
-	/**
-	 * Recreates the local file server
-	 *
-	 * @return void
-	 */
-	protected function recreateVirtualServer()
-	{
-		// Save superglobals
-		$this->home = $_SERVER['HOME'];
+        // Restore superglobals
+        $_SERVER['HOME'] = $this->home;
+    }
 
-		// Cleanup files created by tests
-		$cleanup = array(
-			realpath(__DIR__.'/../../.rocketeer'),
-			realpath(__DIR__.'/../.rocketeer'),
-			realpath($this->server),
-			realpath($this->customConfig),
-		);
-		array_map([$this->files, 'deleteDirectory'], $cleanup);
+    /**
+     * Recreates the local file server
+     *
+     * @return void
+     */
+    protected function recreateVirtualServer()
+    {
+        // Save superglobals
+        $this->home = $_SERVER['HOME'];
 
-		// Recreate altered local server
-		exec(sprintf('rm -rf %s', $this->server));
-		exec(sprintf('cp -a %s %s', $this->server.'-stub', $this->server));
-	}
+        // Cleanup files created by tests
+        $cleanup = array(
+            realpath(__DIR__.'/../../.rocketeer'),
+            realpath(__DIR__.'/../.rocketeer'),
+            realpath($this->server),
+            realpath($this->customConfig),
+        );
+        array_map([$this->files, 'deleteDirectory'], $cleanup);
 
-	////////////////////////////////////////////////////////////////////
-	/////////////////////////////// HELPERS ////////////////////////////
-	////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Get and execute a command
-	 *
-	 * @param string|null $command
-	 * @param array       $options
-	 *
-	 * @return CommandTester
-	 */
-	protected function executeCommand($command = null, $options = array())
-	{
-		// Fetch command
-		$command = $command ? '.'.$command : null;
-		$command = $this->app['rocketeer.commands'.$command];
-
-		// Build options
-		$options = array_merge(array(
-			'command' => $command->getName(),
-		), $options);
-
-		// Execute
-		$tester = new CommandTester($command);
-		$tester->execute($options);
-
-		return $tester;
-	}
-
-	/**
-	 * Get a pretend AbstractTask to run bogus commands
-	 *
-	 * @param string $task
-	 * @param array  $options
-	 * @param array  $expectations
-	 *
-	 * @return \Rocketeer\Abstracts\AbstractTask
-	 */
-	protected function pretendTask($task = 'Deploy', $options = array(), array $expectations = array())
-	{
-		$this->pretend($options, $expectations);
-
-		return $this->task($task);
-	}
-
-	/**
-	 * Get AbstractTask instance
-	 *
-	 * @param string $task
-	 * @param array  $options
-	 *
-	 * @return \Rocketeer\Abstracts\AbstractTask
-	 */
-	protected function task($task = null, $options = array())
-	{
-		if ($options) {
-			$this->mockCommand($options);
-		}
-
-		if (!$task) {
-			return $this->task;
-		}
-
-		return $this->builder->buildTaskFromClass($task);
-	}
+        // Recreate altered local server
+        exec(sprintf('rm -rf %s', $this->server));
+        exec(sprintf('cp -a %s %s', $this->server.'-stub', $this->server));
+    }
 }

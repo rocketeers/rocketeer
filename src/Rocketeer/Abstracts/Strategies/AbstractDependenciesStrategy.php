@@ -7,6 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Abstracts\Strategies;
 
 use Illuminate\Container\Container;
@@ -19,78 +20,129 @@ use Rocketeer\Abstracts\AbstractPackageManager;
  */
 abstract class AbstractDependenciesStrategy extends AbstractStrategy
 {
-	/**
-	 * The name of the binary
-	 *
-	 * @type string
-	 */
-	protected $binary;
+    /**
+     * The name of the binary
+     *
+     * @type string
+     */
+    protected $binary;
 
-	/**
-	 * The package manager instance
-	 *
-	 * @type AbstractPackageManager
-	 */
-	protected $manager;
+    /**
+     * @type array
+     */
+    protected $options = array(
+        'shared_dependencies' => false,
+    );
 
-	/**
-	 * @param Container $app
-	 */
-	public function __construct(Container $app)
-	{
-		$this->app     = $app;
-		$this->manager = $this->binary($this->binary);
-	}
+    /**
+     * The package manager instance
+     *
+     * @type AbstractPackageManager
+     */
+    protected $manager;
 
-	/**
-	 * @param AbstractPackageManager $manager
-	 */
-	public function setManager($manager)
-	{
-		$this->manager = $manager;
-	}
+    /**
+     * @param Container $app
+     */
+    public function __construct(Container $app)
+    {
+        $this->app     = $app;
+        $this->manager = $this->binary($this->binary);
+    }
 
-	/**
-	 * Get an instance of the Binary
-	 *
-	 * @return AbstractPackageManager
-	 */
-	protected function getManager()
-	{
-		return $this->manager;
-	}
+    /**
+     * @param AbstractPackageManager $manager
+     */
+    public function setManager($manager)
+    {
+        $this->manager = $manager;
+    }
 
-	/**
-	 * Whether this particular strategy is runnable or not
-	 *
-	 * @return boolean
-	 */
-	public function isExecutable()
-	{
-		return $this->manager->isExecutable();
-	}
+    /**
+     * Get an instance of the Binary
+     *
+     * @return AbstractPackageManager
+     */
+    protected function getManager()
+    {
+        return $this->manager;
+    }
 
-	//////////////////////////////////////////////////////////////////////
-	////////////////////////////// COMMANDS //////////////////////////////
-	//////////////////////////////////////////////////////////////////////
+    /**
+     * Whether this particular strategy is runnable or not
+     *
+     * @return boolean
+     */
+    public function isExecutable()
+    {
+        return $this->manager->isExecutable();
+    }
 
-	/**
-	 * Install the dependencies
-	 *
-	 * @return bool
-	 */
-	public function install()
-	{
-		return $this->manager->runForCurrentRelease('install');
-	}
+    //////////////////////////////////////////////////////////////////////
+    ////////////////////////////// COMMANDS //////////////////////////////
+    //////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Update the dependencies
-	 *
-	 * @return boolean
-	 */
-	public function update()
-	{
-		return $this->manager->runForCurrentRelease('update');
-	}
+    /**
+     * Install the dependencies
+     *
+     * @return boolean
+     */
+    public function install()
+    {
+        $this->shareDependenciesFolder();
+
+        return $this->runWithBeforeAfterEvents(function () {
+            return $this->manager->runForApplication('install', [], $this->getInstallationOptions('install'));
+        });
+    }
+
+    /**
+     * Update the dependencies
+     *
+     * @return boolean
+     */
+    public function update()
+    {
+        return $this->runWithBeforeAfterEvents(function () {
+            return $this->manager->runForApplication('update', [], $this->getInstallationOptions('update'));
+        });
+    }
+
+    //////////////////////////////////////////////////////////////////////
+    ///////////////////////// SHARED DEPENDENCIES ////////////////////////
+    //////////////////////////////////////////////////////////////////////
+
+    /**
+     * Share the dependencies folder if possible
+     */
+    protected function shareDependenciesFolder()
+    {
+        $folder             = $this->manager->getDependenciesFolder();
+        $sharedDependencies = $this->getOption('shared_dependencies', true);
+        if (!$sharedDependencies || !$folder) {
+            return;
+        }
+
+        if ($sharedDependencies === 'copy') {
+            $this->bash->copyFromPreviousRelease($folder);
+        } else {
+            $this->bash->share($folder);
+        }
+    }
+
+    //////////////////////////////////////////////////////////////////////
+    ////////////////////////////// HELPERS ///////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+
+    /**
+     * Get the options to run Bower with
+     *
+     * @param string $command
+     *
+     * @return array
+     */
+    protected function getInstallationOptions($command)
+    {
+        return $this->getFlags($command);
+    }
 }

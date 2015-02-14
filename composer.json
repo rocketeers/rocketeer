@@ -25,20 +25,22 @@
     "illuminate/container": "^4.2.7",
     "illuminate/filesystem": "~4.2",
     "illuminate/events": "~4.2",
-    "illuminate/remote": "~4.2",
     "illuminate/log": "~4.2",
     "patchwork/utf8": "~1.1",
-    "d11wtq/boris": "~1.0.8",
-    "kzykhys/parallel": "~0.1.0"
+    "kzykhys/parallel": "0.1.*",
+    "phpseclib/phpseclib": "2.0.*@dev",
+    "kherge/amend": "~3.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "~4.0",
+    "phpunit/phpunit": "~4.4",
     "mockery/mockery": "^0.9.1",
-    "nesbot/carbon": "~1.4",
-    "phpseclib/phpseclib": "~0.3.5",
-    "johnkary/phpunit-speedtrap": "dev-master"
+    "nesbot/carbon": "~1.13",
+    "johnkary/phpunit-speedtrap": "~1.0@dev",
+    "psy/psysh": "0.3.*",
+    "rocketeers/rocketeer-laravel": "1.0.*@dev"
   },
   "suggest": {
+    "psy/psysh": "Required for the 'tinker' command",
     "anahkiasen/rocketeer-campfire": "Campfire plugin to create deployments notifications",
     "anahkiasen/rocketeer-slack": "Slack plugin to create deployments notifications",
     "ext-pcntl": "Allow parallel deployments"
@@ -58,7 +60,7 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-develop": "2.0-dev"
+      "dev-develop": "3.0-dev"
     }
   }
 }

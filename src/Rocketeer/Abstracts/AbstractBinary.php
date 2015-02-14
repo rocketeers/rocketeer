@@ -7,6 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Abstracts;
 
 use Illuminate\Container\Container;
@@ -21,201 +22,217 @@ use Rocketeer\Traits\HasLocator;
  */
 abstract class AbstractBinary
 {
-	use HasLocator;
+    use HasLocator;
 
-	/**
-	 * The core binary
-	 *
-	 * @var string
-	 */
-	protected $binary;
+    /**
+     * The core binary
+     *
+     * @type string
+     */
+    protected $binary;
 
-	/**
-	 * A parent binary to call this one with
-	 *
-	 * @type AbstractBinary|string
-	 */
-	protected $parent;
+    /**
+     * A parent binary to call this one with
+     *
+     * @type AbstractBinary|string
+     */
+    protected $parent;
 
-	/**
-	 * @param Container $app
-	 */
-	public function __construct(Container $app)
-	{
-		$this->app = $app;
+    /**
+     * @param Container $app
+     */
+    public function __construct(Container $app)
+    {
+        $this->app = $app;
 
-		// Assign default paths
-		$paths = $this->getKnownPaths();
-		if ($this->connections->getConnection() && $paths) {
-			$binary   = Arr::get($paths, 0);
-			$fallback = Arr::get($paths, 1);
-			$binary   = $this->bash->which($binary, $fallback, false);
+        // Assign default paths
+        $paths = $this->getKnownPaths();
+        if ($this->connections->getConnection() && $paths) {
+            $binary   = Arr::get($paths, 0);
+            $fallback = Arr::get($paths, 1);
+            $binary   = $this->bash->which($binary, $fallback, false);
 
-			$this->setBinary($binary);
-		} elseif ($paths) {
-			$this->setBinary($paths[0]);
-		}
-	}
+            $this->setBinary($binary);
+        } elseif ($paths) {
+            $this->setBinary($paths[0]);
+        }
+    }
 
-	/**
-	 * Get an array of default paths to look for
-	 *
-	 * @return array
-	 */
-	protected function getKnownPaths()
-	{
-		return [];
-	}
+    /**
+     * Get an array of default paths to look for
+     *
+     * @return array
+     */
+    protected function getKnownPaths()
+    {
+        return [];
+    }
 
-	//////////////////////////////////////////////////////////////////////
-	///////////////////////////// PROPERTIES /////////////////////////////
-	//////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+    ///////////////////////////// PROPERTIES /////////////////////////////
+    //////////////////////////////////////////////////////////////////////
 
-	/**
-	 * @param AbstractBinary|string $parent
-	 */
-	public function setParent($parent)
-	{
-		$this->parent = $parent;
-	}
+    /**
+     * @param AbstractBinary|string $parent
+     */
+    public function setParent($parent)
+    {
+        $this->parent = $parent;
+    }
 
-	/**
-	 * @param string $binary
-	 */
-	public function setBinary($binary)
-	{
-		$this->binary = $binary;
-	}
+    /**
+     * @param string $binary
+     */
+    public function setBinary($binary)
+    {
+        $this->binary = $binary;
+    }
 
-	/**
-	 * Get the current binary name
-	 *
-	 * @return string
-	 */
-	public function getBinary()
-	{
-		return $this->binary;
-	}
+    /**
+     * Get the name of the binary class
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return class_basename($this);
+    }
 
-	/**
-	 * Call or execute a command on the Binary
-	 *
-	 * @param string $name
-	 * @param array  $arguments
-	 *
-	 * @return string|null
-	 */
-	public function __call($name, $arguments)
-	{
-		// Execution aliases
-		if (Str::startsWith($name, 'run')) {
-			$command = array_shift($arguments);
-			$command = call_user_func_array([$this, $command], $arguments);
+    /**
+     * Get the current binary name
+     *
+     * @return string
+     */
+    public function getBinary()
+    {
+        return $this->binary;
+    }
 
-			return $this->bash->$name($command);
-		}
+    /**
+     * Call or execute a command on the Binary
+     *
+     * @param string $name
+     * @param array  $arguments
+     *
+     * @return string|null
+     */
+    public function __call($name, $arguments)
+    {
+        // Execution aliases
+        if (Str::startsWith($name, 'run')) {
+            $command = array_shift($arguments);
+            $command = call_user_func_array([$this, $command], $arguments);
 
-		// Format name
-		$name = Str::snake($name, '-');
+            return $this->bash->$name($command);
+        }
 
-		// Prepend command name to arguments and call
-		array_unshift($arguments, $name);
-		$command = call_user_func_array([$this, 'getCommand'], $arguments);
+        // Format name
+        $name = Str::snake($name, '-');
 
-		return $command;
-	}
+        // Prepend command name to arguments and call
+        array_unshift($arguments, $name);
+        $command = call_user_func_array([$this, 'getCommand'], $arguments);
 
-	////////////////////////////////////////////////////////////////////
-	//////////////////////////////// HELPERS ///////////////////////////
-	////////////////////////////////////////////////////////////////////
+        return $command;
+    }
 
-	/**
-	 * Returns a command with the SCM's binary
-	 *
-	 * @param string|null     $command
-	 * @param string|string[] $arguments
-	 * @param string|string[] $flags
-	 *
-	 * @return string
-	 */
-	public function getCommand($command = null, $arguments = array(), $flags = array())
-	{
-		// Format arguments
-		$arguments = $this->buildArguments($arguments);
-		$options   = $this->buildOptions($flags);
+    ////////////////////////////////////////////////////////////////////
+    //////////////////////////////// HELPERS ///////////////////////////
+    ////////////////////////////////////////////////////////////////////
 
-		// Build command
-		$binary     = $this->binary;
-		$components = [$command, $arguments, $options];
-		foreach ($components as $component) {
-			if ($component) {
-				$binary .= ' '.$component;
-			}
-		}
+    /**
+     * Returns a command with the SCM's binary
+     *
+     * @param string|null     $command
+     * @param string|string[] $arguments
+     * @param string|string[] $flags
+     *
+     * @return string
+     */
+    public function getCommand($command = null, $arguments = array(), $flags = array())
+    {
+        // Format arguments
+        $arguments = $this->buildArguments($arguments);
+        $options   = $this->buildOptions($flags);
 
-		// If the binary has a parent, wrap the call with it
-		$parent  = $this->parent instanceof AbstractBinary ? $this->parent->getBinary() : $this->parent;
-		$command = $parent.' '.$binary;
+        // Build command
+        $binary     = $this->binary;
+        $components = [$command, $arguments, $options];
+        foreach ($components as $component) {
+            if ($component) {
+                $binary .= ' '.$component;
+            }
+        }
 
-		return trim($command);
-	}
+        // If the binary has a parent, wrap the call with it
+        $parent  = $this->parent instanceof AbstractBinary ? $this->parent->getBinary() : $this->parent;
+        $command = $parent.' '.$binary;
 
-	/**
-	 * @param string|string[] $flags
-	 *
-	 * @return string
-	 */
-	protected function buildOptions($flags)
-	{
-		// Return if already builts
-		if (is_string($flags)) {
-			return $flags;
-		}
+        return trim($command);
+    }
 
-		$options = [];
-		$flags   = (array) $flags;
+    /**
+     * @param string|string[] $flags
+     *
+     * @return string
+     */
+    protected function buildOptions($flags)
+    {
+        // Return if already builts
+        if (is_string($flags)) {
+            return $flags;
+        }
 
-		// Flip array if necessary
-		$firstKey = Arr::get(array_keys($flags), 0);
-		if (!is_null($firstKey) && is_int($firstKey)) {
-			$flags = array_combine(
-				array_values($flags),
-				array_fill(0, count($flags), null)
-			);
-		}
+        $options = [];
+        $flags   = (array) $flags;
 
-		// Build flags
-		foreach ($flags as $flag => $value) {
-			$options[] = $value ? $flag.'="'.$value.'"' : $flag;
-		}
+        // Flip array if necessary
+        $firstKey = Arr::get(array_keys($flags), 0);
+        if ($firstKey !== null && is_int($firstKey)) {
+            $flags = array_combine(
+                array_values($flags),
+                array_fill(0, count($flags), null)
+            );
+        }
 
-		return implode(' ', $options);
-	}
+        // Build flags
+        foreach ($flags as $flag => $value) {
+            if (is_array($value)) {
+                foreach ($value as $v) {
+                    $options[] = $flag.'="'.$v.'"';
+                }
+            } else {
+                $options[] = $value ? $flag.'="'.$value.'"' : $flag;
+            }
+        }
 
-	/**
-	 * @param string|string[] $arguments
-	 *
-	 * @return string
-	 */
-	protected function buildArguments($arguments)
-	{
-		if (!is_string($arguments)) {
-			$arguments = (array) $arguments;
-			$arguments = implode(' ', $arguments);
-		}
+        return implode(' ', $options);
+    }
 
-		return $arguments;
-	}
+    /**
+     * @param string|string[] $arguments
+     *
+     * @return string
+     */
+    protected function buildArguments($arguments)
+    {
+        if (!is_string($arguments)) {
+            $arguments = (array) $arguments;
+            $arguments = implode(' ', $arguments);
+        }
 
-	/**
-	 * Quote a string
-	 *
-	 * @param string $string
-	 *
-	 * @return string
-	 */
-	protected function quote($string)
-	{
-		return '"'.$string.'"';
-	}
+        return $arguments;
+    }
+
+    /**
+     * Quote a string
+     *
+     * @param string $string
+     *
+     * @return string
+     */
+    protected function quote($string)
+    {
+        return '"'.$string.'"';
+    }
 }

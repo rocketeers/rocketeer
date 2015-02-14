@@ -5,8 +5,8 @@ use Rocketeer\Abstracts\Strategies\AbstractStrategy;
 
 class FailingStrategy extends AbstractStrategy
 {
-	public function fire()
-	{
-		return false;
-	}
+    public function fire()
+    {
+        return false;
+    }
 }

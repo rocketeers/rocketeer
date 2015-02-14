@@ -7,10 +7,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services\Display;
 
-use Closure;
-use Rocketeer\Abstracts\AbstractTask;
+use Rocketeer\Interfaces\IdentifierInterface;
 use Rocketeer\Traits\HasLocator;
 
 /**
@@ -21,91 +21,126 @@ use Rocketeer\Traits\HasLocator;
  */
 class QueueTimer
 {
-	use HasLocator;
+    use HasLocator;
 
-	/**
-	 * Time a task operation
-	 *
-	 * @param AbstractTask $task
-	 * @param Closure      $callback
-	 *
-	 * @return boolean|null
-	 */
-	public function time(AbstractTask $task, Closure $callback)
-	{
-		// Start timer, execute callback, close timer
-		$timerStart = microtime(true);
-		$callback();
-		$time = round(microtime(true) - $timerStart, 4);
+    //////////////////////////////////////////////////////////////////////
+    /////////////////////////////// TASKS ////////////////////////////////
+    //////////////////////////////////////////////////////////////////////
 
-		$this->saveTaskTime($task, $time);
-	}
+    /**
+     * Time a task operation
+     *
+     * @param IdentifierInterface $entity
+     * @param callable            $callback
+     *
+     * @return mixed
+     */
+    public function time(IdentifierInterface $entity, callable $callback)
+    {
+        // Start timer, execute callback, close timer
+        $timerStart = microtime(true);
+        $results    = $callback();
+        $time       = round(microtime(true) - $timerStart, 4);
 
-	/**
-	 * Save the execution time of a task for future reference
-	 *
-	 * @param AbstractTask $task
-	 * @param double       $time
-	 */
-	public function saveTaskTime(AbstractTask $task, $time)
-	{
-		// Don't save times in pretend mode
-		if ($this->getOption('pretend')) {
-			return;
-		}
+        $this->saveTime($entity, $time);
 
-		// Append the new time to past ones
-		$past   = $this->getTaskTimes($task);
-		$past[] = $time;
+        return $results;
+    }
 
-		$this->saveTaskTimes($task, $past);
-	}
+    /**
+     * Save the execution time of a task for future reference
+     *
+     * @param IdentifierInterface $entity
+     * @param double              $time
+     */
+    public function saveTime(IdentifierInterface $entity, $time)
+    {
+        // Don't save times in pretend mode
+        if ($this->getOption('pretend')) {
+            return;
+        }
 
-	/**
-	 * Compute the predicted execution time of a task
-	 *
-	 * @param AbstractTask $task
-	 *
-	 * @return double|null
-	 */
-	public function getTaskTime(AbstractTask $task)
-	{
-		$past = $this->getTaskTimes($task);
-		if (!$past) {
-			return;
-		}
+        // Append the new time to past ones
+        $past   = $this->getTimes($entity);
+        $past[] = $time;
 
-		// Compute average time
-		$average = array_sum($past) / count($past);
-		$average = round($average, 2);
+        $this->saveTimes($entity, $past);
+    }
 
-		return $average;
-	}
+    /**
+     * Compute the predicted execution time of a task
+     *
+     * @param IdentifierInterface $entity
+     *
+     * @return double|null
+     */
+    public function getTime(IdentifierInterface $entity)
+    {
+        $past = $this->getTimes($entity);
+        if (!$past) {
+            return;
+        }
 
-	//////////////////////////////////////////////////////////////////////
-	////////////////////////// SETTERS/GETTERS ///////////////////////////
-	//////////////////////////////////////////////////////////////////////
+        // Compute average time
+        $average = array_sum($past) / count($past);
+        $average = round($average, 2);
 
-	/**
-	 * @param AbstractTask $task
-	 *
-	 * @return array
-	 */
-	protected function getTaskTimes(AbstractTask $task)
-	{
-		$handle = sprintf('times.%s', $task->getSlug());
-		$past   = $this->localStorage->get($handle, []);
+        return $average;
+    }
 
-		return $past;
-	}
+    //////////////////////////////////////////////////////////////////////
+    ////////////////////////// SETTERS/GETTERS ///////////////////////////
+    //////////////////////////////////////////////////////////////////////
 
-	/**
-	 * @param AbstractTask $task
-	 * @param double[]     $past
-	 */
-	protected function saveTaskTimes(AbstractTask $task, array $past)
-	{
-		$handle = sprintf('times.%s', $task->getSlug());
-		$this->localStorage->set($handle, $past);
-	}
+    /**
+     * @param IdentifierInterface $entity
+     *
+     * @return array
+     */
+    public function getTimes(IdentifierInterface $entity)
+    {
+        $handle = $this->getTimerHandle($entity);
+        $past   = $this->localStorage->get($handle, []);
+
+        return $past;
+    }
+
+    /**
+     * Get the last recorded time
+     *
+     * @param IdentifierInterface $entity
+     *
+     * @return double|null
+     */
+    public function getLatestTime(IdentifierInterface $entity)
+    {
+        $times = $this->getTimes($entity);
+
+        return end($times);
+    }
+
+    /**
+     * @param IdentifierInterface $entity
+     * @param double[]            $past
+     */
+    public function saveTimes(IdentifierInterface $entity, array $past)
+    {
+        $handle = $this->getTimerHandle($entity);
+
+        $this->localStorage->set($handle, $past);
+    }
+
+    //////////////////////////////////////////////////////////////////////
+    ////////////////////////////// HELPERS ///////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+
+    /**
+     * @param IdentifierInterface $entity
+     *
+     * @return string
+     */
+    protected function getTimerHandle(IdentifierInterface $entity)
+    {
+        return sprintf('times.%s', $entity->getIdentifier());
+    }
 }

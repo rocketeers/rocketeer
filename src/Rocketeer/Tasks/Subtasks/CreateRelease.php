@@ -7,8 +7,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Tasks\Subtasks;
 
+use Rocketeer\Interfaces\Strategies\DeployStrategyInterface;
 use Rocketeer\Abstracts\AbstractTask;
 
 /**
@@ -18,20 +20,23 @@ use Rocketeer\Abstracts\AbstractTask;
  */
 class CreateRelease extends AbstractTask
 {
-	/**
-	 * A description of what the task does
-	 *
-	 * @var string
-	 */
-	protected $description = 'Creates a new release on the server';
+    /**
+     * A description of what the task does
+     *
+     * @type string
+     */
+    protected $description = 'Creates a new release on the server';
 
-	/**
-	 * Run the task
-	 *
-	 * @return string
-	 */
-	public function execute()
-	{
-		return $this->getStrategy('Deploy')->deploy();
-	}
+    /**
+     * Run the task
+     *
+     * @return string
+     */
+    public function execute()
+    {
+        /** @type DeployStrategyInterface $strategy */
+        $strategy = $this->getStrategy('Deploy');
+
+        return $strategy->deploy();
+    }
 }

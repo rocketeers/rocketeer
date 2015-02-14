@@ -7,6 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services\History;
 
 use Illuminate\Support\Arr;
@@ -17,104 +18,174 @@ use Rocketeer\Traits\HasLocator;
  */
 class LogsHandler
 {
-	use HasLocator;
+    use HasLocator;
 
-	/**
-	 * Cache of the logs file to be written
-	 *
-	 * @type array
-	 */
-	protected $logs = [];
+    /**
+     * Cache of the logs file to be written
+     *
+     * @type array
+     */
+    protected $logs = [];
 
-	/**
-	 * The name of the logs file
-	 *
-	 * @type string[]
-	 */
-	protected $name = [];
+    /**
+     * The name of the logs file
+     *
+     * @type string[]
+     */
+    protected $name = [];
 
-	/**
-	 * Save something for the logs
-	 *
-	 * @param string $string
-	 */
-	public function log($string)
-	{
-		// Create entry in the logs
-		$file = $this->getCurrentLogsFile();
-		if (!isset($this->logs[$file])) {
-			$this->logs[$file] = [];
-		}
+    /**
+     * Save something for the logs
+     *
+     * @param string|string[] $string
+     */
+    public function log($string)
+    {
+        // Create entry in the logs
+        $file = $this->getCurrentLogsFile();
+        if (!isset($this->logs[$file])) {
+            $this->logs[$file] = [];
+        }
 
-		$this->logs[$file][] = $string;
-	}
+        // Prepend currenth handle
+        $this->logs[$file][] = $this->prependHandle($string);
+    }
 
-	/**
-	 * Write the stored logs
-	 *
-	 * @return array
-	 */
-	public function write()
-	{
-		foreach ($this->logs as $file => $entries) {
-			$entries = Arr::flatten($entries);
-			if (!$this->files->exists($file)) {
-				$this->createLogsFile($file);
-			}
+    /**
+     * Write the stored logs
+     *
+     * @return array
+     */
+    public function write()
+    {
+        foreach ($this->logs as $file => $entries) {
+            if (!$file) {
+                continue;
+            }
 
-			$this->files->put($file, implode(PHP_EOL, $entries));
-		}
+            // Create the file if it doesn't exist
+            if (!$this->files->exists($file)) {
+                $this->createLogsFile($file);
+            }
 
-		return array_keys($this->logs);
-	}
+            $this->files->put($file, $this->formatEntries($entries));
+        }
 
-	/**
-	 * Get the logs file being currently used
-	 *
-	 * @return string|false
-	 */
-	public function getCurrentLogsFile()
-	{
-		$hash = $this->connections->getHandle();
-		if (array_key_exists($hash, $this->name)) {
-			return $this->name[$hash];
-		}
+        return array_keys($this->logs);
+    }
 
-		// Get the namer closure
-		$namer = $this->config->get('rocketeer::logs');
+    //////////////////////////////////////////////////////////////////////
+    //////////////////////////// CURRENT LOGS ////////////////////////////
+    //////////////////////////////////////////////////////////////////////
 
-		// Cancel if invalid namer
-		if (!$namer || !is_callable($namer)) {
-			return false;
-		}
+    /**
+     * Get the logs file being currently used
+     *
+     * @return string|false
+     */
+    public function getCurrentLogsFile()
+    {
+        $hash = $this->connections->getHandle();
+        if (array_key_exists($hash, $this->name)) {
+            return $this->name[$hash];
+        }
 
-		// Compute name
-		$name = $namer($this->connections);
-		$name = $this->app['path.rocketeer.logs'].'/'.$name;
+        // Get the namer closure
+        $namer = $this->config->get('rocketeer::logs');
 
-		// Save for reuse
-		$this->name[$hash] = $name;
+        // Cancel if invalid namer
+        if (!$namer) {
+            return false;
+        }
 
-		return $name;
-	}
+        // Compute name
+        $name = is_callable($namer) ? $namer($this->connections) : $namer;
+        $name = $this->app['path.rocketeer.logs'].'/'.$name;
 
-	/**
-	 * Create a logs file if it doesn't exist
-	 *
-	 * @param string $file
-	 */
-	protected function createLogsFile($file)
-	{
-		$directory = dirname($file);
+        // Save for reuse
+        $this->name[$hash] = $name;
 
-		// Create directory
-		if (!is_dir($directory)) {
-			$this->files->makeDirectory($directory, 0777, true);
-		}
+        return $name;
+    }
 
-		// Create file
-		if (!file_exists($file)) {
-			$this->files->put($file, '');
-		}
-	}
+    /**
+     * Get the current logs
+     *
+     * @return array
+     */
+    public function getLogs()
+    {
+        return array_get($this->logs, $this->getCurrentLogsFile());
+    }
+
+    /**
+     * Get the current logs, flattened
+     *
+     * @return string
+     */
+    public function getFlattenedLogs()
+    {
+        return $this->formatEntries($this->getLogs());
+    }
+
+    //////////////////////////////////////////////////////////////////////
+    ////////////////////////////// HELPERS ///////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+
+    /**
+     * Create a logs file if it doesn't exist
+     *
+     * @param string $file
+     */
+    protected function createLogsFile($file)
+    {
+        $directory = dirname($file);
+
+        // Create directory
+        if (!is_dir($directory)) {
+            $this->files->makeDirectory($directory, 0777, true);
+        }
+
+        // Create file
+        if (!file_exists($file)) {
+            $this->files->put($file, '');
+        }
+    }
+
+    /**
+     * Format entries to a string
+     *
+     * @param array $entries
+     *
+     * @return string
+     */
+    protected function formatEntries($entries)
+    {
+        $entries = Arr::flatten($entries);
+        $entries = implode(PHP_EOL, $entries);
+
+        return $entries;
+    }
+
+    /**
+     * Prepend the connection handle to each log entry
+     *
+     * @param string|string[] $entries
+     *
+     * @return string|string[]
+     */
+    protected function prependHandle($entries)
+    {
+        $entries = (array) $entries;
+        $handle  = $this->connections->getLongHandle();
+
+        foreach ($entries as $key => $entry) {
+            $entry = str_replace('<comment>['.$handle.']</comment> ', null, $entry);
+            $entry = sprintf('[%s] %s', $handle, $entry);
+
+            $entries[$key] = $entry;
+        }
+
+        return count($entries) === 1 ? $entries[0] : $entries;
+    }
 }

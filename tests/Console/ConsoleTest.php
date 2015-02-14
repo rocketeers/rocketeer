@@ -5,10 +5,10 @@ use Rocketeer\TestCases\RocketeerTestCase;
 
 class ConsoleTest extends RocketeerTestCase
 {
-	public function testCanRunStandaloneConsole()
-	{
-		$console = exec('php bin/rocketeer --version --no-ansi');
+    public function testCanRunStandaloneConsole()
+    {
+        $console = exec($this->binaries['php'].' bin/rocketeer --version --no-ansi');
 
-		$this->assertContains('Rocketeer version', $console);
-	}
+        $this->assertContains('Rocketeer version', $console);
+    }
 }

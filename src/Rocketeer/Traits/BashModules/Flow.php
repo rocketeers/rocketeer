@@ -7,6 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Traits\BashModules;
 
 /**
@@ -16,107 +17,143 @@ namespace Rocketeer\Traits\BashModules;
  */
 trait Flow
 {
-	/**
-	 * Whether the task needs to be run on each stage or globally
-	 *
-	 * @var boolean
-	 */
-	public $usesStages = true;
+    /**
+     * Whether the task needs to be run on each stage or globally
+     *
+     * @type boolean
+     */
+    public $usesStages = true;
 
-	/**
-	 * Check if the remote server is setup
-	 *
-	 * @return boolean
-	 */
-	public function isSetup()
-	{
-		return $this->fileExists($this->paths->getFolder('current'));
-	}
+    /**
+     * Check if the remote server is setup
+     *
+     * @return boolean
+     */
+    public function isSetup()
+    {
+        return $this->fileExists($this->paths->getFolder('current'));
+    }
 
-	/**
-	 * Check if the task uses stages
-	 *
-	 * @return boolean
-	 */
-	public function usesStages()
-	{
-		$stages = $this->connections->getStages();
+    /**
+     * Check if the task uses stages
+     *
+     * @return boolean
+     */
+    public function usesStages()
+    {
+        $stages = $this->connections->getStages();
 
-		return $this->usesStages && !empty($stages);
-	}
+        return $this->usesStages && !empty($stages);
+    }
 
-	/**
-	 * Run actions in the current release's folder
-	 *
-	 * @param string|array $tasks One or more tasks
-	 *
-	 * @return string
-	 */
-	public function runForCurrentRelease($tasks)
-	{
-		return $this->runInFolder($this->releasesManager->getCurrentReleasePath(), $tasks);
-	}
+    /**
+     * Run actions in the current release's folder
+     *
+     * @param string|array $tasks One or more tasks
+     *
+     * @return string
+     */
+    public function runForCurrentRelease($tasks)
+    {
+        return $this->runInFolder($this->releasesManager->getCurrentReleasePath(), $tasks);
+    }
 
-	////////////////////////////////////////////////////////////////////
-	//////////////////////////// SHARED FOLDERS ////////////////////////
-	////////////////////////////////////////////////////////////////////
+    /**
+     * Run actions for the core of the application itself
+     *
+     * @param string|array $tasks
+     *
+     * @return string
+     */
+    public function runForApplication($tasks)
+    {
+        $folder = $this->rocketeer->getOption('remote.subdirectory');
+        $folder = $this->releasesManager->getCurrentReleasePath($folder);
 
-	/**
-	 * Sync the requested folders and files
-	 *
-	 * @return boolean
-	 */
-	protected function syncSharedFolders()
-	{
-		$shared = (array) $this->rocketeer->getOption('remote.shared');
-		foreach ($shared as &$file) {
-			$this->share($file);
-		}
+        return $this->runInFolder($folder, $tasks);
+    }
 
-		return true;
-	}
+    ////////////////////////////////////////////////////////////////////
+    //////////////////////////// SHARED FOLDERS ////////////////////////
+    ////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Update the current symlink
-	 *
-	 * @param integer|null $release A release to mark as current
-	 *
-	 * @return string
-	 */
-	public function updateSymlink($release = null)
-	{
-		// If the release is specified, update to make it the current one
-		if ($release) {
-			$this->releasesManager->setNextRelease($release);
-		}
+    /**
+     * Sync the requested folders and files
+     *
+     * @return boolean
+     */
+    protected function syncSharedFolders()
+    {
+        $shared = (array) $this->rocketeer->getOption('remote.shared');
+        foreach ($shared as &$file) {
+            $this->share($file);
+        }
 
-		// Get path to current/ folder and latest release
-		$currentReleasePath = $this->releasesManager->getCurrentReleasePath();
-		$currentFolder      = $this->paths->getFolder('current');
+        return true;
+    }
 
-		return $this->symlink($currentReleasePath, $currentFolder);
-	}
+    /**
+     * Update the current symlink
+     *
+     * @param integer|null $release A release to mark as current
+     *
+     * @return string
+     */
+    public function updateSymlink($release = null)
+    {
+        // If the release is specified, update to make it the current one
+        if ($release) {
+            $this->releasesManager->setNextRelease($release);
+        }
 
-	/**
-	 * Share a file or folder between releases
-	 *
-	 * @param string $file Path to the file in a release folder
-	 *
-	 * @return string
-	 */
-	public function share($file)
-	{
-		// Get path to current file and shared file
-		$currentFile = $this->releasesManager->getCurrentReleasePath($file);
-		$sharedFile  = preg_replace('#releases/[0-9]+/#', 'shared/', $currentFile);
+        // Get path to current/ folder and latest release
+        $currentReleasePath = $this->releasesManager->getCurrentReleasePath();
+        $currentFolder      = $this->paths->getFolder('current');
 
-		// If no instance of the shared file exists, use current one
-		if (!$this->fileExists($sharedFile)) {
-			$this->move($currentFile, $sharedFile);
-		}
+        return $this->symlink($currentReleasePath, $currentFolder);
+    }
 
-		$this->explainer->line('Sharing file '.$currentFile);
+    /**
+     * Share a file or folder between releases
+     *
+     * @param string $file Path to the file in a release folder
+     *
+     * @return string
+     */
+    public function share($file)
+    {
+        // Get path to current file and shared file
+        $currentFile = $this->releasesManager->getCurrentReleasePath($file);
+        $sharedFile  = preg_replace('#releases/[0-9]+/#', 'shared/', $currentFile);
 
-		return $this->symlink($sharedFile, $currentFile);
-	}
+        // If no instance of the shared file exists, use current one
+        if (!$this->fileExists($sharedFile)) {
+            $this->move($currentFile, $sharedFile);
+        }
+
+        $this->explainer->line('Sharing file '.$currentFile);
+
+        return $this->symlink($sharedFile, $currentFile);
+    }
+
+    /**
+     * Copy a folder/file from the previous release
+     *
+     * @param string $folder
+     *
+     * @return string
+     */
+    public function copyFromPreviousRelease($folder)
+    {
+        $previous = $this->releasesManager->getPreviousRelease();
+        if (!$previous) {
+            return;
+        }
+
+        $this->explainer->line('Copying file/folder '.$folder.' from previous release');
+        $previous = $this->releasesManager->getPathToRelease($previous.'/'.$folder);
+        $folder   = $this->releasesManager->getCurrentReleasePath($folder);
+
+        return $this->copy($previous, $folder);
+    }
 }

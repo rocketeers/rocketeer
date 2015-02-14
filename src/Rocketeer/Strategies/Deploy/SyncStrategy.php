@@ -7,6 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Strategies\Deploy;
 
 use Rocketeer\Abstracts\Strategies\AbstractStrategy;
@@ -15,73 +16,109 @@ use Rocketeer\Interfaces\Strategies\DeployStrategyInterface;
 
 class SyncStrategy extends AbstractStrategy implements DeployStrategyInterface
 {
-	/**
-	 * @type string
-	 */
-	protected $description = 'Uses rsync to create or update a release from the local files';
+    /**
+     * @type string
+     */
+    protected $description = 'Uses rsync to create or update a release from the local files';
 
-	/**
-	 * Deploy a new clean copy of the application
-	 *
-	 * @param string|null $destination
-	 *
-	 * @return boolean
-	 */
-	public function deploy($destination = null)
-	{
-		if (!$destination) {
-			$destination = $this->releasesManager->getCurrentReleasePath();
-		}
+    /**
+     * @type array
+     */
+    protected $options = array(
+        'port'     => null,
+        'excluded' => ['.git', 'vendor'],
+    );
 
-		// Create receiveing folder
-		$this->createFolder($destination);
+    /**
+     * Deploy a new clean copy of the application
+     *
+     * @param string|null $destination
+     *
+     * @return boolean
+     */
+    public function deploy($destination = null)
+    {
+        if (!$destination) {
+            $destination = $this->releasesManager->getCurrentReleasePath();
+        }
 
-		return $this->rsyncTo($destination);
-	}
+        // Create receiveing folder
+        $this->createFolder($destination);
 
-	/**
-	 * Update the latest version of the application
-	 *
-	 * @param boolean $reset
-	 *
-	 * @return boolean
-	 */
-	public function update($reset = true)
-	{
-		$release = $this->releasesManager->getCurrentReleasePath();
+        return $this->rsyncTo($destination);
+    }
 
-		return $this->rsyncTo($release);
-	}
+    /**
+     * Update the latest version of the application
+     *
+     * @param boolean $reset
+     *
+     * @return boolean
+     */
+    public function update($reset = true)
+    {
+        $release = $this->releasesManager->getCurrentReleasePath();
 
-	/**
-	 * Rsyncs the local folder to a remote one
-	 *
-	 * @param string $destination
-	 *
-	 * @return boolean
-	 */
-	protected function rsyncTo($destination)
-	{
-		// Build host handle
-		$credentials = $this->connections->getServerCredentials();
-		$handle      = array_get($credentials, 'host');
-		if ($user = array_get($credentials, 'username')) {
-			$handle = $user.'@'.$handle;
-		}
+        return $this->rsyncTo($release);
+    }
 
-		// Create options
-		$options  = '--verbose --recursive --rsh="ssh"';
-		$excludes = ['.git', 'vendor'];
-		foreach ($excludes as $exclude) {
-			$options .= ' --exclude="'.$exclude.'"';
-		}
+    /**
+     * Rsyncs the local folder to a remote one
+     *
+     * @param string $destination
+     *
+     * @return boolean
+     */
+    protected function rsyncTo($destination)
+    {
+        // Build host handle
+        $arguments = [];
+        $handle    = $this->getSyncHandle();
 
-		// Create binary and command
-		$rsync = $this->binary('rsync');
-		$rsync = $rsync->getCommand(null, ['./', $handle.':'.$destination], $options);
+        // Create options
+        $options = ['--verbose' => null, '--recursive' => null, '--rsh' => 'ssh'];
+        if ($port = $this->getOption('port', true)) {
+            $options['--rsh'] = 'ssh -p '.$port;
+        }
 
-		return $this->bash->onLocal(function (Bash $bash) use ($rsync) {
-			return $bash->run($rsync);
-		});
-	}
+        // Build arguments
+        $arguments[] = './';
+        $arguments[] = $handle.':'.$destination;
+
+        // Set excluded files and folders
+        $options['--exclude'] = ['.git', 'vendor'];
+
+        // Create binary and command
+        $rsync   = $this->binary('rsync');
+        $command = $rsync->getCommand(null, $arguments, $options);
+
+        return $this->bash->onLocal(function (Bash $bash) use ($command) {
+            return $bash->run($command);
+        });
+    }
+
+    /**
+     * Get the handle to connect with
+     *
+     * @return string
+     */
+    protected function getSyncHandle()
+    {
+        $credentials    = $this->connections->getServerCredentials();
+        $handle         = array_get($credentials, 'host');
+        $explodedHandle = explode(':', $handle);
+
+        // Extract port
+        if (count($explodedHandle) === 2) {
+            $this->options['port'] = $explodedHandle[1];
+            $handle                = $explodedHandle[0];
+        }
+
+        // Add username
+        if ($user = array_get($credentials, 'username')) {
+            $handle = $user.'@'.$handle;
+        }
+
+        return $handle;
+    }
 }

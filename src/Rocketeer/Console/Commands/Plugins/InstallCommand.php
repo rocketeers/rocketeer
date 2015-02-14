@@ -1,52 +1,36 @@
 <?php
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Console\Commands\Plugins;
 
-use Rocketeer\Abstracts\AbstractCommand;
+use Rocketeer\Abstracts\Commands\AbstractPluginCommand;
 use Symfony\Component\Console\Input\InputArgument;
 
-class InstallCommand extends AbstractCommand
+class InstallCommand extends AbstractPluginCommand
 {
-	/**
-	 * The default name
-	 *
-	 * @var string
-	 */
-	protected $name = 'deploy:plugin-install';
+    /**
+     * @type string
+     */
+    protected $pluginTask = 'Installer';
 
-	/**
-	 * The console command description.
-	 *
-	 * @var string
-	 */
-	protected $description = 'Install a plugin';
+    /**
+     * The default name
+     *
+     * @type string
+     */
+    protected $name = 'plugin:install';
 
-	/**
-	 * Whether the command's task should be built
-	 * into a pipeline or run straight
-	 *
-	 * @type boolean
-	 */
-	protected $straight = true;
-
-	/**
-	 * Run the tasks
-	 *
-	 * @return integer
-	 */
-	public function fire()
-	{
-		return $this->fireTasksQueue('Plugins\Installer');
-	}
-
-	/**
-	 * Get the console command arguments.
-	 *
-	 * @return string[][]
-	 */
-	protected function getArguments()
-	{
-		return array(
-			['package', InputArgument::REQUIRED, 'The package to publish the configuration for'],
-		);
-	}
+    /**
+     * The console command description.
+     *
+     * @type string
+     */
+    protected $description = 'Install a plugin';
 }

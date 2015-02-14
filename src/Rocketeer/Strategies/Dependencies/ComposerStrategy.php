@@ -7,6 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Strategies\Dependencies;
 
 use Rocketeer\Abstracts\Strategies\AbstractDependenciesStrategy;
@@ -14,52 +15,22 @@ use Rocketeer\Interfaces\Strategies\DependenciesStrategyInterface;
 
 class ComposerStrategy extends AbstractDependenciesStrategy implements DependenciesStrategyInterface
 {
-	/**
-	 * @type string
-	 */
-	protected $description = 'Installs dependencies with Composer';
+    protected $options = array(
+        'shared_dependencies' => false,
+        'flags'               => array(
+            'install' => ['--no-interaction' => null, '--no-dev' => null, '--prefer-dist' => null],
+        ),
+    );
 
-	/**
-	 * The name of the binary
-	 *
-	 * @type string
-	 */
-	protected $binary = 'composer';
+    /**
+     * @type string
+     */
+    protected $description = 'Installs dependencies with Composer';
 
-	/**
-	 * Install the dependencies
-	 *
-	 * @return bool
-	 */
-	public function install()
-	{
-		return $this->executeHook('install');
-	}
-
-	/**
-	 * Update the dependencies
-	 *
-	 * @return boolean
-	 */
-	public function update()
-	{
-		return $this->executeHook('update');
-	}
-
-	/**
-	 * @param string $hook
-	 *
-	 * @return bool
-	 */
-	protected function executeHook($hook)
-	{
-		$tasks = $this->getHookedTasks('composer.'.$hook, [$this->manager, $this]);
-		if (!$tasks) {
-			return true;
-		}
-
-		$this->runForCurrentRelease($tasks);
-
-		return $this->checkStatus('Composer could not install dependencies');
-	}
+    /**
+     * The name of the binary
+     *
+     * @type string
+     */
+    protected $binary = 'composer';
 }

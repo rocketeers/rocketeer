@@ -7,9 +7,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Tasks;
 
 use Rocketeer\Abstracts\AbstractTask;
+use Rocketeer\Interfaces\Strategies\TestStrategyInterface;
 
 /**
  * Run the tests on the server and displays the output
@@ -18,25 +20,26 @@ use Rocketeer\Abstracts\AbstractTask;
  */
 class Test extends AbstractTask
 {
-	/**
-	 * A description of what the task does
-	 *
-	 * @var string
-	 */
-	protected $description = 'Run the tests on the server and displays the output';
+    /**
+     * A description of what the task does
+     *
+     * @type string
+     */
+    protected $description = 'Run the tests on the server and displays the output';
 
-	/**
-	 * Run the task
-	 *
-	 * @return boolean
-	 */
-	public function execute()
-	{
-		$tester = $this->getStrategy('Test');
-		if (!$tester) {
-			return true;
-		}
+    /**
+     * Run the task
+     *
+     * @return boolean
+     */
+    public function execute()
+    {
+        /** @type TestStrategyInterface $tester */
+        $tester = $this->getStrategy('Test');
+        if (!$tester) {
+            return true;
+        }
 
-		return $tester->test();
-	}
+        return $tester->test();
+    }
 }

@@ -7,12 +7,15 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services\Connections;
 
 use Exception;
+use Illuminate\Support\Arr;
 use InvalidArgumentException;
 use Rocketeer\Exceptions\ConnectionException;
 use Rocketeer\Exceptions\MissingCredentialsException;
+use Rocketeer\Interfaces\CredentialsExceptionInterface;
 use Rocketeer\Traits\HasLocator;
 use Symfony\Component\Console\Output\NullOutput;
 
@@ -20,126 +23,145 @@ use Symfony\Component\Console\Output\NullOutput;
  * Handle creationg and caching of connections
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
- * @author Taylor Otwell
+ * @author Taylor Otwell <taylorotwell@gmail.com>
  */
 class RemoteHandler
 {
-	use HasLocator;
+    use HasLocator;
 
-	/**
-	 * A storage of active connections
-	 *
-	 * @type Connection[]
-	 */
-	protected $active = [];
+    /**
+     * A storage of active connections
+     *
+     * @type Connection[]
+     */
+    protected $active = [];
 
-	/**
-	 * Whether the handler is currently connected to any server
-	 *
-	 * @return boolean
-	 */
-	public function connected()
-	{
-		return (bool) $this->active;
-	}
+    /**
+     * Whether the handler is currently connected to any server
+     *
+     * @return boolean
+     */
+    public function connected()
+    {
+        return (bool) $this->active;
+    }
 
-	/**
-	 * Create a specific connection or the default one
-	 *
-	 * @param string|null $connection
-	 * @param integer     $server
-	 *
-	 * @return Connection
-	 */
-	public function connection($connection = null, $server = 0)
-	{
-		$name   = $connection ?: $this->connections->getConnection();
-		$server = $server ?: $this->connections->getServer();
-		$handle = $this->connections->getHandle($name, $server);
+    /**
+     * Create a specific connection or the default one
+     *
+     * @param string|null $connection
+     * @param integer     $server
+     *
+     * @return Connection
+     */
+    public function connection($connection = null, $server = 0)
+    {
+        $name   = $connection ?: $this->connections->getConnection();
+        $server = $server ?: $this->connections->getServer();
+        $handle = $this->connections->getHandle($name, $server);
 
-		// Check the cache
-		if (isset($this->active[$handle])) {
-			return $this->active[$handle];
-		}
+        // Check the cache
+        if (isset($this->active[$handle])) {
+            return $this->active[$handle];
+        }
 
-		// Create connection
-		$credentials = $this->connections->getServerCredentials($connection, $server);
-		$connection  = $this->makeConnection($name, $credentials);
+        // Get credentials and roles
+        $credentials = $this->connections->getServerCredentials($connection, $server);
+        $roles       = Arr::get($credentials, 'roles', []);
 
-		// Save to cache
-		$this->active[$handle] = $connection;
+        // Create connection
+        $connection = $this->makeConnection($name, $credentials);
+        $connection->setRoles($roles);
 
-		return $connection;
-	}
+        // Save to cache
+        $this->active[$handle] = $connection;
 
-	/**
-	 * @param string $name
-	 * @param array  $credentials
-	 *
-	 * @throws MissingCredentialsException
-	 * @return Connection
-	 */
-	protected function makeConnection($name, array $credentials)
-	{
-		if (!isset($credentials['host']) || !isset($credentials['username'])) {
-			throw new MissingCredentialsException('Host and/or username is required for '.$name);
-		}
+        return $connection;
+    }
 
-		$connection = new Connection(
-			$name,
-			$credentials['host'],
-			$credentials['username'],
-			$this->getAuth($credentials)
-		);
+    /**
+     * @param string $name
+     * @param array  $credentials
+     *
+     * @throws MissingCredentialsException
+     * @return Connection
+     */
+    protected function makeConnection($name, array $credentials)
+    {
+        if (!isset($credentials['host']) || !isset($credentials['username'])) {
+            throw new MissingCredentialsException('Host and/or username is required for '.$name);
+        }
 
-		// Set output on connection
-		$output = $this->hasCommand() ? $this->command->getOutput() : new NullOutput();
-		$connection->setOutput($output);
+        $connection = new Connection(
+            $name,
+            $credentials['host'],
+            $credentials['username'],
+            $this->getAuth($credentials)
+        );
 
-		return $connection;
-	}
+        // Set output on connection
+        $output = $this->hasCommand() ? $this->command->getOutput() : new NullOutput();
+        $connection->setOutput($output);
 
-	/**
-	 * Format the appropriate authentication array payload.
-	 *
-	 * @param  array $config
-	 *
-	 * @return array
-	 * @throws InvalidArgumentException
-	 */
-	protected function getAuth(array $config)
-	{
-		if (isset($config['agent']) && $config['agent'] === true) {
-			return ['agent' => true];
-		} elseif (isset($config['key']) && trim($config['key']) != '') {
-			return ['key' => $config['key'], 'keyphrase' => $config['keyphrase']];
-		} elseif (isset($config['keytext']) && trim($config['keytext']) != '') {
-			return ['keytext' => $config['keytext']];
-		} elseif (isset($config['password'])) {
-			return ['password' => $config['password']];
-		}
+        return $connection;
+    }
 
-		throw new MissingCredentialsException('Password / key is required.');
-	}
+    /**
+     * Format the appropriate authentication array payload.
+     *
+     * @param array $config
+     *
+     * @return array
+     * @throws CredentialsExceptionInterface
+     */
+    protected function getAuth(array $config)
+    {
+        if (isset($config['agent']) && $config['agent'] === true) {
+            return ['agent' => true];
+        } elseif (isset($config['key']) && trim($config['key']) !== '') {
+            return ['key' => $config['key'], 'keyphrase' => $config['keyphrase']];
+        } elseif (isset($config['keytext']) && trim($config['keytext']) !== '') {
+            return ['keytext' => $config['keytext']];
+        } elseif (isset($config['password'])) {
+            return ['password' => $config['password']];
+        }
 
-	/**
-	 * Dynamically pass methods to the default connection.
-	 *
-	 * @param  string $method
-	 * @param  array  $parameters
-	 *
-	 * @throws \Rocketeer\Exceptions\ConnectionException
-	 * @return mixed
-	 */
-	public function __call($method, $parameters)
-	{
-		try {
-			return call_user_func_array([$this->connection(), $method], $parameters);
-		} catch (Exception $exception) {
-			$exception = new ConnectionException($exception->getMessage());
-			$exception->setCredentials($this->connections->getServerCredentials());
+        throw $this->throwExceptionWithCredentials(new MissingCredentialsException('Password / key is required.'));
+    }
 
-			throw $exception;
-		}
-	}
+    /**
+     * Dynamically pass methods to the default connection.
+     *
+     * @param string $method
+     * @param array  $parameters
+     *
+     * @throws CredentialsExceptionInterface
+     * @return mixed
+     */
+    public function __call($method, $parameters)
+    {
+        try {
+            return call_user_func_array([$this->connection(), $method], $parameters);
+        } catch (Exception $exception) {
+            throw $this->throwExceptionWithCredentials(new ConnectionException($exception->getMessage()));
+        }
+    }
+
+    //////////////////////////////////////////////////////////////////////
+    ////////////////////////////// HELPERS ///////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+
+    /**
+     * Throw an exception and display the credentials that failed with it
+     *
+     * @param CredentialsExceptionInterface $exception
+     *
+     * @return CredentialsExceptionInterface
+     */
+    protected function throwExceptionWithCredentials(CredentialsExceptionInterface $exception)
+    {
+        $exception->setCredentials($this->connections->getServerCredentials());
+
+        return $exception;
+    }
 }

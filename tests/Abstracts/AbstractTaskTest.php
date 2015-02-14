@@ -5,137 +5,159 @@ use Rocketeer\TestCases\RocketeerTestCase;
 
 class AbstractTaskTest extends RocketeerTestCase
 {
-	public function testCanDisplayOutputOfCommandsIfVerbose()
-	{
-		$task = $this->task('Check', array(
-			'verbose' => true,
-		));
+    public function testCanDisplayOutputOfCommandsIfVerbose()
+    {
+        $this->expectOutputRegex('/tests/');
 
-		ob_start();
-		$task->run('ls');
-		$output = ob_get_clean();
+        $this->mockCommand(['verbose' => true], [], true);
+        $task = $this->task('Check');
 
-		$this->assertContains('tests', $output);
-	}
+        $task->run('ls');
+    }
 
-	public function testCanPretendToRunTasks()
-	{
-		$task     = $this->pretendTask();
-		$commands = $task->run('ls');
+    public function testCanPretendToRunTasks()
+    {
+        $task     = $this->pretendTask();
+        $commands = $task->run('ls');
 
-		$this->assertEquals('ls', $commands);
-	}
+        $this->assertEquals('ls', $commands);
+    }
 
-	public function testCanGetDescription()
-	{
-		$task = $this->task('Setup');
+    public function testCanGetDescription()
+    {
+        $task = $this->task('Setup');
 
-		$this->assertNotNull($task->getDescription());
-	}
+        $this->assertNotNull($task->getDescription());
+    }
 
-	public function testCanFireEventsDuringTasks()
-	{
-		$this->expectOutputString('foobar');
-		$this->swapConfig(['rocketeer::hooks' => []]);
+    public function testCanFireEventsDuringTasks()
+    {
+        $this->disableTestEvents();
+        $this->expectFiredEvent('closure.test.foobar');
 
-		$this->tasks->listenTo('closure.test.foobar', function () {
-			echo 'foobar';
-		});
+        $this->queue->execute(function ($task) {
+            $task->fireEvent('test.foobar');
+        }, 'staging');
+    }
 
-		$this->queue->execute(function ($task) {
-			$task->fireEvent('test.foobar');
-		}, 'staging');
-	}
+    public function testTaskCancelsIfEventHalts()
+    {
+        $this->expectOutputString('abc');
+        $this->disableTestEvents();
 
-	public function testTaskCancelsIfEventHalts()
-	{
-		$this->expectOutputString('abc');
+        $this->tasks->registerConfiguredEvents();
+        $this->tasks->listenTo('deploy.before', array(
+            function () {
+                echo 'a';
 
-		$this->swapConfig(array(
-			'rocketeer::hooks' => [],
-		));
+                return true;
+            },
+            function () {
+                echo 'b';
 
-		$this->tasks->registerConfiguredEvents();
-		$this->tasks->listenTo('deploy.before', array(
-			function () {
-				echo 'a';
+                return 'lol';
+            },
+            function () {
+                echo 'c';
 
-				return true;
-			},
-			function () {
-				echo 'b';
+                return false;
+            },
+            function () {
+                echo 'd';
+            },
+        ));
 
-				return 'lol';
-			},
-			function () {
-				echo 'c';
+        $task    = $this->pretendTask('Deploy');
+        $results = $task->fire();
 
-				return false;
-			},
-			function () {
-				echo 'd';
-			},
-		));
+        $this->assertFalse($results);
+    }
 
-		$task = $this->pretendTask('Deploy');
-		$task->fire();
-	}
+    public function testCanListenToSubtasks()
+    {
+        $this->disableTestEvents();
+        $this->tasks->listenTo('dependencies.before', ['ls']);
 
-	public function testCanListenToSubtasks()
-	{
-		$this->swapConfig(array(
-			'rocketeer::hooks' => [],
-		));
+        $this->pretendTask('Deploy')->fire();
 
-		$this->tasks->listenTo('dependencies.before', ['ls']);
+        $history = $this->history->getFlattenedOutput();
+        $this->assertHistory(array(
+            'cd {server}/releases/{release}',
+            'ls',
+        ), array_get($history, 4));
+    }
 
-		$this->pretendTask('Deploy')->fire();
+    public function testDoesntDuplicateQueuesOnSubtasks()
+    {
+        $this->swapConfig(array(
+            'rocketeer::default' => ['staging', 'production'],
+        ));
 
-		$history = $this->history->getFlattenedOutput();
-		$this->assertHistory(array(
-			'cd {server}/releases/{release}',
-			'ls',
-		), array_get($history, 3));
-	}
+        $this->pretend();
+        $this->queue->run('Deploy');
 
-	public function testDoesntDuplicateQueuesOnSubtasks()
-	{
-		$this->swapConfig(array(
-			'rocketeer::default' => ['staging', 'production'],
-		));
+        $this->assertCount(18, $this->history->getFlattenedHistory());
+    }
 
-		$this->pretend();
-		$this->queue->run('Deploy');
+    public function testCanHookIntoHaltingEvent()
+    {
+        $this->expectFiredEvent('deploy.halt');
+        $this->tasks->before('deploy', 'Rocketeer\Dummies\Tasks\MyCustomHaltingTask');
 
-		$this->assertCount(18, $this->history->getFlattenedHistory());
-	}
+        $this->pretendTask('Deploy')->fire();
+    }
 
-	public function testCanHookIntoHaltingEvent()
-	{
-		$this->expectOutputString('halted');
+    public function testHaltingCancelsQueue()
+    {
+        $this->expectOutputString('');
 
-		$this->tasks->before('deploy', 'Rocketeer\Dummies\Tasks\MyCustomHaltingTask');
+        $this->queue->run(array(
+            function (AbstractTask $task) {
+                $task->halt('foobar');
+            },
+            function () {
+                echo 'foobar';
+            },
+        ));
+    }
 
-		$this->tasks->listenTo('deploy.halt', function () {
-			echo 'halted';
-		});
+    public function testCanDisplayReleasesTable()
+    {
+        $headers  = ['#', 'Path', 'Deployed at', 'Status'];
+        $releases = array(
+            [0, 20000000000000, '<fg=green>1999-11-30 00:00:00</fg=green>', '✓'],
+            [1, 15000000000000, '<fg=red>1499-11-30 00:00:00</fg=red>', '✘'],
+            [2, 10000000000000, '<fg=green>0999-11-30 00:00:00</fg=green>', '✓'],
+        );
 
-		$this->pretendTask('Deploy')->fire();
-	}
+        $this->app['rocketeer.command'] = $this->getCommand()
+                                               ->shouldReceive('table')->with($headers, $releases)->andReturn(null)->once()
+                                               ->mock();
 
-	public function testCanDisplayReleasesTable()
-	{
-		$headers  = ['#', 'Path', 'Deployed at', 'Status'];
-		$releases = array(
-			[0, 20000000000000, '<fg=green>1999-11-30 00:00:00</fg=green>', '✓'],
-			[1, 15000000000000, '<fg=red>1499-11-30 00:00:00</fg=red>', '✘'],
-			[2, 10000000000000, '<fg=green>0999-11-30 00:00:00</fg=green>', '✓'],
-		);
+        $this->task('CurrentRelease')->execute();
+    }
 
-		$this->app['rocketeer.command'] = $this->getCommand()
-		                                       ->shouldReceive('table')->with($headers, $releases)->andReturn(null)->once()
-		                                       ->mock();
+    public function testCanGetOptionsViaCommandOrSetters()
+    {
+        $this->mockCommand(['pretend' => true, 'foo' => 'bar']);
 
-		$this->task('CurrentRelease')->execute();
-	}
+        $task = $this->task('Deploy');
+        $task->configure(['baz' => 'qux']);
+
+        $this->assertTrue($task->getOption('pretend'));
+        $this->assertEquals('bar', $task->getOption('foo', true));
+        $this->assertEquals('qux', $task->getOption('baz', true));
+    }
+
+    public function testCanSetLocalModeIfOnlyTaskIsLocal()
+    {
+        $this->pretend();
+        $task = $this->builder->buildTask(function (AbstractTask $task) {
+            return $task->connections->getLongHandle();
+        });
+        $task->setLocal(true);
+        $results = $task->fire();
+
+        $this->assertEquals('anahkiasen@local', $results);
+    }
 }

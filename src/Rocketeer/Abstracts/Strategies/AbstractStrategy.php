@@ -7,66 +7,114 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Abstracts\Strategies;
 
 use Illuminate\Support\Arr;
 use Rocketeer\Bash;
+use Rocketeer\Interfaces\IdentifierInterface;
+use Rocketeer\Traits\Properties\Configurable;
+use Rocketeer\Traits\Properties\HasEvents;
+use Rocketeer\Traits\Sluggable;
 
 /**
  * Core class for strategies
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-abstract class AbstractStrategy extends Bash
+abstract class AbstractStrategy extends Bash implements IdentifierInterface
 {
-	/**
-	 * @type string
-	 */
-	protected $description;
+    use Configurable;
+    use Sluggable;
+    use HasEvents;
 
-	/**
-	 * @return string
-	 */
-	public function getDescription()
-	{
-		return $this->description;
-	}
+    /**
+     * @type array
+     */
+    protected $options = [];
 
-	/**
-	 * Whether this particular strategy is runnable or not
-	 *
-	 * @return boolean
-	 */
-	public function isExecutable()
-	{
-		return true;
-	}
+    /**
+     * @type string
+     */
+    protected $description;
 
-	//////////////////////////////////////////////////////////////////////
-	////////////////////////////// HELPERS ///////////////////////////////
-	//////////////////////////////////////////////////////////////////////
+    /**
+     * Get the name of the entity
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return str_replace('Strategy', null, class_basename($this));
+    }
 
-	/**
-	 * Display what the command is and does
-	 *
-	 * @return $this
-	 */
-	public function displayStatus()
-	{
-		// Recompose strategy and implementation from
-		// the class name
-		$components = get_class($this);
-		$components = explode('\\', $components);
+    /**
+     * Get the type of strategy
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        $name = get_class($this);
+        $name = explode('\\', $name);
+        $name = $name[count($name) - 2];
 
-		$name     = Arr::get($components, count($components) - 1);
-		$strategy = Arr::get($components, count($components) - 2);
+        return $name;
+    }
 
-		$parent   = ucfirst($strategy);
-		$concrete = str_replace('Strategy', null, $name);
-		$details  = $this->getDescription();
+    /**
+     * Get a global identifier for this entity
+     *
+     * @return string
+     */
+    public function getIdentifier()
+    {
+        return 'strategies.'.strtolower($this->getType()).'.'.$this->getSlug();
+    }
 
-		$this->explainer->display($parent.'/'.$concrete, $details);
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
 
-		return $this;
-	}
+    /**
+     * Whether this particular strategy is runnable or not
+     *
+     * @return boolean
+     */
+    public function isExecutable()
+    {
+        return true;
+    }
+
+    //////////////////////////////////////////////////////////////////////
+    ////////////////////////////// HELPERS ///////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+
+    /**
+     * Display what the command is and does
+     *
+     * @return $this
+     */
+    public function displayStatus()
+    {
+        // Recompose strategy and implementation from
+        // the class name
+        $components = get_class($this);
+        $components = explode('\\', $components);
+
+        $name     = Arr::get($components, count($components) - 1);
+        $strategy = Arr::get($components, count($components) - 2);
+
+        $parent   = ucfirst($strategy);
+        $concrete = str_replace('Strategy', null, $name);
+        $details  = $this->getDescription();
+
+        $this->explainer->display($parent.'/'.$concrete, $details);
+
+        return $this;
+    }
 }

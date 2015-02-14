@@ -5,8 +5,8 @@ use Rocketeer\Abstracts\AbstractTask;
 
 class MyCustomHaltingTask extends AbstractTask
 {
-	public function execute()
-	{
-		return $this->halt();
-	}
+    public function execute()
+    {
+        return $this->halt();
+    }
 }

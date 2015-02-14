@@ -5,8 +5,8 @@ use Rocketeer\Abstracts\Strategies\AbstractStrategy;
 
 class ExecutableStrategy extends AbstractStrategy
 {
-	public function fire()
-	{
-		echo 'executable';
-	}
+    public function fire()
+    {
+        echo 'executable';
+    }
 }

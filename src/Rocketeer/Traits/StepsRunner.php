@@ -7,6 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Traits;
 
 use Rocketeer\Services\StepsBuilder;
@@ -19,42 +20,43 @@ use Rocketeer\Services\StepsBuilder;
  */
 trait StepsRunner
 {
-	/**
-	 * @type StepsBuilder
-	 */
-	protected $steps;
+    /**
+     * @type StepsBuilder
+     */
+    protected $steps;
 
-	/**
-	 * @return StepsBuilder
-	 */
-	public function steps()
-	{
-		if (!$this->steps) {
-			$this->steps = new StepsBuilder();
-		}
+    /**
+     * @return StepsBuilder
+     */
+    public function steps()
+    {
+        if (!$this->steps) {
+            $this->steps = new StepsBuilder();
+        }
 
-		return $this->steps;
-	}
+        return $this->steps;
+    }
 
-	/**
-	 * Execute an array of calls until one halts
-	 *
-	 * @return boolean
-	 */
-	public function runSteps()
-	{
-		$steps = $this->steps()->pullSteps();
-		foreach ($steps as $step) {
-			list($method, $arguments) = $step;
-			$arguments = (array) $arguments;
+    /**
+     * Execute an array of calls until one halts
+     *
+     * @return boolean
+     */
+    public function runSteps()
+    {
+        $steps = $this->steps()->pullSteps();
+        foreach ($steps as $step) {
+            list($method, $arguments) = $step;
+            $callable                 = is_callable($method) ? $method : [$this, $method];
+            $arguments                = (array) $arguments;
 
-			$results = call_user_func_array([$this, $method], $arguments);
-			$results = $results ?: $this->status();
-			if (!$results) {
-				return false;
-			}
-		}
+            $results = call_user_func_array($callable, $arguments);
+            $results = is_bool($results) ? $results : $this->status();
+            if (!$results) {
+                return false;
+            }
+        }
 
-		return true;
-	}
+        return true;
+    }
 }

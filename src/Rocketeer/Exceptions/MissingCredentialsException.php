@@ -7,11 +7,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Exceptions;
 
 use InvalidArgumentException;
+use Rocketeer\Interfaces\CredentialsExceptionInterface;
+use Rocketeer\Traits\Exceptions\WithCredentials;
 
-class MissingCredentialsException extends InvalidArgumentException
+class MissingCredentialsException extends InvalidArgumentException implements CredentialsExceptionInterface
 {
-	// ...
+    use WithCredentials;
 }

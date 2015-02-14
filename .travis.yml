@@ -7,6 +7,7 @@ php:
   - 5.4
   - 5.5
   - 5.6
+  - hhvm
 
 env:
   matrix:
@@ -18,7 +19,7 @@ before_install:
   - composer self-update
 
 install:
-  - travis_retry composer update --no-interaction --prefer-source --dev $PREFER_LOWEST
+  - travis_retry composer update --no-interaction --prefer-source $PREFER_LOWEST
 
 script: phpunit
 
