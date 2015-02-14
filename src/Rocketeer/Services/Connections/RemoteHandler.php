@@ -58,7 +58,7 @@ class RemoteHandler
     {
         $name   = $connection ?: $this->connections->getConnection();
         $server = $server ?: $this->connections->getServer();
-        $handle = $this->connections->getHandle($name, $server);
+        $handle = (string) $this->connections->getHandle($name, $server);
 
         // Check the cache
         if (isset($this->active[$handle])) {

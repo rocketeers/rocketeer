@@ -28,7 +28,7 @@ class ConnectionsHandler
     /**
      * The current handle
      *
-     * @type string
+     * @type ConnectionHandle
      */
     protected $handle;
 
@@ -67,13 +67,13 @@ class ConnectionsHandler
      * @param integer|null $server
      * @param string|null  $stage
      *
-     * @return string
+     * @return ConnectionHandle
      */
     public function getHandle($connection = null, $server = null, $stage = null)
     {
         // Return local handle
         if ($this->rocketeer->isLocal()) {
-            return 'local';
+            return new ConnectionHandle('local', null, null, $this->getCurrentUsername());
         }
 
         if ($this->handle) {
@@ -87,18 +87,12 @@ class ConnectionsHandler
 
         // Replace server index by hostname
         $server = array_get($this->getServerCredentials($connection, $server), 'host', $server);
-
-        // Filter values
-        $handle = $this->isMultiserver($connection) ? [$connection, $server, $stage] : [$connection, $stage];
-        $handle = array_filter($handle, function ($value) {
-            return $value !== null;
-        });
+        $server = $this->isMultiserver($connection) ? $server : null;
 
         // Concatenate
-        $handle       = implode('/', $handle);
-        $this->handle = $handle;
+        $this->handle = new ConnectionHandle($connection, $server, $stage, $this->getCurrentUsername());
 
-        return $handle;
+        return $this->handle;
     }
 
     /**
@@ -112,7 +106,7 @@ class ConnectionsHandler
      */
     public function getLongHandle($connection = null, $server = null, $stage = null)
     {
-        return $this->getCurrentUsername().'@'.$this->getHandle($connection, $server, $stage);
+        return $this->getHandle($connection, $server, $stage)->toLongHandle();
     }
 
     /**
