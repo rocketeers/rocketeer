@@ -72,15 +72,14 @@ class Migrate extends AbstractTask
      */
     protected function canRunMigrations()
     {
-        $serverCredentials = $this->connections->getServerCredentials();
-        $multiserver       = $this->connections->isMultiserver($this->connections->getCurrent());
-        $hasRole           = array_get($serverCredentials, 'db_role');
-        $useRoles          = $this->rocketeer->getOption('uses_roles');
+        $connection = $this->connections->getCurrent();
+        $hasRole    = array_get($connection->getServerCredentials(), 'db_role');
+        $useRoles   = $this->rocketeer->getOption('uses_roles');
 
         return
             $this->strategy &&
             ($this->getOption('migrate') || $this->getOption('seed')) &&
-            (!$useRoles || ($multiserver && $useRoles && $hasRole));
+            (!$useRoles || ($connection->multiserver && $useRoles && $hasRole));
     }
 
     /**

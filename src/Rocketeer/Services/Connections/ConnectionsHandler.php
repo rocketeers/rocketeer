@@ -100,18 +100,6 @@ class ConnectionsHandler
         return $this->current->server;
     }
 
-    /**
-     * Check if a connection is multiserver or not
-     *
-     * @param ConnectionHandle $connection
-     *
-     * @return boolean
-     */
-    public function isMultiserver(ConnectionHandle $connection)
-    {
-        return $connection->isMultiserver();
-    }
-
     ////////////////////////////////////////////////////////////////////
     //////////////////////////////// STAGES ////////////////////////////
     ////////////////////////////////////////////////////////////////////
