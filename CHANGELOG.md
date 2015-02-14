@@ -13,6 +13,7 @@ Rocketeer follows the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.ht
 - Added ability to configure credentials more in depth: which are always prompted or not, which are saved, etc.
 - Added ability to configure tasks via `Rocketeer::configure('task', ['option' => 'value'])`
 - Added ability to configure the application's path (in case it's not where Rocketeer is being run in)
+- Added ability to coordinate tasks between servers via the Coordinator service
 - Added ability to define roles for servers and tasks, to allow tasks to only be executed on servers having a certain role
 - Added ability to disable certain strategies by setting them to `null`
 - Added ability to pass allowed servers via flag (eg. `deploy --on="production" --server="1"`)
