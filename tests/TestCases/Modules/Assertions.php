@@ -28,7 +28,7 @@ trait Assertions
      */
     protected function assertConnectionEquals($connection)
     {
-        $this->assertEquals($connection, $this->connections->getConnection());
+        $this->assertEquals($connection, $this->connections->getCurrent()->name);
     }
 
     /**

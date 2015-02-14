@@ -2,6 +2,7 @@
 namespace Rocketeer\Services\History;
 
 use Mockery\MockInterface;
+use Rocketeer\Services\Connections\ConnectionsHandler;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class LogsHandlerTest extends RocketeerTestCase
@@ -12,8 +13,8 @@ class LogsHandlerTest extends RocketeerTestCase
 
         $this->app['path.rocketeer.logs'] = $this->server.'/logs';
         $this->swapConfig(array(
-            'rocketeer::logs' => function ($rocketeer) {
-                return sprintf('%s-%s.log', $rocketeer->getConnection(), $rocketeer->getStage());
+            'rocketeer::logs' => function (ConnectionsHandler $rocketeer) {
+                return sprintf('%s-%s.log', $rocketeer->getCurrent()->name, $rocketeer->getCurrent()->stage);
             },
         ));
     }

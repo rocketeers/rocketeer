@@ -183,6 +183,6 @@ trait Binaries
      */
     protected function getBinaryStoragePath($binary)
     {
-        return 'paths.'.$this->connections->getConnection().'.'.$binary;
+        return 'paths.'.$this->connections->getCurrent()->name.'.'.$binary;
     }
 }

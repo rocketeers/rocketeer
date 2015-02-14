@@ -201,14 +201,6 @@ class ConnectionsHandler
     }
 
     /**
-     * @return string
-     */
-    public function getConnection()
-    {
-        return $this->getCurrent()->name;
-    }
-
-    /**
      * Set the active connections
      *
      * @param string|string[] $connections

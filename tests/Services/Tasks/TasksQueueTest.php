@@ -3,6 +3,7 @@ namespace Rocketeer\Services\Tasks;
 
 use Mockery;
 use Mockery\MockInterface;
+use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Services\Connections\RemoteHandler;
 use Rocketeer\TestCases\RocketeerTestCase;
 
@@ -31,8 +32,9 @@ class TasksQueueTest extends RocketeerTestCase
 
         $output = array();
         $queue  = array(
-            function ($task) use (&$output) {
-                $output[] = $task->connections->getConnection().' - '.$task->connections->getStage();
+            function (AbstractTask $task) use (&$output) {
+                $connection = $task->connections->getCurrent();
+                $output[]   = $connection->name.' - '.$connection->stage;
             },
         );
 
@@ -96,8 +98,10 @@ class TasksQueueTest extends RocketeerTestCase
             'rocketeer::stages.stages' => array('first', 'second'),
         ));
 
-        $this->queue->on(array('staging', 'production'), function ($task) {
-            return $task->connections->getConnection().' - '.$task->connections->getStage();
+        $this->queue->on(array('staging', 'production'), function (AbstractTask $task) {
+            $connection = $task->connections->getCurrent();
+
+            return $connection->name.' - '.$connection->stage;
         });
 
         $this->assertEquals(array(
