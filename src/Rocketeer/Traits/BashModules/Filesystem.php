@@ -13,6 +13,9 @@ namespace Rocketeer\Traits\BashModules;
 /**
  * Files and folders handling
  *
+ * @mixin Core
+ * @mixin Binaries
+ * @mixin Flow
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait Filesystem
@@ -241,7 +244,7 @@ trait Filesystem
     /**
      * Create a folder in the application's folder
      *
-     * @param string|null $folder    The folder to create
+     * @param string|null $folder The folder to create
      * @param boolean     $recursive
      *
      * @return string The task

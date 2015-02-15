@@ -13,6 +13,9 @@ namespace Rocketeer\Traits\BashModules;
 /**
  * Handles the deployment flow (current/releases/shared)
  *
+ * @mixin Core
+ * @mixin Filesystem
+ * @mixin Binaries
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait Flow

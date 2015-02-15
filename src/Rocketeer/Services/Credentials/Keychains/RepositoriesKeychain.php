@@ -4,6 +4,13 @@ namespace Rocketeer\Services\Credentials\Keychains;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
+/**
+ * Finds credentials and informations about repositories
+ *
+ * @mixin \Rocketeer\Services\Credentials\CredentialsHandler
+ *
+ * @author Maxime Fabre <ehtnam6@gmail.com>
+ */
 trait RepositoriesKeychain
 {
     /**

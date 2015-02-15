@@ -10,6 +10,11 @@
 
 namespace Rocketeer\Services\Builders;
 
+/**
+ * @mixin \Rocketeer\Services\Builders\Builder
+ *
+ * @author Maxime Fabre <ehtnam6@gmail.com>
+ */
 trait StrategiesBuilder
 {
     /**

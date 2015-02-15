@@ -12,6 +12,11 @@ namespace Rocketeer\Services\Builders;
 
 use Rocketeer\Binaries\AnonymousBinary;
 
+/**
+ * @mixin \Rocketeer\Services\Builders\Builder
+ *
+ * @author Maxime Fabre <ehtnam6@gmail.com>
+ */
 trait BinariesBuilder
 {
     /**

@@ -18,6 +18,9 @@ use Rocketeer\Traits\Properties\HasHistory;
 /**
  * Core handling of running commands and returning output
  *
+ * @mixin Binaries
+ * @mixin Filesystem
+ * @mixin Flow
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait Core
@@ -88,7 +91,7 @@ trait Core
     public function runLocally($commands)
     {
         return $this->onLocal(function () use ($commands) {
-           return $this->run($commands);
+            return $this->run($commands);
         });
     }
 
@@ -165,8 +168,8 @@ trait Core
      * get its output as a string or array
      *
      * @param string  $commands
-     * @param boolean $array    Whether the output should be returned as an array
-     * @param boolean $trim     Whether the output should be trimmed
+     * @param boolean $array Whether the output should be returned as an array
+     * @param boolean $trim  Whether the output should be trimmed
      *
      * @return string|string[]
      */
@@ -376,8 +379,8 @@ trait Core
      * Process the output of a command
      *
      * @param string  $output
-     * @param boolean $array  Whether to return an array or a string
-     * @param boolean $trim   Whether to trim the output or not
+     * @param boolean $array Whether to return an array or a string
+     * @param boolean $trim  Whether to trim the output or not
      *
      * @return string|array
      */

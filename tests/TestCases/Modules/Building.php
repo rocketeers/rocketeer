@@ -6,6 +6,11 @@ use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Tester\CommandTester;
 
+/**
+ * @mixin \Rocketeer\TestCases\RocketeerTestCase
+ *
+ * @author Maxime Fabre <ehtnam6@gmail.com>
+ */
 trait Building
 {
     /**

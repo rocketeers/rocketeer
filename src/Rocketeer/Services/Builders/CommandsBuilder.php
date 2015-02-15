@@ -14,6 +14,11 @@ use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Abstracts\Commands\AbstractCommand;
 use Rocketeer\Exceptions\TaskCompositionException;
 
+/**
+ * @mixin \Rocketeer\Services\Builders\Builder
+ *
+ * @author Maxime Fabre <ehtnam6@gmail.com>
+ */
 trait CommandsBuilder
 {
     /**

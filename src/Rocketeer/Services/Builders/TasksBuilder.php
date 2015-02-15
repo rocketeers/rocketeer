@@ -16,8 +16,11 @@ use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Exceptions\TaskCompositionException;
 use Rocketeer\Tasks\Closure as ClosureTask;
 
+
 /**
  * Handles creating tasks from strings, closures, AbstractTask children, etc.
+ *
+ * @mixin \Rocketeer\Services\Builders\Builder
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */

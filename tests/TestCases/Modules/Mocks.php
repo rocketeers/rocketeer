@@ -4,6 +4,11 @@ namespace Rocketeer\TestCases\Modules;
 use Closure;
 use Mockery;
 
+/**
+ * @mixin \Rocketeer\TestCases\RocketeerTestCase
+ *
+ * @author Maxime Fabre <ehtnam6@gmail.com>
+ */
 trait Mocks
 {
     /**
