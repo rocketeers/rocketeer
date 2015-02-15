@@ -53,7 +53,7 @@ class Coordinator
     {
         // Set status
         $event  = $this->getPromiseHandle($event);
-        $handle = (string) $this->connections->getCurrent();
+        $handle = (string) $this->connections->getCurrentConnection();
 
         // Initiate statuses
         if (!isset($this->statuses[$event])) {
@@ -100,7 +100,7 @@ class Coordinator
      */
     public function setStatus($event, $status)
     {
-        $handle = (string) $this->connections->getCurrent();
+        $handle = (string) $this->connections->getCurrentConnection();
 
         $this->statuses[$event][$handle] = $status;
     }
@@ -135,7 +135,7 @@ class Coordinator
      */
     protected function registerJobListener($event, callable $listener)
     {
-        $connection = $this->connections->getCurrent();
+        $connection = $this->connections->getCurrentConnection();
 
         $job = new Job(array(
             'connection' => $connection,

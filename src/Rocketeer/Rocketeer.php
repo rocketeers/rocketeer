@@ -124,7 +124,7 @@ class Rocketeer
      */
     protected function getContextualOption($option, $type, $original = null)
     {
-        $current = $this->connections->getCurrent();
+        $current = $this->connections->getCurrentConnection();
 
         // Switch context
         switch ($type) {

@@ -169,7 +169,7 @@ class Pathfinder
         $folder = $this->replacePatterns($folder);
 
         $base  = $this->getHomeFolder().'/';
-        $stage = $this->connections->getCurrent()->stage;
+        $stage = $this->connections->getCurrentConnection()->stage;
         if ($folder && $stage) {
             $base .= $stage.'/';
         }

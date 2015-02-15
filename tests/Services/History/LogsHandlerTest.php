@@ -14,7 +14,7 @@ class LogsHandlerTest extends RocketeerTestCase
         $this->app['path.rocketeer.logs'] = $this->server.'/logs';
         $this->swapConfig(array(
             'rocketeer::logs' => function (ConnectionsHandler $rocketeer) {
-                return sprintf('%s-%s.log', $rocketeer->getCurrent()->name, $rocketeer->getCurrent()->stage);
+                return sprintf('%s-%s.log', $rocketeer->getCurrentConnection()->name, $rocketeer->getCurrentConnection()->stage);
             },
         ));
     }

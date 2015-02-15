@@ -115,7 +115,7 @@ trait ConnectionsKeychain
     public function sanitizeConnection($connection = null, $server = null)
     {
         if (!$connection) {
-            return $this->connections->getCurrent();
+            return $this->connections->getCurrentConnection();
         }
 
         return $connection instanceof ConnectionKey ? $connection : $this->createHandle($connection, $server);

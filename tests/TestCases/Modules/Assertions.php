@@ -33,7 +33,7 @@ trait Assertions
      */
     protected function assertConnectionEquals($connection)
     {
-        $this->assertEquals($connection, $this->connections->getCurrent()->name);
+        $this->assertEquals($connection, $this->connections->getCurrentConnection()->name);
     }
 
     /**
@@ -43,7 +43,7 @@ trait Assertions
      */
     protected function assertCurrentServerEquals($server)
     {
-        $this->assertEquals($server, $this->connections->getCurrent()->server);
+        $this->assertEquals($server, $this->connections->getCurrentConnection()->server);
     }
 
     /**

@@ -133,7 +133,7 @@ class QueueExplainer
      */
     public function server($message)
     {
-        $message = sprintf('<comment>[%s]</comment> %s', $this->connections->getCurrent()->toLongHandle(), $message);
+        $message = sprintf('<comment>[%s]</comment> %s', $this->connections->getCurrentConnection()->toLongHandle(), $message);
 
         return $this->line($message, null, false);
     }
@@ -226,7 +226,7 @@ class QueueExplainer
 
         $tree = null;
         if ($numberConnections > 1 || $numberStages > 1) {
-            $handle  = $this->connections->getCurrent();
+            $handle  = $this->connections->getCurrentConnection();
             $spacing = $this->getLongestSize() - strlen($handle);
             $spacing = max(1, $spacing);
             $spacing = str_repeat(' ', $spacing);

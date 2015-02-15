@@ -50,7 +50,7 @@ class ConnectionsHandler
      */
     public function setStage($stage)
     {
-        if ($stage === $this->getCurrent()->stage) {
+        if ($stage === $this->getCurrentConnection()->stage) {
             return;
         }
 
@@ -165,7 +165,7 @@ class ConnectionsHandler
      *
      * @return ConnectionKey
      */
-    public function getCurrent()
+    public function getCurrentConnection()
     {
         // Return local handle
         if ($this->rocketeer->isLocal()) {
@@ -189,7 +189,7 @@ class ConnectionsHandler
     public function setConnection($connection, $server = null)
     {
         $connection = $connection instanceof ConnectionKey ? $connection : $this->credentials->createHandle($connection, $server);
-        if (!$this->isValidConnection($connection) || ($this->getCurrent()->is($connection))) {
+        if (!$this->isValidConnection($connection) || ($this->getCurrentConnection()->is($connection))) {
             return;
         }
 

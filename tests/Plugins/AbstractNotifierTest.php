@@ -44,7 +44,7 @@ class AbstractNotifierTest extends RocketeerTestCase
             $handle->servers = [['host' => 'foo.bar.com']];
 
             return $mock
-                ->shouldReceive('getCurrent')->andReturn($handle);
+                ->shouldReceive('getCurrentConnection')->andReturn($handle);
         });
 
         $this->mock('rocketeer.credentials.handler', 'CredentialsHandler', function (MockInterface $mock) {

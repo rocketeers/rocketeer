@@ -153,7 +153,7 @@ class AbstractTaskTest extends RocketeerTestCase
     {
         $this->pretend();
         $task = $this->builder->buildTask(function (AbstractTask $task) {
-            return $task->connections->getCurrent()->toLongHandle();
+            return $task->connections->getCurrentConnection()->toLongHandle();
         });
         $task->setLocal(true);
         $results = $task->fire();

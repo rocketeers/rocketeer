@@ -56,7 +56,7 @@ class RemoteHandler
      */
     public function connection($connection = null, $server = 0)
     {
-        $connection = $connection ? $this->credentials->createHandle($connection, $server) : $this->connections->getCurrent();
+        $connection = $connection ? $this->credentials->createHandle($connection, $server) : $this->connections->getCurrentConnection();
         $handle     = (string) $connection->toHandle();
 
         // Check the cache

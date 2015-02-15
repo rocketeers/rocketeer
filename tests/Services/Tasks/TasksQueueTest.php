@@ -33,7 +33,7 @@ class TasksQueueTest extends RocketeerTestCase
         $output = array();
         $queue  = array(
             function (AbstractTask $task) use (&$output) {
-                $connection = $task->connections->getCurrent();
+                $connection = $task->connections->getCurrentConnection();
                 $output[]   = $connection->name.' - '.$connection->stage;
             },
         );
@@ -99,7 +99,7 @@ class TasksQueueTest extends RocketeerTestCase
         ));
 
         $this->queue->on(array('staging', 'production'), function (AbstractTask $task) {
-            $connection = $task->connections->getCurrent();
+            $connection = $task->connections->getCurrentConnection();
 
             return $connection->name.' - '.$connection->stage;
         });
