@@ -8,5 +8,4 @@ namespace Rocketeer\Services\Credentials\Keys;
  */
 class RepositoryKey
 {
-
 }

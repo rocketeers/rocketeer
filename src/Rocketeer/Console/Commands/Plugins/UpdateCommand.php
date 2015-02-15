@@ -10,9 +10,7 @@
 
 namespace Rocketeer\Console\Commands\Plugins;
 
-use Rocketeer\Abstracts\Commands\AbstractCommand;
 use Rocketeer\Abstracts\Commands\AbstractPluginCommand;
-use Symfony\Component\Console\Input\InputArgument;
 
 class UpdateCommand extends AbstractPluginCommand
 {

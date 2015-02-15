@@ -11,7 +11,6 @@
 namespace Rocketeer\Console\Commands\Plugins;
 
 use Rocketeer\Abstracts\Commands\AbstractPluginCommand;
-use Symfony\Component\Console\Input\InputArgument;
 
 class InstallCommand extends AbstractPluginCommand
 {

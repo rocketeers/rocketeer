@@ -74,9 +74,8 @@ class RemoteHandler
 
     /**
      * @param ConnectionKey $connection
-
      *
-*@return Connection
+     * @return Connection
      * @throws CredentialsExceptionInterface
      */
     protected function makeConnection(ConnectionKey $connection)
@@ -100,11 +99,11 @@ class RemoteHandler
     }
 
     /**
-     * Format the appropriate authentication array payload.
+     * Format the appropriate authentication array payload.*
      *
      * @param array $config
+     *                      * @return array
      *
-     * @return array
      * @throws CredentialsExceptionInterface
      */
     protected function getAuth(array $config)
@@ -123,12 +122,12 @@ class RemoteHandler
     }
 
     /**
-     * Dynamically pass methods to the default connection.
+     * Dynamically pass methods to the default connection.*
      *
      * @param string $method
      * @param array  $parameters
+     *                           * @throws CredentialsExceptionInterface
      *
-     * @throws CredentialsExceptionInterface
      * @return mixed
      */
     public function __call($method, $parameters)
@@ -145,11 +144,10 @@ class RemoteHandler
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Throw an exception and display the credentials that failed with it
+     * Throw an exception and display the credentials that failed with it*
      *
      * @param CredentialsExceptionInterface $exception
-     *
-     * @return CredentialsExceptionInterface
+     *                                                 * @return CredentialsExceptionInterface
      */
     protected function throwExceptionWithCredentials(CredentialsExceptionInterface $exception)
     {

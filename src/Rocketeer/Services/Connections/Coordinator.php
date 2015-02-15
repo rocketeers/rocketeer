@@ -95,7 +95,7 @@ class Coordinator
     /**
      * Update a status
      *
-     * @param string $event
+     * @param string  $event
      * @param integer $status
      */
     public function setStatus($event, $status)

@@ -10,8 +10,8 @@
 
 namespace Rocketeer\Tasks\Subtasks;
 
-use Rocketeer\Interfaces\Strategies\DeployStrategyInterface;
 use Rocketeer\Abstracts\AbstractTask;
+use Rocketeer\Interfaces\Strategies\DeployStrategyInterface;
 
 /**
  * Creates a new release on the server

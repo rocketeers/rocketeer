@@ -33,7 +33,7 @@ class Php extends AbstractBinary
     {
         $constant = $this->isHhvm() ? 'HHVM_VERSION' : 'PHP_VERSION';
 
-        return $this->getCommand(null, null, '-r "print ' .$constant. ';"');
+        return $this->getCommand(null, null, '-r "print '.$constant.';"');
     }
 
     /**

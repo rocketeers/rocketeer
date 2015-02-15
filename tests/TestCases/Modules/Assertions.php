@@ -14,9 +14,9 @@ trait Assertions
      */
     protected function expectFiredEvent($event)
     {
-        $this->expectOutputRegex('/' .$event. '/');
+        $this->expectOutputRegex('/'.$event.'/');
 
-        $this->tasks->listenTo($event, function() use ($event) {
+        $this->tasks->listenTo($event, function () use ($event) {
            echo $event;
         });
     }

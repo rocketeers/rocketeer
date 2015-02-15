@@ -73,7 +73,7 @@ class ConnectionKey implements ArrayableInterface, JsonSerializable
      * @param string $name
      * @param mixed  $value
      */
-    function __set($name, $value)
+    public function __set($name, $value)
     {
         $this->servers[$this->server][$name] = $value;
     }
@@ -110,10 +110,8 @@ class ConnectionKey implements ArrayableInterface, JsonSerializable
 
     /**
      * @param ConnectionKey|string $connection
-
-
-*
-*@return boolean
+     *
+     *@return boolean
      */
     public function is($connection)
     {

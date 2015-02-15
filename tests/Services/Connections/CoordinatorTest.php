@@ -41,12 +41,12 @@ class CoordinatorTest extends RocketeerTestCase
             'rocketeer::connections'    => array(
                 'production' => [
                     'servers' => array(
-                        ['host' => 'a.com'], ['host' => 'b.com']
+                        ['host' => 'a.com'], ['host' => 'b.com'],
                     ),
                 ],
                 'staging'    => [
                     'servers' => array(
-                        ['host' => 'a.com'], ['host' => 'b.com']
+                        ['host' => 'a.com'], ['host' => 'b.com'],
                     ),
                 ],
             ),
