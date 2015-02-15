@@ -3,6 +3,7 @@ namespace Rocketeer\Services;
 
 use Mockery;
 use Mockery\MockInterface;
+use Rocketeer\Services\Credentials\Keys\RepositoryKey;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class CredentialsGathererTest extends RocketeerTestCase
@@ -331,8 +332,7 @@ class CredentialsGathererTest extends RocketeerTestCase
             $credentials
         ) {
             return $mock
-                ->shouldReceive('repositoryNeedsCredentials')->andReturn($need)
-                ->shouldReceive('getRepositoryCredentials')->andReturn($credentials);
+                ->shouldReceive('getCurrentRepository')->andReturn(new RepositoryKey($credentials));
         });
     }
 }

@@ -45,11 +45,12 @@ class CredentialsGatherer
     public function getRepositoryCredentials()
     {
         // Check for repository credentials
-        $repositoryCredentials = $this->credentials->getRepositoryCredentials();
+        $repository = $this->credentials->getCurrentRepository();
+        $repositoryCredentials = $repository->toArray();
 
         // If we didn't specify a login/password ask for both the first time
         $rules = $this->rules['repository'];
-        if ($this->credentials->repositoryNeedsCredentials()) {
+        if ($repository->needsCredentials()) {
             // Else assume the repository is passwordless and only ask again for username
             $rules += ['username' => true, 'password' => true];
         }

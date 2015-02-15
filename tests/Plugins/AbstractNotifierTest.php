@@ -4,6 +4,7 @@ namespace Rocketeer\Plugins;
 use Mockery\MockInterface;
 use Rocketeer\Dummies\DummyNotifier;
 use Rocketeer\Services\Credentials\Keys\ConnectionKey;
+use Rocketeer\Services\Credentials\Keys\RepositoryKey;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class AbstractNotifierTest extends RocketeerTestCase
@@ -49,8 +50,7 @@ class AbstractNotifierTest extends RocketeerTestCase
 
         $this->mock('rocketeer.credentials.handler', 'CredentialsHandler', function (MockInterface $mock) {
             return $mock
-                ->shouldReceive('getRepositoryName')->andReturn('rocketeers/rocketeer')
-                ->shouldReceive('getRepositoryBranch')->andReturn('master');
+                ->shouldReceive('getCurrentRepository')->andReturn(new RepositoryKey(['endpoint' => 'rocketeers/rocketeer', 'branch' => 'master']));
         });
 
         $this->task('deploy')->fireEvent('before');

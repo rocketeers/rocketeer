@@ -2,25 +2,28 @@
 namespace Rocketeer\Services\Credentials\Keychains;
 
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
+use Rocketeer\Services\Credentials\Keys\RepositoryKey;
 
 /**
  * Finds credentials and informations about repositories
  *
  * @mixin \Rocketeer\Services\Credentials\CredentialsHandler
- *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait RepositoriesKeychain
 {
     /**
-     * Whether the repository used is using SSH or HTTPS
+     * Get the current repository in use
      *
-     * @return boolean
+     * @return RepositoryKey
      */
-    public function repositoryNeedsCredentials()
+    public function getCurrentRepository()
     {
-        return Str::contains($this->getRepositoryEndpoint(), 'https://');
+        $credentials = $this->getRepositoryCredentials();
+        $credentials['endpoint'] = $this->getRepositoryEndpoint();
+        $credentials['branch'] = $this->getRepositoryBranch();
+
+        return new RepositoryKey($credentials);
     }
 
     /**
@@ -85,18 +88,5 @@ trait RepositoriesKeychain
         $branch   = $this->rocketeer->getOption('scm.branch') ?: $fallback;
 
         return $branch;
-    }
-
-    /**
-     * Get repository name to use
-     *
-     * @return string
-     */
-    public function getRepositoryName()
-    {
-        $repository = $this->getRepositoryEndpoint();
-        $repository = preg_replace('#https?://(.+)\.com/(.+)/([^.]+)(\..+)?#', '$2/$3', $repository);
-
-        return $repository;
     }
 }
