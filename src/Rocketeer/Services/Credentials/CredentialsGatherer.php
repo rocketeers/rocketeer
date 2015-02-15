@@ -113,7 +113,7 @@ class CredentialsGatherer
         $connection = Arr::get($connections, $connection, []);
 
         // Update connection name
-        $handle = $this->credentials->createHandle($connectionName, $server);
+        $handle = $this->credentials->createConnectionKey($connectionName, $server);
 
         // Gather credentials
         $credentials = $this->gatherCredentials($this->rules['server'], $connection, $handle);

@@ -7,14 +7,14 @@ class ConnectionHandleTest extends RocketeerTestCase
 {
     public function testCanCreateHandleForCurrent()
     {
-        $handle = $this->credentials->createHandle('foo', 2, 'staging');
+        $handle = $this->credentials->createConnectionKey('foo', 2, 'staging');
 
         $this->assertEquals('foo/staging', $handle);
     }
 
     public function testDoesntDisplayServerNumberIfNotMultiserver()
     {
-        $handle = $this->credentials->createHandle('foo', 0, 'staging');
+        $handle = $this->credentials->createConnectionKey('foo', 0, 'staging');
 
         $this->assertEquals('foo/staging', $handle);
     }
@@ -30,7 +30,7 @@ class ConnectionHandleTest extends RocketeerTestCase
             ),
         ));
 
-        $handle = $this->credentials->createHandle('production', 1);
+        $handle = $this->credentials->createConnectionKey('production', 1);
 
         $this->assertEquals('production/server2.com', $handle->toHandle());
     }

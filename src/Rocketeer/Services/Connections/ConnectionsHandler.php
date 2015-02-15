@@ -169,12 +169,12 @@ class ConnectionsHandler
     {
         // Return local handle
         if ($this->rocketeer->isLocal()) {
-            $handle           = $this->credentials->createHandle('local');
+            $handle           = $this->credentials->createConnectionKey('local');
             $handle->username = $this->remote->connected() ? $this->remote->connection()->getUsername() : null;
         } elseif ($this->current && $this->current->name) {
             $handle = $this->current;
         } else {
-            $this->current = $handle = $this->credentials->createHandle();
+            $this->current = $handle = $this->credentials->createConnectionKey();
         }
 
         return $handle;
@@ -188,7 +188,7 @@ class ConnectionsHandler
      */
     public function setConnection($connection, $server = null)
     {
-        $connection = $connection instanceof ConnectionKey ? $connection : $this->credentials->createHandle($connection, $server);
+        $connection = $connection instanceof ConnectionKey ? $connection : $this->credentials->createConnectionKey($connection, $server);
         if (!$this->isValidConnection($connection) || ($this->getCurrentConnection()->is($connection))) {
             return;
         }

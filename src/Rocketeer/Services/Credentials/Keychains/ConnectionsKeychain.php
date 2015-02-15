@@ -84,7 +84,7 @@ trait ConnectionsKeychain
      *
      * @return ConnectionKey
      */
-    public function createHandle($connection = null, $server = null, $stage = null)
+    public function createConnectionKey($connection = null, $server = null, $stage = null)
     {
         if ($connection instanceof ConnectionKey) {
             return $connection;
@@ -118,7 +118,7 @@ trait ConnectionsKeychain
             return $this->connections->getCurrentConnection();
         }
 
-        return $connection instanceof ConnectionKey ? $connection : $this->createHandle($connection, $server);
+        return $connection instanceof ConnectionKey ? $connection : $this->createConnectionKey($connection, $server);
     }
 
     //////////////////////////////////////////////////////////////////////
