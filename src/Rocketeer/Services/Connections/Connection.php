@@ -39,7 +39,7 @@ class Connection implements ConnectionInterface, HasRolesInterface
     protected $gateway;
 
     /**
-     * The name of the connection.
+     * The connection handle
      *
      * @type ConnectionHandle
      */
@@ -62,8 +62,8 @@ class Connection implements ConnectionInterface, HasRolesInterface
     public function __construct(ConnectionHandle $handle, array $auth, GatewayInterface $gateway = null)
     {
         $this->handle  = $handle;
-        $this->gateway = $gateway ?: new SeclibGateway($handle->getServerCredential('host'), $auth, new Filesystem());
-        $this->roles   = $handle->getServerCredential('roles');
+        $this->gateway = $gateway ?: new SeclibGateway($handle->host, $auth, new Filesystem());
+        $this->roles   = $handle->roles;
     }
 
     /**
