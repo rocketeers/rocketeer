@@ -1,7 +1,6 @@
 <?php
 namespace Rocketeer\Scm;
 
-use Mockery\MockInterface;
 use Rocketeer\Binaries\Scm\Svn;
 use Rocketeer\TestCases\RocketeerTestCase;
 
@@ -48,15 +47,12 @@ class SvnTest extends RocketeerTestCase
 
     public function testCanGetCheckout()
     {
-        $this->mock('rocketeer.credentials.handler', 'CredentialsHandler', function (MockInterface $mock) {
-            return $mock
-                ->shouldReceive('getRepositoryCredentials')->once()->andReturn([
-                    'username' => 'foo',
-                    'password' => 'bar',
-                ])
-                ->shouldReceive('getRepositoryEndpoint')->once()->andReturn('http://github.com/my/repository')
-                ->shouldReceive('getRepositoryBranch')->once()->andReturn('develop');
-        });
+        $this->swapRepositoryCredentials(array(
+            'username' => 'foo',
+            'password' => 'bar',
+            'endpoint' => 'http://github.com/my/repository',
+            'branch'   => 'develop'
+        ));
 
         $command = $this->scm->checkout($this->server);
 
@@ -65,15 +61,12 @@ class SvnTest extends RocketeerTestCase
 
     public function testCanGetDeepClone()
     {
-        $this->mock('rocketeer.credentials.handler', 'CredentialsHandler', function (MockInterface $mock) {
-            return $mock
-                ->shouldReceive('getRepositoryCredentials')->once()->andReturn([
-                    'username' => 'foo',
-                    'password' => 'bar',
-                ])
-                ->shouldReceive('getRepositoryEndpoint')->once()->andReturn('http://github.com/my/repository')
-                ->shouldReceive('getRepositoryBranch')->once()->andReturn('develop');
-        });
+        $this->swapRepositoryCredentials(array(
+            'username' => 'foo',
+            'password' => 'bar',
+            'endpoint' => 'http://github.com/my/repository',
+            'branch'   => 'develop'
+        ));
 
         $command = $this->scm->checkout($this->server);
 
@@ -82,29 +75,23 @@ class SvnTest extends RocketeerTestCase
 
     public function testDoesntDuplicateCredentials()
     {
-        $this->mock('rocketeer.credentials.handler', 'CredentialsHandler', function (MockInterface $mock) {
-            return $mock
-                ->shouldReceive('getRepositoryCredentials')->once()->andReturn([
-                    'username' => 'foo',
-                    'password' => 'bar',
-                ])
-                ->shouldReceive('getRepositoryEndpoint')->once()->andReturn('http://foo:bar@github.com/my/repository')
-                ->shouldReceive('getRepositoryBranch')->once()->andReturn('develop');
-        });
+        $this->swapRepositoryCredentials(array(
+            'username' => 'foo',
+            'password' => 'bar',
+            'endpoint' => 'http://foo:bar@github.com/my/repository',
+            'branch'   => 'develop'
+        ));
 
         $command = $this->scm->checkout($this->server);
 
         $this->assertEquals('svn co http://github.com/my/repository/develop '.$this->server.' --non-interactive --username="foo" --password="bar"', $command);
 
-        $this->mock('rocketeer.credentials.handler', 'CredentialsHandler', function (MockInterface $mock) {
-            return $mock
-                ->shouldReceive('getRepositoryCredentials')->once()->andReturn([
-                    'username' => 'foo',
-                    'password' => null,
-                ])
-                ->shouldReceive('getRepositoryEndpoint')->once()->andReturn('http://foo@github.com/my/repository')
-                ->shouldReceive('getRepositoryBranch')->once()->andReturn('develop');
-        });
+        $this->swapRepositoryCredentials(array(
+            'username' => 'foo',
+            'password' => null,
+            'endpoint' => 'http://foo@github.com/my/repository',
+            'branch'   => 'develop'
+        ));
 
         $command = $this->scm->checkout($this->server);
 
@@ -113,15 +100,12 @@ class SvnTest extends RocketeerTestCase
 
     public function testDoesntStripRevisionFromUrl()
     {
-        $this->mock('rocketeer.credentials.handler', 'CredentialsHandler', function (MockInterface $mock) {
-            return $mock
-                ->shouldReceive('getRepositoryCredentials')->once()->andReturn([
-                    'username' => 'foo',
-                    'password' => 'bar',
-                ])
-                ->shouldReceive('getRepositoryEndpoint')->once()->andReturn('url://user:login@example.com/test')
-                ->shouldReceive('getRepositoryBranch')->once()->andReturn('trunk@1234');
-        });
+        $this->swapRepositoryCredentials(array(
+            'username' => 'foo',
+            'password' => 'bar',
+            'endpoint' => 'url://user:login@example.com/test',
+            'branch'   => 'trunk@1234'
+        ));
 
         $command = $this->scm->checkout($this->server);
 

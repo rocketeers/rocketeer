@@ -78,16 +78,16 @@ class Ignite extends AbstractTask
     protected function getConfigurationInformations()
     {
         // Replace credentials
-        $repositoryCredentials = $this->credentials->getRepositoryCredentials();
+        $repository = $this->credentials->getCurrentRepository();
         $name                  = basename($this->paths->getBasePath());
 
         return array_merge(
             $this->credentials->getServerCredentials(),
             array(
                 'connection'       => preg_replace('/#[0-9]+/', null, $this->connections->getCurrentConnection()),
-                'scm_repository'   => Arr::get($repositoryCredentials, 'repository'),
-                'scm_username'     => Arr::get($repositoryCredentials, 'username'),
-                'scm_password'     => Arr::get($repositoryCredentials, 'password'),
+                'scm_repository'   => $repository->repository,
+                'scm_username'     => $repository->username,
+                'scm_password'     => $repository->password,
                 'application_name' => $this->command->ask('What is your application\'s name ? ('.$name.')', $name),
             )
         );

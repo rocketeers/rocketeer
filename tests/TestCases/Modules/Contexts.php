@@ -1,9 +1,11 @@
 <?php
 namespace Rocketeer\TestCases\Modules;
 
+use Mockery\MockInterface;
+use Rocketeer\Services\Credentials\Keys\RepositoryKey;
+
 /**
  * @mixin \Rocketeer\TestCases\RocketeerTestCase
- *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait Contexts
@@ -62,6 +64,22 @@ trait Contexts
         $this->swapConfig(array(
             'rocketeer::hooks' => array(),
         ));
+    }
+
+    //////////////////////////////////////////////////////////////////////
+    ///////////////////////////// CREDENTIALS ////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+
+    /**
+     * @param array $credentials
+     */
+    protected function swapRepositoryCredentials(array $credentials)
+    {
+        $this->mock('rocketeer.credentials.handler', 'CredentialsHandler', function (MockInterface $mock) use (
+            $credentials
+        ) {
+            return $mock->shouldReceive('getCurrentRepository')->andReturn(new RepositoryKey($credentials));
+        });
     }
 
     /**

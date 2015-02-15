@@ -109,7 +109,7 @@ class ConnectionsHandlerTest extends RocketeerTestCase
 
     public function testCangetRepositoryBranch()
     {
-        $this->assertEquals('master', $this->credentials->getRepositoryBranch());
+        $this->assertEquals('master', $this->credentials->getCurrentRepository()->branch);
     }
 
     public function testCanExtractCurrentBranchIfNoneSpecified()
@@ -119,7 +119,7 @@ class ConnectionsHandlerTest extends RocketeerTestCase
             return $mock->shouldReceive('onLocal')->andReturn('  foobar  ');
         });
 
-        $this->assertEquals('foobar', $this->credentials->getRepositoryBranch());
+        $this->assertEquals('foobar', $this->credentials->getCurrentRepository()->branch);
     }
 
     public function testCanDefaultToMasterIfNoBranchFound()
@@ -129,14 +129,14 @@ class ConnectionsHandlerTest extends RocketeerTestCase
             return $mock->shouldReceive('onLocal')->andReturn(null);
         });
 
-        $this->assertEquals('master', $this->credentials->getRepositoryBranch());
+        $this->assertEquals('master', $this->credentials->getCurrentRepository()->branch);
     }
 
     public function testCanPassRepositoryBranchAsFlag()
     {
         $this->mockCommand(['branch' => '1.0']);
 
-        $this->assertEquals('1.0', $this->credentials->getRepositoryBranch());
+        $this->assertEquals('1.0', $this->credentials->getCurrentRepository()->branch);
     }
 
     public function testFillsConnectionCredentialsHoles()

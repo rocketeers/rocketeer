@@ -7,10 +7,10 @@ use Illuminate\Support\Str;
 /**
  * Represents a repository's identity and its credentials
  *
- * @property string $endpoint
- * @property string $branch
- * @property string $username
- * @property string $password
+ * @property string endpoint
+ * @property string branch
+ * @property string username
+ * @property string password
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */

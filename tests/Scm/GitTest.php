@@ -51,11 +51,10 @@ class GitTest extends RocketeerTestCase
         $this->mock('rocketeer.rocketeer', 'Rocketeer\Rocketeer', function (MockInterface $mock) {
             return $mock->shouldReceive('getOption')->once()->with('scm.shallow')->andReturn(true);
         });
-        $this->mock('rocketeer.credentials.handler', 'CredentialsHandler', function (MockInterface $mock) {
-            return $mock
-                ->shouldReceive('getRepositoryEndpoint')->once()->andReturn('http://github.com/my/repository')
-                ->shouldReceive('getRepositoryBranch')->once()->andReturn('develop');
-        });
+        $this->swapRepositoryCredentials(array(
+            'endpoint' => 'http://github.com/my/repository',
+            'branch'   => 'develop',
+        ));
 
         $command = $this->scm->checkout($this->server);
 
@@ -67,11 +66,10 @@ class GitTest extends RocketeerTestCase
         $this->mock('rocketeer.rocketeer', 'Rocketeer\Rocketeer', function (MockInterface $mock) {
             return $mock->shouldReceive('getOption')->once()->with('scm.shallow')->andReturn(false);
         });
-        $this->mock('rocketeer.credentials.handler', 'CredentialsHandler', function (MockInterface $mock) {
-            return $mock
-                ->shouldReceive('getRepositoryEndpoint')->once()->andReturn('http://github.com/my/repository')
-                ->shouldReceive('getRepositoryBranch')->once()->andReturn('develop');
-        });
+        $this->swapRepositoryCredentials(array(
+            'endpoint' => 'http://github.com/my/repository',
+            'branch'   => 'develop',
+        ));
 
         $command = $this->scm->checkout($this->server);
 

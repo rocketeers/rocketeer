@@ -67,9 +67,11 @@ class Hg extends AbstractBinary implements ScmInterface
      */
     public function checkout($destination)
     {
+        $repository = $this->credentials->getCurrentRepository();
+
         $arguments = [
-            $this->quote($this->credentials->getRepositoryEndpoint()),
-            '-b '.$this->credentials->getRepositoryBranch(),
+            $this->quote($repository->endpoint),
+            '-b '.$repository->branch,
             $this->quote($destination),
         ];
 
@@ -119,11 +121,11 @@ class Hg extends AbstractBinary implements ScmInterface
     {
         $options = ['--config ui.interactive' => 'no', '--config auth.x.prefix' => 'http://'];
 
-        $credentials = $this->credentials->getRepositoryCredentials();
-        if ($user = Arr::get($credentials, 'username')) {
+        $repository = $this->credentials->getCurrentRepository();
+        if ($user = $repository->username) {
             $options['--config auth.x.username'] = $user;
         }
-        if ($pass = Arr::get($credentials, 'password')) {
+        if ($pass = $repository->password) {
             $options['--config auth.x.password'] = $pass;
         }
 

@@ -76,8 +76,9 @@ class Svn extends AbstractBinary implements ScmInterface
      */
     public function checkout($destination)
     {
-        $branch     = $this->credentials->getRepositoryBranch();
-        $repository = $this->credentials->getRepositoryEndpoint();
+        $repository = $this->credentials->getCurrentRepository();
+        $branch     = $repository->branch;
+        $repository = $repository->endpoint;
         $repository = rtrim($repository, '/').'/'.ltrim($branch, '/');
         $repository = preg_replace('#//[a-zA-Z0-9]+:?[a-zA-Z0-9]*@#', '//', $repository);
 
@@ -114,13 +115,13 @@ class Svn extends AbstractBinary implements ScmInterface
     protected function getCredentials()
     {
         $options     = ['--non-interactive' => null];
-        $credentials = $this->credentials->getRepositoryCredentials();
+        $repository = $this->credentials->getCurrentRepository();
 
         // Build command
-        if ($user = Arr::get($credentials, 'username')) {
+        if ($user = $repository->username) {
             $options['--username'] = $user;
         }
-        if ($pass = Arr::get($credentials, 'password')) {
+        if ($pass = $repository->password) {
             $options['--password'] = $pass;
         }
 

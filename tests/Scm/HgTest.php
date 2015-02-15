@@ -1,7 +1,6 @@
 <?php
 namespace Rocketeer\Scm;
 
-use Mockery\MockInterface;
 use Rocketeer\Binaries\Scm\Hg;
 use Rocketeer\TestCases\RocketeerTestCase;
 
@@ -48,15 +47,12 @@ class HgTest extends RocketeerTestCase
 
     public function testCanGetCheckout()
     {
-        $this->mock('rocketeer.credentials.handler', 'CredentialsHandler', function (MockInterface $mock) {
-            return $mock
-                ->shouldReceive('getRepositoryCredentials')->once()->andReturn([
-                    'username' => 'foo',
-                    'password' => 'bar',
-                ])
-                ->shouldReceive('getRepositoryEndpoint')->once()->andReturn('http://github.com/my/repository')
-                ->shouldReceive('getRepositoryBranch')->once()->andReturn('develop');
-        });
+        $this->swapRepositoryCredentials(array(
+            'username' => 'foo',
+            'password' => 'bar',
+            'endpoint' => 'http://github.com/my/repository',
+            'branch'   => 'develop',
+        ));
 
         $command = $this->scm->checkout($this->server);
 

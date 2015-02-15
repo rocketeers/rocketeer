@@ -31,7 +31,7 @@ trait RepositoriesKeychain
      *
      * @return array
      */
-    public function getRepositoryCredentials()
+    protected function getRepositoryCredentials()
     {
         $config      = (array) $this->rocketeer->getOption('scm');
         $credentials = (array) $this->localStorage->get('credentials');
@@ -44,7 +44,7 @@ trait RepositoriesKeychain
      *
      * @return string
      */
-    public function getRepositoryEndpoint()
+    protected function getRepositoryEndpoint()
     {
         // Get credentials
         $repository = $this->getRepositoryCredentials();
@@ -72,7 +72,7 @@ trait RepositoriesKeychain
      *
      * @return string
      */
-    public function getRepositoryBranch()
+    protected function getRepositoryBranch()
     {
         // If we passed a branch, use it
         if ($branch = $this->getOption('branch')) {
