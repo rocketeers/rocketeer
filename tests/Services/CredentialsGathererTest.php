@@ -37,7 +37,7 @@ class CredentialsGathererTest extends RocketeerTestCase
         ));
         $this->command->shouldReceive('option')->andReturn(null);
 
-        $this->givenConfiguredRepositoryCredentials(['repository' => '{foobar}']);
+        $this->swapRepositoryCredentials(['repository' => '{foobar}']);
 
         $this->assertStoredCredentialsEquals(array(
             'repository' => $this->repository,
@@ -58,7 +58,7 @@ class CredentialsGathererTest extends RocketeerTestCase
         $this->command->shouldReceive('option')->andReturn(null);
         $this->command->shouldReceive('askWith')->with(Mockery::any(), 'key', Mockery::any())->never();
 
-        $this->givenConfiguredRepositoryCredentials([]);
+        $this->swapRepositoryCredentials([]);
 
         $this->assertStoredCredentialsEquals(array(
             'repository' => $this->repository,
@@ -74,11 +74,11 @@ class CredentialsGathererTest extends RocketeerTestCase
         $this->mockAnswers();
         $this->command->shouldReceive('option')->andReturn(null);
 
-        $this->givenConfiguredRepositoryCredentials([
+        $this->swapRepositoryCredentials([
             'repository' => $this->repository,
             'username'   => null,
             'password'   => null,
-        ], false);
+        ]);
         $this->assertStoredCredentialsEquals(array(
             'repository' => $this->repository,
             'username'   => null,
@@ -96,7 +96,7 @@ class CredentialsGathererTest extends RocketeerTestCase
         ));
         $this->command->shouldReceive('option')->andReturn(null);
 
-        $this->givenConfiguredRepositoryCredentials(['repository' => $this->repository], true);
+        $this->swapRepositoryCredentials(['repository' => $this->repository]);
 
         $this->assertStoredCredentialsEquals(array(
             'repository' => $this->repository,
@@ -318,21 +318,6 @@ class CredentialsGathererTest extends RocketeerTestCase
     {
         $this->mock('rocketeer.storage.local', 'LocalStorage', function (MockInterface $mock) use ($credentials) {
             return $mock->shouldReceive('set')->with('credentials', $credentials);
-        });
-    }
-
-    /**
-     * @param array   $credentials
-     * @param boolean $need
-     */
-    protected function givenConfiguredRepositoryCredentials(array $credentials, $need = false)
-    {
-        $this->mock('rocketeer.credentials.handler', 'CredentialsHandler', function (MockInterface $mock) use (
-            $need,
-            $credentials
-        ) {
-            return $mock
-                ->shouldReceive('getCurrentRepository')->andReturn(new RepositoryKey($credentials));
         });
     }
 }
