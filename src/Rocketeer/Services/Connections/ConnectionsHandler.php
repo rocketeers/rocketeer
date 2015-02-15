@@ -13,6 +13,7 @@ namespace Rocketeer\Services\Connections;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Rocketeer\Exceptions\ConnectionException;
+use Rocketeer\Services\Credentials\Keychains\ConnectionKeychain;
 use Rocketeer\Traits\HasLocator;
 
 /**
@@ -27,8 +28,9 @@ class ConnectionsHandler
 
     /**
      * The current connection
+
      *
-     * @type ConnectionHandle
+*@type ConnectionKeychain
      */
     protected $current;
 
@@ -100,10 +102,12 @@ class ConnectionsHandler
 
     /**
      * Check if a connection has credentials related to it
+
      *
-     * @param ConnectionHandle|string $connection
+*@param ConnectionKeychain|string $connection
+
      *
-     * @return boolean
+*@return boolean
      */
     public function isValidConnection($connection)
     {
@@ -162,8 +166,9 @@ class ConnectionsHandler
 
     /**
      * Get the active connection
+
      *
-     * @return ConnectionHandle
+*@return ConnectionKeychain
      */
     public function getCurrent()
     {
@@ -182,13 +187,14 @@ class ConnectionsHandler
 
     /**
      * Set the current connection
+
      *
-     * @param ConnectionHandle|string $connection
+*@param ConnectionKeychain|string $connection
      * @param integer                 $server
      */
     public function setConnection($connection, $server = null)
     {
-        $connection = $connection instanceof ConnectionHandle ? $connection : $this->createHandle($connection, $server);
+        $connection = $connection instanceof ConnectionKeychain ? $connection : $this->createHandle($connection, $server);
         if (!$this->isValidConnection($connection) || ($this->getCurrent()->is($connection))) {
             return;
         }
@@ -206,10 +212,12 @@ class ConnectionsHandler
 
     /**
      * Get the credentials for a particular connection
+
      *
-     * @param ConnectionHandle|string|null $connection
+*@param ConnectionKeychain|string|null $connection
+
      *
-     * @return string[][]
+*@return string[][]
      */
     public function getConnectionCredentials($connection = null)
     {
@@ -228,11 +236,13 @@ class ConnectionsHandler
 
     /**
      * Get the credentials for as server
+
      *
-     * @param ConnectionHandle|string|null $connection
+* @param ConnectionKeychain|string|null $connection
      * @param integer                      $server
+
      *
-     * @return array
+*@return array
      */
     public function getServerCredentials($connection = null, $server = 0)
     {
@@ -241,11 +251,12 @@ class ConnectionsHandler
 
     /**
      * Sync Rocketeer's credentials with Laravel's
+
      *
-     * @param ConnectionHandle|null $connection
+     * @param ConnectionKeychain|null $connection
      * @param array                 $credentials
      */
-    public function syncConnectionCredentials(ConnectionHandle $connection = null, array $credentials = [])
+    public function syncConnectionCredentials(ConnectionKeychain $connection = null, array $credentials = [])
     {
         // Store credentials if any
         if ($credentials) {
@@ -369,15 +380,15 @@ class ConnectionsHandler
     /**
      * Build the current connection's handle
      *
-     * @param ConnectionHandle|string|null $connection
+     * @param ConnectionKeychain|string|null $connection
      * @param integer|null                 $server
      * @param string|null                  $stage
      *
-     * @return ConnectionHandle
+     * @return ConnectionKeychain
      */
     public function createHandle($connection = null, $server = null, $stage = null)
     {
-        if ($connection instanceof ConnectionHandle) {
+        if ($connection instanceof ConnectionKeychain) {
             return $connection;
         }
 
@@ -387,7 +398,7 @@ class ConnectionsHandler
         $stage      = $stage ?: null;
 
         // Concatenate
-        $handle = new ConnectionHandle($connection, $server, $stage);
+        $handle = new ConnectionKeychain($connection, $server, $stage);
 
         // Populate credentials
         $handle->servers = $this->getConnectionCredentials($handle);
@@ -396,12 +407,12 @@ class ConnectionsHandler
     }
 
     /**
-     * Transform an instance/credentials into a ConnectionHandle
+     * Transform an instance/credentials into a ConnectionKeychain
      *
-     * @param ConnectionHandle|string|null $connection
+     * @param ConnectionKeychain|string|null $connection
      * @param integer|null                 $server
      *
-     * @return ConnectionHandle
+     * @return ConnectionKeychain
      */
     protected function sanitizeConnection($connection = null, $server = null)
     {
@@ -409,7 +420,7 @@ class ConnectionsHandler
             return $this->getCurrent();
         }
 
-        return $connection instanceof ConnectionHandle ? $connection : $this->createHandle($connection, $server);
+        return $connection instanceof ConnectionKeychain ? $connection : $this->createHandle($connection, $server);
     }
 
     //////////////////////////////////////////////////////////////////////
@@ -420,12 +431,13 @@ class ConnectionsHandler
      * Filter the credentials and remove the ones that
      * can't be saved to disk
      *
-     * @param ConnectionHandle $connection
+     * @param ConnectionKeychain $connection
      * @param array            $credentials
+
      *
-     * @return string[]
+*@return string[]
      */
-    protected function filterUnsavableCredentials(ConnectionHandle $connection, $credentials)
+    protected function filterUnsavableCredentials(ConnectionKeychain $connection, $credentials)
     {
         $defined = $this->getServerCredentials($connection);
         foreach ($credentials as $key => $value) {

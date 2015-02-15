@@ -16,6 +16,7 @@ use Rocketeer\Interfaces\ConnectionInterface;
 use Rocketeer\Interfaces\GatewayInterface;
 use Rocketeer\Interfaces\HasRolesInterface;
 use Rocketeer\Services\Connections\Gateways\SeclibGateway;
+use Rocketeer\Services\Credentials\Keychains\ConnectionKeychain;
 use Rocketeer\Traits\Properties\HasRoles;
 use RuntimeException;
 use Symfony\Component\Console\Output\NullOutput;
@@ -40,8 +41,9 @@ class Connection implements ConnectionInterface, HasRolesInterface
 
     /**
      * The connection handle
+
      *
-     * @type ConnectionHandle
+*@type ConnectionKeychain
      */
     protected $handle;
 
@@ -54,12 +56,13 @@ class Connection implements ConnectionInterface, HasRolesInterface
 
     /**
      * Create a new SSH connection instance.
+
      *
-     * @param ConnectionHandle      $handle
+*@param ConnectionKeychain      $handle
      * @param array                 $auth
      * @param GatewayInterface|null $gateway
      */
-    public function __construct(ConnectionHandle $handle, array $auth, GatewayInterface $gateway = null)
+    public function __construct(ConnectionKeychain $handle, array $auth, GatewayInterface $gateway = null)
     {
         $this->handle  = $handle;
         $this->gateway = $gateway ?: new SeclibGateway($handle->host, $auth, new Filesystem());
@@ -199,7 +202,7 @@ class Connection implements ConnectionInterface, HasRolesInterface
     }
 
     /**
-     * @return ConnectionHandle
+     * @return ConnectionKeychain
      */
     public function getHandle()
     {

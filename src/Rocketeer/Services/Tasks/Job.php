@@ -11,12 +11,13 @@
 namespace Rocketeer\Services\Tasks;
 
 use Illuminate\Support\Fluent;
-use Rocketeer\Services\Connections\ConnectionHandle;
+use Rocketeer\Services\Credentials\Keychains\ConnectionKeychain;
 
 /**
  * A job storing where a task/multiple tasks need to be executed
+
  *
- * @property ConnectionHandle                              connection
+*@property ConnectionKeychain                              connection
  * @property \Rocketeer\Abstracts\AbstractTask[]           queue
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */

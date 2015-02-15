@@ -11,10 +11,10 @@
 namespace Rocketeer\Services\Connections;
 
 use Exception;
-use Illuminate\Support\Arr;
 use Rocketeer\Exceptions\ConnectionException;
 use Rocketeer\Exceptions\MissingCredentialsException;
 use Rocketeer\Interfaces\CredentialsExceptionInterface;
+use Rocketeer\Services\Credentials\Keychains\ConnectionKeychain;
 use Rocketeer\Traits\HasLocator;
 use Symfony\Component\Console\Output\NullOutput;
 
@@ -73,12 +73,13 @@ class RemoteHandler
     }
 
     /**
-     * @param ConnectionHandle $connection
+     * @param ConnectionKeychain $connection
+
      *
-     * @return Connection
+*@return Connection
      * @throws CredentialsExceptionInterface
      */
-    protected function makeConnection(ConnectionHandle $connection)
+    protected function makeConnection(ConnectionKeychain $connection)
     {
         $credentials = $connection->getServerCredentials();
 

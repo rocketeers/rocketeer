@@ -3,7 +3,7 @@ namespace Rocketeer\Plugins;
 
 use Mockery\MockInterface;
 use Rocketeer\Dummies\DummyNotifier;
-use Rocketeer\Services\Connections\ConnectionHandle;
+use Rocketeer\Services\Credentials\Keychains\ConnectionKeychain;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class AbstractNotifierTest extends RocketeerTestCase
@@ -40,7 +40,7 @@ class AbstractNotifierTest extends RocketeerTestCase
                 ->shouldReceive('set')->once()->with('notifier.name', 'foobar');
         });
         $this->mock('rocketeer.connections', 'ConnectionsHandler', function (MockInterface $mock) {
-            $handle = new ConnectionHandle('production', 0, 'staging');
+            $handle = new ConnectionKeychain('production', 0, 'staging');
             $handle->servers = [['host' => 'foo.bar.com']];
 
             return $mock

@@ -1,9 +1,10 @@
 <?php
-namespace Rocketeer\Services\Connections;
+namespace Rocketeer\Services\Credentials\Keychains;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Contracts\ArrayableInterface;
 use JsonSerializable;
+use Rocketeer\Services\Connections\roles;
 
 /**
  * @property string  host
@@ -16,7 +17,7 @@ use JsonSerializable;
  * @property roles   array
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class ConnectionHandle implements ArrayableInterface, JsonSerializable
+class ConnectionKeychain implements ArrayableInterface, JsonSerializable
 {
     /**
      * @type string
@@ -106,9 +107,10 @@ class ConnectionHandle implements ArrayableInterface, JsonSerializable
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * @param ConnectionHandle|string $connection
+     * @param ConnectionKeychain|string $connection
+
      *
-     * @return boolean
+*@return boolean
      */
     public function is($connection)
     {
