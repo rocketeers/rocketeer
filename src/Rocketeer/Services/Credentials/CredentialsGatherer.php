@@ -8,10 +8,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Rocketeer\Services;
+namespace Rocketeer\Services\Credentials;
 
 use Illuminate\Support\Arr;
-use Rocketeer\Services\Connections\ConnectionHandle;
 use Rocketeer\Traits\HasLocator;
 
 class CredentialsGatherer

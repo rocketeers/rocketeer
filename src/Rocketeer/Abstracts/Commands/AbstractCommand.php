@@ -343,8 +343,8 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
 
         // Check for credentials
         if (!$this->rocketeer->isLocal()) {
-            $this->credentials->getServerCredentials();
-            $this->credentials->getRepositoryCredentials();
+            $this->credentialsGatherer->getServerCredentials();
+            $this->credentialsGatherer->getRepositoryCredentials();
         }
     }
 }

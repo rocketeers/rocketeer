@@ -17,32 +17,32 @@ use Illuminate\Support\Arr;
  * A trait for Service Locator-based classes wich adds
  * a few shortcuts to Rocketeer classes
  *
- * @property \Illuminate\Config\Repository                                 config
- * @property \Illuminate\Events\Dispatcher                                 events
- * @property \Illuminate\Filesystem\Filesystem                             files
- * @property \Illuminate\Foundation\Artisan                                artisan
- * @property \Illuminate\Log\Writer                                        log
- * @property \Rocketeer\Abstracts\AbstractCommand                          command
- * @property \Rocketeer\Bash                                               bash
- * @property \Rocketeer\Console\Console                                    console
- * @property \Rocketeer\Interfaces\ScmInterface                            scm
- * @property \Rocketeer\Rocketeer                                          rocketeer
- * @property \Rocketeer\Services\Connections\ConnectionsHandler            connections
- * @property \Rocketeer\Services\Connections\Coordinator                   coordinator
- * @property \Rocketeer\Services\Connections\RemoteHandler                 remote
- * @property \Rocketeer\Services\CredentialsGatherer                       credentials
- * @property \Rocketeer\Services\Display\QueueExplainer                    explainer
- * @property \Rocketeer\Services\Display\QueueTimer                        timer
- * @property \Rocketeer\Services\Environment                               environment
- * @property \Rocketeer\Services\History\History                           history
- * @property \Rocketeer\Services\History\LogsHandler                       logs
- * @property \Rocketeer\Services\Pathfinder                                paths
- * @property \Rocketeer\Services\ReleasesManager                           releasesManager
- * @property \Rocketeer\Services\RolesManager                              roles
- * @property \Rocketeer\Services\Storages\LocalStorage                     localStorage
- * @property \Rocketeer\Services\Builders\Builder                          builder
- * @property \Rocketeer\Services\Tasks\TasksQueue                          queue
- * @property \Rocketeer\Services\TasksHandler                              tasks
+ * @property \Illuminate\Config\Repository                                             config
+ * @property \Illuminate\Events\Dispatcher                                             events
+ * @property \Illuminate\Filesystem\Filesystem                                         files
+ * @property \Illuminate\Foundation\Artisan                                            artisan
+ * @property \Illuminate\Log\Writer                                                    log
+ * @property \Rocketeer\Abstracts\AbstractCommand                                      command
+ * @property \Rocketeer\Bash                                                           bash
+ * @property \Rocketeer\Console\Console                                                console
+ * @property \Rocketeer\Interfaces\ScmInterface                                        scm
+ * @property \Rocketeer\Rocketeer                                                      rocketeer
+ * @property \Rocketeer\Services\Connections\ConnectionsHandler                        connections
+ * @property \Rocketeer\Services\Connections\Coordinator                               coordinator
+ * @property \Rocketeer\Services\Connections\RemoteHandler                             remote
+ * @property \Rocketeer\Services\Credentials\CredentialsGatherer                       credentialsGatherer
+ * @property \Rocketeer\Services\Display\QueueExplainer                                explainer
+ * @property \Rocketeer\Services\Display\QueueTimer                                    timer
+ * @property \Rocketeer\Services\Environment                                           environment
+ * @property \Rocketeer\Services\History\History                                       history
+ * @property \Rocketeer\Services\History\LogsHandler                                   logs
+ * @property \Rocketeer\Services\Pathfinder                                            paths
+ * @property \Rocketeer\Services\ReleasesManager                                       releasesManager
+ * @property \Rocketeer\Services\RolesManager                                          roles
+ * @property \Rocketeer\Services\Storages\LocalStorage                                 localStorage
+ * @property \Rocketeer\Services\Builders\Builder                                      builder
+ * @property \Rocketeer\Services\Tasks\TasksQueue                                      queue
+ * @property \Rocketeer\Services\TasksHandler                                          tasks
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait HasLocator
@@ -97,27 +97,27 @@ trait HasLocator
     protected function getLocatorHandle($key)
     {
         $shortcuts = array(
-            'bash'            => 'rocketeer.bash',
-            'builder'         => 'rocketeer.builder',
-            'command'         => 'rocketeer.command',
-            'connections'     => 'rocketeer.connections',
-            'console'         => 'rocketeer.console',
-            'coordinator'     => 'rocketeer.coordinator',
-            'credentials'     => 'rocketeer.credentials',
-            'environment'     => 'rocketeer.environment',
-            'explainer'       => 'rocketeer.explainer',
-            'history'         => 'rocketeer.history',
-            'localStorage'    => 'rocketeer.storage.local',
-            'logs'            => 'rocketeer.logs',
-            'paths'           => 'rocketeer.paths',
-            'queue'           => 'rocketeer.queue',
-            'releasesManager' => 'rocketeer.releases',
-            'remote'          => 'rocketeer.remote',
-            'rocketeer'       => 'rocketeer.rocketeer',
-            'roles'           => 'rocketeer.roles',
-            'scm'             => 'rocketeer.scm',
-            'tasks'           => 'rocketeer.tasks',
-            'timer'           => 'rocketeer.timer',
+            'bash'                => 'rocketeer.bash',
+            'builder'             => 'rocketeer.builder',
+            'command'             => 'rocketeer.command',
+            'connections'         => 'rocketeer.connections',
+            'console'             => 'rocketeer.console',
+            'coordinator'         => 'rocketeer.coordinator',
+            'credentialsGatherer' => 'rocketeer.credentials',
+            'environment'         => 'rocketeer.environment',
+            'explainer'           => 'rocketeer.explainer',
+            'history'             => 'rocketeer.history',
+            'localStorage'        => 'rocketeer.storage.local',
+            'logs'                => 'rocketeer.logs',
+            'paths'               => 'rocketeer.paths',
+            'queue'               => 'rocketeer.queue',
+            'releasesManager'     => 'rocketeer.releases',
+            'remote'              => 'rocketeer.remote',
+            'rocketeer'           => 'rocketeer.rocketeer',
+            'roles'               => 'rocketeer.roles',
+            'scm'                 => 'rocketeer.scm',
+            'tasks'               => 'rocketeer.tasks',
+            'timer'               => 'rocketeer.timer',
         );
 
         // Replace shortcuts
