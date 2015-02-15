@@ -3,7 +3,7 @@ namespace Rocketeer\Plugins;
 
 use Mockery\MockInterface;
 use Rocketeer\Dummies\DummyNotifier;
-use Rocketeer\Services\Credentials\Keys\ConnectionKeychain;
+use Rocketeer\Services\Credentials\Keys\ConnectionKey;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class AbstractNotifierTest extends RocketeerTestCase
@@ -40,13 +40,17 @@ class AbstractNotifierTest extends RocketeerTestCase
                 ->shouldReceive('set')->once()->with('notifier.name', 'foobar');
         });
         $this->mock('rocketeer.connections', 'ConnectionsHandler', function (MockInterface $mock) {
-            $handle = new ConnectionKeychain('production', 0, 'staging');
+            $handle          = new ConnectionKey('production', 0, 'staging');
             $handle->servers = [['host' => 'foo.bar.com']];
 
             return $mock
-                ->shouldReceive('getRepositoryName')->andReturn('rocketeers/rocketeer')
-                ->shouldReceive('getRepositoryBranch')->andReturn('master')
                 ->shouldReceive('getCurrent')->andReturn($handle);
+        });
+
+        $this->mock('rocketeer.credentials.handler', 'CredentialsHandler', function (MockInterface $mock) {
+            return $mock
+                ->shouldReceive('getRepositoryName')->andReturn('rocketeers/rocketeer')
+                ->shouldReceive('getRepositoryBranch')->andReturn('master');
         });
 
         $this->task('deploy')->fireEvent('before');

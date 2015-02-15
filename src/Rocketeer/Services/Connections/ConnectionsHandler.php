@@ -11,9 +11,8 @@
 namespace Rocketeer\Services\Connections;
 
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 use Rocketeer\Exceptions\ConnectionException;
-use Rocketeer\Services\Credentials\Keys\ConnectionKeychain;
+use Rocketeer\Services\Credentials\Keys\ConnectionKey;
 use Rocketeer\Traits\HasLocator;
 
 /**
@@ -29,7 +28,7 @@ class ConnectionsHandler
     /**
      * The current connection
      *
-     * @type ConnectionKeychain
+     * @type ConnectionKey
      */
     protected $current;
 
@@ -102,13 +101,13 @@ class ConnectionsHandler
     /**
      * Check if a connection has credentials related to it
      *
-     * @param ConnectionKeychain|string $connection
+     * @param ConnectionKey|string $connection
      *
      * @return boolean
      */
     public function isValidConnection($connection)
     {
-        $connection = $this->sanitizeConnection($connection);
+        $connection = $this->credentials->sanitizeConnection($connection);
         $available  = (array) $this->getAvailableConnections();
 
         return (bool) Arr::get($available, $connection->name.'.servers');
@@ -164,18 +163,18 @@ class ConnectionsHandler
     /**
      * Get the active connection
      *
-     * @return ConnectionKeychain
+     * @return ConnectionKey
      */
     public function getCurrent()
     {
         // Return local handle
         if ($this->rocketeer->isLocal()) {
-            $handle           = $this->createHandle('local');
+            $handle           = $this->credentials->createHandle('local');
             $handle->username = $this->remote->connected() ? $this->remote->connection()->getUsername() : null;
         } elseif ($this->current && $this->current->name) {
             $handle = $this->current;
         } else {
-            $this->current = $handle = $this->createHandle();
+            $this->current = $handle = $this->credentials->createHandle();
         }
 
         return $handle;
@@ -184,12 +183,12 @@ class ConnectionsHandler
     /**
      * Set the current connection
      *
-     * @param ConnectionKeychain|string $connection
-     * @param integer                   $server
+     * @param ConnectionKey|string $connection
+     * @param integer              $server
      */
     public function setConnection($connection, $server = null)
     {
-        $connection = $connection instanceof ConnectionKeychain ? $connection : $this->createHandle($connection, $server);
+        $connection = $connection instanceof ConnectionKey ? $connection : $this->credentials->createHandle($connection, $server);
         if (!$this->isValidConnection($connection) || ($this->getCurrent()->is($connection))) {
             return;
         }
@@ -212,5 +211,23 @@ class ConnectionsHandler
     {
         $this->current     = null;
         $this->connections = null;
+    }
+
+    /**
+     * Unify a connection's declaration into the servers form
+     *
+     * @param array $connection
+     *
+     * @return array
+     */
+    protected function unifyMultiserversDeclarations($connection)
+    {
+        $connection = (array) $connection;
+        foreach ($connection as $key => $servers) {
+            $servers          = Arr::get($servers, 'servers', [$servers]);
+            $connection[$key] = ['servers' => array_values($servers)];
+        }
+
+        return $connection;
     }
 }

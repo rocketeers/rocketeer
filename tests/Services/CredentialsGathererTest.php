@@ -326,7 +326,7 @@ class CredentialsGathererTest extends RocketeerTestCase
      */
     protected function givenConfiguredRepositoryCredentials(array $credentials, $need = false)
     {
-        $this->mock('rocketeer.connections', 'ConnectionsHandler', function (MockInterface $mock) use (
+        $this->mock('rocketeer.credentials.handler', 'CredentialsHandler', function (MockInterface $mock) use (
             $need,
             $credentials
         ) {

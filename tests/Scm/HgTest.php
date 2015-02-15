@@ -48,7 +48,7 @@ class HgTest extends RocketeerTestCase
 
     public function testCanGetCheckout()
     {
-        $this->mock('rocketeer.connections', 'ConnectionsHandler', function (MockInterface $mock) {
+        $this->mock('rocketeer.credentials.handler', 'CredentialsHandler', function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('getRepositoryCredentials')->once()->andReturn([
                     'username' => 'foo',

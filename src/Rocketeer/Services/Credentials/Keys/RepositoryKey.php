@@ -6,7 +6,7 @@ namespace Rocketeer\Services\Credentials\Keys;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class RepositoryKeychain
+class RepositoryKey
 {
 
 }

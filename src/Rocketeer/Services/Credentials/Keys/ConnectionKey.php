@@ -19,7 +19,7 @@ use Rocketeer\Services\Connections\roles;
  * @property roles   array
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class ConnectionKeychain implements ArrayableInterface, JsonSerializable
+class ConnectionKey implements ArrayableInterface, JsonSerializable
 {
     /**
      * @type string
@@ -109,9 +109,10 @@ class ConnectionKeychain implements ArrayableInterface, JsonSerializable
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * @param ConnectionKeychain|string $connection
+     * @param ConnectionKey|string $connection
 
-     *
+
+*
 *@return boolean
      */
     public function is($connection)

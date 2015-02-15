@@ -2,21 +2,21 @@
 namespace Rocketeer\Services\Credentials\Keychains;
 
 use Illuminate\Support\Arr;
-use Rocketeer\Services\Credentials\Keys\ConnectionKeychain;
+use Rocketeer\Services\Credentials\Keys\ConnectionKey;
 
 trait ConnectionsKeychain
 {
     /**
      * Get the credentials for a particular connection
      *
-     * @param ConnectionKeychain|string|null $connection
+     * @param ConnectionKey|string|null $connection
      *
      * @return string[][]
      */
     public function getConnectionCredentials($connection = null)
     {
         $connection = $this->sanitizeConnection($connection);
-        $available  = $this->getAvailableConnections();
+        $available  = $this->connections->getAvailableConnections();
 
         // Get and filter servers
         $servers = Arr::get($available, $connection->name.'.servers');
@@ -31,8 +31,8 @@ trait ConnectionsKeychain
     /**
      * Get the credentials for as server
      *
-     * @param ConnectionKeychain|string|null $connection
-     * @param integer                        $server
+     * @param ConnectionKey|string|null $connection
+     * @param integer                   $server
      *
      * @return array
      */
@@ -44,10 +44,10 @@ trait ConnectionsKeychain
     /**
      * Sync Rocketeer's credentials with Laravel's
      *
-     * @param ConnectionKeychain|null $connection
-     * @param array                   $credentials
+     * @param ConnectionKey|null $connection
+     * @param array              $credentials
      */
-    public function syncConnectionCredentials(ConnectionKeychain $connection = null, array $credentials = [])
+    public function syncConnectionCredentials(ConnectionKey $connection = null, array $credentials = [])
     {
         // Store credentials if any
         if ($credentials) {
@@ -71,25 +71,25 @@ trait ConnectionsKeychain
     /**
      * Build the current connection's handle
      *
-     * @param ConnectionKeychain|string|null $connection
-     * @param integer|null                   $server
-     * @param string|null                    $stage
+     * @param ConnectionKey|string|null $connection
+     * @param integer|null              $server
+     * @param string|null               $stage
      *
-     * @return ConnectionKeychain
+     * @return ConnectionKey
      */
     public function createHandle($connection = null, $server = null, $stage = null)
     {
-        if ($connection instanceof ConnectionKeychain) {
+        if ($connection instanceof ConnectionKey) {
             return $connection;
         }
 
         // Get identifiers
-        $connection = $connection ?: Arr::get($this->getConnections(), 0);
+        $connection = $connection ?: Arr::get($this->connections->getConnections(), 0);
         $server     = $server ?: 0;
         $stage      = $stage ?: null;
 
         // Concatenate
-        $handle = new ConnectionKeychain($connection, $server, $stage);
+        $handle = new ConnectionKey($connection, $server, $stage);
 
         // Populate credentials
         $handle->servers = $this->getConnectionCredentials($handle);
@@ -98,20 +98,20 @@ trait ConnectionsKeychain
     }
 
     /**
-     * Transform an instance/credentials into a ConnectionKeychain
+     * Transform an instance/credentials into a ConnectionKey
      *
-     * @param ConnectionKeychain|string|null $connection
-     * @param integer|null                   $server
+     * @param ConnectionKey|string|null $connection
+     * @param integer|null              $server
      *
-     * @return ConnectionKeychain
+     * @return ConnectionKey
      */
-    protected function sanitizeConnection($connection = null, $server = null)
+    public function sanitizeConnection($connection = null, $server = null)
     {
         if (!$connection) {
-            return $this->getCurrent();
+            return $this->connections->getCurrent();
         }
 
-        return $connection instanceof ConnectionKeychain ? $connection : $this->createHandle($connection, $server);
+        return $connection instanceof ConnectionKey ? $connection : $this->createHandle($connection, $server);
     }
 
     //////////////////////////////////////////////////////////////////////
@@ -122,12 +122,12 @@ trait ConnectionsKeychain
      * Filter the credentials and remove the ones that
      * can't be saved to disk
      *
-     * @param ConnectionKeychain $connection
-     * @param array              $credentials
+     * @param ConnectionKey $connection
+     * @param array         $credentials
      *
      * @return string[]
      */
-    protected function filterUnsavableCredentials(ConnectionKeychain $connection, $credentials)
+    protected function filterUnsavableCredentials(ConnectionKey $connection, $credentials)
     {
         $defined = $this->getServerCredentials($connection);
         foreach ($credentials as $key => $value) {
@@ -137,23 +137,5 @@ trait ConnectionsKeychain
         }
 
         return $credentials;
-    }
-
-    /**
-     * Unify a connection's declaration into the servers form
-     *
-     * @param array $connection
-     *
-     * @return array
-     */
-    protected function unifyMultiserversDeclarations($connection)
-    {
-        $connection = (array) $connection;
-        foreach ($connection as $key => $servers) {
-            $servers          = Arr::get($servers, 'servers', [$servers]);
-            $connection[$key] = ['servers' => array_values($servers)];
-        }
-
-        return $connection;
     }
 }
