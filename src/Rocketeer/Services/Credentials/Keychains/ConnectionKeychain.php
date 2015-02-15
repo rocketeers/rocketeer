@@ -7,6 +7,8 @@ use JsonSerializable;
 use Rocketeer\Services\Connections\roles;
 
 /**
+ * Represents a connection's identity and its credentials
+ *
  * @property string  host
  * @property string  username
  * @property string  password

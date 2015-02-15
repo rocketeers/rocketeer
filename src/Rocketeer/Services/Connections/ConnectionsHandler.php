@@ -28,9 +28,8 @@ class ConnectionsHandler
 
     /**
      * The current connection
-
      *
-*@type ConnectionKeychain
+     * @type ConnectionKeychain
      */
     protected $current;
 
@@ -102,12 +101,10 @@ class ConnectionsHandler
 
     /**
      * Check if a connection has credentials related to it
-
      *
-*@param ConnectionKeychain|string $connection
-
+     * @param ConnectionKeychain|string $connection
      *
-*@return boolean
+     * @return boolean
      */
     public function isValidConnection($connection)
     {
@@ -166,9 +163,8 @@ class ConnectionsHandler
 
     /**
      * Get the active connection
-
      *
-*@return ConnectionKeychain
+     * @return ConnectionKeychain
      */
     public function getCurrent()
     {
@@ -187,10 +183,9 @@ class ConnectionsHandler
 
     /**
      * Set the current connection
-
      *
-*@param ConnectionKeychain|string $connection
-     * @param integer                 $server
+     * @param ConnectionKeychain|string $connection
+     * @param integer                   $server
      */
     public function setConnection($connection, $server = null)
     {
@@ -212,12 +207,10 @@ class ConnectionsHandler
 
     /**
      * Get the credentials for a particular connection
-
      *
-*@param ConnectionKeychain|string|null $connection
-
+     * @param ConnectionKeychain|string|null $connection
      *
-*@return string[][]
+     * @return string[][]
      */
     public function getConnectionCredentials($connection = null)
     {
@@ -236,13 +229,11 @@ class ConnectionsHandler
 
     /**
      * Get the credentials for as server
-
      *
-* @param ConnectionKeychain|string|null $connection
-     * @param integer                      $server
-
+     * @param ConnectionKeychain|string|null $connection
+     * @param integer                        $server
      *
-*@return array
+     * @return array
      */
     public function getServerCredentials($connection = null, $server = 0)
     {
@@ -251,10 +242,9 @@ class ConnectionsHandler
 
     /**
      * Sync Rocketeer's credentials with Laravel's
-
      *
      * @param ConnectionKeychain|null $connection
-     * @param array                 $credentials
+     * @param array                   $credentials
      */
     public function syncConnectionCredentials(ConnectionKeychain $connection = null, array $credentials = [])
     {
@@ -381,8 +371,8 @@ class ConnectionsHandler
      * Build the current connection's handle
      *
      * @param ConnectionKeychain|string|null $connection
-     * @param integer|null                 $server
-     * @param string|null                  $stage
+     * @param integer|null                   $server
+     * @param string|null                    $stage
      *
      * @return ConnectionKeychain
      */
@@ -410,7 +400,7 @@ class ConnectionsHandler
      * Transform an instance/credentials into a ConnectionKeychain
      *
      * @param ConnectionKeychain|string|null $connection
-     * @param integer|null                 $server
+     * @param integer|null                   $server
      *
      * @return ConnectionKeychain
      */
@@ -432,10 +422,9 @@ class ConnectionsHandler
      * can't be saved to disk
      *
      * @param ConnectionKeychain $connection
-     * @param array            $credentials
-
+     * @param array              $credentials
      *
-*@return string[]
+     * @return string[]
      */
     protected function filterUnsavableCredentials(ConnectionKeychain $connection, $credentials)
     {
