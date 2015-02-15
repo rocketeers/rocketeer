@@ -75,12 +75,12 @@ class Git extends AbstractBinary implements ScmInterface
     public function checkout($destination)
     {
         $arguments = array_map([$this, 'quote'], array(
-            $this->connections->getRepositoryEndpoint(),
+            $this->credentials->getRepositoryEndpoint(),
             $destination,
         ));
 
         // Build flags
-        $flags = ['--branch' => $this->connections->getRepositoryBranch()];
+        $flags = ['--branch' => $this->credentials->getRepositoryBranch()];
         if ($this->rocketeer->getOption('scm.shallow')) {
             $flags['--depth'] = 1;
         }

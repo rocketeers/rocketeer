@@ -102,7 +102,7 @@ class SyncStrategy extends AbstractStrategy implements DeployStrategyInterface
      */
     protected function getSyncHandle()
     {
-        $credentials    = $this->connections->getServerCredentials();
+        $credentials    = $this->credentials->getServerCredentials();
         $handle         = array_get($credentials, 'host');
         $explodedHandle = explode(':', $handle);
 

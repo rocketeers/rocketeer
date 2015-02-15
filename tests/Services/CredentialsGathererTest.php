@@ -127,7 +127,7 @@ class CredentialsGathererTest extends RocketeerTestCase
 
         $this->credentialsGatherer->getServerCredentials();
 
-        $credentials = $this->connections->getServerCredentials('production', 0);
+        $credentials = $this->credentials->getServerCredentials('production', 0);
         $this->assertEquals(array(
             'host'      => $this->host,
             'username'  => $this->username,
@@ -160,7 +160,7 @@ class CredentialsGathererTest extends RocketeerTestCase
 
         $this->credentialsGatherer->getServerCredentials();
 
-        $credentials = $this->connections->getServerCredentials('production', 0);
+        $credentials = $this->credentials->getServerCredentials('production', 0);
         $this->assertEquals(array(
             'host'      => $this->host,
             'username'  => $this->username,
@@ -192,7 +192,7 @@ class CredentialsGathererTest extends RocketeerTestCase
 
         $this->credentialsGatherer->getServerCredentials();
 
-        $credentials = $this->connections->getServerCredentials('staging', 0);
+        $credentials = $this->credentials->getServerCredentials('staging', 0);
         $this->assertEquals(array(
             'host'      => $this->host,
             'username'  => $this->username,
@@ -224,7 +224,7 @@ class CredentialsGathererTest extends RocketeerTestCase
 
         $this->credentialsGatherer->getServerCredentials();
 
-        $credentials = $this->connections->getServerCredentials('production', 0);
+        $credentials = $this->credentials->getServerCredentials('production', 0);
         $this->assertEquals(array(
             'host'      => $this->host,
             'username'  => $this->username,

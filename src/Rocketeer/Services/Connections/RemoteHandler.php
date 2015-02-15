@@ -14,7 +14,7 @@ use Exception;
 use Rocketeer\Exceptions\ConnectionException;
 use Rocketeer\Exceptions\MissingCredentialsException;
 use Rocketeer\Interfaces\CredentialsExceptionInterface;
-use Rocketeer\Services\Credentials\Keychains\ConnectionKeychain;
+use Rocketeer\Services\Credentials\Keys\ConnectionKeychain;
 use Rocketeer\Traits\HasLocator;
 use Symfony\Component\Console\Output\NullOutput;
 
@@ -55,7 +55,7 @@ class RemoteHandler
      */
     public function connection($connection = null, $server = 0)
     {
-        $connection = $connection ? $this->connections->createHandle($connection, $server) : $this->connections->getCurrent();
+        $connection = $connection ? $this->credentials->createHandle($connection, $server) : $this->connections->getCurrent();
         $handle     = (string) $connection->toHandle();
 
         // Check the cache
@@ -74,9 +74,8 @@ class RemoteHandler
 
     /**
      * @param ConnectionKeychain $connection
-
      *
-*@return Connection
+     * @return Connection
      * @throws CredentialsExceptionInterface
      */
     protected function makeConnection(ConnectionKeychain $connection)
@@ -153,7 +152,7 @@ class RemoteHandler
      */
     protected function throwExceptionWithCredentials(CredentialsExceptionInterface $exception)
     {
-        $exception->setCredentials($this->connections->getServerCredentials());
+        $exception->setCredentials($this->credentials->getServerCredentials());
 
         return $exception;
     }

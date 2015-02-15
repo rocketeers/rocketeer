@@ -11,7 +11,7 @@
 namespace Rocketeer\Services\Tasks;
 
 use Illuminate\Support\Fluent;
-use Rocketeer\Services\Credentials\Keychains\ConnectionKeychain;
+use Rocketeer\Services\Credentials\Keys\ConnectionKeychain;
 
 /**
  * A job storing where a task/multiple tasks need to be executed

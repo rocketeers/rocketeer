@@ -52,10 +52,10 @@ class ConnectionsHandlerTest extends RocketeerTestCase
         ));
 
         $this->connections->setConnection('production', 0);
-        $this->assertEquals(['host' => 'server1.com'], $this->connections->getServerCredentials());
+        $this->assertEquals(['host' => 'server1.com'], $this->credentials->getServerCredentials());
 
         $this->connections->setConnection('production', 1);
-        $this->assertEquals(['host' => 'server2.com'], $this->connections->getServerCredentials());
+        $this->assertEquals(['host' => 'server2.com'], $this->credentials->getServerCredentials());
     }
 
     public function testCanUseSshRepository()
@@ -104,12 +104,12 @@ class ConnectionsHandlerTest extends RocketeerTestCase
     public function testCanCheckIfRepositoryNeedsCredentials()
     {
         $this->expectRepositoryConfig('https://github.com/'.$this->repository, '', '');
-        $this->assertTrue($this->connections->repositoryNeedsCredentials());
+        $this->assertTrue($this->credentials->repositoryNeedsCredentials());
     }
 
     public function testCangetRepositoryBranch()
     {
-        $this->assertEquals('master', $this->connections->getRepositoryBranch());
+        $this->assertEquals('master', $this->credentials->getRepositoryBranch());
     }
 
     public function testCanExtractCurrentBranchIfNoneSpecified()
@@ -119,7 +119,7 @@ class ConnectionsHandlerTest extends RocketeerTestCase
             return $mock->shouldReceive('onLocal')->andReturn('  foobar  ');
         });
 
-        $this->assertEquals('foobar', $this->connections->getRepositoryBranch());
+        $this->assertEquals('foobar', $this->credentials->getRepositoryBranch());
     }
 
     public function testCanDefaultToMasterIfNoBranchFound()
@@ -129,14 +129,14 @@ class ConnectionsHandlerTest extends RocketeerTestCase
             return $mock->shouldReceive('onLocal')->andReturn(null);
         });
 
-        $this->assertEquals('master', $this->connections->getRepositoryBranch());
+        $this->assertEquals('master', $this->credentials->getRepositoryBranch());
     }
 
     public function testCanPassRepositoryBranchAsFlag()
     {
         $this->mockCommand(['branch' => '1.0']);
 
-        $this->assertEquals('1.0', $this->connections->getRepositoryBranch());
+        $this->assertEquals('1.0', $this->credentials->getRepositoryBranch());
     }
 
     public function testFillsConnectionCredentialsHoles()
@@ -217,7 +217,7 @@ class ConnectionsHandlerTest extends RocketeerTestCase
             'server' => '0,1',
         ));
 
-        $this->assertArrayNotHasKey(2, $this->connections->getConnectionCredentials('production'));
+        $this->assertArrayNotHasKey(2, $this->credentials->getConnectionCredentials('production'));
     }
 
     public function testThrowsExceptionWhenTryingToSetInvalidConnection()
@@ -229,7 +229,7 @@ class ConnectionsHandlerTest extends RocketeerTestCase
 
     public function testCanGetRepositoryName()
     {
-        $this->assertEquals('Anahkiasen/html-object', $this->connections->getRepositoryName());
+        $this->assertEquals('Anahkiasen/html-object', $this->credentials->getRepositoryName());
     }
 
     ////////////////////////////////////////////////////////////////////

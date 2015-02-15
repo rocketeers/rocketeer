@@ -48,7 +48,7 @@ trait Assertions
      */
     protected function assertRepositoryEquals($repository)
     {
-        $this->assertEquals($repository, $this->connections->getRepositoryEndpoint());
+        $this->assertEquals($repository, $this->credentials->getRepositoryEndpoint());
     }
 
     /**

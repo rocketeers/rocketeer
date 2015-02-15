@@ -1,5 +1,5 @@
 <?php
-namespace Rocketeer\Services\Credentials\Keychains;
+namespace Rocketeer\Services\Credentials\Keys;
 
 /**
  * Represents a repository's identity and its credentials

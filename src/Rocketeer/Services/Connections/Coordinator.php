@@ -160,7 +160,7 @@ class Coordinator
         $connections = $this->connections->getConnections();
         foreach ($connections as $connection) {
             $stages  = $this->connections->getAvailableStages();
-            $servers = $this->connections->getConnectionCredentials($connection);
+            $servers = $this->credentials->getConnectionCredentials($connection);
             $targets += count($servers) * count($stages);
         }
 

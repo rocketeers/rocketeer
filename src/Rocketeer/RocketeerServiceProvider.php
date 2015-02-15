@@ -152,7 +152,8 @@ class RocketeerServiceProvider extends ServiceProvider
      */
     public function bindConsoleClasses()
     {
-        $this->app->singleton('rocketeer.credentials', 'Rocketeer\Services\Credentials\CredentialsGatherer');
+        $this->app->singleton('rocketeer.credentials.handler', 'Rocketeer\Services\Credentials\CredentialsHandler');
+        $this->app->singleton('rocketeer.credentials.gatherer', 'Rocketeer\Services\Credentials\CredentialsGatherer');
         $this->app->singleton('rocketeer.console', function () {
             return new Console\Console('Rocketeer', Rocketeer::VERSION);
         });

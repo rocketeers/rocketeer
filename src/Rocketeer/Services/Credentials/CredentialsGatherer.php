@@ -45,11 +45,11 @@ class CredentialsGatherer
     public function getRepositoryCredentials()
     {
         // Check for repository credentials
-        $repositoryCredentials = $this->connections->getRepositoryCredentials();
+        $repositoryCredentials = $this->credentials->getRepositoryCredentials();
 
         // If we didn't specify a login/password ask for both the first time
         $rules = $this->rules['repository'];
-        if ($this->connections->repositoryNeedsCredentials()) {
+        if ($this->credentials->repositoryNeedsCredentials()) {
             // Else assume the repository is passwordless and only ask again for username
             $rules += ['username' => true, 'password' => true];
         }
@@ -112,13 +112,13 @@ class CredentialsGatherer
         $connection = Arr::get($connections, $connection, []);
 
         // Update connection name
-        $handle = $this->connections->createHandle($connectionName, $server);
+        $handle = $this->credentials->createHandle($connectionName, $server);
 
         // Gather credentials
         $credentials = $this->gatherCredentials($this->rules['server'], $connection, $handle);
 
         // Save credentials
-        $this->connections->syncConnectionCredentials($handle, $credentials);
+        $this->credentials->syncConnectionCredentials($handle, $credentials);
         $this->connections->setConnection($handle);
     }
 

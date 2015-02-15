@@ -1,5 +1,5 @@
 <?php
-namespace Rocketeer\Services\Credentials\Keychains;
+namespace Rocketeer\Services\Credentials\Keys;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Contracts\ArrayableInterface;
@@ -7,7 +7,7 @@ use JsonSerializable;
 use Rocketeer\Services\Connections\roles;
 
 /**
- * Represents a connection's identity and its credentials
+ * Represents a connection's identity and its credential
  *
  * @property string  host
  * @property string  username

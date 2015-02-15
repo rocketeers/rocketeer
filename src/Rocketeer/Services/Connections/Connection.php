@@ -16,7 +16,7 @@ use Rocketeer\Interfaces\ConnectionInterface;
 use Rocketeer\Interfaces\GatewayInterface;
 use Rocketeer\Interfaces\HasRolesInterface;
 use Rocketeer\Services\Connections\Gateways\SeclibGateway;
-use Rocketeer\Services\Credentials\Keychains\ConnectionKeychain;
+use Rocketeer\Services\Credentials\Keys\ConnectionKeychain;
 use Rocketeer\Traits\Properties\HasRoles;
 use RuntimeException;
 use Symfony\Component\Console\Output\NullOutput;

@@ -3,7 +3,7 @@ namespace Rocketeer\Plugins;
 
 use Mockery\MockInterface;
 use Rocketeer\Dummies\DummyNotifier;
-use Rocketeer\Services\Credentials\Keychains\ConnectionKeychain;
+use Rocketeer\Services\Credentials\Keys\ConnectionKeychain;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class AbstractNotifierTest extends RocketeerTestCase
