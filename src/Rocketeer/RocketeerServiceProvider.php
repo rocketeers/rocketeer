@@ -108,7 +108,7 @@ class RocketeerServiceProvider extends ServiceProvider
         }, true);
 
         $this->app->bindIf('rocketeer.remote', 'Rocketeer\Services\Connections\RemoteHandler', true);
-        $this->app->singleton('remote.local', 'Rocketeer\Services\Connections\LocalConnection');
+        $this->app->singleton('remote.local', 'Rocketeer\Services\Connections\Connections\LocalConnection');
         $this->app->bindIf('events', 'Illuminate\Events\Dispatcher', true);
 
         $this->app->bindIf('log', function () {

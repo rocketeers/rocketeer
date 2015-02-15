@@ -12,7 +12,7 @@ namespace Rocketeer\Services;
 
 use Illuminate\Support\Arr;
 use Rocketeer\Abstracts\AbstractTask;
-use Rocketeer\Services\Connections\Connection;
+use Rocketeer\Services\Connections\Connections\Connection;
 use Rocketeer\Traits\HasLocator;
 
 /**

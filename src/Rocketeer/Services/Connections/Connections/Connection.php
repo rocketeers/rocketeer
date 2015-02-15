@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Rocketeer\Services\Connections;
+namespace Rocketeer\Services\Connections\Connections;
 
 use Closure;
 use Illuminate\Filesystem\Filesystem;
@@ -41,10 +41,8 @@ class Connection implements ConnectionInterface, HasRolesInterface
 
     /**
      * The connection handle
-
-
      *
-     *@type ConnectionKey
+     * @type ConnectionKey
      */
     protected $handle;
 
@@ -57,10 +55,8 @@ class Connection implements ConnectionInterface, HasRolesInterface
 
     /**
      * Create a new SSH connection instance.
-
-
      *
-     *@param ConnectionKey      $handle
+     * @param ConnectionKey         $handle
      * @param array                 $auth
      * @param GatewayInterface|null $gateway
      */

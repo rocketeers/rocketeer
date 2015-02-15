@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Rocketeer\Services\Connections;
+namespace Rocketeer\Services\Connections\Connections;
 
 use Closure;
 use Rocketeer\Interfaces\ConnectionInterface;

@@ -30,7 +30,7 @@ class RemoteHandlerTest extends RocketeerTestCase
 
         $connection = $this->handler->connection();
 
-        $this->assertInstanceOf('Rocketeer\Services\Connections\Connection', $connection);
+        $this->assertInstanceOf('Rocketeer\Services\Connections\Connections\Connection', $connection);
         $this->assertEquals('production', $connection->getName());
         $this->assertEquals('foobar', $connection->getUsername());
     }
@@ -74,7 +74,7 @@ class RemoteHandlerTest extends RocketeerTestCase
         ));
 
         $connection = $this->handler->connection();
-        $this->assertInstanceOf('Rocketeer\Services\Connections\Connection', $connection);
+        $this->assertInstanceOf('Rocketeer\Services\Connections\Connections\Connection', $connection);
         $this->assertEquals('production', $connection->getName());
 
         $this->swapConnections(array(
@@ -82,7 +82,7 @@ class RemoteHandlerTest extends RocketeerTestCase
         ));
 
         $connection = $this->handler->connection();
-        $this->assertInstanceOf('Rocketeer\Services\Connections\Connection', $connection);
+        $this->assertInstanceOf('Rocketeer\Services\Connections\Connections\Connection', $connection);
         $this->assertEquals('production', $connection->getName());
     }
 
@@ -124,7 +124,7 @@ class RemoteHandlerTest extends RocketeerTestCase
         $this->connections->setConnection('production', 1);
         $connection = $this->handler->connection('production', 1);
 
-        $this->assertInstanceOf('Rocketeer\Services\Connections\Connection', $connection);
+        $this->assertInstanceOf('Rocketeer\Services\Connections\Connections\Connection', $connection);
         $this->assertEquals('production', $connection->getName());
         $this->assertEquals('bar', $connection->getUsername());
 
@@ -132,7 +132,7 @@ class RemoteHandlerTest extends RocketeerTestCase
         $this->connections->setConnection('production', 0);
         $connection = $this->handler->connection('production', 0);
 
-        $this->assertInstanceOf('Rocketeer\Services\Connections\Connection', $connection);
+        $this->assertInstanceOf('Rocketeer\Services\Connections\Connections\Connection', $connection);
         $this->assertEquals('production', $connection->getName());
         $this->assertEquals('foo', $connection->getUsername());
     }
@@ -150,7 +150,7 @@ class RemoteHandlerTest extends RocketeerTestCase
 
         $connection = $this->handler->connection();
 
-        $this->assertInstanceOf('Rocketeer\Services\Connections\Connection', $connection);
+        $this->assertInstanceOf('Rocketeer\Services\Connections\Connections\Connection', $connection);
         $this->assertEquals(['foo', 'bar'], $connection->getRoles());
     }
 
