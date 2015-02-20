@@ -1,8 +1,8 @@
 <?php
 namespace Rocketeer\Services\Credentials\Keys;
 
-use Illuminate\Support\Fluent;
 use Illuminate\Support\Str;
+use Rocketeer\Abstracts\Keychains\AbstractKey;
 
 /**
  * Represents a repository's identity and its credentials.
@@ -14,7 +14,7 @@ use Illuminate\Support\Str;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class RepositoryKey extends Fluent
+class RepositoryKey extends AbstractKey
 {
     /**
      * Whether the repository is public or needs credentials.
@@ -37,5 +37,13 @@ class RepositoryKey extends Fluent
         $repository = preg_replace('#https?://(.+)\.com/(.+)/([^.]+)(\..+)?#', '$2/$3', $repository);
 
         return $repository;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getHandleComponents()
+    {
+        return [$this->username, $this->name];
     }
 }

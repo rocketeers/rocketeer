@@ -2,7 +2,7 @@
 namespace Rocketeer\Services\Credentials\Keys;
 
 use Illuminate\Support\Arr;
-use Illuminate\Support\Fluent;
+use Rocketeer\Abstracts\Keychains\AbstractKey;
 use Rocketeer\Services\Connections\roles;
 
 /**
@@ -23,7 +23,7 @@ use Rocketeer\Services\Connections\roles;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class ConnectionKey extends Fluent
+class ConnectionKey extends AbstractKey
 {
     /**
      * The global informations
@@ -124,9 +124,11 @@ class ConnectionKey extends Fluent
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * @return string
+     * Get the components to compute the handle from
+     *
+     * @return string[]
      */
-    public function toHandle()
+    public function getHandleComponents()
     {
         $server     = Arr::get($this->servers, $this->server.'.host', $this->server);
         $components = !$this->isMultiserver() ? [$this->name, $this->stage] : [$this->name, $server, $this->stage];
@@ -134,10 +136,12 @@ class ConnectionKey extends Fluent
             return $value !== null;
         });
 
-        return implode('/', $components);
+        return $components;
     }
 
     /**
+     * Get the long form of the handle
+     *
      * @return string
      */
     public function toLongHandle()
@@ -148,14 +152,6 @@ class ConnectionKey extends Fluent
     //////////////////////////////////////////////////////////////////////
     //////////////////////////// SERIALIZATION ///////////////////////////
     //////////////////////////////////////////////////////////////////////
-
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->toHandle();
-    }
 
     /**
      * Get the instance as an array.
