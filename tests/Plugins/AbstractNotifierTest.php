@@ -30,7 +30,7 @@ class AbstractNotifierTest extends RocketeerTestCase
 
     public function testCanAskForNameIfNoneProvided()
     {
-        $this->expectOutputString('foobar finished deploying rocketeers/rocketeer/master on "staging@production" (foo.bar.com)');
+        $this->expectOutputString('foobar finished deploying rocketeers/rocketeer/master on "production/staging" (foo.bar.com)');
 
         $this->mockCommand([], ['ask' => 'foobar']);
         $this->mock('rocketeer.storage.local', 'LocalStorage', function (MockInterface $mock) {
@@ -58,7 +58,7 @@ class AbstractNotifierTest extends RocketeerTestCase
 
     public function testCanAppendStageToDetails()
     {
-        $this->expectOutputString('Jean Eude finished deploying Anahkiasen/html-object/master on "staging@production" (foo.bar.com)');
+        $this->expectOutputString('Jean Eude finished deploying Anahkiasen/html-object/master on "production/staging" (foo.bar.com)');
         $this->localStorage->set('notifier.name', 'Jean Eude');
         $this->tasks->registerConfiguredEvents();
         $this->connections->setStage('staging');

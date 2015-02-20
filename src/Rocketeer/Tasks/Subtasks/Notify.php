@@ -10,7 +10,6 @@
 
 namespace Rocketeer\Tasks\Subtasks;
 
-use Illuminate\Support\Arr;
 use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Plugins\AbstractNotifier;
 
@@ -78,16 +77,14 @@ class Notify extends AbstractTask
         // Get what was deployed
         $repository = $this->credentials->getCurrentRepository();
         $connection = $this->connections->getCurrentConnection();
-        $branch     = $repository->branch;
-        $repository = $repository->getName();
 
-        // Get hostname
-        $host        = $connection->host;
-        if ($connection->stage) {
-            $connection = $connection->stage.'@'.$connection->name;
-        }
-
-        return compact('user', 'branch', 'connection', 'host', 'repository');
+        return array(
+            'user'       => $user,
+            'branch'     => $repository->branch,
+            'handle'     => $connection->toHandle(),
+            'host'       => $connection->host,
+            'repository' => $repository->getName(),
+        );
     }
 
     /**
