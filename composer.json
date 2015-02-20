@@ -37,7 +37,8 @@
     "nesbot/carbon": "~1.13",
     "johnkary/phpunit-speedtrap": "~1.0@dev",
     "psy/psysh": "0.3.*",
-    "rocketeers/rocketeer-laravel": "1.0.*@dev"
+    "rocketeers/rocketeer-laravel": "1.0.*@dev",
+    "symfony/var-dumper": "~2.6"
   },
   "suggest": {
     "psy/psysh": "Required for the 'tinker' command",
