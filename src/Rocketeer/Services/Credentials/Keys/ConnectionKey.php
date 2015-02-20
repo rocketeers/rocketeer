@@ -2,13 +2,16 @@
 namespace Rocketeer\Services\Credentials\Keys;
 
 use Illuminate\Support\Arr;
-use Illuminate\Support\Contracts\ArrayableInterface;
-use JsonSerializable;
+use Illuminate\Support\Fluent;
 use Rocketeer\Services\Connections\roles;
 
 /**
  * Represents a connection's identity and its credential
  *
+ * @property string  name
+ * @property integer server
+ * @property string  stage
+ * @property array   servers
  * @property string  host
  * @property string  username
  * @property string  password
@@ -19,41 +22,15 @@ use Rocketeer\Services\Connections\roles;
  * @property roles   array
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class ConnectionKey implements ArrayableInterface, JsonSerializable
+class ConnectionKey extends Fluent
 {
     /**
-     * @type string
-     */
-    public $name;
-
-    /**
-     * @type string
-     */
-    public $server;
-
-    /**
-     * @type string
-     */
-    public $stage;
-
-    /**
-     * The credentials of the various servers
+     * The global informations
+     * about the connection
      *
-     * @type array
+     * @type string[]
      */
-    public $servers = [];
-
-    /**
-     * @param string      $name
-     * @param string|null $server
-     * @param string|null $stage
-     */
-    public function __construct($name, $server = null, $stage = null)
-    {
-        $this->name   = $name;
-        $this->server = $server;
-        $this->stage  = $stage;
-    }
+    protected $informations = ['name', 'server', 'stage', 'servers'];
 
     /**
      * Get attributes from the credentials
@@ -64,6 +41,10 @@ class ConnectionKey implements ArrayableInterface, JsonSerializable
      */
     public function __get($name)
     {
+        if (in_array($name, $this->informations)) {
+            return $this->get($name);
+        }
+
         return $this->getServerCredential($name);
     }
 
@@ -75,7 +56,11 @@ class ConnectionKey implements ArrayableInterface, JsonSerializable
      */
     public function __set($name, $value)
     {
-        $this->servers[$this->server][$name] = $value;
+        if (in_array($name, $this->informations)) {
+           return parent::__set($name, $value);
+        }
+
+        $this->attributes['servers'][$this->server][$name] = $value;
     }
 
     //////////////////////////////////////////////////////////////////////
@@ -111,7 +96,7 @@ class ConnectionKey implements ArrayableInterface, JsonSerializable
     /**
      * @param ConnectionKey|string $connection
      *
-     *@return boolean
+     * @return boolean
      */
     public function is($connection)
     {
@@ -178,23 +163,9 @@ class ConnectionKey implements ArrayableInterface, JsonSerializable
      */
     public function toArray()
     {
-        return array(
-            'name'        => $this->name,
-            'server'      => $this->server,
-            'stage'       => $this->stage,
-            'username'    => $this->username,
-            'servers'     => $this->servers,
-            'multiserver' => $this->isMultiserver(),
-        );
-    }
+        $connection                = parent::toArray();
+        $connection['multiserver'] = $this->isMultiserver();
 
-    /**
-     * Get the instance as JSON
-     *
-     * @return string
-     */
-    public function jsonSerialize()
-    {
-        return json_encode($this->toArray(), JSON_PRETTY_PRINT);
+        return $connection;
     }
 }

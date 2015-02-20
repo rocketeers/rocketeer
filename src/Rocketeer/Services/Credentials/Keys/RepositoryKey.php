@@ -17,6 +17,8 @@ use Illuminate\Support\Str;
 class RepositoryKey extends Fluent
 {
     /**
+     * Whether the repository is public or needs credentials
+     *
      * @return boolean
      */
     public function needsCredentials()
@@ -25,6 +27,8 @@ class RepositoryKey extends Fluent
     }
 
     /**
+     * Get a shorthand of the repository's name
+     *
      * @return string
      */
     public function getName()

@@ -8,7 +8,6 @@ use Rocketeer\Services\Credentials\Keys\ConnectionKey;
  * Finds credentials and informations about connections
  *
  * @mixin \Rocketeer\Services\Credentials\CredentialsHandler
- *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait ConnectionsKeychain
@@ -90,13 +89,12 @@ trait ConnectionsKeychain
             return $connection;
         }
 
-        // Get identifiers
-        $connection = $connection ?: Arr::get($this->connections->getConnections(), 0);
-        $server     = $server ?: 0;
-        $stage      = $stage ?: null;
-
         // Concatenate
-        $handle = new ConnectionKey($connection, $server, $stage);
+        $handle = new ConnectionKey(array(
+            'name'   => $connection ?: Arr::get($this->connections->getConnections(), 0),
+            'server' => $server ?: 0,
+            'stage'  => $stage ?: null,
+        ));
 
         // Populate credentials
         $handle->servers = $this->getConnectionCredentials($handle);
