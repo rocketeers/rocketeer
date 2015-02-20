@@ -82,7 +82,7 @@ class Notify extends AbstractTask
         $repository = $repository->getName();
 
         // Get hostname
-        $host        = Arr::get($connection->getServerCredentials(), 'host');
+        $host        = $connection->host;
         if ($connection->stage) {
             $connection = $connection->stage.'@'.$connection->name;
         }

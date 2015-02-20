@@ -73,7 +73,7 @@ class Migrate extends AbstractTask
     protected function canRunMigrations()
     {
         $connection = $this->connections->getCurrentConnection();
-        $hasRole    = array_get($connection->getServerCredentials(), 'db_role');
+        $hasRole    = $connection->getServerCredential('db_role');
         $useRoles   = $this->rocketeer->getOption('uses_roles');
 
         return
