@@ -16,7 +16,6 @@ use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Exceptions\TaskCompositionException;
 use Rocketeer\Tasks\Closure as ClosureTask;
 
-
 /**
  * Handles creating tasks from strings, closures, AbstractTask children, etc.
  *
@@ -27,7 +26,7 @@ use Rocketeer\Tasks\Closure as ClosureTask;
 trait TasksBuilder
 {
     /**
-     * Build an array of tasks
+     * Build an array of tasks.
      *
      * @param array $tasks
      *
@@ -39,13 +38,14 @@ trait TasksBuilder
     }
 
     /**
-     * Build a task from anything
+     * Build a task from anything.
      *
      * @param string|Closure|AbstractTask $task
      * @param string|null                 $name
      * @param string|null                 $description
      *
      * @throws \Rocketeer\Exceptions\TaskCompositionException
+     *
      * @return AbstractTask
      */
     public function buildTask($task, $name = null, $description = null)
@@ -70,11 +70,12 @@ trait TasksBuilder
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Compose a Task from its various types
+     * Compose a Task from its various types.
      *
      * @param string|Closure|AbstractTask $task
      *
      * @return mixed|AbstractTask
+     *
      * @throws \Rocketeer\Exceptions\TaskCompositionException
      */
     protected function composeTask($task)
@@ -111,7 +112,7 @@ trait TasksBuilder
     }
 
     /**
-     * Build a task from a string
+     * Build a task from a string.
      *
      * @param string|string[] $task
      *
@@ -125,7 +126,7 @@ trait TasksBuilder
     }
 
     /**
-     * Build a task from a Closure or a string command
+     * Build a task from a Closure or a string command.
      *
      * @param Closure     $callback
      * @param string|null $stringTask
@@ -148,11 +149,12 @@ trait TasksBuilder
     }
 
     /**
-     * Build a task from its name
+     * Build a task from its name.
      *
      * @param string|AbstractTask $task
      *
      * @throws TaskCompositionException
+     *
      * @return AbstractTask
      */
     public function buildTaskFromClass($task)
@@ -170,7 +172,7 @@ trait TasksBuilder
     }
 
     /**
-     * Build a task from a callable
+     * Build a task from a callable.
      *
      * @param callable $callable
      *
@@ -193,7 +195,7 @@ trait TasksBuilder
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Check if a class with the given task name exists
+     * Check if a class with the given task name exists.
      *
      * @param string $task
      *
@@ -209,7 +211,7 @@ trait TasksBuilder
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Get the handle of a task from its name
+     * Get the handle of a task from its name.
      *
      * @param string|AbstractTask $task
      *
@@ -230,7 +232,7 @@ trait TasksBuilder
     }
 
     /**
-     * Check if a string is a command or a task
+     * Check if a string is a command or a task.
      *
      * @param string|Closure|AbstractTask $string
      *
@@ -242,7 +244,7 @@ trait TasksBuilder
     }
 
     /**
-     * Check if a task is a callable
+     * Check if a task is a callable.
      *
      * @param array|string|Closure $task
      *

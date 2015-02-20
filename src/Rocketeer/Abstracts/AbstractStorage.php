@@ -15,7 +15,7 @@ use Illuminate\Support\Arr;
 use Rocketeer\Traits\HasLocator;
 
 /**
- * Abstract class for storage implementations
+ * Abstract class for storage implementations.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
@@ -24,14 +24,14 @@ abstract class AbstractStorage
     use HasLocator;
 
     /**
-     * The file to act on
+     * The file to act on.
      *
      * @type string
      */
     protected $file;
 
     /**
-     * Build a new ServerStorage
+     * Build a new ServerStorage.
      *
      * @param Container $app
      * @param string    $file
@@ -43,7 +43,7 @@ abstract class AbstractStorage
     }
 
     /**
-     * Change the file in use
+     * Change the file in use.
      *
      * @param string $file
      */
@@ -57,7 +57,7 @@ abstract class AbstractStorage
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Get a value on the server
+     * Get a value on the server.
      *
      * @param string|null                $key
      * @param array|string|callable|null $fallback
@@ -72,7 +72,7 @@ abstract class AbstractStorage
     }
 
     /**
-     * Set a value on the server
+     * Set a value on the server.
      *
      * @param string|array $key
      * @param mixed|null   $value
@@ -91,7 +91,7 @@ abstract class AbstractStorage
     }
 
     /**
-     * Forget a value from the repository file
+     * Forget a value from the repository file.
      *
      * @param string $key
      */
@@ -108,25 +108,23 @@ abstract class AbstractStorage
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Get the full path to the file
+     * Get the full path to the file.
      *
      * @return string
      */
     abstract public function getFilepath();
 
     /**
-     * Get the contents of the file
+     * Get the contents of the file.
      *
      * @return array
      */
     abstract protected function getContents();
 
     /**
-     * Save the contents of the file
+     * Save the contents of the file.
      *
      * @param array $contents
-     *
-     * @return void
      */
     abstract protected function saveContents($contents);
 }

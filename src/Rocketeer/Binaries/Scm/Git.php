@@ -14,14 +14,14 @@ use Rocketeer\Abstracts\AbstractBinary;
 use Rocketeer\Interfaces\ScmInterface;
 
 /**
- * The Git implementation of the ScmInterface
+ * The Git implementation of the ScmInterface.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Git extends AbstractBinary implements ScmInterface
 {
     /**
-     * The core binary
+     * The core binary.
      *
      * @type string
      */
@@ -32,7 +32,7 @@ class Git extends AbstractBinary implements ScmInterface
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Check if the SCM is available
+     * Check if the SCM is available.
      *
      * @return string
      */
@@ -42,7 +42,7 @@ class Git extends AbstractBinary implements ScmInterface
     }
 
     /**
-     * Get the current state
+     * Get the current state.
      *
      * @return string
      */
@@ -52,7 +52,7 @@ class Git extends AbstractBinary implements ScmInterface
     }
 
     /**
-     * Get the current branch
+     * Get the current branch.
      *
      * @return string
      */
@@ -66,7 +66,7 @@ class Git extends AbstractBinary implements ScmInterface
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Clone a repository
+     * Clone a repository.
      *
      * @param string $destination
      *
@@ -75,7 +75,7 @@ class Git extends AbstractBinary implements ScmInterface
     public function checkout($destination)
     {
         $repository = $this->credentials->getCurrentRepository();
-        $arguments = array_map([$this, 'quote'], array(
+        $arguments  = array_map([$this, 'quote'], array(
             $repository->endpoint,
             $destination,
         ));
@@ -90,7 +90,7 @@ class Git extends AbstractBinary implements ScmInterface
     }
 
     /**
-     * Resets the repository
+     * Resets the repository.
      *
      * @return string
      */
@@ -100,7 +100,7 @@ class Git extends AbstractBinary implements ScmInterface
     }
 
     /**
-     * Updates the repository
+     * Updates the repository.
      *
      * @return string
      */
@@ -110,7 +110,7 @@ class Git extends AbstractBinary implements ScmInterface
     }
 
     /**
-     * Checkout the repository's submodules
+     * Checkout the repository's submodules.
      *
      * @return string
      */

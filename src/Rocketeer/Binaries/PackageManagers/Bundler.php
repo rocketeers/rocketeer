@@ -15,14 +15,14 @@ use Rocketeer\Abstracts\AbstractPackageManager;
 class Bundler extends AbstractPackageManager
 {
     /**
-     * The name of the manifest file to look for
+     * The name of the manifest file to look for.
      *
      * @type string
      */
     protected $manifest = 'Gemfile';
 
     /**
-     * Get an array of default paths to look for
+     * Get an array of default paths to look for.
      *
      * @return string[]
      */
@@ -34,7 +34,7 @@ class Bundler extends AbstractPackageManager
     }
 
     /**
-     * Get where dependencies are installed
+     * Get where dependencies are installed.
      *
      * @return string|null
      */

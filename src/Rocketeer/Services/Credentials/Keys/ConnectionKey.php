@@ -6,7 +6,7 @@ use Illuminate\Support\Fluent;
 use Rocketeer\Services\Connections\roles;
 
 /**
- * Represents a connection's identity and its credential
+ * Represents a connection's identity and its credential.
  *
  * @property string  name
  * @property integer server
@@ -20,20 +20,21 @@ use Rocketeer\Services\Connections\roles;
  * @property string  agent
  * @property boolean db_role
  * @property roles   array
+ *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class ConnectionKey extends Fluent
 {
     /**
      * The global informations
-     * about the connection
+     * about the connection.
      *
      * @type string[]
      */
     protected $informations = ['name', 'server', 'stage', 'servers'];
 
     /**
-     * Get attributes from the credentials
+     * Get attributes from the credentials.
      *
      * @param string $name
      *
@@ -49,7 +50,7 @@ class ConnectionKey extends Fluent
     }
 
     /**
-     * Chane a server credential
+     * Chane a server credential.
      *
      * @param string $name
      * @param mixed  $value
@@ -57,7 +58,7 @@ class ConnectionKey extends Fluent
     public function __set($name, $value)
     {
         if (in_array($name, $this->informations)) {
-           return parent::__set($name, $value);
+            return parent::__set($name, $value);
         }
 
         $this->attributes['servers'][$this->server][$name] = $value;
@@ -68,7 +69,7 @@ class ConnectionKey extends Fluent
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Get the credentials of the current server
+     * Get the credentials of the current server.
      *
      * @return array
      */
@@ -78,7 +79,7 @@ class ConnectionKey extends Fluent
     }
 
     /**
-     * Get a credential in particular
+     * Get a credential in particular.
      *
      * @param string $credential
      *
@@ -109,7 +110,7 @@ class ConnectionKey extends Fluent
     }
 
     /**
-     * Check if a connection is multiserver or not
+     * Check if a connection is multiserver or not.
      *
      * @return boolean
      */

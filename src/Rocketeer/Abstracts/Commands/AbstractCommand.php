@@ -21,7 +21,7 @@ use Symfony\Component\Console\Input\InputOption;
 
 /**
  * An abstract command with various helpers for all
- * subcommands to inherit
+ * subcommands to inherit.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
@@ -32,14 +32,14 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
 
     /**
      * Whether the command's task should be built
-     * into a pipeline or run straight
+     * into a pipeline or run straight.
      *
      * @type boolean
      */
     protected $straight = false;
 
     /**
-     * the task to execute on fire
+     * the task to execute on fire.
      *
      * @type AbstractTask
      */
@@ -80,7 +80,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
     }
 
     /**
-     * Get the task this command executes
+     * Get the task this command executes.
      *
      * @return AbstractTask
      */
@@ -109,7 +109,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
     }
 
     /**
-     * Get a global identifier for this entity
+     * Get a global identifier for this entity.
      *
      * @return string
      */
@@ -123,9 +123,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Run the tasks
-     *
-     * @return void
+     * Run the tasks.
      */
     abstract public function fire();
 
@@ -170,7 +168,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
     }
 
     /**
-     * Check if the class is executed inside a Laravel application
+     * Check if the class is executed inside a Laravel application.
      *
      * @return \Rocketeer\Interfaces\Strategies\FrameworkStrategyInterface|null
      */
@@ -180,7 +178,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
     }
 
     /**
-     * Check if the current instance has a Command bound
+     * Check if the current instance has a Command bound.
      *
      * @return boolean
      */
@@ -194,7 +192,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Fire a Tasks Queue
+     * Fire a Tasks Queue.
      *
      * @param string|string[]|Closure|Closure[]|\Rocketeer\Abstracts\AbstractTask[] $tasks
      *
@@ -232,7 +230,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Ask a question to the user, with default and/or multiple choices
+     * Ask a question to the user, with default and/or multiple choices.
      *
      * @param string      $question
      * @param string|null $default
@@ -256,7 +254,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
     }
 
     /**
-     * Ask a question to the user, hiding the input
+     * Ask a question to the user, hiding the input.
      *
      * @param string      $question
      * @param string|null $default
@@ -274,7 +272,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
     }
 
     /**
-     * Adds additional information to a question
+     * Adds additional information to a question.
      *
      * @param string   $question
      * @param string   $default
@@ -302,7 +300,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Time an operation and display it afterwards
+     * Time an operation and display it afterwards.
      *
      * @param callable $callback
      *
@@ -334,7 +332,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
     }
 
     /**
-     * Prepare the environment
+     * Prepare the environment.
      */
     protected function prepareEnvironment()
     {

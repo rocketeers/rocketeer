@@ -13,28 +13,28 @@ namespace Rocketeer\Tasks;
 use Rocketeer\Abstracts\AbstractTask;
 
 /**
- * Set up the remote server for deployment
+ * Set up the remote server for deployment.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Setup extends AbstractTask
 {
     /**
-     * A description of what the task does
+     * A description of what the task does.
      *
      * @type string
      */
     protected $description = 'Set up the remote server for deployment';
 
     /**
-     * Whether the task needs to be run on each stage or globally
+     * Whether the task needs to be run on each stage or globally.
      *
      * @type boolean
      */
     public $usesStages = false;
 
     /**
-     * Run the task
+     * Run the task.
      *
      * @return string|false|null
      */
@@ -70,7 +70,7 @@ class Setup extends AbstractTask
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Create the Application's folders
+     * Create the Application's folders.
      */
     protected function createStages()
     {

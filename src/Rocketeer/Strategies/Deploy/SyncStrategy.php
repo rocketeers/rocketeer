@@ -30,7 +30,7 @@ class SyncStrategy extends AbstractStrategy implements DeployStrategyInterface
     );
 
     /**
-     * Deploy a new clean copy of the application
+     * Deploy a new clean copy of the application.
      *
      * @param string|null $destination
      *
@@ -49,7 +49,7 @@ class SyncStrategy extends AbstractStrategy implements DeployStrategyInterface
     }
 
     /**
-     * Update the latest version of the application
+     * Update the latest version of the application.
      *
      * @param boolean $reset
      *
@@ -63,7 +63,7 @@ class SyncStrategy extends AbstractStrategy implements DeployStrategyInterface
     }
 
     /**
-     * Rsyncs the local folder to a remote one
+     * Rsyncs the local folder to a remote one.
      *
      * @param string $destination
      *
@@ -96,7 +96,7 @@ class SyncStrategy extends AbstractStrategy implements DeployStrategyInterface
     }
 
     /**
-     * Get the handle to connect with
+     * Get the handle to connect with.
      *
      * @return string
      */

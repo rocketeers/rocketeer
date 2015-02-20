@@ -22,7 +22,7 @@ class BowerStrategy extends AbstractDependenciesStrategy implements Dependencies
     protected $description = 'Installs dependencies with Bower';
 
     /**
-     * The name of the binary
+     * The name of the binary.
      *
      * @type string
      */
@@ -33,7 +33,7 @@ class BowerStrategy extends AbstractDependenciesStrategy implements Dependencies
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Get the options to run Bower with
+     * Get the options to run Bower with.
      *
      * @param string $command
      *

@@ -3,7 +3,6 @@ namespace Rocketeer\Services;
 
 use Mockery;
 use Mockery\MockInterface;
-use Rocketeer\Services\Credentials\Keys\RepositoryKey;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class CredentialsGathererTest extends RocketeerTestCase
@@ -288,7 +287,7 @@ class CredentialsGathererTest extends RocketeerTestCase
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Mock a set of question/answers
+     * Mock a set of question/answers.
      *
      * @param array $answers
      */
@@ -310,7 +309,7 @@ class CredentialsGathererTest extends RocketeerTestCase
     }
 
     /**
-     * Assert a certain set of credentials are saved to storage
+     * Assert a certain set of credentials are saved to storage.
      *
      * @param array $credentials
      */

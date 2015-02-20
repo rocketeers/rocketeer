@@ -27,7 +27,7 @@ class Builder
 
     /**
      * The possible locations of
-     * the various types
+     * the various types.
      *
      * @type array
      */
@@ -55,7 +55,7 @@ class Builder
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Get the lookups for a type
+     * Get the lookups for a type.
      *
      * @param string $type
      *
@@ -67,7 +67,7 @@ class Builder
     }
 
     /**
-     * Add additional places to look for classes
+     * Add additional places to look for classes.
      *
      * @param string       $type
      * @param string|array $lookups
@@ -80,7 +80,7 @@ class Builder
     }
 
     /**
-     * Add additional places to look for multiple types
+     * Add additional places to look for multiple types.
      *
      * @param array $lookups
      */
@@ -96,7 +96,7 @@ class Builder
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Find a class in various predefined namespaces
+     * Find a class in various predefined namespaces.
      *
      * @param string      $class
      * @param string      $type

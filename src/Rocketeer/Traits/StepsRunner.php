@@ -14,7 +14,7 @@ use Rocketeer\Services\StepsBuilder;
 
 /**
  * Gives a class the ability to prepare steps to run and
- * loop over them
+ * loop over them.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
@@ -38,7 +38,7 @@ trait StepsRunner
     }
 
     /**
-     * Execute an array of calls until one halts
+     * Execute an array of calls until one halts.
      *
      * @return boolean
      */

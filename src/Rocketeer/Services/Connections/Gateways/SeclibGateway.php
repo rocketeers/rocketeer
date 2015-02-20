@@ -20,7 +20,7 @@ use phpseclib\System\SSH\Agent;
 use Rocketeer\Interfaces\GatewayInterface;
 
 /**
- * A wrapper around phpseclib
+ * A wrapper around phpseclib.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  * @author Taylor Otwell <taylorotwell@gmail.com>
@@ -185,6 +185,7 @@ class SeclibGateway implements GatewayInterface
      * Get the authentication object for login.
      *
      * @return Crypt_RSA|System_SSH_Agent|string
+     *
      * @throws InvalidArgumentException
      */
     protected function getAuthForLogin()

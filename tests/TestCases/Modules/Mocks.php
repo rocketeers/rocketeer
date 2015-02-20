@@ -12,7 +12,7 @@ use Mockery;
 trait Mocks
 {
     /**
-     * Bind a mocked instance in the Container
+     * Bind a mocked instance in the Container.
      *
      * @param string  $handle
      * @param string  $class
@@ -39,7 +39,7 @@ trait Mocks
     }
 
     /**
-     * Mock the ReleasesManager
+     * Mock the ReleasesManager.
      *
      * @param Closure $expectations
      *
@@ -51,7 +51,7 @@ trait Mocks
     }
 
     /**
-     * Mock a Command
+     * Mock a Command.
      *
      * @param array $options
      * @param array $expectations
@@ -75,7 +75,7 @@ trait Mocks
     }
 
     /**
-     * Mock the RemoteHandler
+     * Mock the RemoteHandler.
      *
      * @param string|array|null $expectations
      */

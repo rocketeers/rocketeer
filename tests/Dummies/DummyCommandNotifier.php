@@ -7,7 +7,7 @@ use Rocketeer\Tasks\Subtasks\Notify;
 class DummyCommandNotifier extends DummyBeforeAfterNotifier
 {
     /**
-     * Register Tasks with Rocketeer
+     * Register Tasks with Rocketeer.
      *
      * @param \Rocketeer\Services\TasksHandler $queue
      */

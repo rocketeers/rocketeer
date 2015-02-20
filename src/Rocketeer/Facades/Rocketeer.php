@@ -11,15 +11,16 @@
 namespace Rocketeer\Facades;
 
 /**
- * Facade for Rocketeer's CLI
+ * Facade for Rocketeer's CLI.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
+ *
  * @see    Rocketeer\TasksQueue
  */
 class Rocketeer extends StandaloneFacade
 {
     /**
-     * The class to fetch from the container
+     * The class to fetch from the container.
      *
      * @type string
      */

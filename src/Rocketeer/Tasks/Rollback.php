@@ -13,7 +13,7 @@ namespace Rocketeer\Tasks;
 use Rocketeer\Abstracts\AbstractTask;
 
 /**
- * Rollback to the previous release, or to a specific one
+ * Rollback to the previous release, or to a specific one.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
@@ -27,7 +27,7 @@ class Rollback extends AbstractTask
     protected $description = 'Rollback to the previous release, or to a specific one';
 
     /**
-     * Run the task
+     * Run the task.
      *
      * @return string|null
      */
@@ -65,7 +65,7 @@ class Rollback extends AbstractTask
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Get the release to rollback to
+     * Get the release to rollback to.
      *
      * @return integer|null
      */

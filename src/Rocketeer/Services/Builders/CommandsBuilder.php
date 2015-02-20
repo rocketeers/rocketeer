@@ -22,7 +22,7 @@ use Rocketeer\Exceptions\TaskCompositionException;
 trait CommandsBuilder
 {
     /**
-     * Build the command bound to a task
+     * Build the command bound to a task.
      *
      * @param string|AbstractTask $task
      * @param string|null         $slug

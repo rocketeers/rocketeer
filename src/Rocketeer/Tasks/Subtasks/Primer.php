@@ -13,14 +13,14 @@ namespace Rocketeer\Tasks\Subtasks;
 use Rocketeer\Abstracts\AbstractTask;
 
 /**
- * Executes some sanity-check commands before deploy
+ * Executes some sanity-check commands before deploy.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Primer extends AbstractTask
 {
     /**
-     * A description of what the task does
+     * A description of what the task does.
      *
      * @type string
      */
@@ -28,21 +28,21 @@ class Primer extends AbstractTask
 
     /**
      * Whether to run the commands locally
-     * or on the server
+     * or on the server.
      *
      * @type boolean
      */
     protected $local = true;
 
     /**
-     * Whether the task needs to be run on each stage or globally
+     * Whether the task needs to be run on each stage or globally.
      *
      * @type boolean
      */
     public $usesStages = false;
 
     /**
-     * Run the task
+     * Run the task.
      *
      * @return boolean
      */

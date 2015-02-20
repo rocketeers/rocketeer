@@ -14,7 +14,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 trait Building
 {
     /**
-     * Get and execute a command
+     * Get and execute a command.
      *
      * @param Command|string|null $command
      * @param array               $arguments
@@ -34,7 +34,7 @@ trait Building
     }
 
     /**
-     * Get a pretend AbstractTask to run bogus commands
+     * Get a pretend AbstractTask to run bogus commands.
      *
      * @param string $task
      * @param array  $options
@@ -50,7 +50,7 @@ trait Building
     }
 
     /**
-     * Get AbstractTask instance
+     * Get AbstractTask instance.
      *
      * @param string $task
      * @param array  $options

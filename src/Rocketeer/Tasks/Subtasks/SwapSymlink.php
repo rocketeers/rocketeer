@@ -7,14 +7,14 @@ use Rocketeer\Services\Connections\Coordinator;
 class SwapSymlink extends AbstractTask
 {
     /**
-     * A description of what the task does
+     * A description of what the task does.
      *
      * @type string
      */
     protected $description = 'Swaps the symlink on the server';
 
     /**
-     * Run the task
+     * Run the task.
      *
      * @return string
      */

@@ -10,26 +10,25 @@
 
 namespace Rocketeer\Binaries\Scm;
 
-use Illuminate\Support\Arr;
 use Rocketeer\Abstracts\AbstractBinary;
 use Rocketeer\Interfaces\ScmInterface;
 
 /**
- * The Mercury implementation of the ScmInterface
+ * The Mercury implementation of the ScmInterface.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Hg extends AbstractBinary implements ScmInterface
 {
     /**
-     * The core binary
+     * The core binary.
      *
      * @type string
      */
     protected $binary = 'hg';
 
     /**
-     * Check if the SCM is available
+     * Check if the SCM is available.
      *
      * @return string
      */
@@ -39,7 +38,7 @@ class Hg extends AbstractBinary implements ScmInterface
     }
 
     /**
-     * Get the current state
+     * Get the current state.
      *
      * @return string
      */
@@ -49,7 +48,7 @@ class Hg extends AbstractBinary implements ScmInterface
     }
 
     /**
-     * Get the current branch
+     * Get the current branch.
      *
      * @return string
      */
@@ -59,7 +58,7 @@ class Hg extends AbstractBinary implements ScmInterface
     }
 
     /**
-     * Clone a repository
+     * Clone a repository.
      *
      * @param string $destination
      *
@@ -79,7 +78,7 @@ class Hg extends AbstractBinary implements ScmInterface
     }
 
     /**
-     * Resets the repository
+     * Resets the repository.
      *
      * @return string
      */
@@ -89,7 +88,7 @@ class Hg extends AbstractBinary implements ScmInterface
     }
 
     /**
-     * Updates the repository
+     * Updates the repository.
      *
      * @return string
      */
@@ -99,7 +98,7 @@ class Hg extends AbstractBinary implements ScmInterface
     }
 
     /**
-     * Checkout the repository's submodules
+     * Checkout the repository's submodules.
      *
      * @return string|null
      */
@@ -113,7 +112,7 @@ class Hg extends AbstractBinary implements ScmInterface
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Get the credentials required for cloning
+     * Get the credentials required for cloning.
      *
      * @return array
      */

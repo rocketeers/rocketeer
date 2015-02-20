@@ -21,7 +21,7 @@ class NpmStrategy extends AbstractDependenciesStrategy implements DependenciesSt
     protected $description = 'Installs dependencies with NPM';
 
     /**
-     * The name of the binary
+     * The name of the binary.
      *
      * @type string
      */

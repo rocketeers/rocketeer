@@ -13,28 +13,28 @@ namespace Rocketeer\Abstracts\Strategies;
 abstract class AbstractPolyglotStrategy extends AbstractStrategy
 {
     /**
-     * The various strategies to call
+     * The various strategies to call.
      *
      * @type array
      */
     protected $strategies = [];
 
     /**
-     * The type of the sub-strategies
+     * The type of the sub-strategies.
      *
      * @type string
      */
     protected $type;
 
     /**
-     * Results of the last operation that was run
+     * Results of the last operation that was run.
      *
      * @type array
      */
     protected $results;
 
     /**
-     * Execute a method on all sub-strategies
+     * Execute a method on all sub-strategies.
      *
      * @param string $method
      *
@@ -48,7 +48,7 @@ abstract class AbstractPolyglotStrategy extends AbstractStrategy
     }
 
     /**
-     * Execute and check results of a method on all sub-strategies
+     * Execute and check results of a method on all sub-strategies.
      *
      * @param string $method
      *
@@ -62,7 +62,7 @@ abstract class AbstractPolyglotStrategy extends AbstractStrategy
     }
 
     /**
-     * Gather the missing X from a method
+     * Gather the missing X from a method.
      *
      * @param string $method
      *
@@ -109,7 +109,7 @@ abstract class AbstractPolyglotStrategy extends AbstractStrategy
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Whether the strategy passed or not
+     * Whether the strategy passed or not.
      *
      * @return boolean
      */
@@ -119,7 +119,7 @@ abstract class AbstractPolyglotStrategy extends AbstractStrategy
     }
 
     /**
-     * Assert that the results of a command are all true
+     * Assert that the results of a command are all true.
      *
      * @param boolean[] $results
      *

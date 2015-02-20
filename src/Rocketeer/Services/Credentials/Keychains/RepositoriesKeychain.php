@@ -5,29 +5,30 @@ use Illuminate\Support\Arr;
 use Rocketeer\Services\Credentials\Keys\RepositoryKey;
 
 /**
- * Finds credentials and informations about repositories
+ * Finds credentials and informations about repositories.
  *
  * @mixin \Rocketeer\Services\Credentials\CredentialsHandler
+ *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait RepositoriesKeychain
 {
     /**
-     * Get the current repository in use
+     * Get the current repository in use.
      *
      * @return RepositoryKey
      */
     public function getCurrentRepository()
     {
-        $credentials = $this->getRepositoryCredentials();
+        $credentials             = $this->getRepositoryCredentials();
         $credentials['endpoint'] = $this->getRepositoryEndpoint();
-        $credentials['branch'] = $this->getRepositoryBranch();
+        $credentials['branch']   = $this->getRepositoryBranch();
 
         return new RepositoryKey($credentials);
     }
 
     /**
-     * Get the credentials for the repository
+     * Get the credentials for the repository.
      *
      * @return array
      */
@@ -40,7 +41,7 @@ trait RepositoriesKeychain
     }
 
     /**
-     * Get the URL to the Git repository
+     * Get the URL to the Git repository.
      *
      * @return string
      */
@@ -68,7 +69,7 @@ trait RepositoriesKeychain
     }
 
     /**
-     * Get the repository branch to use
+     * Get the repository branch to use.
      *
      * @return string
      */

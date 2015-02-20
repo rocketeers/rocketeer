@@ -13,7 +13,7 @@ namespace Rocketeer\Console\Commands;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
- * Runs the Cleanup task to prune deprecated releases
+ * Runs the Cleanup task to prune deprecated releases.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */

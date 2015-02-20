@@ -19,7 +19,7 @@ use Symfony\Component\Finder\SplFileInfo;
 
 /**
  * Ignites Rocketeer's custom configuration, tasks, events and paths
- * depending on what Rocketeer is used on
+ * depending on what Rocketeer is used on.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
@@ -28,7 +28,7 @@ class Configuration
     use HasLocator;
 
     /**
-     * Bind paths to the container
+     * Bind paths to the container.
      */
     public function bindPaths()
     {
@@ -41,7 +41,7 @@ class Configuration
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Load the custom files (tasks, events, ...)
+     * Load the custom files (tasks, events, ...).
      */
     public function loadUserConfiguration()
     {
@@ -71,7 +71,7 @@ class Configuration
     }
 
     /**
-     * Merge the various contextual configurations defined in userland
+     * Merge the various contextual configurations defined in userland.
      */
     public function mergeContextualConfigurations()
     {
@@ -81,7 +81,7 @@ class Configuration
     }
 
     /**
-     * Merge the plugin configurations defined in userland
+     * Merge the plugin configurations defined in userland.
      */
     public function mergePluginsConfiguration()
     {
@@ -94,7 +94,7 @@ class Configuration
     }
 
     /**
-     * Export the configuration files
+     * Export the configuration files.
      *
      * @return string
      */
@@ -115,7 +115,7 @@ class Configuration
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Replace placeholders in configuration
+     * Replace placeholders in configuration.
      *
      * @param string   $folder
      * @param string[] $values
@@ -137,7 +137,7 @@ class Configuration
     }
 
     /**
-     * Merge configuration files from userland
+     * Merge configuration files from userland.
      *
      * @param string[]    $folders
      * @param callable    $computeHandle
@@ -184,7 +184,7 @@ class Configuration
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Bind the base path to the Container
+     * Bind the base path to the Container.
      */
     protected function bindBase()
     {
@@ -196,7 +196,7 @@ class Configuration
     }
 
     /**
-     * Bind paths to the configuration files
+     * Bind paths to the configuration files.
      */
     protected function bindConfiguration()
     {
@@ -241,7 +241,7 @@ class Configuration
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Computes which configuration handle a config file should bind to
+     * Computes which configuration handle a config file should bind to.
      *
      * @param SplFileInfo $file
      *
@@ -261,7 +261,7 @@ class Configuration
     }
 
     /**
-     * Load a file or its contents if a folder
+     * Load a file or its contents if a folder.
      *
      * @param string $handle
      */

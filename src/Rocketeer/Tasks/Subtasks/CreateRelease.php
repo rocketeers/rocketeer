@@ -14,21 +14,21 @@ use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Interfaces\Strategies\DeployStrategyInterface;
 
 /**
- * Creates a new release on the server
+ * Creates a new release on the server.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class CreateRelease extends AbstractTask
 {
     /**
-     * A description of what the task does
+     * A description of what the task does.
      *
      * @type string
      */
     protected $description = 'Creates a new release on the server';
 
     /**
-     * Run the task
+     * Run the task.
      *
      * @return string
      */

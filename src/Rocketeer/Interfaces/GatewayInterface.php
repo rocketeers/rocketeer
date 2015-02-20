@@ -16,8 +16,6 @@ interface GatewayInterface
      * Connect to the SSH server.
      *
      * @param string $username
-     *
-     * @return void
      */
     public function connect($username);
 
@@ -32,8 +30,6 @@ interface GatewayInterface
      * Run a command against the server (non-blocking).
      *
      * @param string $command
-     *
-     * @return void
      */
     public function run($command);
 
@@ -42,8 +38,6 @@ interface GatewayInterface
      *
      * @param string $local
      * @param string $remote
-     *
-     * @return void
      */
     public function put($local, $remote);
 
@@ -52,8 +46,6 @@ interface GatewayInterface
      *
      * @param string $remote
      * @param string $contents
-     *
-     * @return void
      */
     public function putString($remote, $contents);
 

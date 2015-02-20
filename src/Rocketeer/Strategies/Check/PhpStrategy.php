@@ -22,14 +22,14 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
     protected $description = 'Checks if the server is ready to receive a PHP application';
 
     /**
-     * The language of the strategy
+     * The language of the strategy.
      *
      * @type string
      */
     protected $language = 'PHP';
 
     /**
-     * The PHP extensions loaded on server
+     * The PHP extensions loaded on server.
      *
      * @type array
      */
@@ -49,7 +49,7 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Get the version constraint which should be checked against
+     * Get the version constraint which should be checked against.
      *
      * @param string $manifest
      *
@@ -61,7 +61,7 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
     }
 
     /**
-     * Get the current version in use
+     * Get the current version in use.
      *
      * @return string
      */
@@ -71,7 +71,7 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
     }
 
     /**
-     * Check for the required extensions
+     * Check for the required extensions.
      *
      * @return array
      */
@@ -93,7 +93,7 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
     }
 
     /**
-     * Check for the required drivers
+     * Check for the required drivers.
      *
      * @return array
      */
@@ -107,7 +107,7 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Check the presence of the correct database PHP extension
+     * Check the presence of the correct database PHP extension.
      *
      * @param string $database
      *
@@ -128,7 +128,7 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
     }
 
     /**
-     * Check the presence of the correct cache PHP extension
+     * Check the presence of the correct cache PHP extension.
      *
      * @param string $cache
      *
@@ -150,7 +150,7 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
     }
 
     /**
-     * Check the presence of a PHP extension
+     * Check the presence of a PHP extension.
      *
      * @param string $extension The extension
      *
@@ -211,7 +211,7 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
     }
 
     /**
-     * Get the required extensions
+     * Get the required extensions.
      *
      * @return array
      */

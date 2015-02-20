@@ -16,11 +16,12 @@ use Rocketeer\Traits\HasLocator;
 use Rocketeer\Traits\Properties\HasHistory;
 
 /**
- * Core handling of running commands and returning output
+ * Core handling of running commands and returning output.
  *
  * @mixin Binaries
  * @mixin Filesystem
  * @mixin Flow
+ *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait Core
@@ -30,7 +31,7 @@ trait Core
 
     /**
      * Whether to run the commands locally
-     * or on the server
+     * or on the server.
      *
      * @type boolean
      */
@@ -49,7 +50,7 @@ trait Core
     }
 
     /**
-     * Get which Connection to call commands with
+     * Get which Connection to call commands with.
      *
      * @return \Rocketeer\Interfaces\ConnectionInterface
      */
@@ -64,7 +65,7 @@ trait Core
     }
 
     /**
-     * Run a series of commands in local
+     * Run a series of commands in local.
      *
      * @param callable $callback
      *
@@ -82,7 +83,7 @@ trait Core
     }
 
     /**
-     * Rune actions locally
+     * Rune actions locally.
      *
      * @param string|array $commands
      *
@@ -100,7 +101,7 @@ trait Core
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Run actions on the remote server and gather the ouput
+     * Run actions on the remote server and gather the ouput.
      *
      * @param string|array $commands One or more commands
      * @param boolean      $silent   Whether the command should stay silent no matter what
@@ -149,7 +150,7 @@ trait Core
 
     /**
      * Run a command get the last line output to
-     * prevent noise
+     * prevent noise.
      *
      * @param string $commands
      *
@@ -165,11 +166,11 @@ trait Core
 
     /**
      * Run a raw command, without any processing, and
-     * get its output as a string or array
+     * get its output as a string or array.
      *
      * @param string  $commands
-     * @param boolean $array Whether the output should be returned as an array
-     * @param boolean $trim  Whether the output should be trimmed
+     * @param boolean $array    Whether the output should be returned as an array
+     * @param boolean $trim     Whether the output should be trimmed
      *
      * @return string|string[]
      */
@@ -190,7 +191,7 @@ trait Core
     }
 
     /**
-     * Run commands silently
+     * Run commands silently.
      *
      * @param string|array $commands
      * @param boolean      $array
@@ -203,7 +204,7 @@ trait Core
     }
 
     /**
-     * Run commands in a folder
+     * Run commands in a folder.
      *
      * @param string|null  $folder
      * @param string|array $tasks
@@ -224,7 +225,7 @@ trait Core
     }
 
     /**
-     * Check the status of the last command
+     * Check the status of the last command.
      *
      * @return bool
      */
@@ -234,7 +235,7 @@ trait Core
     }
 
     /**
-     * Check the status of the last run command, return an error if any
+     * Check the status of the last run command, return an error if any.
      *
      * @param string      $error   The message to display on error
      * @param string|null $output  The command's output
@@ -269,7 +270,7 @@ trait Core
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Get the current timestamp on the server
+     * Get the current timestamp on the server.
      *
      * @return string
      */
@@ -287,7 +288,7 @@ trait Core
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Display the passed commands
+     * Display the passed commands.
      *
      * @param string|array $commands
      * @param integer      $verbosity
@@ -305,7 +306,7 @@ trait Core
     }
 
     /**
-     * Process an array of commands
+     * Process an array of commands.
      *
      * @param string|array $commands
      *
@@ -350,7 +351,7 @@ trait Core
     }
 
     /**
-     * Clean the output of various intruding bits
+     * Clean the output of various intruding bits.
      *
      * @param string $output
      *
@@ -364,7 +365,7 @@ trait Core
     }
 
     /**
-     * Pass a command through shell execution
+     * Pass a command through shell execution.
      *
      * @param string $command
      *
@@ -376,11 +377,11 @@ trait Core
     }
 
     /**
-     * Process the output of a command
+     * Process the output of a command.
      *
      * @param string  $output
-     * @param boolean $array Whether to return an array or a string
-     * @param boolean $trim  Whether to trim the output or not
+     * @param boolean $array  Whether to return an array or a string
+     * @param boolean $trim   Whether to trim the output or not
      *
      * @return string|array
      */

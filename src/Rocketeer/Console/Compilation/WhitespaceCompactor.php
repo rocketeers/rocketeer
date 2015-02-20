@@ -14,7 +14,7 @@ use Herrera\Box\Compactor\Php;
 
 /**
  * Strips out whitespace in the Rocketeer file
- * before the PHAR compilation
+ * before the PHAR compilation.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
@@ -22,7 +22,7 @@ class WhitespaceCompactor extends Php
 {
     /**
      * Checks whether a given file is to be stripped or not
-     * Configuration file are left as is
+     * Configuration file are left as is.
      *
      * @param string $file
      *

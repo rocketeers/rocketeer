@@ -6,6 +6,7 @@ use Rocketeer\Services\Credentials\Keys\RepositoryKey;
 
 /**
  * @mixin \Rocketeer\TestCases\RocketeerTestCase
+ *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait Contexts
@@ -30,7 +31,7 @@ trait Contexts
     }
 
     /**
-     * Set Rocketeer in pretend mode
+     * Set Rocketeer in pretend mode.
      *
      * @param array $options
      * @param array $expectations
@@ -43,11 +44,9 @@ trait Contexts
     }
 
     /**
-     * Swap the current config
+     * Swap the current config.
      *
      * @param array $config
-     *
-     * @return void
      */
     protected function swapConfig($config = [])
     {
@@ -57,7 +56,7 @@ trait Contexts
     }
 
     /**
-     * Disable the test events
+     * Disable the test events.
      */
     protected function disableTestEvents()
     {
@@ -83,7 +82,7 @@ trait Contexts
     }
 
     /**
-     * Swap the configured connections
+     * Swap the configured connections.
      *
      * @param array $connections
      */
@@ -99,7 +98,7 @@ trait Contexts
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Mock usage of Laravel framework
+     * Mock usage of Laravel framework.
      *
      * @param boolean $uses
      */
@@ -113,7 +112,7 @@ trait Contexts
     }
 
     /**
-     * Mock the Composer check
+     * Mock the Composer check.
      *
      * @param boolean     $uses
      * @param string|null $stage
@@ -124,7 +123,7 @@ trait Contexts
     }
 
     /**
-     * Mock the Bundler check
+     * Mock the Bundler check.
      *
      * @param boolean     $uses
      * @param string|null $stage
@@ -135,7 +134,7 @@ trait Contexts
     }
 
     /**
-     * Mock the use of a package manager
+     * Mock the use of a package manager.
      *
      * @param boolean     $uses
      * @param string      $filename

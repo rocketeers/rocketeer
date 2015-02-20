@@ -21,7 +21,7 @@ class PhpunitStrategy extends AbstractStrategy implements TestStrategyInterface
     protected $description = 'Run the tests with PHPUnit';
 
     /**
-     * Whether this particular strategy is runnable or not
+     * Whether this particular strategy is runnable or not.
      *
      * @return boolean
      */
@@ -31,7 +31,7 @@ class PhpunitStrategy extends AbstractStrategy implements TestStrategyInterface
     }
 
     /**
-     * Run the task
+     * Run the task.
      *
      * @return boolean
      */

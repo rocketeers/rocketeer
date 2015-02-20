@@ -16,7 +16,7 @@ use Rocketeer\Traits\BashModules\Filesystem;
 use Rocketeer\Traits\BashModules\Flow;
 
 /**
- * An helper to execute low-level commands on the remote server
+ * An helper to execute low-level commands on the remote server.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
@@ -55,7 +55,7 @@ class Bash
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Get the implementation behind a strategy
+     * Get the implementation behind a strategy.
      *
      * @param string      $strategy
      * @param string|null $concrete
@@ -82,7 +82,7 @@ class Bash
     }
 
     /**
-     * Execute another task by name
+     * Execute another task by name.
      *
      * @param string $tasks
      *

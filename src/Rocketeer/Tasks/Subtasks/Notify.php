@@ -15,28 +15,28 @@ use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Plugins\AbstractNotifier;
 
 /**
- * Notify a third-party service
+ * Notify a third-party service.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Notify extends AbstractTask
 {
     /**
-     * The message format
+     * The message format.
      *
      * @type AbstractNotifier
      */
     protected $notifier;
 
     /**
-     * A description of what the task does
+     * A description of what the task does.
      *
      * @type string
      */
     protected $description = 'Notify a third-party service';
 
     /**
-     * Run the task
+     * Run the task.
      *
      * @return string|null
      */
@@ -62,7 +62,7 @@ class Notify extends AbstractTask
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Get the message's components
+     * Get the message's components.
      *
      * @return string[]
      */
@@ -91,7 +91,7 @@ class Notify extends AbstractTask
     }
 
     /**
-     * Prepare and send a message
+     * Prepare and send a message.
      *
      * @param string $message
      */

@@ -11,24 +11,25 @@
 namespace Rocketeer\Traits\BashModules;
 
 /**
- * Handles the deployment flow (current/releases/shared)
+ * Handles the deployment flow (current/releases/shared).
  *
  * @mixin Core
  * @mixin Filesystem
  * @mixin Binaries
+ *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait Flow
 {
     /**
-     * Whether the task needs to be run on each stage or globally
+     * Whether the task needs to be run on each stage or globally.
      *
      * @type boolean
      */
     public $usesStages = true;
 
     /**
-     * Check if the remote server is setup
+     * Check if the remote server is setup.
      *
      * @return boolean
      */
@@ -38,7 +39,7 @@ trait Flow
     }
 
     /**
-     * Check if the task uses stages
+     * Check if the task uses stages.
      *
      * @return boolean
      */
@@ -50,7 +51,7 @@ trait Flow
     }
 
     /**
-     * Run actions in the current release's folder
+     * Run actions in the current release's folder.
      *
      * @param string|array $tasks One or more tasks
      *
@@ -62,7 +63,7 @@ trait Flow
     }
 
     /**
-     * Run actions for the core of the application itself
+     * Run actions for the core of the application itself.
      *
      * @param string|array $tasks
      *
@@ -81,7 +82,7 @@ trait Flow
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Sync the requested folders and files
+     * Sync the requested folders and files.
      *
      * @return boolean
      */
@@ -96,7 +97,7 @@ trait Flow
     }
 
     /**
-     * Update the current symlink
+     * Update the current symlink.
      *
      * @param integer|null $release A release to mark as current
      *
@@ -117,7 +118,7 @@ trait Flow
     }
 
     /**
-     * Share a file or folder between releases
+     * Share a file or folder between releases.
      *
      * @param string $file Path to the file in a release folder
      *
@@ -140,7 +141,7 @@ trait Flow
     }
 
     /**
-     * Copy a folder/file from the previous release
+     * Copy a folder/file from the previous release.
      *
      * @param string $folder
      *

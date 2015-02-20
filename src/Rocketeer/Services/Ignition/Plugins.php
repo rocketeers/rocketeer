@@ -14,7 +14,7 @@ use Illuminate\Support\Arr;
 use Rocketeer\Traits\HasLocator;
 
 /**
- * Publishes the plugin's configurations in user-land
+ * Publishes the plugin's configurations in user-land.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
@@ -23,7 +23,7 @@ class Plugins
     use HasLocator;
 
     /**
-     * Publishes a package's configuration
+     * Publishes a package's configuration.
      *
      * @param string $package
      *
@@ -45,7 +45,7 @@ class Plugins
     }
 
     /**
-     * Find all the possible locations for a package's configuration
+     * Find all the possible locations for a package's configuration.
      *
      * @param string $package
      *
@@ -71,7 +71,7 @@ class Plugins
     }
 
     /**
-     * Publishes a configuration within a classic application
+     * Publishes a configuration within a classic application.
      *
      * @param string $path
      *

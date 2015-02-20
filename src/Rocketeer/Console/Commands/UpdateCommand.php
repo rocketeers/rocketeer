@@ -13,7 +13,7 @@ namespace Rocketeer\Console\Commands;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
- * Update the remote server without doing a new release
+ * Update the remote server without doing a new release.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */

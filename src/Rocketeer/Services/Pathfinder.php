@@ -15,7 +15,7 @@ use Illuminate\Support\Str;
 use Rocketeer\Traits\HasLocator;
 
 /**
- * Locates folders and paths on the server and locally
+ * Locates folders and paths on the server and locally.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
@@ -28,7 +28,7 @@ class Pathfinder
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Get a configured path
+     * Get a configured path.
      *
      * @param string $path
      *
@@ -40,7 +40,7 @@ class Pathfinder
     }
 
     /**
-     * Get the path to the root folder of the application
+     * Get the path to the root folder of the application.
      *
      * @return string
      */
@@ -54,9 +54,10 @@ class Pathfinder
     }
 
     /**
-     * Get the default path for the SSH key
+     * Get the default path for the SSH key.
      *
      * @return string
+     *
      * @throws Exception
      */
     public function getDefaultKeyPath()
@@ -65,7 +66,7 @@ class Pathfinder
     }
 
     /**
-     * Get the path to the Rocketeer config folder in the users home
+     * Get the path to the Rocketeer config folder in the users home.
      *
      * @return string
      */
@@ -75,9 +76,10 @@ class Pathfinder
     }
 
     /**
-     * Get the path to the users home folder
+     * Get the path to the users home folder.
      *
      * @throws Exception
+     *
      * @return string
      */
     public static function getUserHomeFolder()
@@ -94,7 +96,7 @@ class Pathfinder
     }
 
     /**
-     * Get the base path
+     * Get the base path.
      *
      * @return string
      */
@@ -107,7 +109,7 @@ class Pathfinder
     }
 
     /**
-     * Get the path to the application
+     * Get the path to the application.
      *
      * @return string
      */
@@ -120,7 +122,7 @@ class Pathfinder
     }
 
     /**
-     * Get the path to the configuration folder
+     * Get the path to the configuration folder.
      *
      * @return string
      */
@@ -134,7 +136,7 @@ class Pathfinder
     }
 
     /**
-     * Get path to the storage folder
+     * Get path to the storage folder.
      *
      * @return string
      */
@@ -158,7 +160,7 @@ class Pathfinder
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Get the path to a folder, taking into account application name and stage
+     * Get the path to a folder, taking into account application name and stage.
      *
      * @param string|null $folder
      *
@@ -183,7 +185,7 @@ class Pathfinder
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Unify the slashes to the UNIX mode (forward slashes)
+     * Unify the slashes to the UNIX mode (forward slashes).
      *
      * @param string $path
      *
@@ -195,7 +197,7 @@ class Pathfinder
     }
 
     /**
-     * Unify paths to the local DS
+     * Unify paths to the local DS.
      *
      * @param string $path
      *
@@ -207,7 +209,7 @@ class Pathfinder
     }
 
     /**
-     * Replace patterns in a folder path
+     * Replace patterns in a folder path.
      *
      * @param string $path
      *

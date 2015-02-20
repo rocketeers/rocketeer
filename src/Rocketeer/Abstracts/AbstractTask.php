@@ -21,7 +21,7 @@ use Rocketeer\Traits\Sluggable;
 use Rocketeer\Traits\StepsRunner;
 
 /**
- * An abstract AbstractTask with common helpers, from which all Tasks derive
+ * An abstract AbstractTask with common helpers, from which all Tasks derive.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
@@ -34,35 +34,35 @@ abstract class AbstractTask extends Bash implements HasRolesInterface, Identifie
     use Sluggable;
 
     /**
-     * The name of the task
+     * The name of the task.
      *
      * @type string
      */
     protected $name;
 
     /**
-     * A description of what the task does
+     * A description of what the task does.
      *
      * @type string
      */
     protected $description;
 
     /**
-     * A set of options that guide the entity
+     * A set of options that guide the entity.
      *
      * @type array
      */
     protected $options = [];
 
     /**
-     * The event this task is answering to
+     * The event this task is answering to.
      *
      * @type string
      */
     protected $event;
 
     /**
-     * Whether the task was halted mid-course
+     * Whether the task was halted mid-course.
      *
      * @type boolean
      */
@@ -73,7 +73,7 @@ abstract class AbstractTask extends Bash implements HasRolesInterface, Identifie
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Get a global identifier for this entity
+     * Get a global identifier for this entity.
      *
      * @return string
      */
@@ -83,7 +83,7 @@ abstract class AbstractTask extends Bash implements HasRolesInterface, Identifie
     }
 
     /**
-     * Get what the task does
+     * Get what the task does.
      *
      * @return string
      */
@@ -93,7 +93,7 @@ abstract class AbstractTask extends Bash implements HasRolesInterface, Identifie
     }
 
     /**
-     * Change the task's name
+     * Change the task's name.
      *
      * @param string $name
      */
@@ -123,14 +123,14 @@ abstract class AbstractTask extends Bash implements HasRolesInterface, Identifie
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Run the task
+     * Run the task.
      *
      * @return string
      */
     abstract public function execute();
 
     /**
-     * Fire the command
+     * Fire the command.
      *
      * @return boolean
      */
@@ -147,7 +147,7 @@ abstract class AbstractTask extends Bash implements HasRolesInterface, Identifie
     }
 
     /**
-     * Cancel the task
+     * Cancel the task.
      *
      * @param string|null $errors Potential errors to display
      *
@@ -167,7 +167,7 @@ abstract class AbstractTask extends Bash implements HasRolesInterface, Identifie
     }
 
     /**
-     * Whether the task was halted mid-course
+     * Whether the task was halted mid-course.
      *
      * @return boolean
      */
@@ -181,7 +181,7 @@ abstract class AbstractTask extends Bash implements HasRolesInterface, Identifie
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Display a list of releases and their status
+     * Display a list of releases and their status.
      *
      * @codeCoverageIgnore
      */
@@ -218,7 +218,7 @@ abstract class AbstractTask extends Bash implements HasRolesInterface, Identifie
     }
 
     /**
-     * Display what the command is and does
+     * Display what the command is and does.
      */
     protected function displayStatus()
     {

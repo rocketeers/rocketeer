@@ -13,28 +13,28 @@ namespace Rocketeer\Tasks;
 use Rocketeer\Abstracts\AbstractTask;
 
 /**
- * Remove the remote applications and existing caches
+ * Remove the remote applications and existing caches.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Teardown extends AbstractTask
 {
     /**
-     * A description of what the task does
+     * A description of what the task does.
      *
      * @type string
      */
     protected $description = 'Remove the remote applications and existing caches';
 
     /**
-     * Whether the task needs to be run on each stage or globally
+     * Whether the task needs to be run on each stage or globally.
      *
      * @type boolean
      */
     public $usesStages = false;
 
     /**
-     * Run the task
+     * Run the task.
      *
      * @return string|null
      */

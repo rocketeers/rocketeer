@@ -15,7 +15,7 @@ use Illuminate\Support\Arr;
 
 /**
  * A trait for Service Locator-based classes wich adds
- * a few shortcuts to Rocketeer classes
+ * a few shortcuts to Rocketeer classes.
  *
  * @property \Illuminate\Config\Repository                                             config
  * @property \Illuminate\Events\Dispatcher                                             events
@@ -44,19 +44,20 @@ use Illuminate\Support\Arr;
  * @property \Rocketeer\Services\Builders\Builder                                      builder
  * @property \Rocketeer\Services\Tasks\TasksQueue                                      queue
  * @property \Rocketeer\Services\TasksHandler                                          tasks
+ *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait HasLocator
 {
     /**
-     * The IoC Container
+     * The IoC Container.
      *
      * @type Container
      */
     protected $app;
 
     /**
-     * Build a new AbstractTask
+     * Build a new AbstractTask.
      *
      * @param Container $app
      */
@@ -66,7 +67,7 @@ trait HasLocator
     }
 
     /**
-     * Get an instance from the Container
+     * Get an instance from the Container.
      *
      * @param string $key
      *
@@ -80,7 +81,7 @@ trait HasLocator
     }
 
     /**
-     * Set an instance on the Container
+     * Set an instance on the Container.
      *
      * @param string $key
      * @param object $value
@@ -137,7 +138,7 @@ trait HasLocator
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Check if the current instance has a Command bound
+     * Check if the current instance has a Command bound.
      *
      * @return boolean
      */
@@ -147,7 +148,7 @@ trait HasLocator
     }
 
     /**
-     * Get an option from the Command
+     * Get an option from the Command.
      *
      * @param string $option
      * @param bool   $loose
@@ -181,7 +182,7 @@ trait HasLocator
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Check if the class is executed inside a Laravel application
+     * Check if the class is executed inside a Laravel application.
      *
      * @return \Rocketeer\Interfaces\Strategies\FrameworkStrategyInterface
      */

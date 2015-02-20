@@ -11,14 +11,14 @@
 namespace Rocketeer\Interfaces\Strategies;
 
 /**
- * Interface for the various deployment strategies
+ * Interface for the various deployment strategies.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 interface DeployStrategyInterface
 {
     /**
-     * Deploy a new clean copy of the application
+     * Deploy a new clean copy of the application.
      *
      * @param string|null $destination
      *
@@ -27,7 +27,7 @@ interface DeployStrategyInterface
     public function deploy($destination = null);
 
     /**
-     * Update the latest version of the application
+     * Update the latest version of the application.
      *
      * @param boolean $reset
      *

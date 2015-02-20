@@ -13,7 +13,7 @@ namespace Rocketeer\Interfaces\Strategies;
 interface TestStrategyInterface
 {
     /**
-     * Run the tests
+     * Run the tests.
      *
      * @return boolean
      */

@@ -14,7 +14,7 @@ use Rocketeer\Traits\HasLocator;
 
 /**
  * Handles interaction between the User provided informations
- * and the various Rocketeer components
+ * and the various Rocketeer components.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
@@ -23,26 +23,26 @@ class Rocketeer
     use HasLocator;
 
     /**
-     * The Rocketeer version
+     * The Rocketeer version.
      *
      * @type string
      */
     const VERSION = '3.0.0';
 
     /**
-     * The specific commit built
+     * The specific commit built.
      */
     const COMMIT = '@commit@';
 
     /**
-     * Global local mode
+     * Global local mode.
      *
      * @type boolean
      */
     protected $local = false;
 
     /**
-     * Returns what stage Rocketeer thinks he's in
+     * Returns what stage Rocketeer thinks he's in.
      *
      * @param string      $application
      * @param string|null $path
@@ -82,7 +82,7 @@ class Rocketeer
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Get the name of the application to deploy
+     * Get the name of the application to deploy.
      *
      * @return string
      */
@@ -92,7 +92,7 @@ class Rocketeer
     }
 
     /**
-     * Get an option from Rocketeer's config file
+     * Get an option from Rocketeer's config file.
      *
      * @param string $option
      *
@@ -114,7 +114,7 @@ class Rocketeer
     }
 
     /**
-     * Get a contextual option
+     * Get a contextual option.
      *
      * @param string            $option
      * @param string            $type     [stage,connection]

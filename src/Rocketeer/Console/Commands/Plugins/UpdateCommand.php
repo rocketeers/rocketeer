@@ -20,7 +20,7 @@ class UpdateCommand extends AbstractPluginCommand
     protected $pluginTask = 'Updater';
 
     /**
-     * The default name
+     * The default name.
      *
      * @type string
      */

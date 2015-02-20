@@ -6,14 +6,14 @@ use Rocketeer\Services\Storages\LocalStorage;
 abstract class RocketeerTestCase extends ContainerTestCase
 {
     /**
-     * The test repository
+     * The test repository.
      *
      * @type string
      */
     protected $repository = 'Anahkiasen/html-object.git';
 
     /**
-     * The path to the local fake server
+     * The path to the local fake server.
      *
      * @type string
      */
@@ -25,35 +25,35 @@ abstract class RocketeerTestCase extends ContainerTestCase
     protected $customConfig;
 
     /**
-     * The path to the local deployments file
+     * The path to the local deployments file.
      *
      * @type string
      */
     protected $deploymentsFile;
 
     /**
-     * A dummy AbstractTask to use for helpers tests
+     * A dummy AbstractTask to use for helpers tests.
      *
      * @type \Rocketeer\Abstracts\AbstractTask
      */
     protected $task;
 
     /**
-     * Cache of the paths to binaries
+     * Cache of the paths to binaries.
      *
      * @type array
      */
     protected $binaries = [];
 
     /**
-     * Number of files an ls should yield
+     * Number of files an ls should yield.
      *
      * @type integer
      */
     protected static $numberFiles;
 
     /**
-     * Set up the tests
+     * Set up the tests.
      */
     public function setUp()
     {
@@ -95,7 +95,7 @@ abstract class RocketeerTestCase extends ContainerTestCase
     }
 
     /**
-     * Cleanup tests
+     * Cleanup tests.
      */
     public function tearDown()
     {
@@ -106,9 +106,7 @@ abstract class RocketeerTestCase extends ContainerTestCase
     }
 
     /**
-     * Recreates the local file server
-     *
-     * @return void
+     * Recreates the local file server.
      */
     protected function recreateVirtualServer()
     {

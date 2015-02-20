@@ -14,14 +14,14 @@ use Illuminate\Container\Container;
 use Rocketeer\Abstracts\AbstractPackageManager;
 
 /**
- * Abstract class for Dependencies strategies
+ * Abstract class for Dependencies strategies.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 abstract class AbstractDependenciesStrategy extends AbstractStrategy
 {
     /**
-     * The name of the binary
+     * The name of the binary.
      *
      * @type string
      */
@@ -35,7 +35,7 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
     );
 
     /**
-     * The package manager instance
+     * The package manager instance.
      *
      * @type AbstractPackageManager
      */
@@ -59,7 +59,7 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
     }
 
     /**
-     * Get an instance of the Binary
+     * Get an instance of the Binary.
      *
      * @return AbstractPackageManager
      */
@@ -69,7 +69,7 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
     }
 
     /**
-     * Whether this particular strategy is runnable or not
+     * Whether this particular strategy is runnable or not.
      *
      * @return boolean
      */
@@ -83,7 +83,7 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Install the dependencies
+     * Install the dependencies.
      *
      * @return boolean
      */
@@ -97,7 +97,7 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
     }
 
     /**
-     * Update the dependencies
+     * Update the dependencies.
      *
      * @return boolean
      */
@@ -113,7 +113,7 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Share the dependencies folder if possible
+     * Share the dependencies folder if possible.
      */
     protected function shareDependenciesFolder()
     {
@@ -135,7 +135,7 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Get the options to run Bower with
+     * Get the options to run Bower with.
      *
      * @param string $command
      *

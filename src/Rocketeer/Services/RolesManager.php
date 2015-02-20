@@ -17,7 +17,7 @@ use Rocketeer\Traits\HasLocator;
 
 /**
  * Manages roles and decides which servers
- * can execute which tasks
+ * can execute which tasks.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
@@ -26,7 +26,7 @@ class RolesManager
     use HasLocator;
 
     /**
-     * Get the roles of a server
+     * Get the roles of a server.
      *
      * @param string|null  $connection
      * @param integer|null $server
@@ -41,7 +41,7 @@ class RolesManager
     }
 
     /**
-     * Assign roles to multiple tasks
+     * Assign roles to multiple tasks.
      *
      * @param array $roles
      */
@@ -58,7 +58,7 @@ class RolesManager
     }
 
     /**
-     * Check if a connection can execute a task
+     * Check if a connection can execute a task.
      *
      * @param Connection   $connection
      * @param AbstractTask $task

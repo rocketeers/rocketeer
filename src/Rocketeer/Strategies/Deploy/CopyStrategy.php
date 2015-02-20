@@ -20,7 +20,7 @@ class CopyStrategy extends CloneStrategy implements DeployStrategyInterface
     protected $description = 'Copies the previously cloned instance of the repository and update it';
 
     /**
-     * Deploy a new clean copy of the application
+     * Deploy a new clean copy of the application.
      *
      * @param string|null $destination
      *

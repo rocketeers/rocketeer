@@ -7,14 +7,14 @@ use Rocketeer\TestCases\RocketeerTestCase;
 class ConfigurationTest extends RocketeerTestCase
 {
     /**
-     * The igniter instance
+     * The igniter instance.
      *
      * @type Configuration
      */
     protected $igniter;
 
     /**
-     * Setup the tests
+     * Setup the tests.
      */
     public function setUp()
     {

@@ -10,25 +10,24 @@
 
 namespace Rocketeer\Tasks;
 
-use Illuminate\Support\Arr;
 use Rocketeer\Abstracts\AbstractTask;
 
 /**
- * A task to ignite Rocketeer
+ * A task to ignite Rocketeer.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Ignite extends AbstractTask
 {
     /**
-     * A description of what the task does
+     * A description of what the task does.
      *
      * @type string
      */
     protected $description = "Creates Rocketeer's configuration";
 
     /**
-     * Execute ignite
+     * Execute ignite.
      */
     public function execute()
     {
@@ -49,7 +48,7 @@ class Ignite extends AbstractTask
     }
 
     /**
-     * Create the configuration outside of Laravel
+     * Create the configuration outside of Laravel.
      *
      * @return string
      */
@@ -61,7 +60,7 @@ class Ignite extends AbstractTask
     }
 
     /**
-     * Get the configuration stub to use
+     * Get the configuration stub to use.
      *
      * @return string
      */
@@ -71,14 +70,14 @@ class Ignite extends AbstractTask
     }
 
     /**
-     * Get the core informations to inject in the configuration created
+     * Get the core informations to inject in the configuration created.
      *
      * @return array
      */
     protected function getConfigurationInformations()
     {
         // Replace credentials
-        $repository = $this->credentials->getCurrentRepository();
+        $repository            = $this->credentials->getCurrentRepository();
         $name                  = basename($this->paths->getBasePath());
 
         return array_merge(

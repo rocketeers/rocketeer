@@ -14,28 +14,28 @@ use DateTime;
 use Rocketeer\Abstracts\AbstractTask;
 
 /**
- * Display what the current release is
+ * Display what the current release is.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class CurrentRelease extends AbstractTask
 {
     /**
-     * The slug of the task
+     * The slug of the task.
      *
      * @type string
      */
     protected $name = 'Current';
 
     /**
-     * A description of what the task does
+     * A description of what the task does.
      *
      * @type string
      */
     protected $description = 'Display what the current release is';
 
     /**
-     * Run the task
+     * Run the task.
      *
      * @return string|null
      */

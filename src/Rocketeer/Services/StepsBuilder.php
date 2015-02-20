@@ -12,21 +12,21 @@ namespace Rocketeer\Services;
 
 /**
  * Saves in an array methods the call signatures
- * of the methods called on it
+ * of the methods called on it.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class StepsBuilder
 {
     /**
-     * The extisting steps
+     * The extisting steps.
      *
      * @type array
      */
     protected $steps = [];
 
     /**
-     * Add a step
+     * Add a step.
      *
      * @param string $name
      * @param array  $arguments
@@ -37,7 +37,7 @@ class StepsBuilder
     }
 
     /**
-     * Add a callable to the steps
+     * Add a callable to the steps.
      *
      * @param string|callable $callable
      * @param array           $arguments
@@ -48,7 +48,7 @@ class StepsBuilder
     }
 
     /**
-     * Add a step and fire an event before/after
+     * Add a step and fire an event before/after.
      *
      * @param string          $event
      * @param string|callable $callable
@@ -62,7 +62,7 @@ class StepsBuilder
     }
 
     /**
-     * Get and clear the steps
+     * Get and clear the steps.
      *
      * @return array
      */
@@ -76,7 +76,7 @@ class StepsBuilder
     }
 
     /**
-     * Get the steps to execute
+     * Get the steps to execute.
      *
      * @return array
      */

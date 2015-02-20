@@ -41,7 +41,7 @@ class Migrate extends AbstractTask
     protected $results = [];
 
     /**
-     * Run the task
+     * Run the task.
      *
      * @return boolean|boolean[]
      */
@@ -66,7 +66,7 @@ class Migrate extends AbstractTask
     }
 
     /**
-     * Check if the command can be run
+     * Check if the command can be run.
      *
      * @return boolean
      */
@@ -83,7 +83,7 @@ class Migrate extends AbstractTask
     }
 
     /**
-     * Run a method on the strategy if asked to
+     * Run a method on the strategy if asked to.
      *
      * @param string $method
      * @param string $message

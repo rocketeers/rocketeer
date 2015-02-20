@@ -14,14 +14,14 @@ use Illuminate\Console\Application;
 use Rocketeer\Rocketeer;
 
 /**
- * A standalone Rocketeer CLI
+ * A standalone Rocketeer CLI.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Console extends Application
 {
     /**
-     * Display the application's help
+     * Display the application's help.
      *
      * @return string
      */
@@ -49,7 +49,7 @@ class Console extends Application
     }
 
     /**
-     * Build an help block
+     * Build an help block.
      *
      * @param string   $title
      * @param string[] $informations
@@ -67,7 +67,7 @@ class Console extends Application
     }
 
     /**
-     * Get current state of the CLI
+     * Get current state of the CLI.
      *
      * @return string[]
      */

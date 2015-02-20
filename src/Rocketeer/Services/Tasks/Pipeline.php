@@ -14,14 +14,14 @@ use Illuminate\Support\Collection;
 
 /**
  * A class representing a pipeline of jobs
- * to be executed
+ * to be executed.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Pipeline extends Collection
 {
     /**
-     * The stored results of each task
+     * The stored results of each task.
      *
      * @type array
      */
@@ -32,7 +32,7 @@ class Pipeline extends Collection
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Check if the pipeline failed
+     * Check if the pipeline failed.
      *
      * @return boolean
      */
@@ -44,7 +44,7 @@ class Pipeline extends Collection
     }
 
     /**
-     * Check if the pipeline ran its course
+     * Check if the pipeline ran its course.
      *
      * @return boolean
      */

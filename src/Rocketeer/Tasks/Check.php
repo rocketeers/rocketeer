@@ -14,35 +14,35 @@ use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Abstracts\Strategies\AbstractCheckStrategy;
 
 /**
- * Check if the server is ready to receive the application
+ * Check if the server is ready to receive the application.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Check extends AbstractTask
 {
     /**
-     * A description of what the task does
+     * A description of what the task does.
      *
      * @type string
      */
     protected $description = 'Check if the server is ready to receive the application';
 
     /**
-     * Whether the task needs to be run on each stage or globally
+     * Whether the task needs to be run on each stage or globally.
      *
      * @type boolean
      */
     public $usesStages = false;
 
     /**
-     * The checks that failed
+     * The checks that failed.
      *
      * @type array
      */
     protected $errors = [];
 
     /**
-     * Run the task
+     * Run the task.
      *
      * @return boolean|null
      */
@@ -75,7 +75,7 @@ class Check extends AbstractTask
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Check the presence of an SCM on the server
+     * Check the presence of an SCM on the server.
      *
      * @return boolean
      */
@@ -155,7 +155,7 @@ class Check extends AbstractTask
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Execute a check and log the error if not
+     * Execute a check and log the error if not.
      *
      * @param boolean $condition
      * @param string  $error

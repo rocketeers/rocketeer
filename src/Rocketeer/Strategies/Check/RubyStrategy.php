@@ -23,7 +23,7 @@ class RubyStrategy extends AbstractCheckStrategy implements CheckStrategyInterfa
     protected $description = 'Checks if the server is ready to receive a Ruby application';
 
     /**
-     * The language of the strategy
+     * The language of the strategy.
      *
      * @type string
      */
@@ -43,7 +43,7 @@ class RubyStrategy extends AbstractCheckStrategy implements CheckStrategyInterfa
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Get the version constraint which should be checked against
+     * Get the version constraint which should be checked against.
      *
      * @param string $manifest
      *
@@ -58,7 +58,7 @@ class RubyStrategy extends AbstractCheckStrategy implements CheckStrategyInterfa
     }
 
     /**
-     * Get the current version in use
+     * Get the current version in use.
      *
      * @return string
      */
@@ -71,7 +71,7 @@ class RubyStrategy extends AbstractCheckStrategy implements CheckStrategyInterfa
     }
 
     /**
-     * Check for the required extensions
+     * Check for the required extensions.
      *
      * @return array
      */
@@ -81,7 +81,7 @@ class RubyStrategy extends AbstractCheckStrategy implements CheckStrategyInterfa
     }
 
     /**
-     * Check for the required drivers
+     * Check for the required drivers.
      *
      * @return array
      */

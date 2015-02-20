@@ -45,7 +45,7 @@ class PolyglotStrategyCheckTest extends RocketeerTestCase
     }
 
     /**
-     * Get a dummy strategy
+     * Get a dummy strategy.
      *
      * @param string $name
      * @param string $method

@@ -16,7 +16,7 @@ use Illuminate\Support\Str;
 use Rocketeer\Traits\HasLocator;
 
 /**
- * A generic class to represent a binary as a class
+ * A generic class to represent a binary as a class.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
@@ -25,14 +25,14 @@ abstract class AbstractBinary
     use HasLocator;
 
     /**
-     * The core binary
+     * The core binary.
      *
      * @type string
      */
     protected $binary;
 
     /**
-     * A parent binary to call this one with
+     * A parent binary to call this one with.
      *
      * @type AbstractBinary|string
      */
@@ -59,7 +59,7 @@ abstract class AbstractBinary
     }
 
     /**
-     * Get an array of default paths to look for
+     * Get an array of default paths to look for.
      *
      * @return array
      */
@@ -89,7 +89,7 @@ abstract class AbstractBinary
     }
 
     /**
-     * Get the name of the binary class
+     * Get the name of the binary class.
      *
      * @return string
      */
@@ -99,7 +99,7 @@ abstract class AbstractBinary
     }
 
     /**
-     * Get the current binary name
+     * Get the current binary name.
      *
      * @return string
      */
@@ -109,7 +109,7 @@ abstract class AbstractBinary
     }
 
     /**
-     * Call or execute a command on the Binary
+     * Call or execute a command on the Binary.
      *
      * @param string $name
      * @param array  $arguments
@@ -141,7 +141,7 @@ abstract class AbstractBinary
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Returns a command with the SCM's binary
+     * Returns a command with the SCM's binary.
      *
      * @param string|null     $command
      * @param string|string[] $arguments
@@ -225,7 +225,7 @@ abstract class AbstractBinary
     }
 
     /**
-     * Quote a string
+     * Quote a string.
      *
      * @param string $string
      *

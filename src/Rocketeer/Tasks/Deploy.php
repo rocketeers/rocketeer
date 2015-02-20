@@ -13,7 +13,7 @@ namespace Rocketeer\Tasks;
 use Rocketeer\Abstracts\AbstractTask;
 
 /**
- * Deploy the website
+ * Deploy the website.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
@@ -34,7 +34,7 @@ class Deploy extends AbstractTask
     );
 
     /**
-     * Run the task
+     * Run the task.
      *
      * @return boolean|null
      */
@@ -91,7 +91,7 @@ class Deploy extends AbstractTask
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Set permissions for the folders used by the application
+     * Set permissions for the folders used by the application.
      *
      * @return boolean
      */

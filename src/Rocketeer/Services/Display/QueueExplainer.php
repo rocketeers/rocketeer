@@ -23,14 +23,14 @@ class QueueExplainer
     use HasLocator;
 
     /**
-     * The level at which to display statuses
+     * The level at which to display statuses.
      *
      * @type integer
      */
     public $level = 0;
 
     /**
-     * Length of the longest handle to display
+     * Length of the longest handle to display.
      *
      * @type integer
      */
@@ -41,7 +41,7 @@ class QueueExplainer
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Execute a task in a level below
+     * Execute a task in a level below.
      *
      * @param callable $callback
      *
@@ -61,7 +61,7 @@ class QueueExplainer
     }
 
     /**
-     * Display a status
+     * Display a status.
      *
      * @param string|null $info
      * @param string|null $details
@@ -99,7 +99,7 @@ class QueueExplainer
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Format and send a message by the command
+     * Format and send a message by the command.
      *
      * @param string      $message
      * @param string|null $color
@@ -125,7 +125,7 @@ class QueueExplainer
     }
 
     /**
-     * Display a server-related message
+     * Display a server-related message.
      *
      * @param string $message
      *
@@ -183,7 +183,7 @@ class QueueExplainer
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Get the longest size an handle can have
+     * Get the longest size an handle can have.
      *
      * @return integer
      */
@@ -243,7 +243,7 @@ class QueueExplainer
     }
 
     /**
-     * Colorize text using Symfony Console tags
+     * Colorize text using Symfony Console tags.
      *
      * @param string      $message
      * @param string|null $color

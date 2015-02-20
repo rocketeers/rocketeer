@@ -20,7 +20,7 @@ use Rocketeer\Tasks;
 use Rocketeer\Traits\HasLocator;
 
 /**
- * Handles the registering and firing of tasks and their events
+ * Handles the registering and firing of tasks and their events.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
@@ -29,21 +29,21 @@ class TasksHandler
     use HasLocator;
 
     /**
-     * The registered events
+     * The registered events.
      *
      * @type array
      */
     protected $registeredEvents = array();
 
     /**
-     * The registered plugins
+     * The registered plugins.
      *
      * @type array
      */
     protected $registeredPlugins = array();
 
     /**
-     * The core events
+     * The core events.
      *
      * @type array
      */
@@ -53,7 +53,7 @@ class TasksHandler
     );
 
     /**
-     * Build a new TasksQueue Instance
+     * Build a new TasksQueue Instance.
      *
      * @param Container $app
      */
@@ -64,7 +64,7 @@ class TasksHandler
 
     /**
      * Delegate methods to TasksQueue for now to
-     * keep public API intact
+     * keep public API intact.
      *
      * @param string $method
      * @param array  $parameters
@@ -83,7 +83,7 @@ class TasksHandler
     }
 
     /**
-     * Configure a strategy
+     * Configure a strategy.
      */
     public function configureStrategy()
     {
@@ -95,7 +95,7 @@ class TasksHandler
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Register a custom task with Rocketeer
+     * Register a custom task with Rocketeer.
      *
      * @param string|Closure|AbstractTask $task
      * @param string|null                 $name
@@ -123,7 +123,7 @@ class TasksHandler
     }
 
     /**
-     * Register a task with Rocketeer
+     * Register a task with Rocketeer.
      *
      * @param string                           $name
      * @param string|Closure|AbstractTask|null $task
@@ -141,7 +141,7 @@ class TasksHandler
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Execute a task before another one
+     * Execute a task before another one.
      *
      * @param string  $task
      * @param Closure $listeners
@@ -153,7 +153,7 @@ class TasksHandler
     }
 
     /**
-     * Execute a task after another one
+     * Execute a task after another one.
      *
      * @param string  $task
      * @param Closure $listeners
@@ -165,7 +165,7 @@ class TasksHandler
     }
 
     /**
-     * Clear the previously registered events
+     * Clear the previously registered events.
      */
     public function clearRegisteredEvents()
     {
@@ -177,7 +177,7 @@ class TasksHandler
     }
 
     /**
-     * Register with the Dispatcher the events in the configuration
+     * Register with the Dispatcher the events in the configuration.
      */
     public function registerConfiguredEvents()
     {
@@ -214,7 +214,7 @@ class TasksHandler
     }
 
     /**
-     * Bind the core events
+     * Bind the core events.
      */
     public function registerCoreEvents()
     {
@@ -226,7 +226,7 @@ class TasksHandler
     }
 
     /**
-     * Register listeners for a particular event
+     * Register listeners for a particular event.
      *
      * @param string         $event
      * @param array|callable $listeners
@@ -252,7 +252,7 @@ class TasksHandler
     }
 
     /**
-     * Bind a listener to a task
+     * Bind a listener to a task.
      *
      * @param string|array   $task
      * @param string         $event
@@ -261,6 +261,7 @@ class TasksHandler
      * @param boolean        $register
      *
      * @throws \Rocketeer\Exceptions\TaskCompositionException
+     *
      * @return string|null
      */
     public function addTaskListeners($task, $event, $listeners, $priority = 0, $register = false)
@@ -298,7 +299,7 @@ class TasksHandler
     }
 
     /**
-     * Get all of a task's listeners
+     * Get all of a task's listeners.
      *
      * @param string|AbstractTask $task
      * @param string              $event
@@ -339,7 +340,7 @@ class TasksHandler
     }
 
     /**
-     * Register a Rocketeer plugin with Rocketeer
+     * Register a Rocketeer plugin with Rocketeer.
      *
      * @param string $plugin
      * @param array  $configuration
@@ -383,7 +384,7 @@ class TasksHandler
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Call a method on an object, and rebind it into the container
+     * Call a method on an object, and rebind it into the container.
      *
      * @param string $method
      * @param array  $parameters
@@ -401,7 +402,7 @@ class TasksHandler
     }
 
     /**
-     * Get the handle of an event
+     * Get the handle of an event.
      *
      * @param IdentifierInterface|null $entity
      * @param string|null              $event

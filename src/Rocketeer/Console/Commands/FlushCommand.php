@@ -13,7 +13,7 @@ namespace Rocketeer\Console\Commands;
 use Rocketeer\Abstracts\Commands\AbstractCommand;
 
 /**
- * Flushes any custom storage Rocketeer has created
+ * Flushes any custom storage Rocketeer has created.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
@@ -34,7 +34,7 @@ class FlushCommand extends AbstractCommand
     protected $description = "Flushes Rocketeer's cache of credentials";
 
     /**
-     * Execute the tasks
+     * Execute the tasks.
      *
      * @return integer
      */

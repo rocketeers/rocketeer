@@ -19,7 +19,7 @@ class CredentialsGatherer
 
     /**
      * Rules for which credentials are
-     * strictly required or not
+     * strictly required or not.
      *
      * @type array
      */
@@ -40,12 +40,12 @@ class CredentialsGatherer
     );
 
     /**
-     * Get the Repository's credentials
+     * Get the Repository's credentials.
      */
     public function getRepositoryCredentials()
     {
         // Check for repository credentials
-        $repository = $this->credentials->getCurrentRepository();
+        $repository            = $this->credentials->getCurrentRepository();
         $repositoryCredentials = $repository->toArray();
 
         // If we didn't specify a login/password ask for both the first time
@@ -66,7 +66,7 @@ class CredentialsGatherer
     }
 
     /**
-     * Get the LocalStorage's credentials
+     * Get the LocalStorage's credentials.
      */
     public function getServerCredentials()
     {
@@ -97,7 +97,7 @@ class CredentialsGatherer
     }
 
     /**
-     * Verifies and stores credentials for the given connection name
+     * Verifies and stores credentials for the given connection name.
      *
      * @param string       $connectionName
      * @param integer|null $server
@@ -128,7 +128,7 @@ class CredentialsGatherer
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Whether SSH is used to connect to a server, or password
+     * Whether SSH is used to connect to a server, or password.
      *
      * @param string $handle
      * @param array  $credentials
@@ -150,7 +150,7 @@ class CredentialsGatherer
     }
 
     /**
-     * Loop through credentials and store the missing ones
+     * Loop through credentials and store the missing ones.
      *
      * @param boolean[] $rules
      * @param string[]  $current
@@ -184,7 +184,7 @@ class CredentialsGatherer
     }
 
     /**
-     * Gather an auth-related credential
+     * Gather an auth-related credential.
      *
      * @param string              $handle
      * @param string|boolean|null $type
@@ -208,7 +208,7 @@ class CredentialsGatherer
     }
 
     /**
-     * Look for a credential in the flags or ask for it
+     * Look for a credential in the flags or ask for it.
      *
      * @param string      $handle
      * @param string      $type
@@ -226,7 +226,7 @@ class CredentialsGatherer
     }
 
     /**
-     * Check if a credential needs to be filled
+     * Check if a credential needs to be filled.
      *
      * @param string[] $credentials
      * @param string   $credential
@@ -244,7 +244,7 @@ class CredentialsGatherer
     }
 
     /**
-     * Whether Rocketeer should prompt for a credential or not
+     * Whether Rocketeer should prompt for a credential or not.
      *
      * @param string|boolean|null $value
      *

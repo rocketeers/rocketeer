@@ -20,7 +20,7 @@ use Rocketeer\Traits\HasLocator;
 use Symfony\Component\Console\Output\NullOutput;
 
 /**
- * Handle creationg and caching of connections
+ * Handle creationg and caching of connections.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  * @author Taylor Otwell <taylorotwell@gmail.com>
@@ -30,14 +30,14 @@ class RemoteHandler
     use HasLocator;
 
     /**
-     * A storage of active connections
+     * A storage of active connections.
      *
      * @type Connection[]
      */
     protected $active = [];
 
     /**
-     * Whether the handler is currently connected to any server
+     * Whether the handler is currently connected to any server.
      *
      * @return boolean
      */
@@ -47,7 +47,7 @@ class RemoteHandler
     }
 
     /**
-     * Create a specific connection or the default one
+     * Create a specific connection or the default one.
      *
      * @param string|null $connection
      * @param integer     $server
@@ -77,6 +77,7 @@ class RemoteHandler
      * @param ConnectionKey $connection
      *
      * @return Connection
+     *
      * @throws CredentialsExceptionInterface
      */
     protected function makeConnection(ConnectionKey $connection)
@@ -100,9 +101,10 @@ class RemoteHandler
     }
 
     /**
-     * Format the appropriate authentication array payload.*
+     * Format the appropriate authentication array payload.*.
      *
      * @param array $config
+     *
      *                      * @return array
      *
      * @throws CredentialsExceptionInterface
@@ -123,10 +125,11 @@ class RemoteHandler
     }
 
     /**
-     * Dynamically pass methods to the default connection.*
+     * Dynamically pass methods to the default connection.*.
      *
      * @param string $method
      * @param array  $parameters
+     *
      *                           * @throws CredentialsExceptionInterface
      *
      * @return mixed
@@ -145,9 +148,10 @@ class RemoteHandler
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Throw an exception and display the credentials that failed with it*
+     * Throw an exception and display the credentials that failed with it*.
      *
      * @param CredentialsExceptionInterface $exception
+     *
      *                                                 * @return CredentialsExceptionInterface
      */
     protected function throwExceptionWithCredentials(CredentialsExceptionInterface $exception)

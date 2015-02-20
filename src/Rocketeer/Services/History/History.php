@@ -15,7 +15,7 @@ use Illuminate\Support\Collection;
 class History extends Collection
 {
     /**
-     * Get the history, flattened
+     * Get the history, flattened.
      *
      * @return string[]|string[][]
      */
@@ -25,7 +25,7 @@ class History extends Collection
     }
 
     /**
-     * Get the output, flattened
+     * Get the output, flattened.
      *
      * @return string[]|string[][]
      */
@@ -39,7 +39,7 @@ class History extends Collection
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Get a flattened list of a certain type
+     * Get a flattened list of a certain type.
      *
      * @param string $type
      *

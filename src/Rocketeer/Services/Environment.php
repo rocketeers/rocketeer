@@ -14,7 +14,7 @@ use Rocketeer\Traits\HasLocator;
 
 /**
  * Gives out various informations about the
- * current server's environment
+ * current server's environment.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
@@ -23,7 +23,7 @@ class Environment
     use HasLocator;
 
     /**
-     * Get the directory separators on the remove server
+     * Get the directory separators on the remove server.
      *
      * @return string
      */
@@ -33,7 +33,7 @@ class Environment
     }
 
     /**
-     * Get the remote line endings on the remove server
+     * Get the remote line endings on the remove server.
      *
      * @return string
      */
@@ -43,7 +43,7 @@ class Environment
     }
 
     /**
-     * Get the remote operating system
+     * Get the remote operating system.
      *
      * @return string
      */
@@ -57,7 +57,7 @@ class Environment
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Compute the full path to a variable
+     * Compute the full path to a variable.
      *
      * @param string $variable
      *
@@ -69,7 +69,7 @@ class Environment
     }
 
     /**
-     * Get a cached server variable or compute it
+     * Get a cached server variable or compute it.
      *
      * @param string   $variable
      * @param callable $callback
@@ -87,7 +87,7 @@ class Environment
     }
 
     /**
-     * Get a PHP constant from the server
+     * Get a PHP constant from the server.
      *
      * @param string $variable
      * @param string $constant

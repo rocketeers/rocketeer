@@ -11,14 +11,14 @@
 namespace Rocketeer\Traits\Properties;
 
 /**
- * A class that can fire events
+ * A class that can fire events.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait HasEvents
 {
     /**
-     * Run a callable and fire a before/after event arround it
+     * Run a callable and fire a before/after event arround it.
      *
      * @param callable $callable
      *
@@ -38,7 +38,7 @@ trait HasEvents
     }
 
     /**
-     * Fire an event related to this task
+     * Fire an event related to this task.
      *
      * @param string $event
      *
@@ -70,7 +70,7 @@ trait HasEvents
     }
 
     /**
-     * Get the fully qualified event name
+     * Get the fully qualified event name.
      *
      * @param string $event
      *

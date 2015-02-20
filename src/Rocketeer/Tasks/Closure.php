@@ -13,21 +13,21 @@ namespace Rocketeer\Tasks;
 use Rocketeer\Abstracts\AbstractTask;
 
 /**
- * a task that wraps around a closure and execute it
+ * A task that wraps around a closure and execute it.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Closure extends AbstractTask
 {
     /**
-     * A callable to execute at runtime
+     * A callable to execute at runtime.
      *
      * @type callable
      */
     protected $closure;
 
     /**
-     * A string task to execute in the Closure
+     * A string task to execute in the Closure.
      *
      * @type string|string[]|callable
      */
@@ -38,7 +38,7 @@ class Closure extends AbstractTask
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Change what the task does
+     * Change what the task does.
      *
      * @param string|array|callable $task
      *
@@ -60,7 +60,7 @@ class Closure extends AbstractTask
     }
 
     /**
-     * Fluent alias for setDescription
+     * Fluent alias for setDescription.
      *
      * @param string $description
      *
@@ -78,7 +78,7 @@ class Closure extends AbstractTask
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Get the name of the task
+     * Get the name of the task.
      *
      * @return string
      */
@@ -88,7 +88,7 @@ class Closure extends AbstractTask
     }
 
     /**
-     * Get what the task does
+     * Get what the task does.
      *
      * @return string
      */
@@ -101,7 +101,7 @@ class Closure extends AbstractTask
     }
 
     /**
-     * Create a task from a Closure
+     * Create a task from a Closure.
      *
      * @param callable $closure
      */
@@ -111,7 +111,7 @@ class Closure extends AbstractTask
     }
 
     /**
-     * Get the task's callable
+     * Get the task's callable.
      *
      * @return callable
      */
@@ -121,7 +121,7 @@ class Closure extends AbstractTask
     }
 
     /**
-     * Get the string task that was assigned
+     * Get the string task that was assigned.
      *
      * @return string
      */
@@ -131,7 +131,7 @@ class Closure extends AbstractTask
     }
 
     /**
-     * Set the string task
+     * Set the string task.
      *
      * @param string|string[]|callable $task
      */
@@ -141,7 +141,7 @@ class Closure extends AbstractTask
     }
 
     /**
-     * Run the task
+     * Run the task.
      */
     public function execute()
     {

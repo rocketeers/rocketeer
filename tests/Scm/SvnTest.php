@@ -7,7 +7,7 @@ use Rocketeer\TestCases\RocketeerTestCase;
 class SvnTest extends RocketeerTestCase
 {
     /**
-     * The current SCM instance
+     * The current SCM instance.
      *
      * @type Svn
      */
@@ -51,7 +51,7 @@ class SvnTest extends RocketeerTestCase
             'username' => 'foo',
             'password' => 'bar',
             'endpoint' => 'http://github.com/my/repository',
-            'branch'   => 'develop'
+            'branch'   => 'develop',
         ));
 
         $command = $this->scm->checkout($this->server);
@@ -65,7 +65,7 @@ class SvnTest extends RocketeerTestCase
             'username' => 'foo',
             'password' => 'bar',
             'endpoint' => 'http://github.com/my/repository',
-            'branch'   => 'develop'
+            'branch'   => 'develop',
         ));
 
         $command = $this->scm->checkout($this->server);
@@ -79,7 +79,7 @@ class SvnTest extends RocketeerTestCase
             'username' => 'foo',
             'password' => 'bar',
             'endpoint' => 'http://foo:bar@github.com/my/repository',
-            'branch'   => 'develop'
+            'branch'   => 'develop',
         ));
 
         $command = $this->scm->checkout($this->server);
@@ -90,7 +90,7 @@ class SvnTest extends RocketeerTestCase
             'username' => 'foo',
             'password' => null,
             'endpoint' => 'http://foo@github.com/my/repository',
-            'branch'   => 'develop'
+            'branch'   => 'develop',
         ));
 
         $command = $this->scm->checkout($this->server);
@@ -104,7 +104,7 @@ class SvnTest extends RocketeerTestCase
             'username' => 'foo',
             'password' => 'bar',
             'endpoint' => 'url://user:login@example.com/test',
-            'branch'   => 'trunk@1234'
+            'branch'   => 'trunk@1234',
         ));
 
         $command = $this->scm->checkout($this->server);

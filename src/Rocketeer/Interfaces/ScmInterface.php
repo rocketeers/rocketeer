@@ -11,42 +11,42 @@
 namespace Rocketeer\Interfaces;
 
 /**
- * The interface for all SCM implementations
+ * The interface for all SCM implementations.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 interface ScmInterface
 {
     /**
-     * Get the current binary name
+     * Get the current binary name.
      *
      * @return string
      */
     public function getBinary();
 
     /**
-     * Check if the SCM is available
+     * Check if the SCM is available.
      *
      * @return string
      */
     public function check();
 
     /**
-     * Get the current state
+     * Get the current state.
      *
      * @return string
      */
     public function currentState();
 
     /**
-     * Get the current branch
+     * Get the current branch.
      *
      * @return string
      */
     public function currentBranch();
 
     /**
-     * Clone a repository
+     * Clone a repository.
      *
      * @param string $destination
      *
@@ -55,21 +55,21 @@ interface ScmInterface
     public function checkout($destination);
 
     /**
-     * Resets the repository
+     * Resets the repository.
      *
      * @return string
      */
     public function reset();
 
     /**
-     * Updates the repository
+     * Updates the repository.
      *
      * @return string
      */
     public function update();
 
     /**
-     * Checkout the repository's submodules
+     * Checkout the repository's submodules.
      *
      * @return string
      */

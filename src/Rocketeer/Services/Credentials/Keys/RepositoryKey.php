@@ -5,7 +5,7 @@ use Illuminate\Support\Fluent;
 use Illuminate\Support\Str;
 
 /**
- * Represents a repository's identity and its credentials
+ * Represents a repository's identity and its credentials.
  *
  * @property string endpoint
  * @property string branch
@@ -17,7 +17,7 @@ use Illuminate\Support\Str;
 class RepositoryKey extends Fluent
 {
     /**
-     * Whether the repository is public or needs credentials
+     * Whether the repository is public or needs credentials.
      *
      * @return boolean
      */
@@ -27,7 +27,7 @@ class RepositoryKey extends Fluent
     }
 
     /**
-     * Get a shorthand of the repository's name
+     * Get a shorthand of the repository's name.
      *
      * @return string
      */

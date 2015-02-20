@@ -14,28 +14,28 @@ use Illuminate\Support\Arr;
 use Rocketeer\Traits\HasLocator;
 
 /**
- * Handles rotation of logs
+ * Handles rotation of logs.
  */
 class LogsHandler
 {
     use HasLocator;
 
     /**
-     * Cache of the logs file to be written
+     * Cache of the logs file to be written.
      *
      * @type array
      */
     protected $logs = [];
 
     /**
-     * The name of the logs file
+     * The name of the logs file.
      *
      * @type string[]
      */
     protected $name = [];
 
     /**
-     * Save something for the logs
+     * Save something for the logs.
      *
      * @param string|string[] $string
      */
@@ -52,7 +52,7 @@ class LogsHandler
     }
 
     /**
-     * Write the stored logs
+     * Write the stored logs.
      *
      * @return array
      */
@@ -79,7 +79,7 @@ class LogsHandler
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Get the logs file being currently used
+     * Get the logs file being currently used.
      *
      * @return string|false
      */
@@ -109,7 +109,7 @@ class LogsHandler
     }
 
     /**
-     * Get the current logs
+     * Get the current logs.
      *
      * @return array
      */
@@ -119,7 +119,7 @@ class LogsHandler
     }
 
     /**
-     * Get the current logs, flattened
+     * Get the current logs, flattened.
      *
      * @return string
      */
@@ -133,7 +133,7 @@ class LogsHandler
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Create a logs file if it doesn't exist
+     * Create a logs file if it doesn't exist.
      *
      * @param string $file
      */
@@ -153,7 +153,7 @@ class LogsHandler
     }
 
     /**
-     * Format entries to a string
+     * Format entries to a string.
      *
      * @param array $entries
      *
@@ -168,7 +168,7 @@ class LogsHandler
     }
 
     /**
-     * Prepend the connection handle to each log entry
+     * Prepend the connection handle to each log entry.
      *
      * @param string|string[] $entries
      *

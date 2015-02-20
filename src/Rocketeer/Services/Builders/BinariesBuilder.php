@@ -20,7 +20,7 @@ use Rocketeer\Binaries\AnonymousBinary;
 trait BinariesBuilder
 {
     /**
-     * Build a binary
+     * Build a binary.
      *
      * @param string $binary
      *

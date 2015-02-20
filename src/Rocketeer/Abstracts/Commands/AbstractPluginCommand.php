@@ -6,7 +6,7 @@ use Symfony\Component\Console\Input\InputArgument;
 class AbstractPluginCommand extends AbstractCommand
 {
     /**
-     * The plugin task to fire
+     * The plugin task to fire.
      *
      * @type string
      */
@@ -14,14 +14,14 @@ class AbstractPluginCommand extends AbstractCommand
 
     /**
      * Whether the command's task should be built
-     * into a pipeline or run straight
+     * into a pipeline or run straight.
      *
      * @type boolean
      */
     protected $straight = true;
 
     /**
-     * Run the tasks
+     * Run the tasks.
      *
      * @return integer
      */

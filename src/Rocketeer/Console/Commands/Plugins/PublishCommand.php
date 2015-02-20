@@ -17,7 +17,7 @@ use Symfony\Component\Console\Input\InputArgument;
 class PublishCommand extends AbstractCommand
 {
     /**
-     * The default name
+     * The default name.
      *
      * @type string
      */
@@ -32,14 +32,14 @@ class PublishCommand extends AbstractCommand
 
     /**
      * Whether the command's task should be built
-     * into a pipeline or run straight
+     * into a pipeline or run straight.
      *
      * @type boolean
      */
     protected $straight = true;
 
     /**
-     * Run the tasks
+     * Run the tasks.
      */
     public function fire()
     {

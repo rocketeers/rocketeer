@@ -19,17 +19,13 @@ interface HasRolesInterface
 
     /**
      * @param array $roles
-     *
-     * @return void
      */
     public function setRoles(array $roles);
 
     /**
-     * Add new roles to the entity
+     * Add new roles to the entity.
      *
      * @param array $roles
-     *
-     * @return void
      */
     public function addRoles(array $roles);
 
@@ -41,7 +37,7 @@ interface HasRolesInterface
     public function hasRole($role);
 
     /**
-     * Check if an entity is compatible with another
+     * Check if an entity is compatible with another.
      *
      * @param HasRolesInterface $hasRoles
      *

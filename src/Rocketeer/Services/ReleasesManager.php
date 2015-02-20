@@ -16,7 +16,7 @@ use Rocketeer\Services\Storages\ServerStorage;
 use Rocketeer\Traits\HasLocator;
 
 /**
- * Provides informations and actions around releases
+ * Provides informations and actions around releases.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
@@ -25,35 +25,35 @@ class ReleasesManager
     use HasLocator;
 
     /**
-     * Cache of the validation file
+     * Cache of the validation file.
      *
      * @type array
      */
     protected $state = [];
 
     /**
-     * Cache of the releases
+     * Cache of the releases.
      *
      * @type array
      */
     public $releases = [];
 
     /**
-     * The next release to come
+     * The next release to come.
      *
      * @type string
      */
     protected $nextRelease;
 
     /**
-     * The storage
+     * The storage.
      *
      * @type ServerStorage
      */
     protected $storage;
 
     /**
-     * Build a new ReleasesManager
+     * Build a new ReleasesManager.
      *
      * @param Container $app
      */
@@ -69,7 +69,7 @@ class ReleasesManager
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Get all the releases on the server
+     * Get all the releases on the server.
      *
      * @return integer[]
      */
@@ -95,7 +95,7 @@ class ReleasesManager
     }
 
     /**
-     * Get an array of non-current releases
+     * Get an array of non-current releases.
      *
      * @return integer[]
      */
@@ -105,7 +105,7 @@ class ReleasesManager
     }
 
     /**
-     * Get an array of deprecated releases
+     * Get an array of deprecated releases.
      *
      * @param integer|null $treshold
      *
@@ -120,7 +120,7 @@ class ReleasesManager
     }
 
     /**
-     * Get an array of invalid releases
+     * Get an array of invalid releases.
      *
      * @return integer[]
      */
@@ -138,7 +138,7 @@ class ReleasesManager
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Get the path to the releases folder
+     * Get the path to the releases folder.
      *
      * @return string
      */
@@ -148,7 +148,7 @@ class ReleasesManager
     }
 
     /**
-     * Get the path to a release
+     * Get the path to a release.
      *
      * @param string $release
      *
@@ -160,7 +160,7 @@ class ReleasesManager
     }
 
     /**
-     * Get the path to the current release
+     * Get the path to the current release.
      *
      * @param string|null $folder A folder in the release
      *
@@ -180,7 +180,7 @@ class ReleasesManager
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Get the validation file
+     * Get the validation file.
      *
      * @return array
      */
@@ -204,7 +204,7 @@ class ReleasesManager
     }
 
     /**
-     * Mark a release as valid
+     * Mark a release as valid.
      *
      * @param string|null $release
      */
@@ -220,7 +220,7 @@ class ReleasesManager
     }
 
     /**
-     * Get the state of a release
+     * Get the state of a release.
      *
      * @param integer $release
      *
@@ -236,7 +236,7 @@ class ReleasesManager
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Get the current release
+     * Get the current release.
      *
      * @return string|integer|null
      */
@@ -249,7 +249,7 @@ class ReleasesManager
     }
 
     /**
-     * Get the release before the current one
+     * Get the release before the current one.
      *
      * @param string|null $release A release name
      *
@@ -274,7 +274,7 @@ class ReleasesManager
     }
 
     /**
-     * Get the next release to come
+     * Get the next release to come.
      *
      * @return string
      */
@@ -291,7 +291,7 @@ class ReleasesManager
     }
 
     /**
-     * Change the release to come
+     * Change the release to come.
      *
      * @param string $release
      */
@@ -305,7 +305,7 @@ class ReleasesManager
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Sanitize a possible release
+     * Sanitize a possible release.
      *
      * @param string|integer $release
      *
@@ -317,7 +317,7 @@ class ReleasesManager
     }
 
     /**
-     * Check if it quacks like a duck
+     * Check if it quacks like a duck.
      *
      * @param string|integer $release
      *

@@ -13,7 +13,7 @@ use Rocketeer\TestCases\Assertion;
 trait Assertions
 {
     /**
-     * Assert that an even will be fired
+     * Assert that an even will be fired.
      *
      * @param string $event
      */
@@ -27,7 +27,7 @@ trait Assertions
     }
 
     /**
-     * Assert that the current connection is a specific one
+     * Assert that the current connection is a specific one.
      *
      * @param string $connection
      */
@@ -37,7 +37,7 @@ trait Assertions
     }
 
     /**
-     * Assert that the current server is a specific one
+     * Assert that the current server is a specific one.
      *
      * @param integer $server
      */
@@ -47,7 +47,7 @@ trait Assertions
     }
 
     /**
-     * Assert that the current repository equals
+     * Assert that the current repository equals.
      *
      * @param string $repository
      */
@@ -57,7 +57,7 @@ trait Assertions
     }
 
     /**
-     * Assert an option has a certain value
+     * Assert an option has a certain value.
      *
      * @param string $value
      * @param string $option
@@ -68,7 +68,7 @@ trait Assertions
     }
 
     /**
-     * Assert a task has a particular output
+     * Assert a task has a particular output.
      *
      * @param string   $task
      * @param string   $output
@@ -86,7 +86,7 @@ trait Assertions
     }
 
     /**
-     * Assert a task's history matches an array
+     * Assert a task's history matches an array.
      *
      * @param string|AbstractTask $task
      * @param array               $expectedHistory
@@ -116,7 +116,7 @@ trait Assertions
     }
 
     /**
-     * Assert an history matches another
+     * Assert an history matches another.
      *
      * @param array $expected
      * @param array $obtained
@@ -135,7 +135,7 @@ trait Assertions
     }
 
     /**
-     * Assert the history contains a particular entry
+     * Assert the history contains a particular entry.
      *
      * @param array $expected
      */
@@ -149,7 +149,7 @@ trait Assertions
     }
 
     /**
-     * Assert the history does not contains a particular entry
+     * Assert the history does not contains a particular entry.
      *
      * @param array $expected
      */
@@ -167,7 +167,7 @@ trait Assertions
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Replace placeholders in an history
+     * Replace placeholders in an history.
      *
      * @param array        $history
      * @param integer|null $release

@@ -14,7 +14,7 @@ interface CheckStrategyInterface
 {
     /**
      * Check that the PM that'll install
-     * the app's dependencies is present
+     * the app's dependencies is present.
      *
      * @return boolean
      */
@@ -22,21 +22,21 @@ interface CheckStrategyInterface
 
     /**
      * Check that the language used by the
-     * application is at the required version
+     * application is at the required version.
      *
      * @return boolean
      */
     public function language();
 
     /**
-     * Check for the required extensions
+     * Check for the required extensions.
      *
      * @return array
      */
     public function extensions();
 
     /**
-     * Check for the required drivers
+     * Check for the required drivers.
      *
      * @return array
      */

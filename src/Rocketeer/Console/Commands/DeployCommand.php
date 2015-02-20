@@ -13,21 +13,21 @@ namespace Rocketeer\Console\Commands;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
- * Runs the Deploy task and then cleans up deprecated releases
+ * Runs the Deploy task and then cleans up deprecated releases.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class DeployCommand extends BaseTaskCommand
 {
     /**
-     * The default name
+     * The default name.
      *
      * @type string
      */
     protected $name = 'deploy';
 
     /**
-     * Execute the tasks
+     * Execute the tasks.
      *
      * @return integer
      */

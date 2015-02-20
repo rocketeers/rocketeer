@@ -13,7 +13,7 @@ namespace Rocketeer\Console\Commands;
 use Rocketeer\Rocketeer;
 
 /**
- * The core command when starting the Rocketeer CLI
+ * The core command when starting the Rocketeer CLI.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
@@ -27,7 +27,7 @@ class RocketeerCommand extends DeployCommand
     protected $name = 'deploy';
 
     /**
-     * Displays the current version
+     * Displays the current version.
      */
     public function fire()
     {

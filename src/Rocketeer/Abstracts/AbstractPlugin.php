@@ -18,7 +18,7 @@ use Rocketeer\Services\TasksHandler;
 use Rocketeer\Traits\HasLocator;
 
 /**
- * A basic abstract class for Rocketeer plugins to extend
+ * A basic abstract class for Rocketeer plugins to extend.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
@@ -27,7 +27,7 @@ abstract class AbstractPlugin
     use HasLocator;
 
     /**
-     * The path to the configuration folder
+     * The path to the configuration folder.
      *
      * @type string
      */
@@ -35,14 +35,14 @@ abstract class AbstractPlugin
 
     /**
      * Additional lookups to
-     * add to Rocketeer
+     * add to Rocketeer.
      *
      * @type array
      */
     protected $lookups = [];
 
     /**
-     * Get the package namespace
+     * Get the package namespace.
      *
      * @return string
      */
@@ -56,7 +56,7 @@ abstract class AbstractPlugin
     }
 
     /**
-     * Bind additional classes to the Container
+     * Bind additional classes to the Container.
      *
      * @param Container $app
      *
@@ -68,7 +68,7 @@ abstract class AbstractPlugin
     }
 
     /**
-     * Register additional commands
+     * Register additional commands.
      *
      * @param Console $console
      */
@@ -78,11 +78,9 @@ abstract class AbstractPlugin
     }
 
     /**
-     * Register Tasks with Rocketeer
+     * Register Tasks with Rocketeer.
      *
      * @param TasksHandler $queue
-     *
-     * @return void
      */
     public function onQueue(TasksHandler $queue)
     {
@@ -90,7 +88,7 @@ abstract class AbstractPlugin
     }
 
     /**
-     * Register additional places to build from
+     * Register additional places to build from.
      *
      * @param Builder $builder
      */

@@ -15,21 +15,21 @@ use Rocketeer\Abstracts\Commands\AbstractCommand;
 
 /**
  * A command that wraps around a task class and runs
- * its execute method on fire
+ * its execute method on fire.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class BaseTaskCommand extends AbstractCommand
 {
     /**
-     * The default name
+     * The default name.
      *
      * @type string
      */
     protected $name = 'custom';
 
     /**
-     * Build a new custom command
+     * Build a new custom command.
      *
      * @param AbstractTask|null $task
      * @param string|null       $name A name for the command
@@ -45,7 +45,7 @@ class BaseTaskCommand extends AbstractCommand
     }
 
     /**
-     * Fire the custom Task
+     * Fire the custom Task.
      *
      * @return integer
      */

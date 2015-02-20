@@ -7,7 +7,7 @@ use Rocketeer\TestCases\RocketeerTestCase;
 class HgTest extends RocketeerTestCase
 {
     /**
-     * The current SCM instance
+     * The current SCM instance.
      *
      * @type Hg
      */

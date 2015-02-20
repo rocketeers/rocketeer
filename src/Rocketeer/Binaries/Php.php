@@ -15,7 +15,7 @@ use Rocketeer\Abstracts\AbstractBinary;
 class Php extends AbstractBinary
 {
     /**
-     * Get an array of default paths to look for
+     * Get an array of default paths to look for.
      *
      * @return string[]
      */
@@ -25,7 +25,7 @@ class Php extends AbstractBinary
     }
 
     /**
-     * Get the running version of PHP
+     * Get the running version of PHP.
      *
      * @return string
      */
@@ -37,7 +37,7 @@ class Php extends AbstractBinary
     }
 
     /**
-     * Get the installed extensions
+     * Get the installed extensions.
      *
      * @return string
      */
@@ -47,7 +47,7 @@ class Php extends AbstractBinary
     }
 
     /**
-     * Whether this PHP installation is an HHVM one or not
+     * Whether this PHP installation is an HHVM one or not.
      *
      * @return bool
      */

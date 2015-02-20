@@ -13,7 +13,7 @@ namespace Rocketeer\Traits\Properties;
 use InvalidArgumentException;
 
 /**
- * A class that can be configured via a set of options
+ * A class that can be configured via a set of options.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
@@ -32,7 +32,7 @@ trait Configurable
     }
 
     /**
-     * Configure the task
+     * Configure the task.
      *
      * @param array $options
      */
@@ -54,7 +54,7 @@ trait Configurable
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Set flags on the command
+     * Set flags on the command.
      *
      * @param array $flags
      */
@@ -70,7 +70,7 @@ trait Configurable
     }
 
     /**
-     * Get the flags for a command
+     * Get the flags for a command.
      *
      * @param string|null $command
      *
@@ -88,7 +88,7 @@ trait Configurable
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Get a callable option
+     * Get a callable option.
      *
      * @param string $option
      *

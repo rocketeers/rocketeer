@@ -21,7 +21,7 @@ class CloneStrategy extends AbstractStrategy implements DeployStrategyInterface
     protected $description = 'Clones a fresh instance of the repository by SCM';
 
     /**
-     * Deploy a new clean copy of the application
+     * Deploy a new clean copy of the application.
      *
      * @param string|null $destination
      *
@@ -56,7 +56,7 @@ class CloneStrategy extends AbstractStrategy implements DeployStrategyInterface
     }
 
     /**
-     * Update the latest version of the application
+     * Update the latest version of the application.
      *
      * @param boolean $reset
      *

@@ -29,7 +29,7 @@ class TinkerCommand extends AbstractCommand
     protected $description = "Debug Rocketeer's environment";
 
     /**
-     * Fire the command
+     * Fire the command.
      */
     public function fire()
     {

@@ -5,15 +5,16 @@ use Illuminate\Support\Arr;
 use Rocketeer\Services\Credentials\Keys\ConnectionKey;
 
 /**
- * Finds credentials and informations about connections
+ * Finds credentials and informations about connections.
  *
  * @mixin \Rocketeer\Services\Credentials\CredentialsHandler
+ *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait ConnectionsKeychain
 {
     /**
-     * Get the credentials for a particular connection
+     * Get the credentials for a particular connection.
      *
      * @param ConnectionKey|string|null $connection
      *
@@ -35,7 +36,7 @@ trait ConnectionsKeychain
     }
 
     /**
-     * Get the credentials for as server
+     * Get the credentials for as server.
      *
      * @param ConnectionKey|string|null $connection
      * @param integer                   $server
@@ -48,7 +49,7 @@ trait ConnectionsKeychain
     }
 
     /**
-     * Sync Rocketeer's credentials with Laravel's
+     * Sync Rocketeer's credentials with Laravel's.
      *
      * @param ConnectionKey|null $connection
      * @param array              $credentials
@@ -75,7 +76,7 @@ trait ConnectionsKeychain
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Build the current connection's handle
+     * Build the current connection's handle.
      *
      * @param ConnectionKey|string|null $connection
      * @param integer|null              $server
@@ -103,7 +104,7 @@ trait ConnectionsKeychain
     }
 
     /**
-     * Transform an instance/credentials into a ConnectionKey
+     * Transform an instance/credentials into a ConnectionKey.
      *
      * @param ConnectionKey|string|null $connection
      * @param integer|null              $server
@@ -125,7 +126,7 @@ trait ConnectionsKeychain
 
     /**
      * Filter the credentials and remove the ones that
-     * can't be saved to disk
+     * can't be saved to disk.
      *
      * @param ConnectionKey $connection
      * @param array         $credentials

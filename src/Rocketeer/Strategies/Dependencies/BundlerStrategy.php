@@ -21,7 +21,7 @@ class BundlerStrategy extends AbstractDependenciesStrategy implements Dependenci
     protected $description = 'Installs dependencies with Bundler';
 
     /**
-     * The name of the binary
+     * The name of the binary.
      *
      * @type string
      */

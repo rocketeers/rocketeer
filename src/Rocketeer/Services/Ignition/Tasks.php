@@ -20,7 +20,7 @@ class Tasks
     use HasLocator;
 
     /**
-     * Get an array of all already defined tasks
+     * Get an array of all already defined tasks.
      *
      * @return array
      */
@@ -56,7 +56,7 @@ class Tasks
     }
 
     /**
-     * Register an array of tasks and their commands
+     * Register an array of tasks and their commands.
      *
      * @param array $tasks
      *
@@ -104,7 +104,7 @@ class Tasks
     }
 
     /**
-     * Get the handle matching a task
+     * Get the handle matching a task.
      *
      * @param string            $slug
      * @param AbstractTask|null $task

@@ -11,11 +11,12 @@
 namespace Rocketeer\Traits\BashModules;
 
 /**
- * Files and folders handling
+ * Files and folders handling.
  *
  * @mixin Core
  * @mixin Binaries
  * @mixin Flow
+ *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait Filesystem
@@ -25,7 +26,7 @@ trait Filesystem
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Check if a file or folder is a symlink
+     * Check if a file or folder is a symlink.
      *
      * @param string $folder
      *
@@ -37,7 +38,7 @@ trait Filesystem
     }
 
     /**
-     * Symlinks two folders
+     * Symlinks two folders.
      *
      * @param string $folder  The folder in shared/
      * @param string $symlink The folder that will symlink to it
@@ -75,7 +76,7 @@ trait Filesystem
     }
 
     /**
-     * Swap a symlink if possible
+     * Swap a symlink if possible.
      *
      * @param string $folder
      * @param string $symlink
@@ -98,7 +99,7 @@ trait Filesystem
     }
 
     /**
-     * Move a file
+     * Move a file.
      *
      * @param string $origin
      * @param string $destination
@@ -115,7 +116,7 @@ trait Filesystem
     }
 
     /**
-     * Copy a file
+     * Copy a file.
      *
      * @param string $origin
      * @param string $destination
@@ -128,7 +129,7 @@ trait Filesystem
     }
 
     /**
-     * Get the contents of a directory
+     * Get the contents of a directory.
      *
      * @param string $directory
      *
@@ -140,7 +141,7 @@ trait Filesystem
     }
 
     /**
-     * Check if a file exists
+     * Check if a file exists.
      *
      * @param string $file Path to the file
      *
@@ -152,7 +153,7 @@ trait Filesystem
     }
 
     /**
-     * Execute permissions actions on a file with the provided callback
+     * Execute permissions actions on a file with the provided callback.
      *
      * @param string $folder
      *
@@ -181,7 +182,7 @@ trait Filesystem
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Get the contents of a file
+     * Get the contents of a file.
      *
      * @param string $file
      *
@@ -193,7 +194,7 @@ trait Filesystem
     }
 
     /**
-     * Write to a file
+     * Write to a file.
      *
      * @param string $file
      * @param string $contents
@@ -204,7 +205,7 @@ trait Filesystem
     }
 
     /**
-     * Upload a local file to remote
+     * Upload a local file to remote.
      *
      * @param string      $file
      * @param string|null $destination
@@ -222,7 +223,7 @@ trait Filesystem
     }
 
     /**
-     * Tail the contents of a file
+     * Tail the contents of a file.
      *
      * @param string  $file
      * @param boolean $continuous
@@ -242,9 +243,9 @@ trait Filesystem
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Create a folder in the application's folder
+     * Create a folder in the application's folder.
      *
-     * @param string|null $folder The folder to create
+     * @param string|null $folder    The folder to create
      * @param boolean     $recursive
      *
      * @return string The task
@@ -257,7 +258,7 @@ trait Filesystem
     }
 
     /**
-     * Remove a folder in the application's folder
+     * Remove a folder in the application's folder.
      *
      * @param array|string|null $folders The folder to remove
      *
@@ -277,7 +278,7 @@ trait Filesystem
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Check a condition via Bash
+     * Check a condition via Bash.
      *
      * @param string $condition
      *
@@ -292,7 +293,7 @@ trait Filesystem
     }
 
     /**
-     * Execute a "from/to" style command
+     * Execute a "from/to" style command.
      *
      * @param string $command
      * @param string $from

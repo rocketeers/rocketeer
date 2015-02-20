@@ -11,9 +11,7 @@ class DummyFailingCommand extends AbstractCommand
     protected $name = 'nope';
 
     /**
-     * Run the tasks
-     *
-     * @return void
+     * Run the tasks.
      */
     public function fire()
     {

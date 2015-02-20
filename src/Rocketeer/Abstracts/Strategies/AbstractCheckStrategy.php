@@ -20,7 +20,7 @@ abstract class AbstractCheckStrategy extends AbstractStrategy
     protected $manager;
 
     /**
-     * The language of the strategy
+     * The language of the strategy.
      *
      * @type string
      */
@@ -56,7 +56,7 @@ abstract class AbstractCheckStrategy extends AbstractStrategy
 
     /**
      * Check that the PM that'll install
-     * the app's dependencies is present
+     * the app's dependencies is present.
      *
      * @return boolean
      */
@@ -67,7 +67,7 @@ abstract class AbstractCheckStrategy extends AbstractStrategy
 
     /**
      * Check that the language used by the
-     * application is at the required version
+     * application is at the required version.
      *
      * @return boolean
      */
@@ -95,7 +95,7 @@ abstract class AbstractCheckStrategy extends AbstractStrategy
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Get the version constraint which should be checked against
+     * Get the version constraint which should be checked against.
      *
      * @param string $manifest
      *
@@ -104,7 +104,7 @@ abstract class AbstractCheckStrategy extends AbstractStrategy
     abstract protected function getLanguageConstraint($manifest);
 
     /**
-     * Get the current version in use
+     * Get the current version in use.
      *
      * @return string
      */

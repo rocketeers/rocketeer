@@ -23,7 +23,7 @@ use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Base connection class with additional setters
+ * Base connection class with additional setters.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  * @author Taylor Otwell <taylorotwell@gmail.com>
@@ -40,7 +40,7 @@ class Connection implements ConnectionInterface, HasRolesInterface
     protected $gateway;
 
     /**
-     * The connection handle
+     * The connection handle.
      *
      * @type ConnectionKey
      */
@@ -164,6 +164,7 @@ class Connection implements ConnectionInterface, HasRolesInterface
      * Get the gateway implementation.
      *
      * @return GatewayInterface
+     *
      * @throws RuntimeException
      */
     public function getGateway()

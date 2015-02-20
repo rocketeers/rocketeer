@@ -5,21 +5,21 @@ namespace Rocketeer\Tasks\Subtasks;
 use Rocketeer\Abstracts\AbstractTask;
 
 /**
- * Provides a motivational message if you're deploying on a friday
+ * Provides a motivational message if you're deploying on a friday.
  *
  * @author  Bram Devries <bram@madewithlove.be>
  */
 class FridayDeploy extends AbstractTask
 {
     /**
-     * A description of what the task does
+     * A description of what the task does.
      *
      * @type string
      */
     protected $description = 'Wishes you good luck on friday';
 
     /**
-     * Run the task
+     * Run the task.
      */
     public function execute()
     {

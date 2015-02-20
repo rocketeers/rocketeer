@@ -20,7 +20,7 @@ use Rocketeer\Traits\Properties\HasHistory;
 
 /**
  * Handles running an array of tasks sequentially
- * or in parallel
+ * or in parallel.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
@@ -35,7 +35,7 @@ class TasksQueue
     protected $parallel;
 
     /**
-     * A list of Tasks to execute
+     * A list of Tasks to execute.
      *
      * @type array
      */
@@ -55,7 +55,7 @@ class TasksQueue
 
     /**
      * Execute Tasks on the default connection and
-     * return their output
+     * return their output.
      *
      * @param string|array|Closure $queue
      * @param string|string[]|null $connections
@@ -76,7 +76,7 @@ class TasksQueue
     }
 
     /**
-     * Execute Tasks on various connections
+     * Execute Tasks on various connections.
      *
      * @param string|string[]      $connections
      * @param string|array|Closure $queue
@@ -95,11 +95,12 @@ class TasksQueue
     /**
      * Run the queue
      * Run an array of Tasks instances on the various
-     * connections and stages provided
+     * connections and stages provided.
      *
      * @param string|array $tasks An array of tasks
      *
      * @throws Exception
+     *
      * @return Pipeline
      */
     public function run($tasks)
@@ -126,7 +127,7 @@ class TasksQueue
     }
 
     /**
-     * Build a pipeline of jobs for Parallel to execute
+     * Build a pipeline of jobs for Parallel to execute.
      *
      * @param array $queue
      *
@@ -161,7 +162,7 @@ class TasksQueue
     }
 
     /**
-     * Run the queue, taking into account the stage
+     * Run the queue, taking into account the stage.
      *
      * @param Job $job
      *
@@ -206,7 +207,7 @@ class TasksQueue
 
     /**
      * Run the pipeline in order.
-     * As long as the previous entry didn't fail, continue
+     * As long as the previous entry didn't fail, continue.
      *
      * @param Pipeline $pipeline
      *
@@ -231,11 +232,12 @@ class TasksQueue
     }
 
     /**
-     * Run the pipeline in parallel order
+     * Run the pipeline in parallel order.
      *
      * @param Pipeline $pipeline
      *
      * @return Pipeline
+     *
      * @throws \Exception
      */
     protected function runAsynchronously(Pipeline $pipeline)
@@ -263,7 +265,7 @@ class TasksQueue
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Get the stages of a connection
+     * Get the stages of a connection.
      *
      * @param string $connection
      *
@@ -291,7 +293,7 @@ class TasksQueue
     }
 
     /**
-     * Check if a stage is valid
+     * Check if a stage is valid.
      *
      * @param string $stage
      *

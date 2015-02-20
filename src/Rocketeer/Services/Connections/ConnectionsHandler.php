@@ -17,7 +17,7 @@ use Rocketeer\Traits\HasLocator;
 
 /**
  * Handles, get and return, the various connections/stages
- * and their credentials
+ * and their credentials.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
@@ -26,14 +26,14 @@ class ConnectionsHandler
     use HasLocator;
 
     /**
-     * The current connection
+     * The current connection.
      *
      * @type ConnectionKey
      */
     protected $current;
 
     /**
-     * The connections to use
+     * The connections to use.
      *
      * @type array|null
      */
@@ -44,7 +44,7 @@ class ConnectionsHandler
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Set the stage Tasks will execute on
+     * Set the stage Tasks will execute on.
      *
      * @param string|null $stage
      */
@@ -64,7 +64,7 @@ class ConnectionsHandler
     }
 
     /**
-     * Get the various stages provided by the User
+     * Get the various stages provided by the User.
      *
      * @return array
      */
@@ -78,7 +78,7 @@ class ConnectionsHandler
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Get the available connections
+     * Get the available connections.
      *
      * @return string[][]|string[]
      */
@@ -99,7 +99,7 @@ class ConnectionsHandler
     }
 
     /**
-     * Check if a connection has credentials related to it
+     * Check if a connection has credentials related to it.
      *
      * @param ConnectionKey|string $connection
      *
@@ -114,7 +114,7 @@ class ConnectionsHandler
     }
 
     /**
-     * Get the connection in use
+     * Get the connection in use.
      *
      * @return string[]
      */
@@ -138,7 +138,7 @@ class ConnectionsHandler
     }
 
     /**
-     * Set the active connections
+     * Set the active connections.
      *
      * @param string|string[] $connections
      *
@@ -161,7 +161,7 @@ class ConnectionsHandler
     }
 
     /**
-     * Get the active connection
+     * Get the active connection.
      *
      * @return ConnectionKey
      */
@@ -181,7 +181,7 @@ class ConnectionsHandler
     }
 
     /**
-     * Set the current connection
+     * Set the current connection.
      *
      * @param ConnectionKey|string $connection
      * @param integer              $server
@@ -205,7 +205,7 @@ class ConnectionsHandler
     }
 
     /**
-     * Flush active connection(s)
+     * Flush active connection(s).
      */
     public function disconnect()
     {
@@ -214,7 +214,7 @@ class ConnectionsHandler
     }
 
     /**
-     * Unify a connection's declaration into the servers form
+     * Unify a connection's declaration into the servers form.
      *
      * @param array $connection
      *

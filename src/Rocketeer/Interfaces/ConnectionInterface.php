@@ -19,8 +19,6 @@ interface ConnectionInterface
      *
      * @param string|array $commands
      * @param Closure|null $callback
-     *
-     * @return void
      */
     public function run($commands, Closure $callback = null);
 
@@ -29,8 +27,6 @@ interface ConnectionInterface
      *
      * @param string $local
      * @param string $remote
-     *
-     * @return void
      */
     public function put($local, $remote);
 
@@ -39,8 +35,6 @@ interface ConnectionInterface
      *
      * @param string $remote
      * @param string $contents
-     *
-     * @return void
      */
     public function putString($remote, $contents);
 

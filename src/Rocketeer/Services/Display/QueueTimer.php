@@ -15,7 +15,7 @@ use Rocketeer\Traits\HasLocator;
 
 /**
  * Saves the execution time of tasks and
- * predicts their future ones
+ * predicts their future ones.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
@@ -28,7 +28,7 @@ class QueueTimer
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Time a task operation
+     * Time a task operation.
      *
      * @param IdentifierInterface $entity
      * @param callable            $callback
@@ -48,7 +48,7 @@ class QueueTimer
     }
 
     /**
-     * Save the execution time of a task for future reference
+     * Save the execution time of a task for future reference.
      *
      * @param IdentifierInterface $entity
      * @param double              $time
@@ -68,7 +68,7 @@ class QueueTimer
     }
 
     /**
-     * Compute the predicted execution time of a task
+     * Compute the predicted execution time of a task.
      *
      * @param IdentifierInterface $entity
      *
@@ -106,7 +106,7 @@ class QueueTimer
     }
 
     /**
-     * Get the last recorded time
+     * Get the last recorded time.
      *
      * @param IdentifierInterface $entity
      *

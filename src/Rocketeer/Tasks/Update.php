@@ -13,21 +13,21 @@ namespace Rocketeer\Tasks;
 use Rocketeer\Interfaces\Strategies\DeployStrategyInterface;
 
 /**
- * Update the remote server without doing a new release
+ * Update the remote server without doing a new release.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Update extends Deploy
 {
     /**
-     * A description of what the task does
+     * A description of what the task does.
      *
      * @type string
      */
     protected $description = 'Update the remote server without doing a new release';
 
     /**
-     * Run the task
+     * Run the task.
      *
      * @return boolean|null
      */

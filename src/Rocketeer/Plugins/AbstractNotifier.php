@@ -15,12 +15,12 @@ use Rocketeer\Services\TasksHandler;
 use Rocketeer\Tasks\Subtasks\Notify;
 
 /**
- * A base class for notification services to extends
+ * A base class for notification services to extends.
  */
 abstract class AbstractNotifier extends AbstractPlugin
 {
     /**
-     * Register Tasks with Rocketeer
+     * Register Tasks with Rocketeer.
      *
      * @param \Rocketeer\Services\TasksHandler $queue
      */
@@ -36,16 +36,14 @@ abstract class AbstractNotifier extends AbstractPlugin
     }
 
     /**
-     * Send a given message
+     * Send a given message.
      *
      * @param string $message
-     *
-     * @return void
      */
     abstract public function send($message);
 
     /**
-     * Get the default message format
+     * Get the default message format.
      *
      * @param string $message The message handle
      *

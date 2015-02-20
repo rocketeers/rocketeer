@@ -36,7 +36,7 @@ trait HasRoles
     }
 
     /**
-     * Add new roles to the entity
+     * Add new roles to the entity.
      *
      * @param array $roles
      */
@@ -56,7 +56,7 @@ trait HasRoles
     }
 
     /**
-     * Check if an entity is compatible with another
+     * Check if an entity is compatible with another.
      *
      * @param HasRolesInterface $hasRoles
      *

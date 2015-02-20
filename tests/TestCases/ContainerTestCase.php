@@ -27,7 +27,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
     protected $defaults;
 
     /**
-     * Override the trait constructor
+     * Override the trait constructor.
      */
     public function __construct()
     {
@@ -35,9 +35,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Set up the tests
-     *
-     * @return void
+     * Set up the tests.
      */
     public function setUp()
     {
@@ -66,9 +64,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tears down the tests
-     *
-     * @return void
+     * Tears down the tests.
      */
     public function tearDown()
     {
@@ -80,7 +76,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Mock the Command class
+     * Mock the Command class.
      *
      * @param array $expectations
      * @param array $options
@@ -142,7 +138,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Mock the Remote component
+     * Mock the Remote component.
      *
      * @param string|array|null $mockedOutput
      *
@@ -190,7 +186,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Mock Artisan
+     * Mock Artisan.
      *
      * @return Mockery
      */

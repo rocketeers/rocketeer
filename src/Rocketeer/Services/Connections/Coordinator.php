@@ -18,24 +18,24 @@ class Coordinator
     use HasLocator;
 
     /**
-     * The status of each server
+     * The status of each server.
      *
      * @type array
      */
     protected $statuses = [];
 
     /**
-     * Server is idle
+     * Server is idle.
      */
     const IDLE = 0;
 
     /**
-     * Server is waiting for further instruction
+     * Server is waiting for further instruction.
      */
     const WAITING = 1;
 
     /**
-     * Server is done deploying
+     * Server is done deploying.
      */
     const DONE = 3;
 
@@ -44,7 +44,7 @@ class Coordinator
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Execute a listener when all servers are at the same point
+     * Execute a listener when all servers are at the same point.
      *
      * @param string   $event
      * @param callable $listener
@@ -75,7 +75,7 @@ class Coordinator
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Assert whether all servers are at a particular state
+     * Assert whether all servers are at a particular state.
      *
      * @param         $event
      * @param integer $expected
@@ -93,7 +93,7 @@ class Coordinator
     }
 
     /**
-     * Update a status
+     * Update a status.
      *
      * @param string  $event
      * @param integer $status
@@ -106,7 +106,7 @@ class Coordinator
     }
 
     /**
-     * Get the status of all servers
+     * Get the status of all servers.
      *
      * @return array
      */
@@ -149,7 +149,7 @@ class Coordinator
 
     /**
      * Get the number of servers to wait for
-     * before triggering a promise
+     * before triggering a promise.
      *
      * @return integer
      */

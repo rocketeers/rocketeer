@@ -6,7 +6,7 @@ use Illuminate\Support\Str;
 trait Sluggable
 {
     /**
-     * Get the name of the entity
+     * Get the name of the entity.
      *
      * @return string
      */
@@ -16,7 +16,7 @@ trait Sluggable
     }
 
     /**
-     * Get the basic name of the entity
+     * Get the basic name of the entity.
      *
      * @return string
      */

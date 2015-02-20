@@ -16,14 +16,14 @@ use Rocketeer\Binaries\Php;
 class Composer extends AbstractPackageManager
 {
     /**
-     * The name of the manifest file to look for
+     * The name of the manifest file to look for.
      *
      * @type string
      */
     protected $manifest = 'composer.json';
 
     /**
-     * Get an array of default paths to look for
+     * Get an array of default paths to look for.
      *
      * @return string[]
      */
@@ -37,7 +37,7 @@ class Composer extends AbstractPackageManager
     }
 
     /**
-     * Change Composer's binary
+     * Change Composer's binary.
      *
      * @param string $binary
      */
@@ -53,7 +53,7 @@ class Composer extends AbstractPackageManager
     }
 
     /**
-     * Get where dependencies are installed
+     * Get where dependencies are installed.
      *
      * @return string
      */

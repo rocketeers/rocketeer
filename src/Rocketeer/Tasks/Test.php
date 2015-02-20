@@ -14,21 +14,21 @@ use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Interfaces\Strategies\TestStrategyInterface;
 
 /**
- * Run the tests on the server and displays the output
+ * Run the tests on the server and displays the output.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Test extends AbstractTask
 {
     /**
-     * A description of what the task does
+     * A description of what the task does.
      *
      * @type string
      */
     protected $description = 'Run the tests on the server and displays the output';
 
     /**
-     * Run the task
+     * Run the task.
      *
      * @return boolean
      */

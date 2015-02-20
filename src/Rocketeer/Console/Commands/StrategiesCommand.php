@@ -13,7 +13,7 @@ namespace Rocketeer\Console\Commands;
 use Rocketeer\Abstracts\Commands\AbstractCommand;
 
 /**
- * Lists the available options for each strategy
+ * Lists the available options for each strategy.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
@@ -34,7 +34,7 @@ class StrategiesCommand extends AbstractCommand
     protected $description = 'Lists the available options for each strategy';
 
     /**
-     * Run the tasks
+     * Run the tasks.
      */
     public function fire()
     {

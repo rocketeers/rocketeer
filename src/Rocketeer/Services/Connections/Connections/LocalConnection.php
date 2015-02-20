@@ -18,7 +18,7 @@ use Rocketeer\Traits\Properties\HasRoles;
 
 /**
  * Stub of local connections to make Rocketeer work
- * locally when necessary
+ * locally when necessary.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
@@ -28,7 +28,7 @@ class LocalConnection implements ConnectionInterface, HasRolesInterface
     use HasRoles;
 
     /**
-     * Return status of the last command
+     * Return status of the last command.
      *
      * @type integer
      */
@@ -73,6 +73,7 @@ class LocalConnection implements ConnectionInterface, HasRolesInterface
      * @param string $remote
      *
      * @codeCoverageIgnore
+     *
      * @return integer
      */
     public function put($local, $remote)
@@ -88,6 +89,7 @@ class LocalConnection implements ConnectionInterface, HasRolesInterface
      * @param string $remote
      *
      * @codeCoverageIgnore
+     *
      * @return string|null
      */
     public function getString($remote)
@@ -102,6 +104,7 @@ class LocalConnection implements ConnectionInterface, HasRolesInterface
      * @param string $contents
      *
      * @codeCoverageIgnore
+     *
      * @return integer
      */
     public function putString($remote, $contents)

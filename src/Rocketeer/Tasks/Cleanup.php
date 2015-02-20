@@ -16,14 +16,14 @@ use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Services\Storages\ServerStorage;
 
 /**
- * Clean up old releases from the server
+ * Clean up old releases from the server.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Cleanup extends AbstractTask
 {
     /**
-     * A description of what the task does
+     * A description of what the task does.
      *
      * @type string
      */
@@ -45,7 +45,7 @@ class Cleanup extends AbstractTask
     }
 
     /**
-     * Run the task
+     * Run the task.
      */
     public function execute()
     {
@@ -75,7 +75,7 @@ class Cleanup extends AbstractTask
     }
 
     /**
-     * Get an array of releases to prune
+     * Get an array of releases to prune.
      *
      * @return integer[]
      */
@@ -87,7 +87,7 @@ class Cleanup extends AbstractTask
     }
 
     /**
-     * Clean the releases from the states file
+     * Clean the releases from the states file.
      *
      * @param array $trash
      */

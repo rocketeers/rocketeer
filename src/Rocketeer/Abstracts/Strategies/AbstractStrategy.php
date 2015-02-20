@@ -18,7 +18,7 @@ use Rocketeer\Traits\Properties\HasEvents;
 use Rocketeer\Traits\Sluggable;
 
 /**
- * Core class for strategies
+ * Core class for strategies.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
@@ -39,7 +39,7 @@ abstract class AbstractStrategy extends Bash implements IdentifierInterface
     protected $description;
 
     /**
-     * Get the name of the entity
+     * Get the name of the entity.
      *
      * @return string
      */
@@ -49,7 +49,7 @@ abstract class AbstractStrategy extends Bash implements IdentifierInterface
     }
 
     /**
-     * Get the type of strategy
+     * Get the type of strategy.
      *
      * @return string
      */
@@ -63,7 +63,7 @@ abstract class AbstractStrategy extends Bash implements IdentifierInterface
     }
 
     /**
-     * Get a global identifier for this entity
+     * Get a global identifier for this entity.
      *
      * @return string
      */
@@ -81,7 +81,7 @@ abstract class AbstractStrategy extends Bash implements IdentifierInterface
     }
 
     /**
-     * Whether this particular strategy is runnable or not
+     * Whether this particular strategy is runnable or not.
      *
      * @return boolean
      */
@@ -95,7 +95,7 @@ abstract class AbstractStrategy extends Bash implements IdentifierInterface
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Display what the command is and does
+     * Display what the command is and does.
      *
      * @return $this
      */

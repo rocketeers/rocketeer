@@ -6,7 +6,7 @@ use Rocketeer\Abstracts\Strategies\AbstractPolyglotStrategy;
 class ExecutablesPolyglotStrategy extends AbstractPolyglotStrategy
 {
     /**
-     * The various strategies to call
+     * The various strategies to call.
      *
      * @type array
      */

@@ -15,7 +15,7 @@ use Rocketeer\Interfaces\CredentialsExceptionInterface;
 use Rocketeer\Traits\Exceptions\WithCredentials;
 
 /**
- * Exception when Rocketeer can't connect to a server
+ * Exception when Rocketeer can't connect to a server.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */

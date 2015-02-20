@@ -6,7 +6,7 @@ use Rocketeer\Abstracts\AbstractTask;
 class DummyCoordinatedTask extends AbstractTask
 {
     /**
-     * Run the task
+     * Run the task.
      *
      * @return string
      */

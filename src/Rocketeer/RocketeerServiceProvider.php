@@ -24,7 +24,7 @@ if (!defined('DS')) {
 }
 
 /**
- * Bind the various Rocketeer classes to a Container
+ * Bind the various Rocketeer classes to a Container.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
@@ -39,7 +39,7 @@ class RocketeerServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bind classes and commands
+     * Bind classes and commands.
      */
     public function boot()
     {
@@ -78,7 +78,7 @@ class RocketeerServiceProvider extends ServiceProvider
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Bind the Rocketeer paths
+     * Bind the Rocketeer paths.
      */
     public function bindPaths()
     {
@@ -91,7 +91,7 @@ class RocketeerServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bind the core classes
+     * Bind the core classes.
      */
     public function bindThirdPartyServices()
     {
@@ -120,7 +120,7 @@ class RocketeerServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bind the Rocketeer classes to the Container
+     * Bind the Rocketeer classes to the Container.
      */
     public function bindCoreClasses()
     {
@@ -148,7 +148,7 @@ class RocketeerServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bind the CredentialsGatherer and Console application
+     * Bind the CredentialsGatherer and Console application.
      */
     public function bindConsoleClasses()
     {
@@ -163,7 +163,7 @@ class RocketeerServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bind the SCM instance
+     * Bind the SCM instance.
      */
     public function bindStrategies()
     {
@@ -187,7 +187,7 @@ class RocketeerServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bind the commands to the Container
+     * Bind the commands to the Container.
      */
     public function bindCommands()
     {
@@ -211,7 +211,7 @@ class RocketeerServiceProvider extends ServiceProvider
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Register factory and custom configurations
+     * Register factory and custom configurations.
      */
     protected function registerConfig()
     {

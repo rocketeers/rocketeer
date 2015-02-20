@@ -6,7 +6,7 @@ use Rocketeer\Plugins\AbstractNotifier;
 class DummyNotifier extends AbstractNotifier
 {
     /**
-     * Get the default message format
+     * Get the default message format.
      *
      * @param string $message
      *
@@ -25,11 +25,9 @@ class DummyNotifier extends AbstractNotifier
     }
 
     /**
-     * Send a given message
+     * Send a given message.
      *
      * @param string $message
-     *
-     * @return void
      */
     public function send($message)
     {

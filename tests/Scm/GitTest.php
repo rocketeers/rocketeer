@@ -8,7 +8,7 @@ use Rocketeer\TestCases\RocketeerTestCase;
 class GitTest extends RocketeerTestCase
 {
     /**
-     * The current SCM instance
+     * The current SCM instance.
      *
      * @type Git
      */

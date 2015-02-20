@@ -23,14 +23,14 @@ class Installer extends AbstractTask
 
     /**
      * Whether to run the commands locally
-     * or on the server
+     * or on the server.
      *
      * @type boolean
      */
     protected $local = true;
 
     /**
-     * Run the task
+     * Run the task.
      */
     public function execute()
     {

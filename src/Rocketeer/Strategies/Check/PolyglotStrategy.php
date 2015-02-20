@@ -16,14 +16,14 @@ use Rocketeer\Interfaces\Strategies\CheckStrategyInterface;
 class PolyglotStrategy extends AbstractPolyglotStrategy implements CheckStrategyInterface
 {
     /**
-     * The various strategies to call
+     * The various strategies to call.
      *
      * @type array
      */
     protected $strategies = ['Node', 'Php', 'Ruby'];
 
     /**
-     * The type of the sub-strategies
+     * The type of the sub-strategies.
      *
      * @type string
      */
@@ -31,7 +31,7 @@ class PolyglotStrategy extends AbstractPolyglotStrategy implements CheckStrategy
 
     /**
      * Check that the PM that'll install
-     * the app's dependencies is present
+     * the app's dependencies is present.
      *
      * @return boolean
      */
@@ -44,7 +44,7 @@ class PolyglotStrategy extends AbstractPolyglotStrategy implements CheckStrategy
 
     /**
      * Check that the language used by the
-     * application is at the required version
+     * application is at the required version.
      *
      * @return boolean
      */
@@ -56,7 +56,7 @@ class PolyglotStrategy extends AbstractPolyglotStrategy implements CheckStrategy
     }
 
     /**
-     * Check for the required extensions
+     * Check for the required extensions.
      *
      * @return array
      */
@@ -66,7 +66,7 @@ class PolyglotStrategy extends AbstractPolyglotStrategy implements CheckStrategy
     }
 
     /**
-     * Check for the required drivers
+     * Check for the required drivers.
      *
      * @return array
      */

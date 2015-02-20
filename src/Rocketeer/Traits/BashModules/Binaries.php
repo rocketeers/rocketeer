@@ -11,12 +11,13 @@
 namespace Rocketeer\Traits\BashModules;
 
 /**
- * Handles finding and calling binaries
+ * Handles finding and calling binaries.
  *
  * @mixin Core
  * @mixin Filesystem
  * @mixin Flow
 
+ *
  * @method \Rocketeer\Binaries\PackageManagers\Bower bower()
  * @method \Rocketeer\Binaries\PackageManagers\Bundler bundler()
  * @method \Rocketeer\Binaries\PackageManagers\Composer composer()
@@ -27,12 +28,13 @@ namespace Rocketeer\Traits\BashModules;
  * @method \Rocketeer\Binaries\Scm\Hg hg()
  * @method \Rocketeer\Binaries\Scm\Svn svn()
 
+ *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait Binaries
 {
     /**
-     * Get a binary
+     * Get a binary.
      *
      * @param string $name
      * @param array  $arguments
@@ -54,7 +56,7 @@ trait Binaries
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Get an AnonymousBinary instance
+     * Get an AnonymousBinary instance.
      *
      * @param string $binary
      *
@@ -70,7 +72,7 @@ trait Binaries
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Get the path to a binary
+     * Get the path to a binary.
      *
      * @param string      $binary   The name of the binary
      * @param string|null $fallback A fallback location
@@ -101,7 +103,7 @@ trait Binaries
     }
 
     /**
-     * Scan an array of locations for a binary
+     * Scan an array of locations for a binary.
      *
      * @param string $binary
      * @param array  $locations
@@ -144,7 +146,7 @@ trait Binaries
     }
 
     /**
-     * Do a straight call to which
+     * Do a straight call to which.
      *
      * @param string $location
      *
@@ -161,7 +163,7 @@ trait Binaries
     }
 
     /**
-     * Check the Laravel version
+     * Check the Laravel version.
      *
      * @param string $version  The version to check against
      * @param string $operator The operator (default: '>=')
@@ -179,7 +181,7 @@ trait Binaries
     }
 
     /**
-     * Get the path in which to store/retrieve a binary's path
+     * Get the path in which to store/retrieve a binary's path.
      *
      * @param string $binary
      *

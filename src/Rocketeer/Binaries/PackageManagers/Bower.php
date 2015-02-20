@@ -15,14 +15,14 @@ use Rocketeer\Abstracts\AbstractPackageManager;
 class Bower extends AbstractPackageManager
 {
     /**
-     * The name of the manifest file to look for
+     * The name of the manifest file to look for.
      *
      * @type string
      */
     protected $manifest = 'bower.json';
 
     /**
-     * Get an array of default paths to look for
+     * Get an array of default paths to look for.
      *
      * @return string[]
      */
@@ -35,7 +35,7 @@ class Bower extends AbstractPackageManager
     }
 
     /**
-     * Get where dependencies are installed
+     * Get where dependencies are installed.
      *
      * @return string
      */

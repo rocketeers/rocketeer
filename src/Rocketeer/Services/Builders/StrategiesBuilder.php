@@ -18,7 +18,7 @@ namespace Rocketeer\Services\Builders;
 trait StrategiesBuilder
 {
     /**
-     * Build a strategy
+     * Build a strategy.
      *
      * @param string      $strategy
      * @param string|null $concrete
@@ -44,7 +44,7 @@ trait StrategiesBuilder
     }
 
     /**
-     * Find a build a strategy by its class name
+     * Find a build a strategy by its class name.
      *
      * @param string $strategy
      * @param string $concrete

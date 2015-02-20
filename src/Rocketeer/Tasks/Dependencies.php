@@ -15,7 +15,7 @@ use Rocketeer\Abstracts\AbstractTask;
 class Dependencies extends AbstractTask
 {
     /**
-     * A description of what the task does
+     * A description of what the task does.
      *
      * @type string
      */
@@ -29,7 +29,7 @@ class Dependencies extends AbstractTask
     );
 
     /**
-     * Run the task
+     * Run the task.
      *
      * @return boolean
      */

@@ -13,15 +13,16 @@ namespace Rocketeer\Traits\Properties;
 use Illuminate\Support\Arr;
 
 /**
- * A class that maintains an history of results/commands
+ * A class that maintains an history of results/commands.
  *
  * @property \Rocketeer\Services\History\History history
+ *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait HasHistory
 {
     /**
-     * Get the class's history
+     * Get the class's history.
      *
      * @param string|null $type
      *
@@ -37,7 +38,7 @@ trait HasHistory
     }
 
     /**
-     * Append an entry to the history
+     * Append an entry to the history.
      *
      * @param array|string|boolean $command
      */
@@ -47,7 +48,7 @@ trait HasHistory
     }
 
     /**
-     * Append an entry to the output
+     * Append an entry to the output.
      *
      * @param array|string|boolean $output
      */
@@ -57,7 +58,7 @@ trait HasHistory
     }
 
     /**
-     * Get the class's handle in the history
+     * Get the class's handle in the history.
      *
      * @return string
      */
@@ -77,7 +78,7 @@ trait HasHistory
     }
 
     /**
-     * Append something to the history
+     * Append something to the history.
      *
      * @param string               $type
      * @param string|array|boolean $command

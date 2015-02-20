@@ -17,35 +17,35 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
 /**
- * Provides and persists informations in local
+ * Provides and persists informations in local.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class LocalStorage extends AbstractStorage implements StorageInterface
 {
     /**
-     * The current hash in use
+     * The current hash in use.
      *
      * @type string
      */
     protected $hash;
 
     /**
-     * The folder where the file resides
+     * The folder where the file resides.
      *
      * @type string
      */
     protected $folder;
 
     /**
-     * A cache of the contents
+     * A cache of the contents.
      *
      * @type array
      */
     protected $contents;
 
     /**
-     * Build a new LocalStorage
+     * Build a new LocalStorage.
      *
      * @param Container   $app
      * @param string      $file
@@ -73,7 +73,7 @@ class LocalStorage extends AbstractStorage implements StorageInterface
     }
 
     /**
-     * Delegate methods to Environment for BC
+     * Delegate methods to Environment for BC.
      *
      * @todo Remove in 3.0
      *
@@ -92,7 +92,7 @@ class LocalStorage extends AbstractStorage implements StorageInterface
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Get the current salt in use
+     * Get the current salt in use.
      *
      * @return string|null
      */
@@ -133,7 +133,7 @@ class LocalStorage extends AbstractStorage implements StorageInterface
     }
 
     /**
-     * Flushes the repository if required
+     * Flushes the repository if required.
      *
      * @return boolean
      */
@@ -149,7 +149,7 @@ class LocalStorage extends AbstractStorage implements StorageInterface
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Change the folder in use
+     * Change the folder in use.
      *
      * @param string $folder
      */
@@ -167,7 +167,7 @@ class LocalStorage extends AbstractStorage implements StorageInterface
     }
 
     /**
-     * Get the full path to the file
+     * Get the full path to the file.
      *
      * @return string
      */
@@ -177,7 +177,7 @@ class LocalStorage extends AbstractStorage implements StorageInterface
     }
 
     /**
-     * Get the contents of a file
+     * Get the contents of a file.
      *
      * @return array
      */
@@ -198,7 +198,7 @@ class LocalStorage extends AbstractStorage implements StorageInterface
     }
 
     /**
-     * Save the contents of a file
+     * Save the contents of a file.
      *
      * @param array $contents
      */
@@ -211,7 +211,7 @@ class LocalStorage extends AbstractStorage implements StorageInterface
     }
 
     /**
-     * Destroy the file
+     * Destroy the file.
      *
      * @return boolean
      */

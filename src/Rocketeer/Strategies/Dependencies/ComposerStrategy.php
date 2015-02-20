@@ -28,7 +28,7 @@ class ComposerStrategy extends AbstractDependenciesStrategy implements Dependenc
     protected $description = 'Installs dependencies with Composer';
 
     /**
-     * The name of the binary
+     * The name of the binary.
      *
      * @type string
      */

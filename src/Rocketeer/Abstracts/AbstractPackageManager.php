@@ -13,14 +13,14 @@ namespace Rocketeer\Abstracts;
 abstract class AbstractPackageManager extends AbstractBinary
 {
     /**
-     * The name of the manifest file to look for
+     * The name of the manifest file to look for.
      *
      * @type string
      */
     protected $manifest;
 
     /**
-     * Whether the manager is enabled or not
+     * Whether the manager is enabled or not.
      *
      * @return boolean
      */
@@ -30,7 +30,7 @@ abstract class AbstractPackageManager extends AbstractBinary
     }
 
     /**
-     * Check if the manifest file exists, locally or on server
+     * Check if the manifest file exists, locally or on server.
      *
      * @return bool
      */
@@ -46,9 +46,10 @@ abstract class AbstractPackageManager extends AbstractBinary
     }
 
     /**
-     * Get the contents of the manifest file
+     * Get the contents of the manifest file.
      *
      * @return string|null
+     *
      * @throws \Illuminate\Filesystem\FileNotFoundException
      */
     public function getManifestContents()
@@ -62,7 +63,7 @@ abstract class AbstractPackageManager extends AbstractBinary
     }
 
     /**
-     * Get the name of the manifest file
+     * Get the name of the manifest file.
      *
      * @return string
      */
@@ -72,7 +73,7 @@ abstract class AbstractPackageManager extends AbstractBinary
     }
 
     /**
-     * Get the path to the manifest file
+     * Get the path to the manifest file.
      *
      * @return string
      */
@@ -82,7 +83,7 @@ abstract class AbstractPackageManager extends AbstractBinary
     }
 
     /**
-     * Get where dependencies are installed
+     * Get where dependencies are installed.
      *
      * @return string|null
      */

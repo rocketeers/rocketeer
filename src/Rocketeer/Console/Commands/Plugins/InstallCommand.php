@@ -20,7 +20,7 @@ class InstallCommand extends AbstractPluginCommand
     protected $pluginTask = 'Installer';
 
     /**
-     * The default name
+     * The default name.
      *
      * @type string
      */

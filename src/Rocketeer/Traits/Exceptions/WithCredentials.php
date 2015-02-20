@@ -13,7 +13,7 @@ namespace Rocketeer\Traits\Exceptions;
 trait WithCredentials
 {
     /**
-     * Set the credentials that failed to connect
+     * Set the credentials that failed to connect.
      *
      * @param array $credentials
      */

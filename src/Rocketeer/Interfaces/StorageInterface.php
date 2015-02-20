@@ -13,7 +13,7 @@ namespace Rocketeer\Interfaces;
 interface StorageInterface
 {
     /**
-     * Get a value
+     * Get a value.
      *
      * @param string|null $key
      * @param string|null $fallback
@@ -23,26 +23,22 @@ interface StorageInterface
     public function get($key = null, $fallback = null);
 
     /**
-     * Set a value
+     * Set a value.
      *
      * @param string|array $key
      * @param mixed|null   $value
-     *
-     * @return void
      */
     public function set($key, $value = null);
 
     /**
-     * Forget a value
+     * Forget a value.
      *
      * @param string $key
-     *
-     * @return void
      */
     public function forget($key);
 
     /**
-     * Destroy the file
+     * Destroy the file.
      *
      * @return boolean
      */

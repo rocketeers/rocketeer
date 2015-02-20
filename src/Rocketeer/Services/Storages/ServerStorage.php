@@ -14,14 +14,14 @@ use Rocketeer\Abstracts\AbstractStorage;
 use Rocketeer\Interfaces\StorageInterface;
 
 /**
- * Provides and persists informations on the server
+ * Provides and persists informations on the server.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class ServerStorage extends AbstractStorage implements StorageInterface
 {
     /**
-     * Destroy the file
+     * Destroy the file.
      *
      * @return boolean
      */
@@ -37,7 +37,7 @@ class ServerStorage extends AbstractStorage implements StorageInterface
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Get the full path to the file
+     * Get the full path to the file.
      *
      * @return string
      */
@@ -47,7 +47,7 @@ class ServerStorage extends AbstractStorage implements StorageInterface
     }
 
     /**
-     * Get the contents of the file
+     * Get the contents of the file.
      *
      * @return array
      */
@@ -61,7 +61,7 @@ class ServerStorage extends AbstractStorage implements StorageInterface
     }
 
     /**
-     * Save the contents of the file
+     * Save the contents of the file.
      *
      * @param array $contents
      */

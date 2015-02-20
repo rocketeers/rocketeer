@@ -15,7 +15,7 @@ use Rocketeer\Abstracts\AbstractBinary;
 class Phpunit extends AbstractBinary
 {
     /**
-     * Get an array of default paths to look for
+     * Get an array of default paths to look for.
      *
      * @return string[]
      */
