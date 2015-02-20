@@ -66,7 +66,7 @@ class Coordinator
 
         // Fire when all servers are ready
         if ($this->allServerAre($event, static::WAITING)) {
-            $this->events->fire($event);
+            $this->events->emit($event);
         }
     }
 
@@ -142,9 +142,9 @@ class Coordinator
             'queue'      => $this->builder->buildTasks([$listener]),
         ));
 
-        $this->events->listen($event, function () use ($job) {
+        $this->events->addListener($event, function () use ($job) {
             $this->queue->executeJob($job);
-        });
+        }, microtime(true));
     }
 
     /**

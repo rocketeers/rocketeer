@@ -120,7 +120,7 @@ class ConfigurationTest extends RocketeerTestCase
 
         $events = $this->tasks->getTasksListeners($task, 'before');
         $this->assertCount(1, $events);
-        $this->assertEquals('whoami', $events[0][0]->getStringTask());
+        $this->assertEquals('whoami', $events[0]->getStringTask());
     }
 
     public function testCanLoadCustomStrategies()

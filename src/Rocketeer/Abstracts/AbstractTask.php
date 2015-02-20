@@ -11,6 +11,7 @@
 namespace Rocketeer\Abstracts;
 
 use DateTime;
+use League\Event\ListenerInterface;
 use Rocketeer\Bash;
 use Rocketeer\Interfaces\HasRolesInterface;
 use Rocketeer\Interfaces\IdentifierInterface;
@@ -25,7 +26,7 @@ use Rocketeer\Traits\StepsRunner;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-abstract class AbstractTask extends Bash implements HasRolesInterface, IdentifierInterface
+abstract class AbstractTask extends Bash implements HasRolesInterface, IdentifierInterface, ListenerInterface
 {
     use Configurable;
     use HasEvents;
@@ -53,13 +54,6 @@ abstract class AbstractTask extends Bash implements HasRolesInterface, Identifie
      * @type array
      */
     protected $options = [];
-
-    /**
-     * The event this task is answering to.
-     *
-     * @type string
-     */
-    protected $event;
 
     /**
      * Whether the task was halted mid-course.
@@ -100,14 +94,6 @@ abstract class AbstractTask extends Bash implements HasRolesInterface, Identifie
     public function setName($name)
     {
         $this->name = ucfirst($name) ?: $this->name;
-    }
-
-    /**
-     * @param string $event
-     */
-    public function setEvent($event)
-    {
-        $this->event = $event;
     }
 
     /**
@@ -162,6 +148,10 @@ abstract class AbstractTask extends Bash implements HasRolesInterface, Identifie
 
         $this->fireEvent('halt');
         $this->halted = true;
+
+        if ($this->event) {
+            $this->getEvent()->stopPropagation();
+        }
 
         return false;
     }
@@ -225,7 +215,8 @@ abstract class AbstractTask extends Bash implements HasRolesInterface, Identifie
         $name        = $this->getName();
         $description = $this->getDescription();
         $time        = $this->timer->getTime($this);
+        $event       = $this->event ? $this->event->getName() : null;
 
-        $this->explainer->display($name, $description, $this->event, $time);
+        $this->explainer->display($name, $description, $event, $time);
     }
 }

@@ -57,10 +57,10 @@ class AbstractTaskTest extends RocketeerTestCase
 
                 return 'lol';
             },
-            function () {
+            function ($task) {
                 echo 'c';
 
-                return false;
+                return $task->halt();
             },
             function () {
                 echo 'd';
@@ -68,7 +68,7 @@ class AbstractTaskTest extends RocketeerTestCase
         ));
 
         $task    = $this->pretendTask('Deploy');
-        $results = $task->fire();
+        $results = $task->fireEvent('before');
 
         $this->assertFalse($results);
     }

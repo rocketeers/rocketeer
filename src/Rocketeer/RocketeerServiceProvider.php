@@ -109,7 +109,7 @@ class RocketeerServiceProvider extends ServiceProvider
 
         $this->app->bindIf('rocketeer.remote', 'Rocketeer\Services\Connections\RemoteHandler', true);
         $this->app->singleton('remote.local', 'Rocketeer\Services\Connections\Connections\LocalConnection');
-        $this->app->bindIf('events', 'Illuminate\Events\Dispatcher', true);
+        $this->app->bindIf('events', 'League\Event\Emitter', true);
 
         // Register factory and custom configurations
         $this->registerConfig();
@@ -196,9 +196,6 @@ class RocketeerServiceProvider extends ServiceProvider
         // Add commands to Artisan
         foreach ($commands as $command) {
             $this->app['rocketeer.console']->add($this->app[$command]);
-            if (isset($this->app['events'])) {
-                $this->commands($command);
-            }
         }
     }
 

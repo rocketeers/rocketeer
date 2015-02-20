@@ -23,17 +23,18 @@ class TasksHandlerTest extends RocketeerTestCase
 
     public function testCanAddTasksViaFacade()
     {
-        $task   = $this->task('Deploy');
-        $before = $this->tasks->getTasksListeners($task, 'before', true);
+        $this->disableTestEvents();
+
+        $task = $this->task('Deploy');
 
         $this->tasks->before('deploy', 'composer install');
 
-        $newBefore = array_merge($before, array('composer install'));
-        $this->assertEquals($newBefore, $this->tasks->getTasksListeners($task, 'before', true));
+        $this->assertEquals(['composer install'], $this->tasks->getTasksListeners($task, 'before', true));
     }
 
     public function testCanAddMultipleTasksViaFacade()
     {
+        $this->disableTestEvents();
         $task  = $this->task('Deploy');
         $after = $this->tasks->getTasksListeners($task, 'after', true);
         $this->tasks->after('deploy', array(
@@ -41,8 +42,7 @@ class TasksHandlerTest extends RocketeerTestCase
             'bower install',
         ));
 
-        $newAfter = array_merge($after, array('composer install', 'bower install'));
-        $this->assertEquals($newAfter, $this->tasks->getTasksListeners($task, 'after', true));
+        $this->assertEquals(['composer install', 'bower install'], $this->tasks->getTasksListeners($task, 'after', true));
     }
 
     public function testCanRegisterCustomTask()
@@ -101,11 +101,13 @@ class TasksHandlerTest extends RocketeerTestCase
 
     public function testCanAddEventsWithPriority()
     {
+        $this->disableTestEvents();
+
         $this->tasks->before('deploy', 'second', -5);
         $this->tasks->before('deploy', 'first');
 
         $listeners = $this->tasks->getTasksListeners('deploy', 'before', true);
-        $this->assertEquals(['before', 'foobar', 'first', 'second'], $listeners);
+        $this->assertEquals(['first', 'second'], $listeners);
     }
 
     public function testCanExecuteContextualEvents()

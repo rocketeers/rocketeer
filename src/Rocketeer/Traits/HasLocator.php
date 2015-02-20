@@ -18,7 +18,7 @@ use Illuminate\Support\Arr;
  * a few shortcuts to Rocketeer classes.
  *
  * @property \Illuminate\Config\Repository                                             config
- * @property \Illuminate\Events\Dispatcher                                             events
+ * @property \League\Event\Emitter                                                     events
  * @property \Illuminate\Filesystem\Filesystem                                         files
  * @property \Illuminate\Foundation\Artisan                                            artisan
  * @property \Illuminate\Log\Writer                                                    log
@@ -44,7 +44,6 @@ use Illuminate\Support\Arr;
  * @property \Rocketeer\Services\Builders\Builder                                      builder
  * @property \Rocketeer\Services\Tasks\TasksQueue                                      queue
  * @property \Rocketeer\Services\TasksHandler                                          tasks
- *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait HasLocator

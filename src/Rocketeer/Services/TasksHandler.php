@@ -170,7 +170,7 @@ class TasksHandler
     public function clearRegisteredEvents()
     {
         foreach ($this->registeredEvents as $event) {
-            $this->events->forget($event);
+            $this->events->removeAllListeners($event);
         }
 
         $this->registeredEvents = [];
@@ -242,10 +242,9 @@ class TasksHandler
         $event     = Str::contains($event, ['commands.', 'strategies.', 'tasks.']) ? $event : 'tasks.'.$event;
 
         // Register events
-        foreach ($listeners as $listener) {
+        foreach ($listeners as $key => $listener) {
             $handle = $this->getEventHandle(null, $event);
-            $listener->setEvent($handle);
-            $this->events->listen($handle, [$listener, 'fire'], $priority);
+            $this->events->addListener($handle, $listener, $priority ?: -$key);
         }
 
         return $event;
@@ -315,12 +314,11 @@ class TasksHandler
         $events = $this->events->getListeners($handle);
 
         // Flatten the queue if requested
-        foreach ($events as $key => $event) {
-            $task = $event[0];
-            if ($flatten && $task instanceof Tasks\Closure && $stringTask = $task->getStringTask()) {
+        foreach ($events as $key => $listener) {
+            if ($flatten && $listener instanceof Tasks\Closure && $stringTask = $listener->getStringTask()) {
                 $events[$key] = $stringTask;
-            } elseif ($flatten && $task instanceof AbstractTask) {
-                $events[$key] = $task->getSlug();
+            } elseif ($flatten && $listener instanceof AbstractTask) {
+                $events[$key] = $listener->getSlug();
             }
         }
 
