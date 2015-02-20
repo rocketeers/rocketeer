@@ -111,10 +111,6 @@ class RocketeerServiceProvider extends ServiceProvider
         $this->app->singleton('remote.local', 'Rocketeer\Services\Connections\Connections\LocalConnection');
         $this->app->bindIf('events', 'Illuminate\Events\Dispatcher', true);
 
-        $this->app->bindIf('log', function () {
-            return new Writer(new Logger('rocketeer'));
-        }, true);
-
         // Register factory and custom configurations
         $this->registerConfig();
     }

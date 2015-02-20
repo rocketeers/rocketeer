@@ -25,7 +25,6 @@
     "illuminate/container": "^4.2.7",
     "illuminate/filesystem": "~4.2",
     "illuminate/events": "~4.2",
-    "illuminate/log": "~4.2",
     "patchwork/utf8": "~1.1",
     "kzykhys/parallel": "0.1.*",
     "phpseclib/phpseclib": "2.0.*@dev",
