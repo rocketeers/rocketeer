@@ -58,10 +58,11 @@ class Configuration extends Collection
      * Set the available options and their values
      *
      * @param string $format
+     * @param string $node
      *
      * @return string
      */
-    public function getDefinition($format = 'yml')
+    public function getDefinition($format = 'yml', $node = null)
     {
         switch ($format) {
             case 'php':
@@ -78,18 +79,25 @@ class Configuration extends Collection
                 break;
         }
 
-        return $dumper->dump($this->definition);
+        $definition = $this->definition;
+        $definition = $definition->getConfigTreeBuilder()->buildTree();
+        if ($node) {
+            $definition = $definition->getChildren()[$node];
+        }
+
+        return $dumper->dumpNode($definition);
     }
 
     /**
      * Publish the configuration somewhere
      *
-     * @param string $path
+     * @param string      $path
+     * @param string|null $node
      */
-    public function publish($path)
+    public function publish($path, $node = null)
     {
         $format        = pathinfo($path, PATHINFO_EXTENSION);
-        $configuration = $this->getDefinition($format);
+        $configuration = $this->getDefinition($format, $node);
 
         file_put_contents($path, $configuration);
     }

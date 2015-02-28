@@ -107,8 +107,6 @@ class PhpReferenceDumper
                     } elseif (!is_array($example)) {
                         $default = [];
                     }
-                } else {
-                    $default = Inline::dump($default);
                 }
             }
         }
@@ -131,7 +129,7 @@ class PhpReferenceDumper
             $default = (!$example && !$children && !$defaultArray) ? '],' : null;
             $format  = '%s%s %s';
         } else {
-            $default = Str::startsWith($default, '\\') ? $default : var_export($default, true);
+            $default = $default === "\n" ? '"\n"': var_export($default, true);
             $default .= ',';
             $format = '%-20s %s %s';
         }
