@@ -76,7 +76,7 @@ class Configuration extends Collection
                 break;
         }
 
-        $definition = $this->definition;
+        $definition = new ConfigurationDefinition();
         $definition = $definition->getConfigTreeBuilder()->buildTree();
         if ($node) {
             $definition = $definition->getChildren()[$node];
@@ -93,6 +93,14 @@ class Configuration extends Collection
      */
     public function publish($path, $node = null)
     {
+        if (is_dir($path)) {
+            foreach (['config', 'hooks', 'paths', 'remote', 'scm', 'stages', 'strategies'] as $file) {
+                $this->publish($path.'/'.$file.'.php', $file);
+            }
+
+            return;
+        }
+
         $format        = pathinfo($path, PATHINFO_EXTENSION);
         $configuration = $this->getDefinition($format, $node);
 

@@ -70,7 +70,19 @@ class ConfigurationDefinition implements ConfigurationInterface
                     ->prototype('scalar')->end()
                 ->end()
                 ->arrayNode('connections')
-                    ->info('The various connections')
+                    ->info(<<< EOF
+You can leave all of this empty or remove it entirely if you don't want
+to track files with credentials : Rocketeer will prompt you for your credentials
+and store them locally.
+There are four ways to define a credential:
+'foobar'   - value is required, will never be prompted for it
+''         - value is required, will be prompted for it once, then saved
+true       - value is required, will be prompted for it every time
+false|null - value is not required, will never be prompted for it
+EOF
+                    )
+                    ->requiresAtLeastOneElement()
+                    ->useAttributeAsKey('name')
                     ->prototype('array')
                         ->children()
                             ->scalarNode('host')->end()
@@ -79,12 +91,36 @@ class ConfigurationDefinition implements ConfigurationInterface
                             ->scalarNode('key')->end()
                             ->scalarNode('keyphrase')->end()
                             ->scalarNode('agent')->end()
-                            ->booleanNode('db_role')->end()
+                            ->booleanNode('db_role')->defaultTrue()->end()
                         ->end()
                     ->end()
                 ->end()
-                ->booleanNode('use_roles')->defaultFalse()->end()
+                ->booleanNode('use_roles')
+                    ->info(<<< EOF
+In most multiserver scenarios, migrations must be run in an exclusive server.
+In the event of not having a separate database server (in which case it can
+be handled through connections), you can assign a 'db_role' => true to the
+server's configuration and it will only run the migrations in that specific
+server at the time of deployment.
+EOF
+                    )
+                    ->defaultFalse()
+                ->end()
                 ->arrayNode('on')
+                    ->info(<<< EOF
+In this section you can fine-tune the above configuration according
+to the stage or connection currently in use.
+Per example :
+'stages' => array(
+	'staging' => array(
+		'scm' => array('branch' => 'staging'),
+	),
+ 'production' => array(
+   'scm' => array('branch' => 'master'),
+ ),
+),
+EOF
+                    )
                     ->children()
                         ->arrayNode('stages')->end()
                         ->arrayNode('connections')->end()
@@ -140,7 +176,7 @@ class ConfigurationDefinition implements ConfigurationInterface
         $node    = $builder->root('stages', 'array', new NodeBuilder());
 
         return $node
-            ->info('Here you can configure your stages')
+            ->info("The multiples stages of your application.\nIf you don't know what this does, then you don't need it")
             ->children()
                 ->arrayNode('stages')
                     ->info("Adding entries to this array will split the remote folder in stages\nExample: /var/www/yourapp/staging and /var/www/yourapp/production")

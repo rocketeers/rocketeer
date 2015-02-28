@@ -60,6 +60,7 @@ class PhpReferenceDumper
         $defaultArray = null;
         $children     = null;
         $example      = $node->getExample();
+        $isCoreNode   = $node->getParent()->getName() === 'rocketeer';
 
         if ($node instanceof ArrayNode) {
             $children = $node->getChildren();
@@ -141,16 +142,21 @@ class PhpReferenceDumper
             $default .= ',';
         }
 
-        $default = str_replace("\n", sprintf("\n%".($depth * 4)."s ", ' '), $default);
-        $text    = rtrim(sprintf($format, $name, $default, $comments), ' ');
-
         // Output informations
         if ($info = $node->getInfo()) {
             $this->writeLine('');
 
             $info = str_replace("\n", sprintf("\n%".($depth * 4)."s// ", ' '), $info);
             $this->writeLine('// '.$info, $depth * 4);
+
+            if ($isCoreNode) {
+                $this->writeLine(str_repeat('/', 70), $depth * 4);
+            }
         }
+
+        $name    = $isCoreNode ? null : $name;
+        $default = str_replace("\n", sprintf("\n%".($depth * 4)."s ", ' '), $default);
+        $text    = rtrim(sprintf($format, $name, $default, $comments), ' ');
 
         // Output default
         $this->writeLine($text, $depth * 4);
@@ -158,9 +164,11 @@ class PhpReferenceDumper
         // Output defaults
         if ($defaultArray) {
             $message = count($defaultArray) > 1 ? 'Defaults' : 'Default';
+            $childDepth = $depth * 4 + 4;
+            $childDepth-= $isCoreNode ? 4 : 0;
 
-            $this->writeLine('// '.$message.':', $depth * 4 + 4);
-            $this->writeArray($defaultArray, $depth * 4 + 4);
+            $this->writeLine('// '.$message.':', $childDepth);
+            $this->writeArray($defaultArray, $childDepth);
         }
 
         // Output examples
@@ -171,14 +179,16 @@ class PhpReferenceDumper
             $this->writeArray($example, $depth * 4 + 4, true);
         }
 
-        if ($children) {
-            foreach ($children as $childNode) {
-                $this->writeNode($childNode, $depth + 1);
+        if ($node instanceof ArrayNode) {
+            if ($children) {
+                foreach ($children as $childNode) {
+                    $this->writeNode($childNode, $depth + !$isCoreNode);
+                }
             }
 
-            $this->writeLine('],', $depth * 4);
-        } elseif ($node instanceof ArrayNode && ($example || $defaultArray)) {
-            $this->writeLine('],', $depth * 4);
+            if (!$isCoreNode && ($children || $example || $defaultArray)) {
+                $this->writeLine('],', $depth * 4);
+            }
         }
     }
 
