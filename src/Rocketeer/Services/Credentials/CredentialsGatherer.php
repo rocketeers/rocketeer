@@ -61,7 +61,7 @@ class CredentialsGatherer
         // Save them to local storage and runtime configuration
         $this->localStorage->set('credentials', $credentials);
         foreach ($credentials as $key => $credential) {
-            $this->config->set('rocketeer::scm.'.$key, $credential);
+            $this->config->set('scm.'.$key, $credential);
         }
     }
 

@@ -48,7 +48,7 @@ class TasksHandlerTest extends RocketeerTestCase
     public function testCanRegisterCustomTask()
     {
         $this->swapConfig(array(
-            'rocketeer::default' => 'production',
+            'default' => 'production',
         ));
 
         $this->tasks->task('foobar', function ($task) {
@@ -64,7 +64,7 @@ class TasksHandlerTest extends RocketeerTestCase
     public function testCanRegisterCustomTaskViaArray()
     {
         $this->swapConfig(array(
-            'rocketeer::default' => 'production',
+            'default' => 'production',
         ));
 
         $this->tasks->task('foobar', ['ls', 'ls']);
@@ -113,8 +113,8 @@ class TasksHandlerTest extends RocketeerTestCase
     public function testCanExecuteContextualEvents()
     {
         $this->swapConfig(array(
-            'rocketeer::stages.stages'            => array('hasEvent', 'noEvent'),
-            'rocketeer::on.stages.hasEvent.hooks' => array('before' => array('check' => 'ls')),
+            'stages.stages'            => array('hasEvent', 'noEvent'),
+            'on.stages.hasEvent.hooks' => array('before' => array('check' => 'ls')),
         ));
 
         $this->connections->setStage('hasEvent');
@@ -132,7 +132,7 @@ class TasksHandlerTest extends RocketeerTestCase
         );
 
         $this->swapConfig(array(
-            'rocketeer::hooks' => ['after' => ['deploy' => $tasks]],
+            'hooks' => ['after' => ['deploy' => $tasks]],
         ));
 
         $this->tasks->registerConfiguredEvents();
@@ -149,9 +149,9 @@ class TasksHandlerTest extends RocketeerTestCase
         );
 
         $this->swapConfig(array(
-            'rocketeer::default'                      => 'production',
-            'rocketeer::hooks'                        => [],
-            'rocketeer::on.connections.staging.hooks' => ['after' => ['deploy' => $tasks]],
+            'default'                      => 'production',
+            'hooks'                        => [],
+            'on.connections.staging.hooks' => ['after' => ['deploy' => $tasks]],
         ));
         $this->tasks->registerConfiguredEvents();
 
@@ -168,7 +168,7 @@ class TasksHandlerTest extends RocketeerTestCase
     public function testPluginsArentDeregisteredWhenSwitchingConnection()
     {
         $this->swapConfig(array(
-            'rocketeer::hooks' => ['before' => ['deploy' => 'ls']],
+            'hooks' => ['before' => ['deploy' => 'ls']],
         ));
 
         $this->tasks->plugin(new DummyNotifier($this->app));

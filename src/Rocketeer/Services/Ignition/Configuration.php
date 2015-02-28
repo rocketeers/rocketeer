@@ -59,7 +59,7 @@ class Configuration
         }
 
         // Load plugins
-        $plugins = (array) $this->config->get('rocketeer::plugins');
+        $plugins = (array) $this->config->get('plugins');
         $plugins = array_filter($plugins, 'class_exists');
         foreach ($plugins as $plugin) {
             $this->tasks->plugin($plugin);
@@ -257,7 +257,7 @@ class Configuration
         $handle = str_replace('.php', null, $handle);
         $handle = str_replace(DS, '.', $handle);
 
-        return sprintf('rocketeer::on.%s', $handle);
+        return sprintf('on.%s', $handle);
     }
 
     /**

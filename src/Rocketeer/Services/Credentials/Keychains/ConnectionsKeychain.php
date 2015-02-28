@@ -61,14 +61,14 @@ trait ConnectionsKeychain
             $filtered = $this->filterUnsavableCredentials($connection, $credentials);
             $this->localStorage->set('connections.'.$connection.'.servers.'.$connection->server, $filtered);
 
-            $this->config->set('rocketeer::connections.'.$connection->toHandle(), $credentials);
+            $this->config->set('connections.'.$connection->toHandle(), $credentials);
         }
 
         // Get connection
         $connection  = $this->sanitizeConnection($connection);
         $credentials = $credentials ?: $this->getConnectionCredentials($connection);
 
-        $this->config->set('rocketeer::connections.'.$connection->name, $credentials);
+        $this->config->set('connections.'.$connection->name, $credentials);
     }
 
     //////////////////////////////////////////////////////////////////////

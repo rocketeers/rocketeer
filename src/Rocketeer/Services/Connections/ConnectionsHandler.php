@@ -89,7 +89,7 @@ class ConnectionsHandler
         $storage = $this->unifyMultiserversDeclarations($storage);
 
         // Merge with defaults from config file
-        $configuration = $this->config->get('rocketeer::connections');
+        $configuration = $this->config->get('connections');
         $configuration = $this->unifyMultiserversDeclarations($configuration);
 
         // Merge configurations
@@ -126,7 +126,7 @@ class ConnectionsHandler
         }
 
         // Get default connections and sanitize them
-        $connections = (array) $this->config->get('rocketeer::default');
+        $connections = (array) $this->config->get('default');
         $connections = array_filter($connections, [$this, 'isValidConnection']);
 
         // Set current connection as default

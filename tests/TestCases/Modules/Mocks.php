@@ -99,8 +99,8 @@ trait Mocks
     {
         $defaults = $this->getFactoryConfiguration();
         $defaults = array_merge($defaults, array(
-                'rocketeer::remote.shell' => false,
-                'rocketeer::paths.app'    => $this->app['path.base'],
+                'remote.shell' => false,
+                'paths.app'    => $this->app['path.base'],
             )
         );
 

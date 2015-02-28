@@ -17,10 +17,10 @@ class FlowTest extends RocketeerTestCase
 
     public function testCanCheckIfUsesStages()
     {
-        $this->config->set('rocketeer::stages.stages', ['foobar']);
+        $this->config->set('stages.stages', ['foobar']);
         $this->assertTrue($this->task('Deploy')->usesStages());
 
-        $this->config->set('rocketeer::stages.stages', []);
+        $this->config->set('stages.stages', []);
         $this->assertFalse($this->task('Deploy')->usesStages());
     }
 
@@ -28,7 +28,7 @@ class FlowTest extends RocketeerTestCase
     {
         $this->pretend();
 
-        $this->swapConfig(['rocketeer::remote.subdirectory' => 'laravel']);
+        $this->swapConfig(['remote.subdirectory' => 'laravel']);
         $this->bash->runForApplication('ls');
         $this->assertHistoryContains(array(
             array(
@@ -37,7 +37,7 @@ class FlowTest extends RocketeerTestCase
             ),
         ));
 
-        $this->swapConfig(['rocketeer::remote.subdirectory' => null]);
+        $this->swapConfig(['remote.subdirectory' => null]);
         $this->bash->runForApplication('ls');
         $this->assertHistoryContains(array(
             array(

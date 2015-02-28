@@ -7,7 +7,7 @@ class JobTest extends RocketeerTestCase
 {
     public function testCanCreateBasicJob()
     {
-        $this->swapConfig(['rocketeer::default' => ['production', 'staging']]);
+        $this->swapConfig(['default' => ['production', 'staging']]);
 
         $pipeline = $this->queue->buildPipeline(['ls']);
 

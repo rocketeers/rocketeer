@@ -29,7 +29,7 @@ class SetupTest extends RocketeerTestCase
         $this->pretend();
         $this->mockNoCurrentRelease();
         $this->swapConfig(array(
-            'rocketeer::stages.stages' => array('staging', 'production'),
+            'stages.stages' => array('staging', 'production'),
         ));
 
         $this->assertTaskHistory('Setup', array(
@@ -51,7 +51,7 @@ class SetupTest extends RocketeerTestCase
         $this->pretend();
         $this->mockNoCurrentRelease('staging');
         $this->swapConfig(array(
-            'rocketeer::stages.stages' => ['staging', 'production'],
+            'stages.stages' => ['staging', 'production'],
         ));
 
         $this->connections->setStage('staging');

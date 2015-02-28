@@ -49,7 +49,7 @@ class Tasks
         );
 
         // Add user commands
-        $userTasks = (array) $this->config->get('rocketeer::hooks.custom');
+        $userTasks = (array) $this->config->get('hooks.custom');
         $tasks     = array_merge($tasks, $userTasks);
 
         return $tasks;

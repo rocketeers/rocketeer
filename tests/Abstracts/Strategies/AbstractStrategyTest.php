@@ -10,7 +10,7 @@ class AbstractStrategyTest extends RocketeerTestCase
     {
         $this->app['path.base'] = realpath(__DIR__.'/../../..');
         $this->swapConfig(array(
-            'rocketeer::paths.app' => realpath(__DIR__.'/../../..'),
+            'paths.app' => realpath(__DIR__.'/../../..'),
         ));
 
         $this->usesComposer(false);

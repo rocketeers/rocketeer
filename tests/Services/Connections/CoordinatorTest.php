@@ -35,10 +35,10 @@ class CoordinatorTest extends RocketeerTestCase
         );
 
         $this->swapConfig(array(
-            'rocketeer::stages.stages'  => ['develop', 'master'],
-            'rocketeer::stages.default' => ['develop', 'master'],
-            'rocketeer::default'        => ['production', 'staging'],
-            'rocketeer::connections'    => array(
+            'stages.stages'  => ['develop', 'master'],
+            'stages.default' => ['develop', 'master'],
+            'default'        => ['production', 'staging'],
+            'connections'    => array(
                 'production' => [
                     'servers' => array(
                         ['host' => 'a.com'], ['host' => 'b.com'],

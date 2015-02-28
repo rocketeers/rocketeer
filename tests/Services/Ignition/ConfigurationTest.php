@@ -142,7 +142,7 @@ class ConfigurationTest extends RocketeerTestCase
     public function testCanUseFilesAndFoldersForContextualConfig()
     {
         $this->mock('config', 'Config', function (MockInterface $mock) {
-            return $mock->shouldReceive('set')->once()->with('rocketeer::on.connections.production.scm', ['scm' => 'svn']);
+            return $mock->shouldReceive('set')->once()->with('on.connections.production.scm', ['scm' => 'svn']);
         });
 
         $file = $this->customConfig.'/connections/production/scm.php';

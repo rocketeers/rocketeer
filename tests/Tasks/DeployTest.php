@@ -9,9 +9,9 @@ class DeployTest extends RocketeerTestCase
     public function testCanDeployToServer()
     {
         $this->swapConfig(array(
-            'rocketeer::scm.repository' => 'https://github.com/'.$this->repository,
-            'rocketeer::scm.username'   => '',
-            'rocketeer::scm.password'   => '',
+            'scm.repository' => 'https://github.com/'.$this->repository,
+            'scm.username'   => '',
+            'scm.password'   => '',
         ));
 
         $matcher = array(
@@ -47,8 +47,8 @@ class DeployTest extends RocketeerTestCase
     public function testStepsRunnerDoesntCancelWithPermissionsAndShared()
     {
         $this->swapConfig(array(
-            'rocketeer::remote.shared'            => [],
-            'rocketeer::remote.permissions.files' => [],
+            'remote.shared'            => [],
+            'remote.permissions.files' => [],
         ));
 
         $matcher = array(
@@ -78,11 +78,11 @@ class DeployTest extends RocketeerTestCase
     public function testCanDisableGitOptions()
     {
         $this->swapConfig(array(
-            'rocketeer::scm.shallow'    => false,
-            'rocketeer::scm.submodules' => false,
-            'rocketeer::scm.repository' => 'https://github.com/'.$this->repository,
-            'rocketeer::scm.username'   => '',
-            'rocketeer::scm.password'   => '',
+            'scm.shallow'    => false,
+            'scm.submodules' => false,
+            'scm.repository' => 'https://github.com/'.$this->repository,
+            'scm.username'   => '',
+            'scm.password'   => '',
         ));
 
         $matcher = array(
@@ -114,7 +114,7 @@ class DeployTest extends RocketeerTestCase
     public function testCanUseCopyStrategy()
     {
         $this->swapConfig(array(
-            'rocketeer::scm' => array(
+            'scm' => array(
                 'repository' => 'https://github.com/'.$this->repository,
                 'username'   => '',
                 'password'   => '',
@@ -195,9 +195,9 @@ class DeployTest extends RocketeerTestCase
         ));
 
         $this->swapConfig(array(
-            'rocketeer::scm.repository' => 'https://github.com/'.$this->repository,
-            'rocketeer::scm.username'   => '',
-            'rocketeer::scm.password'   => '',
+            'scm.repository' => 'https://github.com/'.$this->repository,
+            'scm.username'   => '',
+            'scm.password'   => '',
         ));
 
         $matcher = array(
@@ -243,9 +243,9 @@ class DeployTest extends RocketeerTestCase
         ));
 
         $this->swapConfig(array(
-            'rocketeer::scm.repository' => 'https://github.com/'.$this->repository,
-            'rocketeer::scm.username'   => '',
-            'rocketeer::scm.password'   => '',
+            'scm.repository' => 'https://github.com/'.$this->repository,
+            'scm.username'   => '',
+            'scm.password'   => '',
         ));
 
         $matcher = array(

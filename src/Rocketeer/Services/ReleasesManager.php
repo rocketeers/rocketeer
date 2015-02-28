@@ -114,7 +114,7 @@ class ReleasesManager
     public function getDeprecatedReleases($treshold = null)
     {
         $releases = $this->getReleases();
-        $treshold = $treshold ?: $this->config->get('rocketeer::remote.keep_releases');
+        $treshold = $treshold ?: $this->config->get('remote.keep_releases');
 
         return array_slice($releases, $treshold);
     }

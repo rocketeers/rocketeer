@@ -22,7 +22,7 @@ class CheckTest extends RocketeerTestCase
         $this->usesComposer();
 
         $this->swapConfig(array(
-            'rocketeer::strategies.deploy' => 'sync',
+            'strategies.deploy' => 'sync',
         ));
 
         $this->assertTaskHistory('Check', array(
@@ -44,7 +44,7 @@ class CheckTest extends RocketeerTestCase
         });
 
         $this->swapConfig(array(
-            'rocketeer::strategies.check' => 'Php',
+            'strategies.check' => 'Php',
         ));
     }
 

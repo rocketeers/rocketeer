@@ -13,7 +13,7 @@ class LogsHandlerTest extends RocketeerTestCase
 
         $this->app['path.rocketeer.logs'] = $this->server.'/logs';
         $this->swapConfig(array(
-            'rocketeer::logs' => function (ConnectionsHandler $rocketeer) {
+            'logs' => function (ConnectionsHandler $rocketeer) {
                 return sprintf('%s-%s.log', $rocketeer->getCurrentConnection()->name, $rocketeer->getCurrentConnection()->stage);
             },
         ));
@@ -56,7 +56,7 @@ class LogsHandlerTest extends RocketeerTestCase
         $this->expectOutputString('test');
 
         $this->swapConfig(array(
-            'rocketeer::logs' => function () {
+            'logs' => function () {
                 echo 'test';
 
                 return 'foobar.log';
@@ -92,7 +92,7 @@ class LogsHandlerTest extends RocketeerTestCase
     public function testCanHaveStaticFilenames()
     {
         $this->swapConfig(array(
-            'rocketeer::logs' => 'foobar.txt',
+            'logs' => 'foobar.txt',
         ));
 
         $this->assertEquals($this->server.'/logs/foobar.txt', $this->logs->getCurrentLogsFile());
@@ -105,7 +105,7 @@ class LogsHandlerTest extends RocketeerTestCase
         });
 
         $this->swapConfig(array(
-            'rocketeer::logs' => false,
+            'logs' => false,
         ));
 
         $this->assertFalse($this->logs->getCurrentLogsFile());

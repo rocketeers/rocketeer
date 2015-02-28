@@ -90,7 +90,7 @@ class AbstractTaskTest extends RocketeerTestCase
     public function testDoesntDuplicateQueuesOnSubtasks()
     {
         $this->swapConfig(array(
-            'rocketeer::default' => ['staging', 'production'],
+            'default' => ['staging', 'production'],
         ));
 
         $this->pretend();

@@ -91,7 +91,7 @@ class LogsHandler
         }
 
         // Get the namer closure
-        $namer = $this->config->get('rocketeer::logs');
+        $namer = $this->config->get('logs');
 
         // Cancel if invalid namer
         if (!$namer) {

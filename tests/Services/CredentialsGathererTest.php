@@ -109,7 +109,7 @@ class CredentialsGathererTest extends RocketeerTestCase
     public function testCanGetServerCredentialsIfNoneDefined()
     {
         $this->swapConfig(array(
-            'rocketeer::connections' => [],
+            'connections' => [],
         ));
 
         $this->mockAnswers(array(
@@ -141,7 +141,7 @@ class CredentialsGathererTest extends RocketeerTestCase
     public function testCanPassCredentialsAsFlags()
     {
         $this->swapConfig(array(
-            'rocketeer::connections' => [],
+            'connections' => [],
         ));
 
         $this->mockAnswers(array(

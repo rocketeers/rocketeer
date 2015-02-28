@@ -213,41 +213,41 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         $defaults = [];
         $files    = ['config', 'hooks', 'paths', 'remote', 'scm', 'stages', 'strategies'];
         foreach ($files as $file) {
-            $defaults[$file] = $this->config->get('rocketeer::'.$file);
+            $defaults[$file] = $this->config->get(''.$file);
         }
 
         // Build correct keys
         $defaults = array_dot($defaults);
         $keys     = array_keys($defaults);
         $keys     = array_map(function ($key) {
-            return 'rocketeer::'.str_replace('config.', null, $key);
+            return ''.str_replace('config.', null, $key);
         }, $keys);
         $defaults = array_combine($keys, array_values($defaults));
 
         $overrides = array(
             'cache.driver'                        => 'file',
             'database.default'                    => 'mysql',
-            'rocketeer::default'                  => 'production',
+            'default'                  => 'production',
             'session.driver'                      => 'file',
-            'rocketeer::connections'              => array(
+            'connections'              => array(
                 'production' => ['host' => '{host}', 'username' => '{username}', 'password' => '{password}'],
                 'staging'    => ['host' => '{host}', 'username' => '{username}', 'password' => '{password}'],
             ),
-            'rocketeer::application_name'         => 'foobar',
-            'rocketeer::logs'                     => null,
-            'rocketeer::remote.permissions.files' => ['tests'],
-            'rocketeer::remote.shared'            => ['tests/Elements'],
-            'rocketeer::remote.keep_releases'     => 1,
-            'rocketeer::remote.root_directory'    => __DIR__.'/../_server/',
-            'rocketeer::scm'                      => array(
+            'application_name'         => 'foobar',
+            'logs'                     => null,
+            'remote.permissions.files' => ['tests'],
+            'remote.shared'            => ['tests/Elements'],
+            'remote.keep_releases'     => 1,
+            'remote.root_directory'    => __DIR__.'/../_server/',
+            'scm'                      => array(
                 'branch'     => 'master',
                 'repository' => 'https://github.com/'.$this->repository,
                 'scm'        => 'git',
                 'shallow'    => true,
                 'submodules' => true,
             ),
-            'rocketeer::strategies.dependencies'  => 'Composer',
-            'rocketeer::hooks'                    => array(
+            'strategies.dependencies'  => 'Composer',
+            'hooks'                    => array(
                 'custom' => ['Rocketeer\Dummies\Tasks\MyCustomTask'],
                 'before' => array(
                     'deploy' => array(

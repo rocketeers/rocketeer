@@ -12,7 +12,7 @@ class TasksQueueTest extends RocketeerTestCase
     public function testCanRunQueue()
     {
         $this->swapConfig(array(
-            'rocketeer::default' => 'production',
+            'default' => 'production',
         ));
 
         $this->expectOutputString('JOEY DOESNT SHARE FOOD');
@@ -26,8 +26,8 @@ class TasksQueueTest extends RocketeerTestCase
     public function testCanRunQueueOnDifferentConnectionsAndStages()
     {
         $this->swapConfig(array(
-            'rocketeer::default'       => ['staging', 'production'],
-            'rocketeer::stages.stages' => ['first', 'second'],
+            'default'       => ['staging', 'production'],
+            'stages.stages' => ['first', 'second'],
         ));
 
         $output = array();
@@ -52,8 +52,8 @@ class TasksQueueTest extends RocketeerTestCase
     public function testDoesntSettingStageDefaultsToAll()
     {
         $this->swapConfig(array(
-            'rocketeer::stages.default' => [],
-            'rocketeer::stages.stages'  => ['first', 'second'],
+            'stages.default' => [],
+            'stages.stages'  => ['first', 'second'],
         ));
 
         $this->assertEquals(['first', 'second'], $this->queue->getStages('production'));
@@ -65,7 +65,7 @@ class TasksQueueTest extends RocketeerTestCase
             'stage' => 'all',
         ));
         $this->swapConfig(array(
-            'rocketeer::stages.stages' => ['first', 'second'],
+            'stages.stages' => ['first', 'second'],
         ));
 
         $this->assertEquals(['first', 'second'], $this->queue->getStages('production'));
@@ -74,7 +74,7 @@ class TasksQueueTest extends RocketeerTestCase
     public function testCanRunQueueViaExecute()
     {
         $this->swapConfig(array(
-            'rocketeer::default' => 'production',
+            'default' => 'production',
         ));
 
         $pipeline = $this->queue->run(array(
@@ -95,7 +95,7 @@ class TasksQueueTest extends RocketeerTestCase
     public function testCanRunOnMultipleConnectionsViaOn()
     {
         $this->swapConfig(array(
-            'rocketeer::stages.stages' => array('first', 'second'),
+            'stages.stages' => array('first', 'second'),
         ));
 
         $this->queue->on(array('staging', 'production'), function (AbstractTask $task) {

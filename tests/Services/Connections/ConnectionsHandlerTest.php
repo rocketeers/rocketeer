@@ -22,10 +22,10 @@ class ConnectionsHandlerTest extends RocketeerTestCase
 
     public function testCanGetCurrentConnection()
     {
-        $this->swapConfig(array('rocketeer::default' => 'production'));
+        $this->swapConfig(array('default' => 'production'));
         $this->assertConnectionEquals('production');
 
-        $this->swapConfig(array('rocketeer::default' => 'staging'));
+        $this->swapConfig(array('default' => 'staging'));
         $this->assertConnectionEquals('staging');
     }
 
@@ -114,7 +114,7 @@ class ConnectionsHandlerTest extends RocketeerTestCase
 
     public function testCanExtractCurrentBranchIfNoneSpecified()
     {
-        $this->config->set('rocketeer::scm.branch', null);
+        $this->config->set('scm.branch', null);
         $this->mock('rocketeer.bash', 'Bash', function (MockInterface $mock) {
             return $mock->shouldReceive('onLocal')->andReturn('  foobar  ');
         });
@@ -124,7 +124,7 @@ class ConnectionsHandlerTest extends RocketeerTestCase
 
     public function testCanDefaultToMasterIfNoBranchFound()
     {
-        $this->config->set('rocketeer::scm.branch', null);
+        $this->config->set('scm.branch', null);
         $this->mock('rocketeer.bash', 'Bash', function (MockInterface $mock) {
             return $mock->shouldReceive('onLocal')->andReturn(null);
         });
@@ -246,7 +246,7 @@ class ConnectionsHandlerTest extends RocketeerTestCase
     protected function expectRepositoryConfig($repository, $username, $password)
     {
         $this->swapConfig(array(
-            'rocketeer::scm' => array(
+            'scm' => array(
                 'repository' => $repository,
                 'username'   => $username,
                 'password'   => $password,

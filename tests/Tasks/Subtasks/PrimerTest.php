@@ -8,8 +8,8 @@ class PrimerTest extends RocketeerTestCase
     public function testCanExecutePrimerTasks()
     {
         $this->swapConfig(array(
-            'rocketeer::default'           => 'production',
-            'rocketeer::strategies.primer' => function () {
+            'default'           => 'production',
+            'strategies.primer' => function () {
                 return 'ls';
             },
         ));
@@ -23,7 +23,7 @@ class PrimerTest extends RocketeerTestCase
         $this->expectOutputString('FIRED');
 
         $this->swapConfig(array(
-            'rocketeer::strategies.primer' => function () {
+            'strategies.primer' => function () {
                 echo 'FIRED';
             },
         ));

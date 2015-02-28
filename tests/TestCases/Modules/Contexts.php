@@ -61,7 +61,7 @@ trait Contexts
     protected function disableTestEvents()
     {
         $this->swapConfig(array(
-            'rocketeer::hooks' => array(),
+            'hooks' => array(),
         ));
     }
 
@@ -89,7 +89,7 @@ trait Contexts
     protected function swapConnections(array $connections)
     {
         $this->swapConfig(array(
-            'rocketeer::connections' => $connections,
+            'connections' => $connections,
         ));
     }
 

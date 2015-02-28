@@ -95,7 +95,7 @@ class PathfinderTest extends RocketeerTestCase
     public function testCanGetBoundPath()
     {
         $this->swapConfig(array(
-            'rocketeer::paths.php' => '/bin/php',
+            'paths.php' => '/bin/php',
         ));
         $path = $this->paths->getPath('php');
 
@@ -139,7 +139,7 @@ class PathfinderTest extends RocketeerTestCase
 
     public function testCanReplacePatternsWithPathsFile()
     {
-        $this->swapConfig(['rocketeer::paths.foo' => 'bar']);
+        $this->swapConfig(['paths.foo' => 'bar']);
         $replaced = $this->paths->replacePatterns('{foo}');
 
         $this->assertEquals('bar', $replaced);
@@ -150,7 +150,7 @@ class PathfinderTest extends RocketeerTestCase
         $this->assertEquals($this->app['path.base'].DS, $this->paths->getApplicationPath());
 
         $this->swapConfig(array(
-            'rocketeer::paths.app' => __DIR__,
+            'paths.app' => __DIR__,
         ));
 
         $this->assertEquals(__DIR__.DS, $this->paths->getApplicationPath());

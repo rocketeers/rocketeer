@@ -19,7 +19,7 @@ class QueueExplainerTest extends RocketeerTestCase
 
     public function testDoesntDisplayHandleIfOnlyOneConnection()
     {
-        $this->config->set('rocketeer::connections', array(
+        $this->config->set('connections', array(
             'production' => [],
         ));
 
@@ -30,10 +30,10 @@ class QueueExplainerTest extends RocketeerTestCase
 
     public function testDoesntDisplayHandleIfOnlyOneStage()
     {
-        $this->config->set('rocketeer::connections', array(
+        $this->config->set('connections', array(
             'production' => [],
         ));
-        $this->config->set('rocketeer::stages.stages', ['staging']);
+        $this->config->set('stages.stages', ['staging']);
 
         $this->expectOutputString('|=> foobar');
 
@@ -42,10 +42,10 @@ class QueueExplainerTest extends RocketeerTestCase
 
     public function testDisplayHandleIfMultipleStages()
     {
-        $this->config->set('rocketeer::connections', array(
+        $this->config->set('connections', array(
             'production' => [],
         ));
-        $this->config->set('rocketeer::stages.stages', ['staging', 'production']);
+        $this->config->set('stages.stages', ['staging', 'production']);
 
         $this->expectOutputString('<fg=cyan>production</fg=cyan>             |=> foobar');
 
@@ -100,7 +100,7 @@ class QueueExplainerTest extends RocketeerTestCase
 
     public function testCanAdaptToVariousLengths()
     {
-        $this->config->set('rocketeer::stages.stages', ['foo', 'foobarbaz']);
+        $this->config->set('stages.stages', ['foo', 'foobarbaz']);
 
         $this->expectOutputString(
             '<fg=cyan>production/foo</fg=cyan>        |=> foobar'.

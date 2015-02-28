@@ -86,7 +86,7 @@ class CoreTest extends RocketeerTestCase
     public function testCanConvertDirectorySeparators()
     {
         $this->mockConfig(array(
-            'rocketeer::remote.variables.directory_separator' => '\\',
+            'remote.variables.directory_separator' => '\\',
         ));
 
         $commands  = 'cd C:/_bar?/12baz';
@@ -98,7 +98,7 @@ class CoreTest extends RocketeerTestCase
     public function testDoesntConvertSlashesThatArentDirectorySeparators()
     {
         $this->mockConfig(array(
-            'rocketeer::remote.variables.directory_separator' => '\\',
+            'remote.variables.directory_separator' => '\\',
         ));
 
         $commands  = 'find runtime -name "cache" -follow -exec rm -rf "{}" '.DS.';';
