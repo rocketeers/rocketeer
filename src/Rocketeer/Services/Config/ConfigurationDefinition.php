@@ -53,8 +53,11 @@ class ConfigurationDefinition implements ConfigurationInterface
                     ->example(['Rocketeer\\Plugins\\Slack\\RocketeerSlack'])
                     ->prototype('scalar')->end()
                 ->end()
-                ->callableNode('logs')
+                ->closureNode('logs')
                     ->info('The schema to use to name log files')
+                    ->defaultValue(function (ConnectionsHandler $connections) {
+                        return sprintf('%s-%s.log', $connections->getCurrentConnection(), date('Ymd'));
+                    })
                 ->end()
                 ->arrayNode('default')
                     ->info('The default remote connection(s) to execute tasks on')
@@ -188,7 +191,14 @@ class ConfigurationDefinition implements ConfigurationInterface
                     ->info("Which strategy to use to install your application's dependencies")
                     ->defaultValue('Polyglot')
                 ->end()
-                ->callableNode('primer')->end()
+                ->closureNode('primer')
+                    ->defaultValue(function (Primer $task) {
+                        return array(
+                            // $task->executeTask('Test'),
+                            // $task->binary('grunt')->execute('lint'),
+                        );
+                    })
+                ->end()
             ->end();
     }
 
@@ -252,8 +262,15 @@ class ConfigurationDefinition implements ConfigurationInterface
                             ->example(['storage', 'public'])
                             ->prototype('scalar')->end()
                         ->end()
-                        ->callableNode('callback')
+                        ->closureNode('callback')
                             ->info("what actions will be executed to set permissions on the folder above")
+                            ->defaultValue(function ($task, $file) {
+                                return array(
+                                    sprintf('chmod -R 755 %s', $file),
+                                    sprintf('chmod -R g+s %s', $file),
+                                    sprintf('chown -R www-data:www-data %s', $file),
+                                );
+                            })
                         ->end()
                     ->end()
                 ->end()

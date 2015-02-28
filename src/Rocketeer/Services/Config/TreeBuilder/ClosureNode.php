@@ -1,11 +1,19 @@
 <?php
 namespace Rocketeer\Services\Config\TreeBuilder;
 
-use Symfony\Component\Config\Definition\Exception\InvalidTypeException;
+use Closure;
 use Symfony\Component\Config\Definition\VariableNode;
 
-class CallableNode extends VariableNode
+class ClosureNode extends VariableNode
 {
+    /**
+     * @return Closure
+     */
+    public function getDefaultValue()
+    {
+        return $this->defaultValue;
+    }
+
     /**
      * Validates the type of a Node.
      *
@@ -15,9 +23,9 @@ class CallableNode extends VariableNode
      */
     protected function validateType($value)
     {
-        if (!is_callable($value) && $value !== null) {
+        if (!$value instanceof Closure && $value !== null) {
             $exception = new InvalidTypeException(sprintf(
-                'Invalid type for path "%s". Expected callable, but got %s.',
+                'Invalid type for path "%s". Expected closure, but got %s.',
                 $this->getPath(),
                 gettype($value)
             ));

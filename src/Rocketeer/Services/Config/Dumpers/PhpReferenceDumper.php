@@ -1,13 +1,13 @@
 <?php
 namespace Rocketeer\Services\Config\Dumpers;
 
-use Illuminate\Support\Str;
+use Rocketeer\Services\Config\TreeBuilder\ClosureNode;
+use SuperClosure\Analyzer\AstAnalyzer;
 use Symfony\Component\Config\Definition\ArrayNode;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\EnumNode;
 use Symfony\Component\Config\Definition\NodeInterface;
 use Symfony\Component\Config\Definition\PrototypedArrayNode;
-use Symfony\Component\Yaml\Inline;
 
 /**
  * Dumps a Symfony reference in PHP format
@@ -95,6 +95,10 @@ class PhpReferenceDumper
         } elseif ($node instanceof EnumNode) {
             $comments[] = 'One of '.implode(', ', array_map('json_encode', $node->getValues()));
             $default    = $node->getDefaultValue();
+        } elseif ($node instanceof ClosureNode) {
+            $default  = $node->getDefaultValue();
+            $analyzer = new AstAnalyzer();
+            $default  = $analyzer->analyze($default)['code'];
         } else {
             $default = null;
 
@@ -121,20 +125,24 @@ class PhpReferenceDumper
             $comments[] = 'Example: '.$example;
         }
 
+        // Format comments and values
         $comments = count($comments) ? '// '.implode(', ', $comments) : '';
         $name     = var_export($node->getName(), true).' => ';
+        $format   = '%-20s %s %s';
 
         if ($node instanceof ArrayNode) {
             $name .= '[';
             $default = (!$example && !$children && !$defaultArray) ? '],' : null;
             $format  = '%s%s %s';
+        } elseif ($node instanceof ClosureNode) {
+            $default = substr($default, 0, -1).',';
         } else {
-            $default = $default === "\n" ? '"\n"': var_export($default, true);
+            $default = $default === "\n" ? '"\n"' : var_export($default, true);
             $default .= ',';
-            $format = '%-20s %s %s';
         }
 
-        $text = rtrim(sprintf($format, $name, $default, $comments), ' ');
+        $default = str_replace("\n", sprintf("\n%".($depth * 4)."s ", ' '), $default);
+        $text    = rtrim(sprintf($format, $name, $default, $comments), ' ');
 
         // Output informations
         if ($info = $node->getInfo()) {

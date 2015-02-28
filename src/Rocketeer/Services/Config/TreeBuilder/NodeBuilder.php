@@ -10,7 +10,7 @@ class NodeBuilder extends \Symfony\Component\Config\Definition\Builder\NodeBuild
     {
         parent::__construct();
 
-        $this->nodeMapping['callable'] = __NAMESPACE__.'\\CallableNodeDefinition';
+        $this->nodeMapping['closure'] = __NAMESPACE__.'\\ClosureNodeDefinition';
     }
 
     /**
@@ -18,10 +18,10 @@ class NodeBuilder extends \Symfony\Component\Config\Definition\Builder\NodeBuild
      *
      * @param string $name the name of the node
      *
-     * @return CallableNodeDefinition The child node
+     * @return ClosureNodeDefinition The child node
      */
-    public function callableNode($name)
+    public function closureNode($name)
     {
-        return $this->node($name, 'callable');
+        return $this->node($name, 'closure');
     }
 }
