@@ -17,7 +17,7 @@ class PhpLoader extends FileLoader
      */
     public function load($resource, $type = null)
     {
-        return include $this->locator->locate($resource);
+        return include $resource;
     }
 
     /**

@@ -12,30 +12,15 @@ use Symfony\Component\Finder\Finder;
 
 class Configuration extends Collection
 {
-    /**
-     * @type LoaderInterface
-     */
-    private $loader;
-
-    /**
-     * @type ConfigurationDefinition
-     */
-    private $definition;
-
-    /**
-     * Configuration constructor.
-     *
-     * @param LoaderInterface         $loader
-     * @param ConfigurationDefinition $definition
-     */
-    public function __construct(LoaderInterface $loader, ConfigurationDefinition $definition)
-    {
-        $this->folder     = __DIR__.'/../../../config';
-        $this->loader     = $loader;
-        $this->definition = $definition;
-
-        $this->loadConfiguration();
-    }
+    protected $rootNodes = [
+        'application_name',
+        'plugins',
+        'logs',
+        'default',
+        'connections',
+        'use_roles',
+        'on',
+    ];
 
     /**
      * Get an item from the collection by key.
@@ -47,11 +32,23 @@ class Configuration extends Collection
      */
     public function get($key, $default = null)
     {
+        $key = in_array($key, $this->rootNodes) ? 'config.'.$key : $key;
         if ($value = Arr::get($this->items, $key, $default)) {
             return $value;
         }
 
         return value($default);
+    }
+
+    /**
+     * @param string $key
+     * @param mixed $value
+     */
+    public function set($key, $value)
+    {
+        $key = in_array($key, $this->rootNodes) ? 'config.'.$key : $key;
+
+        Arr::set($this->items, $key, $value);
     }
 
     /**
@@ -100,25 +97,5 @@ class Configuration extends Collection
         $configuration = $this->getDefinition($format, $node);
 
         file_put_contents($path, $configuration);
-    }
-
-    /**
-     * Load the configuration in memory
-     *
-     * @return array
-     */
-    protected function loadConfiguration()
-    {
-        $finder = (new Finder())->in($this->folder);
-        foreach ($finder as $file) {
-            $key                 = $file->getBasename('.php');
-            $configuration[$key] = $this->loader->load($file->getBasename());
-        }
-
-        $processor   = new Processor();
-        $this->items = $processor->processConfiguration(
-            $this->definition,
-            [$configuration]
-        );
     }
 }

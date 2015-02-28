@@ -98,6 +98,7 @@ trait HasLocator
     protected function getLocatorHandle($key)
     {
         $shortcuts = array(
+            'config' => 'rocketeer.config',
             'bash'                => 'rocketeer.bash',
             'builder'             => 'rocketeer.builder',
             'command'             => 'rocketeer.command',

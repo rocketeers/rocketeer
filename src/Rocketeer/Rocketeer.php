@@ -88,7 +88,7 @@ class Rocketeer
      */
     public function getApplicationName()
     {
-        return $this->config->get('rocketeer::application_name');
+        return $this->config->get('application_name');
     }
 
     /**
@@ -100,7 +100,7 @@ class Rocketeer
      */
     public function getOption($option)
     {
-        $original = $this->config->get('rocketeer::'.$option);
+        $original = $this->config->get($option);
 
         if ($contextual = $this->getContextualOption($option, 'stages', $original)) {
             return $contextual;
@@ -129,15 +129,15 @@ class Rocketeer
         // Switch context
         switch ($type) {
             case 'stages':
-                $contextual = sprintf('rocketeer::on.stages.%s.%s', $current->stage, $option);
+                $contextual = sprintf('on.stages.%s.%s', $current->stage, $option);
                 break;
 
             case 'connections':
-                $contextual = sprintf('rocketeer::on.connections.%s.%s', $current->name, $option);
+                $contextual = sprintf('on.connections.%s.%s', $current->name, $option);
                 break;
 
             default:
-                $contextual = sprintf('rocketeer::%s', $option);
+                $contextual = sprintf('%s', $option);
                 break;
         }
 

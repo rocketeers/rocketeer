@@ -16,7 +16,12 @@ use Illuminate\Http\Request;
 use Illuminate\Log\Writer;
 use Illuminate\Support\ServiceProvider;
 use Monolog\Logger;
+use Rocketeer\Services\Config\Configuration;
+use Rocketeer\Services\Config\Loaders\PhpLoader;
 use Rocketeer\Services\Storages\LocalStorage;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\Config\Loader\DelegatingLoader;
+use Symfony\Component\Config\Loader\LoaderResolver;
 
 // Define DS
 if (!defined('DS')) {
@@ -208,25 +213,21 @@ class RocketeerServiceProvider extends ServiceProvider
      */
     protected function registerConfig()
     {
-        // Register config file
-        $this->app['config']->package('anahkiasen/rocketeer', __DIR__.'/../config');
-        $this->app['config']->getLoader();
+        $this->app->bind('Symfony\Component\Config\Loader\LoaderInterface', function ($app) {
+            $locator = new FileLocator();
+            $loader  = new LoaderResolver([new PhpLoader($locator)]);
+            $loader  = new DelegatingLoader($loader);
 
-        // Register custom config
-        $set = $this->app['path.rocketeer.config'];
-        if (!file_exists($set)) {
-            return;
-        }
+            return $loader;
+        });
 
-        $this->app['config']->afterLoading('rocketeer', function ($me, $group, $items) use ($set) {
-            $customItems = $set.'/'.$group.'.php';
-            if (!file_exists($customItems)) {
-                return $items;
-            }
+        $this->app->bind('rocketeer.config.loader', 'Rocketeer\Services\Config\ConfigurationLoader');
 
-            $customItems = include $customItems;
+        $this->app->singleton('rocketeer.config', function ($app) {
+            $loader = $app['rocketeer.config.loader'];
+            $loader->setFolders([__DIR__.'/../config', $app['rocketeer.paths']->getConfigurationPath()]);
 
-            return array_replace($items, $customItems);
+            return new Configuration($loader->getConfiguration());
         });
     }
 }
