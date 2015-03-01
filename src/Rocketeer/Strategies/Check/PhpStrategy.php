@@ -219,9 +219,9 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
     {
         return array(
             'mcrypt'   => ['checkPhpExtension', 'mcrypt'],
-            'database' => ['checkDatabaseDriver', $this->app['config']->get('database.default')],
-            'cache'    => ['checkCacheDriver', $this->app['config']->get('cache.driver')],
-            'session'  => ['checkCacheDriver', $this->app['config']->get('session.driver')],
+            'database' => ['checkDatabaseDriver', $this->app['rocketeer.config']->get('database.default')],
+            'cache'    => ['checkCacheDriver', $this->app['rocketeer.config']->get('cache.driver')],
+            'session'  => ['checkCacheDriver', $this->app['rocketeer.config']->get('session.driver')],
         );
     }
 }
