@@ -3,6 +3,7 @@ namespace Rocketeer\Services\Config;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Rocketeer\Services\Config\Dumpers\JsonReferenceDumper;
 use Rocketeer\Services\Config\Dumpers\PhpReferenceDumper;
 use Symfony\Component\Config\Definition\Dumper\XmlReferenceDumper;
 use Symfony\Component\Config\Definition\Dumper\YamlReferenceDumper;
@@ -62,8 +63,8 @@ class Configuration extends Collection
     public function getDefinition($format = 'yml', $node = null)
     {
         switch ($format) {
-            case 'php':
-                $dumper = new PhpReferenceDumper();
+            case 'json':
+                $dumper = new JsonReferenceDumper();
                 break;
 
             case 'xml':
@@ -73,6 +74,11 @@ class Configuration extends Collection
             case 'yml':
             case 'yaml':
                 $dumper = new YamlReferenceDumper();
+                break;
+
+            case 'php':
+            default:
+                $dumper = new PhpReferenceDumper();
                 break;
         }
 
@@ -89,13 +95,14 @@ class Configuration extends Collection
      * Publish the configuration somewhere
      *
      * @param string      $path
+     * @param string      $format
      * @param string|null $node
      */
-    public function publish($path, $node = null)
+    public function publish($path, $format = 'php', $node = null)
     {
         if (is_dir($path)) {
             foreach (['config', 'hooks', 'paths', 'remote', 'scm', 'stages', 'strategies'] as $file) {
-                $this->publish($path.'/'.$file.'.php', $file);
+                $this->publish($path.'/'.$file.'.'.$format, $format, $file);
             }
 
             return;
