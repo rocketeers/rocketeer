@@ -17,7 +17,8 @@ use Illuminate\Support\Arr;
  * A trait for Service Locator-based classes wich adds
  * a few shortcuts to Rocketeer classes.
  *
- * @property \Illuminate\Config\Repository                                             config
+ * @property \Rocketeer\Services\Config\Configuration                                  config
+ * @property \Rocketeer\Services\Config\ConfigurationLoader                            configurationLoader
  * @property \League\Event\Emitter                                                     events
  * @property \Illuminate\Filesystem\Filesystem                                         files
  * @property \Illuminate\Foundation\Artisan                                            artisan
@@ -98,15 +99,16 @@ trait HasLocator
     protected function getLocatorHandle($key)
     {
         $shortcuts = array(
-            'config' => 'rocketeer.config',
             'bash'                => 'rocketeer.bash',
             'builder'             => 'rocketeer.builder',
             'command'             => 'rocketeer.command',
+            'config'              => 'rocketeer.config',
+            'configurationLoader' => 'rocketeer.config.loader',
             'connections'         => 'rocketeer.connections',
             'console'             => 'rocketeer.console',
             'coordinator'         => 'rocketeer.coordinator',
-            'credentialsGatherer' => 'rocketeer.credentials.gatherer',
             'credentials'         => 'rocketeer.credentials.handler',
+            'credentialsGatherer' => 'rocketeer.credentials.gatherer',
             'environment'         => 'rocketeer.environment',
             'explainer'           => 'rocketeer.explainer',
             'history'             => 'rocketeer.history',

@@ -17,6 +17,7 @@ use Illuminate\Log\Writer;
 use Illuminate\Support\ServiceProvider;
 use Monolog\Logger;
 use Rocketeer\Services\Config\Configuration;
+use Rocketeer\Services\Config\ConfigurationLoader;
 use Rocketeer\Services\Config\Loaders\PhpLoader;
 use Rocketeer\Services\Storages\LocalStorage;
 use Symfony\Component\Config\FileLocator;
@@ -215,14 +216,17 @@ class RocketeerServiceProvider extends ServiceProvider
             return $loader;
         });
 
-        $this->app->bind('rocketeer.config.loader', 'Rocketeer\Services\Config\ConfigurationLoader');
+        $this->app->bind('rocketeer.config.loader', function ($app) {
+            $loader = $app->make('Rocketeer\Services\Config\ConfigurationLoader');
+            $loader->setFolders([__DIR__.'/../config', $app['rocketeer.paths']->getConfigurationPath()]);
+
+            return $loader;
+        });
+
         $this->app->bind('rocketeer.config.publisher', 'Rocketeer\Services\Config\ConfigurationPublisher');
 
         $this->app->singleton('rocketeer.config', function ($app) {
-            $loader = $app['rocketeer.config.loader'];
-            $loader->setFolders([__DIR__.'/../config', $app['rocketeer.paths']->getConfigurationPath()]);
-
-            return new Configuration($loader->getConfiguration());
+            return new Configuration($app['rocketeer.config.loader']->getConfiguration());
         });
     }
 }

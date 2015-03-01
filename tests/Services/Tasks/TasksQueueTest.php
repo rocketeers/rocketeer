@@ -95,7 +95,7 @@ class TasksQueueTest extends RocketeerTestCase
     public function testCanRunOnMultipleConnectionsViaOn()
     {
         $this->swapConfig(array(
-            'stages.stages' => array('first', 'second'),
+            'stages.stages' => ['first', 'second'],
         ));
 
         $this->queue->on(array('staging', 'production'), function (AbstractTask $task) {

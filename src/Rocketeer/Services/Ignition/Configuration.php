@@ -45,18 +45,9 @@ class Configuration
      */
     public function loadUserConfiguration()
     {
-        $fileLoaders = function () {
-            $this->loadFileOrFolder('tasks');
-            $this->loadFileOrFolder('events');
-            $this->loadFileOrFolder('strategies');
-        };
-
-        // Defer loading of tasks and events or not
-        if (is_a($this->app, 'Illuminate\Foundation\Application')) {
-            $this->app->booted($fileLoaders);
-        } else {
-            $fileLoaders();
-        }
+        $this->loadFileOrFolder('tasks');
+        $this->loadFileOrFolder('events');
+        $this->loadFileOrFolder('strategies');
 
         // Load plugins
         $plugins = (array) $this->config->get('plugins');
@@ -75,9 +66,7 @@ class Configuration
      */
     public function mergeContextualConfigurations()
     {
-        $this->mergeConfigurationFolders(['stages', 'connections'], function (SplFileInfo $file) {
-            return $this->computeHandleFromPath($file);
-        }, 'config.php');
+        $this->config->replace($this->configurationLoader->getConfiguration());
     }
 
     /**

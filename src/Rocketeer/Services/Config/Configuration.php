@@ -50,6 +50,16 @@ class Configuration extends Collection
     }
 
     /**
+     * Replace the current configuration
+     *
+     * @param array $items
+     */
+    public function replace(array $items)
+    {
+        $this->items = $items;
+    }
+
+    /**
      * @param string $key
      *
      * @return string

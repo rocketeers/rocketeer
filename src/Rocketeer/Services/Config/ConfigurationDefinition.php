@@ -123,10 +123,16 @@ EOF
                     )
                     ->children()
                         ->arrayNode('stages')
-                            ->prototype('array')->prototype('variable')->end()->end()
+                            ->useAttributeAsKey('name')
+                            ->prototype('array')
+                                ->prototype('variable')->end()
+                            ->end()
                         ->end()
                         ->arrayNode('connections')
-                            ->prototype('array')->prototype('variable')->end()->end()
+                            ->useAttributeAsKey('name')
+                            ->prototype('array')
+                                ->prototype('variable')->end()
+                            ->end()
                         ->end()
                     ->end()
                 ->end()
@@ -192,7 +198,7 @@ EOF
                     ->beforeNormalization()
                         ->ifString()
                         ->then(function ($default) {
-                            return [$default];
+                            return $default ? [$default] : null;
                         })
                     ->end()
                     ->prototype('scalar')

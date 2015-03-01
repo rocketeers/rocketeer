@@ -59,6 +59,14 @@ class ConfigurationLoader
     }
 
     /**
+     * @param string $folder
+     */
+    public function addFolder($folder)
+    {
+        $this->folders[] = $folder;
+    }
+
+    /**
      * @param string[] $folders
      */
     public function setFolders($folders)
@@ -71,17 +79,26 @@ class ConfigurationLoader
      * taking into account defaults, user and contextual
      * configurations
      *
+     * @param array $configurations Additional configurations to merge
+     *
      * @return array
      */
-    public function getConfiguration()
+    public function getConfiguration(array $configurations = [])
     {
+        $this->configurations = [];
         foreach ($this->folders as $folder) {
             if (!is_dir($folder)) {
                 continue;
             }
 
+            $this->configurations[$folder] = [];
             $this->loadConfigurationFor($folder);
             $this->loadContextualConfigurationsFor($folder);
+        }
+
+        // Merge additional configurations
+        if ($configurations) {
+            $this->configurations = array_merge($this->configurations, $configurations);
         }
 
         return $this->processor->processConfiguration(
@@ -99,14 +116,16 @@ class ConfigurationLoader
         foreach ($contextual as $type) {
             /** @type SplFileInfo[] $files */
             $files = (new Finder())->in($type->getPathname())->files();
-            
+
             foreach ($files as $file) {
                 $key = str_replace($folder.DS, null, $file->getPathname());
                 $key = vsprintf('config.on.%s.%s', explode(DS, $key));
 
                 // Load contents and merge
                 $contents = include $file->getPathname();
-                $contents = array_replace_recursive(Arr::get($this->configurations[$folder], $key, []), $contents);
+                $contents = $this->autoWrap($file, $contents);
+                $current  = Arr::get($this->configurations[$folder], $key, []);
+                $contents = $current ? array_replace_recursive($current, $contents) : $contents;
 
                 Arr::set($this->configurations[$folder], $key, $contents);
             }
@@ -122,7 +141,7 @@ class ConfigurationLoader
         $files = (new Finder())
             ->in($folder)
             ->name('*.php')
-            ->exclude(['connections', 'stages'])
+            ->exclude(['connections', 'stages', 'tasks', 'events', 'strategies'])
             ->notName('/(events|tasks)\.php/')
             ->sortByName()
             ->files();
@@ -131,7 +150,28 @@ class ConfigurationLoader
         foreach ($files as $file) {
             $key = $file->getBasename('.php');
 
-            $this->configurations[$folder][$key] = $this->loader->load($file->getPathname());
+            $contents = $this->loader->load($file->getPathname());
+            // $contents = $this->autoWrap($file, $contents);
+
+            $this->configurations[$folder][$key] = $contents;
         }
+    }
+
+    /**
+     * Automatically wrap configuration in their arrays
+     *
+     * @param SplFileInfo $file
+     * @param array       $contents
+     *
+     * @return array
+     */
+    private function autoWrap(SplFileInfo $file, array $contents)
+    {
+        $key = $file->getBasename('.'.$file->getExtension());
+        if (array_keys($contents) !== [$key] || !is_array($contents[$key])) {
+            return [$key => $contents];
+        }
+
+        return $contents;
     }
 }
