@@ -14,6 +14,8 @@ class JsonReferenceDumper extends PhpReferenceDumper
     public function dumpNode(NodeInterface $node, $namespace = null)
     {
         $reference = parent::dumpNode($node, $namespace);
+
+        // Simply convert the PHP to JSON for simicity's sake
         $reference = str_replace('<?php ', null, $reference);
         $reference = eval($reference);
         $reference = json_encode($reference, JSON_PRETTY_PRINT);

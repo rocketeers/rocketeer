@@ -3,16 +3,13 @@ namespace Rocketeer\Services\Config;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Rocketeer\Services\Config\Dumpers\JsonReferenceDumper;
-use Rocketeer\Services\Config\Dumpers\PhpReferenceDumper;
-use Symfony\Component\Config\Definition\Dumper\XmlReferenceDumper;
-use Symfony\Component\Config\Definition\Dumper\YamlReferenceDumper;
-use Symfony\Component\Config\Definition\Processor;
-use Symfony\Component\Config\Loader\LoaderInterface;
-use Symfony\Component\Finder\Finder;
+use Illuminate\Support\Str;
 
 class Configuration extends Collection
 {
+    /**
+     * @type array
+     */
     protected $rootNodes = [
         'application_name',
         'plugins',
@@ -33,7 +30,7 @@ class Configuration extends Collection
      */
     public function get($key, $default = null)
     {
-        $key = in_array($key, $this->rootNodes) ? 'config.'.$key : $key;
+        $key = $this->addAliases($key);
         if ($value = Arr::get($this->items, $key, $default)) {
             return $value;
         }
@@ -43,74 +40,22 @@ class Configuration extends Collection
 
     /**
      * @param string $key
-     * @param mixed $value
+     * @param mixed  $value
      */
     public function set($key, $value)
     {
-        $key = in_array($key, $this->rootNodes) ? 'config.'.$key : $key;
+        $key = $this->addAliases($key);
 
         Arr::set($this->items, $key, $value);
     }
 
     /**
-     * Set the available options and their values
-     *
-     * @param string $format
-     * @param string $node
+     * @param string $key
      *
      * @return string
      */
-    public function getDefinition($format = 'yml', $node = null)
+    private function addAliases($key)
     {
-        switch ($format) {
-            case 'json':
-                $dumper = new JsonReferenceDumper();
-                break;
-
-            case 'xml':
-                $dumper = new XmlReferenceDumper();
-                break;
-
-            case 'yml':
-            case 'yaml':
-                $dumper = new YamlReferenceDumper();
-                break;
-
-            case 'php':
-            default:
-                $dumper = new PhpReferenceDumper();
-                break;
-        }
-
-        $definition = new ConfigurationDefinition();
-        $definition = $definition->getConfigTreeBuilder()->buildTree();
-        if ($node) {
-            $definition = $definition->getChildren()[$node];
-        }
-
-        return $dumper->dumpNode($definition);
-    }
-
-    /**
-     * Publish the configuration somewhere
-     *
-     * @param string      $path
-     * @param string      $format
-     * @param string|null $node
-     */
-    public function publish($path, $format = 'php', $node = null)
-    {
-        if (is_dir($path)) {
-            foreach (['config', 'hooks', 'paths', 'remote', 'scm', 'stages', 'strategies'] as $file) {
-                $this->publish($path.'/'.$file.'.'.$format, $format, $file);
-            }
-
-            return;
-        }
-
-        $format        = pathinfo($path, PATHINFO_EXTENSION);
-        $configuration = $this->getDefinition($format, $node);
-
-        file_put_contents($path, $configuration);
+        return Str::startsWith($key, $this->rootNodes) ? 'config.'.$key : $key;
     }
 }

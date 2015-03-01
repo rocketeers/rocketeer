@@ -106,12 +106,6 @@ class RocketeerServiceProvider extends ServiceProvider
             return Request::createFromGlobals();
         }, true);
 
-        $this->app->bindIf('config', function ($app) {
-            $fileloader = new FileLoader($app['files'], __DIR__.'/../config');
-
-            return new Repository($fileloader, 'config');
-        }, true);
-
         $this->app->bindIf('rocketeer.remote', 'Rocketeer\Services\Connections\RemoteHandler', true);
         $this->app->singleton('remote.local', 'Rocketeer\Services\Connections\Connections\LocalConnection');
         $this->app->bindIf('events', 'League\Event\Emitter', true);
@@ -222,6 +216,7 @@ class RocketeerServiceProvider extends ServiceProvider
         });
 
         $this->app->bind('rocketeer.config.loader', 'Rocketeer\Services\Config\ConfigurationLoader');
+        $this->app->bind('rocketeer.config.publisher', 'Rocketeer\Services\Config\ConfigurationPublisher');
 
         $this->app->singleton('rocketeer.config', function ($app) {
             $loader = $app['rocketeer.config.loader'];

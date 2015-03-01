@@ -122,8 +122,12 @@ Per example :
 EOF
                     )
                     ->children()
-                        ->arrayNode('stages')->end()
-                        ->arrayNode('connections')->end()
+                        ->arrayNode('stages')
+                            ->prototype('array')->prototype('variable')->end()->end()
+                        ->end()
+                        ->arrayNode('connections')
+                            ->prototype('array')->prototype('variable')->end()->end()
+                        ->end()
                     ->end()
                 ->end()
             ->end();

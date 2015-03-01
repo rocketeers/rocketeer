@@ -1,12 +1,21 @@
 <?php
 namespace Rocketeer\Services\Config;
 
+use Illuminate\Support\Arr;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 
 class ConfigurationLoader
 {
+    /**
+     * The various found configurations
+     *
+     * @type array
+     */
+    protected $configurations = [];
+
     /**
      * @type string[]
      */
@@ -32,6 +41,7 @@ class ConfigurationLoader
      *
      * @param LoaderInterface         $loader
      * @param ConfigurationDefinition $definition
+     * @param Processor               $processor
      */
     public function __construct(LoaderInterface $loader, ConfigurationDefinition $definition, Processor $processor)
     {
@@ -57,26 +67,71 @@ class ConfigurationLoader
     }
 
     /**
+     * Get a final merged version of the configuration,
+     * taking into account defaults, user and contextual
+     * configurations
+     *
      * @return array
      */
     public function getConfiguration()
     {
-        $configurations = [];
         foreach ($this->folders as $folder) {
             if (!is_dir($folder)) {
                 continue;
             }
 
-            $finder = (new Finder())->in($folder);
-            foreach ($finder as $file) {
-                $key                           = $file->getBasename('.php');
-                $configurations[$folder][$key] = $this->loader->load($file->getPathname());
-            }
+            $this->loadConfigurationFor($folder);
+            $this->loadContextualConfigurationsFor($folder);
         }
 
         return $this->processor->processConfiguration(
             $this->definition,
-            $configurations
+            $this->configurations
         );
+    }
+
+    /**
+     * @param string $folder
+     */
+    private function loadContextualConfigurationsFor($folder)
+    {
+        $contextual = (new Finder())->in($folder)->name('/(stages|connections)/')->directories();
+        foreach ($contextual as $type) {
+            /** @type SplFileInfo[] $files */
+            $files = (new Finder())->in($type->getPathname())->files();
+            
+            foreach ($files as $file) {
+                $key = str_replace($folder.DS, null, $file->getPathname());
+                $key = vsprintf('config.on.%s.%s', explode(DS, $key));
+
+                // Load contents and merge
+                $contents = include $file->getPathname();
+                $contents = array_replace_recursive(Arr::get($this->configurations[$folder], $key, []), $contents);
+
+                Arr::set($this->configurations[$folder], $key, $contents);
+            }
+        }
+    }
+
+    /**
+     * @param string $folder
+     */
+    private function loadConfigurationFor($folder)
+    {
+        /** @type SplFileInfo[] $files */
+        $files = (new Finder())
+            ->in($folder)
+            ->name('*.php')
+            ->exclude(['connections', 'stages'])
+            ->notName('/(events|tasks)\.php/')
+            ->sortByName()
+            ->files();
+
+        // Load base files
+        foreach ($files as $file) {
+            $key = $file->getBasename('.php');
+
+            $this->configurations[$folder][$key] = $this->loader->load($file->getPathname());
+        }
     }
 }
