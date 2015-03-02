@@ -2,6 +2,8 @@
 namespace Rocketeer\Services\Config\TreeBuilder;
 
 use Closure;
+use SuperClosure\SerializableClosure;
+use Symfony\Component\Config\Definition\Exception\InvalidTypeException;
 use Symfony\Component\Config\Definition\VariableNode;
 
 class ClosureNode extends VariableNode
@@ -38,5 +40,17 @@ class ClosureNode extends VariableNode
 
             throw $exception;
         }
+    }
+
+    /**
+     * Make the closure serializable
+     *
+     * @param Closure $value
+     *
+     * @return SerializableClosure
+     */
+    protected function finalizeValue($value)
+    {
+        return new SerializableClosure(parent::finalizeValue($value));
     }
 }
