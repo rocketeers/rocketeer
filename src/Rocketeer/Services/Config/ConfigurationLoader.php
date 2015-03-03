@@ -2,7 +2,6 @@
 namespace Rocketeer\Services\Config;
 
 use Illuminate\Support\Arr;
-use Symfony\Component\Config\ConfigCache;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Resource\FileResource;
@@ -44,7 +43,7 @@ class ConfigurationLoader
     protected $processor;
 
     /**
-     * @type ConfigCache
+     * @type ConfigurationCache
      */
     protected $cache;
 
@@ -54,13 +53,13 @@ class ConfigurationLoader
      * @param LoaderInterface         $loader
      * @param ConfigurationDefinition $definition
      * @param Processor               $processor
-     * @param ConfigCache             $cache
+     * @param ConfigurationCache      $cache
      */
     public function __construct(
         LoaderInterface $loader,
         ConfigurationDefinition $definition,
         Processor $processor,
-        ConfigCache $cache
+        ConfigurationCache $cache
     ) {
         $this->loader     = $loader;
         $this->definition = $definition;
@@ -116,7 +115,7 @@ class ConfigurationLoader
 
         // Return cached version if available
         if ($this->cache->isFresh()) {
-            return $this->getFromCache();
+            return $this->cache->getContents();
         }
 
         // Load in memory the files from all configurations
@@ -139,7 +138,7 @@ class ConfigurationLoader
         );
 
         // Cache configuration
-        $this->writeToCache($processed);
+        $this->cache->write($processed, $this->resources);
 
         return $processed;
     }
@@ -220,31 +219,5 @@ class ConfigurationLoader
         }
 
         return $contents;
-    }
-
-    /**
-     * Cache the configuration
-     *
-     * @param array $processed
-     */
-    protected function writeToCache(array $processed)
-    {
-        $processed = serialize($processed);
-
-        $this->cache->write($processed, $this->resources);
-    }
-
-    /**
-     * @return array
-     */
-    protected function getFromCache()
-    {
-        $file = $this->cache->__toString();
-
-        // Get an unserialize
-        $configuration = file_get_contents($file);
-        $configuration = unserialize($configuration);
-
-        return $configuration;
     }
 }
