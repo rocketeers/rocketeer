@@ -16,6 +16,8 @@ use Illuminate\Support\ServiceProvider;
 use Monolog\Logger;
 use Rocketeer\Services\Config\Configuration;
 use Rocketeer\Services\Config\ConfigurationCache;
+use Rocketeer\Services\Config\ConfigurationDefinition;
+use Rocketeer\Services\Config\ConfigurationPublisher;
 use Rocketeer\Services\Config\Loaders\PhpLoader;
 use Rocketeer\Services\Storages\LocalStorage;
 use Symfony\Component\Config\FileLocator;
@@ -215,7 +217,7 @@ class RocketeerServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton('Rocketeer\Services\Config\ConfigurationCache', function ($app) {
-            return new ConfigurationCache($app['rocketeer.paths']->getStoragePath().'/cache.php', false);
+            return new ConfigurationCache($app['rocketeer.paths']->getStoragePath().'/.configuration', false);
         });
 
         $this->app->bind('rocketeer.config.loader', function ($app) {
@@ -225,7 +227,9 @@ class RocketeerServiceProvider extends ServiceProvider
             return $loader;
         });
 
-        $this->app->bind('rocketeer.config.publisher', 'Rocketeer\Services\Config\ConfigurationPublisher');
+        $this->app->bind('rocketeer.config.publisher', function ($app) {
+            return new ConfigurationPublisher(new ConfigurationDefinition(), $app['files']);
+        });
 
         $this->app->singleton('rocketeer.config', function ($app) {
             return new Configuration($app['rocketeer.config.loader']->getConfiguration());

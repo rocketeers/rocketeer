@@ -3,6 +3,7 @@ namespace Rocketeer\Services\Config\Dumpers;
 
 use Rocketeer\Services\Config\TreeBuilder\ClosureNode;
 use SuperClosure\Analyzer\AstAnalyzer;
+use SuperClosure\Analyzer\TokenAnalyzer;
 use Symfony\Component\Config\Definition\ArrayNode;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\EnumNode;

@@ -113,13 +113,23 @@ class ConfigurationLoader
         $this->configurations = [];
         $this->resources      = [];
 
+        // Get which files are present in the configurations
+        $folders = array_filter($this->folders, 'is_dir');
+        $files   = $this->getFinder($folders);
+        $files   = array_keys(iterator_to_array($files));
+
         // Return cached version if available
         if ($this->cache->isFresh()) {
-            return $this->cache->getContents();
+            $cache = $this->cache->getContents();
+
+            // If the files the configuration was cached from
+            // match the ones we have, return the cache
+            if (Arr::get($cache, 'meta') === $files) {
+                return $cache;
+            }
         }
 
         // Load in memory the files from all configurations
-        $folders = array_filter($this->folders, 'is_dir');
         foreach ($folders as $folder) {
             $this->configurations[$folder] = [];
             $this->loadConfigurationFor($folder);
@@ -137,6 +147,8 @@ class ConfigurationLoader
             $this->configurations
         );
 
+        $processed['meta'] = $files;
+
         // Cache configuration
         $this->cache->write($processed, $this->resources);
 
@@ -149,25 +161,24 @@ class ConfigurationLoader
     protected function loadConfigurationFor($folder)
     {
         /** @type SplFileInfo[] $files */
-        $files = (new Finder())
-            ->in($folder)
-            ->name('*.php')
-            ->exclude(['connections', 'stages', 'tasks', 'events', 'strategies'])
-            ->notName('/(events|tasks)\.php/')
-            ->sortByName()
-            ->files();
+        $files = $this->getFinder($folder)
+                      ->exclude(['connections', 'stages', 'tasks', 'events', 'strategies']);
 
         // Load base files
         foreach ($files as $file) {
             $key = $file->getBasename('.php');
 
+            // Load file
+            $contents = $this->loader->load($file->getPathname());
+            $contents = $this->autoWrap($file, $contents);
+            if (!is_array($contents)) {
+                continue;
+            }
+
             // Add to cache
             $this->resources[] = new FileResource($file->getPathname());
 
-            $contents = $this->loader->load($file->getPathname());
-            // $contents = $this->autoWrap($file, $contents);
-
-            $this->configurations[$folder][$key] = $contents;
+            $this->configurations[$folder] = array_merge($this->configurations[$folder], $contents);
         }
     }
 
@@ -219,5 +230,20 @@ class ConfigurationLoader
         }
 
         return $contents;
+    }
+
+    /**
+     * @param string $folder
+     *
+     * @return Finder|SplFileInfo[]
+     */
+    protected function getFinder($folder)
+    {
+        return (new Finder())
+            ->in($folder)
+            ->name('*.php')
+            ->notName('/(events|tasks)\.php/')
+            ->sortByName()
+            ->files();
     }
 }

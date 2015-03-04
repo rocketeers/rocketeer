@@ -89,12 +89,15 @@ class Configuration
      */
     public function exportConfiguration()
     {
-        $source      = $this->paths->unifyLocalSlashes(__DIR__.'/../../../config');
-        $source      = Str::contains($source, 'phar://') ? $source : realpath($source);
         $destination = $this->paths->getConfigurationPath();
 
+        // Create directory
+        if (!is_dir($destination)) {
+            $this->files->makeDirectory($destination, 0755, true);
+        }
+
         // Unzip configuration files
-        $this->files->copyDirectory($source, $destination);
+        $this->configurationPublisher->publish($destination);
 
         return $destination;
     }

@@ -1,6 +1,7 @@
 <?php
 namespace Rocketeer\Services\Config;
 
+use Illuminate\Filesystem\Filesystem;
 use Rocketeer\Services\Config\Dumpers\JsonReferenceDumper;
 use Rocketeer\Services\Config\Dumpers\PhpReferenceDumper;
 use Symfony\Component\Config\Definition\Dumper\XmlReferenceDumper;
@@ -11,16 +12,23 @@ class ConfigurationPublisher
     /**
      * @type ConfigurationDefinition
      */
-    private $definition;
+    protected $definition;
+
+    /**
+     * @type Filesystem
+     */
+    protected $files;
 
     /**
      * ConfigurationPublisher constructor.
      *
      * @param ConfigurationDefinition $definition
+     * @param Filesystem              $files
      */
-    public function __construct(ConfigurationDefinition $definition)
+    public function __construct(ConfigurationDefinition $definition, Filesystem $files)
     {
         $this->definition = $definition;
+        $this->files      = $files;
     }
 
     /**
@@ -83,6 +91,6 @@ class ConfigurationPublisher
         $format        = $format ?: pathinfo($path, PATHINFO_EXTENSION);
         $configuration = $this->getDefinition($format, $node);
 
-        file_put_contents($path, $configuration);
+        $this->files->put($path, $configuration);
     }
 }

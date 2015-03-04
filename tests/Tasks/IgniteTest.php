@@ -1,6 +1,7 @@
 <?php
 namespace Rocketeer\Tasks;
 
+use Mockery;
 use Mockery\MockInterface;
 use Rocketeer\RocketeerServiceProvider;
 use Rocketeer\TestCases\RocketeerTestCase;
@@ -18,8 +19,7 @@ class IgniteTest extends RocketeerTestCase
         $this->mockFiles(function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('files')->andReturn([])
-                ->shouldReceive('glob')->andReturn([])
-                ->shouldReceive('copyDirectory')->once()->with(realpath(__DIR__.'/../../src/config'), 'E:/workspace/test/.rocketeer');
+                ->shouldReceive('put')->once()->with('E:/workspace/test/.rocketeer', Mockery::any());
         });
 
         $this->pretendTask('Ignite')->execute();
@@ -35,10 +35,8 @@ class IgniteTest extends RocketeerTestCase
 
         $this->mockFiles(function (MockInterface $mock) {
             return $mock
-                ->shouldReceive('exists')->andReturn(true)
                 ->shouldReceive('files')->andReturn([])
-                ->shouldReceive('glob')->andReturn([])
-                ->shouldReceive('copyDirectory')->once()->with(realpath(__DIR__.'/../../src/config'), 'E:/workspace/test/app/config/packages/anahkiasen/rocketeer');
+                ->shouldReceive('put')->once()->with('E:/workspace/test/app/config/packages/anahkiasen/rocketeer', Mockery::any());
         });
 
         $this->pretendTask('Ignite')->execute();

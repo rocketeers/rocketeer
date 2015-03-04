@@ -1,10 +1,11 @@
 # Cache and compiled
-.rocketeer
 bin/rocketeer.phar
 bin/rocketeer.phar-contents
 composer.lock
 
 # Tests
+.configuration
+.rocketeer
 humbuglog.txt
 tests/_server/foobar
 
