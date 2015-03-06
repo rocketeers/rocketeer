@@ -8,30 +8,30 @@ class CoordinatorTest extends RocketeerTestCase
     public function testCanCoordinateTasks()
     {
         $this->expectOutputRegex('#'.
-            'A:production/a.com/(master|develop)'.PHP_EOL.
-            'A:production/a.com/(master|develop)'.PHP_EOL.
-            'A:production/b.com/(master|develop)'.PHP_EOL.
-            'A:production/b.com/(master|develop)'.PHP_EOL.
-            'A:staging/a.com/(master|develop)'.PHP_EOL.
-            'A:staging/a.com/(master|develop)'.PHP_EOL.
-            'A:staging/b.com/(master|develop)'.PHP_EOL.
-            'A:staging/b.com/(master|develop)'.PHP_EOL.
-            'B:staging/a.com/(master|develop)'.PHP_EOL.
-            'B:staging/b.com/(master|develop)'.PHP_EOL.
-            'B:staging/b.com/(master|develop)'.PHP_EOL.
-            'B:staging/a.com/(master|develop)'.PHP_EOL.
-            'B:production/b.com/(master|develop)'.PHP_EOL.
-            'B:production/a.com/(master|develop)'.PHP_EOL.
-            'B:production/b.com/(master|develop)'.PHP_EOL.
-            'B:production/a.com/(master|develop)'.PHP_EOL.
-            'C:production/a.com/(master|develop)'.PHP_EOL.
-            'C:production/b.com/(master|develop)'.PHP_EOL.
-            'C:production/a.com/(master|develop)'.PHP_EOL.
-            'C:production/b.com/(master|develop)'.PHP_EOL.
-            'C:staging/a.com/(master|develop)'.PHP_EOL.
-            'C:staging/b.com/(master|develop)'.PHP_EOL.
-            'C:staging/b.com/(master|develop)'.PHP_EOL.
-            'C:staging/a.com/(master|develop)'.PHP_EOL.'#'
+            'A:production/[ab]\.com/(master|develop)'.PHP_EOL.
+            'A:production/[ab]\.com/(master|develop)'.PHP_EOL.
+            'A:production/[ab]\.com/(master|develop)'.PHP_EOL.
+            'A:production/[ab]\.com/(master|develop)'.PHP_EOL.
+            'A:staging/[ab]\.com/(master|develop)'.PHP_EOL.
+            'A:staging/[ab]\.com/(master|develop)'.PHP_EOL.
+            'A:staging/[ab]\.com/(master|develop)'.PHP_EOL.
+            'A:staging/[ab]\.com/(master|develop)'.PHP_EOL.
+            'B:staging/[ab]\.com/(master|develop)'.PHP_EOL.
+            'B:staging/[ab]\.com/(master|develop)'.PHP_EOL.
+            'B:staging/[ab]\.com/(master|develop)'.PHP_EOL.
+            'B:staging/[ab]\.com/(master|develop)'.PHP_EOL.
+            'B:production/[ab]\.com/(master|develop)'.PHP_EOL.
+            'B:production/[ab]\.com/(master|develop)'.PHP_EOL.
+            'B:production/[ab]\.com/(master|develop)'.PHP_EOL.
+            'B:production/[ab]\.com/(master|develop)'.PHP_EOL.
+            'C:production/[ab]\.com/(master|develop)'.PHP_EOL.
+            'C:production/[ab]\.com/(master|develop)'.PHP_EOL.
+            'C:production/[ab]\.com/(master|develop)'.PHP_EOL.
+            'C:production/[ab]\.com/(master|develop)'.PHP_EOL.
+            'C:staging/[ab]\.com/(master|develop)'.PHP_EOL.
+            'C:staging/[ab]\.com/(master|develop)'.PHP_EOL.
+            'C:staging/[ab]\.com/(master|develop)'.PHP_EOL.
+            'C:staging/[ab]\.com/(master|develop)'.PHP_EOL.'#'
         );
 
         $this->swapConfig(array(
