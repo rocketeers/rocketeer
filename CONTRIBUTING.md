@@ -2,7 +2,7 @@
 
 Contributions are **welcome** and will be fully **credited**.
 
-We accept contributions via pull requests on [Github](https://github.com/rocketeers/rocketeer).
+We accept contributions via pull requests on [Github].
 Please make all pull requests to the `develop` branch, not the `master` branch.
 
 ## Before posting an issue
@@ -12,7 +12,7 @@ Please make all pull requests to the `develop` branch, not the `master` branch.
 
 ## Pull Requests
 
-- **[Symfony Coding Standard]()** - The easiest way to apply the conventions is to run `composer lint`
+- **[Symfony Coding Standard]** - The easiest way to apply the conventions is to run `composer lint`
 - **Add tests!** - Your patch won't be accepted if it doesn't have tests.
 - **Document any change in behaviour** - Make sure the `README.md` and any other relevant documentation are kept up-to-date.
 - **Consider our release cycle** - We try to follow [SemVer v2.0.0](http://semver.org/). Randomly breaking public APIs is not an option.
@@ -35,4 +35,5 @@ $ composer test
 
 **Happy coding**!
 
+[Github]: https://github.com/rocketeers/rocketeer
 [Symfony Coding Standard]: http://symfony.com/doc/current/contributing/code/standards.html
