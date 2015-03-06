@@ -27,7 +27,7 @@ script: phpunit
 # Cache dependencies
 cache:
   directories:
-    - vendor
+    # - vendor
     - $HOME/.composer/cache
 
 # Gitter notifications
