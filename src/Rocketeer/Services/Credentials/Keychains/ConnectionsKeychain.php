@@ -1,4 +1,13 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 namespace Rocketeer\Services\Credentials\Keychains;
 
 use Illuminate\Support\Arr;
@@ -91,11 +100,11 @@ trait ConnectionsKeychain
         }
 
         // Concatenate
-        $handle = new ConnectionKey(array(
+        $handle = new ConnectionKey([
             'name'   => $connection ?: Arr::get($this->connections->getConnections(), 0),
             'server' => $server ?: 0,
             'stage'  => $stage ?: null,
-        ));
+        ]);
 
         // Populate credentials
         $handle->servers = $this->getConnectionCredentials($handle);

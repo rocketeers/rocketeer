@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Traits\Properties;
 
 use League\Event\EventInterface;
@@ -17,6 +16,7 @@ use League\Event\EventInterface;
  *
  * @mixin \Rocketeer\Abstracts\AbstractTask
  * @mixin \Rocketeer\Abstracts\Commands\AbstractCommand
+ *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait HasEvents

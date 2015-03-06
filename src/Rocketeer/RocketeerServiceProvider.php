@@ -7,13 +7,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer;
 
 use Illuminate\Http\Request;
-use Illuminate\Log\Writer;
 use Illuminate\Support\ServiceProvider;
-use Monolog\Logger;
 use Rocketeer\Services\Config\Configuration;
 use Rocketeer\Services\Config\ConfigurationCache;
 use Rocketeer\Services\Config\ConfigurationDefinition;

@@ -1,4 +1,13 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 namespace Rocketeer\TestCases\Modules;
 
 use Closure;
@@ -57,10 +66,10 @@ trait Mocks
      * @param array $expectations
      * @param bool  $print
      */
-    protected function mockCommand($options = array(), $expectations = array(), $print = false)
+    protected function mockCommand($options = [], $expectations = [], $print = false)
     {
         // Default options
-        $options = array_merge(array(
+        $options = array_merge([
             'pretend'  => false,
             'verbose'  => false,
             'tests'    => false,
@@ -69,7 +78,7 @@ trait Mocks
             'stage'    => false,
             'parallel' => false,
             'update'   => false,
-        ), $options);
+        ], $options);
 
         $this->app['rocketeer.command'] = $this->getCommand($expectations, $options, $print);
     }
@@ -98,10 +107,10 @@ trait Mocks
     public function mockConfig(array $expectations)
     {
         $defaults = $this->getFactoryConfiguration();
-        $defaults = array_merge($defaults, array(
+        $defaults = array_merge($defaults, [
                 'remote.shell' => false,
                 'paths.app'    => $this->app['path.base'],
-            )
+            ]
         );
 
         // Set core expectations

@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Traits;
 
 use Illuminate\Container\Container;
@@ -46,6 +45,7 @@ use Illuminate\Support\Arr;
  * @property \Rocketeer\Services\Builders\Builder                builder
  * @property \Rocketeer\Services\Tasks\TasksQueue                queue
  * @property \Rocketeer\Services\TasksHandler                    tasks
+ *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait HasLocator
@@ -99,7 +99,7 @@ trait HasLocator
      */
     protected function getLocatorHandle($key)
     {
-        $shortcuts = array(
+        $shortcuts = [
             'bash'                   => 'rocketeer.bash',
             'builder'                => 'rocketeer.builder',
             'command'                => 'rocketeer.command',
@@ -125,7 +125,7 @@ trait HasLocator
             'scm'                    => 'rocketeer.scm',
             'tasks'                  => 'rocketeer.tasks',
             'timer'                  => 'rocketeer.timer',
-        );
+        ];
 
         // Replace shortcuts
         if (isset($shortcuts[$key])) {

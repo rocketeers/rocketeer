@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Traits\Properties;
 
 use Illuminate\Support\Arr;
@@ -68,10 +67,10 @@ trait HasHistory
 
         // Create entry if it doesn't exist yet
         if (!isset($this->history[$handle])) {
-            $this->history[$handle] = array(
+            $this->history[$handle] = [
                 'history' => [],
                 'output'  => [],
-            );
+            ];
         }
 
         return $handle;

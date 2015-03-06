@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Traits\BashModules;
 
 use Illuminate\Support\Arr;
@@ -211,11 +210,11 @@ trait Core
      *
      * @return string|null
      */
-    public function runInFolder($folder = null, $tasks = array())
+    public function runInFolder($folder = null, $tasks = [])
     {
         // Convert to array
         if (!is_array($tasks)) {
-            $tasks = array($tasks);
+            $tasks = [$tasks];
         }
 
         // Prepend folder
@@ -324,7 +323,7 @@ trait Core
 
         // Cast commands to array
         if (!is_array($commands)) {
-            $commands = array($commands);
+            $commands = [$commands];
         }
 
         // Flatten and process commands
@@ -359,9 +358,9 @@ trait Core
      */
     protected function cleanOutput($output)
     {
-        return strtr($output, array(
+        return strtr($output, [
             'stdin: is not a tty' => null,
-        ));
+        ]);
     }
 
     /**

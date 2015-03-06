@@ -1,7 +1,17 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 use Rocketeer\Tasks\Subtasks\Primer;
 
-return array(
+return [
 
     // Task strategies
     //
@@ -32,10 +42,10 @@ return array(
     // machine, determining whether the deploy can proceed
     // or not
     'primer'       => function (Primer $task) {
-        return array(
+        return [
             // $task->executeTask('Test'),
             // $task->binary('grunt')->execute('lint'),
-        );
+        ];
     },
 
-);
+];

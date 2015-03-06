@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Services\Builders;
 
 use Closure;
@@ -74,9 +73,9 @@ trait TasksBuilder
      *
      * @param string|Closure|AbstractTask $task
      *
+     * @throws \Rocketeer\Exceptions\TaskCompositionException
      * @return mixed|AbstractTask
      *
-     * @throws \Rocketeer\Exceptions\TaskCompositionException
      */
     protected function composeTask($task)
     {

@@ -1,4 +1,13 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 namespace Rocketeer\TestCases\Modules;
 
 use Illuminate\Console\Command;
@@ -42,7 +51,7 @@ trait Building
      *
      * @return \Rocketeer\Abstracts\AbstractTask
      */
-    protected function pretendTask($task = 'Deploy', $options = array(), array $expectations = array())
+    protected function pretendTask($task = 'Deploy', $options = [], array $expectations = [])
     {
         $this->pretend($options, $expectations);
 
@@ -57,7 +66,7 @@ trait Building
      *
      * @return \Rocketeer\Abstracts\AbstractTask
      */
-    protected function task($task = null, $options = array())
+    protected function task($task = null, $options = [])
     {
         if ($options) {
             $this->mockCommand($options);

@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Traits\BashModules;
 
 /**
@@ -69,9 +68,9 @@ trait Filesystem
                     $this->removeFolder($symlink);
                 }
 
-                return $this->run(array(
+                return $this->run([
                     sprintf('ln -s %s %s', $folder, $symlink),
-                ));
+                ]);
         }
     }
 
@@ -92,10 +91,10 @@ trait Filesystem
         // Define name of temporary link
         $temporary = $symlink.'-temp';
 
-        return $this->run(array(
+        return $this->run([
             sprintf('ln -s %s %s', $folder, $temporary),
             sprintf('mv -Tf %s %s', $temporary, $symlink),
-        ));
+        ]);
     }
 
     /**

@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Traits\Properties;
 
 use Rocketeer\Interfaces\HasRolesInterface;
@@ -52,7 +51,7 @@ trait HasRoles
      */
     public function hasRole($role)
     {
-        return in_array($role, $this->roles);
+        return in_array($role, $this->roles, true);
     }
 
     /**

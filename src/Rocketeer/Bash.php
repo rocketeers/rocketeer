@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer;
 
 use Rocketeer\Traits\BashModules\Binaries;
@@ -63,7 +62,7 @@ class Bash
      *
      * @return Abstracts\Strategies\AbstractStrategy
      */
-    public function getStrategy($strategy, $concrete = null, $options = array())
+    public function getStrategy($strategy, $concrete = null, $options = [])
     {
         // Try to build the strategy
         $strategy = $this->builder->buildStrategy($strategy, $concrete);

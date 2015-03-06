@@ -1,4 +1,13 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 namespace Rocketeer\TestCases\Modules;
 
 use Illuminate\Support\Arr;
@@ -94,7 +103,7 @@ trait Assertions
      *
      * @return string
      */
-    protected function assertTaskHistory($task, array $expectedHistory, array $options = array())
+    protected function assertTaskHistory($task, array $expectedHistory, array $options = [])
     {
         // Create task if needed
         if (is_string($task)) {
@@ -190,7 +199,7 @@ trait Assertions
                 continue;
             }
 
-            $replaced[$key] = strtr($entries, array(
+            $replaced[$key] = strtr($entries, [
                 '{php}'        => $this->binaries['php'],
                 '{bundle}'     => $this->binaries['bundle'],
                 '{phpunit}'    => $this->binaries['phpunit'],
@@ -198,7 +207,7 @@ trait Assertions
                 '{server}'     => $this->server,
                 '{release}'    => $release,
                 '{composer}'   => $this->binaries['composer'],
-            ));
+            ]);
         }
 
         return $replaced;

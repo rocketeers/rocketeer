@@ -1,4 +1,13 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 namespace Rocketeer\TestCases\Modules;
 
 use Mockery\MockInterface;
@@ -36,7 +45,7 @@ trait Contexts
      * @param array $options
      * @param array $expectations
      */
-    protected function pretend($options = array(), $expectations = array())
+    protected function pretend($options = [], $expectations = [])
     {
         $options['pretend'] = true;
 
@@ -60,9 +69,9 @@ trait Contexts
      */
     protected function disableTestEvents()
     {
-        $this->swapConfig(array(
-            'hooks' => array(),
-        ));
+        $this->swapConfig([
+            'hooks' => [],
+        ]);
     }
 
     //////////////////////////////////////////////////////////////////////
@@ -88,9 +97,9 @@ trait Contexts
      */
     protected function swapConnections(array $connections)
     {
-        $this->swapConfig(array(
+        $this->swapConfig([
             'connections' => $connections,
-        ));
+        ]);
     }
 
     //////////////////////////////////////////////////////////////////////

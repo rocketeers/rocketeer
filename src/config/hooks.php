@@ -1,4 +1,14 @@
-<?php return array(
+<?php 
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+return [
 
     // Tasks
     //
@@ -9,17 +19,17 @@
     //////////////////////////////////////////////////////////////////////
 
     // Tasks to execute before the core Rocketeer Tasks
-    'before' => array(
-        'setup'   => array(),
-        'deploy'  => array(),
-        'cleanup' => array(),
-    ),
+    'before' => [
+        'setup'   => [],
+        'deploy'  => [],
+        'cleanup' => [],
+    ],
     // Tasks to execute after the core Rocketeer Tasks
-    'after'  => array(
-        'setup'   => array(),
-        'deploy'  => array(),
-        'cleanup' => array(),
-    ),
+    'after'  => [
+        'setup'   => [],
+        'deploy'  => [],
+        'cleanup' => [],
+    ],
 
     // Custom Tasks to register with Rocketeer
     //
@@ -28,7 +38,7 @@
     // with all the other tasks
     //////////////////////////////////////////////////////////////////////
 
-    'custom' => array(),
+    'custom' => [],
 
     // Roles
     //
@@ -38,6 +48,6 @@
     // 'web' => ['Deploy', 'Update']
     //////////////////////////////////////////////////////////////////////
 
-    'roles'  => array(),
+    'roles'  => [],
 
-);
+];

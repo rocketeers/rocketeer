@@ -1,16 +1,25 @@
 <?php
 
-return array(
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+return [
 
     // Remote server
     //////////////////////////////////////////////////////////////////////
 
     // Variables about the servers. Those can be guessed but in
     // case of problem it's best to input those manually
-    'variables'      => array(
+    'variables'      => [
         'directory_separator' => '/',
         'line_endings'        => "\n",
-    ),
+    ],
 
     // The number of releases to keep at all times
     'keep_releases'  => 4,
@@ -33,10 +42,10 @@ return array(
     // A list of folders/file to be shared between releases
     // Use this to list folders that need to keep their state, like
     // user uploaded data, file-based databases, etc.
-    'shared'         => array(
+    'shared'         => [
         'storage/logs',
         'storage/sessions',
-    ),
+    ],
 
     // The way symlinks are created. Possible values: 'absolute', 'relative'
     'symlink' => 'absolute',
@@ -54,25 +63,25 @@ return array(
     // Permissions
     ////////////////////////////////////////////////////////////////////
 
-    'permissions'    => array(
+    'permissions'    => [
 
         // The folders and files to set as web writable
-        'files'    => array(
+        'files'    => [
             'storage',
             'public',
-        ),
+        ],
 
         // Here you can configure what actions will be executed to set
         // permissions on the folder above. The Closure can return
         // a single command as a string or an array of commands
         'callback' => function ($task, $file) {
-            return array(
+            return [
                 sprintf('chmod -R 755 %s', $file),
                 sprintf('chmod -R g+s %s', $file),
                 sprintf('chown -R www-data:www-data %s', $file),
-            );
+            ];
         },
 
-    ),
+    ],
 
-);
+];
