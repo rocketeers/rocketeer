@@ -33,6 +33,7 @@
     "symfony/config": "~2.6"
   },
   "require-dev": {
+    "fabpot/php-cs-fixer": "2.0.*@dev",
     "johnkary/phpunit-speedtrap": "~1.0@dev",
     "mockery/mockery": "^0.9.1",
     "nesbot/carbon": "~1.13",
