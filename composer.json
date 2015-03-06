@@ -24,19 +24,19 @@
     "illuminate/console": "~4.2",
     "illuminate/container": "^4.2.7",
     "illuminate/filesystem": "~4.2",
-    "patchwork/utf8": "~1.1",
-    "kzykhys/parallel": "0.1.*",
-    "phpseclib/phpseclib": "2.0.*@dev",
+    "jeremeamia/superclosure": "~2.0",
     "kherge/amend": "~3.0",
+    "kzykhys/parallel": "0.1.*",
     "league/event": "~2.1",
-    "symfony/config": "~2.6",
-    "jeremeamia/superclosure": "~2.0"
+    "patchwork/utf8": "~1.1",
+    "phpseclib/phpseclib": "2.0.*@dev",
+    "symfony/config": "~2.6"
   },
   "require-dev": {
-    "phpunit/phpunit": "~4.4",
+    "johnkary/phpunit-speedtrap": "~1.0@dev",
     "mockery/mockery": "^0.9.1",
     "nesbot/carbon": "~1.13",
-    "johnkary/phpunit-speedtrap": "~1.0@dev",
+    "phpunit/phpunit": "~4.4",
     "psy/psysh": "0.3.*",
     "rocketeers/rocketeer-laravel": "1.0.*@dev",
     "symfony/var-dumper": "~2.6"
