@@ -7,31 +7,35 @@ class CoordinatorTest extends RocketeerTestCase
 {
     public function testCanCoordinateTasks()
     {
-        $this->expectOutputRegex('#'.
-            'A:production/[ab]\.com/(master|develop)'.PHP_EOL.
-            'A:production/[ab]\.com/(master|develop)'.PHP_EOL.
-            'A:production/[ab]\.com/(master|develop)'.PHP_EOL.
-            'A:production/[ab]\.com/(master|develop)'.PHP_EOL.
-            'A:staging/[ab]\.com/(master|develop)'.PHP_EOL.
-            'A:staging/[ab]\.com/(master|develop)'.PHP_EOL.
-            'A:staging/[ab]\.com/(master|develop)'.PHP_EOL.
-            'A:staging/[ab]\.com/(master|develop)'.PHP_EOL.
-            'B:staging/[ab]\.com/(master|develop)'.PHP_EOL.
-            'B:staging/[ab]\.com/(master|develop)'.PHP_EOL.
-            'B:staging/[ab]\.com/(master|develop)'.PHP_EOL.
-            'B:staging/[ab]\.com/(master|develop)'.PHP_EOL.
-            'B:production/[ab]\.com/(master|develop)'.PHP_EOL.
-            'B:production/[ab]\.com/(master|develop)'.PHP_EOL.
-            'B:production/[ab]\.com/(master|develop)'.PHP_EOL.
-            'B:production/[ab]\.com/(master|develop)'.PHP_EOL.
-            'C:production/[ab]\.com/(master|develop)'.PHP_EOL.
-            'C:production/[ab]\.com/(master|develop)'.PHP_EOL.
-            'C:production/[ab]\.com/(master|develop)'.PHP_EOL.
-            'C:production/[ab]\.com/(master|develop)'.PHP_EOL.
-            'C:staging/[ab]\.com/(master|develop)'.PHP_EOL.
-            'C:staging/[ab]\.com/(master|develop)'.PHP_EOL.
-            'C:staging/[ab]\.com/(master|develop)'.PHP_EOL.
-            'C:staging/[ab]\.com/(master|develop)'.PHP_EOL.'#'
+        $pattern = '(staging|production)/[ab]\.com/(master|develop)'.PHP_EOL;
+
+        $this->expectOutputRegex(
+            '#'.
+            'A:'.$pattern.
+            'A:'.$pattern.
+            'A:'.$pattern.
+            'A:'.$pattern.
+            'A:'.$pattern.
+            'A:'.$pattern.
+            'A:'.$pattern.
+            'A:'.$pattern.
+            'B:'.$pattern.
+            'B:'.$pattern.
+            'B:'.$pattern.
+            'B:'.$pattern.
+            'B:'.$pattern.
+            'B:'.$pattern.
+            'B:'.$pattern.
+            'B:'.$pattern.
+            'C:'.$pattern.
+            'C:'.$pattern.
+            'C:'.$pattern.
+            'C:'.$pattern.
+            'C:'.$pattern.
+            'C:'.$pattern.
+            'C:'.$pattern.
+            'C:'.$pattern.
+            '#'
         );
 
         $this->swapConfig(array(
@@ -41,12 +45,14 @@ class CoordinatorTest extends RocketeerTestCase
             'connections'    => array(
                 'production' => [
                     'servers' => array(
-                        ['host' => 'a.com'], ['host' => 'b.com'],
+                        ['host' => 'a.com'],
+                        ['host' => 'b.com'],
                     ),
                 ],
                 'staging'    => [
                     'servers' => array(
-                        ['host' => 'a.com'], ['host' => 'b.com'],
+                        ['host' => 'a.com'],
+                        ['host' => 'b.com'],
                     ),
                 ],
             ),
