@@ -61,12 +61,16 @@ Documentation can be [found here](http://rocketeer.autopergamene.eu/#/docs/rocke
 ## Testing
 
 ``` bash
-$ phpunit
+$ composer test
 ```
 
 ## Contributing
 
-Please see [CONTRIBUTING](https://github.com/rocketeers/rocketeer/blob/master/CONTRIBUTING.md) for details.
+Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+
+## Security
+
+If you discover any security related issues, please email :author_email instead of using the issue tracker.
 
 ## Credits
 
@@ -75,7 +79,7 @@ Please see [CONTRIBUTING](https://github.com/rocketeers/rocketeer/blob/master/CO
 
 ## License
 
-The MIT License (MIT). Please see [License File](https://github.com/rocketeers/rocketeer/blob/master/LICENSE) for more information.
+The MIT License (MIT). Please see [License File](LICENSE) for more information.
 
 -----
 

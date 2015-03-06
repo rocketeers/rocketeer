@@ -47,6 +47,11 @@
     "anahkiasen/rocketeer-slack": "Slack plugin to create deployments notifications",
     "ext-pcntl": "Allow parallel deployments"
   },
+  "scripts": {
+    "test": "vendor/bin/phpunit",
+    "lint": "vendor/bin/php-cs-fixer fix",
+    "build": "box build --verbose"
+  },
   "bin": [
     "bin/rocketeer"
   ],
