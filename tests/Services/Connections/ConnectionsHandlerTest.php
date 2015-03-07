@@ -205,6 +205,11 @@ class ConnectionsHandlerTest extends RocketeerTestCase
 		$this->connections->setConnections('foo,bar');
 	}
 
+	public function testAlwaysReturnsArrayIfNoCredentialsFound()
+	{
+		$this->assertEquals([], $this->connections->getServerCredentials());
+	}
+
 	////////////////////////////////////////////////////////////////////
 	//////////////////////////////// HELPERS ///////////////////////////
 	////////////////////////////////////////////////////////////////////

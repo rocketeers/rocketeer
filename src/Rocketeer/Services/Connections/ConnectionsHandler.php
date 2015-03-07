@@ -344,7 +344,7 @@ class ConnectionsHandler
 		$connection = $this->getConnectionCredentials($connection);
 		$server     = !is_null($server) ? $server : $this->currentServer;
 
-		return Arr::get($connection, $server);
+		return Arr::get($connection, $server, []);
 	}
 
 	/**
