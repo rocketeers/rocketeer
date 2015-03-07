@@ -3,6 +3,9 @@
 2.0.7
 ------------------
 
+### Added
+- Added ability to have contextual server configuration by adding a `config` array to a server's configuration
+
 ### Fixed
 - Fixed an issue when igniting with a connection other than "production"
 - Fixed an issue with Polyglot strategies not properly propagating their results to parent tasks

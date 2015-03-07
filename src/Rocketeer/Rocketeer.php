@@ -109,6 +109,10 @@ class Rocketeer
             return $contextual;
         }
 
+        if ($contextual = $this->getContextualOption($option, 'servers', $original)) {
+            return $contextual;
+        }
+
         return $original;
     }
 
@@ -116,7 +120,7 @@ class Rocketeer
      * Get a contextual option.
      *
      * @param string            $option
-     * @param string            $type     [stage,connection]
+     * @param string            $type [stage,connection]
      * @param string|array|null $original
      *
      * @return string|array|\Closure
@@ -125,6 +129,10 @@ class Rocketeer
     {
         // Switch context
         switch ($type) {
+            case 'servers':
+                $contextual = sprintf('rocketeer::connections.%s.servers.%d.config.%s', $this->connections->getConnection(), $this->connections->getServer(), $option);
+                break;
+
             case 'stages':
                 $contextual = sprintf('rocketeer::on.stages.%s.%s', $this->connections->getStage(), $option);
                 break;
