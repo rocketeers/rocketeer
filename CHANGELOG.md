@@ -1,5 +1,12 @@
 # CHANGELOG
 
+2.0.7
+------------------
+
+### Fixed
+- Fixed missing `force` flag for Artisan commands
+- Fixed issue when igniting with a connection other than "production"
+
 2.0.6 - 2015-02-12
 ------------------
 
