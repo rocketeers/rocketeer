@@ -14,7 +14,7 @@ use Illuminate\Support\Arr;
 
 /**
  * A trait for Service Locator-based classes wich adds
- * a few shortcuts to Rocketeer classes
+ * a few shortcuts to Rocketeer classes.
  *
  * @property \Illuminate\Config\Repository                       config
  * @property \Illuminate\Events\Dispatcher                       events
@@ -40,124 +40,125 @@ use Illuminate\Support\Arr;
  * @property \Rocketeer\Services\Tasks\TasksBuilder              builder
  * @property \Rocketeer\Services\Tasks\TasksQueue                queue
  * @property \Rocketeer\Services\TasksHandler                    tasks
+ *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait HasLocator
 {
-	/**
-	 * The IoC Container
-	 *
-	 * @var Container
-	 */
-	protected $app;
+    /**
+     * The IoC Container.
+     *
+     * @type Container
+     */
+    protected $app;
 
-	/**
-	 * Build a new AbstractTask
-	 *
-	 * @param Container $app
-	 */
-	public function __construct(Container $app)
-	{
-		$this->app = $app;
-	}
+    /**
+     * Build a new AbstractTask.
+     *
+     * @param Container $app
+     */
+    public function __construct(Container $app)
+    {
+        $this->app = $app;
+    }
 
-	/**
-	 * Get an instance from the Container
-	 *
-	 * @param string $key
-	 *
-	 * @return object
-	 */
-	public function __get($key)
-	{
-		$shortcuts = array(
-			'bash'            => 'rocketeer.bash',
-			'builder'         => 'rocketeer.builder',
-			'command'         => 'rocketeer.command',
-			'connections'     => 'rocketeer.connections',
-			'console'         => 'rocketeer.console',
-			'credentials'     => 'rocketeer.credentials',
-			'environment'     => 'rocketeer.environment',
-			'explainer'       => 'rocketeer.explainer',
-			'history'         => 'rocketeer.history',
-			'localStorage'    => 'rocketeer.storage.local',
-			'logs'            => 'rocketeer.logs',
-			'paths'           => 'rocketeer.paths',
-			'queue'           => 'rocketeer.queue',
-			'releasesManager' => 'rocketeer.releases',
-			'remote'          => 'rocketeer.remote',
-			'rocketeer'       => 'rocketeer.rocketeer',
-			'scm'             => 'rocketeer.scm',
-			'tasks'           => 'rocketeer.tasks',
-			'timer'           => 'rocketeer.timer',
-		);
+    /**
+     * Get an instance from the Container.
+     *
+     * @param string $key
+     *
+     * @return object
+     */
+    public function __get($key)
+    {
+        $shortcuts = [
+            'bash'            => 'rocketeer.bash',
+            'builder'         => 'rocketeer.builder',
+            'command'         => 'rocketeer.command',
+            'connections'     => 'rocketeer.connections',
+            'console'         => 'rocketeer.console',
+            'credentials'     => 'rocketeer.credentials',
+            'environment'     => 'rocketeer.environment',
+            'explainer'       => 'rocketeer.explainer',
+            'history'         => 'rocketeer.history',
+            'localStorage'    => 'rocketeer.storage.local',
+            'logs'            => 'rocketeer.logs',
+            'paths'           => 'rocketeer.paths',
+            'queue'           => 'rocketeer.queue',
+            'releasesManager' => 'rocketeer.releases',
+            'remote'          => 'rocketeer.remote',
+            'rocketeer'       => 'rocketeer.rocketeer',
+            'scm'             => 'rocketeer.scm',
+            'tasks'           => 'rocketeer.tasks',
+            'timer'           => 'rocketeer.timer',
+        ];
 
-		// Replace shortcuts
-		if (isset($shortcuts[$key])) {
-			$key = $shortcuts[$key];
-		}
+        // Replace shortcuts
+        if (isset($shortcuts[$key])) {
+            $key = $shortcuts[$key];
+        }
 
-		return $this->app[$key];
-	}
+        return $this->app[$key];
+    }
 
-	/**
-	 * Set an instance on the Container
-	 *
-	 * @param string $key
-	 * @param object $value
-	 */
-	public function __set($key, $value)
-	{
-		$this->app[$key] = $value;
-	}
+    /**
+     * Set an instance on the Container.
+     *
+     * @param string $key
+     * @param object $value
+     */
+    public function __set($key, $value)
+    {
+        $this->app[$key] = $value;
+    }
 
-	//////////////////////////////////////////////////////////////////////
-	////////////////////////////// COMMAND ///////////////////////////////
-	//////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+    ////////////////////////////// COMMAND ///////////////////////////////
+    //////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Check if the current instance has a Command bound
-	 *
-	 * @return boolean
-	 */
-	protected function hasCommand()
-	{
-		return $this->app->bound('rocketeer.command');
-	}
+    /**
+     * Check if the current instance has a Command bound.
+     *
+     * @return boolean
+     */
+    protected function hasCommand()
+    {
+        return $this->app->bound('rocketeer.command');
+    }
 
-	/**
-	 * Get an option from the Command
-	 *
-	 * @param string $option
-	 * @param bool   $loose
-	 *
-	 * @return string
-	 */
-	public function getOption($option, $loose = false)
-	{
-		if (!$this->hasCommand()) {
-			return;
-		}
+    /**
+     * Get an option from the Command.
+     *
+     * @param string $option
+     * @param bool   $loose
+     *
+     * @return string
+     */
+    public function getOption($option, $loose = false)
+    {
+        if (!$this->hasCommand()) {
+            return;
+        }
 
-		// Verbosity levels
-		if ($option == 'verbose') {
-			return $this->command->getOutput()->getVerbosity();
-		}
+        // Verbosity levels
+        if ($option === 'verbose') {
+            return $this->command->getOutput()->getVerbosity();
+        }
 
-		return $loose ? Arr::get($this->command->option(), $option) : $this->command->option($option);
-	}
+        return $loose ? Arr::get($this->command->option(), $option) : $this->command->option($option);
+    }
 
-	//////////////////////////////////////////////////////////////////////
-	////////////////////////////// CONTEXT ///////////////////////////////
-	//////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+    ////////////////////////////// CONTEXT ///////////////////////////////
+    //////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Check if the class is executed inside a Laravel application
-	 *
-	 * @return boolean
-	 */
-	public function isInsideLaravel()
-	{
-		return $this->app->bound('path');
-	}
+    /**
+     * Check if the class is executed inside a Laravel application.
+     *
+     * @return boolean
+     */
+    public function isInsideLaravel()
+    {
+        return $this->app->bound('path');
+    }
 }
