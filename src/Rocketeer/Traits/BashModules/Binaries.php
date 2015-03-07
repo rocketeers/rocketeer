@@ -171,7 +171,7 @@ trait Binaries
      *
      * @return bool
      */
-    protected function versionCheck($version, $operator = '>=')
+    public function versionCheck($version, $operator = '>=')
     {
         $app = $this->app;
         if (is_a($app, 'Illuminate\Foundation\Application')) {
