@@ -32,6 +32,7 @@
     "kzykhys/parallel": "~0.1.0"
   },
   "require-dev": {
+    "fabpot/php-cs-fixer": "2.0.*@dev",
     "phpunit/phpunit": "~4.0",
     "mockery/mockery": "^0.9.1",
     "nesbot/carbon": "~1.4",
@@ -42,6 +43,11 @@
     "anahkiasen/rocketeer-campfire": "Campfire plugin to create deployments notifications",
     "anahkiasen/rocketeer-slack": "Slack plugin to create deployments notifications",
     "ext-pcntl": "Allow parallel deployments"
+  },
+  "scripts": {
+    "test": "vendor/bin/phpunit",
+    "lint": "vendor/bin/php-cs-fixer fix",
+    "build": "box build --verbose"
   },
   "bin": [
     "bin/rocketeer"
