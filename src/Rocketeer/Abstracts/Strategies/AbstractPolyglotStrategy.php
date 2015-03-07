@@ -36,9 +36,11 @@ abstract class AbstractPolyglotStrategy extends AbstractStrategy
 	 */
 	protected function executeStrategiesMethod($method)
 	{
-		return $this->onStrategies(function (AbstractStrategy $strategy) use ($method) {
+		$this->onStrategies(function (AbstractStrategy $strategy) use ($method) {
 			return $strategy->$method();
 		});
+
+		return $this->passed();
 	}
 
 	/**
