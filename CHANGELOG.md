@@ -4,8 +4,9 @@
 ------------------
 
 ### Fixed
-- Fixed missing `force` flag for Artisan commands
-- Fixed issue when igniting with a connection other than "production"
+- Fixed an issue when igniting with a connection other than "production"
+- Fixed an issue with Polyglot strategies not properly propagating their results to parent tasks
+- Fixed an issue with the `force` flag missing for Artisan commands
 
 2.0.6 - 2015-02-12
 ------------------
