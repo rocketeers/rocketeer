@@ -37,4 +37,12 @@ class AbstractBinaryTest extends RocketeerTestCase
 
         $this->assertEquals('git foobar --foo --bar', $command);
     }
+
+    public function testCanBuildOptinsIfNoValuesSpecified()
+    {
+        $binary  = new Git($this->app);
+        $command = $binary->getCommand('foobar', [], ['--foo' => 'lol', '--bar']);
+
+        $this->assertEquals('git foobar --foo="lol" --bar', $command);
+    }
 }

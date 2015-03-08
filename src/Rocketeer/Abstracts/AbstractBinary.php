@@ -202,6 +202,11 @@ abstract class AbstractBinary
                     $options[] = $flag.'="'.$v.'"';
                 }
             } else {
+                if (is_numeric($flag)) {
+                    $flag  = $value;
+                    $value = null;
+                }
+
                 $options[] = $value ? $flag.'="'.$value.'"' : $flag;
             }
         }
