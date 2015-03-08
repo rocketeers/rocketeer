@@ -92,6 +92,13 @@ class RepositoriesKeychainTest extends RocketeerTestCase
         $this->assertEquals('1.0', $this->credentials->getCurrentRepository()->branch);
     }
 
+    public function testCanProperlyEncodeAuthenticationParameters()
+    {
+        $this->expectRepositoryConfig('https://github.com/foo/bar', 'foo@bar.com', 'fo$obar');
+
+        $this->assertRepositoryEquals('https://foo%40bar.com:fo%24obar@github.com/foo/bar');
+    }
+
     ////////////////////////////////////////////////////////////////////
     //////////////////////////////// HELPERS ///////////////////////////
     ////////////////////////////////////////////////////////////////////

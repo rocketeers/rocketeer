@@ -56,6 +56,10 @@ trait RepositoriesKeychain
         // Add credentials if possible
         if ($username || $password) {
 
+            // Encore parameters
+            $username = urlencode($username);
+            $password = urlencode($password);
+
             // Build credentials chain
             $credentials = $password ? $username.':'.$password : $username;
             $credentials .= '@';
