@@ -1,7 +1,10 @@
 <?php
 namespace Rocketeer\Services\Config;
 
+use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Services\Config\TreeBuilder\NodeBuilder;
+use Rocketeer\Services\Connections\ConnectionsHandler;
+use Rocketeer\Tasks\Subtasks\Primer;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -93,6 +96,12 @@ EOF
                             ->scalarNode('keyphrase')->end()
                             ->scalarNode('agent')->end()
                             ->booleanNode('db_role')->defaultTrue()->end()
+                            ->arrayNode('config')
+                                ->useAttributeAsKey('name')
+                                ->prototype('array')
+                                    ->prototype('variable')->end()
+                                ->end()
+                           ->end()
                         ->end()
                     ->end()
                 ->end()
@@ -316,7 +325,7 @@ EOF
                         ->end()
                         ->closureNode('callback')
                             ->info("what actions will be executed to set permissions on the folder above")
-                            ->defaultValue(function ($task, $file) {
+                            ->defaultValue(function (AbstractTask $task, $file) {
                                 return array(
                                     sprintf('chmod -R 755 %s', $file),
                                     sprintf('chmod -R g+s %s', $file),
