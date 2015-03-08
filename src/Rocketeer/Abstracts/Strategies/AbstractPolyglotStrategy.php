@@ -38,13 +38,15 @@ abstract class AbstractPolyglotStrategy extends AbstractStrategy
      *
      * @param string $method
      *
-     * @return boolean[]
+     * @return boolean
      */
     protected function executeStrategiesMethod($method)
     {
-        return $this->onStrategies(function (AbstractStrategy $strategy) use ($method) {
+        $this->onStrategies(function (AbstractStrategy $strategy) use ($method) {
             return $strategy->$method();
         });
+
+        return $this->passed();
     }
 
     /**
@@ -56,9 +58,9 @@ abstract class AbstractPolyglotStrategy extends AbstractStrategy
      */
     protected function checkStrategiesMethod($method)
     {
-        $results = $this->executeStrategiesMethod($method);
+        $this->executeStrategiesMethod($method);
 
-        return $this->checkStrategiesResults($results);
+        return $this->checkStrategiesResults($this->results);
     }
 
     /**
@@ -70,9 +72,9 @@ abstract class AbstractPolyglotStrategy extends AbstractStrategy
      */
     protected function gatherMissingFromMethod($method)
     {
-        $missing  = [];
-        $gathered = $this->executeStrategiesMethod($method);
-        foreach ($gathered as $value) {
+        $missing = [];
+        $this->executeStrategiesMethod($method);
+        foreach ($this->results as $value) {
             $missing = array_merge($missing, $value);
         }
 

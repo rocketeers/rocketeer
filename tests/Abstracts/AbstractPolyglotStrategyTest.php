@@ -22,7 +22,9 @@ class AbstractPolyglotStrategyTest extends RocketeerTestCase
 
         /** @type \Rocketeer\Abstracts\Strategies\AbstractPolyglotStrategy $strategy */
         $strategy = $this->builder->buildStrategy('failing', 'Rocketeer\Dummies\FailingPolyglotStrategy');
-        $strategy->fire();
+		$result = $strategy->fire();
+
+		$this->assertFalse($result);
 
         $this->assertFalse($strategy->passed());
     }

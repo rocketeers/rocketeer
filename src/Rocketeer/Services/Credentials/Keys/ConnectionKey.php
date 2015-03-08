@@ -75,7 +75,7 @@ class ConnectionKey extends AbstractKey
      */
     public function getServerCredentials()
     {
-        return Arr::get($this->servers, $this->server);
+        return Arr::get($this->servers, $this->server) ?: [];
     }
 
     /**
@@ -87,7 +87,7 @@ class ConnectionKey extends AbstractKey
      */
     public function getServerCredential($credential)
     {
-        return Arr::get($this->getServerCredentials(), $credential);
+        return Arr::get($this->getServerCredentials(), $credential) ?: [];
     }
 
     //////////////////////////////////////////////////////////////////////

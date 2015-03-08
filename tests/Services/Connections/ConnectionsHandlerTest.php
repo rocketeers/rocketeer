@@ -2,6 +2,7 @@
 namespace Rocketeer\Services\Connections;
 
 use Mockery\MockInterface;
+use Rocketeer\Services\Credentials\Keys\ConnectionKey;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class ConnectionsHandlerTest extends RocketeerTestCase
@@ -230,6 +231,13 @@ class ConnectionsHandlerTest extends RocketeerTestCase
     public function testCanGetRepositoryName()
     {
         $this->assertEquals('Anahkiasen/html-object', $this->credentials->getCurrentRepository()->getName());
+    }
+
+    public function testAlwaysReturnsArrayIfNoCredentialsFound()
+    {
+        $key = new ConnectionKey();
+
+        $this->assertEquals([], $key->getServerCredentials());
     }
 
     ////////////////////////////////////////////////////////////////////

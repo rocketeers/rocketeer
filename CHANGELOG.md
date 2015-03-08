@@ -40,6 +40,17 @@ Rocketeer follows the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.ht
 - Fixed an issue where using `hostname:port` would fail with the Rsync strategy
 - Fixed HHVM support
 
+## [2.1.0] - 2015-03-08
+------------------
+
+### Added
+- Added ability to have contextual server configuration by adding a `config` array to a server's configuration
+
+### Fixed
+- Fixed an issue when igniting with a connection other than "production"
+- Fixed an issue with Polyglot strategies not properly propagating their results to parent tasks
+- Fixed an issue with the `force` flag missing for Artisan commands
+
 ## [2.0.6] - 2015-02-12
 
 ### Fixed
@@ -386,7 +397,8 @@ Rocketeer follows the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.ht
 - Added config file
 - Added `deploy:setup` and `deploy:deploy` commands
 
-[3.0.0]: https://github.com/rocketeers/rocketeer/compare/2.0.6...develop
+[3.0.0]: https://github.com/rocketeers/rocketeer/compare/2.1.0...develop
+[2.1.0]: https://github.com/rocketeers/rocketeer/compare/2.0.6...2.1.0
 [2.0.6]: https://github.com/rocketeers/rocketeer/compare/2.0.5...2.0.6
 [2.0.5]: https://github.com/rocketeers/rocketeer/compare/2.0.4...2.0.5
 [2.0.4]: https://github.com/rocketeers/rocketeer/compare/2.0.3...2.0.4
