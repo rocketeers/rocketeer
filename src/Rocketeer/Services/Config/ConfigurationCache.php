@@ -8,8 +8,8 @@ class ConfigurationCache extends ConfigCache
     /**
      * Writes cache.
      *
-     * @param string              $content  The content to write in the cache
-     * @param ResourceInterface[] $metadata An array of ResourceInterface instances
+     * @param array                                              $content  The content to write in the cache
+     * @param \Symfony\Component\Config\ResourceInterface[]|null $metadata An array of ResourceInterface instances
      *
      * @throws \RuntimeException When cache file can't be written
      */

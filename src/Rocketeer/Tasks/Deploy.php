@@ -52,7 +52,7 @@ class Deploy extends AbstractTask
         }
 
         // Setup the new release
-        $release = $this->releasesManager->getNextRelease();
+        $this->releasesManager->getNextRelease();
 
         // Create release and set it up
         $this->steps()->executeTask('CreateRelease');

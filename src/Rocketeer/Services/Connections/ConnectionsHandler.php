@@ -184,7 +184,7 @@ class ConnectionsHandler
      * Set the current connection.
      *
      * @param ConnectionKey|string $connection
-     * @param integer              $server
+     * @param integer|null         $server
      */
     public function setConnection($connection, $server = null)
     {

@@ -4,6 +4,7 @@ namespace Rocketeer\Services\Config;
 use Illuminate\Filesystem\Filesystem;
 use Rocketeer\Services\Config\Dumpers\JsonReferenceDumper;
 use Rocketeer\Services\Config\Dumpers\PhpReferenceDumper;
+use Symfony\Component\Config\Definition\ArrayNode;
 use Symfony\Component\Config\Definition\Dumper\XmlReferenceDumper;
 use Symfony\Component\Config\Definition\Dumper\YamlReferenceDumper;
 
@@ -34,8 +35,8 @@ class ConfigurationPublisher
     /**
      * Set the available options and their values
      *
-     * @param string $format
-     * @param string $node
+     * @param string      $format
+     * @param string|null $node
      *
      * @return string
      */
@@ -63,7 +64,7 @@ class ConfigurationPublisher
 
         $definition = $this->definition;
         $definition = $definition->getConfigTreeBuilder()->buildTree();
-        if ($node) {
+        if ($node && $definition instanceof ArrayNode) {
             $definition = $definition->getChildren()[$node];
         }
 

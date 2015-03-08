@@ -205,7 +205,7 @@ class RocketeerServiceProvider extends ServiceProvider
      */
     protected function registerConfig()
     {
-        $this->app->bind('Symfony\Component\Config\Loader\LoaderInterface', function ($app) {
+        $this->app->bind('Symfony\Component\Config\Loader\LoaderInterface', function () {
             $locator = new FileLocator();
             $loader  = new LoaderResolver([new PhpLoader($locator)]);
             $loader  = new DelegatingLoader($loader);

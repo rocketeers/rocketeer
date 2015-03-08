@@ -8,18 +8,19 @@ use Rocketeer\Services\Connections\roles;
 /**
  * Represents a connection's identity and its credential.
  *
- * @property string  name
- * @property integer server
- * @property string  stage
- * @property array   servers
- * @property string  host
- * @property string  username
- * @property string  password
- * @property string  key
- * @property string  keyphrase
- * @property string  agent
- * @property boolean db_role
- * @property roles   array
+ * @property string   name
+ * @property integer  server
+ * @property string   stage
+ * @property array    servers
+ * @property string   host
+ * @property string   username
+ * @property string   password
+ * @property string   key
+ * @property string   keyphrase
+ * @property string   agent
+ * @property string[] roles
+ * @property boolean  db_role
+ * @property roles    array
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */

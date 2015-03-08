@@ -44,6 +44,6 @@ class RepositoryKey extends AbstractKey
      */
     protected function getHandleComponents()
     {
-        return [$this->username, $this->name];
+        return [$this->username, $this->getName()];
     }
 }

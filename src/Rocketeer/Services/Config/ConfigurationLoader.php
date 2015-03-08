@@ -166,8 +166,6 @@ class ConfigurationLoader
 
         // Load base files
         foreach ($files as $file) {
-            $key = $file->getBasename('.php');
-
             // Load file
             $contents = $this->loader->load($file->getPathname());
             $contents = $this->autoWrap($file, $contents);
@@ -233,14 +231,14 @@ class ConfigurationLoader
     }
 
     /**
-     * @param string $folder
+     * @param string|string[] $folders
      *
      * @return Finder|SplFileInfo[]
      */
-    protected function getFinder($folder)
+    protected function getFinder($folders)
     {
         return (new Finder())
-            ->in($folder)
+            ->in($folders)
             ->name('*.php')
             ->notName('/(events|tasks)\.php/')
             ->sortByName()

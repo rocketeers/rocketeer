@@ -14,13 +14,6 @@ namespace Rocketeer\Tasks;
 use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Interfaces\Strategies\MigrateStrategyInterface;
 
-/*
- * For Multi-Server environments, usually the migrations need to be run in
- * one server only. For that reason I use a 'role' array in the connection (or servers) array
- * to show in which server the migration should be run.
- * If it's NOT a multiserver connection, then proceed as usual.
- */
-
 class Migrate extends AbstractTask
 {
     /**
@@ -79,7 +72,7 @@ class Migrate extends AbstractTask
         return
             $this->strategy &&
             ($this->getOption('migrate') || $this->getOption('seed')) &&
-            (!$useRoles || ($connection->multiserver && $useRoles && $hasRole));
+            (!$useRoles || ($connection->isMultiserver() && $useRoles && $hasRole));
     }
 
     /**

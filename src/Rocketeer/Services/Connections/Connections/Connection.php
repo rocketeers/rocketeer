@@ -217,7 +217,7 @@ class Connection implements ConnectionInterface, HasRolesInterface
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getUsername()
     {
