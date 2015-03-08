@@ -94,7 +94,7 @@ abstract class AbstractReferenceDumper
             $default    = $node->getDefaultValue();
         } elseif ($node instanceof ClosureNode) {
             $default  = $node->getDefaultValue();
-            $analyzer = new AstAnalyzer();
+            $analyzer = new TokenAnalyzer();
             $default  = $analyzer->analyze($default)['code'];
         } else {
             $default = null;
@@ -132,7 +132,7 @@ abstract class AbstractReferenceDumper
             $default = (!$example && !$children && !$defaultArray) ? '],' : null;
             $format  = '%s%s %s';
         } elseif ($node instanceof ClosureNode) {
-            $default = substr($default, 0, -1).',';
+            $default .= ',';
         } else {
             $default = $default === "\n" ? '"\n"' : $this->serializeValue($default);
             $default .= ',';

@@ -1,10 +1,7 @@
 <?php
 namespace Rocketeer\Services\Config;
 
-use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Services\Config\TreeBuilder\NodeBuilder;
-use Rocketeer\Services\Connections\ConnectionsHandler;
-use Rocketeer\Tasks\Subtasks\Primer;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -59,7 +56,7 @@ class ConfigurationDefinition implements ConfigurationInterface
                 ->end()
                 ->closureNode('logs')
                     ->info('The schema to use to name log files')
-                    ->defaultValue(function (ConnectionsHandler $connections) {
+                    ->defaultValue(function (\Rocketeer\Services\Connections\ConnectionsHandler $connections) {
                         return sprintf('%s-%s.log', $connections->getCurrentConnection(), date('Ymd'));
                     })
                 ->end()
@@ -253,7 +250,7 @@ EOF
                     ->defaultValue('Polyglot')
                 ->end()
                 ->closureNode('primer')
-                    ->defaultValue(function (Primer $task) {
+                    ->defaultValue(function (\Rocketeer\Tasks\Subtasks\Primer $task) {
                         return array(
                             // $task->executeTask('Test'),
                             // $task->binary('grunt')->execute('lint'),
@@ -325,7 +322,7 @@ EOF
                         ->end()
                         ->closureNode('callback')
                             ->info("what actions will be executed to set permissions on the folder above")
-                            ->defaultValue(function (AbstractTask $task, $file) {
+                            ->defaultValue(function ($task, $file) {
                                 return array(
                                     sprintf('chmod -R 755 %s', $file),
                                     sprintf('chmod -R g+s %s', $file),
