@@ -225,10 +225,10 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         $defaults = array_combine($keys, array_values($defaults));
 
         $overrides = array(
-            'cache.driver'                        => 'file',
-            'database.default'                    => 'mysql',
+            'cache.driver'             => 'file',
+            'database.default'         => 'mysql',
             'default'                  => 'production',
-            'session.driver'                      => 'file',
+            'session.driver'           => 'file',
             'connections'              => array(
                 'production' => ['host' => '{host}', 'username' => '{username}', 'password' => '{password}'],
                 'staging'    => ['host' => '{host}', 'username' => '{username}', 'password' => '{password}'],

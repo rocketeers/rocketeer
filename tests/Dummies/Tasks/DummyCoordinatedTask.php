@@ -15,7 +15,7 @@ class DummyCoordinatedTask extends AbstractTask
         echo 'A:'.$this->connections->getCurrentConnection().PHP_EOL;
 
         $this->coordinator->whenAllServersReadyTo('rumble', function () {
-           echo 'B:'.$this->connections->getCurrentConnection().PHP_EOL;
+            echo 'B:'.$this->connections->getCurrentConnection().PHP_EOL;
 
             $this->coordinator->whenAllServersReadyTo('tumble', function () {
                 echo 'C:'.$this->connections->getCurrentConnection().PHP_EOL;

@@ -15,7 +15,6 @@ namespace Rocketeer\Traits\BashModules;
  * @mixin Core
  * @mixin Filesystem
  * @mixin Flow
-
  *
  * @method \Rocketeer\Binaries\PackageManagers\Bower bower()
  * @method \Rocketeer\Binaries\PackageManagers\Bundler bundler()
@@ -26,7 +25,6 @@ namespace Rocketeer\Traits\BashModules;
  * @method \Rocketeer\Binaries\Scm\Git git()
  * @method \Rocketeer\Binaries\Scm\Hg hg()
  * @method \Rocketeer\Binaries\Scm\Svn svn()
-
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */

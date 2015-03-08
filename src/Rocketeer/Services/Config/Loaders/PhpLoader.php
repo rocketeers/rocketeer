@@ -1,7 +1,6 @@
 <?php
 namespace Rocketeer\Services\Config\Loaders;
 
-use Symfony\Component\Config\Exception\FileLoaderLoadException;
 use Symfony\Component\Config\Loader\FileLoader;
 
 class PhpLoader extends FileLoader

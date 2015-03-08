@@ -11,7 +11,6 @@
 namespace Rocketeer\Strategies\Deploy;
 
 use Rocketeer\Abstracts\Strategies\AbstractStrategy;
-use Rocketeer\Bash;
 use Rocketeer\Interfaces\Strategies\DeployStrategyInterface;
 
 class SyncStrategy extends AbstractStrategy implements DeployStrategyInterface

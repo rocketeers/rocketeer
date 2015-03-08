@@ -41,7 +41,7 @@ class AbstractNotifierTest extends RocketeerTestCase
                 ->shouldReceive('set')->once()->with('notifier.name', 'foobar');
         });
         $this->mock('rocketeer.connections', 'ConnectionsHandler', function (MockInterface $mock) {
-            $handle          = new ConnectionKey(['name' => 'production', 'server' => 0, 'stage' => 'staging']);
+            $handle = new ConnectionKey(['name' => 'production', 'server' => 0, 'stage' => 'staging']);
             $handle->servers = [['host' => 'foo.bar.com']];
 
             return $mock
@@ -50,7 +50,10 @@ class AbstractNotifierTest extends RocketeerTestCase
 
         $this->mock('rocketeer.credentials.handler', 'CredentialsHandler', function (MockInterface $mock) {
             return $mock
-                ->shouldReceive('getCurrentRepository')->andReturn(new RepositoryKey(['endpoint' => 'rocketeers/rocketeer', 'branch' => 'master']));
+                ->shouldReceive('getCurrentRepository')->andReturn(new RepositoryKey([
+                    'endpoint' => 'rocketeers/rocketeer',
+                    'branch'   => 'master'
+                ]));
         });
 
         $this->task('deploy')->fireEvent('before');

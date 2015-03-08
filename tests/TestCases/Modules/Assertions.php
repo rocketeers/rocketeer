@@ -31,7 +31,7 @@ trait Assertions
         $this->expectOutputRegex('/'.$event.'/');
 
         $this->tasks->listenTo($event, function () use ($event) {
-           echo $event;
+            echo $event;
         });
     }
 

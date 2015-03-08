@@ -1,12 +1,8 @@
 <?php
 namespace Rocketeer\Services\Config\Dumpers;
 
-use Rocketeer\Services\Config\TreeBuilder\ClosureNode;
 use SuperClosure\Analyzer\AstAnalyzer;
-use Symfony\Component\Config\Definition\ArrayNode;
-use Symfony\Component\Config\Definition\EnumNode;
 use Symfony\Component\Config\Definition\NodeInterface;
-use Symfony\Component\Config\Definition\PrototypedArrayNode;
 
 /**
  * Dumps a Symfony reference in PHP format

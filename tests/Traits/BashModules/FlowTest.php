@@ -32,7 +32,7 @@ class FlowTest extends RocketeerTestCase
         $this->bash->runForApplication('ls');
         $this->assertHistoryContains(array(
             array(
-               'cd {server}/releases/{release}/laravel',
+                'cd {server}/releases/{release}/laravel',
                 'ls',
             ),
         ));

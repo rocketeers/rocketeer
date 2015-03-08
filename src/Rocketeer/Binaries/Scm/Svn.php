@@ -113,8 +113,8 @@ class Svn extends AbstractBinary implements ScmInterface
      */
     protected function getCredentials()
     {
-        $options     = ['--non-interactive' => null];
-        $repository  = $this->credentials->getCurrentRepository();
+        $options    = ['--non-interactive' => null];
+        $repository = $this->credentials->getCurrentRepository();
 
         // Build command
         if ($user = $repository->username) {

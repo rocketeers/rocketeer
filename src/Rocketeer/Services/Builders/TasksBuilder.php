@@ -74,8 +74,8 @@ trait TasksBuilder
      * @param string|Closure|AbstractTask $task
      *
      * @throws \Rocketeer\Exceptions\TaskCompositionException
-     * @return mixed|AbstractTask
      *
+     * @return mixed|AbstractTask
      */
     protected function composeTask($task)
     {
