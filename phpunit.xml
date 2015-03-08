@@ -15,7 +15,7 @@
 		<whitelist>
 			<directory>src/Rocketeer</directory>
 			<exclude>
-				<file>src/Rocketeer/Abstracts/AbstractCommand.php</file>
+				<file>src/Rocketeer/Abstracts/Commands/AbstractCommand.php</file>
 				<file>src/Rocketeer/RocketeerServiceProvider.php</file>
 				<directory>src/Rocketeer/Console</directory>
 				<directory>src/Rocketeer/Interfaces</directory>
