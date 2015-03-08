@@ -2,7 +2,6 @@
 namespace Rocketeer\Services\Connections;
 
 use Mockery\MockInterface;
-use Rocketeer\Services\Credentials\Keys\ConnectionKey;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class ConnectionsHandlerTest extends RocketeerTestCase
@@ -39,105 +38,6 @@ class ConnectionsHandlerTest extends RocketeerTestCase
 
         $this->connections->setConnections('staging,production');
         $this->assertEquals(array('staging', 'production'), $this->connections->getConnections());
-    }
-
-    public function testUsesCurrentServerWhenGettingServerCredentials()
-    {
-        $this->swapConnections(array(
-            'production' => array(
-                'servers' => array(
-                    ['host' => 'server1.com'],
-                    ['host' => 'server2.com'],
-                ),
-            ),
-        ));
-
-        $this->connections->setConnection('production', 0);
-        $this->assertEquals(['host' => 'server1.com'], $this->credentials->getServerCredentials());
-
-        $this->connections->setConnection('production', 1);
-        $this->assertEquals(['host' => 'server2.com'], $this->credentials->getServerCredentials());
-    }
-
-    public function testCanUseSshRepository()
-    {
-        $repository = 'git@github.com:'.$this->repository;
-        $this->expectRepositoryConfig($repository, '', '');
-
-        $this->assertRepositoryEquals($repository);
-    }
-
-    public function testCanUseHttpsRepository()
-    {
-        $this->expectRepositoryConfig('https://github.com/'.$this->repository, 'foobar', 'bar');
-
-        $this->assertRepositoryEquals('https://foobar:bar@github.com/'.$this->repository);
-    }
-
-    public function testCanUseHttpsRepositoryWithUsernameProvided()
-    {
-        $this->expectRepositoryConfig('https://foobar@github.com/'.$this->repository, 'foobar', 'bar');
-
-        $this->assertRepositoryEquals('https://foobar:bar@github.com/'.$this->repository);
-    }
-
-    public function testCanUseHttpsRepositoryWithOnlyUsernameProvided()
-    {
-        $this->expectRepositoryConfig('https://foobar@github.com/'.$this->repository, 'foobar', '');
-
-        $this->assertRepositoryEquals('https://foobar@github.com/'.$this->repository);
-    }
-
-    public function testCanCleanupProvidedRepositoryFromCredentials()
-    {
-        $this->expectRepositoryConfig('https://foobar@github.com/'.$this->repository, 'Anahkiasen', '');
-
-        $this->assertRepositoryEquals('https://Anahkiasen@github.com/'.$this->repository);
-    }
-
-    public function testCanUseHttpsRepositoryWithoutCredentials()
-    {
-        $this->expectRepositoryConfig('https://github.com/'.$this->repository, '', '');
-
-        $this->assertRepositoryEquals('https://github.com/'.$this->repository);
-    }
-
-    public function testCanCheckIfRepositoryNeedsCredentials()
-    {
-        $this->expectRepositoryConfig('https://github.com/'.$this->repository, '', '');
-        $this->assertTrue($this->credentials->getCurrentRepository()->needsCredentials());
-    }
-
-    public function testCangetRepositoryBranch()
-    {
-        $this->assertEquals('master', $this->credentials->getCurrentRepository()->branch);
-    }
-
-    public function testCanExtractCurrentBranchIfNoneSpecified()
-    {
-        $this->config->set('scm.branch', null);
-        $this->mock('rocketeer.bash', 'Bash', function (MockInterface $mock) {
-            return $mock->shouldReceive('onLocal')->andReturn('  foobar  ');
-        });
-
-        $this->assertEquals('foobar', $this->credentials->getCurrentRepository()->branch);
-    }
-
-    public function testCanDefaultToMasterIfNoBranchFound()
-    {
-        $this->config->set('scm.branch', null);
-        $this->mock('rocketeer.bash', 'Bash', function (MockInterface $mock) {
-            return $mock->shouldReceive('onLocal')->andReturn(null);
-        });
-
-        $this->assertEquals('master', $this->credentials->getCurrentRepository()->branch);
-    }
-
-    public function testCanPassRepositoryBranchAsFlag()
-    {
-        $this->mockCommand(['branch' => '1.0']);
-
-        $this->assertEquals('1.0', $this->credentials->getCurrentRepository()->branch);
     }
 
     public function testFillsConnectionCredentialsHoles()
@@ -201,64 +101,10 @@ class ConnectionsHandlerTest extends RocketeerTestCase
         $this->assertCurrentServerEquals(1);
     }
 
-    public function testCanSpecifyServersViaOptions()
-    {
-        $this->swapConnections(array(
-            'production' => array(
-                'servers' => array(
-                    ['host' => 'server1.com'],
-                    ['host' => 'server2.com'],
-                    ['host' => 'server3.com'],
-                ),
-            ),
-        ));
-
-        $this->mockCommand(array(
-            'on'     => 'production',
-            'server' => '0,1',
-        ));
-
-        $this->assertArrayNotHasKey(2, $this->credentials->getConnectionCredentials('production'));
-    }
-
     public function testThrowsExceptionWhenTryingToSetInvalidConnection()
     {
         $this->setExpectedException('Rocketeer\Exceptions\ConnectionException', 'Invalid connection(s): foo, bar');
 
         $this->connections->setConnections('foo,bar');
-    }
-
-    public function testCanGetRepositoryName()
-    {
-        $this->assertEquals('Anahkiasen/html-object', $this->credentials->getCurrentRepository()->getName());
-    }
-
-    public function testAlwaysReturnsArrayIfNoCredentialsFound()
-    {
-        $key = new ConnectionKey();
-
-        $this->assertEquals([], $key->getServerCredentials());
-    }
-
-    ////////////////////////////////////////////////////////////////////
-    //////////////////////////////// HELPERS ///////////////////////////
-    ////////////////////////////////////////////////////////////////////
-
-    /**
-     * Make the config return specific SCM config.
-     *
-     * @param string $repository
-     * @param string $username
-     * @param string $password
-     */
-    protected function expectRepositoryConfig($repository, $username, $password)
-    {
-        $this->swapConfig(array(
-            'scm' => array(
-                'repository' => $repository,
-                'username'   => $username,
-                'password'   => $password,
-            ),
-        ));
     }
 }
