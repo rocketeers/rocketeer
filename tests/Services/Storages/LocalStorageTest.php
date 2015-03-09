@@ -61,11 +61,4 @@ class LocalStorageTest extends RocketeerTestCase
         $this->assertEquals($this->server, $storage->getFolder());
         $this->assertEquals($this->server.'/foo.json', $file);
     }
-
-    public function testCanDelegateMethodsToEnvironment()
-    {
-        $this->localStorage->destroy();
-
-        $this->assertEquals(PHP_EOL, $this->localStorage->getLineEndings());
-    }
 }
