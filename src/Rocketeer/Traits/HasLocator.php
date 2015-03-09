@@ -144,7 +144,7 @@ trait HasLocator
     /**
      * Check if the current instance has a Command bound.
      *
-     * @return boolean
+     * @return bool
      */
     protected function hasCommand()
     {

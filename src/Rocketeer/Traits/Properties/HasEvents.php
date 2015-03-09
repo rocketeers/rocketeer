@@ -76,7 +76,7 @@ trait HasEvents
      *
      * @param callable $callable
      *
-     * @return boolean
+     * @return bool
      */
     public function runWithBeforeAfterEvents(callable $callable)
     {
@@ -96,7 +96,7 @@ trait HasEvents
      *
      * @param string $event
      *
-     * @return boolean
+     * @return bool
      */
     public function fireEvent($event)
     {

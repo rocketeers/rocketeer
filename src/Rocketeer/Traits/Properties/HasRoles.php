@@ -47,7 +47,7 @@ trait HasRoles
     /**
      * @param string $role
      *
-     * @return boolean
+     * @return bool
      */
     public function hasRole($role)
     {
@@ -59,7 +59,7 @@ trait HasRoles
      *
      * @param HasRolesInterface $hasRoles
      *
-     * @return boolean
+     * @return bool
      */
     public function isCompatibleWith(HasRolesInterface $hasRoles)
     {

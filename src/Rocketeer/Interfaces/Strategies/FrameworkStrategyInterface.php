@@ -24,7 +24,7 @@ interface FrameworkStrategyInterface
      * Whether Rocketeer is used as a dependency of
      * this application or globally.
      *
-     * @return boolean
+     * @return bool
      */
     public function isInsideApplication();
 

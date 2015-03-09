@@ -39,7 +39,7 @@ interface StorageInterface
     /**
      * Destroy the file.
      *
-     * @return boolean
+     * @return bool
      */
     public function destroy();
 }

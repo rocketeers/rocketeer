@@ -48,7 +48,7 @@ trait ConnectionsKeychain
      * Get the credentials for as server.
      *
      * @param ConnectionKey|string|null $connection
-     * @param integer                   $server
+     * @param int                       $server
      *
      * @return array
      */
@@ -88,7 +88,7 @@ trait ConnectionsKeychain
      * Build the current connection's handle.
      *
      * @param ConnectionKey|string|null $connection
-     * @param integer|null              $server
+     * @param int|null                  $server
      * @param string|null               $stage
      *
      * @return ConnectionKey
@@ -116,7 +116,7 @@ trait ConnectionsKeychain
      * Transform an instance/credentials into a ConnectionKey.
      *
      * @param ConnectionKey|string|null $connection
-     * @param integer|null              $server
+     * @param int|null                  $server
      *
      * @return ConnectionKey
      */

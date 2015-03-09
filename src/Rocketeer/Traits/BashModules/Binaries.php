@@ -73,7 +73,7 @@ trait Binaries
      *
      * @param string      $binary   The name of the binary
      * @param string|null $fallback A fallback location
-     * @param boolean     $prompt
+     * @param bool        $prompt
      *
      * @return string
      */

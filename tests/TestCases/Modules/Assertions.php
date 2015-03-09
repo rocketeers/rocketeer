@@ -48,7 +48,7 @@ trait Assertions
     /**
      * Assert that the current server is a specific one.
      *
-     * @param integer $server
+     * @param int $server
      */
     protected function assertCurrentServerEquals($server)
     {
@@ -178,8 +178,8 @@ trait Assertions
     /**
      * Replace placeholders in an history.
      *
-     * @param array        $history
-     * @param integer|null $release
+     * @param array    $history
+     * @param int|null $release
      *
      * @return array
      */

@@ -109,7 +109,7 @@ trait Contexts
     /**
      * Mock usage of Laravel framework.
      *
-     * @param boolean $uses
+     * @param bool $uses
      */
     protected function usesLaravel($uses = true)
     {
@@ -123,7 +123,7 @@ trait Contexts
     /**
      * Mock the Composer check.
      *
-     * @param boolean     $uses
+     * @param bool        $uses
      * @param string|null $stage
      */
     protected function usesComposer($uses = true, $stage = null)
@@ -134,7 +134,7 @@ trait Contexts
     /**
      * Mock the Bundler check.
      *
-     * @param boolean     $uses
+     * @param bool        $uses
      * @param string|null $stage
      */
     protected function usesBundler($uses = true, $stage = null)
@@ -145,7 +145,7 @@ trait Contexts
     /**
      * Mock the use of a package manager.
      *
-     * @param boolean     $uses
+     * @param bool        $uses
      * @param string      $filename
      * @param string|null $stage
      * @param string|null $contents

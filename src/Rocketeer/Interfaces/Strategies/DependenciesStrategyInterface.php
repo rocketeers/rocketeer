@@ -14,14 +14,14 @@ interface DependenciesStrategyInterface
     /**
      * Install the dependencies.
      *
-     * @return boolean
+     * @return bool
      */
     public function install();
 
     /**
      * Update the dependencies.
      *
-     * @return boolean
+     * @return bool
      */
     public function update();
 }

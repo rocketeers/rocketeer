@@ -21,16 +21,16 @@ interface DeployStrategyInterface
      *
      * @param string|null $destination
      *
-     * @return boolean
+     * @return bool
      */
     public function deploy($destination = null);
 
     /**
      * Update the latest version of the application.
      *
-     * @param boolean $reset
+     * @param bool $reset
      *
-     * @return boolean
+     * @return bool
      */
     public function update($reset = true);
 }

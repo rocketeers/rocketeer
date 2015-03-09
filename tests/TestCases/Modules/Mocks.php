@@ -26,7 +26,7 @@ trait Mocks
      * @param string  $handle
      * @param string  $class
      * @param Closure $expectations
-     * @param boolean $partial
+     * @param bool    $partial
      *
      * @return Mockery
      */

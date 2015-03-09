@@ -40,7 +40,7 @@ interface ConnectionInterface
     /**
      * Get the exit status of the last command.
      *
-     * @return integer|bool
+     * @return int|bool
      */
     public function status();
 }

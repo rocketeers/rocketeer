@@ -235,7 +235,7 @@ trait TasksBuilder
      *
      * @param string|Closure|AbstractTask $string
      *
-     * @return boolean
+     * @return bool
      */
     protected function isStringCommand($string)
     {
@@ -247,7 +247,7 @@ trait TasksBuilder
      *
      * @param array|string|Closure $task
      *
-     * @return boolean
+     * @return bool
      */
     public function isCallable($task)
     {

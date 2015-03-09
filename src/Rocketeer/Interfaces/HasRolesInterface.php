@@ -31,7 +31,7 @@ interface HasRolesInterface
     /**
      * @param string $role
      *
-     * @return boolean
+     * @return bool
      */
     public function hasRole($role);
 
@@ -40,7 +40,7 @@ interface HasRolesInterface
      *
      * @param HasRolesInterface $hasRoles
      *
-     * @return boolean
+     * @return bool
      */
     public function isCompatibleWith(HasRolesInterface $hasRoles);
 }
