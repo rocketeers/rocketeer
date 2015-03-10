@@ -90,7 +90,7 @@ class Configuration
     public function exportConfiguration()
     {
         $destination = $this->paths->getConfigurationPath();
-        $format      = $this->getOption('format', true);
+        $format      = $this->getOption('format', true) ?: 'php';
 
         // Create directory
         if (!is_dir($destination)) {
@@ -121,7 +121,8 @@ class Configuration
     public function updateConfiguration($folder, array $values = array())
     {
         // Replace stub values in files
-        $files = $this->files->files(dirname($folder));
+        $folder = strpos($folder, 'config.') !== false ? dirname($folder) : $folder;
+        $files  = $this->files->files($folder);
         foreach ($files as $file) {
             foreach ($values as $name => $value) {
                 $contents = str_replace('{'.$name.'}', $value, file_get_contents($file));
