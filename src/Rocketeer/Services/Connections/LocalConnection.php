@@ -65,15 +65,15 @@ class LocalConnection implements ConnectionInterface
     public function run($commands, Closure $callback = null)
     {
         $commands = (array) $commands;
-        foreach ($commands as $command) {
-            exec($command, $output, $status);
+        $commands = implode(' && ', $commands);
 
-            $this->previousStatus = $status;
-            if ($callback) {
-                $output = (array) $output;
-                foreach ($output as $line) {
-                    $callback($line.PHP_EOL);
-                }
+        exec($commands, $output, $status);
+
+        $this->previousStatus = $status;
+        if ($callback) {
+            $output = (array) $output;
+            foreach ($output as $line) {
+                $callback($line.PHP_EOL);
             }
         }
     }
@@ -95,7 +95,6 @@ class LocalConnection implements ConnectionInterface
      * @param string $remote
      *
      * @codeCoverageIgnore
-     *
      * @return int
      */
     public function put($local, $remote)
@@ -111,7 +110,6 @@ class LocalConnection implements ConnectionInterface
      * @param string $remote
      *
      * @codeCoverageIgnore
-     *
      * @return string
      */
     public function getString($remote)
@@ -140,7 +138,6 @@ class LocalConnection implements ConnectionInterface
      * @param string $contents
      *
      * @codeCoverageIgnore
-     *
      * @return int
      */
     public function putString($remote, $contents)

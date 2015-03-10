@@ -75,6 +75,6 @@ class Rollback extends AbstractTask
             $release = $this->releasesManager->getPreviousRelease();
         }
 
-        return $release;
+        return (int) $release;
     }
 }
