@@ -9,6 +9,7 @@
  */
 namespace Rocketeer\Strategies\Deploy;
 
+use Illuminate\Support\Arr;
 use Rocketeer\Abstracts\Strategies\AbstractStrategy;
 use Rocketeer\Bash;
 use Rocketeer\Interfaces\Strategies\DeployStrategyInterface;
@@ -19,6 +20,11 @@ class SyncStrategy extends AbstractStrategy implements DeployStrategyInterface
      * @type string
      */
     protected $description = 'Uses rsync to create or update a release from the local files';
+
+    /**
+     * @type integer
+     */
+    protected $port;
 
     /**
      * Deploy a new clean copy of the application.
@@ -63,25 +69,75 @@ class SyncStrategy extends AbstractStrategy implements DeployStrategyInterface
     protected function rsyncTo($destination)
     {
         // Build host handle
-        $credentials = $this->connections->getServerCredentials();
-        $handle      = array_get($credentials, 'host');
+        $arguments = [];
+        $handle    = $this->getSyncHandle();
+
+        // Create options
+        $options = ['--verbose' => null, '--recursive' => null, '--rsh' => 'ssh', '--compress' => null];
+
+        // Create SSH command
+        $options['--rsh'] = $this->getTransport();
+
+        // Build arguments
+        $arguments[] = './';
+        $arguments[] = $handle.':'.$destination;
+
+        // Set excluded files and folders
+        $options['--exclude'] = ['.git', 'vendor'];
+
+        // Create binary and command
+        $rsync   = $this->binary('rsync');
+        $command = $rsync->getCommand(null, $arguments, $options);
+
+        return $this->bash->onLocal(function (Bash $bash) use ($command) {
+            return $bash->run($command);
+        });
+    }
+
+    /**
+     * Get the handle to connect with.
+     *
+     * @return string
+     */
+    protected function getSyncHandle()
+    {
+        $credentials    = $this->connections->getServerCredentials();
+        $handle         = array_get($credentials, 'host');
+        $explodedHandle = explode(':', $handle);
+
+        // Extract port
+        if (count($explodedHandle) === 2) {
+            $this->port = $explodedHandle[1];
+            $handle     = $explodedHandle[0];
+        }
+
+        // Add username
         if ($user = array_get($credentials, 'username')) {
             $handle = $user.'@'.$handle;
         }
 
-        // Create options
-        $options  = '--verbose --recursive --rsh="ssh"';
-        $excludes = ['.git', 'vendor'];
-        foreach ($excludes as $exclude) {
-            $options .= ' --exclude="'.$exclude.'"';
+        return $handle;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getTransport()
+    {
+        $ssh = 'ssh';
+
+        // Get port
+        if ($port = $this->getOption('port', true) ?: $this->port) {
+            $ssh .= ' -p '.$port;
         }
 
-        // Create binary and command
-        $rsync = $this->binary('rsync');
-        $rsync = $rsync->getCommand(null, ['./', $handle.':'.$destination], $options);
+        // Get key
+        $key = $this->connections->getServerCredentials();
+        $key = Arr::get($key, 'key');
+        if ($key) {
+            $ssh .= ' -i '.$key;
+        }
 
-        return $this->bash->onLocal(function (Bash $bash) use ($rsync) {
-            return $bash->run($rsync);
-        });
+        return $ssh;
     }
 }

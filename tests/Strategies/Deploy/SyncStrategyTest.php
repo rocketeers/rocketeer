@@ -36,7 +36,7 @@ class SyncStrategyTest extends RocketeerTestCase
 
         $matcher = [
             'mkdir {server}/releases/{release}',
-            'rsync ./ foo@bar.com:{server}/releases/{release} --verbose --recursive --rsh="ssh" --exclude=".git" --exclude="vendor"',
+            'rsync ./ foo@bar.com:{server}/releases/{release} --verbose --recursive --rsh="ssh" --compress --exclude=".git" --exclude="vendor"',
         ];
 
         $this->assertHistory($matcher);
@@ -48,7 +48,30 @@ class SyncStrategyTest extends RocketeerTestCase
         $task->getStrategy('Deploy', 'Sync')->update();
 
         $matcher = [
-            'rsync ./ foo@bar.com:{server}/releases/{release} --verbose --recursive --rsh="ssh" --exclude=".git" --exclude="vendor"',
+            'rsync ./ foo@bar.com:{server}/releases/{release} --verbose --recursive --rsh="ssh" --compress --exclude=".git" --exclude="vendor"',
+        ];
+
+        $this->assertHistory($matcher);
+    }
+
+    public function testCanSpecifyKey()
+    {
+        $this->swapConfig(array(
+            'rocketeer::connections' => array(
+                'production' => array(
+                    'username' => 'foo',
+                    'host'     => 'bar.com:80',
+                    'key'      => '/foo/bar',
+                ),
+            ),
+        ));
+
+        $task = $this->pretendTask('Deploy');
+        $task->getStrategy('Deploy', 'Sync')->deploy();
+
+        $matcher = [
+            'mkdir {server}/releases/{release}',
+            'rsync ./ foo@bar.com:{server}/releases/{release} --verbose --recursive --rsh="ssh -p 80 -i /foo/bar" --compress --exclude=".git" --exclude="vendor"',
         ];
 
         $this->assertHistory($matcher);

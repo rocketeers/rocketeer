@@ -177,7 +177,7 @@ abstract class AbstractBinary
 
         // Flip array if necessary
         $firstKey = Arr::get(array_keys($flags), 0);
-        if (!is_null($firstKey) && is_int($firstKey)) {
+        if ($firstKey !== null && is_int($firstKey)) {
             $flags = array_combine(
                 array_values($flags),
                 array_fill(0, count($flags), null)
@@ -186,9 +186,18 @@ abstract class AbstractBinary
 
         // Build flags
         foreach ($flags as $flag => $value) {
-            $options[] = $value ? $flag.'="'.$value.'"' : $flag;
+            if (is_array($value)) {
+                foreach ($value as $v) {
+                    $options[] = $flag.'="'.$v.'"';
+                }
+            } else {
+                if (is_numeric($flag)) {
+                    $flag  = $value;
+                    $value = null;
+                }
+                $options[] = $value ? $flag.'="'.$value.'"' : $flag;
+            }
         }
-
         return implode(' ', $options);
     }
 
@@ -203,7 +212,6 @@ abstract class AbstractBinary
             $arguments = (array) $arguments;
             $arguments = implode(' ', $arguments);
         }
-
         return $arguments;
     }
 
