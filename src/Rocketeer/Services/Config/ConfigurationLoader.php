@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Services\Config;
 
 use Illuminate\Support\Arr;
@@ -11,7 +21,7 @@ use Symfony\Component\Finder\SplFileInfo;
 class ConfigurationLoader
 {
     /**
-     * The various found configurations
+     * The various found configurations.
      *
      * @type array
      */
@@ -102,7 +112,7 @@ class ConfigurationLoader
     /**
      * Get a final merged version of the configuration,
      * taking into account defaults, user and contextual
-     * configurations
+     * configurations.
      *
      * @param array $configurations Additional configurations to merge
      *
@@ -217,7 +227,7 @@ class ConfigurationLoader
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Flush the cache
+     * Flush the cache.
      */
     public function flushCache()
     {
@@ -225,7 +235,7 @@ class ConfigurationLoader
     }
 
     /**
-     * Automatically wrap configuration in their arrays
+     * Automatically wrap configuration in their arrays.
      *
      * @param SplFileInfo $file
      * @param array       $contents

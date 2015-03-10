@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Strategies\Check;
 
 use Mockery\MockInterface;
@@ -25,7 +35,7 @@ class PhpStrategyTest extends RocketeerTestCase
         $this->mockFiles(function (MockInterface $mock) use ($version) {
             return $mock
                 ->shouldReceive('put')
-                ->shouldReceive('glob')->andReturn(array())
+                ->shouldReceive('glob')->andReturn([])
                 ->shouldReceive('exists')->andReturn(true)
                 ->shouldReceive('get')->andReturn('{"require":{"php":">='.$version.'"}}');
         });
@@ -35,7 +45,7 @@ class PhpStrategyTest extends RocketeerTestCase
         $this->mockFiles(function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('put')
-                ->shouldReceive('glob')->andReturn(array())
+                ->shouldReceive('glob')->andReturn([])
                 ->shouldReceive('exists')->andReturn(true)
                 ->shouldReceive('get')->andReturn('{"require":{"php":">=12.9.0"}}');
         });
@@ -44,11 +54,11 @@ class PhpStrategyTest extends RocketeerTestCase
 
     public function testCanCheckPhpExtensions()
     {
-        $this->swapConfig(array(
+        $this->swapConfig([
             'database.default' => 'sqlite',
             'cache.driver'     => 'redis',
             'session.driver'   => 'apc',
-        ));
+        ]);
 
         $this->strategy->extensions();
 

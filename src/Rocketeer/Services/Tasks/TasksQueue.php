@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Services\Tasks;
 
 use Closure;
@@ -150,10 +149,10 @@ class TasksQueue
                     $connection->server = $server;
                     $connection->stage  = $stage;
 
-                    $pipeline[] = new Job(array(
+                    $pipeline[] = new Job([
                         'connection' => clone $connection,
                         'queue'      => $queue,
-                    ));
+                    ]);
                 }
             }
         }
@@ -166,7 +165,7 @@ class TasksQueue
      *
      * @param Job $job
      *
-     * @return boolean
+     * @return bool
      */
     public function executeJob(Job $job)
     {
@@ -236,9 +235,9 @@ class TasksQueue
      *
      * @param Pipeline $pipeline
      *
+     * @throws \Exception
      * @return Pipeline
      *
-     * @throws \Exception
      */
     protected function runAsynchronously(Pipeline $pipeline)
     {
@@ -297,7 +296,7 @@ class TasksQueue
      *
      * @param string $stage
      *
-     * @return boolean
+     * @return bool
      */
     public function isValidStage($stage)
     {

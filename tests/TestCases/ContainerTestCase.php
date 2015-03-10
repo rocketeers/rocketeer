@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\TestCases;
 
 use Closure;
@@ -84,7 +94,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
      *
      * @return Mockery
      */
-    protected function getCommand(array $expectations = array(), array $options = array(), $print = false)
+    protected function getCommand(array $expectations = [], array $options = [], $print = false)
     {
         $message = function ($message) use ($print) {
             if ($print) {
@@ -107,14 +117,14 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         }
 
         // Merge defaults
-        $expectations = array_merge(array(
+        $expectations = array_merge([
             'argument'        => '',
             'ask'             => '',
             'isInsideLaravel' => false,
             'confirm'         => true,
             'secret'          => '',
             'option'          => false,
-        ), $expectations);
+        ], $expectations);
 
         // Bind expecations
         foreach ($expectations as $key => $value) {
@@ -224,48 +234,48 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         }, $keys);
         $defaults = array_combine($keys, array_values($defaults));
 
-        $overrides = array(
+        $overrides = [
             'cache.driver'             => 'file',
             'database.default'         => 'mysql',
             'default'                  => 'production',
             'session.driver'           => 'file',
-            'connections'              => array(
+            'connections'              => [
                 'production' => ['host' => '{host}', 'username' => '{username}', 'password' => '{password}'],
                 'staging'    => ['host' => '{host}', 'username' => '{username}', 'password' => '{password}'],
-            ),
+            ],
             'application_name'         => 'foobar',
             'logs'                     => null,
             'remote.permissions.files' => ['tests'],
             'remote.shared'            => ['tests/Elements'],
             'remote.keep_releases'     => 1,
             'remote.root_directory'    => __DIR__.'/../_server/',
-            'scm'                      => array(
+            'scm'                      => [
                 'branch'     => 'master',
                 'repository' => 'https://github.com/'.$this->repository,
                 'scm'        => 'git',
                 'shallow'    => true,
                 'submodules' => true,
-            ),
+            ],
             'strategies.dependencies'  => 'Composer',
-            'hooks'                    => array(
+            'hooks'                    => [
                 'custom' => ['Rocketeer\Dummies\Tasks\MyCustomTask'],
-                'before' => array(
-                    'deploy' => array(
+                'before' => [
+                    'deploy' => [
                         'before',
                         'foobar',
-                    ),
-                ),
-                'after'  => array(
-                    'check'  => array(
+                    ],
+                ],
+                'after'  => [
+                    'check'  => [
                         'Rocketeer\Dummies\Tasks\MyCustomTask',
-                    ),
-                    'deploy' => array(
+                    ],
+                    'deploy' => [
                         'after',
                         'foobar',
-                    ),
-                ),
-            ),
-        );
+                    ],
+                ],
+            ],
+        ];
 
         // Assign options to expectations
         $this->defaults = array_merge($defaults, $overrides);
@@ -274,7 +284,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param integer $verbosity
+     * @param int $verbosity
      *
      * @return Mockery\Mock
      */

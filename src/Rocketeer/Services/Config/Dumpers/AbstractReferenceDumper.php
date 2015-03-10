@@ -1,8 +1,17 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Services\Config\Dumpers;
 
 use Rocketeer\Services\Config\TreeBuilder\ClosureNode;
-use SuperClosure\Analyzer\AstAnalyzer;
 use SuperClosure\Analyzer\TokenAnalyzer;
 use Symfony\Component\Config\Definition\ArrayNode;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -19,7 +28,7 @@ abstract class AbstractReferenceDumper
 
     /**
      * @param ConfigurationInterface $configuration
-     * @param                        string null                   $namespace
+     * @param string null            $namespace
      *
      * @return string
      */
@@ -51,7 +60,7 @@ abstract class AbstractReferenceDumper
      */
     private function writeNode(NodeInterface $node, $depth = 0)
     {
-        $comments     = array();
+        $comments     = [];
         $default      = '';
         $defaultArray = null;
         $children     = null;
@@ -78,7 +87,7 @@ abstract class AbstractReferenceDumper
                     foreach ($children as $childNode) {
                         $keyNode->addChild($childNode);
                     }
-                    $children = array($key => $keyNode);
+                    $children = [$key => $keyNode];
                 }
 
                 if (!$children) {
@@ -188,11 +197,11 @@ abstract class AbstractReferenceDumper
     }
 
     /**
-     * Output an array
+     * Output an array.
      *
-     * @param array   $array
-     * @param integer $depth
-     * @param boolean $comments
+     * @param array $array
+     * @param int   $depth
+     * @param bool  $comments
      */
     private function writeArray(array $array, $depth, $comments = false)
     {
@@ -232,10 +241,10 @@ abstract class AbstractReferenceDumper
     }
 
     /**
-     * Outputs a single config reference line
+     * Outputs a single config reference line.
      *
-     * @param string  $text
-     * @param integer $indent
+     * @param string $text
+     * @param int    $indent
      */
     protected function writeLine($text, $indent = 0)
     {
@@ -246,8 +255,8 @@ abstract class AbstractReferenceDumper
     }
 
     /**
-     * @param string  $comment
-     * @param integer $depth
+     * @param string $comment
+     * @param int    $depth
      */
     protected function writeComment($comment, $depth)
     {

@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Services;
 
 use Closure;
@@ -33,24 +32,24 @@ class TasksHandler
      *
      * @type array
      */
-    protected $registeredEvents = array();
+    protected $registeredEvents = [];
 
     /**
      * The registered plugins.
      *
      * @type array
      */
-    protected $registeredPlugins = array();
+    protected $registeredPlugins = [];
 
     /**
      * The core events.
      *
      * @type array
      */
-    protected $coreEvents = array(
+    protected $coreEvents = [
         'commands.deploy.before' => 'Primer',
         'deploy.symlink.before'  => [['rocketeer.coordinator', 'beforeSymlink']],
-    );
+    ];
 
     /**
      * Build a new TasksQueue Instance.
@@ -75,7 +74,7 @@ class TasksHandler
     {
         // Delegate calls to TasksQueue for facade purposes
         if (method_exists($this->queue, $method)) {
-            return call_user_func_array(array($this->queue, $method), $parameters);
+            return call_user_func_array([$this->queue, $method], $parameters);
         }
 
         // Else we execute actions on the task
@@ -145,7 +144,7 @@ class TasksHandler
      *
      * @param string  $task
      * @param Closure $listeners
-     * @param integer $priority
+     * @param int     $priority
      */
     public function before($task, $listeners, $priority = 0)
     {
@@ -157,7 +156,7 @@ class TasksHandler
      *
      * @param string  $task
      * @param Closure $listeners
-     * @param integer $priority
+     * @param int     $priority
      */
     public function after($task, $listeners, $priority = 0)
     {
@@ -230,7 +229,7 @@ class TasksHandler
      *
      * @param string         $event
      * @param array|callable $listeners
-     * @param integer        $priority
+     * @param int            $priority
      *
      * @return string
      */
@@ -256,8 +255,8 @@ class TasksHandler
      * @param string|array   $task
      * @param string         $event
      * @param array|callable $listeners
-     * @param integer        $priority
-     * @param boolean        $register
+     * @param int            $priority
+     * @param bool           $register
      *
      * @throws \Rocketeer\Exceptions\TaskCompositionException
      *
@@ -302,7 +301,7 @@ class TasksHandler
      *
      * @param string|AbstractTask $task
      * @param string              $event
-     * @param boolean             $flatten
+     * @param bool                $flatten
      *
      * @return array
      */
@@ -343,7 +342,7 @@ class TasksHandler
      * @param string $plugin
      * @param array  $configuration
      */
-    public function plugin($plugin, array $configuration = array())
+    public function plugin($plugin, array $configuration = [])
     {
         // Build plugin
         if (is_string($plugin)) {
@@ -356,10 +355,10 @@ class TasksHandler
             return;
         }
 
-        $this->registeredPlugins[$identifier] = array(
+        $this->registeredPlugins[$identifier] = [
             'plugin'        => $plugin,
             'configuration' => $configuration,
-        );
+        ];
 
         // Register configuration
         $vendor = $plugin->getNamespace();

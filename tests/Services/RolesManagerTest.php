@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Services;
 
 use Rocketeer\Services\Connections\RemoteHandler;
@@ -9,11 +19,11 @@ class RolesManagerTest extends RocketeerTestCase
     public function testCanGetRolesOfConnection()
     {
         $roles = ['assets', 'web'];
-        $this->swapConnections(array(
-            'production' => array(
+        $this->swapConnections([
+            'production' => [
                 'roles' => $roles,
-            ),
-        ));
+            ],
+        ]);
 
         $this->assertEquals($roles, $this->roles->getConnectionRoles('production'));
     }
@@ -33,9 +43,9 @@ class RolesManagerTest extends RocketeerTestCase
 
     public function testCanAssignRolesToTask()
     {
-        $this->roles->assignTasksRoles(array(
+        $this->roles->assignTasksRoles([
             'web' => ['Deploy', 'Check'],
-        ));
+        ]);
 
         $roles = $this->task('Deploy')->getRoles();
         $this->assertEquals(['web'], $roles);
@@ -46,12 +56,12 @@ class RolesManagerTest extends RocketeerTestCase
 
     public function testCanAssignRolesFromConfiguration()
     {
-        $this->swapConfig(array(
-            'hooks.roles' => array(
+        $this->swapConfig([
+            'hooks.roles' => [
                 'web'    => 'Deploy',
                 'assets' => 'Deploy',
-            ),
-        ));
+            ],
+        ]);
 
         $this->assertEquals(['web', 'assets'], $this->task('Deploy')->getRoles());
     }
@@ -59,14 +69,14 @@ class RolesManagerTest extends RocketeerTestCase
     public function testTasksWithoutRolesAreCompatibleWithAnyServer()
     {
         $this->app['rocketeer.remote'] = new RemoteHandler($this->app);
-        $this->swapConnections(array(
-            'production' => array(
+        $this->swapConnections([
+            'production' => [
                 'host'     => 'foobar.com',
                 'username' => 'foobar',
                 'password' => 'foobar',
                 'roles'    => ['web', 'assets'],
-            ),
-        ));
+            ],
+        ]);
 
         $compatible = $this->roles->canExecuteTask($this->remote->connection(), $this->task('Deploy'));
         $this->assertTrue($compatible);

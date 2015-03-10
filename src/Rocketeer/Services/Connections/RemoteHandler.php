@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Services\Connections;
 
 use Exception;
@@ -39,7 +38,7 @@ class RemoteHandler
     /**
      * Whether the handler is currently connected to any server.
      *
-     * @return boolean
+     * @return bool
      */
     public function connected()
     {
@@ -50,7 +49,7 @@ class RemoteHandler
      * Create a specific connection or the default one.
      *
      * @param string|null $connection
-     * @param integer     $server
+     * @param int         $server
      *
      * @return Connection
      */
@@ -76,9 +75,9 @@ class RemoteHandler
     /**
      * @param ConnectionKey $connection
      *
+     * @throws CredentialsExceptionInterface
      * @return Connection
      *
-     * @throws CredentialsExceptionInterface
      */
     protected function makeConnection(ConnectionKey $connection)
     {
@@ -105,9 +104,9 @@ class RemoteHandler
      *
      * @param array $config
      *
+     * @throws CredentialsExceptionInterface
      *                      * @return array
      *
-     * @throws CredentialsExceptionInterface
      */
     protected function getAuth(array $config)
     {

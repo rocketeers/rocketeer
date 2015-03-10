@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Services\Display;
 
 use Mockery\MockInterface;
@@ -19,9 +29,9 @@ class QueueExplainerTest extends RocketeerTestCase
 
     public function testDoesntDisplayHandleIfOnlyOneConnection()
     {
-        $this->config->set('connections', array(
+        $this->config->set('connections', [
             'production' => [],
-        ));
+        ]);
 
         $this->expectOutputString('|=> foobar');
 
@@ -30,9 +40,9 @@ class QueueExplainerTest extends RocketeerTestCase
 
     public function testDoesntDisplayHandleIfOnlyOneStage()
     {
-        $this->config->set('connections', array(
+        $this->config->set('connections', [
             'production' => [],
-        ));
+        ]);
         $this->config->set('stages.stages', ['staging']);
 
         $this->expectOutputString('|=> foobar');
@@ -42,9 +52,9 @@ class QueueExplainerTest extends RocketeerTestCase
 
     public function testDisplayHandleIfMultipleStages()
     {
-        $this->config->set('connections', array(
+        $this->config->set('connections', [
             'production' => [],
-        ));
+        ]);
         $this->config->set('stages.stages', ['staging', 'production']);
 
         $this->expectOutputString('<fg=cyan>production</fg=cyan>             |=> foobar');

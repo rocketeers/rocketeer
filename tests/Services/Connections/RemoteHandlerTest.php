@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Services\Connections;
 
 use Rocketeer\TestCases\RocketeerTestCase;
@@ -20,13 +30,13 @@ class RemoteHandlerTest extends RocketeerTestCase
 
     public function testCanCreateConnection()
     {
-        $this->swapConnections(array(
-            'production' => array(
+        $this->swapConnections([
+            'production' => [
                 'host'     => 'foobar.com',
                 'username' => 'foobar',
                 'password' => 'foobar',
-            ),
-        ));
+            ],
+        ]);
 
         $connection = $this->handler->connection();
 
@@ -39,12 +49,12 @@ class RemoteHandlerTest extends RocketeerTestCase
     {
         $this->setExpectedException('Rocketeer\Exceptions\MissingCredentialsException');
 
-        $this->swapConnections(array(
-            'production' => array(
+        $this->swapConnections([
+            'production' => [
                 'host'     => 'foobar.com',
                 'username' => 'foobar',
-            ),
-        ));
+            ],
+        ]);
 
         $this->handler->connection();
     }
@@ -53,33 +63,33 @@ class RemoteHandlerTest extends RocketeerTestCase
     {
         $this->setExpectedException('Rocketeer\Exceptions\MissingCredentialsException');
 
-        $this->swapConnections(array(
-            'production' => array(
+        $this->swapConnections([
+            'production' => [
                 'username' => 'foobar',
                 'password' => 'foobar',
-            ),
-        ));
+            ],
+        ]);
 
         $this->handler->connection();
     }
 
     public function testCachesConnections()
     {
-        $this->swapConnections(array(
-            'production' => array(
+        $this->swapConnections([
+            'production' => [
                 'host'     => 'foobar.com',
                 'username' => 'foobar',
                 'password' => 'foobar',
-            ),
-        ));
+            ],
+        ]);
 
         $connection = $this->handler->connection();
         $this->assertInstanceOf('Rocketeer\Services\Connections\Connections\Connection', $connection);
         $this->assertEquals('production', $connection->getName());
 
-        $this->swapConnections(array(
-            'production' => array(),
-        ));
+        $this->swapConnections([
+            'production' => [],
+        ]);
 
         $connection = $this->handler->connection();
         $this->assertInstanceOf('Rocketeer\Services\Connections\Connections\Connection', $connection);
@@ -90,35 +100,35 @@ class RemoteHandlerTest extends RocketeerTestCase
     {
         $this->setExpectedException('Rocketeer\Exceptions\ConnectionException');
 
-        $this->swapConnections(array(
-            'production' => array(
+        $this->swapConnections([
+            'production' => [
                 'host'     => '127.0.0.1',
                 'username' => 'foobar',
                 'password' => 'foobar',
-            ),
-        ));
+            ],
+        ]);
 
         $this->handler->run('ls');
     }
 
     public function testDoesntReturnWrongCredentials()
     {
-        $this->swapConnections(array(
-            'production' => array(
-                'servers' => array(
-                    array(
+        $this->swapConnections([
+            'production' => [
+                'servers' => [
+                    [
                         'host'     => 'foo.com',
                         'username' => 'foo',
                         'password' => 'foo',
-                    ),
-                    array(
+                    ],
+                    [
                         'host'     => 'bar.com',
                         'username' => 'bar',
                         'password' => 'bar',
-                    ),
-                ),
-            ),
-        ));
+                    ],
+                ],
+            ],
+        ]);
 
         // Setting connection to server 1
         $this->connections->setConnection('production', 1);
@@ -139,14 +149,14 @@ class RemoteHandlerTest extends RocketeerTestCase
 
     public function testSetsRolesOnCreation()
     {
-        $this->swapConnections(array(
-            'production' => array(
+        $this->swapConnections([
+            'production' => [
                 'host'     => 'foobar.com',
                 'username' => 'foobar',
                 'password' => 'foobar',
                 'roles'    => ['foo', 'bar'],
-            ),
-        ));
+            ],
+        ]);
 
         $connection = $this->handler->connection();
 
@@ -158,12 +168,12 @@ class RemoteHandlerTest extends RocketeerTestCase
     {
         $this->setExpectedException('Rocketeer\Exceptions\MissingCredentialsException', 'With credentials');
 
-        $this->swapConnections(array(
-            'production' => array(
+        $this->swapConnections([
+            'production' => [
                 'host'     => 'foobar.com',
                 'username' => 'foobar',
-            ),
-        ));
+            ],
+        ]);
 
         $this->handler->connection();
     }

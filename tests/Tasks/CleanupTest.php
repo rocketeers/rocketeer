@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Tasks;
 
 use Mockery\MockInterface;
@@ -11,7 +21,7 @@ class CleanupTest extends RocketeerTestCase
     {
         $this->mockReleases(function (MockInterface $mock) {
             return $mock
-                ->shouldReceive('getDeprecatedReleases')->once()->andReturn(array(1, 2))
+                ->shouldReceive('getDeprecatedReleases')->once()->andReturn([1, 2])
                 ->shouldReceive('getPathToRelease')->times(2)->andReturnUsing(function ($release) {
                     return $release;
                 });
@@ -25,7 +35,7 @@ class CleanupTest extends RocketeerTestCase
         $this->mockReleases(function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('getDeprecatedReleases')->never()
-                ->shouldReceive('getNonCurrentReleases')->once()->andReturn(array(1, 2))
+                ->shouldReceive('getNonCurrentReleases')->once()->andReturn([1, 2])
                 ->shouldReceive('markReleaseAsValid')->once()
                 ->shouldReceive('getPathToRelease')->times(2)->andReturnUsing(function ($release) {
                     return $release;
@@ -34,11 +44,11 @@ class CleanupTest extends RocketeerTestCase
 
         ob_start();
 
-        $this->assertTaskOutput('Cleanup', 'Removing <info>2 releases</info> from the server', $this->getCommand(array(), array(
+        $this->assertTaskOutput('Cleanup', 'Removing <info>2 releases</info> from the server', $this->getCommand([], [
             'clean-all' => true,
             'verbose'   => true,
             'pretend'   => false,
-        )));
+        ]));
 
         ob_end_clean();
     }
@@ -48,7 +58,7 @@ class CleanupTest extends RocketeerTestCase
         $this->mockReleases(function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('getDeprecatedReleases')->never()
-                ->shouldReceive('getDeprecatedReleases')->once()->andReturn(array(1, 2))
+                ->shouldReceive('getDeprecatedReleases')->once()->andReturn([1, 2])
                 ->shouldReceive('getPathToRelease')->times(2)->andReturnUsing(function ($release) {
                     return $release;
                 });
@@ -56,15 +66,15 @@ class CleanupTest extends RocketeerTestCase
 
         $this->pretendTask('Cleanup')->execute();
 
-        $this->assertHistory(array(
+        $this->assertHistory([
             'rm -rf {server}/1 {server}/2',
-        ));
+        ]);
     }
 
     public function testPrintsMessageIfNoCleanup()
     {
         $this->mockReleases(function (MockInterface $mock) {
-            return $mock->shouldReceive('getDeprecatedReleases')->once()->andReturn(array());
+            return $mock->shouldReceive('getDeprecatedReleases')->once()->andReturn([]);
         });
 
         $this->assertTaskOutput('Cleanup', 'No releases to prune from the server');
@@ -72,15 +82,15 @@ class CleanupTest extends RocketeerTestCase
 
     public function testAlsoCleansStateFileWhenCleaning()
     {
-        $this->mockState(array(
+        $this->mockState([
             0 => true,
             1 => true,
             2 => true,
-        ));
+        ]);
 
         $this->mockReleases(function (MockInterface $mock) {
             return $mock
-                ->shouldReceive('getDeprecatedReleases')->once()->andReturn(array(1, 2))
+                ->shouldReceive('getDeprecatedReleases')->once()->andReturn([1, 2])
                 ->shouldReceive('getPathToRelease')->times(2)->andReturnUsing(function ($release) {
                     return $release;
                 });

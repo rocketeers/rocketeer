@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Strategies\Dependencies;
 
 use Rocketeer\Abstracts\Strategies\AbstractDependenciesStrategy;
@@ -15,12 +14,12 @@ use Rocketeer\Interfaces\Strategies\DependenciesStrategyInterface;
 
 class ComposerStrategy extends AbstractDependenciesStrategy implements DependenciesStrategyInterface
 {
-    protected $options = array(
+    protected $options = [
         'shared_dependencies' => false,
-        'flags'               => array(
+        'flags'               => [
             'install' => ['--no-interaction' => null, '--no-dev' => null, '--prefer-dist' => null],
-        ),
-    );
+        ],
+    ];
 
     /**
      * @type string

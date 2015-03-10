@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Traits\BashModules;
 
 use Mockery;
@@ -71,20 +81,20 @@ class BinariesTest extends RocketeerTestCase
 
     public function testCanSetPathToPhpAndArtisan()
     {
-        $this->mockConfig(array(
+        $this->mockConfig([
             'paths.php'     => $this->binaries['php'],
             'paths.artisan' => $this->binaries['php'],
-        ));
+        ]);
 
         $this->assertEquals($this->binaries['php'].' '.$this->binaries['php'].' migrate --force', $this->task->artisan()->migrate());
     }
 
     public function testAlwaysRespectsCustomPath()
     {
-        $this->mockConfig(array(
+        $this->mockConfig([
             'paths.php'      => 'foo',
             'paths.composer' => 'php /some/composer.phar',
-        ));
+        ]);
 
         $this->assertEquals('foo', $this->bash->php()->getBinary());
         $this->assertEquals('php /some/composer.phar', $this->bash->composer()->getBinary());
@@ -92,9 +102,9 @@ class BinariesTest extends RocketeerTestCase
 
     public function testFetchesBinaryIfNotSpecifiedOrNull()
     {
-        $this->mockConfig(array(
+        $this->mockConfig([
             'paths.php' => $this->binaries['php'],
-        ));
+        ]);
 
         $this->assertEquals($this->binaries['php'].' artisan migrate --force', $this->task->artisan()->migrate());
     }

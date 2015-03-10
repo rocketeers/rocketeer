@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Services\Config;
 
 use Rocketeer\Services\Config\TreeBuilder\NodeBuilder;
@@ -253,10 +263,10 @@ EOF
                 ->end()
                 ->closureNode('primer')
                     ->defaultValue(function (\Rocketeer\Tasks\Subtasks\Primer $task) {
-                        return array(
+                        return [
                             // $task->executeTask('Test'),
                             // $task->binary('grunt')->execute('lint'),
-                        );
+                        ];
                     })
                 ->end()
             ->end();
@@ -325,11 +335,11 @@ EOF
                         ->closureNode('callback')
                             ->info("what actions will be executed to set permissions on the folder above")
                             ->defaultValue(function ($task, $file) {
-                                return array(
+                                return [
                                     sprintf('chmod -R 755 %s', $file),
                                     sprintf('chmod -R g+s %s', $file),
                                     sprintf('chown -R www-data:www-data %s', $file),
-                                );
+                                ];
                             })
                         ->end()
                     ->end()
@@ -347,11 +357,11 @@ EOF
 
         return $node
             ->info("Here you can manually set paths to some commands Rocketeer might try to use.\nIf you leave those empty it will try to find them manually or assume they're in the root folder")
-            ->defaultValue(array(
+            ->defaultValue([
                 'app'      => getcwd(),
                 'php'      => null,
                 'composer' => null,
-            ))
+            ])
             ->prototype('scalar')
             ->end();
     }

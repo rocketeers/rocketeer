@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Services\Tasks;
 
 use Illuminate\Support\Collection;
@@ -34,7 +33,7 @@ class Pipeline extends Collection
     /**
      * Check if the pipeline failed.
      *
-     * @return boolean
+     * @return bool
      */
     public function failed()
     {
@@ -46,7 +45,7 @@ class Pipeline extends Collection
     /**
      * Check if the pipeline ran its course.
      *
-     * @return boolean
+     * @return bool
      */
     public function succeeded()
     {

@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Scm;
 
 use Mockery\MockInterface;
@@ -51,10 +61,10 @@ class GitTest extends RocketeerTestCase
         $this->mock('rocketeer.rocketeer', 'Rocketeer\Rocketeer', function (MockInterface $mock) {
             return $mock->shouldReceive('getOption')->once()->with('scm.shallow')->andReturn(true);
         });
-        $this->swapRepositoryCredentials(array(
+        $this->swapRepositoryCredentials([
             'endpoint' => 'http://github.com/my/repository',
             'branch'   => 'develop',
-        ));
+        ]);
 
         $command = $this->scm->checkout($this->server);
 
@@ -66,10 +76,10 @@ class GitTest extends RocketeerTestCase
         $this->mock('rocketeer.rocketeer', 'Rocketeer\Rocketeer', function (MockInterface $mock) {
             return $mock->shouldReceive('getOption')->once()->with('scm.shallow')->andReturn(false);
         });
-        $this->swapRepositoryCredentials(array(
+        $this->swapRepositoryCredentials([
             'endpoint' => 'http://github.com/my/repository',
             'branch'   => 'develop',
-        ));
+        ]);
 
         $command = $this->scm->checkout($this->server);
 

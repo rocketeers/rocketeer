@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Services\Connections\Gateways;
 
 use Illuminate\Filesystem\Filesystem;
@@ -184,9 +183,9 @@ class SeclibGateway implements GatewayInterface
     /**
      * Get the authentication object for login.
      *
+     * @throws InvalidArgumentException
      * @return Crypt_RSA|System_SSH_Agent|string
      *
-     * @throws InvalidArgumentException
      */
     protected function getAuthForLogin()
     {
@@ -218,9 +217,9 @@ class SeclibGateway implements GatewayInterface
      */
     protected function hasRsaKey()
     {
-        $hasKey = (isset($this->auth['key']) && trim($this->auth['key']) != '');
+        $hasKey = (isset($this->auth['key']) && trim($this->auth['key']) !== '');
 
-        return $hasKey || (isset($this->auth['keytext']) && trim($this->auth['keytext']) != '');
+        return $hasKey || (isset($this->auth['keytext']) && trim($this->auth['keytext']) !== '');
     }
 
     /**

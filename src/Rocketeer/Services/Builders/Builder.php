@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Services\Builders;
 
 use Illuminate\Support\Arr;
@@ -31,24 +30,24 @@ class Builder
      *
      * @type array
      */
-    protected $lookups = array(
-        'binaries'   => array(
+    protected $lookups = [
+        'binaries'   => [
             'Rocketeer\Binaries\PackageManagers\%s',
             'Rocketeer\Binaries\Scm\%s',
             'Rocketeer\Binaries\%s',
-        ),
-        'tasks'      => array(
+        ],
+        'tasks'      => [
             'Rocketeer\Tasks\%s',
             'Rocketeer\Tasks\Subtasks\%s',
-        ),
-        'commands'   => array(
+        ],
+        'commands'   => [
             'Rocketeer\Console\Commands\%sCommand',
             'Rocketeer\Console\Commands\BaseTaskCommand',
-        ),
-        'strategies' => array(
+        ],
+        'strategies' => [
             'Rocketeer\Strategies\%sStrategy',
-        ),
-    );
+        ],
+    ];
 
     //////////////////////////////////////////////////////////////////////
     ////////////////////////////// LOOKUPS ///////////////////////////////
@@ -113,10 +112,10 @@ class Builder
         $class   = ucfirst($class);
         $classes = [$class];
         if ($namespace) {
-            $classes = array(
+            $classes = [
                 ucfirst($namespace).'\\'.$class,
                 $class,
-            );
+            ];
         }
 
         // Search for first existing class

@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Services\Config;
 
 use Illuminate\Support\Arr;
@@ -23,8 +33,8 @@ class Configuration extends Collection
     /**
      * Get an item from the collection by key.
      *
-     * @param  string $key
-     * @param  mixed  $default
+     * @param string $key
+     * @param mixed  $default
      *
      * @return mixed
      */
@@ -50,7 +60,7 @@ class Configuration extends Collection
     }
 
     /**
-     * Replace the current configuration
+     * Replace the current configuration.
      *
      * @param array $items
      */

@@ -7,9 +7,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Strategies\Deploy;
 
+use Illuminate\Support\Arr;
 use Rocketeer\Abstracts\Strategies\AbstractStrategy;
 use Rocketeer\Interfaces\Strategies\DeployStrategyInterface;
 
@@ -23,17 +23,17 @@ class SyncStrategy extends AbstractStrategy implements DeployStrategyInterface
     /**
      * @type array
      */
-    protected $options = array(
+    protected $options = [
         'port'     => null,
         'excluded' => ['.git', 'vendor'],
-    );
+    ];
 
     /**
      * Deploy a new clean copy of the application.
      *
      * @param string|null $destination
      *
-     * @return boolean
+     * @return bool
      */
     public function deploy($destination = null)
     {
@@ -50,9 +50,9 @@ class SyncStrategy extends AbstractStrategy implements DeployStrategyInterface
     /**
      * Update the latest version of the application.
      *
-     * @param boolean $reset
+     * @param bool $reset
      *
-     * @return boolean
+     * @return bool
      */
     public function update($reset = true)
     {
@@ -66,7 +66,7 @@ class SyncStrategy extends AbstractStrategy implements DeployStrategyInterface
      *
      * @param string $destination
      *
-     * @return boolean
+     * @return bool
      */
     protected function rsyncTo($destination)
     {
@@ -75,10 +75,7 @@ class SyncStrategy extends AbstractStrategy implements DeployStrategyInterface
         $handle    = $this->getSyncHandle();
 
         // Create options
-        $options = ['--verbose' => null, '--recursive' => null, '--rsh' => 'ssh'];
-        if ($port = $this->getOption('port', true)) {
-            $options['--rsh'] = 'ssh -p '.$port;
-        }
+        $options = ['--verbose' => null, '--recursive' => null, '--compress' => null, '--rsh' => $this->getTransport()];
 
         // Build arguments
         $arguments[] = './';
@@ -117,5 +114,29 @@ class SyncStrategy extends AbstractStrategy implements DeployStrategyInterface
         }
 
         return $handle;
+    }
+
+    /**
+     * Get the transport to use.
+     *
+     * @return string
+     */
+    protected function getTransport()
+    {
+        $ssh = 'ssh';
+
+        // Get port
+        if ($port = $this->getOption('port', true)) {
+            $ssh .= ' -p '.$port;
+        }
+
+        // Get key
+        $key = $this->credentials->getServerCredentials();
+        $key = Arr::get($key, 'key');
+        if ($key) {
+            $ssh .= ' -i '.$key;
+        }
+
+        return $ssh;
     }
 }

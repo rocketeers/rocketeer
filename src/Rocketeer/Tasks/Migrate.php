@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Tasks;
 
 use Rocketeer\Abstracts\AbstractTask;
@@ -36,7 +35,7 @@ class Migrate extends AbstractTask
     /**
      * Run the task.
      *
-     * @return boolean|boolean[]
+     * @return bool|boolean[]
      */
     public function execute()
     {
@@ -61,7 +60,7 @@ class Migrate extends AbstractTask
     /**
      * Check if the command can be run.
      *
-     * @return boolean
+     * @return bool
      */
     protected function canRunMigrations()
     {

@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Scm;
 
 use Rocketeer\Binaries\Scm\Hg;
@@ -47,12 +57,12 @@ class HgTest extends RocketeerTestCase
 
     public function testCanGetCheckout()
     {
-        $this->swapRepositoryCredentials(array(
+        $this->swapRepositoryCredentials([
             'username' => 'foo',
             'password' => 'bar',
             'endpoint' => 'http://github.com/my/repository',
             'branch'   => 'develop',
-        ));
+        ]);
 
         $command = $this->scm->checkout($this->server);
 

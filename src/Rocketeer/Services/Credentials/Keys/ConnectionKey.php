@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Services\Credentials\Keys;
 
 use Illuminate\Support\Arr;
@@ -43,7 +53,7 @@ class ConnectionKey extends AbstractKey
      */
     public function __get($name)
     {
-        if (in_array($name, $this->informations)) {
+        if (in_array($name, $this->informations, true)) {
             return $this->get($name);
         }
 
@@ -58,7 +68,7 @@ class ConnectionKey extends AbstractKey
      */
     public function __set($name, $value)
     {
-        if (in_array($name, $this->informations)) {
+        if (in_array($name, $this->informations, true)) {
             return parent::__set($name, $value);
         }
 
@@ -98,7 +108,7 @@ class ConnectionKey extends AbstractKey
     /**
      * @param ConnectionKey|string $connection
      *
-     * @return boolean
+     * @return bool
      */
     public function is($connection)
     {
@@ -113,7 +123,7 @@ class ConnectionKey extends AbstractKey
     /**
      * Check if a connection is multiserver or not.
      *
-     * @return boolean
+     * @return bool
      */
     public function isMultiserver()
     {
@@ -125,7 +135,7 @@ class ConnectionKey extends AbstractKey
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Get the components to compute the handle from
+     * Get the components to compute the handle from.
      *
      * @return string[]
      */
@@ -141,7 +151,7 @@ class ConnectionKey extends AbstractKey
     }
 
     /**
-     * Get the long form of the handle
+     * Get the long form of the handle.
      *
      * @return string
      */

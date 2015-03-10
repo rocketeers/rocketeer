@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Services;
 
 use Exception;
@@ -56,9 +55,9 @@ class Pathfinder
     /**
      * Get the default path for the SSH key.
      *
+     * @throws Exception
      * @return string
      *
-     * @throws Exception
      */
     public function getDefaultKeyPath()
     {

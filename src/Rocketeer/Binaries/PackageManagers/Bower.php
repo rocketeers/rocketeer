@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Binaries\PackageManagers;
 
 use Rocketeer\Abstracts\AbstractPackageManager;
@@ -28,10 +27,10 @@ class Bower extends AbstractPackageManager
      */
     protected function getKnownPaths()
     {
-        return array(
+        return [
             'bower',
             $this->releasesManager->getCurrentReleasePath().'/node_modules/.bin/bower',
-        );
+        ];
     }
 
     /**
@@ -42,10 +41,10 @@ class Bower extends AbstractPackageManager
     public function getDependenciesFolder()
     {
         // Look for a configuration file
-        $paths = array_filter(array(
+        $paths = array_filter([
             $this->paths->getApplicationPath().'.bowerrc',
             $this->paths->getUserHomeFolder().'/.bowerrc',
-        ), [$this->files, 'exists']);
+        ], [$this->files, 'exists']);
 
         $file = head($paths);
         if ($file) {

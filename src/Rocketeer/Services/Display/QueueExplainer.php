@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Services\Display;
 
 use Rocketeer\Traits\HasLocator;
@@ -25,14 +24,14 @@ class QueueExplainer
     /**
      * The level at which to display statuses.
      *
-     * @type integer
+     * @type int
      */
     public $level = 0;
 
     /**
      * Length of the longest handle to display.
      *
-     * @type integer
+     * @type int
      */
     protected $longest;
 
@@ -103,7 +102,7 @@ class QueueExplainer
      *
      * @param string      $message
      * @param string|null $color
-     * @param boolean     $withTree
+     * @param bool        $withTree
      *
      * @return string|null
      */
@@ -185,7 +184,7 @@ class QueueExplainer
     /**
      * Get the longest size an handle can have.
      *
-     * @return integer
+     * @return int
      */
     protected function getLongestSize()
     {
@@ -257,7 +256,7 @@ class QueueExplainer
         }
 
         // Create tag
-        $tag = in_array($color, ['error', 'comment', 'info']) ? $color : 'fg='.$color;
+        $tag = in_array($color, ['error', 'comment', 'info'], true) ? $color : 'fg='.$color;
 
         return sprintf('<%s>%s</%s>', $tag, $message, $tag);
     }

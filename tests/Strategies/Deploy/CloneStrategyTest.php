@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Strategies\Deploy;
 
 use Rocketeer\Binaries\Scm\Svn;
@@ -11,13 +21,13 @@ class CloneStrategyTest extends RocketeerTestCase
         $task = $this->pretendTask('Deploy');
         $task->getStrategy('Deploy')->deploy();
 
-        $matcher = array(
+        $matcher = [
             'git clone "{repository}" "{server}/releases/{release}" --branch="master" --depth="1"',
-            array(
+            [
                 "cd {server}/releases/{release}",
                 "git submodule update --init --recursive",
-            ),
-        );
+            ],
+        ];
 
         $this->assertHistory($matcher);
     }
@@ -27,13 +37,13 @@ class CloneStrategyTest extends RocketeerTestCase
         $task = $this->pretendTask('Deploy');
         $task->getStrategy('Deploy')->update();
 
-        $matcher = array(
-            array(
+        $matcher = [
+            [
                 "cd $this->server/releases/20000000000000",
                 "git reset --hard",
                 "git pull",
-            ),
-        );
+            ],
+        ];
 
         $this->assertHistory($matcher);
     }
@@ -45,9 +55,9 @@ class CloneStrategyTest extends RocketeerTestCase
         $task = $this->pretendTask('Deploy');
         $task->getStrategy('Deploy')->deploy();
 
-        $matcher = array(
+        $matcher = [
             'svn co {repository}/master {server}/releases/{release} --non-interactive',
-        );
+        ];
 
         $this->assertHistory($matcher);
     }

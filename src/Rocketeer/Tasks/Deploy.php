@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Tasks;
 
 use Rocketeer\Abstracts\AbstractTask;
@@ -29,14 +28,14 @@ class Deploy extends AbstractTask
     /**
      * @type array
      */
-    protected $options = array(
+    protected $options = [
         'coordinated' => false,
-    );
+    ];
 
     /**
      * Run the task.
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function execute()
     {
@@ -93,7 +92,7 @@ class Deploy extends AbstractTask
     /**
      * Set permissions for the folders used by the application.
      *
-     * @return boolean
+     * @return bool
      */
     protected function setApplicationPermissions()
     {

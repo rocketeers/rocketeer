@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Services\Connections\Gateways;
 
 use Mockery;
@@ -27,11 +37,11 @@ class SeclibGatewayTest extends RocketeerTestCase
     public function testKeyTextCanBeSetManually()
     {
         $files   = Mockery::mock('Illuminate\Filesystem\Filesystem');
-        $gateway = Mockery::mock('Rocketeer\Services\Connections\Gateways\SeclibGateway', array(
+        $gateway = Mockery::mock('Rocketeer\Services\Connections\Gateways\SeclibGateway', [
             '127.0.0.1:22',
-            array('username' => 'taylor', 'keytext' => 'keystuff'),
+            ['username' => 'taylor', 'keytext' => 'keystuff'],
             $files,
-        ))->makePartial();
+        ])->makePartial();
         $gateway->shouldReceive('getConnection')->andReturn(Mockery::mock('StdClass'));
         $gateway->shouldReceive('getNewKey')->andReturn($key = Mockery::mock('StdClass'));
         $key->shouldReceive('setPassword')->once()->with(null);
@@ -46,11 +56,11 @@ class SeclibGatewayTest extends RocketeerTestCase
         $files = Mockery::mock('Illuminate\Filesystem\Filesystem');
         $files->shouldReceive('get')->with('keypath')->andReturn('keystuff');
 
-        $gateway = Mockery::mock('Rocketeer\Services\Connections\Gateways\SeclibGateway', array(
+        $gateway = Mockery::mock('Rocketeer\Services\Connections\Gateways\SeclibGateway', [
             '127.0.0.1:22',
             ['username' => 'taylor', 'key' => 'keypath', 'keyphrase' => 'keyphrase'],
             $files,
-        ))->makePartial();
+        ])->makePartial();
         $gateway->shouldReceive('getConnection')->andReturn(Mockery::mock('StdClass'));
 
         return $gateway;

@@ -1,17 +1,17 @@
 <?php
+
 /*
-* This file is part of Rocketeer
-*
-* (c) Maxime Fabre <ehtnam6@gmail.com>
-*
-* For the full copyright and license information, please view the LICENSE
-* file that was distributed with this source code.
-*/
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Rocketeer\Services\Ignition;
 
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 use Rocketeer\Facades;
 use Rocketeer\Traits\HasLocator;
 use Symfony\Component\Finder\Finder;
@@ -118,7 +118,7 @@ class Configuration
      * @param string   $folder
      * @param string[] $values
      */
-    public function updateConfiguration($folder, array $values = array())
+    public function updateConfiguration($folder, array $values = [])
     {
         // Replace stub values in files
         $folder = strpos($folder, 'config.') !== false ? dirname($folder) : $folder;
@@ -209,14 +209,14 @@ class Configuration
         }
 
         // Build paths
-        $paths = array(
+        $paths = [
             'config'     => $path.'',
             'events'     => $path.DS.'events',
             'plugins'    => $path.DS.'plugins',
             'strategies' => $path.DS.'strategies',
             'tasks'      => $path.DS.'tasks',
             'logs'       => $storage.DS.'logs',
-        );
+        ];
 
         foreach ($paths as $key => $file) {
 

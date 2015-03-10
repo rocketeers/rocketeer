@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Abstracts\Strategies;
 
 use Illuminate\Container\Container;
@@ -30,9 +29,9 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
     /**
      * @type array
      */
-    protected $options = array(
+    protected $options = [
         'shared_dependencies' => false,
-    );
+    ];
 
     /**
      * The package manager instance.
@@ -71,7 +70,7 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
     /**
      * Whether this particular strategy is runnable or not.
      *
-     * @return boolean
+     * @return bool
      */
     public function isExecutable()
     {
@@ -85,7 +84,7 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
     /**
      * Install the dependencies.
      *
-     * @return boolean
+     * @return bool
      */
     public function install()
     {
@@ -99,7 +98,7 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
     /**
      * Update the dependencies.
      *
-     * @return boolean
+     * @return bool
      */
     public function update()
     {

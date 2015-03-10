@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Tasks;
 
 use Mockery\MockInterface;
@@ -14,9 +24,9 @@ class TeardownTest extends RocketeerTestCase
                 ->shouldReceive('destroy')->once();
         });
 
-        $this->assertTaskHistory('Teardown', array(
+        $this->assertTaskHistory('Teardown', [
             'rm -rf {server}/',
-        ));
+        ]);
     }
 
     public function testCanAbortTeardown()
@@ -27,8 +37,8 @@ class TeardownTest extends RocketeerTestCase
                 ->shouldReceive('destroy')->never();
         });
 
-        $task    = $this->pretendTask('Teardown', array(), array('confirm' => false));
-        $message = $this->assertTaskHistory($task, array());
+        $task    = $this->pretendTask('Teardown', [], ['confirm' => false]);
+        $message = $this->assertTaskHistory($task, []);
 
         $this->assertContains('Teardown aborted', $message);
     }

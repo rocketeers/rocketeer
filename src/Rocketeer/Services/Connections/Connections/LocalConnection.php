@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Services\Connections\Connections;
 
 use Closure;
@@ -30,7 +29,7 @@ class LocalConnection implements ConnectionInterface, HasRolesInterface
     /**
      * Return status of the last command.
      *
-     * @type integer
+     * @type int
      */
     protected $previousStatus;
 
@@ -59,7 +58,7 @@ class LocalConnection implements ConnectionInterface, HasRolesInterface
     /**
      * Get the exit status of the last command.
      *
-     * @return integer
+     * @return int
      */
     public function status()
     {
@@ -74,7 +73,7 @@ class LocalConnection implements ConnectionInterface, HasRolesInterface
      *
      * @codeCoverageIgnore
      *
-     * @return integer
+     * @return int
      */
     public function put($local, $remote)
     {
@@ -105,7 +104,7 @@ class LocalConnection implements ConnectionInterface, HasRolesInterface
      *
      * @codeCoverageIgnore
      *
-     * @return integer
+     * @return int
      */
     public function putString($remote, $contents)
     {

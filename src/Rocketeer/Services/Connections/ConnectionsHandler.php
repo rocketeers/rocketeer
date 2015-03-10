@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Services\Connections;
 
 use Illuminate\Support\Arr;
@@ -103,7 +102,7 @@ class ConnectionsHandler
      *
      * @param ConnectionKey|string $connection
      *
-     * @return boolean
+     * @return bool
      */
     public function isValidConnection($connection)
     {
@@ -184,7 +183,7 @@ class ConnectionsHandler
      * Set the current connection.
      *
      * @param ConnectionKey|string $connection
-     * @param integer|null         $server
+     * @param int|null             $server
      */
     public function setConnection($connection, $server = null)
     {

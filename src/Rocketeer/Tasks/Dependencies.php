@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Tasks;
 
 use Rocketeer\Abstracts\AbstractTask;
@@ -24,14 +23,14 @@ class Dependencies extends AbstractTask
     /**
      * @type array
      */
-    protected $options = array(
+    protected $options = [
         'shared_dependencies' => false,
-    );
+    ];
 
     /**
      * Run the task.
      *
-     * @return boolean
+     * @return bool
      */
     public function execute()
     {

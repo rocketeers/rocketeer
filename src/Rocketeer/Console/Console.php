@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Console;
 
 use Illuminate\Console\Application;
@@ -73,13 +72,13 @@ class Console extends Application
      */
     protected function getCurrentState()
     {
-        return array(
+        return [
             'application_name' => $this->laravel['rocketeer.rocketeer']->getApplicationName(),
             'application'      => $this->laravel['rocketeer.paths']->getApplicationPath(),
             'configuration'    => $this->laravel['rocketeer.paths']->getConfigurationPath(),
             'tasks'            => $this->laravel['path.rocketeer.tasks'],
             'events'           => $this->laravel['path.rocketeer.events'],
             'logs'             => $this->laravel['path.rocketeer.logs'],
-        );
+        ];
     }
 }

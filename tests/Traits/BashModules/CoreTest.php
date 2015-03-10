@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Traits\BashModules;
 
 use Mockery\MockInterface;
@@ -18,11 +28,11 @@ class CoreTest extends RocketeerTestCase
         $this->expectOutputRegex('/.+An error occured: "Oh noes", while running:\ngit clone.+/');
 
         $this->app['rocketeer.remote'] = clone $this->getRemote()->shouldReceive('status')->andReturn(1)->mock();
-        $this->mockCommand([], array(
+        $this->mockCommand([], [
             'line' => function ($error) {
                 echo $error;
             },
-        ));
+        ]);
 
         $status = $this->task('Deploy')->checkStatus('Oh noes', 'git clone');
 
@@ -52,15 +62,15 @@ class CoreTest extends RocketeerTestCase
     public function testCanLetFrameworkProcessCommands()
     {
         $this->connections->setStage('staging');
-        $commands = $this->pretendTask()->processCommands(array(
+        $commands = $this->pretendTask()->processCommands([
             'artisan something',
             'rm readme*',
-        ));
+        ]);
 
-        $this->assertEquals(array(
+        $this->assertEquals([
             'artisan something --env="staging"',
             'rm readme*',
-        ), $commands);
+        ], $commands);
     }
 
     public function testCanRemoveCommonPollutingOutput()
@@ -85,9 +95,9 @@ class CoreTest extends RocketeerTestCase
 
     public function testCanConvertDirectorySeparators()
     {
-        $this->mockConfig(array(
+        $this->mockConfig([
             'remote.variables.directory_separator' => '\\',
-        ));
+        ]);
 
         $commands  = 'cd C:/_bar?/12baz';
         $processed = $this->task->processCommands($commands);
@@ -97,9 +107,9 @@ class CoreTest extends RocketeerTestCase
 
     public function testDoesntConvertSlashesThatArentDirectorySeparators()
     {
-        $this->mockConfig(array(
+        $this->mockConfig([
             'remote.variables.directory_separator' => '\\',
-        ));
+        ]);
 
         $commands  = 'find runtime -name "cache" -follow -exec rm -rf "{}" '.DS.';';
         $processed = $this->task->processCommands($commands);
@@ -139,10 +149,10 @@ class CoreTest extends RocketeerTestCase
 
     public function testCanFlattenCommands()
     {
-        $commands = $this->pretendTask()->processCommands(array(
+        $commands = $this->pretendTask()->processCommands([
             ['foo', 'bar'],
             'baz',
-        ));
+        ]);
 
         $this->assertEquals(['foo', 'bar', 'baz'], $commands);
     }

@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Abstracts;
 
 use Illuminate\Container\Container;
@@ -62,7 +61,7 @@ abstract class AbstractStorage
      * @param string|null                $key
      * @param array|string|callable|null $fallback
      *
-     * @return string|integer|array
+     * @return string|int|array
      */
     public function get($key = null, $fallback = null)
     {

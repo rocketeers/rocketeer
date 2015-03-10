@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Tasks;
 
 use Rocketeer\Abstracts\AbstractTask;
@@ -51,7 +50,7 @@ class Rollback extends AbstractTask
         }
 
         // Check if release actually exists
-        if (!in_array($rollbackRelease, $releases)) {
+        if (!in_array($rollbackRelease, $releases, true)) {
             return $this->explainer->error('Unable to find release:'.$rollbackRelease);
         }
 
@@ -67,7 +66,7 @@ class Rollback extends AbstractTask
     /**
      * Get the release to rollback to.
      *
-     * @return integer|null
+     * @return int|null
      */
     protected function getRollbackRelease()
     {
@@ -76,6 +75,6 @@ class Rollback extends AbstractTask
             $release = $this->releasesManager->getPreviousRelease();
         }
 
-        return $release;
+        return (int) $release;
     }
 }

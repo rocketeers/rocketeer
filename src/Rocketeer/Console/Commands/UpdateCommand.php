@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Console\Commands;
 
 use Symfony\Component\Console\Input\InputOption;
@@ -26,10 +25,10 @@ class UpdateCommand extends BaseTaskCommand
      */
     protected function getOptions()
     {
-        return array_merge(parent::getOptions(), array(
+        return array_merge(parent::getOptions(), [
             ['migrate', 'm', InputOption::VALUE_NONE, 'Run the migrations'],
             ['seed', 's', InputOption::VALUE_NONE, 'Seed the database after migrating the database'],
             ['no-clear', null, InputOption::VALUE_NONE, "Don't clear the application's cache after the update"],
-        ));
+        ]);
     }
 }

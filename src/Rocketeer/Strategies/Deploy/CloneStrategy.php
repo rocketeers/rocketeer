@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Strategies\Deploy;
 
 use Rocketeer\Abstracts\Strategies\AbstractStrategy;
@@ -25,7 +24,7 @@ class CloneStrategy extends AbstractStrategy implements DeployStrategyInterface
      *
      * @param string|null $destination
      *
-     * @return boolean
+     * @return bool
      */
     public function deploy($destination = null)
     {
@@ -58,7 +57,7 @@ class CloneStrategy extends AbstractStrategy implements DeployStrategyInterface
     /**
      * Update the latest version of the application.
      *
-     * @param boolean $reset
+     * @param bool $reset
      *
      * @return string
      */

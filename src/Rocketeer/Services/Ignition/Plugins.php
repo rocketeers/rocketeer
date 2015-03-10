@@ -1,12 +1,13 @@
 <?php
+
 /*
-* This file is part of Rocketeer
-*
-* (c) Maxime Fabre <ehtnam6@gmail.com>
-*
-* For the full copyright and license information, please view the LICENSE
-* file that was distributed with this source code.
-*/
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Rocketeer\Services\Ignition;
 
@@ -27,7 +28,7 @@ class Plugins
      *
      * @param string $package
      *
-     * @return boolean|string|null
+     * @return bool|string|null
      */
     public function publish($package)
     {
@@ -53,14 +54,14 @@ class Plugins
      */
     public function findPackageConfiguration($package)
     {
-        $paths = array(
+        $paths = [
             $this->paths->getApplicationPath().'vendor/%s/src/config',
             $this->paths->getApplicationPath().'vendor/%s/config',
             $this->paths->getUserHomeFolder().'/.rocketeer/vendor/%s/src/config',
             $this->paths->getUserHomeFolder().'/.rocketeer/vendor/%s/config',
             $this->paths->getUserHomeFolder().'/.composer/vendor/%s/src/config',
             $this->paths->getUserHomeFolder().'/.composer/vendor/%s/config',
-        );
+        ];
 
         // Check for the first configuration path that exists
         $paths = array_map(function ($path) use ($package) {
@@ -75,7 +76,7 @@ class Plugins
      *
      * @param string $path
      *
-     * @return boolean
+     * @return bool
      */
     protected function publishConfiguration($path)
     {

@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Strategies\Test;
 
 use Rocketeer\Abstracts\Strategies\AbstractStrategy;
@@ -23,7 +22,7 @@ class PhpunitStrategy extends AbstractStrategy implements TestStrategyInterface
     /**
      * Whether this particular strategy is runnable or not.
      *
-     * @return boolean
+     * @return bool
      */
     public function isExecutable()
     {
@@ -33,15 +32,15 @@ class PhpunitStrategy extends AbstractStrategy implements TestStrategyInterface
     /**
      * Run the task.
      *
-     * @return boolean
+     * @return bool
      */
     public function test()
     {
         // Run PHPUnit
         $arguments = ['--stop-on-failure' => null];
-        $output    = $this->runForApplication(array(
+        $output    = $this->runForApplication([
             $this->phpunit()->getCommand(null, [], $arguments),
-        ));
+        ]);
 
         $status = $this->checkStatus('Tests failed', $output, 'Tests passed successfully');
         if (!$status) {

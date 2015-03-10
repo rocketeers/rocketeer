@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Services\Display;
 
 use Rocketeer\Interfaces\IdentifierInterface;
@@ -51,7 +50,7 @@ class QueueTimer
      * Save the execution time of a task for future reference.
      *
      * @param IdentifierInterface $entity
-     * @param double              $time
+     * @param float               $time
      */
     public function saveTime(IdentifierInterface $entity, $time)
     {
@@ -72,7 +71,7 @@ class QueueTimer
      *
      * @param IdentifierInterface $entity
      *
-     * @return double|null
+     * @return float|null
      */
     public function getTime(IdentifierInterface $entity)
     {
@@ -110,7 +109,7 @@ class QueueTimer
      *
      * @param IdentifierInterface $entity
      *
-     * @return double|null
+     * @return float|null
      */
     public function getLatestTime(IdentifierInterface $entity)
     {

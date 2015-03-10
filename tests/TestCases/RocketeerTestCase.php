@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\TestCases;
 
 use Rocketeer\Services\Storages\LocalStorage;
@@ -48,7 +58,7 @@ abstract class RocketeerTestCase extends ContainerTestCase
     /**
      * Number of files an ls should yield.
      *
-     * @type integer
+     * @type int
      */
     protected static $numberFiles;
 
@@ -86,12 +96,12 @@ abstract class RocketeerTestCase extends ContainerTestCase
         $this->mockOperatingSystem('Linux');
 
         // Cache paths
-        $this->binaries = $this->binaries ?: array(
+        $this->binaries = $this->binaries ?: [
             'php'      => exec('which php') ?: 'php',
             'bundle'   => exec('which bundle') ?: 'bundle',
             'phpunit'  => exec('which phpunit') ?: 'phpunit',
             'composer' => exec('which composer') ?: 'composer',
-        );
+        ];
     }
 
     /**
@@ -114,12 +124,12 @@ abstract class RocketeerTestCase extends ContainerTestCase
         $this->home = $_SERVER['HOME'];
 
         // Cleanup files created by tests
-        $cleanup = array(
+        $cleanup = [
             realpath(__DIR__.'/../../.rocketeer'),
             realpath(__DIR__.'/../.rocketeer'),
             realpath($this->server),
             realpath($this->customConfig),
-        );
+        ];
         array_map([$this->files, 'deleteDirectory'], $cleanup);
 
         // Recreate altered local server

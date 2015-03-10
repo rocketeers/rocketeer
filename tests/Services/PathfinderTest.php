@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Services;
 
 use Rocketeer\TestCases\RocketeerTestCase;
@@ -94,9 +104,9 @@ class PathfinderTest extends RocketeerTestCase
 
     public function testCanGetBoundPath()
     {
-        $this->swapConfig(array(
+        $this->swapConfig([
             'paths.php' => '/bin/php',
-        ));
+        ]);
         $path = $this->paths->getPath('php');
 
         $this->assertEquals('/bin/php', $path);
@@ -149,9 +159,9 @@ class PathfinderTest extends RocketeerTestCase
     {
         $this->assertEquals($this->app['path.base'].DS, $this->paths->getApplicationPath());
 
-        $this->swapConfig(array(
+        $this->swapConfig([
             'paths.app' => __DIR__,
-        ));
+        ]);
 
         $this->assertEquals(__DIR__.DS, $this->paths->getApplicationPath());
     }

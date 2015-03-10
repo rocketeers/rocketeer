@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Services\Ignition;
 
 use Mockery\MockInterface;
@@ -81,7 +91,7 @@ class ConfigurationTest extends RocketeerTestCase
     {
         $this->igniter->bindPaths();
         $path = $this->igniter->exportConfiguration();
-        $this->igniter->updateConfiguration($path, array('scm_username' => 'foobar'));
+        $this->igniter->updateConfiguration($path, ['scm_username' => 'foobar']);
 
         $this->assertFileExists(__DIR__.'/../../../.rocketeer');
         $this->assertContains('foobar', file_get_contents(__DIR__.'/../../../.rocketeer/scm.php'));
@@ -95,7 +105,7 @@ class ConfigurationTest extends RocketeerTestCase
 
         $this->igniter->bindPaths();
         $path = $this->igniter->exportConfiguration();
-        $this->igniter->updateConfiguration($path, array('application_name' => 'foobar', 'scm_username' => 'foobar'));
+        $this->igniter->updateConfiguration($path, ['application_name' => 'foobar', 'scm_username' => 'foobar']);
 
         $this->assertFileExists(__DIR__.'/../../../.rocketeer');
         $this->assertContains('foobar', file_get_contents(__DIR__.'/../../../.rocketeer/config.php'));

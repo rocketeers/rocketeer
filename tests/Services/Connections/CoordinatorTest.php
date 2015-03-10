@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Services\Connections;
 
 use Rocketeer\TestCases\RocketeerTestCase;
@@ -38,25 +48,25 @@ class CoordinatorTest extends RocketeerTestCase
             '#'
         );
 
-        $this->swapConfig(array(
+        $this->swapConfig([
             'stages.stages'  => ['develop', 'master'],
             'stages.default' => ['develop', 'master'],
             'default'        => ['production', 'staging'],
-            'connections'    => array(
+            'connections'    => [
                 'production' => [
-                    'servers' => array(
+                    'servers' => [
                         ['host' => 'a.com'],
                         ['host' => 'b.com'],
-                    ),
+                    ],
                 ],
                 'staging'    => [
-                    'servers' => array(
+                    'servers' => [
                         ['host' => 'a.com'],
                         ['host' => 'b.com'],
-                    ),
+                    ],
                 ],
-            ),
-        ));
+            ],
+        ]);
 
         $this->queue->execute('Rocketeer\Dummies\Tasks\DummyCoordinatedTask', ['production', 'staging']);
     }

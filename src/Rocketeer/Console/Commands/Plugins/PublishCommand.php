@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Console\Commands\Plugins;
 
 use Rocketeer\Abstracts\Commands\AbstractCommand;
@@ -34,7 +33,7 @@ class PublishCommand extends AbstractCommand
      * Whether the command's task should be built
      * into a pipeline or run straight.
      *
-     * @type boolean
+     * @type bool
      */
     protected $straight = true;
 
@@ -59,8 +58,8 @@ class PublishCommand extends AbstractCommand
      */
     protected function getArguments()
     {
-        return array(
+        return [
             ['package', InputArgument::REQUIRED, 'The package to publish the configuration for'],
-        );
+        ];
     }
 }

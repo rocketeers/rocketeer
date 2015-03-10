@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Tasks;
 
 use Rocketeer\Interfaces\Strategies\DeployStrategyInterface;
@@ -29,7 +28,7 @@ class Update extends Deploy
     /**
      * Run the task.
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function execute()
     {

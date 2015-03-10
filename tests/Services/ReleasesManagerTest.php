@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Services;
 
 use Mockery\MockInterface;
@@ -17,11 +27,11 @@ class ReleasesManagerTest extends RocketeerTestCase
     {
         $validation = $this->releasesManager->getValidationFile();
 
-        $this->assertEquals(array(
+        $this->assertEquals([
             10000000000000 => true,
             15000000000000 => false,
             20000000000000 => true,
-        ), $validation);
+        ], $validation);
     }
 
     public function testCanGetInvalidReleases()
@@ -36,11 +46,11 @@ class ReleasesManagerTest extends RocketeerTestCase
         $this->releasesManager->markReleaseAsValid(15000000000000);
         $validation = $this->releasesManager->getValidationFile();
 
-        $this->assertEquals(array(
+        $this->assertEquals([
             10000000000000 => true,
             15000000000000 => true,
             20000000000000 => true,
-        ), $validation);
+        ], $validation);
     }
 
     public function testCanMarkReleaseAsValid()
@@ -48,12 +58,12 @@ class ReleasesManagerTest extends RocketeerTestCase
         $this->releasesManager->markReleaseAsValid(123456789);
         $validation = $this->releasesManager->getValidationFile();
 
-        $this->assertEquals(array(
+        $this->assertEquals([
             10000000000000 => true,
             15000000000000 => false,
             20000000000000 => true,
             123456789      => true,
-        ), $validation);
+        ], $validation);
     }
 
     public function testCanGetCurrentReleaseFromServerIfUncached()
@@ -106,11 +116,11 @@ class ReleasesManagerTest extends RocketeerTestCase
 
     public function testReturnsCurrentReleaseIfNoPreviousValidRelease()
     {
-        $this->mockState(array(
+        $this->mockState([
             '10000000000000' => false,
             '15000000000000' => false,
             '20000000000000' => true,
-        ));
+        ]);
 
         $currentRelease = $this->releasesManager->getPreviousRelease();
 
@@ -119,9 +129,9 @@ class ReleasesManagerTest extends RocketeerTestCase
 
     public function testReturnsCurrentReleaseIfOnlyRelease()
     {
-        $this->mockState(array(
+        $this->mockState([
             '20000000000000' => true,
-        ));
+        ]);
 
         $currentRelease = $this->releasesManager->getPreviousRelease();
 
@@ -130,9 +140,9 @@ class ReleasesManagerTest extends RocketeerTestCase
 
     public function testReturnsCorrectPreviousReleaseIfUpdatedBeforehand()
     {
-        $this->mockState(array(
+        $this->mockState([
             '20000000000000' => true,
-        ));
+        ]);
 
         $previous = $this->releasesManager->getPreviousRelease();
 
@@ -147,7 +157,7 @@ class ReleasesManagerTest extends RocketeerTestCase
                 ->shouldReceive('listContents')->once()->with($this->server.'/releases')->andReturn([]);
         });
 
-        $this->mockState(array());
+        $this->mockState([]);
 
         $previous = $this->releasesManager->getPreviousRelease();
         $this->assertNull($previous);

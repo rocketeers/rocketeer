@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Strategies\Dependencies;
 
 use Rocketeer\Abstracts\Strategies\AbstractPolyglotStrategy;
@@ -37,7 +36,7 @@ class PolyglotStrategy extends AbstractPolyglotStrategy implements DependenciesS
     /**
      * Install the dependencies.
      *
-     * @return boolean
+     * @return bool
      */
     public function install()
     {
@@ -47,7 +46,7 @@ class PolyglotStrategy extends AbstractPolyglotStrategy implements DependenciesS
     /**
      * Update the dependencies.
      *
-     * @return boolean
+     * @return bool
      */
     public function update()
     {

@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Tasks\Subtasks;
 
 use Rocketeer\Abstracts\AbstractTask;
@@ -78,13 +77,13 @@ class Notify extends AbstractTask
         $repository = $this->credentials->getCurrentRepository();
         $connection = $this->connections->getCurrentConnection();
 
-        return array(
+        return [
             'user'       => $user,
             'branch'     => $repository->branch,
             'handle'     => $connection->toHandle(),
             'host'       => $connection->host,
             'repository' => $repository->getName(),
-        );
+        ];
     }
 
     /**

@@ -37,8 +37,19 @@ Rocketeer follows the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.ht
 - Fixed an issue where local tasks wouldn't execute in the correct directories
 - Fixed an issue where Rocketeer would trust the releases present on one server to deploy to all the other ones
 - Fixed an issue where setting a strategy to `''` to skip it would crash
-- Fixed an issue where using `hostname:port` would fail with the Rsync strategy
 - Fixed HHVM support
+
+## [2.1.2] - 2015-03-10
+
+### Fixed
+- Fixed an issue prevent using a custom command clas
+- Fixed commands run in folders not working with LocalConnection
+- Fixed port and key not being passed to rsync
+
+## [2.1.1] - 2015-03-01
+
+### Fixed
+- Fixed version number
 
 ## [2.1.0] - 2015-03-08
 ------------------
@@ -397,7 +408,9 @@ Rocketeer follows the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.ht
 - Added config file
 - Added `deploy:setup` and `deploy:deploy` commands
 
-[3.0.0]: https://github.com/rocketeers/rocketeer/compare/2.1.0...develop
+[3.0.0]: https://github.com/rocketeers/rocketeer/compare/2.1.2...develop
+[2.1.2]: https://github.com/rocketeers/rocketeer/compare/2.1.1...2.1.2
+[2.1.1]: https://github.com/rocketeers/rocketeer/compare/2.1.0...2.1.1
 [2.1.0]: https://github.com/rocketeers/rocketeer/compare/2.0.6...2.1.0
 [2.0.6]: https://github.com/rocketeers/rocketeer/compare/2.0.5...2.0.6
 [2.0.5]: https://github.com/rocketeers/rocketeer/compare/2.0.4...2.0.5

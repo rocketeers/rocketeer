@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Abstracts\Commands;
 
 use Illuminate\Console\Command;
@@ -34,7 +33,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
      * Whether the command's task should be built
      * into a pipeline or run straight.
      *
-     * @type boolean
+     * @type bool
      */
     protected $straight = false;
 
@@ -135,22 +134,22 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
     protected function getOptions()
     {
         // General options
-        $global = array(
+        $global = [
             ['parallel', 'P', InputOption::VALUE_NONE, 'Run the tasks asynchronously instead of sequentially'],
             ['pretend', 'p', InputOption::VALUE_NONE, 'Shows which command would execute without actually doing anything'],
-        );
+        ];
 
         // Options that override the predefined configuration
-        $overrides = array(
+        $overrides = [
             ['on', 'C', InputOption::VALUE_REQUIRED, 'The connection(s) to execute the Task in'],
             ['stage', 'S', InputOption::VALUE_REQUIRED, 'The stage to execute the Task in'],
             ['server', null, InputOption::VALUE_REQUIRED, 'The server to execute the Task in'],
             ['branch', 'B', InputOption::VALUE_REQUIRED, 'The branch to deploy'],
             ['release', null, InputOption::VALUE_REQUIRED, 'What to tag the release as'],
-        );
+        ];
 
         // Additional credentials passed to Rocketeer
-        $credentials = array(
+        $credentials = [
             ['host', null, InputOption::VALUE_REQUIRED, 'The host to use if asked'],
             ['username', null, InputOption::VALUE_REQUIRED, 'The username to use if asked'],
             ['password', null, InputOption::VALUE_REQUIRED, 'The password to use if asked'],
@@ -158,7 +157,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
             ['keyphrase', null, InputOption::VALUE_REQUIRED, 'The keyphrase to use if asked'],
             ['agent', null, InputOption::VALUE_REQUIRED, 'The agent to use if asked'],
             ['repository', null, InputOption::VALUE_REQUIRED, 'The repository to use if asked'],
-        );
+        ];
 
         return array_merge(
             $global,
@@ -180,7 +179,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
     /**
      * Check if the current instance has a Command bound.
      *
-     * @return boolean
+     * @return bool
      */
     protected function hasCommand()
     {
@@ -196,7 +195,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
      *
      * @param string|string[]|Closure|Closure[]|\Rocketeer\Abstracts\AbstractTask[] $tasks
      *
-     * @return integer
+     * @return int
      */
     protected function fireTasksQueue($tasks)
     {
@@ -238,7 +237,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
      *
      * @return string|null
      */
-    public function askWith($question, $default = null, $choices = array())
+    public function askWith($question, $default = null, $choices = [])
     {
         $question = $this->formatQuestion($question, $default, $choices);
         if ($this->checkInteractivity($question)) {
@@ -280,7 +279,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
      *
      * @return string
      */
-    protected function formatQuestion($question, $default, $choices = array())
+    protected function formatQuestion($question, $default, $choices = [])
     {
         // If default, show it in the question
         if ($default !== null) {
@@ -304,7 +303,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
      *
      * @param callable $callback
      *
-     * @return boolean
+     * @return bool
      */
     public function time(callable $callback)
     {
@@ -319,7 +318,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
     /**
      * @param string $question
      *
-     * @return boolean
+     * @return bool
      */
     protected function checkInteractivity($question)
     {

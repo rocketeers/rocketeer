@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Traits\BashModules;
 
 use Rocketeer\TestCases\RocketeerTestCase;
@@ -25,10 +35,10 @@ class FilesystemTest extends RocketeerTestCase
         $folder   = '{path.base}/foobar.txt';
         $share    = $task->share($folder);
         $tempLink = $this->server.'/releases/20000000000000//src/foobar.txt-temp';
-        $matcher  = array(
+        $matcher  = [
             sprintf('ln -s %s %s', $this->server.'/shared//src/foobar.txt', $tempLink, $tempLink),
             sprintf('mv -Tf %s %s', $tempLink, $this->server.'/releases/20000000000000//src/foobar.txt'),
-        );
+        ];
 
         $this->assertEquals($matcher, $share);
     }
@@ -46,10 +56,10 @@ class FilesystemTest extends RocketeerTestCase
         $folder   = '{path.base}/foobar.txt';
         $share    = $task->share($folder);
         $tempLink = $this->server.'/releases/20000000000000//src/foobar.txt-temp';
-        $matcher  = array(
+        $matcher  = [
             sprintf('ln -s %s %s', 'shared//src/foobar.txt', $tempLink, $tempLink),
             sprintf('mv -Tf %s %s', $tempLink, $this->server.'/releases/20000000000000//src/foobar.txt'),
-        );
+        ];
 
         $this->assertEquals($matcher, $share);
     }

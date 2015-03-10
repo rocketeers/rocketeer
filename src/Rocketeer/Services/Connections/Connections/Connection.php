@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Services\Connections\Connections;
 
 use Closure;
@@ -163,9 +162,9 @@ class Connection implements ConnectionInterface, HasRolesInterface
     /**
      * Get the gateway implementation.
      *
+     * @throws RuntimeException
      * @return GatewayInterface
      *
-     * @throws RuntimeException
      */
     public function getGateway()
     {

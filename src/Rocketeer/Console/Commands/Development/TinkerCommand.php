@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Console\Commands\Development;
 
 use Psy\Shell;
@@ -44,10 +43,10 @@ class TinkerCommand extends AbstractCommand
         }
 
         $shell = new Shell();
-        $shell->setScopeVariables(array(
+        $shell->setScopeVariables([
             'app' => new TinkerApplication($this->laravel),
             'ssh' => $this->bash,
-        ));
+        ]);
 
         return $shell->run();
     }

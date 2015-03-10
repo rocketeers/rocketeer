@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Abstracts;
 
 use Illuminate\Container\Container;
@@ -149,7 +148,7 @@ abstract class AbstractBinary
      *
      * @return string
      */
-    public function getCommand($command = null, $arguments = array(), $flags = array())
+    public function getCommand($command = null, $arguments = [], $flags = [])
     {
         // Format arguments
         $arguments = $this->buildArguments($arguments);

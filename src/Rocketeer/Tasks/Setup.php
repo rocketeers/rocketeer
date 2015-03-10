@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Tasks;
 
 use Rocketeer\Abstracts\AbstractTask;
@@ -29,7 +28,7 @@ class Setup extends AbstractTask
     /**
      * Whether the task needs to be run on each stage or globally.
      *
-     * @type boolean
+     * @type bool
      */
     public $usesStages = false;
 

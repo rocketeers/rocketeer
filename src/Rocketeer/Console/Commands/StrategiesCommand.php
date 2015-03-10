@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Console\Commands;
 
 use Rocketeer\Abstracts\Commands\AbstractCommand;
@@ -38,13 +37,13 @@ class StrategiesCommand extends AbstractCommand
      */
     public function fire()
     {
-        $strategies = array(
+        $strategies = [
             'check'        => ['Php', 'Ruby', 'Node', 'Polyglot'],
             'deploy'       => ['Clone', 'Copy', 'Sync'],
             'test'         => ['Phpunit'],
             'migrate'      => ['Artisan'],
             'dependencies' => ['Composer', 'Bundler', 'Npm', 'Bower', 'Polyglot'],
-        );
+        ];
 
         $rows = [];
         foreach ($strategies as $strategy => $implementations) {

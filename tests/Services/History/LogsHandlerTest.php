@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Services\History;
 
 use Mockery\MockInterface;
@@ -12,11 +22,11 @@ class LogsHandlerTest extends RocketeerTestCase
         parent::setUp();
 
         $this->app['path.rocketeer.logs'] = $this->server.'/logs';
-        $this->swapConfig(array(
+        $this->swapConfig([
             'logs' => function (ConnectionsHandler $rocketeer) {
                 return sprintf('%s-%s.log', $rocketeer->getCurrentConnection()->name, $rocketeer->getCurrentConnection()->stage);
             },
-        ));
+        ]);
     }
 
     public function testCanGetCurrentLogsFile()
@@ -55,13 +65,13 @@ class LogsHandlerTest extends RocketeerTestCase
     {
         $this->expectOutputString('test');
 
-        $this->swapConfig(array(
+        $this->swapConfig([
             'logs' => function () {
                 echo 'test';
 
                 return 'foobar.log';
             },
-        ));
+        ]);
 
         $this->logs->getCurrentLogsFile();
         $this->logs->getCurrentLogsFile();
@@ -91,9 +101,9 @@ class LogsHandlerTest extends RocketeerTestCase
 
     public function testCanHaveStaticFilenames()
     {
-        $this->swapConfig(array(
+        $this->swapConfig([
             'logs' => 'foobar.txt',
-        ));
+        ]);
 
         $this->assertEquals($this->server.'/logs/foobar.txt', $this->logs->getCurrentLogsFile());
     }
@@ -104,9 +114,9 @@ class LogsHandlerTest extends RocketeerTestCase
             return $mock->shouldReceive('put')->with(0)->never();
         });
 
-        $this->swapConfig(array(
+        $this->swapConfig([
             'logs' => false,
-        ));
+        ]);
 
         $this->assertFalse($this->logs->getCurrentLogsFile());
         $this->logs->log('foobar');

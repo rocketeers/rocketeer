@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Strategies\Deploy;
 
 use Rocketeer\Interfaces\Strategies\DeployStrategyInterface;
@@ -24,7 +23,7 @@ class CopyStrategy extends CloneStrategy implements DeployStrategyInterface
      *
      * @param string|null $destination
      *
-     * @return boolean|string
+     * @return bool|string
      */
     public function deploy($destination = null)
     {

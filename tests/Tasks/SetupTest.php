@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Tasks;
 
 use Mockery\MockInterface;
@@ -13,14 +23,14 @@ class SetupTest extends RocketeerTestCase
 
         $this->mockNoCurrentRelease();
 
-        $this->assertTaskHistory('Setup', array(
+        $this->assertTaskHistory('Setup', [
             'git --version',
             '{php} -m',
             "mkdir {server}/",
             "mkdir -p {server}/releases",
             "mkdir -p {server}/current",
             "mkdir -p {server}/shared",
-        ));
+        ]);
     }
 
     public function testCanSetupStages()
@@ -28,11 +38,11 @@ class SetupTest extends RocketeerTestCase
         $this->usesComposer();
         $this->pretend();
         $this->mockNoCurrentRelease();
-        $this->swapConfig(array(
-            'stages.stages' => array('staging', 'production'),
-        ));
+        $this->swapConfig([
+            'stages.stages' => ['staging', 'production'],
+        ]);
 
-        $this->assertTaskHistory('Setup', array(
+        $this->assertTaskHistory('Setup', [
             'git --version',
             '{php} -m',
             "mkdir {server}/",
@@ -42,7 +52,7 @@ class SetupTest extends RocketeerTestCase
             "mkdir -p {server}/production/releases",
             "mkdir -p {server}/production/current",
             "mkdir -p {server}/production/shared",
-        ));
+        ]);
     }
 
     public function testRunningSetupKeepsCurrentConfiguredStage()
@@ -50,13 +60,13 @@ class SetupTest extends RocketeerTestCase
         $this->usesComposer(true, 'staging');
         $this->pretend();
         $this->mockNoCurrentRelease('staging');
-        $this->swapConfig(array(
+        $this->swapConfig([
             'stages.stages' => ['staging', 'production'],
-        ));
+        ]);
 
         $this->connections->setStage('staging');
         $this->assertEquals('staging', $this->connections->getCurrentConnection()->stage);
-        $this->assertTaskHistory('Setup', array(
+        $this->assertTaskHistory('Setup', [
             'git --version',
             '{php} -m',
             "mkdir {server}/",
@@ -66,9 +76,9 @@ class SetupTest extends RocketeerTestCase
             "mkdir -p {server}/production/releases",
             "mkdir -p {server}/production/current",
             "mkdir -p {server}/production/shared",
-        ), array(
+        ], [
             'stage' => 'staging',
-        ));
+        ]);
 
         $this->assertEquals('staging', $this->connections->getCurrentConnection()->stage);
     }

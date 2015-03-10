@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Services;
 
 use Illuminate\Container\Container;
@@ -89,6 +88,7 @@ class ReleasesManager
             rsort($releases);
 
             $this->releases[$connection] = (array) $releases;
+            $this->releases[$connection] = array_map('intval', $this->releases[$connection]);
         }
 
         return $this->releases[$connection];
@@ -107,7 +107,7 @@ class ReleasesManager
     /**
      * Get an array of deprecated releases.
      *
-     * @param integer|null $treshold
+     * @param int|null $treshold
      *
      * @return integer[]
      */
@@ -222,9 +222,9 @@ class ReleasesManager
     /**
      * Get the state of a release.
      *
-     * @param integer $release
+     * @param int $release
      *
-     * @return boolean
+     * @return bool
      */
     public function checkReleaseState($release)
     {
@@ -238,7 +238,7 @@ class ReleasesManager
     /**
      * Get the current release.
      *
-     * @return string|integer|null
+     * @return string|int|null
      */
     public function getCurrentRelease()
     {
@@ -307,9 +307,9 @@ class ReleasesManager
     /**
      * Sanitize a possible release.
      *
-     * @param string|integer $release
+     * @param string|int $release
      *
-     * @return string|integer|null
+     * @return string|int|null
      */
     protected function sanitizeRelease($release)
     {
@@ -319,7 +319,7 @@ class ReleasesManager
     /**
      * Check if it quacks like a duck.
      *
-     * @param string|integer $release
+     * @param string|int $release
      *
      * @return bool
      */

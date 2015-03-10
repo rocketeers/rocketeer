@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Services\Credentials\Keys;
 
 use Illuminate\Support\Str;
@@ -19,7 +29,7 @@ class RepositoryKey extends AbstractKey
     /**
      * Whether the repository is public or needs credentials.
      *
-     * @return boolean
+     * @return bool
      */
     public function needsCredentials()
     {

@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Services;
 
 use Illuminate\Support\Arr;
@@ -28,8 +27,8 @@ class RolesManager
     /**
      * Get the roles of a server.
      *
-     * @param string|null  $connection
-     * @param integer|null $server
+     * @param string|null $connection
+     * @param int|null    $server
      *
      * @return array
      */
@@ -63,7 +62,7 @@ class RolesManager
      * @param Connection   $connection
      * @param AbstractTask $task
      *
-     * @return boolean
+     * @return bool
      */
     public function canExecuteTask(Connection $connection, AbstractTask $task)
     {

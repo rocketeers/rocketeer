@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Strategies\Check;
 
 use Rocketeer\Abstracts\Strategies\AbstractPolyglotStrategy;
@@ -33,7 +32,7 @@ class PolyglotStrategy extends AbstractPolyglotStrategy implements CheckStrategy
      * Check that the PM that'll install
      * the app's dependencies is present.
      *
-     * @return boolean
+     * @return bool
      */
     public function manager()
     {
@@ -46,7 +45,7 @@ class PolyglotStrategy extends AbstractPolyglotStrategy implements CheckStrategy
      * Check that the language used by the
      * application is at the required version.
      *
-     * @return boolean
+     * @return bool
      */
     public function language()
     {

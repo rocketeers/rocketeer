@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Abstracts\Strategies;
 
 abstract class AbstractPolyglotStrategy extends AbstractStrategy
@@ -38,7 +37,7 @@ abstract class AbstractPolyglotStrategy extends AbstractStrategy
      *
      * @param string $method
      *
-     * @return boolean
+     * @return bool
      */
     protected function executeStrategiesMethod($method)
     {
@@ -54,7 +53,7 @@ abstract class AbstractPolyglotStrategy extends AbstractStrategy
      *
      * @param string $method
      *
-     * @return boolean
+     * @return bool
      */
     protected function checkStrategiesMethod($method)
     {
@@ -113,7 +112,7 @@ abstract class AbstractPolyglotStrategy extends AbstractStrategy
     /**
      * Whether the strategy passed or not.
      *
-     * @return boolean
+     * @return bool
      */
     public function passed()
     {
@@ -125,7 +124,7 @@ abstract class AbstractPolyglotStrategy extends AbstractStrategy
      *
      * @param boolean[] $results
      *
-     * @return boolean
+     * @return bool
      */
     protected function checkStrategiesResults($results)
     {

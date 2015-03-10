@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Services\Credentials;
 
 use Illuminate\Support\Arr;
@@ -23,21 +22,21 @@ class CredentialsGatherer
      *
      * @type array
      */
-    protected $rules = array(
-        'server'     => array(
+    protected $rules = [
+        'server'     => [
             'host'      => true,
             'username'  => true,
             'password'  => false,
             'keyphrase' => false,
             'key'       => false,
             'agent'     => false,
-        ),
-        'repository' => array(
+        ],
+        'repository' => [
             'repository' => true,
             'username'   => false,
             'password'   => false,
-        ),
-    );
+        ],
+    ];
 
     /**
      * Get the Repository's credentials.
@@ -99,8 +98,8 @@ class CredentialsGatherer
     /**
      * Verifies and stores credentials for the given connection name.
      *
-     * @param string       $connectionName
-     * @param integer|null $server
+     * @param string   $connectionName
+     * @param int|null $server
      */
     protected function getConnectionCredentials($connectionName, $server = null)
     {
@@ -133,7 +132,7 @@ class CredentialsGatherer
      * @param string $handle
      * @param array  $credentials
      *
-     * @return boolean
+     * @return bool
      */
     protected function usesSsh($handle, array $credentials)
     {
@@ -168,11 +167,11 @@ class CredentialsGatherer
         foreach ($rules as $type => $required) {
             $credential   = $this->getCredential($current, $type);
             $shouldPrompt = $this->shouldPromptFor($credential);
-            $shouldPrompt = !in_array($type, $unprompted) && ($shouldPrompt || ($required && !$credential && $credential !== false));
+            $shouldPrompt = !in_array($type, $unprompted, true) && ($shouldPrompt || ($required && !$credential && $credential !== false));
             $$type        = $credential;
 
             if ($shouldPrompt) {
-                $method = in_array($type, $authCredentials) ? 'gatherAuthCredential' : 'gatherCredential';
+                $method = in_array($type, $authCredentials, true) ? 'gatherAuthCredential' : 'gatherCredential';
                 $$type  = $this->$method($handle, $type);
             }
         }
@@ -186,8 +185,8 @@ class CredentialsGatherer
     /**
      * Gather an auth-related credential.
      *
-     * @param string              $handle
-     * @param string|boolean|null $type
+     * @param string           $handle
+     * @param string|bool|null $type
      *
      * @return string|null
      */
@@ -246,9 +245,9 @@ class CredentialsGatherer
     /**
      * Whether Rocketeer should prompt for a credential or not.
      *
-     * @param string|boolean|null $value
+     * @param string|bool|null $value
      *
-     * @return boolean
+     * @return bool
      */
     protected function shouldPromptFor($value)
     {

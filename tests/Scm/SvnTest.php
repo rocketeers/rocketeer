@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Scm;
 
 use Rocketeer\Binaries\Scm\Svn;
@@ -47,12 +57,12 @@ class SvnTest extends RocketeerTestCase
 
     public function testCanGetCheckout()
     {
-        $this->swapRepositoryCredentials(array(
+        $this->swapRepositoryCredentials([
             'username' => 'foo',
             'password' => 'bar',
             'endpoint' => 'http://github.com/my/repository',
             'branch'   => 'develop',
-        ));
+        ]);
 
         $command = $this->scm->checkout($this->server);
 
@@ -61,12 +71,12 @@ class SvnTest extends RocketeerTestCase
 
     public function testCanGetDeepClone()
     {
-        $this->swapRepositoryCredentials(array(
+        $this->swapRepositoryCredentials([
             'username' => 'foo',
             'password' => 'bar',
             'endpoint' => 'http://github.com/my/repository',
             'branch'   => 'develop',
-        ));
+        ]);
 
         $command = $this->scm->checkout($this->server);
 
@@ -75,23 +85,23 @@ class SvnTest extends RocketeerTestCase
 
     public function testDoesntDuplicateCredentials()
     {
-        $this->swapRepositoryCredentials(array(
+        $this->swapRepositoryCredentials([
             'username' => 'foo',
             'password' => 'bar',
             'endpoint' => 'http://foo:bar@github.com/my/repository',
             'branch'   => 'develop',
-        ));
+        ]);
 
         $command = $this->scm->checkout($this->server);
 
         $this->assertEquals('svn co http://github.com/my/repository/develop '.$this->server.' --non-interactive --username="foo" --password="bar"', $command);
 
-        $this->swapRepositoryCredentials(array(
+        $this->swapRepositoryCredentials([
             'username' => 'foo',
             'password' => null,
             'endpoint' => 'http://foo@github.com/my/repository',
             'branch'   => 'develop',
-        ));
+        ]);
 
         $command = $this->scm->checkout($this->server);
 
@@ -100,12 +110,12 @@ class SvnTest extends RocketeerTestCase
 
     public function testDoesntStripRevisionFromUrl()
     {
-        $this->swapRepositoryCredentials(array(
+        $this->swapRepositoryCredentials([
             'username' => 'foo',
             'password' => 'bar',
             'endpoint' => 'url://user:login@example.com/test',
             'branch'   => 'trunk@1234',
-        ));
+        ]);
 
         $command = $this->scm->checkout($this->server);
 

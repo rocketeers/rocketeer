@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Services\Connections;
 
 use Rocketeer\TestCases\RocketeerTestCase;
@@ -21,14 +31,14 @@ class ConnectionHandleTest extends RocketeerTestCase
 
     public function testCanUseHostnameOfServerInHandleIfPresent()
     {
-        $this->swapConnections(array(
-            'production' => array(
-                'servers' => array(
+        $this->swapConnections([
+            'production' => [
+                'servers' => [
                     ['host' => 'server1.com'],
                     ['host' => 'server2.com'],
-                ),
-            ),
-        ));
+                ],
+            ],
+        ]);
 
         $handle = $this->credentials->createConnectionKey('production', 1);
 

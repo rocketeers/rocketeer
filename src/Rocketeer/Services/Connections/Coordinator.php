@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Services\Connections;
 
 use Rocketeer\Services\Tasks\Job;
@@ -77,8 +76,8 @@ class Coordinator
     /**
      * Assert whether all servers are at a particular state.
      *
-     * @param         $event
-     * @param integer $expected
+     * @param     $event
+     * @param int $expected
      *
      * @return bool
      */
@@ -95,8 +94,8 @@ class Coordinator
     /**
      * Update a status.
      *
-     * @param string  $event
-     * @param integer $status
+     * @param string $event
+     * @param int    $status
      */
     public function setStatus($event, $status)
     {
@@ -137,10 +136,10 @@ class Coordinator
     {
         $connection = $this->connections->getCurrentConnection();
 
-        $job = new Job(array(
+        $job = new Job([
             'connection' => $connection,
             'queue'      => $this->builder->buildTasks([$listener]),
-        ));
+        ]);
 
         $this->events->addListener($event, function () use ($job) {
             $this->queue->executeJob($job);
@@ -151,7 +150,7 @@ class Coordinator
      * Get the number of servers to wait for
      * before triggering a promise.
      *
-     * @return integer
+     * @return int
      */
     protected function computeNumberOfTargets()
     {

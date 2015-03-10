@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Services\Ignition;
 
 use KevinGH\Amend\Command;
@@ -26,7 +25,7 @@ class Tasks
      */
     public function getPredefinedTasks()
     {
-        $tasks = array(
+        $tasks = [
             ''               => 'Rocketeer',
             'check'          => 'Check',
             'cleanup'        => 'Cleanup',
@@ -46,7 +45,7 @@ class Tasks
             'plugin-list'    => 'Plugins\List',
             'plugin-install' => 'Plugins\Install',
             'plugin-update'  => 'Plugins\Update',
-        );
+        ];
 
         // Add user commands
         $userTasks = (array) $this->config->get('hooks.custom');

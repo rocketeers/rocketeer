@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Tasks;
 
 use Rocketeer\Abstracts\AbstractTask;
@@ -30,7 +29,7 @@ class Check extends AbstractTask
     /**
      * Whether the task needs to be run on each stage or globally.
      *
-     * @type boolean
+     * @type bool
      */
     public $usesStages = false;
 
@@ -44,7 +43,7 @@ class Check extends AbstractTask
     /**
      * Run the task.
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function execute()
     {
@@ -77,7 +76,7 @@ class Check extends AbstractTask
     /**
      * Check the presence of an SCM on the server.
      *
-     * @return boolean
+     * @return bool
      */
     public function checkScm()
     {
@@ -99,7 +98,7 @@ class Check extends AbstractTask
     /**
      * @param AbstractCheckStrategy $check
      *
-     * @return boolean
+     * @return bool
      */
     protected function checkPackageManagers(AbstractCheckStrategy $check)
     {
@@ -120,7 +119,7 @@ class Check extends AbstractTask
     /**
      * @param AbstractCheckStrategy $check
      *
-     * @return boolean
+     * @return bool
      */
     protected function checkLanguages(AbstractCheckStrategy $check)
     {
@@ -137,7 +136,7 @@ class Check extends AbstractTask
      * @param AbstractCheckStrategy $check
      * @param string                $type
      *
-     * @return boolean
+     * @return bool
      */
     protected function checkExtensions(AbstractCheckStrategy $check, $type)
     {
@@ -157,10 +156,10 @@ class Check extends AbstractTask
     /**
      * Execute a check and log the error if not.
      *
-     * @param boolean $condition
-     * @param string  $error
+     * @param bool   $condition
+     * @param string $error
      *
-     * @return boolean
+     * @return bool
      */
     protected function executeCheck($condition, $error)
     {

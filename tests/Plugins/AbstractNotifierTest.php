@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Plugins;
 
 use Mockery\MockInterface;
@@ -13,15 +23,15 @@ class AbstractNotifierTest extends RocketeerTestCase
     {
         parent::setUp();
 
-        $this->swapConfig(array(
-            'stages.stages' => array('staging', 'production'),
+        $this->swapConfig([
+            'stages.stages' => ['staging', 'production'],
             'hooks'         => [],
-            'connections'   => array(
-                'production' => array(
+            'connections'   => [
+                'production' => [
                     'host' => 'foo.bar.com',
-                ),
-            ),
-        ));
+                ],
+            ],
+        ]);
         $this->tasks->registerConfiguredEvents();
 
         $this->notifier = new DummyNotifier($this->app);
@@ -52,7 +62,7 @@ class AbstractNotifierTest extends RocketeerTestCase
             return $mock
                 ->shouldReceive('getCurrentRepository')->andReturn(new RepositoryKey([
                     'endpoint' => 'rocketeers/rocketeer',
-                    'branch'   => 'master'
+                    'branch'   => 'master',
                 ]));
         });
 

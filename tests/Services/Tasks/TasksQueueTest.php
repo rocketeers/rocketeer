@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Services\Tasks;
 
 use Mockery;
@@ -11,105 +21,105 @@ class TasksQueueTest extends RocketeerTestCase
 {
     public function testCanRunQueue()
     {
-        $this->swapConfig(array(
+        $this->swapConfig([
             'default' => 'production',
-        ));
+        ]);
 
         $this->expectOutputString('JOEY DOESNT SHARE FOOD');
-        $this->queue->run(array(
+        $this->queue->run([
             function () {
                 print 'JOEY DOESNT SHARE FOOD';
             },
-        ), $this->getCommand());
+        ], $this->getCommand());
     }
 
     public function testCanRunQueueOnDifferentConnectionsAndStages()
     {
-        $this->swapConfig(array(
+        $this->swapConfig([
             'default'       => ['staging', 'production'],
             'stages.stages' => ['first', 'second'],
-        ));
+        ]);
 
-        $output = array();
-        $queue  = array(
+        $output = [];
+        $queue  = [
             function (AbstractTask $task) use (&$output) {
                 $connection = $task->connections->getCurrentConnection();
                 $output[]   = $connection->name.' - '.$connection->stage;
             },
-        );
+        ];
 
         $pipeline = $this->queue->run($queue);
 
         $this->assertTrue($pipeline->succeeded());
-        $this->assertEquals(array(
+        $this->assertEquals([
             'staging - first',
             'staging - second',
             'production - first',
             'production - second',
-        ), $output);
+        ], $output);
     }
 
     public function testDoesntSettingStageDefaultsToAll()
     {
-        $this->swapConfig(array(
+        $this->swapConfig([
             'stages.default' => [],
             'stages.stages'  => ['first', 'second'],
-        ));
+        ]);
 
         $this->assertEquals(['first', 'second'], $this->queue->getStages('production'));
     }
 
     public function testCanRunTaskOnAllStages()
     {
-        $this->mockCommand(array(
+        $this->mockCommand([
             'stage' => 'all',
-        ));
-        $this->swapConfig(array(
+        ]);
+        $this->swapConfig([
             'stages.stages' => ['first', 'second'],
-        ));
+        ]);
 
         $this->assertEquals(['first', 'second'], $this->queue->getStages('production'));
     }
 
     public function testCanRunQueueViaExecute()
     {
-        $this->swapConfig(array(
+        $this->swapConfig([
             'default' => 'production',
-        ));
+        ]);
 
-        $pipeline = $this->queue->run(array(
+        $pipeline = $this->queue->run([
             'ls -a',
             function () {
                 return 'JOEY DOESNT SHARE FOOD';
             },
-        ));
+        ]);
 
         $output = array_slice($this->history->getFlattenedOutput(), 2, 4);
         $this->assertTrue($pipeline->succeeded());
-        $this->assertEquals(array(
+        $this->assertEquals([
             '.'.PHP_EOL.'..'.PHP_EOL.'.gitkeep',
             'JOEY DOESNT SHARE FOOD',
-        ), $output);
+        ], $output);
     }
 
     public function testCanRunOnMultipleConnectionsViaOn()
     {
-        $this->swapConfig(array(
+        $this->swapConfig([
             'stages.stages' => ['first', 'second'],
-        ));
+        ]);
 
-        $this->queue->on(array('staging', 'production'), function (AbstractTask $task) {
+        $this->queue->on(['staging', 'production'], function (AbstractTask $task) {
             $connection = $task->connections->getCurrentConnection();
 
             return $connection->name.' - '.$connection->stage;
         });
 
-        $this->assertEquals(array(
+        $this->assertEquals([
             'staging - first',
             'staging - second',
             'production - first',
             'production - second',
-        ), $this->history->getFlattenedOutput());
+        ], $this->history->getFlattenedOutput());
     }
 
     public function testCanRunTasksInParallel()
@@ -128,10 +138,10 @@ class TasksQueueTest extends RocketeerTestCase
             return time();
         };
 
-        $this->queue->execute(array(
+        $this->queue->execute([
             $task,
             $task,
-        ));
+        ]);
     }
 
     public function testCanCancelQueueIfTaskFails()
@@ -144,10 +154,10 @@ class TasksQueueTest extends RocketeerTestCase
             });
         });
 
-        $pipeline = $this->queue->run(array(
+        $pipeline = $this->queue->run([
             'Rocketeer\Dummies\Tasks\MyCustomHaltingTask',
             'Rocketeer\Dummies\Tasks\MyCustomTask',
-        ));
+        ]);
 
         $this->assertTrue($pipeline->failed());
         $this->assertEquals([false], $this->history->getFlattenedOutput());
@@ -171,14 +181,14 @@ class TasksQueueTest extends RocketeerTestCase
         $this->pretend();
 
         $this->app['rocketeer.remote'] = new RemoteHandler($this->app);
-        $this->swapConnections(array(
-            'production' => array(
+        $this->swapConnections([
+            'production' => [
                 'host'     => 'foobar.com',
                 'username' => 'foobar',
                 'password' => 'foobar',
                 'roles'    => ['foo', 'bar'],
-            ),
-        ));
+            ],
+        ]);
 
         $this->tasks->task('YES', function ($task) {
             $task->run('YES');
@@ -187,15 +197,15 @@ class TasksQueueTest extends RocketeerTestCase
             $task->run('NO');
         });
 
-        $this->roles->assignTasksRoles(array(
+        $this->roles->assignTasksRoles([
             'baz' => 'NO',
             'foo' => 'YES',
-        ));
+        ]);
 
-        $this->queue->run(array(
+        $this->queue->run([
             'YES',
             'NO',
-        ));
+        ]);
 
         $this->assertHistoryContains('YES');
         $this->assertHistoryNotContains('NO');

@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Abstracts\Keychains;
 
 use Illuminate\Support\Fluent;
@@ -10,7 +20,7 @@ abstract class AbstractKey extends Fluent
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Compute a simplified string version of the key
+     * Compute a simplified string version of the key.
      *
      * @return string
      */
@@ -20,7 +30,7 @@ abstract class AbstractKey extends Fluent
     }
 
     /**
-     * Get the components to compute the handle from
+     * Get the components to compute the handle from.
      *
      * @return string[]
      */
@@ -30,7 +40,7 @@ abstract class AbstractKey extends Fluent
     }
 
     /**
-     * Compute a handle from components
+     * Compute a handle from components.
      *
      * @param string[] $components
      *

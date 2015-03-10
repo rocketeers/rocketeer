@@ -39,8 +39,13 @@ trait CommandsBuilder
 
         // Get the command name
         $name    = $instance ? $instance->getName() : null;
-        $name    = is_string($task) ? $task : $name;
         $command = $this->findQualifiedName($name, 'commands');
+
+        // If no command found, use BaseTaskCommand or task name
+        if ($command === 'Rocketeer\Console\Commands\BaseTaskCommand') {
+            $name    = is_string($task) ? $task : $name;
+            $command = $this->findQualifiedName($name, 'commands');
+        }
 
         $command = new $command($instance, $slug);
         $command->setLaravel($this->app);

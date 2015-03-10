@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Services\Connections;
 
 use Mockery\MockInterface;
@@ -13,19 +23,19 @@ class ConnectionsHandlerTest extends RocketeerTestCase
     public function testCanGetAvailableConnections()
     {
         $connections = $this->connections->getAvailableConnections();
-        $this->assertEquals(array('production', 'staging'), array_keys($connections));
+        $this->assertEquals(['production', 'staging'], array_keys($connections));
 
         $this->app['rocketeer.storage.local']->set('connections.custom.username', 'foobar');
         $connections = $this->connections->getAvailableConnections();
-        $this->assertEquals(array('production', 'staging', 'custom'), array_keys($connections));
+        $this->assertEquals(['production', 'staging', 'custom'], array_keys($connections));
     }
 
     public function testCanGetCurrentConnection()
     {
-        $this->swapConfig(array('default' => 'production'));
+        $this->swapConfig(['default' => 'production']);
         $this->assertConnectionEquals('production');
 
-        $this->swapConfig(array('default' => 'staging'));
+        $this->swapConfig(['default' => 'staging']);
         $this->assertConnectionEquals('staging');
     }
 
@@ -37,7 +47,7 @@ class ConnectionsHandlerTest extends RocketeerTestCase
         $this->assertConnectionEquals('staging');
 
         $this->connections->setConnections('staging,production');
-        $this->assertEquals(array('staging', 'production'), $this->connections->getConnections());
+        $this->assertEquals(['staging', 'production'], $this->connections->getConnections());
     }
 
     public function testFillsConnectionCredentialsHoles()
@@ -45,16 +55,16 @@ class ConnectionsHandlerTest extends RocketeerTestCase
         $connections = $this->connections->getAvailableConnections();
         $this->assertArrayHasKey('production', $connections);
 
-        $this->app['rocketeer.storage.local']->set('connections', array(
-            'staging' => array(
+        $this->app['rocketeer.storage.local']->set('connections', [
+            'staging' => [
                 'host'      => 'foobar',
                 'username'  => 'user',
                 'password'  => '',
                 'keyphrase' => '',
                 'key'       => '/Users/user/.ssh/id_rsa',
                 'agent'     => '',
-            ),
-        ));
+            ],
+        ]);
         $connections = $this->connections->getAvailableConnections();
         $this->assertArrayHasKey('production', $connections);
     }

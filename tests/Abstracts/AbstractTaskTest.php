@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Abstracts;
 
 use Rocketeer\TestCases\RocketeerTestCase;
@@ -46,7 +56,7 @@ class AbstractTaskTest extends RocketeerTestCase
         $this->disableTestEvents();
 
         $this->tasks->registerConfiguredEvents();
-        $this->tasks->listenTo('deploy.before', array(
+        $this->tasks->listenTo('deploy.before', [
             function () {
                 echo 'a';
 
@@ -65,7 +75,7 @@ class AbstractTaskTest extends RocketeerTestCase
             function () {
                 echo 'd';
             },
-        ));
+        ]);
 
         $task    = $this->pretendTask('Deploy');
         $results = $task->fireEvent('before');
@@ -81,17 +91,17 @@ class AbstractTaskTest extends RocketeerTestCase
         $this->pretendTask('Deploy')->fire();
 
         $history = $this->history->getFlattenedOutput();
-        $this->assertHistory(array(
+        $this->assertHistory([
             'cd {server}/releases/{release}',
             'ls',
-        ), array_get($history, 4));
+        ], array_get($history, 4));
     }
 
     public function testDoesntDuplicateQueuesOnSubtasks()
     {
-        $this->swapConfig(array(
+        $this->swapConfig([
             'default' => ['staging', 'production'],
-        ));
+        ]);
 
         $this->pretend();
         $this->queue->run('Deploy');
@@ -111,24 +121,24 @@ class AbstractTaskTest extends RocketeerTestCase
     {
         $this->expectOutputString('');
 
-        $this->queue->run(array(
+        $this->queue->run([
             function (AbstractTask $task) {
                 $task->halt('foobar');
             },
             function () {
                 echo 'foobar';
             },
-        ));
+        ]);
     }
 
     public function testCanDisplayReleasesTable()
     {
         $headers  = ['#', 'Path', 'Deployed at', 'Status'];
-        $releases = array(
+        $releases = [
             [0, 20000000000000, '<fg=green>1999-11-30 00:00:00</fg=green>', '✓'],
             [1, 15000000000000, '<fg=red>1499-11-30 00:00:00</fg=red>', '✘'],
             [2, 10000000000000, '<fg=green>0999-11-30 00:00:00</fg=green>', '✓'],
-        );
+        ];
 
         $this->app['rocketeer.command'] = $this->getCommand()
                                                ->shouldReceive('table')->with($headers, $releases)->andReturn(null)->once()

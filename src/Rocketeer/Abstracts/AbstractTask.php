@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Abstracts;
 
 use DateTime;
@@ -58,7 +57,7 @@ abstract class AbstractTask extends Bash implements HasRolesInterface, Identifie
     /**
      * Whether the task was halted mid-course.
      *
-     * @type boolean
+     * @type bool
      */
     protected $halted = false;
 
@@ -118,7 +117,7 @@ abstract class AbstractTask extends Bash implements HasRolesInterface, Identifie
     /**
      * Fire the command.
      *
-     * @return boolean
+     * @return bool
      */
     public function fire()
     {
@@ -137,7 +136,7 @@ abstract class AbstractTask extends Bash implements HasRolesInterface, Identifie
      *
      * @param string|null $errors Potential errors to display
      *
-     * @return boolean
+     * @return bool
      */
     public function halt($errors = null)
     {
@@ -159,7 +158,7 @@ abstract class AbstractTask extends Bash implements HasRolesInterface, Identifie
     /**
      * Whether the task was halted mid-course.
      *
-     * @return boolean
+     * @return bool
      */
     public function wasHalted()
     {

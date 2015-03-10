@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Traits\BashModules;
 
 use Rocketeer\TestCases\RocketeerTestCase;
@@ -10,9 +20,9 @@ class FlowTest extends RocketeerTestCase
         $this->pretend();
         $this->bash->copyFromPreviousRelease('foobar');
 
-        $this->assertHistory(array(
+        $this->assertHistory([
             'cp -a {server}/releases/10000000000000/foobar {server}/releases/20000000000000/foobar',
-        ));
+        ]);
     }
 
     public function testCanCheckIfUsesStages()
@@ -30,20 +40,20 @@ class FlowTest extends RocketeerTestCase
 
         $this->swapConfig(['remote.subdirectory' => 'laravel']);
         $this->bash->runForApplication('ls');
-        $this->assertHistoryContains(array(
-            array(
+        $this->assertHistoryContains([
+            [
                 'cd {server}/releases/{release}/laravel',
                 'ls',
-            ),
-        ));
+            ],
+        ]);
 
         $this->swapConfig(['remote.subdirectory' => null]);
         $this->bash->runForApplication('ls');
-        $this->assertHistoryContains(array(
-            array(
+        $this->assertHistoryContains([
+            [
                 'cd {server}/releases/{release}',
                 'ls',
-            ),
-        ));
+            ],
+        ]);
     }
 }

@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Services\Credentials;
 
 use Mockery\MockInterface;
@@ -112,12 +122,12 @@ class RepositoriesKeychainTest extends RocketeerTestCase
      */
     protected function expectRepositoryConfig($repository, $username, $password)
     {
-        $this->swapConfig(array(
-            'scm' => array(
+        $this->swapConfig([
+            'scm' => [
                 'repository' => $repository,
                 'username'   => $username,
                 'password'   => $password,
-            ),
-        ));
+            ],
+        ]);
     }
 }

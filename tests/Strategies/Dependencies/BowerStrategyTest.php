@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Strategies\Dependencies;
 
 use Mockery\MockInterface;
@@ -28,12 +38,12 @@ class BowerStrategyTest extends RocketeerTestCase
         $this->pretend();
         $this->bower->install();
 
-        $this->assertHistory(array(
-            array(
+        $this->assertHistory([
+            [
                 'cd {server}/releases/{release}',
                 'bower install',
-            ),
-        ));
+            ],
+        ]);
     }
 
     public function testCanUpdateDependencies()
@@ -41,31 +51,31 @@ class BowerStrategyTest extends RocketeerTestCase
         $this->pretend();
         $this->bower->update();
 
-        $this->assertHistory(array(
-            array(
+        $this->assertHistory([
+            [
                 'cd {server}/releases/{release}',
                 'bower update',
-            ),
-        ));
+            ],
+        ]);
     }
 
     public function testUsesAllowRootIfRoot()
     {
-        $this->swapConnections(array(
-            'production' => array(
+        $this->swapConnections([
+            'production' => [
                 'username' => 'root',
-            ),
-        ));
+            ],
+        ]);
 
         $this->pretend();
         $this->bower->install();
 
-        $this->assertHistory(array(
-            array(
+        $this->assertHistory([
+            [
                 'cd {server}/releases/{release}',
                 'bower install --allow-root',
-            ),
-        ));
+            ],
+        ]);
     }
 
     public function testCanGetDependenciesFolder()
@@ -89,21 +99,21 @@ class BowerStrategyTest extends RocketeerTestCase
 
     public function testCanAddFlags()
     {
-        $this->swapConnections(array(
-            'production' => array(
+        $this->swapConnections([
+            'production' => [
                 'username' => 'root',
-            ),
-        ));
+            ],
+        ]);
 
         $this->pretend();
         $this->bower->setFlags(['install' => ['--foo' => 'bar']]);
         $this->bower->install();
 
-        $this->assertHistory(array(
-            array(
+        $this->assertHistory([
+            [
                 'cd {server}/releases/{release}',
                 'bower install --foo="bar" --allow-root',
-            ),
-        ));
+            ],
+        ]);
     }
 }

@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Console\Commands;
 
 use Symfony\Component\Console\Input\InputOption;
@@ -29,14 +28,14 @@ class DeployCommand extends BaseTaskCommand
     /**
      * Execute the tasks.
      *
-     * @return integer
+     * @return int
      */
     public function fire()
     {
-        return $this->fireTasksQueue(array(
+        return $this->fireTasksQueue([
             'deploy',
             'cleanup',
-        ));
+        ]);
     }
 
     /**
@@ -46,11 +45,11 @@ class DeployCommand extends BaseTaskCommand
      */
     protected function getOptions()
     {
-        return array_merge(parent::getOptions(), array(
+        return array_merge(parent::getOptions(), [
             ['tests', 't', InputOption::VALUE_NONE, 'Runs the tests on deploy'],
             ['migrate', 'm', InputOption::VALUE_NONE, 'Run the migrations'],
             ['seed', 's', InputOption::VALUE_NONE, 'Seed the database (after migrating it if --migrate)'],
             ['clean-all', null, InputOption::VALUE_NONE, 'Cleanup all but the current release on deploy'],
-        ));
+        ]);
     }
 }

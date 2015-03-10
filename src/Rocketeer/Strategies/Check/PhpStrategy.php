@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Strategies\Check;
 
 use Illuminate\Container\Container;
@@ -33,7 +32,7 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
      *
      * @type array
      */
-    protected $extensions = array();
+    protected $extensions = [];
 
     /**
      * @param Container $app
@@ -111,7 +110,7 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
      *
      * @param string $database
      *
-     * @return boolean
+     * @return bool
      */
     public function checkDatabaseDriver($database)
     {
@@ -132,7 +131,7 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
      *
      * @param string $cache
      *
-     * @return boolean|string
+     * @return bool|string
      */
     public function checkCacheDriver($cache)
     {
@@ -154,13 +153,13 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
      *
      * @param string $extension The extension
      *
-     * @return boolean
+     * @return bool
      */
     public function checkPhpExtension($extension)
     {
         // Check for HHVM and built-in extensions
         if ($this->php()->isHhvm()) {
-            $this->extensions = array(
+            $this->extensions = [
                 '_hhvm',
                 'apache',
                 'asio',
@@ -199,7 +198,7 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
                 'xdebug',
                 'zip',
                 'zlib',
-            );
+            ];
         }
 
         // Get the PHP extensions available
@@ -217,11 +216,11 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
      */
     protected function getExtensions()
     {
-        return array(
+        return [
             'mcrypt'   => ['checkPhpExtension', 'mcrypt'],
             'database' => ['checkDatabaseDriver', $this->app['rocketeer.config']->get('database.default')],
             'cache'    => ['checkCacheDriver', $this->app['rocketeer.config']->get('cache.driver')],
             'session'  => ['checkCacheDriver', $this->app['rocketeer.config']->get('session.driver')],
-        );
+        ];
     }
 }

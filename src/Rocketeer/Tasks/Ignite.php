@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Tasks;
 
 use Rocketeer\Abstracts\AbstractTask;
@@ -54,7 +53,7 @@ class Ignite extends AbstractTask
      */
     protected function createLaravelConfiguration()
     {
-        $this->command->call('config:publish', array('package' => 'anahkiasen/rocketeer'));
+        $this->command->call('config:publish', ['package' => 'anahkiasen/rocketeer']);
 
         return $this->app['path'].'/config/packages/anahkiasen/rocketeer';
     }
@@ -85,13 +84,13 @@ class Ignite extends AbstractTask
 
         return array_merge(
             $credentials,
-            array(
+            [
                 'connection'       => preg_replace('/#[0-9]+/', null, $this->connections->getCurrentConnection()),
                 'scm_repository'   => $repository->endpoint,
                 'scm_username'     => $repository->username,
                 'scm_password'     => $repository->password,
                 'application_name' => $this->command->ask('What is your application\'s name ? ('.$name.')', $name),
-            )
+            ]
         );
     }
 }

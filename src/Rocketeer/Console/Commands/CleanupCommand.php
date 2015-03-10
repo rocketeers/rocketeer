@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Console\Commands;
 
 use Symfony\Component\Console\Input\InputOption;
@@ -26,8 +25,8 @@ class CleanupCommand extends BaseTaskCommand
      */
     protected function getOptions()
     {
-        return array_merge(parent::getOptions(), array(
+        return array_merge(parent::getOptions(), [
             ['clean-all', null, InputOption::VALUE_NONE, 'Cleans up all non-current releases'],
-        ));
+        ]);
     }
 }

@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Abstracts\Commands;
 
 use Symfony\Component\Console\Input\InputArgument;
@@ -16,14 +26,14 @@ class AbstractPluginCommand extends AbstractCommand
      * Whether the command's task should be built
      * into a pipeline or run straight.
      *
-     * @type boolean
+     * @type bool
      */
     protected $straight = true;
 
     /**
      * Run the tasks.
      *
-     * @return integer
+     * @return int
      */
     public function fire()
     {
@@ -37,8 +47,8 @@ class AbstractPluginCommand extends AbstractCommand
      */
     protected function getArguments()
     {
-        return array(
+        return [
             ['package', InputArgument::REQUIRED, 'The package to publish the configuration for'],
-        );
+        ];
     }
 }

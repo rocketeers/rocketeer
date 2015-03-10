@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Services\Config;
 
 use Symfony\Component\Config\ConfigCache;
@@ -19,7 +29,7 @@ class ConfigurationCache extends ConfigCache
     }
 
     /**
-     * Flush the cache
+     * Flush the cache.
      */
     public function flush()
     {
@@ -27,7 +37,7 @@ class ConfigurationCache extends ConfigCache
     }
 
     /**
-     * Get the contents of the cache
+     * Get the contents of the cache.
      *
      * @return array
      */
@@ -43,7 +53,7 @@ class ConfigurationCache extends ConfigCache
     }
 
     /**
-     * Get the path to the cache file
+     * Get the path to the cache file.
      *
      * @return string
      */

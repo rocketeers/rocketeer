@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Strategies\Deploy;
 
 use Rocketeer\TestCases\RocketeerTestCase;
@@ -9,12 +19,12 @@ class SyncStrategyTest extends RocketeerTestCase
     {
         parent::setUp();
 
-        $this->swapConnections(array(
-            'production' => array(
+        $this->swapConnections([
+            'production' => [
                 'host'     => 'bar.com',
                 'username' => 'foo',
-            ),
-        ));
+            ],
+        ]);
     }
 
     public function testCanDeployRepository()
@@ -22,9 +32,9 @@ class SyncStrategyTest extends RocketeerTestCase
         $task = $this->pretendTask('Deploy');
         $task->getStrategy('Deploy', 'Sync')->deploy();
 
-        $this->assertRsyncHistory(null, array(
+        $this->assertRsyncHistory(null, null, [
             'mkdir {server}/releases/{release}',
-        ));
+        ]);
     }
 
     public function testCanUpdateRepository()
@@ -37,12 +47,12 @@ class SyncStrategyTest extends RocketeerTestCase
 
     public function testCanSpecifyPortViaHostname()
     {
-        $this->swapConnections(array(
-            'production' => array(
+        $this->swapConnections([
+            'production' => [
                 'host'     => 'bar.com:12345',
                 'username' => 'foo',
-            ),
-        ));
+            ],
+        ]);
 
         $task = $this->pretendTask('Deploy');
         $task->getStrategy('Deploy', 'Sync')->update();
@@ -58,12 +68,30 @@ class SyncStrategyTest extends RocketeerTestCase
         $this->assertRsyncHistory(12345);
     }
 
-    protected function assertRsyncHistory($port = null, $prepend = [])
+    public function testCanSpecifyKey()
     {
-        $port    = $port ? ' -p '.$port : null;
-        $matcher = array_merge($prepend, array(
-            'rsync ./ foo@bar.com:{server}/releases/{release} --verbose --recursive --rsh="ssh'.$port.'" --exclude=".git" --exclude="vendor"',
-        ));
+        $this->swapConnections([
+            'production' => [
+                'username' => 'foo',
+                'host'     => 'bar.com:80',
+                'key'      => '/foo/bar',
+            ],
+        ]);
+
+        $task = $this->pretendTask('Deploy');
+        $task->getStrategy('Deploy', 'Sync', ['port' => 80])->update();
+
+        $this->assertRsyncHistory(80, '/foo/bar');
+    }
+
+    protected function assertRsyncHistory($port = null, $key = null, $prepend = [])
+    {
+        $port = $port ? ' -p '.$port : null;
+        $key  = $key ? ' -i '.$key : null;
+
+        $matcher = array_merge($prepend, [
+            'rsync ./ foo@bar.com:{server}/releases/{release} --verbose --recursive --compress --rsh="ssh'.$port.$key.'" --exclude=".git" --exclude="vendor"',
+        ]);
 
         $this->assertHistory($matcher);
     }

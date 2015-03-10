@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Services\Config;
 
 use Illuminate\Filesystem\Filesystem;
@@ -33,7 +43,7 @@ class ConfigurationPublisher
     }
 
     /**
-     * Set the available options and their values
+     * Set the available options and their values.
      *
      * @param string      $format
      * @param string|null $node
@@ -72,7 +82,7 @@ class ConfigurationPublisher
     }
 
     /**
-     * Publish the configuration somewhere
+     * Publish the configuration somewhere.
      *
      * @param string      $path
      * @param string      $format

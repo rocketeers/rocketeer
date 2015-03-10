@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Tasks;
 
 use Mockery;
@@ -44,13 +54,13 @@ class IgniteTest extends RocketeerTestCase
 
     public function testCanIgniteConfigurationOutsideLaravel()
     {
-        $command = $this->getCommand(array('ask' => 'foobar'));
+        $command = $this->getCommand(['ask' => 'foobar']);
 
         $server = $this->server;
         $this->mock('rocketeer.igniter', 'Configuration', function (MockInterface $mock) use ($server) {
             return $mock
                 ->shouldReceive('exportConfiguration')->once()->andReturn($server)
-                ->shouldReceive('updateConfiguration')->once()->with($server, array(
+                ->shouldReceive('updateConfiguration')->once()->with($server, [
                     'host'             => '{host}',
                     'username'         => '{username}',
                     'password'         => '{password}',
@@ -59,7 +69,7 @@ class IgniteTest extends RocketeerTestCase
                     'scm_username'     => null,
                     'scm_password'     => null,
                     'application_name' => 'foobar',
-                ));
+                ]);
         });
 
         $this->assertTaskOutput('Ignite', 'Rocketeer configuration was created', $command);

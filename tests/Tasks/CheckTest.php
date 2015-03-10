@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Tasks;
 
 use Mockery;
@@ -11,23 +21,23 @@ class CheckTest extends RocketeerTestCase
     {
         $this->usesComposer();
 
-        $this->assertTaskHistory('Check', array(
+        $this->assertTaskHistory('Check', [
             'git --version',
             '{php} -m',
-        ));
+        ]);
     }
 
     public function testSkipsScmCheckIfNotRequired()
     {
         $this->usesComposer();
 
-        $this->swapConfig(array(
+        $this->swapConfig([
             'strategies.deploy' => 'sync',
-        ));
+        ]);
 
-        $this->assertTaskHistory('Check', array(
+        $this->assertTaskHistory('Check', [
             '{php} -m',
-        ));
+        ]);
     }
 
     public function testStopsCheckingIfErrorOccured()
@@ -43,9 +53,9 @@ class CheckTest extends RocketeerTestCase
                 ->shouldReceive('extensions')->never();
         });
 
-        $this->swapConfig(array(
+        $this->swapConfig([
             'strategies.check' => 'Php',
-        ));
+        ]);
     }
 
     public function testCanExplicitelySayWhichManagerConditionFailed()

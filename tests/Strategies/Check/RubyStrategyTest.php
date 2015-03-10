@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Strategies\Check;
 
 use Mockery;
@@ -20,10 +30,10 @@ class RubyStrategyTest extends RocketeerTestCase
 
     public function testCanParseLanguageConstraint()
     {
-        $manager = Mockery::mock('Bundler', array(
+        $manager = Mockery::mock('Bundler', [
             'getBinary'           => 'bundle',
             'getManifestContents' => '# Some comments'.PHP_EOL."ruby '2.0.0'",
-        ));
+        ]);
         $this->strategy->setManager($manager);
 
         $this->mockRemote('1.9.3');

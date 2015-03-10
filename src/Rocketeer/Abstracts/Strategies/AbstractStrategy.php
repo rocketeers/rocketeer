@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Abstracts\Strategies;
 
 use Illuminate\Support\Arr;
@@ -83,7 +82,7 @@ abstract class AbstractStrategy extends Bash implements IdentifierInterface
     /**
      * Whether this particular strategy is runnable or not.
      *
-     * @return boolean
+     * @return bool
      */
     public function isExecutable()
     {

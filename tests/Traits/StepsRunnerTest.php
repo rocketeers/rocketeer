@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Traits;
 
 use Rocketeer\TestCases\RocketeerTestCase;
@@ -22,14 +32,14 @@ class StepsRunnerTest extends RocketeerTestCase
         $task = $this->task;
         $task->steps()->run('ls');
 
-        $this->assertEquals(array(
+        $this->assertEquals([
             ['run', ['ls']],
-        ), $task->steps()->getSteps());
+        ], $task->steps()->getSteps());
         $task->runSteps();
         $task->steps()->run('php --version');
-        $this->assertEquals(array(
+        $this->assertEquals([
             ['run', ['php --version']],
-        ), $task->steps()->getSteps());
+        ], $task->steps()->getSteps());
     }
 
     public function testCanRunClosures()

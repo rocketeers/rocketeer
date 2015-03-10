@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Services\Builders;
 
 use ReflectionFunction;
@@ -32,7 +42,7 @@ class TasksBuilderTest extends RocketeerTestCase
         $this->assertInstanceOf('Closure', $closure);
 
         $closureReflection = new ReflectionFunction($closure);
-        $this->assertEquals(array('stringTask' => 'echo "I love ducks"'), $closureReflection->getStaticVariables());
+        $this->assertEquals(['stringTask' => 'echo "I love ducks"'], $closureReflection->getStaticVariables());
 
         $this->assertEquals('I love ducks', $string->execute());
     }
@@ -50,13 +60,13 @@ class TasksBuilderTest extends RocketeerTestCase
 
     public function testCanBuildTasks()
     {
-        $queue = array(
+        $queue = [
             'foobar',
             function () {
                 return 'lol';
             },
             'Rocketeer\Tasks\Deploy',
-        );
+        ];
 
         $queue = $this->builder->buildTasks($queue);
 

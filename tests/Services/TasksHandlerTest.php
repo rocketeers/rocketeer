@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Services;
 
 use Rocketeer\Dummies\DummyNotifier;
@@ -37,19 +47,19 @@ class TasksHandlerTest extends RocketeerTestCase
         $this->disableTestEvents();
         $task  = $this->task('Deploy');
         $after = $this->tasks->getTasksListeners($task, 'after', true);
-        $this->tasks->after('deploy', array(
+        $this->tasks->after('deploy', [
             'composer install',
             'bower install',
-        ));
+        ]);
 
         $this->assertEquals(['composer install', 'bower install'], $this->tasks->getTasksListeners($task, 'after', true));
     }
 
     public function testCanRegisterCustomTask()
     {
-        $this->swapConfig(array(
+        $this->swapConfig([
             'default' => 'production',
-        ));
+        ]);
 
         $this->tasks->task('foobar', function ($task) {
             $task->runForCurrentRelease('ls');
@@ -63,9 +73,9 @@ class TasksHandlerTest extends RocketeerTestCase
 
     public function testCanRegisterCustomTaskViaArray()
     {
-        $this->swapConfig(array(
+        $this->swapConfig([
             'default' => 'production',
-        ));
+        ]);
 
         $this->tasks->task('foobar', ['ls', 'ls']);
         $this->assertInstanceOf('Rocketeer\Tasks\Closure', $this->task('foobar'));
@@ -79,15 +89,15 @@ class TasksHandlerTest extends RocketeerTestCase
         $task = $this->task('Setup');
         $this->tasks->after('setup', 'composer install');
 
-        $after = array('composer install');
+        $after = ['composer install'];
         $this->assertEquals($after, $this->tasks->getTasksListeners($task, 'after', true));
     }
 
     public function testCanAddSurroundTasksToMultipleTasks()
     {
-        $this->tasks->after(array('cleanup', 'setup'), 'composer install');
+        $this->tasks->after(['cleanup', 'setup'], 'composer install');
 
-        $after = array('composer install');
+        $after = ['composer install'];
         $this->assertEquals($after, $this->tasks->getTasksListeners('setup', 'after', true));
         $this->assertEquals($after, $this->tasks->getTasksListeners('cleanup', 'after', true));
     }
@@ -96,7 +106,7 @@ class TasksHandlerTest extends RocketeerTestCase
     {
         $after = $this->tasks->getTasksListeners('deploy', 'after', true);
 
-        $this->assertEquals(array('after', 'foobar'), $after);
+        $this->assertEquals(['after', 'foobar'], $after);
     }
 
     public function testCanAddEventsWithPriority()
@@ -112,10 +122,10 @@ class TasksHandlerTest extends RocketeerTestCase
 
     public function testCanExecuteContextualEvents()
     {
-        $this->swapConfig(array(
-            'stages.stages'            => array('hasEvent', 'noEvent'),
-            'on.stages.hasEvent.hooks' => array('before' => array('check' => 'ls')),
-        ));
+        $this->swapConfig([
+            'stages.stages'            => ['hasEvent', 'noEvent'],
+            'on.stages.hasEvent.hooks' => ['before' => ['check' => 'ls']],
+        ]);
 
         $this->connections->setStage('hasEvent');
         $this->assertEquals(['ls'], $this->tasks->getTasksListeners('check', 'before', true));
@@ -126,14 +136,14 @@ class TasksHandlerTest extends RocketeerTestCase
 
     public function testCanbuildTasksFromConfigHook()
     {
-        $tasks = array(
+        $tasks = [
             'npm install',
             'bower install',
-        );
+        ];
 
-        $this->swapConfig(array(
+        $this->swapConfig([
             'hooks' => ['after' => ['deploy' => $tasks]],
-        ));
+        ]);
 
         $this->tasks->registerConfiguredEvents();
         $listeners = $this->tasks->getTasksListeners('deploy', 'after', true);
@@ -143,16 +153,16 @@ class TasksHandlerTest extends RocketeerTestCase
 
     public function testCanHaveCustomConnectionHooks()
     {
-        $tasks = array(
+        $tasks = [
             'npm install',
             'bower install',
-        );
+        ];
 
-        $this->swapConfig(array(
+        $this->swapConfig([
             'default'                      => 'production',
             'hooks'                        => [],
             'on.connections.staging.hooks' => ['after' => ['deploy' => $tasks]],
-        ));
+        ]);
         $this->tasks->registerConfiguredEvents();
 
         $this->connections->setConnection('production');
@@ -167,9 +177,9 @@ class TasksHandlerTest extends RocketeerTestCase
 
     public function testPluginsArentDeregisteredWhenSwitchingConnection()
     {
-        $this->swapConfig(array(
+        $this->swapConfig([
             'hooks' => ['before' => ['deploy' => 'ls']],
-        ));
+        ]);
 
         $this->tasks->plugin(new DummyNotifier($this->app));
 
