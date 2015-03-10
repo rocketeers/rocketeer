@@ -372,6 +372,7 @@ EOF
                     ->prototype('array')->end()
                 ->end()
                 ->arrayNode('custom')
+                    ->useAttributeAsKey('name')
                     ->prototype('scalar')->end()
                 ->end()
                 ->arrayNode('roles')
