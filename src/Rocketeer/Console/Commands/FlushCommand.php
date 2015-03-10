@@ -12,37 +12,37 @@ namespace Rocketeer\Console\Commands;
 use Rocketeer\Abstracts\AbstractCommand;
 
 /**
- * Flushes any custom storage Rocketeer has created
+ * Flushes any custom storage Rocketeer has created.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class FlushCommand extends AbstractCommand
 {
-	/**
-	 * The console command name.
-	 *
-	 * @var string
-	 */
-	protected $name = 'deploy:flush';
+    /**
+     * The console command name.
+     *
+     * @type string
+     */
+    protected $name = 'deploy:flush';
 
-	/**
-	 * The console command description.
-	 *
-	 * @var string
-	 */
-	protected $description = "Flushes Rocketeer's cache of credentials";
+    /**
+     * The console command description.
+     *
+     * @type string
+     */
+    protected $description = "Flushes Rocketeer's cache of credentials";
 
-	/**
-	 * Execute the tasks
-	 *
-	 * @return integer
-	 */
-	public function fire()
-	{
-		// Clear the cache of credentials
-		$this->laravel['rocketeer.storage.local']->destroy();
-		$this->info("Rocketeer's cache has been properly flushed");
+    /**
+     * Execute the tasks.
+     *
+     * @return int
+     */
+    public function fire()
+    {
+        // Clear the cache of credentials
+        $this->laravel['rocketeer.storage.local']->destroy();
+        $this->info("Rocketeer's cache has been properly flushed");
 
-		return 0;
-	}
+        return 0;
+    }
 }

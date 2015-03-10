@@ -16,430 +16,430 @@ use Rocketeer\Traits\HasLocator;
 
 /**
  * Handles, get and return, the various connections/stages
- * and their credentials
+ * and their credentials.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class ConnectionsHandler
 {
-	use HasLocator;
+    use HasLocator;
 
-	/**
-	 * The current handle
-	 *
-	 * @type string
-	 */
-	protected $handle;
+    /**
+     * The current handle.
+     *
+     * @type string
+     */
+    protected $handle;
 
-	/**
-	 * The current stage
-	 *
-	 * @var string
-	 */
-	protected $stage;
+    /**
+     * The current stage.
+     *
+     * @type string
+     */
+    protected $stage;
 
-	/**
-	 * The current server
-	 *
-	 * @type integer
-	 */
-	protected $currentServer = 0;
+    /**
+     * The current server.
+     *
+     * @type int
+     */
+    protected $currentServer = 0;
 
-	/**
-	 * The connections to use
-	 *
-	 * @var array|null
-	 */
-	protected $connections;
+    /**
+     * The connections to use.
+     *
+     * @type array|null
+     */
+    protected $connections;
 
-	/**
-	 * The current connection
-	 *
-	 * @var string|null
-	 */
-	protected $connection;
+    /**
+     * The current connection.
+     *
+     * @type string|null
+     */
+    protected $connection;
 
-	/**
-	 * Build the current connection's handle
-	 *
-	 * @param string|null  $connection
-	 * @param integer|null $server
-	 * @param string|null  $stage
-	 *
-	 * @return string
-	 */
-	public function getHandle($connection = null, $server = null, $stage = null)
-	{
-		if ($this->handle) {
-			return $this->handle;
-		}
+    /**
+     * Build the current connection's handle.
+     *
+     * @param string|null $connection
+     * @param int|null    $server
+     * @param string|null $stage
+     *
+     * @return string
+     */
+    public function getHandle($connection = null, $server = null, $stage = null)
+    {
+        if ($this->handle) {
+            return $this->handle;
+        }
 
-		// Get identifiers
-		$connection = $connection ?: $this->getConnection();
-		$server     = $server ?: $this->getServer();
-		$stage      = $stage ?: $this->getStage();
+        // Get identifiers
+        $connection = $connection ?: $this->getConnection();
+        $server     = $server ?: $this->getServer();
+        $stage      = $stage ?: $this->getStage();
 
-		// Filter values
-		$handle = [$connection, $server, $stage];
-		if ($this->isMultiserver($connection)) {
-			$handle = array_filter($handle, function ($value) {
-				return !is_null($value);
-			});
-		} else {
-			$handle = array_filter($handle);
-		}
+        // Filter values
+        $handle = [$connection, $server, $stage];
+        if ($this->isMultiserver($connection)) {
+            $handle = array_filter($handle, function ($value) {
+                return !is_null($value);
+            });
+        } else {
+            $handle = array_filter($handle);
+        }
 
-		// Concatenate
-		$handle       = implode('/', $handle);
-		$this->handle = $handle;
+        // Concatenate
+        $handle       = implode('/', $handle);
+        $this->handle = $handle;
 
-		return $handle;
-	}
+        return $handle;
+    }
 
-	//////////////////////////////////////////////////////////////////////
-	////////////////////////////// SERVERS ///////////////////////////////
-	//////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+    ////////////////////////////// SERVERS ///////////////////////////////
+    //////////////////////////////////////////////////////////////////////
 
-	/**
-	 * @return int
-	 */
-	public function getServer()
-	{
-		return $this->currentServer;
-	}
+    /**
+     * @return int
+     */
+    public function getServer()
+    {
+        return $this->currentServer;
+    }
 
-	/**
-	 * Check if a connection is multiserver or not
-	 *
-	 * @param string $connection
-	 *
-	 * @return boolean
-	 */
-	public function isMultiserver($connection)
-	{
-		return (bool) count($this->getConnectionCredentials($connection));
-	}
+    /**
+     * Check if a connection is multiserver or not.
+     *
+     * @param string $connection
+     *
+     * @return bool
+     */
+    public function isMultiserver($connection)
+    {
+        return (bool) count($this->getConnectionCredentials($connection));
+    }
 
-	////////////////////////////////////////////////////////////////////
-	//////////////////////////////// STAGES ////////////////////////////
-	////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+    //////////////////////////////// STAGES ////////////////////////////
+    ////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Get the current stage
-	 *
-	 * @return string
-	 */
-	public function getStage()
-	{
-		return $this->stage;
-	}
+    /**
+     * Get the current stage.
+     *
+     * @return string
+     */
+    public function getStage()
+    {
+        return $this->stage;
+    }
 
-	/**
-	 * Set the stage Tasks will execute on
-	 *
-	 * @param string|null $stage
-	 */
-	public function setStage($stage)
-	{
-		if ($stage == $this->stage) {
-			return;
-		}
+    /**
+     * Set the stage Tasks will execute on.
+     *
+     * @param string|null $stage
+     */
+    public function setStage($stage)
+    {
+        if ($stage === $this->stage) {
+            return;
+        }
 
-		$this->stage  = $stage;
-		$this->handle = null;
+        $this->stage  = $stage;
+        $this->handle = null;
 
-		// If we do have a stage, cleanup previous events
-		if ($stage) {
-			$this->tasks->registerConfiguredEvents();
-		}
-	}
+        // If we do have a stage, cleanup previous events
+        if ($stage) {
+            $this->tasks->registerConfiguredEvents();
+        }
+    }
 
-	/**
-	 * Get the various stages provided by the User
-	 *
-	 * @return array
-	 */
-	public function getStages()
-	{
-		return (array) $this->rocketeer->getOption('stages.stages');
-	}
+    /**
+     * Get the various stages provided by the User.
+     *
+     * @return array
+     */
+    public function getStages()
+    {
+        return (array) $this->rocketeer->getOption('stages.stages');
+    }
 
-	////////////////////////////////////////////////////////////////////
-	///////////////////////////// APPLICATION //////////////////////////
-	////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+    ///////////////////////////// APPLICATION //////////////////////////
+    ////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Whether the repository used is using SSH or HTTPS
-	 *
-	 * @return boolean
-	 */
-	public function needsCredentials()
-	{
-		return Str::contains($this->getRepositoryEndpoint(), 'https://');
-	}
+    /**
+     * Whether the repository used is using SSH or HTTPS.
+     *
+     * @return bool
+     */
+    public function needsCredentials()
+    {
+        return Str::contains($this->getRepositoryEndpoint(), 'https://');
+    }
 
-	/**
-	 * Get the available connections
-	 *
-	 * @return string[][]|string[]
-	 */
-	public function getAvailableConnections()
-	{
-		// Fetch stored credentials
-		$storage = (array) $this->localStorage->get('connections');
+    /**
+     * Get the available connections.
+     *
+     * @return string[][]|string[]
+     */
+    public function getAvailableConnections()
+    {
+        // Fetch stored credentials
+        $storage = (array) $this->localStorage->get('connections');
 
-		// Merge with defaults from config file
-		$configuration = (array) $this->config->get('rocketeer::connections');
+        // Merge with defaults from config file
+        $configuration = (array) $this->config->get('rocketeer::connections');
 
-		// Fetch from remote file
-		$remote = (array) $this->config->get('remote.connections');
+        // Fetch from remote file
+        $remote = (array) $this->config->get('remote.connections');
 
-		// Merge configurations
-		$connections = array_replace_recursive($remote, $configuration, $storage);
+        // Merge configurations
+        $connections = array_replace_recursive($remote, $configuration, $storage);
 
-		// Unify multiservers
-		foreach ($connections as $key => $servers) {
-			$servers           = Arr::get($servers, 'servers', [$servers]);
-			$connections[$key] = ['servers' => array_values($servers)];
-		}
+        // Unify multiservers
+        foreach ($connections as $key => $servers) {
+            $servers           = Arr::get($servers, 'servers', [$servers]);
+            $connections[$key] = ['servers' => array_values($servers)];
+        }
 
-		return $connections;
-	}
+        return $connections;
+    }
 
-	/**
-	 * Check if a connection has credentials related to it
-	 *
-	 * @param string $connection
-	 *
-	 * @return boolean
-	 */
-	public function isValidConnection($connection)
-	{
-		$available = (array) $this->getAvailableConnections();
+    /**
+     * Check if a connection has credentials related to it.
+     *
+     * @param string $connection
+     *
+     * @return bool
+     */
+    public function isValidConnection($connection)
+    {
+        $available = (array) $this->getAvailableConnections();
 
-		return (bool) Arr::get($available, $connection.'.servers');
-	}
+        return (bool) Arr::get($available, $connection.'.servers');
+    }
 
-	/**
-	 * Get the connection in use
-	 *
-	 * @return string[]
-	 */
-	public function getConnections()
-	{
-		// Get cached resolved connections
-		if ($this->connections) {
-			return $this->connections;
-		}
+    /**
+     * Get the connection in use.
+     *
+     * @return string[]
+     */
+    public function getConnections()
+    {
+        // Get cached resolved connections
+        if ($this->connections) {
+            return $this->connections;
+        }
 
-		// Get all and defaults
-		$connections = (array) $this->config->get('rocketeer::default');
-		$default     = $this->config->get('remote.default');
+        // Get all and defaults
+        $connections = (array) $this->config->get('rocketeer::default');
+        $default     = $this->config->get('remote.default');
 
-		// Remove invalid connections
-		$instance    = $this;
-		$connections = array_filter($connections, function ($value) use ($instance) {
-			return $instance->isValidConnection($value);
-		});
+        // Remove invalid connections
+        $instance    = $this;
+        $connections = array_filter($connections, function ($value) use ($instance) {
+            return $instance->isValidConnection($value);
+        });
 
-		// Return default if no active connection(s) set
-		if (empty($connections) && $default) {
-			return array($default);
-		}
+        // Return default if no active connection(s) set
+        if (empty($connections) && $default) {
+            return [$default];
+        }
 
-		// Set current connection as default
-		$this->connections = $connections;
+        // Set current connection as default
+        $this->connections = $connections;
 
-		return $connections;
-	}
+        return $connections;
+    }
 
-	/**
-	 * Set the active connections
-	 *
-	 * @param string|string[] $connections
-	 *
-	 * @throws ConnectionException
-	 */
-	public function setConnections($connections)
-	{
-		if (!is_array($connections)) {
-			$connections = explode(',', $connections);
-		}
+    /**
+     * Set the active connections.
+     *
+     * @param string|string[] $connections
+     *
+     * @throws ConnectionException
+     */
+    public function setConnections($connections)
+    {
+        if (!is_array($connections)) {
+            $connections = explode(',', $connections);
+        }
 
-		// Sanitize and set connections
-		$filtered = array_filter($connections, [$this, 'isValidConnection']);
-		if (!$filtered) {
-			throw new ConnectionException('Invalid connection(s): '.implode(', ', $connections));
-		}
+        // Sanitize and set connections
+        $filtered = array_filter($connections, [$this, 'isValidConnection']);
+        if (!$filtered) {
+            throw new ConnectionException('Invalid connection(s): '.implode(', ', $connections));
+        }
 
-		$this->connections = $filtered;
-		$this->handle      = null;
-	}
+        $this->connections = $filtered;
+        $this->handle      = null;
+    }
 
-	/**
-	 * Get the active connection
-	 *
-	 * @return string
-	 */
-	public function getConnection()
-	{
-		// Get cached resolved connection
-		if ($this->connection) {
-			return $this->connection;
-		}
+    /**
+     * Get the active connection.
+     *
+     * @return string
+     */
+    public function getConnection()
+    {
+        // Get cached resolved connection
+        if ($this->connection) {
+            return $this->connection;
+        }
 
-		$connection       = Arr::get($this->getConnections(), 0);
-		$this->connection = $connection;
+        $connection       = Arr::get($this->getConnections(), 0);
+        $this->connection = $connection;
 
-		return $this->connection;
-	}
+        return $this->connection;
+    }
 
-	/**
-	 * Set the current connection
-	 *
-	 * @param string $connection
-	 * @param int    $server
-	 */
-	public function setConnection($connection, $server = 0)
-	{
-		if (!$this->isValidConnection($connection) || (($this->connection == $connection) && ($this->currentServer == $server))) {
-			return;
-		}
+    /**
+     * Set the current connection.
+     *
+     * @param string $connection
+     * @param int    $server
+     */
+    public function setConnection($connection, $server = 0)
+    {
+        if (!$this->isValidConnection($connection) || (($this->connection === $connection) && ($this->currentServer === $server))) {
+            return;
+        }
 
-		// Set the connection
-		$this->handle        = null;
-		$this->connection    = $connection;
-		$this->localStorage  = $server;
-		$this->currentServer = $server;
+        // Set the connection
+        $this->handle        = null;
+        $this->connection    = $connection;
+        $this->localStorage  = $server;
+        $this->currentServer = $server;
 
-		// Update events
-		$this->tasks->registerConfiguredEvents();
-	}
+        // Update events
+        $this->tasks->registerConfiguredEvents();
+    }
 
-	/**
-	 * Get the credentials for a particular connection
-	 *
-	 * @param string|null $connection
-	 *
-	 * @return string[][]
-	 */
-	public function getConnectionCredentials($connection = null)
-	{
-		$connection = $connection ?: $this->getConnection();
-		$available  = $this->getAvailableConnections();
+    /**
+     * Get the credentials for a particular connection.
+     *
+     * @param string|null $connection
+     *
+     * @return string[][]
+     */
+    public function getConnectionCredentials($connection = null)
+    {
+        $connection = $connection ?: $this->getConnection();
+        $available  = $this->getAvailableConnections();
 
-		return Arr::get($available, $connection.'.servers');
-	}
+        return Arr::get($available, $connection.'.servers');
+    }
 
-	/**
-	 * Get thecredentials for as server
-	 *
-	 * @param string|null  $connection
-	 * @param integer|null $server
-	 *
-	 * @return mixed
-	 */
-	public function getServerCredentials($connection = null, $server = null)
-	{
-		$connection = $this->getConnectionCredentials($connection);
-		$server     = !is_null($server) ? $server : $this->currentServer;
+    /**
+     * Get thecredentials for as server.
+     *
+     * @param string|null $connection
+     * @param int|null    $server
+     *
+     * @return mixed
+     */
+    public function getServerCredentials($connection = null, $server = null)
+    {
+        $connection = $this->getConnectionCredentials($connection);
+        $server     = !is_null($server) ? $server : $this->currentServer;
 
-		return Arr::get($connection, $server, []);
-	}
+        return Arr::get($connection, $server, []);
+    }
 
-	/**
-	 * Sync Rocketeer's credentials with Laravel's
-	 *
-	 * @param string|null   $connection
-	 * @param string[]|null $credentials
-	 * @param int           $server
-	 */
-	public function syncConnectionCredentials($connection = null, array $credentials = array(), $server = 0)
-	{
-		// Store credentials if any
-		if ($credentials) {
-			$this->localStorage->set('connections.'.$connection.'.servers.'.$server, $credentials);
-		}
+    /**
+     * Sync Rocketeer's credentials with Laravel's.
+     *
+     * @param string|null   $connection
+     * @param string[]|null $credentials
+     * @param int           $server
+     */
+    public function syncConnectionCredentials($connection = null, array $credentials = [], $server = 0)
+    {
+        // Store credentials if any
+        if ($credentials) {
+            $this->localStorage->set('connections.'.$connection.'.servers.'.$server, $credentials);
+        }
 
-		// Get connection
-		$connection  = $connection ?: $this->getConnection();
-		$credentials = $this->getConnectionCredentials($connection);
+        // Get connection
+        $connection  = $connection ?: $this->getConnection();
+        $credentials = $this->getConnectionCredentials($connection);
 
-		$this->config->set('remote.connections.'.$connection, $credentials);
-	}
+        $this->config->set('remote.connections.'.$connection, $credentials);
+    }
 
-	/**
-	 * Flush active connection(s)
-	 */
-	public function disconnect()
-	{
-		$this->connection  = null;
-		$this->connections = null;
-	}
+    /**
+     * Flush active connection(s).
+     */
+    public function disconnect()
+    {
+        $this->connection  = null;
+        $this->connections = null;
+    }
 
-	////////////////////////////////////////////////////////////////////
-	/////////////////////////// GIT REPOSITORY /////////////////////////
-	////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+    /////////////////////////// GIT REPOSITORY /////////////////////////
+    ////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Get the credentials for the repository
-	 *
-	 * @return array
-	 */
-	public function getRepositoryCredentials()
-	{
-		$config      = (array) $this->rocketeer->getOption('scm');
-		$credentials = (array) $this->localStorage->get('credentials');
+    /**
+     * Get the credentials for the repository.
+     *
+     * @return array
+     */
+    public function getRepositoryCredentials()
+    {
+        $config      = (array) $this->rocketeer->getOption('scm');
+        $credentials = (array) $this->localStorage->get('credentials');
 
-		return array_merge($config, $credentials);
-	}
+        return array_merge($config, $credentials);
+    }
 
-	/**
-	 * Get the URL to the Git repository
-	 *
-	 * @return string
-	 */
-	public function getRepositoryEndpoint()
-	{
-		// Get credentials
-		$repository = $this->getRepositoryCredentials();
-		$username   = Arr::get($repository, 'username');
-		$password   = Arr::get($repository, 'password');
-		$repository = Arr::get($repository, 'repository');
+    /**
+     * Get the URL to the Git repository.
+     *
+     * @return string
+     */
+    public function getRepositoryEndpoint()
+    {
+        // Get credentials
+        $repository = $this->getRepositoryCredentials();
+        $username   = Arr::get($repository, 'username');
+        $password   = Arr::get($repository, 'password');
+        $repository = Arr::get($repository, 'repository');
 
-		// Add credentials if possible
-		if ($username || $password) {
+        // Add credentials if possible
+        if ($username || $password) {
 
-			// Build credentials chain
-			$credentials = $password ? $username.':'.$password : $username;
-			$credentials .= '@';
+            // Build credentials chain
+            $credentials = $password ? $username.':'.$password : $username;
+            $credentials .= '@';
 
-			// Add them in chain
-			$repository = preg_replace('#https://(.+)@#', 'https://', $repository);
-			$repository = str_replace('https://', 'https://'.$credentials, $repository);
-		}
+            // Add them in chain
+            $repository = preg_replace('#https://(.+)@#', 'https://', $repository);
+            $repository = str_replace('https://', 'https://'.$credentials, $repository);
+        }
 
-		return $repository;
-	}
+        return $repository;
+    }
 
-	/**
-	 * Get the repository branch to use
-	 *
-	 * @return string
-	 */
-	public function getRepositoryBranch()
-	{
-		// If we passed a branch, use it
-		if ($branch = $this->getOption('branch')) {
-			return $branch;
-		}
+    /**
+     * Get the repository branch to use.
+     *
+     * @return string
+     */
+    public function getRepositoryBranch()
+    {
+        // If we passed a branch, use it
+        if ($branch = $this->getOption('branch')) {
+            return $branch;
+        }
 
-		// Compute the fallback branch
-		exec($this->scm->currentBranch(), $fallback);
-		$fallback = Arr::get($fallback, 0, 'master');
-		$fallback = trim($fallback);
-		$branch   = $this->rocketeer->getOption('scm.branch') ?: $fallback;
+        // Compute the fallback branch
+        exec($this->scm->currentBranch(), $fallback);
+        $fallback = Arr::get($fallback, 0, 'master');
+        $fallback = trim($fallback);
+        $branch   = $this->rocketeer->getOption('scm.branch') ?: $fallback;
 
-		return $branch;
-	}
+        return $branch;
+    }
 }

@@ -119,7 +119,7 @@ trait HasLocator
     /**
      * Check if the current instance has a Command bound.
      *
-     * @return boolean
+     * @return bool
      */
     protected function hasCommand()
     {
@@ -155,7 +155,7 @@ trait HasLocator
     /**
      * Check if the class is executed inside a Laravel application.
      *
-     * @return boolean
+     * @return bool
      */
     public function isInsideLaravel()
     {

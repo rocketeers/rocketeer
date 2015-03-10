@@ -13,58 +13,58 @@ use Illuminate\Support\Collection;
 
 /**
  * A class representing a pipeline of jobs
- * to be executed
+ * to be executed.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Pipeline extends Collection
 {
-	/**
-	 * The stored results of each task
-	 *
-	 * @type array
-	 */
-	protected $results = [];
+    /**
+     * The stored results of each task.
+     *
+     * @type array
+     */
+    protected $results = [];
 
-	//////////////////////////////////////////////////////////////////////
-	////////////////////////////// RESULTS ///////////////////////////////
-	//////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+    ////////////////////////////// RESULTS ///////////////////////////////
+    //////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Check if the pipeline failed
-	 *
-	 * @return boolean
-	 */
-	public function failed()
-	{
-		$succeeded = count(array_filter($this->results));
+    /**
+     * Check if the pipeline failed.
+     *
+     * @return bool
+     */
+    public function failed()
+    {
+        $succeeded = count(array_filter($this->results));
 
-		return $succeeded != $this->count();
-	}
+        return $succeeded !== $this->count();
+    }
 
-	/**
-	 * Check if the pipeline ran its course
-	 *
-	 * @return boolean
-	 */
-	public function succeeded()
-	{
-		return !$this->failed();
-	}
+    /**
+     * Check if the pipeline ran its course.
+     *
+     * @return bool
+     */
+    public function succeeded()
+    {
+        return !$this->failed();
+    }
 
-	/**
-	 * @return array
-	 */
-	public function getResults()
-	{
-		return $this->results;
-	}
+    /**
+     * @return array
+     */
+    public function getResults()
+    {
+        return $this->results;
+    }
 
-	/**
-	 * @param array $results
-	 */
-	public function setResults($results)
-	{
-		$this->results = $results;
-	}
+    /**
+     * @param array $results
+     */
+    public function setResults($results)
+    {
+        $this->results = $results;
+    }
 }

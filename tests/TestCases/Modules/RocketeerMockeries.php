@@ -21,7 +21,7 @@ trait RocketeerMockeries
     /**
      * Mock the Composer check.
      *
-     * @param boolean $uses
+     * @param bool $uses
      */
     protected function usesComposer($uses = true)
     {

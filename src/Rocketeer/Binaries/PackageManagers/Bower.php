@@ -13,23 +13,23 @@ use Rocketeer\Abstracts\AbstractPackageManager;
 
 class Bower extends AbstractPackageManager
 {
-	/**
-	 * The name of the manifest file to look for
-	 *
-	 * @type string
-	 */
-	protected $manifest = 'bower.json';
+    /**
+     * The name of the manifest file to look for.
+     *
+     * @type string
+     */
+    protected $manifest = 'bower.json';
 
-	/**
-	 * Get an array of default paths to look for
-	 *
-	 * @return string[]
-	 */
-	protected function getKnownPaths()
-	{
-		return array(
-			'bower',
-			$this->releasesManager->getCurrentReleasePath().'/node_modules/.bin/bower',
-		);
-	}
+    /**
+     * Get an array of default paths to look for.
+     *
+     * @return string[]
+     */
+    protected function getKnownPaths()
+    {
+        return [
+            'bower',
+            $this->releasesManager->getCurrentReleasePath().'/node_modules/.bin/bower',
+        ];
+    }
 }

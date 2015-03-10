@@ -25,7 +25,7 @@ trait Filesystem
      *
      * @param string $folder
      *
-     * @return boolean
+     * @return bool
      */
     public function isSymlink($folder)
     {
@@ -140,7 +140,7 @@ trait Filesystem
      *
      * @param string $file Path to the file
      *
-     * @return boolean
+     * @return bool
      */
     public function fileExists($file)
     {
@@ -225,7 +225,7 @@ trait Filesystem
      * Create a folder in the application's folder.
      *
      * @param string|null $folder    The folder to create
-     * @param boolean     $recursive
+     * @param bool        $recursive
      *
      * @return string The task
      */
@@ -261,7 +261,7 @@ trait Filesystem
      *
      * @param string $condition
      *
-     * @return boolean
+     * @return bool
      */
     protected function checkStatement($condition)
     {

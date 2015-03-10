@@ -15,58 +15,58 @@ use Rocketeer\Interfaces\Strategies\DependenciesStrategyInterface;
 
 class BowerStrategy extends AbstractDependenciesStrategy implements DependenciesStrategyInterface
 {
-	/**
-	 * @type string
-	 */
-	protected $description = 'Installs dependencies with Bower';
+    /**
+     * @type string
+     */
+    protected $description = 'Installs dependencies with Bower';
 
-	/**
-	 * The name of the binary
-	 *
-	 * @type string
-	 */
-	protected $binary = 'bower';
+    /**
+     * The name of the binary.
+     *
+     * @type string
+     */
+    protected $binary = 'bower';
 
-	//////////////////////////////////////////////////////////////////////
-	////////////////////////////// COMMANDS //////////////////////////////
-	//////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+    ////////////////////////////// COMMANDS //////////////////////////////
+    //////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Install the dependencies
-	 *
-	 * @return bool
-	 */
-	public function install()
-	{
-		return $this->manager->runForCurrentRelease('install', [], $this->getInstallationOptions());
-	}
+    /**
+     * Install the dependencies.
+     *
+     * @return bool
+     */
+    public function install()
+    {
+        return $this->manager->runForCurrentRelease('install', [], $this->getInstallationOptions());
+    }
 
-	/**
-	 * Update the dependencies
-	 *
-	 * @return boolean
-	 */
-	public function update()
-	{
-		return $this->manager->runForCurrentRelease('update', [], $this->getInstallationOptions());
-	}
+    /**
+     * Update the dependencies.
+     *
+     * @return bool
+     */
+    public function update()
+    {
+        return $this->manager->runForCurrentRelease('update', [], $this->getInstallationOptions());
+    }
 
-	//////////////////////////////////////////////////////////////////////
-	////////////////////////////// HELPERS ///////////////////////////////
-	//////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+    ////////////////////////////// HELPERS ///////////////////////////////
+    //////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Get the options to run Bower with
-	 *
-	 * @return array
-	 */
-	protected function getInstallationOptions()
-	{
-		$credentials = $this->connections->getServerCredentials();
-		if (Arr::get($credentials, 'username') == 'root') {
-			return ['--allow-root' => null];
-		}
+    /**
+     * Get the options to run Bower with.
+     *
+     * @return array
+     */
+    protected function getInstallationOptions()
+    {
+        $credentials = $this->connections->getServerCredentials();
+        if (Arr::get($credentials, 'username') === 'root') {
+            return ['--allow-root' => null];
+        }
 
-		return [];
-	}
+        return [];
+    }
 }

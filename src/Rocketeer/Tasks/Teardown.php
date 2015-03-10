@@ -12,48 +12,46 @@ namespace Rocketeer\Tasks;
 use Rocketeer\Abstracts\AbstractTask;
 
 /**
- * Remove the remote applications and existing caches
+ * Remove the remote applications and existing caches.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Teardown extends AbstractTask
 {
-	/**
-	 * A description of what the task does
-	 *
-	 * @var string
-	 */
-	protected $description = 'Remove the remote applications and existing caches';
+    /**
+     * A description of what the task does.
+     *
+     * @type string
+     */
+    protected $description = 'Remove the remote applications and existing caches';
 
-	/**
-	 * Whether the task needs to be run on each stage or globally
-	 *
-	 * @var boolean
-	 */
-	public $usesStages = false;
+    /**
+     * Whether the task needs to be run on each stage or globally.
+     *
+     * @type bool
+     */
+    public $usesStages = false;
 
-	/**
-	 * Run the task
-	 *
-	 * @return  void
-	 */
-	public function execute()
-	{
-		// Ask confirmation
-		$confirm = $this->command->confirm(
-			'This will remove all folders on the server, not just releases. Do you want to proceed ?'
-		);
+    /**
+     * Run the task.
+     */
+    public function execute()
+    {
+        // Ask confirmation
+        $confirm = $this->command->confirm(
+            'This will remove all folders on the server, not just releases. Do you want to proceed ?'
+        );
 
-		if (!$confirm) {
-			return $this->command->info('Teardown aborted');
-		}
+        if (!$confirm) {
+            return $this->command->info('Teardown aborted');
+        }
 
-		// Remove remote folders
-		$this->removeFolder($this->paths->getFolder());
+        // Remove remote folders
+        $this->removeFolder($this->paths->getFolder());
 
-		// Remove deployments file
-		$this->localStorage->destroy();
+        // Remove deployments file
+        $this->localStorage->destroy();
 
-		$this->command->info('The application was successfully removed from the remote servers');
-	}
+        $this->command->info('The application was successfully removed from the remote servers');
+    }
 }

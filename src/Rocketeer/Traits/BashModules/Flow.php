@@ -19,14 +19,14 @@ trait Flow
     /**
      * Whether the task needs to be run on each stage or globally.
      *
-     * @type boolean
+     * @type bool
      */
     public $usesStages = true;
 
     /**
      * Check if the remote server is setup.
      *
-     * @return boolean
+     * @return bool
      */
     public function isSetup()
     {
@@ -36,7 +36,7 @@ trait Flow
     /**
      * Check if the task uses stages.
      *
-     * @return boolean
+     * @return bool
      */
     public function usesStages()
     {
@@ -64,7 +64,7 @@ trait Flow
     /**
      * Sync the requested folders and files.
      *
-     * @return boolean
+     * @return bool
      */
     protected function syncSharedFolders()
     {
@@ -79,7 +79,7 @@ trait Flow
     /**
      * Update the current symlink.
      *
-     * @param integer|null $release A release to mark as current
+     * @param int|null $release A release to mark as current
      *
      * @return string
      */

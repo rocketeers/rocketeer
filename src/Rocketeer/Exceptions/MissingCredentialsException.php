@@ -13,5 +13,5 @@ use InvalidArgumentException;
 
 class MissingCredentialsException extends InvalidArgumentException
 {
-	// ...
+    // ...
 }

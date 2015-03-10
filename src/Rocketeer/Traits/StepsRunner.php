@@ -39,7 +39,7 @@ trait StepsRunner
     /**
      * Execute an array of calls until one halts.
      *
-     * @return boolean
+     * @return bool
      */
     public function runSteps()
     {

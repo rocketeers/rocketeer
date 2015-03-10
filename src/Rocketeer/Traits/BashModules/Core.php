@@ -28,12 +28,12 @@ trait Core
      * Whether to run the commands locally
      * or on the server.
      *
-     * @type boolean
+     * @type bool
      */
     protected $local = false;
 
     /**
-     * @param boolean $local
+     * @param bool $local
      */
     public function setLocal($local)
     {
@@ -55,7 +55,7 @@ trait Core
      *
      * @param Closure $callback
      *
-     * @return boolean
+     * @return bool
      */
     public function onLocal(Closure $callback)
     {
@@ -74,8 +74,8 @@ trait Core
      * Run actions on the remote server and gather the ouput.
      *
      * @param string|array $commands One or more commands
-     * @param boolean      $silent   Whether the command should stay silent no matter what
-     * @param boolean      $array    Whether the output should be returned as an array
+     * @param bool         $silent   Whether the command should stay silent no matter what
+     * @param bool         $array    Whether the output should be returned as an array
      *
      * @return string|null
      */
@@ -138,9 +138,9 @@ trait Core
      * Run a raw command, without any processing, and
      * get its output as a string or array.
      *
-     * @param string  $commands
-     * @param boolean $array    Whether the output should be returned as an array
-     * @param boolean $trim     Whether the output should be trimmed
+     * @param string $commands
+     * @param bool   $array    Whether the output should be returned as an array
+     * @param bool   $trim     Whether the output should be trimmed
      *
      * @return string|string[]
      */
@@ -164,7 +164,7 @@ trait Core
      * Run commands silently.
      *
      * @param string|array $commands
-     * @param boolean      $array
+     * @param bool         $array
      *
      * @return string|null
      */
@@ -211,7 +211,7 @@ trait Core
      * @param string|null $output  The command's output
      * @param string|null $success The message to display on success
      *
-     * @return boolean
+     * @return bool
      */
     public function checkStatus($error, $output = null, $success = null)
     {
@@ -261,7 +261,7 @@ trait Core
      * Display the passed commands.
      *
      * @param string|array $commands
-     * @param integer      $verbosity
+     * @param int          $verbosity
      */
     protected function displayCommands($commands, $verbosity = 1)
     {
@@ -349,9 +349,9 @@ trait Core
     /**
      * Process the output of a command.
      *
-     * @param string  $output
-     * @param boolean $array  Whether to return an array or a string
-     * @param boolean $trim   Whether to trim the output or not
+     * @param string $output
+     * @param bool   $array  Whether to return an array or a string
+     * @param bool   $trim   Whether to trim the output or not
      *
      * @return string|array
      */

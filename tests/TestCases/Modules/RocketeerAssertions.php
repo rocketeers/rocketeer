@@ -139,8 +139,8 @@ trait RocketeerAssertions
     /**
      * Replace placeholders in an history.
      *
-     * @param array        $history
-     * @param integer|null $release
+     * @param array    $history
+     * @param int|null $release
      *
      * @return array
      */

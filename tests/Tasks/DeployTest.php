@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Tasks;
 
 use Rocketeer\Strategies\Deploy\CopyStrategy;
@@ -6,209 +16,209 @@ use Rocketeer\TestCases\RocketeerTestCase;
 
 class DeployTest extends RocketeerTestCase
 {
-	public function testCanDeployToServer()
-	{
-		$this->app['config']->shouldReceive('get')->with('rocketeer::scm')->andReturn(array(
-			'repository' => 'https://github.com/'.$this->repository,
-			'username'   => '',
-			'password'   => '',
-		));
+    public function testCanDeployToServer()
+    {
+        $this->app['config']->shouldReceive('get')->with('rocketeer::scm')->andReturn([
+            'repository' => 'https://github.com/'.$this->repository,
+            'username'   => '',
+            'password'   => '',
+        ]);
 
-		$matcher = array(
-			'git clone "{repository}" "{server}/releases/{release}" --branch="master" --depth="1"',
-			array(
-				"cd {server}/releases/{release}",
-				"git submodule update --init --recursive",
-			),
-			array(
-				"cd {server}/releases/{release}",
-				"{phpunit} --stop-on-failure",
-			),
-			array(
-				"cd {server}/releases/{release}",
-				"chmod -R 755 {server}/releases/{release}/tests",
-				"chmod -R g+s {server}/releases/{release}/tests",
-				"chown -R www-data:www-data {server}/releases/{release}/tests",
-			),
-			array(
-				"cd {server}/releases/{release}",
-				"{php} artisan migrate",
-			),
-			array(
-				"cd {server}/releases/{release}",
-				"{php} artisan db:seed",
-			),
-			"mv {server}/current {server}/releases/{release}",
-			array(
-				"ln -s {server}/releases/{release} {server}/current-temp",
-				"mv -Tf {server}/current-temp {server}/current",
-			),
-		);
+        $matcher = [
+            'git clone "{repository}" "{server}/releases/{release}" --branch="master" --depth="1"',
+            [
+                "cd {server}/releases/{release}",
+                "git submodule update --init --recursive",
+            ],
+            [
+                "cd {server}/releases/{release}",
+                "{phpunit} --stop-on-failure",
+            ],
+            [
+                "cd {server}/releases/{release}",
+                "chmod -R 755 {server}/releases/{release}/tests",
+                "chmod -R g+s {server}/releases/{release}/tests",
+                "chown -R www-data:www-data {server}/releases/{release}/tests",
+            ],
+            [
+                "cd {server}/releases/{release}",
+                "{php} artisan migrate",
+            ],
+            [
+                "cd {server}/releases/{release}",
+                "{php} artisan db:seed",
+            ],
+            "mv {server}/current {server}/releases/{release}",
+            [
+                "ln -s {server}/releases/{release} {server}/current-temp",
+                "mv -Tf {server}/current-temp {server}/current",
+            ],
+        ];
 
-		$this->assertTaskHistory('Deploy', $matcher, array(
-			'tests'   => true,
-			'seed'    => true,
-			'migrate' => true,
-		));
-	}
+        $this->assertTaskHistory('Deploy', $matcher, [
+            'tests'   => true,
+            'seed'    => true,
+            'migrate' => true,
+        ]);
+    }
 
-	public function testStepsRunnerDoesntCancelWithPermissionsAndShared()
-	{
-		$this->swapConfig(array(
-			'rocketeer::remote.shared'            => [],
-			'rocketeer::remote.permissions.files' => [],
-		));
+    public function testStepsRunnerDoesntCancelWithPermissionsAndShared()
+    {
+        $this->swapConfig([
+            'rocketeer::remote.shared'            => [],
+            'rocketeer::remote.permissions.files' => [],
+        ]);
 
-		$matcher = array(
-			'git clone "{repository}" "{server}/releases/{release}" --branch="master" --depth="1"',
-			array(
-				"cd {server}/releases/{release}",
-				"git submodule update --init --recursive",
-			),
-			array(
-				"cd {server}/releases/{release}",
-				"{phpunit} --stop-on-failure",
-			),
-			array(
-				"cd {server}/releases/{release}",
-				"{php} artisan migrate",
-			),
-			array(
-				"cd {server}/releases/{release}",
-				"{php} artisan db:seed",
-			),
-			"mv {server}/current {server}/releases/{release}",
-			array(
-				"ln -s {server}/releases/{release} {server}/current-temp",
-				"mv -Tf {server}/current-temp {server}/current",
-			),
-		);
+        $matcher = [
+            'git clone "{repository}" "{server}/releases/{release}" --branch="master" --depth="1"',
+            [
+                "cd {server}/releases/{release}",
+                "git submodule update --init --recursive",
+            ],
+            [
+                "cd {server}/releases/{release}",
+                "{phpunit} --stop-on-failure",
+            ],
+            [
+                "cd {server}/releases/{release}",
+                "{php} artisan migrate",
+            ],
+            [
+                "cd {server}/releases/{release}",
+                "{php} artisan db:seed",
+            ],
+            "mv {server}/current {server}/releases/{release}",
+            [
+                "ln -s {server}/releases/{release} {server}/current-temp",
+                "mv -Tf {server}/current-temp {server}/current",
+            ],
+        ];
 
-		$this->assertTaskHistory('Deploy', $matcher, array(
-			'tests'   => true,
-			'seed'    => true,
-			'migrate' => true,
-		));
-	}
+        $this->assertTaskHistory('Deploy', $matcher, [
+            'tests'   => true,
+            'seed'    => true,
+            'migrate' => true,
+        ]);
+    }
 
-	public function testCanDisableGitOptions()
-	{
-		$this->swapConfig(array(
-			'rocketeer::scm.shallow'    => false,
-			'rocketeer::scm.submodules' => false,
-			'rocketeer::scm'            => array(
-				'repository' => 'https://github.com/'.$this->repository,
-				'username'   => '',
-				'password'   => '',
-			),
-		));
+    public function testCanDisableGitOptions()
+    {
+        $this->swapConfig([
+            'rocketeer::scm.shallow'    => false,
+            'rocketeer::scm.submodules' => false,
+            'rocketeer::scm'            => [
+                'repository' => 'https://github.com/'.$this->repository,
+                'username'   => '',
+                'password'   => '',
+            ],
+        ]);
 
-		$matcher = array(
-			'git clone "{repository}" "{server}/releases/{release}" --branch="master"',
-			array(
-				"cd {server}/releases/{release}",
-				'{phpunit} --stop-on-failure',
-			),
-			array(
-				"cd {server}/releases/{release}",
-				"chmod -R 755 {server}/releases/{release}/tests",
-				"chmod -R g+s {server}/releases/{release}/tests",
-				"chown -R www-data:www-data {server}/releases/{release}/tests",
-			),
-			array(
-				"cd {server}/releases/{release}",
-				"{php} artisan migrate",
-			),
-			array(
-				"cd {server}/releases/{release}",
-				"{php} artisan db:seed",
-			),
-			"mv {server}/current {server}/releases/{release}",
-			array(
-				"ln -s {server}/releases/{release} {server}/current-temp",
-				"mv -Tf {server}/current-temp {server}/current",
-			),
-		);
+        $matcher = [
+            'git clone "{repository}" "{server}/releases/{release}" --branch="master"',
+            [
+                "cd {server}/releases/{release}",
+                '{phpunit} --stop-on-failure',
+            ],
+            [
+                "cd {server}/releases/{release}",
+                "chmod -R 755 {server}/releases/{release}/tests",
+                "chmod -R g+s {server}/releases/{release}/tests",
+                "chown -R www-data:www-data {server}/releases/{release}/tests",
+            ],
+            [
+                "cd {server}/releases/{release}",
+                "{php} artisan migrate",
+            ],
+            [
+                "cd {server}/releases/{release}",
+                "{php} artisan db:seed",
+            ],
+            "mv {server}/current {server}/releases/{release}",
+            [
+                "ln -s {server}/releases/{release} {server}/current-temp",
+                "mv -Tf {server}/current-temp {server}/current",
+            ],
+        ];
 
-		$this->assertTaskHistory('Deploy', $matcher, array(
-			'tests'   => true,
-			'seed'    => true,
-			'migrate' => true,
-		));
-	}
+        $this->assertTaskHistory('Deploy', $matcher, [
+            'tests'   => true,
+            'seed'    => true,
+            'migrate' => true,
+        ]);
+    }
 
-	public function testCanUseCopyStrategy()
-	{
-		$this->swapConfig(array(
-			'rocketeer::scm' => array(
-				'repository' => 'https://github.com/'.$this->repository,
-				'username'   => '',
-				'password'   => '',
-			),
-		));
+    public function testCanUseCopyStrategy()
+    {
+        $this->swapConfig([
+            'rocketeer::scm' => [
+                'repository' => 'https://github.com/'.$this->repository,
+                'username'   => '',
+                'password'   => '',
+            ],
+        ]);
 
-		$this->app['rocketeer.strategies.deploy'] = new CopyStrategy($this->app);
+        $this->app['rocketeer.strategies.deploy'] = new CopyStrategy($this->app);
 
-		$this->mockState(array(
-			'10000000000000' => true,
-		));
+        $this->mockState([
+            '10000000000000' => true,
+        ]);
 
-		$matcher = array(
-			'cp -a {server}/releases/10000000000000 {server}/releases/{release}',
-			array(
-				'cd {server}/releases/{release}',
-				'git reset --hard',
-				'git pull',
-			),
-			array(
-				"cd {server}/releases/{release}",
-				"chmod -R 755 {server}/releases/{release}/tests",
-				"chmod -R g+s {server}/releases/{release}/tests",
-				"chown -R www-data:www-data {server}/releases/{release}/tests",
-			),
-			"mv {server}/current {server}/releases/{release}",
-			array(
-				"ln -s {server}/releases/{release} {server}/current-temp",
-				"mv -Tf {server}/current-temp {server}/current",
-			),
-		);
+        $matcher = [
+            'cp -a {server}/releases/10000000000000 {server}/releases/{release}',
+            [
+                'cd {server}/releases/{release}',
+                'git reset --hard',
+                'git pull',
+            ],
+            [
+                "cd {server}/releases/{release}",
+                "chmod -R 755 {server}/releases/{release}/tests",
+                "chmod -R g+s {server}/releases/{release}/tests",
+                "chown -R www-data:www-data {server}/releases/{release}/tests",
+            ],
+            "mv {server}/current {server}/releases/{release}",
+            [
+                "ln -s {server}/releases/{release} {server}/current-temp",
+                "mv -Tf {server}/current-temp {server}/current",
+            ],
+        ];
 
-		$this->assertTaskHistory('Deploy', $matcher, array(
-			'tests'   => false,
-			'seed'    => false,
-			'migrate' => false,
-		));
-	}
+        $this->assertTaskHistory('Deploy', $matcher, [
+            'tests'   => false,
+            'seed'    => false,
+            'migrate' => false,
+        ]);
+    }
 
-	public function testCanRunDeployWithSeed()
-	{
-		$matcher = array(
-			'git clone "{repository}" "{server}/releases/{release}" --branch="master" --depth="1"',
-			array(
-				"cd {server}/releases/{release}",
-				"git submodule update --init --recursive",
-			),
-			array(
-				"cd {server}/releases/{release}",
-				"chmod -R 755 {server}/releases/{release}/tests",
-				"chmod -R g+s {server}/releases/{release}/tests",
-				"chown -R www-data:www-data {server}/releases/{release}/tests",
-			),
-			array(
-				"cd {server}/releases/{release}",
-				"{php} artisan db:seed",
-			),
-			"mv {server}/current {server}/releases/{release}",
-			array(
-				"ln -s {server}/releases/{release} {server}/current-temp",
-				"mv -Tf {server}/current-temp {server}/current",
-			),
-		);
+    public function testCanRunDeployWithSeed()
+    {
+        $matcher = [
+            'git clone "{repository}" "{server}/releases/{release}" --branch="master" --depth="1"',
+            [
+                "cd {server}/releases/{release}",
+                "git submodule update --init --recursive",
+            ],
+            [
+                "cd {server}/releases/{release}",
+                "chmod -R 755 {server}/releases/{release}/tests",
+                "chmod -R g+s {server}/releases/{release}/tests",
+                "chown -R www-data:www-data {server}/releases/{release}/tests",
+            ],
+            [
+                "cd {server}/releases/{release}",
+                "{php} artisan db:seed",
+            ],
+            "mv {server}/current {server}/releases/{release}",
+            [
+                "ln -s {server}/releases/{release} {server}/current-temp",
+                "mv -Tf {server}/current-temp {server}/current",
+            ],
+        ];
 
-		$this->assertTaskHistory('Deploy', $matcher, array(
-			'tests'   => false,
-			'seed'    => true,
-			'migrate' => false,
-		));
-	}
+        $this->assertTaskHistory('Deploy', $matcher, [
+            'tests'   => false,
+            'seed'    => true,
+            'migrate' => false,
+        ]);
+    }
 }

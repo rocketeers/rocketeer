@@ -14,7 +14,7 @@ interface TestStrategyInterface
     /**
      * Run the tests.
      *
-     * @return boolean
+     * @return bool
      */
     public function test();
 }

@@ -14,38 +14,38 @@ use Rocketeer\Interfaces\Strategies\MigrateStrategyInterface;
 
 class ArtisanStrategy extends AbstractStrategy implements MigrateStrategyInterface
 {
-	/**
-	 * @type string
-	 */
-	protected $description = 'Migrates your database with Laravel\'s Artisan CLI';
+    /**
+     * @type string
+     */
+    protected $description = 'Migrates your database with Laravel\'s Artisan CLI';
 
-	/**
-	 * Whether this particular strategy is runnable or not
-	 *
-	 * @return boolean
-	 */
-	public function isExecutable()
-	{
-		return (bool) $this->artisan()->getBinary();
-	}
+    /**
+     * Whether this particular strategy is runnable or not.
+     *
+     * @return bool
+     */
+    public function isExecutable()
+    {
+        return (bool) $this->artisan()->getBinary();
+    }
 
-	/**
-	 * Run outstanding migrations
-	 *
-	 * @return boolean|null
-	 */
-	public function migrate()
-	{
-		return $this->artisan()->runForCurrentRelease('migrate');
-	}
+    /**
+     * Run outstanding migrations.
+     *
+     * @return bool|null
+     */
+    public function migrate()
+    {
+        return $this->artisan()->runForCurrentRelease('migrate');
+    }
 
-	/**
-	 * Seed the database
-	 *
-	 * @return boolean|null
-	 */
-	public function seed()
-	{
-		return $this->artisan()->runForCurrentRelease('seed');
-	}
+    /**
+     * Seed the database.
+     *
+     * @return bool|null
+     */
+    public function seed()
+    {
+        return $this->artisan()->runForCurrentRelease('seed');
+    }
 }

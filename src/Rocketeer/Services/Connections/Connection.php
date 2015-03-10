@@ -10,25 +10,25 @@
 namespace Rocketeer\Services\Connections;
 
 /**
- * Base connection class with additional setters
+ * Base connection class with additional setters.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Connection extends \Illuminate\Remote\Connection
 {
-	/**
-	 * @return string
-	 */
-	public function getName()
-	{
-		return $this->name;
-	}
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getUsername()
-	{
-		return $this->username;
-	}
+    /**
+     * @return string
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
 }

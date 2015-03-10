@@ -36,7 +36,7 @@ class Rocketeer
     /**
      * Global local mode.
      *
-     * @type boolean
+     * @type bool
      */
     protected $local = false;
 
@@ -61,7 +61,7 @@ class Rocketeer
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isLocal()
     {
@@ -69,7 +69,7 @@ class Rocketeer
     }
 
     /**
-     * @param boolean $local
+     * @param bool $local
      */
     public function setLocal($local)
     {
@@ -120,7 +120,7 @@ class Rocketeer
      * Get a contextual option.
      *
      * @param string            $option
-     * @param string            $type [stage,connection]
+     * @param string            $type     [stage,connection]
      * @param string|array|null $original
      *
      * @return string|array|\Closure

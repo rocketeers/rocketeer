@@ -13,84 +13,84 @@ use Illuminate\Container\Container;
 use Rocketeer\Abstracts\AbstractPackageManager;
 
 /**
- * Abstract class for Dependencies strategies
+ * Abstract class for Dependencies strategies.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 abstract class AbstractDependenciesStrategy extends AbstractStrategy
 {
-	/**
-	 * The name of the binary
-	 *
-	 * @type string
-	 */
-	protected $binary;
+    /**
+     * The name of the binary.
+     *
+     * @type string
+     */
+    protected $binary;
 
-	/**
-	 * The package manager instance
-	 *
-	 * @type AbstractPackageManager
-	 */
-	protected $manager;
+    /**
+     * The package manager instance.
+     *
+     * @type AbstractPackageManager
+     */
+    protected $manager;
 
-	/**
-	 * @param Container $app
-	 */
-	public function __construct(Container $app)
-	{
-		$this->app     = $app;
-		$this->manager = $this->binary($this->binary);
-	}
+    /**
+     * @param Container $app
+     */
+    public function __construct(Container $app)
+    {
+        $this->app     = $app;
+        $this->manager = $this->binary($this->binary);
+    }
 
-	/**
-	 * @param AbstractPackageManager $manager
-	 */
-	public function setManager($manager)
-	{
-		$this->manager = $manager;
-	}
+    /**
+     * @param AbstractPackageManager $manager
+     */
+    public function setManager($manager)
+    {
+        $this->manager = $manager;
+    }
 
-	/**
-	 * Get an instance of the Binary
-	 *
-	 * @return AbstractPackageManager
-	 */
-	protected function getManager()
-	{
-		return $this->manager;
-	}
+    /**
+     * Get an instance of the Binary.
+     *
+     * @return AbstractPackageManager
+     */
+    protected function getManager()
+    {
+        return $this->manager;
+    }
 
-	/**
-	 * Whether this particular strategy is runnable or not
-	 *
-	 * @return boolean
-	 */
-	public function isExecutable()
-	{
-		return $this->manager->isExecutable();
-	}
+    /**
+     * Whether this particular strategy is runnable or not.
+     *
+     * @return bool
+     */
+    public function isExecutable()
+    {
+        return $this->manager->isExecutable();
+    }
 
-	//////////////////////////////////////////////////////////////////////
-	////////////////////////////// COMMANDS //////////////////////////////
-	//////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+    ////////////////////////////// COMMANDS //////////////////////////////
+    //////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Install the dependencies
-	 *
-	 * @return bool
-	 */
-	public function install()
-	{
-		return $this->manager->runForCurrentRelease('install');
-	}
+    /**
+     * Install the dependencies.
+     *
+     * @return bool
+     */
+    public function install()
+    {
+        return $this->manager->runForCurrentRelease('install');
+    }
 
-	/**
-	 * Update the dependencies
-	 *
-	 * @return boolean
-	 */
-	public function update()
-	{
-		return $this->manager->runForCurrentRelease('update');
-	}
+    /**
+     * Update the dependencies.
+     *
+     * @return bool
+     */
+    public function update()
+    {
+        return $this->manager->runForCurrentRelease('update');
+    }
 }

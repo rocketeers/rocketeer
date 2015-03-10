@@ -19,14 +19,14 @@ interface MigrateStrategyInterface
     /**
      * Run outstanding migrations.
      *
-     * @return boolean
+     * @return bool
      */
     public function migrate();
 
     /**
      * Seed the database.
      *
-     * @return boolean
+     * @return bool
      */
     public function seed();
 }

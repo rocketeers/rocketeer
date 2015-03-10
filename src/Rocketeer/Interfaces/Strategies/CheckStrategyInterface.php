@@ -16,7 +16,7 @@ interface CheckStrategyInterface
      * Check that the PM that'll install
      * the app's dependencies is present.
      *
-     * @return boolean
+     * @return bool
      */
     public function manager();
 
@@ -24,7 +24,7 @@ interface CheckStrategyInterface
      * Check that the language used by the
      * application is at the required version.
      *
-     * @return boolean
+     * @return bool
      */
     public function language();
 

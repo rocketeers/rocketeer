@@ -28,7 +28,7 @@ return Config::create()
                  'multiline_spaces_before_semicolon',
                  'no_blank_lines_before_namespace',
                  'ordered_use',
-                 'php4_constructor',
+                 // 'php4_constructor',
                  'phpdoc_order',
                  'phpdoc_var_to_type',
                  'short_array_syntax',

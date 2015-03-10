@@ -14,35 +14,36 @@ use Illuminate\Support\Facades\Facade;
 use Rocketeer\RocketeerServiceProvider;
 
 /**
- * Facade for Rocketeer's CLI
+ * Facade for Rocketeer's CLI.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
+ *
  * @see    Rocketeer\Console\Console
  */
 abstract class StandaloneFacade extends Facade
 {
-	/**
-	 * The class to fetch from the container
-	 *
-	 * @var string
-	 */
-	protected static $accessor;
+    /**
+     * The class to fetch from the container.
+     *
+     * @type string
+     */
+    protected static $accessor;
 
-	/**
-	 * Get the registered name of the component.
-	 *
-	 * @return string
-	 */
-	protected static function getFacadeAccessor()
-	{
-		if (!static::$app) {
-			$container = new Container();
-			$provider  = new RocketeerServiceProvider($container);
-			$provider->boot();
+    /**
+     * Get the registered name of the component.
+     *
+     * @return string
+     */
+    protected static function getFacadeAccessor()
+    {
+        if (!static::$app) {
+            $container = new Container();
+            $provider  = new RocketeerServiceProvider($container);
+            $provider->boot();
 
-			static::$app = $container;
-		}
+            static::$app = $container;
+        }
 
-		return static::$accessor;
-	}
+        return static::$accessor;
+    }
 }

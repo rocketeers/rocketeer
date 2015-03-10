@@ -13,22 +13,22 @@ use Rocketeer\Abstracts\AbstractPackageManager;
 
 class Bundler extends AbstractPackageManager
 {
-	/**
-	 * The name of the manifest file to look for
-	 *
-	 * @type string
-	 */
-	protected $manifest = 'Gemfile';
+    /**
+     * The name of the manifest file to look for.
+     *
+     * @type string
+     */
+    protected $manifest = 'Gemfile';
 
-	/**
-	 * Get an array of default paths to look for
-	 *
-	 * @return string[]
-	 */
-	protected function getKnownPaths()
-	{
-		return array(
-			'bundle',
-		);
-	}
+    /**
+     * Get an array of default paths to look for.
+     *
+     * @return string[]
+     */
+    protected function getKnownPaths()
+    {
+        return [
+            'bundle',
+        ];
+    }
 }
