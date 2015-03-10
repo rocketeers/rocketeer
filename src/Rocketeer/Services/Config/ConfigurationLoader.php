@@ -115,8 +115,12 @@ class ConfigurationLoader
 
         // Get which files are present in the configurations
         $folders = array_filter($this->folders, 'is_dir');
-        $files   = $this->getFinder($folders);
-        $files   = array_keys(iterator_to_array($files));
+        if (!$folders) {
+            return [];
+        }
+
+        $files = $this->getFinder($folders);
+        $files = array_keys(iterator_to_array($files));
 
         // Return cached version if available
         if ($this->cache->isFresh()) {
@@ -211,6 +215,14 @@ class ConfigurationLoader
     //////////////////////////////////////////////////////////////////////
     ////////////////////////////// CACHING ///////////////////////////////
     //////////////////////////////////////////////////////////////////////
+
+    /**
+     * Flush the cache
+     */
+    public function flushCache()
+    {
+        $this->cache->flush();
+    }
 
     /**
      * Automatically wrap configuration in their arrays

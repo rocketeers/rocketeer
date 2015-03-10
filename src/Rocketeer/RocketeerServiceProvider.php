@@ -217,7 +217,7 @@ class RocketeerServiceProvider extends ServiceProvider
             return new ConfigurationCache($app['rocketeer.paths']->getStoragePath().'/.configuration', false);
         });
 
-        $this->app->bind('rocketeer.config.loader', function ($app) {
+        $this->app->singleton('rocketeer.config.loader', function ($app) {
             $loader = $app->make('Rocketeer\Services\Config\ConfigurationLoader');
             $loader->setFolders([__DIR__.'/../config', $app['rocketeer.paths']->getConfigurationPath()]);
 
