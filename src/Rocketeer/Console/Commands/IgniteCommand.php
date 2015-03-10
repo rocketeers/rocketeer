@@ -10,6 +10,8 @@
 
 namespace Rocketeer\Console\Commands;
 
+use Symfony\Component\Console\Input\InputOption;
+
 class IgniteCommand extends BaseTaskCommand
 {
     /**
@@ -19,4 +21,15 @@ class IgniteCommand extends BaseTaskCommand
      * @type boolean
      */
     protected $straight = true;
+
+    /**
+     * @return array
+     */
+    protected function getOptions()
+    {
+        return array_merge(parent::getOptions(), [
+            ['format', 'F', InputOption::VALUE_REQUIRED, 'The format to export the configuration in'],
+            ['consolidated', null, InputOption::VALUE_NONE, 'Whether to export the configuration in one file or multiple'],
+        ]);
+    }
 }

@@ -90,14 +90,20 @@ class Configuration
     public function exportConfiguration()
     {
         $destination = $this->paths->getConfigurationPath();
+        $format      = $this->getOption('format', true);
 
         // Create directory
         if (!is_dir($destination)) {
             $this->files->makeDirectory($destination, 0755, true);
         }
 
+        // Consolidate or not configuration
+        if ($this->getOption('consolidated', true)) {
+            $destination .= '/config.'.$format;
+        }
+
         // Unzip configuration files
-        $this->configurationPublisher->publish($destination);
+        $this->configurationPublisher->publish($destination, $format);
 
         return $destination;
     }
@@ -115,7 +121,7 @@ class Configuration
     public function updateConfiguration($folder, array $values = array())
     {
         // Replace stub values in files
-        $files = $this->files->files($folder);
+        $files = $this->files->files(dirname($folder));
         foreach ($files as $file) {
             foreach ($values as $name => $value) {
                 $contents = str_replace('{'.$name.'}', $value, file_get_contents($file));
