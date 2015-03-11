@@ -56,6 +56,7 @@ class Pathfinder
      * Get the default path for the SSH key.
      *
      * @throws Exception
+     *
      * @return string
      */
     public function getDefaultKeyPath()
@@ -74,7 +75,7 @@ class Pathfinder
     }
 
     /**
-     * Get the path to the configuration cache
+     * Get the path to the configuration cache.
      *
      * @return string
      */
@@ -87,6 +88,7 @@ class Pathfinder
      * Get the path to the users home folder.
      *
      * @throws Exception
+     *
      * @return string
      */
     public static function getUserHomeFolder()

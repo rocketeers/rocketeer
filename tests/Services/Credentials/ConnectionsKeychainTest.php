@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Services\Connections;
 
 use Rocketeer\Services\Credentials\Keys\ConnectionKey;
@@ -70,7 +69,7 @@ class ConnectionsKeychainTest extends RocketeerTestCase
             ],
         ]);
 
-        $connection = $this->connections->getCurrentConnection();
+        $connection  = $this->connections->getCurrentConnection();
         $credentials = $this->credentials->syncConnectionCredentials($connection, ['host' => 'lol.com']);
 
         $this->assertEquals('lol.com', $credentials['host']);

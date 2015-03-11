@@ -17,6 +17,7 @@ use Rocketeer\Services\Credentials\Keys\ConnectionKey;
  * Finds credentials and informations about connections.
  *
  * @mixin \Rocketeer\Services\Credentials\CredentialsHandler
+ *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait ConnectionsKeychain

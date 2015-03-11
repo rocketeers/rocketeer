@@ -11,7 +11,6 @@ namespace Rocketeer;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Str;
 use Rocketeer\Services\Config\Configuration;
 use Rocketeer\Services\Config\ConfigurationCache;
 use Rocketeer\Services\Config\ConfigurationDefinition;
