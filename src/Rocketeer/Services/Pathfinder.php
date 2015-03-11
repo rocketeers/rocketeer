@@ -57,7 +57,6 @@ class Pathfinder
      *
      * @throws Exception
      * @return string
-     *
      */
     public function getDefaultKeyPath()
     {
@@ -75,10 +74,19 @@ class Pathfinder
     }
 
     /**
+     * Get the path to the configuration cache
+     *
+     * @return string
+     */
+    public function getConfigurationCachePath()
+    {
+        return $this->getRocketeerConfigFolder().'/caches/'.Str::slug(getcwd());
+    }
+
+    /**
      * Get the path to the users home folder.
      *
      * @throws Exception
-     *
      * @return string
      */
     public static function getUserHomeFolder()

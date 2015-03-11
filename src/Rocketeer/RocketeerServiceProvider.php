@@ -11,6 +11,7 @@ namespace Rocketeer;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
 use Rocketeer\Services\Config\Configuration;
 use Rocketeer\Services\Config\ConfigurationCache;
 use Rocketeer\Services\Config\ConfigurationDefinition;
@@ -214,7 +215,7 @@ class RocketeerServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton('Rocketeer\Services\Config\ConfigurationCache', function ($app) {
-            return new ConfigurationCache($app['rocketeer.paths']->getStoragePath().'/.configuration', false);
+            return new ConfigurationCache($app['rocketeer.paths']->getConfigurationCachePath(), false);
         });
 
         $this->app->singleton('rocketeer.config.loader', function ($app) {
