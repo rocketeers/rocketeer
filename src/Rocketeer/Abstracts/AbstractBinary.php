@@ -182,19 +182,9 @@ abstract class AbstractBinary
             return $flags;
         }
 
-        $options = [];
-        $flags   = (array) $flags;
-
-        // Flip array if necessary
-        $firstKey = Arr::get(array_keys($flags), 0);
-        if ($firstKey !== null && is_int($firstKey)) {
-            $flags = array_combine(
-                array_values($flags),
-                array_fill(0, count($flags), null)
-            );
-        }
-
         // Build flags
+        $options = [];
+        $flags   = $this->sanitizeFlags($flags);
         foreach ($flags as $flag => $value) {
             if (is_array($value)) {
                 foreach ($value as $v) {
@@ -238,5 +228,28 @@ abstract class AbstractBinary
     protected function quote($string)
     {
         return '"'.$string.'"';
+    }
+
+    /**
+     * Sanitize a flags array
+     *
+     * @param array $flags
+     *
+     * @return array
+     */
+    protected function sanitizeFlags(array $flags)
+    {
+        $flags = (array) $flags;
+
+        // Flip array if necessary
+        $firstKey = Arr::get(array_keys($flags), 0);
+        if ($firstKey !== null && is_int($firstKey)) {
+            $flags = array_combine(
+                array_values($flags),
+                array_fill(0, count($flags), null)
+            );
+        }
+
+        return $flags;
     }
 }

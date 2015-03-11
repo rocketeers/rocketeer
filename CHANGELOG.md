@@ -52,7 +52,6 @@ Rocketeer follows the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.ht
 - Fixed version number
 
 ## [2.1.0] - 2015-03-08
-------------------
 
 ### Added
 - Added ability to have contextual server configuration by adding a `config` array to a server's configuration
