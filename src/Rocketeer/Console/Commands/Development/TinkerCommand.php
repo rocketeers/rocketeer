@@ -20,7 +20,7 @@ class TinkerCommand extends AbstractCommand
      *
      * @type string
      */
-    protected $name = 'tinker';
+    protected $name = 'debug:tinker';
 
     /**
      * @type string
