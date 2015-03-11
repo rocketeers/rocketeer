@@ -77,7 +77,6 @@ class RemoteHandler
      *
      * @throws CredentialsExceptionInterface
      * @return Connection
-     *
      */
     protected function makeConnection(ConnectionKey $connection)
     {
@@ -105,8 +104,7 @@ class RemoteHandler
      * @param array $config
      *
      * @throws CredentialsExceptionInterface
-     *                      * @return array
-     *
+     * @return array
      */
     protected function getAuth(array $config)
     {
@@ -129,8 +127,7 @@ class RemoteHandler
      * @param string $method
      * @param array  $parameters
      *
-     *                           * @throws CredentialsExceptionInterface
-     *
+     * @throws CredentialsExceptionInterface
      * @return mixed
      */
     public function __call($method, $parameters)
@@ -151,7 +148,7 @@ class RemoteHandler
      *
      * @param CredentialsExceptionInterface $exception
      *
-     *                                                 * @return CredentialsExceptionInterface
+     * @return CredentialsExceptionInterface
      */
     protected function throwExceptionWithCredentials(CredentialsExceptionInterface $exception)
     {
