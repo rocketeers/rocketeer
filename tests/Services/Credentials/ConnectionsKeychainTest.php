@@ -60,4 +60,20 @@ class ConnectionsKeychainTest extends RocketeerTestCase
 
         $this->assertEquals([], $key->getServerCredentials());
     }
+
+    public function testDoesntOverrideExtraCredentials()
+    {
+        $this->swapConfig([
+            'connections.production.servers.0' => [
+                'host'  => 'foo.com',
+                'roles' => ['foo', 'bar'],
+            ],
+        ]);
+
+        $connection = $this->connections->getCurrentConnection();
+        $credentials = $this->credentials->syncConnectionCredentials($connection, ['host' => 'lol.com']);
+
+        $this->assertEquals('lol.com', $credentials['host']);
+        $this->assertEquals(['foo', 'bar'], $credentials['roles']);
+    }
 }

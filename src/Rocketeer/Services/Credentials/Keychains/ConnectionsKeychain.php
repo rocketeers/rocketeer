@@ -17,7 +17,6 @@ use Rocketeer\Services\Credentials\Keys\ConnectionKey;
  * Finds credentials and informations about connections.
  *
  * @mixin \Rocketeer\Services\Credentials\CredentialsHandler
- *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait ConnectionsKeychain
@@ -62,22 +61,27 @@ trait ConnectionsKeychain
      *
      * @param ConnectionKey|null $connection
      * @param array              $credentials
+     *
+     * @return array|void
      */
     public function syncConnectionCredentials(ConnectionKey $connection = null, array $credentials = [])
     {
         // Store credentials if any
-        if ($credentials) {
-            $filtered = $this->filterUnsavableCredentials($connection, $credentials);
-            $this->localStorage->set('connections.'.$connection.'.servers.'.$connection->server, $filtered);
-
-            $this->config->set('connections.'.$connection->toHandle(), $credentials);
+        if (!$credentials) {
+            return;
         }
 
-        // Get connection
-        $connection  = $this->sanitizeConnection($connection);
-        $credentials = $credentials ?: $this->getConnectionCredentials($connection);
+        $key = 'connections.'.$connection->name.'.servers.'.$connection->server;
 
-        $this->config->set('connections.'.$connection->name, $credentials);
+        $filtered = $this->filterUnsavableCredentials($connection, $credentials);
+        $this->localStorage->set($key, $filtered);
+
+        // Merge and save
+        $current     = (array) $this->config->get($key);
+        $credentials = array_replace_recursive($current, $credentials);
+        $this->config->set($key, $credentials);
+
+        return $credentials;
     }
 
     //////////////////////////////////////////////////////////////////////
