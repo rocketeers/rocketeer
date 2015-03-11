@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Services\Config\Dumpers;
 
 use Rocketeer\Services\Config\TreeBuilder\ClosureNode;
@@ -42,7 +41,7 @@ abstract class AbstractReferenceDumper
     protected $example;
 
     /**
-     * @type boolean
+     * @type bool
      */
     protected $isCoreNode;
 
@@ -53,7 +52,7 @@ abstract class AbstractReferenceDumper
 
     /**
      * @param ConfigurationInterface $configuration
-     * @param                        string null            $namespace
+     * @param string null            $namespace
      *
      * @return string
      */
@@ -229,7 +228,7 @@ abstract class AbstractReferenceDumper
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Output the node's examples
+     * Output the node's examples.
      *
      * @param $depth
      */
@@ -244,9 +243,9 @@ abstract class AbstractReferenceDumper
     }
 
     /**
-     * Output the node's default value
+     * Output the node's default value.
      *
-     * @param integer $depth
+     * @param int $depth
      */
     private function outputDefaults($depth)
     {
@@ -260,10 +259,10 @@ abstract class AbstractReferenceDumper
     }
 
     /**
-     * Output the children of the node
+     * Output the children of the node.
      *
-     * @param  array  $children
-     * @param integer $depth
+     * @param array $children
+     * @param int   $depth
      */
     private function outputChildren($children, $depth)
     {
@@ -280,7 +279,7 @@ abstract class AbstractReferenceDumper
 
     /**
      * @param NodeInterface $node
-     * @param integer       $depth
+     * @param int           $depth
      */
     private function outputInformations(NodeInterface $node, $depth)
     {
