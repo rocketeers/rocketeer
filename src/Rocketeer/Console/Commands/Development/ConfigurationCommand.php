@@ -1,7 +1,9 @@
 <?php
 namespace Rocketeer\Console\Commands\Development;
 
+use Illuminate\Support\Arr;
 use Rocketeer\Abstracts\Commands\AbstractCommand;
+use Symfony\Component\Console\Input\InputArgument;
 
 class ConfigurationCommand extends AbstractCommand
 {
@@ -22,8 +24,21 @@ class ConfigurationCommand extends AbstractCommand
      */
     public function fire()
     {
+        $key = $this->argument('key');
+
         $configuration = $this->config->toArray();
+        $configuration = $key ? Arr::get($configuration, $key) : $configuration;
 
         dump($configuration);
+    }
+
+    /**
+     * @return array
+     */
+    protected function getArguments()
+    {
+        return [
+            ['key', InputArgument::OPTIONAL, 'The key to dump'],
+        ];
     }
 }
