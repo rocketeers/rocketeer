@@ -11,6 +11,7 @@
 
 namespace Rocketeer\Services\Config;
 
+use Illuminate\Support\Arr;
 use Rocketeer\Services\Config\TreeBuilder\NodeBuilder;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -96,21 +97,48 @@ EOF
                     ->requiresAtLeastOneElement()
                     ->useAttributeAsKey('production')
                     ->prototype('array')
+                        ->beforeNormalization()
+                            ->always(function ($servers) {
+                                // Unify flat declaration
+                                if (Arr::get($servers, 'host')) {
+                                    return ['servers' => [$servers]];
+                                }
+
+                                // Unify single servers
+                                if (Arr::get($servers, 'servers.host')) {
+                                    $servers['servers'] = [$servers['servers']];
+                                }
+
+                                // Unify all the things
+                                if (array_keys($servers) !== ['servers']) {
+                                    $servers = Arr::get($servers, 'servers', $servers);
+                                    $servers = ['servers' => array_values($servers)];
+                                }
+
+                                return $servers;
+                            })
+                        ->end()
                         ->children()
-                            ->scalarNode('host')->defaultValue('{host}')->end()
-                            ->scalarNode('username')->defaultValue('{username}')->end()
-                            ->scalarNode('password')->defaultValue('{password}')->end()
-                            ->scalarNode('key')->defaultValue('{key}')->end()
-                            ->scalarNode('keyphrase')->defaultValue('{keyphrase}')->end()
-                            ->scalarNode('agent')->defaultValue('{agent}')->end()
-                            ->booleanNode('db_role')->defaultTrue()->end()
-                            ->arrayNode('roles')->end()
-                            ->arrayNode('config')
-                                ->useAttributeAsKey('name')
+                            ->arrayNode('servers')
                                 ->prototype('array')
-                                    ->prototype('variable')->end()
+                                    ->children()
+                                        ->scalarNode('host')->defaultValue('{host}')->end()
+                                        ->scalarNode('username')->defaultValue('{username}')->end()
+                                        ->scalarNode('password')->defaultValue('{password}')->end()
+                                        ->scalarNode('key')->defaultValue('{key}')->end()
+                                        ->scalarNode('keyphrase')->defaultValue('{keyphrase}')->end()
+                                        ->scalarNode('agent')->defaultValue('{agent}')->end()
+                                        ->booleanNode('db_role')->defaultTrue()->end()
+                                        ->arrayNode('roles')->end()
+                                        ->arrayNode('config')
+                                            ->useAttributeAsKey('name')
+                                            ->prototype('array')
+                                                ->prototype('variable')->end()
+                                            ->end()
+                                       ->end()
+                                    ->end()
                                 ->end()
-                           ->end()
+                            ->end()
                         ->end()
                     ->end()
                 ->end()
