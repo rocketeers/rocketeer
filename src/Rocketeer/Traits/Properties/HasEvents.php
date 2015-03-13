@@ -85,7 +85,9 @@ trait HasEvents
         // Fire the task if the before event passes
         if ($this->fireEvent('before')) {
             $results = $this->timer->time($this, $callable);
-            $this->fireEvent('after');
+            if ($results && !$this->wasHalted()) {
+                $this->fireEvent('after');
+            }
         }
 
         return $results;
