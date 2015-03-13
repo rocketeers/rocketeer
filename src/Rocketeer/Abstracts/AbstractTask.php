@@ -54,13 +54,6 @@ abstract class AbstractTask extends Bash implements HasRolesInterface, Identifie
      */
     protected $options = [];
 
-    /**
-     * Whether the task was halted mid-course.
-     *
-     * @type bool
-     */
-    protected $halted = false;
-
     ////////////////////////////////////////////////////////////////////
     ////////////////////////////// REFLECTION //////////////////////////
     ////////////////////////////////////////////////////////////////////
@@ -129,40 +122,6 @@ abstract class AbstractTask extends Bash implements HasRolesInterface, Identifie
         return $this->runWithBeforeAfterEvents(function () use ($callback) {
             return $this->local ? $this->onLocal($callback) : $callback();
         });
-    }
-
-    /**
-     * Cancel the task.
-     *
-     * @param string|null $errors Potential errors to display
-     *
-     * @return bool
-     */
-    public function halt($errors = null)
-    {
-        // Display errors
-        if ($errors) {
-            $this->explainer->error($errors);
-        }
-
-        $this->fireEvent('halt');
-        $this->halted = true;
-
-        if ($this->event) {
-            $this->getEvent()->stopPropagation();
-        }
-
-        return false;
-    }
-
-    /**
-     * Whether the task was halted mid-course.
-     *
-     * @return bool
-     */
-    public function wasHalted()
-    {
-        return $this->halted === true;
     }
 
     ////////////////////////////////////////////////////////////////////

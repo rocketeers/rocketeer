@@ -28,6 +28,13 @@ trait HasEvents
      */
     protected $event;
 
+    /**
+     * Whether the task was halted mid-course.
+     *
+     * @type bool
+     */
+    protected $halted = false;
+
     //////////////////////////////////////////////////////////////////////
     ////////////////////////////// LISTENER //////////////////////////////
     //////////////////////////////////////////////////////////////////////
@@ -65,6 +72,44 @@ trait HasEvents
     public function isListener($listener)
     {
         return $listener->getIdentifier() === $this->getIdentifier();
+    }
+
+    //////////////////////////////////////////////////////////////////////
+    ////////////////////////////// HALTING ///////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+
+    /**
+     * Cancel the task.
+     *
+     * @param string|null $errors Potential errors to display
+     *
+     * @return bool
+     */
+    public function halt($errors = null)
+    {
+        // Display errors
+        if ($errors) {
+            $this->explainer->error($errors);
+        }
+
+        $this->fireEvent('halt');
+        $this->halted = true;
+
+        if ($this->event) {
+            $this->getEvent()->stopPropagation();
+        }
+
+        return false;
+    }
+
+    /**
+     * Whether the task was halted mid-course.
+     *
+     * @return bool
+     */
+    public function wasHalted()
+    {
+        return $this->halted === true;
     }
 
     //////////////////////////////////////////////////////////////////////
