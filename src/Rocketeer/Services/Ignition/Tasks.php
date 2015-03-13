@@ -50,6 +50,7 @@ class Tasks
 
         // Add user commands
         $userTasks = (array) $this->config->get('hooks.custom');
+        $userTasks = array_filter($userTasks);
         $tasks     = array_merge($tasks, $userTasks);
 
         return $tasks;
