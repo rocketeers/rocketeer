@@ -34,6 +34,8 @@ class ConfigurationCommand extends AbstractCommand
      */
     public function fire()
     {
+        $this->prepareEnvironment();
+
         $key = $this->argument('key');
 
         $configuration = $this->config->toArray();
