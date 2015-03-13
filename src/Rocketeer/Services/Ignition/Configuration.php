@@ -125,8 +125,13 @@ class Configuration
         $files  = $this->files->files($folder);
         foreach ($files as $file) {
             foreach ($values as $name => $value) {
-                $contents = str_replace('{'.$name.'}', $value, file_get_contents($file));
-                $this->files->put($file, $contents);
+                $pattern  = '{'.$name.'}';
+                $contents = file_get_contents($file);
+
+                if (strpos($contents, $pattern) !== false) {
+                    $contents = str_replace($pattern, $value, $contents);
+                    $this->files->put($file, $contents);
+                }
             }
         }
 
