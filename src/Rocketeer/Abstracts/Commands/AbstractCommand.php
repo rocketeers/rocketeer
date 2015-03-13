@@ -339,9 +339,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
         $this->laravel->instance('rocketeer.command', $this);
 
         // Check for credentials
-        if (!$this->rocketeer->isLocal()) {
-            $this->credentialsGatherer->getServerCredentials();
-            $this->credentialsGatherer->getRepositoryCredentials();
-        }
+        $this->credentialsGatherer->getServerCredentials();
+        $this->credentialsGatherer->getRepositoryCredentials();
     }
 }

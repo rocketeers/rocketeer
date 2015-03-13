@@ -79,7 +79,7 @@ class CredentialsGatherer
 
         // If we didn't set any connection, ask for them
         if (!$activeConnections || empty($availableConnections)) {
-            $connectionName = $this->command->askWith('No connections have been set, please create one:', 'production');
+            $connectionName = $this->ask('askWith', 'No connections have been set, please create one:', 'production');
             $this->getConnectionCredentials($connectionName);
 
             return;
@@ -143,7 +143,7 @@ class CredentialsGatherer
         }
 
         $types = ['key', 'password'];
-        $type  = $this->command->askWith('No password or SSH key is set for ['.$handle.'], which would you use?', 'key', $types);
+        $type  = $this->ask('askWith', 'No password or SSH key is set for ['.$handle.'], which would you use?', 'key', $types);
 
         return $type === 'key';
     }
@@ -199,7 +199,7 @@ class CredentialsGatherer
                 return $this->gatherCredential($handle, 'keyphrase', 'If a keyphrase is required, provide it');
 
             case 'key':
-                return $this->command->option('key') ?: $this->command->askWith('Please enter the full path to your key', $keyPath);
+                return $this->command->option('key') ?: $this->ask('askWith', 'Please enter the full path to your key', $keyPath);
 
             case 'password':
                 return $this->gatherCredential($handle, 'password');
@@ -221,7 +221,7 @@ class CredentialsGatherer
         $option   = $this->getOption($type, true);
         $method   = in_array($type, ['password', 'keyphrase'], true) ? 'askSecretly' : 'askWith';
 
-        return $option ?: $this->command->$method($question);
+        return $option ?: $this->ask($method, $question);
     }
 
     /**
@@ -243,6 +243,33 @@ class CredentialsGatherer
     }
 
     /**
+     * Whether Rocketeer should prompt for things or not
+     *
+     * @return bool
+     */
+    protected function shouldPrompt()
+    {
+        return !$this->rocketeer->isLocal();
+    }
+
+    /**
+     * Prompt a question via the command if possible
+     *
+     * @return mixed|void
+     */
+    protected function ask()
+    {
+        if (!$this->shouldPrompt()) {
+            return;
+        }
+
+        $arguments = func_get_args();
+        $method    = array_shift($arguments);
+
+        return call_user_func_array([$this->command, $method], $arguments);
+    }
+
+    /**
      * Whether Rocketeer should prompt for a credential or not.
      *
      * @param string|bool|null $value
@@ -251,6 +278,10 @@ class CredentialsGatherer
      */
     protected function shouldPromptFor($value)
     {
+        if (!$this->shouldPrompt()) {
+            return;
+        }
+
         if (is_string($value)) {
             return !$value;
         } elseif (is_bool($value) || $value === null) {
