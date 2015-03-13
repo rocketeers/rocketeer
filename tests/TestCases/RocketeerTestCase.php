@@ -23,6 +23,26 @@ abstract class RocketeerTestCase extends ContainerTestCase
     protected $repository = 'Anahkiasen/html-object.git';
 
     /**
+     * @type string
+     */
+    protected $username = 'anahkiasen';
+
+    /**
+     * @type string
+     */
+    protected $password = 'foobar';
+
+    /**
+     * @type string
+     */
+    protected $host = 'some.host';
+
+    /**
+     * @type string
+     */
+    protected $key = '/.ssh/id_rsa';
+
+    /**
      * The path to the local fake server.
      *
      * @type string
