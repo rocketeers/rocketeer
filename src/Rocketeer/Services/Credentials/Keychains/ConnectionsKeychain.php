@@ -17,6 +17,7 @@ use Rocketeer\Services\Credentials\Keys\ConnectionKey;
  * Finds credentials and informations about connections.
  *
  * @mixin \Rocketeer\Services\Credentials\CredentialsHandler
+ *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait ConnectionsKeychain
@@ -104,7 +105,7 @@ trait ConnectionsKeychain
         }
 
         // Get fallback connection
-        $current = new ConnectionKey();
+        $current         = new ConnectionKey();
         $current->server = 0;
         if ($this->connections->hasCurrentConnection() && !$this->rocketeer->isLocal()) {
             $current = $this->connections->getCurrentConnection();

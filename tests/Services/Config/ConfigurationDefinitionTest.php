@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Services\Config;
 
 use Rocketeer\TestCases\RocketeerTestCase;
@@ -120,12 +119,12 @@ class ConfigurationDefinitionTest extends RocketeerTestCase
             ],
         ]);
 
-        $this->assertEquals(array(
+        $this->assertEquals([
             'php'      => '/bar/php',
             'composer' => '/foo/composer',
             'foo'      => '/bar',
             'bar'      => '/bar/baz',
-        ), $processed['paths']);
+        ], $processed['paths']);
     }
 
     /**

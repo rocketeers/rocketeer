@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Services\Credentials\Keys;
 
 use Illuminate\Support\Arr;
@@ -31,6 +30,7 @@ use Rocketeer\Services\Connections\roles;
  * @property string[] roles
  * @property boolean  db_role
  * @property roles    array
+ *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class ConnectionKey extends AbstractKey
@@ -110,7 +110,7 @@ class ConnectionKey extends AbstractKey
 
     /**
      * @param ConnectionKey|string $connection
-     * @param integer|null         $server
+     * @param int|null             $server
      *
      * @return bool
      */

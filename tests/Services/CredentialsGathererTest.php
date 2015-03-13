@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Services;
 
 use Mockery;
@@ -300,6 +299,7 @@ class CredentialsGathererTest extends RocketeerTestCase
 
     /**
      * Assert a certain set of credentials are saved to storage.
+     *
      * @param array $credentials
      */
     protected function assertStoredCredentialsEquals(array $credentials)

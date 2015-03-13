@@ -231,7 +231,7 @@ abstract class AbstractBinary
     }
 
     /**
-     * Sanitize a flags array
+     * Sanitize a flags array.
      *
      * @param array $flags
      *

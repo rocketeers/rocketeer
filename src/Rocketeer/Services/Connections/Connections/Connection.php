@@ -163,8 +163,8 @@ class Connection implements ConnectionInterface, HasRolesInterface
      * Get the gateway implementation.
      *
      * @throws RuntimeException
-     * @return GatewayInterface
      *
+     * @return GatewayInterface
      */
     public function getGateway()
     {

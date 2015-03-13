@@ -48,8 +48,8 @@ abstract class AbstractPackageManager extends AbstractBinary
      * Get the contents of the manifest file.
      *
      * @throws \Illuminate\Filesystem\FileNotFoundException
-     * @return string|null
      *
+     * @return string|null
      */
     public function getManifestContents()
     {

@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Services\Config\TreeBuilder;
 
 use Symfony\Component\Config\Definition\Builder\VariableNodeDefinition;

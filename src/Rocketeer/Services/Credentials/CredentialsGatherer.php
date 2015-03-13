@@ -243,7 +243,7 @@ class CredentialsGatherer
     }
 
     /**
-     * Whether Rocketeer should prompt for things or not
+     * Whether Rocketeer should prompt for things or not.
      *
      * @return bool
      */
@@ -253,7 +253,7 @@ class CredentialsGatherer
     }
 
     /**
-     * Prompt a question via the command if possible
+     * Prompt a question via the command if possible.
      *
      * @return mixed|void
      */

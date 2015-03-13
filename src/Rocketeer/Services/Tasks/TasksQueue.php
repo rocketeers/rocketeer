@@ -236,8 +236,8 @@ class TasksQueue
      * @param Pipeline $pipeline
      *
      * @throws \Exception
-     * @return Pipeline
      *
+     * @return Pipeline
      */
     protected function runAsynchronously(Pipeline $pipeline)
     {
