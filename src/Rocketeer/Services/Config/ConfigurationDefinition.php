@@ -392,6 +392,7 @@ EOF
                 'php'      => null,
                 'composer' => null,
             ])
+            ->useAttributeAsKey('name')
             ->prototype('scalar')
             ->end();
     }

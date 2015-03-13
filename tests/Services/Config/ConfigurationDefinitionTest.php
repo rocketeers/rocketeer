@@ -33,7 +33,7 @@ class ConfigurationDefinitionTest extends RocketeerTestCase
 
     public function testCanUnifyFlagServerDeclaration()
     {
-        $config = [
+        $processed = $this->processConfiguration([
             'config' => [
                 'application_name' => 'foobar',
                 'connections'      => [
@@ -42,9 +42,8 @@ class ConfigurationDefinitionTest extends RocketeerTestCase
                     ],
                 ],
             ],
-        ];
+        ]);
 
-        $processed  = $this->processor->processConfiguration(new ConfigurationDefinition(), [$config]);
         $connection = $processed['config']['connections']['production'];
 
         $this->assertArrayHasKey('servers', $connection);
@@ -53,7 +52,7 @@ class ConfigurationDefinitionTest extends RocketeerTestCase
 
     public function testCanUnifyUnkeyedServerDeclaration()
     {
-        $config = [
+        $processed = $this->processConfiguration([
             'config' => [
                 'application_name' => 'foobar',
                 'connections'      => [
@@ -67,9 +66,8 @@ class ConfigurationDefinitionTest extends RocketeerTestCase
                     ],
                 ],
             ],
-        ];
+        ]);
 
-        $processed  = $this->processor->processConfiguration(new ConfigurationDefinition(), [$config]);
         $connection = $processed['config']['connections']['production'];
 
         $this->assertArrayHasKey('servers', $connection);
@@ -79,7 +77,7 @@ class ConfigurationDefinitionTest extends RocketeerTestCase
 
     public function testCanUnifyFullServerDeclaration()
     {
-        $config = [
+        $processed = $this->processConfiguration([
             'config' => [
                 'application_name' => 'foobar',
                 'connections'      => [
@@ -95,13 +93,48 @@ class ConfigurationDefinitionTest extends RocketeerTestCase
                     ],
                 ],
             ],
-        ];
+        ]);
 
-        $processed  = $this->processor->processConfiguration(new ConfigurationDefinition(), [$config]);
         $connection = $processed['config']['connections']['production'];
 
         $this->assertArrayHasKey('servers', $connection);
         $this->assertEquals('foo.com', $connection['servers'][0]['host']);
         $this->assertEquals('bar.com', $connection['servers'][1]['host']);
+    }
+
+    public function testCanProperlyMergePaths()
+    {
+        $processed = $this->processor->processConfiguration(new ConfigurationDefinition(), [
+            [
+                'paths' => [
+                    'php'      => '/foo/php',
+                    'composer' => '/foo/composer',
+                    'foo'      => '/bar',
+                ],
+            ],
+            [
+                'paths' => [
+                    'php' => '/bar/php',
+                    'bar' => '/bar/baz',
+                ],
+            ],
+        ]);
+
+        $this->assertEquals(array(
+            'php'      => '/bar/php',
+            'composer' => '/foo/composer',
+            'foo'      => '/bar',
+            'bar'      => '/bar/baz',
+        ), $processed['paths']);
+    }
+
+    /**
+     * @param array $config
+     *
+     * @return array
+     */
+    protected function processConfiguration(array $config)
+    {
+        return $this->processor->processConfiguration(new ConfigurationDefinition(), [$config]);
     }
 }
