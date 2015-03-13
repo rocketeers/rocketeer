@@ -83,8 +83,8 @@ class RemoteHandler
     {
         $credentials = $connection->getServerCredentials();
 
-        if (!isset($credentials['host']) || !isset($credentials['username'])) {
-            throw new MissingCredentialsException('Host and/or username is required for '.$connection->name);
+        if (!isset($credentials['host'])) {
+            throw new MissingCredentialsException('Host is required for '.$connection->name);
         }
 
         $connection = new Connection(
