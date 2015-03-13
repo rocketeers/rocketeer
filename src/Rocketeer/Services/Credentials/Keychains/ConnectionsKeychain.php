@@ -103,7 +103,12 @@ trait ConnectionsKeychain
             return $connection;
         }
 
-        $current = $this->connections->hasCurrentConnection() ? $this->connections->getCurrentConnection() : new ConnectionKey();
+        // Get fallback connection
+        $current = new ConnectionKey();
+        $current->server = 0;
+        if ($this->connections->hasCurrentConnection() && !$this->rocketeer->isLocal()) {
+            $current = $this->connections->getCurrentConnection();
+        }
 
         // Concatenate
         $handle = new ConnectionKey([
