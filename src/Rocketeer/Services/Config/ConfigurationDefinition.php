@@ -93,7 +93,6 @@ true       - value is required, will be prompted for it every time
 false|null - value is not required, will never be prompted for it
 EOF
                     )
-                    ->requiresAtLeastOneElement()
                     ->useAttributeAsKey('production')
                     ->prototype('array')
                         ->beforeNormalization()
