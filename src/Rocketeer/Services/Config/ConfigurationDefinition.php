@@ -291,6 +291,7 @@ EOF
                     ->defaultValue('Polyglot')
                 ->end()
                 ->closureNode('primer')
+                    ->info("Here you can configure the Primer tasks which will run a set of commands on the local machine, determining whether the deploy can proceed or not")
                     ->defaultValue(function (\Rocketeer\Tasks\Subtasks\Primer $task) {
                         return [
                             // $task->executeTask('Test'),

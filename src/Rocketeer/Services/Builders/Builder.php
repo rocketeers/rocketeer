@@ -105,7 +105,7 @@ class Builder
      */
     protected function findQualifiedName($class, $type, $namespace = null)
     {
-        $paths   = $this->builder->getLookups($type);
+        $paths   = $this->getLookups($type);
         $paths[] = '%s';
 
         // Create classes array
