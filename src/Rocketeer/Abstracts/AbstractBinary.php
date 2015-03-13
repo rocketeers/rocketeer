@@ -184,7 +184,7 @@ abstract class AbstractBinary
 
         // Build flags
         $options = [];
-        $flags   = $this->sanitizeFlags($flags);
+        $flags   = $flags ? $this->sanitizeFlags($flags) : [];
         foreach ($flags as $flag => $value) {
             if (is_array($value)) {
                 foreach ($value as $v) {
