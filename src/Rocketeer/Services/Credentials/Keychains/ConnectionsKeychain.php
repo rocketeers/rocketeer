@@ -17,7 +17,6 @@ use Rocketeer\Services\Credentials\Keys\ConnectionKey;
  * Finds credentials and informations about connections.
  *
  * @mixin \Rocketeer\Services\Credentials\CredentialsHandler
- *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait ConnectionsKeychain
@@ -104,11 +103,13 @@ trait ConnectionsKeychain
             return $connection;
         }
 
+        $current = $this->connections->hasCurrentConnection() ? $this->connections->getCurrentConnection() : new ConnectionKey();
+
         // Concatenate
         $handle = new ConnectionKey([
             'name'   => $connection ?: Arr::get($this->connections->getConnections(), 0),
-            'server' => $server ?: 0,
-            'stage'  => $stage ?: null,
+            'server' => !is_null($server) ? $server : $current->server,
+            'stage'  => $stage ?: $current->stage,
         ]);
 
         // Populate credentials

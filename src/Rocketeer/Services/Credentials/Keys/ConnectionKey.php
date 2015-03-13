@@ -31,7 +31,6 @@ use Rocketeer\Services\Connections\roles;
  * @property string[] roles
  * @property boolean  db_role
  * @property roles    array
- *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class ConnectionKey extends AbstractKey
@@ -86,6 +85,10 @@ class ConnectionKey extends AbstractKey
      */
     public function getServerCredentials()
     {
+        if (is_null($this->server)) {
+            return [];
+        }
+
         return Arr::get($this->servers, $this->server) ?: [];
     }
 
@@ -107,17 +110,21 @@ class ConnectionKey extends AbstractKey
 
     /**
      * @param ConnectionKey|string $connection
+     * @param integer|null         $server
      *
      * @return bool
      */
-    public function is($connection)
+    public function is($connection, $server = null)
     {
-        // If we only passed the name, check this
         if (is_string($connection)) {
-            return $this->name === $connection;
+            $name   = $connection;
+            $server = $server ?: $this->server;
+        } else {
+            $name   = $connection->name;
+            $server = $connection->server;
         }
 
-        return $this->name === $connection->name && $this->server === $connection->server;
+        return $this->name === $name && $this->server === $server;
     }
 
     /**

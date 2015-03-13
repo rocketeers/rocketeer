@@ -37,7 +37,7 @@ class ConnectionsHandler
      * @type array|null
      */
     protected $connections;
-    
+
     ////////////////////////////////////////////////////////////////////
     //////////////////////////////// STAGES ////////////////////////////
     ////////////////////////////////////////////////////////////////////
@@ -170,13 +170,21 @@ class ConnectionsHandler
         if ($this->rocketeer->isLocal()) {
             $handle           = $this->credentials->createConnectionKey('local');
             $handle->username = $this->remote->connected() ? $this->remote->connection()->getUsername() : null;
-        } elseif ($this->current && $this->current->name) {
+        } elseif ($this->hasCurrentConnection()) {
             $handle = $this->current;
         } else {
             $this->current = $handle = $this->credentials->createConnectionKey();
         }
 
         return $handle;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasCurrentConnection()
+    {
+        return (bool) $this->current && $this->current->name;
     }
 
     /**
@@ -188,7 +196,7 @@ class ConnectionsHandler
     public function setConnection($connection, $server = null)
     {
         $connection = $connection instanceof ConnectionKey ? $connection : $this->credentials->createConnectionKey($connection, $server);
-        if (!$this->isValidConnection($connection) || ($this->getCurrentConnection()->is($connection))) {
+        if (!$this->isValidConnection($connection) || ($this->getCurrentConnection()->is($connection, $server))) {
             return;
         }
 
