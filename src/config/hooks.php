@@ -17,11 +17,7 @@ return [
     'hooks' => [
         'before' => [],
         'after'  => [],
-        'custom' => [
-
-            // Prototype
-            'name' => null,
-        ],
+        'custom' => [],
         'roles'  => [],
     ],
 

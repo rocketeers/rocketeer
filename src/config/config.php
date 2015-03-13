@@ -32,10 +32,7 @@ return [
         },
 
         // The default remote connection(s) to execute tasks on
-        'default'          => [
-            // Default:
-            'production',
-        ],
+        'default'          => [],
 
         // You can leave all of this empty or remove it entirely if you don't want
         // to track files with credentials : Rocketeer will prompt you for your credentials
@@ -45,27 +42,7 @@ return [
         // ''         - value is required, will be prompted for it once, then saved
         // true       - value is required, will be prompted for it every time
         // false|null - value is not required, will never be prompted for it
-        'connections'      => [
-
-            // Prototype
-            'production' => [
-                'servers' => [
-                    'host'      => '{host}',
-                    'username'  => '{username}',
-                    'password'  => '{password}',
-                    'key'       => '{key}',
-                    'keyphrase' => '{keyphrase}',
-                    'agent'     => '{agent}',
-                    'db_role'   => true,
-                    'roles'     => [],
-                    'config'    => [
-
-                        // Prototype
-                        'name' => [],
-                    ],
-                ],
-            ],
-        ],
+        'connections'      => [],
 
         // In most multiserver scenarios, migrations must be run in an exclusive server.
         // In the event of not having a separate database server (in which case it can
@@ -86,16 +63,8 @@ return [
         //  ),
         // ),
         'on'               => [
-            'stages'      => [
-
-                // Prototype
-                'name' => [],
-            ],
-            'connections' => [
-
-                // Prototype
-                'name' => [],
-            ],
+            'stages'      => [],
+            'connections' => [],
         ],
     ],
 
