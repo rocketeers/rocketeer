@@ -39,7 +39,8 @@
     "nesbot/carbon": "~1.13",
     "phpunit/phpunit": "~4.4",
     "psy/psysh": "0.3.*",
-    "rocketeers/rocketeer-laravel": "1.0.*@dev"
+    "rocketeers/rocketeer-laravel": "1.0.*@dev",
+    "kherge/box": "~2.5"
   },
   "suggest": {
     "psy/psysh": "Required for the 'tinker' command",
@@ -48,8 +49,8 @@
     "ext-pcntl": "Allow parallel deployments"
   },
   "scripts": {
-    "test": "vendor/bin/phpunit",
-    "lint": "vendor/bin/php-cs-fixer fix",
+    "test": "phpunit",
+    "lint": "php-cs-fixer fix",
     "build": "box build --verbose"
   },
   "bin": [
