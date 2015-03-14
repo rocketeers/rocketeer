@@ -12,10 +12,10 @@ namespace Rocketeer\Services\Connections\Gateways;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
-use phpseclib\Crypt\RSA;
-use phpseclib\Net\SFTP;
-use phpseclib\Net\SSH2;
-use phpseclib\System\SSH\Agent;
+use Crypt_RSA;
+use Net_SFTP;
+use Net_SSH2;
+use System_SSH_Agent;
 use Rocketeer\Interfaces\GatewayInterface;
 
 /**
@@ -57,7 +57,7 @@ class SeclibGateway implements GatewayInterface
     /**
      * The SecLib connection instance.
      *
-     * @type SFTP
+     * @type Net_SFTP
      */
     protected $connection;
 
@@ -154,7 +154,7 @@ class SeclibGateway implements GatewayInterface
      */
     public function put($local, $remote)
     {
-        $this->getConnection()->put($remote, $local, SFTP::SOURCE_LOCAL_FILE);
+        $this->getConnection()->put($remote, $local, Net_SFTP::SOURCE_LOCAL_FILE);
     }
 
     /**
@@ -175,7 +175,7 @@ class SeclibGateway implements GatewayInterface
      */
     public function nextLine()
     {
-        $value = $this->getConnection()->_get_channel_packet(SSH2::CHANNEL_EXEC);
+        $value = $this->getConnection()->_get_channel_packet(Net_SSH2::CHANNEL_EXEC);
 
         return $value === true ? null : $value;
     }
@@ -185,7 +185,7 @@ class SeclibGateway implements GatewayInterface
      *
      * @throws InvalidArgumentException
      *
-     * @return RSA|Agent|string
+     * @return Crypt_RSA|System_SSH_Agent|string
      */
     protected function getAuthForLogin()
     {
@@ -227,7 +227,7 @@ class SeclibGateway implements GatewayInterface
      *
      * @param array $auth
      *
-     * @return RSA
+     * @return Crypt_RSA
      */
     protected function loadRsaKey(array $auth)
     {
@@ -258,7 +258,7 @@ class SeclibGateway implements GatewayInterface
      *
      * @param array $auth
      *
-     * @return RSA
+     * @return Crypt_RSA
      */
     protected function getKey(array $auth)
     {
@@ -281,21 +281,21 @@ class SeclibGateway implements GatewayInterface
     /**
      * Get a new SSH Agent instance.
      *
-     * @return Agent
+     * @return System_SSH_Agent
      */
     public function getAgent()
     {
-        return new Agent();
+        return new System_SSH_Agent();
     }
 
     /**
      * Get a new RSA key instance.
      *
-     * @return RSA
+     * @return Crypt_RSA
      */
     public function getNewKey()
     {
-        return new RSA();
+        return new Crypt_RSA();
     }
 
     /**
@@ -331,7 +331,7 @@ class SeclibGateway implements GatewayInterface
     /**
      * Get the underlying Net_SFTP connection.
      *
-     * @return SFTP
+     * @return Net_SFTP
      */
     public function getConnection()
     {
@@ -339,6 +339,6 @@ class SeclibGateway implements GatewayInterface
             return $this->connection;
         }
 
-        return $this->connection = new SFTP($this->host, $this->port);
+        return $this->connection = new Net_SFTP($this->host, $this->port);
     }
 }
