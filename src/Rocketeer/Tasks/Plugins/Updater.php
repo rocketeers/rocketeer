@@ -46,6 +46,6 @@ class Updater extends AbstractTask
         $this->run($this->shellCommand($command));
 
         // Prune duplicate Rocketeer
-        $this->files->deleteDirectory($folder.'/vendor/anahkiasen/rocketeer');
+        $this->files->deleteDir($folder.'/vendor/anahkiasen/rocketeer');
     }
 }

@@ -58,7 +58,7 @@ class LocalStorage extends AbstractStorage implements StorageInterface
         // Create personal storage if necessary
         if (!$this->app->bound('path.storage')) {
             $folder = $this->paths->getRocketeerConfigFolder();
-            $this->files->makeDirectory($folder, 0755, false, true);
+            $this->files->createDir($folder);
         }
 
         // Set path to storage folder
@@ -91,23 +91,28 @@ class LocalStorage extends AbstractStorage implements StorageInterface
         // Get the contents of the configuration folder
         $salt   = '';
         $folder = $this->paths->getConfigurationPath();
-        if (!is_dir($folder)) {
+        if (!$this->files->isDirectory($folder)) {
             return;
         }
 
         $finder = new Finder();
+        $folder = $this->files->getAdapter()->applyPathPrefix($folder);
         $files  = $finder
             ->in($folder)
             ->name('*.php')
             ->exclude(['tasks', 'events', 'strategies'])
             ->notName('/(events|tasks)\.php/')
-            ->sortByName()
             ->files();
+
+        // Sort by name
+        $files = iterator_to_array($files);
+        ksort($files);
 
         // Compute the salts
         /** @type SplFileInfo[] $files */
         foreach ($files as $file) {
-            $contents = $this->files->getRequire($file);
+            $file = $this->files->getAdapter()->removePathPrefix($file);
+            $contents = $this->files->readRequire($file);
             $salt .= json_encode($contents);
         }
 
@@ -168,14 +173,16 @@ class LocalStorage extends AbstractStorage implements StorageInterface
      */
     protected function getContents()
     {
+        $filepath = $this->getFilepath();
+
         // Cancel if the file doesn't exist
-        if (!$this->files->exists($this->getFilepath())) {
+        if (!$this->files->has($filepath)) {
             return [];
         }
 
         // Get and parse file
         if ($this->contents === null) {
-            $this->contents = $this->files->get($this->getFilepath());
+            $this->contents = $this->files->read($filepath);
             $this->contents = json_decode($this->contents, true);
         }
 

@@ -17,12 +17,14 @@ class AbstractStrategyTest extends RocketeerTestCase
 {
     public function testCanCheckForManifestWithoutServer()
     {
-        $this->app['path.base'] = realpath(__DIR__.'/../../..');
+        $this->app['path.base'] = $this->server;
         $this->swapConfig([
-            'paths.app' => realpath(__DIR__.'/../../..'),
+            'paths.app' => $this->server,
         ]);
 
         $this->usesComposer(false);
+        $this->files->write($this->server.'/composer.json', '{}');
+
         $strategy = $this->builder->buildStrategy('Dependencies', 'Composer');
         $this->assertTrue($strategy->isExecutable());
     }

@@ -128,6 +128,7 @@ class BinariesTest extends RocketeerTestCase
         });
 
         $this->pretendTask('Dependencies')->execute();
+
         $this->assertCount(2, $this->history->getFlattenedHistory()[0]);
     }
 

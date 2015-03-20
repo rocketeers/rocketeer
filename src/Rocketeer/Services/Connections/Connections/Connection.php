@@ -11,7 +11,7 @@
 namespace Rocketeer\Services\Connections\Connections;
 
 use Closure;
-use Illuminate\Filesystem\Filesystem;
+use League\Flysystem\Adapter\Local;
 use Rocketeer\Interfaces\ConnectionInterface;
 use Rocketeer\Interfaces\GatewayInterface;
 use Rocketeer\Interfaces\HasRolesInterface;
@@ -21,6 +21,7 @@ use Rocketeer\Traits\Properties\HasRoles;
 use RuntimeException;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
+use League\Flysystem\Filesystem;
 
 /**
  * Base connection class with additional setters.
@@ -38,6 +39,11 @@ class Connection implements ConnectionInterface, HasRolesInterface
      * @type GatewayInterface
      */
     protected $gateway;
+
+    /**
+     * @type Filesystem
+     */
+    protected $filesystem;
 
     /**
      * The connection handle.
@@ -63,8 +69,19 @@ class Connection implements ConnectionInterface, HasRolesInterface
     public function __construct(ConnectionKey $handle, array $auth, GatewayInterface $gateway = null)
     {
         $this->handle  = $handle;
-        $this->gateway = $gateway ?: new SeclibGateway($handle->host, $auth, new Filesystem());
+        $this->gateway = $gateway ?: new SeclibGateway($handle->host, $auth, new Filesystem(new Local('/')));
         $this->roles   = $handle->roles;
+    }
+
+    /**
+     * @param string $name
+     * @param array $arguments
+     *
+     * @return mixed
+     */
+    public function __call($name, $arguments)
+    {
+        return call_user_func_array([$this->filesystem, $name], $arguments);
     }
 
     /**
@@ -198,6 +215,22 @@ class Connection implements ConnectionInterface, HasRolesInterface
     public function setOutput(OutputInterface $output)
     {
         $this->output = $output;
+    }
+
+    /**
+     * @return Filesystem
+     */
+    public function getFilesystem()
+    {
+        return $this->filesystem;
+    }
+
+    /**
+     * @param Filesystem $filesystem
+     */
+    public function setFilesystem($filesystem)
+    {
+        $this->filesystem = $filesystem;
     }
 
     /**

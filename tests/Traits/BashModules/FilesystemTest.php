@@ -27,8 +27,8 @@ class FilesystemTest extends RocketeerTestCase
     {
         // Create dummy file
         $folder = $this->server.'/releases/20000000000000/src';
-        mkdir($folder);
-        file_put_contents($folder.'/foobar.txt', 'test');
+        $this->files->createDir($folder);
+        $this->files->write($folder.'/foobar.txt', 'test');
 
         $task     = $this->pretendTask();
         $folder   = '{path.base}/foobar.txt';
@@ -48,8 +48,8 @@ class FilesystemTest extends RocketeerTestCase
 
         // Create dummy file
         $folder = $this->server.'/releases/20000000000000/src';
-        mkdir($folder);
-        file_put_contents($folder.'/foobar.txt', 'test');
+        $this->files->createDir($folder);
+        $this->files->write($folder.'/foobar.txt', 'test');
 
         $task     = $this->pretendTask();
         $folder   = '{path.base}/foobar.txt';
@@ -69,16 +69,16 @@ class FilesystemTest extends RocketeerTestCase
 
         // Create dummy folders
         $folderCurrent = $this->server.'/dummy-current';
-        mkdir($folderCurrent);
+        $this->files->createDir($folderCurrent);
         $folderRelease = $this->server.'/dummy-release';
-        mkdir($folderRelease);
+        $this->files->createDir($folderRelease);
 
         $this->bash->symlink($folderRelease, $folderCurrent);
 
         clearstatcache();
-        $check = is_dir($folderCurrent) && is_link($folderCurrent);
 
-        $this->assertTrue($check);
+        $this->assertTrue($this->files->isDirectory($folderCurrent));
+        $this->assertTrue(is_link($folderCurrent));
     }
 
     public function testCanListContentsOfAFolder()
@@ -108,6 +108,6 @@ class FilesystemTest extends RocketeerTestCase
     {
         $contents = $this->task()->tail($this->server.'/state.json', false);
 
-        $this->assertEquals(file_get_contents($this->server.'/state.json'), $contents);
+        $this->assertEquals($this->files->read($this->server.'/state.json'), $contents);
     }
 }

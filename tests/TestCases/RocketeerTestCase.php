@@ -10,6 +10,9 @@
  */
 namespace Rocketeer\TestCases;
 
+use League\Flysystem\Adapter\Local;
+use League\Flysystem\Filesystem;
+use Rocketeer\Services\Filesystem\IsDirectoryPlugin;
 use Rocketeer\Services\Storages\LocalStorage;
 
 abstract class RocketeerTestCase extends ContainerTestCase
@@ -40,25 +43,6 @@ abstract class RocketeerTestCase extends ContainerTestCase
      * @type string
      */
     protected $key = '/.ssh/id_rsa';
-
-    /**
-     * The path to the local fake server.
-     *
-     * @type string
-     */
-    protected $server;
-
-    /**
-     * @type string
-     */
-    protected $customConfig;
-
-    /**
-     * The path to the local deployments file.
-     *
-     * @type string
-     */
-    protected $deploymentsFile;
 
     /**
      * A dummy AbstractTask to use for helpers tests.
@@ -94,17 +78,13 @@ abstract class RocketeerTestCase extends ContainerTestCase
 
         static::$currentFiles = array_values($files);
 
-        // Setup local server
-        $this->server          = __DIR__.'/../_server/foobar';
-        $this->customConfig    = $this->server.'/../.rocketeer';
-        $this->deploymentsFile = $this->server.'/deployments.json';
-
         // Bind dummy AbstractTask
         $this->task = $this->task('Cleanup');
+
         $this->recreateVirtualServer();
 
         // Bind new LocalStorage instance
-        $this->app->bind('rocketeer.storage.local', function ($app) {
+        $this->app->singleton('rocketeer.storage.local', function ($app) {
             $folder = dirname($this->deploymentsFile);
 
             return new LocalStorage($app, 'deployments', $folder);
@@ -134,26 +114,31 @@ abstract class RocketeerTestCase extends ContainerTestCase
         $_SERVER['HOME'] = $this->home;
     }
 
-    /**
-     * Recreates the local file server.
-     */
     protected function recreateVirtualServer()
     {
         // Save superglobals
-        $this->home = $_SERVER['HOME'];
+        $root       = realpath(__DIR__.'/../../').'/';
+        $filesystem = new Filesystem(new Local($root));
+        $filesystem->addPlugin(new IsDirectoryPlugin());
+
+        @unlink($this->server.'/current');
+        @unlink($this->server.'/dummy-current');
 
         // Cleanup files created by tests
         $cleanup = [
-            realpath(__DIR__.'/../../app'),
-            realpath(__DIR__.'/../../.rocketeer'),
-            realpath(__DIR__.'/../.rocketeer'),
-            realpath($this->server),
-            realpath($this->customConfig),
+            str_replace($root, null, realpath(__DIR__.'/../../app')),
+            str_replace($root, null, realpath(__DIR__.'/../../.rocketeer')),
+            str_replace($root, null, realpath(__DIR__.'/../.rocketeer')),
+            str_replace($root, null, realpath($this->server)),
+            str_replace($root, null, realpath($this->customConfig)),
         ];
-        array_map([$this->files, 'deleteDirectory'], $cleanup);
+        $cleanup = array_filter($cleanup);
+        $cleanup = array_filter($cleanup, [$filesystem, 'isDirectory']);
+        array_map([$filesystem, 'deleteDir'], $cleanup);
 
         // Recreate altered local server
         exec(sprintf('rm -rf %s', $this->server));
         exec(sprintf('cp -a %s %s', $this->server.'-stub', $this->server));
+
     }
 }

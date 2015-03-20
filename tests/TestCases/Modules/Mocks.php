@@ -98,7 +98,7 @@ trait Mocks
      */
     protected function mockFiles(Closure $expectations = null)
     {
-        $this->mock('files', 'Illuminate\Filesystem\Filesystem', $expectations);
+        $this->mock('files', 'League\Flysystem\Filesystem', $expectations);
     }
 
     /**

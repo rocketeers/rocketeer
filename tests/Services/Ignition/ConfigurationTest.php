@@ -68,9 +68,9 @@ class ConfigurationTest extends RocketeerTestCase
         $this->igniter->exportConfiguration();
 
         // Create some fake files
-        $root = realpath(__DIR__.'/../../../.rocketeer');
+        $root = realpath(__DIR__.'/../../../').'/.rocketeer';
         $this->files->put($root.'/events.php', '');
-        $this->files->makeDirectory($root.'/tasks');
+        $this->files->createDir($root.'/tasks');
 
         $this->igniter->bindPaths();
 
@@ -83,7 +83,7 @@ class ConfigurationTest extends RocketeerTestCase
         $this->igniter->bindPaths();
         $this->igniter->exportConfiguration();
 
-        $this->assertFileExists(__DIR__.'/../../../.rocketeer');
+        $this->assertVirtualFileExists(__DIR__.'/../../../.rocketeer');
     }
 
     public function testCanReplaceStubsInConfigurationFile()
@@ -92,8 +92,8 @@ class ConfigurationTest extends RocketeerTestCase
         $path = $this->igniter->exportConfiguration();
         $this->igniter->updateConfiguration($path, ['scm_username' => 'foobar']);
 
-        $this->assertFileExists(__DIR__.'/../../../.rocketeer');
-        $this->assertContains('foobar', file_get_contents(__DIR__.'/../../../.rocketeer/scm.php'));
+        $this->assertVirtualFileExists(__DIR__.'/../../../.rocketeer');
+        $this->assertContains('foobar', $this->files->read(__DIR__.'/../../../.rocketeer/scm.php'));
     }
 
     public function testCanSetCurrentApplication()
@@ -106,8 +106,8 @@ class ConfigurationTest extends RocketeerTestCase
         $path = $this->igniter->exportConfiguration();
         $this->igniter->updateConfiguration($path, ['application_name' => 'foobar', 'scm_username' => 'foobar']);
 
-        $this->assertFileExists(__DIR__.'/../../../.rocketeer');
-        $this->assertContains('foobar', file_get_contents(__DIR__.'/../../../.rocketeer/config.php'));
+        $this->assertVirtualFileExists(__DIR__.'/../../../.rocketeer');
+        $this->assertContains('foobar', $this->files->read(__DIR__.'/../../../.rocketeer/config.php'));
     }
 
     public function testCanLoadFilesOrFolder()
@@ -115,7 +115,7 @@ class ConfigurationTest extends RocketeerTestCase
         $config                 = $this->customConfig;
         $this->app['path.base'] = dirname($config);
 
-        $this->files->makeDirectory($config.'/events', 0755, true);
+        $this->files->createDir($config.'/events');
         $this->files->put($config.'/tasks.php', '<?php Rocketeer\Facades\Rocketeer::task("DisplayFiles", ["ls", "ls"]);');
         $this->files->put($config.'/events/some-event.php', '<?php Rocketeer\Facades\Rocketeer::before("DisplayFiles", "whoami");');
 
@@ -137,7 +137,7 @@ class ConfigurationTest extends RocketeerTestCase
         $config                 = $this->customConfig;
         $this->app['path.base'] = dirname($config);
 
-        $this->files->makeDirectory($config.'/strategies', 0755, true);
+        $this->files->createDir($config.'/strategies');
         $this->files->put($config.'/strategies/Foobar.php', '<?php namespace Lol; class Foobar extends \Rocketeer\Abstracts\Strategies\AbstractStrategy { public function fire() { $this->runForCurrentRelease("ls"); } }');
 
         $this->igniter->bindPaths();
@@ -150,12 +150,12 @@ class ConfigurationTest extends RocketeerTestCase
 
     public function testCanUseFilesAndFoldersForContextualConfig()
     {
-        $file = $this->customConfig.'/connections/production/scm.php';
-        $this->files->makeDirectory(dirname($file), 0755, true);
-        $this->app['path.rocketeer.config'] = realpath($this->customConfig);
-        $this->configurationLoader->addFolder(realpath($this->customConfig));
+        $this->app['path.rocketeer.config'] = $this->customConfig;
+        $this->configurationLoader->addFolder($this->customConfig);
 
-        file_put_contents($file, '<?php return array("scm" => "svn");');
+        $file = $this->customConfig.'/connections/production/scm.php';
+        $this->files->createDir(dirname($file));
+        $this->files->write($file, '<?php return array("scm" => "svn");');
 
         $this->igniter->mergeContextualConfigurations();
         $this->assertEquals('svn', $this->rocketeer->getOption('scm.scm'));
@@ -163,7 +163,7 @@ class ConfigurationTest extends RocketeerTestCase
 
     public function testDoesntCrashIfNoSubfolder()
     {
-        $this->files->makeDirectory($this->customConfig, 0755, true);
+        $this->files->createDir($this->customConfig);
         $this->app['path.rocketeer.config'] = realpath($this->customConfig);
 
         $this->igniter->mergeContextualConfigurations();

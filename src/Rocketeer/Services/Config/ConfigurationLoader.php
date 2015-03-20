@@ -10,7 +10,9 @@
  */
 namespace Rocketeer\Services\Config;
 
+use Illuminate\Container\Container;
 use Illuminate\Support\Arr;
+use Rocketeer\Traits\HasLocator;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Resource\FileResource;
@@ -19,6 +21,8 @@ use Symfony\Component\Finder\SplFileInfo;
 
 class ConfigurationLoader
 {
+    use HasLocator;
+
     /**
      * The various found configurations.
      *
@@ -59,17 +63,20 @@ class ConfigurationLoader
     /**
      * ConfigurationLoader constructor.
      *
+     * @param Container               $app
      * @param LoaderInterface         $loader
      * @param ConfigurationDefinition $definition
      * @param Processor               $processor
      * @param ConfigurationCache      $cache
      */
     public function __construct(
+        Container $app,
         LoaderInterface $loader,
         ConfigurationDefinition $definition,
         Processor $processor,
         ConfigurationCache $cache
     ) {
+        $this->app        = $app;
         $this->loader     = $loader;
         $this->definition = $definition;
         $this->processor  = $processor;
@@ -123,7 +130,7 @@ class ConfigurationLoader
         $this->resources      = [];
 
         // Get which files are present in the configurations
-        $folders = array_filter($this->folders, 'is_dir');
+        $folders = array_filter($this->folders, [$this->files, 'isDirectory']);
         if (!$folders) {
             return [];
         }

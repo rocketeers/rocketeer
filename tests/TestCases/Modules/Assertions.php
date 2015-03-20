@@ -20,6 +20,28 @@ use Rocketeer\TestCases\Assertion;
  */
 trait Assertions
 {
+    //////////////////////////////////////////////////////////////////////
+    ///////////////////////////// FILESYSTEM /////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+
+    /**
+     * @param string $filename
+     * @param string $message
+     */
+    public function assertVirtualFileNotExists($filename, $message = '')
+    {
+        $this->assertFalse($this->files->has($filename), 'Failed asserting that file ' .$filename. ' does not exist');
+    }
+
+    /**
+     * @param string $filename
+     * @param string $message
+     */
+    public function assertVirtualFileExists($filename, $message = '')
+    {
+        $this->assertTrue($this->files->has($filename), 'Failed asserting that file ' .$filename. ' exists');
+    }
+
     /**
      * Assert that the number of files in local matches expected
      *

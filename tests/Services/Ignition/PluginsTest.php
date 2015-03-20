@@ -41,9 +41,9 @@ class PluginsTest extends RocketeerTestCase
             $destination = $this->app['path.rocketeer.config'].'/plugins/rocketeers/rocketeer-slack';
 
             return $mock
-                ->shouldReceive('isDirectory')->with($this->from)->andReturn(true)
-                ->shouldReceive('isDirectory')->with($destination)->andReturn(false)
-                ->shouldReceive('makeDirectory')->with($destination)->andReturn(true)
+                ->shouldReceive('has')->with($this->from)->andReturn(true)
+                ->shouldReceive('has')->with($destination)->andReturn(false)
+                ->shouldReceive('createDir')->with($destination)->andReturn(true)
                 ->shouldReceive('copyDirectory')->with($this->from, $destination);
         });
 
@@ -56,7 +56,7 @@ class PluginsTest extends RocketeerTestCase
 
         $this->mockFiles(function (MockInterface $mock) {
             return $mock
-                ->shouldReceive('isDirectory')->with($this->from)->andReturn(false)
+                ->shouldReceive('has')->with($this->from)->andReturn(false)
                 ->shouldReceive('copyDirectory')->never();
         });
 
@@ -71,9 +71,9 @@ class PluginsTest extends RocketeerTestCase
             $destination = $this->app['path'].'/config/packages/rocketeers/rocketeer-slack';
 
             return $mock
-                ->shouldReceive('isDirectory')->with($this->from)->andReturn(true)
-                ->shouldReceive('isDirectory')->with($destination)->andReturn(false)
-                ->shouldReceive('makeDirectory')->with($destination)->andReturn(true)
+                ->shouldReceive('has')->with($this->from)->andReturn(true)
+                ->shouldReceive('has')->with($destination)->andReturn(false)
+                ->shouldReceive('createDir')->with($destination)->andReturn(true)
                 ->shouldReceive('copyDirectory')->with($this->from, $destination);
         });
 

@@ -12,15 +12,23 @@ namespace Rocketeer\TestCases;
 
 use Closure;
 use Illuminate\Container\Container;
-use Illuminate\Filesystem\Filesystem;
+use League\Flysystem\Filesystem;
+use League\Flysystem\MountManager;
+use League\Flysystem\Vfs\VfsAdapter;
 use Mockery;
 use PHPUnit_Framework_TestCase;
 use Rocketeer\RocketeerServiceProvider;
+use Rocketeer\Services\Filesystem\GlobPlugin;
+use Rocketeer\Services\Filesystem\IncludePlugin;
+use Rocketeer\Services\Filesystem\IsDirectoryPlugin;
+use Rocketeer\Services\Filesystem\RequirePlugin;
+use Rocketeer\Services\Filesystem\UpsertPlugin;
 use Rocketeer\TestCases\Modules\Assertions;
 use Rocketeer\TestCases\Modules\Building;
 use Rocketeer\TestCases\Modules\Contexts;
 use Rocketeer\TestCases\Modules\Mocks;
 use Rocketeer\Traits\HasLocator;
+use VirtualFileSystem\FileSystem as Vfs;
 
 abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 {
@@ -34,6 +42,25 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
      * @type array
      */
     protected $defaults;
+
+    /**
+     * The path to the local fake server.
+     *
+     * @type string
+     */
+    protected $server;
+
+    /**
+     * @type string
+     */
+    protected $customConfig;
+
+    /**
+     * The path to the local deployments file.
+     *
+     * @type string
+     */
+    protected $deploymentsFile;
 
     /**
      * Override the trait constructor.
@@ -50,14 +77,20 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
     {
         $this->app = new Container();
 
-        // Laravel classes --------------------------------------------- /
+        // Paths -------------------------------------------------------- /
 
         $this->app->instance('path.base', '/src');
         $this->app->instance('path', '/src/app');
         $this->app->instance('path.public', '/src/public');
         $this->app->instance('path.storage', '/src/app/storage');
 
-        $this->app['files']             = new Filesystem();
+        // Create local paths
+        $this->home            = $_SERVER['HOME'];
+        $this->server          = realpath(__DIR__.'/../_server').'/foobar';
+        $this->customConfig    = $this->server.'/.rocketeer';
+        $this->deploymentsFile = $this->server.'/deployments.json';
+
+        // Replace some instances with mocks
         $this->app['artisan']           = $this->getArtisan();
         $this->app['rocketeer.remote']  = $this->getRemote();
         $this->app['rocketeer.command'] = $this->getCommand();
@@ -67,7 +100,9 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         $serviceProvider = new RocketeerServiceProvider($this->app);
         $serviceProvider->boot();
 
-        // Swap some instances with Mockeries -------------------------- /
+        $this->app->singleton('flysystem', function () {
+           return new MountManager(['local' => $this->files, 'remote' => $this->files]);
+        });
 
         $this->swapConfig();
     }
@@ -162,6 +197,8 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 
             $output = $mockedOutput ? $mockedOutput : shell_exec($task);
             $callback($output);
+
+            return $output;
         };
 
         $remote = Mockery::mock('Rocketeer\Services\Connections\Connections\Connection');
@@ -174,10 +211,10 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         $remote->shouldReceive('isCompatibleWith')->andReturn(true);
         $remote->shouldReceive('getUsername')->andReturn('anahkiasen');
         $remote->shouldReceive('getString')->andReturnUsing(function ($file) {
-            return file_get_contents($file);
+            return $this->files->read($file);
         });
         $remote->shouldReceive('putString')->andReturnUsing(function ($file, $contents) {
-            return file_put_contents($file, $contents);
+            return $this->files->upsert($file, $contents);
         });
         $remote->shouldReceive('display')->andReturnUsing(function ($line) {
             print $line.PHP_EOL;
@@ -247,7 +284,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
             'remote.permissions.files' => ['tests'],
             'remote.shared'            => ['tests/Elements'],
             'remote.keep_releases'     => 1,
-            'remote.root_directory'    => __DIR__.'/../_server/',
+            'remote.root_directory'    => dirname($this->server),
             'scm'                      => [
                 'branch'     => 'master',
                 'repository' => 'https://github.com/'.$this->repository,

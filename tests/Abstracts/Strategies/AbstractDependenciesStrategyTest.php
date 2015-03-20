@@ -20,7 +20,7 @@ class AbstractDependenciesStrategyTest extends RocketeerTestCase
         $bower = $this->builder->buildStrategy('Dependencies', 'Bower');
 
         $this->mockFiles(function (MockInterface $mock) {
-            return $mock->shouldReceive('exists')->with($this->paths->getUserHomeFolder().'/.bowerrc')->andReturn(true);
+            return $mock->shouldReceive('has')->with($this->paths->getUserHomeFolder().'/.bowerrc')->andReturn(true);
         });
 
         $this->mock('rocketeer.bash', 'Bash', function (MockInterface $mock) {
@@ -37,7 +37,7 @@ class AbstractDependenciesStrategyTest extends RocketeerTestCase
         $bower = $this->builder->buildStrategy('Dependencies', 'Bower');
 
         $this->mockFiles(function (MockInterface $mock) {
-            return $mock->shouldReceive('exists')->with($this->paths->getUserHomeFolder().'/.bowerrc')->andReturn(true);
+            return $mock->shouldReceive('has')->with($this->paths->getUserHomeFolder().'/.bowerrc')->andReturn(true);
         });
 
         $this->mock('rocketeer.bash', 'Bash', function (MockInterface $mock) {

@@ -12,11 +12,20 @@ namespace Rocketeer;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
+use League\Flysystem\Adapter\Local;
+use League\Flysystem\Filesystem;
+use League\Flysystem\MountManager;
+use League\Flysystem\Sftp\SftpAdapter;
 use Rocketeer\Services\Config\Configuration;
 use Rocketeer\Services\Config\ConfigurationCache;
 use Rocketeer\Services\Config\ConfigurationDefinition;
 use Rocketeer\Services\Config\ConfigurationPublisher;
 use Rocketeer\Services\Config\Loaders\PhpLoader;
+use Rocketeer\Services\Filesystem\GlobPlugin;
+use Rocketeer\Services\Filesystem\IncludePlugin;
+use Rocketeer\Services\Filesystem\IsDirectoryPlugin;
+use Rocketeer\Services\Filesystem\RequirePlugin;
+use Rocketeer\Services\Filesystem\UpsertPlugin;
 use Rocketeer\Services\Storages\LocalStorage;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\DelegatingLoader;
@@ -51,8 +60,8 @@ class RocketeerServiceProvider extends ServiceProvider
             $this->app->instance('Illuminate\Container\Container', $this->app);
         }
 
-        $this->bindPaths();
         $this->bindThirdPartyServices();
+        $this->bindPaths();
 
         // Bind Rocketeer's classes
         $this->bindCoreClasses();
@@ -99,7 +108,37 @@ class RocketeerServiceProvider extends ServiceProvider
      */
     public function bindThirdPartyServices()
     {
-        $this->app->bindIf('files', 'Illuminate\Filesystem\Filesystem');
+        $this->app->bind('flysystem', function ($app) {
+            // If no remote connection, only mount local
+            if (!$app->bound('rocketeer.connections') || !$app['rocketeer.connections']->hasCurrentConnection()) {
+                return new MountManager(['local' => $app['files']]);
+            }
+
+            /** @type \Rocketeer\Services\Credentials\Keys\ConnectionKey $connection */
+            $connection = $app['rocketeer.connections']->getCurrentConnection();
+            $remote     = new Filesystem(new SftpAdapter([
+                'host'       => $connection->host,
+                'username'   => $connection->username,
+                'password'   => $connection->password,
+                'privateKey' => $connection->key,
+                'root'       => $app['rocketeer.rocketeer']->getOption('remote.root_directory'),
+            ]));
+
+            return new MountManager([
+                'remote' => $remote,
+                'local'  => $app['files'],
+            ]);
+        });
+
+        $this->app->bindIf('files', function ($app) {
+            $local = new Filesystem(new Local('/'));
+            $local->addPlugin(new RequirePlugin());
+            $local->addPlugin(new IsDirectoryPlugin());
+            $local->addPlugin(new IncludePlugin());
+            $local->addPlugin(new UpsertPlugin());
+
+            return $local;
+        });
 
         $this->app->bindIf('request', function () {
             return Request::createFromGlobals();

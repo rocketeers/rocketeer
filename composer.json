@@ -22,7 +22,6 @@
     "illuminate/support": "^4.2.7",
     "illuminate/console": "~4.2",
     "illuminate/container": "^4.2.7",
-    "illuminate/filesystem": "~4.2",
     "jeremeamia/superclosure": "~2.0",
     "kherge/amend": "~3.0",
     "kzykhys/parallel": "0.1.*",
@@ -30,7 +29,9 @@
     "patchwork/utf8": "~1.1",
     "phpseclib/phpseclib": "^0.3.5",
     "symfony/config": "~2.6",
-    "symfony/var-dumper": "~2.6"
+    "symfony/var-dumper": "~2.6",
+    "league/flysystem": "~1.0",
+    "league/flysystem-sftp": "~1.0"
   },
   "require-dev": {
     "fabpot/php-cs-fixer": "2.0.*@dev",
@@ -40,7 +41,8 @@
     "phpunit/phpunit": "~4.4",
     "psy/psysh": "0.4.*",
     "rocketeers/rocketeer-laravel": "1.0.*@dev",
-    "kherge/box": "~2.5"
+    "kherge/box": "~2.5",
+    "league/flysystem-vfs": "~1.0"
   },
   "suggest": {
     "psy/psysh": "Required for the 'tinker' command",

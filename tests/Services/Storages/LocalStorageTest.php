@@ -24,7 +24,7 @@ class LocalStorageTest extends RocketeerTestCase
         $file = $this->localStorage->getFilepath();
         $this->localStorage->destroy();
 
-        $this->assertFileNotExists($file);
+        $this->assertVirtualFileNotExists($file);
     }
 
     public function testCanCreateDeploymentsFileAnywhere()
@@ -36,7 +36,7 @@ class LocalStorageTest extends RocketeerTestCase
 
         $storage = $this->paths->getRocketeerConfigFolder();
         $exists  = file_exists($storage);
-        $this->files->deleteDirectory($storage);
+        $this->files->deleteDir($storage);
         $this->assertTrue($exists);
     }
 
@@ -46,8 +46,8 @@ class LocalStorageTest extends RocketeerTestCase
             return $mock->shouldReceive('getConfigurationPath')->andReturn($this->server);
         });
 
-        $this->files->makeDirectory($this->server.'/tasks');
-        $this->files->makeDirectory($this->server.'/strategies');
+        $this->files->createDir($this->server.'/tasks');
+        $this->files->createDir($this->server.'/strategies');
         $this->files->put($this->server.'/bar.php', '<?php return ["bar"];');
         $this->files->put($this->server.'/foo.php', '<?php return ["foo"];');
         $this->files->put($this->server.'/strategies.php', '<?php return ["baz"];');

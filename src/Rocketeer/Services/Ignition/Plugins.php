@@ -92,8 +92,8 @@ class Plugins
             $destination = $destination.'/plugins/rocketeers/'.$package;
         }
 
-        if (!$this->files->isDirectory($destination)) {
-            $this->files->makeDirectory($destination, 0755, true);
+        if (!$this->files->has($destination)) {
+            $this->files->createDir($destination);
         }
 
         // Display success

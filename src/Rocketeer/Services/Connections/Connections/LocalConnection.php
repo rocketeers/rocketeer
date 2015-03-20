@@ -78,7 +78,7 @@ class LocalConnection implements ConnectionInterface, HasRolesInterface
      */
     public function put($local, $remote)
     {
-        $local = $this->files->get($local);
+        $local = $this->files->read($local);
 
         return $this->putString($local, $remote);
     }
@@ -94,7 +94,7 @@ class LocalConnection implements ConnectionInterface, HasRolesInterface
      */
     public function getString($remote)
     {
-        return $this->files->exists($remote) ? $this->files->get($remote) : null;
+        return $this->files->has($remote) ? $this->files->read($remote) : null;
     }
 
     /**

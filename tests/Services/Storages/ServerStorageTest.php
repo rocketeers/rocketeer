@@ -20,7 +20,7 @@ class ServerStorageTest extends RocketeerTestCase
         $file   = $server->getFilepath();
         $server->destroy();
 
-        $this->assertFileNotExists($file);
+        $this->assertVirtualFileNotExists($file);
     }
 
     public function testDoesntWriteInPretendMode()

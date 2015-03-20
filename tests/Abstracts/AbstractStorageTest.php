@@ -40,7 +40,7 @@ class AbstractStorageTest extends RocketeerTestCase
     {
         $this->localStorage->destroy();
 
-        $this->assertFalse($this->files->exists(__DIR__.'/_meta/deployments.json'));
+        $this->assertFalse($this->files->has(__DIR__.'/_meta/deployments.json'));
     }
 
     public function testCanFallbackIfFileDoesntExist()

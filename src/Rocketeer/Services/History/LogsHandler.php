@@ -64,7 +64,7 @@ class LogsHandler
             }
 
             // Create the file if it doesn't exist
-            if (!$this->files->exists($file)) {
+            if (!$this->files->has($file)) {
                 $this->createLogsFile($file);
             }
 
@@ -142,12 +142,12 @@ class LogsHandler
         $directory = dirname($file);
 
         // Create directory
-        if (!is_dir($directory)) {
-            $this->files->makeDirectory($directory, 0777, true);
+        if (!$this->files->isDirectory($directory)) {
+            $this->files->createDir($directory);
         }
 
         // Create file
-        if (!file_exists($file)) {
+        if (!$this->files->has($file)) {
             $this->files->put($file, '');
         }
     }

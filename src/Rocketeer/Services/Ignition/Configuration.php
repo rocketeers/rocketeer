@@ -92,8 +92,8 @@ class Configuration
         $format      = $this->getOption('format', true) ?: 'php';
 
         // Create directory
-        if (!is_dir($destination)) {
-            $this->files->makeDirectory($destination, 0755, true);
+        if (!$this->files->isDirectory($destination)) {
+            $this->files->createDir($destination);
         }
 
         // Consolidate or not configuration
@@ -121,15 +121,15 @@ class Configuration
     {
         // Replace stub values in files
         $folder = strpos($folder, 'config.') !== false ? dirname($folder) : $folder;
-        $files  = $this->files->files($folder);
+        $files  = (array) $this->files->listContents($folder, true);
         foreach ($files as $file) {
             foreach ($values as $name => $value) {
                 $pattern  = '{'.$name.'}';
-                $contents = file_get_contents($file);
+                $contents = $this->files->read($file['path']);
 
                 if (strpos($contents, $pattern) !== false) {
                     $contents = str_replace($pattern, $value, $contents);
-                    $this->files->put($file, $contents);
+                    $this->files->put($file['path'], $contents);
                 }
             }
         }
@@ -150,13 +150,13 @@ class Configuration
     {
         // Cancel if not ignited yet
         $configuration = $this->app['path.rocketeer.config'];
-        if (!is_dir($configuration)) {
+        if (!$this->files->isDirectory($configuration)) {
             return;
         }
 
         // Cancel if the subfolders don't exist
         $existing = array_filter($folders, function ($path) use ($configuration) {
-            return is_dir($configuration.DS.$path);
+            return $this->files->isDirectory($configuration.DS.$path);
         });
         if (!$existing) {
             return;
@@ -225,13 +225,13 @@ class Configuration
         foreach ($paths as $key => $file) {
 
             // Check whether we provided a file or folder
-            if (!is_dir($file) && file_exists($file.'.php')) {
+            if (!$this->files->isDirectory($file) && $this->files->has($file.'.php')) {
                 $file .= '.php';
             }
 
             // Use configuration in current folder if none found
             $realpath = realpath('.').DS.basename($file);
-            if (!file_exists($file) && file_exists($realpath)) {
+            if (!$this->files->has($file) && $this->files->has($realpath)) {
                 $file = $realpath;
             }
 
@@ -275,13 +275,14 @@ class Configuration
 
         // If we have one unified tasks file, include it
         $file = $this->app['path.rocketeer.'.$handle];
-        if (!is_dir($file) && file_exists($file) && $file !== 'strategies.php') {
-            include $file;
+        if (!$this->files->isDirectory($file) && $this->files->has($file) && $file !== 'strategies.php') {
+
+            $this->files->include($file);
         } // Else include its contents
-        elseif (is_dir($file)) {
-            $folder = glob($file.DS.'*.php');
-            foreach ($folder as $file) {
-                include $file;
+        elseif ($this->files->isDirectory($file) && $this->files->has($file)) {
+            $files = (new Finder())->in($this->files->getAdapter()->applyPathPrefix($file))->name('*.php')->files();
+            foreach ($files as $file) {
+                $this->files->include($this->files->getAdapter()->removePathPrefix($file));
             }
         }
     }

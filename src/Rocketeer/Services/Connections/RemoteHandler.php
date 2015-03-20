@@ -11,6 +11,8 @@
 namespace Rocketeer\Services\Connections;
 
 use Exception;
+use League\Flysystem\Filesystem;
+use League\Flysystem\Sftp\SftpAdapter;
 use Rocketeer\Exceptions\ConnectionException;
 use Rocketeer\Exceptions\MissingCredentialsException;
 use Rocketeer\Interfaces\CredentialsExceptionInterface;
@@ -82,23 +84,34 @@ class RemoteHandler
     }
 
     /**
-     * @param ConnectionKey $connection
+     * @param ConnectionKey $connectionKey
      *
-     * @throws CredentialsExceptionInterface
      * @return Connection
+     * @throws CredentialsExceptionInterface
      */
-    protected function makeConnection(ConnectionKey $connection)
+    protected function makeConnection(ConnectionKey $connectionKey)
     {
-        $credentials = $connection->getServerCredentials();
+        $credentials = $connectionKey->getServerCredentials();
 
         if (!isset($credentials['host'])) {
-            throw new MissingCredentialsException('Host is required for '.$connection->name);
+            throw new MissingCredentialsException('Host is required for '.$connectionKey->name);
         }
 
+        // Create connection
         $connection = new Connection(
-            $connection,
+            $connectionKey,
             $this->getAuth($credentials)
         );
+
+        // Set filesystem on connection
+        $filesystem = new Filesystem(new SftpAdapter([
+            'host'       => $connectionKey->host,
+            'username'   => $connectionKey->username,
+            'password'   => $connectionKey->password,
+            'privateKey' => $connectionKey->key,
+            'root'       => $this->rocketeer->getOption('remote.root_directory'),
+        ]));
+        $connection->setFilesystem($filesystem);
 
         // Set output on connection
         $output = $this->hasCommand() ? $this->command->getOutput() : new NullOutput();

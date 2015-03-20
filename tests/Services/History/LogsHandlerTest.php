@@ -44,7 +44,7 @@ class LogsHandlerTest extends RocketeerTestCase
         $this->logs->log('foobar');
         $this->logs->write();
         $logs = $this->logs->getCurrentLogsFile();
-        $logs = file_get_contents($logs);
+        $logs = $this->files->read($logs);
 
         $this->assertContains('foobar', $logs);
     }
@@ -56,8 +56,8 @@ class LogsHandlerTest extends RocketeerTestCase
         $this->logs->write();
         $logs = $this->logs->getCurrentLogsFile();
 
-        $this->assertFileExists($logs);
-        $this->app['files']->deleteDirectory(dirname($logs));
+        $this->assertVirtualFileExists($logs);
+        $this->app['files']->deleteDir(dirname($logs));
     }
 
     public function testDoesntRecomputeTheLogsFilenameEveryTime()

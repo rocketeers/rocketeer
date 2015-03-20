@@ -45,11 +45,11 @@ class Bower extends AbstractPackageManager
         $paths = array_filter([
             $this->paths->getApplicationPath().'.bowerrc',
             $this->paths->getUserHomeFolder().'/.bowerrc',
-        ], [$this->files, 'exists']);
+        ], [$this->files, 'has']);
 
         $file = head($paths);
         if ($file) {
-            $file = $this->files->get($file);
+            $file = $this->files->read($file);
             $file = json_decode($file, true);
         }
 

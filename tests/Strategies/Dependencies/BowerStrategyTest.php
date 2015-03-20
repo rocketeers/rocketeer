@@ -81,15 +81,15 @@ class BowerStrategyTest extends RocketeerTestCase
     {
         $this->mockFiles(function (MockInterface $mock) {
             return $mock
-                ->shouldReceive('exists')->with($this->paths->getUserHomeFolder().'/.bowerrc')->andReturn(true)
-                ->shouldReceive('get')->once()->andReturn('{"directory": "components"}');
+                ->shouldReceive('has')->with($this->paths->getUserHomeFolder().'/.bowerrc')->andReturn(true)
+                ->shouldReceive('read')->once()->andReturn('{"directory": "components"}');
         });
 
         $bower = $this->builder->buildBinary('Bower');
         $this->assertEquals('components', $bower->getDependenciesFolder());
 
         $this->mockFiles(function (MockInterface $mock) {
-            return $mock->shouldReceive('exists')->andReturn(false);
+            return $mock->shouldReceive('has')->andReturn(false);
         });
 
         $bower = $this->builder->buildBinary('Bower');

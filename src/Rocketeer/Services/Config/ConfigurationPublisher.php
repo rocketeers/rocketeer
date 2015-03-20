@@ -10,7 +10,7 @@
  */
 namespace Rocketeer\Services\Config;
 
-use Illuminate\Filesystem\Filesystem;
+use League\Flysystem\Filesystem;
 use Rocketeer\Services\Config\Dumpers\JsonReferenceDumper;
 use Rocketeer\Services\Config\Dumpers\PhpReferenceDumper;
 use Symfony\Component\Config\Definition\ArrayNode;
@@ -89,7 +89,7 @@ class ConfigurationPublisher
      */
     public function publish($path, $format = 'php', $node = null)
     {
-        if (is_dir($path)) {
+        if ($this->files->isDirectory($path)) {
             foreach (['config', 'hooks', 'paths', 'remote', 'scm', 'stages', 'strategies'] as $file) {
                 $this->publish($path.'/'.$file.'.'.$format, $format, $file);
             }

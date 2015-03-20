@@ -15,7 +15,6 @@ use Rocketeer\Services\Credentials\Keys\RepositoryKey;
 
 /**
  * @mixin \Rocketeer\TestCases\RocketeerTestCase
- *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait Contexts
@@ -36,7 +35,10 @@ trait Contexts
      */
     protected function mockState(array $state)
     {
-        file_put_contents($this->server.'/state.json', json_encode($state));
+        $contents = json_encode($state);
+        $file     = $this->server.'/state.json';
+
+        $this->files->upsert($file, $contents);
     }
 
     /**
@@ -158,13 +160,13 @@ trait Contexts
 
         // Create directory if necessary
         $folder = dirname($manifest);
-        if (!is_dir($folder)) {
-            mkdir($folder, 0777, true);
+        if (!$this->files->isDirectory($folder)) {
+            $this->files->createDir($folder);
         }
 
         if ($uses) {
             $this->files->put($manifest, $contents);
-        } else {
+        } elseif ($this->files->has($manifest)) {
             $this->files->delete($manifest);
         }
     }
