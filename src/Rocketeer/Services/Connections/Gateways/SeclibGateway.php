@@ -9,14 +9,14 @@
  */
 namespace Rocketeer\Services\Connections\Gateways;
 
+use Crypt_RSA;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
-use Crypt_RSA;
 use Net_SFTP;
 use Net_SSH2;
-use System_SSH_Agent;
 use Rocketeer\Interfaces\GatewayInterface;
+use System_SSH_Agent;
 
 /**
  * A wrapper around phpseclib.
