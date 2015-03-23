@@ -14,13 +14,6 @@ Rocketeer follows the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.ht
 - Fixed commands run in folders not working with LocalConnection
 - Fixed port and key not being passed to rsync
 
-## [2.1.2] - 2015-03-10
-
-### Fixed
-- Fixed an issue prevent using a custom command clas
-- Fixed commands run in folders not working with LocalConnection
-- Fixed port and key not being passed to rsync
-
 ## [2.1.1] - 2015-03-01
 
 ### Fixed
