@@ -21,6 +21,7 @@ use Rocketeer\Services\Config\ConfigurationCache;
 use Rocketeer\Services\Config\ConfigurationDefinition;
 use Rocketeer\Services\Config\ConfigurationPublisher;
 use Rocketeer\Services\Config\Loaders\PhpLoader;
+use Rocketeer\Services\Filesystem\ConnectionKeyAdapter;
 use Rocketeer\Services\Filesystem\GlobPlugin;
 use Rocketeer\Services\Filesystem\Plugins\IncludePlugin;
 use Rocketeer\Services\Filesystem\Plugins\IsDirectoryPlugin;
@@ -116,13 +117,8 @@ class RocketeerServiceProvider extends ServiceProvider
 
             /** @type \Rocketeer\Services\Credentials\Keys\ConnectionKey $connection */
             $connection = $app['rocketeer.connections']->getCurrentConnection();
-            $remote     = new Filesystem(new SftpAdapter([
-                'host'       => $connection->host,
-                'username'   => $connection->username,
-                'password'   => $connection->password,
-                'privateKey' => $connection->key,
-                'root'       => $app['rocketeer.rocketeer']->getOption('remote.root_directory'),
-            ]));
+            $adapter    = new ConnectionKeyAdapter($connection, $app['rocketeer.rocketeer']->getOption('remote.root_directory'));
+            $remote     = new Filesystem($adapter);
 
             return new MountManager([
                 'remote' => $remote,
@@ -130,7 +126,7 @@ class RocketeerServiceProvider extends ServiceProvider
             ]);
         });
 
-        $this->app->bindIf('files', function ($app) {
+        $this->app->bindIf('files', function () {
             $local = new Filesystem(new Local('/'));
             $local->addPlugin(new RequirePlugin());
             $local->addPlugin(new IsDirectoryPlugin());
