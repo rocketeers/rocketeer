@@ -62,4 +62,11 @@ class RocketeerTest extends RocketeerTestCase
         $stage = Rocketeer::getDetectedStage('foobar', $path);
         $this->assertEquals(false, $stage);
     }
+
+    public function testCanUserServerContextualConfiguration()
+    {
+        $this->config->set('connections.production.servers.0.config.remote.root_directory', '/foo/bar');
+
+        $this->assertEquals('/foo/bar', $this->rocketeer->getOption('remote.root_directory'));
+    }
 }
