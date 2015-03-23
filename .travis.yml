@@ -10,6 +10,10 @@ php:
   - 7.0
   - hhvm
 
+matrix:
+  allow_failures:
+    - php: 7.0
+
 env:
   matrix:
     - PREFER_LOWEST="--prefer-lowest"
