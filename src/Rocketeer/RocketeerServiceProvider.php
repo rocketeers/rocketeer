@@ -22,6 +22,7 @@ use Rocketeer\Services\Config\ConfigurationDefinition;
 use Rocketeer\Services\Config\ConfigurationPublisher;
 use Rocketeer\Services\Config\Loaders\PhpLoader;
 use Rocketeer\Services\Filesystem\ConnectionKeyAdapter;
+use Rocketeer\Services\Filesystem\FilesystemsMounter;
 use Rocketeer\Services\Filesystem\GlobPlugin;
 use Rocketeer\Services\Filesystem\Plugins\IncludePlugin;
 use Rocketeer\Services\Filesystem\Plugins\IsDirectoryPlugin;
@@ -109,24 +110,11 @@ class RocketeerServiceProvider extends ServiceProvider
      */
     public function bindThirdPartyServices()
     {
-        $this->app->bind('flysystem', function ($app) {
-            // If no remote connection, only mount local
-            if (!$app->bound('rocketeer.connections') || !$app['rocketeer.connections']->hasCurrentConnection()) {
-                return new MountManager(['local' => $app['files']]);
-            }
-
-            /** @type \Rocketeer\Services\Credentials\Keys\ConnectionKey $connection */
-            $connection = $app['rocketeer.connections']->getCurrentConnection();
-            $adapter    = new ConnectionKeyAdapter($connection, $app['rocketeer.rocketeer']->getOption('remote.root_directory'));
-            $remote     = new Filesystem($adapter);
-
-            return new MountManager([
-                'remote' => $remote,
-                'local'  => $app['files'],
-            ]);
+        $this->app->singleton('flysystem', function ($app) {
+            return (new FilesystemsMounter($app))->getMountManager();
         });
 
-        $this->app->bindIf('files', function () {
+        $this->app->singleton('files', function () {
             $local = new Filesystem(new Local('/'));
             $local->addPlugin(new RequirePlugin());
             $local->addPlugin(new IsDirectoryPlugin());
