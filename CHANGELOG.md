@@ -2,6 +2,18 @@
 
 Rocketeer follows the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.html) spec.
 
+## [2.1.3] - 2015-03-23
+
+### Fixed
+- Fixed an issue with multiservers deployments
+
+## [2.1.2] - 2015-03-10
+
+### Fixed
+- Fixed an issue prevent using a custom command clas
+- Fixed commands run in folders not working with LocalConnection
+- Fixed port and key not being passed to rsync
+
 ## [2.1.2] - 2015-03-10
 
 ### Fixed
@@ -370,6 +382,7 @@ Rocketeer follows the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.ht
 - Added config file
 - Added `deploy:setup` and `deploy:deploy` commands
 
+[2.1.3]: https://github.com/rocketeers/rocketeer/compare/2.1.2...2.1.3
 [2.1.2]: https://github.com/rocketeers/rocketeer/compare/2.1.1...2.1.2
 [2.1.1]: https://github.com/rocketeers/rocketeer/compare/2.1.0...2.1.1
 [2.1.0]: https://github.com/rocketeers/rocketeer/compare/2.0.6...2.1.0

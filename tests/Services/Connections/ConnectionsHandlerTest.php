@@ -15,6 +15,15 @@ use Rocketeer\TestCases\RocketeerTestCase;
 
 class ConnectionsHandlerTest extends RocketeerTestCase
 {
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->username   = 'Anahkiasen';
+        $this->password   = 'foobar';
+        $this->host       = 'some.host';
+    }
+
     ////////////////////////////////////////////////////////////////////
     //////////////////////////////// TESTS /////////////////////////////
     ////////////////////////////////////////////////////////////////////
@@ -220,9 +229,83 @@ class ConnectionsHandlerTest extends RocketeerTestCase
         $this->assertEquals([], $this->connections->getServerCredentials());
     }
 
+    public function testCanHaveMultipleServerConnections()
+    {
+        $this->swapConfig(array(
+            'rocketeer::connections' => array(
+                'production-multiserver' => array(
+                    'servers' => $this->mockRuntimeMultiserverConnection()
+                ),
+            ),
+        ));
+        $this->mockCommand(array(
+            'on' => 'production-multiserver'
+        ));
+        $this->credentials->getServerCredentials();
+
+        $credentials = $this->connections->getServerCredentials('production-multiserver', 0);
+        $this->assertEquals(array(
+            'host'          => "10.1.1.1",
+            'username'      => $this->username,
+            'password'      => '',
+            'keyphrase'     => '',
+            'key'           => '',
+            'agent'         => true,
+            'agent-forward' => true,
+            'db_role'       => false
+        ), $credentials);
+        // also check handle generation as handles are used for connection cache keying in RemoteHandler
+        $this->assertEquals("production-multiserver/0", $this->connections->getHandle("production-multiserver", 0));
+
+        $credentials = $this->connections->getServerCredentials('production-multiserver', 1);
+        $this->assertEquals(array(
+            'host'          => "10.1.1.2",
+            'username'      => $this->username,
+            'password'      => '',
+            'keyphrase'     => '',
+            'key'           => '',
+            'agent'         => true,
+            'agent-forward' => true,
+            'db_role'       => false
+        ), $credentials);
+        $this->assertEquals("production-multiserver/1", $this->connections->getHandle("production-multiserver", 1));
+
+        $credentials = $this->connections->getServerCredentials('production-multiserver', 2);
+        $this->assertEquals(array(
+            'host'          => "10.1.1.3",
+            'username'      => $this->username,
+            'password'      => '',
+            'keyphrase'     => '',
+            'key'           => '',
+            'agent'         => true,
+            'agent-forward' => true,
+            'db_role'       => false
+        ), $credentials);
+        $this->assertEquals("production-multiserver/2", $this->connections->getHandle("production-multiserver", 2));
+    }
+
     ////////////////////////////////////////////////////////////////////
     //////////////////////////////// HELPERS ///////////////////////////
     ////////////////////////////////////////////////////////////////////
+
+    /**
+     * Mock a set of runtime injected credentials
+     */
+    protected function mockRuntimeMultiserverConnection()
+    {
+        return array_map(
+            function ($ip) {
+                return [
+                    'host'          => $ip,
+                    'username'      => $this->username,
+                    'agent'         => true,
+                    'agent-forward' => true,
+                    'db_role'       => false
+                ];
+            },
+            ['10.1.1.1', '10.1.1.2', '10.1.1.3']
+        );
+    }
 
     /**
      * Make the config return specific SCM config.

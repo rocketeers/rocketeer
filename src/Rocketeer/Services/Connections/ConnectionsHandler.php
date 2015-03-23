@@ -70,10 +70,6 @@ class ConnectionsHandler
      */
     public function getHandle($connection = null, $server = null, $stage = null)
     {
-        if ($this->handle) {
-            return $this->handle;
-        }
-
         // Get identifiers
         $connection = $connection ?: $this->getConnection();
         $server     = $server ?: $this->getServer();
