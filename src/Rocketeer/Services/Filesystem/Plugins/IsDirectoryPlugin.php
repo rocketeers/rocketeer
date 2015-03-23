@@ -1,13 +1,10 @@
 <?php
 namespace Rocketeer\Services\Filesystem\Plugins;
 
-class IsDirectoryPlugin extends AbstractFilesystemPlugin
-{
-    /**
-     * @type string
-     */
-    protected $function = 'is_dir';
+use League\Flysystem\Plugin\AbstractPlugin;
 
+class IsDirectoryPlugin extends AbstractPlugin
+{
     /**
      * Get the method name.
      *
@@ -16,5 +13,17 @@ class IsDirectoryPlugin extends AbstractFilesystemPlugin
     public function getMethod()
     {
         return 'isDirectory';
+    }
+
+    /**
+     * @param string|null $path
+     *
+     * @return bool
+     */
+    public function handle($path = null)
+    {
+        $path = $this->filesystem->getAdapter()->applyPathPrefix($path);
+
+        return is_dir($path);
     }
 }
