@@ -1,8 +1,5 @@
 <?php
-namespace Rocketeer\Services\Filesystem;
-
-use League\Flysystem\FilesystemInterface;
-use League\Flysystem\PluginInterface;
+namespace Rocketeer\Services\Filesystem\Plugins;
 
 class IsDirectoryPlugin extends AbstractFilesystemPlugin
 {

@@ -12,23 +12,16 @@ namespace Rocketeer\TestCases;
 
 use Closure;
 use Illuminate\Container\Container;
-use League\Flysystem\Filesystem;
 use League\Flysystem\MountManager;
-use League\Flysystem\Vfs\VfsAdapter;
 use Mockery;
 use PHPUnit_Framework_TestCase;
 use Rocketeer\RocketeerServiceProvider;
 use Rocketeer\Services\Filesystem\GlobPlugin;
-use Rocketeer\Services\Filesystem\IncludePlugin;
-use Rocketeer\Services\Filesystem\IsDirectoryPlugin;
-use Rocketeer\Services\Filesystem\RequirePlugin;
-use Rocketeer\Services\Filesystem\UpsertPlugin;
 use Rocketeer\TestCases\Modules\Assertions;
 use Rocketeer\TestCases\Modules\Building;
 use Rocketeer\TestCases\Modules\Contexts;
 use Rocketeer\TestCases\Modules\Mocks;
 use Rocketeer\Traits\HasLocator;
-use VirtualFileSystem\FileSystem as Vfs;
 
 abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 {

@@ -12,7 +12,7 @@ namespace Rocketeer\TestCases;
 
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
-use Rocketeer\Services\Filesystem\IsDirectoryPlugin;
+use Rocketeer\Services\Filesystem\Plugins\IsDirectoryPlugin;
 use Rocketeer\Services\Storages\LocalStorage;
 
 abstract class RocketeerTestCase extends ContainerTestCase

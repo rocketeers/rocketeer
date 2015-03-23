@@ -1,5 +1,5 @@
 <?php
-namespace Rocketeer\Services\Filesystem;
+namespace Rocketeer\Services\Filesystem\Plugins;
 
 use League\Flysystem\Plugin\AbstractPlugin;
 

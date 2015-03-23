@@ -1,9 +1,9 @@
 <?php
-namespace Rocketeer\Services\Filesystem;
+namespace Rocketeer\Services\Filesystem\Plugins;
 
 use League\Flysystem\Plugin\AbstractPlugin;
 
-class RequirePlugin extends AbstractPlugin
+class IncludePlugin extends AbstractPlugin
 {
     /**
      * Get the method name.
@@ -12,7 +12,7 @@ class RequirePlugin extends AbstractPlugin
      */
     public function getMethod()
     {
-        return 'readRequire';
+        return 'include';
     }
 
     /**
@@ -20,10 +20,10 @@ class RequirePlugin extends AbstractPlugin
      *
      * @return bool
      */
-    public function handle($path = null)
+    public function handle($path)
     {
         $path = $this->filesystem->getAdapter()->applyPathPrefix($path);
 
-        return require $path;
+        return include $path;
     }
 }
