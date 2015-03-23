@@ -38,7 +38,7 @@
     "mockery/mockery": "^0.9.1",
     "nesbot/carbon": "~1.13",
     "phpunit/phpunit": "~4.4",
-    "psy/psysh": "0.3.*",
+    "psy/psysh": "0.4.*",
     "rocketeers/rocketeer-laravel": "1.0.*@dev",
     "kherge/box": "~2.5"
   },
