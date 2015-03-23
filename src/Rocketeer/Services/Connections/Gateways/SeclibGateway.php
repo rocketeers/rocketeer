@@ -154,7 +154,7 @@ class SeclibGateway implements GatewayInterface
      */
     public function put($local, $remote)
     {
-        $this->getConnection()->put($remote, $local, Net_SFTP::SOURCE_LOCAL_FILE);
+        $this->getConnection()->put($remote, $local, NET_SFTP_LOCAL_FILE);
     }
 
     /**
@@ -175,7 +175,7 @@ class SeclibGateway implements GatewayInterface
      */
     public function nextLine()
     {
-        $value = $this->getConnection()->_get_channel_packet(Net_SSH2::CHANNEL_EXEC);
+        $value = $this->getConnection()->_get_channel_packet(NET_SSH2_CHANNEL_EXEC);
 
         return $value === true ? null : $value;
     }
