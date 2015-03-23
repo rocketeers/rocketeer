@@ -40,6 +40,7 @@ Rocketeer follows the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.ht
 
 ### Fixed
 - Fixed an issue when updating an application with SVN
+- Fixed an issue where hidden inputs wouldn't work on Windows using the PHAR
 - Fixed incorrect version in generated PHAR
 
 ## [2.0.5] - 2015-02-11
