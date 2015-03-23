@@ -14,7 +14,6 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 use Net_SFTP;
-use Net_SSH2;
 use Rocketeer\Interfaces\GatewayInterface;
 use System_SSH_Agent;
 
