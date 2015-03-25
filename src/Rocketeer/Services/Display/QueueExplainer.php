@@ -222,10 +222,11 @@ class QueueExplainer
         // Build handle
         $numberConnections = count($this->connections->getAvailableConnections());
         $numberStages      = count($this->connections->getAvailableStages());
+        $numberServers     = count($this->connections->getCurrentConnection()->servers);
 
         $tree = null;
-        if ($numberConnections > 1 || $numberStages > 1) {
-            $handle  = $this->connections->getCurrentConnection();
+        if ($numberConnections > 1 || $numberStages > 1 || $numberServers > 1) {
+            $handle  = $this->connections->getCurrentConnection()->toLongHandle();
             $spacing = $this->getLongestSize() - strlen($handle);
             $spacing = max(1, $spacing);
             $spacing = str_repeat(' ', $spacing);

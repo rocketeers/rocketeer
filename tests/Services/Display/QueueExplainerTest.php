@@ -61,6 +61,22 @@ class QueueExplainerTest extends RocketeerTestCase
         $this->explainer->line('foobar');
     }
 
+    public function testDisplayHandleIfMultipleServersButSingleConnectionAndStage()
+    {
+        $this->swapConnections([
+            'production' => [
+                'servers' => [
+                    ['host' => 'foo.com'],
+                    ['host' => 'bar.com'],
+                ]
+            ],
+        ]);
+
+        $this->expectOutputString('<fg=cyan>production/foo.com</fg=cyan>             |=> foobar');
+
+        $this->explainer->line('foobar');
+    }
+
     public function testCanDisplayBasicMessage()
     {
         $this->expectOutputString('<fg=cyan>production</fg=cyan> |=> foobar');
