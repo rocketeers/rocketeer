@@ -155,4 +155,16 @@ class CoreTest extends RocketeerTestCase
 
         $this->assertEquals(['foo', 'bar', 'baz'], $commands);
     }
+
+    public function testDoesntAffectGlobalLocalStateWhenUsingOnLocal()
+    {
+        $this->rocketeer->setLocal(true);
+        $this->assertTrue($this->rocketeer->isLocal());
+
+        $this->task()->onLocal(function () {
+           // ...
+        });
+
+        $this->assertTrue($this->rocketeer->isLocal());
+    }
 }

@@ -72,11 +72,11 @@ trait Core
      */
     public function onLocal(callable $callback)
     {
+        $current = $this->rocketeer->isLocal();
+
         $this->rocketeer->setLocal(true);
-
         $results = $callback($this);
-
-        $this->rocketeer->setLocal(false);
+        $this->rocketeer->setLocal($current);
 
         return $results;
     }

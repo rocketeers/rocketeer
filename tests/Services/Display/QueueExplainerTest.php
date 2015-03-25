@@ -72,7 +72,7 @@ class QueueExplainerTest extends RocketeerTestCase
             ],
         ]);
 
-        $this->expectOutputString('<fg=cyan>production/foo.com</fg=cyan>             |=> foobar');
+        $this->expectOutputString('<fg=cyan>@production/foo.com</fg=cyan> |=> foobar');
 
         $this->explainer->line('foobar');
     }
