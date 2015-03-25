@@ -52,6 +52,19 @@ class ReleasesManagerTest extends RocketeerTestCase
         ], $validation);
     }
 
+    public function testCanMarkRelease()
+    {
+        $this->releasesManager->markRelease(123456789, false);
+        $validation = $this->releasesManager->getValidationFile();
+
+        $this->assertEquals([
+            10000000000000 => true,
+            15000000000000 => false,
+            20000000000000 => true,
+            123456789      => false,
+        ], $validation);
+    }
+
     public function testCanMarkReleaseAsValid()
     {
         $this->releasesManager->markReleaseAsValid(123456789);

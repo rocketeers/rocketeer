@@ -204,19 +204,30 @@ class ReleasesManager
     }
 
     /**
+     * Assign a state to a release.
+     *
+     * @param string|null $release
+     * @param bool        $state
+     */
+    public function markRelease($release = null, $state = true)
+    {
+        $release = $release ?: $this->getCurrentRelease();
+
+        // If the release is not null, mark it as valid
+        if ($release) {
+            $this->state[$release] = $state;
+            $this->storage->set($release, $state);
+        }
+    }
+
+    /**
      * Mark a release as valid.
      *
      * @param string|null $release
      */
     public function markReleaseAsValid($release = null)
     {
-        $release = $release ?: $this->getCurrentRelease();
-
-        // If the release is not null, mark it as valid
-        if ($release) {
-            $this->state[$release] = true;
-            $this->storage->set($release, true);
-        }
+        $this->markRelease($release, true);
     }
 
     /**
