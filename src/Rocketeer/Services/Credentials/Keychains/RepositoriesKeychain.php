@@ -93,13 +93,15 @@ trait RepositoriesKeychain
             return $branch;
         }
 
-        // Compute the fallback branch
-        $fallback = $this->bash->onLocal(function () {
-            return $this->scm->runSilently('currentBranch');
-        });
-        $fallback = $fallback ?: 'master';
-        $fallback = trim($fallback);
-        $branch   = $this->rocketeer->getOption('scm.branch') ?: $fallback;
+        $branch = $this->rocketeer->getOption('scm.branch');
+        if (!$branch) {
+            // Compute the fallback branch
+            $fallback = $this->bash->onLocal(function () {
+                return $this->scm->runSilently('currentBranch');
+            });
+            $fallback = $fallback ?: 'master';
+            $branch = trim($fallback);
+        }
 
         return $branch;
     }
