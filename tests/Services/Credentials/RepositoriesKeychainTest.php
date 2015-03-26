@@ -108,6 +108,15 @@ class RepositoriesKeychainTest extends RocketeerTestCase
         $this->assertRepositoryEquals('https://foo%40bar.com:fo%24obar@github.com/foo/bar');
     }
 
+    public function testUsesConfigBeforeTryingToGuessBranch()
+    {
+        $this->mock('rocketeer.bash', 'Bash', function (MockInterface $mock) {
+           return $mock->shouldReceive('onLocal')->never();
+        });
+
+        $this->credentials->getCurrentRepository();
+    }
+
     ////////////////////////////////////////////////////////////////////
     //////////////////////////////// HELPERS ///////////////////////////
     ////////////////////////////////////////////////////////////////////

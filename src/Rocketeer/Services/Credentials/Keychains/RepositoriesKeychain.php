@@ -17,7 +17,6 @@ use Rocketeer\Services\Credentials\Keys\RepositoryKey;
  * Finds credentials and informations about repositories.
  *
  * @mixin \Rocketeer\Services\Credentials\CredentialsHandler
- *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait RepositoriesKeychain
@@ -93,14 +92,15 @@ trait RepositoriesKeychain
             return $branch;
         }
 
+        // Get branch from config, else compute the fallback
         $branch = $this->rocketeer->getOption('scm.branch');
         if (!$branch) {
-            // Compute the fallback branch
             $fallback = $this->bash->onLocal(function () {
                 return $this->scm->runSilently('currentBranch');
             });
+
             $fallback = $fallback ?: 'master';
-            $branch = trim($fallback);
+            $branch   = trim($fallback);
         }
 
         return $branch;
