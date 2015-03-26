@@ -2,6 +2,11 @@
 
 Rocketeer follows the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.html) spec.
 
+## [2.1.4] - 2015-03-26
+
+### Fixed
+- Fixed HHVM support
+
 ## [2.1.3] - 2015-03-23
 
 ### Fixed

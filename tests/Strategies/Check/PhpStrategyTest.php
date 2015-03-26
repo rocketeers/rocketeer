@@ -64,7 +64,7 @@ class PhpStrategyTest extends RocketeerTestCase
 
     public function testCanCheckForHhvmExtensions()
     {
-        $this->mockRemote('HipHop VM 3.0.1 (rel)'.PHP_EOL.'Some more stuff');
+        $this->mockRemote('1');
         $exists = $this->strategy->checkPhpExtension('_hhvm');
 
         $this->assertTrue($exists);
