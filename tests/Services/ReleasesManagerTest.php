@@ -40,6 +40,13 @@ class ReleasesManagerTest extends RocketeerTestCase
         $this->assertEquals([1 => 15000000000000], $validation);
     }
 
+    public function testCanGetValidReleases()
+    {
+        $validation = $this->releasesManager->getValidReleases();
+
+        $this->assertEquals([0 => 20000000000000, 1 => 10000000000000], $validation);
+    }
+
     public function testCanUpdateStateOfReleases()
     {
         $this->releasesManager->markReleaseAsValid(15000000000000);
@@ -114,9 +121,33 @@ class ReleasesManagerTest extends RocketeerTestCase
 
     public function testCanGetDeprecatedReleases()
     {
-        $releases = $this->releasesManager->getDeprecatedReleases();
+        $releases = [
+            '10000000000000' => false,
+            '15000000000000' => false,
+            '20000000000000' => true,
+            '25000000000000' => true,
+            '30000000000000' => false,
+            '35000000000000' => false,
+            '40000000000000' => false,
+            '45000000000000' => true,
+            '50000000000000' => true,
+        ];
 
-        $this->assertEquals([15000000000000, 10000000000000], $releases);
+        foreach ($releases as $release => $state) {
+            @mkdir($this->server.'/releases/'.$release);
+        }
+
+        $this->mockState($releases);
+
+        $releases = $this->releasesManager->getDeprecatedReleases(5);
+
+        $this->assertEquals([
+            40000000000000,
+            35000000000000,
+            30000000000000,
+            15000000000000,
+            10000000000000,
+        ], $releases);
     }
 
     public function testCanGetPreviousValidRelease()

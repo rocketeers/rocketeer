@@ -116,7 +116,28 @@ class ReleasesManager
         $releases = $this->getReleases();
         $treshold = $treshold ?: $this->config->get('remote.keep_releases');
 
-        return array_slice($releases, $treshold);
+        // Get first X valid releases
+        $keep = $this->getValidReleases();
+        $keep = array_slice($keep, 0, $treshold);
+
+        // Compute diff
+        $deprecated = array_diff($releases, $keep);
+        $deprecated = array_values($deprecated);
+
+        return $deprecated;
+    }
+
+    /**
+     * Get an array of valid releases
+     *
+     * @return integer[]
+     */
+    public function getValidReleases()
+    {
+        $valid = array_filter($this->state);
+        $valid = array_keys($valid);
+
+        return $valid;
     }
 
     /**
