@@ -165,10 +165,10 @@ abstract class AbstractCommand extends Command
 
         if ($this->straight) {
             // If we only have a single task, run it
-            $status = $this->laravel['rocketeer.builder']->buildTask($tasks)->fire();
+            $pipeline = $this->laravel['rocketeer.builder']->buildTask($tasks)->fire();
         } else {
             // Run tasks and display timer
-            $status = $this->time(function () use ($tasks) {
+            $pipeline = $this->time(function () use ($tasks) {
                 return $this->laravel['rocketeer.queue']->run($tasks);
             });
         }
@@ -182,7 +182,7 @@ abstract class AbstractCommand extends Command
             $this->info('Saved logs to '.$log);
         }
 
-        return $status ? 0 : 1;
+        return $pipeline->succeeded() ? 0 : 1;
     }
 
     //////////////////////////////////////////////////////////////////////
