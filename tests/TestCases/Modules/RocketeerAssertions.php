@@ -17,6 +17,20 @@ use Rocketeer\TestCases\Assertion;
 trait RocketeerAssertions
 {
     /**
+     * Assert that the number of files in local matches expected
+     *
+     * @param array $files
+     */
+    public function assertNumberFiles($files)
+    {
+        if (count($files) !== static::$numberFiles) {
+            dump($files); exit;
+        }
+
+        $this->assertCount(static::$numberFiles, $files);
+    }
+
+    /**
      * Assert that the current connection is a specific one.
      *
      * @param string $connection

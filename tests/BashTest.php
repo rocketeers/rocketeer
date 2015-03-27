@@ -17,10 +17,7 @@ class BashTest extends RocketeerTestCase
     public function testBashIsCorrectlyComposed()
     {
         $contents = $this->task->runRaw('ls', true, true);
-        if (count($contents) !== static::$numberFiles) {
-            !dd($contents);
-        }
 
-        $this->assertCount(static::$numberFiles, $contents);
+        $this->assertNumberFiles($contents);
     }
 }
