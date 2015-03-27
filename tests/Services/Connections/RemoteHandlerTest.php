@@ -176,4 +176,34 @@ class RemoteHandlerTest extends RocketeerTestCase
 
         $this->handler->connection();
     }
+
+    public function testCanPurgeCachedConnections()
+    {
+        $this->swapConnections([
+            'production' => [
+                'host'     => 'foobar.com',
+                'username' => 'foobar',
+                'password' => 'foobar',
+            ],
+        ]);
+
+        $connection = $this->handler->connection();
+        $this->assertInstanceOf('Rocketeer\Services\Connections\Connections\Connection', $connection);
+        $this->assertEquals('production', $connection->getName());
+        $this->assertEquals('foobar', $connection->getUsername());
+
+        $this->swapConnections([
+            'production' => [
+                'host'     => 'barbaz.com',
+                'username' => 'barbaz',
+                'password' => 'barbaz',
+            ],
+        ]);
+
+        $this->handler->disconnect();
+        $connection = $this->handler->connection();
+        $this->assertInstanceOf('Rocketeer\Services\Connections\Connections\Connection', $connection);
+        $this->assertEquals('production', $connection->getName());
+        $this->assertEquals('barbaz', $connection->getUsername());
+    }
 }

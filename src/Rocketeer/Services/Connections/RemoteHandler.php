@@ -47,6 +47,14 @@ class RemoteHandler
     }
 
     /**
+     * Purge all cached connections
+     */
+    public function disconnect()
+    {
+        $this->active = [];
+    }
+
+    /**
      * Create a specific connection or the default one.
      *
      * @param string|null $connection
@@ -77,7 +85,6 @@ class RemoteHandler
      * @param ConnectionKey $connection
      *
      * @throws CredentialsExceptionInterface
-     *
      * @return Connection
      */
     protected function makeConnection(ConnectionKey $connection)
@@ -106,7 +113,6 @@ class RemoteHandler
      * @param array $config
      *
      * @throws CredentialsExceptionInterface
-     *
      * @return array
      */
     protected function getAuth(array $config)
@@ -131,7 +137,6 @@ class RemoteHandler
      * @param array  $parameters
      *
      * @throws CredentialsExceptionInterface
-     *
      * @return mixed
      */
     public function __call($method, $parameters)

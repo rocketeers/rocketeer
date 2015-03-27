@@ -37,7 +37,14 @@ Rocketeer follows the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.ht
 - Fixed an issue where local tasks wouldn't execute in the correct directories
 - Fixed an issue where Rocketeer would trust the releases present on one server to deploy to all the other ones
 - Fixed an issue where setting a strategy to `''` to skip it would crash
-- Fixed HHVM support
+
+## 2.2.0 - Unreleased
+
+### Added
+- Added `RemoteHandler::disconnect` to purge cached connections
+- Added `LocalCloneStrategy` deploy strategy
+
+### Fixed
 
 ## [2.1.3] - 2015-03-23
 

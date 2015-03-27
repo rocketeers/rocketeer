@@ -22,6 +22,20 @@ use Rocketeer\TestCases\Assertion;
 trait Assertions
 {
     /**
+     * Assert that the number of files in local matches expected
+     *
+     * @param array $files
+     */
+    public function assertNumberFiles($files)
+    {
+        if (count($files) !== static::$numberFiles) {
+            dump($files); exit;
+        }
+
+        $this->assertCount(static::$numberFiles, $files);
+    }
+
+    /**
      * Assert that an even will be fired.
      *
      * @param string $event

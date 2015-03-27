@@ -66,10 +66,11 @@ class SyncStrategy extends AbstractStrategy implements DeployStrategyInterface
      * Rsyncs the local folder to a remote one.
      *
      * @param string $destination
+     * @param string $source
      *
      * @return bool
      */
-    protected function rsyncTo($destination)
+    protected function rsyncTo($destination, $source = './')
     {
         // Build host handle
         $arguments = [];
@@ -79,7 +80,7 @@ class SyncStrategy extends AbstractStrategy implements DeployStrategyInterface
         $options = ['--verbose' => null, '--recursive' => null, '--compress' => null, '--rsh' => $this->getTransport()];
 
         // Build arguments
-        $arguments[] = './';
+        $arguments[] = $source;
         $arguments[] = $handle.':'.$destination;
 
         // Set excluded files and folders
