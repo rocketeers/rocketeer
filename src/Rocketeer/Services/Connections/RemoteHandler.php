@@ -44,6 +44,14 @@ class RemoteHandler
     }
 
     /**
+     * Purge all cached connections
+     */
+    public function disconnect()
+    {
+        $this->active = [];
+    }
+
+    /**
      * Create a specific connection or the default one.
      *
      * @param string|null $connection
