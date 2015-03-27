@@ -37,7 +37,8 @@
     "mockery/mockery": "^0.9.1",
     "nesbot/carbon": "~1.4",
     "phpseclib/phpseclib": "~0.3.5",
-    "johnkary/phpunit-speedtrap": "dev-master"
+    "johnkary/phpunit-speedtrap": "dev-master",
+    "symfony/var-dumper": "~2.6"
   },
   "suggest": {
     "anahkiasen/rocketeer-campfire": "Campfire plugin to create deployments notifications",
