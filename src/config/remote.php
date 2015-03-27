@@ -30,8 +30,8 @@ return [
     // Use this to list folders that need to keep their state, like
     // user uploaded data, file-based databases, etc.
     'shared'         => [
-        '{path.storage}/logs',
-        '{path.storage}/sessions',
+        'storage/logs',
+        'storage/sessions',
     ],
 
     // Execution
@@ -50,12 +50,10 @@ return [
     'permissions'    => [
 
         // The folders and files to set as web writable
-        // You can pass paths in brackets, so {path.public} will return
-        // the correct path to the public folder
         'files'    => [
             'app/database/production.sqlite',
-            '{path.storage}',
-            '{path.public}',
+            'storage',
+            'public',
         ],
 
         // Here you can configure what actions will be executed to set
