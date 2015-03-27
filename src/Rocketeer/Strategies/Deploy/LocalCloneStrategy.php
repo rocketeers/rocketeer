@@ -1,7 +1,15 @@
 <?php
 
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 namespace Rocketeer\Strategies\Deploy;
-use Rocketeer\Strategies\Deploy\SyncStrategy;
+
 use Rocketeer\Bash;
 
 class LocalCloneStrategy extends SyncStrategy
@@ -10,7 +18,7 @@ class LocalCloneStrategy extends SyncStrategy
      * @type string
      */
     protected $description = 'Uses rsync to create or update a release from local temporary cloned repository';
-    
+
     /**
      * Deploy a new clean copy of the application.
      *
@@ -23,33 +31,33 @@ class LocalCloneStrategy extends SyncStrategy
         if (!$destination) {
             $destination = $this->releasesManager->getCurrentReleasePath();
         }
-        
+
         // Create receiveing folder
         $this->createFolder($destination);
-        
+
         $tmpDirectoryPath = $this->getCloneDirectory();
         $this->createCloneDirectory($tmpDirectoryPath);
-        
+
         $this->cloneLocally($tmpDirectoryPath);
-        
+
         return $this->rsyncTo($destination, $tmpDirectoryPath);
     }
-    
+
     /**
-     * Create clone directory if not exists
+     * Create clone directory if not exists.
      */
     protected function createCloneDirectory($tmpFolderPath)
     {
         if (!$this->files->isDirectory($tmpFolderPath)) {
-            if(!$this->files->makeDirectory($tmpFolderPath, 0777, true)) {
-                throw new \Exception("[" . __METHOD__ . "] Can't create clone directory : " . $tmpFolderPath);
+            if (!$this->files->makeDirectory($tmpFolderPath, 0777, true)) {
+                throw new \Exception('['.__METHOD__."] Can't create clone directory : ".$tmpFolderPath);
             }
         }
     }
-    
+
     /**
-     * Clone repository locally
-     * 
+     * Clone repository locally.
+     *
      * @param string $directory
      */
     protected function cloneLocally($directory)
@@ -58,11 +66,11 @@ class LocalCloneStrategy extends SyncStrategy
             return $this->scm->run('checkout', $directory);
         });
     }
-    
+
     protected function getCloneDirectory()
     {
         $storagePath = $this->paths->getStoragePath();
-        
-        return $storagePath . '/checkout/tmp/' . time() . "/";
+
+        return $storagePath.'/checkout/tmp/'.time().'/';
     }
 }

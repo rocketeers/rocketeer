@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of Rocketeer
  *
@@ -22,7 +23,7 @@ class SyncStrategy extends AbstractStrategy implements DeployStrategyInterface
     protected $description = 'Uses rsync to create or update a release from the local files';
 
     /**
-     * @type integer
+     * @type int
      */
     protected $port;
 
@@ -66,7 +67,7 @@ class SyncStrategy extends AbstractStrategy implements DeployStrategyInterface
      *
      * @return bool
      */
-    protected function rsyncTo($destination, $source = "./")
+    protected function rsyncTo($destination, $source = './')
     {
         // Build host handle
         $arguments = [];

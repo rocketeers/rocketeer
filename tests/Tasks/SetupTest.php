@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Tasks;
 
 use Rocketeer\TestCases\RocketeerTestCase;
@@ -28,10 +27,10 @@ class SetupTest extends RocketeerTestCase
         $this->assertTaskHistory('Setup', [
             'git --version',
             '{php} -m',
-            "mkdir {server}/",
-            "mkdir -p {server}/releases",
-            "mkdir -p {server}/current",
-            "mkdir -p {server}/shared",
+            'mkdir {server}/',
+            'mkdir -p {server}/releases',
+            'mkdir -p {server}/current',
+            'mkdir -p {server}/shared',
         ]);
     }
 
@@ -51,13 +50,13 @@ class SetupTest extends RocketeerTestCase
         $this->assertTaskHistory('Setup', [
             'git --version',
             '{php} -m',
-            "mkdir {server}/",
-            "mkdir -p {server}/staging/releases",
-            "mkdir -p {server}/staging/current",
-            "mkdir -p {server}/staging/shared",
-            "mkdir -p {server}/production/releases",
-            "mkdir -p {server}/production/current",
-            "mkdir -p {server}/production/shared",
+            'mkdir {server}/',
+            'mkdir -p {server}/staging/releases',
+            'mkdir -p {server}/staging/current',
+            'mkdir -p {server}/staging/shared',
+            'mkdir -p {server}/production/releases',
+            'mkdir -p {server}/production/current',
+            'mkdir -p {server}/production/shared',
         ]);
     }
 
@@ -79,13 +78,13 @@ class SetupTest extends RocketeerTestCase
         $this->assertTaskHistory('Setup', [
             'git --version',
             '{php} -m',
-            "mkdir {server}/",
-            "mkdir -p {server}/staging/releases",
-            "mkdir -p {server}/staging/current",
-            "mkdir -p {server}/staging/shared",
-            "mkdir -p {server}/production/releases",
-            "mkdir -p {server}/production/current",
-            "mkdir -p {server}/production/shared",
+            'mkdir {server}/',
+            'mkdir -p {server}/staging/releases',
+            'mkdir -p {server}/staging/current',
+            'mkdir -p {server}/staging/shared',
+            'mkdir -p {server}/production/releases',
+            'mkdir -p {server}/production/current',
+            'mkdir -p {server}/production/shared',
         ], [
             'stage' => 'staging',
         ]);

@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Strategies\Deploy;
 
 use Mockery\MockInterface;
@@ -30,9 +29,9 @@ class CopyStrategyTest extends RocketeerTestCase
         $matcher = [
             'cp -a {server}/releases/10000000000000 {server}/releases/20000000000000',
             [
-                "cd {server}/releases/{release}",
-                "git reset --hard",
-                "git pull",
+                'cd {server}/releases/{release}',
+                'git reset --hard',
+                'git pull',
             ],
         ];
 
@@ -51,8 +50,8 @@ class CopyStrategyTest extends RocketeerTestCase
         $matcher = [
             'git clone "{repository}" "{server}/releases/{release}" --branch="master" --depth="1"',
             [
-                "cd {server}/releases/{release}",
-                "git submodule update --init --recursive",
+                'cd {server}/releases/{release}',
+                'git submodule update --init --recursive',
             ],
         ];
 
@@ -73,8 +72,8 @@ class CopyStrategyTest extends RocketeerTestCase
         $matcher = [
             'git clone "{repository}" "{server}/releases/{release}" --branch="master" --depth="1"',
             [
-                "cd {server}/releases/{release}",
-                "git submodule update --init --recursive",
+                'cd {server}/releases/{release}',
+                'git submodule update --init --recursive',
             ],
         ];
 

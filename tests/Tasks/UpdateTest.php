@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Tasks;
 
 use Rocketeer\TestCases\RocketeerTestCase;
@@ -24,27 +23,27 @@ class UpdateTest extends RocketeerTestCase
 
         $matcher = [
             [
-                "cd {server}/releases/20000000000000",
-                "git reset --hard",
-                "git pull",
+                'cd {server}/releases/20000000000000',
+                'git reset --hard',
+                'git pull',
             ],
             [
-                "cd {server}/releases/20000000000000",
-                "chmod -R 755 {server}/releases/20000000000000/tests",
-                "chmod -R g+s {server}/releases/20000000000000/tests",
-                "chown -R www-data:www-data {server}/releases/20000000000000/tests",
+                'cd {server}/releases/20000000000000',
+                'chmod -R 755 {server}/releases/20000000000000/tests',
+                'chmod -R g+s {server}/releases/20000000000000/tests',
+                'chown -R www-data:www-data {server}/releases/20000000000000/tests',
             ],
             [
-                "cd {server}/releases/{release}",
-                "{php} artisan migrate",
+                'cd {server}/releases/{release}',
+                '{php} artisan migrate',
             ],
             [
-                "cd {server}/releases/{release}",
-                "{php} artisan db:seed",
+                'cd {server}/releases/{release}',
+                '{php} artisan db:seed',
             ],
             [
-                "cd {server}/releases/20000000000000",
-                "{php} artisan cache:clear",
+                'cd {server}/releases/20000000000000',
+                '{php} artisan cache:clear',
             ],
         ];
 
@@ -61,23 +60,23 @@ class UpdateTest extends RocketeerTestCase
 
         $matcher = [
             [
-                "cd {server}/releases/20000000000000",
-                "git reset --hard",
-                "git pull",
+                'cd {server}/releases/20000000000000',
+                'git reset --hard',
+                'git pull',
             ],
             [
-                "cd {server}/releases/20000000000000",
-                "chmod -R 755 {server}/releases/20000000000000/tests",
-                "chmod -R g+s {server}/releases/20000000000000/tests",
-                "chown -R www-data:www-data {server}/releases/20000000000000/tests",
+                'cd {server}/releases/20000000000000',
+                'chmod -R 755 {server}/releases/20000000000000/tests',
+                'chmod -R g+s {server}/releases/20000000000000/tests',
+                'chown -R www-data:www-data {server}/releases/20000000000000/tests',
             ],
             [
-                "cd {server}/releases/{release}",
-                "{php} artisan migrate",
+                'cd {server}/releases/{release}',
+                '{php} artisan migrate',
             ],
             [
-                "cd {server}/releases/{release}",
-                "{php} artisan db:seed",
+                'cd {server}/releases/{release}',
+                '{php} artisan db:seed',
             ],
         ];
 

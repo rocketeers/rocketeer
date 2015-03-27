@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Abstracts;
 
 abstract class AbstractPackageManager extends AbstractBinary
@@ -50,8 +49,8 @@ abstract class AbstractPackageManager extends AbstractBinary
      * Get the contents of the manifest file.
      *
      * @throws \Illuminate\Filesystem\FileNotFoundException
-     * @return string|null
      *
+     * @return string|null
      */
     public function getManifestContents()
     {

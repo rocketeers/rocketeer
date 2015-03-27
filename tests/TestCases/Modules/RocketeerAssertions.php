@@ -17,14 +17,15 @@ use Rocketeer\TestCases\Assertion;
 trait RocketeerAssertions
 {
     /**
-     * Assert that the number of files in local matches expected
+     * Assert that the number of files in local matches expected.
      *
      * @param array $files
      */
     public function assertNumberFiles($files)
     {
         if (count($files) !== static::$numberFiles) {
-            dump($files); exit;
+            dump($files);
+            exit;
         }
 
         $this->assertCount(static::$numberFiles, $files);

@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Strategies\Deploy;
 
 use Rocketeer\TestCases\RocketeerTestCase;
@@ -56,15 +55,15 @@ class SyncStrategyTest extends RocketeerTestCase
 
     public function testCanSpecifyKey()
     {
-        $this->swapConfig(array(
-            'rocketeer::connections' => array(
-                'production' => array(
+        $this->swapConfig([
+            'rocketeer::connections' => [
+                'production' => [
                     'username' => 'foo',
                     'host'     => 'bar.com:80',
                     'key'      => '/foo/bar',
-                ),
-            ),
-        ));
+                ],
+            ],
+        ]);
 
         $task = $this->pretendTask('Deploy');
         $task->getStrategy('Deploy', 'Sync')->deploy();

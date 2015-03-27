@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Strategies\Check;
 
 use Rocketeer\TestCases\RocketeerTestCase;
@@ -36,7 +35,7 @@ class PhpStrategyTest extends RocketeerTestCase
                 ->shouldReceive('put')
                 ->shouldReceive('glob')->andReturn([])
                 ->shouldReceive('exists')->andReturn(true)
-                ->shouldReceive('get')->andReturn('{"require":{"php":">=' .$version. '"}}');
+                ->shouldReceive('get')->andReturn('{"require":{"php":">='.$version.'"}}');
         });
         $this->assertTrue($this->strategy->language());
 

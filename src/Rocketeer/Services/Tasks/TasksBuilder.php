@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of Rocketeer
  *
@@ -74,17 +75,17 @@ class TasksBuilder
 
         // Get the command name
         $name    = $instance ? $instance->getName() : null;
-        $command = $this->findQualifiedName($name, array(
+        $command = $this->findQualifiedName($name, [
             'Rocketeer\Console\Commands\%sCommand',
-        ));
+        ]);
 
         // If no command found, use BaseTaskCommand or task name
         if (!$command || $command === 'Closure') {
             $name    = is_string($task) ? $task : $name;
-            $command = $this->findQualifiedName($name, array(
+            $command = $this->findQualifiedName($name, [
                 'Rocketeer\Console\Commands\%sCommand',
                 'Rocketeer\Console\Commands\BaseTaskCommand',
-            ));
+            ]);
         }
 
         $command = new $command($instance, $slug);
@@ -179,8 +180,8 @@ class TasksBuilder
      * @param string|Closure|AbstractTask $task
      *
      * @throws \Rocketeer\Exceptions\TaskCompositionException
-     * @return mixed|AbstractTask
      *
+     * @return mixed|AbstractTask
      */
     protected function composeTask($task)
     {

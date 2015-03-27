@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Tasks;
 
 use Rocketeer\TestCases\RocketeerTestCase;
@@ -22,62 +21,62 @@ class DeployTestUsingDBRole extends RocketeerTestCase
         $this->db_matcher = [
             'git clone "{repository}" "{server}/releases/{release}" --branch="master" --depth="1"',
             [
-                "cd {server}/releases/{release}",
-                "git submodule update --init --recursive",
+                'cd {server}/releases/{release}',
+                'git submodule update --init --recursive',
             ],
             [
-                "cd {server}/releases/{release}",
-                "{phpunit} --stop-on-failure",
+                'cd {server}/releases/{release}',
+                '{phpunit} --stop-on-failure',
             ],
             [
-                "cd {server}/releases/{release}",
-                "chmod -R 755 {server}/releases/{release}/tests",
-                "chmod -R g+s {server}/releases/{release}/tests",
-                "chown -R www-data:www-data {server}/releases/{release}/tests",
+                'cd {server}/releases/{release}',
+                'chmod -R 755 {server}/releases/{release}/tests',
+                'chmod -R g+s {server}/releases/{release}/tests',
+                'chown -R www-data:www-data {server}/releases/{release}/tests',
             ],
             [
-                "cd {server}/releases/{release}",
-                "{php} artisan migrate",
+                'cd {server}/releases/{release}',
+                '{php} artisan migrate',
             ],
             [
-                "cd {server}/releases/{release}",
-                "{php} artisan db:seed",
+                'cd {server}/releases/{release}',
+                '{php} artisan db:seed',
             ],
-            "mv {server}/current {server}/releases/{release}",
+            'mv {server}/current {server}/releases/{release}',
             [
-                "ln -s {server}/releases/{release} {server}/current-temp",
-                "mv -Tf {server}/current-temp {server}/current",
+                'ln -s {server}/releases/{release} {server}/current-temp',
+                'mv -Tf {server}/current-temp {server}/current',
             ],
         ];
 
         $this->no_db_matcher = [
             'git clone "{repository}" "{server}/releases/{release}" --branch="master" --depth="1"',
             [
-                "cd {server}/releases/{release}",
-                "git submodule update --init --recursive",
+                'cd {server}/releases/{release}',
+                'git submodule update --init --recursive',
             ],
             [
-                "cd {server}/releases/{release}",
-                "{phpunit} --stop-on-failure",
+                'cd {server}/releases/{release}',
+                '{phpunit} --stop-on-failure',
             ],
             [
-                "cd {server}/releases/{release}",
-                "chmod -R 755 {server}/releases/{release}/tests",
-                "chmod -R g+s {server}/releases/{release}/tests",
-                "chown -R www-data:www-data {server}/releases/{release}/tests",
+                'cd {server}/releases/{release}',
+                'chmod -R 755 {server}/releases/{release}/tests',
+                'chmod -R g+s {server}/releases/{release}/tests',
+                'chown -R www-data:www-data {server}/releases/{release}/tests',
             ],
             [
-                "cd {server}/releases/{release}",
-                "{php} artisan migrate",
+                'cd {server}/releases/{release}',
+                '{php} artisan migrate',
             ],
             [
-                "cd {server}/releases/{release}",
-                "{php} artisan db:seed",
+                'cd {server}/releases/{release}',
+                '{php} artisan db:seed',
             ],
-            "mv {server}/current {server}/releases/{release}",
+            'mv {server}/current {server}/releases/{release}',
             [
-                "ln -s {server}/releases/{release} {server}/current-temp",
-                "mv -Tf {server}/current-temp {server}/current",
+                'ln -s {server}/releases/{release} {server}/current-temp',
+                'mv -Tf {server}/current-temp {server}/current',
             ],
         ];
 
