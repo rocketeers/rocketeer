@@ -127,6 +127,7 @@ trait RocketeerAssertions
 
         // Replace placeholders
         $expected = $this->replaceHistoryPlaceholders($expected, $release);
+        $expected = array_values($expected);
 
         // Check equality
         $this->assertEquals($expected, $obtained);
