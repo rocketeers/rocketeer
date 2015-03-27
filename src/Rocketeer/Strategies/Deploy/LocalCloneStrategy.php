@@ -10,7 +10,7 @@
  */
 namespace Rocketeer\Strategies\Deploy;
 
-use Rocketeer\Bash;
+use Exception;
 
 class LocalCloneStrategy extends SyncStrategy
 {
@@ -45,12 +45,16 @@ class LocalCloneStrategy extends SyncStrategy
 
     /**
      * Create clone directory if not exists.
+     *
+     * @param string $temporaryFolderPath
+     *
+     * @throws Exception
      */
-    protected function createCloneDirectory($tmpFolderPath)
+    protected function createCloneDirectory($temporaryFolderPath)
     {
-        if (!$this->files->isDirectory($tmpFolderPath)) {
-            if (!$this->files->makeDirectory($tmpFolderPath, 0777, true)) {
-                throw new \Exception('['.__METHOD__."] Can't create clone directory : ".$tmpFolderPath);
+        if (!$this->files->isDirectory($temporaryFolderPath)) {
+            if (!$this->files->makeDirectory($temporaryFolderPath, 0777, true)) {
+                throw new Exception('['.__METHOD__."] Can't create clone directory : ".$temporaryFolderPath);
             }
         }
     }
@@ -59,14 +63,21 @@ class LocalCloneStrategy extends SyncStrategy
      * Clone repository locally.
      *
      * @param string $directory
+     *
+     * @return bool
      */
     protected function cloneLocally($directory)
     {
-        return $this->bash->onLocal(function (Bash $bash) use ($directory) {
+        return $this->bash->onLocal(function () use ($directory) {
             return $this->scm->run('checkout', $directory);
         });
     }
 
+    /**
+     * Get the directory to clone in
+     *
+     * @return string
+     */
     protected function getCloneDirectory()
     {
         $storagePath = $this->paths->getStoragePath();

@@ -6,6 +6,7 @@ Rocketeer follows the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.ht
 
 ### Added
 - Added `RemoteHandler::disconnect` to purge cached connections
+- Added `LocalCloneStrategy` deploy strategy
 
 ### Fixed
 - Fixed HHVM support
