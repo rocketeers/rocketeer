@@ -66,7 +66,7 @@ class SyncStrategy extends AbstractStrategy implements DeployStrategyInterface
      *
      * @return bool
      */
-    protected function rsyncTo($destination)
+    protected function rsyncTo($destination, $source = "./")
     {
         // Build host handle
         $arguments = [];
@@ -79,7 +79,7 @@ class SyncStrategy extends AbstractStrategy implements DeployStrategyInterface
         $options['--rsh'] = $this->getTransport();
 
         // Build arguments
-        $arguments[] = './';
+        $arguments[] = $source;
         $arguments[] = $handle.':'.$destination;
 
         // Set excluded files and folders
