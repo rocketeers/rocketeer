@@ -68,7 +68,7 @@ class QueueExplainerTest extends RocketeerTestCase
                 'servers' => [
                     ['host' => 'foo.com'],
                     ['host' => 'bar.com'],
-                ]
+                ],
             ],
         ]);
 

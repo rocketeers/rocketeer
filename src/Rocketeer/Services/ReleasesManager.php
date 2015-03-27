@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of Rocketeer
  *
@@ -128,7 +129,7 @@ class ReleasesManager
     }
 
     /**
-     * Get an array of valid releases
+     * Get an array of valid releases.
      *
      * @return integer[]
      */

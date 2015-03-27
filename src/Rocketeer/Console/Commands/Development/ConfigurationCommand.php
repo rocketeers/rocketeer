@@ -26,7 +26,7 @@ class ConfigurationCommand extends AbstractCommand
     /**
      * @type string
      */
-    protected $description = "Dumps the current configuration parsed";
+    protected $description = 'Dumps the current configuration parsed';
 
     /**
      * Fire the command.

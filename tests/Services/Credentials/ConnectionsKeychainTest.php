@@ -92,7 +92,7 @@ class ConnectionsKeychainTest extends RocketeerTestCase
 
         $credentials = $this->credentials->getServerCredentials('production-multiserver', 0);
         $this->assertEquals([
-            'host'          => "10.1.1.1",
+            'host'          => '10.1.1.1',
             'username'      => $this->username,
             'agent'         => true,
             'agent-forward' => true,
@@ -100,29 +100,29 @@ class ConnectionsKeychainTest extends RocketeerTestCase
         ], $credentials);
 
         // also check handle generation as handles are used for connection cache keying in RemoteHandler
-        $this->assertEquals("production-multiserver/10.1.1.1", $this->credentials->createConnectionKey("production-multiserver", 0));
+        $this->assertEquals('production-multiserver/10.1.1.1', $this->credentials->createConnectionKey('production-multiserver', 0));
 
         $credentials = $this->credentials->getServerCredentials('production-multiserver', 1);
         $this->assertEquals([
-            'host'          => "10.1.1.2",
+            'host'          => '10.1.1.2',
             'username'      => $this->username,
             'agent'         => true,
             'agent-forward' => true,
             'db_role'       => false,
         ], $credentials);
 
-        $this->assertEquals("production-multiserver/10.1.1.2", $this->credentials->createConnectionKey("production-multiserver", 1));
+        $this->assertEquals('production-multiserver/10.1.1.2', $this->credentials->createConnectionKey('production-multiserver', 1));
 
         $credentials = $this->credentials->getServerCredentials('production-multiserver', 2);
         $this->assertEquals([
-            'host'          => "10.1.1.3",
+            'host'          => '10.1.1.3',
             'username'      => $this->username,
             'agent'         => true,
             'agent-forward' => true,
             'db_role'       => false,
         ], $credentials);
 
-        $this->assertEquals("production-multiserver/10.1.1.3", $this->credentials->createConnectionKey("production-multiserver", 2));
+        $this->assertEquals('production-multiserver/10.1.1.3', $this->credentials->createConnectionKey('production-multiserver', 2));
     }
 
     //////////////////////////////////////////////////////////////////////

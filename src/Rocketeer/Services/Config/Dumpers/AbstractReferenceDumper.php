@@ -175,7 +175,7 @@ abstract class AbstractReferenceDumper
         // Output informations
         $this->outputInformations($node, $depth);
 
-        $this->default = str_replace("\n", sprintf("\n%".($depth * 4)."s ", ' '), $this->default);
+        $this->default = str_replace("\n", sprintf("\n%".($depth * 4).'s ', ' '), $this->default);
         $text          = rtrim(sprintf($format, $name, $this->default, $this->comments), ' ');
 
         // Output main value
@@ -286,7 +286,7 @@ abstract class AbstractReferenceDumper
         if ($info = $node->getInfo()) {
             $this->writeLine('');
 
-            $info = str_replace("\n", sprintf("\n%".($depth * 4)."s// ", ' '), $info);
+            $info = str_replace("\n", sprintf("\n%".($depth * 4).'s// ', ' '), $info);
             $this->writeComment($info, $depth * 4);
 
             if ($this->isCoreNode) {

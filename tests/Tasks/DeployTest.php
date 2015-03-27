@@ -26,23 +26,23 @@ class DeployTest extends RocketeerTestCase
         $matcher = [
             'git clone "{repository}" "{server}/releases/{release}" --branch="master" --depth="1"',
             [
-                "cd {server}/releases/{release}",
-                "git submodule update --init --recursive",
+                'cd {server}/releases/{release}',
+                'git submodule update --init --recursive',
             ],
             [
-                "cd {server}/releases/{release}",
-                "{phpunit} --stop-on-failure",
+                'cd {server}/releases/{release}',
+                '{phpunit} --stop-on-failure',
             ],
             [
-                "cd {server}/releases/{release}",
-                "chmod -R 755 {server}/releases/{release}/tests",
-                "chmod -R g+s {server}/releases/{release}/tests",
-                "chown -R www-data:www-data {server}/releases/{release}/tests",
+                'cd {server}/releases/{release}',
+                'chmod -R 755 {server}/releases/{release}/tests',
+                'chmod -R g+s {server}/releases/{release}/tests',
+                'chown -R www-data:www-data {server}/releases/{release}/tests',
             ],
-            "mv {server}/current {server}/releases/{release}",
+            'mv {server}/current {server}/releases/{release}',
             [
-                "ln -s {server}/releases/{release} {server}/current-temp",
-                "mv -Tf {server}/current-temp {server}/current",
+                'ln -s {server}/releases/{release} {server}/current-temp',
+                'mv -Tf {server}/current-temp {server}/current',
             ],
         ];
 
@@ -63,17 +63,17 @@ class DeployTest extends RocketeerTestCase
         $matcher = [
             'git clone "{repository}" "{server}/releases/{release}" --branch="master" --depth="1"',
             [
-                "cd {server}/releases/{release}",
-                "git submodule update --init --recursive",
+                'cd {server}/releases/{release}',
+                'git submodule update --init --recursive',
             ],
             [
-                "cd {server}/releases/{release}",
-                "{phpunit} --stop-on-failure",
+                'cd {server}/releases/{release}',
+                '{phpunit} --stop-on-failure',
             ],
-            "mv {server}/current {server}/releases/{release}",
+            'mv {server}/current {server}/releases/{release}',
             [
-                "ln -s {server}/releases/{release} {server}/current-temp",
-                "mv -Tf {server}/current-temp {server}/current",
+                'ln -s {server}/releases/{release} {server}/current-temp',
+                'mv -Tf {server}/current-temp {server}/current',
             ],
         ];
 
@@ -97,19 +97,19 @@ class DeployTest extends RocketeerTestCase
         $matcher = [
             'git clone "{repository}" "{server}/releases/{release}" --branch="master"',
             [
-                "cd {server}/releases/{release}",
+                'cd {server}/releases/{release}',
                 '{phpunit} --stop-on-failure',
             ],
             [
-                "cd {server}/releases/{release}",
-                "chmod -R 755 {server}/releases/{release}/tests",
-                "chmod -R g+s {server}/releases/{release}/tests",
-                "chown -R www-data:www-data {server}/releases/{release}/tests",
+                'cd {server}/releases/{release}',
+                'chmod -R 755 {server}/releases/{release}/tests',
+                'chmod -R g+s {server}/releases/{release}/tests',
+                'chown -R www-data:www-data {server}/releases/{release}/tests',
             ],
-            "mv {server}/current {server}/releases/{release}",
+            'mv {server}/current {server}/releases/{release}',
             [
-                "ln -s {server}/releases/{release} {server}/current-temp",
-                "mv -Tf {server}/current-temp {server}/current",
+                'ln -s {server}/releases/{release} {server}/current-temp',
+                'mv -Tf {server}/current-temp {server}/current',
             ],
         ];
 
@@ -144,15 +144,15 @@ class DeployTest extends RocketeerTestCase
                 'git pull',
             ],
             [
-                "cd {server}/releases/{release}",
-                "chmod -R 755 {server}/releases/{release}/tests",
-                "chmod -R g+s {server}/releases/{release}/tests",
-                "chown -R www-data:www-data {server}/releases/{release}/tests",
+                'cd {server}/releases/{release}',
+                'chmod -R 755 {server}/releases/{release}/tests',
+                'chmod -R g+s {server}/releases/{release}/tests',
+                'chown -R www-data:www-data {server}/releases/{release}/tests',
             ],
-            "mv {server}/current {server}/releases/{release}",
+            'mv {server}/current {server}/releases/{release}',
             [
-                "ln -s {server}/releases/{release} {server}/current-temp",
-                "mv -Tf {server}/current-temp {server}/current",
+                'ln -s {server}/releases/{release} {server}/current-temp',
+                'mv -Tf {server}/current-temp {server}/current',
             ],
         ];
 
@@ -168,19 +168,19 @@ class DeployTest extends RocketeerTestCase
         $matcher = [
             'git clone "{repository}" "{server}/releases/{release}" --branch="master" --depth="1"',
             [
-                "cd {server}/releases/{release}",
-                "git submodule update --init --recursive",
+                'cd {server}/releases/{release}',
+                'git submodule update --init --recursive',
             ],
             [
-                "cd {server}/releases/{release}",
-                "chmod -R 755 {server}/releases/{release}/tests",
-                "chmod -R g+s {server}/releases/{release}/tests",
-                "chown -R www-data:www-data {server}/releases/{release}/tests",
+                'cd {server}/releases/{release}',
+                'chmod -R 755 {server}/releases/{release}/tests',
+                'chmod -R g+s {server}/releases/{release}/tests',
+                'chown -R www-data:www-data {server}/releases/{release}/tests',
             ],
-            "mv {server}/current {server}/releases/{release}",
+            'mv {server}/current {server}/releases/{release}',
             [
-                "ln -s {server}/releases/{release} {server}/current-temp",
-                "mv -Tf {server}/current-temp {server}/current",
+                'ln -s {server}/releases/{release} {server}/current-temp',
+                'mv -Tf {server}/current-temp {server}/current',
             ],
         ];
 
@@ -212,23 +212,23 @@ class DeployTest extends RocketeerTestCase
         $matcher = [
             'git clone "{repository}" "{server}/releases/{release}" --branch="master" --depth="1"',
             [
-                "cd {server}/releases/{release}",
-                "git submodule update --init --recursive",
+                'cd {server}/releases/{release}',
+                'git submodule update --init --recursive',
             ],
             [
-                "cd {server}/releases/{release}",
-                "{phpunit} --stop-on-failure",
+                'cd {server}/releases/{release}',
+                '{phpunit} --stop-on-failure',
             ],
             [
-                "cd {server}/releases/{release}",
-                "chmod -R 755 {server}/releases/{release}/tests",
-                "chmod -R g+s {server}/releases/{release}/tests",
-                "chown -R www-data:www-data {server}/releases/{release}/tests",
+                'cd {server}/releases/{release}',
+                'chmod -R 755 {server}/releases/{release}/tests',
+                'chmod -R g+s {server}/releases/{release}/tests',
+                'chown -R www-data:www-data {server}/releases/{release}/tests',
             ],
-            "mv {server}/current {server}/releases/{release}",
+            'mv {server}/current {server}/releases/{release}',
             [
-                "ln -s {server}/releases/{release} {server}/current-temp",
-                "mv -Tf {server}/current-temp {server}/current",
+                'ln -s {server}/releases/{release} {server}/current-temp',
+                'mv -Tf {server}/current-temp {server}/current',
             ],
         ];
 
@@ -260,23 +260,23 @@ class DeployTest extends RocketeerTestCase
         $matcher = [
             'git clone "{repository}" "{server}/releases/{release}" --branch="master" --depth="1"',
             [
-                "cd {server}/releases/{release}",
-                "git submodule update --init --recursive",
+                'cd {server}/releases/{release}',
+                'git submodule update --init --recursive',
             ],
             [
-                "cd {server}/releases/{release}",
-                "{phpunit} --stop-on-failure",
+                'cd {server}/releases/{release}',
+                '{phpunit} --stop-on-failure',
             ],
             [
-                "cd {server}/releases/{release}",
-                "chmod -R 755 {server}/releases/{release}/tests",
-                "chmod -R g+s {server}/releases/{release}/tests",
-                "chown -R www-data:www-data {server}/releases/{release}/tests",
+                'cd {server}/releases/{release}',
+                'chmod -R 755 {server}/releases/{release}/tests',
+                'chmod -R g+s {server}/releases/{release}/tests',
+                'chown -R www-data:www-data {server}/releases/{release}/tests',
             ],
-            "mv {server}/current {server}/releases/{release}",
+            'mv {server}/current {server}/releases/{release}',
             [
-                "ln -s {server}/releases/{release} {server}/current-temp",
-                "mv -Tf {server}/current-temp {server}/current",
+                'ln -s {server}/releases/{release} {server}/current-temp',
+                'mv -Tf {server}/current-temp {server}/current',
             ],
         ];
 

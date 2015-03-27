@@ -17,6 +17,7 @@ use Rocketeer\Services\Credentials\Keys\RepositoryKey;
  * Finds credentials and informations about repositories.
  *
  * @mixin \Rocketeer\Services\Credentials\CredentialsHandler
+ *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait RepositoriesKeychain

@@ -271,26 +271,26 @@ EOF
             ->info("Here you can configure in a modular way which tasks to use to execute various core parts of your deployment's flow")
             ->children()
                 ->scalarNode('check')
-                    ->info("Which strategy to use to check the server")
+                    ->info('Which strategy to use to check the server')
                     ->defaultValue('Php')
                 ->end()
                 ->scalarNode('deploy')
-                    ->info("Which strategy to use to create a new release")
+                    ->info('Which strategy to use to create a new release')
                     ->defaultValue('Clone')
                 ->end()
                 ->scalarNode('test')
-                    ->info("Which strategy to use to test your application")
+                    ->info('Which strategy to use to test your application')
                     ->defaultValue('Phpunit')
                 ->end()
                 ->scalarNode('migrate')
-                    ->info("Which strategy to use to migrate your database")
+                    ->info('Which strategy to use to migrate your database')
                 ->end()
                 ->scalarNode('dependencies')
                     ->info("Which strategy to use to install your application's dependencies")
                     ->defaultValue('Polyglot')
                 ->end()
                 ->closureNode('primer')
-                    ->info("Here you can configure the Primer tasks which will run a set of commands on the local machine, determining whether the deploy can proceed or not")
+                    ->info('Here you can configure the Primer tasks which will run a set of commands on the local machine, determining whether the deploy can proceed or not')
                     ->defaultValue(function (\Rocketeer\Tasks\Subtasks\Primer $task) {
                         return [
                             // $task->executeTask('Test'),
@@ -310,7 +310,7 @@ EOF
         $node    = $builder->root('remote', 'array', new NodeBuilder());
 
         return $node
-            ->info("Options related to the remote server")
+            ->info('Options related to the remote server')
             ->children()
                 ->arrayNode('variables')
                     ->info('Variables about the servers')
@@ -345,7 +345,7 @@ EOF
                     ->defaultValue('absolute')
                 ->end()
                 ->booleanNode('shell')
-                    ->info("If enabled will force a shell to be created which is required for some tools like RVM or NVM")
+                    ->info('If enabled will force a shell to be created which is required for some tools like RVM or NVM')
                     ->defaultTrue()
                 ->end()
                 ->arrayNode('shelled')
@@ -362,7 +362,7 @@ EOF
                             ->prototype('scalar')->end()
                         ->end()
                         ->closureNode('callback')
-                            ->info("what actions will be executed to set permissions on the folder above")
+                            ->info('what actions will be executed to set permissions on the folder above')
                             ->defaultValue(function ($task, $file) {
                                 return [
                                     sprintf('chmod -R 755 %s', $file),
@@ -405,7 +405,7 @@ EOF
         $node    = $builder->root('hooks', 'array', new NodeBuilder());
 
         return $node
-            ->info("Here you can customize Rocketeer by adding tasks, strategies, etc.")
+            ->info('Here you can customize Rocketeer by adding tasks, strategies, etc.')
             ->children()
                 ->arrayNode('before')
                     ->prototype('array')->end()

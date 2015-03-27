@@ -41,12 +41,12 @@ class ComposerStrategyTest extends RocketeerTestCase
 
         $this->assertHistory([
             [
-                "cd {server}/releases/{release}",
-                "{composer} self-update",
+                'cd {server}/releases/{release}',
+                '{composer} self-update',
             ],
             [
-                "cd {server}/releases/{release}",
-                "{composer} install --prefer-source",
+                'cd {server}/releases/{release}',
+                '{composer} install --prefer-source',
             ],
         ]);
     }

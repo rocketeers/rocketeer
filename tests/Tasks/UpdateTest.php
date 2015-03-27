@@ -23,19 +23,19 @@ class UpdateTest extends RocketeerTestCase
 
         $matcher = [
             [
-                "cd {server}/releases/20000000000000",
-                "git reset --hard",
-                "git pull",
+                'cd {server}/releases/20000000000000',
+                'git reset --hard',
+                'git pull',
             ],
             [
-                "cd {server}/releases/20000000000000",
-                "chmod -R 755 {server}/releases/20000000000000/tests",
-                "chmod -R g+s {server}/releases/20000000000000/tests",
-                "chown -R www-data:www-data {server}/releases/20000000000000/tests",
+                'cd {server}/releases/20000000000000',
+                'chmod -R 755 {server}/releases/20000000000000/tests',
+                'chmod -R g+s {server}/releases/20000000000000/tests',
+                'chown -R www-data:www-data {server}/releases/20000000000000/tests',
             ],
             [
-                "cd {server}/releases/20000000000000",
-                "{php} artisan cache:clear",
+                'cd {server}/releases/20000000000000',
+                '{php} artisan cache:clear',
             ],
         ];
 
@@ -52,15 +52,15 @@ class UpdateTest extends RocketeerTestCase
 
         $matcher = [
             [
-                "cd {server}/releases/20000000000000",
-                "git reset --hard",
-                "git pull",
+                'cd {server}/releases/20000000000000',
+                'git reset --hard',
+                'git pull',
             ],
             [
-                "cd {server}/releases/20000000000000",
-                "chmod -R 755 {server}/releases/20000000000000/tests",
-                "chmod -R g+s {server}/releases/20000000000000/tests",
-                "chown -R www-data:www-data {server}/releases/20000000000000/tests",
+                'cd {server}/releases/20000000000000',
+                'chmod -R 755 {server}/releases/20000000000000/tests',
+                'chmod -R g+s {server}/releases/20000000000000/tests',
+                'chown -R www-data:www-data {server}/releases/20000000000000/tests',
             ],
         ];
 
