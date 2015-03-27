@@ -29,12 +29,14 @@ class PhpStrategyTest extends RocketeerTestCase
 
     public function testCanCheckPhpVersion()
     {
-        $this->mockFiles(function ($mock) {
+        $version = $this->bash->php()->run('version');
+
+        $this->mockFiles(function ($mock) use ($version) {
             return $mock
                 ->shouldReceive('put')
                 ->shouldReceive('glob')->andReturn([])
                 ->shouldReceive('exists')->andReturn(true)
-                ->shouldReceive('get')->andReturn('{"require":{"php":">=5.3.0"}}');
+                ->shouldReceive('get')->andReturn('{"require":{"php":">=' .$version. '"}}');
         });
         $this->assertTrue($this->strategy->language());
 

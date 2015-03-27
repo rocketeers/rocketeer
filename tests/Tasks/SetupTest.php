@@ -18,7 +18,7 @@ class SetupTest extends RocketeerTestCase
     public function testCanSetupServer()
     {
         $this->pretend();
-        
+
         $this->mockReleases(function ($mock) {
             return $mock
                 ->shouldReceive('getCurrentRelease')->andReturn(null)
@@ -38,7 +38,7 @@ class SetupTest extends RocketeerTestCase
     public function testCanSetupStages()
     {
         $this->pretend();
-        
+
         $this->mockReleases(function ($mock) {
             return $mock
                 ->shouldReceive('getCurrentRelease')->andReturn(null)
@@ -64,7 +64,7 @@ class SetupTest extends RocketeerTestCase
     public function testRunningSetupKeepsCurrentConfiguredStage()
     {
         $this->pretend();
-        
+
         $this->mockReleases(function ($mock) {
             return $mock
                 ->shouldReceive('getCurrentRelease')->andReturn(null)
