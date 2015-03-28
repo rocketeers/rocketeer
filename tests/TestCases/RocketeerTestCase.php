@@ -11,14 +11,14 @@
 namespace Rocketeer\TestCases;
 
 use Rocketeer\Services\Storages\LocalStorage;
-use Rocketeer\TestCases\Modules\RocketeerAssertions;
-use Rocketeer\TestCases\Modules\RocketeerMockeries;
+use Rocketeer\TestCases\Modules\Assertions;
+use Rocketeer\TestCases\Modules\Mocks;
 use Symfony\Component\Console\Tester\CommandTester;
 
 abstract class RocketeerTestCase extends ContainerTestCase
 {
-    use RocketeerAssertions;
-    use RocketeerMockeries;
+    use Assertions;
+    use Mocks;
 
     /**
      * The path to the local fake server.

@@ -14,7 +14,7 @@ use Illuminate\Support\Arr;
 use Rocketeer\TestCases\AbstractTask;
 use Rocketeer\TestCases\Assertion;
 
-trait RocketeerAssertions
+trait Assertions
 {
     /**
      * Assert that the number of files in local matches expected.
