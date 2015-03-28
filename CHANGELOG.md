@@ -9,6 +9,7 @@ Rocketeer follows the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.ht
 - Added `LocalCloneStrategy` deploy strategy
 
 ### Fixed
+- Fixed an issue where commands would not return the proper status code
 - Fixed HHVM support
 
 ## [2.1.3] - 2015-03-23
