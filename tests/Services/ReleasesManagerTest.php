@@ -287,4 +287,11 @@ class ReleasesManagerTest extends RocketeerTestCase
         $release = $this->releasesManager->getNextRelease();
         $this->assertNotEquals($custom, $release);
     }
+
+    public function testReleasesArentCastToInteger()
+    {
+        $releases = $this->releasesManager->getReleases();
+
+        $this->assertInternalType('string', $releases[0]);
+    }
 }

@@ -93,7 +93,7 @@ class AbstractTaskTest extends RocketeerTestCase
         $this->assertHistory([
             'cd {server}/releases/{release}',
             'ls',
-        ], array_get($history, 4));
+        ], array_get($history, 3));
     }
 
     public function testDoesntDuplicateQueuesOnSubtasks()

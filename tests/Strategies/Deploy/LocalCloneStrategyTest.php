@@ -18,12 +18,10 @@ class LocalCloneStrategyTest extends RocketeerTestCase
     {
         parent::setUp();
 
-        $this->swapConfig([
-            'rocketeer::connections' => [
-                'production' => [
-                    'host'     => 'bar.com',
-                    'username' => 'foo',
-                ],
+        $this->swapConnections([
+            'production' => [
+                'host'     => 'bar.com',
+                'username' => 'foo',
             ],
         ]);
     }
@@ -39,7 +37,7 @@ class LocalCloneStrategyTest extends RocketeerTestCase
         $matcher = [
             'mkdir {server}/releases/{release}',
             'git clone "https://github.com/Anahkiasen/html-object.git" "app/storage/checkout/tmp/'.$time.'/" --branch="master" --depth="1"',
-            'rsync app/storage/checkout/tmp/'.$time.'/ foo@bar.com:{server}/releases/{release} --verbose --recursive --rsh="ssh" --compress --exclude=".git" --exclude="vendor"',
+            'rsync app/storage/checkout/tmp/'.$time.'/ foo@bar.com:{server}/releases/{release} --verbose --recursive --compress --rsh="ssh" --exclude=".git" --exclude="vendor"',
         ];
 
         $this->assertHistory($matcher);
@@ -47,13 +45,11 @@ class LocalCloneStrategyTest extends RocketeerTestCase
 
     public function testCanSpecifyKey()
     {
-        $this->swapConfig([
-            'rocketeer::connections' => [
-                'production' => [
-                    'username' => 'foo',
-                    'host'     => 'bar.com:80',
-                    'key'      => '/foo/bar',
-                ],
+        $this->swapConnections([
+            'production' => [
+                'username' => 'foo',
+                'host'     => 'bar.com:80',
+                'key'      => '/foo/bar',
             ],
         ]);
 
@@ -66,7 +62,7 @@ class LocalCloneStrategyTest extends RocketeerTestCase
         $matcher = [
             'mkdir {server}/releases/{release}',
             'git clone "https://github.com/Anahkiasen/html-object.git" "app/storage/checkout/tmp/'.$time.'/" --branch="master" --depth="1"',
-            'rsync app/storage/checkout/tmp/'.$time.'/ foo@bar.com:{server}/releases/{release} --verbose --recursive --rsh="ssh -p 80 -i /foo/bar" --compress --exclude=".git" --exclude="vendor"',
+            'rsync app/storage/checkout/tmp/'.$time.'/ foo@bar.com:{server}/releases/{release} --verbose --recursive --compress --rsh="ssh -p 80 -i /foo/bar" --exclude=".git" --exclude="vendor"',
         ];
 
         $this->assertHistory($matcher);

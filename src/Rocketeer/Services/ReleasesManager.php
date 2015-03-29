@@ -89,7 +89,6 @@ class ReleasesManager
             rsort($releases);
 
             $this->releases[$connection] = (array) $releases;
-            $this->releases[$connection] = array_map('intval', $this->releases[$connection]);
         }
 
         return $this->releases[$connection];

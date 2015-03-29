@@ -16,7 +16,6 @@ use Rocketeer\TestCases\Assertion;
 
 /**
  * @mixin \Rocketeer\TestCases\RocketeerTestCase
- *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait Assertions
@@ -26,13 +25,11 @@ trait Assertions
      *
      * @param array $files
      */
-    public function assertNumberFiles($files)
+    public function assertListDirectory($files)
     {
-        if (count($files) !== static::$numberFiles) {
-            dump($files); exit;
-        }
+        sort($files);
 
-        $this->assertCount(static::$numberFiles, $files);
+        $this->assertEquals(static::$currentFiles, array_values($files));
     }
 
     /**
