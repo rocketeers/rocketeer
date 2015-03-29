@@ -23,12 +23,9 @@ trait Assertions
      */
     public function assertNumberFiles($files)
     {
-        if (count($files) !== static::$numberFiles) {
-            dump($files);
-            exit;
-        }
-
-        $this->assertCount(static::$numberFiles, $files);
+        sort($files);
+        
+        $this->assertEquals(static::$currentFiles, array_values($files));
     }
 
     /**
@@ -44,7 +41,7 @@ trait Assertions
     /**
      * Assert that the current server is a specific one.
      *
-     * @param string $connection
+     * @param string $server
      */
     protected function assertCurrentServerEquals($server)
     {
