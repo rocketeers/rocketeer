@@ -18,6 +18,6 @@ class BashTest extends RocketeerTestCase
     {
         $contents = $this->task->runRaw('ls', true, true);
 
-        $this->assertNumberFiles($contents);
+        $this->assertListDirectory($contents);
     }
 }

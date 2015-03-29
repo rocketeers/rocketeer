@@ -21,10 +21,10 @@ trait Assertions
      *
      * @param array $files
      */
-    public function assertNumberFiles($files)
+    public function assertListDirectory($files)
     {
         sort($files);
-        
+
         $this->assertEquals(static::$currentFiles, array_values($files));
     }
 
