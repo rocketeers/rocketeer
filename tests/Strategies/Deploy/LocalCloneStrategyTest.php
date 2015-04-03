@@ -10,6 +10,7 @@
  */
 namespace Rocketeer\Strategies\Deploy;
 
+use Carbon\Carbon;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class LocalCloneStrategyTest extends RocketeerTestCase
@@ -30,11 +31,10 @@ class LocalCloneStrategyTest extends RocketeerTestCase
 
     public function testCanDeployRepository()
     {
+        $time = $this->getCurrentTime();
+
         $task = $this->pretendTask('Deploy');
         $task->getStrategy('Deploy', 'LocalClone')->deploy();
-
-        // We just have to pray that second do not change during test
-        $time = time();
 
         $matcher = [
             'mkdir {server}/releases/{release}',
@@ -47,6 +47,8 @@ class LocalCloneStrategyTest extends RocketeerTestCase
 
     public function testCanSpecifyKey()
     {
+        $time = $this->getCurrentTime();
+
         $this->swapConfig([
             'rocketeer::connections' => [
                 'production' => [
@@ -60,9 +62,6 @@ class LocalCloneStrategyTest extends RocketeerTestCase
         $task = $this->pretendTask('Deploy');
         $task->getStrategy('Deploy', 'LocalClone')->deploy();
 
-        // We just have to pray that second do not change during test
-        $time = time();
-
         $matcher = [
             'mkdir {server}/releases/{release}',
             'git clone "https://github.com/Anahkiasen/html-object.git" "app/storage/checkout/tmp/'.$time.'/" --branch="master" --depth="1"',
@@ -70,5 +69,18 @@ class LocalCloneStrategyTest extends RocketeerTestCase
         ];
 
         $this->assertHistory($matcher);
+    }
+
+    /**
+     * Mock the current time
+     *
+     * @return int
+     */
+    protected function getCurrentTime()
+    {
+        Carbon::setTestNow(new Carbon(1234567890));
+        $time = Carbon::now()->timestamp;
+
+        return $time;
     }
 }

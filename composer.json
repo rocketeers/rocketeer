@@ -35,7 +35,7 @@
     "fabpot/php-cs-fixer": "2.0.*@dev",
     "phpunit/phpunit": "~4.0",
     "mockery/mockery": "^0.9.1",
-    "nesbot/carbon": "~1.4",
+    "nesbot/carbon": "~1.18",
     "phpseclib/phpseclib": "~0.3.5",
     "johnkary/phpunit-speedtrap": "dev-master",
     "symfony/var-dumper": "~2.6"
