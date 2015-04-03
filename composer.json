@@ -30,7 +30,7 @@
     "patchwork/utf8": "~1.1",
     "d11wtq/boris": "~1.0.8",
     "kzykhys/parallel": "~0.1.0",
-    "nesbot/carbon": "~1.18",
+    "nesbot/carbon": "~1.18"
   },
   "require-dev": {
     "fabpot/php-cs-fixer": "2.0.*@dev",
