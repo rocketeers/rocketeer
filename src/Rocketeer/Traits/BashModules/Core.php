@@ -40,6 +40,20 @@ trait Core
     {
         $this->local = $local;
     }
+    /**
+     * Whether to run the commands with sudo
+     *
+     * @type bool
+     */
+    protected static $sudo = false;
+
+    /**
+     * @param bool|string $sudo
+     */
+    public function setSudo($sudo)
+    {
+        self::$sudo = $sudo;
+    }
 
     /**
      * Get which Connection to call commands with.
@@ -315,6 +329,10 @@ trait Core
             // Create shell if asked
             if ($shell && Str::contains($command, $shelled)) {
                 $command = $this->shellCommand($command);
+            }
+            
+            if (self::$sudo) {
+                $command = 'sudo'.(is_string(self::$sudo) ? (' -u '.self::$sudo) : '') . ' ' . $command;
             }
         }
 
