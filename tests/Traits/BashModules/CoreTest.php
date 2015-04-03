@@ -109,4 +109,24 @@ class CoreTest extends RocketeerTestCase
 
         $this->assertEquals([$commands], $processed);
     }
+
+    public function testCanExecuteCommandsAsSudo()
+    {
+        $this->swapConfig([
+            'rocketeer::remote.sudo'   => true,
+            'rocketeer::remote.sudoed' => ['cd'],
+        ]);
+
+        $this->assertEquals(['sudo cd foobar'], $this->task->processCommands('cd foobar'));
+    }
+
+    public function testCanExecuteCommandsAsSudoUser()
+    {
+        $this->swapConfig([
+            'rocketeer::remote.sudo'   => 'foobar',
+            'rocketeer::remote.sudoed' => ['cd'],
+        ]);
+
+        $this->assertEquals(['sudo -u foobar cd foobar'], $this->task->processCommands('cd foobar'));
+    }
 }

@@ -40,20 +40,6 @@ trait Core
     {
         $this->local = $local;
     }
-    /**
-     * Whether to run the commands with sudo
-     *
-     * @type bool
-     */
-    protected static $sudo = false;
-
-    /**
-     * @param bool|string $sudo
-     */
-    public function setSudo($sudo)
-    {
-        self::$sudo = $sudo;
-    }
 
     /**
      * Get which Connection to call commands with.
@@ -154,8 +140,8 @@ trait Core
      * get its output as a string or array.
      *
      * @param string $commands
-     * @param bool   $array    Whether the output should be returned as an array
-     * @param bool   $trim     Whether the output should be trimmed
+     * @param bool   $array Whether the output should be returned as an array
+     * @param bool   $trim  Whether the output should be trimmed
      *
      * @return string|string[]
      */
@@ -303,6 +289,8 @@ trait Core
         $separator = $this->environment->getSeparator();
         $shell     = $this->rocketeer->getOption('remote.shell');
         $shelled   = $this->rocketeer->getOption('remote.shelled');
+        $sudo      = $this->rocketeer->getOption('remote.sudo');
+        $sudoed    = $this->rocketeer->getOption('remote.sudoed');
 
         // Prepare paths replacer
         $pattern     = sprintf('#\%s([\w\d\s])#', DS);
@@ -330,9 +318,9 @@ trait Core
             if ($shell && Str::contains($command, $shelled)) {
                 $command = $this->shellCommand($command);
             }
-            
-            if (self::$sudo) {
-                $command = 'sudo'.(is_string(self::$sudo) ? (' -u '.self::$sudo) : '') . ' ' . $command;
+
+            if ($sudo && Str::contains($command, $sudoed)) {
+                $command = $this->sudoCommand($sudo, $command);
             }
         }
 
@@ -366,11 +354,27 @@ trait Core
     }
 
     /**
+     * Execute a command as a sudo user
+     *
+     * @param string|bool $sudo
+     * @param strign      $command
+     *
+     * @return string
+     */
+    protected function sudoCommand($sudo, $command)
+    {
+        $sudo    = is_bool($sudo) ? 'sudo' : 'sudo -u '.$sudo;
+        $command = $sudo.' '.$command;
+
+        return $command;
+    }
+
+    /**
      * Process the output of a command.
      *
      * @param string $output
-     * @param bool   $array  Whether to return an array or a string
-     * @param bool   $trim   Whether to trim the output or not
+     * @param bool   $array Whether to return an array or a string
+     * @param bool   $trim  Whether to trim the output or not
      *
      * @return string|array
      */

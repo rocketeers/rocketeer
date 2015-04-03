@@ -7,6 +7,7 @@ Rocketeer follows the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.ht
 ### Added
 - Added `RemoteHandler::disconnect` to purge cached connections
 - Added `LocalCloneStrategy` deploy strategy
+- Added `sudo` and `sudoed` option to execute some commands as a sudo user (behaves the same way shell/shelled does)
 
 ### Fixed
 - Fixed an issue on 32bit systems where releases would max out the integer limit
