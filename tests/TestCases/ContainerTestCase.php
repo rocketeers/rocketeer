@@ -16,7 +16,6 @@ use League\Flysystem\MountManager;
 use Mockery;
 use PHPUnit_Framework_TestCase;
 use Rocketeer\RocketeerServiceProvider;
-use Rocketeer\Services\Filesystem\GlobPlugin;
 use Rocketeer\TestCases\Modules\Assertions;
 use Rocketeer\TestCases\Modules\Building;
 use Rocketeer\TestCases\Modules\Contexts;

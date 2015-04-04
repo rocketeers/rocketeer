@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Services\Filesystem\Plugins;
 
 use League\Flysystem\Plugin\AbstractPlugin;
@@ -19,7 +29,7 @@ class UpsertPlugin extends AbstractPlugin
      * @param string $filename
      * @param string $contents
      *
-     * @return boolean
+     * @return bool
      */
     public function handle($filename, $contents)
     {

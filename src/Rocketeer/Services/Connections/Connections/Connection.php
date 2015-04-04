@@ -12,6 +12,7 @@ namespace Rocketeer\Services\Connections\Connections;
 
 use Closure;
 use League\Flysystem\Adapter\Local;
+use League\Flysystem\Filesystem;
 use Rocketeer\Interfaces\ConnectionInterface;
 use Rocketeer\Interfaces\GatewayInterface;
 use Rocketeer\Interfaces\HasRolesInterface;
@@ -21,7 +22,6 @@ use Rocketeer\Traits\Properties\HasRoles;
 use RuntimeException;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
-use League\Flysystem\Filesystem;
 
 /**
  * Base connection class with additional setters.
@@ -75,7 +75,7 @@ class Connection implements ConnectionInterface, HasRolesInterface
 
     /**
      * @param string $name
-     * @param array $arguments
+     * @param array  $arguments
      *
      * @return mixed
      */

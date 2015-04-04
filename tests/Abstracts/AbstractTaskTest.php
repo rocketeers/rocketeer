@@ -91,7 +91,7 @@ class AbstractTaskTest extends RocketeerTestCase
 
         $history = $this->history->getFlattenedOutput();
         foreach ($history as $entry) {
-            if (is_array($entry) && in_array('ls', $entry)) {
+            if (is_array($entry) && in_array('ls', $entry, true)) {
                 break;
             }
         }

@@ -15,6 +15,7 @@ use Rocketeer\Services\Credentials\Keys\RepositoryKey;
 
 /**
  * @mixin \Rocketeer\TestCases\RocketeerTestCase
+ *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait Contexts

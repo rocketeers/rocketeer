@@ -184,6 +184,7 @@ class SeclibGateway implements GatewayInterface
      * Get the authentication object for login.
      *
      * @throws InvalidArgumentException
+     *
      * @return Crypt_RSA|System_SSH_Agent|string
      */
     protected function getAuthForLogin()

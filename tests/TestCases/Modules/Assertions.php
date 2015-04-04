@@ -16,6 +16,7 @@ use Rocketeer\TestCases\Assertion;
 
 /**
  * @mixin \Rocketeer\TestCases\RocketeerTestCase
+ *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait Assertions
@@ -43,7 +44,7 @@ trait Assertions
     }
 
     /**
-     * Assert that the number of files in local matches expected
+     * Assert that the number of files in local matches expected.
      *
      * @param array $files
      */

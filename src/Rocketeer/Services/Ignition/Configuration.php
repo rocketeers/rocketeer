@@ -276,7 +276,6 @@ class Configuration
         // If we have one unified tasks file, include it
         $file = $this->app['path.rocketeer.'.$handle];
         if (!$this->files->isDirectory($file) && $this->files->has($file) && $file !== 'strategies.php') {
-
             $this->files->include($file);
         } // Else include its contents
         elseif ($this->files->isDirectory($file) && $this->files->has($file)) {

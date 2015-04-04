@@ -169,8 +169,8 @@ trait Core
      * get its output as a string or array.
      *
      * @param string $commands
-     * @param bool   $array Whether the output should be returned as an array
-     * @param bool   $trim  Whether the output should be trimmed
+     * @param bool   $array    Whether the output should be returned as an array
+     * @param bool   $trim     Whether the output should be trimmed
      *
      * @return string|string[]
      */
@@ -383,7 +383,7 @@ trait Core
     }
 
     /**
-     * Execute a command as a sudo user
+     * Execute a command as a sudo user.
      *
      * @param string|bool $sudo
      * @param strign      $command
@@ -402,8 +402,8 @@ trait Core
      * Process the output of a command.
      *
      * @param string $output
-     * @param bool   $array Whether to return an array or a string
-     * @param bool   $trim  Whether to trim the output or not
+     * @param bool   $array  Whether to return an array or a string
+     * @param bool   $trim   Whether to trim the output or not
      *
      * @return string|array
      */

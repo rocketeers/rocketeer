@@ -75,7 +75,7 @@ class LocalCloneStrategy extends SyncStrategy
     }
 
     /**
-     * Get the directory to clone in
+     * Get the directory to clone in.
      *
      * @return string
      */

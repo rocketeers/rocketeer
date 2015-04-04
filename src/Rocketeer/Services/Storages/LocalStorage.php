@@ -111,7 +111,7 @@ class LocalStorage extends AbstractStorage implements StorageInterface
         // Compute the salts
         /** @type SplFileInfo[] $files */
         foreach ($files as $file) {
-            $file = $this->files->getAdapter()->removePathPrefix($file);
+            $file     = $this->files->getAdapter()->removePathPrefix($file);
             $contents = $this->files->readRequire($file);
             $salt .= json_encode($contents);
         }

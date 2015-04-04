@@ -49,7 +49,7 @@ class RemoteHandler
     }
 
     /**
-     * Purge all cached connections
+     * Purge all cached connections.
      */
     public function disconnect()
     {
@@ -86,8 +86,9 @@ class RemoteHandler
     /**
      * @param ConnectionKey $connectionKey
      *
-     * @return Connection
      * @throws CredentialsExceptionInterface
+     * @return Connection
+     *
      */
     protected function makeConnection(ConnectionKey $connectionKey)
     {
@@ -126,6 +127,7 @@ class RemoteHandler
      * @param array $config
      *
      * @throws CredentialsExceptionInterface
+     *
      * @return array
      */
     protected function getAuth(array $config)
@@ -150,6 +152,7 @@ class RemoteHandler
      * @param array  $parameters
      *
      * @throws CredentialsExceptionInterface
+     *
      * @return mixed
      */
     public function __call($method, $parameters)

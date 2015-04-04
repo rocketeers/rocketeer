@@ -139,6 +139,5 @@ abstract class RocketeerTestCase extends ContainerTestCase
         // Recreate altered local server
         exec(sprintf('rm -rf %s', $this->server));
         exec(sprintf('cp -a %s %s', $this->server.'-stub', $this->server));
-
     }
 }

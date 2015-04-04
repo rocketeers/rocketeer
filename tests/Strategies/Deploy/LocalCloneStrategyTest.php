@@ -34,7 +34,6 @@ class LocalCloneStrategyTest extends RocketeerTestCase
         $time = $this->getCurrentTime();
         $this->pretend();
 
-
         $this->builder->buildStrategy('Deploy', 'LocalClone')->deploy();
 
         $matcher = [
@@ -71,13 +70,13 @@ class LocalCloneStrategyTest extends RocketeerTestCase
     }
 
     /**
-     * Mock the current time
+     * Mock the current time.
      *
      * @return int
      */
     protected function getCurrentTime()
     {
-        $now = Carbon::now();
+        $now  = Carbon::now();
         $time = $now->timestamp;
 
         Carbon::setTestNow($now);
