@@ -44,9 +44,18 @@ return [
         ],
 
         // The way symlinks are created
-        'symlink'        => 'absolute',
+        'symlink'        => 'absolute', // One of "absolute", "relative"
 
-        // One of "absolute", "relative"
+        // Enable use of sudo for some commands
+        // You can specify a sudo user by doing
+        // 'sudo' => 'the_user'
+        'sudo' => false,
+
+        // An array of commands to run under sudo
+        'sudoed' => [],
+
+        // Permissions
+        ////////////////////////////////////////////////////////////////////
 
         // If enabled will force a shell to be created which is required for some tools like RVM or NVM
         'shell'          => true,

@@ -38,11 +38,12 @@ Rocketeer follows the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.ht
 - Fixed an issue where Rocketeer would trust the releases present on one server to deploy to all the other ones
 - Fixed an issue where setting a strategy to `''` to skip it would crash
 
-## 2.2.0 - Unreleased
+## [2.2.0] - 2015-04-04
 
 ### Added
 - Added `RemoteHandler::disconnect` to purge cached connections
 - Added `LocalCloneStrategy` deploy strategy
+- Added `sudo` and `sudoed` option to execute some commands as a sudo user (behaves the same way shell/shelled does)
 
 ### Fixed
 - Fixed an issue on 32bit systems where releases would max out the integer limit
@@ -423,7 +424,8 @@ Rocketeer follows the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.ht
 - Added config file
 - Added `deploy:setup` and `deploy:deploy` commands
 
-[3.0.0]: https://github.com/rocketeers/rocketeer/compare/2.1.3...develop
+[3.0.0]: https://github.com/rocketeers/rocketeer/compare/2.2.0...develop
+[2.2.0]: https://github.com/rocketeers/rocketeer/compare/2.1.3...2.2.0
 [2.1.3]: https://github.com/rocketeers/rocketeer/compare/2.1.2...2.1.3
 [2.1.2]: https://github.com/rocketeers/rocketeer/compare/2.1.1...2.1.2
 [2.1.1]: https://github.com/rocketeers/rocketeer/compare/2.1.0...2.1.1
