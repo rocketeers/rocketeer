@@ -136,7 +136,7 @@ class Rocketeer
         // Switch context
         switch ($type) {
             case 'servers':
-                $contextual = sprintf('connections.%s.servers.%d.config.%s', $current->name, $current->server, $option);
+                $contextual = sprintf('connections.%s.servers.%d.config.%s', $connectionKey->name, $connectionKey->server, $option);
                 break;
 
             case 'stages':
