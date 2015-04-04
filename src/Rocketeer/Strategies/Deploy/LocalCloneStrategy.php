@@ -54,7 +54,7 @@ class LocalCloneStrategy extends SyncStrategy
     protected function createCloneDirectory($temporaryFolderPath)
     {
         if (!$this->files->isDirectory($temporaryFolderPath)) {
-            if (!$this->files->makeDirectory($temporaryFolderPath, 0777, true)) {
+            if (!$this->files->createDir($temporaryFolderPath)) {
                 throw new Exception('['.__METHOD__."] Can't create clone directory : ".$temporaryFolderPath);
             }
         }
