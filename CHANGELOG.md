@@ -2,7 +2,7 @@
 
 Rocketeer follows the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.html) spec.
 
-## 2.2.0 - Unreleased
+## [2.2.0] - 2015-04-04
 
 ### Added
 - Added `RemoteHandler::disconnect` to purge cached connections
@@ -388,6 +388,7 @@ Rocketeer follows the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.ht
 - Added config file
 - Added `deploy:setup` and `deploy:deploy` commands
 
+[2.2.0]: https://github.com/rocketeers/rocketeer/compare/2.1.3...2.2.0
 [2.1.3]: https://github.com/rocketeers/rocketeer/compare/2.1.2...2.1.3
 [2.1.2]: https://github.com/rocketeers/rocketeer/compare/2.1.1...2.1.2
 [2.1.1]: https://github.com/rocketeers/rocketeer/compare/2.1.0...2.1.1
