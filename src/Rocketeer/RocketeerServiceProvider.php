@@ -18,7 +18,7 @@ use Rocketeer\Services\Config\Configuration;
 use Rocketeer\Services\Config\ConfigurationCache;
 use Rocketeer\Services\Config\ConfigurationDefinition;
 use Rocketeer\Services\Config\ConfigurationPublisher;
-use Rocketeer\Services\Config\Loaders\PhpLoader;
+use Symfony\Component\Config\Definition\Loaders\PhpLoader;
 use Rocketeer\Services\Filesystem\FilesystemsMounter;
 use Rocketeer\Services\Filesystem\Plugins\IncludePlugin;
 use Rocketeer\Services\Filesystem\Plugins\IsDirectoryPlugin;
