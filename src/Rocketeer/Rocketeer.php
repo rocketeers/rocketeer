@@ -95,8 +95,8 @@ class Rocketeer
     /**
      * Get an option from Rocketeer's config file.
      *
-     * @param string        $option
-     * @param ConnectionKey $connectionKey
+     * @param string             $option
+     * @param ConnectionKey|null $connectionKey
      *
      * @return array|Closure|string
      */
@@ -122,10 +122,10 @@ class Rocketeer
     /**
      * Get a contextual option.
      *
-     * @param string            $option
-     * @param string            $type          [stage,connection]
-     * @param string|array|null $original
-     * @param ConnectionKey     $connectionKey
+     * @param string             $option
+     * @param string             $type [stage,connection]
+     * @param string|array|null  $original
+     * @param ConnectionKey|null $connectionKey
      *
      * @return array|\Closure|string
      */

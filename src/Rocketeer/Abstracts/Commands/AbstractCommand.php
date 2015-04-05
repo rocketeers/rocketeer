@@ -194,7 +194,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
     /**
      * Fire a Tasks Queue.
      *
-     * @param string|string[]|Closure|Closure[]|\Rocketeer\Abstracts\AbstractTask[] $tasks
+     * @param string|string[]|Closure|Closure[]|\Rocketeer\Abstracts\AbstractTask|\Rocketeer\Abstracts\AbstractTask[] $tasks
      *
      * @return int
      */

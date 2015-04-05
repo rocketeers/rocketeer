@@ -48,7 +48,7 @@ abstract class AbstractPackageManager extends AbstractBinary
     /**
      * Get the contents of the manifest file.
      *
-     * @return string|null
+     * @return false|string|null
      */
     public function getManifestContents()
     {
@@ -56,8 +56,6 @@ abstract class AbstractPackageManager extends AbstractBinary
         if ($this->files->has($manifest)) {
             return $this->files->read($manifest);
         }
-
-        return;
     }
 
     /**

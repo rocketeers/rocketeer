@@ -11,10 +11,10 @@
 namespace Rocketeer\Services\Config;
 
 use Illuminate\Support\Arr;
-use Rocketeer\Services\Config\TreeBuilder\NodeBuilder;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
+use Symfony\Component\Config\Definition\TreeBuilder\NodeBuilder;
 
 class ConfigurationDefinition implements ConfigurationInterface
 {

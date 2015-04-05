@@ -21,6 +21,8 @@ interface CredentialsExceptionInterface
      * Set the credentials that failed to connect.
      *
      * @param array $credentials
+     *
+     * @return void
      */
     public function setCredentials(array $credentials);
 }

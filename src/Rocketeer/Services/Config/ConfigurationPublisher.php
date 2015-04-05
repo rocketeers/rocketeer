@@ -11,11 +11,11 @@
 namespace Rocketeer\Services\Config;
 
 use League\Flysystem\Filesystem;
-use Rocketeer\Services\Config\Dumpers\JsonReferenceDumper;
-use Rocketeer\Services\Config\Dumpers\PhpReferenceDumper;
 use Symfony\Component\Config\Definition\ArrayNode;
 use Symfony\Component\Config\Definition\Dumper\XmlReferenceDumper;
 use Symfony\Component\Config\Definition\Dumper\YamlReferenceDumper;
+use Symfony\Component\Config\Definition\Dumpers\JsonReferenceDumper;
+use Symfony\Component\Config\Definition\Dumpers\PhpReferenceDumper;
 
 class ConfigurationPublisher
 {
