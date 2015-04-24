@@ -10,7 +10,6 @@
  */
 namespace Rocketeer\Console\Commands;
 
-use Rocketeer\Rocketeer;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class RocketeerCommandTest extends RocketeerTestCase
@@ -21,9 +20,10 @@ class RocketeerCommandTest extends RocketeerTestCase
             '--version' => null,
         ]);
 
-        $output = $tester->getDisplay(true);
-        $output = trim($output);
+        $output  = $tester->getDisplay();
+        $output  = trim($output);
+        $version = strip_tags($this->console->getLongVersion());
 
-        $this->assertEquals('Rocketeer version '.Rocketeer::VERSION, $output);
+        $this->assertEquals($version, $output);
     }
 }

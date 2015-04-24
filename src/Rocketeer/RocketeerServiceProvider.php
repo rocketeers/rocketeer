@@ -168,7 +168,7 @@ class RocketeerServiceProvider extends ServiceProvider
         $this->app->singleton('rocketeer.credentials.handler', 'Rocketeer\Services\Credentials\CredentialsHandler');
         $this->app->singleton('rocketeer.credentials.gatherer', 'Rocketeer\Services\Credentials\CredentialsGatherer');
         $this->app->singleton('rocketeer.console', function () {
-            return new Console\Console('Rocketeer', Rocketeer::VERSION);
+            return new Console\Console('Rocketeer');
         });
 
         $this->app['rocketeer.console']->setLaravel($this->app);

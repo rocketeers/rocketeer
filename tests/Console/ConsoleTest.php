@@ -17,7 +17,8 @@ class ConsoleTest extends RocketeerTestCase
     public function testCanRunStandaloneConsole()
     {
         $console = exec($this->binaries['php'].' bin/rocketeer --version --no-ansi');
+        $version = strip_tags($this->console->getLongVersion());
 
-        $this->assertContains('Rocketeer version', $console);
+        $this->assertContains($version, $console);
     }
 }

@@ -35,7 +35,7 @@ class RocketeerCommand extends DeployCommand
 
         // Display version
         if ($this->option('version')) {
-            return $this->line('<info>Rocketeer</info> version <comment>'.Rocketeer::VERSION.'</comment>');
+            return $this->line($this->console->getLongVersion());
         }
 
         // Else run the Deploy task

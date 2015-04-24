@@ -39,10 +39,10 @@ class Console extends Application
      */
     public function getLongVersion()
     {
-        $version = Rocketeer::COMMIT === '@commit@' ? Rocketeer::VERSION : Rocketeer::COMMIT;
+        $version = Rocketeer::COMMIT === '@commit@' ? '(dev version)' : Rocketeer::COMMIT;
 
         return sprintf(
-            '<info>%s</info> version <comment>%s</comment>',
+            '<info>%s</info> <comment>%s</comment>',
             $this->getName(),
             $version
         );

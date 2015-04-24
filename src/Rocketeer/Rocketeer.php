@@ -24,13 +24,6 @@ class Rocketeer
     use HasLocator;
 
     /**
-     * The Rocketeer version.
-     *
-     * @type string
-     */
-    const VERSION = '3.0.0';
-
-    /**
      * The specific commit built.
      */
     const COMMIT = '@commit@';
