@@ -18,9 +18,6 @@
       "name": "/\\.(php|json|exe)/",
       "exclude": [
         "tests",
-
-        "nesbot",
-
         "johnkary",
         "mockery",
         "nesbot",
