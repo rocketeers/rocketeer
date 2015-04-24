@@ -81,6 +81,16 @@ class LocalCloneStrategy extends SyncStrategy
      */
     protected function getCloneDirectory()
     {
+        return $this->getSourceDirectoryToSync();
+    }
+    
+    /**
+     * Return source directory to clone
+     * 
+     * @return string
+     */
+    protected function getSourceDirectoryToSync()
+    {
         $storagePath = $this->paths->getStoragePath();
         $timestamp   = Carbon::now()->timestamp;
 

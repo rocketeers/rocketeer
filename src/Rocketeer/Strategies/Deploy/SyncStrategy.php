@@ -57,7 +57,7 @@ class SyncStrategy extends AbstractStrategy implements DeployStrategyInterface
     {
         $release = $this->releasesManager->getCurrentReleasePath();
 
-        return $this->rsyncTo($release);
+        return $this->rsyncTo($release, $this->getSourceDirectoryToSync());
     }
 
     /**
@@ -69,6 +69,9 @@ class SyncStrategy extends AbstractStrategy implements DeployStrategyInterface
      */
     protected function rsyncTo($destination, $source = './')
     {
+        
+        $this->executeHook("before-sync");
+        
         // Build host handle
         $arguments = [];
         $handle    = $this->getSyncHandle();
@@ -140,5 +143,33 @@ class SyncStrategy extends AbstractStrategy implements DeployStrategyInterface
         }
 
         return $ssh;
+    }
+    
+    /**
+     * @param string $hook
+     *
+     * @return bool
+     */
+    protected function executeHook($hook)
+    {
+        $localDirectoryPath = $this->getSourceDirectoryToSync();
+        $tasks = $this->getHookedTasks('sync.'.$hook, [$localDirectoryPath, $this]);
+        if (!$tasks) {
+            return true;
+        }
+    
+        $this->runForCurrentRelease($tasks);
+    
+        return $this->checkStatus('An error occurred during hookedtask execution for hook : sync.'.$hook);
+    }
+    
+    /**
+     * Return source directory to clone
+     * 
+     * @return string
+     */
+    protected function getSourceDirectoryToSync()
+    {
+        return "./";
     }
 }
