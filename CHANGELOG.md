@@ -21,6 +21,7 @@ Rocketeer follows the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.ht
 - Added ability to tail remote files via `$task->task(file, continuous)`
 - Added ability to use **Mercurial** as an SCM option
 - Added ability to use relative symlinks
+- Added event fired when first connecting to a server
 - Added motivational message when deploying on fridays
 
 ### Changed

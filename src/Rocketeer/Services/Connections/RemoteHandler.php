@@ -80,6 +80,10 @@ class RemoteHandler
         // Save to cache
         $this->active[$handle] = $connection;
 
+        // Fire connected event
+        $event = 'connected.'.$connection->getHandle()->toHandle();
+        $this->events->emit($event);
+
         return $connection;
     }
 

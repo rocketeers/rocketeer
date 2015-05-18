@@ -206,4 +206,23 @@ class RemoteHandlerTest extends RocketeerTestCase
         $this->assertEquals('production', $connection->getName());
         $this->assertEquals('barbaz', $connection->getUsername());
     }
+
+    public function testFiresEventWhenConnectedToServer()
+    {
+        $this->expectOutputString('connected');
+
+        $this->events->addListener('connected.production', function () {
+           echo 'connected';
+        });
+
+        $this->swapConnections([
+            'production' => [
+                'host'     => 'foobar.com',
+                'username' => 'foobar',
+                'password' => 'foobar',
+            ],
+        ]);
+
+        $this->handler->connection();
+    }
 }
