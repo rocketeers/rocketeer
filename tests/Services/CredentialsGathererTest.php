@@ -271,6 +271,40 @@ class CredentialsGathererTest extends RocketeerTestCase
         $this->assertArrayNotHasKey('agent', $credentials);
     }
 
+    public function testAsksForDefaultConnectionIfNoneSet()
+    {
+        $this->swapConfig([
+            'default'     => null,
+            'connections' => [
+                'production' => [
+                    'host'      => $this->host,
+                    'username'  => 'foobar',
+                    'password'  => false,
+                    'key'       => $this->key,
+                    'keyphrase' => true,
+                ],
+                'staging'    => [
+                    'host'      => $this->host,
+                    'username'  => 'foobar',
+                    'password'  => false,
+                    'key'       => $this->key,
+                    'keyphrase' => true,
+                ],
+            ],
+        ]);
+
+        $this->mock('rocketeer.command', 'Command', function (MockInterface $mock) {
+            return $mock
+                ->shouldReceive('askWith')
+                ->with('No default connection, pick one', null, ['production', 'staging'])
+                ->andReturn('production');
+        });
+
+        $this->credentialsGatherer->getServerCredentials();
+
+        $this->assertConnectionEquals('production');
+    }
+
     //////////////////////////////////////////////////////////////////////
     ////////////////////////////// HELPERS ///////////////////////////////
     //////////////////////////////////////////////////////////////////////
