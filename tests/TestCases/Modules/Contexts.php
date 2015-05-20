@@ -15,7 +15,6 @@ use Rocketeer\Services\Credentials\Keys\RepositoryKey;
 
 /**
  * @mixin \Rocketeer\TestCases\RocketeerTestCase
- *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait Contexts
@@ -100,6 +99,13 @@ trait Contexts
      */
     protected function swapConnections(array $connections)
     {
+        // Merge defaults to connections
+        foreach ($connections as $key => $connection) {
+            $connections[$key] = array_merge([
+                'root_directory' => dirname($this->server),
+            ], $connection);
+        }
+
         $this->swapConfig([
             'connections' => $connections,
         ]);

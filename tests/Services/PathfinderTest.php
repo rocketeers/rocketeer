@@ -164,4 +164,24 @@ class PathfinderTest extends RocketeerTestCase
 
         $this->assertEquals(__DIR__.DS, $this->paths->getApplicationPath());
     }
+
+    public function testCanHaveDifferentRootDirectoryPerConnection()
+    {
+        $this->swapConnections([
+            'production' => [
+                'root_directory' => '/foo',
+            ],
+            'staging'    => [
+                'root_directory' => '/bar'
+            ]
+        ]);
+
+        $this->connections->setConnection('production');
+        $path = $this->paths->getHomeFolder();
+        $this->assertEquals('/foo/foobar', $path);
+
+        $this->connections->setConnection('staging');
+        $path = $this->paths->getHomeFolder();
+        $this->assertEquals('/bar/foobar', $path);
+    }
 }

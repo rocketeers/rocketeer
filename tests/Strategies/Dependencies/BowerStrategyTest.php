@@ -62,7 +62,7 @@ class BowerStrategyTest extends RocketeerTestCase
     {
         $this->swapConnections([
             'production' => [
-                'username' => 'root',
+                'username'       => 'root',
             ],
         ]);
 
