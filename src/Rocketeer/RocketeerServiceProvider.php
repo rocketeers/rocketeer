@@ -93,7 +93,7 @@ class RocketeerServiceProvider extends ServiceProvider
      */
     public function bindPaths()
     {
-        $this->app->singleton('rocketeer.paths', 'Rocketeer\Services\Pathfinder');
+        $this->app->singleton('rocketeer.paths', 'Rocketeer\Services\Environment\Pathfinder');
         $this->app->bind('rocketeer.igniter', 'Rocketeer\Services\Ignition\Configuration');
         $this->app->bind('rocketeer.igniter.tasks', 'Rocketeer\Services\Ignition\Tasks');
 
@@ -137,7 +137,7 @@ class RocketeerServiceProvider extends ServiceProvider
      */
     public function bindCoreClasses()
     {
-        $this->app->bind('rocketeer.environment', 'Rocketeer\Services\Environment');
+        $this->app->bind('rocketeer.environment', 'Rocketeer\Services\Environment\Environment');
         $this->app->bind('rocketeer.timer', 'Rocketeer\Services\Display\QueueTimer');
         $this->app->singleton('rocketeer.builder', 'Rocketeer\Services\Builders\Builder');
         $this->app->singleton('rocketeer.bash', 'Rocketeer\Bash');

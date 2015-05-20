@@ -10,6 +10,7 @@
  */
 namespace Rocketeer\Services;
 
+use Rocketeer\Services\Environment\Pathfinder;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class PathfinderTest extends RocketeerTestCase
