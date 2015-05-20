@@ -64,6 +64,7 @@ class IgniteTest extends RocketeerTestCase
                     'username'         => '{username}',
                     'password'         => '{password}',
                     'connection'       => 'production',
+                    'root_directory'   => dirname($this->server),
                     'scm_repository'   => 'https://github.com/'.$this->repository,
                     'scm_username'     => null,
                     'scm_password'     => null,
