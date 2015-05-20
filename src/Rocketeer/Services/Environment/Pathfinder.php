@@ -10,8 +10,10 @@
  */
 namespace Rocketeer\Services\Environment;
 
-use Exception;
-use Illuminate\Support\Str;
+use Illuminate\Container\Container;
+use InvalidArgumentException;
+use Rocketeer\Services\Environment\Pathfinders\AbstractPathfinder;
+use Rocketeer\Services\Environment\Pathfinders\PathfinderInterface;
 use Rocketeer\Traits\HasLocator;
 
 /**
@@ -19,231 +21,64 @@ use Rocketeer\Traits\HasLocator;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class Pathfinder
+class Pathfinder extends AbstractPathfinder
 {
-    use HasLocator;
-
-    //////////////////////////////////////////////////////////////////////
-    //////////////////////////////// LOCAL ///////////////////////////////
-    //////////////////////////////////////////////////////////////////////
+    /**
+     * @type array
+     */
+    protected $lookups = [];
 
     /**
-     * Get a configured path.
-     *
-     * @param string $path
-     *
-     * @return string
+     * @type array
      */
-    public function getPath($path)
+    protected $pathfinders = [];
+
+    /**
+     * @param string $pathfinder
+     */
+    public function registerPathfinder($pathfinder)
     {
-        return $this->rocketeer->getOption('paths.'.$path);
+        $pathfinder = $this->app->make($pathfinder);
+        if (!$pathfinder instanceof PathfinderInterface) {
+            throw new InvalidArgumentException('Pathfinder must implement PathfinderInterface');
+        }
+
+        // Register provided methods
+        $provided  = $pathfinder->provides();
+        $classname = get_class($pathfinder);
+        foreach ($provided as $method) {
+            $this->lookups[$method] = $classname;
+        }
+
+        // Cache Pathfinder instance
+        $this->pathfinders[$classname] = $pathfinder;
     }
 
     /**
-     * Get the default path for the SSH key.
+     * Delegate calls to subpathfinders
      *
-     * @throws Exception
-     * @return string
+     * @param string $method
+     * @param array  $arguments
+     *
+     * @return mixed
      */
-    public function getDefaultKeyPath()
+    public function __call($method, $arguments)
     {
-        return $this->getUserHomeFolder().'/.ssh/id_rsa';
-    }
+        if (array_key_exists($method, $this->lookups)) {
+            $pathfinder = $this->lookups[$method];
+            $pathfinder = $this->pathfinders[$pathfinder];
 
-    /**
-     * Get the path to the Rocketeer config folder in the users home.
-     *
-     * @return string
-     */
-    public function getRocketeerConfigFolder()
-    {
-        return $this->getUserHomeFolder().'/.rocketeer';
-    }
-
-    /**
-     * Get the path to the configuration cache.
-     *
-     * @return string
-     */
-    public function getConfigurationCachePath()
-    {
-        return $this->getRocketeerConfigFolder().'/caches/'.Str::slug(getcwd());
-    }
-
-    /**
-     * Get the path to the users home folder.
-     *
-     * @throws Exception
-     * @return string
-     */
-    public static function getUserHomeFolder()
-    {
-        // Get home folder if available (Unix)
-        if (!empty($_SERVER['HOME'])) {
-            return $_SERVER['HOME'];
-            // Else use the home drive (Windows)
-        } elseif (!empty($_SERVER['HOMEDRIVE']) && !empty($_SERVER['HOMEPATH'])) {
-            return $_SERVER['HOMEDRIVE'].$_SERVER['HOMEPATH'];
-        } else {
-            throw new Exception('Cannot determine user home directory.');
+            return call_user_func_array([$pathfinder, $method], $arguments);
         }
     }
 
     /**
-     * Get the base path.
+     * The methods this pathfinder provides
      *
-     * @return string
+     * @return string[]
      */
-    public function getBasePath()
+    public function provides()
     {
-        $base = $this->app['path.base'] ? $this->app['path.base'].'/' : '';
-        $base = $this->unifySlashes($base);
-
-        return $base;
-    }
-
-    /**
-     * Get the path to the application.
-     *
-     * @return string
-     */
-    public function getApplicationPath()
-    {
-        $app = $this->getPath('app').'/' ?: $this->getBasePath();
-        $app = $this->unifySlashes($app);
-
-        return $app;
-    }
-
-    /**
-     * Get the path to the configuration folder.
-     *
-     * @return string
-     */
-    public function getConfigurationPath()
-    {
-        // Get path to configuration
-        $framework     = $this->getFramework();
-        $configuration = $framework ? $framework->getConfigurationPath() : $this->app['path.rocketeer.config'];
-
-        return $this->unifyLocalSlashes($configuration);
-    }
-
-    /**
-     * Get path to the storage folder.
-     *
-     * @return string
-     */
-    public function getStoragePath()
-    {
-        // If no path is bound, default to the Rocketeer folder
-        if (!$this->app->bound('path.storage')) {
-            return '.rocketeer';
-        }
-
-        // Unify slashes
-        $storage = $this->app['path.storage'];
-        $storage = $this->unifySlashes($storage);
-        $storage = str_replace($this->getBasePath(), null, $storage);
-
-        return $storage;
-    }
-
-    //////////////////////////////////////////////////////////////////////
-    /////////////////////////////// SERVER ///////////////////////////////
-    //////////////////////////////////////////////////////////////////////
-
-    /**
-     * Get the path to the root folder of the application.
-     *
-     * @return string
-     */
-    public function getHomeFolder()
-    {
-        $rootDirectory = $this->connections->getCurrentConnection()->root_directory;
-        $rootDirectory = Str::finish($rootDirectory, '/');
-        $appDirectory  = $this->rocketeer->getOption('remote.app_directory') ?: $this->rocketeer->getApplicationName();
-
-        return $rootDirectory.$appDirectory;
-    }
-
-    /**
-     * Get the path to a folder, taking into account application name and stage.
-     *
-     * @param string|null $folder
-     *
-     * @return string
-     */
-    public function getFolder($folder = null)
-    {
-        $folder = $this->replacePatterns($folder);
-
-        $base = $this->getHomeFolder().'/';
-        $stage = $this->connections->getCurrentConnection()->stage;
-        if ($folder && $stage) {
-            $base .= $stage.'/';
-        }
-        $folder = str_replace($base, null, $folder);
-
-        return $base.$folder;
-    }
-
-    //////////////////////////////////////////////////////////////////////
-    ////////////////////////////// HELPERS ///////////////////////////////
-    //////////////////////////////////////////////////////////////////////
-
-    /**
-     * Unify the slashes to the UNIX mode (forward slashes).
-     *
-     * @param string $path
-     *
-     * @return string
-     */
-    public function unifySlashes($path)
-    {
-        return str_replace('\\', '/', $path);
-    }
-
-    /**
-     * Unify paths to the local DS.
-     *
-     * @param string $path
-     *
-     * @return string
-     */
-    public function unifyLocalSlashes($path)
-    {
-        return preg_replace('#(/|\\\)#', DS, $path);
-    }
-
-    /**
-     * Replace patterns in a folder path.
-     *
-     * @param string $path
-     *
-     * @return string
-     */
-    public function replacePatterns($path)
-    {
-        $base = $this->getBasePath();
-
-        // Replace folder patterns
-        return preg_replace_callback('/\{[a-z\.]+\}/', function ($match) use ($base) {
-            $folder = substr($match[0], 1, -1);
-
-            // Replace paths from the container
-            if ($this->app->bound($folder)) {
-                $path = $this->app->make($folder);
-
-                return str_replace($base, null, $this->unifySlashes($path));
-            }
-
-            // Replace paths from configuration
-            if ($custom = $this->getPath($folder)) {
-                return $custom;
-            }
-
-            return false;
-        }, $path);
+        return [];
     }
 }

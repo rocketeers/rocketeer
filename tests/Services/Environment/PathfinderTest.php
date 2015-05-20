@@ -8,9 +8,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Rocketeer\Services;
+namespace Rocketeer\Services\Environment;
 
-use Rocketeer\Services\Environment\Pathfinder;
+use Rocketeer\Services\Environment\Pathfinders\LocalPathfinder;
+use Rocketeer\Services\Pathfinder;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class PathfinderTest extends RocketeerTestCase
@@ -79,7 +80,7 @@ class PathfinderTest extends RocketeerTestCase
 
         $_SERVER['HOMEDRIVE'] = 'C:';
         $_SERVER['HOMEPATH']  = '\Users\someuser';
-        $home                 = Pathfinder::getUserHomeFolder();
+        $home                 = LocalPathfinder::getUserHomeFolder();
 
         $this->assertEquals('C:\Users\someuser', $home);
     }

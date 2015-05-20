@@ -18,13 +18,15 @@ use Rocketeer\Services\Config\Configuration;
 use Rocketeer\Services\Config\ConfigurationCache;
 use Rocketeer\Services\Config\ConfigurationDefinition;
 use Rocketeer\Services\Config\ConfigurationPublisher;
-use Symfony\Component\Config\Definition\Loaders\PhpLoader;
+use Rocketeer\Services\Environment\Pathfinder;
+use Rocketeer\Services\Environment\Pathfinders;
 use Rocketeer\Services\Filesystem\FilesystemsMounter;
 use Rocketeer\Services\Filesystem\Plugins\IncludePlugin;
 use Rocketeer\Services\Filesystem\Plugins\IsDirectoryPlugin;
 use Rocketeer\Services\Filesystem\Plugins\RequirePlugin;
 use Rocketeer\Services\Filesystem\Plugins\UpsertPlugin;
 use Rocketeer\Services\Storages\LocalStorage;
+use Symfony\Component\Config\Definition\Loaders\PhpLoader;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\DelegatingLoader;
 use Symfony\Component\Config\Loader\LoaderResolver;
@@ -93,7 +95,14 @@ class RocketeerServiceProvider extends ServiceProvider
      */
     public function bindPaths()
     {
-        $this->app->singleton('rocketeer.paths', 'Rocketeer\Services\Environment\Pathfinder');
+        $this->app->singleton('rocketeer.paths', function ($app) {
+            $pathfinder = new Pathfinder($app);
+            $pathfinder->registerPathfinder('Rocketeer\Services\Environment\Pathfinders\LocalPathfinder');
+            $pathfinder->registerPathfinder('Rocketeer\Services\Environment\Pathfinders\ServerPathfinder');
+
+            return $pathfinder;
+        });
+
         $this->app->bind('rocketeer.igniter', 'Rocketeer\Services\Ignition\Configuration');
         $this->app->bind('rocketeer.igniter.tasks', 'Rocketeer\Services\Ignition\Tasks');
 
