@@ -114,7 +114,7 @@ class RemoteHandler
             'username'   => $connectionKey->username,
             'password'   => $connectionKey->password,
             'privateKey' => $connectionKey->key,
-            'root'       => $this->rocketeer->getOption('remote.root_directory'),
+            'root'       => $connectionKey->root_directory,
         ]));
         $connection->setFilesystem($filesystem);
 

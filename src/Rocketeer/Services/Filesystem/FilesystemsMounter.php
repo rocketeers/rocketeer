@@ -48,8 +48,7 @@ class FilesystemsMounter
         foreach ($connections as $name => $servers) {
             foreach ($servers['servers'] as $server => $credentials) {
                 $connection = $this->credentials->createConnectionKey($name, $server);
-                $root       = $this->rocketeer->getOption('remote.root_directory', $connection);
-                $adapter    = new ConnectionKeyAdapter($connection, $root);
+                $adapter    = new ConnectionKeyAdapter($connection);
                 $filesystem = new Filesystem($adapter);
 
                 $this->filesystems[$connection->toHandle()] = $filesystem;

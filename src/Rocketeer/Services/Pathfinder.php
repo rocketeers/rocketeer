@@ -46,7 +46,7 @@ class Pathfinder
      */
     public function getHomeFolder()
     {
-        $rootDirectory = $this->rocketeer->getOption('remote.root_directory');
+        $rootDirectory = $this->connections->getCurrentConnection()->root_directory;
         $rootDirectory = Str::finish($rootDirectory, '/');
         $appDirectory  = $this->rocketeer->getOption('remote.app_directory') ?: $this->rocketeer->getApplicationName();
 

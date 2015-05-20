@@ -268,15 +268,14 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
             'default'                  => 'production',
             'session.driver'           => 'file',
             'connections'              => [
-                'production' => ['host' => '{host}', 'username' => '{username}', 'password' => '{password}'],
-                'staging'    => ['host' => '{host}', 'username' => '{username}', 'password' => '{password}'],
+                'production' => ['host' => '{host}', 'username' => '{username}', 'password' => '{password}', 'root_directory' => dirname($this->server)],
+                'staging'    => ['host' => '{host}', 'username' => '{username}', 'password' => '{password}', 'root_directory' => dirname($this->server)],
             ],
             'application_name'         => 'foobar',
             'logs'                     => null,
             'remote.permissions.files' => ['tests'],
             'remote.shared'            => ['tests/Elements'],
             'remote.keep_releases'     => 1,
-            'remote.root_directory'    => dirname($this->server),
             'scm'                      => [
                 'branch'     => 'master',
                 'repository' => 'https://github.com/'.$this->repository,

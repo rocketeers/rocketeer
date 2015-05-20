@@ -27,6 +27,7 @@ use Rocketeer\Services\Connections\roles;
  * @property string   key
  * @property string   keyphrase
  * @property string   agent
+ * @property string   root_directory
  * @property string[] roles
  * @property boolean  db_role
  * @property roles    array
