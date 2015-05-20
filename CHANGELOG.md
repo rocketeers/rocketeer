@@ -30,6 +30,7 @@ Rocketeer follows the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.ht
 - [Psysh](http://psysh.org/) is now used for `rocketeer tinker` instead of Boris
 - Servers are now displayed as their hostname instead of their index on multiserver connections (ie. `production/staging.foobar.com` instead of `production/0`)
 - Status and progress messages are now logged also
+- The `root_directory` option is now configured per-server/connection instead of globally in `remote.php`
 
 ### Fixed
 - Fixed an infinite loop issue on Windows
