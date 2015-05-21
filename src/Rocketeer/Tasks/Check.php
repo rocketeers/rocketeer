@@ -44,7 +44,7 @@ class Check extends AbstractTask
         $errors = [];
 
         // Check the depoy strategy
-        if ($this->rocketeer->getOption('strategies.deploy') !== 'sync' && !$this->checkScm()) {
+        if ($this->rocketeer->getOption('strategies.deploy') !== 'Sync' && !$this->checkScm()) {
             $errors[] = $this->scm->getBinary().' could not be found';
         }
 
