@@ -25,7 +25,7 @@ class CheckTest extends RocketeerTestCase
     public function testSkipsScmCheckIfNotRequired()
     {
         $this->swapConfig([
-            'rocketeer::strategies.deploy' => 'sync',
+            'rocketeer::strategies.deploy' => 'Sync',
         ]);
 
         $this->assertTaskHistory('Check', [
