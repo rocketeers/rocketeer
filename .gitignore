@@ -11,3 +11,5 @@ tests/_server/foobar
 # Dependencies
 vendor
 
+# PhpUnit configuration local machine only
+phpunit.xml
