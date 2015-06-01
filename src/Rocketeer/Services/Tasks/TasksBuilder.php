@@ -112,12 +112,14 @@ class TasksBuilder
         // build it, otherwise get the bound one
         $handle = strtolower($strategy);
         if ($concrete) {
-            $concrete = $this->findQualifiedName($concrete, [
-                'Rocketeer\Strategies\\'.ucfirst($strategy).'\%sStrategy',
-            ]);
+            $path       = 'Rocketeer\Strategies\\'.ucfirst($strategy).'\%sStrategy';
+            $class      = sprintf($path, $concrete);
+            $concrete   = $this->findQualifiedName($concrete, [$path]);
 
             if (!$concrete) {
-                return false;
+                throw new \RuntimeException(
+                    sprintf('Class "%s" for strategy "%s" not found', $class, $strategy)
+                );
             }
 
             return new $concrete($this->app);
