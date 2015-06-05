@@ -24,6 +24,7 @@ Rocketeer follows the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.ht
 - Added event fired when first connecting to a server
 - Added motivational message when deploying on fridays
 - Added prompt for default connection if none set but there's still connections defined
+- Added ability to register custom paths providers with the `Pathfinder` class
 
 ### Changed
 - Logs now always display username and connection handle of all entries
