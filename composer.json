@@ -18,7 +18,7 @@
     }
   ],
   "require": {
-    "php": ">=5.4.0",
+    "php": ">=5.5.9",
     "anahkiasen/php-reference-dumper": "^1.0",
     "illuminate/container": "^5.0",
     "illuminate/support": "^5.0",
