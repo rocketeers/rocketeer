@@ -27,7 +27,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  * An abstract command with various helpers for all
  * subcommands to inherit.
  *
- * @mixin OutputInterface
+ * @mixin SymfonyStyle
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
@@ -362,17 +362,18 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
      */
     public function askWith($question, $default = null, $choices = [])
     {
-        $question = $this->formatQuestion($question, $default, $choices);
         if ($this->checkInteractivity($question)) {
             return $default;
         }
 
         // If we provided choices, autocomplete
         if ($choices) {
-            return $this->askWithCompletion($question, $choices, $default);
+            return $this->choice($question, $choices, $default);
         }
 
-        return $this->ask($question, $default);
+        return $this->ask($question, $default, function ($value) {
+            return is_string($value) || is_bool($value) || is_null($value);
+        });
     }
 
     /**
@@ -385,36 +386,11 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
      */
     public function askSecretly($question, $default = null)
     {
-        $question = $this->formatQuestion($question, $default);
         if ($this->checkInteractivity($question)) {
             return $default;
         }
 
-        return $this->secret($question) ?: $default;
-    }
-
-    /**
-     * Adds additional information to a question.
-     *
-     * @param string   $question
-     * @param string   $default
-     * @param string[] $choices
-     *
-     * @return string
-     */
-    protected function formatQuestion($question, $default, $choices = [])
-    {
-        // If default, show it in the question
-        if ($default !== null) {
-            $question .= ' ('.$default.')';
-        }
-
-        // If multiple choices, show them
-        if ($choices) {
-            $question .= ' ['.implode('/', $choices).']';
-        }
-
-        return $question;
+        return $this->askHidden($question) ?: $default;
     }
 
     //////////////////////////////////////////////////////////////////////

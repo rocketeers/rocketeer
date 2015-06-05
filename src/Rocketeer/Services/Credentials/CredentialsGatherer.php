@@ -81,13 +81,13 @@ class CredentialsGatherer
 
         // If we didn't set any connection, ask for them
         if (!$activeConnections && empty($availableConnections)) {
-            $connectionName = $this->ask('askWith', 'No connections have been set, please create one:', 'production');
+            $connectionName = $this->ask('askWith', 'No connections have been set, please create one', 'production');
             $this->getConnectionCredentials($connectionName);
 
             return;
         } elseif (!$activeConnections) {
             $available = array_keys($availableConnections);
-            $connection = $this->ask('askWith', 'No default connection, pick one', null, $available);
+            $connection = $this->ask('askWith', 'No default connection, pick one', head($available), $available);
             $this->connections->setConnections($connection);
         }
 
@@ -223,7 +223,7 @@ class CredentialsGatherer
      */
     protected function gatherCredential($handle, $type, $question = null)
     {
-        $question = $question ?: 'No '.$type.' is set for ['.$handle.'], please provide one:';
+        $question = $question ?: 'No '.$type.' is set for ['.$handle.'], please provide one';
         $option = $this->getOption($type, true);
         $method = in_array($type, ['password', 'keyphrase'], true) ? 'askSecretly' : 'askWith';
 
