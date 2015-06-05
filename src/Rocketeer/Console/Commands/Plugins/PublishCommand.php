@@ -43,12 +43,12 @@ class PublishCommand extends AbstractCommand
      */
     public function fire()
     {
-        $this->laravel->instance('rocketeer.command', $this);
+        $this->app->instance('rocketeer.command', $this);
 
         /** @type string $package */
         $package = $this->argument('package');
 
-        $publisher = new Plugins($this->laravel);
+        $publisher = new Plugins($this->app);
         $publisher->publish($package);
     }
 

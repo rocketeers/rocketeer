@@ -10,7 +10,7 @@
  */
 namespace Rocketeer\Abstracts;
 
-use Illuminate\Container\Container;
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Arr;
 use Rocketeer\Traits\HasLocator;
 

@@ -10,7 +10,7 @@
  */
 namespace Rocketeer\Abstracts\Strategies;
 
-use Illuminate\Container\Container;
+use Illuminate\Contracts\Container\Container;
 use Rocketeer\Abstracts\AbstractPackageManager;
 
 /**

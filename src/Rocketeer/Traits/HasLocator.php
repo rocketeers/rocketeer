@@ -10,7 +10,7 @@
  */
 namespace Rocketeer\Traits;
 
-use Illuminate\Container\Container;
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Arr;
 
 /**
@@ -66,6 +66,22 @@ trait HasLocator
     public function __construct(Container $app)
     {
         $this->app = $app;
+    }
+
+    /**
+     * @param Container $app
+     */
+    public function setContainer($app)
+    {
+        $this->app = $app;
+    }
+
+    /**
+     * @return Container
+     */
+    public function getContainer()
+    {
+        return $this->app;
     }
 
     /**

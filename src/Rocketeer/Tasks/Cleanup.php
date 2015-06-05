@@ -10,7 +10,7 @@
  */
 namespace Rocketeer\Tasks;
 
-use Illuminate\Container\Container;
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Str;
 use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Services\Storages\ServerStorage;

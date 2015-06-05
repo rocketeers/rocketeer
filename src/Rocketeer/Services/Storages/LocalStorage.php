@@ -10,7 +10,7 @@
  */
 namespace Rocketeer\Services\Storages;
 
-use Illuminate\Container\Container;
+use Illuminate\Contracts\Container\Container;
 use Rocketeer\Abstracts\AbstractStorage;
 use Rocketeer\Interfaces\StorageInterface;
 use Symfony\Component\Finder\Finder;

@@ -24,12 +24,12 @@ class AbstractCommandTest extends RocketeerTestCase
     {
         $this->usesLaravel(true);
         $command = new InstallCommand();
-        $command->setLaravel($this->app);
+        $command->setContainer($this->app);
         $this->assertEquals('deploy:plugin-install', $command->getName());
 
         $this->usesLaravel(false);
         $command = new InstallCommand();
-        $command->setLaravel($this->app);
+        $command->setContainer($this->app);
         $this->assertEquals('plugin:install', $command->getName());
     }
 
@@ -41,7 +41,7 @@ class AbstractCommandTest extends RocketeerTestCase
         $this->app['rocketeer.credentials.gatherer'] = Mockery::mock('CredentialsGatherer')->shouldIgnoreMissing();
 
         $command = new DummyFailingCommand();
-        $command->setLaravel($this->app);
+        $command->setContainer($this->app);
         $code = $command->run(new ArrayInput([]), new NullOutput());
 
         $this->assertEquals(1, $code);
@@ -50,7 +50,7 @@ class AbstractCommandTest extends RocketeerTestCase
     public function testDisplaysWarningInNonInteractiveMode()
     {
         $command = new DummyFailingCommand();
-        $command->setLaravel($this->app);
+        $command->setContainer($this->app);
 
         $tester = $this->executeCommand($command, [], ['interactive' => false]);
 

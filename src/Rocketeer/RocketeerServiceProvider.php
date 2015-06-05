@@ -48,16 +48,8 @@ class RocketeerServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // ...
-    }
-
-    /**
-     * Bind classes and commands.
-     */
-    public function boot()
-    {
-        if (!$this->app->bound('Illuminate\Container\Container')) {
-            $this->app->instance('Illuminate\Container\Container', $this->app);
+        if (!$this->app->bound('Illuminate\Contracts\Container\Container')) {
+            $this->app->instance('Illuminate\Contracts\Container\Container', $this->app);
         }
 
         $this->bindThirdPartyServices();
@@ -176,11 +168,7 @@ class RocketeerServiceProvider extends ServiceProvider
     {
         $this->app->singleton('rocketeer.credentials.handler', 'Rocketeer\Services\Credentials\CredentialsHandler');
         $this->app->singleton('rocketeer.credentials.gatherer', 'Rocketeer\Services\Credentials\CredentialsGatherer');
-        $this->app->singleton('rocketeer.console', function () {
-            return new Console\Console('Rocketeer');
-        });
-
-        $this->app['rocketeer.console']->setLaravel($this->app);
+        $this->app->singleton('rocketeer.console', 'Rocketeer\Console\Console');
         $this->app['rocketeer.credentials.handler']->syncConnectionCredentials();
     }
 

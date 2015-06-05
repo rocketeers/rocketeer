@@ -10,11 +10,9 @@
  */
 namespace Rocketeer\Services\Environment;
 
-use Illuminate\Container\Container;
 use InvalidArgumentException;
 use Rocketeer\Services\Environment\Pathfinders\AbstractPathfinder;
 use Rocketeer\Services\Environment\Pathfinders\PathfinderInterface;
-use Rocketeer\Traits\HasLocator;
 
 /**
  * Locates folders and paths on the server and locally.

@@ -31,11 +31,11 @@ class RocketeerCommand extends DeployCommand
      */
     public function fire()
     {
-        $this->laravel->instance('rocketeer.command', $this);
+        $this->app->instance('rocketeer.command', $this);
 
         // Display version
         if ($this->option('version')) {
-            return $this->line($this->console->getLongVersion());
+            return $this->output->writeln($this->console->getLongVersion());
         }
 
         // Else run the Deploy task

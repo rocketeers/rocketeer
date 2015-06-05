@@ -10,7 +10,7 @@
  */
 namespace Rocketeer\TestCases\Modules;
 
-use Illuminate\Console\Command;
+use Rocketeer\Abstracts\Commands\AbstractCommand;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -87,11 +87,11 @@ trait Building
     protected function command($command)
     {
         // Fetch command from Container if necessary
-        if (!$command instanceof Command) {
+        if (!$command instanceof AbstractCommand) {
             $command = $command ? '.'.$command : null;
             $command = $this->app['rocketeer.commands'.$command];
-        } elseif (!$command->getLaravel()) {
-            $command->setLaravel($this->app);
+        } elseif (!$command->getContainer()) {
+            $command->setContainer($this->app);
             $command->setHelperSet(new HelperSet(['question' => new QuestionHelper()]));
         }
 

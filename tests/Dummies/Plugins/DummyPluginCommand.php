@@ -10,9 +10,17 @@
  */
 namespace Rocketeer\Dummies\Plugins;
 
-use Illuminate\Console\Command;
+use Rocketeer\Abstracts\Commands\AbstractCommand;
 
-class DummyPluginCommand extends Command
+class DummyPluginCommand extends AbstractCommand
 {
     protected $name = 'foobar';
+
+    /**
+     * Run the tasks.
+     */
+    public function fire()
+    {
+        // TODO: Implement fire() method.
+    }
 }

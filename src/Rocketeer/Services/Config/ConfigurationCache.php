@@ -33,7 +33,7 @@ class ConfigurationCache extends ConfigCache
      */
     public function flush()
     {
-        @unlink($this->getFile());
+        @unlink($this->getPath());
     }
 
     /**
@@ -43,22 +43,12 @@ class ConfigurationCache extends ConfigCache
      */
     public function getContents()
     {
-        $file = $this->getFile();
+        $file = $this->getPath();
 
         // Get an unserialize
         $configuration = file_get_contents($file);
         $configuration = unserialize($configuration);
 
         return $configuration;
-    }
-
-    /**
-     * Get the path to the cache file.
-     *
-     * @return string
-     */
-    public function getFile()
-    {
-        return $this->__toString();
     }
 }

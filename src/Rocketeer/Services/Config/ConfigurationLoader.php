@@ -10,7 +10,7 @@
  */
 namespace Rocketeer\Services\Config;
 
-use Illuminate\Container\Container;
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Arr;
 use Rocketeer\Traits\HasLocator;
 use Symfony\Component\Config\Definition\Processor;

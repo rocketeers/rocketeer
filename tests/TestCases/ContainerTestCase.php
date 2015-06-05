@@ -90,7 +90,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         // Rocketeer classes ------------------------------------------- /
 
         $serviceProvider = new RocketeerServiceProvider($this->app);
-        $serviceProvider->boot();
+        $serviceProvider->register();
 
         $this->app->singleton('flysystem', function () {
            return new MountManager(['local' => $this->files, 'remote' => $this->files]);
