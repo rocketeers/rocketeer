@@ -16,6 +16,6 @@ require 'vendor/autoload.php';
 
 $container = new Container();
 $provider = new RocketeerServiceProvider($container);
-$provider->boot();
+$provider->register();
 
 $container['rocketeer.config.publisher']->publish(__DIR__.'/../src/config', 'php');

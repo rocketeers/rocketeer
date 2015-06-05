@@ -33,7 +33,7 @@ class MetaTest extends RocketeerTestCase
 
         $provider = new RocketeerServiceProvider($container);
         $provider->register();
-        $provider->boot();
+        $provider->register();
 
         $bindings = $container->getBindings();
         $this->assertArrayHasKey('rocketeer.remote', $bindings);
