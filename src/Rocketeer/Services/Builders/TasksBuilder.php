@@ -137,7 +137,7 @@ trait TasksBuilder
     public function buildTaskFromClosure(Closure $callback, $stringTask = null)
     {
         /** @var ClosureTask $task */
-        $task = $this->buildTaskFromClass('Rocketeer\Tasks\Closure');
+        $task = $this->buildTaskFromClass(\Rocketeer\Tasks\Closure::class);
         $task->setClosure($callback);
 
         // If we had an original string used, store it on

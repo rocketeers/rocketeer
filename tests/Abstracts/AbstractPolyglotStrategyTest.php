@@ -11,6 +11,8 @@
 
 namespace Rocketeer\Abstracts;
 
+use Rocketeer\Dummies\ExecutablesPolyglotStrategy;
+use Rocketeer\Dummies\FailingPolyglotStrategy;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class AbstractPolyglotStrategyTest extends RocketeerTestCase
@@ -20,7 +22,7 @@ class AbstractPolyglotStrategyTest extends RocketeerTestCase
         $this->expectOutputString('executable');
 
         /** @var \Rocketeer\Abstracts\Strategies\AbstractPolyglotStrategy $strategy */
-        $strategy = $this->builder->buildStrategy('executables', 'Rocketeer\Dummies\ExecutablesPolyglotStrategy');
+        $strategy = $this->builder->buildStrategy('executables', ExecutablesPolyglotStrategy::class);
         $strategy->fire();
 
         $this->assertTrue($strategy->passed());
@@ -31,7 +33,7 @@ class AbstractPolyglotStrategyTest extends RocketeerTestCase
         $this->expectOutputString('');
 
         /** @var \Rocketeer\Abstracts\Strategies\AbstractPolyglotStrategy $strategy */
-        $strategy = $this->builder->buildStrategy('failing', 'Rocketeer\Dummies\FailingPolyglotStrategy');
+        $strategy = $this->builder->buildStrategy('failing', FailingPolyglotStrategy::class);
         $result = $strategy->fire();
 
         $this->assertFalse($result);

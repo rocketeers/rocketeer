@@ -11,6 +11,7 @@
 
 namespace Rocketeer\Services\Connections\Gateways;
 
+use League\Flysystem\Filesystem;
 use Mockery;
 use Rocketeer\TestCases\RocketeerTestCase;
 
@@ -36,8 +37,8 @@ class SeclibGatewayTest extends RocketeerTestCase
 
     public function testKeyTextCanBeSetManually()
     {
-        $files = Mockery::mock('League\Flysystem\Filesystem');
-        $gateway = Mockery::mock('Rocketeer\Services\Connections\Gateways\SeclibGateway', [
+        $files = Mockery::mock(Filesystem::class);
+        $gateway = Mockery::mock(SeclibGateway::class, [
             '127.0.0.1:22',
             ['username' => 'taylor', 'keytext' => 'keystuff'],
             $files,
@@ -53,10 +54,10 @@ class SeclibGatewayTest extends RocketeerTestCase
 
     public function getGateway()
     {
-        $files = Mockery::mock('League\Flysystem\Filesystem');
+        $files = Mockery::mock(Filesystem::class);
         $files->shouldReceive('read')->with('keypath')->andReturn('keystuff');
 
-        $gateway = Mockery::mock('Rocketeer\Services\Connections\Gateways\SeclibGateway', [
+        $gateway = Mockery::mock(SeclibGateway::class, [
             '127.0.0.1:22',
             ['username' => 'taylor', 'key' => 'keypath', 'keyphrase' => 'keyphrase'],
             $files,

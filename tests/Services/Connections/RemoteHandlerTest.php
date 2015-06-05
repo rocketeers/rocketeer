@@ -11,6 +11,9 @@
 
 namespace Rocketeer\Services\Connections;
 
+use Rocketeer\Exceptions\ConnectionException;
+use Rocketeer\Exceptions\MissingCredentialsException;
+use Rocketeer\Services\Connections\Connections\Connection;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class RemoteHandlerTest extends RocketeerTestCase
@@ -40,14 +43,14 @@ class RemoteHandlerTest extends RocketeerTestCase
 
         $connection = $this->handler->connection();
 
-        $this->assertInstanceOf('Rocketeer\Services\Connections\Connections\Connection', $connection);
+        $this->assertInstanceOf(Connection::class, $connection);
         $this->assertEquals('production', $connection->getName());
         $this->assertEquals('foobar', $connection->getUsername());
     }
 
     public function testThrowsExceptionIfMissingCredentials()
     {
-        $this->setExpectedException('Rocketeer\Exceptions\MissingCredentialsException');
+        $this->setExpectedException(MissingCredentialsException::class);
 
         $this->swapConnections([
             'production' => [
@@ -61,7 +64,7 @@ class RemoteHandlerTest extends RocketeerTestCase
 
     public function testThrowsExceptionIfMissingInformations()
     {
-        $this->setExpectedException('Rocketeer\Exceptions\MissingCredentialsException');
+        $this->setExpectedException(MissingCredentialsException::class);
 
         $this->swapConnections([
             'production' => [
@@ -84,7 +87,7 @@ class RemoteHandlerTest extends RocketeerTestCase
         ]);
 
         $connection = $this->handler->connection();
-        $this->assertInstanceOf('Rocketeer\Services\Connections\Connections\Connection', $connection);
+        $this->assertInstanceOf(Connection::class, $connection);
         $this->assertEquals('production', $connection->getName());
 
         $this->swapConnections([
@@ -92,13 +95,13 @@ class RemoteHandlerTest extends RocketeerTestCase
         ]);
 
         $connection = $this->handler->connection();
-        $this->assertInstanceOf('Rocketeer\Services\Connections\Connections\Connection', $connection);
+        $this->assertInstanceOf(Connection::class, $connection);
         $this->assertEquals('production', $connection->getName());
     }
 
     public function testThrowsExceptionIfUnableToConnect()
     {
-        $this->setExpectedException('Rocketeer\Exceptions\ConnectionException');
+        $this->setExpectedException(ConnectionException::class);
 
         $this->swapConnections([
             'production' => [
@@ -134,7 +137,7 @@ class RemoteHandlerTest extends RocketeerTestCase
         $this->connections->setConnection('production', 1);
         $connection = $this->handler->connection('production', 1);
 
-        $this->assertInstanceOf('Rocketeer\Services\Connections\Connections\Connection', $connection);
+        $this->assertInstanceOf(Connection::class, $connection);
         $this->assertEquals('production', $connection->getName());
         $this->assertEquals('bar', $connection->getUsername());
 
@@ -142,7 +145,7 @@ class RemoteHandlerTest extends RocketeerTestCase
         $this->connections->setConnection('production', 0);
         $connection = $this->handler->connection('production', 0);
 
-        $this->assertInstanceOf('Rocketeer\Services\Connections\Connections\Connection', $connection);
+        $this->assertInstanceOf(Connection::class, $connection);
         $this->assertEquals('production', $connection->getName());
         $this->assertEquals('foo', $connection->getUsername());
     }
@@ -160,13 +163,13 @@ class RemoteHandlerTest extends RocketeerTestCase
 
         $connection = $this->handler->connection();
 
-        $this->assertInstanceOf('Rocketeer\Services\Connections\Connections\Connection', $connection);
+        $this->assertInstanceOf(Connection::class, $connection);
         $this->assertEquals(['foo', 'bar'], $connection->getRoles());
     }
 
     public function testShowsConnectionDetailsOnMissingCredentials()
     {
-        $this->setExpectedException('Rocketeer\Exceptions\MissingCredentialsException', 'With credentials');
+        $this->setExpectedException(MissingCredentialsException::class, 'With credentials');
 
         $this->swapConnections([
             'production' => [
@@ -189,7 +192,7 @@ class RemoteHandlerTest extends RocketeerTestCase
         ]);
 
         $connection = $this->handler->connection();
-        $this->assertInstanceOf('Rocketeer\Services\Connections\Connections\Connection', $connection);
+        $this->assertInstanceOf(Connection::class, $connection);
         $this->assertEquals('production', $connection->getName());
         $this->assertEquals('foobar', $connection->getUsername());
 
@@ -203,7 +206,7 @@ class RemoteHandlerTest extends RocketeerTestCase
 
         $this->handler->disconnect();
         $connection = $this->handler->connection();
-        $this->assertInstanceOf('Rocketeer\Services\Connections\Connections\Connection', $connection);
+        $this->assertInstanceOf(Connection::class, $connection);
         $this->assertEquals('production', $connection->getName());
         $this->assertEquals('barbaz', $connection->getUsername());
     }

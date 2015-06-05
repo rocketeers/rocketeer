@@ -12,6 +12,7 @@
 namespace Rocketeer\Services;
 
 use Mockery\MockInterface;
+use Rocketeer\Bash;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class ReleasesManagerTest extends RocketeerTestCase
@@ -195,7 +196,7 @@ class ReleasesManagerTest extends RocketeerTestCase
 
     public function testCanReturnPreviousReleaseIfNoReleases()
     {
-        $this->mock('rocketeer.bash', 'Rocketeer\Bash', function (MockInterface $mock) {
+        $this->mock('rocketeer.bash', Bash::class, function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('getFile')->times(1)
                 ->shouldReceive('listContents')->once()->with($this->server.'/releases')->andReturn([]);
@@ -216,7 +217,7 @@ class ReleasesManagerTest extends RocketeerTestCase
 
     public function testDoesntPingForReleasesAllTheFuckingTime()
     {
-        $this->mock('rocketeer.bash', 'Rocketeer\Bash', function (MockInterface $mock) {
+        $this->mock('rocketeer.bash', Bash::class, function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('getFile')->times(1)
                 ->shouldReceive('listContents')->once()->with($this->server.'/releases')->andReturn([20000000000000]);
@@ -230,7 +231,7 @@ class ReleasesManagerTest extends RocketeerTestCase
 
     public function testDoesntPingForReleasesIfNoReleases()
     {
-        $this->mock('rocketeer.bash', 'Rocketeer\Bash', function (MockInterface $mock) {
+        $this->mock('rocketeer.bash', Bash::class, function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('getFile')->times(1)
                 ->shouldReceive('listContents')->once()->with($this->server.'/releases')->andReturn([]);
@@ -244,7 +245,7 @@ class ReleasesManagerTest extends RocketeerTestCase
 
     public function testIgnoresErrorsAndStuffWhenFetchingReleases()
     {
-        $this->mock('rocketeer.bash', 'Rocketeer\Bash', function (MockInterface $mock) {
+        $this->mock('rocketeer.bash', Bash::class, function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('getFile')->times(1)
                 ->shouldReceive('listContents')->times(1)->with($this->server.'/releases')->andReturn(['IMPOSSIBLE BECAUSE NOPE FUCK YOU']);
@@ -257,7 +258,7 @@ class ReleasesManagerTest extends RocketeerTestCase
 
     public function testResetsReleasesCacheWhenSwitchingServer()
     {
-        $this->mock('rocketeer.bash', 'Rocketeer\Bash', function (MockInterface $mock) {
+        $this->mock('rocketeer.bash', Bash::class, function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('getFile')->once()
                 ->shouldReceive('listContents')->twice()->with($this->server.'/releases')->andReturn([20000000000000]);

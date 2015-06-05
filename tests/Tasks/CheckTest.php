@@ -13,6 +13,7 @@ namespace Rocketeer\Tasks;
 
 use Mockery;
 use Mockery\MockInterface;
+use Rocketeer\Abstracts\Strategies\AbstractCheckStrategy;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class CheckTest extends RocketeerTestCase
@@ -42,7 +43,7 @@ class CheckTest extends RocketeerTestCase
 
     public function testStopsCheckingIfErrorOccured()
     {
-        $this->mock('rocketeer.strategies.check', 'Rocketeer\Abstracts\Strategies\AbstractCheckStrategy', function (
+        $this->mock('rocketeer.strategies.check', AbstractCheckStrategy::class, function (
             MockInterface $mock
         ) {
             return $mock

@@ -13,6 +13,8 @@ namespace Rocketeer\Traits\BashModules;
 
 use Mockery;
 use Mockery\MockInterface;
+use Rocketeer\Abstracts\Commands\AbstractCommand;
+use Rocketeer\Binaries\Php;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class BinariesTest extends RocketeerTestCase
@@ -120,7 +122,7 @@ class BinariesTest extends RocketeerTestCase
     public function testCanRunComposer()
     {
         $this->usesComposer();
-        $this->mock('rocketeer.command', 'Rocketeer\Abstracts\AbstractCommand', function (MockInterface $mock) {
+        $this->mock('rocketeer.command', AbstractCommand::class, function (MockInterface $mock) {
             return $mock
                 ->shouldIgnoreMissing()
                 ->shouldReceive('getOutput')->andReturn($this->getCommandOutput())
@@ -136,7 +138,7 @@ class BinariesTest extends RocketeerTestCase
     public function testDoesntRunComposerIfNotNeeded()
     {
         $this->usesComposer(false);
-        $this->mock('rocketeer.command', 'Rocketeer\Abstracts\AbstractCommand', function (MockInterface $mock) {
+        $this->mock('rocketeer.command', AbstractCommand::class, function (MockInterface $mock) {
             return $mock
                 ->shouldIgnoreMissing()
                 ->shouldReceive('getOutput')->andReturn($this->getCommandOutput())
@@ -151,7 +153,7 @@ class BinariesTest extends RocketeerTestCase
     public function testCanGetBinariesViaMagicMethods()
     {
         $binary = $this->bash->php();
-        $this->assertInstanceOf('Rocketeer\Binaries\Php', $binary);
+        $this->assertInstanceOf(Php::class, $binary);
     }
 
     public function testCanRunBinariesMethodsViaMagicMethods()

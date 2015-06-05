@@ -11,16 +11,25 @@
 
 namespace Rocketeer\Services;
 
+use Rocketeer\Console\Commands\BaseTaskCommand;
 use Rocketeer\Dummies\DummyNotifier;
+use Rocketeer\Dummies\Plugins\DummyBuilderPlugin;
+use Rocketeer\Dummies\Tasks\CallableTask;
+use Rocketeer\Dummies\Tasks\MyCustomTask;
+use Rocketeer\Strategies\Check\PhpStrategy;
+use Rocketeer\Strategies\Check\RubyStrategy;
+use Rocketeer\Tasks\Check;
+use Rocketeer\Tasks\Closure;
+use Rocketeer\Tasks\Deploy;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class TasksHandlerTest extends RocketeerTestCase
 {
     public function testCanCreateCommandsWithTask()
     {
-        $command = $this->tasks->add('Rocketeer\Tasks\Deploy');
-        $this->assertInstanceOf('Rocketeer\Console\Commands\BaseTaskCommand', $command);
-        $this->assertInstanceOf('Rocketeer\Tasks\Deploy', $command->getTask());
+        $command = $this->tasks->add(Deploy::class);
+        $this->assertInstanceOf(BaseTaskCommand::class, $command);
+        $this->assertInstanceOf(Deploy::class, $command->getTask());
     }
 
     public function testCanGetTasksBeforeOrAfterAnotherTask()
@@ -65,7 +74,7 @@ class TasksHandlerTest extends RocketeerTestCase
             $task->runForCurrentRelease('ls');
         });
 
-        $this->assertInstanceOf('Rocketeer\Tasks\Closure', $this->task('foobar'));
+        $this->assertInstanceOf(Closure::class, $this->task('foobar'));
 
         $this->queue->run('foobar');
         $this->assertHistory([['cd {server}/releases/{release}', 'ls']]);
@@ -78,7 +87,7 @@ class TasksHandlerTest extends RocketeerTestCase
         ]);
 
         $this->tasks->task('foobar', ['ls', 'ls']);
-        $this->assertInstanceOf('Rocketeer\Tasks\Closure', $this->task('foobar'));
+        $this->assertInstanceOf(Closure::class, $this->task('foobar'));
 
         $this->queue->run('foobar');
         $this->assertHistory([['cd {server}/releases/{release}', 'ls', 'ls']]);
@@ -212,7 +221,7 @@ class TasksHandlerTest extends RocketeerTestCase
 
         $task = $this->task('phpunit');
 
-        $this->assertInstanceOf('Rocketeer\Tasks\Closure', $task);
+        $this->assertInstanceOf(Closure::class, $task);
         $this->assertEquals('description', $task->getDescription());
         $this->assertEquals('foobar', $task->getStringTask());
     }
@@ -222,7 +231,7 @@ class TasksHandlerTest extends RocketeerTestCase
         $this->tasks->configure('check', ['foo' => 'bar']);
         $task = $this->builder->buildTask('Check');
 
-        $this->assertInstanceOf('Rocketeer\Tasks\Check', $task);
+        $this->assertInstanceOf(Check::class, $task);
         $this->assertEquals(['foo' => 'bar'], $task->getOptions());
     }
 
@@ -234,8 +243,8 @@ class TasksHandlerTest extends RocketeerTestCase
         $php = $this->builder->buildStrategy('Check', 'Php');
         $ruby = $this->builder->buildStrategy('Check', 'Ruby');
 
-        $this->assertInstanceOf('Rocketeer\Strategies\Check\PhpStrategy', $php);
-        $this->assertInstanceOf('Rocketeer\Strategies\Check\RubyStrategy', $ruby);
+        $this->assertInstanceOf(PhpStrategy::class, $php);
+        $this->assertInstanceOf(RubyStrategy::class, $ruby);
 
         $this->assertEquals(['foo' => 'bar'], $php->getOptions());
         $this->assertEquals(['baz' => 'qux'], $ruby->getOptions());
@@ -243,11 +252,11 @@ class TasksHandlerTest extends RocketeerTestCase
 
     public function testCanAddLookupsViaPlugins()
     {
-        $this->tasks->plugin('Rocketeer\Dummies\Plugins\DummyBuilderPlugin');
+        $this->tasks->plugin(DummyBuilderPlugin::class);
 
         $task = $this->builder->buildTask('MyCustomTask');
 
-        $this->assertInstanceOf('Rocketeer\Dummies\Tasks\MyCustomTask', $task);
+        $this->assertInstanceOf(MyCustomTask::class, $task);
     }
 
     public function testCanUseCallableAsEventListener()
@@ -255,7 +264,7 @@ class TasksHandlerTest extends RocketeerTestCase
         $this->expectOutputString('FIRED');
         $this->disableTestEvents();
 
-        $this->tasks->listenTo('deploy.before', ['Rocketeer\Dummies\Tasks\CallableTask', 'fire']);
+        $this->tasks->listenTo('deploy.before', [CallableTask::class, 'fire']);
         $this->task('Deploy')->fireEvent('before');
     }
 }

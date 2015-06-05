@@ -11,6 +11,7 @@
 
 namespace Rocketeer\Services\Connections;
 
+use Rocketeer\Dummies\Tasks\DummyCoordinatedTask;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class CoordinatorTest extends RocketeerTestCase
@@ -68,6 +69,6 @@ class CoordinatorTest extends RocketeerTestCase
             ],
         ]);
 
-        $this->queue->execute('Rocketeer\Dummies\Tasks\DummyCoordinatedTask', ['production', 'staging']);
+        $this->queue->execute(DummyCoordinatedTask::class, ['production', 'staging']);
     }
 }

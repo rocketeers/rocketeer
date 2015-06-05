@@ -11,24 +11,51 @@
 
 namespace Rocketeer;
 
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
+use League\Event\Emitter;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
+use Rocketeer\Bash;
+use Rocketeer\Console\Console;
+use Rocketeer\Rocketeer;
+use Rocketeer\Services\Builders\Builder;
 use Rocketeer\Services\Config\Configuration;
 use Rocketeer\Services\Config\ConfigurationCache;
 use Rocketeer\Services\Config\ConfigurationDefinition;
+use Rocketeer\Services\Config\ConfigurationLoader;
 use Rocketeer\Services\Config\ConfigurationPublisher;
+use Rocketeer\Services\Connections\Connections\LocalConnection;
+use Rocketeer\Services\Connections\ConnectionsHandler;
+use Rocketeer\Services\Connections\Coordinator;
+use Rocketeer\Services\Connections\RemoteHandler;
+use Rocketeer\Services\Credentials\CredentialsGatherer;
+use Rocketeer\Services\Credentials\CredentialsHandler;
+use Rocketeer\Services\Display\QueueExplainer;
+use Rocketeer\Services\Display\QueueTimer;
+use Rocketeer\Services\Environment\Environment;
 use Rocketeer\Services\Environment\Pathfinder;
+use Rocketeer\Services\Environment\Pathfinders\LocalPathfinder;
+use Rocketeer\Services\Environment\Pathfinders\ServerPathfinder;
 use Rocketeer\Services\Filesystem\FilesystemsMounter;
 use Rocketeer\Services\Filesystem\Plugins\IncludePlugin;
 use Rocketeer\Services\Filesystem\Plugins\IsDirectoryPlugin;
 use Rocketeer\Services\Filesystem\Plugins\RequirePlugin;
 use Rocketeer\Services\Filesystem\Plugins\UpsertPlugin;
+use Rocketeer\Services\History\History;
+use Rocketeer\Services\History\LogsHandler;
+use Rocketeer\Services\Ignition\Configuration as ConfigurationIgnition;
+use Rocketeer\Services\Ignition\Tasks;
+use Rocketeer\Services\ReleasesManager;
+use Rocketeer\Services\RolesManager;
 use Rocketeer\Services\Storages\LocalStorage;
+use Rocketeer\Services\Tasks\TasksQueue;
+use Rocketeer\Services\TasksHandler;
 use Symfony\Component\Config\Definition\Loaders\PhpLoader;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\DelegatingLoader;
+use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Loader\LoaderResolver;
 
 // Define DS
@@ -48,8 +75,8 @@ class RocketeerServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        if (!$this->app->bound('Illuminate\Contracts\Container\Container')) {
-            $this->app->instance('Illuminate\Contracts\Container\Container', $this->app);
+        if (!$this->app->bound(Container::class)) {
+            $this->app->instance(Container::class, $this->app);
         }
 
         $this->bindThirdPartyServices();
@@ -89,14 +116,14 @@ class RocketeerServiceProvider extends ServiceProvider
     {
         $this->app->singleton('rocketeer.paths', function ($app) {
             $pathfinder = new Pathfinder($app);
-            $pathfinder->registerPathfinder('Rocketeer\Services\Environment\Pathfinders\LocalPathfinder');
-            $pathfinder->registerPathfinder('Rocketeer\Services\Environment\Pathfinders\ServerPathfinder');
+            $pathfinder->registerPathfinder(LocalPathfinder::class);
+            $pathfinder->registerPathfinder(ServerPathfinder::class);
 
             return $pathfinder;
         });
 
-        $this->app->bind('rocketeer.igniter', 'Rocketeer\Services\Ignition\Configuration');
-        $this->app->bind('rocketeer.igniter.tasks', 'Rocketeer\Services\Ignition\Tasks');
+        $this->app->bind('rocketeer.igniter', ConfigurationIgnition::class);
+        $this->app->bind('rocketeer.igniter.tasks', Tasks::class);
 
         // Bind paths
         $this->app['rocketeer.igniter']->bindPaths();
@@ -125,9 +152,9 @@ class RocketeerServiceProvider extends ServiceProvider
             return Request::createFromGlobals();
         }, true);
 
-        $this->app->bindIf('rocketeer.remote', 'Rocketeer\Services\Connections\RemoteHandler', true);
-        $this->app->singleton('remote.local', 'Rocketeer\Services\Connections\Connections\LocalConnection');
-        $this->app->bindIf('events', 'League\Event\Emitter', true);
+        $this->app->bindIf('rocketeer.remote', RemoteHandler::class, true);
+        $this->app->singleton('remote.local', LocalConnection::class);
+        $this->app->bindIf('events', Emitter::class, true);
 
         // Register factory and custom configurations
         $this->registerConfig();
@@ -138,20 +165,20 @@ class RocketeerServiceProvider extends ServiceProvider
      */
     public function bindCoreClasses()
     {
-        $this->app->bind('rocketeer.environment', 'Rocketeer\Services\Environment\Environment');
-        $this->app->bind('rocketeer.timer', 'Rocketeer\Services\Display\QueueTimer');
-        $this->app->singleton('rocketeer.builder', 'Rocketeer\Services\Builders\Builder');
-        $this->app->singleton('rocketeer.bash', 'Rocketeer\Bash');
-        $this->app->singleton('rocketeer.connections', 'Rocketeer\Services\Connections\ConnectionsHandler');
-        $this->app->singleton('rocketeer.coordinator', 'Rocketeer\Services\Connections\Coordinator');
-        $this->app->singleton('rocketeer.explainer', 'Rocketeer\Services\Display\QueueExplainer');
-        $this->app->singleton('rocketeer.history', 'Rocketeer\Services\History\History');
-        $this->app->singleton('rocketeer.logs', 'Rocketeer\Services\History\LogsHandler');
-        $this->app->singleton('rocketeer.queue', 'Rocketeer\Services\Tasks\TasksQueue');
-        $this->app->singleton('rocketeer.releases', 'Rocketeer\Services\ReleasesManager');
-        $this->app->singleton('rocketeer.rocketeer', 'Rocketeer\Rocketeer');
-        $this->app->singleton('rocketeer.roles', 'Rocketeer\Services\RolesManager');
-        $this->app->singleton('rocketeer.tasks', 'Rocketeer\Services\TasksHandler');
+        $this->app->bind('rocketeer.environment', Environment::class);
+        $this->app->bind('rocketeer.timer', QueueTimer::class);
+        $this->app->singleton('rocketeer.builder', Builder::class);
+        $this->app->singleton('rocketeer.bash', Bash::class);
+        $this->app->singleton('rocketeer.connections', ConnectionsHandler::class);
+        $this->app->singleton('rocketeer.coordinator', Coordinator::class);
+        $this->app->singleton('rocketeer.explainer', QueueExplainer::class);
+        $this->app->singleton('rocketeer.history', History::class);
+        $this->app->singleton('rocketeer.logs', LogsHandler::class);
+        $this->app->singleton('rocketeer.queue', TasksQueue::class);
+        $this->app->singleton('rocketeer.releases', ReleasesManager::class);
+        $this->app->singleton('rocketeer.rocketeer', Rocketeer::class);
+        $this->app->singleton('rocketeer.roles', RolesManager::class);
+        $this->app->singleton('rocketeer.tasks', TasksHandler::class);
 
         $this->app->singleton('rocketeer.storage.local', function ($app) {
             $filename = $app['rocketeer.rocketeer']->getApplicationName();
@@ -166,9 +193,9 @@ class RocketeerServiceProvider extends ServiceProvider
      */
     public function bindConsoleClasses()
     {
-        $this->app->singleton('rocketeer.credentials.handler', 'Rocketeer\Services\Credentials\CredentialsHandler');
-        $this->app->singleton('rocketeer.credentials.gatherer', 'Rocketeer\Services\Credentials\CredentialsGatherer');
-        $this->app->singleton('rocketeer.console', 'Rocketeer\Console\Console');
+        $this->app->singleton('rocketeer.credentials.handler', CredentialsHandler::class);
+        $this->app->singleton('rocketeer.credentials.gatherer', CredentialsGatherer::class);
+        $this->app->singleton('rocketeer.console', Console::class);
         $this->app['rocketeer.credentials.handler']->syncConnectionCredentials();
     }
 
@@ -222,7 +249,7 @@ class RocketeerServiceProvider extends ServiceProvider
      */
     protected function registerConfig()
     {
-        $this->app->bind('Symfony\Component\Config\Loader\LoaderInterface', function () {
+        $this->app->bind(LoaderInterface::class, function () {
             $locator = new FileLocator();
             $loader = new LoaderResolver([new PhpLoader($locator)]);
             $loader = new DelegatingLoader($loader);
@@ -230,12 +257,12 @@ class RocketeerServiceProvider extends ServiceProvider
             return $loader;
         });
 
-        $this->app->singleton('Rocketeer\Services\Config\ConfigurationCache', function ($app) {
+        $this->app->singleton(ConfigurationCache::class, function ($app) {
             return new ConfigurationCache($app['rocketeer.paths']->getConfigurationCachePath(), false);
         });
 
         $this->app->singleton('rocketeer.config.loader', function ($app) {
-            $loader = $app->make('Rocketeer\Services\Config\ConfigurationLoader');
+            $loader = $app->make(ConfigurationLoader::class);
             $loader->setFolders([__DIR__.'/../config', $app['rocketeer.paths']->getConfigurationPath()]);
 
             return $loader;

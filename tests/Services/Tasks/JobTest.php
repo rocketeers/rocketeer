@@ -23,8 +23,8 @@ class JobTest extends RocketeerTestCase
 
         $this->assertInstanceOf('Illuminate\Support\Collection', $pipeline);
         $this->assertCount(2, $pipeline);
-        $this->assertInstanceOf('Rocketeer\Services\Tasks\Job', $pipeline[0]);
-        $this->assertInstanceOf('Rocketeer\Services\Tasks\Job', $pipeline[1]);
+        $this->assertInstanceOf(Job::class, $pipeline[0]);
+        $this->assertInstanceOf(Job::class, $pipeline[1]);
 
         $this->assertEquals(['ls'], $pipeline[0]->queue);
         $this->assertEquals(['ls'], $pipeline[1]->queue);

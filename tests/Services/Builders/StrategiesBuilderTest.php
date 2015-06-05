@@ -11,6 +11,7 @@
 
 namespace Rocketeer\Services\Builders;
 
+use Rocketeer\Strategies\Check\PhpStrategy;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class StrategiesBuilderTest extends RocketeerTestCase
@@ -18,7 +19,7 @@ class StrategiesBuilderTest extends RocketeerTestCase
     public function testReturnsNullOnUnbuildableStrategy()
     {
         $built = $this->builder->buildStrategy('Check', '');
-        $this->assertInstanceOf('Rocketeer\Strategies\Check\PhpStrategy', $built);
+        $this->assertInstanceOf(PhpStrategy::class, $built);
 
         unset($this->app['rocketeer.strategies.check']);
         $built = $this->builder->buildStrategy('Check', '');

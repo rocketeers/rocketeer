@@ -12,6 +12,8 @@
 namespace Rocketeer\Dummies;
 
 use Rocketeer\Abstracts\Strategies\AbstractPolyglotStrategy;
+use Rocketeer\Dummies\Strategies\ExecutableStrategy;
+use Rocketeer\Dummies\Strategies\NonExecutableStrategy;
 
 class ExecutablesPolyglotStrategy extends AbstractPolyglotStrategy
 {
@@ -21,8 +23,8 @@ class ExecutablesPolyglotStrategy extends AbstractPolyglotStrategy
      * @var array
      */
     protected $strategies = [
-        'Rocketeer\Dummies\Strategies\NonExecutableStrategy',
-        'Rocketeer\Dummies\Strategies\ExecutableStrategy',
+        NonExecutableStrategy::class,
+        ExecutableStrategy::class,
     ];
 
     public function fire()

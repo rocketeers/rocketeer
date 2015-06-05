@@ -11,6 +11,7 @@
 
 namespace Rocketeer\Services\Builders;
 
+use Rocketeer\Dummies\Tasks\MyCustomTask;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class BuilderTest extends RocketeerTestCase
@@ -20,7 +21,7 @@ class BuilderTest extends RocketeerTestCase
         $this->builder->registerLookup('tasks', 'Rocketeer\Dummies\Tasks\%s');
         $task = $this->builder->buildTask('MyCustomTask');
 
-        $this->assertInstanceOf('Rocketeer\Dummies\Tasks\MyCustomTask', $task);
+        $this->assertInstanceOf(MyCustomTask::class, $task);
     }
 
     public function testCanAddLookupsOfMultipleTypes()
@@ -28,6 +29,6 @@ class BuilderTest extends RocketeerTestCase
         $this->builder->registerLookups(['tasks' => 'Rocketeer\Dummies\Tasks\%s']);
         $task = $this->builder->buildTask('MyCustomTask');
 
-        $this->assertInstanceOf('Rocketeer\Dummies\Tasks\MyCustomTask', $task);
+        $this->assertInstanceOf(MyCustomTask::class, $task);
     }
 }

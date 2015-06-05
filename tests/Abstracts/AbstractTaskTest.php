@@ -11,6 +11,7 @@
 
 namespace Rocketeer\Abstracts;
 
+use Rocketeer\Dummies\Tasks\MyCustomHaltingTask;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class AbstractTaskTest extends RocketeerTestCase
@@ -118,7 +119,7 @@ class AbstractTaskTest extends RocketeerTestCase
     public function testCanHookIntoHaltingEvent()
     {
         $this->expectFiredEvent('deploy.halt');
-        $this->tasks->before('deploy', 'Rocketeer\Dummies\Tasks\MyCustomHaltingTask');
+        $this->tasks->before('deploy', MyCustomHaltingTask::class);
 
         $this->pretendTask('Deploy')->fire();
     }
@@ -181,8 +182,7 @@ class AbstractTaskTest extends RocketeerTestCase
     {
         $this->expectOutputString('');
 
-        $task = 'Rocketeer\Dummies\Tasks\MyCustomHaltingTask';
-        $task = $this->builder->buildTask($task);
+        $task = $this->builder->buildTask(MyCustomHaltingTask::class);
 
         $this->tasks->after($task, function () {
            echo 'fired';

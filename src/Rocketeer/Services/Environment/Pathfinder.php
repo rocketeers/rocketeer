@@ -13,10 +13,15 @@ namespace Rocketeer\Services\Environment;
 
 use InvalidArgumentException;
 use Rocketeer\Services\Environment\Pathfinders\AbstractPathfinder;
+use Rocketeer\Services\Environment\Pathfinders\LocalPathfinder;
 use Rocketeer\Services\Environment\Pathfinders\PathfinderInterface;
+use Rocketeer\Services\Environment\Pathfinders\ServerPathfinder;
 
 /**
  * Locates folders and paths on the server and locally.
+ *
+ * @mixin LocalPathfinder
+ * @mixin ServerPathfinder
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */

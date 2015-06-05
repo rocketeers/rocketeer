@@ -16,7 +16,10 @@ use Illuminate\Container\Container;
 use League\Flysystem\MountManager;
 use Mockery;
 use PHPUnit_Framework_TestCase;
+use Rocketeer\Abstracts\Commands\AbstractCommand;
+use Rocketeer\Dummies\Tasks\MyCustomTask;
 use Rocketeer\RocketeerServiceProvider;
+use Rocketeer\Services\Connections\Connections\Connection;
 use Rocketeer\TestCases\Modules\Assertions;
 use Rocketeer\TestCases\Modules\Building;
 use Rocketeer\TestCases\Modules\Contexts;
@@ -132,7 +135,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         };
 
         $verbose = array_get($options, 'verbose') ? 1 : 0;
-        $command = Mockery::mock('Rocketeer\Abstracts\AbstractCommand')->shouldIgnoreMissing();
+        $command = Mockery::mock(AbstractCommand::class)->shouldIgnoreMissing();
         $command->shouldReceive('getOutput')->andReturn($this->getCommandOutput($verbose));
         $command->shouldReceive('getVerbosity')->andReturn($verbose);
 
@@ -195,7 +198,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
             return $output;
         };
 
-        $remote = Mockery::mock('Rocketeer\Services\Connections\Connections\Connection');
+        $remote = Mockery::mock(Connection::class);
         $remote->shouldReceive('connected')->andReturn(true);
         $remote->shouldReceive('into')->andReturn(Mockery::self());
         $remote->shouldReceive('status')->andReturn(0)->byDefault();
@@ -287,7 +290,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
             ],
             'strategies.dependencies' => 'Composer',
             'hooks' => [
-                'custom' => ['Rocketeer\Dummies\Tasks\MyCustomTask'],
+                'custom' => [MyCustomTask::class],
                 'before' => [
                     'deploy' => [
                         'before',
@@ -296,7 +299,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
                 ],
                 'after' => [
                     'check' => [
-                        'Rocketeer\Dummies\Tasks\MyCustomTask',
+                        MyCustomTask::class,
                     ],
                     'deploy' => [
                         'after',

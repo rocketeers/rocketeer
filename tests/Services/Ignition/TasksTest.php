@@ -11,6 +11,7 @@
 
 namespace Rocketeer\Services\Ignition;
 
+use Rocketeer\Dummies\Tasks\MyCustomTask;
 use Rocketeer\Tasks\Closure;
 use Rocketeer\TestCases\RocketeerTestCase;
 
@@ -21,7 +22,7 @@ class TasksTest extends RocketeerTestCase
         $userTasks = (array) $this->config->get('hooks.custom');
         $this->app['rocketeer.igniter.tasks']->registerTasksAndCommands($userTasks);
 
-        $this->assertInstanceOf('Rocketeer\Dummies\Tasks\MyCustomTask', $this->app['rocketeer.tasks.my-custom-task']);
+        $this->assertInstanceOf(MyCustomTask::class, $this->app['rocketeer.tasks.my-custom-task']);
     }
 
     public function testCanComputeSlugWithoutTask()

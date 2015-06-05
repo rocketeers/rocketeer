@@ -26,8 +26,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Handle creationg and caching of connections.
  *
- * @mixin OutputInterface
- *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  * @author Taylor Otwell <taylorotwell@gmail.com>
  */

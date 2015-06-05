@@ -14,6 +14,8 @@ namespace Rocketeer\Services\Tasks;
 use Mockery;
 use Mockery\MockInterface;
 use Rocketeer\Abstracts\AbstractTask;
+use Rocketeer\Dummies\Tasks\MyCustomHaltingTask;
+use Rocketeer\Dummies\Tasks\MyCustomTask;
 use Rocketeer\Services\Connections\RemoteHandler;
 use Rocketeer\TestCases\RocketeerTestCase;
 
@@ -155,8 +157,8 @@ class TasksQueueTest extends RocketeerTestCase
         });
 
         $pipeline = $this->queue->run([
-            'Rocketeer\Dummies\Tasks\MyCustomHaltingTask',
-            'Rocketeer\Dummies\Tasks\MyCustomTask',
+            MyCustomHaltingTask::class,
+            MyCustomTask::class,
         ]);
 
         $this->assertTrue($pipeline->failed());

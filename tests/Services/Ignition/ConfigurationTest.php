@@ -12,6 +12,7 @@
 namespace Rocketeer\Services\Ignition;
 
 use Mockery\MockInterface;
+use Rocketeer\Tasks\Closure;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class ConfigurationTest extends RocketeerTestCase
@@ -125,7 +126,7 @@ class ConfigurationTest extends RocketeerTestCase
         $this->tasks->registerConfiguredEvents();
 
         $task = $this->task('DisplayFiles');
-        $this->assertInstanceOf('Rocketeer\Tasks\Closure', $task);
+        $this->assertInstanceOf(Closure::class, $task);
         $this->assertEquals('DisplayFiles', $task->getName());
 
         $events = $this->tasks->getTasksListeners($task, 'before');

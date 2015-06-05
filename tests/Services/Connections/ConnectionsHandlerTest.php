@@ -12,6 +12,7 @@
 namespace Rocketeer\Services\Connections;
 
 use Mockery\MockInterface;
+use Rocketeer\Exceptions\ConnectionException;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class ConnectionsHandlerTest extends RocketeerTestCase
@@ -113,7 +114,7 @@ class ConnectionsHandlerTest extends RocketeerTestCase
 
     public function testThrowsExceptionWhenTryingToSetInvalidConnection()
     {
-        $this->setExpectedException('Rocketeer\Exceptions\ConnectionException', 'Invalid connection(s): foo, bar');
+        $this->setExpectedException(ConnectionException::class, 'Invalid connection(s): foo, bar');
 
         $this->connections->setConnections('foo,bar');
     }

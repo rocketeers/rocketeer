@@ -13,6 +13,7 @@ namespace Rocketeer\Services\Builders;
 
 use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Abstracts\Commands\AbstractCommand;
+use Rocketeer\Console\Commands\BaseTaskCommand;
 use Rocketeer\Exceptions\TaskCompositionException;
 
 /**
@@ -44,7 +45,7 @@ trait CommandsBuilder
         $command = $this->findQualifiedName($name, 'commands');
 
         // If no command found, use BaseTaskCommand or task name
-        if ($command === 'Rocketeer\Console\Commands\BaseTaskCommand') {
+        if ($command === BaseTaskCommand::class) {
             $name = is_string($task) ? $task : $name;
             $command = $this->findQualifiedName($name, 'commands');
         }

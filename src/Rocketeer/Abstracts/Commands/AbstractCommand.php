@@ -27,6 +27,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  * An abstract command with various helpers for all
  * subcommands to inherit.
  *
+ * @mixin OutputInterface
+ *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 abstract class AbstractCommand extends Command implements IdentifierInterface

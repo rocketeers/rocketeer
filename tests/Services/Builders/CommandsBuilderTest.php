@@ -11,6 +11,9 @@
 
 namespace Rocketeer\Services\Builders;
 
+use Rocketeer\Console\Commands\BaseTaskCommand;
+use Rocketeer\Console\Commands\DeployCommand;
+use Rocketeer\Console\Commands\RocketeerCommand;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class CommandsBuilderTest extends RocketeerTestCase
@@ -18,15 +21,15 @@ class CommandsBuilderTest extends RocketeerTestCase
     public function testCanCreateCommandOfTask()
     {
         $command = $this->builder->buildCommand('Rocketeer', '');
-        $this->assertInstanceOf('Rocketeer\Console\Commands\RocketeerCommand', $command);
+        $this->assertInstanceOf(RocketeerCommand::class, $command);
         $this->assertEquals('deploy', $command->getName());
 
         $command = $this->builder->buildCommand('Deploy', 'lol');
-        $this->assertInstanceOf('Rocketeer\Console\Commands\DeployCommand', $command);
+        $this->assertInstanceOf(DeployCommand::class, $command);
         $this->assertEquals('deploy:deploy', $command->getName());
 
         $command = $this->builder->buildCommand('ls', 'ls');
-        $this->assertInstanceOf('Rocketeer\Console\Commands\BaseTaskCommand', $command);
+        $this->assertInstanceOf(BaseTaskCommand::class, $command);
         $this->assertEquals('deploy:ls', $command->getName());
     }
 }

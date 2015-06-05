@@ -12,23 +12,28 @@
 namespace Rocketeer\Services\Builders;
 
 use ReflectionFunction;
+use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Dummies\Tasks\CallableTask;
+use Rocketeer\Exceptions\TaskCompositionException;
+use Rocketeer\Tasks\Check;
+use Rocketeer\Tasks\Closure;
+use Rocketeer\Tasks\Deploy;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class TasksBuilderTest extends RocketeerTestCase
 {
     public function testCanBuildTaskByName()
     {
-        $task = $this->builder->buildTaskFromClass('Rocketeer\Tasks\Deploy');
+        $task = $this->builder->buildTaskFromClass(Deploy::class);
 
-        $this->assertInstanceOf('Rocketeer\Abstracts\AbstractTask', $task);
+        $this->assertInstanceOf(AbstractTask::class, $task);
     }
 
     public function testCanBuildCustomTaskByName()
     {
-        $tasks = $this->builder->buildTasks(['Rocketeer\Tasks\Check']);
+        $tasks = $this->builder->buildTasks([Check::class]);
 
-        $this->assertInstanceOf('Rocketeer\Tasks\Check', $tasks[0]);
+        $this->assertInstanceOf(Check::class, $tasks[0]);
     }
 
     public function testCanBuildTaskFromString()
@@ -36,7 +41,7 @@ class TasksBuilderTest extends RocketeerTestCase
         $string = 'echo "I love ducks"';
 
         $string = $this->builder->buildTaskFromString($string);
-        $this->assertInstanceOf('Rocketeer\Tasks\Closure', $string);
+        $this->assertInstanceOf(Closure::class, $string);
 
         $closure = $string->getClosure();
         $this->assertInstanceOf('Closure', $closure);
@@ -54,7 +59,7 @@ class TasksBuilderTest extends RocketeerTestCase
         };
 
         $closure = $this->builder->buildTaskFromClosure($originalClosure);
-        $this->assertInstanceOf('Rocketeer\Tasks\Closure', $closure);
+        $this->assertInstanceOf(Closure::class, $closure);
         $this->assertEquals($originalClosure, $closure->getClosure());
     }
 
@@ -65,30 +70,30 @@ class TasksBuilderTest extends RocketeerTestCase
             function () {
                 return 'lol';
             },
-            'Rocketeer\Tasks\Deploy',
+            Deploy::class,
         ];
 
         $queue = $this->builder->buildTasks($queue);
 
-        $this->assertInstanceOf('Rocketeer\Tasks\Closure', $queue[0]);
-        $this->assertInstanceOf('Rocketeer\Tasks\Closure', $queue[1]);
-        $this->assertInstanceOf('Rocketeer\Tasks\Deploy', $queue[2]);
+        $this->assertInstanceOf(Closure::class, $queue[0]);
+        $this->assertInstanceOf(Closure::class, $queue[1]);
+        $this->assertInstanceOf(Deploy::class, $queue[2]);
     }
 
     public function testThrowsExceptionOnUnbuildableTask()
     {
-        $this->setExpectedException('Rocketeer\Exceptions\TaskCompositionException');
+        $this->setExpectedException(TaskCompositionException::class);
 
         $this->builder->buildTaskFromClass('Nope');
     }
 
     public function testCanBuildByCallable()
     {
-        $task = $this->builder->buildTask(['Rocketeer\Dummies\Tasks\CallableTask', 'someMethod']);
-        $this->assertEquals('Rocketeer\Tasks\Closure', $task->fire());
+        $task = $this->builder->buildTask([CallableTask::class, 'someMethod']);
+        $this->assertEquals(Closure::class, $task->fire());
 
-        $task = $this->builder->buildTask('Rocketeer\Dummies\Tasks\CallableTask::someMethod');
-        $this->assertEquals('Rocketeer\Tasks\Closure', $task->fire());
+        $task = $this->builder->buildTask(CallableTask::class.'::someMethod');
+        $this->assertEquals(Closure::class, $task->fire());
     }
 
     public function testCanUseInstancesFromTheContainerAsClasses()
@@ -96,6 +101,6 @@ class TasksBuilderTest extends RocketeerTestCase
         $this->app->instance('foobar', new CallableTask());
 
         $task = $this->builder->buildTask(['foobar', 'someMethod']);
-        $this->assertEquals('Rocketeer\Tasks\Closure', $task->fire());
+        $this->assertEquals(Closure::class, $task->fire());
     }
 }
