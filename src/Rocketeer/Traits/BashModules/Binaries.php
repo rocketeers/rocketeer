@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Traits\BashModules;
 
 /**
@@ -93,7 +94,7 @@ trait Binaries
 
         // Add command prompt if possible
         if ($this->hasCommand() && $prompt) {
-            $prompt      = $binary.' could not be found, please enter the path to it';
+            $prompt = $binary.' could not be found, please enter the path to it';
             $locations[] = [$this->command, 'ask', $prompt];
         }
 
@@ -120,7 +121,7 @@ trait Binaries
             $location = $locations[$tryout];
             if (is_array($location)) {
                 list($object, $method, $argument) = $location;
-                $location                         = $object->$method($argument);
+                $location = $object->$method($argument);
             }
 
             // Verify existence of returned path
@@ -128,7 +129,7 @@ trait Binaries
                 $location = $this->rawWhich($location);
             }
 
-            $tryout++;
+            ++$tryout;
         }
 
         // Store found location or remove it if invalid

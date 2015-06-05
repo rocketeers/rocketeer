@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services\Builders;
 
 use Rocketeer\Abstracts\AbstractTask;
@@ -39,12 +40,12 @@ trait CommandsBuilder
         }
 
         // Get the command name
-        $name    = $instance ? $instance->getName() : null;
+        $name = $instance ? $instance->getName() : null;
         $command = $this->findQualifiedName($name, 'commands');
 
         // If no command found, use BaseTaskCommand or task name
         if ($command === 'Rocketeer\Console\Commands\BaseTaskCommand') {
-            $name    = is_string($task) ? $task : $name;
+            $name = is_string($task) ? $task : $name;
             $command = $this->findQualifiedName($name, 'commands');
         }
 

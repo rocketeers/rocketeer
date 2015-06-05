@@ -8,11 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services\Environment;
 
 use Rocketeer\Dummies\DummyPathfinder;
 use Rocketeer\Services\Environment\Pathfinders\LocalPathfinder;
-use Rocketeer\Services\Pathfinder;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class PathfinderTest extends RocketeerTestCase
@@ -50,7 +50,7 @@ class PathfinderTest extends RocketeerTestCase
 
     public function testCanReplacePlaceholdersOnWindows()
     {
-        $this->app['path.base']   = 'c:\xampp\htdocs\project';
+        $this->app['path.base'] = 'c:\xampp\htdocs\project';
         $this->app['path.foobar'] = 'c:\xampp\htdocs\project\lol';
 
         $this->assertEquals($this->server.'/lol', $this->paths->getFolder('{path.foobar}'));
@@ -59,7 +59,7 @@ class PathfinderTest extends RocketeerTestCase
     public function testCanGetUserHomeFolder()
     {
         $_SERVER['HOME'] = '/some/folder';
-        $home            = $this->paths->getUserHomeFolder();
+        $home = $this->paths->getUserHomeFolder();
 
         $this->assertEquals('/some/folder', $home);
     }
@@ -69,8 +69,8 @@ class PathfinderTest extends RocketeerTestCase
         unset($_SERVER['HOME']);
 
         $_SERVER['HOMEDRIVE'] = 'C:';
-        $_SERVER['HOMEPATH']  = '\Users\someuser';
-        $home                 = $this->paths->getUserHomeFolder();
+        $_SERVER['HOMEPATH'] = '\Users\someuser';
+        $home = $this->paths->getUserHomeFolder();
 
         $this->assertEquals('C:\Users\someuser', $home);
     }
@@ -80,8 +80,8 @@ class PathfinderTest extends RocketeerTestCase
         unset($_SERVER['HOME']);
 
         $_SERVER['HOMEDRIVE'] = 'C:';
-        $_SERVER['HOMEPATH']  = '\Users\someuser';
-        $home                 = LocalPathfinder::getUserHomeFolder();
+        $_SERVER['HOMEPATH'] = '\Users\someuser';
+        $home = LocalPathfinder::getUserHomeFolder();
 
         $this->assertEquals('C:\Users\someuser', $home);
     }
@@ -90,16 +90,16 @@ class PathfinderTest extends RocketeerTestCase
     {
         $this->setExpectedException('Exception');
 
-        $_SERVER['HOME']      = null;
+        $_SERVER['HOME'] = null;
         $_SERVER['HOMEDRIVE'] = 'C:';
-        $_SERVER['HOMEPATH']  = null;
+        $_SERVER['HOMEPATH'] = null;
         $this->paths->getUserHomeFolder();
     }
 
     public function testCanGetRocketeerFolder()
     {
         $_SERVER['HOME'] = '/some/folder';
-        $rocketeer       = $this->paths->getRocketeerConfigFolder();
+        $rocketeer = $this->paths->getRocketeerConfigFolder();
 
         $this->assertEquals('/some/folder/.rocketeer', $rocketeer);
     }
@@ -124,7 +124,7 @@ class PathfinderTest extends RocketeerTestCase
 
     public function testCanGetStoragePathIfUnix()
     {
-        $this->app['path.base']    = '/app';
+        $this->app['path.base'] = '/app';
         $this->app['path.storage'] = '/app/local/folder';
 
         $storage = $this->paths->getStoragePath();
@@ -133,7 +133,7 @@ class PathfinderTest extends RocketeerTestCase
 
     public function testCanGetStorageIfWindows()
     {
-        $this->app['path.base']    = 'C:\Sites\app';
+        $this->app['path.base'] = 'C:\Sites\app';
         $this->app['path.storage'] = 'C:\Sites\app\local\folder';
 
         $storage = $this->paths->getStoragePath();
@@ -142,7 +142,7 @@ class PathfinderTest extends RocketeerTestCase
 
     public function testCanGetStorageWhenBothForSomeReason()
     {
-        $this->app['path.base']    = 'C:\Sites\app';
+        $this->app['path.base'] = 'C:\Sites\app';
         $this->app['path.storage'] = 'C:/Sites/app/local/folder';
 
         $storage = $this->paths->getStoragePath();
@@ -174,9 +174,9 @@ class PathfinderTest extends RocketeerTestCase
             'production' => [
                 'root_directory' => '/foo',
             ],
-            'staging'    => [
-                'root_directory' => '/bar'
-            ]
+            'staging' => [
+                'root_directory' => '/bar',
+            ],
         ]);
 
         $this->connections->setConnection('production');

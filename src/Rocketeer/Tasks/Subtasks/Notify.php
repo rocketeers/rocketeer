@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Tasks\Subtasks;
 
 use Rocketeer\Abstracts\AbstractTask;
@@ -23,14 +24,14 @@ class Notify extends AbstractTask
     /**
      * The message format.
      *
-     * @type AbstractNotifier
+     * @var AbstractNotifier
      */
     protected $notifier;
 
     /**
      * A description of what the task does.
      *
-     * @type string
+     * @var string
      */
     protected $description = 'Notify a third-party service';
 
@@ -79,10 +80,10 @@ class Notify extends AbstractTask
         $connection = $this->connections->getCurrentConnection();
 
         return [
-            'user'       => $user,
-            'branch'     => $repository->branch,
-            'handle'     => $connection->toHandle(),
-            'host'       => $connection->host,
+            'user' => $user,
+            'branch' => $repository->branch,
+            'handle' => $connection->toHandle(),
+            'host' => $connection->host,
             'repository' => $repository->getName(),
         ];
     }

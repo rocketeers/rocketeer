@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Tasks;
 
 use Mockery;
@@ -37,7 +38,7 @@ class IgniteTest extends RocketeerTestCase
     public function testCanIgniteConfigurationOnWindowsInLaravel()
     {
         $this->app['path.base'] = 'E:\workspace\test';
-        $this->app['path']      = 'E:\workspace\test\app';
+        $this->app['path'] = 'E:\workspace\test\app';
 
         $provider = new RocketeerServiceProvider($this->app);
         $provider->bindPaths();
@@ -60,14 +61,14 @@ class IgniteTest extends RocketeerTestCase
             return $mock
                 ->shouldReceive('exportConfiguration')->once()->andReturn($server)
                 ->shouldReceive('updateConfiguration')->once()->with($server, [
-                    'host'             => '{host}',
-                    'username'         => '{username}',
-                    'password'         => '{password}',
-                    'connection'       => 'production',
-                    'root_directory'   => dirname($this->server),
-                    'scm_repository'   => 'https://github.com/'.$this->repository,
-                    'scm_username'     => null,
-                    'scm_password'     => null,
+                    'host' => '{host}',
+                    'username' => '{username}',
+                    'password' => '{password}',
+                    'connection' => 'production',
+                    'root_directory' => dirname($this->server),
+                    'scm_repository' => 'https://github.com/'.$this->repository,
+                    'scm_username' => null,
+                    'scm_password' => null,
                     'application_name' => 'foobar',
                 ]);
         });

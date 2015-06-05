@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Tasks;
 
 use Rocketeer\Abstracts\AbstractTask;
@@ -23,21 +24,21 @@ class Check extends AbstractTask
     /**
      * A description of what the task does.
      *
-     * @type string
+     * @var string
      */
     protected $description = 'Check if the server is ready to receive the application';
 
     /**
      * Whether the task needs to be run on each stage or globally.
      *
-     * @type bool
+     * @var bool
      */
     public $usesStages = false;
 
     /**
      * The checks that failed.
      *
-     * @type array
+     * @var array
      */
     protected $errors = [];
 
@@ -52,7 +53,7 @@ class Check extends AbstractTask
         $this->steps()->checkScm();
 
         // Execute strategy checks
-        /** @type AbstractCheckStrategy $check */
+        /** @var AbstractCheckStrategy $check */
         $check = $this->getStrategy('Check');
         if ($check) {
             $this->steps()->checkLanguages($check);
@@ -103,7 +104,7 @@ class Check extends AbstractTask
      */
     protected function checkPackageManagers(AbstractCheckStrategy $check)
     {
-        $manager     = $check->getManager();
+        $manager = $check->getManager();
         $managerName = str_replace('Strategy', null, $manager->getName());
         $this->explainer->line('Checking presence of '.$managerName);
 

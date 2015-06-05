@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services;
 
 use Rocketeer\Dummies\DummyNotifier;
@@ -24,7 +25,7 @@ class TasksHandlerTest extends RocketeerTestCase
 
     public function testCanGetTasksBeforeOrAfterAnotherTask()
     {
-        $task   = $this->task('Deploy');
+        $task = $this->task('Deploy');
         $before = $this->tasks->getTasksListeners($task, 'before', true);
 
         $this->assertEquals(['before', 'foobar'], $before);
@@ -44,7 +45,7 @@ class TasksHandlerTest extends RocketeerTestCase
     public function testCanAddMultipleTasksViaFacade()
     {
         $this->disableTestEvents();
-        $task  = $this->task('Deploy');
+        $task = $this->task('Deploy');
         $after = $this->tasks->getTasksListeners($task, 'after', true);
         $this->tasks->after('deploy', [
             'composer install',
@@ -122,7 +123,7 @@ class TasksHandlerTest extends RocketeerTestCase
     public function testCanExecuteContextualEvents()
     {
         $this->swapConfig([
-            'stages.stages'            => ['hasEvent', 'noEvent'],
+            'stages.stages' => ['hasEvent', 'noEvent'],
             'on.stages.hasEvent.hooks' => ['before' => ['check' => 'ls']],
         ]);
 
@@ -158,8 +159,8 @@ class TasksHandlerTest extends RocketeerTestCase
         ];
 
         $this->swapConfig([
-            'default'                      => 'production',
-            'hooks'                        => [],
+            'default' => 'production',
+            'hooks' => [],
             'on.connections.staging.hooks' => ['after' => ['deploy' => $tasks]],
         ]);
         $this->tasks->registerConfiguredEvents();
@@ -230,7 +231,7 @@ class TasksHandlerTest extends RocketeerTestCase
         $this->tasks->configureStrategy('Check', ['foo' => 'bar']);
         $this->tasks->configureStrategy(['Check', 'Ruby'], ['baz' => 'qux']);
 
-        $php  = $this->builder->buildStrategy('Check', 'Php');
+        $php = $this->builder->buildStrategy('Check', 'Php');
         $ruby = $this->builder->buildStrategy('Check', 'Ruby');
 
         $this->assertInstanceOf('Rocketeer\Strategies\Check\PhpStrategy', $php);

@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Services\Environment\Pathfinders;
 
 use Exception;
@@ -10,6 +20,7 @@ class LocalPathfinder extends AbstractPathfinder
      * Get the path to the users home folder.
      *
      * @throws Exception
+     *
      * @return string
      */
     public static function getUserHomeFolder()
@@ -29,6 +40,7 @@ class LocalPathfinder extends AbstractPathfinder
      * Get the default path for the SSH key.
      *
      * @throws Exception
+     *
      * @return string
      */
     public function getDefaultKeyPath()
@@ -77,7 +89,7 @@ class LocalPathfinder extends AbstractPathfinder
     public function getConfigurationPath()
     {
         // Get path to configuration
-        $framework     = $this->getFramework();
+        $framework = $this->getFramework();
         $configuration = $framework ? $framework->getConfigurationPath() : $this->app['path.rocketeer.config'];
 
         return $this->unifyLocalSlashes($configuration);
@@ -104,7 +116,7 @@ class LocalPathfinder extends AbstractPathfinder
     }
 
     /**
-     * The methods this pathfinder provides
+     * The methods this pathfinder provides.
      *
      * @return string[]
      */

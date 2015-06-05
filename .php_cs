@@ -19,19 +19,14 @@ HeaderCommentFixer::setHeader($header);
 return Config::create()
              ->level(FixerInterface::SYMFONY_LEVEL)
              ->fixers([
-                 '-yoda_conditions',
-                 'align_double_arrow',
-                 'align_equals',
-                 // 'concat_with_spaces',
                  'ereg_to_preg',
                  'header_comment',
                  'multiline_spaces_before_semicolon',
-                 'no_blank_lines_before_namespace',
                  'ordered_use',
-                 // 'php4_constructor',
+                 'php4_constructor',
                  'phpdoc_order',
-                 'phpdoc_var_to_type',
                  'short_array_syntax',
+                 'short_echo_tag',
                  'strict',
                  'strict_param',
              ])

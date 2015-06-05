@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Abstracts;
 
 use DateTime;
@@ -37,21 +38,21 @@ abstract class AbstractTask extends Bash implements HasRolesInterface, Identifie
     /**
      * The name of the task.
      *
-     * @type string
+     * @var string
      */
     protected $name;
 
     /**
      * A description of what the task does.
      *
-     * @type string
+     * @var string
      */
     protected $description;
 
     /**
      * A set of options that guide the entity.
      *
-     * @type array
+     * @var array
      */
     protected $options = [];
 
@@ -140,20 +141,20 @@ abstract class AbstractTask extends Bash implements HasRolesInterface, Identifie
             return;
         }
 
-        $key      = 0;
-        $rows     = [];
+        $key = 0;
+        $rows = [];
         $releases = $this->releasesManager->getValidationFile();
 
         // Append the rows
         foreach ($releases as $name => $state) {
-            $icon  = $state ? '✓' : '✘';
+            $icon = $state ? '✓' : '✘';
             $color = $state ? 'green' : 'red';
-            $date  = DateTime::createFromFormat('YmdHis', $name)->format('Y-m-d H:i:s');
-            $date  = sprintf('<fg=%s>%s</fg=%s>', $color, $date, $color);
+            $date = DateTime::createFromFormat('YmdHis', $name)->format('Y-m-d H:i:s');
+            $date = sprintf('<fg=%s>%s</fg=%s>', $color, $date, $color);
 
             // Add color to row
             $rows[] = [$key, $name, $date, $icon];
-            $key++;
+            ++$key;
         }
 
         // Render table
@@ -171,10 +172,10 @@ abstract class AbstractTask extends Bash implements HasRolesInterface, Identifie
      */
     protected function displayStatus()
     {
-        $name        = $this->getName();
+        $name = $this->getName();
         $description = $this->getDescription();
-        $time        = $this->timer->getTime($this);
-        $event       = $this->event ? $this->event->getName() : null;
+        $time = $this->timer->getTime($this);
+        $event = $this->event ? $this->event->getName() : null;
 
         $this->explainer->display($name, $description, $event, $time);
     }

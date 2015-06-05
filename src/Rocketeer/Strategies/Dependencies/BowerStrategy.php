@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Strategies\Dependencies;
 
 use Illuminate\Support\Arr;
@@ -17,14 +18,14 @@ use Rocketeer\Interfaces\Strategies\DependenciesStrategyInterface;
 class BowerStrategy extends AbstractDependenciesStrategy implements DependenciesStrategyInterface
 {
     /**
-     * @type string
+     * @var string
      */
     protected $description = 'Installs dependencies with Bower';
 
     /**
      * The name of the binary.
      *
-     * @type string
+     * @var string
      */
     protected $binary = 'bower';
 
@@ -41,7 +42,7 @@ class BowerStrategy extends AbstractDependenciesStrategy implements Dependencies
      */
     protected function getInstallationOptions($command)
     {
-        $flags       = (array) $this->getFlags($command);
+        $flags = (array) $this->getFlags($command);
         $credentials = $this->credentials->getServerCredentials();
         if (Arr::get($credentials, 'username') === 'root') {
             return array_merge($flags, ['--allow-root' => null]);

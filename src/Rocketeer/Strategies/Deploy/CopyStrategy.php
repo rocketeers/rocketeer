@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Strategies\Deploy;
 
 use Rocketeer\Interfaces\Strategies\DeployStrategyInterface;
@@ -15,7 +16,7 @@ use Rocketeer\Interfaces\Strategies\DeployStrategyInterface;
 class CopyStrategy extends CloneStrategy implements DeployStrategyInterface
 {
     /**
-     * @type string
+     * @var string
      */
     protected $description = 'Copies the previously cloned instance of the repository and update it';
 

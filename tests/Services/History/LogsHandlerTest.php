@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services\History;
 
 use Mockery\MockInterface;
@@ -81,7 +82,7 @@ class LogsHandlerTest extends RocketeerTestCase
         $this->task()->toHistory('pwd');
         $this->task()->toOutput('Some path');
 
-        $logs    = $this->logs->getFlattenedLogs();
+        $logs = $this->logs->getFlattenedLogs();
         $matcher = '[{username}@production] $ pwd'.PHP_EOL.'[{username}@production] Some path';
 
         $this->assertEquals($matcher, $logs);
@@ -92,7 +93,7 @@ class LogsHandlerTest extends RocketeerTestCase
         $this->task()->toHistory('pwd');
         $this->explainer->success('Getting the current path');
 
-        $logs    = $this->logs->getFlattenedLogs();
+        $logs = $this->logs->getFlattenedLogs();
         $matcher = '[{username}@production] $ pwd'.PHP_EOL.'[{username}@production] Getting the current path';
 
         $this->assertEquals($matcher, $logs);

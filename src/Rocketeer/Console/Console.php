@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Console;
 
 use Illuminate\Contracts\Container\Container;
@@ -29,7 +30,7 @@ class Console extends Application
     /**
      * Create a new Artisan console application.
      *
-     * @param  \Illuminate\Contracts\Container\Container $app
+     * @param \Illuminate\Contracts\Container\Container $app
      */
     public function __construct(Container $app)
     {
@@ -65,9 +66,9 @@ class Console extends Application
      */
     public function getHelp()
     {
-        $help  = str_replace($this->getLongVersion(), null, parent::getHelp());
+        $help = str_replace($this->getLongVersion(), null, parent::getHelp());
         $state = $this->buildBlock('Current state', $this->getCurrentState());
-        $help  = sprintf('%s'.PHP_EOL.PHP_EOL.'%s%s', $this->getLongVersion(), $state, $help);
+        $help = sprintf('%s'.PHP_EOL.PHP_EOL.'%s%s', $this->getLongVersion(), $state, $help);
 
         return $help;
     }
@@ -113,11 +114,11 @@ class Console extends Application
     {
         return [
             'application_name' => realpath($this->app['rocketeer.rocketeer']->getApplicationName()),
-            'application'      => realpath($this->app['rocketeer.paths']->getApplicationPath()),
-            'configuration'    => realpath($this->app['rocketeer.paths']->getConfigurationPath()),
-            'tasks'            => $this->app['path.rocketeer.tasks'],
-            'events'           => $this->app['path.rocketeer.events'],
-            'logs'             => $this->app['path.rocketeer.logs'],
+            'application' => realpath($this->app['rocketeer.paths']->getApplicationPath()),
+            'configuration' => realpath($this->app['rocketeer.paths']->getConfigurationPath()),
+            'tasks' => $this->app['path.rocketeer.tasks'],
+            'events' => $this->app['path.rocketeer.events'],
+            'logs' => $this->app['path.rocketeer.logs'],
         ];
     }
 }

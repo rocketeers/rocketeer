@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Tasks;
 
 use Rocketeer\Strategies\Deploy\CopyStrategy;
@@ -19,8 +20,8 @@ class DeployTest extends RocketeerTestCase
     {
         $this->swapConfig([
             'scm.repository' => 'https://github.com/'.$this->repository,
-            'scm.username'   => '',
-            'scm.password'   => '',
+            'scm.username' => '',
+            'scm.password' => '',
         ]);
 
         $matcher = [
@@ -47,8 +48,8 @@ class DeployTest extends RocketeerTestCase
         ];
 
         $this->assertTaskHistory('Deploy', $matcher, [
-            'tests'   => true,
-            'seed'    => true,
+            'tests' => true,
+            'seed' => true,
             'migrate' => true,
         ]);
     }
@@ -56,7 +57,7 @@ class DeployTest extends RocketeerTestCase
     public function testStepsRunnerDoesntCancelWithPermissionsAndShared()
     {
         $this->swapConfig([
-            'remote.shared'            => [],
+            'remote.shared' => [],
             'remote.permissions.files' => [],
         ]);
 
@@ -78,8 +79,8 @@ class DeployTest extends RocketeerTestCase
         ];
 
         $this->assertTaskHistory('Deploy', $matcher, [
-            'tests'   => true,
-            'seed'    => true,
+            'tests' => true,
+            'seed' => true,
             'migrate' => true,
         ]);
     }
@@ -87,11 +88,11 @@ class DeployTest extends RocketeerTestCase
     public function testCanDisableGitOptions()
     {
         $this->swapConfig([
-            'scm.shallow'    => false,
+            'scm.shallow' => false,
             'scm.submodules' => false,
             'scm.repository' => 'https://github.com/'.$this->repository,
-            'scm.username'   => '',
-            'scm.password'   => '',
+            'scm.username' => '',
+            'scm.password' => '',
         ]);
 
         $matcher = [
@@ -114,8 +115,8 @@ class DeployTest extends RocketeerTestCase
         ];
 
         $this->assertTaskHistory('Deploy', $matcher, [
-            'tests'   => true,
-            'seed'    => true,
+            'tests' => true,
+            'seed' => true,
             'migrate' => true,
         ]);
     }
@@ -125,8 +126,8 @@ class DeployTest extends RocketeerTestCase
         $this->swapConfig([
             'scm' => [
                 'repository' => 'https://github.com/'.$this->repository,
-                'username'   => '',
-                'password'   => '',
+                'username' => '',
+                'password' => '',
             ],
         ]);
 
@@ -157,8 +158,8 @@ class DeployTest extends RocketeerTestCase
         ];
 
         $this->assertTaskHistory('Deploy', $matcher, [
-            'tests'   => false,
-            'seed'    => false,
+            'tests' => false,
+            'seed' => false,
             'migrate' => false,
         ]);
     }
@@ -185,8 +186,8 @@ class DeployTest extends RocketeerTestCase
         ];
 
         $this->assertTaskHistory('Deploy', $matcher, [
-            'tests'   => false,
-            'seed'    => true,
+            'tests' => false,
+            'seed' => true,
             'migrate' => false,
         ]);
     }
@@ -205,8 +206,8 @@ class DeployTest extends RocketeerTestCase
 
         $this->swapConfig([
             'scm.repository' => 'https://github.com/'.$this->repository,
-            'scm.username'   => '',
-            'scm.password'   => '',
+            'scm.username' => '',
+            'scm.password' => '',
         ]);
 
         $matcher = [
@@ -233,8 +234,8 @@ class DeployTest extends RocketeerTestCase
         ];
 
         $this->assertTaskHistory('Deploy', $matcher, [
-            'tests'   => true,
-            'seed'    => true,
+            'tests' => true,
+            'seed' => true,
             'migrate' => true,
         ]);
     }
@@ -253,8 +254,8 @@ class DeployTest extends RocketeerTestCase
 
         $this->swapConfig([
             'scm.repository' => 'https://github.com/'.$this->repository,
-            'scm.username'   => '',
-            'scm.password'   => '',
+            'scm.username' => '',
+            'scm.password' => '',
         ]);
 
         $matcher = [
@@ -281,8 +282,8 @@ class DeployTest extends RocketeerTestCase
         ];
 
         $this->assertTaskHistory('Deploy', $matcher, [
-            'tests'   => true,
-            'seed'    => true,
+            'tests' => true,
+            'seed' => true,
             'migrate' => true,
         ]);
     }

@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Tasks;
 
 use Rocketeer\Abstracts\AbstractTask;
@@ -18,17 +19,17 @@ class Migrate extends AbstractTask
     /**
      * The console command description.
      *
-     * @type string
+     * @var string
      */
     protected $description = 'Migrates and/or seed the database';
 
     /**
-     * @type MigrateStrategyInterface
+     * @var MigrateStrategyInterface
      */
     protected $strategy;
 
     /**
-     * @type array
+     * @var array
      */
     protected $results = [];
 
@@ -41,7 +42,7 @@ class Migrate extends AbstractTask
     {
         // Prepare method
         $this->strategy = $this->getStrategy('Migrate');
-        $this->results  = [];
+        $this->results = [];
 
         // Cancel if nothing to run
         if (!$this->canRunMigrations()) {
@@ -65,8 +66,8 @@ class Migrate extends AbstractTask
     protected function canRunMigrations()
     {
         $connection = $this->connections->getCurrentConnection();
-        $hasRole    = $connection->getServerCredential('db_role');
-        $useRoles   = $this->rocketeer->getOption('uses_roles');
+        $hasRole = $connection->getServerCredential('db_role');
+        $useRoles = $this->rocketeer->getOption('uses_roles');
 
         return
             $this->strategy &&

@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Abstracts\Commands;
 
 use Rocketeer\Abstracts\AbstractTask;
@@ -34,12 +35,12 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
     use HasEvents;
 
     /**
-     * @type InputInterface
+     * @var InputInterface
      */
     protected $input;
 
     /**
-     * @type OutputInterface
+     * @var OutputInterface
      */
     protected $output;
 
@@ -61,14 +62,14 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
      * Whether the command's task should be built
      * into a pipeline or run straight.
      *
-     * @type bool
+     * @var bool
      */
     protected $straight = false;
 
     /**
      * the task to execute on fire.
      *
-     * @type AbstractTask
+     * @var AbstractTask
      */
     protected $task;
 
@@ -85,7 +86,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
         // If we passed a Task, bind its properties
         // to the command
         if ($task) {
-            $this->task          = $task;
+            $this->task = $task;
             $this->task->command = $this;
 
             if (!$this->description && $description = $task->getDescription()) {
@@ -121,7 +122,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
      */
     protected function getArguments()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -166,8 +167,6 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
 
     /**
      * Specify the arguments and options on the command.
-     *
-     * @return void
      */
     protected function specifyParameters()
     {
@@ -175,11 +174,11 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
         // set them all on the base command instance. This specifies what can get
         // passed into these commands as "parameters" to control the execution.
         foreach ($this->getArguments() as $arguments) {
-            call_user_func_array(array($this, 'addArgument'), $arguments);
+            call_user_func_array([$this, 'addArgument'], $arguments);
         }
 
         foreach ($this->getOptions() as $options) {
-            call_user_func_array(array($this, 'addOption'), $options);
+            call_user_func_array([$this, 'addOption'], $options);
         }
     }
 
@@ -204,7 +203,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
 
     /**
      * @param string $name
-     * @param array $arguments
+     * @param array  $arguments
      *
      * @return mixed
      */
@@ -215,7 +214,6 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
             return call_user_func_array([$this->output, $name], $arguments);
         }
     }
-
 
     /**
      * Get the task this command executes.
@@ -263,14 +261,14 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
     /**
      * Execute the console command.
      *
-     * @param  \Symfony\Component\Console\Input\InputInterface   $input
-     * @param  \Symfony\Component\Console\Output\OutputInterface $output
+     * @param \Symfony\Component\Console\Input\InputInterface   $input
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
      *
      * @return mixed
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->input  = $input;
+        $this->input = $input;
         $this->output = new SymfonyStyle($input, $output);
 
         return $this->app->call([$this, 'fire']);
@@ -322,7 +320,8 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
     /**
      * Get the value of a command argument.
      *
-     * @param  string  $key
+     * @param string $key
+     *
      * @return string|array
      */
     public function argument($key = null)
@@ -330,13 +329,14 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
         if (is_null($key)) {
             return $this->input->getArguments();
         }
+
         return $this->input->getArgument($key);
     }
 
     /**
      * Get the value of a command option.
      *
-     * @param  string $key
+     * @param string $key
      *
      * @return string|array
      */
@@ -429,7 +429,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
     public function time(callable $callback)
     {
         $results = $this->timer->time($this, $callback);
-        $time    = $this->timer->getLatestTime($this);
+        $time = $this->timer->getLatestTime($this);
 
         $this->explainer->line('Execution time: <comment>'.$time.'s</comment>');
 

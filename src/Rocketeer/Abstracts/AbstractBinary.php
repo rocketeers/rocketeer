@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Abstracts;
 
 use Illuminate\Contracts\Container\Container;
@@ -27,14 +28,14 @@ abstract class AbstractBinary
     /**
      * The core binary.
      *
-     * @type string
+     * @var string
      */
     protected $binary;
 
     /**
      * A parent binary to call this one with.
      *
-     * @type AbstractBinary|string
+     * @var AbstractBinary|string
      */
     protected $parent;
 
@@ -48,9 +49,9 @@ abstract class AbstractBinary
         // Assign default paths
         $paths = $this->getKnownPaths();
         if ($this->connections->getCurrentConnection() && $paths) {
-            $binary   = Arr::get($paths, 0);
+            $binary = Arr::get($paths, 0);
             $fallback = Arr::get($paths, 1);
-            $binary   = $this->bash->which($binary, $fallback, false);
+            $binary = $this->bash->which($binary, $fallback, false);
 
             $this->setBinary($binary);
         } elseif ($paths) {
@@ -153,10 +154,10 @@ abstract class AbstractBinary
     {
         // Format arguments
         $arguments = $this->buildArguments($arguments);
-        $options   = $this->buildOptions($flags);
+        $options = $this->buildOptions($flags);
 
         // Build command
-        $binary     = $this->binary;
+        $binary = $this->binary;
         $components = [$command, $arguments, $options];
         foreach ($components as $component) {
             if ($component) {
@@ -165,7 +166,7 @@ abstract class AbstractBinary
         }
 
         // If the binary has a parent, wrap the call with it
-        $parent  = $this->parent instanceof AbstractBinary ? $this->parent->getBinary() : $this->parent;
+        $parent = $this->parent instanceof self ? $this->parent->getBinary() : $this->parent;
         $command = $parent.' '.$binary;
 
         return trim($command);
@@ -185,7 +186,7 @@ abstract class AbstractBinary
 
         // Build flags
         $options = [];
-        $flags   = $flags ? $this->sanitizeFlags($flags) : [];
+        $flags = $flags ? $this->sanitizeFlags($flags) : [];
         foreach ($flags as $flag => $value) {
             if (is_array($value)) {
                 foreach ($value as $v) {
@@ -193,7 +194,7 @@ abstract class AbstractBinary
                 }
             } else {
                 if (is_numeric($flag)) {
-                    $flag  = $value;
+                    $flag = $value;
                     $value = null;
                 }
 

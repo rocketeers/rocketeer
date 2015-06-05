@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Traits\BashModules;
 
 use Mockery;
@@ -81,7 +82,7 @@ class BinariesTest extends RocketeerTestCase
     public function testCanSetPathToPhpAndArtisan()
     {
         $this->mockConfig([
-            'paths.php'     => $this->binaries['php'],
+            'paths.php' => $this->binaries['php'],
             'paths.artisan' => $this->binaries['php'],
         ]);
 
@@ -91,7 +92,7 @@ class BinariesTest extends RocketeerTestCase
     public function testAlwaysRespectsCustomPath()
     {
         $this->mockConfig([
-            'paths.php'      => 'foo',
+            'paths.php' => 'foo',
             'paths.composer' => 'php /some/composer.phar',
         ]);
 
@@ -111,7 +112,7 @@ class BinariesTest extends RocketeerTestCase
     public function testCanGetBinary()
     {
         $whichGrep = exec('which grep');
-        $grep      = $this->task->which('grep');
+        $grep = $this->task->which('grep');
 
         $this->assertEquals($whichGrep, $grep);
     }

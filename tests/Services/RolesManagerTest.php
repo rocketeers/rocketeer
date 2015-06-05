@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services;
 
 use Rocketeer\Services\Connections\RemoteHandler;
@@ -29,7 +30,7 @@ class RolesManagerTest extends RocketeerTestCase
 
     public function testCanCheckIfConnectionCanExecuteTask()
     {
-        $remote     = new RemoteHandler($this->app);
+        $remote = new RemoteHandler($this->app);
         $connection = $remote->connection('production');
         $connection->setRoles(['foo', 'bar']);
 
@@ -57,7 +58,7 @@ class RolesManagerTest extends RocketeerTestCase
     {
         $this->swapConfig([
             'hooks.roles' => [
-                'web'    => 'Deploy',
+                'web' => 'Deploy',
                 'assets' => 'Deploy',
             ],
         ]);
@@ -70,10 +71,10 @@ class RolesManagerTest extends RocketeerTestCase
         $this->app['rocketeer.remote'] = new RemoteHandler($this->app);
         $this->swapConnections([
             'production' => [
-                'host'     => 'foobar.com',
+                'host' => 'foobar.com',
                 'username' => 'foobar',
                 'password' => 'foobar',
-                'roles'    => ['web', 'assets'],
+                'roles' => ['web', 'assets'],
             ],
         ]);
 

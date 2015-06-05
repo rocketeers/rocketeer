@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Abstracts\Strategies;
 
 use Illuminate\Contracts\Container\Container;
@@ -23,12 +24,12 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
     /**
      * The name of the binary.
      *
-     * @type string
+     * @var string
      */
     protected $binary;
 
     /**
-     * @type array
+     * @var array
      */
     protected $options = [
         'shared_dependencies' => false,
@@ -37,7 +38,7 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
     /**
      * The package manager instance.
      *
-     * @type AbstractPackageManager
+     * @var AbstractPackageManager
      */
     protected $manager;
 
@@ -46,7 +47,7 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
      */
     public function __construct(Container $app)
     {
-        $this->app     = $app;
+        $this->app = $app;
         $this->manager = $this->binary($this->binary);
     }
 
@@ -117,7 +118,7 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
      */
     protected function shareDependenciesFolder()
     {
-        $folder             = $this->manager->getDependenciesFolder();
+        $folder = $this->manager->getDependenciesFolder();
         $sharedDependencies = $this->getOption('shared_dependencies', true);
         if (!$sharedDependencies || !$folder) {
             return;

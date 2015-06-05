@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Tasks;
 
 use Mockery\MockInterface;
@@ -36,7 +37,7 @@ class TeardownTest extends RocketeerTestCase
                 ->shouldReceive('destroy')->never();
         });
 
-        $task    = $this->pretendTask('Teardown', [], ['confirm' => false]);
+        $task = $this->pretendTask('Teardown', [], ['confirm' => false]);
         $message = $this->assertTaskHistory($task, []);
 
         $this->assertContains('Teardown aborted', $message);

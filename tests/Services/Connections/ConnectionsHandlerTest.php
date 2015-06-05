@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services\Connections;
 
 use Mockery\MockInterface;
@@ -56,12 +57,12 @@ class ConnectionsHandlerTest extends RocketeerTestCase
 
         $this->app['rocketeer.storage.local']->set('connections', [
             'staging' => [
-                'host'      => 'foobar',
-                'username'  => 'user',
-                'password'  => '',
+                'host' => 'foobar',
+                'username' => 'user',
+                'password' => '',
                 'keyphrase' => '',
-                'key'       => '/Users/user/.ssh/id_rsa',
-                'agent'     => '',
+                'key' => '/Users/user/.ssh/id_rsa',
+                'agent' => '',
             ],
         ]);
         $connections = $this->connections->getAvailableConnections();

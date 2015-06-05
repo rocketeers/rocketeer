@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services\Connections;
 
 use Rocketeer\TestCases\RocketeerTestCase;
@@ -48,17 +49,17 @@ class CoordinatorTest extends RocketeerTestCase
         );
 
         $this->swapConfig([
-            'stages.stages'  => ['develop', 'master'],
+            'stages.stages' => ['develop', 'master'],
             'stages.default' => ['develop', 'master'],
-            'default'        => ['production', 'staging'],
-            'connections'    => [
+            'default' => ['production', 'staging'],
+            'connections' => [
                 'production' => [
                     'servers' => [
                         ['host' => 'a.com'],
                         ['host' => 'b.com'],
                     ],
                 ],
-                'staging'    => [
+                'staging' => [
                     'servers' => [
                         ['host' => 'a.com'],
                         ['host' => 'b.com'],

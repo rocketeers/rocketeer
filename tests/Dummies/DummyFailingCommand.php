@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Dummies;
 
 use Rocketeer\Abstracts\Commands\AbstractCommand;
@@ -15,7 +16,7 @@ use Rocketeer\Abstracts\Commands\AbstractCommand;
 class DummyFailingCommand extends AbstractCommand
 {
     /**
-     * @type string
+     * @var string
      */
     protected $name = 'nope';
 

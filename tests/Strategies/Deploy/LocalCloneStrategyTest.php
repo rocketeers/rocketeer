@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Strategies\Deploy;
 
 use Carbon\Carbon;
@@ -23,7 +24,7 @@ class LocalCloneStrategyTest extends RocketeerTestCase
 
         $this->swapConnections([
             'production' => [
-                'host'     => 'bar.com',
+                'host' => 'bar.com',
                 'username' => 'foo',
             ],
         ]);
@@ -53,8 +54,8 @@ class LocalCloneStrategyTest extends RocketeerTestCase
         $this->swapConnections([
             'production' => [
                 'username' => 'foo',
-                'host'     => 'bar.com:80',
-                'key'      => '/foo/bar',
+                'host' => 'bar.com:80',
+                'key' => '/foo/bar',
             ],
         ]);
 
@@ -76,7 +77,7 @@ class LocalCloneStrategyTest extends RocketeerTestCase
      */
     protected function getCurrentTime()
     {
-        $now  = Carbon::now();
+        $now = Carbon::now();
         $time = $now->timestamp;
 
         Carbon::setTestNow($now);

@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Strategies\Check;
 
 use Illuminate\Contracts\Container\Container;
@@ -17,21 +18,21 @@ use Rocketeer\Interfaces\Strategies\CheckStrategyInterface;
 class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterface
 {
     /**
-     * @type string
+     * @var string
      */
     protected $description = 'Checks if the server is ready to receive a PHP application';
 
     /**
      * The language of the strategy.
      *
-     * @type string
+     * @var string
      */
     protected $language = 'PHP';
 
     /**
      * The PHP extensions loaded on server.
      *
-     * @type array
+     * @var array
      */
     protected $extensions = [];
 
@@ -40,7 +41,7 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
      */
     public function __construct(Container $app)
     {
-        $this->app     = $app;
+        $this->app = $app;
         $this->manager = $this->binary('composer');
     }
 
@@ -218,10 +219,10 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
     protected function getExtensions()
     {
         return [
-            'mcrypt'   => ['checkPhpExtension', 'mcrypt'],
+            'mcrypt' => ['checkPhpExtension', 'mcrypt'],
             'database' => ['checkDatabaseDriver', $this->app['rocketeer.config']->get('database.default')],
-            'cache'    => ['checkCacheDriver', $this->app['rocketeer.config']->get('cache.driver')],
-            'session'  => ['checkCacheDriver', $this->app['rocketeer.config']->get('session.driver')],
+            'cache' => ['checkCacheDriver', $this->app['rocketeer.config']->get('cache.driver')],
+            'session' => ['checkCacheDriver', $this->app['rocketeer.config']->get('session.driver')],
         ];
     }
 }

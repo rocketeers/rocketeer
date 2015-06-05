@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Scm;
 
 use Rocketeer\Binaries\Scm\Svn;
@@ -18,7 +19,7 @@ class SvnTest extends RocketeerTestCase
     /**
      * The current SCM instance.
      *
-     * @type Svn
+     * @var Svn
      */
     protected $scm;
 
@@ -60,7 +61,7 @@ class SvnTest extends RocketeerTestCase
             'username' => 'foo',
             'password' => 'bar',
             'endpoint' => 'http://github.com/my/repository',
-            'branch'   => 'develop',
+            'branch' => 'develop',
         ]);
 
         $command = $this->scm->checkout($this->server);
@@ -74,7 +75,7 @@ class SvnTest extends RocketeerTestCase
             'username' => 'foo',
             'password' => 'bar',
             'endpoint' => 'http://github.com/my/repository',
-            'branch'   => 'develop',
+            'branch' => 'develop',
         ]);
 
         $command = $this->scm->checkout($this->server);
@@ -88,7 +89,7 @@ class SvnTest extends RocketeerTestCase
             'username' => 'foo',
             'password' => 'bar',
             'endpoint' => 'http://foo:bar@github.com/my/repository',
-            'branch'   => 'develop',
+            'branch' => 'develop',
         ]);
 
         $command = $this->scm->checkout($this->server);
@@ -99,7 +100,7 @@ class SvnTest extends RocketeerTestCase
             'username' => 'foo',
             'password' => null,
             'endpoint' => 'http://foo@github.com/my/repository',
-            'branch'   => 'develop',
+            'branch' => 'develop',
         ]);
 
         $command = $this->scm->checkout($this->server);
@@ -113,7 +114,7 @@ class SvnTest extends RocketeerTestCase
             'username' => 'foo',
             'password' => 'bar',
             'endpoint' => 'url://user:login@example.com/test',
-            'branch'   => 'trunk@1234',
+            'branch' => 'trunk@1234',
         ]);
 
         $command = $this->scm->checkout($this->server);

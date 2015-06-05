@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Tasks\Subtasks;
 
 use Rocketeer\TestCases\RocketeerTestCase;
@@ -17,7 +18,7 @@ class PrimerTest extends RocketeerTestCase
     public function testCanExecutePrimerTasks()
     {
         $this->swapConfig([
-            'default'           => 'production',
+            'default' => 'production',
             'strategies.primer' => function () {
                 return 'ls';
             },

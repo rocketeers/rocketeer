@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Console\Commands;
 
 use Rocketeer\Abstracts\AbstractTask;
@@ -24,7 +25,7 @@ class BaseTaskCommand extends AbstractCommand
     /**
      * The default name.
      *
-     * @type string
+     * @var string
      */
     protected $name = 'custom';
 

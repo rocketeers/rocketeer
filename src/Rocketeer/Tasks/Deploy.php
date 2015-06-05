@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Tasks;
 
 use Rocketeer\Abstracts\AbstractTask;
@@ -22,12 +23,12 @@ class Deploy extends AbstractTask
     /**
      * The console command description.
      *
-     * @type string
+     * @var string
      */
     protected $description = 'Deploys the website';
 
     /**
-     * @type array
+     * @var array
      */
     protected $options = [
         'coordinated' => false,

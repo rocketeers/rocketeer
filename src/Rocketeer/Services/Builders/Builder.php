@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services\Builders;
 
 use Illuminate\Support\Arr;
@@ -29,19 +30,19 @@ class Builder
      * The possible locations of
      * the various types.
      *
-     * @type array
+     * @var array
      */
     protected $lookups = [
-        'binaries'   => [
+        'binaries' => [
             'Rocketeer\Binaries\PackageManagers\%s',
             'Rocketeer\Binaries\Scm\%s',
             'Rocketeer\Binaries\%s',
         ],
-        'tasks'      => [
+        'tasks' => [
             'Rocketeer\Tasks\%s',
             'Rocketeer\Tasks\Subtasks\%s',
         ],
-        'commands'   => [
+        'commands' => [
             'Rocketeer\Console\Commands\%sCommand',
             'Rocketeer\Console\Commands\BaseTaskCommand',
         ],
@@ -106,11 +107,11 @@ class Builder
      */
     protected function findQualifiedName($class, $type, $namespace = null)
     {
-        $paths   = $this->getLookups($type);
+        $paths = $this->getLookups($type);
         $paths[] = '%s';
 
         // Create classes array
-        $class   = ucfirst($class);
+        $class = ucfirst($class);
         $classes = [$class];
         if ($namespace) {
             $classes = [

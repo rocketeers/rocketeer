@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services\Ignition;
 
 use Illuminate\Support\Arr;
@@ -81,7 +82,7 @@ class Plugins
     {
         // Get the vendor and package
         preg_match('/vendor\/([^\/]+)\/([^\/]+)/', $path, $handle);
-        $handle  = (array) $handle;
+        $handle = (array) $handle;
         $package = Arr::get($handle, 2);
 
         // Compute and create the destination foldser

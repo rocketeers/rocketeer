@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services;
 
 use Illuminate\Contracts\Container\Container;
@@ -27,28 +28,28 @@ class ReleasesManager
     /**
      * Cache of the validation file.
      *
-     * @type array
+     * @var array
      */
     protected $state = [];
 
     /**
      * Cache of the releases.
      *
-     * @type array
+     * @var array
      */
     public $releases = [];
 
     /**
      * The next release to come.
      *
-     * @type string
+     * @var string
      */
     protected $nextRelease;
 
     /**
      * The storage.
      *
-     * @type ServerStorage
+     * @var ServerStorage
      */
     protected $storage;
 
@@ -59,9 +60,9 @@ class ReleasesManager
      */
     public function __construct(Container $app)
     {
-        $this->app     = $app;
+        $this->app = $app;
         $this->storage = new ServerStorage($app, 'state');
-        $this->state   = $this->getValidationFile();
+        $this->state = $this->getValidationFile();
     }
 
     ////////////////////////////////////////////////////////////////////
@@ -148,8 +149,8 @@ class ReleasesManager
     public function getInvalidReleases()
     {
         $releases = $this->getReleases();
-        $invalid  = array_diff($this->state, array_filter($this->state));
-        $invalid  = array_keys($invalid);
+        $invalid = array_diff($this->state, array_filter($this->state));
+        $invalid = array_keys($invalid);
 
         return array_intersect($releases, $invalid);
     }
@@ -291,15 +292,15 @@ class ReleasesManager
     {
         // Get all releases and the current one
         $releases = $this->getReleases();
-        $current  = $release ?: $this->getCurrentRelease();
+        $current = $release ?: $this->getCurrentRelease();
 
         // Get the one before that, or default to current
-        $key  = array_search($current, $releases, true);
-        $key  = !is_int($key) ? -1 : $key;
+        $key = array_search($current, $releases, true);
+        $key = !is_int($key) ? -1 : $key;
         $next = 1;
         do {
             $release = Arr::get($releases, $key + $next);
-            $next++;
+            ++$next;
         } while (!$this->checkReleaseState($release) && isset($this->state[$release]));
 
         return $release ?: $current;

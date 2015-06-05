@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Abstracts;
 
 use Mockery\MockInterface;
@@ -24,8 +25,8 @@ class AbstractBinaryTest extends RocketeerTestCase
             });
         });
 
-        $scm      = new Git($this->app);
-        $command  = $scm->run('checkout', $this->server);
+        $scm = new Git($this->app);
+        $command = $scm->run('checkout', $this->server);
         $expected = $this->replaceHistoryPlaceholders(['git clone "{repository}" "{server}" --branch="master" --depth="1"']);
 
         $this->assertEquals($expected[0], $command);
@@ -33,7 +34,7 @@ class AbstractBinaryTest extends RocketeerTestCase
 
     public function testCanProperlyBuildMultivalueOptions()
     {
-        $binary  = new Git($this->app);
+        $binary = new Git($this->app);
         $command = $binary->getCommand('foobar', [], ['--foo' => ['bar', 'baz']]);
 
         $this->assertEquals('git foobar --foo="bar" --foo="baz"', $command);
@@ -41,7 +42,7 @@ class AbstractBinaryTest extends RocketeerTestCase
 
     public function testCanBuildOptinsIfNoKeysSpecified()
     {
-        $binary  = new Git($this->app);
+        $binary = new Git($this->app);
         $command = $binary->getCommand('foobar', [], ['--foo', '--bar']);
 
         $this->assertEquals('git foobar --foo --bar', $command);
@@ -49,7 +50,7 @@ class AbstractBinaryTest extends RocketeerTestCase
 
     public function testCanBuildOptinsIfNoValuesSpecified()
     {
-        $binary  = new Git($this->app);
+        $binary = new Git($this->app);
         $command = $binary->getCommand('foobar', [], ['--foo' => 'lol', '--bar']);
 
         $this->assertEquals('git foobar --foo="lol" --bar', $command);

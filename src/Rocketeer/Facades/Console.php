@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Facades;
 
 /**
@@ -22,7 +23,7 @@ class Console extends StandaloneFacade
     /**
      * The class to fetch from the container.
      *
-     * @type string
+     * @var string
      */
     protected static $accessor = 'rocketeer.console';
 }

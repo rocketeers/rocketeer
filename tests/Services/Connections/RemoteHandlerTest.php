@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services\Connections;
 
 use Rocketeer\TestCases\RocketeerTestCase;
@@ -15,7 +16,7 @@ use Rocketeer\TestCases\RocketeerTestCase;
 class RemoteHandlerTest extends RocketeerTestCase
 {
     /**
-     * @type RemoteHandler
+     * @var RemoteHandler
      */
     protected $handler;
 
@@ -31,7 +32,7 @@ class RemoteHandlerTest extends RocketeerTestCase
     {
         $this->swapConnections([
             'production' => [
-                'host'     => 'foobar.com',
+                'host' => 'foobar.com',
                 'username' => 'foobar',
                 'password' => 'foobar',
             ],
@@ -50,7 +51,7 @@ class RemoteHandlerTest extends RocketeerTestCase
 
         $this->swapConnections([
             'production' => [
-                'host'     => 'foobar.com',
+                'host' => 'foobar.com',
                 'username' => 'foobar',
             ],
         ]);
@@ -76,7 +77,7 @@ class RemoteHandlerTest extends RocketeerTestCase
     {
         $this->swapConnections([
             'production' => [
-                'host'     => 'foobar.com',
+                'host' => 'foobar.com',
                 'username' => 'foobar',
                 'password' => 'foobar',
             ],
@@ -101,7 +102,7 @@ class RemoteHandlerTest extends RocketeerTestCase
 
         $this->swapConnections([
             'production' => [
-                'host'     => '127.0.0.1',
+                'host' => '127.0.0.1',
                 'username' => 'foobar',
                 'password' => 'foobar',
             ],
@@ -116,12 +117,12 @@ class RemoteHandlerTest extends RocketeerTestCase
             'production' => [
                 'servers' => [
                     [
-                        'host'     => 'foo.com',
+                        'host' => 'foo.com',
                         'username' => 'foo',
                         'password' => 'foo',
                     ],
                     [
-                        'host'     => 'bar.com',
+                        'host' => 'bar.com',
                         'username' => 'bar',
                         'password' => 'bar',
                     ],
@@ -150,10 +151,10 @@ class RemoteHandlerTest extends RocketeerTestCase
     {
         $this->swapConnections([
             'production' => [
-                'host'     => 'foobar.com',
+                'host' => 'foobar.com',
                 'username' => 'foobar',
                 'password' => 'foobar',
-                'roles'    => ['foo', 'bar'],
+                'roles' => ['foo', 'bar'],
             ],
         ]);
 
@@ -169,7 +170,7 @@ class RemoteHandlerTest extends RocketeerTestCase
 
         $this->swapConnections([
             'production' => [
-                'host'     => 'foobar.com',
+                'host' => 'foobar.com',
                 'username' => 'foobar',
             ],
         ]);
@@ -181,7 +182,7 @@ class RemoteHandlerTest extends RocketeerTestCase
     {
         $this->swapConnections([
             'production' => [
-                'host'     => 'foobar.com',
+                'host' => 'foobar.com',
                 'username' => 'foobar',
                 'password' => 'foobar',
             ],
@@ -194,7 +195,7 @@ class RemoteHandlerTest extends RocketeerTestCase
 
         $this->swapConnections([
             'production' => [
-                'host'     => 'barbaz.com',
+                'host' => 'barbaz.com',
                 'username' => 'barbaz',
                 'password' => 'barbaz',
             ],
@@ -217,7 +218,7 @@ class RemoteHandlerTest extends RocketeerTestCase
 
         $this->swapConnections([
             'production' => [
-                'host'     => 'foobar.com',
+                'host' => 'foobar.com',
                 'username' => 'foobar',
                 'password' => 'foobar',
             ],

@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services\Config;
 
 use League\Flysystem\Filesystem;
@@ -20,12 +21,12 @@ use Symfony\Component\Config\Definition\Dumpers\PhpReferenceDumper;
 class ConfigurationPublisher
 {
     /**
-     * @type ConfigurationDefinition
+     * @var ConfigurationDefinition
      */
     protected $definition;
 
     /**
-     * @type Filesystem
+     * @var Filesystem
      */
     protected $files;
 
@@ -38,7 +39,7 @@ class ConfigurationPublisher
     public function __construct(ConfigurationDefinition $definition, Filesystem $files)
     {
         $this->definition = $definition;
-        $this->files      = $files;
+        $this->files = $files;
     }
 
     /**
@@ -98,7 +99,7 @@ class ConfigurationPublisher
         }
 
         // If a single file was passed, infer format from extension
-        $format        = $format ?: pathinfo($path, PATHINFO_EXTENSION);
+        $format = $format ?: pathinfo($path, PATHINFO_EXTENSION);
         $configuration = $this->getDefinition($format, $node);
 
         $this->files->put($path, $configuration);

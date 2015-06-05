@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services\Connections;
 
 use Illuminate\Support\Arr;
@@ -28,14 +29,14 @@ class ConnectionsHandler
     /**
      * The current connection.
      *
-     * @type ConnectionKey
+     * @var ConnectionKey
      */
     protected $current;
 
     /**
      * The connections to use.
      *
-     * @type array|null
+     * @var array|null
      */
     protected $connections;
 
@@ -54,7 +55,7 @@ class ConnectionsHandler
             return;
         }
 
-        $this->current        = clone $this->current;
+        $this->current = clone $this->current;
         $this->current->stage = $stage;
 
         // If we do have a stage, cleanup previous events
@@ -108,7 +109,7 @@ class ConnectionsHandler
     public function isValidConnection($connection)
     {
         $connection = $this->credentials->sanitizeConnection($connection);
-        $available  = (array) $this->getAvailableConnections();
+        $available = (array) $this->getAvailableConnections();
 
         return (bool) Arr::get($available, $connection->name.'.servers');
     }
@@ -157,7 +158,7 @@ class ConnectionsHandler
         }
 
         $this->connections = $filtered;
-        $this->current     = null;
+        $this->current = null;
     }
 
     /**
@@ -169,7 +170,7 @@ class ConnectionsHandler
     {
         // Return local handle
         if ($this->rocketeer->isLocal()) {
-            $handle           = $this->credentials->createConnectionKey('local');
+            $handle = $this->credentials->createConnectionKey('local');
             $handle->username = $this->remote->connected() ? $this->remote->connection()->getUsername() : null;
         } elseif ($this->hasCurrentConnection()) {
             $handle = $this->current;
@@ -217,7 +218,7 @@ class ConnectionsHandler
      */
     public function disconnect()
     {
-        $this->current     = null;
+        $this->current = null;
         $this->connections = null;
     }
 
@@ -232,7 +233,7 @@ class ConnectionsHandler
     {
         $connection = (array) $connection;
         foreach ($connection as $key => $servers) {
-            $servers          = Arr::get($servers, 'servers', [$servers]);
+            $servers = Arr::get($servers, 'servers', [$servers]);
             $connection[$key] = ['servers' => array_values($servers)];
         }
 

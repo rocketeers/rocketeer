@@ -8,10 +8,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Abstracts\Strategies;
 
-use Mockery;
-use Mockery\MockInterface;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class AbstractStrategyTest extends RocketeerTestCase

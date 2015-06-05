@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services;
 
 use Mockery\MockInterface;
@@ -68,7 +69,7 @@ class ReleasesManagerTest extends RocketeerTestCase
             10000000000000 => true,
             15000000000000 => false,
             20000000000000 => true,
-            123456789      => false,
+            123456789 => false,
         ], $validation);
     }
 
@@ -81,7 +82,7 @@ class ReleasesManagerTest extends RocketeerTestCase
             10000000000000 => true,
             15000000000000 => false,
             20000000000000 => true,
-            123456789      => true,
+            123456789 => true,
         ], $validation);
     }
 

@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Console\Commands;
 
 use Symfony\Component\Console\Input\InputOption;
@@ -18,7 +19,7 @@ class IgniteCommand extends BaseTaskCommand
      * Whether the command's task should be built
      * into a pipeline or run straight.
      *
-     * @type bool
+     * @var bool
      */
     protected $straight = true;
 

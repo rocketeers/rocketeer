@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Facades;
 
 use Illuminate\Container\Container;
@@ -26,7 +27,7 @@ abstract class StandaloneFacade extends Facade
     /**
      * The class to fetch from the container.
      *
-     * @type string
+     * @var string
      */
     protected static $accessor;
 
@@ -39,7 +40,7 @@ abstract class StandaloneFacade extends Facade
     {
         if (!static::$app) {
             $container = new Container();
-            $provider  = new RocketeerServiceProvider($container);
+            $provider = new RocketeerServiceProvider($container);
             $provider->register();
 
             static::$app = $container;

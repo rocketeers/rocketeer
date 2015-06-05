@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services\Credentials\Keys;
 
 use Illuminate\Support\Arr;
@@ -40,7 +41,7 @@ class ConnectionKey extends AbstractKey
      * The global informations
      * about the connection.
      *
-     * @type string[]
+     * @var string[]
      */
     protected $informations = ['name', 'server', 'stage', 'servers'];
 
@@ -118,10 +119,10 @@ class ConnectionKey extends AbstractKey
     public function is($connection, $server = null)
     {
         if (is_string($connection)) {
-            $name   = $connection;
+            $name = $connection;
             $server = $server ?: $this->server;
         } else {
-            $name   = $connection->name;
+            $name = $connection->name;
             $server = $connection->server;
         }
 
@@ -149,7 +150,7 @@ class ConnectionKey extends AbstractKey
      */
     public function getHandleComponents()
     {
-        $server     = Arr::get($this->servers, $this->server.'.host', $this->server);
+        $server = Arr::get($this->servers, $this->server.'.host', $this->server);
         $components = !$this->isMultiserver() ? [$this->name, $this->stage] : [$this->name, $server, $this->stage];
         $components = array_filter($components, function ($value) {
             return $value !== null;
@@ -179,7 +180,7 @@ class ConnectionKey extends AbstractKey
      */
     public function toArray()
     {
-        $connection                = parent::toArray();
+        $connection = parent::toArray();
         $connection['multiserver'] = $this->isMultiserver();
 
         return $connection;

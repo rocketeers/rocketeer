@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services\History;
 
 use Rocketeer\TestCases\RocketeerTestCase;
@@ -15,7 +16,7 @@ use Rocketeer\TestCases\RocketeerTestCase;
 class HistoryTest extends RocketeerTestCase
 {
     /**
-     * @type int
+     * @var int
      */
     protected $sleep = 5;
 

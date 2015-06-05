@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services\Ignition;
 
 use KevinGH\Amend\Command;
@@ -27,32 +28,32 @@ class Tasks
     public function getPredefinedTasks()
     {
         $tasks = [
-            ''               => 'Rocketeer',
-            'check'          => 'Check',
-            'cleanup'        => 'Cleanup',
-            'current'        => 'CurrentRelease',
-            'deploy'         => 'Deploy',
-            'flush'          => 'Flush',
-            'ignite'         => 'Ignite',
-            'rollback'       => 'Rollback',
-            'setup'          => 'Setup',
-            'strategies'     => 'Strategies',
-            'teardown'       => 'Teardown',
-            'test'           => 'Test',
-            'update'         => 'Update',
-            'debug-tinker'   => 'Development\Tinker',
-            'debug-config'   => 'Development\Configuration',
-            'self-update'    => 'Development\SelfUpdate',
+            '' => 'Rocketeer',
+            'check' => 'Check',
+            'cleanup' => 'Cleanup',
+            'current' => 'CurrentRelease',
+            'deploy' => 'Deploy',
+            'flush' => 'Flush',
+            'ignite' => 'Ignite',
+            'rollback' => 'Rollback',
+            'setup' => 'Setup',
+            'strategies' => 'Strategies',
+            'teardown' => 'Teardown',
+            'test' => 'Test',
+            'update' => 'Update',
+            'debug-tinker' => 'Development\Tinker',
+            'debug-config' => 'Development\Configuration',
+            'self-update' => 'Development\SelfUpdate',
             'plugin-publish' => 'Plugins\Publish',
-            'plugin-list'    => 'Plugins\List',
+            'plugin-list' => 'Plugins\List',
             'plugin-install' => 'Plugins\Install',
-            'plugin-update'  => 'Plugins\Update',
+            'plugin-update' => 'Plugins\Update',
         ];
 
         // Add user commands
         $userTasks = (array) $this->config->get('hooks.custom');
         $userTasks = array_filter($userTasks);
-        $tasks     = array_merge($tasks, $userTasks);
+        $tasks = array_merge($tasks, $userTasks);
 
         return $tasks;
     }
@@ -72,10 +73,10 @@ class Tasks
 
             // Build the related command
             $command = $this->builder->buildCommand($task, $slug);
-            $task    = $command->getTask();
+            $task = $command->getTask();
 
             // Bind task to container
-            $slug   = $this->getTaskHandle($slug, $task);
+            $slug = $this->getTaskHandle($slug, $task);
             $handle = 'rocketeer.tasks.'.$slug;
             $this->app->bind($handle, function () use ($task) {
                 return $task;
@@ -83,7 +84,7 @@ class Tasks
 
             // Remember handle of the command
             $commandHandle = trim('rocketeer.commands.'.$slug, '.');
-            $commands[]    = $commandHandle;
+            $commands[] = $commandHandle;
 
             // Register command with the container
             $this->app->singleton($commandHandle, function () use ($command) {

@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services\Config;
 
 use Illuminate\Support\Arr;
@@ -26,7 +27,7 @@ class ConfigurationDefinition implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $builder = new TreeBuilder();
-        $root    = $builder->root('rocketeer');
+        $root = $builder->root('rocketeer');
 
         $root
             ->children()
@@ -48,7 +49,7 @@ class ConfigurationDefinition implements ConfigurationInterface
     private function getCoreConfiguration()
     {
         $builder = new TreeBuilder();
-        $node    = $builder->root('config', 'array', new NodeBuilder());
+        $node = $builder->root('config', 'array', new NodeBuilder());
 
         return $node
             ->info('The main configuration of your application')
@@ -198,7 +199,7 @@ EOF
     private function getScmConfiguration()
     {
         $builder = new TreeBuilder();
-        $node    = $builder->root('scm', 'array', new NodeBuilder());
+        $node = $builder->root('scm', 'array', new NodeBuilder());
 
         return $node
             ->info('The configuration of your repository')
@@ -241,7 +242,7 @@ EOF
     private function getStagesConfiguration()
     {
         $builder = new TreeBuilder();
-        $node    = $builder->root('stages', 'array', new NodeBuilder());
+        $node = $builder->root('stages', 'array', new NodeBuilder());
 
         return $node
             ->info("The multiples stages of your application.\nIf you don't know what this does, then you don't need it")
@@ -271,7 +272,7 @@ EOF
     private function getStrategiesConfiguration()
     {
         $builder = new TreeBuilder();
-        $node    = $builder->root('strategies', 'array', new NodeBuilder());
+        $node = $builder->root('strategies', 'array', new NodeBuilder());
 
         return $node
             ->info("Here you can configure in a modular way which tasks to use to execute various core parts of your deployment's flow")
@@ -313,7 +314,7 @@ EOF
     private function getRemoteConfiguration()
     {
         $builder = new TreeBuilder();
-        $node    = $builder->root('remote', 'array', new NodeBuilder());
+        $node = $builder->root('remote', 'array', new NodeBuilder());
 
         return $node
             ->info('Options related to the remote server')
@@ -393,13 +394,13 @@ EOF
     private function getPathsDefinition()
     {
         $builder = new TreeBuilder();
-        $node    = $builder->root('paths', 'array', new NodeBuilder());
+        $node = $builder->root('paths', 'array', new NodeBuilder());
 
         return $node
             ->info("Here you can manually set paths to some commands Rocketeer might try to use.\nIf you leave those empty it will try to find them manually or assume they're in the root folder")
             ->defaultValue([
-                'app'      => getcwd(),
-                'php'      => null,
+                'app' => getcwd(),
+                'php' => null,
                 'composer' => null,
             ])
             ->useAttributeAsKey('name')
@@ -413,7 +414,7 @@ EOF
     private function addHooksConfiguration()
     {
         $builder = new TreeBuilder();
-        $node    = $builder->root('hooks', 'array', new NodeBuilder());
+        $node = $builder->root('hooks', 'array', new NodeBuilder());
 
         return $node
             ->info('Here you can customize Rocketeer by adding tasks, strategies, etc.')

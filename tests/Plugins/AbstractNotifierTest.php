@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Plugins;
 
 use Mockery\MockInterface;
@@ -24,8 +25,8 @@ class AbstractNotifierTest extends RocketeerTestCase
 
         $this->swapConfig([
             'stages.stages' => ['staging', 'production'],
-            'hooks'         => [],
-            'connections'   => [
+            'hooks' => [],
+            'connections' => [
                 'production' => [
                     'host' => 'foo.bar.com',
                 ],
@@ -61,7 +62,7 @@ class AbstractNotifierTest extends RocketeerTestCase
             return $mock
                 ->shouldReceive('getCurrentRepository')->andReturn(new RepositoryKey([
                     'endpoint' => 'rocketeers/rocketeer',
-                    'branch'   => 'master',
+                    'branch' => 'master',
                 ]));
         });
 

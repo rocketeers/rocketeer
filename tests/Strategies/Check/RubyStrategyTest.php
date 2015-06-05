@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Strategies\Check;
 
 use Mockery;
@@ -16,7 +17,7 @@ use Rocketeer\TestCases\RocketeerTestCase;
 class RubyStrategyTest extends RocketeerTestCase
 {
     /**
-     * @type \Rocketeer\Strategies\Check\PhpStrategy
+     * @var \Rocketeer\Strategies\Check\PhpStrategy
      */
     protected $strategy;
 
@@ -30,7 +31,7 @@ class RubyStrategyTest extends RocketeerTestCase
     public function testCanParseLanguageConstraint()
     {
         $manager = Mockery::mock('Bundler', [
-            'getBinary'           => 'bundle',
+            'getBinary' => 'bundle',
             'getManifestContents' => '# Some comments'.PHP_EOL."ruby '2.0.0'",
         ]);
         $this->strategy->setManager($manager);

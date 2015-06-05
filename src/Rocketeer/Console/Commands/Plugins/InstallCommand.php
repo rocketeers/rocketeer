@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Console\Commands\Plugins;
 
 use Rocketeer\Abstracts\Commands\AbstractPluginCommand;
@@ -15,21 +16,21 @@ use Rocketeer\Abstracts\Commands\AbstractPluginCommand;
 class InstallCommand extends AbstractPluginCommand
 {
     /**
-     * @type string
+     * @var string
      */
     protected $pluginTask = 'Installer';
 
     /**
      * The default name.
      *
-     * @type string
+     * @var string
      */
     protected $name = 'plugin:install';
 
     /**
      * The console command description.
      *
-     * @type string
+     * @var string
      */
     protected $description = 'Install a plugin';
 }

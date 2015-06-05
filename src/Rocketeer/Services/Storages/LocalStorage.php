@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services\Storages;
 
 use Illuminate\Contracts\Container\Container;
@@ -26,21 +27,21 @@ class LocalStorage extends AbstractStorage implements StorageInterface
     /**
      * The current hash in use.
      *
-     * @type string
+     * @var string
      */
     protected $hash;
 
     /**
      * The folder where the file resides.
      *
-     * @type string
+     * @var string
      */
     protected $folder;
 
     /**
      * A cache of the contents.
      *
-     * @type array
+     * @var array
      */
     protected $contents;
 
@@ -89,7 +90,7 @@ class LocalStorage extends AbstractStorage implements StorageInterface
         }
 
         // Get the contents of the configuration folder
-        $salt   = '';
+        $salt = '';
         $folder = $this->paths->getConfigurationPath();
         if (!$this->files->isDirectory($folder)) {
             return;
@@ -97,7 +98,7 @@ class LocalStorage extends AbstractStorage implements StorageInterface
 
         $finder = new Finder();
         $folder = $this->files->getAdapter()->applyPathPrefix($folder);
-        $files  = $finder
+        $files = $finder
             ->in($folder)
             ->name('*.php')
             ->exclude(['tasks', 'events', 'strategies'])
@@ -109,9 +110,9 @@ class LocalStorage extends AbstractStorage implements StorageInterface
         ksort($files);
 
         // Compute the salts
-        /** @type SplFileInfo[] $files */
+        /** @var SplFileInfo[] $files */
         foreach ($files as $file) {
-            $file     = $this->files->getAdapter()->removePathPrefix($file);
+            $file = $this->files->getAdapter()->removePathPrefix($file);
             $contents = $this->files->readRequire($file);
             $salt .= json_encode($contents);
         }

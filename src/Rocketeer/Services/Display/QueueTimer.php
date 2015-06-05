@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services\Display;
 
 use Rocketeer\Interfaces\IdentifierInterface;
@@ -39,8 +40,8 @@ class QueueTimer
     {
         // Start timer, execute callback, close timer
         $timerStart = microtime(true);
-        $results    = $callback();
-        $time       = round(microtime(true) - $timerStart, 4);
+        $results = $callback();
+        $time = round(microtime(true) - $timerStart, 4);
 
         $this->saveTime($entity, $time);
 
@@ -61,7 +62,7 @@ class QueueTimer
         }
 
         // Append the new time to past ones
-        $past   = $this->getTimes($entity);
+        $past = $this->getTimes($entity);
         $past[] = $time;
 
         $this->saveTimes($entity, $past);
@@ -100,7 +101,7 @@ class QueueTimer
     public function getTimes(IdentifierInterface $entity)
     {
         $handle = $this->getTimerHandle($entity);
-        $past   = $this->localStorage->get($handle, []);
+        $past = $this->localStorage->get($handle, []);
 
         return $past;
     }

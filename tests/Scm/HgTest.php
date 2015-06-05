@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Scm;
 
 use Rocketeer\Binaries\Scm\Hg;
@@ -18,7 +19,7 @@ class HgTest extends RocketeerTestCase
     /**
      * The current SCM instance.
      *
-     * @type Hg
+     * @var Hg
      */
     protected $scm;
 
@@ -60,7 +61,7 @@ class HgTest extends RocketeerTestCase
             'username' => 'foo',
             'password' => 'bar',
             'endpoint' => 'http://github.com/my/repository',
-            'branch'   => 'develop',
+            'branch' => 'develop',
         ]);
 
         $command = $this->scm->checkout($this->server);

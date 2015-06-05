@@ -22,11 +22,11 @@ class ConnectionKeyAdapter extends SftpAdapter
     public function __construct(ConnectionKey $connectionKey)
     {
         parent::__construct([
-            'host'       => $connectionKey->host,
-            'username'   => $connectionKey->username,
-            'password'   => $connectionKey->password,
+            'host' => $connectionKey->host,
+            'username' => $connectionKey->username,
+            'password' => $connectionKey->password,
             'privateKey' => $connectionKey->key,
-            'root'       => $connectionKey->root_directory,
+            'root' => $connectionKey->root_directory,
         ]);
     }
 }

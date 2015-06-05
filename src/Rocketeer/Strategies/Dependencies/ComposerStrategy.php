@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Strategies\Dependencies;
 
 use Rocketeer\Abstracts\Strategies\AbstractDependenciesStrategy;
@@ -17,20 +18,20 @@ class ComposerStrategy extends AbstractDependenciesStrategy implements Dependenc
 {
     protected $options = [
         'shared_dependencies' => false,
-        'flags'               => [
+        'flags' => [
             'install' => ['--no-interaction' => null, '--no-dev' => null, '--prefer-dist' => null],
         ],
     ];
 
     /**
-     * @type string
+     * @var string
      */
     protected $description = 'Installs dependencies with Composer';
 
     /**
      * The name of the binary.
      *
-     * @type string
+     * @var string
      */
     protected $binary = 'composer';
 }

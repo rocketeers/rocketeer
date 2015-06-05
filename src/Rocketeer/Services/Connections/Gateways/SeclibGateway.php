@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services\Connections\Gateways;
 
 use Crypt_RSA;
@@ -29,35 +30,35 @@ class SeclibGateway implements GatewayInterface
     /**
      * The host name of the server.
      *
-     * @type string
+     * @var string
      */
     protected $host;
 
     /**
      * The SSH port on the server.
      *
-     * @type int
+     * @var int
      */
     protected $port = 22;
 
     /**
      * The authentication credential set.
      *
-     * @type array
+     * @var array
      */
     protected $auth;
 
     /**
      * The filesystem instance.
      *
-     * @type Filesystem
+     * @var Filesystem
      */
     protected $files;
 
     /**
      * The SecLib connection instance.
      *
-     * @type Net_SFTP
+     * @var Net_SFTP
      */
     protected $connection;
 
@@ -70,7 +71,7 @@ class SeclibGateway implements GatewayInterface
      */
     public function __construct($host, array $auth, Filesystem $files)
     {
-        $this->auth  = $auth;
+        $this->auth = $auth;
         $this->files = $files;
         $this->setHostAndPort($host);
     }

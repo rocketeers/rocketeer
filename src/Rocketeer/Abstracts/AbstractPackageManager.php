@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Abstracts;
 
 abstract class AbstractPackageManager extends AbstractBinary
@@ -15,7 +16,7 @@ abstract class AbstractPackageManager extends AbstractBinary
     /**
      * The name of the manifest file to look for.
      *
-     * @type string
+     * @var string
      */
     protected $manifest;
 

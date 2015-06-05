@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Tasks;
 
 use Mockery\MockInterface;
@@ -45,8 +46,8 @@ class CleanupTest extends RocketeerTestCase
 
         $this->assertTaskOutput('Cleanup', 'Removing <info>2 releases</info> from the server', $this->getCommand([], [
             'clean-all' => true,
-            'verbose'   => true,
-            'pretend'   => false,
+            'verbose' => true,
+            'pretend' => false,
         ]));
 
         ob_end_clean();

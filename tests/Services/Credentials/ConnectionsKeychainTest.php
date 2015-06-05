@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services\Connections;
 
 use Rocketeer\Services\Credentials\Keys\ConnectionKey;
@@ -46,7 +47,7 @@ class ConnectionsKeychainTest extends RocketeerTestCase
         ]);
 
         $this->mockCommand([
-            'on'     => 'production',
+            'on' => 'production',
             'server' => '0,1',
         ]);
 
@@ -64,12 +65,12 @@ class ConnectionsKeychainTest extends RocketeerTestCase
     {
         $this->swapConfig([
             'connections.production.servers.0' => [
-                'host'  => 'foo.com',
+                'host' => 'foo.com',
                 'roles' => ['foo', 'bar'],
             ],
         ]);
 
-        $connection  = $this->connections->getCurrentConnection();
+        $connection = $this->connections->getCurrentConnection();
         $credentials = $this->credentials->syncConnectionCredentials($connection, ['host' => 'lol.com']);
 
         $this->assertEquals('lol.com', $credentials['host']);
@@ -92,11 +93,11 @@ class ConnectionsKeychainTest extends RocketeerTestCase
 
         $credentials = $this->credentials->getServerCredentials('production-multiserver', 0);
         $this->assertEquals([
-            'host'          => '10.1.1.1',
-            'username'      => $this->username,
-            'agent'         => true,
+            'host' => '10.1.1.1',
+            'username' => $this->username,
+            'agent' => true,
             'agent-forward' => true,
-            'db_role'       => false,
+            'db_role' => false,
         ], $credentials);
 
         // also check handle generation as handles are used for connection cache keying in RemoteHandler
@@ -104,22 +105,22 @@ class ConnectionsKeychainTest extends RocketeerTestCase
 
         $credentials = $this->credentials->getServerCredentials('production-multiserver', 1);
         $this->assertEquals([
-            'host'          => '10.1.1.2',
-            'username'      => $this->username,
-            'agent'         => true,
+            'host' => '10.1.1.2',
+            'username' => $this->username,
+            'agent' => true,
             'agent-forward' => true,
-            'db_role'       => false,
+            'db_role' => false,
         ], $credentials);
 
         $this->assertEquals('production-multiserver/10.1.1.2', $this->credentials->createConnectionKey('production-multiserver', 1));
 
         $credentials = $this->credentials->getServerCredentials('production-multiserver', 2);
         $this->assertEquals([
-            'host'          => '10.1.1.3',
-            'username'      => $this->username,
-            'agent'         => true,
+            'host' => '10.1.1.3',
+            'username' => $this->username,
+            'agent' => true,
             'agent-forward' => true,
-            'db_role'       => false,
+            'db_role' => false,
         ], $credentials);
 
         $this->assertEquals('production-multiserver/10.1.1.3', $this->credentials->createConnectionKey('production-multiserver', 2));
@@ -137,11 +138,11 @@ class ConnectionsKeychainTest extends RocketeerTestCase
         return array_map(
             function ($ip) {
                 return [
-                    'host'          => $ip,
-                    'username'      => $this->username,
-                    'agent'         => true,
+                    'host' => $ip,
+                    'username' => $this->username,
+                    'agent' => true,
                     'agent-forward' => true,
-                    'db_role'       => false,
+                    'db_role' => false,
                 ];
             },
             ['10.1.1.1', '10.1.1.2', '10.1.1.3']

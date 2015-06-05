@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services\Connections\Connections;
 
 use Closure;
@@ -30,7 +31,7 @@ class LocalConnection implements ConnectionInterface, HasRolesInterface
     /**
      * Return status of the last command.
      *
-     * @type int
+     * @var int
      */
     protected $previousStatus;
 
@@ -43,7 +44,7 @@ class LocalConnection implements ConnectionInterface, HasRolesInterface
     public function run($commands, Closure $callback = null)
     {
         $commands = (array) $commands;
-        $command  = implode(' && ', $commands);
+        $command = implode(' && ', $commands);
 
         exec($command, $output, $status);
 

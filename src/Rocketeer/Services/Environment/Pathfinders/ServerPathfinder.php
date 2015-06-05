@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Services\Environment\Pathfinders;
 
 use Illuminate\Support\Str;
@@ -14,7 +24,7 @@ class ServerPathfinder extends AbstractPathfinder
     {
         $rootDirectory = $this->connections->getCurrentConnection()->root_directory;
         $rootDirectory = Str::finish($rootDirectory, '/');
-        $appDirectory  = $this->rocketeer->getOption('remote.app_directory') ?: $this->rocketeer->getApplicationName();
+        $appDirectory = $this->rocketeer->getOption('remote.app_directory') ?: $this->rocketeer->getApplicationName();
 
         return $rootDirectory.$appDirectory;
     }
@@ -30,7 +40,7 @@ class ServerPathfinder extends AbstractPathfinder
     {
         $folder = $this->replacePatterns($folder);
 
-        $base  = $this->getHomeFolder().'/';
+        $base = $this->getHomeFolder().'/';
         $stage = $this->connections->getCurrentConnection()->stage;
         if ($folder && $stage) {
             $base .= $stage.'/';
@@ -41,7 +51,7 @@ class ServerPathfinder extends AbstractPathfinder
     }
 
     /**
-     * The methods this pathfinder provides
+     * The methods this pathfinder provides.
      *
      * @return string[]
      */

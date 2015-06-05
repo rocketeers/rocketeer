@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Binaries\Scm;
 
 use Rocketeer\Abstracts\AbstractBinary;
@@ -24,7 +25,7 @@ class Svn extends AbstractBinary implements ScmInterface
     /**
      * The core binary.
      *
-     * @type string
+     * @var string
      */
     public $binary = 'svn';
 
@@ -76,7 +77,7 @@ class Svn extends AbstractBinary implements ScmInterface
     public function checkout($destination)
     {
         $repository = $this->credentials->getCurrentRepository();
-        $branch     = $repository->branch;
+        $branch = $repository->branch;
         $repository = $repository->endpoint;
         $repository = rtrim($repository, '/').'/'.ltrim($branch, '/');
         $repository = preg_replace('#//[a-zA-Z0-9]+:?[a-zA-Z0-9]*@#', '//', $repository);
@@ -113,7 +114,7 @@ class Svn extends AbstractBinary implements ScmInterface
      */
     protected function getCredentials()
     {
-        $options    = ['--non-interactive' => null];
+        $options = ['--non-interactive' => null];
         $repository = $this->credentials->getCurrentRepository();
 
         // Build command

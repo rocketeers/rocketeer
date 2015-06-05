@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Scm;
 
 use Mockery\MockInterface;
@@ -19,7 +20,7 @@ class GitTest extends RocketeerTestCase
     /**
      * The current SCM instance.
      *
-     * @type Git
+     * @var Git
      */
     protected $scm;
 
@@ -62,7 +63,7 @@ class GitTest extends RocketeerTestCase
         });
         $this->swapRepositoryCredentials([
             'endpoint' => 'http://github.com/my/repository',
-            'branch'   => 'develop',
+            'branch' => 'develop',
         ]);
 
         $command = $this->scm->checkout($this->server);
@@ -77,7 +78,7 @@ class GitTest extends RocketeerTestCase
         });
         $this->swapRepositoryCredentials([
             'endpoint' => 'http://github.com/my/repository',
-            'branch'   => 'develop',
+            'branch' => 'develop',
         ]);
 
         $command = $this->scm->checkout($this->server);

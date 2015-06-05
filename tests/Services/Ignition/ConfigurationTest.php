@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services\Ignition;
 
 use Mockery\MockInterface;
@@ -18,7 +19,7 @@ class ConfigurationTest extends RocketeerTestCase
     /**
      * The igniter instance.
      *
-     * @type Configuration
+     * @var Configuration
      */
     protected $igniter;
 
@@ -112,7 +113,7 @@ class ConfigurationTest extends RocketeerTestCase
 
     public function testCanLoadFilesOrFolder()
     {
-        $config                 = $this->customConfig;
+        $config = $this->customConfig;
         $this->app['path.base'] = dirname($config);
 
         $this->files->createDir($config.'/events');
@@ -134,7 +135,7 @@ class ConfigurationTest extends RocketeerTestCase
 
     public function testCanLoadCustomStrategies()
     {
-        $config                 = $this->customConfig;
+        $config = $this->customConfig;
         $this->app['path.base'] = dirname($config);
 
         $this->files->createDir($config.'/strategies');

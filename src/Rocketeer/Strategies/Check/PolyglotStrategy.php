@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Strategies\Check;
 
 use Rocketeer\Abstracts\Strategies\AbstractPolyglotStrategy;
@@ -18,14 +19,14 @@ class PolyglotStrategy extends AbstractPolyglotStrategy implements CheckStrategy
     /**
      * The various strategies to call.
      *
-     * @type array
+     * @var array
      */
     protected $strategies = ['Node', 'Php', 'Ruby'];
 
     /**
      * The type of the sub-strategies.
      *
-     * @type string
+     * @var string
      */
     protected $type = 'Check';
 

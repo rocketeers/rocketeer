@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Interfaces;
 
 /**
@@ -21,8 +22,6 @@ interface CredentialsExceptionInterface
      * Set the credentials that failed to connect.
      *
      * @param array $credentials
-     *
-     * @return void
      */
     public function setCredentials(array $credentials);
 }

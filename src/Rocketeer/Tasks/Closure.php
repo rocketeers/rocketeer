@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Tasks;
 
 use Rocketeer\Abstracts\AbstractTask;
@@ -22,14 +23,14 @@ class Closure extends AbstractTask
     /**
      * A callable to execute at runtime.
      *
-     * @type callable
+     * @var callable
      */
     protected $closure;
 
     /**
      * A string task to execute in the Closure.
      *
-     * @type string|string[]|callable
+     * @var string|string[]|callable
      */
     protected $stringTask;
 

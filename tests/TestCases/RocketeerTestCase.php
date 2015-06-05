@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\TestCases;
 
 use League\Flysystem\Adapter\Local;
@@ -20,48 +21,48 @@ abstract class RocketeerTestCase extends ContainerTestCase
     /**
      * The test repository.
      *
-     * @type string
+     * @var string
      */
     protected $repository = 'Anahkiasen/html-object.git';
 
     /**
-     * @type string
+     * @var string
      */
     protected $username = 'anahkiasen';
 
     /**
-     * @type string
+     * @var string
      */
     protected $password = 'foobar';
 
     /**
-     * @type string
+     * @var string
      */
     protected $host = 'some.host';
 
     /**
-     * @type string
+     * @var string
      */
     protected $key = '/.ssh/id_rsa';
 
     /**
      * A dummy AbstractTask to use for helpers tests.
      *
-     * @type \Rocketeer\Abstracts\AbstractTask
+     * @var \Rocketeer\Abstracts\AbstractTask
      */
     protected $task;
 
     /**
      * Cache of the paths to binaries.
      *
-     * @type array
+     * @var array
      */
     protected $binaries = [];
 
     /**
      * Number of files an ls should yield.
      *
-     * @type int
+     * @var int
      */
     protected static $currentFiles;
 
@@ -96,9 +97,9 @@ abstract class RocketeerTestCase extends ContainerTestCase
 
         // Cache paths
         $this->binaries = $this->binaries ?: [
-            'php'      => exec('which php') ?: 'php',
-            'bundle'   => exec('which bundle') ?: 'bundle',
-            'phpunit'  => exec('which phpunit') ?: 'phpunit',
+            'php' => exec('which php') ?: 'php',
+            'bundle' => exec('which bundle') ?: 'bundle',
+            'phpunit' => exec('which phpunit') ?: 'phpunit',
             'composer' => exec('which composer') ?: 'composer',
         ];
     }
@@ -117,7 +118,7 @@ abstract class RocketeerTestCase extends ContainerTestCase
     protected function recreateVirtualServer()
     {
         // Save superglobals
-        $root       = realpath(__DIR__.'/../../').'/';
+        $root = realpath(__DIR__.'/../../').'/';
         $filesystem = new Filesystem(new Local($root));
         $filesystem->addPlugin(new IsDirectoryPlugin());
 

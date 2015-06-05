@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Traits;
 
 use Illuminate\Contracts\Container\Container;
@@ -47,6 +48,7 @@ use Illuminate\Support\Arr;
  * @property \Rocketeer\Services\Builders\Builder                builder
  * @property \Rocketeer\Services\Tasks\TasksQueue                queue
  * @property \Rocketeer\Services\TasksHandler                    tasks
+ *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait HasLocator
@@ -54,7 +56,7 @@ trait HasLocator
     /**
      * The IoC Container.
      *
-     * @type Container
+     * @var Container
      */
     protected $app;
 
@@ -117,31 +119,31 @@ trait HasLocator
     protected function getLocatorHandle($key)
     {
         $shortcuts = [
-            'bash'                   => 'rocketeer.bash',
-            'builder'                => 'rocketeer.builder',
-            'command'                => 'rocketeer.command',
-            'config'                 => 'rocketeer.config',
-            'configurationLoader'    => 'rocketeer.config.loader',
+            'bash' => 'rocketeer.bash',
+            'builder' => 'rocketeer.builder',
+            'command' => 'rocketeer.command',
+            'config' => 'rocketeer.config',
+            'configurationLoader' => 'rocketeer.config.loader',
             'configurationPublisher' => 'rocketeer.config.publisher',
-            'connections'            => 'rocketeer.connections',
-            'console'                => 'rocketeer.console',
-            'coordinator'            => 'rocketeer.coordinator',
-            'credentials'            => 'rocketeer.credentials.handler',
-            'credentialsGatherer'    => 'rocketeer.credentials.gatherer',
-            'environment'            => 'rocketeer.environment',
-            'explainer'              => 'rocketeer.explainer',
-            'history'                => 'rocketeer.history',
-            'localStorage'           => 'rocketeer.storage.local',
-            'logs'                   => 'rocketeer.logs',
-            'paths'                  => 'rocketeer.paths',
-            'queue'                  => 'rocketeer.queue',
-            'releasesManager'        => 'rocketeer.releases',
-            'remote'                 => 'rocketeer.remote',
-            'rocketeer'              => 'rocketeer.rocketeer',
-            'roles'                  => 'rocketeer.roles',
-            'scm'                    => 'rocketeer.scm',
-            'tasks'                  => 'rocketeer.tasks',
-            'timer'                  => 'rocketeer.timer',
+            'connections' => 'rocketeer.connections',
+            'console' => 'rocketeer.console',
+            'coordinator' => 'rocketeer.coordinator',
+            'credentials' => 'rocketeer.credentials.handler',
+            'credentialsGatherer' => 'rocketeer.credentials.gatherer',
+            'environment' => 'rocketeer.environment',
+            'explainer' => 'rocketeer.explainer',
+            'history' => 'rocketeer.history',
+            'localStorage' => 'rocketeer.storage.local',
+            'logs' => 'rocketeer.logs',
+            'paths' => 'rocketeer.paths',
+            'queue' => 'rocketeer.queue',
+            'releasesManager' => 'rocketeer.releases',
+            'remote' => 'rocketeer.remote',
+            'rocketeer' => 'rocketeer.rocketeer',
+            'roles' => 'rocketeer.roles',
+            'scm' => 'rocketeer.scm',
+            'tasks' => 'rocketeer.tasks',
+            'timer' => 'rocketeer.timer',
         ];
 
         // Replace shortcuts

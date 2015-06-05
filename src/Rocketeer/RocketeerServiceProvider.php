@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer;
 
 use Illuminate\Http\Request;
@@ -19,7 +20,6 @@ use Rocketeer\Services\Config\ConfigurationCache;
 use Rocketeer\Services\Config\ConfigurationDefinition;
 use Rocketeer\Services\Config\ConfigurationPublisher;
 use Rocketeer\Services\Environment\Pathfinder;
-use Rocketeer\Services\Environment\Pathfinders;
 use Rocketeer\Services\Filesystem\FilesystemsMounter;
 use Rocketeer\Services\Filesystem\Plugins\IncludePlugin;
 use Rocketeer\Services\Filesystem\Plugins\IsDirectoryPlugin;
@@ -224,8 +224,8 @@ class RocketeerServiceProvider extends ServiceProvider
     {
         $this->app->bind('Symfony\Component\Config\Loader\LoaderInterface', function () {
             $locator = new FileLocator();
-            $loader  = new LoaderResolver([new PhpLoader($locator)]);
-            $loader  = new DelegatingLoader($loader);
+            $loader = new LoaderResolver([new PhpLoader($locator)]);
+            $loader = new DelegatingLoader($loader);
 
             return $loader;
         });

@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Traits\BashModules;
 
 use Mockery\MockInterface;
@@ -94,7 +95,7 @@ class CoreTest extends RocketeerTestCase
             'remote.variables.directory_separator' => '\\',
         ]);
 
-        $commands  = 'cd C:/_bar?/12baz';
+        $commands = 'cd C:/_bar?/12baz';
         $processed = $this->task->processCommands($commands);
 
         $this->assertEquals(['cd C:\_bar?\12baz'], $processed);
@@ -106,7 +107,7 @@ class CoreTest extends RocketeerTestCase
             'remote.variables.directory_separator' => '\\',
         ]);
 
-        $commands  = 'find runtime -name "cache" -follow -exec rm -rf "{}" '.DS.';';
+        $commands = 'find runtime -name "cache" -follow -exec rm -rf "{}" '.DS.';';
         $processed = $this->task->processCommands($commands);
 
         $this->assertEquals([$commands], $processed);
@@ -167,7 +168,7 @@ class CoreTest extends RocketeerTestCase
     public function testCanExecuteCommandsAsSudo()
     {
         $this->swapConfig([
-            'remote.sudo'   => true,
+            'remote.sudo' => true,
             'remote.sudoed' => ['cd'],
         ]);
 
@@ -177,7 +178,7 @@ class CoreTest extends RocketeerTestCase
     public function testCanExecuteCommandsAsSudoUser()
     {
         $this->swapConfig([
-            'remote.sudo'   => 'foobar',
+            'remote.sudo' => 'foobar',
             'remote.sudoed' => ['cd'],
         ]);
 

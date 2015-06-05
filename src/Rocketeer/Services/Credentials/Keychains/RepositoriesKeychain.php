@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services\Credentials\Keychains;
 
 use Illuminate\Support\Arr;
@@ -29,9 +30,9 @@ trait RepositoriesKeychain
      */
     public function getCurrentRepository()
     {
-        $credentials             = $this->getRepositoryCredentials();
+        $credentials = $this->getRepositoryCredentials();
         $credentials['endpoint'] = $this->getRepositoryEndpoint();
-        $credentials['branch']   = $this->getRepositoryBranch();
+        $credentials['branch'] = $this->getRepositoryBranch();
 
         return new RepositoryKey($credentials);
     }
@@ -43,7 +44,7 @@ trait RepositoriesKeychain
      */
     protected function getRepositoryCredentials()
     {
-        $config      = (array) $this->rocketeer->getOption('scm');
+        $config = (array) $this->rocketeer->getOption('scm');
         $credentials = (array) $this->localStorage->get('credentials');
 
         return array_merge($config, $credentials);
@@ -58,8 +59,8 @@ trait RepositoriesKeychain
     {
         // Get credentials
         $repository = $this->getRepositoryCredentials();
-        $username   = Arr::get($repository, 'username');
-        $password   = Arr::get($repository, 'password');
+        $username = Arr::get($repository, 'username');
+        $password = Arr::get($repository, 'password');
         $repository = Arr::get($repository, 'repository');
 
         // Add credentials if possible
@@ -101,7 +102,7 @@ trait RepositoriesKeychain
             });
 
             $fallback = $fallback ?: 'master';
-            $branch   = trim($fallback);
+            $branch = trim($fallback);
         }
 
         return $branch;

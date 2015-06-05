@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services\Credentials;
 
 use Illuminate\Support\Arr;
@@ -21,21 +22,21 @@ class CredentialsGatherer
      * Rules for which credentials are
      * strictly required or not.
      *
-     * @type array
+     * @var array
      */
     protected $rules = [
-        'server'     => [
-            'host'      => true,
-            'username'  => true,
-            'password'  => false,
+        'server' => [
+            'host' => true,
+            'username' => true,
+            'password' => false,
             'keyphrase' => false,
-            'key'       => false,
-            'agent'     => false,
+            'key' => false,
+            'agent' => false,
         ],
         'repository' => [
             'repository' => true,
-            'username'   => false,
-            'password'   => false,
+            'username' => false,
+            'password' => false,
         ],
     ];
 
@@ -45,7 +46,7 @@ class CredentialsGatherer
     public function getRepositoryCredentials()
     {
         // Check for repository credentials
-        $repository            = $this->credentials->getCurrentRepository();
+        $repository = $this->credentials->getCurrentRepository();
         $repositoryCredentials = $repository->toArray();
 
         // If we didn't specify a login/password ask for both the first time
@@ -76,7 +77,7 @@ class CredentialsGatherer
 
         // Check for configured connections
         $availableConnections = $this->connections->getAvailableConnections();
-        $activeConnections    = $this->connections->getConnections();
+        $activeConnections = $this->connections->getConnections();
 
         // If we didn't set any connection, ask for them
         if (!$activeConnections && empty($availableConnections)) {
@@ -142,13 +143,13 @@ class CredentialsGatherer
     protected function usesSsh($handle, array $credentials)
     {
         $password = $this->getCredential($credentials, 'password');
-        $key      = $this->getCredential($credentials, 'key');
+        $key = $this->getCredential($credentials, 'key');
         if ($password || $key) {
             return (bool) $key;
         }
 
         $types = ['key', 'password'];
-        $type  = $this->ask('askWith', 'No password or SSH key is set for ['.$handle.'], which would you use?', 'key', $types);
+        $type = $this->ask('askWith', 'No password or SSH key is set for ['.$handle.'], which would you use?', 'key', $types);
 
         return $type === 'key';
     }
@@ -166,18 +167,18 @@ class CredentialsGatherer
     {
         // Alter rules depending on connection type
         $authCredentials = ['key', 'password', 'keyphrase'];
-        $unprompted      = $this->alterRules($rules, $current, $handle);
+        $unprompted = $this->alterRules($rules, $current, $handle);
 
         // Loop through credentials and ask missing ones
         foreach ($rules as $type => $required) {
-            $credential   = $this->getCredential($current, $type);
+            $credential = $this->getCredential($current, $type);
             $shouldPrompt = $this->shouldPromptFor($credential);
             $shouldPrompt = !in_array($type, $unprompted, true) && ($shouldPrompt || ($required && !$credential && $credential !== false));
-            $$type        = $credential;
+            $$type = $credential;
 
             if ($shouldPrompt) {
                 $method = in_array($type, $authCredentials, true) ? 'gatherAuthCredential' : 'gatherCredential';
-                $$type  = $this->$method($handle, $type);
+                $$type = $this->$method($handle, $type);
             }
         }
 
@@ -223,8 +224,8 @@ class CredentialsGatherer
     protected function gatherCredential($handle, $type, $question = null)
     {
         $question = $question ?: 'No '.$type.' is set for ['.$handle.'], please provide one:';
-        $option   = $this->getOption($type, true);
-        $method   = in_array($type, ['password', 'keyphrase'], true) ? 'askSecretly' : 'askWith';
+        $option = $this->getOption($type, true);
+        $method = in_array($type, ['password', 'keyphrase'], true) ? 'askSecretly' : 'askWith';
 
         return $option ?: $this->ask($method, $question);
     }
@@ -269,7 +270,7 @@ class CredentialsGatherer
         }
 
         $arguments = func_get_args();
-        $method    = array_shift($arguments);
+        $method = array_shift($arguments);
 
         return call_user_func_array([$this->command, $method], $arguments);
     }
@@ -311,7 +312,7 @@ class CredentialsGatherer
         }
 
         if ($this->usesSsh($handle, $credentials)) {
-            $rules['key']       = true;
+            $rules['key'] = true;
             $rules['keyphrase'] = true;
 
             return ['password'];

@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services\Connections;
 
 use Rocketeer\Services\Tasks\Job;
@@ -20,7 +21,7 @@ class Coordinator
     /**
      * The status of each server.
      *
-     * @type array
+     * @var array
      */
     protected $statuses = [];
 
@@ -52,7 +53,7 @@ class Coordinator
     public function whenAllServersReadyTo($event, callable $listener)
     {
         // Set status
-        $event  = $this->getPromiseHandle($event);
+        $event = $this->getPromiseHandle($event);
         $handle = (string) $this->connections->getCurrentConnection();
 
         // Initiate statuses
@@ -84,7 +85,7 @@ class Coordinator
      */
     public function allServerAre($event, $expected)
     {
-        $targets  = $this->computeNumberOfTargets();
+        $targets = $this->computeNumberOfTargets();
         $statuses = array_filter($this->statuses[$event], function ($server) use ($expected) {
             return $server === $expected;
         });
@@ -139,7 +140,7 @@ class Coordinator
 
         $job = new Job([
             'connection' => $connection,
-            'queue'      => $this->builder->buildTasks([$listener]),
+            'queue' => $this->builder->buildTasks([$listener]),
         ]);
 
         $this->events->addListener($event, function () use ($job) {
@@ -159,7 +160,7 @@ class Coordinator
 
         $connections = $this->connections->getConnections();
         foreach ($connections as $connection) {
-            $stages  = $this->connections->getAvailableStages();
+            $stages = $this->connections->getAvailableStages();
             $servers = $this->credentials->getConnectionCredentials($connection);
             $targets += count($servers) * count($stages);
         }

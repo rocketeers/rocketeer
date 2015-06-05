@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Abstracts\Commands;
 
 use Symfony\Component\Console\Input\InputArgument;
@@ -17,7 +18,7 @@ class AbstractPluginCommand extends AbstractCommand
     /**
      * The plugin task to fire.
      *
-     * @type string
+     * @var string
      */
     protected $pluginTask;
 
@@ -25,7 +26,7 @@ class AbstractPluginCommand extends AbstractCommand
      * Whether the command's task should be built
      * into a pipeline or run straight.
      *
-     * @type bool
+     * @var bool
      */
     protected $straight = true;
 

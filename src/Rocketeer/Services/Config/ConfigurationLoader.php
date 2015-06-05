@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services\Config;
 
 use Illuminate\Contracts\Container\Container;
@@ -26,37 +27,37 @@ class ConfigurationLoader
     /**
      * The various found configurations.
      *
-     * @type array
+     * @var array
      */
     protected $configurations = [];
 
     /**
-     * @type FileResource[]
+     * @var FileResource[]
      */
     protected $resources = [];
 
     /**
-     * @type string[]
+     * @var string[]
      */
     protected $folders;
 
     /**
-     * @type LoaderInterface
+     * @var LoaderInterface
      */
     protected $loader;
 
     /**
-     * @type ConfigurationDefinition
+     * @var ConfigurationDefinition
      */
     protected $definition;
 
     /**
-     * @type Processor
+     * @var Processor
      */
     protected $processor;
 
     /**
-     * @type ConfigurationCache
+     * @var ConfigurationCache
      */
     protected $cache;
 
@@ -76,11 +77,11 @@ class ConfigurationLoader
         Processor $processor,
         ConfigurationCache $cache
     ) {
-        $this->app        = $app;
-        $this->loader     = $loader;
+        $this->app = $app;
+        $this->loader = $loader;
         $this->definition = $definition;
-        $this->processor  = $processor;
-        $this->cache      = $cache;
+        $this->processor = $processor;
+        $this->cache = $cache;
     }
 
     //////////////////////////////////////////////////////////////////////
@@ -127,7 +128,7 @@ class ConfigurationLoader
     public function getConfiguration(array $configurations = [])
     {
         $this->configurations = [];
-        $this->resources      = [];
+        $this->resources = [];
 
         // Get which files are present in the configurations
         $folders = array_filter($this->folders, [$this->files, 'isDirectory']);
@@ -180,7 +181,7 @@ class ConfigurationLoader
      */
     protected function loadConfigurationFor($folder)
     {
-        /** @type SplFileInfo[] $files */
+        /** @var SplFileInfo[] $files */
         $files = $this->getFinder($folder)
                       ->exclude(['connections', 'stages', 'plugins', 'tasks', 'events', 'strategies']);
 
@@ -207,7 +208,7 @@ class ConfigurationLoader
     {
         $contextual = (new Finder())->in($folder)->name('/(stages|connections)/')->directories();
         foreach ($contextual as $type) {
-            /** @type SplFileInfo[] $files */
+            /** @var SplFileInfo[] $files */
             $files = (new Finder())->in($type->getPathname())->files();
 
             foreach ($files as $file) {
@@ -220,7 +221,7 @@ class ConfigurationLoader
                 // Load contents and merge
                 $contents = include $file->getPathname();
                 $contents = $this->autoWrap($file, $contents);
-                $current  = Arr::get($this->configurations[$folder], $key, []);
+                $current = Arr::get($this->configurations[$folder], $key, []);
                 $contents = $current ? array_replace_recursive($current, $contents) : $contents;
 
                 Arr::set($this->configurations[$folder], $key, $contents);

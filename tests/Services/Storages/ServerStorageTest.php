@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services\Storages;
 
 use Rocketeer\TestCases\RocketeerTestCase;
@@ -17,7 +18,7 @@ class ServerStorageTest extends RocketeerTestCase
     public function testCanDestroyRemoteFile()
     {
         $server = new ServerStorage($this->app, 'test');
-        $file   = $server->getFilepath();
+        $file = $server->getFilepath();
         $server->destroy();
 
         $this->assertVirtualFileNotExists($file);

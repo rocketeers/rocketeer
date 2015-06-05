@@ -19,7 +19,7 @@ return [
 
         // Adding entries to this array will split the remote folder in stages
         // Example: /var/www/yourapp/staging and /var/www/yourapp/production
-        'stages'  => [
+        'stages' => [
             // Examples:
             // 'staging',
             // 'production',

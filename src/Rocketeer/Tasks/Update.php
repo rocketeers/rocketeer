@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Tasks;
 
 use Rocketeer\Interfaces\Strategies\DeployStrategyInterface;
@@ -22,7 +23,7 @@ class Update extends Deploy
     /**
      * A description of what the task does.
      *
-     * @type string
+     * @var string
      */
     protected $description = 'Update the remote server without doing a new release';
 
@@ -38,7 +39,7 @@ class Update extends Deploy
             return $this->halt('Project is not ready for deploy. You were almost fired.');
         }
 
-        /** @type DeployStrategyInterface $strategy */
+        /** @var DeployStrategyInterface $strategy */
         $strategy = $this->getStrategy('Deploy');
 
         // Update repository

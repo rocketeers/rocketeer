@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services\Ignition;
 
 use Illuminate\Support\Arr;
@@ -89,7 +90,7 @@ class Configuration
     public function exportConfiguration()
     {
         $destination = $this->paths->getConfigurationPath();
-        $format      = $this->getOption('format', true) ?: 'php';
+        $format = $this->getOption('format', true) ?: 'php';
 
         // Create directory
         if (!$this->files->isDirectory($destination)) {
@@ -121,10 +122,10 @@ class Configuration
     {
         // Replace stub values in files
         $folder = strpos($folder, 'config.') !== false ? dirname($folder) : $folder;
-        $files  = (array) $this->files->listContents($folder, true);
+        $files = (array) $this->files->listContents($folder, true);
         foreach ($files as $file) {
             foreach ($values as $name => $value) {
-                $pattern  = '{'.$name.'}';
+                $pattern = '{'.$name.'}';
                 $contents = $this->files->read($file['path']);
 
                 if (strpos($contents, $pattern) !== false) {
@@ -176,7 +177,7 @@ class Configuration
         $files = $finder->files();
         foreach ($files as $file) {
             $contents = include $file->getPathname();
-            $handle   = $computeHandle($file);
+            $handle = $computeHandle($file);
 
             $this->config->set($handle, $contents);
         }
@@ -205,21 +206,21 @@ class Configuration
     {
         // Bind path to the configuration directory
         if ($this->getFramework() === 'laravel') {
-            $path    = $this->paths->getConfigurationPath();
+            $path = $this->paths->getConfigurationPath();
             $storage = $this->paths->getStoragePath();
         } else {
-            $path    = $this->paths->getBasePath().'.rocketeer';
+            $path = $this->paths->getBasePath().'.rocketeer';
             $storage = $path;
         }
 
         // Build paths
         $paths = [
-            'config'     => $path.'',
-            'events'     => $path.DS.'events',
-            'plugins'    => $path.DS.'plugins',
+            'config' => $path.'',
+            'events' => $path.DS.'events',
+            'plugins' => $path.DS.'plugins',
             'strategies' => $path.DS.'strategies',
-            'tasks'      => $path.DS.'tasks',
-            'logs'       => $storage.DS.'logs',
+            'tasks' => $path.DS.'tasks',
+            'logs' => $storage.DS.'logs',
         ];
 
         foreach ($paths as $key => $file) {

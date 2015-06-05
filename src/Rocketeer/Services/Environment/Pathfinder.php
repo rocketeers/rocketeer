@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services\Environment;
 
 use InvalidArgumentException;
@@ -22,12 +23,12 @@ use Rocketeer\Services\Environment\Pathfinders\PathfinderInterface;
 class Pathfinder extends AbstractPathfinder
 {
     /**
-     * @type array
+     * @var array
      */
     protected $lookups = [];
 
     /**
-     * @type array
+     * @var array
      */
     protected $pathfinders = [];
 
@@ -36,7 +37,7 @@ class Pathfinder extends AbstractPathfinder
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Register a paths provider with the Pathfinder
+     * Register a paths provider with the Pathfinder.
      *
      * @param string|PathfinderInterface $pathfinder
      */
@@ -53,7 +54,7 @@ class Pathfinder extends AbstractPathfinder
         }
 
         // Register provided methods
-        $provided  = $pathfinder->provides();
+        $provided = $pathfinder->provides();
         $classname = get_class($pathfinder);
         foreach ($provided as $method) {
             $this->lookups[$method] = $classname;
@@ -64,7 +65,7 @@ class Pathfinder extends AbstractPathfinder
     }
 
     /**
-     * Delegate calls to subpathfinders
+     * Delegate calls to subpathfinders.
      *
      * @param string $method
      * @param array  $arguments
@@ -82,7 +83,7 @@ class Pathfinder extends AbstractPathfinder
     }
 
     /**
-     * The methods this pathfinder provides
+     * The methods this pathfinder provides.
      *
      * @return string[]
      */

@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Traits\BashModules;
 
 /**
@@ -237,7 +238,7 @@ trait Filesystem
     public function tail($file, $continuous = true)
     {
         $continuous = $continuous ? ' -f' : null;
-        $command    = sprintf('tail %s %s', $file, $continuous);
+        $command = sprintf('tail %s %s', $file, $continuous);
 
         return $this->run($command);
     }

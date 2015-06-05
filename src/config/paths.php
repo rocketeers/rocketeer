@@ -17,8 +17,8 @@ return [
 
     'paths' => [
         // Defaults:
-        'app'      => '/Users/anahkiasen/Sites/rocketeers/rocketeer',
-        'php'      => null,
+        'app' => '/Users/anahkiasen/Sites/rocketeers/rocketeer',
+        'php' => null,
         'composer' => null,
     ],
 

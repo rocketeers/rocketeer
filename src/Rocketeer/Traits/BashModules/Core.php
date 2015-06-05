@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Traits\BashModules;
 
 use Illuminate\Support\Arr;
@@ -33,7 +34,7 @@ trait Core
      * Whether to run the commands locally
      * or on the server.
      *
-     * @type bool
+     * @var bool
      */
     protected $local = false;
 
@@ -112,8 +113,8 @@ trait Core
     public function run($commands, $silent = false, $array = false)
     {
         $commands = $this->processCommands($commands);
-        $verbose  = $this->getOption('verbose') && !$silent;
-        $pretend  = $this->getOption('pretend');
+        $verbose = $this->getOption('verbose') && !$silent;
+        $pretend = $this->getOption('pretend');
 
         // Log the commands
         if (!$silent) {
@@ -315,13 +316,13 @@ trait Core
     public function processCommands($commands)
     {
         $separator = $this->environment->getSeparator();
-        $shell     = $this->rocketeer->getOption('remote.shell');
-        $shelled   = $this->rocketeer->getOption('remote.shelled');
-        $sudo      = $this->rocketeer->getOption('remote.sudo');
-        $sudoed    = $this->rocketeer->getOption('remote.sudoed');
+        $shell = $this->rocketeer->getOption('remote.shell');
+        $shelled = $this->rocketeer->getOption('remote.shelled');
+        $sudo = $this->rocketeer->getOption('remote.sudo');
+        $sudoed = $this->rocketeer->getOption('remote.sudoed');
 
         // Prepare paths replacer
-        $pattern     = sprintf('#\%s([\w\d\s])#', DS);
+        $pattern = sprintf('#\%s([\w\d\s])#', DS);
         $replacement = sprintf('\%s$1', $separator);
 
         // Cast commands to array
@@ -392,7 +393,7 @@ trait Core
      */
     protected function sudoCommand($sudo, $command)
     {
-        $sudo    = is_bool($sudo) ? 'sudo' : 'sudo -u '.$sudo;
+        $sudo = is_bool($sudo) ? 'sudo' : 'sudo -u '.$sudo;
         $command = $sudo.' '.$command;
 
         return $command;
@@ -415,7 +416,7 @@ trait Core
         // Explode output if necessary
         if ($array) {
             $delimiter = $this->environment->getLineEndings() ?: PHP_EOL;
-            $output    = explode($delimiter, $output);
+            $output = explode($delimiter, $output);
         }
 
         // Trim output

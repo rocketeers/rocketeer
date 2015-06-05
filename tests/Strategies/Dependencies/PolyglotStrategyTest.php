@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Strategies\Dependencies;
 
 use Mockery;
@@ -54,7 +55,7 @@ class PolyglotStrategyTest extends RocketeerTestCase
         $this->usesBundler();
 
         $polyglot = $this->builder->buildStrategy('Dependencies', 'Polyglot');
-        $results  = $polyglot->install();
+        $results = $polyglot->install();
 
         $this->assertFalse($results);
     }

@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Console\Commands\Development;
 
 use Illuminate\Support\Arr;
@@ -19,12 +20,12 @@ class ConfigurationCommand extends AbstractCommand
     /**
      * The console command name.
      *
-     * @type string
+     * @var string
      */
     protected $name = 'debug:config';
 
     /**
-     * @type string
+     * @var string
      */
     protected $description = 'Dumps the current configuration parsed';
 

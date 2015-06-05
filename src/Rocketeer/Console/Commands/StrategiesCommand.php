@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Console\Commands;
 
 use Rocketeer\Abstracts\Commands\AbstractCommand;
@@ -22,14 +23,14 @@ class StrategiesCommand extends AbstractCommand
     /**
      * The console command name.
      *
-     * @type string
+     * @var string
      */
     protected $name = 'strategies';
 
     /**
      * The console command description.
      *
-     * @type string
+     * @var string
      */
     protected $description = 'Lists the available options for each strategy';
 
@@ -39,10 +40,10 @@ class StrategiesCommand extends AbstractCommand
     public function fire()
     {
         $strategies = [
-            'check'        => ['Php', 'Ruby', 'Node', 'Polyglot'],
-            'deploy'       => ['Clone', 'Copy', 'Sync'],
-            'test'         => ['Phpunit'],
-            'migrate'      => ['Artisan'],
+            'check' => ['Php', 'Ruby', 'Node', 'Polyglot'],
+            'deploy' => ['Clone', 'Copy', 'Sync'],
+            'test' => ['Phpunit'],
+            'migrate' => ['Artisan'],
             'dependencies' => ['Composer', 'Bundler', 'Npm', 'Bower', 'Polyglot'],
         ];
 
@@ -50,7 +51,7 @@ class StrategiesCommand extends AbstractCommand
         foreach ($strategies as $strategy => $implementations) {
             foreach ($implementations as $implementation) {
                 $instance = $this->builder->buildStrategy($strategy, $implementation);
-                $rows[]   = [$strategy, $implementation, $instance->getDescription()];
+                $rows[] = [$strategy, $implementation, $instance->getDescription()];
             }
         }
 

@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\TestCases\Modules;
 
 use Closure;
@@ -33,7 +34,7 @@ trait Mocks
      */
     protected function mock($handle, $class = null, Closure $expectations = null, $partial = true)
     {
-        $class   = $class ?: $handle;
+        $class = $class ?: $handle;
         $mockery = Mockery::mock($class);
         if ($partial) {
             $mockery = $mockery->shouldIgnoreMissing();
@@ -71,21 +72,21 @@ trait Mocks
     {
         // Default options
         $options = array_merge([
-            'pretend'  => false,
-            'verbose'  => false,
-            'tests'    => false,
-            'migrate'  => false,
-            'seed'     => false,
-            'stage'    => false,
+            'pretend' => false,
+            'verbose' => false,
+            'tests' => false,
+            'migrate' => false,
+            'seed' => false,
+            'stage' => false,
             'parallel' => false,
-            'update'   => false,
+            'update' => false,
         ], $options);
 
         $this->app['rocketeer.command'] = $this->getCommand($expectations, $options, $print);
     }
 
     /**
-     * Mock a command that echoes out its output
+     * Mock a command that echoes out its output.
      */
     protected function mockEchoingCommand()
     {
@@ -122,7 +123,7 @@ trait Mocks
         $defaults = $this->getFactoryConfiguration();
         $defaults = array_merge($defaults, [
                 'remote.shell' => false,
-                'paths.app'    => $this->app['path.base'],
+                'paths.app' => $this->app['path.base'],
             ]
         );
 

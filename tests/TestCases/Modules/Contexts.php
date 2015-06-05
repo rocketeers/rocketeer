@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\TestCases\Modules;
 
 use Mockery\MockInterface;
@@ -15,6 +16,7 @@ use Rocketeer\Services\Credentials\Keys\RepositoryKey;
 
 /**
  * @mixin \Rocketeer\TestCases\RocketeerTestCase
+ *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait Contexts
@@ -36,7 +38,7 @@ trait Contexts
     protected function mockState(array $state)
     {
         $contents = json_encode($state);
-        $file     = $this->server.'/state.json';
+        $file = $this->server.'/state.json';
 
         $this->files->upsert($file, $contents);
     }

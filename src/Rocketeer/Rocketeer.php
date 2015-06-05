@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer;
 
 use Rocketeer\Services\Credentials\Keys\ConnectionKey;
@@ -31,7 +32,7 @@ class Rocketeer
     /**
      * Global local mode.
      *
-     * @type bool
+     * @var bool
      */
     protected $local = false;
 
@@ -116,7 +117,7 @@ class Rocketeer
      * Get a contextual option.
      *
      * @param string             $option
-     * @param string             $type [stage,connection]
+     * @param string             $type          [stage,connection]
      * @param string|array|null  $original
      * @param ConnectionKey|null $connectionKey
      *

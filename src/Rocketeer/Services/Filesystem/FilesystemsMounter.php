@@ -20,7 +20,7 @@ class FilesystemsMounter
     use HasLocator;
 
     /**
-     * @type ConnectionKeyAdapter[]
+     * @var ConnectionKeyAdapter[]
      */
     protected $filesystems;
 
@@ -48,7 +48,7 @@ class FilesystemsMounter
         foreach ($connections as $name => $servers) {
             foreach ($servers['servers'] as $server => $credentials) {
                 $connection = $this->credentials->createConnectionKey($name, $server);
-                $adapter    = new ConnectionKeyAdapter($connection);
+                $adapter = new ConnectionKeyAdapter($connection);
                 $filesystem = new Filesystem($adapter);
 
                 $this->filesystems[$connection->toHandle()] = $filesystem;

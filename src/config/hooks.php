@@ -16,9 +16,9 @@ return [
 
     'hooks' => [
         'before' => [],
-        'after'  => [],
+        'after' => [],
         'custom' => [],
-        'roles'  => [],
+        'roles' => [],
     ],
 
 ];

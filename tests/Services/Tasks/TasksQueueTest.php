@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services\Tasks;
 
 use Mockery;
@@ -35,15 +36,15 @@ class TasksQueueTest extends RocketeerTestCase
     public function testCanRunQueueOnDifferentConnectionsAndStages()
     {
         $this->swapConfig([
-            'default'       => ['staging', 'production'],
+            'default' => ['staging', 'production'],
             'stages.stages' => ['first', 'second'],
         ]);
 
         $output = [];
-        $queue  = [
+        $queue = [
             function (AbstractTask $task) use (&$output) {
                 $connection = $task->connections->getCurrentConnection();
-                $output[]   = $connection->name.' - '.$connection->stage;
+                $output[] = $connection->name.' - '.$connection->stage;
             },
         ];
 
@@ -62,7 +63,7 @@ class TasksQueueTest extends RocketeerTestCase
     {
         $this->swapConfig([
             'stages.default' => [],
-            'stages.stages'  => ['first', 'second'],
+            'stages.stages' => ['first', 'second'],
         ]);
 
         $this->assertEquals(['first', 'second'], $this->queue->getStages('production'));
@@ -182,10 +183,10 @@ class TasksQueueTest extends RocketeerTestCase
         $this->app['rocketeer.remote'] = new RemoteHandler($this->app);
         $this->swapConnections([
             'production' => [
-                'host'     => 'foobar.com',
+                'host' => 'foobar.com',
                 'username' => 'foobar',
                 'password' => 'foobar',
-                'roles'    => ['foo', 'bar'],
+                'roles' => ['foo', 'bar'],
             ],
         ]);
 

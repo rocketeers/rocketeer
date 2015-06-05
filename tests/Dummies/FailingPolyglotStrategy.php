@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Dummies;
 
 use Rocketeer\Abstracts\Strategies\AbstractPolyglotStrategy;
@@ -17,7 +18,7 @@ class FailingPolyglotStrategy extends AbstractPolyglotStrategy
     /**
      * The various strategies to call.
      *
-     * @type array
+     * @var array
      */
     protected $strategies = [
         'Rocketeer\Dummies\Strategies\FailingStrategy',

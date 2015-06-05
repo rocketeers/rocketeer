@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Strategies\Deploy;
 
 use Rocketeer\TestCases\RocketeerTestCase;
@@ -20,7 +21,7 @@ class SyncStrategyTest extends RocketeerTestCase
 
         $this->swapConnections([
             'production' => [
-                'host'     => 'bar.com',
+                'host' => 'bar.com',
                 'username' => 'foo',
             ],
         ]);
@@ -48,7 +49,7 @@ class SyncStrategyTest extends RocketeerTestCase
     {
         $this->swapConnections([
             'production' => [
-                'host'     => 'bar.com:12345',
+                'host' => 'bar.com:12345',
                 'username' => 'foo',
             ],
         ]);
@@ -72,8 +73,8 @@ class SyncStrategyTest extends RocketeerTestCase
         $this->swapConnections([
             'production' => [
                 'username' => 'foo',
-                'host'     => 'bar.com:80',
-                'key'      => '/foo/bar',
+                'host' => 'bar.com:80',
+                'key' => '/foo/bar',
             ],
         ]);
 
@@ -86,7 +87,7 @@ class SyncStrategyTest extends RocketeerTestCase
     protected function assertRsyncHistory($port = null, $key = null, $prepend = [])
     {
         $port = $port ? ' -p '.$port : null;
-        $key  = $key ? ' -i '.$key : null;
+        $key = $key ? ' -i '.$key : null;
 
         $matcher = array_merge($prepend, [
             'rsync ./ foo@bar.com:{server}/releases/{release} --verbose --recursive --compress --rsh="ssh'.$port.$key.'" --exclude=".git" --exclude="vendor"',

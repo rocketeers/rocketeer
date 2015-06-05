@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services\Display;
 
 use Rocketeer\Console\Commands\DeployCommand;
@@ -60,7 +61,7 @@ class QueueTimerTest extends RocketeerTestCase
         });
 
         $times = $this->timer->getTimes($task);
-        $last  = $this->timer->getLatestTime($task);
+        $last = $this->timer->getLatestTime($task);
 
         $this->assertEquals($last, $times[3]);
     }

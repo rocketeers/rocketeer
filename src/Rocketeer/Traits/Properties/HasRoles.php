@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Traits\Properties;
 
 use Rocketeer\Interfaces\HasRolesInterface;
@@ -15,7 +16,7 @@ use Rocketeer\Interfaces\HasRolesInterface;
 trait HasRoles
 {
     /**
-     * @type array
+     * @var array
      */
     protected $roles = [];
 
@@ -64,7 +65,7 @@ trait HasRoles
      */
     public function isCompatibleWith(HasRolesInterface $hasRoles)
     {
-        $roles  = $hasRoles->getRoles();
+        $roles = $hasRoles->getRoles();
         $filled = array_intersect($this->roles, $roles);
 
         return count($filled) === count($roles);

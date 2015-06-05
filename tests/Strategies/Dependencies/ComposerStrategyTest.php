@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Strategies\Dependencies;
 
 use Rocketeer\TestCases\RocketeerTestCase;
@@ -17,10 +18,10 @@ class ComposerStrategyTest extends RocketeerTestCase
     public function testCanConfigureComposerCommands()
     {
         $this->swapConfig([
-            'scm'                         => [
+            'scm' => [
                 'repository' => 'https://github.com/'.$this->repository,
-                'username'   => '',
-                'password'   => '',
+                'username' => '',
+                'password' => '',
             ],
             'strategies.composer.install' => function ($composer, $task) {
                 return [

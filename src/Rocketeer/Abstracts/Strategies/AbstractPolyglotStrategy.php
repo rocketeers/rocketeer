@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Abstracts\Strategies;
 
 abstract class AbstractPolyglotStrategy extends AbstractStrategy
@@ -15,21 +16,21 @@ abstract class AbstractPolyglotStrategy extends AbstractStrategy
     /**
      * The various strategies to call.
      *
-     * @type array
+     * @var array
      */
     protected $strategies = [];
 
     /**
      * The type of the sub-strategies.
      *
-     * @type string
+     * @var string
      */
     protected $type;
 
     /**
      * Results of the last operation that was run.
      *
-     * @type array
+     * @var array
      */
     protected $results;
 

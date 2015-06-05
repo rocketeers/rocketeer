@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services\Storages;
 
 use Mockery\MockInterface;
@@ -35,7 +36,7 @@ class LocalStorageTest extends RocketeerTestCase
         new LocalStorage($this->app);
 
         $storage = $this->paths->getRocketeerConfigFolder();
-        $exists  = file_exists($storage);
+        $exists = file_exists($storage);
         $this->files->deleteDir($storage);
         $this->assertTrue($exists);
     }
@@ -56,7 +57,7 @@ class LocalStorageTest extends RocketeerTestCase
         $this->files->put($this->server.'/strategies/MyStrategy.php', '<?php return ["strategies"];');
 
         $storage = new LocalStorage($this->app, 'deployments', $this->server);
-        $hash    = $storage->getHash();
+        $hash = $storage->getHash();
 
         $this->assertEquals(md5('["bar"]["foo"]["baz"]'), $hash);
     }

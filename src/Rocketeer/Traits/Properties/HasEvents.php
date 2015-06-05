@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Traits\Properties;
 
 use League\Event\EventInterface;
@@ -25,14 +26,14 @@ trait HasEvents
     /**
      * The event this task is answering to.
      *
-     * @type EventInterface
+     * @var EventInterface
      */
     protected $event;
 
     /**
      * Whether the task was halted mid-course.
      *
-     * @type bool
+     * @var bool
      */
     protected $halted = false;
 
@@ -151,7 +152,7 @@ trait HasEvents
         $handle = $this->getQualifiedEvent($event);
 
         // Fire the event
-        /** @type \League\Event\EventInterface $event */
+        /** @var \League\Event\EventInterface $event */
         $event = $this->explainer->displayBelow(function () use ($handle) {
             return $this->events->emit($handle, [$this]);
         });

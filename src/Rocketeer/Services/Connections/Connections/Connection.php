@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services\Connections\Connections;
 
 use Closure;
@@ -36,26 +37,26 @@ class Connection implements ConnectionInterface, HasRolesInterface
     /**
      * The SSH gateway implementation.
      *
-     * @type GatewayInterface
+     * @var GatewayInterface
      */
     protected $gateway;
 
     /**
-     * @type Filesystem
+     * @var Filesystem
      */
     protected $filesystem;
 
     /**
      * The connection handle.
      *
-     * @type ConnectionKey
+     * @var ConnectionKey
      */
     protected $handle;
 
     /**
      * The output implementation for the connection.
      *
-     * @type OutputInterface
+     * @var OutputInterface
      */
     protected $output;
 
@@ -68,9 +69,9 @@ class Connection implements ConnectionInterface, HasRolesInterface
      */
     public function __construct(ConnectionKey $handle, array $auth, GatewayInterface $gateway = null)
     {
-        $this->handle  = $handle;
+        $this->handle = $handle;
         $this->gateway = $gateway ?: new SeclibGateway($handle->host, $auth, new Filesystem(new Local('/')));
-        $this->roles   = $handle->roles;
+        $this->roles = $handle->roles;
     }
 
     /**

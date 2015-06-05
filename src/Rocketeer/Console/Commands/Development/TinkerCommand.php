@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Console\Commands\Development;
 
 use Psy\Shell;
@@ -19,12 +20,12 @@ class TinkerCommand extends AbstractCommand
     /**
      * The console command name.
      *
-     * @type string
+     * @var string
      */
     protected $name = 'debug:tinker';
 
     /**
-     * @type string
+     * @var string
      */
     protected $description = "Debug Rocketeer's environment";
 

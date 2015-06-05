@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Strategies\Deploy;
 
 use Carbon\Carbon;
@@ -16,7 +17,7 @@ use Exception;
 class LocalCloneStrategy extends SyncStrategy
 {
     /**
-     * @type string
+     * @var string
      */
     protected $description = 'Uses rsync to create or update a release from local temporary cloned repository';
 
@@ -82,7 +83,7 @@ class LocalCloneStrategy extends SyncStrategy
     protected function getCloneDirectory()
     {
         $storagePath = $this->paths->getStoragePath();
-        $timestamp   = Carbon::now()->timestamp;
+        $timestamp = Carbon::now()->timestamp;
 
         return $storagePath.'/checkout/tmp/'.$timestamp.'/';
     }

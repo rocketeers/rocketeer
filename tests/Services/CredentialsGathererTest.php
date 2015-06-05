@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services;
 
 use Mockery;
@@ -20,8 +21,8 @@ class CredentialsGathererTest extends RocketeerTestCase
     {
         $this->mockAnswers([
             'No repository is set for [repository]' => $this->repository,
-            'No username is set for [repository]'   => $this->username,
-            'No password is set for [repository]'   => $this->password,
+            'No username is set for [repository]' => $this->username,
+            'No password is set for [repository]' => $this->password,
         ]);
         $this->command->shouldReceive('option')->andReturn(null);
 
@@ -29,8 +30,8 @@ class CredentialsGathererTest extends RocketeerTestCase
 
         $this->assertStoredCredentialsEquals([
             'repository' => $this->repository,
-            'username'   => $this->username,
-            'password'   => $this->password,
+            'username' => $this->username,
+            'password' => $this->password,
         ]);
 
         $this->credentialsGatherer->getRepositoryCredentials();
@@ -40,8 +41,8 @@ class CredentialsGathererTest extends RocketeerTestCase
     {
         $this->mockAnswers([
             'No repository is set for [repository]' => $this->repository,
-            'No username is set for [repository]'   => $this->username,
-            'No password is set for [repository]'   => $this->password,
+            'No username is set for [repository]' => $this->username,
+            'No password is set for [repository]' => $this->password,
         ]);
         $this->command->shouldReceive('option')->andReturn(null);
         $this->command->shouldReceive('askWith')->with(Mockery::any(), 'key', Mockery::any())->never();
@@ -50,8 +51,8 @@ class CredentialsGathererTest extends RocketeerTestCase
 
         $this->assertStoredCredentialsEquals([
             'repository' => $this->repository,
-            'username'   => $this->username,
-            'password'   => $this->password,
+            'username' => $this->username,
+            'password' => $this->password,
         ]);
 
         $this->credentialsGatherer->getRepositoryCredentials();
@@ -64,13 +65,13 @@ class CredentialsGathererTest extends RocketeerTestCase
 
         $this->swapRepositoryCredentials([
             'repository' => $this->repository,
-            'username'   => null,
-            'password'   => null,
+            'username' => null,
+            'password' => null,
         ]);
         $this->assertStoredCredentialsEquals([
             'repository' => $this->repository,
-            'username'   => null,
-            'password'   => null,
+            'username' => null,
+            'password' => null,
         ]);
 
         $this->credentialsGatherer->getRepositoryCredentials();
@@ -88,8 +89,8 @@ class CredentialsGathererTest extends RocketeerTestCase
 
         $this->assertStoredCredentialsEquals([
             'repository' => $this->repository,
-            'username'   => 'anahkiasen',
-            'password'   => null,
+            'username' => 'anahkiasen',
+            'password' => null,
         ]);
 
         $this->credentialsGatherer->getRepositoryCredentials();
@@ -102,7 +103,7 @@ class CredentialsGathererTest extends RocketeerTestCase
         ]);
 
         $this->mockAnswers([
-            'No host is set for [production]'     => $this->host,
+            'No host is set for [production]' => $this->host,
             'No username is set for [production]' => $this->username,
             'No password is set for [production]' => $this->password,
         ]);
@@ -118,12 +119,12 @@ class CredentialsGathererTest extends RocketeerTestCase
 
         $credentials = $this->credentials->getServerCredentials('production', 0);
         $this->assertEquals([
-            'host'      => $this->host,
-            'username'  => $this->username,
-            'password'  => $this->password,
+            'host' => $this->host,
+            'username' => $this->username,
+            'password' => $this->password,
             'keyphrase' => null,
-            'key'       => null,
-            'agent'     => null,
+            'key' => null,
+            'agent' => null,
         ], $credentials);
     }
 
@@ -143,7 +144,7 @@ class CredentialsGathererTest extends RocketeerTestCase
             'key', ['key', 'password']
         )->andReturn('password');
         $this->command->shouldReceive('option')->withNoArgs()->andReturn([
-            'host'     => $this->host,
+            'host' => $this->host,
             'password' => $this->password,
         ]);
 
@@ -151,12 +152,12 @@ class CredentialsGathererTest extends RocketeerTestCase
 
         $credentials = $this->credentials->getServerCredentials('production', 0);
         $this->assertEquals([
-            'host'      => $this->host,
-            'username'  => $this->username,
-            'password'  => $this->password,
+            'host' => $this->host,
+            'username' => $this->username,
+            'password' => $this->password,
             'keyphrase' => null,
-            'key'       => null,
-            'agent'     => null,
+            'key' => null,
+            'agent' => null,
         ], $credentials);
     }
 
@@ -164,8 +165,8 @@ class CredentialsGathererTest extends RocketeerTestCase
     {
         $key = $this->paths->getDefaultKeyPath();
         $this->mockAnswers([
-            'No host is set for [staging]'           => $this->host,
-            'No username is set for [staging]'       => $this->username,
+            'No host is set for [staging]' => $this->host,
+            'No username is set for [staging]' => $this->username,
             'If a keyphrase is required, provide it' => 'KEYPHRASE',
         ]);
 
@@ -183,12 +184,12 @@ class CredentialsGathererTest extends RocketeerTestCase
 
         $credentials = $this->credentials->getServerCredentials('staging', 0);
         $this->assertEquals([
-            'host'      => $this->host,
-            'username'  => $this->username,
-            'password'  => null,
+            'host' => $this->host,
+            'username' => $this->username,
+            'password' => null,
             'keyphrase' => 'KEYPHRASE',
-            'key'       => $key,
-            'agent'     => null,
+            'key' => $key,
+            'agent' => null,
         ], $credentials);
     }
 
@@ -196,16 +197,16 @@ class CredentialsGathererTest extends RocketeerTestCase
     {
         $this->swapConnections([
             'production' => [
-                'host'      => $this->host,
-                'username'  => '',
-                'password'  => false,
-                'key'       => '',
+                'host' => $this->host,
+                'username' => '',
+                'password' => false,
+                'key' => '',
                 'keyphrase' => true,
             ],
         ]);
 
         $this->mockAnswers([
-            'No username is set for [production]'    => $this->username,
+            'No username is set for [production]' => $this->username,
             'If a keyphrase is required, provide it' => 'keyphrase',
         ]);
         $this->command->shouldReceive('askWith')->with('Please enter the full path to your key', Mockery::any())->once()->andReturn($this->key);
@@ -215,21 +216,21 @@ class CredentialsGathererTest extends RocketeerTestCase
 
         $credentials = $this->credentials->getServerCredentials('production', 0);
         $this->assertEquals([
-            'host'      => $this->host,
-            'username'  => $this->username,
-            'password'  => null,
+            'host' => $this->host,
+            'username' => $this->username,
+            'password' => null,
             'keyphrase' => 'keyphrase',
-            'key'       => $this->key,
-            'agent'     => null,
+            'key' => $this->key,
+            'agent' => null,
         ], $credentials);
 
         $stored = $this->localStorage->get('connections.production.servers.0');
         $this->assertEquals([
-            'host'     => $this->host,
+            'host' => $this->host,
             'username' => $this->username,
             'password' => null,
-            'key'      => $this->key,
-            'agent'    => null,
+            'key' => $this->key,
+            'agent' => null,
         ], $stored);
     }
 
@@ -237,16 +238,16 @@ class CredentialsGathererTest extends RocketeerTestCase
     {
         $this->swapConnections([
             'production' => [
-                'host'      => $this->host,
-                'username'  => '',
-                'password'  => false,
-                'key'       => $this->key,
+                'host' => $this->host,
+                'username' => '',
+                'password' => false,
+                'key' => $this->key,
                 'keyphrase' => true,
             ],
         ]);
 
         $this->mockAnswers([
-            'No username is set for [production]'    => $this->username,
+            'No username is set for [production]' => $this->username,
             'If a keyphrase is required, provide it' => 'keyphrase',
         ]);
 
@@ -256,10 +257,10 @@ class CredentialsGathererTest extends RocketeerTestCase
     public function testPreservesCredentialsTypes()
     {
         $this->localStorage->set('connections.production.servers.0', [
-            'host'     => $this->host,
+            'host' => $this->host,
             'username' => '',
             'password' => false,
-            'agent'    => true,
+            'agent' => true,
         ]);
 
         $this->credentialsGatherer->getServerCredentials();
@@ -274,20 +275,20 @@ class CredentialsGathererTest extends RocketeerTestCase
     public function testAsksForDefaultConnectionIfNoneSet()
     {
         $this->swapConfig([
-            'default'     => null,
+            'default' => null,
             'connections' => [
                 'production' => [
-                    'host'      => $this->host,
-                    'username'  => 'foobar',
-                    'password'  => false,
-                    'key'       => $this->key,
+                    'host' => $this->host,
+                    'username' => 'foobar',
+                    'password' => false,
+                    'key' => $this->key,
                     'keyphrase' => true,
                 ],
-                'staging'    => [
-                    'host'      => $this->host,
-                    'username'  => 'foobar',
-                    'password'  => false,
-                    'key'       => $this->key,
+                'staging' => [
+                    'host' => $this->host,
+                    'username' => 'foobar',
+                    'password' => false,
+                    'key' => $this->key,
                     'keyphrase' => true,
                 ],
             ],
@@ -323,8 +324,8 @@ class CredentialsGathererTest extends RocketeerTestCase
 
             foreach ($answers as $question => $answer) {
                 $question = strpos($question, 'is set for') !== false ? $question.', please provide one:' : $question;
-                $method   = strpos($question, 'password') !== false || strpos($question, 'keyphrase') !== false ? 'askSecretly' : 'askWith';
-                $mock     = $mock->shouldReceive($method)->with($question)->andReturn($answer);
+                $method = strpos($question, 'password') !== false || strpos($question, 'keyphrase') !== false ? 'askSecretly' : 'askWith';
+                $mock = $mock->shouldReceive($method)->with($question)->andReturn($answer);
             }
 
             return $mock;

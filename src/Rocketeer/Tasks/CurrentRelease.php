@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Tasks;
 
 use DateTime;
@@ -23,14 +24,14 @@ class CurrentRelease extends AbstractTask
     /**
      * The slug of the task.
      *
-     * @type string
+     * @var string
      */
     protected $name = 'Current';
 
     /**
      * A description of what the task does.
      *
-     * @type string
+     * @var string
      */
     protected $description = 'Display what the current release is';
 
@@ -52,8 +53,8 @@ class CurrentRelease extends AbstractTask
         }
 
         // Create state message
-        $date    = DateTime::createFromFormat('YmdHis', $currentRelease)->format('Y-m-d H:i:s');
-        $state   = $this->runForCurrentRelease($this->scm->currentState());
+        $date = DateTime::createFromFormat('YmdHis', $currentRelease)->format('Y-m-d H:i:s');
+        $state = $this->runForCurrentRelease($this->scm->currentState());
         $message = sprintf(
             'The current release'.$stage.' is <info>%s</info> (<comment>%s</comment> deployed at <comment>%s</comment>)',
             $currentRelease, $state, $date

@@ -17,30 +17,30 @@ return [
     'remote' => [
 
         // Variables about the servers
-        'variables'      => [
+        'variables' => [
             'directory_separator' => '/',
-            'line_endings'        => "\n",
+            'line_endings' => "\n",
         ],
 
         // The number of releases to keep on server at all times
-        'keep_releases'  => 4,
+        'keep_releases' => 4,
 
         // The folder the application will be cloned in.
         // Leave empty to use `application_name` as your folder name
-        'app_directory'  => null,
+        'app_directory' => null,
 
         // If the core of your application (ie. where dependencies/migrations/etc need to be run is in a subdirectory, specify it there (per example 'my_subdirectory')
-        'subdirectory'   => null,
+        'subdirectory' => null,
 
         // A list of folders/file to be shared between releases
-        'shared'         => [
+        'shared' => [
             // Examples:
             // 'logs',
             // 'public/uploads',
         ],
 
         // The way symlinks are created
-        'symlink'        => 'absolute', // One of "absolute", "relative"
+        'symlink' => 'absolute', // One of "absolute", "relative"
 
         // Enable use of sudo for some commands
         // You can specify a sudo user by doing
@@ -54,10 +54,10 @@ return [
         ////////////////////////////////////////////////////////////////////
 
         // If enabled will force a shell to be created which is required for some tools like RVM or NVM
-        'shell'          => true,
+        'shell' => true,
 
         // An array of commands to run under shell
-        'shelled'        => [
+        'shelled' => [
             // Defaults:
             'which',
             'ruby',
@@ -68,10 +68,10 @@ return [
         ],
 
         // Files permissions related settings
-        'permissions'    => [
+        'permissions' => [
 
             // The folders and files to set as web writable
-            'files'    => [
+            'files' => [
                 // Examples:
                 // 'storage',
                 // 'public',

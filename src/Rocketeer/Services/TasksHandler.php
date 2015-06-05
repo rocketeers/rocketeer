@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services;
 
 use Closure;
@@ -31,25 +32,25 @@ class TasksHandler
     /**
      * The registered events.
      *
-     * @type array
+     * @var array
      */
     protected $registeredEvents = [];
 
     /**
      * The registered plugins.
      *
-     * @type array
+     * @var array
      */
     protected $registeredPlugins = [];
 
     /**
      * The core events.
      *
-     * @type array
+     * @var array
      */
     protected $coreEvents = [
         'commands.deploy.before' => 'Primer',
-        'deploy.symlink.before'  => [['rocketeer.coordinator', 'beforeSymlink']],
+        'deploy.symlink.before' => [['rocketeer.coordinator', 'beforeSymlink']],
     ];
 
     /**
@@ -185,7 +186,7 @@ class TasksHandler
         $this->clearRegisteredEvents();
 
         // Clean previously registered plugins
-        $plugins                 = $this->registeredPlugins;
+        $plugins = $this->registeredPlugins;
         $this->registeredPlugins = [];
 
         // Register plugins again
@@ -220,7 +221,7 @@ class TasksHandler
     {
         foreach ($this->coreEvents as $event => $listeners) {
             $this->registeredEvents[] = 'rocketeer.'.$event;
-            $priority                 = $event === 'deploy.symlink.before' ? -50 : 0;
+            $priority = $event === 'deploy.symlink.before' ? -50 : 0;
             $this->listenTo($event, $listeners, $priority);
         }
     }
@@ -236,10 +237,10 @@ class TasksHandler
      */
     public function listenTo($event, $listeners, $priority = 0)
     {
-        /** @type AbstractTask[] $listeners */
+        /** @var AbstractTask[] $listeners */
         $listeners = $this->builder->isCallable($listeners) ? [$listeners] : (array) $listeners;
         $listeners = $this->builder->buildTasks($listeners);
-        $event     = Str::contains($event, ['commands.', 'strategies.', 'tasks.']) ? $event : 'tasks.'.$event;
+        $event = Str::contains($event, ['commands.', 'strategies.', 'tasks.']) ? $event : 'tasks.'.$event;
 
         // Register events
         foreach ($listeners as $key => $listener) {
@@ -309,7 +310,7 @@ class TasksHandler
     public function getTasksListeners($task, $event, $flatten = false)
     {
         // Get events
-        $task   = $this->builder->buildTaskFromClass($task);
+        $task = $this->builder->buildTaskFromClass($task);
         $handle = $this->getEventHandle($task, $event);
         $events = $this->events->getListeners($handle);
 
@@ -357,7 +358,7 @@ class TasksHandler
         }
 
         $this->registeredPlugins[$identifier] = [
-            'plugin'        => $plugin,
+            'plugin' => $plugin,
             'configuration' => $configuration,
         ];
 

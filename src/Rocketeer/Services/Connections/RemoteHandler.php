@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services\Connections;
 
 use Exception;
@@ -37,7 +38,7 @@ class RemoteHandler
     /**
      * A storage of active connections.
      *
-     * @type Connection[]
+     * @var Connection[]
      */
     protected $active = [];
 
@@ -70,7 +71,7 @@ class RemoteHandler
     public function connection($connection = null, $server = 0)
     {
         $connection = $connection ? $this->credentials->createConnectionKey($connection, $server) : $this->connections->getCurrentConnection();
-        $handle     = (string) $connection->toHandle();
+        $handle = (string) $connection->toHandle();
 
         // Check the cache
         if (isset($this->active[$handle])) {
@@ -94,8 +95,8 @@ class RemoteHandler
      * @param ConnectionKey $connectionKey
      *
      * @throws CredentialsExceptionInterface
-     * @return Connection
      *
+     * @return Connection
      */
     protected function makeConnection(ConnectionKey $connectionKey)
     {
@@ -113,11 +114,11 @@ class RemoteHandler
 
         // Set filesystem on connection
         $filesystem = new Filesystem(new SftpAdapter([
-            'host'       => $connectionKey->host,
-            'username'   => $connectionKey->username,
-            'password'   => $connectionKey->password,
+            'host' => $connectionKey->host,
+            'username' => $connectionKey->username,
+            'password' => $connectionKey->password,
             'privateKey' => $connectionKey->key,
-            'root'       => $connectionKey->root_directory,
+            'root' => $connectionKey->root_directory,
         ]));
         $connection->setFilesystem($filesystem);
 

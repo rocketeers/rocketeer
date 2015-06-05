@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Tasks;
 
 use Rocketeer\TestCases\RocketeerTestCase;
@@ -18,7 +19,7 @@ class UpdateTest extends RocketeerTestCase
     {
         $task = $this->pretendTask('Update', [
             'migrate' => true,
-            'seed'    => true,
+            'seed' => true,
         ]);
 
         $matcher = [
@@ -45,8 +46,8 @@ class UpdateTest extends RocketeerTestCase
     public function testCanDisableCacheClearing()
     {
         $task = $this->pretendTask('Update', [
-            'migrate'  => true,
-            'seed'     => true,
+            'migrate' => true,
+            'seed' => true,
             'no-clear' => true,
         ]);
 

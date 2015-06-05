@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services\Ignition;
 
 use Mockery\MockInterface;
@@ -16,12 +17,12 @@ use Rocketeer\TestCases\RocketeerTestCase;
 class PluginsTest extends RocketeerTestCase
 {
     /**
-     * @type string
+     * @var string
      */
     protected $from;
 
     /**
-     * @type Plugins
+     * @var Plugins
      */
     protected $plugins;
 
@@ -30,7 +31,7 @@ class PluginsTest extends RocketeerTestCase
         parent::setUp();
 
         $this->plugins = new Plugins($this->app);
-        $this->from    = $this->app['path.base'].'/vendor/anahkiasen/rocketeer-slack/config';
+        $this->from = $this->app['path.base'].'/vendor/anahkiasen/rocketeer-slack/config';
     }
 
     public function testCanPublishClassicPluginConfiguration()

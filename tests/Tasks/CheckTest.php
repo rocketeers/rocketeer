@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Tasks;
 
 use Mockery;
@@ -60,22 +61,22 @@ class CheckTest extends RocketeerTestCase
     public function testCanExplicitelySayWhichManagerConditionFailed()
     {
         $manager = Mockery::mock('Composer', [
-            'getName'             => 'Composer',
+            'getName' => 'Composer',
             'getManifestContents' => null,
-            'isExecutable'        => false,
-            'hasManifest'         => false,
-            'getManifest'         => 'composer.json',
+            'isExecutable' => false,
+            'hasManifest' => false,
+            'getManifest' => 'composer.json',
         ]);
         $this->app['rocketeer.strategies.check']->setManager($manager);
         $this->task('Check')->fire();
         $this->assertContains('[{username}@production] No manifest (composer.json) was found for Composer', $this->logs->getLogs());
 
         $manager = Mockery::mock('Composer', [
-            'getName'             => 'Composer',
+            'getName' => 'Composer',
             'getManifestContents' => null,
-            'isExecutable'        => false,
-            'hasManifest'         => true,
-            'getManifest'         => 'composer.json',
+            'isExecutable' => false,
+            'hasManifest' => true,
+            'getManifest' => 'composer.json',
         ]);
         $this->app['rocketeer.strategies.check']->setManager($manager);
         $this->task('Check')->fire();

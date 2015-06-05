@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services\Credentials\Keychains;
 
 use Illuminate\Support\Arr;
@@ -32,7 +33,7 @@ trait ConnectionsKeychain
     public function getConnectionCredentials($connection = null)
     {
         $connection = $this->sanitizeConnection($connection);
-        $available  = $this->connections->getAvailableConnections();
+        $available = $this->connections->getAvailableConnections();
 
         // Get and filter servers
         $servers = Arr::get($available, $connection->name.'.servers');
@@ -78,7 +79,7 @@ trait ConnectionsKeychain
         $this->localStorage->set($key, $filtered);
 
         // Merge and save
-        $current     = (array) $this->config->get($key);
+        $current = (array) $this->config->get($key);
         $credentials = array_replace_recursive($current, $credentials);
         $this->config->set($key, $credentials);
 
@@ -105,7 +106,7 @@ trait ConnectionsKeychain
         }
 
         // Get fallback connection
-        $current         = new ConnectionKey();
+        $current = new ConnectionKey();
         $current->server = 0;
         if ($this->connections->hasCurrentConnection() && !$this->rocketeer->isLocal()) {
             $current = $this->connections->getCurrentConnection();
@@ -113,9 +114,9 @@ trait ConnectionsKeychain
 
         // Concatenate
         $handle = new ConnectionKey([
-            'name'   => $connection ?: Arr::get($this->connections->getConnections(), 0),
+            'name' => $connection ?: Arr::get($this->connections->getConnections(), 0),
             'server' => !is_null($server) ? $server : $current->server,
-            'stage'  => $stage ?: $current->stage,
+            'stage' => $stage ?: $current->stage,
         ]);
 
         // Populate credentials

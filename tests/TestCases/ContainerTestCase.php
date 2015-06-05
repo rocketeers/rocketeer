@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\TestCases;
 
 use Closure;
@@ -31,26 +32,26 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
     use Building;
 
     /**
-     * @type array
+     * @var array
      */
     protected $defaults;
 
     /**
      * The path to the local fake server.
      *
-     * @type string
+     * @var string
      */
     protected $server;
 
     /**
-     * @type string
+     * @var string
      */
     protected $customConfig;
 
     /**
      * The path to the local deployments file.
      *
-     * @type string
+     * @var string
      */
     protected $deploymentsFile;
 
@@ -77,14 +78,14 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         $this->app->instance('path.storage', '/src/app/storage');
 
         // Create local paths
-        $this->home            = $_SERVER['HOME'];
-        $this->server          = realpath(__DIR__.'/../_server').'/foobar';
-        $this->customConfig    = $this->server.'/.rocketeer';
+        $this->home = $_SERVER['HOME'];
+        $this->server = realpath(__DIR__.'/../_server').'/foobar';
+        $this->customConfig = $this->server.'/.rocketeer';
         $this->deploymentsFile = $this->server.'/deployments.json';
 
         // Replace some instances with mocks
-        $this->app['artisan']           = $this->getArtisan();
-        $this->app['rocketeer.remote']  = $this->getRemote();
+        $this->app['artisan'] = $this->getArtisan();
+        $this->app['rocketeer.remote'] = $this->getRemote();
         $this->app['rocketeer.command'] = $this->getCommand();
 
         // Rocketeer classes ------------------------------------------- /
@@ -145,12 +146,12 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 
         // Merge defaults
         $expectations = array_merge([
-            'argument'        => '',
-            'ask'             => '',
+            'argument' => '',
+            'ask' => '',
             'isInsideLaravel' => false,
-            'confirm'         => true,
-            'secret'          => '',
-            'option'          => false,
+            'confirm' => true,
+            'secret' => '',
+            'option' => false,
         ], $expectations);
 
         // Bind expecations
@@ -250,42 +251,42 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 
         // Base the mocked configuration off the factory values
         $defaults = [];
-        $files    = ['config', 'hooks', 'paths', 'remote', 'scm', 'stages', 'strategies'];
+        $files = ['config', 'hooks', 'paths', 'remote', 'scm', 'stages', 'strategies'];
         foreach ($files as $file) {
             $defaults[$file] = $this->config->get(''.$file);
         }
 
         // Build correct keys
         $defaults = array_dot($defaults);
-        $keys     = array_keys($defaults);
-        $keys     = array_map(function ($key) {
+        $keys = array_keys($defaults);
+        $keys = array_map(function ($key) {
             return ''.str_replace('config.', null, $key);
         }, $keys);
         $defaults = array_combine($keys, array_values($defaults));
 
         $overrides = [
-            'cache.driver'             => 'file',
-            'database.default'         => 'mysql',
-            'default'                  => 'production',
-            'session.driver'           => 'file',
-            'connections'              => [
+            'cache.driver' => 'file',
+            'database.default' => 'mysql',
+            'default' => 'production',
+            'session.driver' => 'file',
+            'connections' => [
                 'production' => ['host' => '{host}', 'username' => '{username}', 'password' => '{password}', 'root_directory' => dirname($this->server)],
-                'staging'    => ['host' => '{host}', 'username' => '{username}', 'password' => '{password}', 'root_directory' => dirname($this->server)],
+                'staging' => ['host' => '{host}', 'username' => '{username}', 'password' => '{password}', 'root_directory' => dirname($this->server)],
             ],
-            'application_name'         => 'foobar',
-            'logs'                     => null,
+            'application_name' => 'foobar',
+            'logs' => null,
             'remote.permissions.files' => ['tests'],
-            'remote.shared'            => ['tests/Elements'],
-            'remote.keep_releases'     => 1,
-            'scm'                      => [
-                'branch'     => 'master',
+            'remote.shared' => ['tests/Elements'],
+            'remote.keep_releases' => 1,
+            'scm' => [
+                'branch' => 'master',
                 'repository' => 'https://github.com/'.$this->repository,
-                'scm'        => 'git',
-                'shallow'    => true,
+                'scm' => 'git',
+                'shallow' => true,
                 'submodules' => true,
             ],
-            'strategies.dependencies'  => 'Composer',
-            'hooks'                    => [
+            'strategies.dependencies' => 'Composer',
+            'hooks' => [
                 'custom' => ['Rocketeer\Dummies\Tasks\MyCustomTask'],
                 'before' => [
                     'deploy' => [
@@ -293,8 +294,8 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
                         'foobar',
                     ],
                 ],
-                'after'  => [
-                    'check'  => [
+                'after' => [
+                    'check' => [
                         'Rocketeer\Dummies\Tasks\MyCustomTask',
                     ],
                     'deploy' => [

@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services\Builders;
 
 use Closure;
@@ -135,7 +136,7 @@ trait TasksBuilder
      */
     public function buildTaskFromClosure(Closure $callback, $stringTask = null)
     {
-        /** @type ClosureTask $task */
+        /** @var ClosureTask $task */
         $task = $this->buildTaskFromClass('Rocketeer\Tasks\Closure');
         $task->setClosure($callback);
 
@@ -226,7 +227,7 @@ trait TasksBuilder
 
         // Compute the handle and check it's bound
         $handle = 'rocketeer.tasks.'.Str::snake($task, '-');
-        $task   = $this->app->bound($handle) ? $handle : null;
+        $task = $this->app->bound($handle) ? $handle : null;
 
         return $task;
     }

@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services\History;
 
 use Illuminate\Support\Arr;
@@ -23,14 +24,14 @@ class LogsHandler
     /**
      * Cache of the logs file to be written.
      *
-     * @type array
+     * @var array
      */
     protected $logs = [];
 
     /**
      * The name of the logs file.
      *
-     * @type string[]
+     * @var string[]
      */
     protected $name = [];
 
@@ -177,7 +178,7 @@ class LogsHandler
     protected function prependHandle($entries)
     {
         $entries = (array) $entries;
-        $handle  = $this->connections->getCurrentConnection()->toLongHandle();
+        $handle = $this->connections->getCurrentConnection()->toLongHandle();
 
         foreach ($entries as $key => $entry) {
             $entry = str_replace('<comment>['.$handle.']</comment> ', null, $entry);

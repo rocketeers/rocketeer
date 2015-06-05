@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services\Display;
 
 use Rocketeer\Traits\HasLocator;
@@ -25,14 +26,14 @@ class QueueExplainer
     /**
      * The level at which to display statuses.
      *
-     * @type int
+     * @var int
      */
     public $level = 0;
 
     /**
      * Length of the longest handle to display.
      *
-     * @type int
+     * @var int
      */
     protected $longest;
 
@@ -53,9 +54,9 @@ class QueueExplainer
             return $callback();
         }
 
-        $this->level++;
+        ++$this->level;
         $results = $callback();
-        $this->level--;
+        --$this->level;
 
         return $results;
     }
@@ -194,9 +195,9 @@ class QueueExplainer
         }
 
         // Build possible handles
-        $strings     = [];
+        $strings = [];
         $connections = (array) $this->connections->getAvailableConnections();
-        $stages      = (array) $this->connections->getAvailableStages();
+        $stages = (array) $this->connections->getAvailableStages();
         foreach ($connections as $connection => $servers) {
             foreach ($stages as $stage) {
                 $strings[] = $connection.'/'.count($servers).'/'.$stage;
@@ -222,12 +223,12 @@ class QueueExplainer
     {
         // Build handle
         $numberConnections = count($this->connections->getAvailableConnections());
-        $numberStages      = count($this->connections->getAvailableStages());
-        $numberServers     = count($this->connections->getCurrentConnection()->servers);
+        $numberStages = count($this->connections->getAvailableStages());
+        $numberServers = count($this->connections->getCurrentConnection()->servers);
 
         $tree = null;
         if ($numberConnections > 1 || $numberStages > 1 || $numberServers > 1) {
-            $handle  = $this->connections->getCurrentConnection()->toHandle();
+            $handle = $this->connections->getCurrentConnection()->toHandle();
             $spacing = $this->getLongestSize() - strlen($handle);
             $spacing = max(1, $spacing);
             $spacing = str_repeat(' ', $spacing);

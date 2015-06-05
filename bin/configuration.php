@@ -15,7 +15,7 @@ use Rocketeer\RocketeerServiceProvider;
 require 'vendor/autoload.php';
 
 $container = new Container();
-$provider  = new RocketeerServiceProvider($container);
+$provider = new RocketeerServiceProvider($container);
 $provider->boot();
 
 $container['rocketeer.config.publisher']->publish(__DIR__.'/../src/config', 'php');

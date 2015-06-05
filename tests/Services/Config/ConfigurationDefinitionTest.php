@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Rocketeer\Services\Config;
 
 use Rocketeer\TestCases\RocketeerTestCase;
@@ -16,7 +17,7 @@ use Symfony\Component\Config\Definition\Processor;
 class ConfigurationDefinitionTest extends RocketeerTestCase
 {
     /**
-     * @type Processor
+     * @var Processor
      */
     protected $processor;
 
@@ -35,7 +36,7 @@ class ConfigurationDefinitionTest extends RocketeerTestCase
         $processed = $this->processConfiguration([
             'config' => [
                 'application_name' => 'foobar',
-                'connections'      => [
+                'connections' => [
                     'production' => [
                         'host' => 'foo.com',
                     ],
@@ -54,7 +55,7 @@ class ConfigurationDefinitionTest extends RocketeerTestCase
         $processed = $this->processConfiguration([
             'config' => [
                 'application_name' => 'foobar',
-                'connections'      => [
+                'connections' => [
                     'production' => [
                         [
                             'host' => 'foo.com',
@@ -79,7 +80,7 @@ class ConfigurationDefinitionTest extends RocketeerTestCase
         $processed = $this->processConfiguration([
             'config' => [
                 'application_name' => 'foobar',
-                'connections'      => [
+                'connections' => [
                     'production' => [
                         'servers' => [
                             [
@@ -106,9 +107,9 @@ class ConfigurationDefinitionTest extends RocketeerTestCase
         $processed = $this->processor->processConfiguration(new ConfigurationDefinition(), [
             [
                 'paths' => [
-                    'php'      => '/foo/php',
+                    'php' => '/foo/php',
                     'composer' => '/foo/composer',
-                    'foo'      => '/bar',
+                    'foo' => '/bar',
                 ],
             ],
             [
@@ -120,10 +121,10 @@ class ConfigurationDefinitionTest extends RocketeerTestCase
         ]);
 
         $this->assertEquals([
-            'php'      => '/bar/php',
+            'php' => '/bar/php',
             'composer' => '/foo/composer',
-            'foo'      => '/bar',
-            'bar'      => '/bar/baz',
+            'foo' => '/bar',
+            'bar' => '/bar/baz',
         ], $processed['paths']);
     }
 
