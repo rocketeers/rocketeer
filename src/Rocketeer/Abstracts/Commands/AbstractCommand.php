@@ -10,14 +10,17 @@
  */
 namespace Rocketeer\Abstracts\Commands;
 
-use Illuminate\Console\Command;
 use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Abstracts\Closure;
 use Rocketeer\Console\Commands\RocketeerCommand;
 use Rocketeer\Interfaces\IdentifierInterface;
 use Rocketeer\Traits\HasLocator;
 use Rocketeer\Traits\Properties\HasEvents;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * An abstract command with various helpers for all
@@ -29,6 +32,30 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
 {
     use HasLocator;
     use HasEvents;
+
+    /**
+     * @type InputInterface
+     */
+    protected $input;
+
+    /**
+     * @type OutputInterface
+     */
+    protected $output;
+
+    /**
+     * The console command name.
+     *
+     * @var string
+     */
+    protected $name;
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description;
 
     /**
      * Whether the command's task should be built
@@ -50,7 +77,10 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
      */
     public function __construct(AbstractTask $task = null)
     {
-        parent::__construct();
+        parent::__construct($this->name);
+
+        $this->setDescription($this->description);
+        $this->specifyParameters();
 
         // If we passed a Task, bind its properties
         // to the command
@@ -65,6 +95,99 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
     }
 
     /**
+     * @return InputInterface
+     */
+    public function getInput()
+    {
+        return $this->input;
+    }
+
+    /**
+     * @return OutputInterface
+     */
+    public function getOutput()
+    {
+        return $this->output;
+    }
+
+    //////////////////////////////////////////////////////////////////////
+    ////////////////////////////// ARGUMENTS /////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+
+    /**
+     * Get the console command arguments.
+     *
+     * @return array
+     */
+    protected function getArguments()
+    {
+        return array();
+    }
+
+    /**
+     * Get the console command options.
+     *
+     * @return array
+     */
+    protected function getOptions()
+    {
+        // General options
+        $global = [
+            ['parallel', 'P', InputOption::VALUE_NONE, 'Run the tasks asynchronously instead of sequentially'],
+            ['pretend', 'p', InputOption::VALUE_NONE, 'Shows which command would execute without actually doing anything'],
+        ];
+
+        // Options that override the predefined configuration
+        $overrides = [
+            ['on', 'C', InputOption::VALUE_REQUIRED, 'The connection(s) to execute the Task in'],
+            ['stage', 'S', InputOption::VALUE_REQUIRED, 'The stage to execute the Task in'],
+            ['server', null, InputOption::VALUE_REQUIRED, 'The server to execute the Task in'],
+            ['branch', 'B', InputOption::VALUE_REQUIRED, 'The branch to deploy'],
+            ['release', null, InputOption::VALUE_REQUIRED, 'What to tag the release as'],
+        ];
+
+        // Additional credentials passed to Rocketeer
+        $credentials = [
+            ['host', null, InputOption::VALUE_REQUIRED, 'The host to use if asked'],
+            ['username', null, InputOption::VALUE_REQUIRED, 'The username to use if asked'],
+            ['password', null, InputOption::VALUE_REQUIRED, 'The password to use if asked'],
+            ['key', null, InputOption::VALUE_REQUIRED, 'The key to use if asked'],
+            ['keyphrase', null, InputOption::VALUE_REQUIRED, 'The keyphrase to use if asked'],
+            ['agent', null, InputOption::VALUE_REQUIRED, 'The agent to use if asked'],
+            ['repository', null, InputOption::VALUE_REQUIRED, 'The repository to use if asked'],
+        ];
+
+        return array_merge(
+            $global,
+            $overrides,
+            $credentials
+        );
+    }
+
+    /**
+     * Specify the arguments and options on the command.
+     *
+     * @return void
+     */
+    protected function specifyParameters()
+    {
+        // We will loop through all of the arguments and options for the command and
+        // set them all on the base command instance. This specifies what can get
+        // passed into these commands as "parameters" to control the execution.
+        foreach ($this->getArguments() as $arguments) {
+            call_user_func_array(array($this, 'addArgument'), $arguments);
+        }
+
+        foreach ($this->getOptions() as $options) {
+            call_user_func_array(array($this, 'addOption'), $options);
+        }
+    }
+
+    //////////////////////////////////////////////////////////////////////
+    ////////////////////////////// CONTAINER /////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+
+    /**
      * @param string $key
      *
      * @return mixed
@@ -76,7 +199,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
             return $this;
         }
 
-        return $this->laravel->make($key);
+        return $this->app->make($key);
     }
 
     /**
@@ -123,69 +246,25 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
     //////////////////////////////////////////////////////////////////////
 
     /**
+     * Execute the console command.
+     *
+     * @param  \Symfony\Component\Console\Input\InputInterface   $input
+     * @param  \Symfony\Component\Console\Output\OutputInterface $output
+     *
+     * @return mixed
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $this->input  = $input;
+        $this->output = new SymfonyStyle($input, $output);
+
+        return $this->app->call([$this, 'fire']);
+    }
+
+    /**
      * Run the tasks.
      */
     abstract public function fire();
-
-    /**
-     * Get the console command options.
-     *
-     * @return array<string[]|array<string|null>>
-     */
-    protected function getOptions()
-    {
-        // General options
-        $global = [
-            ['parallel', 'P', InputOption::VALUE_NONE, 'Run the tasks asynchronously instead of sequentially'],
-            ['pretend', 'p', InputOption::VALUE_NONE, 'Shows which command would execute without actually doing anything'],
-        ];
-
-        // Options that override the predefined configuration
-        $overrides = [
-            ['on', 'C', InputOption::VALUE_REQUIRED, 'The connection(s) to execute the Task in'],
-            ['stage', 'S', InputOption::VALUE_REQUIRED, 'The stage to execute the Task in'],
-            ['server', null, InputOption::VALUE_REQUIRED, 'The server to execute the Task in'],
-            ['branch', 'B', InputOption::VALUE_REQUIRED, 'The branch to deploy'],
-            ['release', null, InputOption::VALUE_REQUIRED, 'What to tag the release as'],
-        ];
-
-        // Additional credentials passed to Rocketeer
-        $credentials = [
-            ['host', null, InputOption::VALUE_REQUIRED, 'The host to use if asked'],
-            ['username', null, InputOption::VALUE_REQUIRED, 'The username to use if asked'],
-            ['password', null, InputOption::VALUE_REQUIRED, 'The password to use if asked'],
-            ['key', null, InputOption::VALUE_REQUIRED, 'The key to use if asked'],
-            ['keyphrase', null, InputOption::VALUE_REQUIRED, 'The keyphrase to use if asked'],
-            ['agent', null, InputOption::VALUE_REQUIRED, 'The agent to use if asked'],
-            ['repository', null, InputOption::VALUE_REQUIRED, 'The repository to use if asked'],
-        ];
-
-        return array_merge(
-            $global,
-            $overrides,
-            $credentials
-        );
-    }
-
-    /**
-     * Check if the class is executed inside a Laravel application.
-     *
-     * @return \Rocketeer\Interfaces\Strategies\FrameworkStrategyInterface|null
-     */
-    public function getFramework()
-    {
-        return $this->laravel->bound('rocketeer.builder') ? $this->builder->buildStrategy('Framework') : null;
-    }
-
-    /**
-     * Check if the current instance has a Command bound.
-     *
-     * @return bool
-     */
-    protected function hasCommand()
-    {
-        return $this->laravel->bound('rocketeer.command');
-    }
 
     ////////////////////////////////////////////////////////////////////
     ///////////////////////////// CORE METHODS /////////////////////////
@@ -214,12 +293,12 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
         });
 
         // Remove command instance
-        unset($this->laravel['rocketeer.command']);
+        unset($this->app['rocketeer.command']);
 
         // Save history to logs
         $logs = $this->logs->write();
         foreach ($logs as $log) {
-            $this->info('Saved logs to '.$log);
+            $this->explainer->info('Saved logs to '.$log);
         }
 
         return $status ? 0 : 1;
@@ -228,6 +307,21 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
     //////////////////////////////////////////////////////////////////////
     /////////////////////////////// INPUT ////////////////////////////////
     //////////////////////////////////////////////////////////////////////
+    /**
+     * Get the value of a command option.
+     *
+     * @param  string $key
+     *
+     * @return string|array
+     */
+    public function option($key = null)
+    {
+        if (is_null($key)) {
+            return $this->input->getOptions();
+        }
+
+        return $this->input->getOption($key);
+    }
 
     /**
      * Ask a question to the user, with default and/or multiple choices.
@@ -337,7 +431,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
     protected function prepareEnvironment()
     {
         // Bind command to container
-        $this->laravel->instance('rocketeer.command', $this);
+        $this->app->instance('rocketeer.command', $this);
 
         // Check for credentials
         $this->credentialsGatherer->getServerCredentials();

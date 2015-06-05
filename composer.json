@@ -20,7 +20,7 @@
   "require": {
     "php": ">=5.4.0",
     "anahkiasen/php-reference-dumper": "^1.0",
-    "illuminate/console": "^5.0",
+    "symfony/console": "^2.7",
     "illuminate/container": "^5.0",
     "illuminate/support": "^5.0",
     "jeremeamia/superclosure": "^2.1",
