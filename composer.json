@@ -20,7 +20,6 @@
   "require": {
     "php": ">=5.4.0",
     "anahkiasen/php-reference-dumper": "^1.0",
-    "symfony/console": "^2.7",
     "illuminate/container": "^5.0",
     "illuminate/support": "^5.0",
     "jeremeamia/superclosure": "^2.1",
@@ -33,6 +32,7 @@
     "patchwork/utf8": "^1.2",
     "phpseclib/phpseclib": "^0.3.10",
     "symfony/config": "^2.7",
+    "symfony/console": "^2.7",
     "symfony/var-dumper": "^2.7"
   },
   "require-dev": {
