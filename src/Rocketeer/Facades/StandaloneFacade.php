@@ -40,7 +40,7 @@ abstract class StandaloneFacade extends Facade
         if (!static::$app) {
             $container = new Container();
             $provider  = new RocketeerServiceProvider($container);
-            $provider->boot();
+            $provider->register();
 
             static::$app = $container;
         }

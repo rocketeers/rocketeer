@@ -91,7 +91,7 @@ class QueueExplainer
             $comment .= ' [~'.$time.'s]';
         }
 
-        $this->command->getOutput()->writeln($comment);
+        $this->command->writeln($comment);
     }
 
     //////////////////////////////////////////////////////////////////////
@@ -118,7 +118,7 @@ class QueueExplainer
         $formatted = $withTree ? $this->getTree('==').'=> '.$formatted : $formatted;
 
         // Pass to command and log
-        $this->command->getOutput()->writeln($formatted);
+        $this->command->writeln($formatted);
         $this->logs->log($message);
 
         return $formatted;

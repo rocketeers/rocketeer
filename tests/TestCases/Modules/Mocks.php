@@ -12,6 +12,7 @@ namespace Rocketeer\TestCases\Modules;
 
 use Closure;
 use Mockery;
+use Mockery\MockInterface;
 
 /**
  * @mixin \Rocketeer\TestCases\RocketeerTestCase
@@ -81,6 +82,18 @@ trait Mocks
         ], $options);
 
         $this->app['rocketeer.command'] = $this->getCommand($expectations, $options, $print);
+    }
+
+    /**
+     * Mock a command that echoes out its output
+     */
+    protected function mockEchoingCommand()
+    {
+        $this->mock('rocketeer.command', 'Command', function (MockInterface $mock) {
+            return $mock->shouldReceive('writeln')->andReturnUsing(function ($input) {
+                echo $input;
+            });
+        });
     }
 
     /**

@@ -27,11 +27,7 @@ class CoreTest extends RocketeerTestCase
         $this->expectOutputRegex('/.+An error occured: "Oh noes", while running:\ngit clone.+/');
 
         $this->app['rocketeer.remote'] = clone $this->getRemote()->shouldReceive('status')->andReturn(1)->mock();
-        $this->mockCommand([], [
-            'line' => function ($error) {
-                echo $error;
-            },
-        ]);
+        $this->mockEchoingCommand();
 
         $status = $this->task('Deploy')->checkStatus('Oh noes', 'git clone');
 
@@ -121,11 +117,11 @@ class CoreTest extends RocketeerTestCase
         $this->expectOutputString('<fg=magenta>$ ls</fg=magenta>');
 
         $this->mock('rocketeer.command', 'Command', function (MockInterface $mock) {
-            $mock->shouldReceive('getOutput->getVerbosity')->andReturn(4)->mock();
-
-            return $mock->shouldReceive('line')->andReturnUsing(function ($input) {
-                echo $input;
-            });
+            return $mock
+                ->shouldReceive('getVerbosity')->andReturn(4)
+                ->shouldReceive('writeln')->andReturnUsing(function ($input) {
+                    echo $input;
+                });
         });
 
         $this->bash->runRaw('ls');
@@ -136,11 +132,11 @@ class CoreTest extends RocketeerTestCase
         $this->expectOutputString('');
 
         $this->mock('rocketeer.command', 'Command', function (MockInterface $mock) {
-            $mock->shouldReceive('getOutput->getVerbosity')->andReturn(1)->mock();
-
-            return $mock->shouldReceive('line')->andReturnUsing(function ($input) {
-                echo $input;
-            });
+            return $mock
+                ->shouldReceive('getVerbosity')->andReturn(1)
+                ->shouldReceive('writeln')->andReturnUsing(function ($input) {
+                    echo $input;
+                });
         });
 
         $this->bash->runRaw('ls');

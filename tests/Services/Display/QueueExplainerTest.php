@@ -19,11 +19,7 @@ class QueueExplainerTest extends RocketeerTestCase
     {
         parent::setUp();
 
-        $this->mock('rocketeer.command', 'Command', function (MockInterface $mock) {
-            return $mock->shouldReceive('line')->andReturnUsing(function ($input) {
-                echo $input;
-            });
-        });
+        $this->mockEchoingCommand();
     }
 
     public function testDoesntDisplayHandleIfOnlyOneConnection()

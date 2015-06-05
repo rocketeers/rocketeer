@@ -10,6 +10,7 @@
  */
 namespace Rocketeer\Abstracts\Strategies;
 
+use Mockery;
 use Mockery\MockInterface;
 use Rocketeer\TestCases\RocketeerTestCase;
 
@@ -32,12 +33,7 @@ class AbstractStrategyTest extends RocketeerTestCase
     public function testCanDisplayStatus()
     {
         $this->expectOutputRegex('#<fg=cyan>\w+</fg=cyan> \| <info>Deploy/Clone</info> <comment>\(.+\)</comment>#');
-
-        $this->mock('rocketeer.command', 'Command', function (MockInterface $mock) {
-            return $mock->shouldReceive('line')->andReturnUsing(function ($input) {
-                echo $input;
-            });
-        });
+        $this->mockEchoingCommand();
 
         $strategy = $this->builder->buildStrategy('Deploy', 'Clone');
         $strategy->displayStatus();

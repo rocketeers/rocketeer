@@ -203,6 +203,21 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
     }
 
     /**
+     * @param string $name
+     * @param array $arguments
+     *
+     * @return mixed
+     */
+    public function __call($name, $arguments)
+    {
+        // Defer calls to output
+        if (method_exists($this->output, $name)) {
+            return call_user_func_array([$this->output, $name], $arguments);
+        }
+    }
+
+
+    /**
      * Get the task this command executes.
      *
      * @return AbstractTask
@@ -262,15 +277,6 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
     }
 
     /**
-     * Run the tasks.
-     */
-    abstract public function fire();
-
-    ////////////////////////////////////////////////////////////////////
-    ///////////////////////////// CORE METHODS /////////////////////////
-    ////////////////////////////////////////////////////////////////////
-
-    /**
      * Fire a Tasks Queue.
      *
      * @param string|string[]|Closure|Closure[]|\Rocketeer\Abstracts\AbstractTask|\Rocketeer\Abstracts\AbstractTask[] $tasks
@@ -304,9 +310,29 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
         return $status ? 0 : 1;
     }
 
+    /**
+     * Run the tasks.
+     */
+    abstract public function fire();
+
     //////////////////////////////////////////////////////////////////////
     /////////////////////////////// INPUT ////////////////////////////////
     //////////////////////////////////////////////////////////////////////
+
+    /**
+     * Get the value of a command argument.
+     *
+     * @param  string  $key
+     * @return string|array
+     */
+    public function argument($key = null)
+    {
+        if (is_null($key)) {
+            return $this->input->getArguments();
+        }
+        return $this->input->getArgument($key);
+    }
+
     /**
      * Get the value of a command option.
      *

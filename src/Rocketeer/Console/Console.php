@@ -11,9 +11,11 @@
 namespace Rocketeer\Console;
 
 use Illuminate\Contracts\Container\Container;
+use Rocketeer\Abstracts\Commands\AbstractCommand;
 use Rocketeer\Rocketeer;
 use Rocketeer\Traits\HasLocator;
 use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Command\Command;
 
 /**
  * A standalone Rocketeer CLI.
@@ -34,6 +36,26 @@ class Console extends Application
         $this->app = $app;
 
         parent::__construct('Rocketeer');
+    }
+
+    /**
+     * Adds a command object.
+     *
+     * If a command with the same name already exists, it will be overridden.
+     *
+     * @param Command $command A Command object
+     *
+     * @return Command The registered command
+     *
+     * @api
+     */
+    public function add(Command $command)
+    {
+        if ($command instanceof AbstractCommand) {
+            $command->setContainer($this->app);
+        }
+
+        return parent::add($command);
     }
 
     /**

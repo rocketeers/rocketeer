@@ -20,9 +20,12 @@ use Rocketeer\Services\Connections\Connections\Connection;
 use Rocketeer\Services\Credentials\Keys\ConnectionKey;
 use Rocketeer\Traits\HasLocator;
 use Symfony\Component\Console\Output\NullOutput;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Handle creationg and caching of connections.
+ *
+ * @mixin OutputInterface
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  * @author Taylor Otwell <taylorotwell@gmail.com>

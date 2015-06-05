@@ -180,7 +180,7 @@ trait HasLocator
     {
         // Verbosity levels
         if ($this->hasCommand() && $option === 'verbose') {
-            return $this->command->getOutput()->getVerbosity();
+            return $this->command->getVerbosity();
         }
 
         // Gather options

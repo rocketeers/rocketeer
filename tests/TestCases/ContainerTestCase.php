@@ -131,11 +131,12 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         };
 
         $verbose = array_get($options, 'verbose') ? 1 : 0;
-        $command = Mockery::mock('Command')->shouldIgnoreMissing();
+        $command = Mockery::mock('Rocketeer\Abstracts\AbstractCommand')->shouldIgnoreMissing();
         $command->shouldReceive('getOutput')->andReturn($this->getCommandOutput($verbose));
+        $command->shouldReceive('getVerbosity')->andReturn($verbose);
 
         // Bind the output expectations
-        $types = ['comment', 'error', 'line', 'info'];
+        $types = ['comment', 'error', 'line', 'info', 'writeln'];
         foreach ($types as $type) {
             if (!array_key_exists($type, $expectations)) {
                 $command->shouldReceive($type)->andReturnUsing($message);
