@@ -38,11 +38,18 @@ class Pathfinder extends AbstractPathfinder
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * @param string $pathfinder
+     * Register a paths provider with the Pathfinder
+     *
+     * @param string|PathfinderInterface $pathfinder
      */
     public function registerPathfinder($pathfinder)
     {
-        $pathfinder = $this->app->make($pathfinder);
+        // Build pathfinder if necessary
+        if (is_string($pathfinder)) {
+            $pathfinder = $this->app->make($pathfinder);
+        }
+
+        // Check interfaces
         if (!$pathfinder instanceof PathfinderInterface) {
             throw new InvalidArgumentException('Pathfinder must implement PathfinderInterface');
         }

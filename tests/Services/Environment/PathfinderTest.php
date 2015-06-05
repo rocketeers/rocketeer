@@ -10,6 +10,7 @@
  */
 namespace Rocketeer\Services\Environment;
 
+use Rocketeer\Dummies\DummyPathfinder;
 use Rocketeer\Services\Environment\Pathfinders\LocalPathfinder;
 use Rocketeer\Services\Pathfinder;
 use Rocketeer\TestCases\RocketeerTestCase;
@@ -185,5 +186,11 @@ class PathfinderTest extends RocketeerTestCase
         $this->connections->setConnection('staging');
         $path = $this->paths->getHomeFolder();
         $this->assertEquals('/bar/foobar', $path);
+    }
+
+    public function testCanRegisterCustomPathfinder()
+    {
+        $this->paths->registerPathfinder(new DummyPathfinder());
+        $this->assertEquals('foofoo', $this->paths->foobar('foo'));
     }
 }
