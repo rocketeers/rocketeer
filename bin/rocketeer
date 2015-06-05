@@ -1,5 +1,6 @@
 #!/usr/bin/env php
 <?php
+use Rocketeer\Services\Environment\Pathfinders\LocalPathfinder;
 
 $vendors = array(
     __DIR__.'/../vendor',
@@ -18,7 +19,7 @@ foreach ($vendors as $vendor) {
 }
 
 // Load plugins
-$plugins = \Rocketeer\Services\Environment\Pathfinder::getUserHomeFolder().'/.rocketeer/vendor/autoload.php';
+$plugins = LocalPathfinder::getUserHomeFolder().'/.rocketeer/vendor/autoload.php';
 if (file_exists($plugins)) {
     require_once $plugins;
 }
