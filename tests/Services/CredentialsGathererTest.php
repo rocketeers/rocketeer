@@ -108,7 +108,7 @@ class CredentialsGathererTest extends RocketeerTestCase
             'No password is set for [production]' => $this->password,
         ]);
 
-        $this->command->shouldReceive('askWith')->with('No connections have been set, please create one:', 'production')->andReturn('production');
+        $this->command->shouldReceive('askWith')->with('No connections have been set, please create one', 'production')->andReturn('production');
         $this->command->shouldReceive('askWith')->with(
             'No password or SSH key is set for [production], which would you use?',
             'key', ['key', 'password']
@@ -138,7 +138,7 @@ class CredentialsGathererTest extends RocketeerTestCase
             'No username is set for [production]' => $this->username,
         ]);
 
-        $this->command->shouldReceive('askWith')->with('No connections have been set, please create one:', 'production')->andReturn('production');
+        $this->command->shouldReceive('askWith')->with('No connections have been set, please create one', 'production')->andReturn('production');
         $this->command->shouldReceive('askWith')->with(
             'No password or SSH key is set for [production], which would you use?',
             'key', ['key', 'password']
@@ -297,7 +297,7 @@ class CredentialsGathererTest extends RocketeerTestCase
         $this->mock('rocketeer.command', 'Command', function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('askWith')
-                ->with('No default connection, pick one', null, ['production', 'staging'])
+                ->with('No default connection, pick one', 'production', ['production', 'staging'])
                 ->andReturn('production');
         });
 
@@ -323,7 +323,7 @@ class CredentialsGathererTest extends RocketeerTestCase
             }
 
             foreach ($answers as $question => $answer) {
-                $question = strpos($question, 'is set for') !== false ? $question.', please provide one:' : $question;
+                $question = strpos($question, 'is set for') !== false ? $question.', please provide one' : $question;
                 $method = strpos($question, 'password') !== false || strpos($question, 'keyphrase') !== false ? 'askSecretly' : 'askWith';
                 $mock = $mock->shouldReceive($method)->with($question)->andReturn($answer);
             }
