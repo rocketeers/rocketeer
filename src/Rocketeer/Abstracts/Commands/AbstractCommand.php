@@ -21,6 +21,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
@@ -42,7 +43,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
     protected $input;
 
     /**
-     * @var OutputInterface
+     * @var SymfonyStyle
      */
     protected $output;
 
@@ -368,12 +369,10 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
 
         // If we provided choices, autocomplete
         if ($choices) {
-            return $this->choice($question, $choices, $default);
+            return $this->output->choice($question, $choices, $default);
         }
 
-        return $this->ask($question, $default, function ($value) {
-            return is_string($value) || is_bool($value) || is_null($value);
-        });
+        return $this->output->ask($question, $default, $this->getCredentialsValidator());
     }
 
     /**
@@ -390,7 +389,11 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
             return $default;
         }
 
-        return $this->askHidden($question) ?: $default;
+        $question = new Question($question);
+        $question->setHidden(true);
+        $question->setValidator($this->getCredentialsValidator());
+
+        return $this->output->askQuestion($question) ?: $default;
     }
 
     //////////////////////////////////////////////////////////////////////
@@ -412,6 +415,16 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
         $this->explainer->line('Execution time: <comment>'.$time.'s</comment>');
 
         return $results;
+    }
+
+    /**
+     * @return \Closure
+     */
+    protected function getCredentialsValidator()
+    {
+        return function ($value) {
+            return is_string($value) || is_bool($value) || is_null($value);
+        };
     }
 
     /**
