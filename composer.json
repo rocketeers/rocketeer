@@ -19,6 +19,7 @@
   ],
   "require": {
     "php": ">=5.4.0",
+    "anahkiasen/php-reference-dumper": "~1.0",
     "illuminate/console": "~4.2",
     "illuminate/container": "^4.2.7",
     "illuminate/support": "^4.2.7",
@@ -32,8 +33,7 @@
     "patchwork/utf8": "~1.2",
     "phpseclib/phpseclib": "^0.3.5",
     "symfony/config": "~2.6",
-    "symfony/var-dumper": "~2.6",
-    "anahkiasen/php-reference-dumper": "~1.0"
+    "symfony/var-dumper": "~2.6"
   },
   "require-dev": {
     "fabpot/php-cs-fixer": "2.0.*@dev",
