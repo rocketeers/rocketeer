@@ -423,7 +423,11 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
     protected function getCredentialsValidator()
     {
         return function ($value) {
-            return is_string($value) || is_bool($value) || is_null($value);
+            if (is_string($value) || is_bool($value) || is_null($value)) {
+                return $value;
+            }
+
+            return false;
         };
     }
 
