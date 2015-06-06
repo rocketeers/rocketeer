@@ -17,6 +17,7 @@ use Rocketeer\Console\Commands\RocketeerCommand;
 use Rocketeer\Interfaces\IdentifierInterface;
 use Rocketeer\Traits\HasLocator;
 use Rocketeer\Traits\Properties\HasEvents;
+use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -390,8 +391,8 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
         }
 
         $question = new Question($question);
-        $question->setHidden(true);
         $question->setValidator($this->getCredentialsValidator());
+        $question->setHidden(true);
 
         return $this->output->askQuestion($question) ?: $default;
     }
@@ -423,11 +424,11 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
     protected function getCredentialsValidator()
     {
         return function ($value) {
-            if (is_string($value) || is_bool($value) || is_null($value)) {
-                return $value;
+            if (!is_string($value) && !is_bool($value) && !is_null($value)) {
+                throw new RuntimeException('Invalid answer: '.$value);
             }
 
-            return false;
+            return $value ?: true;
         };
     }
 
