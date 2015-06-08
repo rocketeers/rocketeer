@@ -16,6 +16,7 @@ use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Binaries\AnonymousBinary;
 use Rocketeer\Exceptions\TaskCompositionException;
 use Rocketeer\Traits\HasLocator;
+use RuntimeException;
 
 /**
  * Handles creating tasks from strings, closures, AbstractTask children, etc.
@@ -117,7 +118,7 @@ class TasksBuilder
             $concrete   = $this->findQualifiedName($concrete, [$path]);
 
             if (!$concrete) {
-                throw new \RuntimeException(
+                throw new RuntimeException(
                     sprintf('Class "%s" for strategy "%s" not found', $class, $strategy)
                 );
             }
