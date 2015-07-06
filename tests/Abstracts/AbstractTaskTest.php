@@ -116,7 +116,7 @@ class AbstractTaskTest extends RocketeerTestCase
         $this->pretend();
         $this->queue->run('Deploy');
 
-        $this->assertCount(18, $this->history->getFlattenedHistory());
+        $this->assertCount(14, $this->history->getFlattenedHistory());
     }
 
     public function testCanHookIntoHaltingEvent()
@@ -146,5 +146,19 @@ class AbstractTaskTest extends RocketeerTestCase
                                                ->mock();
 
         $this->task('CurrentRelease')->execute();
+    }
+
+    public function testDoesntRunAfterEventIfTaskFailed()
+    {
+        $this->expectOutputString('');
+
+        $task = 'Rocketeer\Dummies\Tasks\MyCustomHaltingTask';
+        $task = $this->builder->buildTask($task);
+
+        $this->tasks->after($task, function () {
+           echo 'fired';
+        });
+
+        $task->fire();
     }
 }
