@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of Rocketeer
  *
@@ -87,7 +88,6 @@ class ReleasesManager
             rsort($releases);
 
             $this->releases = (array) $releases;
-            $this->releases = array_map('intval', $this->releases);
         }
 
         return $this->releases;

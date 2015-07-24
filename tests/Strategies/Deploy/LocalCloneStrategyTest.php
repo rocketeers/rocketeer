@@ -10,9 +10,10 @@
  */
 namespace Rocketeer\Strategies\Deploy;
 
+use Carbon\Carbon;
 use Rocketeer\TestCases\RocketeerTestCase;
 
-class SyncStrategyTest extends RocketeerTestCase
+class LocalCloneStrategyTest extends RocketeerTestCase
 {
     public function setUp()
     {
@@ -30,24 +31,15 @@ class SyncStrategyTest extends RocketeerTestCase
 
     public function testCanDeployRepository()
     {
+        $time = $this->getCurrentTime();
+
         $task = $this->pretendTask('Deploy');
-        $task->getStrategy('Deploy', 'Sync')->deploy();
+        $task->getStrategy('Deploy', 'LocalClone')->deploy();
 
         $matcher = [
             'mkdir {server}/releases/{release}',
-            'rsync ./ foo@bar.com:{server}/releases/{release} --verbose --recursive --rsh="ssh" --compress --exclude=".git" --exclude="vendor"',
-        ];
-
-        $this->assertHistory($matcher);
-    }
-
-    public function testCanUpdateRepository()
-    {
-        $task = $this->pretendTask('Deploy');
-        $task->getStrategy('Deploy', 'Sync')->update();
-
-        $matcher = [
-            'rsync ./ foo@bar.com:{server}/releases/{release} --verbose --recursive --rsh="ssh" --compress --exclude=".git" --exclude="vendor"',
+            'git clone "https://github.com/Anahkiasen/html-object.git" "app/storage/checkout/tmp/'.$time.'/" --branch="master" --depth="1"',
+            'rsync app/storage/checkout/tmp/'.$time.'/ foo@bar.com:{server}/releases/{release} --verbose --recursive --rsh="ssh" --compress --exclude=".git" --exclude="vendor"',
         ];
 
         $this->assertHistory($matcher);
@@ -55,6 +47,8 @@ class SyncStrategyTest extends RocketeerTestCase
 
     public function testCanSpecifyKey()
     {
+        $time = $this->getCurrentTime();
+
         $this->swapConfig([
             'rocketeer::connections' => [
                 'production' => [
@@ -66,13 +60,27 @@ class SyncStrategyTest extends RocketeerTestCase
         ]);
 
         $task = $this->pretendTask('Deploy');
-        $task->getStrategy('Deploy', 'Sync')->deploy();
+        $task->getStrategy('Deploy', 'LocalClone')->deploy();
 
         $matcher = [
             'mkdir {server}/releases/{release}',
-            'rsync ./ foo@bar.com:{server}/releases/{release} --verbose --recursive --rsh="ssh -p 80 -i /foo/bar" --compress --exclude=".git" --exclude="vendor"',
+            'git clone "https://github.com/Anahkiasen/html-object.git" "app/storage/checkout/tmp/'.$time.'/" --branch="master" --depth="1"',
+            'rsync app/storage/checkout/tmp/'.$time.'/ foo@bar.com:{server}/releases/{release} --verbose --recursive --rsh="ssh -p 80 -i /foo/bar" --compress --exclude=".git" --exclude="vendor"',
         ];
 
         $this->assertHistory($matcher);
+    }
+
+    /**
+     * Mock the current time
+     *
+     * @return int
+     */
+    protected function getCurrentTime()
+    {
+        Carbon::setTestNow(new Carbon(1234567890));
+        $time = Carbon::now()->timestamp;
+
+        return $time;
     }
 }

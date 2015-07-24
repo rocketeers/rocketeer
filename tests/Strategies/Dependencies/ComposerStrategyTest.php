@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Strategies\Dependencies;
 
 use Rocketeer\TestCases\RocketeerTestCase;
@@ -37,9 +36,9 @@ class ComposerStrategyTest extends RocketeerTestCase
 
         $this->assertHistory([
             [
-                "cd {server}/releases/{release}",
-                "{composer} self-update",
-                "{composer} install --prefer-source",
+                'cd {server}/releases/{release}',
+                '{composer} self-update',
+                '{composer} install --prefer-source',
             ],
         ]);
     }

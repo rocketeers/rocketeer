@@ -29,15 +29,16 @@
     "illuminate/log": "~4.2",
     "patchwork/utf8": "~1.1",
     "d11wtq/boris": "~1.0.8",
-    "kzykhys/parallel": "~0.1.0"
+    "kzykhys/parallel": "~0.1.0",
+    "nesbot/carbon": "~1.18"
   },
   "require-dev": {
     "fabpot/php-cs-fixer": "2.0.*@dev",
     "phpunit/phpunit": "~4.0",
     "mockery/mockery": "^0.9.1",
-    "nesbot/carbon": "~1.4",
     "phpseclib/phpseclib": "~0.3.5",
-    "johnkary/phpunit-speedtrap": "dev-master"
+    "johnkary/phpunit-speedtrap": "dev-master",
+    "symfony/var-dumper": "~2.6"
   },
   "suggest": {
     "anahkiasen/rocketeer-campfire": "Campfire plugin to create deployments notifications",

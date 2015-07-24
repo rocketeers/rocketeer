@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Services;
 
 use Rocketeer\TestCases\RocketeerTestCase;
@@ -208,5 +207,12 @@ class ReleasesManagerTest extends RocketeerTestCase
         $releases = $this->releasesManager->getReleases();
 
         $this->assertEmpty($releases);
+    }
+
+    public function testReleasesArentCastToInteger()
+    {
+        $releases = $this->releasesManager->getReleases();
+
+        $this->assertInternalType('string', $releases[0]);
     }
 }

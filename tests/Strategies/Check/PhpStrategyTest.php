@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Strategies\Check;
 
 use Rocketeer\TestCases\RocketeerTestCase;
@@ -29,12 +28,14 @@ class PhpStrategyTest extends RocketeerTestCase
 
     public function testCanCheckPhpVersion()
     {
-        $this->mockFiles(function ($mock) {
+        $version = $this->bash->php()->run('version');
+
+        $this->mockFiles(function ($mock) use ($version) {
             return $mock
                 ->shouldReceive('put')
                 ->shouldReceive('glob')->andReturn([])
                 ->shouldReceive('exists')->andReturn(true)
-                ->shouldReceive('get')->andReturn('{"require":{"php":">=5.3.0"}}');
+                ->shouldReceive('get')->andReturn('{"require":{"php":">='.$version.'"}}');
         });
         $this->assertTrue($this->strategy->language());
 
@@ -64,7 +65,7 @@ class PhpStrategyTest extends RocketeerTestCase
 
     public function testCanCheckForHhvmExtensions()
     {
-        $this->mockRemote('HipHop VM 3.0.1 (rel)'.PHP_EOL.'Some more stuff');
+        $this->mockRemote('1');
         $exists = $this->strategy->checkPhpExtension('_hhvm');
 
         $this->assertTrue($exists);

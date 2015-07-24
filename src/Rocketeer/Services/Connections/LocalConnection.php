@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of Rocketeer
  *
@@ -95,6 +96,7 @@ class LocalConnection implements ConnectionInterface
      * @param string $remote
      *
      * @codeCoverageIgnore
+     *
      * @return int
      */
     public function put($local, $remote)
@@ -110,6 +112,7 @@ class LocalConnection implements ConnectionInterface
      * @param string $remote
      *
      * @codeCoverageIgnore
+     *
      * @return string
      */
     public function getString($remote)
@@ -138,6 +141,7 @@ class LocalConnection implements ConnectionInterface
      * @param string $contents
      *
      * @codeCoverageIgnore
+     *
      * @return int
      */
     public function putString($remote, $contents)

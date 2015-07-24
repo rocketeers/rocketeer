@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of Rocketeer
  *
@@ -41,6 +42,14 @@ class RemoteHandler
     public function connected()
     {
         return (bool) $this->active;
+    }
+
+    /**
+     * Purge all cached connections.
+     */
+    public function disconnect()
+    {
+        $this->active = [];
     }
 
     /**
@@ -106,8 +115,8 @@ class RemoteHandler
      * @param array $config
      *
      * @throws InvalidArgumentException
-     * @return array
      *
+     * @return array
      */
     protected function getAuth(array $config)
     {

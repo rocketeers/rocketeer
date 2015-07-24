@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of Rocketeer
  *
@@ -15,6 +16,7 @@ use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Binaries\AnonymousBinary;
 use Rocketeer\Exceptions\TaskCompositionException;
 use Rocketeer\Traits\HasLocator;
+use RuntimeException;
 
 /**
  * Handles creating tasks from strings, closures, AbstractTask children, etc.
@@ -74,17 +76,17 @@ class TasksBuilder
 
         // Get the command name
         $name    = $instance ? $instance->getName() : null;
-        $command = $this->findQualifiedName($name, array(
+        $command = $this->findQualifiedName($name, [
             'Rocketeer\Console\Commands\%sCommand',
-        ));
+        ]);
 
         // If no command found, use BaseTaskCommand or task name
         if (!$command || $command === 'Closure') {
             $name    = is_string($task) ? $task : $name;
-            $command = $this->findQualifiedName($name, array(
+            $command = $this->findQualifiedName($name, [
                 'Rocketeer\Console\Commands\%sCommand',
                 'Rocketeer\Console\Commands\BaseTaskCommand',
-            ));
+            ]);
         }
 
         $command = new $command($instance, $slug);
@@ -111,12 +113,14 @@ class TasksBuilder
         // build it, otherwise get the bound one
         $handle = strtolower($strategy);
         if ($concrete) {
-            $concrete = $this->findQualifiedName($concrete, [
-                'Rocketeer\Strategies\\'.ucfirst($strategy).'\%sStrategy',
-            ]);
+            $path       = 'Rocketeer\Strategies\\'.ucfirst($strategy).'\%sStrategy';
+            $class      = sprintf($path, $concrete);
+            $concrete   = $this->findQualifiedName($concrete, [$path]);
 
             if (!$concrete) {
-                return false;
+                throw new RuntimeException(
+                    sprintf('Class "%s" for strategy "%s" not found', $class, $strategy)
+                );
             }
 
             return new $concrete($this->app);
@@ -179,8 +183,8 @@ class TasksBuilder
      * @param string|Closure|AbstractTask $task
      *
      * @throws \Rocketeer\Exceptions\TaskCompositionException
-     * @return mixed|AbstractTask
      *
+     * @return mixed|AbstractTask
      */
     protected function composeTask($task)
     {

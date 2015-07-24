@@ -8,18 +8,17 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\TestCases;
 
 use Rocketeer\Services\Storages\LocalStorage;
-use Rocketeer\TestCases\Modules\RocketeerAssertions;
-use Rocketeer\TestCases\Modules\RocketeerMockeries;
+use Rocketeer\TestCases\Modules\Assertions;
+use Rocketeer\TestCases\Modules\Mocks;
 use Symfony\Component\Console\Tester\CommandTester;
 
 abstract class RocketeerTestCase extends ContainerTestCase
 {
-    use RocketeerAssertions;
-    use RocketeerMockeries;
+    use Assertions;
+    use Mocks;
 
     /**
      * The path to the local fake server.
@@ -59,7 +58,7 @@ abstract class RocketeerTestCase extends ContainerTestCase
      *
      * @type int
      */
-    protected $numberFiles = 12;
+    protected static $currentFiles;
 
     /**
      * Set up the tests.
@@ -67,6 +66,12 @@ abstract class RocketeerTestCase extends ContainerTestCase
     public function setUp()
     {
         parent::setUp();
+
+        // Compute ls results
+        $files = preg_grep('/^([^.0])/', scandir(__DIR__.'/../..'));
+        sort($files);
+
+        static::$currentFiles = array_values($files);
 
         // Setup local server
         $this->server          = __DIR__.'/../_server/foobar';
@@ -118,6 +123,7 @@ abstract class RocketeerTestCase extends ContainerTestCase
 
         // Cleanup files created by tests
         $cleanup = [
+            realpath(__DIR__.'/../../app'),
             realpath(__DIR__.'/../../.rocketeer'),
             realpath(__DIR__.'/../.rocketeer'),
             realpath($this->server),

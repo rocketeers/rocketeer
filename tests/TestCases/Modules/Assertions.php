@@ -14,8 +14,20 @@ use Illuminate\Support\Arr;
 use Rocketeer\TestCases\AbstractTask;
 use Rocketeer\TestCases\Assertion;
 
-trait RocketeerAssertions
+trait Assertions
 {
+    /**
+     * Assert that the number of files in local matches expected.
+     *
+     * @param array $files
+     */
+    public function assertListDirectory($files)
+    {
+        sort($files);
+
+        $this->assertEquals(static::$currentFiles, array_values($files));
+    }
+
     /**
      * Assert that the current connection is a specific one.
      *
@@ -29,7 +41,7 @@ trait RocketeerAssertions
     /**
      * Assert that the current server is a specific one.
      *
-     * @param string $connection
+     * @param string $server
      */
     protected function assertCurrentServerEquals($server)
     {
@@ -127,6 +139,7 @@ trait RocketeerAssertions
 
         // Replace placeholders
         $expected = $this->replaceHistoryPlaceholders($expected, $release);
+        $expected = array_values($expected);
 
         // Check equality
         $this->assertEquals($expected, $obtained);

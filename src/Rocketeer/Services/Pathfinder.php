@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of Rocketeer
  *
@@ -56,8 +57,8 @@ class Pathfinder
      * Get the default path for the SSH key.
      *
      * @throws Exception
-     * @return string
      *
+     * @return string
      */
     public function getDefaultKeyPath()
     {

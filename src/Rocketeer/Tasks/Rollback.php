@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of Rocketeer
  *
@@ -75,6 +76,6 @@ class Rollback extends AbstractTask
             $release = $this->releasesManager->getPreviousRelease();
         }
 
-        return (int) $release;
+        return (string) $release;
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of Rocketeer
  *
@@ -198,6 +199,7 @@ abstract class AbstractBinary
                 $options[] = $value ? $flag.'="'.$value.'"' : $flag;
             }
         }
+
         return implode(' ', $options);
     }
 
@@ -212,6 +214,7 @@ abstract class AbstractBinary
             $arguments = (array) $arguments;
             $arguments = implode(' ', $arguments);
         }
+
         return $arguments;
     }
 

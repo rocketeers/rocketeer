@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Services\Connections;
 
 use Rocketeer\TestCases\RocketeerTestCase;
@@ -164,5 +163,39 @@ class RemoteHandlerTest extends RocketeerTestCase
         $this->assertInstanceOf('Rocketeer\Services\Connections\Connection', $connection);
         $this->assertEquals('production', $connection->getName());
         $this->assertEquals('foo', $connection->getUsername());
+    }
+
+    public function testCanPurgeCachedConnections()
+    {
+        $this->swapConfig([
+            'rocketeer::connections' => [
+                'production' => [
+                    'host'     => 'foobar.com',
+                    'username' => 'foobar',
+                    'password' => 'foobar',
+                ],
+            ],
+        ]);
+
+        $connection = $this->handler->connection();
+        $this->assertInstanceOf('Rocketeer\Services\Connections\Connection', $connection);
+        $this->assertEquals('production', $connection->getName());
+        $this->assertEquals('foobar', $connection->getUsername());
+
+        $this->swapConfig([
+            'rocketeer::connections' => [
+                'production' => [
+                    'host'     => 'barbaz.com',
+                    'username' => 'barbaz',
+                    'password' => 'barbaz',
+                ],
+            ],
+        ]);
+
+        $this->handler->disconnect();
+        $connection = $this->handler->connection();
+        $this->assertInstanceOf('Rocketeer\Services\Connections\Connection', $connection);
+        $this->assertEquals('production', $connection->getName());
+        $this->assertEquals('barbaz', $connection->getUsername());
     }
 }

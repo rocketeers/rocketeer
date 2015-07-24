@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Rocketeer\Traits\BashModules;
 
 use Rocketeer\TestCases\RocketeerTestCase;
@@ -19,7 +18,7 @@ class CoreTest extends RocketeerTestCase
     {
         $contents = $this->task->runRaw('ls', true, true);
 
-        $this->assertCount($this->numberFiles, $contents);
+        $this->assertListDirectory($contents);
     }
 
     public function testCanCheckStatusOfACommand()
@@ -84,7 +83,7 @@ class CoreTest extends RocketeerTestCase
         $this->task->setLocal(true);
         $contents = $this->task->runRaw('ls', true, true);
 
-        $this->assertCount($this->numberFiles, $contents);
+        $this->assertListDirectory($contents);
     }
 
     public function testCanConvertDirectorySeparators()
@@ -109,5 +108,25 @@ class CoreTest extends RocketeerTestCase
         $processed = $this->task->processCommands($commands);
 
         $this->assertEquals([$commands], $processed);
+    }
+
+    public function testCanExecuteCommandsAsSudo()
+    {
+        $this->swapConfig([
+            'rocketeer::remote.sudo'   => true,
+            'rocketeer::remote.sudoed' => ['cd'],
+        ]);
+
+        $this->assertEquals(['sudo cd foobar'], $this->task->processCommands('cd foobar'));
+    }
+
+    public function testCanExecuteCommandsAsSudoUser()
+    {
+        $this->swapConfig([
+            'rocketeer::remote.sudo'   => 'foobar',
+            'rocketeer::remote.sudoed' => ['cd'],
+        ]);
+
+        $this->assertEquals(['sudo -u foobar cd foobar'], $this->task->processCommands('cd foobar'));
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of Rocketeer
  *
@@ -30,7 +31,9 @@ class Php extends AbstractBinary
      */
     public function version()
     {
-        return $this->getCommand(null, null, ['-r' => "print defined('HHVM_VERSION') ? HHVM_VERSION : PHP_VERSION;"]);
+        $constant = $this->isHhvm() ? 'HHVM_VERSION' : 'PHP_VERSION';
+
+        return $this->getCommand(null, null, '-r "print '.$constant.';"');
     }
 
     /**
@@ -50,10 +53,10 @@ class Php extends AbstractBinary
      */
     public function isHhvm()
     {
-        $version = $this->bash->runRaw($this->version(), true);
-        $version = head($version);
-        $version = strtolower($version);
+        $isHhvm = $this->getCommand(null, null, '-r "print defined(\'HHVM_VERSION\');"');
+        $isHhvm = $this->bash->runRaw($isHhvm);
+        $isHhvm = $isHhvm === '1';
 
-        return strpos($version, 'hiphop') !== false;
+        return $isHhvm;
     }
 }

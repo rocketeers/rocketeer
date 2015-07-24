@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of Rocketeer
  *
@@ -169,7 +170,9 @@ abstract class AbstractCommand extends Command
         } else {
             // Run tasks and display timer
             $status = $this->time(function () use ($tasks) {
-                return $this->laravel['rocketeer.queue']->run($tasks);
+                $pipeline = $this->laravel['rocketeer.queue']->run($tasks);
+
+                return $pipeline->succeeded();
             });
         }
 
