@@ -79,7 +79,7 @@ class Svn extends AbstractBinary implements ScmInterface
         $branch     = $this->connections->getRepositoryBranch();
         $repository = $this->connections->getRepositoryEndpoint();
         $repository = rtrim($repository, '/').'/'.ltrim($branch, '/');
-        $repository = preg_replace('#//[a-zA-Z0-9]+:?[a-zA-Z0-9]*@#', '//', $repository);
+        $repository = preg_replace('#//[a-zA-Z0-9.]+:?[a-zA-Z0-9]*@#', '//', $repository);
 
         return $this->co([$repository, $destination], $this->getCredentials());
     }
