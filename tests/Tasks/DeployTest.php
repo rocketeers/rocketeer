@@ -47,11 +47,12 @@ class DeployTest extends RocketeerTestCase
             ],
         ];
 
-        $this->assertTaskHistory('Deploy', $matcher, [
+        $results = $this->assertTaskHistory('Deploy', $matcher, [
             'tests' => true,
             'seed' => true,
             'migrate' => true,
         ]);
+        $this->assertTrue($results);
     }
 
     public function testStepsRunnerDoesntCancelWithPermissionsAndShared()
@@ -78,11 +79,12 @@ class DeployTest extends RocketeerTestCase
             ],
         ];
 
-        $this->assertTaskHistory('Deploy', $matcher, [
+        $results = $this->assertTaskHistory('Deploy', $matcher, [
             'tests' => true,
             'seed' => true,
             'migrate' => true,
         ]);
+        $this->assertTrue($results);
     }
 
     public function testCanDisableGitOptions()
@@ -114,11 +116,12 @@ class DeployTest extends RocketeerTestCase
             ],
         ];
 
-        $this->assertTaskHistory('Deploy', $matcher, [
+        $results = $this->assertTaskHistory('Deploy', $matcher, [
             'tests' => true,
             'seed' => true,
             'migrate' => true,
         ]);
+        $this->assertTrue($results);
     }
 
     public function testCanUseCopyStrategy()
@@ -157,11 +160,12 @@ class DeployTest extends RocketeerTestCase
             ],
         ];
 
-        $this->assertTaskHistory('Deploy', $matcher, [
+        $results = $this->assertTaskHistory('Deploy', $matcher, [
             'tests' => false,
             'seed' => false,
             'migrate' => false,
         ]);
+        $this->assertTrue($results);
     }
 
     public function testCanRunDeployWithSeed()
@@ -185,11 +189,12 @@ class DeployTest extends RocketeerTestCase
             ],
         ];
 
-        $this->assertTaskHistory('Deploy', $matcher, [
+        $results = $this->assertTaskHistory('Deploy', $matcher, [
             'tests' => false,
             'seed' => true,
             'migrate' => false,
         ]);
+        $this->assertTrue($results);
     }
 
     public function testNoDbRoleNoMigrationsNorSeedsAreRun()
@@ -233,11 +238,12 @@ class DeployTest extends RocketeerTestCase
             ],
         ];
 
-        $this->assertTaskHistory('Deploy', $matcher, [
+        $results = $this->assertTaskHistory('Deploy', $matcher, [
             'tests' => true,
             'seed' => true,
             'migrate' => true,
         ]);
+        $this->assertTrue($results);
     }
 
     public function testDbRoleMigrationsAndSeedsAreRun()
@@ -281,10 +287,11 @@ class DeployTest extends RocketeerTestCase
             ],
         ];
 
-        $this->assertTaskHistory('Deploy', $matcher, [
+        $results = $this->assertTaskHistory('Deploy', $matcher, [
             'tests' => true,
             'seed' => true,
             'migrate' => true,
         ]);
+        $this->assertTrue($results);
     }
 }

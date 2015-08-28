@@ -30,7 +30,8 @@ class RollbackTest extends RocketeerTestCase
         $this->mockCommand([], ['argument' => 15000000000000]);
         $this->command->shouldReceive('option')->andReturn([]);
 
-        $this->task('Rollback')->execute();
+        $results = $this->task('Rollback')->execute();
+        $this->assertTrue($results);
 
         $this->assertEquals(15000000000000, $this->releasesManager->getCurrentRelease());
     }
@@ -41,7 +42,8 @@ class RollbackTest extends RocketeerTestCase
         $this->command = $this->mockCommand(['list' => true]);
         $this->command->shouldReceive('askWith')->andReturn(1);
 
-        $this->task('Rollback')->execute();
+        $results = $this->task('Rollback')->execute();
+        $this->assertTrue($results);
 
         $this->assertEquals(15000000000000, $this->releasesManager->getCurrentRelease());
     }
@@ -61,7 +63,8 @@ class RollbackTest extends RocketeerTestCase
         $this->mockCommand([], ['argument' => 'foobar']);
         $this->command->shouldReceive('option')->andReturn([]);
 
-        $this->task('Rollback')->execute();
+        $results = $this->task('Rollback')->execute();
+        $this->assertNotTrue($results);
 
         $this->assertEquals(20000000000000, $this->releasesManager->getCurrentRelease());
     }
