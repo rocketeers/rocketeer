@@ -85,6 +85,8 @@ class Deploy extends AbstractTask
         } else {
             $this->executeTask('SwapSymlink');
         }
+
+        return true;
     }
 
     ////////////////////////////////////////////////////////////////////
