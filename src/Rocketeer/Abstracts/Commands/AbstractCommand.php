@@ -148,6 +148,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
             ['stage', 'S', InputOption::VALUE_REQUIRED, 'The stage to execute the Task in'],
             ['server', null, InputOption::VALUE_REQUIRED, 'The server to execute the Task in'],
             ['branch', 'B', InputOption::VALUE_REQUIRED, 'The branch to deploy'],
+            ['user', 'U', InputOption::VALUE_REQUIRED, 'The user name to execute the Task in'],
             ['release', null, InputOption::VALUE_REQUIRED, 'What to tag the release as'],
         ];
 

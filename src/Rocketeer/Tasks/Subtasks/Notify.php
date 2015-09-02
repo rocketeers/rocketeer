@@ -69,10 +69,13 @@ class Notify extends AbstractTask
     protected function getComponents()
     {
         // Get user name
-        $user = $this->localStorage->get('notifier.name');
+        $user = $this->command->option('user');
         if (!$user) {
-            $user = $this->command->ask('Who is deploying ?');
-            $this->localStorage->set('notifier.name', $user);
+            $user = $_SERVER['USER'];
+            if (!$user) {
+                $this->explainer->line('The user name is required. --user or $USER environment variables.');
+                $this->halt();
+            }
         }
 
         // Get what was deployed
