@@ -47,14 +47,20 @@ class GitTest extends RocketeerTestCase
     {
         $command = $this->scm->currentState();
 
-        $this->assertEquals('git rev-parse HEAD', $command);
+        $expected = 'git';
+        $expected .= ' --git-dir=' . $this->releasesManager->getCurrentReleasePath() . '/.git';
+        $expected .= ' --work-tree=' . $this->releasesManager->getCurrentReleasePath();
+        $this->assertEquals($expected.' rev-parse HEAD', $command);
     }
 
     public function testCanGetCurrentBranch()
     {
         $command = $this->scm->currentBranch();
 
-        $this->assertEquals('git rev-parse --abbrev-ref HEAD', $command);
+        $expected = 'git';
+        $expected .= ' --git-dir=' . $this->releasesManager->getCurrentReleasePath() . '/.git';
+        $expected .= ' --work-tree=' . $this->releasesManager->getCurrentReleasePath();
+        $this->assertEquals($expected.' rev-parse --abbrev-ref HEAD', $command);
     }
 
     public function testCanGetCheckout()
