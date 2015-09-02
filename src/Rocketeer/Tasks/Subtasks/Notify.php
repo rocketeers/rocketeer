@@ -102,6 +102,10 @@ class Notify extends AbstractTask
 
         // Build message
         $message = $this->notifier->getMessageFormat($message);
+        if (!$message) {
+            return;
+        }
+
         $message = preg_replace('#\{([0-9])\}#', '%$1\$s', $message);
         $message = vsprintf($message, $this->getComponents());
 
