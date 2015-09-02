@@ -35,9 +35,12 @@ class Rollback extends AbstractTask
     public function execute()
     {
         $releases = $this->releasesManager->getReleases();
+        if (empty($releases)) {
+            return $this->explainer->error('Rocketeer could not rollback as no releases have yet been deployed');
+        }
 
         // Get previous release
-        $rollbackRelease = $this->getRollbackRelease();
+        $rollbackRelease = $this->getRollbackRelease($releases);
         if (!$rollbackRelease) {
             return $this->explainer->error('Rocketeer could not rollback as no releases have yet been deployed');
         }
@@ -68,13 +71,22 @@ class Rollback extends AbstractTask
     /**
      * Get the release to rollback to.
      *
+     * @param  array
+     *
      * @return int|null
      */
-    protected function getRollbackRelease()
+    protected function getRollbackRelease($releases)
     {
         $release = $this->command->argument('release');
         if (!$release) {
-            $release = $this->releasesManager->getPreviousRelease();
+            // Get previous release number from current release path
+            $release = $this->bash->getReleaseFromCurrentPath();
+            if (!empty($releases)) {
+                $releaseKey = array_search($release, $releases);
+                if (isset($releases[$releaseKey + 1])) {
+                    $release = $releases[$releaseKey + 1];
+                }
+            }
         }
 
         return (string) $release;

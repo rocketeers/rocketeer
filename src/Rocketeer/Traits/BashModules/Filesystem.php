@@ -182,6 +182,16 @@ trait Filesystem
         return $this->runForCurrentRelease($commands);
     }
 
+    /**
+     * Get release name from current path
+     *
+     * @retunr string
+     */
+    public function getReleaseFromCurrentPath()
+    {
+        return $this->run('basename `readlink '.$this->paths->getFolder('current').'`', true);
+    }
+
     ////////////////////////////////////////////////////////////////////
     //////////////////////////////// FILES /////////////////////////////
     ////////////////////////////////////////////////////////////////////

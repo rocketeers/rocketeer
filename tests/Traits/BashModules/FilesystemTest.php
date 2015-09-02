@@ -111,4 +111,11 @@ class FilesystemTest extends RocketeerTestCase
 
         $this->assertEquals($this->files->read($this->server.'/state.json'), $contents);
     }
+
+    public function testCanGetReleaseFromCurrentPath()
+    {
+        $release = $this->bash->getReleaseFromCurrentPath();
+
+        $this->assertEquals($release, '10000000000000');
+    }
 }
