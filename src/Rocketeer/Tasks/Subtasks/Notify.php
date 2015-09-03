@@ -109,10 +109,35 @@ class Notify extends AbstractTask
             return;
         }
 
-        $message = preg_replace('#\{([0-9])\}#', '%$1\$s', $message);
-        $message = vsprintf($message, $this->getComponents());
+        if (is_array($message)) {
+            $components = $this->getComponents();
+            foreach ($message as $key => $value) {
+                $message[$key] = $this->_formatMessage($message[$key], $components);
+            }
+        } else {
+            $message = $this->_formatMessage($message);
+        }
 
         // Send it
         $this->notifier->send($message);
+    }
+
+
+    /**
+     * Format message
+     *
+     * @param  string
+     * @param  array|false
+     *
+     * @return string
+     */
+    private function _formatMessage($message, $components = false)
+    {
+        if (!$components) {
+            $components = $this->getComponents();
+        }
+        $message = preg_replace('#\{([0-9])\}#', '%$1\$s', $message);
+        $message = vsprintf($message, $components);
+        return $message;
     }
 }
