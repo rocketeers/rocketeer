@@ -102,4 +102,20 @@ class AbstractNotifierTest extends RocketeerTestCase
 
         $this->pretendTask('Deploy')->fireEvent('after');
     }
+
+    public function testCanBeforeNotification()
+    {
+        $this->expectOutputString('Jean Eude deploying branch "master" on "production"');
+        $this->localStorage->set('notifier.name', 'Jean Eude');
+
+        $this->task('Before')->fireEvent('before');
+    }
+
+    public function testCanAfterNotification()
+    {
+        $this->expectOutputString('Jean Eude finished deploying branch "master" on "production"');
+        $this->localStorage->set('notifier.name', 'Jean Eude');
+
+        $this->task('After')->fireEvent('after');
+    }
 }

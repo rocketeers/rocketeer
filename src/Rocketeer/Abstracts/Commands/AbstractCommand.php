@@ -289,7 +289,9 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
     {
         $this->prepareEnvironment();
 
-        // Fire tasks and events arround them
+        // Run before tasks
+        $this->builder->buildTask('before')->fire();
+
         $status = $this->runWithBeforeAfterEvents(function () use ($tasks) {
             if ($this->straight) {
                 return $this->builder->buildTask($tasks)->fire();
@@ -299,6 +301,9 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
 
             return $pipeline->succeeded();
         });
+
+        // Run before tasks
+        $this->builder->buildTask('after')->fire();
 
         // Remove command instance
         unset($this->app['rocketeer.command']);
