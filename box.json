@@ -19,8 +19,6 @@
       "exclude": [
         "tests",
 
-        "nesbot",
-
         "johnkary",
         "mockery",
         "nesbot",
