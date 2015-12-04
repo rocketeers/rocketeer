@@ -44,14 +44,14 @@ class FilesystemsMounter
     protected function gatherRemoteFilesystems()
     {
         $connections = $this->connections->getAvailableConnections();
-        $default     = $this->connections->getCurrentConnection()->toHandle();
+        $default = $this->connections->getCurrentConnection()->toHandle();
 
         foreach ($connections as $name => $servers) {
             foreach ($servers['servers'] as $server => $credentials) {
                 $connection = $this->credentials->createConnectionKey($name, $server);
-                $adapter    = new ConnectionKeyAdapter($connection);
+                $adapter = new ConnectionKeyAdapter($connection);
                 $filesystem = new Filesystem($adapter);
-                $handle     = $connection->toHandle();
+                $handle = $connection->toHandle();
 
                 if ($handle === $default) {
                     $this->filesystems['remote'] = $filesystem;

@@ -124,7 +124,7 @@ abstract class AbstractPolyglotStrategy extends AbstractStrategy
     /**
      * Assert that the results of a command are all true.
      *
-     * @param boolean[] $results
+     * @param bool[] $results
      *
      * @return bool
      */

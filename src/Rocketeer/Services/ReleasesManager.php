@@ -72,7 +72,7 @@ class ReleasesManager
     /**
      * Get all the releases on the server.
      *
-     * @return integer[]
+     * @return int[]
      */
     public function getReleases()
     {
@@ -98,7 +98,7 @@ class ReleasesManager
     /**
      * Get an array of non-current releases.
      *
-     * @return integer[]
+     * @return int[]
      */
     public function getNonCurrentReleases()
     {
@@ -110,7 +110,7 @@ class ReleasesManager
      *
      * @param int|null $treshold
      *
-     * @return integer[]
+     * @return int[]
      */
     public function getDeprecatedReleases($treshold = null)
     {
@@ -131,7 +131,7 @@ class ReleasesManager
     /**
      * Get an array of valid releases.
      *
-     * @return integer[]
+     * @return int[]
      */
     public function getValidReleases()
     {
@@ -144,7 +144,7 @@ class ReleasesManager
     /**
      * Get an array of invalid releases.
      *
-     * @return integer[]
+     * @return int[]
      */
     public function getInvalidReleases()
     {

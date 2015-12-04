@@ -157,9 +157,9 @@ class CredentialsGatherer
     /**
      * Loop through credentials and store the missing ones.
      *
-     * @param boolean[] $rules
-     * @param string[]  $current
-     * @param string    $handle
+     * @param bool[]   $rules
+     * @param string[] $current
+     * @param string   $handle
      *
      * @return string[]
      */

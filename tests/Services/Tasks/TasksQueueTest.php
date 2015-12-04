@@ -30,7 +30,7 @@ class TasksQueueTest extends RocketeerTestCase
         $this->expectOutputString('JOEY DOESNT SHARE FOOD');
         $this->queue->run([
             function () {
-                print 'JOEY DOESNT SHARE FOOD';
+                echo 'JOEY DOESNT SHARE FOOD';
             },
         ], $this->getCommand());
     }

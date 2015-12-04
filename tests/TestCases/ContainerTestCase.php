@@ -128,7 +128,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
     {
         $message = function ($message) use ($print) {
             if ($print) {
-                print $message;
+                echo $message;
             }
 
             return $message;
@@ -214,7 +214,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
             return $this->files->upsert($file, $contents);
         });
         $remote->shouldReceive('display')->andReturnUsing(function ($line) {
-            print $line.PHP_EOL;
+            echo $line.PHP_EOL;
         });
 
         if (is_array($mockedOutput)) {

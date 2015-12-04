@@ -122,7 +122,7 @@ class QueueTimer
 
     /**
      * @param IdentifierInterface $entity
-     * @param double[]            $past
+     * @param float[]             $past
      */
     public function saveTimes(IdentifierInterface $entity, array $past)
     {
