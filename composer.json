@@ -19,34 +19,32 @@
   ],
   "require": {
     "php": ">=5.5.9",
-    "anahkiasen/php-reference-dumper": "^1.0",
-    "illuminate/container": "^5.0",
-    "illuminate/support": "^5.0",
+    "anahkiasen/php-reference-dumper": "1.0.1",
+    "illuminate/container": "^5.1",
+    "illuminate/support": "^5.1",
     "jeremeamia/superclosure": "^2.1",
     "kherge/amend": "^3.0",
     "kzykhys/parallel": "^0.1.0",
     "league/event": "^2.1",
-    "league/flysystem": "^1.0.2",
+    "league/flysystem": "^1.0",
     "league/flysystem-sftp": "^1.0",
-    "nesbot/carbon": "^1.19",
+    "nesbot/carbon": "^1.21",
     "patchwork/utf8": "^1.2",
-    "phpseclib/phpseclib": "^0.3.10",
-    "symfony/config": "^2.7",
-    "symfony/console": "^2.7",
-    "symfony/var-dumper": "^2.7"
+    "phpseclib/phpseclib": "^2.0",
+    "psy/psysh": "^0.6.1",
+    "symfony/config": "^2.8",
+    "symfony/console": "^2.8",
+    "symfony/var-dumper": "^2.8"
   },
   "require-dev": {
-    "fabpot/php-cs-fixer": "2.0.*@dev",
-    "johnkary/phpunit-speedtrap": "~1.0@dev",
-    "kherge/box": "^2.5",
+    "fabpot/php-cs-fixer": "2.0.x@dev",
+    "kherge/box": "^2.6",
     "league/flysystem-vfs": "^1.0",
     "mockery/mockery": "^0.9.4",
-    "phpunit/phpunit": "^4.7",
-    "psy/psysh": "^0.4.4",
-    "rocketeers/rocketeer-laravel": "1.0.*@dev"
+    "phpunit/phpunit": "^5.1",
+    "rocketeers/rocketeer-laravel": "1.0.x@dev"
   },
   "suggest": {
-    "psy/psysh": "Required for the 'tinker' command",
     "anahkiasen/rocketeer-campfire": "Campfire plugin to create deployments notifications",
     "anahkiasen/rocketeer-slack": "Slack plugin to create deployments notifications",
     "ext-pcntl": "Allow parallel deployments"
