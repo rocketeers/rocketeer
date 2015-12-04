@@ -86,7 +86,6 @@ class FilesystemTest extends RocketeerTestCase
     {
         $contents = $this->task->listContents($this->server);
 
-        $this->assertContains('current', $contents);
         $this->assertContains('releases', $contents);
         $this->assertContains('shared', $contents);
         $this->assertContains('state.json', $contents);

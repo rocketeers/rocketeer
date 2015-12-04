@@ -137,7 +137,7 @@ class RocketeerServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton('files', function () {
-            $local = new Filesystem(new Local('/'));
+            $local = new Filesystem(new Local('/', LOCK_EX, Local::SKIP_LINKS));
             $local->addPlugin(new RequirePlugin());
             $local->addPlugin(new IsDirectoryPlugin());
             $local->addPlugin(new IncludePlugin());
