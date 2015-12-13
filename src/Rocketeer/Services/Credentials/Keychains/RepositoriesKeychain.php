@@ -74,9 +74,13 @@ trait RepositoriesKeychain
             $credentials = $password ? $username.':'.$password : $username;
             $credentials .= '@';
 
-            // Add them in chain
+            // Add them in chain (for secure protocol)
             $repository = preg_replace('#https://(.+)@#', 'https://', $repository);
             $repository = str_replace('https://', 'https://'.$credentials, $repository);
+
+            //unsecure protocol repository access is also possible
+            $repository = preg_replace('#http://(.+)@#', 'http://', $repository);
+            $repository = str_replace('http://', 'http://'.$credentials, $repository);
         }
 
         return $repository;
