@@ -26,7 +26,7 @@
     "kherge/amend": "^3.0",
     "kzykhys/parallel": "^0.1.0",
     "league/event": "^2.1",
-    "league/flysystem": "^1.0",
+    "league/flysystem": "^1.0.8",
     "league/flysystem-sftp": "^1.0",
     "nesbot/carbon": "^1.21",
     "patchwork/utf8": "^1.3",
