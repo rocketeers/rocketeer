@@ -41,7 +41,7 @@
     "kherge/box": "^2.6",
     "league/flysystem-vfs": "^1.0",
     "mockery/mockery": "^0.9.4",
-    "phpunit/phpunit": "^5.2",
+    "phpunit/phpunit": "^5.1",
     "rocketeers/rocketeer-laravel": "1.0.x@dev"
   },
   "suggest": {
