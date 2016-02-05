@@ -18,7 +18,7 @@
     }
   ],
   "require": {
-    "php": ">=5.5.9",
+    "php": ">=5.6.0",
     "anahkiasen/php-reference-dumper": "^1.0",
     "illuminate/container": "^5.2",
     "illuminate/support": "^5.2",
@@ -41,7 +41,7 @@
     "kherge/box": "^2.6",
     "league/flysystem-vfs": "^1.0",
     "mockery/mockery": "^0.9.4",
-    "phpunit/phpunit": "^5.1",
+    "phpunit/phpunit": "^5.2",
     "rocketeers/rocketeer-laravel": "1.0.x@dev"
   },
   "suggest": {
