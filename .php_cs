@@ -1,8 +1,10 @@
 <?php
-use Symfony\CS\Config\Config;
-use Symfony\CS\Finder\DefaultFinder;
+use PhpCsFixer\Config;
+use PhpCsFixer\Finder;
 
-$finder = DefaultFinder::create()->in(['bin', 'src', 'tests']);
+require 'vendor/autoload.php';
+
+$finder = Finder::create()->in(['bin', 'src', 'tests']);
 $header = <<<EOF
 This file is part of Rocketeer
 
@@ -15,22 +17,22 @@ EOF;
 return Config::create()
              ->setRiskyAllowed(true)
              ->setRules([
-                 'header_comment'                    => ['header' => $header],
-                 '@Symfony'                          => true,
-                 'ereg_to_preg'                      => true,
-                 'function_typehint_space'           => true,
-                 'multiline_spaces_before_semicolon' => true,
-                 'ordered_use'                       => true,
-                 'php4_constructor'                  => true,
-                 'php_unit_construct'                => true,
-                 'php_unit_strict'                   => false,
-                 'phpdoc_order'                      => true,
-                 'phpdoc_types'                      => true,
-                 'psr0'                              => true,
-                 'short_array_syntax'                => true,
-                 'short_echo_tag'                    => true,
-                 'strict'                            => true,
-                 'strict_param'                      => true,
+                 '@Symfony'                                  => true,
+                 'header_comment'                            => ['header' => $header],
+                 'ereg_to_preg'                              => true,
+                 'linebreak_after_opening_tag'               => true,
+                 'no_multiline_whitespace_before_semicolons' => true,
+                 'no_php4_constructor'                       => true,
+                 'no_short_echo_tag'                         => true,
+                 'ordered_imports'                           => true,
+                 'php_unit_construct'                        => true,
+                 'php_unit_strict'                           => false,
+                 'phpdoc_order'                              => true,
+                 'phpdoc_property'                           => true,
+                 'psr0'                                      => true,
+                 'short_array_syntax'                        => true,
+                 'strict'                                    => true,
+                 'strict_param'                              => true,
              ])
              ->setUsingCache(true)
              ->finder($finder);
