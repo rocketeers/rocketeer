@@ -83,7 +83,7 @@ class Check extends AbstractTask
     public function checkScm()
     {
         // Cancel if not using any SCM
-        if ($this->rocketeer->getOption('strategies.deploy') === 'sync') {
+        if ($this->rocketeer->getOption('strategies.deploy') === 'Sync') {
             return true;
         }
 

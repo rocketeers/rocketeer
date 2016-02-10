@@ -33,7 +33,7 @@ class CheckTest extends RocketeerTestCase
         $this->usesComposer();
 
         $this->swapConfig([
-            'strategies.deploy' => 'sync',
+            'strategies.deploy' => 'Sync',
         ]);
 
         $this->assertTaskHistory('Check', [
