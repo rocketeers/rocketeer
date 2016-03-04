@@ -19,11 +19,8 @@
       "exclude": [
         "tests",
 
-        "nesbot",
-
         "johnkary",
         "mockery",
-        "nesbot",
         "phpdocumentor",
         "phpspec",
         "phpunit",
