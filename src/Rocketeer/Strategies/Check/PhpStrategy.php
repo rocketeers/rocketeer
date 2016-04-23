@@ -78,11 +78,14 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
     public function extensions()
     {
         $extensions = [
-            'mcrypt'   => ['checkPhpExtension', 'mcrypt'],
             'database' => ['checkDatabaseDriver', $this->app['config']->get('database.default')],
             'cache'    => ['checkCacheDriver', $this->app['config']->get('cache.driver')],
             'session'  => ['checkCacheDriver', $this->app['config']->get('session.driver')],
         ];
+
+        foreach ($this->getRequiredExtensionsFromComposer() as $extension) {
+            $extensions[$extension] = ['checkPhpExtension', $extension];
+        }
 
         // Check PHP extensions
         $errors = [];
@@ -95,6 +98,32 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
         }
 
         return $errors;
+    }
+
+    /**
+     * @return array
+     */
+    private function getRequiredExtensionsFromComposer()
+    {
+        $extensions = [];
+
+        if (!$manifest = $this->manager->getManifestContents()) {
+            return $extensions;
+        }
+
+        $data = json_decode($manifest, true);
+
+        if (!array_key_exists('require', $data)) {
+            return $extensions;
+        }
+
+        foreach ($data['require'] as $package => $version) {
+            if ('ext-' === substr($package, 0, 4)) {
+                $extensions[] = substr($package, 4);
+            }
+        }
+
+        return $extensions;
     }
 
     /**
