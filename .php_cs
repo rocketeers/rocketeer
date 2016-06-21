@@ -4,15 +4,7 @@ use PhpCsFixer\Finder;
 
 require 'vendor/autoload.php';
 
-$header = <<<EOF
-This file is part of Rocketeer
-
-(c) Maxime Fabre <ehtnam6@gmail.com>
-
-For the full copyright and license information, please view the LICENSE
-file that was distributed with this source code.
-EOF;
-
+$header = file_get_contents(__DIR__.'/bin/banner.txt');
 $finder = Finder::create()->in([
     'bin',
     'src',
