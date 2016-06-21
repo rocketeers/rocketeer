@@ -203,10 +203,8 @@ class CredentialsGatherer
         switch ($type) {
             case 'keyphrase':
                 return $this->gatherCredential($handle, 'keyphrase', 'If a keyphrase is required, provide it');
-
             case 'key':
                 return $this->command->option('key') ?: $this->ask('askWith', 'Please enter the full path to your key', $keyPath);
-
             case 'password':
                 return $this->gatherCredential($handle, 'password');
         }
@@ -316,10 +314,9 @@ class CredentialsGatherer
             $rules['keyphrase'] = true;
 
             return ['password'];
-        } else {
-            $rules['password'] = true;
-
-            return ['key', 'keyphrase'];
         }
+        $rules['password'] = true;
+
+        return ['key', 'keyphrase'];
     }
 }

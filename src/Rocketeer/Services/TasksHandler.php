@@ -196,8 +196,8 @@ class TasksHandler
 
         // Get the registered events
         $hooks = (array) $this->rocketeer->getOption('hooks');
-        unset($hooks['custom']);
-        unset($hooks['roles']);
+        unset($hooks['custom'], $hooks['roles']);
+
 
         // Bind events
         foreach ($hooks as $event => $tasks) {

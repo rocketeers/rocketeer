@@ -10,7 +10,6 @@
  */
 
 return [
-
     // Here you can customize Rocketeer by adding tasks, strategies, etc.
     //////////////////////////////////////////////////////////////////////
 

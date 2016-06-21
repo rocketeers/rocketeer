@@ -185,7 +185,7 @@ class AbstractTaskTest extends RocketeerTestCase
         $task = $this->builder->buildTask(MyCustomHaltingTask::class);
 
         $this->tasks->after($task, function () {
-           echo 'fired';
+            echo 'fired';
         });
 
         $task->fire();

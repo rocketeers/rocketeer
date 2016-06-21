@@ -119,10 +119,8 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
         switch ($database) {
             case 'sqlite':
                 return $this->checkPhpExtension('pdo_sqlite');
-
             case 'mysql':
                 return $this->checkPhpExtension('mysql') && $this->checkPhpExtension('pdo_mysql');
-
             default:
                 return true;
         }
@@ -141,10 +139,8 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
             case 'memcached':
             case 'apc':
                 return $this->checkPhpExtension($cache);
-
             case 'redis':
                 return $this->which('redis-server');
-
             default:
                 return true;
         }

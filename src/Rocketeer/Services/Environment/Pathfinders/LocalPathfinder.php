@@ -31,9 +31,8 @@ class LocalPathfinder extends AbstractPathfinder
             // Else use the home drive (Windows)
         } elseif (!empty($_SERVER['HOMEDRIVE']) && !empty($_SERVER['HOMEPATH'])) {
             return $_SERVER['HOMEDRIVE'].$_SERVER['HOMEPATH'];
-        } else {
-            throw new Exception('Cannot determine user home directory.');
         }
+        throw new Exception('Cannot determine user home directory.');
     }
 
     /**

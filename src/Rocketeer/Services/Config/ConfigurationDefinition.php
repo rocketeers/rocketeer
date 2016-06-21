@@ -83,7 +83,7 @@ class ConfigurationDefinition implements ConfigurationInterface
                     ->prototype('scalar')->end()
                 ->end()
                 ->arrayNode('connections')
-                    ->info(<<< EOF
+                    ->info(<<< 'EOF'
 You can leave all of this empty or remove it entirely if you don't want
 to track files with credentials : Rocketeer will prompt you for your credentials
 and store them locally.
@@ -150,7 +150,7 @@ EOF
                     ->end()
                 ->end()
                 ->booleanNode('use_roles')
-                    ->info(<<< EOF
+                    ->info(<<< 'EOF'
 In most multiserver scenarios, migrations must be run in an exclusive server.
 In the event of not having a separate database server (in which case it can
 be handled through connections), you can assign a 'db_role' => true to the
@@ -161,7 +161,7 @@ EOF
                     ->defaultFalse()
                 ->end()
                 ->arrayNode('on')
-                    ->info(<<< EOF
+                    ->info(<<< 'EOF'
 In this section you can fine-tune the above configuration according
 to the stage or connection currently in use.
 Per example :

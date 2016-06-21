@@ -10,7 +10,6 @@
  */
 
 return [
-
     // Here you can configure in a modular way which tasks to use to execute various core parts of your deployment's flow
     //////////////////////////////////////////////////////////////////////
 

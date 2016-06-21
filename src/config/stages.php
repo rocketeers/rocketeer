@@ -10,7 +10,6 @@
  */
 
 return [
-
     // The multiples stages of your application.
     // If you don't know what this does, then you don't need it
     //////////////////////////////////////////////////////////////////////

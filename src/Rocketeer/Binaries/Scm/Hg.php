@@ -105,7 +105,6 @@ class Hg extends AbstractBinary implements ScmInterface
      */
     public function submodules()
     {
-        return;
     }
 
     //////////////////////////////////////////////////////////////////////

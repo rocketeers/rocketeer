@@ -112,7 +112,7 @@ class RepositoriesKeychainTest extends RocketeerTestCase
     public function testUsesConfigBeforeTryingToGuessBranch()
     {
         $this->mock('rocketeer.bash', 'Bash', function (MockInterface $mock) {
-           return $mock->shouldReceive('onLocal')->never();
+            return $mock->shouldReceive('onLocal')->never();
         });
 
         $this->credentials->getCurrentRepository();

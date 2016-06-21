@@ -75,7 +75,6 @@ class StepsRunnerTest extends RocketeerTestCase
         $this->expectFiredEvent('tasks.cleanup.foobar.after');
 
         $this->task->steps()->addStepWithEvents('foobar', function () {
-
         });
 
         $this->task->runSteps();

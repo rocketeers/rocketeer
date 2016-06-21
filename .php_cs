@@ -4,7 +4,6 @@ use PhpCsFixer\Finder;
 
 require 'vendor/autoload.php';
 
-$finder = Finder::create()->in(['bin', 'src', 'tests']);
 $header = <<<EOF
 This file is part of Rocketeer
 
@@ -14,25 +13,50 @@ For the full copyright and license information, please view the LICENSE
 file that was distributed with this source code.
 EOF;
 
+$finder = Finder::create()->in([
+    'bin',
+    'src',
+    'tests',
+]);
+
 return Config::create()
              ->setRiskyAllowed(true)
              ->setRules([
-                 '@Symfony'                                  => true,
-                 'header_comment'                            => ['header' => $header],
-                 'ereg_to_preg'                              => true,
-                 'linebreak_after_opening_tag'               => true,
+                 '@Symfony' => true,
+                 'align_double_arrow' => false,
+                 'align_equals' => false,
+                 'combine_consecutive_unsets' => true,
+                 'concat_with_spaces' => false,
+                 'dir_constant' => true,
+                 'echo_to_print' => false,
+                 'ereg_to_preg' => true,
+                 'general_phpdoc_annotation_remove' => false,
+                 'general_phpdoc_annotation_rename' => false,
+                 'header_comment' => ['header' => $header],
+                 'linebreak_after_opening_tag' => true,
+                 'long_array_syntax' => false,
+                 'modernize_types_casting' => true,
+                 'no_blank_lines_before_namespace' => false,
                  'no_multiline_whitespace_before_semicolons' => true,
-                 'no_php4_constructor'                       => true,
-                 'no_short_echo_tag'                         => true,
-                 'ordered_imports'                           => true,
-                 'php_unit_construct'                        => true,
-                 'php_unit_strict'                           => false,
-                 'phpdoc_order'                              => true,
-                 'phpdoc_property'                           => true,
-                 'psr0'                                      => true,
-                 'short_array_syntax'                        => true,
-                 'strict'                                    => true,
-                 'strict_param'                              => true,
+                 'no_php4_constructor' => true,
+                 'no_short_echo_tag' => true,
+                 'no_useless_else' => true,
+                 'no_useless_return' => true,
+                 'not_operator_with_space' => false,
+                 'not_operator_with_successor_space' => false,
+                 'ordered_class_elements' => false,
+                 'ordered_imports' => true,
+                 'php_unit_construct' => true,
+                 'php_unit_dedicate_assert' => true,
+                 'php_unit_strict' => false,
+                 'phpdoc_order' => true,
+                 'phpdoc_property' => true,
+                 'phpdoc_var_to_type' => false,
+                 'psr0' => true,
+                 'psr4' => true,
+                 'random_api_migration' => true,
+                 'short_array_syntax' => true,
+                 'strict_comparison' => true,
+                 'strict_param' => true,
              ])
-             ->setUsingCache(true)
              ->finder($finder);

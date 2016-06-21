@@ -41,6 +41,5 @@ class Bundler extends AbstractPackageManager
      */
     public function getDependenciesFolder()
     {
-        return;
     }
 }

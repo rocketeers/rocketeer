@@ -216,7 +216,7 @@ class RemoteHandlerTest extends RocketeerTestCase
         $this->expectOutputString('connected');
 
         $this->events->addListener('connected.production', function () {
-           echo 'connected';
+            echo 'connected';
         });
 
         $this->swapConnections([

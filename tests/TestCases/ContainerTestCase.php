@@ -97,7 +97,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         $serviceProvider->register();
 
         $this->app->singleton('flysystem', function () {
-           return new MountManager(['local' => $this->files, 'remote' => $this->files]);
+            return new MountManager(['local' => $this->files, 'remote' => $this->files]);
         });
 
         $this->swapConfig();

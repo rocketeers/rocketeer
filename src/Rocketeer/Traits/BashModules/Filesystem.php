@@ -64,7 +64,6 @@ trait Filesystem
         switch ($this->environment->getOperatingSystem()) {
             case 'Linux':
                 return $this->symlinkSwap($folder, $symlink);
-
             default:
                 if ($this->fileExists($symlink)) {
                     $this->removeFolder($symlink);
