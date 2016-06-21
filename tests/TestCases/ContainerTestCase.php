@@ -14,7 +14,6 @@ namespace Rocketeer\TestCases;
 use Closure;
 use Illuminate\Container\Container;
 use League\Flysystem\MountManager;
-use League\Flysystem\Vfs\VfsAdapter;
 use Mockery;
 use PHPUnit_Framework_TestCase;
 use Rocketeer\Abstracts\Commands\AbstractCommand;
