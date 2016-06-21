@@ -11,6 +11,7 @@
 
 namespace Rocketeer\Services;
 
+use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Console\Commands\BaseTaskCommand;
 use Rocketeer\Dummies\DummyNotifier;
 use Rocketeer\Dummies\Plugins\DummyBuilderPlugin;
@@ -55,7 +56,7 @@ class TasksHandlerTest extends RocketeerTestCase
     {
         $this->disableTestEvents();
         $task = $this->task('Deploy');
-        $after = $this->tasks->getTasksListeners($task, 'after', true);
+        $this->tasks->getTasksListeners($task, 'after', true);
         $this->tasks->after('deploy', [
             'composer install',
             'bower install',
@@ -70,7 +71,7 @@ class TasksHandlerTest extends RocketeerTestCase
             'default' => 'production',
         ]);
 
-        $this->tasks->task('foobar', function ($task) {
+        $this->tasks->task('foobar', function (AbstractTask $task) {
             $task->runForCurrentRelease('ls');
         });
 

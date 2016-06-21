@@ -11,6 +11,7 @@
 
 namespace Rocketeer\Services\Storages;
 
+use Exception;
 use Illuminate\Contracts\Container\Container;
 use Rocketeer\Abstracts\AbstractStorage;
 use Rocketeer\Interfaces\StorageInterface;
@@ -199,8 +200,11 @@ class LocalStorage extends AbstractStorage implements StorageInterface
     {
         $this->contents = $contents;
 
-        // Yup. Don't look at me like that.
-        @$this->files->put($this->getFilepath(), json_encode($contents));
+        try {
+            $this->files->put($this->getFilepath(), json_encode($contents));
+        } catch (Exception $e) {
+            // ...
+        }
     }
 
     /**

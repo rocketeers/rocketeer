@@ -93,17 +93,13 @@ class LogsHandler
 
         // Get the namer closure
         $namer = $this->config->get('logs');
-
-        // Cancel if invalid namer
-        if (!$namer) {
+        $name = is_callable($namer) ? $namer($this->connections) : $namer;
+        if (!$name) {
             return false;
         }
 
-        // Compute name
-        $name = is_callable($namer) ? $namer($this->connections) : $namer;
-        $name = $this->app['path.rocketeer.logs'].'/'.$name;
-
         // Save for reuse
+        $name = $this->app['path.rocketeer.logs'].'/'.$name;
         $this->name[$hash] = $name;
 
         return $name;
@@ -116,7 +112,12 @@ class LogsHandler
      */
     public function getLogs()
     {
-        return array_get($this->logs, $this->getCurrentLogsFile());
+        $current = (string) $this->getCurrentLogsFile();
+        if (!$current) {
+            return $this->logs[0];
+        }
+
+        return array_get($this->logs, $current);
     }
 
     /**

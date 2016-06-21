@@ -14,6 +14,7 @@ namespace Rocketeer\TestCases;
 use Closure;
 use Illuminate\Container\Container;
 use League\Flysystem\MountManager;
+use League\Flysystem\Vfs\VfsAdapter;
 use Mockery;
 use PHPUnit_Framework_TestCase;
 use Rocketeer\Abstracts\Commands\AbstractCommand;
@@ -76,9 +77,9 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         // Paths -------------------------------------------------------- /
 
         $this->app->instance('path.base', '/src');
-        $this->app->instance('path', '/src/app');
-        $this->app->instance('path.public', '/src/public');
-        $this->app->instance('path.storage', '/src/app/storage');
+        $this->app->instance('path', $this->app['path.base'].'/app');
+        $this->app->instance('path.public', $this->app['path.base'].'/public');
+        $this->app->instance('path.storage', $this->app['path'].'/storage');
 
         // Create local paths
         $this->home = $_SERVER['HOME'];
@@ -97,7 +98,10 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         $serviceProvider->register();
 
         $this->app->singleton('flysystem', function () {
-            return new MountManager(['local' => $this->files, 'remote' => $this->files]);
+            return new MountManager([
+                'local' => $this->files,
+                'remote' => $this->files,
+            ]);
         });
 
         $this->swapConfig();

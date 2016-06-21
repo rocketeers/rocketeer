@@ -64,7 +64,7 @@ class LocalStorageTest extends RocketeerTestCase
 
     public function testCanSwitchFolder()
     {
-        $storage = new LocalStorage($this->app, 'foo', '/foo');
+        $storage = new LocalStorage($this->app, 'foo', $this->app['path.base']);
         $storage->setFolder($this->server);
         $file = $storage->getFilepath();
 

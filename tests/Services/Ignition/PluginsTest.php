@@ -85,7 +85,7 @@ class PluginsTest extends RocketeerTestCase
     {
         $paths = $this->plugins->findPackageConfiguration('foo/bar');
 
-        $this->assertContains('/src/vendor/foo/bar/src/config', $paths);
+        $this->assertContains($this->app['path.base'].'/vendor/foo/bar/src/config', $paths);
         $this->assertContains($this->home.'/.composer/vendor/foo/bar/src/config', $paths);
         $this->assertContains($this->home.'/.rocketeer/vendor/foo/bar/src/config', $paths);
     }
