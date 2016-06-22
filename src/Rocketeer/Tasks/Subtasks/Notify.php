@@ -69,10 +69,13 @@ class Notify extends AbstractTask
     protected function getComponents()
     {
         // Get user name
-        $user = $this->localStorage->get('notifier.name');
+        $user = $this->command->option('user');
         if (!$user) {
-            $user = $this->command->ask('Who is deploying ?');
-            $this->localStorage->set('notifier.name', $user);
+            $user = $_SERVER['USER'];
+            if (!$user) {
+                $this->explainer->line('The user name is required. --user or $USER environment variables.');
+                $this->halt();
+            }
         }
 
         // Get what was deployed
@@ -102,10 +105,39 @@ class Notify extends AbstractTask
 
         // Build message
         $message = $this->notifier->getMessageFormat($message);
-        $message = preg_replace('#\{([0-9])\}#', '%$1\$s', $message);
-        $message = vsprintf($message, $this->getComponents());
+        if (!$message) {
+            return;
+        }
+
+        if (is_array($message)) {
+            $components = $this->getComponents();
+            foreach ($message as $key => $value) {
+                $message[$key] = $this->_formatMessage($message[$key], $components);
+            }
+        } else {
+            $message = $this->_formatMessage($message);
+        }
 
         // Send it
         $this->notifier->send($message);
+    }
+
+
+    /**
+     * Format message
+     *
+     * @param  string
+     * @param  array|false
+     *
+     * @return string
+     */
+    private function _formatMessage($message, $components = false)
+    {
+        if (!$components) {
+            $components = $this->getComponents();
+        }
+        $message = preg_replace('#\{([0-9])\}#', '%$1\$s', $message);
+        $message = vsprintf($message, $components);
+        return $message;
     }
 }

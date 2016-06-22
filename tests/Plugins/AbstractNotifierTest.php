@@ -42,14 +42,7 @@ class AbstractNotifierTest extends RocketeerTestCase
     {
         $this->expectOutputString('foobar finished deploying rocketeers/rocketeer/master on "production/staging" (foo.bar.com)');
 
-        $this->mockCommand([], ['ask' => 'foobar']);
-        $this->mock('rocketeer.storage.local', 'LocalStorage', function (MockInterface $mock) {
-            return $mock
-                ->shouldIgnoreMissing()
-                ->shouldReceive('get')->with('connections')
-                ->shouldReceive('get')->with('notifier.name')->andReturn(null)
-                ->shouldReceive('set')->once()->with('notifier.name', 'foobar');
-        });
+        $_SERVER['USER'] = 'foobar';
         $this->mock('rocketeer.connections', 'ConnectionsHandler', function (MockInterface $mock) {
             $handle = new ConnectionKey(['name' => 'production', 'server' => 0, 'stage' => 'staging']);
             $handle->servers = [['host' => 'foo.bar.com']];
@@ -72,7 +65,7 @@ class AbstractNotifierTest extends RocketeerTestCase
     public function testCanAppendStageToDetails()
     {
         $this->expectOutputString('Jean Eude finished deploying Anahkiasen/html-object/master on "production/staging" (foo.bar.com)');
-        $this->localStorage->set('notifier.name', 'Jean Eude');
+        $_SERVER['USER'] = 'Jean Eude';
         $this->tasks->registerConfiguredEvents();
         $this->connections->setStage('staging');
 
@@ -82,7 +75,7 @@ class AbstractNotifierTest extends RocketeerTestCase
     public function testCanSendDeploymentsNotifications()
     {
         $this->expectOutputString('Jean Eude finished deploying Anahkiasen/html-object/master on "production" (foo.bar.com)');
-        $this->localStorage->set('notifier.name', 'Jean Eude');
+        $_SERVER['USER'] = 'Jean Eude';
 
         $this->task('Deploy')->fireEvent('after');
     }
@@ -90,7 +83,7 @@ class AbstractNotifierTest extends RocketeerTestCase
     public function testCanSendRollbackNotifications()
     {
         $this->expectOutputString('Jean Eude rolled back Anahkiasen/html-object/master on "production" to previous version (foo.bar.com)');
-        $this->localStorage->set('notifier.name', 'Jean Eude');
+        $_SERVER['USER'] = 'Jean Eude';
 
         $this->task('Rollback')->fireEvent('after');
     }
@@ -98,7 +91,7 @@ class AbstractNotifierTest extends RocketeerTestCase
     public function testDoesntSendNotificationsInPretendMode()
     {
         $this->expectOutputString('');
-        $this->localStorage->set('notifier.name', 'Jean Eude');
+        $_SERVER['USER'] = 'Jean Eude';
 
         $this->pretendTask('Deploy')->fireEvent('after');
     }
