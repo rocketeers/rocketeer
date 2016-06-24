@@ -23,7 +23,7 @@
     "illuminate/container": "^5.2",
     "illuminate/support": "^5.2",
     "jeremeamia/superclosure": "^2.2",
-    "kherge/amend": "3.0.x@dev",
+    "kherge/amend": "dev-master",
     "kzykhys/parallel": "^0.1.0",
     "league/event": "^2.1",
     "league/flysystem": "^1.0.8",
