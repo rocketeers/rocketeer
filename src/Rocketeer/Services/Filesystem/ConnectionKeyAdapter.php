@@ -26,7 +26,7 @@ class ConnectionKeyAdapter extends SftpAdapter
             'username' => $connectionKey->username,
             'password' => $connectionKey->password,
             'privateKey' => $connectionKey->key,
-            'root' => $connectionKey->root_directory,
+            'root' => '/',
         ]);
     }
 }
