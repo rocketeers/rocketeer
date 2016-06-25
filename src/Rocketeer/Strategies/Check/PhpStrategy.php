@@ -214,11 +214,40 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
      */
     protected function getExtensions()
     {
-        return [
-            'mcrypt' => ['checkPhpExtension', 'mcrypt'],
+        $extensions = [
             'database' => ['checkDatabaseDriver', $this->app['rocketeer.config']->get('database.default')],
             'cache' => ['checkCacheDriver', $this->app['rocketeer.config']->get('cache.driver')],
             'session' => ['checkCacheDriver', $this->app['rocketeer.config']->get('session.driver')],
         ];
+
+        foreach ($this->getRequiredExtensionsFromComposer() as $extension) {
+            $extensions[$extension] = ['checkPhpExtension', $extension];
+        }
+
+        return $extensions;
+    }
+
+    /**
+     * Get a list of extensions specified in the composer.json file
+     *
+     * @return string[]
+     */
+    private function getRequiredExtensionsFromComposer()
+    {
+        $extensions = [];
+
+        if (!$manifest = $this->manager->getManifestContents()) {
+            return $extensions;
+        }
+
+        $data = json_decode($manifest, true);
+        $require = (array) array_get($data, 'require');
+        foreach ($require as $package => $version) {
+            if (substr($package, 0, 4) === 'ext-') {
+                $extensions[] = substr($package, 4);
+            }
+        }
+
+        return $extensions;
     }
 }
