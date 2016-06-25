@@ -16,14 +16,24 @@ use Illuminate\Support\Str;
 class ServerPathfinder extends AbstractPathfinder
 {
     /**
+     * @return string
+     */
+    public function getRootDirectory()
+    {
+        $rootDirectory = $this->connections->getCurrentConnection()->root_directory;
+        $rootDirectory = Str::finish($rootDirectory, '/');
+
+        return $rootDirectory;
+    }
+
+    /**
      * Get the path to the root folder of the application.
      *
      * @return string
      */
     public function getHomeFolder()
     {
-        $rootDirectory = $this->connections->getCurrentConnection()->root_directory;
-        $rootDirectory = Str::finish($rootDirectory, '/');
+        $rootDirectory = $this->getRootDirectory();
         $appDirectory = $this->rocketeer->getOption('remote.app_directory') ?: $this->rocketeer->getApplicationName();
 
         return $rootDirectory.$appDirectory;
@@ -58,6 +68,7 @@ class ServerPathfinder extends AbstractPathfinder
     public function provides()
     {
         return [
+            'getRootDirectory',
             'getHomeFolder',
             'getFolder',
         ];
