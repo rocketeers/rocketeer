@@ -67,7 +67,12 @@ class PhpStrategyTest extends RocketeerTestCase
 
     public function testCanCheckForHhvmExtensions()
     {
-        $this->mockRemote('1');
+        $this->mockRemote([
+            'which php' => '/usr/bin/php',
+            'which /usr/bin/php' => '/usr/bin/php',
+            '/usr/bin/php -r "print defined(\'HHVM_VERSION\');"' => 1,
+        ]);
+
         $exists = $this->strategy->checkPhpExtension('_hhvm');
 
         $this->assertTrue($exists);

@@ -38,6 +38,11 @@ trait Core
      */
     protected $local = false;
 
+    /**
+     * @var string
+     */
+    protected $extraOutput = null;
+
     //////////////////////////////////////////////////////////////////////
     /////////////////////////////// LOCAL ////////////////////////////////
     //////////////////////////////////////////////////////////////////////
@@ -115,6 +120,12 @@ trait Core
         $commands = $this->processCommands($commands);
         $verbose = $this->getOption('verbose') && !$silent;
         $pretend = $this->getOption('pretend');
+
+        // Gather any extra output of the server
+        // to be able to clean it up after
+        if ($this->extraOutput === null && !$pretend) {
+            $this->extraOutput = $this->getExtraOutput();
+        }
 
         // Log the commands
         if (!$silent) {
@@ -284,6 +295,20 @@ trait Core
         return $timestamp;
     }
 
+    /**
+     * @return string
+     */
+    public function getExtraOutput()
+    {
+        $output = $this->runRaw([$this->shellCommand('echo ROCKETEER')]);
+        $output = str_replace('ROCKETEER', null, $output);
+        if ($output === "\n") {
+            return;
+        }
+
+        return str_replace("\n\n", "\n", $output);
+    }
+
     ////////////////////////////////////////////////////////////////////
     ///////////////////////////// PROCESSORS ///////////////////////////
     ////////////////////////////////////////////////////////////////////
@@ -366,6 +391,8 @@ trait Core
      */
     protected function cleanOutput($output)
     {
+        $output = str_replace($this->extraOutput, null, $output);
+
         return strtr($output, [
             'stdin: is not a tty' => null,
         ]);

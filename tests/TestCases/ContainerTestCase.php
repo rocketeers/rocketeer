@@ -190,9 +190,17 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
      */
     protected function getRemote($mockedOutput = null)
     {
+        $mockedRun = function($output) {
+            return function ($task, $callback) use ($output) {
+                $callback($output);
+            };
+        };
+
         $run = function ($task, $callback) use ($mockedOutput) {
             if (is_array($task)) {
                 $task = implode(' && ', $task);
+            } elseif ($task === 'bash --login -c \'echo ROCKETEER\'') {
+                $mockedOutput = 'Inappropriate ioctl for device'.PHP_EOL.'ROCKETEER';
             }
 
             $output = $mockedOutput ? $mockedOutput : shell_exec($task);
@@ -220,13 +228,17 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
             echo $line.PHP_EOL;
         });
 
+
         if (is_array($mockedOutput)) {
+            $mockedOutput['bash --login -c \'echo ROCKETEER\''] = 'Inappropriate ioctl for device'.PHP_EOL.'ROCKETEER';
             foreach ($mockedOutput as $command => $output) {
-                $remote->shouldReceive('run')->with($command)->andReturn($output);
+                $remote->shouldReceive('run')->with($command, Mockery::any())->andReturnUsing($mockedRun($output));
+                $remote->shouldReceive('run')->with([$command], Mockery::any())->andReturnUsing($mockedRun($output));
             }
         } else {
             $remote->shouldReceive('run')->andReturnUsing($run)->byDefault();
         }
+
 
         return $remote;
     }

@@ -71,10 +71,10 @@ class CoreTest extends RocketeerTestCase
 
     public function testCanRemoveCommonPollutingOutput()
     {
-        $this->mockRemote('stdin: is not a tty'.PHP_EOL.'something');
-        $result = $this->bash->run('ls');
+        $this->mockRemote(['npm --version' => 'Inappropriate ioctl for device'.PHP_EOL.'1.2.3']);
 
-        $this->assertEquals('something', $result);
+        $result = $this->bash->run('npm --version');
+        $this->assertEquals('1.2.3', $result);
     }
 
     public function testCanRunCommandsLocally()

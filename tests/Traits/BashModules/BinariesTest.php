@@ -44,6 +44,7 @@ class BinariesTest extends RocketeerTestCase
         $this->mock('rocketeer.remote', 'Remote', function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('connected')->andReturn(false)
+                ->shouldReceive('run')->with(['bash --login -c \'echo ROCKETEER\''], Mockery::any())->andReturn(null)
                 ->shouldReceive('run')->with(['which composer'], Mockery::any())->andReturn(null)
                 ->shouldReceive('run')->with(['which'], Mockery::any())->andReturn(null)
                 ->shouldReceive('run')->with(['which foobar'], Mockery::any())->andReturn('foobar not found')
@@ -62,6 +63,7 @@ class BinariesTest extends RocketeerTestCase
         $this->mock('rocketeer.remote', 'Remote', function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('connected')->andReturn(false)
+                ->shouldReceive('run')->with(['bash --login -c \'echo ROCKETEER\''], Mockery::any())->andReturn(null)
                 ->shouldReceive('run')->with(['which'], Mockery::any())->andReturn(null)
                 ->shouldReceive('run')->with(['which composer'], Mockery::any())->andReturn(null)
                 ->shouldReceive('run')->with(['which production'], Mockery::any())->andReturnUsing(function ($a, $b) {
