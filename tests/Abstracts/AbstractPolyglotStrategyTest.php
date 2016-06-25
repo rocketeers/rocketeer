@@ -19,7 +19,7 @@ class AbstractPolyglotStrategyTest extends RocketeerTestCase
 {
     public function testDoesntFailPolyglotStrategiesIfOneIsntExecutable()
     {
-        $this->expectOutputString('executable');
+        $this->expectOutputString('executable-bar');
 
         /** @var \Rocketeer\Abstracts\Strategies\AbstractPolyglotStrategy $strategy */
         $strategy = $this->builder->buildStrategy('executables', ExecutablesPolyglotStrategy::class);

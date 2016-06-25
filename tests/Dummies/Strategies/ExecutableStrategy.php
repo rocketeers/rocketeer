@@ -15,8 +15,15 @@ use Rocketeer\Abstracts\Strategies\AbstractStrategy;
 
 class ExecutableStrategy extends AbstractStrategy
 {
+    /**
+     * @var array
+     */
+    protected $options = [
+        'foo' => 'bar',
+    ];
+
     public function fire()
     {
-        echo 'executable';
+        echo 'executable-'.$this->getOption('foo', true);
     }
 }

@@ -73,7 +73,7 @@ class Bash
         }
 
         // Configure strategy
-        if ($options) {
+        if ($options && !$strategy->getOptions()) {
             $strategy->setOptions((array) $options);
         }
 

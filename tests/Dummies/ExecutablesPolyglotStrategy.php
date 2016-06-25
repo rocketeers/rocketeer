@@ -27,6 +27,10 @@ class ExecutablesPolyglotStrategy extends AbstractPolyglotStrategy
         ExecutableStrategy::class,
     ];
 
+    protected $options = [
+        'foo' => 'baz',
+    ];
+
     public function fire()
     {
         return $this->executeStrategiesMethod('fire');
