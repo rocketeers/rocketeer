@@ -27,4 +27,11 @@ class NpmStrategy extends AbstractDependenciesStrategy implements DependenciesSt
      * @var string
      */
     protected $binary = 'npm';
+
+    /**
+     * @var array
+     */
+    protected $options = [
+        'flags.install' => '--no-progress',
+    ];
 }
