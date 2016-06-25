@@ -49,7 +49,12 @@ class Git extends AbstractBinary implements ScmInterface
      */
     public function currentState()
     {
-        return $this->revParse('HEAD');
+        try {
+            $this->setCurrentReleasePath();
+            return $this->revParse('HEAD');
+        } finally {
+            $this->binary = 'git';
+        }
     }
 
     /**
@@ -59,7 +64,12 @@ class Git extends AbstractBinary implements ScmInterface
      */
     public function currentBranch()
     {
-        return $this->revParse('--abbrev-ref HEAD');
+        try {
+            $this->setCurrentReleasePath();
+            return $this->revParse('--abbrev-ref HEAD');
+        } finally {
+            $this->binary = 'git';
+        }
     }
 
     ////////////////////////////////////////////////////////////////////
@@ -118,5 +128,22 @@ class Git extends AbstractBinary implements ScmInterface
     public function submodules()
     {
         return $this->submodule('update', ['--init', '--recursive']);
+    }
+
+
+    /**
+     * Set current relese path
+     *
+     */
+    private function setCurrentReleasePath()
+    {
+        $releasePath = $this->releasesManager->getCurrentReleasePath();
+        if (!$this->files->exists($releasePath.'/.git')) {
+            return;
+        }
+
+        $this->binary = 'git '
+            .'--git-dir='.$releasePath.'/.git'
+            .' --work-tree='.$releasePath;
     }
 }
