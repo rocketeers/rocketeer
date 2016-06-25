@@ -119,10 +119,11 @@ class SeclibGateway implements GatewayInterface
      * Run a command against the server (non-blocking).
      *
      * @param string $command
+     * @param bool   $callback
      */
-    public function run($command)
+    public function run($command, $callback = false)
     {
-        $this->getConnection()->exec($command, false);
+        $this->getConnection()->exec($command, $callback);
     }
 
     /**
