@@ -36,6 +36,8 @@ class SwapSymlink extends AbstractTask
             $this->coordinator->setStatus('symlink', Coordinator::DONE);
             $this->releasesManager->markReleaseAsValid($release);
             $this->explainer->line('Successfully deployed release '.$release);
+        } else {
+            $this->explainer->error('Unable to set symlink on current/ folder');
         }
     }
 }
