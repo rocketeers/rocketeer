@@ -11,8 +11,6 @@
 
 namespace Rocketeer\Tasks;
 
-use Rocketeer\Strategies\Test\TestStrategyInterface;
-
 /**
  * Run the tests on the server and displays the output.
  *

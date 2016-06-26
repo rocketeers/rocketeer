@@ -11,7 +11,6 @@
 
 namespace Rocketeer\Tasks\Subtasks;
 
-use Rocketeer\Strategies\Deploy\DeployStrategyInterface;
 use Rocketeer\Tasks\AbstractTask;
 
 /**

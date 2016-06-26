@@ -62,7 +62,10 @@ class TasksHandlerTest extends RocketeerTestCase
             'bower install',
         ]);
 
-        $this->assertEquals(['composer install', 'bower install'], $this->tasks->getTasksListeners($task, 'after', true));
+        $this->assertEquals([
+            'composer install',
+            'bower install',
+        ], $this->tasks->getTasksListeners($task, 'after', true));
     }
 
     public function testCanRegisterCustomTask()

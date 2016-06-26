@@ -18,7 +18,7 @@ use Rocketeer\Services\Connections\roles;
  * Represents a connection's identity and its credential.
  *
  * @property string   name
- * @property int  server
+ * @property int      server
  * @property string   stage
  * @property array    servers
  * @property string   host
@@ -29,7 +29,7 @@ use Rocketeer\Services\Connections\roles;
  * @property string   agent
  * @property string   root_directory
  * @property string[] roles
- * @property bool  db_role
+ * @property bool     db_role
  * @property roles    array
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>

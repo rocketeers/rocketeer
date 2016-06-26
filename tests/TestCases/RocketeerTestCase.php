@@ -47,9 +47,8 @@ abstract class RocketeerTestCase extends ContainerTestCase
 
     /**
      * A dummy AbstractTask to use for helpers tests.
-
-*
-*@var \Rocketeer\Tasks\AbstractTask
+     *
+     * @var \Rocketeer\Tasks\AbstractTask
      */
     protected $task;
 

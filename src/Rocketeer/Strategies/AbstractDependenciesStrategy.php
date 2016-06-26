@@ -12,7 +12,6 @@
 namespace Rocketeer\Strategies;
 
 use Illuminate\Contracts\Container\Container;
-use Rocketeer\Binaries\PackageManagers\AbstractPackageManager;
 
 /**
  * Abstract class for Dependencies strategies.
@@ -37,9 +36,8 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
 
     /**
      * The package manager instance.
-
-*
-*@var \Rocketeer\Binaries\PackageManagers\AbstractPackageManager
+     *
+     * @var \Rocketeer\Binaries\PackageManagers\AbstractPackageManager
      */
     protected $manager;
 
@@ -62,9 +60,8 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
 
     /**
      * Get an instance of the Binary.
-
-*
-*@return \Rocketeer\Binaries\PackageManagers\AbstractPackageManager
+     *
+     * @return \Rocketeer\Binaries\PackageManagers\AbstractPackageManager
      */
     protected function getManager()
     {

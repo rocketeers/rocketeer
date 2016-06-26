@@ -60,14 +60,11 @@ class RolesManager
 
     /**
      * Check if a connection can execute a task.
-
-*
-*@param Connection                          $connection
+     *
+     * @param Connection                    $connection
      * @param \Rocketeer\Tasks\AbstractTask $task
-
-
-*
-*@return bool
+     *
+     * @return bool
      */
     public function canExecuteTask(Connection $connection, AbstractTask $task)
     {

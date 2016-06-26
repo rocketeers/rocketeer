@@ -46,14 +46,12 @@ trait Building
     /**
      * Get a pretend AbstractTask to run bogus commands.
 
-*
-*@param string $task
-     * @param array  $options
-     * @param array  $expectations
-
-
-*
-*@return \Rocketeer\Tasks\AbstractTask
+     *
+     *@param string $task
+     * @param array $options
+     * @param array $expectations
+     *
+     *@return \Rocketeer\Tasks\AbstractTask
      */
     protected function pretendTask($task = 'Deploy', $options = [], array $expectations = [])
     {
@@ -65,13 +63,11 @@ trait Building
     /**
      * Get AbstractTask instance.
 
-*
-*@param string $task
-     * @param array  $options
-
-
-*
-*@return \Rocketeer\Tasks\AbstractTask
+     *
+     *@param string $task
+     * @param array $options
+     *
+     *@return \Rocketeer\Tasks\AbstractTask
      */
     protected function task($task = null, $options = [])
     {

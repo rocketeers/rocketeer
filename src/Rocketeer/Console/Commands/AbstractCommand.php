@@ -71,9 +71,8 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
 
     /**
      * the task to execute on fire.
-
-*
-*@var \Rocketeer\Tasks\AbstractTask
+     *
+     * @var \Rocketeer\Tasks\AbstractTask
      */
     protected $task;
 
@@ -139,7 +138,12 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
         // General options
         $global = [
             ['parallel', 'P', InputOption::VALUE_NONE, 'Run the tasks asynchronously instead of sequentially'],
-            ['pretend', 'p', InputOption::VALUE_NONE, 'Shows which command would execute without actually doing anything'],
+            [
+                'pretend',
+                'p',
+                InputOption::VALUE_NONE,
+                'Shows which command would execute without actually doing anything',
+            ],
         ];
 
         // Options that override the predefined configuration
@@ -280,17 +284,10 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
 
     /**
      * Fire a Tasks Queue.
-
-*
-*@param string|string[]|Closure|Closure[]|\Rocketeer\Tasks\AbstractTask|\Rocketeer\Tasks\AbstractTask[] $tasks
-
-
-
-
-
-
-*
-*@return int
+     *
+     * @param string|string[]|Closure|Closure[]|\Rocketeer\Tasks\AbstractTask|\Rocketeer\Tasks\AbstractTask[] $tasks
+     *
+     * @return int
      */
     protected function fireTasksQueue($tasks)
     {

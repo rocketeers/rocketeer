@@ -11,8 +11,6 @@
 
 namespace Rocketeer\Console\Commands;
 
-use Rocketeer\Rocketeer;
-
 /**
  * The core command when starting the Rocketeer CLI.
  *

@@ -17,10 +17,12 @@ class SwapSymlinkTest extends RocketeerTestCase
 {
     public function testCanSwapCurrentSymlink()
     {
-        $matcher = [[
-            'ln -s {server}/releases/{release} {server}/current-temp',
-            'mv -Tf {server}/current-temp {server}/current',
-        ]];
+        $matcher = [
+            [
+                'ln -s {server}/releases/{release} {server}/current-temp',
+                'mv -Tf {server}/current-temp {server}/current',
+            ],
+        ];
 
         $results = $this->assertTaskHistory('SwapSymlink', $matcher);
         $this->assertTrue($results);

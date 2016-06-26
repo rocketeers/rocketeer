@@ -32,7 +32,10 @@ class ComposerStrategyTest extends RocketeerTestCase
         ]);
 
         $this->pretendTask();
-        $this->tasks->configureStrategy(['Dependencies', 'Composer'], ['flags' => ['install' => ['--prefer-source' => null]]]);
+        $this->tasks->configureStrategy([
+            'Dependencies',
+            'Composer',
+        ], ['flags' => ['install' => ['--prefer-source' => null]]]);
         $this->tasks->listenTo('strategies.dependencies.composer.before', function ($task) {
             $task->composer()->runForCurrentRelease('selfUpdate');
         });

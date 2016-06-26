@@ -34,14 +34,11 @@ trait Binaries
 {
     /**
      * Get a binary.
-
-*
-*@param string $name
+     *
+     * @param string $name
      * @param array  $arguments
-
-
-*
-*@return \Rocketeer\Binaries\PackageManagers\AbstractPackageManager
+     *
+     * @return \Rocketeer\Binaries\PackageManagers\AbstractPackageManager
      */
     public function __call($name, $arguments)
     {
@@ -59,13 +56,10 @@ trait Binaries
 
     /**
      * Get an AnonymousBinary instance.
-
-*
-*@param string $binary
-
-
-*
-*@return \Rocketeer\Binaries\PackageManagers\AbstractPackageManager
+     *
+     * @param string $binary
+     *
+     * @return \Rocketeer\Binaries\PackageManagers\AbstractPackageManager
      */
     public function binary($binary)
     {

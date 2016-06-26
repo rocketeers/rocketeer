@@ -125,16 +125,12 @@ class TasksHandler
 
     /**
      * Register a task with Rocketeer.
-
-*
-*@param string                                                  $name
+     *
+     * @param string                                            $name
      * @param string|Closure|\Rocketeer\Tasks\AbstractTask|null $task
      * @param string|null                                       $description
-
-
-
-*
-*@return BaseTaskCommand
+     *
+     * @return BaseTaskCommand
      */
     public function task($name, $task = null, $description = null)
     {
@@ -201,7 +197,6 @@ class TasksHandler
         // Get the registered events
         $hooks = (array) $this->rocketeer->getOption('hooks');
         unset($hooks['custom'], $hooks['roles']);
-
 
         // Bind events
         foreach ($hooks as $event => $tasks) {

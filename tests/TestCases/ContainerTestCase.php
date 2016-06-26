@@ -228,7 +228,6 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
             echo $line.PHP_EOL;
         });
 
-
         if (is_array($mockedOutput)) {
             $mockedOutput['bash --login -c \'echo ROCKETEER\''] = 'Inappropriate ioctl for device'.PHP_EOL.'ROCKETEER';
             foreach ($mockedOutput as $command => $output) {
@@ -238,7 +237,6 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         } else {
             $remote->shouldReceive('run')->andReturnUsing($run)->byDefault();
         }
-
 
         return $remote;
     }
@@ -288,8 +286,18 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
             'default' => 'production',
             'session.driver' => 'file',
             'connections' => [
-                'production' => ['host' => '{host}', 'username' => '{username}', 'password' => '{password}', 'root_directory' => dirname($this->server)],
-                'staging' => ['host' => '{host}', 'username' => '{username}', 'password' => '{password}', 'root_directory' => dirname($this->server)],
+                'production' => [
+                    'host' => '{host}',
+                    'username' => '{username}',
+                    'password' => '{password}',
+                    'root_directory' => dirname($this->server),
+                ],
+                'staging' => [
+                    'host' => '{host}',
+                    'username' => '{username}',
+                    'password' => '{password}',
+                    'root_directory' => dirname($this->server),
+                ],
             ],
             'application_name' => 'foobar',
             'logs' => null,

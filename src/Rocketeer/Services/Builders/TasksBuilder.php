@@ -40,17 +40,13 @@ trait TasksBuilder
 
     /**
      * Build a task from anything.
-
-*
-*@param string|Closure|\Rocketeer\Tasks\AbstractTask $task
-     * @param string|null                            $name
-     * @param string|null                            $description
-
-
-
-*
-*@throws \Rocketeer\Exceptions\TaskCompositionException
-
+     *
+     * @param string|Closure|\Rocketeer\Tasks\AbstractTask $task
+     * @param string|null                                  $name
+     * @param string|null                                  $description
+     *
+     * @throws \Rocketeer\Exceptions\TaskCompositionException
+     *
      * @return AbstractTask
      */
     public function buildTask($task, $name = null, $description = null)
@@ -76,15 +72,11 @@ trait TasksBuilder
 
     /**
      * Compose a Task from its various types.
-
-*
-*@param string|Closure|AbstractTask $task
-
-
-
-*
-*@throws \Rocketeer\Exceptions\TaskCompositionException
-
+     *
+     * @param string|Closure|AbstractTask $task
+     *
+     * @throws \Rocketeer\Exceptions\TaskCompositionException
+     *
      * @return mixed|\Rocketeer\Tasks\AbstractTask
      */
     protected function composeTask($task)
@@ -136,14 +128,11 @@ trait TasksBuilder
 
     /**
      * Build a task from a Closure or a string command.
-
-*
-*@param Closure     $callback
+     *
+     * @param Closure     $callback
      * @param string|null $stringTask
-
-
-*
-*@return \Rocketeer\Tasks\AbstractTask
+     *
+     * @return \Rocketeer\Tasks\AbstractTask
      */
     public function buildTaskFromClosure(Closure $callback, $stringTask = null)
     {
@@ -162,12 +151,11 @@ trait TasksBuilder
 
     /**
      * Build a task from its name.
-
-*
-*@param string|\Rocketeer\Tasks\AbstractTask $task
      *
-*@throws TaskCompositionException
-
+     * @param string|\Rocketeer\Tasks\AbstractTask $task
+     *
+     * @throws TaskCompositionException
+     *
      * @return AbstractTask
      */
     public function buildTaskFromClass($task)
@@ -246,11 +234,10 @@ trait TasksBuilder
 
     /**
      * Check if a string is a command or a task.
-
-*
-*@param string|Closure|\Rocketeer\Tasks\AbstractTask $string
      *
-     *@return bool
+     * @param string|Closure|\Rocketeer\Tasks\AbstractTask $string
+     *
+     * @return bool
      */
     protected function isStringCommand($string)
     {

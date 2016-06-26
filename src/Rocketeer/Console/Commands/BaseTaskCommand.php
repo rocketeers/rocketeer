@@ -30,10 +30,9 @@ class BaseTaskCommand extends AbstractCommand
 
     /**
      * Build a new custom command.
-
-*
-*@param \Rocketeer\Tasks\AbstractTask|null $task
-     * @param string|null                  $name A name for the command
+     *
+     * @param \Rocketeer\Tasks\AbstractTask|null $task
+     * @param string|null                        $name A name for the command
      */
     public function __construct(AbstractTask $task = null, $name = null)
     {

@@ -41,7 +41,6 @@ class Console extends Application
 
     /**
      * Adds a command object.
-     *
      * If a command with the same name already exists, it will be overridden.
      *
      * @param Command $command A Command object

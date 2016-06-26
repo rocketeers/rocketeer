@@ -35,9 +35,8 @@ class Connection implements ConnectionInterface, HasRolesInterface
 
     /**
      * The SSH gateway implementation.
-
-*
-*@var \Rocketeer\Services\Connections\Gateways\GatewayInterface
+     *
+     * @var \Rocketeer\Services\Connections\Gateways\GatewayInterface
      */
     protected $gateway;
 
@@ -62,9 +61,8 @@ class Connection implements ConnectionInterface, HasRolesInterface
 
     /**
      * Create a new SSH connection instance.
-
-*
-*@param ConnectionKey                                                        $handle
+     *
+     * @param ConnectionKey                                                  $handle
      * @param array                                                          $auth
      * @param \Rocketeer\Services\Connections\Gateways\GatewayInterface|null $gateway
      */
@@ -168,10 +166,9 @@ class Connection implements ConnectionInterface, HasRolesInterface
 
     /**
      * Get the gateway implementation.
-
-*
-*@throws RuntimeException
-
+     *
+     * @throws RuntimeException
+     *
      * @return \Rocketeer\Services\Connections\Gateways\GatewayInterface
      */
     public function getGateway()

@@ -22,16 +22,10 @@ trait BinariesBuilder
 {
     /**
      * Build a binary.
- 
-*
-*@param string $binary
-     
-      
-
-
-
-*
-*@return \Rocketeer\Binaries\AbstractBinary|\Rocketeer\Binaries\PackageManagers\AbstractPackageManager
+     *
+     * @param string $binary
+     *
+     * @return \Rocketeer\Binaries\AbstractBinary|\Rocketeer\Binaries\PackageManagers\AbstractPackageManager
      */
     public function buildBinary($binary)
     {
