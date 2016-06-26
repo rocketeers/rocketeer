@@ -30,8 +30,8 @@ interface GatewayInterface
     /**
      * Run a command against the server (non-blocking).
      *
-     * @param string $command
-     * @param callable|bool   $callback
+     * @param string        $command
+     * @param callable|bool $callback
      */
     public function run($command, $callback = false);
 

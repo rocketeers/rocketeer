@@ -228,7 +228,7 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
     }
 
     /**
-     * Get a list of extensions specified in the composer.json file
+     * Get a list of extensions specified in the composer.json file.
      *
      * @return string[]
      */
