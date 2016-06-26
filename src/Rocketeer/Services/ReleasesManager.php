@@ -61,7 +61,7 @@ class ReleasesManager
     public function __construct(Container $app)
     {
         $this->app = $app;
-        $this->storage = new ServerStorage($app, 'state');
+        $this->storage = new ServerStorage($this->app);
         $this->state = $this->getValidationFile();
     }
 

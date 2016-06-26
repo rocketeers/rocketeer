@@ -11,66 +11,35 @@
 
 namespace Rocketeer\Services\Storages;
 
-/**
- * Provides and persists informations on the server.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
- */
-class ServerStorage extends AbstractStorage implements StorageInterface
+use Illuminate\Contracts\Container\Container;
+
+class ServerStorage extends Storage
 {
     /**
-     * Destroy the file.
-     *
-     * @return bool
+     * {@inheritdoc}
      */
-    public function destroy()
+    public function __construct(Container $app)
     {
-        $this->bash->removeFolder($this->getFilepath());
+        $this->app = $app;
 
-        return true;
+        parent::__construct($app, 'remote', $this->paths->getFolder(), 'state');
     }
 
-    //////////////////////////////////////////////////////////////////////
-    ////////////////////////////// HELPERS ///////////////////////////////
-    //////////////////////////////////////////////////////////////////////
-
     /**
-     * Get the full path to the file.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getFilepath()
     {
-        return $this->paths->getFolder($this->file.'.json');
+        return $this->paths->getFolder().DS.$this->getFilename();
     }
 
     /**
-     * Get the contents of the file.
-     *
-     * @return array
-     */
-    protected function getContents()
-    {
-        $file = $this->getFilepath();
-        $file = $this->bash->getFile($file) ?: '{}';
-        $file = (array) json_decode($file, true);
-
-        return $file;
-    }
-
-    /**
-     * Save the contents of the file.
-     *
-     * @param array $contents
+     * {@inheritdoc}
      */
     protected function saveContents($contents)
     {
-        // Don't write to server on pretend mode
-        if ($this->getOption('pretend')) {
-            return;
+        if (!$this->getOption('pretend')) {
+            parent::saveContents($contents);
         }
-
-        $file = $this->getFilepath();
-        $this->bash->putFile($file, json_encode($contents));
     }
 }

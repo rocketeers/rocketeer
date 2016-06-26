@@ -14,33 +14,8 @@ namespace Rocketeer\Services\Storages;
 use Mockery\MockInterface;
 use Rocketeer\TestCases\RocketeerTestCase;
 
-class LocalStorageTest extends RocketeerTestCase
+class CachedStorageTest extends RocketeerTestCase
 {
-    ////////////////////////////////////////////////////////////////////
-    //////////////////////////////// TESTS /////////////////////////////
-    ////////////////////////////////////////////////////////////////////
-
-    public function testCanDestroyFile()
-    {
-        $file = $this->localStorage->getFilepath();
-        $this->localStorage->destroy();
-
-        $this->assertVirtualFileNotExists($file);
-    }
-
-    public function testCanCreateDeploymentsFileAnywhere()
-    {
-        $this->app['path.storage'] = null;
-        $this->app->offsetUnset('path.storage');
-
-        new LocalStorage($this->app);
-
-        $storage = $this->paths->getRocketeerConfigFolder();
-        $exists = file_exists($storage);
-        $this->files->deleteDir($storage);
-        $this->assertTrue($exists);
-    }
-
     public function testCanComputeHashAccordingToContentsOfFiles()
     {
         $this->mock('rocketeer.paths', 'Pathfinder', function (MockInterface $mock) {
@@ -56,19 +31,9 @@ class LocalStorageTest extends RocketeerTestCase
         $this->files->put($this->server.'/tasks/test123r.php', '<?php return ["tasks"];');
         $this->files->put($this->server.'/strategies/MyStrategy.php', '<?php return ["strategies"];');
 
-        $storage = new LocalStorage($this->app, 'deployments', $this->server);
+        $storage = new CachedStorage($this->localStorage, $this->server);
         $hash = $storage->getHash();
 
         $this->assertEquals(md5('["bar"]["foo"]["baz"]'), $hash);
-    }
-
-    public function testCanSwitchFolder()
-    {
-        $storage = new LocalStorage($this->app, 'foo', $this->app['path.base']);
-        $storage->setFolder($this->server);
-        $file = $storage->getFilepath();
-
-        $this->assertEquals($this->server, $storage->getFolder());
-        $this->assertEquals($this->server.'/foo.json', $file);
     }
 }

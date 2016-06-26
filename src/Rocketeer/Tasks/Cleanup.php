@@ -15,6 +15,7 @@ use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Str;
 use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Services\Storages\ServerStorage;
+use Rocketeer\Services\Storages\Storage;
 
 /**
  * Clean up old releases from the server.
@@ -31,7 +32,7 @@ class Cleanup extends AbstractTask
     protected $description = 'Clean up old releases from the server';
 
     /**
-     * @var ServerStorage
+     * @var Storage
      */
     protected $serverStorage;
 
@@ -42,7 +43,7 @@ class Cleanup extends AbstractTask
     {
         parent::__construct($app);
 
-        $this->serverStorage = new ServerStorage($this->app, 'state');
+        $this->serverStorage = new ServerStorage($app);
     }
 
     /**

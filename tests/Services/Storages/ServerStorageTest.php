@@ -15,20 +15,11 @@ use Rocketeer\TestCases\RocketeerTestCase;
 
 class ServerStorageTest extends RocketeerTestCase
 {
-    public function testCanDestroyRemoteFile()
-    {
-        $server = new ServerStorage($this->app, 'test');
-        $file = $server->getFilepath();
-        $server->destroy();
-
-        $this->assertVirtualFileNotExists($file);
-    }
-
     public function testDoesntWriteInPretendMode()
     {
         $this->pretend();
 
-        $server = new ServerStorage($this->app, 'state');
+        $server = new ServerStorage($this->app);
         $server->set('foo', 'bar');
 
         $this->assertNull($server->get('foo'));

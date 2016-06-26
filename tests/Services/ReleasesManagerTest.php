@@ -89,7 +89,7 @@ class ReleasesManagerTest extends RocketeerTestCase
 
     public function testCanGetCurrentReleaseFromServerIfUncached()
     {
-        $this->mock('rocketeer.storage.local', 'LocalStorage', function (MockInterface $mock) {
+        $this->mock('rocketeer.storage.local', 'Storage', function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('getSeparator')->andReturn('/')
                 ->shouldReceive('getLineEndings')->andReturn(PHP_EOL);
@@ -198,7 +198,6 @@ class ReleasesManagerTest extends RocketeerTestCase
     {
         $this->mock('rocketeer.bash', Bash::class, function (MockInterface $mock) {
             return $mock
-                ->shouldReceive('getFile')->times(1)
                 ->shouldReceive('listContents')->once()->with($this->server.'/releases')->andReturn([]);
         });
 
@@ -219,7 +218,6 @@ class ReleasesManagerTest extends RocketeerTestCase
     {
         $this->mock('rocketeer.bash', Bash::class, function (MockInterface $mock) {
             return $mock
-                ->shouldReceive('getFile')->times(1)
                 ->shouldReceive('listContents')->once()->with($this->server.'/releases')->andReturn([20000000000000]);
         });
 
@@ -233,7 +231,6 @@ class ReleasesManagerTest extends RocketeerTestCase
     {
         $this->mock('rocketeer.bash', Bash::class, function (MockInterface $mock) {
             return $mock
-                ->shouldReceive('getFile')->times(1)
                 ->shouldReceive('listContents')->once()->with($this->server.'/releases')->andReturn([]);
         });
 
@@ -247,7 +244,6 @@ class ReleasesManagerTest extends RocketeerTestCase
     {
         $this->mock('rocketeer.bash', Bash::class, function (MockInterface $mock) {
             return $mock
-                ->shouldReceive('getFile')->times(1)
                 ->shouldReceive('listContents')->times(1)->with($this->server.'/releases')->andReturn(['IMPOSSIBLE BECAUSE NOPE FUCK YOU']);
         });
 
@@ -260,7 +256,6 @@ class ReleasesManagerTest extends RocketeerTestCase
     {
         $this->mock('rocketeer.bash', Bash::class, function (MockInterface $mock) {
             return $mock
-                ->shouldReceive('getFile')->once()
                 ->shouldReceive('listContents')->twice()->with($this->server.'/releases')->andReturn([20000000000000]);
         });
 

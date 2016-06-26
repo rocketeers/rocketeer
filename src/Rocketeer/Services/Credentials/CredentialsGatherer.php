@@ -67,7 +67,7 @@ class CredentialsGatherer
     }
 
     /**
-     * Get the LocalStorage's credentials.
+     * Get the Storage's credentials.
      */
     public function getServerCredentials()
     {

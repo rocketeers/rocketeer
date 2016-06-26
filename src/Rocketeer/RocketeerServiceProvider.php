@@ -47,7 +47,7 @@ use Rocketeer\Services\Ignition\Configuration as ConfigurationIgnition;
 use Rocketeer\Services\Ignition\Tasks;
 use Rocketeer\Services\ReleasesManager;
 use Rocketeer\Services\RolesManager;
-use Rocketeer\Services\Storages\LocalStorage;
+use Rocketeer\Services\Storages\Storage;
 use Rocketeer\Services\Tasks\TasksQueue;
 use Rocketeer\Services\TasksHandler;
 use Symfony\Component\Config\Definition\Loaders\PhpLoader;
@@ -179,10 +179,11 @@ class RocketeerServiceProvider extends ServiceProvider
         $this->app->singleton('rocketeer.tasks', TasksHandler::class);
 
         $this->app->singleton('rocketeer.storage.local', function ($app) {
+            $folder = $app['rocketeer.paths']->getRocketeerConfigFolder();
             $filename = $app['rocketeer.rocketeer']->getApplicationName();
             $filename = $filename === '{application_name}' ? 'deployments' : $filename;
 
-            return new LocalStorage($app, $filename);
+            return new Storage($app, 'local', $folder, $filename);
         });
     }
 

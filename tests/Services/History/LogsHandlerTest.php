@@ -58,7 +58,7 @@ class LogsHandlerTest extends RocketeerTestCase
         $logs = $this->logs->getCurrentLogsFile();
 
         $this->assertVirtualFileExists($logs);
-        $this->app['files']->deleteDir(dirname($logs));
+        $this->files->deleteDir(dirname($logs));
     }
 
     public function testDoesntRecomputeTheLogsFilenameEveryTime()

@@ -43,7 +43,7 @@ class AbstractNotifierTest extends RocketeerTestCase
         $this->expectOutputString('foobar finished deploying rocketeers/rocketeer/master on "production/staging" (foo.bar.com)');
 
         $this->mockCommand([], ['ask' => 'foobar']);
-        $this->mock('rocketeer.storage.local', 'LocalStorage', function (MockInterface $mock) {
+        $this->mock('rocketeer.storage.local', 'Storage', function (MockInterface $mock) {
             return $mock
                 ->shouldIgnoreMissing()
                 ->shouldReceive('get')->with('connections')

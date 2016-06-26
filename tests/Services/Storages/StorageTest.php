@@ -13,7 +13,7 @@ namespace Rocketeer\Services\Storages;
 
 use Rocketeer\TestCases\RocketeerTestCase;
 
-class AbstractStorageTest extends RocketeerTestCase
+class StorageTest extends RocketeerTestCase
 {
     public function testCanSwapContents()
     {
@@ -41,7 +41,7 @@ class AbstractStorageTest extends RocketeerTestCase
     {
         $this->localStorage->destroy();
 
-        $this->assertFalse($this->files->has(__DIR__.'/_meta/deployments.json'));
+        $this->assertFalse($this->files->has($this->localStorage->getFilepath()));
     }
 
     public function testCanFallbackIfFileDoesntExist()

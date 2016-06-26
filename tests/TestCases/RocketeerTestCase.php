@@ -14,7 +14,7 @@ namespace Rocketeer\TestCases;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
 use Rocketeer\Services\Filesystem\Plugins\IsDirectoryPlugin;
-use Rocketeer\Services\Storages\LocalStorage;
+use Rocketeer\Services\Storages\Storage;
 
 abstract class RocketeerTestCase extends ContainerTestCase
 {
@@ -84,11 +84,11 @@ abstract class RocketeerTestCase extends ContainerTestCase
 
         $this->recreateVirtualServer();
 
-        // Bind new LocalStorage instance
+        // Bind new Storage instance
         $this->app->singleton('rocketeer.storage.local', function ($app) {
             $folder = dirname($this->deploymentsFile);
 
-            return new LocalStorage($app, 'deployments', $folder);
+            return new Storage($app, 'local', $folder, 'deployments');
         });
 
         // Mock OS

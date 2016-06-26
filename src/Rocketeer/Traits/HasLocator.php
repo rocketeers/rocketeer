@@ -37,17 +37,17 @@ use Illuminate\Support\Arr;
  * @property \Rocketeer\Services\Credentials\CredentialsGatherer credentialsGatherer
  * @property \Rocketeer\Services\Credentials\CredentialsHandler  credentials
  * @property \Rocketeer\Services\Display\QueueExplainer          explainer
- * @property \Rocketeer\Services\Display\QueueTimer              timer
- * @property \Rocketeer\Services\Environment\Environment         environment
- * @property \Rocketeer\Services\History\History                 history
- * @property \Rocketeer\Services\History\LogsHandler             logs
- * @property \Rocketeer\Services\Environment\Pathfinder          paths
- * @property \Rocketeer\Services\ReleasesManager                 releasesManager
- * @property \Rocketeer\Services\RolesManager                    roles
- * @property \Rocketeer\Services\Storages\LocalStorage           localStorage
- * @property \Rocketeer\Services\Builders\Builder                builder
- * @property \Rocketeer\Services\Tasks\TasksQueue                queue
- * @property \Rocketeer\Services\TasksHandler                    tasks
+ * @property \Rocketeer\Services\Display\QueueTimer      timer
+ * @property \Rocketeer\Services\Environment\Environment environment
+ * @property \Rocketeer\Services\History\History         history
+ * @property \Rocketeer\Services\History\LogsHandler     logs
+ * @property \Rocketeer\Services\Environment\Pathfinder  paths
+ * @property \Rocketeer\Services\ReleasesManager         releasesManager
+ * @property \Rocketeer\Services\RolesManager            roles
+ * @property \Rocketeer\Services\Storages\Storage        localStorage
+ * @property \Rocketeer\Services\Builders\Builder        builder
+ * @property \Rocketeer\Services\Tasks\TasksQueue        queue
+ * @property \Rocketeer\Services\TasksHandler            tasks
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */

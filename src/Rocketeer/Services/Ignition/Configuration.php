@@ -137,7 +137,7 @@ class Configuration
 
         // Change repository in use
         $application = Arr::get($values, 'application_name');
-        $this->localStorage->setFile($application);
+        $this->localStorage->setFolder($application);
     }
 
     /**
