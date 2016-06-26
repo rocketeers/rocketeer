@@ -347,6 +347,6 @@ class SeclibGateway implements GatewayInterface
             return $this->connection;
         }
 
-        return $this->connection = new SFTP($this->host, $this->port);
+        return $this->connection = new SFTP($this->host, $this->port, 3600);
     }
 }
