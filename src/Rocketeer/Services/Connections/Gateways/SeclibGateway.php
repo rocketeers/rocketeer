@@ -18,6 +18,7 @@ use phpseclib\Crypt\RSA;
 use phpseclib\Net\SFTP;
 use phpseclib\Net\SSH2;
 use phpseclib\System\SSH\Agent;
+use Rocketeer\Exceptions\TimeOutException;
 use Rocketeer\Interfaces\GatewayInterface;
 
 /**
@@ -124,6 +125,10 @@ class SeclibGateway implements GatewayInterface
     public function run($command, $callback = false)
     {
         $this->getConnection()->exec($command, $callback);
+        if ($this->getConnection()->isTimeout()) {
+            $message = sprintf('Connection timeout of %ds exceeded', $this->getConnection()->timeout);
+            throw new TimeOutException($message);
+        }
     }
 
     /**
