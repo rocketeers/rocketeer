@@ -26,7 +26,7 @@ class SyncStrategy extends AbstractStrategy implements DeployStrategyInterface
      * @var array
      */
     protected $options = [
-        'port' => null,
+        // 'port' => null,
         'excluded' => ['.git', 'vendor'],
     ];
 

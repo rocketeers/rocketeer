@@ -73,8 +73,9 @@ class Bash
         }
 
         // Configure strategy
-        if ($options && !$strategy->getOptions()) {
-            $strategy->setOptions((array) $options);
+        if ($options) {
+            $options = array_replace_recursive((array) $options, $strategy->getOptions());
+            $strategy->setOptions($options);
         }
 
         return $this->explainer->displayBelow(function () use ($strategy, $options) {
