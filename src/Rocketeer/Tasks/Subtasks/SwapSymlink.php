@@ -30,7 +30,10 @@ class SwapSymlink extends AbstractTask
      */
     public function execute()
     {
-        if ($this->updateSymlink()) {
+        $this->updateSymlink();
+        $status = $this->status();
+
+        if ($status) {
             $release = $this->releasesManager->getNextRelease();
 
             $this->coordinator->setStatus('symlink', Coordinator::DONE);
@@ -39,5 +42,7 @@ class SwapSymlink extends AbstractTask
         } else {
             $this->explainer->error('Unable to set symlink on current/ folder');
         }
+
+        return $status;
     }
 }
