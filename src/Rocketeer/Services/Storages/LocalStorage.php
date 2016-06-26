@@ -13,13 +13,11 @@ namespace Rocketeer\Services\Storages;
 
 use Exception;
 use Illuminate\Contracts\Container\Container;
-use Rocketeer\Abstracts\AbstractStorage;
-use Rocketeer\Interfaces\StorageInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
 /**
- * Provides and persists informations in local.
+ * Provides and persists informations in the local filesystem.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */

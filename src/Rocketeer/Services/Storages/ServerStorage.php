@@ -11,9 +11,6 @@
 
 namespace Rocketeer\Services\Storages;
 
-use Rocketeer\Abstracts\AbstractStorage;
-use Rocketeer\Interfaces\StorageInterface;
-
 /**
  * Provides and persists informations on the server.
  *

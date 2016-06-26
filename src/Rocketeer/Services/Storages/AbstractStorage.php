@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Rocketeer\Abstracts;
+namespace Rocketeer\Services\Storages;
 
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Arr;

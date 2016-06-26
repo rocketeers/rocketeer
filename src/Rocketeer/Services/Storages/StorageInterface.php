@@ -9,8 +9,13 @@
  * file that was distributed with this source code.
  */
 
-namespace Rocketeer\Interfaces;
+namespace Rocketeer\Services\Storages;
 
+/**
+ * Interface for storage drivers
+ *
+ * @author Maxime Fabre <ehtnam6@gmail.com>
+ */
 interface StorageInterface
 {
     /**
