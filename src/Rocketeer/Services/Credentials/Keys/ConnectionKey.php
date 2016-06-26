@@ -12,7 +12,6 @@
 namespace Rocketeer\Services\Credentials\Keys;
 
 use Illuminate\Support\Arr;
-use Rocketeer\Abstracts\Keychains\AbstractKey;
 use Rocketeer\Services\Connections\roles;
 
 /**

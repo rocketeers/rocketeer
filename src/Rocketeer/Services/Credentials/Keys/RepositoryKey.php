@@ -12,7 +12,6 @@
 namespace Rocketeer\Services\Credentials\Keys;
 
 use Illuminate\Support\Str;
-use Rocketeer\Abstracts\Keychains\AbstractKey;
 
 /**
  * Represents a repository's identity and its credentials.

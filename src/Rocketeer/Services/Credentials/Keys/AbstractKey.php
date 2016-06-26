@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Rocketeer\Abstracts\Keychains;
+namespace Rocketeer\Services\Credentials\Keys;
 
 use Illuminate\Support\Fluent;
 
