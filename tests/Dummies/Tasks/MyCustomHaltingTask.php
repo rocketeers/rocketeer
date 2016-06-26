@@ -11,7 +11,7 @@
 
 namespace Rocketeer\Dummies\Tasks;
 
-use Rocketeer\Abstracts\AbstractTask;
+use Rocketeer\Tasks\AbstractTask;
 
 class MyCustomHaltingTask extends AbstractTask
 {

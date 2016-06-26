@@ -11,7 +11,7 @@
 
 namespace Rocketeer\Dummies\Plugins;
 
-use Rocketeer\Abstracts\AbstractPlugin;
+use Rocketeer\Plugins\AbstractPlugin;
 
 class DummyBuilderPlugin extends AbstractPlugin
 {

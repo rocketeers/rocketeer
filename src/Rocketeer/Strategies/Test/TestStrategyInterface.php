@@ -9,21 +9,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Rocketeer\Interfaces\Strategies;
+namespace Rocketeer\Strategies\Test;
 
-interface DependenciesStrategyInterface
+interface TestStrategyInterface
 {
     /**
-     * Install the dependencies.
+     * Run the tests.
      *
      * @return bool
      */
-    public function install();
-
-    /**
-     * Update the dependencies.
-     *
-     * @return bool
-     */
-    public function update();
+    public function test();
 }

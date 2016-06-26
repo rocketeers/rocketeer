@@ -14,9 +14,8 @@ namespace Rocketeer\Services\Connections\Connections;
 use Closure;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
-use Rocketeer\Interfaces\ConnectionInterface;
-use Rocketeer\Interfaces\GatewayInterface;
 use Rocketeer\Interfaces\HasRolesInterface;
+use Rocketeer\Services\Connections\Gateways\GatewayInterface;
 use Rocketeer\Services\Connections\Gateways\SeclibGateway;
 use Rocketeer\Services\Credentials\Keys\ConnectionKey;
 use Rocketeer\Traits\Properties\HasRoles;
@@ -36,8 +35,9 @@ class Connection implements ConnectionInterface, HasRolesInterface
 
     /**
      * The SSH gateway implementation.
-     *
-     * @var GatewayInterface
+
+*
+*@var \Rocketeer\Services\Connections\Gateways\GatewayInterface
      */
     protected $gateway;
 
@@ -62,10 +62,11 @@ class Connection implements ConnectionInterface, HasRolesInterface
 
     /**
      * Create a new SSH connection instance.
-     *
-     * @param ConnectionKey         $handle
-     * @param array                 $auth
-     * @param GatewayInterface|null $gateway
+
+*
+*@param ConnectionKey                                                        $handle
+     * @param array                                                          $auth
+     * @param \Rocketeer\Services\Connections\Gateways\GatewayInterface|null $gateway
      */
     public function __construct(ConnectionKey $handle, array $auth, GatewayInterface $gateway = null)
     {
@@ -167,10 +168,11 @@ class Connection implements ConnectionInterface, HasRolesInterface
 
     /**
      * Get the gateway implementation.
-     *
-     * @throws RuntimeException
-     *
-     * @return GatewayInterface
+
+*
+*@throws RuntimeException
+
+     * @return \Rocketeer\Services\Connections\Gateways\GatewayInterface
      */
     public function getGateway()
     {

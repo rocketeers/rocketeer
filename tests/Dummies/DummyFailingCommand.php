@@ -11,7 +11,7 @@
 
 namespace Rocketeer\Dummies;
 
-use Rocketeer\Abstracts\Commands\AbstractCommand;
+use Rocketeer\Console\Commands\AbstractCommand;
 
 class DummyFailingCommand extends AbstractCommand
 {

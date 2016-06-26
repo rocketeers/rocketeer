@@ -11,8 +11,6 @@
 
 namespace Rocketeer\Strategies\Deploy;
 
-use Rocketeer\Interfaces\Strategies\DeployStrategyInterface;
-
 class CopyStrategy extends CloneStrategy implements DeployStrategyInterface
 {
     /**

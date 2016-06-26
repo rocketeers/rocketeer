@@ -16,7 +16,7 @@ use Illuminate\Container\Container;
 use League\Flysystem\MountManager;
 use Mockery;
 use PHPUnit_Framework_TestCase;
-use Rocketeer\Abstracts\Commands\AbstractCommand;
+use Rocketeer\Console\Commands\AbstractCommand;
 use Rocketeer\Dummies\Tasks\MyCustomTask;
 use Rocketeer\RocketeerServiceProvider;
 use Rocketeer\Services\Connections\Connections\Connection;

@@ -11,8 +11,7 @@
 
 namespace Rocketeer\Strategies\Test;
 
-use Rocketeer\Abstracts\Strategies\AbstractStrategy;
-use Rocketeer\Interfaces\Strategies\TestStrategyInterface;
+use Rocketeer\Strategies\AbstractStrategy;
 
 class PhpunitStrategy extends AbstractStrategy implements TestStrategyInterface
 {

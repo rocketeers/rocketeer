@@ -11,8 +11,6 @@
 
 namespace Rocketeer\Console\Commands;
 
-use Rocketeer\Abstracts\Commands\AbstractCommand;
-
 /**
  * Lists the available options for each strategy.
  *

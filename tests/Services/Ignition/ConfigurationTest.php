@@ -140,7 +140,7 @@ class ConfigurationTest extends RocketeerTestCase
         $this->app['path.base'] = dirname($config);
 
         $this->files->createDir($config.'/strategies');
-        $this->files->put($config.'/strategies/Foobar.php', '<?php namespace Lol; class Foobar extends \Rocketeer\Abstracts\Strategies\AbstractStrategy { public function fire() { $this->runForCurrentRelease("ls"); } }');
+        $this->files->put($config.'/strategies/Foobar.php', '<?php namespace Lol; class Foobar extends \Rocketeer\Strategies\AbstractStrategy { public function fire() { $this->runForCurrentRelease("ls"); } }');
 
         $this->igniter->bindPaths();
         $this->igniter->loadUserConfiguration();

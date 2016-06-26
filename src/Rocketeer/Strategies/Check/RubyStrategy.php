@@ -13,8 +13,7 @@ namespace Rocketeer\Strategies\Check;
 
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Arr;
-use Rocketeer\Abstracts\Strategies\AbstractCheckStrategy;
-use Rocketeer\Interfaces\Strategies\CheckStrategyInterface;
+use Rocketeer\Strategies\AbstractCheckStrategy;
 
 class RubyStrategy extends AbstractCheckStrategy implements CheckStrategyInterface
 {

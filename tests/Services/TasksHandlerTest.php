@@ -11,7 +11,6 @@
 
 namespace Rocketeer\Services;
 
-use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Console\Commands\BaseTaskCommand;
 use Rocketeer\Dummies\DummyNotifier;
 use Rocketeer\Dummies\Plugins\DummyBuilderPlugin;
@@ -19,6 +18,7 @@ use Rocketeer\Dummies\Tasks\CallableTask;
 use Rocketeer\Dummies\Tasks\MyCustomTask;
 use Rocketeer\Strategies\Check\PhpStrategy;
 use Rocketeer\Strategies\Check\RubyStrategy;
+use Rocketeer\Tasks\AbstractTask;
 use Rocketeer\Tasks\Check;
 use Rocketeer\Tasks\Closure;
 use Rocketeer\Tasks\Deploy;

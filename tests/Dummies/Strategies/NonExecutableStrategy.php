@@ -11,7 +11,7 @@
 
 namespace Rocketeer\Dummies\Strategies;
 
-use Rocketeer\Abstracts\Strategies\AbstractStrategy;
+use Rocketeer\Strategies\AbstractStrategy;
 
 class NonExecutableStrategy extends AbstractStrategy
 {

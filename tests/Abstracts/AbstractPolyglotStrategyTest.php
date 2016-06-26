@@ -21,7 +21,7 @@ class AbstractPolyglotStrategyTest extends RocketeerTestCase
     {
         $this->expectOutputString('executable-bar');
 
-        /** @var \Rocketeer\Abstracts\Strategies\AbstractPolyglotStrategy $strategy */
+        /** @var \Rocketeer\Strategies\AbstractPolyglotStrategy $strategy */
         $strategy = $this->builder->buildStrategy('executables', ExecutablesPolyglotStrategy::class);
         $strategy->fire();
 
@@ -32,7 +32,7 @@ class AbstractPolyglotStrategyTest extends RocketeerTestCase
     {
         $this->expectOutputString('');
 
-        /** @var \Rocketeer\Abstracts\Strategies\AbstractPolyglotStrategy $strategy */
+        /** @var \Rocketeer\Strategies\AbstractPolyglotStrategy $strategy */
         $strategy = $this->builder->buildStrategy('failing', FailingPolyglotStrategy::class);
         $result = $strategy->fire();
 

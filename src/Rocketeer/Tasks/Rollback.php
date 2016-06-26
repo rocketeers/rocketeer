@@ -11,8 +11,6 @@
 
 namespace Rocketeer\Tasks;
 
-use Rocketeer\Abstracts\AbstractTask;
-
 /**
  * Rollback to the previous release, or to a specific one.
  *

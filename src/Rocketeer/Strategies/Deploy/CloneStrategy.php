@@ -11,8 +11,7 @@
 
 namespace Rocketeer\Strategies\Deploy;
 
-use Rocketeer\Abstracts\Strategies\AbstractStrategy;
-use Rocketeer\Interfaces\Strategies\DeployStrategyInterface;
+use Rocketeer\Strategies\AbstractStrategy;
 
 class CloneStrategy extends AbstractStrategy implements DeployStrategyInterface
 {

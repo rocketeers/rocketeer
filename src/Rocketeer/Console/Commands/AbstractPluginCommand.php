@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Rocketeer\Abstracts\Commands;
+namespace Rocketeer\Console\Commands;
 
 use Symfony\Component\Console\Input\InputArgument;
 

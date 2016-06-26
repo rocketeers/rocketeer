@@ -9,7 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Rocketeer\Abstracts;
+namespace Rocketeer\Binaries\PackageManagers;
+
+use Rocketeer\Binaries\AbstractBinary;
 
 abstract class AbstractPackageManager extends AbstractBinary
 {

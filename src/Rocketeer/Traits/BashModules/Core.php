@@ -57,8 +57,9 @@ trait Core
 
     /**
      * Get which Connection to call commands with.
-     *
-     * @return \Rocketeer\Interfaces\ConnectionInterface
+
+*
+*@return \Rocketeer\Services\Connections\Connections\ConnectionInterface
      */
     public function getConnection()
     {

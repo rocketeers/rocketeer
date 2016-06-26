@@ -12,6 +12,7 @@
 namespace Rocketeer\Abstracts;
 
 use Rocketeer\Dummies\Tasks\MyCustomHaltingTask;
+use Rocketeer\Tasks\AbstractTask;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class AbstractTaskTest extends RocketeerTestCase

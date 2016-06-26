@@ -11,8 +11,8 @@
 
 namespace Rocketeer\Tasks\Subtasks;
 
-use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Services\Connections\Coordinator;
+use Rocketeer\Tasks\AbstractTask;
 
 class SwapSymlink extends AbstractTask
 {

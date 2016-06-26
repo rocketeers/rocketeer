@@ -11,8 +11,6 @@
 
 namespace Rocketeer\Console\Commands;
 
-use Rocketeer\Abstracts\Commands\AbstractCommand;
-
 /**
  * Flushes any custom storage Rocketeer has created.
  *

@@ -11,8 +11,7 @@
 
 namespace Rocketeer\Strategies\Dependencies;
 
-use Rocketeer\Abstracts\Strategies\AbstractPolyglotStrategy;
-use Rocketeer\Interfaces\Strategies\DependenciesStrategyInterface;
+use Rocketeer\Strategies\AbstractPolyglotStrategy;
 
 class PolyglotStrategy extends AbstractPolyglotStrategy implements DependenciesStrategyInterface
 {

@@ -19,7 +19,6 @@ use phpseclib\Net\SFTP;
 use phpseclib\Net\SSH2;
 use phpseclib\System\SSH\Agent;
 use Rocketeer\Exceptions\TimeOutException;
-use Rocketeer\Interfaces\GatewayInterface;
 
 /**
  * A wrapper around phpseclib.

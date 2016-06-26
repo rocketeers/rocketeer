@@ -57,12 +57,15 @@ class Bash
 
     /**
      * Get the implementation behind a strategy.
-     *
-     * @param string      $strategy
+
+*
+*@param string      $strategy
      * @param string|null $concrete
      * @param array       $options
-     *
-     * @return Abstracts\Strategies\AbstractStrategy
+
+
+*
+*@return \Rocketeer\Strategies\AbstractStrategy
      */
     public function getStrategy($strategy, $concrete = null, $options = [])
     {

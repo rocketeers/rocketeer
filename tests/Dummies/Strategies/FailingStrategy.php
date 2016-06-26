@@ -11,9 +11,7 @@
 
 namespace Rocketeer\Dummies\Strategies;
 
-use Rocketeer\Abstracts\Strategies\AbstractStrategy;
-
-class FailingStrategy extends AbstractStrategy
+class FailingStrategy extends \Rocketeer\Strategies\AbstractStrategy
 {
     public function fire()
     {

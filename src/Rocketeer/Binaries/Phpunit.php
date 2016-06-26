@@ -11,8 +11,6 @@
 
 namespace Rocketeer\Binaries;
 
-use Rocketeer\Abstracts\AbstractBinary;
-
 class Phpunit extends AbstractBinary
 {
     /**

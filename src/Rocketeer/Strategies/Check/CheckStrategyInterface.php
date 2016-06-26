@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Rocketeer\Interfaces\Strategies;
+namespace Rocketeer\Strategies\Check;
 
 interface CheckStrategyInterface
 {

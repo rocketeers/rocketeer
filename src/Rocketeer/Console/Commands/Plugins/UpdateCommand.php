@@ -11,7 +11,7 @@
 
 namespace Rocketeer\Console\Commands\Plugins;
 
-use Rocketeer\Abstracts\Commands\AbstractPluginCommand;
+use Rocketeer\Console\Commands\AbstractPluginCommand;
 
 class UpdateCommand extends AbstractPluginCommand
 {

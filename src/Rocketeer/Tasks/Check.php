@@ -11,8 +11,7 @@
 
 namespace Rocketeer\Tasks;
 
-use Rocketeer\Abstracts\AbstractTask;
-use Rocketeer\Abstracts\Strategies\AbstractCheckStrategy;
+use Rocketeer\Strategies\AbstractCheckStrategy;
 
 /**
  * Check if the server is ready to receive the application.

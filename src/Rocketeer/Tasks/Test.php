@@ -11,8 +11,7 @@
 
 namespace Rocketeer\Tasks;
 
-use Rocketeer\Abstracts\AbstractTask;
-use Rocketeer\Interfaces\Strategies\TestStrategyInterface;
+use Rocketeer\Strategies\Test\TestStrategyInterface;
 
 /**
  * Run the tests on the server and displays the output.
@@ -35,7 +34,7 @@ class Test extends AbstractTask
      */
     public function execute()
     {
-        /** @var TestStrategyInterface $tester */
+        /** @var \Rocketeer\Strategies\Test\TestStrategyInterface $tester */
         $tester = $this->getStrategy('Test');
         if (!$tester) {
             return true;

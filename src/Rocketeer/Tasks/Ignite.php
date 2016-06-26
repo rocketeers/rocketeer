@@ -11,8 +11,6 @@
 
 namespace Rocketeer\Tasks;
 
-use Rocketeer\Abstracts\AbstractTask;
-
 /**
  * A task to ignite Rocketeer.
  *

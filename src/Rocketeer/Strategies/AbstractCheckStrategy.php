@@ -9,14 +9,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Rocketeer\Abstracts\Strategies;
+namespace Rocketeer\Strategies;
 
 use Illuminate\Support\Arr;
 
 abstract class AbstractCheckStrategy extends AbstractStrategy
 {
     /**
-     * @var \Rocketeer\Abstracts\AbstractPackageManager
+     * @var \Rocketeer\Binaries\PackageManagers\AbstractPackageManager
      */
     protected $manager;
 
@@ -28,7 +28,7 @@ abstract class AbstractCheckStrategy extends AbstractStrategy
     protected $language;
 
     /**
-     * @return \Rocketeer\Abstracts\AbstractPackageManager
+     * @return \Rocketeer\Binaries\PackageManagers\AbstractPackageManager
      */
     public function getManager()
     {
@@ -36,7 +36,7 @@ abstract class AbstractCheckStrategy extends AbstractStrategy
     }
 
     /**
-     * @param \Rocketeer\Abstracts\AbstractPackageManager $manager
+     * @param \Rocketeer\Binaries\PackageManagers\AbstractPackageManager $manager
      */
     public function setManager($manager)
     {

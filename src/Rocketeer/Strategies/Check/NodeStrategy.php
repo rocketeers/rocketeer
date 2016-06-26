@@ -12,8 +12,7 @@
 namespace Rocketeer\Strategies\Check;
 
 use Illuminate\Contracts\Container\Container;
-use Rocketeer\Abstracts\Strategies\AbstractCheckStrategy;
-use Rocketeer\Interfaces\Strategies\CheckStrategyInterface;
+use Rocketeer\Strategies\AbstractCheckStrategy;
 
 /**
  * Strategy for Node projects.

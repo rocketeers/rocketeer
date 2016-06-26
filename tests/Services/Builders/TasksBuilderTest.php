@@ -12,9 +12,9 @@
 namespace Rocketeer\Services\Builders;
 
 use ReflectionFunction;
-use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Dummies\Tasks\CallableTask;
 use Rocketeer\Exceptions\TaskCompositionException;
+use Rocketeer\Tasks\AbstractTask;
 use Rocketeer\Tasks\Check;
 use Rocketeer\Tasks\Closure;
 use Rocketeer\Tasks\Deploy;

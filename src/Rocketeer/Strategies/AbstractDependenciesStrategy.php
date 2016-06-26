@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Rocketeer\Abstracts\Strategies;
+namespace Rocketeer\Strategies;
 
 use Illuminate\Contracts\Container\Container;
-use Rocketeer\Abstracts\AbstractPackageManager;
+use Rocketeer\Binaries\PackageManagers\AbstractPackageManager;
 
 /**
  * Abstract class for Dependencies strategies.
@@ -37,8 +37,9 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
 
     /**
      * The package manager instance.
-     *
-     * @var AbstractPackageManager
+
+*
+*@var \Rocketeer\Binaries\PackageManagers\AbstractPackageManager
      */
     protected $manager;
 
@@ -52,7 +53,7 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
     }
 
     /**
-     * @param AbstractPackageManager $manager
+     * @param \Rocketeer\Binaries\PackageManagers\AbstractPackageManager $manager
      */
     public function setManager($manager)
     {
@@ -61,8 +62,9 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
 
     /**
      * Get an instance of the Binary.
-     *
-     * @return AbstractPackageManager
+
+*
+*@return \Rocketeer\Binaries\PackageManagers\AbstractPackageManager
      */
     protected function getManager()
     {

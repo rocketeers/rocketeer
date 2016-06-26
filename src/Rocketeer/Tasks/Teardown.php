@@ -11,8 +11,6 @@
 
 namespace Rocketeer\Tasks;
 
-use Rocketeer\Abstracts\AbstractTask;
-
 /**
  * Remove the remote applications and existing caches.
  *

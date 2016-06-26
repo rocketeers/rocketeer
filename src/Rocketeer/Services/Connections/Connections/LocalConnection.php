@@ -12,7 +12,6 @@
 namespace Rocketeer\Services\Connections\Connections;
 
 use Closure;
-use Rocketeer\Interfaces\ConnectionInterface;
 use Rocketeer\Interfaces\HasRolesInterface;
 use Rocketeer\Traits\HasLocator;
 use Rocketeer\Traits\Properties\HasRoles;

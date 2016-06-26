@@ -11,8 +11,7 @@
 
 namespace Rocketeer\Strategies\Dependencies;
 
-use Rocketeer\Abstracts\Strategies\AbstractDependenciesStrategy;
-use Rocketeer\Interfaces\Strategies\DependenciesStrategyInterface;
+use Rocketeer\Strategies\AbstractDependenciesStrategy;
 
 class ComposerStrategy extends AbstractDependenciesStrategy implements DependenciesStrategyInterface
 {

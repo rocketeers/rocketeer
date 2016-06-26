@@ -13,7 +13,7 @@ namespace Rocketeer\Services\Ignition;
 
 use KevinGH\Amend\Command;
 use KevinGH\Amend\Helper;
-use Rocketeer\Abstracts\AbstractTask;
+use Rocketeer\Tasks\AbstractTask;
 use Rocketeer\Traits\HasLocator;
 
 class Tasks

@@ -11,8 +11,7 @@
 
 namespace Rocketeer\Binaries\Scm;
 
-use Rocketeer\Abstracts\AbstractBinary;
-use Rocketeer\Interfaces\ScmInterface;
+use Rocketeer\Binaries\AbstractBinary;
 
 /**
  * The Git implementation of the ScmInterface.

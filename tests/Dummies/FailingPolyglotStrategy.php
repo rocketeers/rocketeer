@@ -11,9 +11,9 @@
 
 namespace Rocketeer\Dummies;
 
-use Rocketeer\Abstracts\Strategies\AbstractPolyglotStrategy;
 use Rocketeer\Dummies\Strategies\ExecutableStrategy;
 use Rocketeer\Dummies\Strategies\FailingStrategy;
+use Rocketeer\Strategies\AbstractPolyglotStrategy;
 
 class FailingPolyglotStrategy extends AbstractPolyglotStrategy
 {

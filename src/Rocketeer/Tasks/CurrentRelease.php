@@ -12,7 +12,6 @@
 namespace Rocketeer\Tasks;
 
 use DateTime;
-use Rocketeer\Abstracts\AbstractTask;
 
 /**
  * Display what the current release is.

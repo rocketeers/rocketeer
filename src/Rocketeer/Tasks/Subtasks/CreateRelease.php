@@ -11,8 +11,8 @@
 
 namespace Rocketeer\Tasks\Subtasks;
 
-use Rocketeer\Abstracts\AbstractTask;
-use Rocketeer\Interfaces\Strategies\DeployStrategyInterface;
+use Rocketeer\Strategies\Deploy\DeployStrategyInterface;
+use Rocketeer\Tasks\AbstractTask;
 
 /**
  * Creates a new release on the server.
@@ -35,7 +35,7 @@ class CreateRelease extends AbstractTask
      */
     public function execute()
     {
-        /** @var DeployStrategyInterface $strategy */
+        /** @var \Rocketeer\Strategies\Deploy\DeployStrategyInterface $strategy */
         $strategy = $this->getStrategy('Deploy');
 
         return $strategy->deploy();

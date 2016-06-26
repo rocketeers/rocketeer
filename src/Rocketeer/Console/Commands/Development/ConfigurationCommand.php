@@ -12,7 +12,7 @@
 namespace Rocketeer\Console\Commands\Development;
 
 use Illuminate\Support\Arr;
-use Rocketeer\Abstracts\Commands\AbstractCommand;
+use Rocketeer\Console\Commands\AbstractCommand;
 use Symfony\Component\Console\Input\InputArgument;
 
 class ConfigurationCommand extends AbstractCommand

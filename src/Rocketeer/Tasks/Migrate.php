@@ -11,7 +11,6 @@
 
 namespace Rocketeer\Tasks;
 
-use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Interfaces\Strategies\MigrateStrategyInterface;
 
 class Migrate extends AbstractTask

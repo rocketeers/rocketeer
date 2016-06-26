@@ -12,7 +12,7 @@
 namespace Rocketeer\Console\Commands\Development;
 
 use Psy\Shell;
-use Rocketeer\Abstracts\Commands\AbstractCommand;
+use Rocketeer\Console\Commands\AbstractCommand;
 use Rocketeer\Console\TinkerApplication;
 
 class TinkerCommand extends AbstractCommand

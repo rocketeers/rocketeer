@@ -12,8 +12,7 @@
 namespace Rocketeer\Strategies\Deploy;
 
 use Illuminate\Support\Arr;
-use Rocketeer\Abstracts\Strategies\AbstractStrategy;
-use Rocketeer\Interfaces\Strategies\DeployStrategyInterface;
+use Rocketeer\Strategies\AbstractStrategy;
 
 class SyncStrategy extends AbstractStrategy implements DeployStrategyInterface
 {

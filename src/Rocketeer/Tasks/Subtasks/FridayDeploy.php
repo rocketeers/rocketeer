@@ -11,7 +11,7 @@
 
 namespace Rocketeer\Tasks\Subtasks;
 
-use Rocketeer\Abstracts\AbstractTask;
+use Rocketeer\Tasks\AbstractTask;
 
 /**
  * Provides a motivational message if you're deploying on a friday.

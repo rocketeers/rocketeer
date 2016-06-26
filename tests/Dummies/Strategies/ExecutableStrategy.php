@@ -11,9 +11,7 @@
 
 namespace Rocketeer\Dummies\Strategies;
 
-use Rocketeer\Abstracts\Strategies\AbstractStrategy;
-
-class ExecutableStrategy extends AbstractStrategy
+class ExecutableStrategy extends \Rocketeer\Strategies\AbstractStrategy
 {
     /**
      * @var array

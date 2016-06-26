@@ -11,8 +11,7 @@
 
 namespace Rocketeer\Strategies\Check;
 
-use Rocketeer\Abstracts\Strategies\AbstractPolyglotStrategy;
-use Rocketeer\Interfaces\Strategies\CheckStrategyInterface;
+use Rocketeer\Strategies\AbstractPolyglotStrategy;
 
 class PolyglotStrategy extends AbstractPolyglotStrategy implements CheckStrategyInterface
 {

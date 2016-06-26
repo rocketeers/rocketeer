@@ -13,8 +13,8 @@ namespace Rocketeer\Traits\BashModules;
 
 use Mockery;
 use Mockery\MockInterface;
-use Rocketeer\Abstracts\Commands\AbstractCommand;
 use Rocketeer\Binaries\Php;
+use Rocketeer\Console\Commands\AbstractCommand;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class BinariesTest extends RocketeerTestCase

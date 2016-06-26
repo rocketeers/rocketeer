@@ -11,8 +11,8 @@
 
 namespace Rocketeer\Dummies\Plugins;
 
-use Rocketeer\Abstracts\AbstractPlugin;
 use Rocketeer\Console\Console;
+use Rocketeer\Plugins\AbstractPlugin;
 
 class DummyConsolePlugin extends AbstractPlugin
 {

@@ -11,8 +11,8 @@
 
 namespace Rocketeer\Tasks\Subtasks;
 
-use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Plugins\AbstractNotifier;
+use Rocketeer\Tasks\AbstractTask;
 
 /**
  * Notify a third-party service.

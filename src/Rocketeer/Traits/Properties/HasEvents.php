@@ -15,10 +15,11 @@ use League\Event\EventInterface;
 
 /**
  * A class that can fire events.
- *
- * @mixin \Rocketeer\Abstracts\AbstractTask
- * @mixin \Rocketeer\Abstracts\Commands\AbstractCommand
- *
+
+*
+*@mixin \Rocketeer\Tasks\AbstractTask
+ * @mixin \Rocketeer\Console\Commands\AbstractCommand
+
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait HasEvents

@@ -11,8 +11,6 @@
 
 namespace Rocketeer\Tasks;
 
-use Rocketeer\Abstracts\AbstractTask;
-
 /**
  * A task that wraps around a closure and execute it.
  *

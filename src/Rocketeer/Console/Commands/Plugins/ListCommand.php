@@ -11,7 +11,7 @@
 
 namespace Rocketeer\Console\Commands\Plugins;
 
-use Rocketeer\Abstracts\Commands\AbstractCommand;
+use Rocketeer\Console\Commands\AbstractCommand;
 
 class ListCommand extends AbstractCommand
 {

@@ -12,8 +12,8 @@
 namespace Rocketeer\Services;
 
 use Illuminate\Support\Arr;
-use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Services\Connections\Connections\Connection;
+use Rocketeer\Tasks\AbstractTask;
 use Rocketeer\Traits\HasLocator;
 
 /**
@@ -60,11 +60,14 @@ class RolesManager
 
     /**
      * Check if a connection can execute a task.
-     *
-     * @param Connection   $connection
-     * @param AbstractTask $task
-     *
-     * @return bool
+
+*
+*@param Connection                          $connection
+     * @param \Rocketeer\Tasks\AbstractTask $task
+
+
+*
+*@return bool
      */
     public function canExecuteTask(Connection $connection, AbstractTask $task)
     {

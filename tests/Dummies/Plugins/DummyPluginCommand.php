@@ -11,7 +11,7 @@
 
 namespace Rocketeer\Dummies\Plugins;
 
-use Rocketeer\Abstracts\Commands\AbstractCommand;
+use Rocketeer\Console\Commands\AbstractCommand;
 
 class DummyPluginCommand extends AbstractCommand
 {

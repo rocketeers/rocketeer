@@ -11,7 +11,6 @@
 
 namespace Rocketeer\Plugins;
 
-use Rocketeer\Abstracts\AbstractPlugin;
 use Rocketeer\Services\TasksHandler;
 use Rocketeer\Tasks\Subtasks\Notify;
 

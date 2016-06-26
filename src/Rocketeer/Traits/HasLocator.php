@@ -17,8 +17,9 @@ use Illuminate\Support\Arr;
 /**
  * A trait for Service Locator-based classes wich adds
  * a few shortcuts to Rocketeer classes.
- *
- * @property \Rocketeer\Services\Config\Configuration            config
+
+*
+*@property \Rocketeer\Services\Config\Configuration              config
  * @property \Rocketeer\Services\Config\ConfigurationLoader      configurationLoader
  * @property \Rocketeer\Services\Config\ConfigurationPublisher   configurationPublisher
  * @property \League\Event\Emitter                               events
@@ -26,10 +27,10 @@ use Illuminate\Support\Arr;
  * @property \League\Flysystem\MountManager                      flysystem
  * @property \Illuminate\Foundation\Artisan                      artisan
  * @property \Illuminate\Log\Writer                              log
- * @property \Rocketeer\Abstracts\Commands\AbstractCommand       command
+ * @property \Rocketeer\Console\Commands\AbstractCommand         command
  * @property \Rocketeer\Bash                                     bash
  * @property \Rocketeer\Console\Console                          console
- * @property \Rocketeer\Interfaces\ScmInterface                  scm
+ * @property \Rocketeer\Binaries\Scm\ScmInterface                scm
  * @property \Rocketeer\Rocketeer                                rocketeer
  * @property \Rocketeer\Services\Connections\ConnectionsHandler  connections
  * @property \Rocketeer\Services\Connections\Coordinator         coordinator
@@ -48,7 +49,7 @@ use Illuminate\Support\Arr;
  * @property \Rocketeer\Services\Builders\Builder        builder
  * @property \Rocketeer\Services\Tasks\TasksQueue        queue
  * @property \Rocketeer\Services\TasksHandler            tasks
- *
+
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait HasLocator

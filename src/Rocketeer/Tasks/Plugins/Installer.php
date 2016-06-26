@@ -11,7 +11,7 @@
 
 namespace Rocketeer\Tasks\Plugins;
 
-use Rocketeer\Abstracts\AbstractTask;
+use Rocketeer\Tasks\AbstractTask;
 
 class Installer extends AbstractTask
 {

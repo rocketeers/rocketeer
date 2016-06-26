@@ -14,10 +14,10 @@ namespace Rocketeer\Services;
 use Closure;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Str;
-use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Console\Commands\BaseTaskCommand;
 use Rocketeer\Interfaces\IdentifierInterface;
 use Rocketeer\Tasks;
+use Rocketeer\Tasks\AbstractTask;
 use Rocketeer\Traits\HasLocator;
 
 /**
@@ -125,12 +125,16 @@ class TasksHandler
 
     /**
      * Register a task with Rocketeer.
-     *
-     * @param string                           $name
-     * @param string|Closure|AbstractTask|null $task
-     * @param string|null                      $description
-     *
-     * @return BaseTaskCommand
+
+*
+*@param string                                                  $name
+     * @param string|Closure|\Rocketeer\Tasks\AbstractTask|null $task
+     * @param string|null                                       $description
+
+
+
+*
+*@return BaseTaskCommand
      */
     public function task($name, $task = null, $description = null)
     {
@@ -237,7 +241,7 @@ class TasksHandler
      */
     public function listenTo($event, $listeners, $priority = 0)
     {
-        /** @var AbstractTask[] $listeners */
+        /** @var \Rocketeer\Tasks\AbstractTask[] $listeners */
         $listeners = $this->builder->isCallable($listeners) ? [$listeners] : (array) $listeners;
         $listeners = $this->builder->buildTasks($listeners);
         $event = Str::contains($event, ['commands.', 'strategies.', 'tasks.']) ? $event : 'tasks.'.$event;

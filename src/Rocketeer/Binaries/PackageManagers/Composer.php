@@ -11,7 +11,6 @@
 
 namespace Rocketeer\Binaries\PackageManagers;
 
-use Rocketeer\Abstracts\AbstractPackageManager;
 use Rocketeer\Binaries\Php;
 
 class Composer extends AbstractPackageManager

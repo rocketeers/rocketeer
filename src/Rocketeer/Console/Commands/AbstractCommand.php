@@ -9,12 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Rocketeer\Abstracts\Commands;
+namespace Rocketeer\Console\Commands;
 
-use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Abstracts\Closure;
-use Rocketeer\Console\Commands\RocketeerCommand;
 use Rocketeer\Interfaces\IdentifierInterface;
+use Rocketeer\Tasks\AbstractTask;
 use Rocketeer\Traits\HasLocator;
 use Rocketeer\Traits\Properties\HasEvents;
 use RuntimeException;
@@ -72,13 +71,14 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
 
     /**
      * the task to execute on fire.
-     *
-     * @var AbstractTask
+
+*
+*@var \Rocketeer\Tasks\AbstractTask
      */
     protected $task;
 
     /**
-     * @param AbstractTask|null $task
+     * @param \Rocketeer\Tasks\AbstractTask|null $task
      */
     public function __construct(AbstractTask $task = null)
     {
@@ -280,10 +280,17 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
 
     /**
      * Fire a Tasks Queue.
-     *
-     * @param string|string[]|Closure|Closure[]|\Rocketeer\Abstracts\AbstractTask|\Rocketeer\Abstracts\AbstractTask[] $tasks
-     *
-     * @return int
+
+*
+*@param string|string[]|Closure|Closure[]|\Rocketeer\Tasks\AbstractTask|\Rocketeer\Tasks\AbstractTask[] $tasks
+
+
+
+
+
+
+*
+*@return int
      */
     protected function fireTasksQueue($tasks)
     {

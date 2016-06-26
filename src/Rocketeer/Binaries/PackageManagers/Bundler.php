@@ -11,8 +11,6 @@
 
 namespace Rocketeer\Binaries\PackageManagers;
 
-use Rocketeer\Abstracts\AbstractPackageManager;
-
 class Bundler extends AbstractPackageManager
 {
     /**

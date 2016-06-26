@@ -9,31 +9,19 @@
  * file that was distributed with this source code.
  */
 
-namespace Rocketeer\Interfaces;
+namespace Rocketeer\Services\Connections\Connections;
 
-interface GatewayInterface
+use Closure;
+
+interface ConnectionInterface
 {
     /**
-     * Connect to the SSH server.
+     * Run a set of commands against the connection.
      *
-     * @param string $username
+     * @param string|array $commands
+     * @param Closure|null $callback
      */
-    public function connect($username);
-
-    /**
-     * Determine if the gateway is connected.
-     *
-     * @return bool
-     */
-    public function connected();
-
-    /**
-     * Run a command against the server (non-blocking).
-     *
-     * @param string        $command
-     * @param callable|bool $callback
-     */
-    public function run($command, $callback = false);
+    public function run($commands, Closure $callback = null);
 
     /**
      * Upload a local file to the server.
@@ -50,13 +38,6 @@ interface GatewayInterface
      * @param string $contents
      */
     public function putString($remote, $contents);
-
-    /**
-     * Get the next line of output from the server.
-     *
-     * @return string|null
-     */
-    public function nextLine();
 
     /**
      * Get the exit status of the last command.

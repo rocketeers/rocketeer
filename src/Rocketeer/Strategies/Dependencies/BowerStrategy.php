@@ -12,8 +12,7 @@
 namespace Rocketeer\Strategies\Dependencies;
 
 use Illuminate\Support\Arr;
-use Rocketeer\Abstracts\Strategies\AbstractDependenciesStrategy;
-use Rocketeer\Interfaces\Strategies\DependenciesStrategyInterface;
+use Rocketeer\Strategies\AbstractDependenciesStrategy;
 
 class BowerStrategy extends AbstractDependenciesStrategy implements DependenciesStrategyInterface
 {

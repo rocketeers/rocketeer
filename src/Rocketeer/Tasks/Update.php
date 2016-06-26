@@ -11,7 +11,7 @@
 
 namespace Rocketeer\Tasks;
 
-use Rocketeer\Interfaces\Strategies\DeployStrategyInterface;
+use Rocketeer\Strategies\Deploy\DeployStrategyInterface;
 
 /**
  * Update the remote server without doing a new release.

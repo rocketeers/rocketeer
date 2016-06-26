@@ -13,10 +13,10 @@ namespace Rocketeer\Services\Tasks;
 
 use Mockery;
 use Mockery\MockInterface;
-use Rocketeer\Abstracts\AbstractTask;
 use Rocketeer\Dummies\Tasks\MyCustomHaltingTask;
 use Rocketeer\Dummies\Tasks\MyCustomTask;
 use Rocketeer\Services\Connections\RemoteHandler;
+use Rocketeer\Tasks\AbstractTask;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class TasksQueueTest extends RocketeerTestCase

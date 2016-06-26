@@ -11,7 +11,7 @@
 
 namespace Rocketeer\Tasks\Subtasks;
 
-use Rocketeer\Abstracts\AbstractTask;
+use Rocketeer\Tasks\AbstractTask;
 
 /**
  * Executes some sanity-check commands before deploy.

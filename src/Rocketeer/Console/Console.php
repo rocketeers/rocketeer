@@ -12,7 +12,7 @@
 namespace Rocketeer\Console;
 
 use Illuminate\Contracts\Container\Container;
-use Rocketeer\Abstracts\Commands\AbstractCommand;
+use Rocketeer\Console\Commands\AbstractCommand;
 use Rocketeer\Rocketeer;
 use Rocketeer\Traits\HasLocator;
 use Symfony\Component\Console\Application;

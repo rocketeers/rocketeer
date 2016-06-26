@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Rocketeer\Interfaces;
+namespace Rocketeer\Binaries\Scm;
 
 /**
  * The interface for all SCM implementations.
