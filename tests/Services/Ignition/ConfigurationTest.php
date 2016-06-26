@@ -108,8 +108,8 @@ class ConfigurationTest extends RocketeerTestCase
         $path = $this->igniter->exportConfiguration();
         $this->igniter->updateConfiguration($path, ['application_name' => 'foobar', 'scm_username' => 'foobar']);
 
-        $this->assertVirtualFileExists(__DIR__.'/.rocketeer');
-        $this->assertContains('foobar', $this->files->read(__DIR__.'/.rocketeer/config.php'));
+        $this->assertVirtualFileExists(__DIR__.'/../../../.rocketeer');
+        $this->assertContains('foobar', $this->files->read(__DIR__.'/../../../.rocketeer/config.php'));
     }
 
     public function testCanLoadFilesOrFolder()
