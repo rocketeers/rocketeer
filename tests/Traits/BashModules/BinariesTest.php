@@ -41,7 +41,7 @@ class BinariesTest extends RocketeerTestCase
 
     public function testStoredPathsAreInvalidatedIfIncorrect()
     {
-        $this->mock('rocketeer.remote', 'Remote', function (MockInterface $mock) {
+        $this->mock('remote', 'Remote', function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('connected')->andReturn(false)
                 ->shouldReceive('run')->with(['bash --login -c \'echo ROCKETEER\''], Mockery::any())->andReturn(null)
@@ -60,7 +60,7 @@ class BinariesTest extends RocketeerTestCase
 
     public function testPathsAreScopedToConnection()
     {
-        $this->mock('rocketeer.remote', 'Remote', function (MockInterface $mock) {
+        $this->mock('remote', 'Remote', function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('connected')->andReturn(false)
                 ->shouldReceive('run')->with(['bash --login -c \'echo ROCKETEER\''], Mockery::any())->andReturn(null)

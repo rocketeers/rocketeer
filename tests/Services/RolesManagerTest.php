@@ -68,7 +68,7 @@ class RolesManagerTest extends RocketeerTestCase
 
     public function testTasksWithoutRolesAreCompatibleWithAnyServer()
     {
-        $this->app->add('rocketeer.remote', new RemoteHandler($this->app));
+        $this->app->add('remote', new RemoteHandler($this->app));
         $this->swapConnections([
             'production' => [
                 'host' => 'foobar.com',

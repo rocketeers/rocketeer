@@ -12,7 +12,6 @@
 namespace Rocketeer\Services\Ignition;
 
 use KevinGH\Amend\Command;
-use KevinGH\Amend\Helper;
 use Rocketeer\Tasks\AbstractTask;
 use Rocketeer\Traits\HasLocator;
 
@@ -28,7 +27,6 @@ class Tasks
     public function getPredefinedTasks()
     {
         $tasks = [
-            '' => 'Rocketeer',
             'check' => 'Check',
             'cleanup' => 'Cleanup',
             'current' => 'CurrentRelease',
@@ -77,31 +75,16 @@ class Tasks
 
             // Bind task to container
             $slug = $this->getTaskHandle($slug, $task);
-            $handle = 'rocketeer.tasks.'.$slug;
-            $this->app->add($handle, function () use ($task) {
-                return $task;
-            });
+            $this->app->add('rocketeer.tasks.'.$slug, $task);
 
             // Remember handle of the command
-            $commandHandle = trim('rocketeer.commands.'.$slug, '.');
-            $commands[] = $commandHandle;
-
-            // Register command with the container
-            $this->app->share($commandHandle, function () use ($command) {
-                return $command;
-            });
+            $commands[] = $command;
         }
 
         // Add self update command
-        $this->app->share('rocketeer.commands.self-update', function () {
-            $command = new Command('self-update');
-            $command->setManifestUri('http://rocketeer.autopergamene.eu/versions/manifest.json');
-
-            return $command;
-        });
-
-        // Add manifest helper
-        $this->app->get('rocketeer.console')->getHelperSet()->set(new Helper());
+        $selfUpdate = new Command('self-update');
+        $selfUpdate->setManifestUri('http://rocketeer.autopergamene.eu/versions/manifest.json');
+        $commands[] = $selfUpdate;
 
         return $commands;
     }

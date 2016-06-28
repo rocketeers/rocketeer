@@ -110,8 +110,8 @@ class Console extends Application
     {
         return [
             'application_name' => realpath($this->app->get('rocketeer.rocketeer')->getApplicationName()),
-            'application' => realpath($this->app->get('rocketeer.paths')->getApplicationPath()),
-            'configuration' => realpath($this->app->get('rocketeer.paths')->getConfigurationPath()),
+            'application' => realpath($this->app->get('paths')->getApplicationPath()),
+            'configuration' => realpath($this->app->get('paths')->getConfigurationPath()),
             'tasks' => $this->app->get('path.rocketeer.tasks'),
             'events' => $this->app->get('path.rocketeer.events'),
             'logs' => $this->app->get('path.rocketeer.logs'),

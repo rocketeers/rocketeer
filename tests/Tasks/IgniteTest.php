@@ -25,7 +25,7 @@ class IgniteTest extends RocketeerTestCase
 
         $provider = new RocketeerServiceProvider();
         $provider->setContainer($this->app);
-        $provider->bindPaths();
+        $provider->register();
 
         $this->mockFiles(function (MockInterface $mock) {
             return $mock
@@ -43,7 +43,7 @@ class IgniteTest extends RocketeerTestCase
 
         $provider = new RocketeerServiceProvider();
         $provider->setContainer($this->app);
-        $provider->bindPaths();
+        $provider->register();
 
         $this->mockFiles(function (MockInterface $mock) {
             return $mock
@@ -59,7 +59,7 @@ class IgniteTest extends RocketeerTestCase
         $command = $this->getCommand(['ask' => 'foobar']);
 
         $server = $this->server;
-        $this->mock('rocketeer.igniter', 'Configuration', function (MockInterface $mock) use ($server) {
+        $this->mock('igniter', 'Configuration', function (MockInterface $mock) use ($server) {
             return $mock
                 ->shouldReceive('exportConfiguration')->once()->andReturn($server)
                 ->shouldReceive('updateConfiguration')->once()->with($server, [

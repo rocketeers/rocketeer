@@ -70,7 +70,7 @@ class Connection implements ConnectionInterface, HasRolesInterface
     {
         $this->handle = $handle;
         $this->gateway = $gateway ?: new SeclibGateway($handle->host, $auth, new Filesystem(new Local('/')));
-        $this->roles = $handle->roles;
+        $this->roles = (array) $handle->roles;
     }
 
     /**

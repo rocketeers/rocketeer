@@ -175,7 +175,7 @@ class ConfigurationTest extends RocketeerTestCase
     {
         $pharPath = 'phar:///rocketeer/bin/rocketeer.phar/src/Rocketeer/Services/Ignition/../../../config';
 
-        $this->mock('rocketeer.paths', 'Pathfinder', function (MockInterface $mock) use ($pharPath) {
+        $this->mock('paths', 'Pathfinder', function (MockInterface $mock) use ($pharPath) {
             return $mock
                 ->shouldReceive('unifyLocalSlashes')->andReturn($pharPath)
                 ->shouldReceive('getConfigurationPath')->andReturn('config');

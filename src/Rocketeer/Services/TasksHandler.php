@@ -50,7 +50,7 @@ class TasksHandler
      */
     protected $coreEvents = [
         'commands.deploy.before' => 'Primer',
-        'deploy.symlink.before' => [['rocketeer.coordinator', 'beforeSymlink']],
+        'deploy.symlink.before' => [['coordinator', 'beforeSymlink']],
     ];
 
     /**
@@ -370,7 +370,7 @@ class TasksHandler
 
         // Bind instances
         $this->app = $plugin->register($this->app);
-        $plugin->onConsole($this->app->get('rocketeer.console'));
+        $plugin->onConsole($this->app->get('console'));
         $plugin->onBuilder($this->app->get('rocketeer.builder'));
 
         // Add hooks to TasksHandler

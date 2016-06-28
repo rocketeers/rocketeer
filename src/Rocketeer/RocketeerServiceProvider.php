@@ -12,37 +12,27 @@
 namespace Rocketeer;
 
 use League\Container\ServiceProvider\AbstractServiceProvider;
-use League\Event\Emitter;
-use League\Flysystem\Adapter\Local;
-use League\Flysystem\Filesystem;
 use Rocketeer\Console\Console;
+use Rocketeer\Console\ConsoleServiceProvider;
 use Rocketeer\Services\Builders\Builder;
 use Rocketeer\Services\Config\Configuration;
 use Rocketeer\Services\Config\ConfigurationCache;
 use Rocketeer\Services\Config\ConfigurationDefinition;
 use Rocketeer\Services\Config\ConfigurationLoader;
 use Rocketeer\Services\Config\ConfigurationPublisher;
-use Rocketeer\Services\Connections\Connections\LocalConnection;
 use Rocketeer\Services\Connections\ConnectionsHandler;
+use Rocketeer\Services\Connections\ConnectionsServiceProvider;
 use Rocketeer\Services\Connections\Coordinator;
-use Rocketeer\Services\Connections\RemoteHandler;
 use Rocketeer\Services\Credentials\CredentialsGatherer;
 use Rocketeer\Services\Credentials\CredentialsHandler;
 use Rocketeer\Services\Display\QueueExplainer;
 use Rocketeer\Services\Display\QueueTimer;
-use Rocketeer\Services\Environment\Environment;
-use Rocketeer\Services\Environment\Pathfinder;
-use Rocketeer\Services\Environment\Pathfinders\LocalPathfinder;
-use Rocketeer\Services\Environment\Pathfinders\ServerPathfinder;
-use Rocketeer\Services\Filesystem\FilesystemsMounter;
-use Rocketeer\Services\Filesystem\Plugins\IncludePlugin;
-use Rocketeer\Services\Filesystem\Plugins\IsDirectoryPlugin;
-use Rocketeer\Services\Filesystem\Plugins\RequirePlugin;
-use Rocketeer\Services\Filesystem\Plugins\UpsertPlugin;
+use Rocketeer\Services\Environment\EnvironmentServiceProvider;
+use Rocketeer\Services\Events\EventsServiceProvider;
+use Rocketeer\Services\Filesystem\FilesystemServiceProvider;
 use Rocketeer\Services\History\History;
 use Rocketeer\Services\History\LogsHandler;
-use Rocketeer\Services\Ignition\Configuration as ConfigurationIgnition;
-use Rocketeer\Services\Ignition\Tasks;
+use Rocketeer\Services\Ignition\IgnitionServiceProvider;
 use Rocketeer\Services\ReleasesManager;
 use Rocketeer\Services\RolesManager;
 use Rocketeer\Services\Storages\Storage;
@@ -72,9 +62,14 @@ class RocketeerServiceProvider extends AbstractServiceProvider
     public function register()
     {
         $this->container->add(Container::class, $this->container);
+        $this->container->addServiceProvider(new FilesystemServiceProvider());
+        $this->container->addServiceProvider(new EventsServiceProvider());
+        $this->container->addServiceProvider(new EnvironmentServiceProvider());
+        $this->container->addServiceProvider(new IgnitionServiceProvider());
+        $this->container->addServiceProvider(new ConnectionsServiceProvider());
+        $this->container->addServiceProvider(new ConsoleServiceProvider());
 
         $this->bindThirdPartyServices();
-        $this->bindPaths();
 
         // Bind Rocketeer's classes
         $this->bindCoreClasses();
@@ -82,7 +77,9 @@ class RocketeerServiceProvider extends AbstractServiceProvider
         $this->bindStrategies();
 
         // Load the user's events, tasks, plugins, and configurations
-        $this->container->get('rocketeer.igniter')->loadUserConfiguration();
+
+        $this->container->get('igniter')->bindPaths();
+        $this->container->get('igniter')->loadUserConfiguration();
         $this->container->get('rocketeer.tasks')->registerConfiguredEvents();
 
         // Bind commands
@@ -94,51 +91,10 @@ class RocketeerServiceProvider extends AbstractServiceProvider
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Bind the Rocketeer paths.
-     */
-    public function bindPaths()
-    {
-        $this->container->share('rocketeer.paths', function () {
-            $pathfinder = new Pathfinder($this->container);
-            $pathfinder->registerPathfinder(LocalPathfinder::class);
-            $pathfinder->registerPathfinder(ServerPathfinder::class);
-
-            return $pathfinder;
-        });
-
-        $this->share('rocketeer.igniter', ConfigurationIgnition::class);
-        $this->share('rocketeer.igniter.tasks', Tasks::class);
-
-        // Bind paths
-        $this->container->get('rocketeer.igniter')->bindPaths();
-    }
-
-    /**
      * Bind the core classes.
      */
     public function bindThirdPartyServices()
     {
-        $this->container->add('flysystem', function () {
-            return (new FilesystemsMounter($this->container))->getMountManager();
-        });
-
-        $this->container->share('files', function () {
-            $local = new Filesystem(new Local('/', LOCK_EX, Local::SKIP_LINKS));
-            $local->addPlugin(new RequirePlugin());
-            $local->addPlugin(new IsDirectoryPlugin());
-            $local->addPlugin(new IncludePlugin());
-            $local->addPlugin(new UpsertPlugin());
-
-            return $local;
-        });
-
-        //$this->container->bindIf('request', function () {
-        //    return Request::createFromGlobals();
-        //}, true);
-
-        $this->share('rocketeer.remote', RemoteHandler::class);
-        $this->share('remote.local', LocalConnection::class);
-        $this->share('events', Emitter::class);
 
         // Register factory and custom configurations
         $this->registerConfig();
@@ -149,12 +105,9 @@ class RocketeerServiceProvider extends AbstractServiceProvider
      */
     public function bindCoreClasses()
     {
-        $this->share('rocketeer.environment', Environment::class);
         $this->share('rocketeer.timer', QueueTimer::class);
         $this->share('rocketeer.builder', Builder::class);
         $this->container->add('rocketeer.bash', new Bash($this->container));
-        $this->share('rocketeer.connections', ConnectionsHandler::class);
-        $this->share('rocketeer.coordinator', Coordinator::class);
         $this->share('rocketeer.explainer', QueueExplainer::class);
         $this->share('rocketeer.history', History::class);
         $this->share('rocketeer.logs', LogsHandler::class);
@@ -165,7 +118,7 @@ class RocketeerServiceProvider extends AbstractServiceProvider
         $this->share('rocketeer.tasks', TasksHandler::class);
 
         $this->container->share('rocketeer.storage.local', function () {
-            $folder = $this->container->get('rocketeer.paths')->getRocketeerConfigFolder();
+            $folder = $this->container->get('paths')->getRocketeerConfigFolder();
             $filename = $this->container->get('rocketeer.rocketeer')->getApplicationName();
             $filename = $filename === '{application_name}' ? 'deployments' : $filename;
 
@@ -180,7 +133,6 @@ class RocketeerServiceProvider extends AbstractServiceProvider
     {
         $this->share('rocketeer.credentials.handler', CredentialsHandler::class);
         $this->share('rocketeer.credentials.gatherer', CredentialsGatherer::class);
-        $this->share('rocketeer.console', Console::class);
         $this->container->get('rocketeer.credentials.handler')->syncConnectionCredentials();
     }
 
@@ -213,16 +165,6 @@ class RocketeerServiceProvider extends AbstractServiceProvider
      */
     public function bindCommands()
     {
-        // Base commands
-        $tasks = $this->container->get('rocketeer.igniter.tasks')->getPredefinedTasks();
-
-        // Register the tasks and their commands
-        $commands = $this->container->get('rocketeer.igniter.tasks')->registerTasksAndCommands($tasks);
-
-        // Add commands to Artisan
-        foreach ($commands as $command) {
-            $this->container->get('rocketeer.console')->add($this->container->get($command));
-        }
     }
 
     ////////////////////////////////////////////////////////////////////
@@ -243,14 +185,14 @@ class RocketeerServiceProvider extends AbstractServiceProvider
         });
 
         $this->container->share(ConfigurationCache::class, function () {
-            return new ConfigurationCache($this->container->get('rocketeer.paths')->getConfigurationCachePath(), false);
+            return new ConfigurationCache($this->container->get('paths')->getConfigurationCachePath(), false);
         });
 
         $this->container->share('rocketeer.config.loader', function () {
             $loader = $this->container->get(ConfigurationLoader::class);
             $loader->setFolders([
                 __DIR__.'/../config',
-                $this->container->get('rocketeer.paths')->getConfigurationPath(),
+                $this->container->get('paths')->getConfigurationPath(),
             ]);
 
             return $loader;

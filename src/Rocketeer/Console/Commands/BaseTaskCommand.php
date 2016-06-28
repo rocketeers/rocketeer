@@ -51,6 +51,6 @@ class BaseTaskCommand extends AbstractCommand
      */
     public function fire()
     {
-        return $this->fireTasksQueue($this->task);
+        return $this->fireTasksQueue([$this->task]);
     }
 }

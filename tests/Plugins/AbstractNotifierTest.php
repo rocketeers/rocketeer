@@ -50,7 +50,7 @@ class AbstractNotifierTest extends RocketeerTestCase
                 ->shouldReceive('get')->with('notifier.name')->andReturn(null)
                 ->shouldReceive('set')->once()->with('notifier.name', 'foobar');
         });
-        $this->mock('rocketeer.connections', 'ConnectionsHandler', function (MockInterface $mock) {
+        $this->mock('connections', 'ConnectionsHandler', function (MockInterface $mock) {
             $handle = new ConnectionKey(['name' => 'production', 'server' => 0, 'stage' => 'staging']);
             $handle->servers = [['host' => 'foo.bar.com']];
 

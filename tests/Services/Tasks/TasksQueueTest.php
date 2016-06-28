@@ -182,7 +182,7 @@ class TasksQueueTest extends RocketeerTestCase
     {
         $this->pretend();
 
-        $this->app->add('rocketeer.remote', new RemoteHandler($this->app));
+        $this->app->add('remote', new RemoteHandler($this->app));
         $this->swapConnections([
             'production' => [
                 'host' => 'foobar.com',

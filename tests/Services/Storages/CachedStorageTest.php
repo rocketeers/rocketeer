@@ -18,7 +18,7 @@ class CachedStorageTest extends RocketeerTestCase
 {
     public function testCanComputeHashAccordingToContentsOfFiles()
     {
-        $this->mock('rocketeer.paths', 'Pathfinder', function (MockInterface $mock) {
+        $this->mock('paths', 'Pathfinder', function (MockInterface $mock) {
             return $mock->shouldReceive('getConfigurationPath')->andReturn($this->server);
         });
 

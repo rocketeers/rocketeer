@@ -94,7 +94,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 
         // Replace some instances with mocks
         $this->app->add('artisan', $this->getArtisan());
-        $this->app->add('rocketeer.remote', $this->getRemote());
+        $this->app->add('remote', $this->getRemote());
         $this->app->add('rocketeer.command', $this->getCommand());
 
         $this->app->share('flysystem', function () {

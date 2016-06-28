@@ -105,7 +105,7 @@ trait Mocks
      */
     protected function mockRemote($expectations = null)
     {
-        $this->app->add('rocketeer.remote', $this->getRemote($expectations));
+        $this->app->add('remote', $this->getRemote($expectations));
     }
 
     /**
