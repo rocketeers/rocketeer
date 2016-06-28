@@ -12,6 +12,7 @@
 namespace Rocketeer\TestCases\Modules;
 
 use Mockery\MockInterface;
+use Rocketeer\Plugins\Laravel\LaravelPlugin;
 use Rocketeer\Services\Credentials\Keys\RepositoryKey;
 
 /**
@@ -124,9 +125,9 @@ trait Contexts
     protected function usesLaravel($uses = true)
     {
         if ($uses) {
-            $this->tasks->plugin('Rocketeer\Plugins\Laravel\LaravelPlugin');
+            $this->tasks->plugin(LaravelPlugin::class);
         } else {
-            unset($this->app['rocketeer.strategies.framework']);
+            $this->app->remove('rocketeer.strategies.framework');
         }
     }
 

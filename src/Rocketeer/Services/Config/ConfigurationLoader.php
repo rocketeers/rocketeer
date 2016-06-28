@@ -11,8 +11,8 @@
 
 namespace Rocketeer\Services\Config;
 
-use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Arr;
+use Rocketeer\Container;
 use Rocketeer\Traits\HasLocator;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\Loader\LoaderInterface;

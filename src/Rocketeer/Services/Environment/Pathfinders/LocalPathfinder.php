@@ -89,7 +89,7 @@ class LocalPathfinder extends AbstractPathfinder
     {
         // Get path to configuration
         $framework = $this->getFramework();
-        $configuration = $framework ? $framework->getConfigurationPath() : $this->app['path.rocketeer.config'];
+        $configuration = $framework ? $framework->getConfigurationPath() : $this->app->get('path.rocketeer.config');
 
         return $this->unifyLocalSlashes($configuration);
     }
@@ -102,12 +102,12 @@ class LocalPathfinder extends AbstractPathfinder
     public function getStoragePath()
     {
         // If no path is bound, default to the Rocketeer folder
-        if (!$this->app->bound('path.storage')) {
+        if (!$this->app->has('path.storage')) {
             return '.rocketeer';
         }
 
         // Unify slashes
-        $storage = $this->app['path.storage'];
+        $storage = $this->app->get('path.storage');
         $storage = $this->unifySlashes($storage);
         $storage = str_replace($this->getBasePath(), null, $storage);
 

@@ -11,7 +11,7 @@
 
 namespace Rocketeer\Strategies\Check;
 
-use Illuminate\Contracts\Container\Container;
+use Rocketeer\Container;
 use Rocketeer\Strategies\AbstractCheckStrategy;
 
 /**

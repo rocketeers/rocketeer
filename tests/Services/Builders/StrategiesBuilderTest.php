@@ -21,8 +21,7 @@ class StrategiesBuilderTest extends RocketeerTestCase
         $built = $this->builder->buildStrategy('Check', '');
         $this->assertInstanceOf(PhpStrategy::class, $built);
 
-        unset($this->app['rocketeer.strategies.check']);
-        $built = $this->builder->buildStrategy('Check', '');
+        $built = $this->builder->buildStrategy('sdffs', '');
         $this->assertNull($built);
     }
 }

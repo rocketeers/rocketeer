@@ -131,7 +131,7 @@ class DeployTest extends RocketeerTestCase
             ],
         ]);
 
-        $this->app['rocketeer.strategies.deploy'] = new CopyStrategy($this->app);
+        $this->app->add('rocketeer.strategies.deploy', new CopyStrategy($this->app));
 
         $this->mockState([
             '10000000000000' => true,

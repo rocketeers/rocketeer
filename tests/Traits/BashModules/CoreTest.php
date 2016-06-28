@@ -27,7 +27,7 @@ class CoreTest extends RocketeerTestCase
     {
         $this->expectOutputRegex('/.+An error occured: "Oh noes", while running:\ngit clone.+/');
 
-        $this->app['rocketeer.remote'] = clone $this->getRemote()->shouldReceive('status')->andReturn(1)->mock();
+        $this->app->add('rocketeer.remote', clone $this->getRemote()->shouldReceive('status')->andReturn(1)->mock());
         $this->mockEchoingCommand();
 
         $status = $this->task('Deploy')->checkStatus('Oh noes', 'git clone');

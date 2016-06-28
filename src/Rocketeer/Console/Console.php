@@ -11,8 +11,8 @@
 
 namespace Rocketeer\Console;
 
-use Illuminate\Contracts\Container\Container;
 use Rocketeer\Console\Commands\AbstractCommand;
+use Rocketeer\Container;
 use Rocketeer\Rocketeer;
 use Rocketeer\Traits\HasLocator;
 use Symfony\Component\Console\Application;
@@ -30,7 +30,7 @@ class Console extends Application
     /**
      * Create a new Artisan console application.
      *
-     * @param \Illuminate\Contracts\Container\Container $app
+     * @param Container $app
      */
     public function __construct(Container $app)
     {
@@ -116,12 +116,12 @@ class Console extends Application
     protected function getCurrentState()
     {
         return [
-            'application_name' => realpath($this->app['rocketeer.rocketeer']->getApplicationName()),
-            'application' => realpath($this->app['rocketeer.paths']->getApplicationPath()),
-            'configuration' => realpath($this->app['rocketeer.paths']->getConfigurationPath()),
-            'tasks' => $this->app['path.rocketeer.tasks'],
-            'events' => $this->app['path.rocketeer.events'],
-            'logs' => $this->app['path.rocketeer.logs'],
+            'application_name' => realpath($this->app->get('rocketeer.rocketeer')->getApplicationName()),
+            'application' => realpath($this->app->get('rocketeer.paths')->getApplicationPath()),
+            'configuration' => realpath($this->app->get('rocketeer.paths')->getConfigurationPath()),
+            'tasks' => $this->app->get('path.rocketeer.tasks'),
+            'events' => $this->app->get('path.rocketeer.events'),
+            'logs' => $this->app->get('path.rocketeer.logs'),
         ];
     }
 }

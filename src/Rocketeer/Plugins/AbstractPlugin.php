@@ -11,9 +11,9 @@
 
 namespace Rocketeer\Plugins;
 
-use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Str;
 use Rocketeer\Console\Console;
+use Rocketeer\Container;
 use Rocketeer\Services\Builders\Builder;
 use Rocketeer\Services\TasksHandler;
 use Rocketeer\Traits\HasLocator;

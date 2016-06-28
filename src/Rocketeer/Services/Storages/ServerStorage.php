@@ -11,7 +11,7 @@
 
 namespace Rocketeer\Services\Storages;
 
-use Illuminate\Contracts\Container\Container;
+use Rocketeer\Container;
 
 class ServerStorage extends Storage
 {

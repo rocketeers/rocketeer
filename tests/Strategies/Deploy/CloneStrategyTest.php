@@ -50,7 +50,7 @@ class CloneStrategyTest extends RocketeerTestCase
 
     public function testDoesntRunSubmodulesCheckoutForSvn()
     {
-        $this->app['rocketeer.scm'] = new Svn($this->app);
+        $this->app->add('rocketeer.scm', new Svn($this->app));
 
         $task = $this->pretendTask('Deploy');
         $task->getStrategy('Deploy')->deploy();

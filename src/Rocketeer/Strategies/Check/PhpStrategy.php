@@ -11,7 +11,7 @@
 
 namespace Rocketeer\Strategies\Check;
 
-use Illuminate\Contracts\Container\Container;
+use Rocketeer\Container;
 use Rocketeer\Strategies\AbstractCheckStrategy;
 
 class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterface
@@ -214,9 +214,9 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
     protected function getExtensions()
     {
         $extensions = [
-            'database' => ['checkDatabaseDriver', $this->app['rocketeer.config']->get('database.default')],
-            'cache' => ['checkCacheDriver', $this->app['rocketeer.config']->get('cache.driver')],
-            'session' => ['checkCacheDriver', $this->app['rocketeer.config']->get('session.driver')],
+            'database' => ['checkDatabaseDriver', $this->app->get('rocketeer.config')->get('database.default')],
+            'cache' => ['checkCacheDriver', $this->app->get('rocketeer.config')->get('cache.driver')],
+            'session' => ['checkCacheDriver', $this->app->get('rocketeer.config')->get('session.driver')],
         ];
 
         foreach ($this->getRequiredExtensionsFromComposer() as $extension) {

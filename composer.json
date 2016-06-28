@@ -20,11 +20,11 @@
   "require": {
     "php": ">=5.6.0",
     "anahkiasen/php-reference-dumper": "^1.0",
-    "illuminate/container": "^5.2",
     "illuminate/support": "^5.2",
     "jeremeamia/superclosure": "^2.2",
     "kherge/amend": "dev-master",
     "kzykhys/parallel": "^0.1.0",
+    "league/container": "^2.2",
     "league/event": "^2.1",
     "league/flysystem": "^1.0.8",
     "league/flysystem-sftp": "^1.0",

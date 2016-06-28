@@ -12,9 +12,9 @@
 namespace Rocketeer\Services\Storages;
 
 use Exception;
-use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Arr;
 use League\Flysystem\FilesystemInterface;
+use Rocketeer\Container;
 use Rocketeer\Traits\HasLocator;
 
 /**

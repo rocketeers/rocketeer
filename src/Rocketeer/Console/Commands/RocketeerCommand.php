@@ -30,7 +30,7 @@ class RocketeerCommand extends DeployCommand
      */
     public function fire()
     {
-        $this->app->instance('rocketeer.command', $this);
+        $this->app->add('rocketeer.command', $this);
 
         // Display version
         if ($this->option('version')) {

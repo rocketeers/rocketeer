@@ -78,7 +78,7 @@ class Tasks
             // Bind task to container
             $slug = $this->getTaskHandle($slug, $task);
             $handle = 'rocketeer.tasks.'.$slug;
-            $this->app->bind($handle, function () use ($task) {
+            $this->app->add($handle, function () use ($task) {
                 return $task;
             });
 
@@ -87,13 +87,13 @@ class Tasks
             $commands[] = $commandHandle;
 
             // Register command with the container
-            $this->app->singleton($commandHandle, function () use ($command) {
+            $this->app->share($commandHandle, function () use ($command) {
                 return $command;
             });
         }
 
         // Add self update command
-        $this->app->singleton('rocketeer.commands.self-update', function () {
+        $this->app->share('rocketeer.commands.self-update', function () {
             $command = new Command('self-update');
             $command->setManifestUri('http://rocketeer.autopergamene.eu/versions/manifest.json');
 
@@ -101,7 +101,7 @@ class Tasks
         });
 
         // Add manifest helper
-        $this->app['rocketeer.console']->getHelperSet()->set(new Helper());
+        $this->app->get('rocketeer.console')->getHelperSet()->set(new Helper());
 
         return $commands;
     }

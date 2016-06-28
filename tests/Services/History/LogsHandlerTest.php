@@ -21,7 +21,7 @@ class LogsHandlerTest extends RocketeerTestCase
     {
         parent::setUp();
 
-        $this->app['path.rocketeer.logs'] = $this->server.'/logs';
+        $this->app->add('path.rocketeer.logs', $this->server.'/logs');
         $this->swapConfig([
             'logs' => function (ConnectionsHandler $rocketeer) {
                 return sprintf('%s-%s.log', $rocketeer->getCurrentConnection()->name, $rocketeer->getCurrentConnection()->stage);
@@ -52,7 +52,7 @@ class LogsHandlerTest extends RocketeerTestCase
 
     public function testCanCreateLogsFolderIfItDoesntExistAlready()
     {
-        $this->app['path.rocketeer.logs'] = $this->server.'/newlogs';
+        $this->app->add('path.rocketeer.logs', $this->server.'/newlogs');
         $this->logs->log('foobar');
         $this->logs->write();
         $logs = $this->logs->getCurrentLogsFile();

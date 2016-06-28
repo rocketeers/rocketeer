@@ -11,8 +11,9 @@
 
 namespace Rocketeer\Console\Commands;
 
-use Rocketeer\Abstracts\Closure;
+use Rocketeer\Tasks\Closure;
 use Rocketeer\Interfaces\IdentifierInterface;
+use Rocketeer\Interfaces\Strategies\FrameworkStrategyInterface;
 use Rocketeer\Tasks\AbstractTask;
 use Rocketeer\Traits\HasLocator;
 use Rocketeer\Traits\Properties\HasEvents;
@@ -206,7 +207,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
             return $this;
         }
 
-        return $this->app->make($key);
+        return $this->app->get($key);
     }
 
     /**
@@ -305,7 +306,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
         });
 
         // Remove command instance
-        unset($this->app['rocketeer.command']);
+        $this->app->remove('rocketeer.command');
 
         // Save history to logs
         $logs = $this->logs->write();
@@ -457,7 +458,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
     protected function prepareEnvironment()
     {
         // Bind command to container
-        $this->app->instance('rocketeer.command', $this);
+        $this->app->add('rocketeer.command', $this);
 
         // Check for credentials
         $this->credentialsGatherer->getServerCredentials();

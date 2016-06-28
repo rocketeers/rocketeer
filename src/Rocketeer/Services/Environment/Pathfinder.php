@@ -50,7 +50,7 @@ class Pathfinder extends AbstractPathfinder
     {
         // Build pathfinder if necessary
         if (is_string($pathfinder)) {
-            $pathfinder = $this->app->make($pathfinder);
+            $pathfinder = $this->app->get($pathfinder);
         }
 
         // Check interfaces

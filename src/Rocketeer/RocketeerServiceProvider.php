@@ -11,9 +11,7 @@
 
 namespace Rocketeer;
 
-use Illuminate\Contracts\Container\Container;
-use Illuminate\Http\Request;
-use Illuminate\Support\ServiceProvider;
+use League\Container\ServiceProvider\AbstractServiceProvider;
 use League\Event\Emitter;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
@@ -66,16 +64,14 @@ if (!defined('DS')) {
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class RocketeerServiceProvider extends ServiceProvider
+class RocketeerServiceProvider extends AbstractServiceProvider
 {
     /**
      * Register the service provider.
      */
     public function register()
     {
-        if (!$this->app->bound(Container::class)) {
-            $this->app->instance(Container::class, $this->app);
-        }
+        $this->container->add(Container::class, $this->container);
 
         $this->bindThirdPartyServices();
         $this->bindPaths();
@@ -86,21 +82,11 @@ class RocketeerServiceProvider extends ServiceProvider
         $this->bindStrategies();
 
         // Load the user's events, tasks, plugins, and configurations
-        $this->app['rocketeer.igniter']->loadUserConfiguration();
-        $this->app['rocketeer.tasks']->registerConfiguredEvents();
+        $this->container->get('rocketeer.igniter')->loadUserConfiguration();
+        $this->container->get('rocketeer.tasks')->registerConfiguredEvents();
 
         // Bind commands
         $this->bindCommands();
-    }
-
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return string[]
-     */
-    public function provides()
-    {
-        return ['rocketeer'];
     }
 
     ////////////////////////////////////////////////////////////////////
@@ -112,19 +98,19 @@ class RocketeerServiceProvider extends ServiceProvider
      */
     public function bindPaths()
     {
-        $this->app->singleton('rocketeer.paths', function ($app) {
-            $pathfinder = new Pathfinder($app);
+        $this->container->share('rocketeer.paths', function () {
+            $pathfinder = new Pathfinder($this->container);
             $pathfinder->registerPathfinder(LocalPathfinder::class);
             $pathfinder->registerPathfinder(ServerPathfinder::class);
 
             return $pathfinder;
         });
 
-        $this->app->bind('rocketeer.igniter', ConfigurationIgnition::class);
-        $this->app->bind('rocketeer.igniter.tasks', Tasks::class);
+        $this->share('rocketeer.igniter', ConfigurationIgnition::class);
+        $this->share('rocketeer.igniter.tasks', Tasks::class);
 
         // Bind paths
-        $this->app['rocketeer.igniter']->bindPaths();
+        $this->container->get('rocketeer.igniter')->bindPaths();
     }
 
     /**
@@ -132,11 +118,11 @@ class RocketeerServiceProvider extends ServiceProvider
      */
     public function bindThirdPartyServices()
     {
-        $this->app->singleton('flysystem', function ($app) {
-            return (new FilesystemsMounter($app))->getMountManager();
+        $this->container->add('flysystem', function () {
+            return (new FilesystemsMounter($this->container))->getMountManager();
         });
 
-        $this->app->singleton('files', function () {
+        $this->container->share('files', function () {
             $local = new Filesystem(new Local('/', LOCK_EX, Local::SKIP_LINKS));
             $local->addPlugin(new RequirePlugin());
             $local->addPlugin(new IsDirectoryPlugin());
@@ -146,13 +132,13 @@ class RocketeerServiceProvider extends ServiceProvider
             return $local;
         });
 
-        $this->app->bindIf('request', function () {
-            return Request::createFromGlobals();
-        }, true);
+        //$this->container->bindIf('request', function () {
+        //    return Request::createFromGlobals();
+        //}, true);
 
-        $this->app->bindIf('rocketeer.remote', RemoteHandler::class, true);
-        $this->app->singleton('remote.local', LocalConnection::class);
-        $this->app->bindIf('events', Emitter::class, true);
+        $this->share('rocketeer.remote', RemoteHandler::class);
+        $this->share('remote.local', LocalConnection::class);
+        $this->share('events', Emitter::class);
 
         // Register factory and custom configurations
         $this->registerConfig();
@@ -163,27 +149,27 @@ class RocketeerServiceProvider extends ServiceProvider
      */
     public function bindCoreClasses()
     {
-        $this->app->bind('rocketeer.environment', Environment::class);
-        $this->app->bind('rocketeer.timer', QueueTimer::class);
-        $this->app->singleton('rocketeer.builder', Builder::class);
-        $this->app->singleton('rocketeer.bash', Bash::class);
-        $this->app->singleton('rocketeer.connections', ConnectionsHandler::class);
-        $this->app->singleton('rocketeer.coordinator', Coordinator::class);
-        $this->app->singleton('rocketeer.explainer', QueueExplainer::class);
-        $this->app->singleton('rocketeer.history', History::class);
-        $this->app->singleton('rocketeer.logs', LogsHandler::class);
-        $this->app->singleton('rocketeer.queue', TasksQueue::class);
-        $this->app->singleton('rocketeer.releases', ReleasesManager::class);
-        $this->app->singleton('rocketeer.rocketeer', Rocketeer::class);
-        $this->app->singleton('rocketeer.roles', RolesManager::class);
-        $this->app->singleton('rocketeer.tasks', TasksHandler::class);
+        $this->share('rocketeer.environment', Environment::class);
+        $this->share('rocketeer.timer', QueueTimer::class);
+        $this->share('rocketeer.builder', Builder::class);
+        $this->container->add('rocketeer.bash', new Bash($this->container));
+        $this->share('rocketeer.connections', ConnectionsHandler::class);
+        $this->share('rocketeer.coordinator', Coordinator::class);
+        $this->share('rocketeer.explainer', QueueExplainer::class);
+        $this->share('rocketeer.history', History::class);
+        $this->share('rocketeer.logs', LogsHandler::class);
+        $this->share('rocketeer.queue', TasksQueue::class);
+        $this->share('rocketeer.releases', ReleasesManager::class);
+        $this->share('rocketeer.rocketeer', Rocketeer::class);
+        $this->share('rocketeer.roles', RolesManager::class);
+        $this->share('rocketeer.tasks', TasksHandler::class);
 
-        $this->app->singleton('rocketeer.storage.local', function ($app) {
-            $folder = $app['rocketeer.paths']->getRocketeerConfigFolder();
-            $filename = $app['rocketeer.rocketeer']->getApplicationName();
+        $this->container->share('rocketeer.storage.local', function () {
+            $folder = $this->container->get('rocketeer.paths')->getRocketeerConfigFolder();
+            $filename = $this->container->get('rocketeer.rocketeer')->getApplicationName();
             $filename = $filename === '{application_name}' ? 'deployments' : $filename;
 
-            return new Storage($app, 'local', $folder, $filename);
+            return new Storage($this->container, 'local', $folder, $filename);
         });
     }
 
@@ -192,10 +178,10 @@ class RocketeerServiceProvider extends ServiceProvider
      */
     public function bindConsoleClasses()
     {
-        $this->app->singleton('rocketeer.credentials.handler', CredentialsHandler::class);
-        $this->app->singleton('rocketeer.credentials.gatherer', CredentialsGatherer::class);
-        $this->app->singleton('rocketeer.console', Console::class);
-        $this->app['rocketeer.credentials.handler']->syncConnectionCredentials();
+        $this->share('rocketeer.credentials.handler', CredentialsHandler::class);
+        $this->share('rocketeer.credentials.gatherer', CredentialsGatherer::class);
+        $this->share('rocketeer.console', Console::class);
+        $this->container->get('rocketeer.credentials.handler')->syncConnectionCredentials();
     }
 
     /**
@@ -204,20 +190,20 @@ class RocketeerServiceProvider extends ServiceProvider
     public function bindStrategies()
     {
         // Bind SCM class
-        $scm = $this->app['rocketeer.rocketeer']->getOption('scm.scm');
-        $this->app->bind('rocketeer.scm', function ($app) use ($scm) {
-            return $app['rocketeer.builder']->buildBinary($scm);
+        $scm = $this->container->get('rocketeer.rocketeer')->getOption('scm.scm');
+        $this->container->add('rocketeer.scm', function () use ($scm) {
+            return $this->container->get('rocketeer.builder')->buildBinary($scm);
         });
 
         // Bind strategies
-        $strategies = (array) $this->app['rocketeer.rocketeer']->getOption('strategies');
+        $strategies = (array)$this->container->get('rocketeer.rocketeer')->getOption('strategies');
         foreach ($strategies as $strategy => $concrete) {
             if (!is_string($concrete) || !$concrete) {
                 continue;
             }
 
-            $this->app->singleton('rocketeer.strategies.'.$strategy, function ($app) use ($strategy, $concrete) {
-                return $app['rocketeer.builder']->buildStrategy($strategy, $concrete);
+            $this->container->share('rocketeer.strategies.'.$strategy, function () use ($strategy, $concrete) {
+                return $this->container->get('rocketeer.builder')->buildStrategy($strategy, $concrete);
             });
         }
     }
@@ -228,14 +214,14 @@ class RocketeerServiceProvider extends ServiceProvider
     public function bindCommands()
     {
         // Base commands
-        $tasks = $this->app['rocketeer.igniter.tasks']->getPredefinedTasks();
+        $tasks = $this->container->get('rocketeer.igniter.tasks')->getPredefinedTasks();
 
         // Register the tasks and their commands
-        $commands = $this->app['rocketeer.igniter.tasks']->registerTasksAndCommands($tasks);
+        $commands = $this->container->get('rocketeer.igniter.tasks')->registerTasksAndCommands($tasks);
 
         // Add commands to Artisan
         foreach ($commands as $command) {
-            $this->app['rocketeer.console']->add($this->app[$command]);
+            $this->container->get('rocketeer.console')->add($this->container->get($command));
         }
     }
 
@@ -248,7 +234,7 @@ class RocketeerServiceProvider extends ServiceProvider
      */
     protected function registerConfig()
     {
-        $this->app->bind(LoaderInterface::class, function () {
+        $this->container->add(LoaderInterface::class, function () {
             $locator = new FileLocator();
             $loader = new LoaderResolver([new PhpLoader($locator)]);
             $loader = new DelegatingLoader($loader);
@@ -256,23 +242,37 @@ class RocketeerServiceProvider extends ServiceProvider
             return $loader;
         });
 
-        $this->app->singleton(ConfigurationCache::class, function ($app) {
-            return new ConfigurationCache($app['rocketeer.paths']->getConfigurationCachePath(), false);
+        $this->container->share(ConfigurationCache::class, function () {
+            return new ConfigurationCache($this->container->get('rocketeer.paths')->getConfigurationCachePath(), false);
         });
 
-        $this->app->singleton('rocketeer.config.loader', function ($app) {
-            $loader = $app->make(ConfigurationLoader::class);
-            $loader->setFolders([__DIR__.'/../config', $app['rocketeer.paths']->getConfigurationPath()]);
+        $this->container->share('rocketeer.config.loader', function () {
+            $loader = $this->container->get(ConfigurationLoader::class);
+            $loader->setFolders([
+                __DIR__.'/../config',
+                $this->container->get('rocketeer.paths')->getConfigurationPath(),
+            ]);
 
             return $loader;
         });
 
-        $this->app->bind('rocketeer.config.publisher', function ($app) {
-            return new ConfigurationPublisher(new ConfigurationDefinition(), $app['files']);
+        $this->container->add('rocketeer.config.publisher', function () {
+            return new ConfigurationPublisher(new ConfigurationDefinition(), $this->container->get('files'));
         });
 
-        $this->app->singleton('rocketeer.config', function ($app) {
-            return new Configuration($app['rocketeer.config.loader']->getConfiguration());
+        $this->container->share('rocketeer.config', function () {
+            return new Configuration($this->container->get('rocketeer.config.loader')->getConfiguration());
+        });
+    }
+
+    /**
+     * @param string $alias
+     * @param string $concrete
+     */
+    protected function share($alias, $concrete)
+    {
+        $this->container->share($alias, function () use ($concrete) {
+            return $this->container->get($concrete);
         });
     }
 }

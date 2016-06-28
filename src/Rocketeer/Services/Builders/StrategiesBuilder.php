@@ -37,11 +37,11 @@ trait StrategiesBuilder
 
         // Cancel if no matching strategy instance
         $handle = 'rocketeer.strategies.'.$handle;
-        if (!$this->app->bound($handle)) {
+        if (!$this->app->has($handle)) {
             return $concrete ? $this->buildStrategyFromName($strategy, $concrete) : null;
         }
 
-        return $this->app[$handle];
+        return $this->app->get($handle);
     }
 
     /**

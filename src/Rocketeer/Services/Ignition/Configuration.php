@@ -150,7 +150,7 @@ class Configuration
     protected function mergeConfigurationFolders(array $folders, callable $computeHandle, $exclude = null)
     {
         // Cancel if not ignited yet
-        $configuration = $this->app['path.rocketeer.config'];
+        $configuration = $this->app->get('path.rocketeer.config');
         if (!$this->files->isDirectory($configuration)) {
             return;
         }
@@ -192,11 +192,11 @@ class Configuration
      */
     protected function bindBase()
     {
-        if ($this->app->bound('path.base')) {
+        if ($this->app->has('path.base')) {
             return;
         }
 
-        $this->app->instance('path.base', getcwd());
+        $this->app->add('path.base', getcwd());
     }
 
     /**
@@ -236,7 +236,7 @@ class Configuration
                 $file = $realpath;
             }
 
-            $this->app->instance('path.rocketeer.'.$key, $file);
+            $this->app->share('path.rocketeer.'.$key, $file);
         }
     }
 
@@ -257,7 +257,7 @@ class Configuration
         $handle = $file->getRealpath();
 
         // Format appropriately
-        $handle = str_replace($this->app['path.rocketeer.config'].DS, null, $handle);
+        $handle = str_replace($this->app->get('path.rocketeer.config').DS, null, $handle);
         $handle = str_replace('.php', null, $handle);
         $handle = str_replace(DS, '.', $handle);
 
@@ -275,7 +275,7 @@ class Configuration
         Facades\Rocketeer::setFacadeApplication($this->app);
 
         // If we have one unified tasks file, include it
-        $file = $this->app['path.rocketeer.'.$handle];
+        $file = $this->app->get('path.rocketeer.'.$handle);
         if (!$this->files->isDirectory($file) && $this->files->has($file) && $file !== 'strategies.php') {
             $this->files->include($file);
         } // Else include its contents

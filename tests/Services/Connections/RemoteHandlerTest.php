@@ -28,7 +28,6 @@ class RemoteHandlerTest extends RocketeerTestCase
         parent::setUp();
 
         $this->handler = new RemoteHandler($this->app);
-        unset($this->app['rocketeer.command']);
     }
 
     public function testCanCreateConnection()

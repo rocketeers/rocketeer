@@ -11,7 +11,7 @@
 
 namespace Rocketeer\Binaries;
 
-use Illuminate\Contracts\Container\Container;
+use Rocketeer\Container;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Rocketeer\Traits\HasLocator;

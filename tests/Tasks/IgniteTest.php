@@ -21,9 +21,10 @@ class IgniteTest extends RocketeerTestCase
     public function testCanIgniteConfigurationOnWindows()
     {
         $this->usesLaravel(false);
-        $this->app['path.base'] = 'E:\workspace\test';
+        $this->app->add('path.base', 'E:\workspace\test');
 
-        $provider = new RocketeerServiceProvider($this->app);
+        $provider = new RocketeerServiceProvider();
+        $provider->setContainer($this->app);
         $provider->bindPaths();
 
         $this->mockFiles(function (MockInterface $mock) {
@@ -37,10 +38,11 @@ class IgniteTest extends RocketeerTestCase
 
     public function testCanIgniteConfigurationOnWindowsInLaravel()
     {
-        $this->app['path.base'] = 'E:\workspace\test';
-        $this->app['path'] = 'E:\workspace\test\app';
+        $this->app->add('path.base', 'E:\workspace\test');
+        $this->app->add('path', 'E:\workspace\test\app');
 
-        $provider = new RocketeerServiceProvider($this->app);
+        $provider = new RocketeerServiceProvider();
+        $provider->setContainer($this->app);
         $provider->bindPaths();
 
         $this->mockFiles(function (MockInterface $mock) {

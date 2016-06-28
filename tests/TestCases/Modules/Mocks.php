@@ -12,6 +12,7 @@
 namespace Rocketeer\TestCases\Modules;
 
 use Closure;
+use League\Flysystem\Filesystem;
 use Mockery;
 use Mockery\MockInterface;
 
@@ -43,7 +44,7 @@ trait Mocks
             $mockery = $expectations($mockery)->mock();
         }
 
-        $this->app[$handle] = $mockery;
+        $this->app->add($handle, $mockery);
 
         return $mockery;
     }
@@ -81,7 +82,7 @@ trait Mocks
             'update' => false,
         ], $options);
 
-        $this->app['rocketeer.command'] = $this->getCommand($expectations, $options, $print);
+        $this->app->add('rocketeer.command', $this->getCommand($expectations, $options, $print));
     }
 
     /**
@@ -103,7 +104,7 @@ trait Mocks
      */
     protected function mockRemote($expectations = null)
     {
-        $this->app['rocketeer.remote'] = $this->getRemote($expectations);
+        $this->app->add('rocketeer.remote', $this->getRemote($expectations));
     }
 
     /**
@@ -111,7 +112,7 @@ trait Mocks
      */
     protected function mockFiles(Closure $expectations = null)
     {
-        $this->mock('files', 'League\Flysystem\Filesystem', $expectations);
+        $this->mock('files', Filesystem::class, $expectations);
     }
 
     /**
@@ -122,7 +123,7 @@ trait Mocks
         $defaults = $this->getFactoryConfiguration();
         $defaults = array_merge($defaults, [
                 'remote.shell' => false,
-                'paths.app' => $this->app['path.base'],
+                'paths.app' => $this->app->get('path.base'),
             ]
         );
 

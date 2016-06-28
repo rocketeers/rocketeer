@@ -12,9 +12,9 @@
 namespace Rocketeer\Services;
 
 use Closure;
-use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Str;
 use Rocketeer\Console\Commands\BaseTaskCommand;
+use Rocketeer\Container;
 use Rocketeer\Interfaces\IdentifierInterface;
 use Rocketeer\Tasks;
 use Rocketeer\Tasks\AbstractTask;
@@ -111,8 +111,8 @@ class TasksHandler
         $slug = 'rocketeer.tasks.'.$task->getSlug();
 
         // Add the task to Rocketeer
-        $this->app->instance($slug, $task);
-        $bound = $this->console->add(new BaseTaskCommand($this->app[$slug]));
+        $this->app->add($slug, $task);
+        $bound = $this->console->add(new BaseTaskCommand($this->app->get($slug)));
 
         // Bind to framework too
         if ($framework = $this->getFramework()) {
@@ -347,7 +347,7 @@ class TasksHandler
     {
         // Build plugin
         if (is_string($plugin)) {
-            $plugin = $this->app->make($plugin, [$this->app]);
+            $plugin = $this->app->get($plugin, [$this->app]);
         }
 
         // Store registration of plugin
@@ -370,8 +370,8 @@ class TasksHandler
 
         // Bind instances
         $this->app = $plugin->register($this->app);
-        $plugin->onConsole($this->app['rocketeer.console']);
-        $plugin->onBuilder($this->app['rocketeer.builder']);
+        $plugin->onConsole($this->app->get('rocketeer.console'));
+        $plugin->onBuilder($this->app->get('rocketeer.builder'));
 
         // Add hooks to TasksHandler
         $plugin->onQueue($this);
@@ -396,7 +396,7 @@ class TasksHandler
         $object = call_user_func_array([$this->builder, $builder], $object);
         call_user_func_array([$object, $method], $parameters);
 
-        $this->app->instance('rocketeer.'.$object->getIdentifier(), $object);
+        $this->app->add('rocketeer.'.$object->getIdentifier(), $object);
     }
 
     /**

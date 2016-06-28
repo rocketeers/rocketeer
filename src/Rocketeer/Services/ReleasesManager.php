@@ -11,8 +11,8 @@
 
 namespace Rocketeer\Services;
 
-use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Arr;
+use Rocketeer\Container;
 use Rocketeer\Services\Storages\ServerStorage;
 use Rocketeer\Traits\HasLocator;
 

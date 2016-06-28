@@ -11,7 +11,7 @@
 
 namespace Rocketeer\Strategies;
 
-use Illuminate\Contracts\Container\Container;
+use Rocketeer\Container;
 
 /**
  * Abstract class for Dependencies strategies.

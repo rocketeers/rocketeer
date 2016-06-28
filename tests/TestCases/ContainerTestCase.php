@@ -12,7 +12,8 @@
 namespace Rocketeer\TestCases;
 
 use Closure;
-use Illuminate\Container\Container;
+use Rocketeer\Container;
+use League\Container\ReflectionContainer;
 use League\Flysystem\MountManager;
 use Mockery;
 use PHPUnit_Framework_TestCase;
@@ -75,10 +76,10 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 
         // Paths -------------------------------------------------------- /
 
-        $this->app->instance('path.base', '/src');
-        $this->app->instance('path', $this->app['path.base'].'/app');
-        $this->app->instance('path.public', $this->app['path.base'].'/public');
-        $this->app->instance('path.storage', $this->app['path'].'/storage');
+        $this->app->add('path.base', '/src');
+        $this->app->add('path', $this->app->get('path.base').'/app');
+        $this->app->add('path.public', $this->app->get('path.base').'/public');
+        $this->app->add('path.storage', $this->app->get('path').'/storage');
 
         // Create local paths
         $this->home = $_SERVER['HOME'];
@@ -86,17 +87,18 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         $this->customConfig = $this->server.'/.rocketeer';
         $this->deploymentsFile = $this->server.'/deployments.json';
 
-        // Replace some instances with mocks
-        $this->app['artisan'] = $this->getArtisan();
-        $this->app['rocketeer.remote'] = $this->getRemote();
-        $this->app['rocketeer.command'] = $this->getCommand();
-
         // Rocketeer classes ------------------------------------------- /
 
-        $serviceProvider = new RocketeerServiceProvider($this->app);
+        $serviceProvider = new RocketeerServiceProvider();
+        $serviceProvider->setContainer($this->app);
         $serviceProvider->register();
 
-        $this->app->singleton('flysystem', function () {
+        // Replace some instances with mocks
+        $this->app->add('artisan', $this->getArtisan());
+        $this->app->add('rocketeer.remote', $this->getRemote());
+        $this->app->add('rocketeer.command', $this->getCommand());
+
+        $this->app->share('flysystem', function () {
             return new MountManager([
                 'local' => $this->files,
                 'remote' => $this->files,

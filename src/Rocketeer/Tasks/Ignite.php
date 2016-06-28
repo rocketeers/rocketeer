@@ -37,7 +37,7 @@ class Ignite extends AbstractTask
 
         // Replace placeholders
         $parameters = $this->getConfigurationInformations();
-        $this->app['rocketeer.igniter']->updateConfiguration($path, $parameters);
+        $this->app->get('rocketeer.igniter')->updateConfiguration($path, $parameters);
 
         // Display info
         $folder = basename(dirname($path)).'/'.basename($path);
@@ -55,7 +55,7 @@ class Ignite extends AbstractTask
     {
         $this->command->call('config:publish', ['package' => 'anahkiasen/rocketeer']);
 
-        return $this->app['path'].'/config/packages/anahkiasen/rocketeer';
+        return $this->app->get('path').'/config/packages/anahkiasen/rocketeer';
     }
 
     /**
@@ -65,7 +65,7 @@ class Ignite extends AbstractTask
      */
     protected function createOutsideConfiguration()
     {
-        return $this->app['rocketeer.igniter']->exportConfiguration();
+        return $this->app->get('rocketeer.igniter')->exportConfiguration();
     }
 
     /**

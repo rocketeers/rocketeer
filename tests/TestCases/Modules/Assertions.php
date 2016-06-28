@@ -122,7 +122,7 @@ trait Assertions
     protected function assertTaskOutput($task, $output, $command = null)
     {
         if ($command) {
-            $this->app['rocketeer.command'] = $command;
+            $this->app->add('rocketeer.command', $command);
         }
 
         return $this->assertContains($output, $this->task($task)->execute());
@@ -239,7 +239,7 @@ trait Assertions
                 '{phpunit}' => $this->binaries['phpunit'],
                 '{repository}' => 'https://github.com/'.$this->repository,
                 '{server}' => $this->server,
-                '{storage}' => $this->app['path.storage'],
+                '{storage}' => $this->app->get('path.storage'),
                 '{release}' => $release,
                 '{composer}' => $this->binaries['composer'],
             ]);

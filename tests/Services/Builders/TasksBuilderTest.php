@@ -98,7 +98,7 @@ class TasksBuilderTest extends RocketeerTestCase
 
     public function testCanUseInstancesFromTheContainerAsClasses()
     {
-        $this->app->instance('foobar', new CallableTask());
+        $this->app->add('foobar', new CallableTask());
 
         $task = $this->builder->buildTask(['foobar', 'someMethod']);
         $this->assertEquals(Closure::class, $task->fire());

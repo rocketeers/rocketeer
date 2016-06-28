@@ -11,8 +11,11 @@
 
 namespace Rocketeer\Traits;
 
-use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Arr;
+use Rocketeer\Console\Commands\AbstractCommand;
+use Rocketeer\Container;
+use Rocketeer\Interfaces\Strategies\FrameworkStrategyInterface;
+use Symfony\Component\Console\Command\Command;
 
 /**
  * A trait for Service Locator-based classes wich adds
@@ -73,7 +76,7 @@ trait HasLocator
     /**
      * @param Container $app
      */
-    public function setContainer($app)
+    public function setContainer(Container $app)
     {
         $this->app = $app;
     }
@@ -97,7 +100,7 @@ trait HasLocator
     {
         $key = $this->getLocatorHandle($key);
 
-        return $this->app->make($key);
+        return $this->app->get($key);
     }
 
     /**
@@ -108,7 +111,7 @@ trait HasLocator
      */
     public function __set($key, $value)
     {
-        $this->app[$key] = $value;
+        $this->app->add($key, $value);
     }
 
     /**
@@ -167,7 +170,7 @@ trait HasLocator
      */
     protected function hasCommand()
     {
-        return $this->app->bound('rocketeer.command');
+        return $this->app->has('rocketeer.command');
     }
 
     /**
@@ -211,6 +214,6 @@ trait HasLocator
      */
     public function getFramework()
     {
-        return $this->app->bound('rocketeer.builder') ? $this->builder->buildStrategy('Framework') : null;
+        return $this->app->has('rocketeer.builder') ? $this->builder->buildStrategy('Framework') : null;
     }
 }

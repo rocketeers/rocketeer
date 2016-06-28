@@ -20,7 +20,7 @@ class LocalCloneStrategyTest extends RocketeerTestCase
     {
         parent::setUp();
 
-        $this->app['path.storage'] = $this->server.'/storage';
+        $this->app->add('path.storage', $this->server.'/storage');
 
         $this->swapConnections([
             'production' => [
