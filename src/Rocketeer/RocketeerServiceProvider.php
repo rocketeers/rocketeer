@@ -196,7 +196,7 @@ class RocketeerServiceProvider extends AbstractServiceProvider
         });
 
         // Bind strategies
-        $strategies = (array)$this->container->get('rocketeer.rocketeer')->getOption('strategies');
+        $strategies = (array) $this->container->get('rocketeer.rocketeer')->getOption('strategies');
         foreach ($strategies as $strategy => $concrete) {
             if (!is_string($concrete) || !$concrete) {
                 continue;

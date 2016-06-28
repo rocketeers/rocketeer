@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer;
 
 use League\Container\ReflectionContainer;
@@ -21,9 +30,7 @@ class Container extends \League\Container\Container
      */
     public function remove($key)
     {
-        unset($this->definitions[$key]);
-        unset($this->shared[$key]);
-        unset($this->sharedDefinitions[$key]);
+        unset($this->definitions[$key], $this->shared[$key], $this->sharedDefinitions[$key]);
     }
 
     /**

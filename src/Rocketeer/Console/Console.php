@@ -40,14 +40,7 @@ class Console extends Application
     }
 
     /**
-     * Adds a command object.
-     * If a command with the same name already exists, it will be overridden.
-     *
-     * @param Command $command A Command object
-     *
-     * @return Command The registered command
-     *
-     * @api
+     * {@inheritdoc}
      */
     public function add(Command $command)
     {

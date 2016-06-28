@@ -12,12 +12,11 @@
 namespace Rocketeer\TestCases;
 
 use Closure;
-use Rocketeer\Container;
-use League\Container\ReflectionContainer;
 use League\Flysystem\MountManager;
 use Mockery;
 use PHPUnit_Framework_TestCase;
 use Rocketeer\Console\Commands\AbstractCommand;
+use Rocketeer\Container;
 use Rocketeer\Dummies\Tasks\MyCustomTask;
 use Rocketeer\RocketeerServiceProvider;
 use Rocketeer\Services\Connections\Connections\Connection;

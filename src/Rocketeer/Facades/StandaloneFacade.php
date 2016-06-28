@@ -12,7 +12,6 @@
 namespace Rocketeer\Facades;
 
 use Rocketeer\Container;
-use League\Container\ReflectionContainer;
 use Rocketeer\RocketeerServiceProvider;
 
 /**
@@ -44,9 +43,17 @@ abstract class StandaloneFacade
     /**
      * @param Container $container
      */
-    public static function setFacadeApplication(Container $container)
+    public static function setContainer(Container $container)
     {
         static::$container = $container;
+    }
+
+    /**
+     * @return Container
+     */
+    public static function getContainer()
+    {
+        return self::$container;
     }
 
     /**
@@ -87,7 +94,7 @@ abstract class StandaloneFacade
 
     /**
      * @param string $name
-     * @param array $arguments
+     * @param array  $arguments
      *
      * @return mixed
      */

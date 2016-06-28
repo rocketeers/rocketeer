@@ -12,9 +12,7 @@
 namespace Rocketeer\Traits;
 
 use Illuminate\Support\Arr;
-use Rocketeer\Console\Commands\AbstractCommand;
 use Rocketeer\Container;
-use Rocketeer\Interfaces\Strategies\FrameworkStrategyInterface;
 use Symfony\Component\Console\Command\Command;
 
 /**

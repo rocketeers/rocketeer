@@ -11,10 +11,9 @@
 
 namespace Rocketeer\Console\Commands;
 
-use Rocketeer\Tasks\Closure;
 use Rocketeer\Interfaces\IdentifierInterface;
-use Rocketeer\Interfaces\Strategies\FrameworkStrategyInterface;
 use Rocketeer\Tasks\AbstractTask;
+use Rocketeer\Tasks\Closure;
 use Rocketeer\Traits\HasLocator;
 use Rocketeer\Traits\Properties\HasEvents;
 use RuntimeException;

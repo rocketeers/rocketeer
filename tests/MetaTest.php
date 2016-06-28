@@ -11,8 +11,6 @@
 
 namespace Rocketeer;
 
-use League\Container\Container;
-use League\Container\ReflectionContainer;
 use Rocketeer\Dummies\Tasks\MyCustomTask;
 use Rocketeer\TestCases\RocketeerTestCase;
 

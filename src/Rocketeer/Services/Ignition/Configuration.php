@@ -272,7 +272,7 @@ class Configuration
     protected function loadFileOrFolder($handle)
     {
         // Bind ourselves into the facade to avoid automatic resolution
-        Facades\Rocketeer::setFacadeApplication($this->app);
+        Facades\Rocketeer::setContainer($this->app);
 
         // If we have one unified tasks file, include it
         $file = $this->app->get('path.rocketeer.'.$handle);

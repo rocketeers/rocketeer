@@ -11,9 +11,9 @@
 
 namespace Rocketeer\Binaries;
 
-use Rocketeer\Container;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Rocketeer\Container;
 use Rocketeer\Traits\HasLocator;
 
 /**
