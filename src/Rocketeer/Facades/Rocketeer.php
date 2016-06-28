@@ -25,5 +25,5 @@ class Rocketeer extends StandaloneFacade
      *
      * @var string
      */
-    protected static $accessor = 'rocketeer.tasks';
+    protected static $accessor = 'tasks';
 }

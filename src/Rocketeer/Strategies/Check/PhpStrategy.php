@@ -214,9 +214,9 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
     protected function getExtensions()
     {
         $extensions = [
-            'database' => ['checkDatabaseDriver', $this->app->get('rocketeer.config')->get('database.default')],
-            'cache' => ['checkCacheDriver', $this->app->get('rocketeer.config')->get('cache.driver')],
-            'session' => ['checkCacheDriver', $this->app->get('rocketeer.config')->get('session.driver')],
+            'database' => ['checkDatabaseDriver', $this->app->get('config')->get('database.default')],
+            'cache' => ['checkCacheDriver', $this->app->get('config')->get('cache.driver')],
+            'session' => ['checkCacheDriver', $this->app->get('config')->get('session.driver')],
         ];
 
         foreach ($this->getRequiredExtensionsFromComposer() as $extension) {

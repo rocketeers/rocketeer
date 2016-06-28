@@ -11,7 +11,7 @@
 
 namespace Rocketeer\Plugins;
 
-use Rocketeer\Services\TasksHandler;
+use Rocketeer\Services\Tasks\TasksHandler;
 use Rocketeer\Tasks\Subtasks\Notify;
 
 /**
@@ -22,7 +22,7 @@ abstract class AbstractNotifier extends AbstractPlugin
     /**
      * Register Tasks with Rocketeer.
      *
-     * @param \Rocketeer\Services\TasksHandler $queue
+     * @param \Rocketeer\Services\Tasks\TasksHandler $queue
      */
     public function onQueue(TasksHandler $queue)
     {

@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Services\Environment;
 
 use League\Container\ServiceProvider\AbstractServiceProvider;
@@ -17,7 +27,7 @@ class EnvironmentServiceProvider extends AbstractServiceProvider
      */
     public function register()
     {
-        $this->container->share('environment', function() {
+        $this->container->share('environment', function () {
             return new Environment($this->container);
         });
 

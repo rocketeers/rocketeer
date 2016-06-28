@@ -13,7 +13,6 @@ namespace Rocketeer\Traits;
 
 use Illuminate\Support\Arr;
 use Rocketeer\Container;
-use Symfony\Component\Console\Command\Command;
 
 /**
  * A trait for Service Locator-based classes wich adds
@@ -48,7 +47,7 @@ use Symfony\Component\Console\Command\Command;
  * @property \Rocketeer\Services\Storages\Storage                localStorage
  * @property \Rocketeer\Services\Builders\Builder                builder
  * @property \Rocketeer\Services\Tasks\TasksQueue                queue
- * @property \Rocketeer\Services\TasksHandler                    tasks
+ * @property \Rocketeer\Services\Tasks\TasksHandler              tasks
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
@@ -120,24 +119,21 @@ trait HasLocator
     protected function getLocatorHandle($key)
     {
         $shortcuts = [
+            'configurationLoader' => 'config.loader',
+            'configurationPublisher' => 'config.publisher',
+            'localStorage' => 'storage.local',
             'bash' => 'rocketeer.bash',
             'builder' => 'rocketeer.builder',
             'command' => 'rocketeer.command',
-            'config' => 'rocketeer.config',
-            'configurationLoader' => 'rocketeer.config.loader',
-            'configurationPublisher' => 'rocketeer.config.publisher',
             'credentials' => 'rocketeer.credentials.handler',
             'credentialsGatherer' => 'rocketeer.credentials.gatherer',
             'explainer' => 'rocketeer.explainer',
             'history' => 'rocketeer.history',
-            'localStorage' => 'rocketeer.storage.local',
             'logs' => 'rocketeer.logs',
-            'queue' => 'rocketeer.queue',
             'releasesManager' => 'rocketeer.releases',
             'rocketeer' => 'rocketeer.rocketeer',
             'roles' => 'rocketeer.roles',
             'scm' => 'rocketeer.scm',
-            'tasks' => 'rocketeer.tasks',
             'timer' => 'rocketeer.timer',
         ];
 

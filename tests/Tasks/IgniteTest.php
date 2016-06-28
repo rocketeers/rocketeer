@@ -13,6 +13,7 @@ namespace Rocketeer\Tasks;
 
 use Mockery;
 use Mockery\MockInterface;
+use Rocketeer\Container;
 use Rocketeer\RocketeerServiceProvider;
 use Rocketeer\TestCases\RocketeerTestCase;
 
@@ -21,7 +22,11 @@ class IgniteTest extends RocketeerTestCase
     public function testCanIgniteConfigurationOnWindows()
     {
         $this->usesLaravel(false);
-        $this->app->add('path.base', 'E:\workspace\test');
+
+        $container = new Container();
+        $container->add('path.base', 'E:\workspace\test');
+        $container->add('home', $this->home);
+        $this->app = $container;
 
         $provider = new RocketeerServiceProvider();
         $provider->setContainer($this->app);

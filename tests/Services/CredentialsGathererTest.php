@@ -339,7 +339,7 @@ class CredentialsGathererTest extends RocketeerTestCase
      */
     protected function assertStoredCredentialsEquals(array $credentials)
     {
-        $this->mock('rocketeer.storage.local', 'Storage', function (MockInterface $mock) use ($credentials) {
+        $this->mock('storage.local', 'Storage', function (MockInterface $mock) use ($credentials) {
             return $mock->shouldReceive('set')->with('credentials', $credentials);
         });
     }

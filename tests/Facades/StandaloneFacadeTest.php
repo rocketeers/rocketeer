@@ -23,7 +23,7 @@ class StandaloneFacadeTest extends RocketeerTestCase
         $container = \Rocketeer\Facades\Rocketeer::getContainer();
         $this->assertInstanceOf(Container::class, $container);
 
-        $storage = $container->get('rocketeer.storage.local');
+        $storage = $container->get('storage.local');
         $this->assertInstanceOf(Storage::class, $storage);
         $this->assertInstanceOf(Filesystem::class, $storage->getFilesystem());
     }

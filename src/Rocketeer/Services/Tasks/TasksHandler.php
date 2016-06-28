@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Rocketeer\Services;
+namespace Rocketeer\Services\Tasks;
 
 use Closure;
 use Illuminate\Support\Str;

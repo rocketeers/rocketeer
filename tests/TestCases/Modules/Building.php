@@ -92,7 +92,7 @@ trait Building
         // Fetch command from Container if necessary
         if (!$command instanceof AbstractCommand) {
             $command = $command ? '.'.$command : null;
-            $command = $this->app->get('rocketeer.commands'.$command);
+            $command = $this->app->get('commands'.$command);
         } elseif (!$command->getContainer()) {
             $command->setContainer($this->app);
             $command->setHelperSet(new HelperSet(['question' => new QuestionHelper()]));

@@ -100,7 +100,7 @@ class ConfigurationTest extends RocketeerTestCase
 
     public function testCanSetCurrentApplication()
     {
-        $this->mock('rocketeer.storage.local', 'Storage', function (MockInterface $mock) {
+        $this->mock('storage.local', 'Storage', function (MockInterface $mock) {
             return $mock->shouldReceive('setFolder')->once()->with('foobar');
         });
 

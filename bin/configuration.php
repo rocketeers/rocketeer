@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-use Illuminate\Container\Container;
+use Rocketeer\Container;
 use Rocketeer\RocketeerServiceProvider;
 
 require 'vendor/autoload.php';
@@ -18,4 +18,4 @@ $container = new Container();
 $provider = new RocketeerServiceProvider($container);
 $provider->register();
 
-$container['rocketeer.config.publisher']->publish(__DIR__.'/../src/config', 'php');
+$container['config.publisher']->publish(__DIR__.'/../src/config', 'php');

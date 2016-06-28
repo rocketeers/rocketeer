@@ -79,6 +79,9 @@ class Tasks
 
             // Remember handle of the command
             $commands[] = $command;
+            $this->app->share('commands.'.$slug, function () use ($command) {
+                return $command;
+            });
         }
 
         // Add self update command

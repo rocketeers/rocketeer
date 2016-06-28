@@ -18,7 +18,7 @@ class ScmTest extends RocketeerTestCase
 {
     public function testCanForgetCredentialsIfInvalid()
     {
-        $this->app->get('rocketeer.storage.local')->set('credentials', [
+        $this->app->get('storage.local')->set('credentials', [
             'repository' => 'https://bitbucket.org/Anahkiasen/registry.git',
             'username' => 'Anahkiasen',
             'password' => 'baz',
@@ -33,6 +33,6 @@ class ScmTest extends RocketeerTestCase
         $task = $this->pretendTask();
 
         $task->getStrategy('Deploy')->deploy($this->server.'/test');
-        $this->assertNull($this->app->get('rocketeer.storage.local')->get('credentials'));
+        $this->assertNull($this->app->get('storage.local')->get('credentials'));
     }
 }

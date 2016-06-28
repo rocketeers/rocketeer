@@ -26,7 +26,7 @@ class ConnectionsHandlerTest extends RocketeerTestCase
         $connections = $this->connections->getAvailableConnections();
         $this->assertEquals(['production', 'staging'], array_keys($connections));
 
-        $this->app->get('rocketeer.storage.local')->set('connections.custom.username', 'foobar');
+        $this->app->get('storage.local')->set('connections.custom.username', 'foobar');
         $connections = $this->connections->getAvailableConnections();
         $this->assertEquals(['production', 'staging', 'custom'], array_keys($connections));
     }
@@ -56,7 +56,7 @@ class ConnectionsHandlerTest extends RocketeerTestCase
         $connections = $this->connections->getAvailableConnections();
         $this->assertArrayHasKey('production', $connections);
 
-        $this->app->get('rocketeer.storage.local')->set('connections', [
+        $this->app->get('storage.local')->set('connections', [
             'staging' => [
                 'host' => 'foobar',
                 'username' => 'user',
@@ -72,7 +72,7 @@ class ConnectionsHandlerTest extends RocketeerTestCase
 
     public function testDoesntResetConnectionIfSameAsCurrent()
     {
-        $this->mock('rocketeer.tasks', 'TasksHandler', function (MockInterface $mock) {
+        $this->mock('tasks', 'TasksHandler', function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('registerConfiguredEvents')->once();
         }, false);
@@ -84,7 +84,7 @@ class ConnectionsHandlerTest extends RocketeerTestCase
 
     public function testDoesntResetStageIfSameAsCurrent()
     {
-        $this->mock('rocketeer.tasks', 'TasksHandler', function (MockInterface $mock) {
+        $this->mock('tasks', 'TasksHandler', function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('registerConfiguredEvents')->once();
         }, false);

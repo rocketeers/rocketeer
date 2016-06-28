@@ -89,7 +89,7 @@ class ReleasesManagerTest extends RocketeerTestCase
 
     public function testCanGetCurrentReleaseFromServerIfUncached()
     {
-        $this->mock('rocketeer.storage.local', 'Storage', function (MockInterface $mock) {
+        $this->mock('storage.local', 'Storage', function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('getSeparator')->andReturn('/')
                 ->shouldReceive('getLineEndings')->andReturn(PHP_EOL);

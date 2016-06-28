@@ -11,7 +11,7 @@
 
 namespace Rocketeer\Dummies;
 
-use Rocketeer\Services\TasksHandler;
+use Rocketeer\Services\Tasks\TasksHandler;
 use Rocketeer\Tasks\Subtasks\Notify;
 
 class DummyCommandNotifier extends DummyBeforeAfterNotifier
@@ -19,7 +19,7 @@ class DummyCommandNotifier extends DummyBeforeAfterNotifier
     /**
      * Register Tasks with Rocketeer.
      *
-     * @param \Rocketeer\Services\TasksHandler $queue
+     * @param \Rocketeer\Services\Tasks\TasksHandler $queue
      */
     public function onQueue(TasksHandler $queue)
     {
