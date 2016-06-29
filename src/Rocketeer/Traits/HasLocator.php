@@ -13,6 +13,7 @@ namespace Rocketeer\Traits;
 
 use Illuminate\Support\Arr;
 use Rocketeer\Container;
+use Rocketeer\Services\Tasks\TasksQueue;
 
 /**
  * A trait for Service Locator-based classes wich adds
@@ -121,20 +122,19 @@ trait HasLocator
         $shortcuts = [
             'configurationLoader' => 'config.loader',
             'configurationPublisher' => 'config.publisher',
+            'credentials' => 'credentials.handler',
+            'credentialsGatherer' => 'credentials.gatherer',
             'localStorage' => 'storage.local',
+
             'bash' => 'rocketeer.bash',
             'builder' => 'rocketeer.builder',
             'command' => 'rocketeer.command',
-            'credentials' => 'rocketeer.credentials.handler',
-            'credentialsGatherer' => 'rocketeer.credentials.gatherer',
-            'explainer' => 'rocketeer.explainer',
             'history' => 'rocketeer.history',
             'logs' => 'rocketeer.logs',
             'releasesManager' => 'rocketeer.releases',
             'rocketeer' => 'rocketeer.rocketeer',
             'roles' => 'rocketeer.roles',
             'scm' => 'rocketeer.scm',
-            'timer' => 'rocketeer.timer',
         ];
 
         // Replace shortcuts

@@ -65,7 +65,6 @@ trait RepositoriesKeychain
 
         // Add credentials if possible
         if ($username || $password) {
-
             // Encore parameters
             $username = urlencode($username);
             $password = urlencode($password);

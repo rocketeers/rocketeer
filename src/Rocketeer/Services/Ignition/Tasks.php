@@ -68,7 +68,6 @@ class Tasks
         $commands = [];
 
         foreach ($tasks as $slug => $task) {
-
             // Build the related command
             $command = $this->builder->buildCommand($task, $slug);
             $task = $command->getTask();

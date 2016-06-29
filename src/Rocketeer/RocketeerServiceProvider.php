@@ -18,6 +18,8 @@ use Rocketeer\Services\Config\ConfigurationServiceProvider;
 use Rocketeer\Services\Connections\ConnectionsServiceProvider;
 use Rocketeer\Services\Credentials\CredentialsGatherer;
 use Rocketeer\Services\Credentials\CredentialsHandler;
+use Rocketeer\Services\Credentials\CredentialsServiceProvider;
+use Rocketeer\Services\Display\DisplayServiceProvider;
 use Rocketeer\Services\Display\QueueExplainer;
 use Rocketeer\Services\Display\QueueTimer;
 use Rocketeer\Services\Environment\EnvironmentServiceProvider;
@@ -50,6 +52,8 @@ class RocketeerServiceProvider extends AbstractServiceProvider
         ConfigurationServiceProvider::class,
         ConnectionsServiceProvider::class,
         ConsoleServiceProvider::class,
+        CredentialsServiceProvider::class,
+        DisplayServiceProvider::class,
         EnvironmentServiceProvider::class,
         EventsServiceProvider::class,
         FilesystemServiceProvider::class,
@@ -70,11 +74,11 @@ class RocketeerServiceProvider extends AbstractServiceProvider
 
         // Bind Rocketeer's classes
         $this->bindCoreClasses();
-        $this->bindConsoleClasses();
         $this->bindStrategies();
 
         // Load the user's events, tasks, plugins, and configurations
         $this->container->get('igniter')->bindPaths();
+        $this->container->get('credentials.handler')->syncConnectionCredentials();
         $this->container->get('igniter')->loadUserConfiguration();
         $this->container->get('tasks')->registerConfiguredEvents();
     }
@@ -84,25 +88,13 @@ class RocketeerServiceProvider extends AbstractServiceProvider
      */
     public function bindCoreClasses()
     {
-        $this->share('rocketeer.timer', QueueTimer::class);
         $this->share('rocketeer.builder', Builder::class);
         $this->container->add('rocketeer.bash', new Bash($this->container));
-        $this->share('rocketeer.explainer', QueueExplainer::class);
         $this->share('rocketeer.history', History::class);
         $this->share('rocketeer.logs', LogsHandler::class);
         $this->share('rocketeer.releases', ReleasesManager::class);
         $this->share('rocketeer.rocketeer', Rocketeer::class);
         $this->share('rocketeer.roles', RolesManager::class);
-    }
-
-    /**
-     * Bind the CredentialsGatherer and Console application.
-     */
-    public function bindConsoleClasses()
-    {
-        $this->share('rocketeer.credentials.handler', CredentialsHandler::class);
-        $this->share('rocketeer.credentials.gatherer', CredentialsGatherer::class);
-        $this->container->get('rocketeer.credentials.handler')->syncConnectionCredentials();
     }
 
     /**

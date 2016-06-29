@@ -224,7 +224,6 @@ class Configuration
         ];
 
         foreach ($paths as $key => $file) {
-
             // Check whether we provided a file or folder
             if (!$this->files->isDirectory($file) && $this->files->has($file.'.php')) {
                 $file .= '.php';

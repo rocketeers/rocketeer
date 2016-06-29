@@ -150,7 +150,7 @@ class TasksQueueTest extends RocketeerTestCase
     {
         $this->expectOutputString('The tasks queue was canceled by task "MyCustomHaltingTask"');
 
-        $this->mock('rocketeer.explainer', 'QueueExplainer', function (MockInterface $mock) {
+        $this->mock('explainer', 'QueueExplainer', function (MockInterface $mock) {
             return $mock->shouldReceive('error')->andReturnUsing(function ($string) {
                 echo $string;
             });

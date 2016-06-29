@@ -58,7 +58,7 @@ class AbstractNotifierTest extends RocketeerTestCase
                 ->shouldReceive('getCurrentConnection')->andReturn($handle);
         });
 
-        $this->mock('rocketeer.credentials.handler', 'CredentialsHandler', function (MockInterface $mock) {
+        $this->mock('credentials.handler', 'CredentialsHandler', function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('getCurrentRepository')->andReturn(new RepositoryKey([
                     'endpoint' => 'rocketeers/rocketeer',

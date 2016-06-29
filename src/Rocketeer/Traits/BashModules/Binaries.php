@@ -116,7 +116,6 @@ trait Binaries
         // Look in all the locations
         $tryout = 0;
         while (!$location && array_key_exists($tryout, $locations)) {
-
             // Execute method if required
             $location = $locations[$tryout];
             if (is_array($location)) {

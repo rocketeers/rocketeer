@@ -358,7 +358,6 @@ trait Core
         // Flatten and process commands
         $commands = Arr::flatten($commands);
         foreach ($commands as &$command) {
-
             // Replace directory separators
             if (DS !== $separator) {
                 $command = preg_replace($pattern, $replacement, $command);

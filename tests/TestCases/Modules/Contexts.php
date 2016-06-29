@@ -88,7 +88,7 @@ trait Contexts
      */
     protected function swapRepositoryCredentials(array $credentials)
     {
-        $this->mock('rocketeer.credentials.handler', 'CredentialsHandler', function (MockInterface $mock) use (
+        $this->mock('credentials.handler', 'CredentialsHandler', function (MockInterface $mock) use (
             $credentials
         ) {
             return $mock->shouldReceive('getCurrentRepository')->andReturn(new RepositoryKey($credentials));

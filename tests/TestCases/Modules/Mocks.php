@@ -45,6 +45,7 @@ trait Mocks
             $mockery = $expectations($mockery)->mock();
         }
 
+        $this->app->get($handle);
         $this->app->add($handle, $mockery);
 
         return $mockery;

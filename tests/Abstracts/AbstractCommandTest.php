@@ -39,7 +39,7 @@ class AbstractCommandTest extends RocketeerTestCase
         $this->mock('rocketeer.logs', 'LogsHandler', function (MockInterface $mock) {
             return $mock->shouldReceive('write')->andReturn([]);
         });
-        $this->app->add('rocketeer.credentials.gatherer', Mockery::mock('CredentialsGatherer')->shouldIgnoreMissing());
+        $this->app->add('credentials.gatherer', Mockery::mock('CredentialsGatherer')->shouldIgnoreMissing());
 
         $command = new DummyFailingCommand();
         $command->setContainer($this->app);
