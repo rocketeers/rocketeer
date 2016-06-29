@@ -53,7 +53,6 @@ class Teardown extends AbstractTask
 
         // Remove deployments file
         $this->localStorage->destroy();
-
         $this->explainer->success('The application was successfully removed from the remote servers');
     }
 }

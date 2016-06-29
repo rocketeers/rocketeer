@@ -13,7 +13,6 @@ namespace Rocketeer\Traits;
 
 use Illuminate\Support\Arr;
 use Rocketeer\Container;
-use Rocketeer\Services\Tasks\TasksQueue;
 
 /**
  * A trait for Service Locator-based classes wich adds
