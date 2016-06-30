@@ -71,7 +71,7 @@ class ConnectionsHandler
      */
     public function getAvailableStages()
     {
-        return (array) $this->rocketeer->getOption('stages.stages');
+        return (array) $this->config->getContextually('stages.stages');
     }
 
     ////////////////////////////////////////////////////////////////////

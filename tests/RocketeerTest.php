@@ -68,6 +68,6 @@ class RocketeerTest extends RocketeerTestCase
     {
         $this->config->set('connections.production.servers.0.config.remote.app_directory', '/foo/bar');
 
-        $this->assertEquals('/foo/bar', $this->rocketeer->getOption('remote.app_directory'));
+        $this->assertEquals('/foo/bar', $this->config->getContextually('remote.app_directory'));
     }
 }

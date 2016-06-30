@@ -96,7 +96,7 @@ class Deploy extends AbstractTask
      */
     protected function setApplicationPermissions()
     {
-        $files = (array) $this->rocketeer->getOption('remote.permissions.files');
+        $files = (array) $this->config->getContextually('remote.permissions.files');
         foreach ($files as &$file) {
             $this->setPermissions($file);
         }

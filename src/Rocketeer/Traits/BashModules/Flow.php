@@ -72,7 +72,7 @@ trait Flow
      */
     public function runForApplication($tasks)
     {
-        $folder = $this->rocketeer->getOption('remote.subdirectory');
+        $folder = $this->config->getContextually('remote.subdirectory');
         $folder = $this->releasesManager->getCurrentReleasePath($folder);
 
         return $this->runInFolder($folder, $tasks);
@@ -89,7 +89,7 @@ trait Flow
      */
     protected function syncSharedFolders()
     {
-        $shared = (array) $this->rocketeer->getOption('remote.shared');
+        $shared = (array) $this->config->getContextually('remote.shared');
         foreach ($shared as &$file) {
             $this->share($file);
         }

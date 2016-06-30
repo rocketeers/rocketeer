@@ -195,7 +195,7 @@ class TasksHandler
         }
 
         // Get the registered events
-        $hooks = (array) $this->rocketeer->getOption('hooks');
+        $hooks = (array) $this->config->getContextually('hooks');
         unset($hooks['custom'], $hooks['roles']);
 
         // Bind events
@@ -209,7 +209,7 @@ class TasksHandler
         $this->registerCoreEvents();
 
         // Assign roles
-        $roles = (array) $this->rocketeer->getOption('hooks.roles');
+        $roles = (array) $this->config->getContextually('hooks.roles');
         $this->roles->assignTasksRoles($roles);
     }
 

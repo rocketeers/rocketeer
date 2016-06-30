@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Rocketeer\Services\Config;
+namespace Rocketeer\Services\Config\Files;
 
 use Symfony\Component\Config\ConfigCache;
 use Symfony\Component\Config\Resource\ResourceInterface;

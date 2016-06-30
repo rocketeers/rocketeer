@@ -23,16 +23,16 @@ use Rocketeer\Services\RolesManager;
  * A trait for Service Locator-based classes wich adds
  * a few shortcuts to Rocketeer classes.
  *
- * @property \Rocketeer\Services\Config\Configuration                                            config
- * @property \Rocketeer\Services\Config\ConfigurationLoader                                      configurationLoader
- * @property \Rocketeer\Services\Config\ConfigurationPublisher                                   configurationPublisher
- * @property \League\Event\Emitter                                                               events
- * @property \League\Flysystem\FilesystemInterface                                               files
- * @property \League\Flysystem\MountManager                                                      flysystem
- * @property \Illuminate\Foundation\Artisan                      artisan
- * @property \Illuminate\Log\Writer                              log
- * @property \Rocketeer\Console\Commands\AbstractCommand         command
- * @property \Rocketeer\Bash                                     bash
+ * @property \Rocketeer\Services\Config\ContextualConfiguration                config
+ * @property \Rocketeer\Services\Config\Files\ConfigurationLoader    configurationLoader
+ * @property \Rocketeer\Services\Config\Files\ConfigurationPublisher configurationPublisher
+ * @property \League\Event\Emitter                                   events
+ * @property \League\Flysystem\FilesystemInterface                   files
+ * @property \League\Flysystem\MountManager                          flysystem
+ * @property \Illuminate\Foundation\Artisan                          artisan
+ * @property \Illuminate\Log\Writer                                  log
+ * @property \Rocketeer\Console\Commands\AbstractCommand             command
+ * @property \Rocketeer\Bash                                         bash
  * @property \Rocketeer\Console\Console                          console
  * @property \Rocketeer\Binaries\Scm\ScmInterface                scm
  * @property \Rocketeer\Rocketeer                                rocketeer

@@ -44,7 +44,7 @@ trait RepositoriesKeychain
      */
     protected function getRepositoryCredentials()
     {
-        $config = (array) $this->rocketeer->getOption('scm');
+        $config = (array) $this->config->getContextually('scm');
         $credentials = (array) $this->localStorage->get('credentials');
 
         return array_merge($config, $credentials);
@@ -94,7 +94,7 @@ trait RepositoriesKeychain
         }
 
         // Get branch from config, else compute the fallback
-        $branch = $this->rocketeer->getOption('scm.branch');
+        $branch = $this->config->getContextually('scm.branch');
         if (!$branch) {
             $fallback = $this->bash->onLocal(function () {
                 return $this->scm->runSilently('currentBranch');

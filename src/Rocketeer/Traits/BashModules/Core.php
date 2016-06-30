@@ -341,10 +341,10 @@ trait Core
     public function processCommands($commands)
     {
         $separator = $this->environment->getSeparator();
-        $shell = $this->rocketeer->getOption('remote.shell');
-        $shelled = $this->rocketeer->getOption('remote.shelled');
-        $sudo = $this->rocketeer->getOption('remote.sudo');
-        $sudoed = $this->rocketeer->getOption('remote.sudoed');
+        $shell = $this->config->getContextually('remote.shell');
+        $shelled = $this->config->getContextually('remote.shelled');
+        $sudo = $this->config->getContextually('remote.sudo');
+        $sudoed = $this->config->getContextually('remote.sudoed');
 
         // Prepare paths replacer
         $pattern = sprintf('#\%s([\w\d\s])#', DS);

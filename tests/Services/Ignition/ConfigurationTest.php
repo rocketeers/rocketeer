@@ -160,7 +160,7 @@ class ConfigurationTest extends RocketeerTestCase
         $this->files->write($file, '<?php return array("scm" => "svn");');
 
         $this->igniter->mergeContextualConfigurations();
-        $this->assertEquals('svn', $this->rocketeer->getOption('scm.scm'));
+        $this->assertEquals('svn', $this->config->getContextually('scm.scm'));
     }
 
     public function testDoesntCrashIfNoSubfolder()

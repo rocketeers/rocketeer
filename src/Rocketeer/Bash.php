@@ -36,7 +36,7 @@ class Bash
      */
     protected function getHookedTasks($hook, array $arguments)
     {
-        $tasks = $this->rocketeer->getOption('strategies.'.$hook);
+        $tasks = $this->config->getContextually('strategies.'.$hook);
         if (!is_callable($tasks)) {
             return;
         }

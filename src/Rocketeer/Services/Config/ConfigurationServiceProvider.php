@@ -12,6 +12,9 @@
 namespace Rocketeer\Services\Config;
 
 use League\Container\ServiceProvider\AbstractServiceProvider;
+use Rocketeer\Services\Config\Files\ConfigurationCache;
+use Rocketeer\Services\Config\Files\ConfigurationLoader;
+use Rocketeer\Services\Config\Files\ConfigurationPublisher;
 use Symfony\Component\Config\Definition\Loaders\PhpLoader;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\DelegatingLoader;
@@ -63,7 +66,9 @@ class ConfigurationServiceProvider extends AbstractServiceProvider
         });
 
         $this->container->share('config', function () {
-            return new Configuration($this->container->get('config.loader')->getConfiguration());
+            $configuration = new Configuration($this->container->get('config.loader')->getConfiguration());
+
+            return new ContextualConfiguration($this->container, $configuration);
         });
     }
 }

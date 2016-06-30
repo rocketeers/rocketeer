@@ -26,7 +26,7 @@ abstract class AbstractPathfinder implements PathfinderInterface
      */
     public function getPath($path)
     {
-        return $this->rocketeer->getOption('paths.'.$path);
+        return $this->config->getContextually('paths.'.$path);
     }
 
     /**

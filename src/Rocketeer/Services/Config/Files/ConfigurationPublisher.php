@@ -9,9 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Rocketeer\Services\Config;
+namespace Rocketeer\Services\Config\Files;
 
 use League\Flysystem\Filesystem;
+use Rocketeer\Services\Config\ConfigurationDefinition;
 use Symfony\Component\Config\Definition\ArrayNode;
 use Symfony\Component\Config\Definition\Dumper\XmlReferenceDumper;
 use Symfony\Component\Config\Definition\Dumper\YamlReferenceDumper;

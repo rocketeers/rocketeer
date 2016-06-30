@@ -15,6 +15,7 @@ use League\Container\ServiceProvider\AbstractServiceProvider;
 use Rocketeer\Console\ConsoleServiceProvider;
 use Rocketeer\Services\Builders\Builder;
 use Rocketeer\Services\Config\ConfigurationServiceProvider;
+use Rocketeer\Services\Config\ContextualConfiguration;
 use Rocketeer\Services\Connections\ConnectionsServiceProvider;
 use Rocketeer\Services\Credentials\CredentialsServiceProvider;
 use Rocketeer\Services\Display\DisplayServiceProvider;
@@ -94,14 +95,17 @@ class RocketeerServiceProvider extends AbstractServiceProvider
      */
     public function bindStrategies()
     {
+        /** @var ContextualConfiguration $config */
+        $config = $this->container->get('config');
+
         // Bind SCM class
-        $scm = $this->container->get('rocketeer.rocketeer')->getOption('scm.scm');
+        $scm = $config->getContextually('scm.scm');
         $this->container->add('rocketeer.scm', function () use ($scm) {
             return $this->container->get('rocketeer.builder')->buildBinary($scm);
         });
 
         // Bind strategies
-        $strategies = (array) $this->container->get('rocketeer.rocketeer')->getOption('strategies');
+        $strategies = (array) $config->getContextually('strategies');
         foreach ($strategies as $strategy => $concrete) {
             if (!is_string($concrete) || !$concrete) {
                 continue;

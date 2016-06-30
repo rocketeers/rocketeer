@@ -79,7 +79,7 @@ class Environment
      */
     protected function computeServerVariable($variable, callable $callback)
     {
-        $user = $this->rocketeer->getOption('remote.variables.'.$variable);
+        $user = $this->config->getContextually('remote.variables.'.$variable);
         if ($user) {
             return $user;
         }

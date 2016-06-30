@@ -82,7 +82,7 @@ class Git extends AbstractBinary implements ScmInterface
 
         // Build flags
         $flags = ['--branch' => $repository->branch];
-        if ($this->rocketeer->getOption('scm.shallow')) {
+        if ($this->config->getContextually('scm.shallow')) {
             $flags['--depth'] = 1;
         }
 

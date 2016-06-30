@@ -57,7 +57,7 @@ trait Filesystem
         }
 
         // Switch to relative if required
-        if ($this->rocketeer->getOption('remote.symlink') === 'relative') {
+        if ($this->config->getContextually('remote.symlink') === 'relative') {
             $folder = str_ireplace($this->paths->getFolder(''), '', $folder);
         }
 
@@ -170,7 +170,7 @@ trait Filesystem
         $this->explainer->line('Setting permissions for '.$folder);
 
         // Get permissions options
-        $callback = $this->rocketeer->getOption('remote.permissions.callback');
+        $callback = $this->config->getContextually('remote.permissions.callback');
         $commands = (array) $callback($this, $folder);
 
         // Cancel if setting of permissions is not configured

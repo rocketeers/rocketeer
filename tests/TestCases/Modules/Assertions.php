@@ -108,7 +108,7 @@ trait Assertions
      */
     protected function assertOptionValueEquals($value, $option)
     {
-        $this->assertEquals($value, $this->rocketeer->getOption($option));
+        $this->assertEquals($value, $this->config->getContextually($option));
     }
 
     /**

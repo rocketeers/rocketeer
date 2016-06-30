@@ -276,7 +276,7 @@ class TasksQueue
     {
         $this->connections->setConnection($connection);
 
-        $stage = $this->rocketeer->getOption('stages.default');
+        $stage = $this->config->getContextually('stages.default');
         if ($this->hasCommand()) {
             $stage = $this->getOption('stage') ?: $stage;
         }

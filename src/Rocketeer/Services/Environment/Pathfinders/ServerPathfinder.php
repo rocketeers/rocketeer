@@ -34,7 +34,7 @@ class ServerPathfinder extends AbstractPathfinder
     public function getHomeFolder()
     {
         $rootDirectory = $this->getRootDirectory();
-        $appDirectory = $this->rocketeer->getOption('remote.app_directory') ?: $this->rocketeer->getApplicationName();
+        $appDirectory = $this->config->getContextually('remote.app_directory') ?: $this->rocketeer->getApplicationName();
 
         return $rootDirectory.$appDirectory;
     }
