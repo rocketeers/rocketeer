@@ -39,7 +39,7 @@ class RubyStrategyTest extends RocketeerTestCase
         $this->mockRemote('1.9.3');
         $this->assertFalse($this->strategy->language());
 
-        $this->mockRemote('2.1.0');
+        $this->mockRemote('5.0.0');
         $this->assertTrue($this->strategy->language());
     }
 }

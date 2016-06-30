@@ -15,6 +15,7 @@ use Closure;
 use League\Flysystem\Filesystem;
 use Mockery;
 use Mockery\MockInterface;
+use Rocketeer\Services\Releases\ReleasesManager;
 
 /**
  * @mixin \Rocketeer\TestCases\RocketeerTestCase
@@ -63,7 +64,7 @@ trait Mocks
      */
     protected function mockReleases(Closure $expectations)
     {
-        return $this->mock('rocketeer.releases', 'ReleasesManager', $expectations);
+        return $this->mock(ReleasesManager::class, 'ReleasesManager', $expectations);
     }
 
     /**

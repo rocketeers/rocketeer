@@ -13,6 +13,7 @@ namespace Rocketeer\Strategies\Dependencies;
 
 use Mockery;
 use Mockery\MockInterface;
+use Rocketeer\Bash;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class PolyglotStrategyTest extends RocketeerTestCase
@@ -42,7 +43,7 @@ class PolyglotStrategyTest extends RocketeerTestCase
     {
         $this->pretend();
 
-        $this->mock('rocketeer.bash', 'Bash', function (MockInterface $mock) {
+        $this->mock(Bash::class, 'Bash', function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('fileExists')->andReturn(true)
                 ->shouldReceive('which')->with('composer', Mockery::any(), false)->andReturn('composer')

@@ -13,6 +13,7 @@ namespace Rocketeer\Traits\BashModules;
 
 use Mockery;
 use Mockery\MockInterface;
+use Rocketeer\Bash;
 use Rocketeer\Binaries\Php;
 use Rocketeer\Console\Commands\AbstractCommand;
 use Rocketeer\TestCases\RocketeerTestCase;
@@ -29,7 +30,7 @@ class BinariesTest extends RocketeerTestCase
 
     public function testConsidersAllPossibleWhichOutputs()
     {
-        $this->mock('rocketeer.bash', 'Bash', function ($mockery) {
+        $this->mock(Bash::class, 'Bash', function ($mockery) {
             return $mockery
                 ->shouldReceive('runSilently')->with('which foobar')->andReturn('foobar not found')
                 ->shouldReceive('runSilently')->with('which npm')->andReturn('which: no npm in (/usr/local/bin:/bin:/usr/bin)');

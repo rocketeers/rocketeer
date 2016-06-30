@@ -201,7 +201,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
             if (is_array($task)) {
                 $task = implode(' && ', $task);
             } elseif ($task === 'bash --login -c \'echo ROCKETEER\'') {
-                $mockedOutput = 'Inappropriate ioctl for device'.PHP_EOL.'ROCKETEER';
+                $callback('Inappropriate ioctl for device'.PHP_EOL.'ROCKETEER');
             }
 
             $output = $mockedOutput ? $mockedOutput : shell_exec($task);

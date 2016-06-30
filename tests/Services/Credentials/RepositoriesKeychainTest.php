@@ -12,6 +12,7 @@
 namespace Rocketeer\Services\Credentials;
 
 use Mockery\MockInterface;
+use Rocketeer\Bash;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class RepositoriesKeychainTest extends RocketeerTestCase
@@ -78,7 +79,7 @@ class RepositoriesKeychainTest extends RocketeerTestCase
     public function testCanExtractCurrentBranchIfNoneSpecified()
     {
         $this->config->set('scm.branch', null);
-        $this->mock('rocketeer.bash', 'Bash', function (MockInterface $mock) {
+        $this->mock(Bash::class, 'Bash', function (MockInterface $mock) {
             return $mock->shouldReceive('onLocal')->andReturn('  foobar  ');
         });
 
@@ -88,7 +89,7 @@ class RepositoriesKeychainTest extends RocketeerTestCase
     public function testCanDefaultToMasterIfNoBranchFound()
     {
         $this->config->set('scm.branch', null);
-        $this->mock('rocketeer.bash', 'Bash', function (MockInterface $mock) {
+        $this->mock(Bash::class, 'Bash', function (MockInterface $mock) {
             return $mock->shouldReceive('onLocal')->andReturn(null);
         });
 
@@ -111,7 +112,7 @@ class RepositoriesKeychainTest extends RocketeerTestCase
 
     public function testUsesConfigBeforeTryingToGuessBranch()
     {
-        $this->mock('rocketeer.bash', 'Bash', function (MockInterface $mock) {
+        $this->mock(Bash::class, 'Bash', function (MockInterface $mock) {
             return $mock->shouldReceive('onLocal')->never();
         });
 

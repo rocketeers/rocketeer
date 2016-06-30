@@ -12,6 +12,7 @@
 namespace Rocketeer\Abstracts;
 
 use Mockery\MockInterface;
+use Rocketeer\Bash;
 use Rocketeer\Binaries\Scm\Git;
 use Rocketeer\TestCases\RocketeerTestCase;
 
@@ -19,7 +20,7 @@ class AbstractBinaryTest extends RocketeerTestCase
 {
     public function testCanExecuteMethod()
     {
-        $this->mock('rocketeer.bash', 'Bash', function (MockInterface $mock) {
+        $this->mock(Bash::class, 'Bash', function (MockInterface $mock) {
             return $mock->shouldReceive('run')->once()->withAnyArgs()->andReturnUsing(function ($arguments) {
                 return $arguments;
             });

@@ -12,6 +12,7 @@
 namespace Rocketeer\Abstracts\Strategies;
 
 use Mockery\MockInterface;
+use Rocketeer\Bash;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class AbstractDependenciesStrategyTest extends RocketeerTestCase
@@ -24,7 +25,7 @@ class AbstractDependenciesStrategyTest extends RocketeerTestCase
             return $mock->shouldReceive('has')->with($this->paths->getUserHomeFolder().'/.bowerrc')->andReturn(true);
         });
 
-        $this->mock('rocketeer.bash', 'Bash', function (MockInterface $mock) {
+        $this->mock(Bash::class, 'Bash', function (MockInterface $mock) {
             return $mock->shouldReceive('share')->once()->with('bower_components');
         });
 
@@ -41,7 +42,7 @@ class AbstractDependenciesStrategyTest extends RocketeerTestCase
             return $mock->shouldReceive('has')->with($this->paths->getUserHomeFolder().'/.bowerrc')->andReturn(true);
         });
 
-        $this->mock('rocketeer.bash', 'Bash', function (MockInterface $mock) {
+        $this->mock(Bash::class, 'Bash', function (MockInterface $mock) {
             return $mock->shouldReceive('copyFromPreviousRelease')->once()->with('bower_components');
         });
 

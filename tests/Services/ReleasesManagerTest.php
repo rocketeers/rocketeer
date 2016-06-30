@@ -196,7 +196,7 @@ class ReleasesManagerTest extends RocketeerTestCase
 
     public function testCanReturnPreviousReleaseIfNoReleases()
     {
-        $this->mock('rocketeer.bash', Bash::class, function (MockInterface $mock) {
+        $this->mock(Bash::class, 'Bash', function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('listContents')->once()->with($this->server.'/releases')->andReturn([]);
         });
@@ -216,7 +216,7 @@ class ReleasesManagerTest extends RocketeerTestCase
 
     public function testDoesntPingForReleasesAllTheFuckingTime()
     {
-        $this->mock('rocketeer.bash', Bash::class, function (MockInterface $mock) {
+        $this->mock(Bash::class, 'Bash', function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('listContents')->once()->with($this->server.'/releases')->andReturn([20000000000000]);
         });
@@ -229,7 +229,7 @@ class ReleasesManagerTest extends RocketeerTestCase
 
     public function testDoesntPingForReleasesIfNoReleases()
     {
-        $this->mock('rocketeer.bash', Bash::class, function (MockInterface $mock) {
+        $this->mock(Bash::class, 'Bash', function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('listContents')->once()->with($this->server.'/releases')->andReturn([]);
         });
@@ -242,7 +242,7 @@ class ReleasesManagerTest extends RocketeerTestCase
 
     public function testIgnoresErrorsAndStuffWhenFetchingReleases()
     {
-        $this->mock('rocketeer.bash', Bash::class, function (MockInterface $mock) {
+        $this->mock(Bash::class, 'Bash', function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('listContents')->times(1)->with($this->server.'/releases')->andReturn(['IMPOSSIBLE BECAUSE NOPE FUCK YOU']);
         });
@@ -254,7 +254,7 @@ class ReleasesManagerTest extends RocketeerTestCase
 
     public function testResetsReleasesCacheWhenSwitchingServer()
     {
-        $this->mock('rocketeer.bash', Bash::class, function (MockInterface $mock) {
+        $this->mock(Bash::class, 'Bash', function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('listContents')->twice()->with($this->server.'/releases')->andReturn([20000000000000]);
         });

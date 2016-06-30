@@ -12,6 +12,7 @@
 namespace Rocketeer\Services\Connections;
 
 use League\Container\ServiceProvider\AbstractServiceProvider;
+use Rocketeer\Bash;
 use Rocketeer\Services\Connections\Connections\LocalConnection;
 
 class ConnectionsServiceProvider extends AbstractServiceProvider
@@ -20,6 +21,7 @@ class ConnectionsServiceProvider extends AbstractServiceProvider
      * @var array
      */
     protected $provides = [
+        Bash::class,
         'remote',
         'remote.local',
         'connections',
@@ -33,6 +35,10 @@ class ConnectionsServiceProvider extends AbstractServiceProvider
      */
     public function register()
     {
+        $this->container->share(Bash::class, function () {
+            return new Bash($this->container);
+        });
+
         $this->container->share('remote', function () {
             return new RemoteHandler($this->container);
         });

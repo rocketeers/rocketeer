@@ -41,7 +41,7 @@ class CopyStrategyTest extends RocketeerTestCase
 
     public function testClonesIfNoPreviousRelease()
     {
-        $this->mock('rocketeer.releases', 'ReleasesManager', function (MockInterface $mock) {
+        $this->mockReleases(function (MockInterface $mock) {
             return $mock->shouldReceive('getReleases')->andReturn([])
                         ->shouldReceive('getCurrentReleasePath')->andReturn($this->server.'/releases/10000000000000');
         });
@@ -61,7 +61,7 @@ class CopyStrategyTest extends RocketeerTestCase
 
     public function testCanCloneIfPreviousReleaseIsInvalid()
     {
-        $this->mock('rocketeer.releases', 'ReleasesManager', function (MockInterface $mock) {
+        $this->mockReleases(function (MockInterface $mock) {
             return $mock->shouldReceive('getReleases')->andReturn([10000000000000])
                         ->shouldReceive('getPreviousRelease')->andReturn(null)
                         ->shouldReceive('getPathToRelease')->andReturn(null)

@@ -12,6 +12,7 @@
 namespace Rocketeer\Traits\BashModules;
 
 use Mockery\MockInterface;
+use Rocketeer\Bash;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class ScmTest extends RocketeerTestCase
@@ -24,7 +25,7 @@ class ScmTest extends RocketeerTestCase
             'password' => 'baz',
         ]);
 
-        $this->mock('rocketeer.bash', 'Bash', function (MockInterface $mock) {
+        $this->mock(Bash::class, 'Bash', function (MockInterface $mock) {
             return $mock
                 ->shouldIgnoreMissing()
                 ->shouldReceive('checkStatus')->andReturn(false);

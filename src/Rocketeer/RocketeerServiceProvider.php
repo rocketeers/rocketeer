@@ -22,10 +22,9 @@ use Rocketeer\Services\Environment\EnvironmentServiceProvider;
 use Rocketeer\Services\Events\EventsServiceProvider;
 use Rocketeer\Services\Filesystem\FilesystemServiceProvider;
 use Rocketeer\Services\History\History;
-use Rocketeer\Services\History\LogsHandler;
+use Rocketeer\Services\History\HistoryServiceProvider;
 use Rocketeer\Services\Ignition\IgnitionServiceProvider;
-use Rocketeer\Services\ReleasesManager;
-use Rocketeer\Services\RolesManager;
+use Rocketeer\Services\Releases\ReleasesServiceProvider;
 use Rocketeer\Services\Storages\StorageServiceProvider;
 use Rocketeer\Services\Tasks\TasksServiceProvider;
 
@@ -53,6 +52,8 @@ class RocketeerServiceProvider extends AbstractServiceProvider
         EnvironmentServiceProvider::class,
         EventsServiceProvider::class,
         FilesystemServiceProvider::class,
+        HistoryServiceProvider::class,
+        ReleasesServiceProvider::class,
         StorageServiceProvider::class,
         TasksServiceProvider::class,
         IgnitionServiceProvider::class,
@@ -85,12 +86,7 @@ class RocketeerServiceProvider extends AbstractServiceProvider
     public function bindCoreClasses()
     {
         $this->share('rocketeer.builder', Builder::class);
-        $this->container->add('rocketeer.bash', new Bash($this->container));
-        $this->share('rocketeer.history', History::class);
-        $this->share('rocketeer.logs', LogsHandler::class);
-        $this->share('rocketeer.releases', ReleasesManager::class);
         $this->share('rocketeer.rocketeer', Rocketeer::class);
-        $this->share('rocketeer.roles', RolesManager::class);
     }
 
     /**
