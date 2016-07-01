@@ -32,7 +32,7 @@ install:
   - travis_retry composer update --no-interaction --prefer-dist $COMPOSER_FLAGS
 
 before_script:
-  - phpenv config-rm xdebug.ini
+  - phpenv config-rm xdebug.ini || return 0
 
 script:
   - composer test
