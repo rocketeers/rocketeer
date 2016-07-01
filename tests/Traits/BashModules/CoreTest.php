@@ -135,7 +135,7 @@ class CoreTest extends RocketeerTestCase
 
         $this->mock('rocketeer.command', 'Command', function (MockInterface $mock) {
             return $mock
-                ->shouldReceive('getVerbosity')->andReturn(OutputInterface::VERBOSITY_NORMALg)
+                ->shouldReceive('getVerbosity')->andReturn(OutputInterface::VERBOSITY_NORMAL)
                 ->shouldReceive('writeln')->andReturnUsing(function ($input) {
                     echo $input;
                 });
