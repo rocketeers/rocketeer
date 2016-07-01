@@ -15,6 +15,9 @@ use Rocketeer\Container;
 use Rocketeer\Services\Credentials\Keys\ConnectionKey;
 use Rocketeer\Traits\HasLocator;
 
+/**
+ * @mixin Configuration
+ */
 class ContextualConfiguration
 {
     use HasLocator;
