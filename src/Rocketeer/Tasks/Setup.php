@@ -75,7 +75,7 @@ class Setup extends AbstractTask
     {
         // Get stages
         $availableStages = $this->connections->getAvailableStages();
-        $originalStage = $this->connections->getCurrentConnection()->stage;
+        $originalStage = $this->connections->getCurrentConnectionKey()->stage;
         if (empty($availableStages)) {
             $availableStages = [null];
         }

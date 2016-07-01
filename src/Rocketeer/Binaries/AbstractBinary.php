@@ -48,7 +48,7 @@ abstract class AbstractBinary
 
         // Assign default paths
         $paths = $this->getKnownPaths();
-        if ($this->connections->getCurrentConnection() && $paths) {
+        if ($this->connections->getCurrentConnectionKey() && $paths) {
             $binary = Arr::get($paths, 0);
             $fallback = Arr::get($paths, 1);
             $binary = $this->bash->which($binary, $fallback, false);

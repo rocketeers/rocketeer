@@ -100,7 +100,7 @@ class SyncStrategy extends AbstractStrategy implements DeployStrategyInterface
      */
     protected function getSyncHandle()
     {
-        $credentials = $this->credentials->getServerCredentials();
+        $credentials = $this->credentials->getConnectionServer();
         $handle = array_get($credentials, 'host');
         $explodedHandle = explode(':', $handle);
 
@@ -133,7 +133,7 @@ class SyncStrategy extends AbstractStrategy implements DeployStrategyInterface
         }
 
         // Get key
-        $key = $this->credentials->getServerCredentials();
+        $key = $this->credentials->getConnectionServer();
         $key = Arr::get($key, 'key');
         if ($key) {
             $ssh .= ' -i '.$key;

@@ -262,7 +262,7 @@ class ReleasesManagerTest extends RocketeerTestCase
         $releases = $this->releasesManager->getReleases();
         $this->assertEquals([20000000000000], $releases);
 
-        $this->connections->setConnection('staging');
+        $this->connections->setCurrentConnection('staging');
         $releases = $this->releasesManager->getReleases();
         $this->assertEquals([20000000000000], $releases);
     }

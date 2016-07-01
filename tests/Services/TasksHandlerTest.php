@@ -178,11 +178,11 @@ class TasksHandlerTest extends RocketeerTestCase
         ]);
         $this->tasks->registerConfiguredEvents();
 
-        $this->connections->setConnection('production');
+        $this->connections->setCurrentConnection('production');
         $events = $this->tasks->getTasksListeners('deploy', 'after', true);
         $this->assertEmpty($events);
 
-        $this->connections->setConnection('staging');
+        $this->connections->setCurrentConnection('staging');
         $events = $this->tasks->getTasksListeners('deploy', 'after', true);
 
         $this->assertEquals($tasks, $events);
@@ -199,7 +199,7 @@ class TasksHandlerTest extends RocketeerTestCase
         $listeners = $this->tasks->getTasksListeners('deploy', 'before', true);
         $this->assertEquals(['ls', 'notify'], $listeners);
 
-        $this->connections->setConnection('production');
+        $this->connections->setCurrentConnection('production');
 
         $listeners = $this->tasks->getTasksListeners('deploy', 'before', true);
         $this->assertEquals(['ls', 'notify'], $listeners);

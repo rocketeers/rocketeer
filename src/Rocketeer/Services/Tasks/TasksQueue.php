@@ -66,7 +66,7 @@ class TasksQueue
     public function execute($queue, $connections = null)
     {
         if ($connections) {
-            $this->connections->setConnections($connections);
+            $this->connections->setActiveConnections($connections);
         }
 
         // Run tasks
@@ -140,7 +140,7 @@ class TasksQueue
         $pipeline = new Pipeline();
 
         // Get the connections to execute the tasks on
-        $connections = (array) $this->connections->getConnections();
+        $connections = (array) $this->connections->getActiveConnections();
         foreach ($connections as $connection) {
             $connection = $this->credentials->createConnectionKey($connection);
             $stages = $this->getStages($connection);
@@ -173,7 +173,7 @@ class TasksQueue
     {
         // Set proper server
         $connection = $job->connection;
-        $this->connections->setConnection($connection);
+        $this->connections->setCurrentConnection($connection);
 
         foreach ($job->queue as $key => $task) {
             if ($task->usesStages()) {
@@ -182,7 +182,7 @@ class TasksQueue
             }
 
             // Check if the current server can run the task
-            if (!$this->remote->connection()->isCompatibleWith($task)) {
+            if (!$this->connections->getCurrentConnection()->isCompatibleWith($task)) {
                 continue;
             }
 
@@ -274,7 +274,7 @@ class TasksQueue
      */
     public function getStages($connection)
     {
-        $this->connections->setConnection($connection);
+        $this->connections->setCurrentConnection($connection);
 
         $stage = $this->config->getContextually('stages.default');
         if ($this->hasCommand()) {

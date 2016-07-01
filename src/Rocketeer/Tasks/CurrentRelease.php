@@ -42,7 +42,7 @@ class CurrentRelease extends AbstractTask
     public function execute()
     {
         // Get the current stage
-        $stage = $this->connections->getCurrentConnection()->stage;
+        $stage = $this->connections->getCurrentConnectionKey()->stage;
         $stage = $stage ? ' for stage '.$stage : '';
 
         // Check if a release has been deployed already

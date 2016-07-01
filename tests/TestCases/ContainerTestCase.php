@@ -20,7 +20,7 @@ use Rocketeer\Container;
 use Rocketeer\Dummies\Tasks\MyCustomTask;
 use Rocketeer\RocketeerServiceProvider;
 use Rocketeer\Services\Connections\Connections\Connection;
-use Rocketeer\Services\Connections\RemoteHandler;
+use Rocketeer\Services\Connections\ConnectionsFactory;
 use Rocketeer\TestCases\Modules\Assertions;
 use Rocketeer\TestCases\Modules\Building;
 use Rocketeer\TestCases\Modules\Contexts;
@@ -96,7 +96,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 
         // Replace some instances with mocks
         $this->app->add('artisan', $this->getArtisan());
-        $this->app->add(RemoteHandler::class, $this->getRemote());
+        $this->app->add(ConnectionsFactory::class, $this->getConnectionsFactory());
         $this->app->add('rocketeer.command', $this->getCommand());
 
         $this->app->share('flysystem', function () {
@@ -140,7 +140,8 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
             return $message;
         };
 
-        $verbose = array_get($options, 'verbose') ? OutputInterface::VERBOSITY_VERY_VERBOSE : OutputInterface::VERBOSITY_NORMAL;
+        $verbose = array_get($options,
+            'verbose') ? OutputInterface::VERBOSITY_VERY_VERBOSE : OutputInterface::VERBOSITY_NORMAL;
         $command = Mockery::mock(AbstractCommand::class)->shouldIgnoreMissing();
         $command->shouldReceive('getOutput')->andReturn($this->getCommandOutput($verbose));
         $command->shouldReceive('getVerbosity')->andReturn($verbose);
@@ -182,6 +183,19 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         }
 
         return $command;
+    }
+
+    /**
+     * @param string|array $expectations
+     *
+     * @return Mockery\MockInterface
+     */
+    protected function getConnectionsFactory($expectations = null)
+    {
+        return Mockery::mock(ConnectionsFactory::class, [
+            'make' => $this->getRemote($expectations),
+            'isConnected' => false,
+        ]);
     }
 
     /**

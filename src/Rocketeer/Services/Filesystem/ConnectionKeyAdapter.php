@@ -12,7 +12,7 @@
 namespace Rocketeer\Services\Filesystem;
 
 use League\Flysystem\Sftp\SftpAdapter;
-use Rocketeer\Services\Credentials\Keys\ConnectionKey;
+use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
 
 class ConnectionKeyAdapter extends SftpAdapter
 {

@@ -13,7 +13,7 @@ namespace Rocketeer\Services\Connections;
 
 use Illuminate\Support\Arr;
 use Rocketeer\Exceptions\ConnectionException;
-use Rocketeer\Services\Credentials\Keys\ConnectionKey;
+use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
 use Rocketeer\Traits\HasLocator;
 
 /**
@@ -34,48 +34,19 @@ class ConnectionsHandler
     protected $current;
 
     /**
-     * The connections to use.
+     * The active connections.
      *
      * @var array|null
      */
-    protected $connections;
-
-    ////////////////////////////////////////////////////////////////////
-    //////////////////////////////// STAGES ////////////////////////////
-    ////////////////////////////////////////////////////////////////////
+    protected $activeConnections;
 
     /**
-     * Set the stage Tasks will execute on.
-     *
-     * @param string|null $stage
+     * @var array
      */
-    public function setStage($stage)
-    {
-        if ($stage === $this->getCurrentConnection()->stage) {
-            return;
-        }
-
-        $this->current = clone $this->current;
-        $this->current->stage = $stage;
-
-        // If we do have a stage, cleanup previous events
-        if ($stage) {
-            $this->tasks->registerConfiguredEvents();
-        }
-    }
-
-    /**
-     * Get the various stages provided by the User.
-     *
-     * @return array
-     */
-    public function getAvailableStages()
-    {
-        return (array) $this->config->getContextually('stages.stages');
-    }
+    protected $cached = [];
 
     ////////////////////////////////////////////////////////////////////
-    ///////////////////////////// CONNECTIONS //////////////////////////
+    //////////////////////// AVAILABLE CONNECTIONS /////////////////////
     ////////////////////////////////////////////////////////////////////
 
     /**
@@ -114,16 +85,20 @@ class ConnectionsHandler
         return (bool) Arr::get($available, $connection->name.'.servers');
     }
 
+    ////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////// ACTIVE CONNECTIONS //////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
+
     /**
-     * Get the connection in use.
+     * Get the active connections for this session.
      *
      * @return string[]
      */
-    public function getConnections()
+    public function getActiveConnections()
     {
         // Get cached resolved connections
-        if ($this->connections) {
-            return $this->connections;
+        if ($this->activeConnections) {
+            return $this->activeConnections;
         }
 
         // Get default connections and sanitize them
@@ -132,20 +107,20 @@ class ConnectionsHandler
 
         // Set current connection as default
         if ($connections) {
-            $this->connections = $connections;
+            $this->activeConnections = $connections;
         }
 
         return $connections;
     }
 
     /**
-     * Set the active connections.
+     * Override the active connections.
      *
      * @param string|string[] $connections
      *
      * @throws ConnectionException
      */
-    public function setConnections($connections)
+    public function setActiveConnections($connections)
     {
         if (!is_array($connections)) {
             $connections = explode(',', $connections);
@@ -157,29 +132,13 @@ class ConnectionsHandler
             throw new ConnectionException('Invalid connection(s): '.implode(', ', $connections));
         }
 
-        $this->connections = $filtered;
+        $this->activeConnections = $filtered;
         $this->current = null;
     }
 
-    /**
-     * Get the active connection.
-     *
-     * @return ConnectionKey
-     */
-    public function getCurrentConnection()
-    {
-        // Return local handle
-        if ($this->rocketeer->isLocal()) {
-            $handle = $this->credentials->createConnectionKey('local');
-            $handle->username = $this->remote->connected() ? $this->remote->connection()->getUsername() : null;
-        } elseif ($this->hasCurrentConnection()) {
-            $handle = $this->current;
-        } else {
-            $this->current = $handle = $this->credentials->createConnectionKey();
-        }
-
-        return $handle;
-    }
+    ////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////// CURRENT CONNECTIONS //////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
 
     /**
      * @return bool
@@ -190,15 +149,60 @@ class ConnectionsHandler
     }
 
     /**
+     * Get the current connection.
+     *
+     * @return ConnectionKey
+     */
+    public function getCurrentConnectionKey()
+    {
+        // If we're in local, enforce the Local connection
+        if ($this->rocketeer->isLocal()) {
+            $connectionKey = $this->credentials->createConnectionKey('local');
+        }
+
+        // If we already have an active connection, return that
+        elseif ($this->hasCurrentConnection()) {
+            $connectionKey = $this->current;
+        }
+
+        // Else bind the default connection
+        else {
+            $this->current = $connectionKey = $this->credentials->createConnectionKey();
+        }
+
+        return $connectionKey;
+    }
+
+    /**
+     * @return Connections\Connection
+     */
+    public function getCurrentConnection()
+    {
+        $key = $this->getCurrentConnectionKey();
+        $isConnected = $this->remote->isConnected($key);
+
+        // Create and save to cache
+        $connection = $this->remote->make($key);
+
+        // Fire connected event the first time
+        if (!$isConnected) {
+            $event = 'connected.'.$key->toHandle();
+            $this->events->emit($event);
+        }
+
+        return $connection;
+    }
+
+    /**
      * Set the current connection.
      *
      * @param ConnectionKey|string $connection
      * @param int|null             $server
      */
-    public function setConnection($connection, $server = null)
+    public function setCurrentConnection($connection, $server = null)
     {
         $connection = $connection instanceof ConnectionKey ? $connection : $this->credentials->createConnectionKey($connection, $server);
-        if (!$this->isValidConnection($connection) || ($this->getCurrentConnection()->is($connection, $server))) {
+        if (!$this->isValidConnection($connection) || ($this->getCurrentConnectionKey()->is($connection, $server))) {
             return;
         }
 
@@ -219,8 +223,46 @@ class ConnectionsHandler
     public function disconnect()
     {
         $this->current = null;
-        $this->connections = null;
+        $this->activeConnections = null;
     }
+
+    ////////////////////////////////////////////////////////////////////
+    //////////////////////////////// STAGES ////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+
+    /**
+     * Set the stage on the current connection.
+     *
+     * @param string|null $stage
+     */
+    public function setStage($stage)
+    {
+        if ($stage === $this->getCurrentConnectionKey()->stage) {
+            return;
+        }
+
+        $this->current = clone $this->current;
+        $this->current->stage = $stage;
+
+        // If we do have a stage, cleanup previous events
+        if ($stage) {
+            $this->tasks->registerConfiguredEvents();
+        }
+    }
+
+    /**
+     * Get the various stages provided by the User.
+     *
+     * @return array
+     */
+    public function getAvailableStages()
+    {
+        return (array) $this->config->getContextually('stages.stages');
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////// HELPERS ////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
 
     /**
      * Unify a connection's declaration into the servers form.

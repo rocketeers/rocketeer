@@ -77,6 +77,14 @@ class Storage
     }
 
     /**
+     * @param string $filename
+     */
+    public function setFilename($filename)
+    {
+        $this->filename = $filename;
+    }
+
+    /**
      * @return FilesystemInterface
      */
     public function getFilesystem()

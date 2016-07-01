@@ -171,12 +171,12 @@ class AbstractTaskTest extends RocketeerTestCase
     {
         $this->pretend();
         $task = $this->builder->buildTask(function (AbstractTask $task) {
-            return $task->connections->getCurrentConnection()->toLongHandle();
+            return $task->connections->getCurrentConnectionKey()->toLongHandle();
         });
         $task->setLocal(true);
         $results = $task->fire();
 
-        $this->assertEquals('anahkiasen@local', $results);
+        $this->assertEquals('@local', $results);
     }
 
     public function testDoesntRunAfterEventIfTaskFailed()

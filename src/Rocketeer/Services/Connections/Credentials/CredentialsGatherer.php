@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Rocketeer\Services\Credentials;
+namespace Rocketeer\Services\Connections\Credentials;
 
 use Illuminate\Support\Arr;
 use Rocketeer\Traits\HasLocator;
@@ -72,12 +72,12 @@ class CredentialsGatherer
     public function getServerCredentials()
     {
         if ($connections = $this->command->option('on')) {
-            $this->connections->setConnections($connections);
+            $this->connections->setActiveConnections($connections);
         }
 
         // Check for configured connections
         $availableConnections = $this->connections->getAvailableConnections();
-        $activeConnections = $this->connections->getConnections();
+        $activeConnections = $this->connections->getActiveConnections();
 
         // If we didn't set any connection, ask for them
         if (!$activeConnections && empty($availableConnections)) {
@@ -88,7 +88,7 @@ class CredentialsGatherer
         } elseif (!$activeConnections) {
             $available = array_keys($availableConnections);
             $connection = $this->ask('askWith', 'No default connection, pick one', head($available), $available);
-            $this->connections->setConnections($connection);
+            $this->connections->setActiveConnections($connection);
         }
 
         // Else loop through the connections and fill in credentials
@@ -125,7 +125,7 @@ class CredentialsGatherer
 
         // Save credentials
         $this->credentials->syncConnectionCredentials($handle, $credentials);
-        $this->connections->setConnection($handle);
+        $this->connections->setCurrentConnection($handle);
     }
 
     //////////////////////////////////////////////////////////////////////

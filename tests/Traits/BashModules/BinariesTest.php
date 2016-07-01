@@ -16,7 +16,8 @@ use Mockery\MockInterface;
 use Rocketeer\Bash;
 use Rocketeer\Binaries\Php;
 use Rocketeer\Console\Commands\AbstractCommand;
-use Rocketeer\Services\Connections\RemoteHandler;
+use Rocketeer\Services\Connections\Connections\Connection;
+use Rocketeer\Services\Connections\ConnectionsFactory;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class BinariesTest extends RocketeerTestCase
@@ -43,16 +44,23 @@ class BinariesTest extends RocketeerTestCase
 
     public function testStoredPathsAreInvalidatedIfIncorrect()
     {
-        $this->mock(RemoteHandler::class, RemoteHandler::class, function (MockInterface $mock) {
-            return $mock
+        $this->app->add(ConnectionsFactory::class, function () {
+            $connection = Mockery::mock(Connection::class)
                 ->shouldReceive('connected')->andReturn(false)
                 ->shouldReceive('run')->with(['bash --login -c \'echo ROCKETEER\''], Mockery::any())->andReturn(null)
                 ->shouldReceive('run')->with(['which composer'], Mockery::any())->andReturn(null)
                 ->shouldReceive('run')->with(['which'], Mockery::any())->andReturn(null)
                 ->shouldReceive('run')->with(['which foobar'], Mockery::any())->andReturn('foobar not found')
-                ->shouldReceive('run')->with(['which '.$this->binaries['composer']], Mockery::any())->andReturn($this->binaries['composer'])
-                ->shouldReceive('runRaw')->andReturn('false');
-        }, false);
+                ->shouldReceive('run')->with(['which '.$this->binaries['composer']],
+                    Mockery::any())->andReturn($this->binaries['composer'])
+                ->shouldReceive('runRaw')->andReturn('false')
+                ->mock();
+
+            return Mockery::mock(ConnectionsFactory::class, [
+                'make' => $connection,
+                'isConnected' => false,
+            ]);
+        });
 
         $this->localStorage->set('paths.production.composer', 'foobar');
 
@@ -62,8 +70,8 @@ class BinariesTest extends RocketeerTestCase
 
     public function testPathsAreScopedToConnection()
     {
-        $this->mock(RemoteHandler::class, RemoteHandler::class, function (MockInterface $mock) {
-            return $mock
+        $this->app->add(ConnectionsFactory::class, function () {
+            $connection = Mockery::mock(Connection::class)
                 ->shouldReceive('connected')->andReturn(false)
                 ->shouldReceive('run')->with(['bash --login -c \'echo ROCKETEER\''], Mockery::any())->andReturn(null)
                 ->shouldReceive('run')->with(['which'], Mockery::any())->andReturn(null)
@@ -74,14 +82,20 @@ class BinariesTest extends RocketeerTestCase
                 ->shouldReceive('run')->with(['which staging'], Mockery::any())->andReturnUsing(function ($a, $b) {
                     $b('staging');
                 })
-                ->shouldReceive('runRaw')->andReturn('false');
-        }, false);
+                ->shouldReceive('runRaw')->andReturn('false')
+            ->mock();
+
+            return Mockery::mock(ConnectionsFactory::class, [
+                'make' => $connection,
+                'isConnected' => true,
+            ]);
+        });
 
         $this->localStorage->set('paths.production.composer', 'production');
         $this->localStorage->set('paths.staging.composer', 'staging');
 
         $this->assertEquals('production', $this->task->which('composer'));
-        $this->connections->setConnection('staging');
+        $this->connections->setCurrentConnection('staging');
         $this->assertEquals('staging', $this->task->which('composer'));
     }
 
@@ -92,7 +106,8 @@ class BinariesTest extends RocketeerTestCase
             'paths.artisan' => $this->binaries['php'],
         ]);
 
-        $this->assertEquals($this->binaries['php'].' '.$this->binaries['php'].' migrate --force', $this->task->artisan()->migrate());
+        $this->assertEquals($this->binaries['php'].' '.$this->binaries['php'].' migrate --force',
+            $this->task->artisan()->migrate());
     }
 
     public function testAlwaysRespectsCustomPath()

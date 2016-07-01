@@ -17,7 +17,7 @@ use Rocketeer\Services\Builders\Builder;
 use Rocketeer\Services\Config\ConfigurationServiceProvider;
 use Rocketeer\Services\Config\ContextualConfiguration;
 use Rocketeer\Services\Connections\ConnectionsServiceProvider;
-use Rocketeer\Services\Credentials\CredentialsServiceProvider;
+use Rocketeer\Services\Connections\Credentials\CredentialsServiceProvider;
 use Rocketeer\Services\Display\DisplayServiceProvider;
 use Rocketeer\Services\Environment\EnvironmentServiceProvider;
 use Rocketeer\Services\Events\EventsServiceProvider;
@@ -47,7 +47,6 @@ class RocketeerServiceProvider extends AbstractServiceProvider
         ConfigurationServiceProvider::class,
         ConnectionsServiceProvider::class,
         ConsoleServiceProvider::class,
-        CredentialsServiceProvider::class,
         DisplayServiceProvider::class,
         EnvironmentServiceProvider::class,
         EventsServiceProvider::class,

@@ -11,15 +11,17 @@
 
 namespace Rocketeer\Traits\Exceptions;
 
+use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
+
 trait WithCredentials
 {
     /**
-     * Set the credentials that failed to connect.
+     * Set the credentials on an Exception.
      *
-     * @param array $credentials
+     * @param ConnectionKey $connectionKey
      */
-    public function setCredentials(array $credentials)
+    public function setCredentials(ConnectionKey $connectionKey)
     {
-        $this->message .= PHP_EOL.'With credentials:'.PHP_EOL.json_encode($credentials, JSON_PRETTY_PRINT);
+        $this->message .= PHP_EOL.'With credentials:'.PHP_EOL.json_encode($connectionKey->toArray(), JSON_PRETTY_PRINT);
     }
 }

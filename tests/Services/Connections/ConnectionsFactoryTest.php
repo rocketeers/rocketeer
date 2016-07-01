@@ -16,18 +16,18 @@ use Rocketeer\Exceptions\MissingCredentialsException;
 use Rocketeer\Services\Connections\Connections\Connection;
 use Rocketeer\TestCases\RocketeerTestCase;
 
-class RemoteHandlerTest extends RocketeerTestCase
+class ConnectionsFactoryTest extends RocketeerTestCase
 {
     /**
-     * @var RemoteHandler
+     * @var ConnectionsFactory
      */
-    protected $handler;
+    protected $factory;
 
     public function setUp()
     {
         parent::setUp();
 
-        $this->handler = new RemoteHandler($this->app);
+        $this->factory = new ConnectionsFactory($this->app);
     }
 
     public function testCanCreateConnection()
@@ -40,7 +40,8 @@ class RemoteHandlerTest extends RocketeerTestCase
             ],
         ]);
 
-        $connection = $this->handler->connection();
+        $key = $this->connections->getCurrentConnectionKey();
+        $connection = $this->factory->make($key);
 
         $this->assertInstanceOf(Connection::class, $connection);
         $this->assertEquals('production', $connection->getName());
@@ -58,7 +59,8 @@ class RemoteHandlerTest extends RocketeerTestCase
             ],
         ]);
 
-        $this->handler->connection();
+        $key = $this->connections->getCurrentConnectionKey();
+        $this->factory->make($key);
     }
 
     public function testThrowsExceptionIfMissingInformations()
@@ -72,7 +74,8 @@ class RemoteHandlerTest extends RocketeerTestCase
             ],
         ]);
 
-        $this->handler->connection();
+        $key = $this->connections->getCurrentConnectionKey();
+        $this->factory->make($key);
     }
 
     public function testCachesConnections()
@@ -85,7 +88,8 @@ class RemoteHandlerTest extends RocketeerTestCase
             ],
         ]);
 
-        $connection = $this->handler->connection();
+        $key = $this->connections->getCurrentConnectionKey();
+        $connection = $this->factory->make($key);
         $this->assertInstanceOf(Connection::class, $connection);
         $this->assertEquals('production', $connection->getName());
 
@@ -93,24 +97,10 @@ class RemoteHandlerTest extends RocketeerTestCase
             'production' => [],
         ]);
 
-        $connection = $this->handler->connection();
+        $key = $this->connections->getCurrentConnectionKey();
+        $connection = $this->factory->make($key);
         $this->assertInstanceOf(Connection::class, $connection);
         $this->assertEquals('production', $connection->getName());
-    }
-
-    public function testThrowsExceptionIfUnableToConnect()
-    {
-        $this->setExpectedException(ConnectionException::class);
-
-        $this->swapConnections([
-            'production' => [
-                'host' => '127.0.0.1',
-                'username' => 'foobar',
-                'password' => 'foobar',
-            ],
-        ]);
-
-        $this->handler->run('ls');
     }
 
     public function testDoesntReturnWrongCredentials()
@@ -133,16 +123,16 @@ class RemoteHandlerTest extends RocketeerTestCase
         ]);
 
         // Setting connection to server 1
-        $this->connections->setConnection('production', 1);
-        $connection = $this->handler->connection('production', 1);
+        $key = $this->credentials->createConnectionKey('production', 1);
+        $connection = $this->factory->make($key);
 
         $this->assertInstanceOf(Connection::class, $connection);
         $this->assertEquals('production', $connection->getName());
         $this->assertEquals('bar', $connection->getUsername());
 
         // Setting connection to server 0
-        $this->connections->setConnection('production', 0);
-        $connection = $this->handler->connection('production', 0);
+        $key = $this->credentials->createConnectionKey('production', 0);
+        $connection = $this->factory->make($key);
 
         $this->assertInstanceOf(Connection::class, $connection);
         $this->assertEquals('production', $connection->getName());
@@ -160,7 +150,8 @@ class RemoteHandlerTest extends RocketeerTestCase
             ],
         ]);
 
-        $connection = $this->handler->connection();
+        $key = $this->connections->getCurrentConnectionKey();
+        $connection = $this->factory->make($key);
 
         $this->assertInstanceOf(Connection::class, $connection);
         $this->assertEquals(['foo', 'bar'], $connection->getRoles());
@@ -177,7 +168,8 @@ class RemoteHandlerTest extends RocketeerTestCase
             ],
         ]);
 
-        $this->handler->connection();
+        $key = $this->connections->getCurrentConnectionKey();
+        $connection = $this->factory->make($key);
     }
 
     public function testCanPurgeCachedConnections()
@@ -190,7 +182,8 @@ class RemoteHandlerTest extends RocketeerTestCase
             ],
         ]);
 
-        $connection = $this->handler->connection();
+        $key = $this->connections->getCurrentConnectionKey();
+        $connection = $this->factory->make($key);
         $this->assertInstanceOf(Connection::class, $connection);
         $this->assertEquals('production', $connection->getName());
         $this->assertEquals('foobar', $connection->getUsername());
@@ -203,29 +196,11 @@ class RemoteHandlerTest extends RocketeerTestCase
             ],
         ]);
 
-        $this->handler->disconnect();
-        $connection = $this->handler->connection();
+        $this->factory->disconnect();
+        $key = $this->connections->getCurrentConnectionKey();
+        $connection = $this->factory->make($key);
         $this->assertInstanceOf(Connection::class, $connection);
         $this->assertEquals('production', $connection->getName());
         $this->assertEquals('barbaz', $connection->getUsername());
-    }
-
-    public function testFiresEventWhenConnectedToServer()
-    {
-        $this->expectOutputString('connected');
-
-        $this->events->addListener('connected.production', function () {
-            echo 'connected';
-        });
-
-        $this->swapConnections([
-            'production' => [
-                'host' => 'foobar.com',
-                'username' => 'foobar',
-                'password' => 'foobar',
-            ],
-        ]);
-
-        $this->handler->connection();
     }
 }

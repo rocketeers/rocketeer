@@ -9,57 +9,22 @@
  * file that was distributed with this source code.
  */
 
-namespace Rocketeer\Services\Credentials\Keychains;
+namespace Rocketeer\Services\Connections\Credentials\Keychains;
 
 use Illuminate\Support\Arr;
-use Rocketeer\Services\Credentials\Keys\ConnectionKey;
+use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
 
 /**
  * Finds credentials and informations about connections.
  *
- * @mixin \Rocketeer\Services\Credentials\CredentialsHandler
+ * @mixin \Rocketeer\Services\Connections\Credentials\CredentialsHandler
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait ConnectionsKeychain
 {
     /**
-     * Get the credentials for a particular connection.
-     *
-     * @param ConnectionKey|string|null $connection
-     *
-     * @return string[][]
-     */
-    public function getConnectionCredentials($connection = null)
-    {
-        $connection = $this->sanitizeConnection($connection);
-        $available = $this->connections->getAvailableConnections();
-
-        // Get and filter servers
-        $servers = Arr::get($available, $connection->name.'.servers');
-        if ($this->hasCommand() && $allowed = $this->command->option('server')) {
-            $allowed = explode(',', $allowed);
-            $servers = array_intersect_key((array) $servers, array_flip($allowed));
-        }
-
-        return $servers;
-    }
-
-    /**
-     * Get the credentials for as server.
-     *
-     * @param ConnectionKey|string|null $connection
-     * @param int                       $server
-     *
-     * @return array
-     */
-    public function getServerCredentials($connection = null, $server = 0)
-    {
-        return $this->sanitizeConnection($connection, $server)->getServerCredentials();
-    }
-
-    /**
-     * Sync Rocketeer's credentials with Laravel's.
+     * Persists connection credentials to cache.
      *
      * @param ConnectionKey|null $connection
      * @param array              $credentials
@@ -109,18 +74,18 @@ trait ConnectionsKeychain
         $current = new ConnectionKey();
         $current->server = 0;
         if ($this->connections->hasCurrentConnection() && !$this->rocketeer->isLocal()) {
-            $current = $this->connections->getCurrentConnection();
+            $current = $this->connections->getCurrentConnectionKey();
         }
 
         // Concatenate
         $handle = new ConnectionKey([
-            'name' => $connection ?: Arr::get($this->connections->getConnections(), 0),
+            'name' => $connection ?: Arr::get($this->connections->getActiveConnections(), 0),
             'server' => !is_null($server) ? $server : $current->server,
             'stage' => $stage ?: $current->stage,
         ]);
 
         // Populate credentials
-        $handle->servers = $this->getConnectionCredentials($handle);
+        $handle->servers = $this->getConnectionServers($handle);
 
         return $handle;
     }
@@ -136,10 +101,50 @@ trait ConnectionsKeychain
     public function sanitizeConnection($connection = null, $server = null)
     {
         if (!$connection) {
-            return $this->connections->getCurrentConnection();
+            return $this->connections->getCurrentConnectionKey();
         }
 
         return $connection instanceof ConnectionKey ? $connection : $this->createConnectionKey($connection, $server);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////// SERVERS ////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Get the credentials for a particular connection.
+     *
+     * @param ConnectionKey|string|null $connection
+     *
+     * @return string[][]
+     */
+    public function getConnectionServers($connection = null)
+    {
+        $connection = $this->sanitizeConnection($connection);
+        $available = $this->connections->getAvailableConnections();
+
+        // Get and filter servers
+        $servers = Arr::get($available, $connection->name.'.servers');
+        if ($this->hasCommand() && $allowed = $this->command->option('server')) {
+            $allowed = explode(',', $allowed);
+            $servers = array_intersect_key((array) $servers, array_flip($allowed));
+        }
+
+        return $servers;
+    }
+
+    /**
+     * Get the credentials for as server.
+     *
+     * @param ConnectionKey|string|null $connection
+     * @param int                       $server
+     *
+     * @return array
+     */
+    public function getConnectionServer($connection = null, $server = 0)
+    {
+        return $this->sanitizeConnection($connection, $server)->getServerCredentials();
     }
 
     //////////////////////////////////////////////////////////////////////
@@ -157,7 +162,7 @@ trait ConnectionsKeychain
      */
     protected function filterUnsavableCredentials(ConnectionKey $connection, $credentials)
     {
-        $defined = $this->getServerCredentials($connection);
+        $defined = $this->getConnectionServer($connection);
         foreach ($credentials as $key => $value) {
             if (array_get($defined, $key) === true) {
                 unset($credentials[$key]);

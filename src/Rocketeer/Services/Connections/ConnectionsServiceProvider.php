@@ -14,6 +14,8 @@ namespace Rocketeer\Services\Connections;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 use Rocketeer\Bash;
 use Rocketeer\Services\Connections\Connections\LocalConnection;
+use Rocketeer\Services\Connections\Credentials\CredentialsGatherer;
+use Rocketeer\Services\Connections\Credentials\CredentialsHandler;
 
 class ConnectionsServiceProvider extends AbstractServiceProvider
 {
@@ -22,10 +24,12 @@ class ConnectionsServiceProvider extends AbstractServiceProvider
      */
     protected $provides = [
         Bash::class,
-        RemoteHandler::class,
+        ConnectionsFactory::class,
         'remote.local',
         'connections',
         'coordinator',
+        'credentials.handler',
+        'credentials.gatherer',
     ];
 
     /**
@@ -39,8 +43,8 @@ class ConnectionsServiceProvider extends AbstractServiceProvider
             return new Bash($this->container);
         });
 
-        $this->container->share(RemoteHandler::class, function () {
-            return new RemoteHandler($this->container);
+        $this->container->share(ConnectionsFactory::class, function () {
+            return new ConnectionsFactory($this->container);
         });
 
         $this->container->share('remote.local', function () {
@@ -53,6 +57,14 @@ class ConnectionsServiceProvider extends AbstractServiceProvider
 
         $this->container->share('coordinator', function () {
             return new Coordinator($this->container);
+        });
+
+        $this->container->share('credentials.handler', function () {
+            return new CredentialsHandler($this->container);
+        });
+
+        $this->container->share('credentials.gatherer', function () {
+            return new CredentialsGatherer($this->container);
         });
     }
 }

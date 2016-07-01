@@ -64,7 +64,7 @@ class Migrate extends AbstractTask
      */
     protected function canRunMigrations()
     {
-        $connection = $this->connections->getCurrentConnection();
+        $connection = $this->connections->getCurrentConnectionKey();
         $hasRole = $connection->getServerCredential('db_role');
         $useRoles = $this->config->getContextually('uses_roles');
 

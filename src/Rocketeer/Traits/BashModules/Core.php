@@ -68,7 +68,7 @@ trait Core
             return $this->app->get('remote.local');
         }
 
-        return $this->remote;
+        return $this->connections->getCurrentConnection();
     }
 
     /**

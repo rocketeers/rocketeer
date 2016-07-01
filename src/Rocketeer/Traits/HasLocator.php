@@ -14,7 +14,7 @@ namespace Rocketeer\Traits;
 use Illuminate\Support\Arr;
 use Rocketeer\Bash;
 use Rocketeer\Container;
-use Rocketeer\Services\Connections\RemoteHandler;
+use Rocketeer\Services\Connections\ConnectionsFactory;
 use Rocketeer\Services\History\History;
 use Rocketeer\Services\History\LogsHandler;
 use Rocketeer\Services\Releases\ReleasesManager;
@@ -25,31 +25,31 @@ use Symfony\Component\Console\Output\OutputInterface;
  * A trait for Service Locator-based classes wich adds
  * a few shortcuts to Rocketeer classes.
  *
- * @property \Rocketeer\Services\Config\ContextualConfiguration      config
- * @property \Rocketeer\Services\Config\Files\ConfigurationLoader    configurationLoader
- * @property \Rocketeer\Services\Config\Files\ConfigurationPublisher configurationPublisher
- * @property \League\Event\Emitter                                   events
- * @property \League\Flysystem\FilesystemInterface                   files
+ * @property \Rocketeer\Services\Config\ContextualConfiguration              config
+ * @property \Rocketeer\Services\Config\Files\ConfigurationLoader            configurationLoader
+ * @property \Rocketeer\Services\Config\Files\ConfigurationPublisher         configurationPublisher
+ * @property \League\Event\Emitter                                           events
+ * @property \League\Flysystem\FilesystemInterface                           files
  * @property \League\Flysystem\MountManager                          flysystem
  * @property \Illuminate\Foundation\Artisan                          artisan
- * @property \Illuminate\Log\Writer                                  log
- * @property \Rocketeer\Console\Commands\AbstractCommand             command
- * @property \Rocketeer\Bash                                         bash
- * @property \Rocketeer\Console\Console                              console
- * @property \Rocketeer\Binaries\Scm\ScmInterface                    scm
- * @property \Rocketeer\Rocketeer                                    rocketeer
- * @property \Rocketeer\Services\Connections\ConnectionsHandler      connections
- * @property \Rocketeer\Services\Connections\Coordinator             coordinator
- * @property \Rocketeer\Services\Connections\RemoteHandler           remote
- * @property \Rocketeer\Services\Credentials\CredentialsGatherer     credentialsGatherer
- * @property \Rocketeer\Services\Credentials\CredentialsHandler      credentials
- * @property \Rocketeer\Services\Display\QueueExplainer              explainer
- * @property \Rocketeer\Services\Display\QueueTimer                  timer
- * @property \Rocketeer\Services\Environment\Environment             environment
- * @property \Rocketeer\Services\History\History                     history
- * @property \Rocketeer\Services\History\LogsHandler                 logs
- * @property \Rocketeer\Services\Environment\Pathfinder              paths
- * @property \Rocketeer\Services\Releases\ReleasesManager            releasesManager
+ * @property \Illuminate\Log\Writer                                          log
+ * @property \Rocketeer\Console\Commands\AbstractCommand                     command
+ * @property \Rocketeer\Bash                                                 bash
+ * @property \Rocketeer\Console\Console                                      console
+ * @property \Rocketeer\Binaries\Scm\ScmInterface                            scm
+ * @property \Rocketeer\Rocketeer                                            rocketeer
+ * @property \Rocketeer\Services\Connections\ConnectionsHandler              connections
+ * @property \Rocketeer\Services\Connections\Coordinator                     coordinator
+ * @property \Rocketeer\Services\Connections\ConnectionsFactory              remote
+ * @property \Rocketeer\Services\Connections\Credentials\CredentialsGatherer credentialsGatherer
+ * @property \Rocketeer\Services\Connections\Credentials\CredentialsHandler  credentials
+ * @property \Rocketeer\Services\Display\QueueExplainer                      explainer
+ * @property \Rocketeer\Services\Display\QueueTimer                          timer
+ * @property \Rocketeer\Services\Environment\Environment                     environment
+ * @property \Rocketeer\Services\History\History                             history
+ * @property \Rocketeer\Services\History\LogsHandler                         logs
+ * @property \Rocketeer\Services\Environment\Pathfinder                      paths
+ * @property \Rocketeer\Services\Releases\ReleasesManager                    releasesManager
  * @property \Rocketeer\Services\RolesManager                        roles
  * @property \Rocketeer\Services\Storages\Storage                    localStorage
  * @property \Rocketeer\Services\Builders\Builder                    builder
@@ -131,7 +131,7 @@ trait HasLocator
             'credentials' => 'credentials.handler',
             'credentialsGatherer' => 'credentials.gatherer',
             'localStorage' => 'storage.local',
-            'remote' => RemoteHandler::class,
+            'remote' => ConnectionsFactory::class,
 
             'bash' => Bash::class,
             'builder' => 'rocketeer.builder',

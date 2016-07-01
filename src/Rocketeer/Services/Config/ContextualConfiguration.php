@@ -12,7 +12,7 @@
 namespace Rocketeer\Services\Config;
 
 use Rocketeer\Container;
-use Rocketeer\Services\Credentials\Keys\ConnectionKey;
+use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
 use Rocketeer\Traits\HasLocator;
 
 /**
@@ -87,7 +87,7 @@ class ContextualConfiguration
      */
     protected function getForContext($option, $type, $original = null, ConnectionKey $connectionKey = null)
     {
-        $connectionKey = $connectionKey ?: $this->connections->getCurrentConnection();
+        $connectionKey = $connectionKey ?: $this->connections->getCurrentConnectionKey();
 
         // Switch context
         switch ($type) {

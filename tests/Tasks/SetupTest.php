@@ -65,7 +65,7 @@ class SetupTest extends RocketeerTestCase
         ]);
 
         $this->connections->setStage('staging');
-        $this->assertEquals('staging', $this->connections->getCurrentConnection()->stage);
+        $this->assertEquals('staging', $this->connections->getCurrentConnectionKey()->stage);
         $this->assertTaskHistory('Setup', [
             'git --version',
             '{php} -m',
@@ -80,7 +80,7 @@ class SetupTest extends RocketeerTestCase
             'stage' => 'staging',
         ]);
 
-        $this->assertEquals('staging', $this->connections->getCurrentConnection()->stage);
+        $this->assertEquals('staging', $this->connections->getCurrentConnectionKey()->stage);
     }
 
     protected function mockNoCurrentRelease($stage = null)

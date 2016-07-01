@@ -9,15 +9,15 @@
  * file that was distributed with this source code.
  */
 
-namespace Rocketeer\Services\Credentials\Keychains;
+namespace Rocketeer\Services\Connections\Credentials\Keychains;
 
 use Illuminate\Support\Arr;
-use Rocketeer\Services\Credentials\Keys\RepositoryKey;
+use Rocketeer\Services\Connections\Credentials\Keys\RepositoryKey;
 
 /**
  * Finds credentials and informations about repositories.
  *
- * @mixin \Rocketeer\Services\Credentials\CredentialsHandler
+ * @mixin \Rocketeer\Services\Connections\Credentials\CredentialsHandler
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */

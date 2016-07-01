@@ -13,8 +13,8 @@ namespace Rocketeer\Plugins;
 
 use Mockery\MockInterface;
 use Rocketeer\Dummies\DummyNotifier;
-use Rocketeer\Services\Credentials\Keys\ConnectionKey;
-use Rocketeer\Services\Credentials\Keys\RepositoryKey;
+use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
+use Rocketeer\Services\Connections\Credentials\Keys\RepositoryKey;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class AbstractNotifierTest extends RocketeerTestCase
@@ -55,7 +55,7 @@ class AbstractNotifierTest extends RocketeerTestCase
             $handle->servers = [['host' => 'foo.bar.com']];
 
             return $mock
-                ->shouldReceive('getCurrentConnection')->andReturn($handle);
+                ->shouldReceive('getCurrentConnectionKey')->andReturn($handle);
         });
 
         $this->mock('credentials.handler', 'CredentialsHandler', function (MockInterface $mock) {

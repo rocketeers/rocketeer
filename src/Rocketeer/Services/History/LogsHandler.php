@@ -86,7 +86,7 @@ class LogsHandler
      */
     public function getCurrentLogsFile()
     {
-        $hash = (string) $this->connections->getCurrentConnection();
+        $hash = (string) $this->connections->getCurrentConnectionKey();
         if (array_key_exists($hash, $this->name)) {
             return $this->name[$hash];
         }
@@ -179,7 +179,7 @@ class LogsHandler
     protected function prependHandle($entries)
     {
         $entries = (array) $entries;
-        $handle = $this->connections->getCurrentConnection()->toLongHandle();
+        $handle = $this->connections->getCurrentConnectionKey()->toLongHandle();
 
         foreach ($entries as $key => $entry) {
             $entry = str_replace('<comment>['.$handle.']</comment> ', null, $entry);

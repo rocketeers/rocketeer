@@ -15,12 +15,11 @@ use Closure;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
 use Rocketeer\Interfaces\HasRolesInterface;
+use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
 use Rocketeer\Services\Connections\Gateways\GatewayInterface;
 use Rocketeer\Services\Connections\Gateways\SeclibGateway;
-use Rocketeer\Services\Credentials\Keys\ConnectionKey;
 use Rocketeer\Traits\Properties\HasRoles;
 use RuntimeException;
-use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -178,30 +177,6 @@ class Connection implements ConnectionInterface, HasRolesInterface
         }
 
         return $this->gateway;
-    }
-
-    /**
-     * Get the output implementation for the connection.
-     *
-     * @return OutputInterface
-     */
-    public function getOutput()
-    {
-        if ($this->output === null) {
-            $this->output = new NullOutput();
-        }
-
-        return $this->output;
-    }
-
-    /**
-     * Set the output implementation.
-     *
-     * @param OutputInterface $output
-     */
-    public function setOutput(OutputInterface $output)
-    {
-        $this->output = $output;
     }
 
     /**

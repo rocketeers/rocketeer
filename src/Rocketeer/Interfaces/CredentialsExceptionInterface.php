@@ -11,6 +11,8 @@
 
 namespace Rocketeer\Interfaces;
 
+use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
+
 /**
  * An exception that can dump credentials.
  *
@@ -21,7 +23,7 @@ interface CredentialsExceptionInterface
     /**
      * Set the credentials that failed to connect.
      *
-     * @param array $credentials
+     * @param ConnectionKey $connectionKey
      */
-    public function setCredentials(array $credentials);
+    public function setCredentials(ConnectionKey $connectionKey);
 }

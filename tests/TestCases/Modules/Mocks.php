@@ -15,7 +15,7 @@ use Closure;
 use League\Flysystem\Filesystem;
 use Mockery;
 use Mockery\MockInterface;
-use Rocketeer\Services\Connections\RemoteHandler;
+use Rocketeer\Services\Connections\ConnectionsFactory;
 use Rocketeer\Services\Releases\ReleasesManager;
 
 /**
@@ -111,7 +111,7 @@ trait Mocks
      */
     protected function mockRemote($expectations = null)
     {
-        $this->app->add(RemoteHandler::class, $this->getRemote($expectations));
+        $this->app->add(ConnectionsFactory::class, $this->getConnectionsFactory($expectations));
     }
 
     /**

@@ -11,7 +11,7 @@
 
 namespace Rocketeer\Services\Connections;
 
-use Rocketeer\Services\Credentials\Keys\ConnectionKey;
+use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class ConnectionsKeychainTest extends RocketeerTestCase
@@ -27,11 +27,11 @@ class ConnectionsKeychainTest extends RocketeerTestCase
             ],
         ]);
 
-        $this->connections->setConnection('production', 0);
-        $this->assertEquals(['host' => 'server1.com'], $this->credentials->getServerCredentials());
+        $this->connections->setCurrentConnection('production', 0);
+        $this->assertEquals(['host' => 'server1.com'], $this->credentials->getConnectionServer());
 
-        $this->connections->setConnection('production', 1);
-        $this->assertEquals(['host' => 'server2.com'], $this->credentials->getServerCredentials());
+        $this->connections->setCurrentConnection('production', 1);
+        $this->assertEquals(['host' => 'server2.com'], $this->credentials->getConnectionServer());
     }
 
     public function testCanSpecifyServersViaOptions()
@@ -51,7 +51,7 @@ class ConnectionsKeychainTest extends RocketeerTestCase
             'server' => '0,1',
         ]);
 
-        $this->assertArrayNotHasKey(2, $this->credentials->getConnectionCredentials('production'));
+        $this->assertArrayNotHasKey(2, $this->credentials->getConnectionServers('production'));
     }
 
     public function testAlwaysReturnsArrayIfNoCredentialsFound()
@@ -70,7 +70,7 @@ class ConnectionsKeychainTest extends RocketeerTestCase
             ],
         ]);
 
-        $connection = $this->connections->getCurrentConnection();
+        $connection = $this->connections->getCurrentConnectionKey();
         $credentials = $this->credentials->syncConnectionCredentials($connection, ['host' => 'lol.com']);
 
         $this->assertEquals('lol.com', $credentials['host']);
@@ -89,9 +89,9 @@ class ConnectionsKeychainTest extends RocketeerTestCase
             'on' => 'production-multiserver',
         ]);
 
-        $this->credentials->getServerCredentials();
+        $this->credentials->getConnectionServer();
 
-        $credentials = $this->credentials->getServerCredentials('production-multiserver', 0);
+        $credentials = $this->credentials->getConnectionServer('production-multiserver', 0);
         $this->assertEquals([
             'host' => '10.1.1.1',
             'username' => $this->username,
@@ -103,7 +103,7 @@ class ConnectionsKeychainTest extends RocketeerTestCase
         // also check handle generation as handles are used for connection cache keying in RemoteHandler
         $this->assertEquals('production-multiserver/10.1.1.1', $this->credentials->createConnectionKey('production-multiserver', 0));
 
-        $credentials = $this->credentials->getServerCredentials('production-multiserver', 1);
+        $credentials = $this->credentials->getConnectionServer('production-multiserver', 1);
         $this->assertEquals([
             'host' => '10.1.1.2',
             'username' => $this->username,
@@ -114,7 +114,7 @@ class ConnectionsKeychainTest extends RocketeerTestCase
 
         $this->assertEquals('production-multiserver/10.1.1.2', $this->credentials->createConnectionKey('production-multiserver', 1));
 
-        $credentials = $this->credentials->getServerCredentials('production-multiserver', 2);
+        $credentials = $this->credentials->getConnectionServer('production-multiserver', 2);
         $this->assertEquals([
             'host' => '10.1.1.3',
             'username' => $this->username,

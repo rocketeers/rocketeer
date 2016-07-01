@@ -179,11 +179,11 @@ class PathfinderTest extends RocketeerTestCase
             ],
         ]);
 
-        $this->connections->setConnection('production');
+        $this->connections->setCurrentConnection('production');
         $path = $this->paths->getHomeFolder();
         $this->assertEquals('/foo/foobar', $path);
 
-        $this->connections->setConnection('staging');
+        $this->connections->setCurrentConnection('staging');
         $path = $this->paths->getHomeFolder();
         $this->assertEquals('/bar/foobar', $path);
     }

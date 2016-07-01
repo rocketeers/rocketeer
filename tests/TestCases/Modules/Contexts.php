@@ -13,7 +13,7 @@ namespace Rocketeer\TestCases\Modules;
 
 use Mockery\MockInterface;
 use Rocketeer\Plugins\Laravel\LaravelPlugin;
-use Rocketeer\Services\Credentials\Keys\RepositoryKey;
+use Rocketeer\Services\Connections\Credentials\Keys\RepositoryKey;
 
 /**
  * @mixin \Rocketeer\TestCases\RocketeerTestCase

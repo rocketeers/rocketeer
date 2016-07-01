@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Rocketeer\Services\Credentials\Keys;
+namespace Rocketeer\Services\Connections\Credentials\Keys;
 
 use Illuminate\Support\Str;
 

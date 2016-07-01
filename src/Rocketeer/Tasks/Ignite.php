@@ -79,13 +79,13 @@ class Ignite extends AbstractTask
         $repository = $this->credentials->getCurrentRepository();
         $name = basename($this->paths->getBasePath());
 
-        $credentials = $this->credentials->getServerCredentials();
+        $credentials = $this->credentials->getConnectionServer();
         unset($credentials['config']);
 
         return array_merge(
             $credentials,
             [
-                'connection' => preg_replace('/#[0-9]+/', null, $this->connections->getCurrentConnection()),
+                'connection' => preg_replace('/#[0-9]+/', null, $this->connections->getCurrentConnectionKey()),
                 'scm_repository' => $repository->endpoint,
                 'scm_username' => $repository->username,
                 'scm_password' => $repository->password,

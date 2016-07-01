@@ -15,7 +15,7 @@ use Mockery;
 use Mockery\MockInterface;
 use Rocketeer\Dummies\Tasks\MyCustomHaltingTask;
 use Rocketeer\Dummies\Tasks\MyCustomTask;
-use Rocketeer\Services\Connections\RemoteHandler;
+use Rocketeer\Services\Connections\ConnectionsFactory;
 use Rocketeer\Tasks\AbstractTask;
 use Rocketeer\TestCases\RocketeerTestCase;
 
@@ -45,7 +45,7 @@ class TasksQueueTest extends RocketeerTestCase
         $output = [];
         $queue = [
             function (AbstractTask $task) use (&$output) {
-                $connection = $task->connections->getCurrentConnection();
+                $connection = $task->connections->getCurrentConnectionKey();
                 $output[] = $connection->name.' - '.$connection->stage;
             },
         ];
@@ -111,7 +111,7 @@ class TasksQueueTest extends RocketeerTestCase
         ]);
 
         $this->queue->on(['staging', 'production'], function (AbstractTask $task) {
-            $connection = $task->connections->getCurrentConnection();
+            $connection = $task->connections->getCurrentConnectionKey();
 
             return $connection->name.' - '.$connection->stage;
         });
@@ -182,7 +182,7 @@ class TasksQueueTest extends RocketeerTestCase
     {
         $this->pretend();
 
-        $this->app->add(RemoteHandler::class, new RemoteHandler($this->app));
+        $this->app->add(ConnectionsFactory::class, new ConnectionsFactory($this->app));
         $this->swapConnections([
             'production' => [
                 'host' => 'foobar.com',

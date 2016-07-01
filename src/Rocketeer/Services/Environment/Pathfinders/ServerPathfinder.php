@@ -20,7 +20,7 @@ class ServerPathfinder extends AbstractPathfinder
      */
     public function getRootDirectory()
     {
-        $rootDirectory = $this->connections->getCurrentConnection()->root_directory;
+        $rootDirectory = $this->connections->getCurrentConnectionKey()->root_directory;
         $rootDirectory = Str::finish($rootDirectory, '/');
 
         return $rootDirectory;
@@ -51,7 +51,7 @@ class ServerPathfinder extends AbstractPathfinder
         $folder = $this->replacePatterns($folder);
 
         $base = $this->getHomeFolder().'/';
-        $stage = $this->connections->getCurrentConnection()->stage;
+        $stage = $this->connections->getCurrentConnectionKey()->stage;
         if ($folder && $stage) {
             $base .= $stage.'/';
         }

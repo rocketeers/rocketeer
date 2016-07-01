@@ -12,7 +12,7 @@
 namespace Rocketeer\Services\Tasks;
 
 use Illuminate\Support\Fluent;
-use Rocketeer\Services\Credentials\Keys\ConnectionKey;
+use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
 
 /**
  * A job storing where a task/multiple tasks need to be executed.

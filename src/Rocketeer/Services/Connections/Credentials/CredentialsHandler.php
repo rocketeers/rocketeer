@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Rocketeer\Services\Credentials;
+namespace Rocketeer\Services\Connections\Credentials;
 
-use Rocketeer\Services\Credentials\Keychains\ConnectionsKeychain;
-use Rocketeer\Services\Credentials\Keychains\RepositoriesKeychain;
+use Rocketeer\Services\Connections\Credentials\Keychains\ConnectionsKeychain;
+use Rocketeer\Services\Connections\Credentials\Keychains\RepositoriesKeychain;
 use Rocketeer\Traits\HasLocator;
 
 class CredentialsHandler

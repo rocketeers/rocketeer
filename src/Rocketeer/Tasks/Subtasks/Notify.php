@@ -77,7 +77,7 @@ class Notify extends AbstractTask
 
         // Get what was deployed
         $repository = $this->credentials->getCurrentRepository();
-        $connection = $this->connections->getCurrentConnection();
+        $connection = $this->connections->getCurrentConnectionKey();
 
         return [
             'user' => $user,

@@ -11,7 +11,7 @@
 
 namespace Rocketeer\Services;
 
-use Rocketeer\Services\Connections\RemoteHandler;
+use Rocketeer\Services\Connections\ConnectionsFactory;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class RolesManagerTest extends RocketeerTestCase
@@ -30,8 +30,9 @@ class RolesManagerTest extends RocketeerTestCase
 
     public function testCanCheckIfConnectionCanExecuteTask()
     {
-        $remote = new RemoteHandler($this->app);
-        $connection = $remote->connection('production');
+        $remote = new ConnectionsFactory($this->app);
+        $key = $this->credentials->createConnectionKey('production');
+        $connection = $remote->make($key);
         $connection->setRoles(['foo', 'bar']);
 
         $this->task->setRoles(['foo']);
@@ -68,7 +69,7 @@ class RolesManagerTest extends RocketeerTestCase
 
     public function testTasksWithoutRolesAreCompatibleWithAnyServer()
     {
-        $this->app->add(RemoteHandler::class, new RemoteHandler($this->app));
+        $this->app->add(ConnectionsFactory::class, new ConnectionsFactory());
         $this->swapConnections([
             'production' => [
                 'host' => 'foobar.com',
@@ -78,7 +79,7 @@ class RolesManagerTest extends RocketeerTestCase
             ],
         ]);
 
-        $compatible = $this->roles->canExecuteTask($this->remote->connection(), $this->task('Deploy'));
+        $compatible = $this->roles->canExecuteTask($this->connections->getCurrentConnection(), $this->task('Deploy'));
         $this->assertTrue($compatible);
     }
 }

@@ -26,7 +26,7 @@ class ConnectionsHandlerTest extends RocketeerTestCase
         $connections = $this->connections->getAvailableConnections();
         $this->assertEquals(['production', 'staging'], array_keys($connections));
 
-        $this->app->get('storage.local')->set('connections.custom.username', 'foobar');
+        $this->localStorage->set('connections.custom.username', 'foobar');
         $connections = $this->connections->getAvailableConnections();
         $this->assertEquals(['production', 'staging', 'custom'], array_keys($connections));
     }
@@ -44,11 +44,11 @@ class ConnectionsHandlerTest extends RocketeerTestCase
     {
         $this->assertConnectionEquals('production');
 
-        $this->connections->setConnection('staging');
+        $this->connections->setCurrentConnection('staging');
         $this->assertConnectionEquals('staging');
 
-        $this->connections->setConnections('staging,production');
-        $this->assertEquals(['staging', 'production'], $this->connections->getConnections());
+        $this->connections->setActiveConnections('staging,production');
+        $this->assertEquals(['staging', 'production'], $this->connections->getActiveConnections());
     }
 
     public function testFillsConnectionCredentialsHoles()
@@ -56,7 +56,7 @@ class ConnectionsHandlerTest extends RocketeerTestCase
         $connections = $this->connections->getAvailableConnections();
         $this->assertArrayHasKey('production', $connections);
 
-        $this->app->get('storage.local')->set('connections', [
+        $this->localStorage->set('connections', [
             'staging' => [
                 'host' => 'foobar',
                 'username' => 'user',
@@ -77,9 +77,9 @@ class ConnectionsHandlerTest extends RocketeerTestCase
                 ->shouldReceive('registerConfiguredEvents')->once();
         }, false);
 
-        $this->connections->setConnection('staging');
-        $this->connections->setConnection('staging');
-        $this->connections->setConnection('staging');
+        $this->connections->setCurrentConnection('staging');
+        $this->connections->setCurrentConnection('staging');
+        $this->connections->setCurrentConnection('staging');
     }
 
     public function testDoesntResetStageIfSameAsCurrent()
@@ -96,18 +96,18 @@ class ConnectionsHandlerTest extends RocketeerTestCase
 
     public function testValidatesConnectionOnMultiset()
     {
-        $this->connections->setConnections(['production', 'bar']);
+        $this->connections->setActiveConnections(['production', 'bar']);
 
-        $this->assertEquals(['production'], $this->connections->getConnections());
+        $this->assertEquals(['production'], $this->connections->getActiveConnections());
     }
 
     public function testDoesntReuseConnectionIfDifferentServer()
     {
-        $this->connections->setConnection('staging', 0);
+        $this->connections->setCurrentConnection('staging', 0);
         $this->assertConnectionEquals('staging');
         $this->assertCurrentServerEquals(0);
 
-        $this->connections->setConnection('staging', 1);
+        $this->connections->setCurrentConnection('staging', 1);
         $this->assertConnectionEquals('staging');
         $this->assertCurrentServerEquals(1);
     }
@@ -116,6 +116,25 @@ class ConnectionsHandlerTest extends RocketeerTestCase
     {
         $this->setExpectedException(ConnectionException::class, 'Invalid connection(s): foo, bar');
 
-        $this->connections->setConnections('foo,bar');
+        $this->connections->setActiveConnections('foo,bar');
+    }
+
+    public function testFiresEventWhenConnectedToServer()
+    {
+        $this->expectOutputString('connected');
+
+        $this->events->addListener('connected.production', function () {
+            echo 'connected';
+        });
+
+        $this->swapConnections([
+            'production' => [
+                'host' => 'foobar.com',
+                'username' => 'foobar',
+                'password' => 'foobar',
+            ],
+        ]);
+
+        $this->connections->getCurrentConnection();
     }
 }

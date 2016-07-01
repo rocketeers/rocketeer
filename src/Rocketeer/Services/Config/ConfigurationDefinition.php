@@ -68,7 +68,7 @@ class ConfigurationDefinition implements ConfigurationInterface
             ->closureNode('logs')
             ->info('The schema to use to name log files')
             ->defaultValue(function (\Rocketeer\Services\Connections\ConnectionsHandler $connections) {
-                return sprintf('%s-%s.log', $connections->getCurrentConnection(), date('Ymd'));
+                return sprintf('%s-%s.log', $connections->getCurrentConnectionKey(), date('Ymd'));
             })
             ->end()
             ->arrayNode('default')

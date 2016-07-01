@@ -38,7 +38,7 @@ class EnvironmentTest extends RocketeerTestCase
 
     public function testCanProperlyComputeVariablePath()
     {
-        $this->connections->setConnection('staging', 1);
+        $this->connections->setCurrentConnection('staging', 1);
 
         $this->assertEquals('staging.os', $this->environment->getVariablePath('os'));
     }

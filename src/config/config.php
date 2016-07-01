@@ -27,7 +27,7 @@ return [
 
         // The schema to use to name log files
         'logs' => function (\Rocketeer\Services\Connections\ConnectionsHandler $connections) {
-            return sprintf('%s-%s.log', $connections->getCurrentConnection(), date('Ymd'));
+            return sprintf('%s-%s.log', $connections->getCurrentConnectionKey(), date('Ymd'));
         },
 
         // The default remote connection(s) to execute tasks on

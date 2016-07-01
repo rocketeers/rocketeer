@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Rocketeer\Services\Credentials;
+namespace Rocketeer\Services\Connections\Credentials;
 
 use Mockery\MockInterface;
 use Rocketeer\Bash;
