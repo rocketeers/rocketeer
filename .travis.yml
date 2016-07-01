@@ -25,9 +25,12 @@ before_install:
 install:
   - travis_retry composer update --no-interaction --prefer-dist $PREFER_LOWEST
 
+before_script:
+  - phpenv config-rm xdebug.ini
+
 script:
   - composer test
-  - composer lint -- --dry-run -vvv
+  - composer lint -- --diff --dry-run -vvv
 
 # Cache dependencies
 cache:
