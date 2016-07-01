@@ -15,7 +15,9 @@ use Rocketeer\RocketeerServiceProvider;
 require 'vendor/autoload.php';
 
 $container = new Container();
-$provider = new RocketeerServiceProvider($container);
+$provider = new RocketeerServiceProvider();
+$provider->setContainer($container);
 $provider->register();
 
-$container['config.publisher']->publish(__DIR__.'/../src/config', 'php');
+$container->get('config.publisher')->publish(__DIR__.'/../src/config', 'php');
+exec('composer lint');
