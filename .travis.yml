@@ -6,7 +6,7 @@ language: php
 php:
   - 5.6
   - 7.0
-  - hhvm
+  - hhvm-3.9
 
 matrix:
   allow_failures:
@@ -19,10 +19,11 @@ env:
 
 # Dependencies
 before_install:
-  - composer self-update
+  - travis_retry composer self-update
+  - travis_retry composer global require hirak/prestissimo
 
 install:
-  - travis_retry composer update --no-interaction --prefer-source $PREFER_LOWEST
+  - travis_retry composer update --no-interaction --prefer-dist $PREFER_LOWEST
 
 script:
   - composer test
@@ -31,7 +32,6 @@ script:
 # Cache dependencies
 cache:
   directories:
-    # - vendor
     - $HOME/.composer/cache
 
 # Gitter notifications
