@@ -15,6 +15,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Rocketeer\Traits\HasLocator;
 use Rocketeer\Traits\Properties\HasHistory;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Core handling of running commands and returning output.
@@ -188,7 +189,7 @@ trait Core
      */
     public function runRaw($commands, $array = false, $trim = false)
     {
-        $this->displayCommands($commands, 4);
+        $this->displayCommands($commands, OutputInterface::VERBOSITY_VERY_VERBOSE);
 
         // Run commands
         $output = null;

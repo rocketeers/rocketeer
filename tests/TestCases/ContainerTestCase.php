@@ -25,6 +25,7 @@ use Rocketeer\TestCases\Modules\Building;
 use Rocketeer\TestCases\Modules\Contexts;
 use Rocketeer\TestCases\Modules\Mocks;
 use Rocketeer\Traits\HasLocator;
+use Symfony\Component\Console\Output\OutputInterface;
 
 abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 {
@@ -138,7 +139,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
             return $message;
         };
 
-        $verbose = array_get($options, 'verbose') ? 1 : 0;
+        $verbose = array_get($options, 'verbose') ? OutputInterface::VERBOSITY_VERY_VERBOSE : OutputInterface::VERBOSITY_NORMAL;
         $command = Mockery::mock(AbstractCommand::class)->shouldIgnoreMissing();
         $command->shouldReceive('getOutput')->andReturn($this->getCommandOutput($verbose));
         $command->shouldReceive('getVerbosity')->andReturn($verbose);

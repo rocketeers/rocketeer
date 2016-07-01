@@ -18,6 +18,7 @@ use Rocketeer\Services\History\History;
 use Rocketeer\Services\History\LogsHandler;
 use Rocketeer\Services\Releases\ReleasesManager;
 use Rocketeer\Services\RolesManager;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * A trait for Service Locator-based classes wich adds
@@ -177,7 +178,7 @@ trait HasLocator
     {
         // Verbosity levels
         if ($this->hasCommand() && $option === 'verbose') {
-            return $this->command->getVerbosity();
+            return $this->command->getVerbosity() > OutputInterface::VERBOSITY_NORMAL;
         }
 
         // Gather options

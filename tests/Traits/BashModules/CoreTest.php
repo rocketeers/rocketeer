@@ -13,6 +13,7 @@ namespace Rocketeer\Traits\BashModules;
 
 use Mockery\MockInterface;
 use Rocketeer\TestCases\RocketeerTestCase;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class CoreTest extends RocketeerTestCase
 {
@@ -119,7 +120,7 @@ class CoreTest extends RocketeerTestCase
 
         $this->mock('rocketeer.command', 'Command', function (MockInterface $mock) {
             return $mock
-                ->shouldReceive('getVerbosity')->andReturn(4)
+                ->shouldReceive('getVerbosity')->andReturn(OutputInterface::VERBOSITY_VERY_VERBOSE)
                 ->shouldReceive('writeln')->andReturnUsing(function ($input) {
                     echo $input;
                 });
@@ -134,7 +135,7 @@ class CoreTest extends RocketeerTestCase
 
         $this->mock('rocketeer.command', 'Command', function (MockInterface $mock) {
             return $mock
-                ->shouldReceive('getVerbosity')->andReturn(1)
+                ->shouldReceive('getVerbosity')->andReturn(OutputInterface::VERBOSITY_NORMALg)
                 ->shouldReceive('writeln')->andReturnUsing(function ($input) {
                     echo $input;
                 });
