@@ -17,7 +17,6 @@ use Rocketeer\Services\Builders\Builder;
 use Rocketeer\Services\Config\ConfigurationServiceProvider;
 use Rocketeer\Services\Config\ContextualConfiguration;
 use Rocketeer\Services\Connections\ConnectionsServiceProvider;
-use Rocketeer\Services\Connections\Credentials\CredentialsServiceProvider;
 use Rocketeer\Services\Display\DisplayServiceProvider;
 use Rocketeer\Services\Environment\EnvironmentServiceProvider;
 use Rocketeer\Services\Events\EventsServiceProvider;

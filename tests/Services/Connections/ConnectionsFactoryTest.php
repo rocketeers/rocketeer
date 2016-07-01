@@ -11,7 +11,6 @@
 
 namespace Rocketeer\Services\Connections;
 
-use Rocketeer\Exceptions\ConnectionException;
 use Rocketeer\Exceptions\MissingCredentialsException;
 use Rocketeer\Services\Connections\Connections\Connection;
 use Rocketeer\TestCases\RocketeerTestCase;

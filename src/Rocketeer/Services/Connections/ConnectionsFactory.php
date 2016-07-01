@@ -32,7 +32,7 @@ class ConnectionsFactory
     protected $connected = [];
 
     /**
-     * Build a Connection instance from a ConnectionKey
+     * Build a Connection instance from a ConnectionKey.
      *
      * @param ConnectionKey $connectionKey
      *

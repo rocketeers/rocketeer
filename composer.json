@@ -51,7 +51,7 @@
   },
   "scripts": {
     "test": "phpunit",
-    "lint": "php-cs-fixer fix",
+    "lint": "php-cs-fixer fix -vvv",
     "build": "box build --verbose"
   },
   "bin": [

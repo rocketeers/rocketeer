@@ -15,7 +15,7 @@ use Rocketeer\Services\Tasks\Job;
 use Rocketeer\Traits\HasLocator;
 
 /**
- * Coordinates tasks between multiple servers/stages
+ * Coordinates tasks between multiple servers/stages.
  */
 class Coordinator
 {
