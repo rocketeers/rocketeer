@@ -24,7 +24,9 @@ before_install:
 install:
   - travis_retry composer update --no-interaction --prefer-source $PREFER_LOWEST
 
-script: composer test
+script:
+  - composer test
+  - composer lint -- --dry-run -vvv
 
 # Cache dependencies
 cache:
