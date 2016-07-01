@@ -3,19 +3,27 @@ sudo: false
 
 # Setup build matrix
 language: php
-php:
-  - 5.6
-  - 7.0
-  - hhvm-3.9
-
 matrix:
+  fast_finish: true
+  include:
+    - php: 5.6
+      env: COMPOSER_FLAGS="--prefer-stable --prefer-lowest"
+    - php: 7.0
+    - php: hhvm-3.9
+      sudo: required
+      dist: trusty
+      group: edge
+    - php: hhvm
+      sudo: required
+      dist: trusty
+      group: edge
   allow_failures:
     - hhvm
 
-env:
-  matrix:
-    - PREFER_LOWEST="--prefer-lowest"
-    - PREFER_LOWEST=""
+# Cache dependencies
+cache:
+  directories:
+    - $HOME/.composer/cache
 
 # Dependencies
 before_install:
@@ -23,7 +31,7 @@ before_install:
   - travis_retry composer global require hirak/prestissimo
 
 install:
-  - travis_retry composer update --no-interaction --prefer-dist $PREFER_LOWEST
+  - travis_retry composer update --no-interaction --prefer-dist $COMPOSER_FLAGS
 
 before_script:
   - phpenv config-rm xdebug.ini
@@ -31,11 +39,6 @@ before_script:
 script:
   - composer test
   - composer lint -- --diff --dry-run -vvv
-
-# Cache dependencies
-cache:
-  directories:
-    - $HOME/.composer/cache
 
 # Gitter notifications
 notifications:
