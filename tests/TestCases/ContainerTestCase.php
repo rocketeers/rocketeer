@@ -20,6 +20,7 @@ use Rocketeer\Container;
 use Rocketeer\Dummies\Tasks\MyCustomTask;
 use Rocketeer\RocketeerServiceProvider;
 use Rocketeer\Services\Connections\Connections\Connection;
+use Rocketeer\Services\Connections\RemoteHandler;
 use Rocketeer\TestCases\Modules\Assertions;
 use Rocketeer\TestCases\Modules\Building;
 use Rocketeer\TestCases\Modules\Contexts;
@@ -95,7 +96,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 
         // Replace some instances with mocks
         $this->app->add('artisan', $this->getArtisan());
-        $this->app->add('remote', $this->getRemote());
+        $this->app->add(RemoteHandler::class, $this->getRemote());
         $this->app->add('rocketeer.command', $this->getCommand());
 
         $this->app->share('flysystem', function () {

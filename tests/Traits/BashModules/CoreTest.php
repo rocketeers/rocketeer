@@ -12,6 +12,7 @@
 namespace Rocketeer\Traits\BashModules;
 
 use Mockery\MockInterface;
+use Rocketeer\Services\Connections\RemoteHandler;
 use Rocketeer\TestCases\RocketeerTestCase;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -28,7 +29,7 @@ class CoreTest extends RocketeerTestCase
     {
         $this->expectOutputRegex('/.+An error occured: "Oh noes", while running:\ngit clone.+/');
 
-        $this->app->add('remote', clone $this->getRemote()->shouldReceive('status')->andReturn(1)->mock());
+        $this->app->add(RemoteHandler::class, clone $this->getRemote()->shouldReceive('status')->andReturn(1)->mock());
         $this->mockEchoingCommand();
 
         $status = $this->task('Deploy')->checkStatus('Oh noes', 'git clone');
@@ -80,7 +81,7 @@ class CoreTest extends RocketeerTestCase
 
     public function testCanRunCommandsLocally()
     {
-        $this->mock('remote', 'Remote', function (MockInterface $mock) {
+        $this->mock(RemoteHandler::class, RemoteHandler::class, function (MockInterface $mock) {
             return $mock->shouldReceive('run')->never();
         });
 

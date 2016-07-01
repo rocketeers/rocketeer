@@ -89,6 +89,8 @@ class RemoteHandler
     }
 
     /**
+     * Build a Connection instance from a ConnectionKey
+     *
      * @param ConnectionKey $connectionKey
      *
      * @throws CredentialsExceptionInterface
@@ -117,6 +119,7 @@ class RemoteHandler
             'privateKey' => $connectionKey->key,
             'root' => $connectionKey->root_directory,
         ]));
+
         $connection->setFilesystem($filesystem);
 
         // Set output on connection

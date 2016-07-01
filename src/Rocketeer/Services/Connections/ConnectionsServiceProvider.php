@@ -22,7 +22,7 @@ class ConnectionsServiceProvider extends AbstractServiceProvider
      */
     protected $provides = [
         Bash::class,
-        'remote',
+        RemoteHandler::class,
         'remote.local',
         'connections',
         'coordinator',
@@ -39,7 +39,7 @@ class ConnectionsServiceProvider extends AbstractServiceProvider
             return new Bash($this->container);
         });
 
-        $this->container->share('remote', function () {
+        $this->container->share(RemoteHandler::class, function () {
             return new RemoteHandler($this->container);
         });
 

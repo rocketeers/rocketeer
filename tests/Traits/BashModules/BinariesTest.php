@@ -16,6 +16,7 @@ use Mockery\MockInterface;
 use Rocketeer\Bash;
 use Rocketeer\Binaries\Php;
 use Rocketeer\Console\Commands\AbstractCommand;
+use Rocketeer\Services\Connections\RemoteHandler;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class BinariesTest extends RocketeerTestCase
@@ -42,7 +43,7 @@ class BinariesTest extends RocketeerTestCase
 
     public function testStoredPathsAreInvalidatedIfIncorrect()
     {
-        $this->mock('remote', 'Remote', function (MockInterface $mock) {
+        $this->mock(RemoteHandler::class, RemoteHandler::class, function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('connected')->andReturn(false)
                 ->shouldReceive('run')->with(['bash --login -c \'echo ROCKETEER\''], Mockery::any())->andReturn(null)
@@ -61,7 +62,7 @@ class BinariesTest extends RocketeerTestCase
 
     public function testPathsAreScopedToConnection()
     {
-        $this->mock('remote', 'Remote', function (MockInterface $mock) {
+        $this->mock(RemoteHandler::class, RemoteHandler::class, function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('connected')->andReturn(false)
                 ->shouldReceive('run')->with(['bash --login -c \'echo ROCKETEER\''], Mockery::any())->andReturn(null)
