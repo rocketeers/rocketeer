@@ -70,18 +70,4 @@ class Rocketeer
     {
         $this->local = $local;
     }
-
-    //////////////////////////////////////////////////////////////////////
-    //////////////////////////// CONFIGURATION ///////////////////////////
-    //////////////////////////////////////////////////////////////////////
-
-    /**
-     * Get the name of the application to deploy.
-     *
-     * @return string
-     */
-    public function getApplicationName()
-    {
-        return $this->config->get('application_name');
-    }
 }

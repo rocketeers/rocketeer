@@ -57,7 +57,7 @@ class Setup extends AbstractTask
         $this->environment->getLineEndings();
 
         // Create confirmation message
-        $application = $this->rocketeer->getApplicationName();
+        $application = $this->config->get('application_name');
         $homeFolder = $this->paths->getHomeFolder();
         $message = sprintf('Successfully setup "%s" at "%s"', $application, $homeFolder);
 

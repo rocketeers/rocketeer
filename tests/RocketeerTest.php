@@ -15,11 +15,6 @@ use Rocketeer\TestCases\RocketeerTestCase;
 
 class RocketeerTest extends RocketeerTestCase
 {
-    public function testCanGetApplicationName()
-    {
-        $this->assertEquals('foobar', $this->rocketeer->getApplicationName());
-    }
-
     public function testCanUseRecursiveStageConfiguration()
     {
         $this->swapConfig([

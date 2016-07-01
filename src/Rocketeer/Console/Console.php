@@ -109,7 +109,7 @@ class Console extends Application
     protected function getCurrentState()
     {
         return [
-            'application_name' => realpath($this->app->get('rocketeer.rocketeer')->getApplicationName()),
+            'application_name' => realpath($this->app->get('config')->get('application_name')),
             'application' => realpath($this->app->get('paths')->getApplicationPath()),
             'configuration' => realpath($this->app->get('paths')->getConfigurationPath()),
             'tasks' => $this->app->get('path.rocketeer.tasks'),

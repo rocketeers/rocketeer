@@ -31,7 +31,7 @@ class StorageServiceProvider extends AbstractServiceProvider
     {
         $this->container->share('storage.local', function () {
             $folder = $this->container->get('paths')->getRocketeerConfigFolder();
-            $filename = $this->container->get('rocketeer.rocketeer')->getApplicationName();
+            $filename = $this->container->get('config')->get('application_name');
             $filename = $filename === '{application_name}' ? 'deployments' : $filename;
 
             return new Storage($this->container, 'local', $folder, $filename);
