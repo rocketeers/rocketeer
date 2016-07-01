@@ -12,11 +12,13 @@ matrix:
       sudo: required
       dist: trusty
       group: edge
-  env:
-    - COMPOSER_FLAGS="--prefer-lowest"
-    - COMPOSER_FLAGS=""
   allow_failures:
     - hhvm
+
+env:
+  matrix:
+    - COMPOSER_FLAGS="--prefer-lowest"
+    - COMPOSER_FLAGS=""
 
 # Cache dependencies
 cache:
