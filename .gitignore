@@ -1,16 +1,13 @@
 # Cache and compiled
 bin/rocketeer.phar
-bin/rocketeer.phar-contents
-composer.lock
-
-# Tests
-.configuration
-.rocketeer
-humbuglog.txt
-tests/_server/foobar
 
 # Dependencies
+composer.lock
 vendor
 
-# PhpUnit configuration local machine only
+# Testing
+.rocketeer
+humbuglog.txt
 phpunit.xml
+tests/_coverage/
+tests/_server/foobar
