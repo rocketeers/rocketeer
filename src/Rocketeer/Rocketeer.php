@@ -11,7 +11,6 @@
 
 namespace Rocketeer;
 
-use Rocketeer\Services\Credentials\Keys\ConnectionKey;
 use Rocketeer\Traits\HasLocator;
 
 /**

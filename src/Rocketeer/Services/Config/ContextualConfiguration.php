@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Rocketeer\Services\Config;
 
 use Rocketeer\Container;
@@ -26,7 +36,7 @@ class ContextualConfiguration
 
     /**
      * @param string $name
-     * @param array $arguments
+     * @param array  $arguments
      *
      * @return mixed
      */
@@ -34,6 +44,7 @@ class ContextualConfiguration
     {
         return $this->configuration->$name(...$arguments);
     }
+
     /**
      * Get an option from Rocketeer's config file.
      *

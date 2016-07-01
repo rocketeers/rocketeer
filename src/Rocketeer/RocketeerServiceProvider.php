@@ -22,7 +22,6 @@ use Rocketeer\Services\Display\DisplayServiceProvider;
 use Rocketeer\Services\Environment\EnvironmentServiceProvider;
 use Rocketeer\Services\Events\EventsServiceProvider;
 use Rocketeer\Services\Filesystem\FilesystemServiceProvider;
-use Rocketeer\Services\History\History;
 use Rocketeer\Services\History\HistoryServiceProvider;
 use Rocketeer\Services\Ignition\IgnitionServiceProvider;
 use Rocketeer\Services\Releases\ReleasesServiceProvider;
