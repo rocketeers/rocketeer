@@ -13,6 +13,7 @@ namespace Rocketeer\Services\Tasks;
 
 use Mockery;
 use Mockery\MockInterface;
+use Rocketeer\Dummies\Tasks\DummyCoordinatedTask;
 use Rocketeer\Dummies\Tasks\MyCustomHaltingTask;
 use Rocketeer\Dummies\Tasks\MyCustomTask;
 use Rocketeer\Services\Connections\ConnectionsFactory;
@@ -211,5 +212,13 @@ class TasksQueueTest extends RocketeerTestCase
 
         $this->assertHistoryContains('YES');
         $this->assertHistoryNotContains('NO');
+    }
+
+    public function testCanConvertQueueToArray()
+    {
+        $task = $this->builder->buildTask(MyCustomTask::class);
+        $queue = $this->queue->run($task);
+
+        $this->assertCount(1, $queue);
     }
 }

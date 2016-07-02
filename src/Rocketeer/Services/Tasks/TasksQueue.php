@@ -106,7 +106,7 @@ class TasksQueue
      */
     public function run($tasks)
     {
-        $tasks = (array) $tasks;
+        $tasks = is_array($tasks) ? $tasks : [$tasks];
         $queue = $this->builder->buildTasks($tasks);
         $pipeline = $this->buildPipeline($queue);
 
