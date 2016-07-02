@@ -143,7 +143,9 @@ trait ConnectionsKeychain
      */
     public function getConnectionServer($connection = null, $server = 0)
     {
-        return $this->sanitizeConnection($connection, $server)->getServerCredentials();
+        $servers = $this->getConnectionServers($connection);
+
+        return (array) Arr::get($servers, $server);
     }
 
     //////////////////////////////////////////////////////////////////////
