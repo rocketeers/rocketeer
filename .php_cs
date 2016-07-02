@@ -48,6 +48,7 @@ return Config::create()
                  'psr4' => true,
                  'random_api_migration' => true,
                  'short_array_syntax' => true,
+                 'simplified_null_return' => true,
                  'strict_comparison' => true,
                  'strict_param' => true,
              ])

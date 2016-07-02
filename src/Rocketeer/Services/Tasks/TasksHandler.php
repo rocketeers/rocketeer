@@ -85,10 +85,12 @@ class TasksHandler
 
     /**
      * Configure a strategy.
+     *
+     * @param array $arguments
      */
-    public function configureStrategy()
+    public function configureStrategy(...$arguments)
     {
-        $this->delegateAndRebind('configure', func_get_args(), 'buildStrategy');
+        $this->delegateAndRebind('configure', $arguments, 'buildStrategy');
     }
 
     ////////////////////////////////////////////////////////////////////

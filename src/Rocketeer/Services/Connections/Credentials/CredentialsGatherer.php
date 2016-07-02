@@ -259,15 +259,16 @@ class CredentialsGatherer
     /**
      * Prompt a question via the command if possible.
      *
+     * @param array $arguments
+     *
      * @return mixed|void
      */
-    protected function ask()
+    protected function ask(...$arguments)
     {
         if (!$this->shouldPrompt()) {
             return;
         }
 
-        $arguments = func_get_args();
         $method = array_shift($arguments);
 
         return $this->command->$method(...$arguments);
