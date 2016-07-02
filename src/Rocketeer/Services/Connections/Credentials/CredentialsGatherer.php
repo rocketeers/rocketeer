@@ -178,9 +178,7 @@ class CredentialsGatherer
 
             if ($shouldPrompt) {
                 $method = in_array($type, $authCredentials, true) ? 'gatherAuthCredential' : 'gatherCredential';
-                while (!$$type && $required) {
-                    $$type = $this->$method($handle, $type);
-                }
+                $$type = $this->$method($handle, $type);
             }
         }
 
@@ -314,10 +312,11 @@ class CredentialsGatherer
 
         if ($this->usesSsh($handle, $credentials)) {
             $rules['key'] = true;
-            $rules['keyphrase'] = false;
+            $rules['keyphrase'] = true;
 
             return ['password'];
         }
+
         $rules['password'] = true;
 
         return ['key', 'keyphrase'];

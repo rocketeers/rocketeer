@@ -103,9 +103,9 @@ class CredentialsGathererTest extends RocketeerTestCase
         ]);
 
         $this->mockAnswers([
-            'No host is set for [production]' => $this->host,
-            'No username is set for [production]' => $this->username,
-            'No password is set for [production]' => $this->password,
+            'No [host] is set for [production]' => $this->host,
+            'No [username] is set for [production]' => $this->username,
+            'No [password] is set for [production]' => $this->password,
         ]);
 
         $this->command->shouldReceive('askWith')->with('No connections have been set, please create one', 'production')->andReturn('production');
@@ -135,7 +135,7 @@ class CredentialsGathererTest extends RocketeerTestCase
         ]);
 
         $this->mockAnswers([
-            'No username is set for [production]' => $this->username,
+            'No [username] is set for [production]' => $this->username,
         ]);
 
         $this->command->shouldReceive('askWith')->with('No connections have been set, please create one', 'production')->andReturn('production');
@@ -165,8 +165,8 @@ class CredentialsGathererTest extends RocketeerTestCase
     {
         $key = $this->paths->getDefaultKeyPath();
         $this->mockAnswers([
-            'No host is set for [staging]' => $this->host,
-            'No username is set for [staging]' => $this->username,
+            'No [host] is set for [staging]' => $this->host,
+            'No [username] is set for [staging]' => $this->username,
             'If a keyphrase is required, provide it' => 'KEYPHRASE',
         ]);
 
@@ -206,7 +206,7 @@ class CredentialsGathererTest extends RocketeerTestCase
         ]);
 
         $this->mockAnswers([
-            'No username is set for [production]' => $this->username,
+            'No [username] is set for [production]' => $this->username,
             'If a keyphrase is required, provide it' => 'keyphrase',
         ]);
         $this->command->shouldReceive('askWith')->with('Please enter the full path to your key', Mockery::any())->once()->andReturn($this->key);
@@ -247,7 +247,7 @@ class CredentialsGathererTest extends RocketeerTestCase
         ]);
 
         $this->mockAnswers([
-            'No username is set for [production]' => $this->username,
+            'No [username] is set for [production]' => $this->username,
             'If a keyphrase is required, provide it' => 'keyphrase',
         ]);
 
@@ -324,6 +324,11 @@ class CredentialsGathererTest extends RocketeerTestCase
 
             foreach ($answers as $question => $answer) {
                 $question = strpos($question, 'is set for') !== false ? $question.', please provide one' : $question;
+                $question = strtr($question, [
+                    '[' => '<fg=magenta>[',
+                    ']' => ']</fg=magenta>',
+                ]);
+
                 $method = strpos($question, 'password') !== false || strpos($question, 'keyphrase') !== false ? 'askSecretly' : 'askWith';
                 $mock = $mock->shouldReceive($method)->with($question)->andReturn($answer);
             }

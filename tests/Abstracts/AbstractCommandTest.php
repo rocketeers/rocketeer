@@ -57,7 +57,7 @@ class AbstractCommandTest extends RocketeerTestCase
 
         $tester = $this->executeCommand($command, [], ['interactive' => false]);
 
-        $this->assertContains('prompt was skipped: No host is set for [production]', $tester->getDisplay());
+        $this->assertContains('prompt was skipped: No password or SSH key', $tester->getDisplay());
     }
 
     public function testCanFireEvents()

@@ -234,11 +234,11 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         $remote->shouldReceive('connection')->andReturnSelf();
         $remote->shouldReceive('isCompatibleWith')->andReturn(true);
         $remote->shouldReceive('getUsername')->andReturn('anahkiasen');
-        $remote->shouldReceive('getString')->andReturnUsing(function ($file) {
-            return $this->files->read($file);
+        $remote->shouldReceive('listContents')->andReturnUsing(function ($folder) {
+            return $this->files->listContents($folder);
         });
-        $remote->shouldReceive('putString')->andReturnUsing(function ($file, $contents) {
-            return $this->files->upsert($file, $contents);
+        $remote->shouldReceive('has')->andReturnUsing(function ($file) {
+           return $this->files->has($file);
         });
         $remote->shouldReceive('display')->andReturnUsing(function ($line) {
             echo $line.PHP_EOL;
