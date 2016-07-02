@@ -11,6 +11,9 @@
 
 namespace Rocketeer\Services\Storages;
 
+use League\Flysystem\Adapter\Local;
+use League\Flysystem\Filesystem;
+use League\Flysystem\Sftp\SftpAdapter;
 use Rocketeer\Container;
 use Rocketeer\Services\Config\Configuration;
 use Rocketeer\Services\Environment\EnvironmentServiceProvider;
@@ -84,5 +87,23 @@ class StorageTest extends RocketeerTestCase
         $this->localStorage->destroy();
 
         $this->assertEquals(null, $this->localStorage->get('foo'));
+    }
+
+    public function testUsesLocalFilesystemIfLocalMode()
+    {
+        $this->rocketeer->setLocal(true);
+        $this->flysystem->mountFilesystem('remote', new Filesystem(new SftpAdapter([])));
+
+        $storage = new ServerStorage($this->app);
+        $this->assertInstanceOf(Local::class, $storage->getFilesystem()->getAdapter());
+    }
+
+    public function testAccessFilesClassDirectlyIfLocal()
+    {
+        $this->rocketeer->setLocal(true);
+        $this->app->remove('flysystem');
+
+        $storage = new ServerStorage($this->app);
+        $this->assertInstanceOf(Local::class, $storage->getFilesystem()->getAdapter());
     }
 }

@@ -89,9 +89,11 @@ class Storage
      */
     public function getFilesystem()
     {
-        return $this->filesystem === 'local'
-            ? $this->files
-            : $this->flysystem->getFilesystem($this->filesystem);
+        if ($this->rocketeer->isLocal() || $this->filesystem === 'local') {
+            return $this->files;
+        }
+
+        return $this->flysystem->getFilesystem($this->filesystem);
     }
 
     /**
