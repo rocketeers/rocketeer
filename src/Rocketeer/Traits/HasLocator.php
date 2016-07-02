@@ -30,8 +30,8 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @property \Rocketeer\Services\Config\Files\ConfigurationPublisher         configurationPublisher
  * @property \League\Event\Emitter                                           events
  * @property \League\Flysystem\FilesystemInterface                           files
- * @property \League\Flysystem\MountManager                          flysystem
- * @property \Illuminate\Foundation\Artisan                          artisan
+ * @property \League\Flysystem\MountManager                                  flysystem
+ * @property \Illuminate\Foundation\Artisan                                  artisan
  * @property \Illuminate\Log\Writer                                          log
  * @property \Rocketeer\Console\Commands\AbstractCommand                     command
  * @property \Rocketeer\Bash                                                 bash
@@ -50,11 +50,11 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @property \Rocketeer\Services\History\LogsHandler                         logs
  * @property \Rocketeer\Services\Environment\Pathfinder                      paths
  * @property \Rocketeer\Services\Releases\ReleasesManager                    releasesManager
- * @property \Rocketeer\Services\RolesManager                        roles
- * @property \Rocketeer\Services\Storages\Storage                    localStorage
- * @property \Rocketeer\Services\Builders\Builder                    builder
- * @property \Rocketeer\Services\Tasks\TasksQueue                    queue
- * @property \Rocketeer\Services\Tasks\TasksHandler                  tasks
+ * @property \Rocketeer\Services\RolesManager                                roles
+ * @property \Rocketeer\Services\Storages\Storage                            localStorage
+ * @property \Rocketeer\Services\Builders\Builder                            builder
+ * @property \Rocketeer\Services\Tasks\TasksQueue                            queue
+ * @property \Rocketeer\Services\Tasks\TasksHandler                          tasks
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */

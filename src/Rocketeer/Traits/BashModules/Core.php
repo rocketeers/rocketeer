@@ -414,7 +414,7 @@ trait Core
      * Execute a command as a sudo user.
      *
      * @param string|bool $sudo
-     * @param strign      $command
+     * @param string      $command
      *
      * @return string
      */
