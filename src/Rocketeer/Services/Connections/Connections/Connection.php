@@ -18,6 +18,7 @@ use phpseclib\Net\SFTP;
 use Rocketeer\Exceptions\TimeOutException;
 use Rocketeer\Interfaces\HasRolesInterface;
 use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
+use Rocketeer\Services\Filesystem\ConnectionKeyAdapter;
 use Rocketeer\Traits\Properties\HasRoles;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -60,14 +61,7 @@ class Connection extends Filesystem implements ConnectionInterface, HasRolesInte
         $this->connectionKey = $connectionKey;
         $this->roles = (array) $connectionKey->roles;
 
-        parent::__construct(new SftpAdapter([
-            'host' => $connectionKey->host,
-            'username' => $connectionKey->username,
-            'password' => $connectionKey->password,
-            'privateKey' => $connectionKey->key,
-            'root' => $connectionKey->root_directory,
-            'timeout' => 60 * 60
-        ]));
+        parent::__construct(new ConnectionKeyAdapter($connectionKey));
     }
 
     ////////////////////////////////////////////////////////////////////////////////
