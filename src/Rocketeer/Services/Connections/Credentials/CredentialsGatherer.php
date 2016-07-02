@@ -221,7 +221,7 @@ class CredentialsGatherer
      */
     protected function gatherCredential($handle, $type, $question = null)
     {
-        $question = $question ?: 'No '.$type.' is set for ['.$handle.'], please provide one';
+        $question = $question ?: 'No <fg=magenta>['.$type.']</fg=magenta> is set for <fg=magenta>['.$handle.']</fg=magenta>, please provide one';
         $option = $this->getOption($type, true);
         $method = in_array($type, ['password', 'keyphrase'], true) ? 'askSecretly' : 'askWith';
 
