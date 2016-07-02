@@ -66,6 +66,7 @@ class Connection extends Filesystem implements ConnectionInterface, HasRolesInte
             'password' => $connectionKey->password,
             'privateKey' => $connectionKey->key,
             'root' => $connectionKey->root_directory,
+            'timeout' => 60 * 60
         ]));
     }
 
