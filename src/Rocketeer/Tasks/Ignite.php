@@ -31,9 +31,7 @@ class Ignite extends AbstractTask
     public function execute()
     {
         // Export configuration
-        $path = ($this->command->getFramework() === 'laravel')
-            ? $this->createLaravelConfiguration()
-            : $this->createOutsideConfiguration();
+        $path = $this->createOutsideConfiguration();
 
         // Replace placeholders
         $parameters = $this->getConfigurationInformations();
@@ -44,18 +42,6 @@ class Ignite extends AbstractTask
         $message = '<comment>The Rocketeer configuration was created at</comment> <info>'.$folder.'</info>';
 
         return $this->explainer->success($message);
-    }
-
-    /**
-     * Create the configuration outside of Laravel.
-     *
-     * @return string
-     */
-    protected function createLaravelConfiguration()
-    {
-        $this->command->call('config:publish', ['package' => 'anahkiasen/rocketeer']);
-
-        return $this->app->get('path').'/config/packages/anahkiasen/rocketeer';
     }
 
     /**

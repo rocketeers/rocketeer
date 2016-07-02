@@ -41,33 +41,18 @@ class IgniteTest extends RocketeerTestCase
         $this->pretendTask('Ignite')->execute();
     }
 
-    public function testCanIgniteConfigurationOnWindowsInLaravel()
-    {
-        $this->app->add('path.base', 'E:\workspace\test');
-        $this->app->add('path', 'E:\workspace\test\app');
-
-        $provider = new RocketeerServiceProvider();
-        $provider->setContainer($this->app);
-        $provider->register();
-
-        $this->mockFiles(function (MockInterface $mock) {
-            return $mock
-                ->shouldReceive('files')->andReturn([])
-                ->shouldReceive('put')->once()->with('E:/workspace/test/app/config/packages/anahkiasen/rocketeer', Mockery::any());
-        });
-
-        $this->pretendTask('Ignite')->execute();
-    }
-
-    public function testCanIgniteConfigurationOutsideLaravel()
+    public function testCanIgniteConfiguration()
     {
         $command = $this->getCommand(['ask' => 'foobar']);
+//        $this->swapConnections([]);
+        $this->connections->disconnect();
+        $this->localStorage->destroy();
 
         $server = $this->server;
         $this->mock('igniter', 'Configuration', function (MockInterface $mock) use ($server) {
             return $mock
-                ->shouldReceive('exportConfiguration')->once()->andReturn($server)
-                ->shouldReceive('updateConfiguration')->once()->with($server, [
+                ->shouldReceive('exportConfiguration')->once()->andReturn($this->server)
+                ->shouldReceive('updateConfiguration')->once()->with($this->server, [
                     'host' => '{host}',
                     'username' => '{username}',
                     'password' => '{password}',
