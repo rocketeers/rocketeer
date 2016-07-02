@@ -65,7 +65,7 @@ class Storage
         $this->app = $app;
         $this->filesystem = $filesystem;
         $this->folder = $folder;
-        $this->filename = $filename;
+        $this->setFilename($filename);
     }
 
     /**
@@ -81,7 +81,7 @@ class Storage
      */
     public function setFilename($filename)
     {
-        $this->filename = $filename;
+        $this->filename = strtolower(basename($filename, '.json'));
     }
 
     /**

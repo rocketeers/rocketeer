@@ -11,10 +11,39 @@
 
 namespace Rocketeer\Services\Storages;
 
+use Rocketeer\Container;
+use Rocketeer\Services\Config\Configuration;
+use Rocketeer\Services\Environment\EnvironmentServiceProvider;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class StorageTest extends RocketeerTestCase
 {
+    public function testCanInferStorageName()
+    {
+        $container = new Container();
+        $container->add('path.base', __DIR__);
+        $container->add('config', new Configuration([
+            'config' => [
+                'application_name' => '{application_name}',
+            ],
+        ]));
+
+        $container->addServiceProvider(new EnvironmentServiceProvider());
+        $container->addServiceProvider(new StorageServiceProvider());
+
+        /** @var Storage $storage */
+        $storage = $container->get('storage.local');
+
+        $this->assertEquals('storages.json', $storage->getFilename());
+    }
+
+    public function testCanNormalizeFilename()
+    {
+        $this->localStorage->setFilename('foo/Bar.json');
+
+        $this->assertEquals('bar.json', $this->localStorage->getFilename());
+    }
+
     public function testCanSwapContents()
     {
         $matcher = ['foo' => 'caca'];

@@ -61,10 +61,12 @@ class Ignite extends AbstractTask
      */
     protected function getConfigurationInformations()
     {
+        // Get application name
+        $default = basename($this->localStorage->getFilename(), '.json');
+        $applicationName = $this->command->ask('What is your application\'s name ? ('.$default.')', $default);
+
         // Replace credentials
         $repository = $this->credentials->getCurrentRepository();
-        $name = basename($this->paths->getBasePath());
-
         $credentials = $this->credentials->getConnectionServer();
         unset($credentials['config']);
 
@@ -75,7 +77,7 @@ class Ignite extends AbstractTask
                 'scm_repository' => $repository->endpoint,
                 'scm_username' => $repository->username,
                 'scm_password' => $repository->password,
-                'application_name' => $this->command->ask('What is your application\'s name ? ('.$name.')', $name),
+                'application_name' => $applicationName,
             ]
         );
     }

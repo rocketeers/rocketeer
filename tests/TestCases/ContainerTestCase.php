@@ -140,8 +140,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
             return $message;
         };
 
-        $verbose = array_get($options,
-            'verbose') ? OutputInterface::VERBOSITY_VERY_VERBOSE : OutputInterface::VERBOSITY_NORMAL;
+        $verbose = array_get($options, 'verbose') ? OutputInterface::VERBOSITY_VERY_VERBOSE : OutputInterface::VERBOSITY_NORMAL;
         $command = Mockery::mock(AbstractCommand::class)->shouldIgnoreMissing();
         $command->shouldReceive('getOutput')->andReturn($this->getCommandOutput($verbose));
         $command->shouldReceive('getVerbosity')->andReturn($verbose);
