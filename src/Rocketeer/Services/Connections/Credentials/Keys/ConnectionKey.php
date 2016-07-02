@@ -30,7 +30,6 @@ use Rocketeer\Services\Connections\roles;
  * @property string   root_directory
  * @property string[] roles
  * @property bool     db_role
- * @property roles    array
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */

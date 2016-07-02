@@ -44,6 +44,12 @@ class StorageTest extends RocketeerTestCase
         $this->assertFalse($this->files->has($this->localStorage->getFilepath()));
     }
 
+    public function testDoesntTryToDestroyTwice()
+    {
+        $this->localStorage->destroy();
+        $this->localStorage->destroy();
+    }
+
     public function testCanFallbackIfFileDoesntExist()
     {
         $this->localStorage->destroy();

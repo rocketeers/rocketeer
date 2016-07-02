@@ -30,7 +30,6 @@
     "league/flysystem-sftp": "^1.0",
     "nesbot/carbon": "^1.21",
     "patchwork/utf8": "^1.3",
-    "phpseclib/phpseclib": "^2.0",
     "psy/psysh": "^0.7.2",
     "symfony/config": "^2.8|^3.0",
     "symfony/console": "^2.8|^3.0",

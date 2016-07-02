@@ -11,7 +11,6 @@
 
 namespace Rocketeer\Services\Connections;
 
-use Rocketeer\Exceptions\MissingCredentialsException;
 use Rocketeer\Services\Connections\Connections\Connection;
 use Rocketeer\TestCases\RocketeerTestCase;
 
@@ -45,36 +44,6 @@ class ConnectionsFactoryTest extends RocketeerTestCase
         $this->assertInstanceOf(Connection::class, $connection);
         $this->assertEquals('production', $connection->getName());
         $this->assertEquals('foobar', $connection->getUsername());
-    }
-
-    public function testThrowsExceptionIfMissingCredentials()
-    {
-        $this->setExpectedException(MissingCredentialsException::class);
-
-        $this->swapConnections([
-            'production' => [
-                'host' => 'foobar.com',
-                'username' => 'foobar',
-            ],
-        ]);
-
-        $key = $this->connections->getCurrentConnectionKey();
-        $this->factory->make($key);
-    }
-
-    public function testThrowsExceptionIfMissingInformations()
-    {
-        $this->setExpectedException(MissingCredentialsException::class);
-
-        $this->swapConnections([
-            'production' => [
-                'username' => 'foobar',
-                'password' => 'foobar',
-            ],
-        ]);
-
-        $key = $this->connections->getCurrentConnectionKey();
-        $this->factory->make($key);
     }
 
     public function testCachesConnections()
@@ -154,21 +123,6 @@ class ConnectionsFactoryTest extends RocketeerTestCase
 
         $this->assertInstanceOf(Connection::class, $connection);
         $this->assertEquals(['foo', 'bar'], $connection->getRoles());
-    }
-
-    public function testShowsConnectionDetailsOnMissingCredentials()
-    {
-        $this->setExpectedException(MissingCredentialsException::class, 'With credentials');
-
-        $this->swapConnections([
-            'production' => [
-                'host' => 'foobar.com',
-                'username' => 'foobar',
-            ],
-        ]);
-
-        $key = $this->connections->getCurrentConnectionKey();
-        $connection = $this->factory->make($key);
     }
 
     public function testCanPurgeCachedConnections()

@@ -12,44 +12,36 @@
 namespace Rocketeer\Services\Connections\Connections;
 
 use Closure;
-use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
+use League\Flysystem\Sftp\SftpAdapter;
+use phpseclib\Net\SFTP;
+use Rocketeer\Exceptions\TimeOutException;
 use Rocketeer\Interfaces\HasRolesInterface;
 use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
-use Rocketeer\Services\Connections\Gateways\GatewayInterface;
-use Rocketeer\Services\Connections\Gateways\SeclibGateway;
 use Rocketeer\Traits\Properties\HasRoles;
-use RuntimeException;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Base connection class with additional setters.
+ * Represents a connection to a server and stage.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  * @author Taylor Otwell <taylorotwell@gmail.com>
  */
-class Connection implements ConnectionInterface, HasRolesInterface
+class Connection extends Filesystem implements ConnectionInterface, HasRolesInterface
 {
     use HasRoles;
 
     /**
-     * The SSH gateway implementation.
-     *
-     * @var \Rocketeer\Services\Connections\Gateways\GatewayInterface
+     * @var SftpAdapter
      */
-    protected $gateway;
+    protected $adapter;
 
     /**
-     * @var Filesystem
-     */
-    protected $filesystem;
-
-    /**
-     * The connection handle.
+     * The connection key.
      *
      * @var ConnectionKey
      */
-    protected $handle;
+    protected $connectionKey;
 
     /**
      * The output implementation for the connection.
@@ -61,27 +53,63 @@ class Connection implements ConnectionInterface, HasRolesInterface
     /**
      * Create a new SSH connection instance.
      *
-     * @param ConnectionKey                                                  $handle
-     * @param array                                                          $auth
-     * @param \Rocketeer\Services\Connections\Gateways\GatewayInterface|null $gateway
+     * @param ConnectionKey $connectionKey
      */
-    public function __construct(ConnectionKey $handle, array $auth, GatewayInterface $gateway = null)
+    public function __construct(ConnectionKey $connectionKey)
     {
-        $this->handle = $handle;
-        $this->gateway = $gateway ?: new SeclibGateway($handle->host, $auth, new Filesystem(new Local('/')));
-        $this->roles = (array) $handle->roles;
+        $this->connectionKey = $connectionKey;
+        $this->roles = (array) $connectionKey->roles;
+
+        parent::__construct(new SftpAdapter([
+            'host' => $connectionKey->host,
+            'username' => $connectionKey->username,
+            'password' => $connectionKey->password,
+            'privateKey' => $connectionKey->key,
+            'root' => $connectionKey->root_directory,
+        ]));
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////// GETTERS AND SETTERS //////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Get the SFTP connection.
+     *
+     * @return SFTP
+     */
+    public function getGateway()
+    {
+        return $this->adapter->getConnection();
     }
 
     /**
-     * @param string $name
-     * @param array  $arguments
-     *
-     * @return mixed
+     * @return ConnectionKey
      */
-    public function __call($name, $arguments)
+    public function getConnectionKey()
     {
-        return call_user_func_array([$this->filesystem, $name], $arguments);
+        return $this->connectionKey;
     }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->connectionKey->name;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getUsername()
+    {
+        return $this->connectionKey->username;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////// EXECUTION ///////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
 
     /**
      * Run a set of commands against the connection.
@@ -91,66 +119,14 @@ class Connection implements ConnectionInterface, HasRolesInterface
      */
     public function run($commands, Closure $callback = null)
     {
-        $commands = $this->formatCommands($commands);
+        $gateway = $this->getGateway();
+        $commands = is_array($commands) ? implode(' && ', $commands) : $commands;
 
-        $this->getGateway()->run($commands, $callback);
-    }
-
-    /**
-     * Download the contents of a remote file.
-     *
-     * @param string $remote
-     * @param string $local
-     */
-    public function get($remote, $local)
-    {
-        $this->getGateway()->get($remote, $local);
-    }
-
-    /**
-     * Get the contents of a remote file.
-     *
-     * @param string $remote
-     *
-     * @return string
-     */
-    public function getString($remote)
-    {
-        return $this->getGateway()->getString($remote);
-    }
-
-    /**
-     * Upload a local file to the server.
-     *
-     * @param string $local
-     * @param string $remote
-     */
-    public function put($local, $remote)
-    {
-        $this->getGateway()->put($local, $remote);
-    }
-
-    /**
-     * Upload a string to to the given file on the server.
-     *
-     * @param string $remote
-     * @param string $contents
-     */
-    public function putString($remote, $contents)
-    {
-        $this->getGateway()->putString($remote, $contents);
-    }
-
-    /**
-     * Format the given command set.
-     *
-     * @param string|array $commands
-     *
-     * @return string
-     */
-    protected function formatCommands($commands)
-    {
-        return is_array($commands) ? implode(' && ', $commands) : $commands;
+        $gateway->exec($commands, $callback);
+        if ($gateway->isTimeout()) {
+            $message = sprintf('Connection timeout of %ds exceeded', $gateway->timeout);
+            throw new TimeOutException($message);
+        }
     }
 
     /**
@@ -160,62 +136,6 @@ class Connection implements ConnectionInterface, HasRolesInterface
      */
     public function status()
     {
-        return $this->gateway->status();
-    }
-
-    /**
-     * Get the gateway implementation.
-     *
-     * @throws RuntimeException
-     *
-     * @return \Rocketeer\Services\Connections\Gateways\GatewayInterface
-     */
-    public function getGateway()
-    {
-        if (!$this->gateway->connected() && !$this->gateway->connect($this->getUsername())) {
-            throw new RuntimeException('Unable to connect to remote server.');
-        }
-
-        return $this->gateway;
-    }
-
-    /**
-     * @return Filesystem
-     */
-    public function getFilesystem()
-    {
-        return $this->filesystem;
-    }
-
-    /**
-     * @param Filesystem $filesystem
-     */
-    public function setFilesystem($filesystem)
-    {
-        $this->filesystem = $filesystem;
-    }
-
-    /**
-     * @return ConnectionKey
-     */
-    public function getHandle()
-    {
-        return $this->handle;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->handle->name;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getUsername()
-    {
-        return $this->handle->username;
+        return $this->getGateway()->getExitStatus();
     }
 }

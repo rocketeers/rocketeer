@@ -12,8 +12,9 @@
 namespace Rocketeer\Services\Connections\Connections;
 
 use Closure;
+use League\Flysystem\Adapter\Local;
+use League\Flysystem\Filesystem;
 use Rocketeer\Interfaces\HasRolesInterface;
-use Rocketeer\Traits\HasLocator;
 use Rocketeer\Traits\Properties\HasRoles;
 
 /**
@@ -22,9 +23,8 @@ use Rocketeer\Traits\Properties\HasRoles;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class LocalConnection implements ConnectionInterface, HasRolesInterface
+class LocalConnection extends Filesystem implements ConnectionInterface, HasRolesInterface
 {
-    use HasLocator;
     use HasRoles;
 
     /**
@@ -33,6 +33,14 @@ class LocalConnection implements ConnectionInterface, HasRolesInterface
      * @var int
      */
     protected $previousStatus;
+
+    /**
+     * LocalConnection constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct(new Local('/', LOCK_EX, Local::SKIP_LINKS));
+    }
 
     /**
      * Run a set of commands against the connection.
@@ -64,51 +72,5 @@ class LocalConnection implements ConnectionInterface, HasRolesInterface
     public function status()
     {
         return $this->previousStatus;
-    }
-
-    /**
-     * Upload a local file to the server.
-     *
-     * @param string $local
-     * @param string $remote
-     *
-     * @codeCoverageIgnore
-     *
-     * @return int
-     */
-    public function put($local, $remote)
-    {
-        $local = $this->files->read($local);
-
-        return $this->putString($local, $remote);
-    }
-
-    /**
-     * Get the contents of a remote file.
-     *
-     * @param string $remote
-     *
-     * @codeCoverageIgnore
-     *
-     * @return string|null
-     */
-    public function getString($remote)
-    {
-        return $this->files->has($remote) ? $this->files->read($remote) : null;
-    }
-
-    /**
-     * Upload a string to to the given file on the server.
-     *
-     * @param string $remote
-     * @param string $contents
-     *
-     * @codeCoverageIgnore
-     *
-     * @return int
-     */
-    public function putString($remote, $contents)
-    {
-        return $this->files->put($remote, $contents);
     }
 }

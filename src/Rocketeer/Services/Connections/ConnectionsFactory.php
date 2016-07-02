@@ -11,9 +11,6 @@
 
 namespace Rocketeer\Services\Connections;
 
-use League\Flysystem\Filesystem;
-use League\Flysystem\Sftp\SftpAdapter;
-use Rocketeer\Exceptions\MissingCredentialsException;
 use Rocketeer\Interfaces\CredentialsExceptionInterface;
 use Rocketeer\Services\Connections\Connections\Connection;
 use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
@@ -42,7 +39,6 @@ class ConnectionsFactory
      */
     public function make(ConnectionKey $connectionKey)
     {
-        $credentials = $connectionKey->getServerCredentials();
         $handle = (string) $connectionKey->toHandle();
 
         // Check the cache for already resolved connection
@@ -50,26 +46,8 @@ class ConnectionsFactory
             return $this->connected[$handle];
         }
 
-        if (!isset($credentials['host'])) {
-            throw new MissingCredentialsException('Host is required for '.$connectionKey->name);
-        }
-
         // Create connection
-        $connection = new Connection(
-            $connectionKey,
-            $this->getAuth($credentials, $connectionKey)
-        );
-
-        // Set filesystem on connection
-        $filesystem = new Filesystem(new SftpAdapter([
-            'host' => $connectionKey->host,
-            'username' => $connectionKey->username,
-            'password' => $connectionKey->password,
-            'privateKey' => $connectionKey->key,
-            'root' => $connectionKey->root_directory,
-        ]));
-
-        $connection->setFilesystem($filesystem);
+        $connection = new Connection($connectionKey);
 
         // Save resolved connection
         $this->connected[$handle] = $connection;
@@ -95,31 +73,5 @@ class ConnectionsFactory
     public function disconnect()
     {
         $this->connected = [];
-    }
-
-    /**
-     * Format the appropriate authentication array payload.*.
-     *
-     * @param array         $config
-     * @param ConnectionKey $connectionKey
-     *
-     * @return array
-     */
-    protected function getAuth(array $config, ConnectionKey $connectionKey)
-    {
-        if (isset($config['agent']) && $config['agent'] === true) {
-            return ['agent' => true];
-        } elseif (isset($config['key']) && trim($config['key']) !== '') {
-            return ['key' => $config['key'], 'keyphrase' => $config['keyphrase']];
-        } elseif (isset($config['keytext']) && trim($config['keytext']) !== '') {
-            return ['keytext' => $config['keytext']];
-        } elseif (isset($config['password'])) {
-            return ['password' => $config['password']];
-        }
-
-        $exception = new MissingCredentialsException('Password / key is required.');
-        $exception->setCredentials($connectionKey);
-
-        throw $exception;
     }
 }

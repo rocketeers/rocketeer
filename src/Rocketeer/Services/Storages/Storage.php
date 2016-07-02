@@ -206,7 +206,10 @@ class Storage
     public function destroy()
     {
         $this->contents = [];
+        $filepath = $this->getFilepath();
 
-        return $this->getFilesystem()->delete($this->getFilepath());
+        if ($this->getFilesystem()->has($filepath)) {
+            return $this->getFilesystem()->delete($filepath);
+        }
     }
 }
