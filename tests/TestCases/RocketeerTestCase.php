@@ -12,8 +12,6 @@
 namespace Rocketeer\TestCases;
 
 use League\Flysystem\Adapter\Local;
-use League\Flysystem\Filesystem;
-use Rocketeer\Services\Filesystem\Plugins\IsDirectoryPlugin;
 use Rocketeer\Services\Storages\Storage;
 
 abstract class RocketeerTestCase extends ContainerTestCase
@@ -117,28 +115,12 @@ abstract class RocketeerTestCase extends ContainerTestCase
 
     protected function recreateVirtualServer()
     {
-        // Save superglobals
-        $root = realpath(__DIR__.'/../../').'/';
-        $filesystem = new Filesystem(new Local($root));
-        $filesystem->addPlugin(new IsDirectoryPlugin());
-
-        @unlink($this->server.'/current');
-        @unlink($this->server.'/dummy-current');
-
-        // Cleanup files created by tests
-        $cleanup = [
-            str_replace($root, null, realpath(__DIR__.'/../../app')),
-            str_replace($root, null, realpath(__DIR__.'/../../.rocketeer')),
-            str_replace($root, null, realpath(__DIR__.'/../.rocketeer')),
-            str_replace($root, null, realpath($this->server)),
-            str_replace($root, null, realpath($this->customConfig)),
+        $commands = [
+            sprintf('rm -rf .rocketeer'),
+            sprintf('rm -rf %s', $this->server),
+            sprintf('cp -a %s %s', $this->server.'-stub', $this->server),
         ];
-        $cleanup = array_filter($cleanup);
-        $cleanup = array_filter($cleanup, [$filesystem, 'isDirectory']);
-        array_map([$filesystem, 'deleteDir'], $cleanup);
 
-        // Recreate altered local server
-        exec(sprintf('rm -rf %s', $this->server));
-        exec(sprintf('cp -a %s %s', $this->server.'-stub', $this->server));
+        array_walk($commands, 'exec');
     }
 }

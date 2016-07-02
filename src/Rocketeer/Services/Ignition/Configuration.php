@@ -205,13 +205,7 @@ class Configuration
     protected function bindConfiguration()
     {
         // Bind path to the configuration directory
-        if ($this->getFramework() === 'laravel') {
-            $path = $this->paths->getConfigurationPath();
-            $storage = $this->paths->getStoragePath();
-        } else {
-            $path = $this->paths->getBasePath().'.rocketeer';
-            $storage = $path;
-        }
+        $path = $this->paths->getBasePath().'.rocketeer';
 
         // Build paths
         $paths = [
@@ -220,7 +214,7 @@ class Configuration
             'plugins' => $path.DS.'plugins',
             'strategies' => $path.DS.'strategies',
             'tasks' => $path.DS.'tasks',
-            'logs' => $storage.DS.'logs',
+            'logs' => $path.DS.'logs',
         ];
 
         foreach ($paths as $key => $file) {

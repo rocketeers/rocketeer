@@ -238,7 +238,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
             return $this->files->listContents($folder);
         });
         $remote->shouldReceive('has')->andReturnUsing(function ($file) {
-           return $this->files->has($file);
+            return $this->files->has($file);
         });
         $remote->shouldReceive('display')->andReturnUsing(function ($line) {
             echo $line.PHP_EOL;

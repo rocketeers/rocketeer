@@ -13,7 +13,6 @@ namespace Rocketeer\Services\Tasks;
 
 use Mockery;
 use Mockery\MockInterface;
-use Rocketeer\Dummies\Tasks\DummyCoordinatedTask;
 use Rocketeer\Dummies\Tasks\MyCustomHaltingTask;
 use Rocketeer\Dummies\Tasks\MyCustomTask;
 use Rocketeer\Services\Connections\ConnectionsFactory;
