@@ -185,7 +185,7 @@ trait TasksBuilder
         $task->setClosure(function () use ($callable, $task) {
             list($class, $method) = is_array($callable) ? $callable : explode('::', $callable);
 
-            return call_user_func_array([$this->app->get($class), $method], [$task]);
+            return $this->app->get($class)->$method($task);
         });
 
         return $task;

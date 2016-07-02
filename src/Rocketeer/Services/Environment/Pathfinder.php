@@ -83,7 +83,7 @@ class Pathfinder extends AbstractPathfinder
             $pathfinder = $this->lookups[$method];
             $pathfinder = $this->pathfinders[$pathfinder];
 
-            return call_user_func_array([$pathfinder, $method], $arguments);
+            return $pathfinder->$method(...$arguments);
         }
     }
 

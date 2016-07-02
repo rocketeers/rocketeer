@@ -182,11 +182,11 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
         // set them all on the base command instance. This specifies what can get
         // passed into these commands as "parameters" to control the execution.
         foreach ($this->getArguments() as $arguments) {
-            call_user_func_array([$this, 'addArgument'], $arguments);
+            $this->addArgument(...$arguments);
         }
 
         foreach ($this->getOptions() as $options) {
-            call_user_func_array([$this, 'addOption'], $options);
+            $this->addOption(...$options);
         }
     }
 
@@ -219,7 +219,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
     {
         // Defer calls to output
         if (method_exists($this->output, $name)) {
-            return call_user_func_array([$this->output, $name], $arguments);
+            return $this->output->$name(...$arguments);
         }
     }
 

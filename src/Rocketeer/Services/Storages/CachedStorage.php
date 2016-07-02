@@ -68,7 +68,7 @@ class CachedStorage
      */
     public function __call($name, array $arguments)
     {
-        return call_user_func_array([$this->storage, $name], $arguments);
+        return $this->storage->$name(...$arguments);
     }
 
     ////////////////////////////////////////////////////////////////////

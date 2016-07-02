@@ -68,19 +68,19 @@ class TasksHandler
      * keep public API intact.
      *
      * @param string $method
-     * @param array  $parameters
+     * @param array  $arguments
      *
      * @return mixed
      */
-    public function __call($method, $parameters)
+    public function __call($method, $arguments)
     {
         // Delegate calls to TasksQueue for facade purposes
         if (method_exists($this->queue, $method)) {
-            return call_user_func_array([$this->queue, $method], $parameters);
+            return $this->queue->$method(...$arguments);
         }
 
         // Else we execute actions on the task
-        $this->delegateAndRebind($method, $parameters, 'buildTask');
+        $this->delegateAndRebind($method, $arguments, 'buildTask');
     }
 
     /**
@@ -393,8 +393,8 @@ class TasksHandler
     protected function delegateAndRebind($method, array $parameters, $builder)
     {
         $object = (array) array_shift($parameters);
-        $object = call_user_func_array([$this->builder, $builder], $object);
-        call_user_func_array([$object, $method], $parameters);
+        $object = $this->builder->$builder(...$object);
+        $object->$method(...$parameters);
 
         $this->app->add('rocketeer.'.$object->getIdentifier(), $object);
     }

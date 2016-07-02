@@ -13,11 +13,14 @@ namespace Rocketeer\Binaries;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Rocketeer\Bash;
 use Rocketeer\Container;
 use Rocketeer\Traits\HasLocator;
 
 /**
  * A generic class to represent a binary as a class.
+ *
+ * @mixin Bash
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
@@ -122,7 +125,7 @@ abstract class AbstractBinary
         // Execution aliases
         if (Str::startsWith($name, 'run')) {
             $command = array_shift($arguments);
-            $command = call_user_func_array([$this, $command], $arguments);
+            $command = $this->$command(...$arguments);
 
             return $this->bash->$name($command);
         }
@@ -132,7 +135,7 @@ abstract class AbstractBinary
 
         // Prepend command name to arguments and call
         array_unshift($arguments, $name);
-        $command = call_user_func_array([$this, 'getCommand'], $arguments);
+        $command = $this->getCommand(...$arguments);
 
         return $command;
     }

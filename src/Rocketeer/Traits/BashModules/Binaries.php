@@ -38,13 +38,13 @@ trait Binaries
      * @param string $name
      * @param array  $arguments
      *
-     * @return \Rocketeer\Binaries\PackageManagers\AbstractPackageManager
+     * @return \Rocketeer\Binaries\PackageManagers\AbstractPackageManager|string
      */
     public function __call($name, $arguments)
     {
         $binary = $this->binary($name);
         if ($arguments) {
-            return call_user_func_array([$binary, 'run'], $arguments);
+            return $binary->run(...$arguments);
         }
 
         return $binary;

@@ -42,7 +42,7 @@ class Bash
         }
 
         // Cancel if no tasks to execute
-        $tasks = (array) call_user_func_array($tasks, $arguments);
+        $tasks = (array) $tasks(...$arguments);
         if (empty($tasks)) {
             return;
         }

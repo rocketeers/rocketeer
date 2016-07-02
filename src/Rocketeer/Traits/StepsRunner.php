@@ -51,7 +51,7 @@ trait StepsRunner
             $callable = is_callable($method) ? $method : [$this, $method];
             $arguments = (array) $arguments;
 
-            $results = call_user_func_array($callable, $arguments);
+            $results = $callable(...$arguments);
             $results = is_bool($results) ? $results : $this->status();
             if (!$results) {
                 return false;

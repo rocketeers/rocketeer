@@ -270,7 +270,7 @@ class CredentialsGatherer
         $arguments = func_get_args();
         $method = array_shift($arguments);
 
-        return call_user_func_array([$this->command, $method], $arguments);
+        return $this->command->$method(...$arguments);
     }
 
     /**
