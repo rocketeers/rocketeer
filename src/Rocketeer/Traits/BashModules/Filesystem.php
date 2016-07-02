@@ -137,7 +137,7 @@ trait Filesystem
      */
     public function listContents($directory)
     {
-        $files = $this->flysystem->listContents('remote://'.$directory);
+        $files = $this->getConnection()->listContents($directory);
         $files = array_pluck($files, 'path');
         $files = array_map('basename', $files);
 
@@ -153,7 +153,7 @@ trait Filesystem
      */
     public function fileExists($file)
     {
-        return $this->flysystem->has('remote://'.$file);
+        return $this->getConnection()->has($file);
     }
 
     /**
