@@ -13,10 +13,8 @@ namespace Rocketeer;
 
 use League\Container\ServiceProvider\AbstractServiceProvider;
 use Rocketeer\Console\ConsoleServiceProvider;
-use Rocketeer\Services\Builders\Builder;
 use Rocketeer\Services\Builders\BuilderServiceProvider;
 use Rocketeer\Services\Config\ConfigurationServiceProvider;
-use Rocketeer\Services\Config\ContextualConfiguration;
 use Rocketeer\Services\Connections\ConnectionsServiceProvider;
 use Rocketeer\Services\Display\DisplayServiceProvider;
 use Rocketeer\Services\Environment\EnvironmentServiceProvider;
@@ -27,6 +25,7 @@ use Rocketeer\Services\Ignition\IgnitionServiceProvider;
 use Rocketeer\Services\Releases\ReleasesServiceProvider;
 use Rocketeer\Services\Storages\StorageServiceProvider;
 use Rocketeer\Services\Tasks\TasksServiceProvider;
+use Rocketeer\Strategies\StrategiesServiceProvider;
 
 // Define DS
 if (!defined('DS')) {
@@ -44,17 +43,18 @@ class RocketeerServiceProvider extends AbstractServiceProvider
      * @var array
      */
     protected $providers = [
+        BuilderServiceProvider::class,
         ConfigurationServiceProvider::class,
         ConnectionsServiceProvider::class,
         ConsoleServiceProvider::class,
         DisplayServiceProvider::class,
-        BuilderServiceProvider::class,
         EnvironmentServiceProvider::class,
         EventsServiceProvider::class,
         FilesystemServiceProvider::class,
         HistoryServiceProvider::class,
         ReleasesServiceProvider::class,
         StorageServiceProvider::class,
+        StrategiesServiceProvider::class,
         TasksServiceProvider::class,
         IgnitionServiceProvider::class,
     ];
@@ -71,40 +71,8 @@ class RocketeerServiceProvider extends AbstractServiceProvider
 
         $this->container->share(Rocketeer::class)->withArgument($this->container);
 
-        // Bind Rocketeer's classes
-        $this->bindStrategies();
-
         // Load the user's events, tasks, plugins, and configurations
-        $this->container->get('igniter')->bindPaths();
         $this->container->get('credentials.handler')->syncConnectionCredentials();
-        $this->container->get('igniter')->loadUserConfiguration();
         $this->container->get('tasks')->registerConfiguredEvents();
-    }
-
-    /**
-     * Bind the SCM instance.
-     */
-    public function bindStrategies()
-    {
-        /** @var ContextualConfiguration $config */
-        $config = $this->container->get('config');
-
-        // Bind SCM class
-        $scm = $config->getContextually('scm.scm');
-        $this->container->add('rocketeer.scm', function () use ($scm) {
-            return $this->container->get(Builder::class)->buildBinary($scm);
-        });
-
-        // Bind strategies
-        $strategies = (array) $config->getContextually('strategies');
-        foreach ($strategies as $strategy => $concrete) {
-            if (!is_string($concrete) || !$concrete) {
-                continue;
-            }
-
-            $this->container->share('rocketeer.strategies.'.$strategy, function () use ($strategy, $concrete) {
-                return $this->container->get(Builder::class)->buildStrategy($strategy, $concrete);
-            });
-        }
     }
 }

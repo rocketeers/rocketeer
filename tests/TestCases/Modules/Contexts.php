@@ -70,6 +70,22 @@ trait Contexts
     }
 
     /**
+     * Make the config return specific SCM config.
+     *
+     * @param string      $repository
+     * @param string|null $username
+     * @param string|null $password
+     */
+    protected function expectRepositoryConfig($repository, $username = null, $password = null)
+    {
+        $this->swapConfig([
+            'scm.repository' => $repository,
+            'scm.username' => $username,
+            'scm.password' => $password,
+        ]);
+    }
+
+    /**
      * Disable the test events.
      */
     protected function disableTestEvents()

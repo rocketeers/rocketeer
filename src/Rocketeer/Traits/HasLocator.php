@@ -13,6 +13,7 @@ namespace Rocketeer\Traits;
 
 use Illuminate\Support\Arr;
 use Rocketeer\Bash;
+use Rocketeer\Binaries\Scm\ScmInterface;
 use Rocketeer\Console\Console;
 use Rocketeer\Container;
 use Rocketeer\Rocketeer;
@@ -149,7 +150,7 @@ trait HasLocator
             'releasesManager' => ReleasesManager::class,
             'rocketeer' => Rocketeer::class,
             'roles' => RolesManager::class,
-            'scm' => 'rocketeer.scm',
+            'scm' => ScmInterface::class,
         ];
 
         // Replace shortcuts

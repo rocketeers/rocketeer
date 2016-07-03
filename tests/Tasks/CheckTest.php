@@ -68,7 +68,7 @@ class CheckTest extends RocketeerTestCase
             'hasManifest' => false,
             'getManifest' => 'composer.json',
         ]);
-        $this->app->get('rocketeer.strategies.check')->setManager($manager);
+        $this->builder->buildStrategy('check')->setManager($manager);
         $this->task('Check')->fire();
         $this->assertContains('[{username}@production] No manifest (composer.json) was found for Composer', $this->logs->getLogs());
 
@@ -88,7 +88,7 @@ class CheckTest extends RocketeerTestCase
     {
         $this->pretend();
         $this->usesComposer();
-        $this->app->remove('rocketeer.strategies.check');
+        $this->config->set('strategies.check', null);
 
         $this->task('Check')->fire();
         $this->assertHistoryNotContains('{php} -m');

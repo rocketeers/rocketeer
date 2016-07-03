@@ -12,6 +12,7 @@
 namespace Rocketeer\TestCases\Modules;
 
 use Rocketeer\Console\Commands\AbstractCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -45,13 +46,12 @@ trait Building
 
     /**
      * Get a pretend AbstractTask to run bogus commands.
-
      *
-     *@param string $task
-     * @param array $options
-     * @param array $expectations
+     * @param string $task
+     * @param array  $options
+     * @param array  $expectations
      *
-     *@return \Rocketeer\Tasks\AbstractTask
+     * @return \Rocketeer\Tasks\AbstractTask
      */
     protected function pretendTask($task = 'Deploy', $options = [], array $expectations = [])
     {
@@ -62,12 +62,11 @@ trait Building
 
     /**
      * Get AbstractTask instance.
-
      *
-     *@param string $task
-     * @param array $options
+     * @param string $task
+     * @param array  $options
      *
-     *@return \Rocketeer\Tasks\AbstractTask
+     * @return \Rocketeer\Tasks\AbstractTask
      */
     protected function task($task = null, $options = [])
     {
@@ -83,7 +82,9 @@ trait Building
     }
 
     /**
-     * @param $command
+     * Get a command instance.
+     *
+     * @param string|Command $command
      *
      * @return Command
      */

@@ -321,9 +321,9 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
             'remote.shared' => ['tests/Elements'],
             'remote.keep_releases' => 1,
             'scm' => [
+                'scm' => 'git',
                 'branch' => 'master',
                 'repository' => 'https://github.com/'.$this->repository,
-                'scm' => 'git',
                 'shallow' => true,
                 'submodules' => true,
             ],

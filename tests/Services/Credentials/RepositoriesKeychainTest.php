@@ -118,26 +118,4 @@ class RepositoriesKeychainTest extends RocketeerTestCase
 
         $this->credentials->getCurrentRepository();
     }
-
-    ////////////////////////////////////////////////////////////////////
-    //////////////////////////////// HELPERS ///////////////////////////
-    ////////////////////////////////////////////////////////////////////
-
-    /**
-     * Make the config return specific SCM config.
-     *
-     * @param string $repository
-     * @param string $username
-     * @param string $password
-     */
-    protected function expectRepositoryConfig($repository, $username, $password)
-    {
-        $this->swapConfig([
-            'scm' => [
-                'repository' => $repository,
-                'username' => $username,
-                'password' => $password,
-            ],
-        ]);
-    }
 }

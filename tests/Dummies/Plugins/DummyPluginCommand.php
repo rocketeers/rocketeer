@@ -22,6 +22,5 @@ class DummyPluginCommand extends AbstractCommand
      */
     public function fire()
     {
-        //
     }
 }

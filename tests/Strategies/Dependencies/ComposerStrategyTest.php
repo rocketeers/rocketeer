@@ -17,12 +17,8 @@ class ComposerStrategyTest extends RocketeerTestCase
 {
     public function testCanConfigureComposerCommands()
     {
+        $this->expectRepositoryConfig('https://github.com/'.$this->repository);
         $this->swapConfig([
-            'scm' => [
-                'repository' => 'https://github.com/'.$this->repository,
-                'username' => '',
-                'password' => '',
-            ],
             'strategies.composer.install' => function ($composer, $task) {
                 return [
                     $composer->selfUpdate(),

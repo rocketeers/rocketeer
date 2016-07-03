@@ -88,8 +88,7 @@ class LocalPathfinder extends AbstractPathfinder
     public function getConfigurationPath()
     {
         // Get path to configuration
-        $framework = $this->getFramework();
-        $configuration = $framework ? $framework->getConfigurationPath() : $this->app->get('path.rocketeer.config');
+        $configuration = $this->app->get('path.rocketeer.config');
 
         return $this->unifyLocalSlashes($configuration);
     }

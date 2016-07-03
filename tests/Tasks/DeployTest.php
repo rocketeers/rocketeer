@@ -123,14 +123,7 @@ class DeployTest extends RocketeerTestCase
 
     public function testCanUseCopyStrategy()
     {
-        $this->swapConfig([
-            'scm' => [
-                'repository' => 'https://github.com/'.$this->repository,
-                'username' => '',
-                'password' => '',
-            ],
-        ]);
-
+        $this->expectRepositoryConfig('https://github.com/'.$this->repository);
         $this->app->add('rocketeer.strategies.deploy', new CopyStrategy($this->app));
 
         $this->mockState([

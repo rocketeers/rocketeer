@@ -31,7 +31,6 @@ class EnvironmentServiceProvider extends AbstractServiceProvider
     public function register()
     {
         $this->container->share(Environment::class)->withArgument($this->container);
-
         $this->container->share(Pathfinder::class, function () {
             $pathfinder = new Pathfinder($this->container);
             $pathfinder->registerPathfinder(LocalPathfinder::class);

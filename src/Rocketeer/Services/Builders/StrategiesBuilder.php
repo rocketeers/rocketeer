@@ -35,10 +35,16 @@ trait StrategiesBuilder
             $handle .= '.'.strtolower($concrete);
         }
 
-        // Cancel if no matching strategy instance
+        // If no found instance, create a new one
         $handle = 'rocketeer.strategies.'.$handle;
         if (!$this->app->has($handle)) {
-            return $concrete ? $this->buildStrategyFromName($strategy, $concrete) : null;
+            $concrete = $concrete ?: $this->config->getContextually('strategies.'.strtolower($strategy));
+            $strategy = $this->buildStrategyFromName($strategy, $concrete);
+            if (!$strategy) {
+                return;
+            }
+
+            $this->app->add($handle, $strategy);
         }
 
         return $this->app->get($handle);
