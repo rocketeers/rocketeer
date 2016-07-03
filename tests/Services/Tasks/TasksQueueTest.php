@@ -11,8 +11,9 @@
 
 namespace Rocketeer\Services\Tasks;
 
-use Mockery;
-use Mockery\MockInterface;
+use KzykHys\Parallel\Parallel;
+use LogicException;
+use Prophecy\Argument;
 use Rocketeer\Dummies\Tasks\MyCustomHaltingTask;
 use Rocketeer\Dummies\Tasks\MyCustomTask;
 use Rocketeer\Services\Connections\ConnectionsFactory;
@@ -127,13 +128,12 @@ class TasksQueueTest extends RocketeerTestCase
 
     public function testCanRunTasksInParallel()
     {
-        $parallel = Mockery::mock('Parallel')
-                           ->shouldReceive('isSupported')->andReturn(true)
-                           ->shouldReceive('values')->once()->with(Mockery::type('array'))
-                           ->mock();
+        $parallel = $this->prophesize(Parallel::class);
+        $parallel->isSupported()->willReturn(true);
+        $parallel->values(Argument::type('array'))->shouldBeCalled();
 
         $this->mockCommand(['parallel' => true]);
-        $this->queue->setParallel($parallel);
+        $this->queue->setParallel($parallel->reveal());
 
         $task = function () {
             sleep(1);
@@ -149,14 +149,7 @@ class TasksQueueTest extends RocketeerTestCase
 
     public function testCanCancelQueueIfTaskFails()
     {
-        $this->expectOutputString('The tasks queue was canceled by task "MyCustomHaltingTask"');
-
-        $this->mock(QueueExplainer::class, QueueExplainer::class, function (MockInterface $mock) {
-            return $mock->shouldReceive('error')->andReturnUsing(function ($string) {
-                echo $string;
-            });
-        });
-
+        $prophecy = $this->bindProphecy(QueueExplainer::class);
         $pipeline = $this->queue->run([
             MyCustomHaltingTask::class,
             MyCustomTask::class,
@@ -164,17 +157,18 @@ class TasksQueueTest extends RocketeerTestCase
 
         $this->assertTrue($pipeline->failed());
         $this->assertEquals([false], $this->history->getFlattenedOutput());
+        $prophecy->error('The tasks queue was canceled by task "MyCustomHaltingTask"')->shouldHaveBeenCalled();
     }
 
     public function testFallbacksToSynchonousIfErrorWhenRunningParallels()
     {
-        $parallel = Mockery::mock('Parallel')
-                           ->shouldReceive('isSupported')->andReturn(true)
-                           ->shouldReceive('values')->once()->andThrow('LogicException')
-                           ->mock();
+        /** @var Parallel $parallel */
+        $parallel = $this->prophesize(Parallel::class);
+        $parallel->isSupported()->willReturn(true);
+        $parallel->values(Argument::type('array'))->shouldBeCalled()->willThrow(LogicException::class);
 
         $this->mockCommand(['parallel' => true]);
-        $this->queue->setParallel($parallel);
+        $this->queue->setParallel($parallel->reveal());
 
         $this->queue->run(['ls']);
     }

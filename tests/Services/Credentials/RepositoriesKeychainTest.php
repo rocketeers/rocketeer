@@ -11,7 +11,7 @@
 
 namespace Rocketeer\Services\Connections\Credentials;
 
-use Mockery\MockInterface;
+use Prophecy\Argument;
 use Rocketeer\Bash;
 use Rocketeer\TestCases\RocketeerTestCase;
 
@@ -79,9 +79,9 @@ class RepositoriesKeychainTest extends RocketeerTestCase
     public function testCanExtractCurrentBranchIfNoneSpecified()
     {
         $this->config->set('scm.branch', null);
-        $this->mock(Bash::class, 'Bash', function (MockInterface $mock) {
-            return $mock->shouldReceive('onLocal')->andReturn('  foobar  ');
-        });
+
+        $prophecy = $this->bindProphecy(Bash::class);
+        $prophecy->onLocal(Argument::any())->willReturn('   foobar   ');
 
         $this->assertEquals('foobar', $this->credentials->getCurrentRepository()->branch);
     }
@@ -89,9 +89,9 @@ class RepositoriesKeychainTest extends RocketeerTestCase
     public function testCanDefaultToMasterIfNoBranchFound()
     {
         $this->config->set('scm.branch', null);
-        $this->mock(Bash::class, 'Bash', function (MockInterface $mock) {
-            return $mock->shouldReceive('onLocal')->andReturn(null);
-        });
+
+        $prophecy = $this->bindProphecy(Bash::class);
+        $prophecy->onLocal(Argument::any())->willReturn(null);
 
         $this->assertEquals('master', $this->credentials->getCurrentRepository()->branch);
     }
@@ -112,10 +112,9 @@ class RepositoriesKeychainTest extends RocketeerTestCase
 
     public function testUsesConfigBeforeTryingToGuessBranch()
     {
-        $this->mock(Bash::class, 'Bash', function (MockInterface $mock) {
-            return $mock->shouldReceive('onLocal')->never();
-        });
+        $prophecy = $this->prophesize(Bash::class);
 
         $this->credentials->getCurrentRepository();
+        $prophecy->onLocal()->shouldNotHaveBeenCalled();
     }
 }

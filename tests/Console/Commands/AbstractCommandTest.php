@@ -11,12 +11,9 @@
 
 namespace Rocketeer\Console\Commands;
 
-use Mockery;
-use Mockery\MockInterface;
 use Rocketeer\Console\Commands\Plugins\InstallCommand;
 use Rocketeer\Dummies\DummyFailingCommand;
 use Rocketeer\Services\Connections\Credentials\CredentialsGatherer;
-use Rocketeer\Services\History\LogsHandler;
 use Rocketeer\TestCases\RocketeerTestCase;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\NullOutput;
@@ -38,11 +35,7 @@ class AbstractCommandTest extends RocketeerTestCase
 
     public function testGetsProperStatusCodeFromPipelines()
     {
-        $this->mock(LogsHandler::class, 'LogsHandler', function (MockInterface $mock) {
-            return $mock->shouldReceive('write')->andReturn([]);
-        });
-
-        $this->container->add(CredentialsGatherer::class, Mockery::mock(CredentialsGatherer::class)->shouldIgnoreMissing());
+        $this->bindProphecy(CredentialsGatherer::class);
 
         $command = new DummyFailingCommand();
         $command->setContainer($this->container);

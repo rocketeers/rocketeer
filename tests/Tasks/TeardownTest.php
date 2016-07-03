@@ -11,35 +11,32 @@
 
 namespace Rocketeer\Tasks;
 
-use Mockery\MockInterface;
+use Rocketeer\Services\Storages\Storage;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class TeardownTest extends RocketeerTestCase
 {
     public function testCanTeardownServer()
     {
-        $this->mock('storage.local', 'Storage', function (MockInterface $mock) {
-            return $mock
-                ->shouldReceive('getSeparator')->andReturn(DIRECTORY_SEPARATOR)
-                ->shouldReceive('destroy')->once();
-        });
+        /** @var Storage $prophecy */
+        $prophecy = $this->bindProphecy(Storage::class, 'storage.local');
 
         $this->assertTaskHistory('Teardown', [
             'rm -rf {server}/',
         ]);
+
+        $prophecy->destroy()->shouldHaveBeenCalled();
     }
 
     public function testCanAbortTeardown()
     {
-        $this->mock('storage.local', 'Storage', function (MockInterface $mock) {
-            return $mock
-                ->shouldReceive('getSeparator')->andReturn(DIRECTORY_SEPARATOR)
-                ->shouldReceive('destroy')->never();
-        });
+        /** @var Storage $prophecy */
+        $prophecy = $this->bindProphecy(Storage::class, 'storage.local');
 
         $task = $this->pretendTask('Teardown', [], ['confirm' => false]);
         $message = $this->assertTaskHistory($task, []);
 
         $this->assertContains('Teardown aborted', $message);
+        $prophecy->destroy()->shouldNotHaveBeenCalled();
     }
 }

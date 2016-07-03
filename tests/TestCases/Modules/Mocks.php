@@ -26,6 +26,26 @@ use Rocketeer\Services\Releases\ReleasesManager;
 trait Mocks
 {
     /**
+     * @param string      $class
+     * @param string|null $handle
+     *
+     * @return \Prophecy\Prophecy\ObjectProphecy
+     */
+    protected function bindProphecy($class, $handle = null)
+    {
+        $prophecy = $this->prophesize($class);
+        $handle = $handle ?: $class;
+
+        if ($this->container->has($handle)) {
+            $this->container->get($handle);
+        }
+
+        $this->container->add($handle, $prophecy->reveal());
+
+        return $prophecy;
+    }
+
+    /**
      * Bind a mocked instance in the Container.
      *
      * @param string  $handle
@@ -65,7 +85,7 @@ trait Mocks
      */
     protected function mockReleases(Closure $expectations)
     {
-        return $this->mock(ReleasesManager::class, 'ReleasesManager', $expectations);
+        return $this->mock(ReleasesManager::class, ReleasesManager::class, $expectations);
     }
 
     /**

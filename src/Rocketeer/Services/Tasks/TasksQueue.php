@@ -251,7 +251,6 @@ class TasksQueue
         }
 
         try {
-            $this->parallel = $this->parallel ?: new Parallel();
             $results = $this->parallel->values($pipeline->all());
             $pipeline->setResults($results);
         } catch (LogicException $exception) {

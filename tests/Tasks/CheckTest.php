@@ -11,8 +11,8 @@
 
 namespace Rocketeer\Tasks;
 
-use Mockery;
 use Mockery\MockInterface;
+use Rocketeer\Binaries\PackageManagers\Composer;
 use Rocketeer\Strategies\AbstractCheckStrategy;
 use Rocketeer\TestCases\RocketeerTestCase;
 
@@ -61,25 +61,21 @@ class CheckTest extends RocketeerTestCase
 
     public function testCanExplicitelySayWhichManagerConditionFailed()
     {
-        $manager = Mockery::mock('Composer', [
-            'getName' => 'Composer',
-            'getManifestContents' => null,
-            'isExecutable' => false,
-            'hasManifest' => false,
-            'getManifest' => 'composer.json',
-        ]);
-        $this->builder->buildStrategy('check')->setManager($manager);
+        /** @var Composer $manager */
+        $manager = $this->prophesize(Composer::class);
+        $manager->getName()->willReturn('Composer');
+        $manager->getManifestContents()->willReturn(null);
+        $manager->isExecutable()->willReturn(false);
+        $manager->hasManifest()->willReturn(false);
+        $manager->getManifest()->willReturn('composer.json');
+
+        $this->builder->buildStrategy('check')->setManager($manager->reveal());
         $this->task('Check')->fire();
         $this->assertContains('[{username}@production] No manifest (composer.json) was found for Composer', $this->logs->getLogs());
 
-        $manager = Mockery::mock('Composer', [
-            'getName' => 'Composer',
-            'getManifestContents' => null,
-            'isExecutable' => false,
-            'hasManifest' => true,
-            'getManifest' => 'composer.json',
-        ]);
-        $this->container->get('rocketeer.strategies.check')->setManager($manager);
+        $manager->hasManifest()->willReturn(true);
+        $this->builder->buildStrategy('check')->setManager($manager->reveal());
+
         $this->task('Check')->fire();
         $this->assertContains('[{username}@production] The Composer package manager could not be found', $this->logs->getLogs());
     }

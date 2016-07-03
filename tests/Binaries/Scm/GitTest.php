@@ -78,6 +78,7 @@ class GitTest extends RocketeerTestCase
         $this->mock('config', ContextualConfiguration::class, function (MockInterface $mock) {
             return $mock->shouldReceive('getContextually')->once()->with('scm.shallow')->andReturn(false);
         });
+
         $this->swapRepositoryCredentials([
             'endpoint' => 'http://github.com/my/repository',
             'branch' => 'develop',

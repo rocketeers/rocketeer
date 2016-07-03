@@ -11,9 +11,10 @@
 
 namespace Rocketeer\Traits\BashModules;
 
-use Mockery;
 use Mockery\MockInterface;
+use Prophecy\Argument;
 use Rocketeer\Services\Connections\ConnectionsFactory;
+use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
 use Rocketeer\TestCases\RocketeerTestCase;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -30,15 +31,13 @@ class CoreTest extends RocketeerTestCase
     {
         $this->expectOutputRegex('/.+An error occured: "Oh noes", while running:\ngit clone.+/');
 
-        $factory = Mockery::mock(ConnectionsFactory::class, [
-            'make' => clone $this->getRemote()->shouldReceive('status')->andReturn(1)->mock(),
-            'isConnected' => true,
-        ]);
-        $this->container->add(ConnectionsFactory::class, $factory);
+        $prophecy = $this->bindProphecy(ConnectionsFactory::class);
+        $prophecy->make(Argument::type(ConnectionKey::class))->willReturn(clone $this->getRemote()->shouldReceive('status')->andReturn(1)->mock());
+        $prophecy->isConnected(Argument::type(ConnectionKey::class))->willReturn(true);
+
         $this->mockEchoingCommand();
 
         $status = $this->task('Deploy')->checkStatus('Oh noes', 'git clone');
-
         $this->assertFalse($status);
     }
 

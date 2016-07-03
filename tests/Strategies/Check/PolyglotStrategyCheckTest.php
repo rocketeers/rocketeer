@@ -11,9 +11,9 @@
 
 namespace Rocketeer\Strategies\Check;
 
-use Mockery;
-use Mockery\MockInterface;
+use Prophecy\Prophecy\ObjectProphecy;
 use Rocketeer\Services\Builders\Builder;
+use Rocketeer\Strategies\AbstractCheckStrategy;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class PolyglotStrategyCheckTest extends RocketeerTestCase
@@ -32,24 +32,22 @@ class PolyglotStrategyCheckTest extends RocketeerTestCase
 
     public function testCanCheckLanguage()
     {
-        $this->mock(Builder::class, Builder::class, function (MockInterface $mock) {
-            return $mock
-                ->shouldReceive('buildStrategy')->with('Check', 'Node')->andReturn($this->getDummyStrategy('Node', 'language', true))
-                ->shouldReceive('buildStrategy')->with('Check', 'Ruby')->andReturn($this->getDummyStrategy('Ruby', 'language', true))
-                ->shouldReceive('buildStrategy')->with('Check', 'Php')->andReturn($this->getDummyStrategy('Php', 'language', true));
-        });
+        /** @var Builder $prophecy */
+        $prophecy = $this->bindProphecy(Builder::class);
+        $prophecy->buildStrategy('Check', 'Node')->willReturn($this->getDummyStrategy('Node', 'language', true));
+        $prophecy->buildStrategy('Check', 'Ruby')->willReturn($this->getDummyStrategy('Ruby', 'language', true));
+        $prophecy->buildStrategy('Check', 'Php')->willReturn($this->getDummyStrategy('Php', 'language', true));
 
         $this->strategy->language();
     }
 
     public function testCanCheckMissingExtensions()
     {
-        $this->mock(Builder::class, Builder::class, function (MockInterface $mock) {
-            return $mock
-                ->shouldReceive('buildStrategy')->with('Check', 'Node')->andReturn($this->getDummyStrategy('Node', 'extensions', ['Node']))
-                ->shouldReceive('buildStrategy')->with('Check', 'Ruby')->andReturn($this->getDummyStrategy('Ruby', 'extensions', ['Ruby']))
-                ->shouldReceive('buildStrategy')->with('Check', 'Php')->andReturn($this->getDummyStrategy('Php', 'extensions', ['Php']));
-        });
+        /** @var Builder $prophecy */
+        $prophecy = $this->bindProphecy(Builder::class);
+        $prophecy->buildStrategy('Check', 'Node')->willReturn($this->getDummyStrategy('Node', 'extensions', ['Node']));
+        $prophecy->buildStrategy('Check', 'Ruby')->willReturn($this->getDummyStrategy('Ruby', 'extensions', ['Ruby']));
+        $prophecy->buildStrategy('Check', 'Php')->willReturn($this->getDummyStrategy('Php', 'extensions', ['Php']));
 
         $extensions = $this->strategy->extensions();
         $this->assertEquals(['Node', 'Php', 'Ruby'], $extensions);
@@ -62,15 +60,16 @@ class PolyglotStrategyCheckTest extends RocketeerTestCase
      * @param string $method
      * @param mixed  $result
      *
-     * @return mixed
+     * @return ObjectProphecy
      */
     protected function getDummyStrategy($name, $method, $result)
     {
-        return Mockery::mock('Rocketeer\Strategies\Check\\'.$name.'Strategy')
-                      ->shouldIgnoreMissing()
-                      ->shouldReceive('displayStatus')->andReturnSelf()
-                      ->shouldReceive('isExecutable')->once()->andReturn(true)
-                      ->shouldReceive($method)->once()->andReturn($result)
-                      ->mock();
+        /** @var AbstractCheckStrategy $prophecy */
+        $prophecy = $this->prophesize('Rocketeer\Strategies\Check\\'.$name.'Strategy');
+        $prophecy->displayStatus()->willReturn($prophecy);
+        $prophecy->isExecutable()->shouldBeCalled()->willReturn(true);
+        $prophecy->$method()->shouldBeCalled()->willReturn($result);
+
+        return $prophecy->reveal();
     }
 }
