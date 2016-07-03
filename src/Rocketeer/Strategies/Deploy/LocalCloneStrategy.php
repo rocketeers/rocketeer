@@ -11,7 +11,6 @@
 
 namespace Rocketeer\Strategies\Deploy;
 
-use Carbon\Carbon;
 use Exception;
 
 class LocalCloneStrategy extends SyncStrategy
@@ -82,9 +81,6 @@ class LocalCloneStrategy extends SyncStrategy
      */
     protected function getCloneDirectory()
     {
-        $storagePath = $this->paths->getStoragePath();
-        $timestamp = Carbon::now()->timestamp;
-
-        return $storagePath.'/checkout/tmp/'.$timestamp.'/';
+        return sprintf('%s/checkout/tmp/%s/', $this->paths->getStoragePath(), time());
     }
 }

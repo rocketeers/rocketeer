@@ -11,7 +11,6 @@
 
 namespace Rocketeer\Strategies\Deploy;
 
-use Carbon\Carbon;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class LocalCloneStrategyTest extends RocketeerTestCase
@@ -32,15 +31,14 @@ class LocalCloneStrategyTest extends RocketeerTestCase
 
     public function testCanDeployRepository()
     {
-        $time = $this->getCurrentTime();
         $this->pretend();
 
         $this->builder->buildStrategy('Deploy', 'LocalClone')->deploy();
 
         $matcher = [
             'mkdir {server}/releases/{release}',
-            'git clone "https://github.com/Anahkiasen/html-object.git" "{storage}/checkout/tmp/'.$time.'/" --branch="master" --depth="1"',
-            'rsync {storage}/checkout/tmp/'.$time.'/ foo@bar.com:{server}/releases/{release} --verbose --recursive --compress --rsh="ssh" --exclude=".git" --exclude="vendor"',
+            'git clone "https://github.com/Anahkiasen/html-object.git" "{storage}/checkout/tmp/{time}/" --branch="master" --depth="1"',
+            'rsync {storage}/checkout/tmp/{time}/ foo@bar.com:{server}/releases/{release} --verbose --recursive --compress --rsh="ssh" --exclude=".git" --exclude="vendor"',
         ];
 
         $this->assertHistory($matcher);
@@ -48,7 +46,6 @@ class LocalCloneStrategyTest extends RocketeerTestCase
 
     public function testCanSpecifyKey()
     {
-        $time = $this->getCurrentTime();
         $this->pretend();
 
         $this->swapConnections([
@@ -63,25 +60,10 @@ class LocalCloneStrategyTest extends RocketeerTestCase
 
         $matcher = [
             'mkdir {server}/releases/{release}',
-            'git clone "https://github.com/Anahkiasen/html-object.git" "{storage}/checkout/tmp/'.$time.'/" --branch="master" --depth="1"',
-            'rsync {storage}/checkout/tmp/'.$time.'/ foo@bar.com:{server}/releases/{release} --verbose --recursive --compress --rsh="ssh -p 80 -i /foo/bar" --exclude=".git" --exclude="vendor"',
+            'git clone "https://github.com/Anahkiasen/html-object.git" "{storage}/checkout/tmp/{time}/" --branch="master" --depth="1"',
+            'rsync {storage}/checkout/tmp/{time}/ foo@bar.com:{server}/releases/{release} --verbose --recursive --compress --rsh="ssh -p 80 -i /foo/bar" --exclude=".git" --exclude="vendor"',
         ];
 
         $this->assertHistory($matcher);
-    }
-
-    /**
-     * Mock the current time.
-     *
-     * @return int
-     */
-    protected function getCurrentTime()
-    {
-        $now = Carbon::now();
-        $time = $now->timestamp;
-
-        Carbon::setTestNow($now);
-
-        return $time;
     }
 }

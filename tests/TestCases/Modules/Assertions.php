@@ -213,14 +213,16 @@ trait Assertions
     /**
      * Replace placeholders in an history.
      *
-     * @param array    $history
-     * @param int|null $release
+     * @param array       $history
+     * @param int|null    $release
+     * @param string|null $time
      *
      * @return array
      */
-    protected function replaceHistoryPlaceholders($history, $release = null)
+    protected function replaceHistoryPlaceholders($history, $release = null, $time = null)
     {
         $release = $release ?: date('YmdHis');
+        $time = $time ?: time();
         $hhvm = defined('HHVM_VERSION');
 
         $replaced = [];
@@ -243,6 +245,7 @@ trait Assertions
                 '{storage}' => $this->paths->getStoragePath(),
                 '{release}' => $release,
                 '{composer}' => $this->binaries['composer'],
+                '{time}' => $time,
             ]);
         }
 
@@ -258,16 +261,20 @@ trait Assertions
     protected function transformHistory($expected, array $obtained)
     {
         // Look for release in history
-        $release = implode(array_flatten($obtained));
-        preg_match_all('/[0-9]{14}/', $release, $releases);
+        $flattened = implode(Arr::flatten($obtained));
+        preg_match_all('/[0-9]{14}/', $flattened, $releases);
         $release = Arr::get($releases, '0.0', date('YmdHis'));
         if ($release === '10000000000000') {
             $release = Arr::get($releases, '0.1', date('YmdHis'));
         }
 
+        // Look for times
+        preg_match_all('/tmp\/(\d{10})/', $flattened, $time);
+        $time = Arr::get($time, '1.0');
+
         // Replace placeholders
         $expected = (array) $expected;
-        $expected = $this->replaceHistoryPlaceholders($expected, $release);
+        $expected = $this->replaceHistoryPlaceholders($expected, $release, $time);
 
         return array_values($expected);
     }
