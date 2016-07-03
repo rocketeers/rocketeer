@@ -14,6 +14,7 @@ namespace Rocketeer\Console;
 use League\Container\ContainerAwareInterface;
 use Rocketeer\Container;
 use Rocketeer\Rocketeer;
+use Rocketeer\Services\Config\ContextualConfiguration;
 use Rocketeer\Services\Environment\Pathfinder;
 use Rocketeer\Traits\HasLocator;
 use Symfony\Component\Console\Application;
@@ -110,7 +111,7 @@ class Console extends Application
     protected function getCurrentState()
     {
         return [
-            'application_name' => realpath($this->container->get('config')->get('application_name')),
+            'application_name' => realpath($this->container->get(ContextualConfiguration::class)->get('application_name')),
             'application' => realpath($this->container->get(Pathfinder::class)->getApplicationPath()),
             'configuration' => realpath($this->container->get(Pathfinder::class)->getConfigurationPath()),
             'tasks' => $this->container->get('path.rocketeer.tasks'),

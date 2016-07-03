@@ -28,11 +28,11 @@ class ConfigurationServiceProvider extends AbstractServiceProvider
      * @var array
      */
     protected $provides = [
-        LoaderInterface::class,
-        ConfigurationCache::class,
         'config.loader',
         'config.publisher',
-        'config',
+        ConfigurationCache::class,
+        ContextualConfiguration::class,
+        LoaderInterface::class,
     ];
 
     /**
@@ -66,7 +66,7 @@ class ConfigurationServiceProvider extends AbstractServiceProvider
             return new ConfigurationPublisher(new ConfigurationDefinition(), $this->container->get('files'));
         });
 
-        $this->container->share('config', function () {
+        $this->container->share(ContextualConfiguration::class, function () {
             $configuration = new Configuration($this->container->get('config.loader')->getConfiguration());
 
             return new ContextualConfiguration($this->container, $configuration);

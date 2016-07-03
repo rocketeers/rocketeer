@@ -31,7 +31,7 @@ class StrategiesServiceProvider extends AbstractServiceProvider
     public function register()
     {
         /** @var ContextualConfiguration $config */
-        $config = $this->container->get('config');
+        $config = $this->container->get(ContextualConfiguration::class);
 
         // Bind SCM class
         $scm = $config->getContextually('scm.scm');

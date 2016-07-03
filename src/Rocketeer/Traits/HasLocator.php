@@ -20,6 +20,7 @@ use Rocketeer\Console\Console;
 use Rocketeer\Container;
 use Rocketeer\Rocketeer;
 use Rocketeer\Services\Builders\Builder;
+use Rocketeer\Services\Config\ContextualConfiguration;
 use Rocketeer\Services\Connections\ConnectionsFactory;
 use Rocketeer\Services\Connections\ConnectionsHandler;
 use Rocketeer\Services\Connections\Coordinator;
@@ -124,6 +125,7 @@ trait HasLocator
             'bash' => Bash::class,
             'builder' => Builder::class,
             'command' => 'rocketeer.command',
+            'config' => ContextualConfiguration::class,
             'configurationLoader' => 'config.loader',
             'configurationPublisher' => 'config.publisher',
             'connections' => ConnectionsHandler::class,

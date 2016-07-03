@@ -60,7 +60,7 @@ class GitTest extends RocketeerTestCase
 
     public function testCanGetCheckout()
     {
-        $this->mock('config', ContextualConfiguration::class, function (MockInterface $mock) {
+        $this->mock(ContextualConfiguration::class, ContextualConfiguration::class, function (MockInterface $mock) {
             return $mock->shouldReceive('getContextually')->once()->with('scm.shallow')->andReturn(true);
         });
         $this->swapRepositoryCredentials([
@@ -75,7 +75,7 @@ class GitTest extends RocketeerTestCase
 
     public function testCanGetDeepClone()
     {
-        $this->mock('config', ContextualConfiguration::class, function (MockInterface $mock) {
+        $this->mock(ContextualConfiguration::class, ContextualConfiguration::class, function (MockInterface $mock) {
             return $mock->shouldReceive('getContextually')->once()->with('scm.shallow')->andReturn(false);
         });
 

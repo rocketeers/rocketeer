@@ -16,6 +16,7 @@ use League\Flysystem\Filesystem;
 use League\Flysystem\Sftp\SftpAdapter;
 use Rocketeer\Container;
 use Rocketeer\Services\Config\Configuration;
+use Rocketeer\Services\Config\ContextualConfiguration;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class StorageTest extends RocketeerTestCase
@@ -24,7 +25,7 @@ class StorageTest extends RocketeerTestCase
     {
         $container = new Container();
         $container->add('path.base', __DIR__);
-        $container->add('config', new Configuration([
+        $container->add(ContextualConfiguration::class, new Configuration([
             'config' => [
                 'application_name' => '{application_name}',
             ],
