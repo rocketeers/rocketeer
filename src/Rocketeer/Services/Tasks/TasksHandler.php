@@ -14,8 +14,10 @@ namespace Rocketeer\Services\Tasks;
 use Closure;
 use Illuminate\Support\Str;
 use Rocketeer\Console\Commands\BaseTaskCommand;
+use Rocketeer\Console\Console;
 use Rocketeer\Container;
 use Rocketeer\Interfaces\IdentifierInterface;
+use Rocketeer\Services\Builders\Builder;
 use Rocketeer\Tasks;
 use Rocketeer\Tasks\AbstractTask;
 use Rocketeer\Traits\HasLocator;
@@ -372,8 +374,8 @@ class TasksHandler
 
         // Bind instances
         $this->app = $plugin->register($this->app);
-        $plugin->onConsole($this->app->get('console'));
-        $plugin->onBuilder($this->app->get('rocketeer.builder'));
+        $plugin->onConsole($this->app->get(Console::class));
+        $plugin->onBuilder($this->app->get(Builder::class));
 
         // Add hooks to TasksHandler
         $plugin->onQueue($this);

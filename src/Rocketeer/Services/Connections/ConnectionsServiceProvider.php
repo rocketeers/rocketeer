@@ -39,13 +39,9 @@ class ConnectionsServiceProvider extends AbstractServiceProvider
      */
     public function register()
     {
-        $this->container->share(Bash::class, function () {
-            return new Bash($this->container);
-        });
+        $this->container->share(Bash::class)->withArgument($this->container);
 
-        $this->container->share(ConnectionsFactory::class, function () {
-            return new ConnectionsFactory($this->container);
-        });
+        $this->container->share(ConnectionsFactory::class);
 
         $this->container->share('remote.local', function () {
             return new LocalConnection($this->container);

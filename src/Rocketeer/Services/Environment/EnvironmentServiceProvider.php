@@ -20,18 +20,19 @@ class EnvironmentServiceProvider extends AbstractServiceProvider
     /**
      * @var array
      */
-    protected $provides = ['paths', 'environment'];
+    protected $provides = [
+        Pathfinder::class,
+        Environment::class,
+    ];
 
     /**
      * {@inheritdoc}
      */
     public function register()
     {
-        $this->container->share('environment', function () {
-            return new Environment($this->container);
-        });
+        $this->container->share(Environment::class)->withArgument($this->container);
 
-        $this->container->share('paths', function () {
+        $this->container->share(Pathfinder::class, function () {
             $pathfinder = new Pathfinder($this->container);
             $pathfinder->registerPathfinder(LocalPathfinder::class);
             $pathfinder->registerPathfinder(ServerPathfinder::class);

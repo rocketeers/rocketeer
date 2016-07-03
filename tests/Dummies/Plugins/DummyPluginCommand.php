@@ -22,6 +22,6 @@ class DummyPluginCommand extends AbstractCommand
      */
     public function fire()
     {
-        // TODO: Implement fire() method.
+        //
     }
 }

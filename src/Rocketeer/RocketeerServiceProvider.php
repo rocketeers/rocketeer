@@ -14,6 +14,7 @@ namespace Rocketeer;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 use Rocketeer\Console\ConsoleServiceProvider;
 use Rocketeer\Services\Builders\Builder;
+use Rocketeer\Services\Builders\BuilderServiceProvider;
 use Rocketeer\Services\Config\ConfigurationServiceProvider;
 use Rocketeer\Services\Config\ContextualConfiguration;
 use Rocketeer\Services\Connections\ConnectionsServiceProvider;
@@ -47,6 +48,7 @@ class RocketeerServiceProvider extends AbstractServiceProvider
         ConnectionsServiceProvider::class,
         ConsoleServiceProvider::class,
         DisplayServiceProvider::class,
+        BuilderServiceProvider::class,
         EnvironmentServiceProvider::class,
         EventsServiceProvider::class,
         FilesystemServiceProvider::class,
@@ -67,8 +69,9 @@ class RocketeerServiceProvider extends AbstractServiceProvider
             $this->container->addServiceProvider(new $provider());
         }
 
+        $this->container->share(Rocketeer::class)->withArgument($this->container);
+
         // Bind Rocketeer's classes
-        $this->bindCoreClasses();
         $this->bindStrategies();
 
         // Load the user's events, tasks, plugins, and configurations
@@ -76,15 +79,6 @@ class RocketeerServiceProvider extends AbstractServiceProvider
         $this->container->get('credentials.handler')->syncConnectionCredentials();
         $this->container->get('igniter')->loadUserConfiguration();
         $this->container->get('tasks')->registerConfiguredEvents();
-    }
-
-    /**
-     * Bind the Rocketeer classes to the Container.
-     */
-    public function bindCoreClasses()
-    {
-        $this->share('rocketeer.builder', Builder::class);
-        $this->share('rocketeer.rocketeer', Rocketeer::class);
     }
 
     /**
@@ -98,7 +92,7 @@ class RocketeerServiceProvider extends AbstractServiceProvider
         // Bind SCM class
         $scm = $config->getContextually('scm.scm');
         $this->container->add('rocketeer.scm', function () use ($scm) {
-            return $this->container->get('rocketeer.builder')->buildBinary($scm);
+            return $this->container->get(Builder::class)->buildBinary($scm);
         });
 
         // Bind strategies
@@ -109,23 +103,8 @@ class RocketeerServiceProvider extends AbstractServiceProvider
             }
 
             $this->container->share('rocketeer.strategies.'.$strategy, function () use ($strategy, $concrete) {
-                return $this->container->get('rocketeer.builder')->buildStrategy($strategy, $concrete);
+                return $this->container->get(Builder::class)->buildStrategy($strategy, $concrete);
             });
         }
-    }
-
-    ////////////////////////////////////////////////////////////////////
-    /////////////////////////////// HELPERS ////////////////////////////
-    ////////////////////////////////////////////////////////////////////
-
-    /**
-     * @param string $alias
-     * @param string $concrete
-     */
-    protected function share($alias, $concrete)
-    {
-        $this->container->share($alias, function () use ($concrete) {
-            return $this->container->get($concrete);
-        });
     }
 }

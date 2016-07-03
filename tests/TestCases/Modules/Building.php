@@ -38,7 +38,7 @@ trait Building
 
         // Execute
         $tester = new CommandTester($command);
-        $tester->execute($arguments, $options);
+        $tester->execute($arguments, $options + ['interactive' => false]);
 
         return $tester;
     }

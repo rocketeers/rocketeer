@@ -20,7 +20,9 @@ class ConsoleServiceProvider extends AbstractServiceProvider
     /**
      * @var array
      */
-    protected $provides = ['console'];
+    protected $provides = [
+        Console::class,
+    ];
 
     /**
      * @var string[]
@@ -32,7 +34,7 @@ class ConsoleServiceProvider extends AbstractServiceProvider
      */
     public function register()
     {
-        $this->container->share('console', function () {
+        $this->container->share(Console::class, function () {
             $console = new Console($this->container);
             $console->getHelperSet()->set(new Helper());
 

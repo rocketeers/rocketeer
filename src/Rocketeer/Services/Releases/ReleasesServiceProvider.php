@@ -29,8 +29,6 @@ class ReleasesServiceProvider extends AbstractServiceProvider
      */
     public function register()
     {
-        $this->container->share(ReleasesManager::class, function () {
-            return new ReleasesManager($this->container);
-        });
+        $this->container->share(ReleasesManager::class)->withArgument($this->container);
     }
 }

@@ -13,8 +13,13 @@ namespace Rocketeer\Traits;
 
 use Illuminate\Support\Arr;
 use Rocketeer\Bash;
+use Rocketeer\Console\Console;
 use Rocketeer\Container;
+use Rocketeer\Rocketeer;
+use Rocketeer\Services\Builders\Builder;
 use Rocketeer\Services\Connections\ConnectionsFactory;
+use Rocketeer\Services\Environment\Environment;
+use Rocketeer\Services\Environment\Pathfinder;
 use Rocketeer\Services\History\History;
 use Rocketeer\Services\History\LogsHandler;
 use Rocketeer\Services\Releases\ReleasesManager;
@@ -134,12 +139,15 @@ trait HasLocator
             'remote' => ConnectionsFactory::class,
 
             'bash' => Bash::class,
-            'builder' => 'rocketeer.builder',
+            'builder' => Builder::class,
             'command' => 'rocketeer.command',
+            'console' => Console::class,
+            'environment' => Environment::class,
             'history' => History::class,
             'logs' => LogsHandler::class,
+            'paths' => Pathfinder::class,
             'releasesManager' => ReleasesManager::class,
-            'rocketeer' => 'rocketeer.rocketeer',
+            'rocketeer' => Rocketeer::class,
             'roles' => RolesManager::class,
             'scm' => 'rocketeer.scm',
         ];
@@ -209,6 +217,6 @@ trait HasLocator
      */
     public function getFramework()
     {
-        return $this->app->has('rocketeer.builder') ? $this->builder->buildStrategy('Framework') : null;
+        return $this->app->has(Builder::class) ? $this->builder->buildStrategy('Framework') : null;
     }
 }

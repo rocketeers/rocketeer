@@ -32,7 +32,7 @@ class StorageServiceProvider extends AbstractServiceProvider
     {
         $this->container->share('storage.local', function () {
             /** @var Pathfinder $pathfinder */
-            $pathfinder = $this->container->get('paths');
+            $pathfinder = $this->container->get(Pathfinder::class);
 
             // Get filename and folder
             $folder = $pathfinder->getRocketeerConfigFolder();

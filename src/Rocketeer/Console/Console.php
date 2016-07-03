@@ -14,6 +14,7 @@ namespace Rocketeer\Console;
 use Rocketeer\Console\Commands\AbstractCommand;
 use Rocketeer\Container;
 use Rocketeer\Rocketeer;
+use Rocketeer\Services\Environment\Pathfinder;
 use Rocketeer\Traits\HasLocator;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
@@ -110,8 +111,8 @@ class Console extends Application
     {
         return [
             'application_name' => realpath($this->app->get('config')->get('application_name')),
-            'application' => realpath($this->app->get('paths')->getApplicationPath()),
-            'configuration' => realpath($this->app->get('paths')->getConfigurationPath()),
+            'application' => realpath($this->app->get(Pathfinder::class)->getApplicationPath()),
+            'configuration' => realpath($this->app->get(Pathfinder::class)->getConfigurationPath()),
             'tasks' => $this->app->get('path.rocketeer.tasks'),
             'events' => $this->app->get('path.rocketeer.events'),
             'logs' => $this->app->get('path.rocketeer.logs'),

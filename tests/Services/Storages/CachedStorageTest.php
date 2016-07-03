@@ -12,13 +12,14 @@
 namespace Rocketeer\Services\Storages;
 
 use Mockery\MockInterface;
+use Rocketeer\Services\Environment\Pathfinder;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class CachedStorageTest extends RocketeerTestCase
 {
     public function testCanComputeHashAccordingToContentsOfFiles()
     {
-        $this->mock('paths', 'Pathfinder', function (MockInterface $mock) {
+        $this->mock(Pathfinder::class, Pathfinder::class, function (MockInterface $mock) {
             return $mock->shouldReceive('getConfigurationPath')->andReturn($this->server);
         });
 

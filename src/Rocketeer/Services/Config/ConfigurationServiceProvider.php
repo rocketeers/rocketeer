@@ -15,6 +15,7 @@ use League\Container\ServiceProvider\AbstractServiceProvider;
 use Rocketeer\Services\Config\Files\ConfigurationCache;
 use Rocketeer\Services\Config\Files\ConfigurationLoader;
 use Rocketeer\Services\Config\Files\ConfigurationPublisher;
+use Rocketeer\Services\Environment\Pathfinder;
 use Symfony\Component\Config\Definition\Loaders\PhpLoader;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\DelegatingLoader;
@@ -48,14 +49,14 @@ class ConfigurationServiceProvider extends AbstractServiceProvider
         });
 
         $this->container->share(ConfigurationCache::class, function () {
-            return new ConfigurationCache($this->container->get('paths')->getConfigurationCachePath(), false);
+            return new ConfigurationCache($this->container->get(Pathfinder::class)->getConfigurationCachePath(), false);
         });
 
         $this->container->share('config.loader', function () {
             $loader = $this->container->get(ConfigurationLoader::class);
             $loader->setFolders([
                 __DIR__.'/../../../config',
-                $this->container->get('paths')->getConfigurationPath(),
+                $this->container->get(Pathfinder::class)->getConfigurationPath(),
             ]);
 
             return $loader;
