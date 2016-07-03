@@ -28,12 +28,7 @@ class HistoryServiceProvider extends AbstractServiceProvider
      */
     public function register()
     {
-        $this->container->share(History::class, function () {
-            return new History();
-        });
-
-        $this->container->share(LogsHandler::class, function () {
-            return new LogsHandler($this->container);
-        });
+        $this->container->share(History::class);
+        $this->container->share(LogsHandler::class)->withArgument($this->container);
     }
 }

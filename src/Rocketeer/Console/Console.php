@@ -11,6 +11,7 @@
 
 namespace Rocketeer\Console;
 
+use League\Container\ContainerAwareInterface;
 use Rocketeer\Console\Commands\AbstractCommand;
 use Rocketeer\Container;
 use Rocketeer\Rocketeer;
@@ -45,7 +46,7 @@ class Console extends Application
      */
     public function add(Command $command)
     {
-        if ($command instanceof AbstractCommand) {
+        if ($command instanceof ContainerAwareInterface) {
             $command->setContainer($this->container);
         }
 

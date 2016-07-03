@@ -11,6 +11,7 @@
 
 namespace Rocketeer\Console\Commands;
 
+use League\Container\ContainerAwareInterface;
 use Rocketeer\Interfaces\IdentifierInterface;
 use Rocketeer\Tasks\AbstractTask;
 use Rocketeer\Tasks\Closure;
@@ -32,7 +33,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-abstract class AbstractCommand extends Command implements IdentifierInterface
+abstract class AbstractCommand extends Command implements IdentifierInterface, ContainerAwareInterface
 {
     use HasLocator;
     use HasEvents;

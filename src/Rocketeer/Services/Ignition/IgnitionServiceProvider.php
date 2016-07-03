@@ -40,7 +40,10 @@ class IgnitionServiceProvider extends AbstractServiceProvider implements Bootabl
     {
         $this->register();
 
-        $this->container->get('igniter')->bindPaths();
-        $this->container->get('igniter')->loadUserConfiguration();
+        /** @var Configuration $igniter */
+        $igniter = $this->container->get('igniter');
+
+        $igniter->bindPaths();
+        $igniter->loadUserConfiguration();
     }
 }

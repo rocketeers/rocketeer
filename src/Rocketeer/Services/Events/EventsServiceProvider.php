@@ -26,8 +26,6 @@ class EventsServiceProvider extends AbstractServiceProvider
      */
     public function register()
     {
-        $this->container->share('events', function () {
-            return new Emitter();
-        });
+        $this->container->share('events', Emitter::class);
     }
 }

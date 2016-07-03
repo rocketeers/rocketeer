@@ -28,12 +28,7 @@ class DisplayServiceProvider extends AbstractServiceProvider
      */
     public function register()
     {
-        $this->container->share('timer', function () {
-            return new QueueTimer($this->container);
-        });
-
-        $this->container->share('explainer', function () {
-            return new QueueExplainer($this->container);
-        });
+        $this->container->share('timer', QueueTimer::class)->withArgument($this->container);
+        $this->container->share('explainer', QueueExplainer::class)->withArgument($this->container);
     }
 }

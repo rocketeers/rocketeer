@@ -33,34 +33,16 @@ class ConnectionsServiceProvider extends AbstractServiceProvider
     ];
 
     /**
-     * Use the register method to register items with the container via the
-     * protected $this->container property or the `getContainer` method
-     * from the ContainerAwareTrait.
+     * {@inheritdoc}
      */
     public function register()
     {
         $this->container->share(Bash::class)->withArgument($this->container);
-
         $this->container->share(ConnectionsFactory::class);
-
-        $this->container->share('remote.local', function () {
-            return new LocalConnection($this->container);
-        });
-
-        $this->container->share('connections', function () {
-            return new ConnectionsHandler($this->container);
-        });
-
-        $this->container->share('coordinator', function () {
-            return new Coordinator($this->container);
-        });
-
-        $this->container->share('credentials.handler', function () {
-            return new CredentialsHandler($this->container);
-        });
-
-        $this->container->share('credentials.gatherer', function () {
-            return new CredentialsGatherer($this->container);
-        });
+        $this->container->share('remote.local', LocalConnection::class)->withArgument($this->container);
+        $this->container->share('connections', ConnectionsHandler::class)->withArgument($this->container);
+        $this->container->share('coordinator', Coordinator::class)->withArgument($this->container);
+        $this->container->share('credentials.handler', CredentialsHandler::class)->withArgument($this->container);
+        $this->container->share('credentials.gatherer', CredentialsGatherer::class)->withArgument($this->container);
     }
 }

@@ -24,18 +24,11 @@ class TasksServiceProvider extends AbstractServiceProvider
     ];
 
     /**
-     * Use the register method to register items with the container via the
-     * protected $this->container property or the `getContainer` method
-     * from the ContainerAwareTrait.
+     * {@inheritdoc}
      */
     public function register()
     {
-        $this->container->share('queue', function () {
-            return new TasksQueue($this->container);
-        });
-
-        $this->container->share('tasks', function () {
-            return new TasksHandler($this->container);
-        });
+        $this->container->share('queue', TasksQueue::class)->withArgument($this->container);
+        $this->container->share('tasks', TasksHandler::class)->withArgument($this->container);
     }
 }
