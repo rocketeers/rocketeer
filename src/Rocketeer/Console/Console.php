@@ -12,7 +12,6 @@
 namespace Rocketeer\Console;
 
 use League\Container\ContainerAwareInterface;
-use Rocketeer\Console\Commands\AbstractCommand;
 use Rocketeer\Container;
 use Rocketeer\Rocketeer;
 use Rocketeer\Services\Environment\Pathfinder;

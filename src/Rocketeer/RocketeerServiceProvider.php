@@ -14,6 +14,7 @@ namespace Rocketeer;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 use League\Container\ServiceProvider\BootableServiceProviderInterface;
 use Rocketeer\Services\Connections\Credentials\CredentialsHandler;
+use Rocketeer\Services\Tasks\TasksHandler;
 
 /**
  * Bind the various Rocketeer classes to a Container.
@@ -45,6 +46,6 @@ class RocketeerServiceProvider extends AbstractServiceProvider implements Bootab
     {
         // Load the user's events, tasks, plugins, and configurations
         $this->container->get(CredentialsHandler::class)->syncConnectionCredentials();
-        $this->container->get('tasks')->registerConfiguredEvents();
+        $this->container->get(TasksHandler::class)->registerConfiguredEvents();
     }
 }

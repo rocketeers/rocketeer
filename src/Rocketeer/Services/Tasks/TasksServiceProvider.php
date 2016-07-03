@@ -19,8 +19,8 @@ class TasksServiceProvider extends AbstractServiceProvider
      * @var array
      */
     protected $provides = [
-        'queue',
-        'tasks',
+        TasksQueue::class,
+        TasksHandler::class,
     ];
 
     /**
@@ -28,7 +28,7 @@ class TasksServiceProvider extends AbstractServiceProvider
      */
     public function register()
     {
-        $this->container->share('queue', TasksQueue::class)->withArgument($this->container);
-        $this->container->share('tasks', TasksHandler::class)->withArgument($this->container);
+        $this->container->share(TasksQueue::class)->withArgument($this->container);
+        $this->container->share(TasksHandler::class)->withArgument($this->container);
     }
 }

@@ -19,13 +19,15 @@ class EventsServiceProvider extends AbstractServiceProvider
     /**
      * @var array
      */
-    protected $provides = ['events'];
+    protected $provides = [
+        Emitter::class,
+    ];
 
     /**
      * {@inheritdoc}
      */
     public function register()
     {
-        $this->container->share('events', Emitter::class);
+        $this->container->share(Emitter::class);
     }
 }

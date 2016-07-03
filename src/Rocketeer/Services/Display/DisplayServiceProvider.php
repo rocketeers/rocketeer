@@ -19,8 +19,8 @@ class DisplayServiceProvider extends AbstractServiceProvider
      * @var array
      */
     protected $provides = [
-        'timer',
-        'explainer',
+        QueueTimer::class,
+        QueueExplainer::class,
     ];
 
     /**
@@ -28,7 +28,7 @@ class DisplayServiceProvider extends AbstractServiceProvider
      */
     public function register()
     {
-        $this->container->share('timer', QueueTimer::class)->withArgument($this->container);
-        $this->container->share('explainer', QueueExplainer::class)->withArgument($this->container);
+        $this->container->share(QueueTimer::class)->withArgument($this->container);
+        $this->container->share(QueueExplainer::class)->withArgument($this->container);
     }
 }

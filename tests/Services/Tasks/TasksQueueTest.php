@@ -16,6 +16,7 @@ use Mockery\MockInterface;
 use Rocketeer\Dummies\Tasks\MyCustomHaltingTask;
 use Rocketeer\Dummies\Tasks\MyCustomTask;
 use Rocketeer\Services\Connections\ConnectionsFactory;
+use Rocketeer\Services\Display\QueueExplainer;
 use Rocketeer\Tasks\AbstractTask;
 use Rocketeer\TestCases\RocketeerTestCase;
 
@@ -150,7 +151,7 @@ class TasksQueueTest extends RocketeerTestCase
     {
         $this->expectOutputString('The tasks queue was canceled by task "MyCustomHaltingTask"');
 
-        $this->mock('explainer', 'QueueExplainer', function (MockInterface $mock) {
+        $this->mock(QueueExplainer::class, QueueExplainer::class, function (MockInterface $mock) {
             return $mock->shouldReceive('error')->andReturnUsing(function ($string) {
                 echo $string;
             });

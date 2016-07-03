@@ -13,6 +13,7 @@ namespace Rocketeer\Traits;
 
 use Illuminate\Support\Arr;
 use League\Container\ContainerAwareTrait;
+use League\Event\Emitter;
 use Rocketeer\Bash;
 use Rocketeer\Binaries\Scm\ScmInterface;
 use Rocketeer\Console\Console;
@@ -24,12 +25,16 @@ use Rocketeer\Services\Connections\ConnectionsHandler;
 use Rocketeer\Services\Connections\Coordinator;
 use Rocketeer\Services\Connections\Credentials\CredentialsGatherer;
 use Rocketeer\Services\Connections\Credentials\CredentialsHandler;
+use Rocketeer\Services\Display\QueueExplainer;
+use Rocketeer\Services\Display\QueueTimer;
 use Rocketeer\Services\Environment\Environment;
 use Rocketeer\Services\Environment\Pathfinder;
 use Rocketeer\Services\History\History;
 use Rocketeer\Services\History\LogsHandler;
 use Rocketeer\Services\Releases\ReleasesManager;
 use Rocketeer\Services\RolesManager;
+use Rocketeer\Services\Tasks\TasksHandler;
+use Rocketeer\Services\Tasks\TasksQueue;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -116,27 +121,31 @@ trait HasLocator
     protected function getLocatorHandle($key)
     {
         $shortcuts = [
-            'configurationLoader' => 'config.loader',
-            'configurationPublisher' => 'config.publisher',
-            'credentials' => CredentialsHandler::class,
-            'credentialsGatherer' => CredentialsGatherer::class,
-            'localStorage' => 'storage.local',
-            'remote' => ConnectionsFactory::class,
-
             'bash' => Bash::class,
             'builder' => Builder::class,
             'command' => 'rocketeer.command',
-            'console' => Console::class,
+            'configurationLoader' => 'config.loader',
+            'configurationPublisher' => 'config.publisher',
             'connections' => ConnectionsHandler::class,
+            'console' => Console::class,
             'coordinator' => Coordinator::class,
+            'credentials' => CredentialsHandler::class,
+            'credentialsGatherer' => CredentialsGatherer::class,
             'environment' => Environment::class,
+            'events' => Emitter::class,
+            'explainer' => QueueExplainer::class,
             'history' => History::class,
+            'localStorage' => 'storage.local',
             'logs' => LogsHandler::class,
             'paths' => Pathfinder::class,
+            'queue' => TasksQueue::class,
             'releasesManager' => ReleasesManager::class,
+            'remote' => ConnectionsFactory::class,
             'rocketeer' => Rocketeer::class,
             'roles' => RolesManager::class,
             'scm' => ScmInterface::class,
+            'tasks' => TasksHandler::class,
+            'timer' => QueueTimer::class,
         ];
 
         // Replace shortcuts

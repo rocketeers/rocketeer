@@ -13,6 +13,7 @@ namespace Rocketeer\Services\Connections;
 
 use Mockery\MockInterface;
 use Rocketeer\Exceptions\ConnectionException;
+use Rocketeer\Services\Tasks\TasksHandler;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class ConnectionsHandlerTest extends RocketeerTestCase
@@ -72,7 +73,7 @@ class ConnectionsHandlerTest extends RocketeerTestCase
 
     public function testDoesntResetConnectionIfSameAsCurrent()
     {
-        $this->mock('tasks', 'TasksHandler', function (MockInterface $mock) {
+        $this->mock(TasksHandler::class, TasksHandler::class, function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('registerConfiguredEvents')->once();
         }, false);
@@ -84,7 +85,7 @@ class ConnectionsHandlerTest extends RocketeerTestCase
 
     public function testDoesntResetStageIfSameAsCurrent()
     {
-        $this->mock('tasks', 'TasksHandler', function (MockInterface $mock) {
+        $this->mock(TasksHandler::class, TasksHandler::class, function (MockInterface $mock) {
             return $mock
                 ->shouldReceive('registerConfiguredEvents')->once();
         }, false);

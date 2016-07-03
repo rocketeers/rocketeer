@@ -11,6 +11,8 @@
 
 namespace Rocketeer\Facades;
 
+use Rocketeer\Services\Tasks\TasksHandler;
+
 /**
  * Facade for Rocketeer's CLI.
  *
@@ -25,5 +27,5 @@ class Rocketeer extends StandaloneFacade
      *
      * @var string
      */
-    protected static $accessor = 'tasks';
+    protected static $accessor = TasksHandler::class;
 }
