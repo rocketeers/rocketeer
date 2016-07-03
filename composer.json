@@ -37,7 +37,6 @@
   "require-dev": {
     "friendsofphp/php-cs-fixer": "dev-master",
     "kherge/box": "^2.7",
-    "league/flysystem-vfs": "^1.0",
     "mockery/mockery": "^0.9.5",
     "phpunit/phpunit": "^5.4",
     "rocketeers/rocketeer-laravel": "1.0.x@dev"
