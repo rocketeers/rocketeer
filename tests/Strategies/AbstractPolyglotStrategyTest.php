@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Rocketeer\Abstracts;
+namespace Rocketeer\Strategies;
 
 use Rocketeer\Dummies\ExecutablesPolyglotStrategy;
 use Rocketeer\Dummies\FailingPolyglotStrategy;

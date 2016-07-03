@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Rocketeer\Abstracts\Strategies;
+namespace Rocketeer\Strategies;
 
 use Mockery\MockInterface;
 use Rocketeer\Bash;
