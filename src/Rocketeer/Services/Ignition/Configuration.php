@@ -271,9 +271,12 @@ class Configuration
         $file = $this->app->get('path.rocketeer.'.$handle);
         if (!$this->files->isDirectory($file) && $this->files->has($file) && $file !== 'strategies.php') {
             $this->files->include($file);
-        } // Else include its contents
+        }
+
+        // Else include its contents
         elseif ($this->files->isDirectory($file) && $this->files->has($file)) {
-            $files = (new Finder())->in($this->files->getAdapter()->applyPathPrefix($file))->name('*.php')->files();
+            $folder = $this->files->getAdapter()->applyPathPrefix($file);
+            $files = (new Finder())->in($folder)->name('*.php')->files();
             foreach ($files as $file) {
                 $this->files->include($this->files->getAdapter()->removePathPrefix($file));
             }

@@ -12,17 +12,60 @@
 namespace Rocketeer;
 
 use League\Container\ReflectionContainer;
+use Rocketeer\Console\ConsoleServiceProvider;
+use Rocketeer\Services\Builders\BuilderServiceProvider;
+use Rocketeer\Services\Config\ConfigurationServiceProvider;
+use Rocketeer\Services\Connections\ConnectionsServiceProvider;
+use Rocketeer\Services\Display\DisplayServiceProvider;
+use Rocketeer\Services\Environment\EnvironmentServiceProvider;
+use Rocketeer\Services\Events\EventsServiceProvider;
+use Rocketeer\Services\Filesystem\FilesystemServiceProvider;
+use Rocketeer\Services\History\HistoryServiceProvider;
+use Rocketeer\Services\Ignition\IgnitionServiceProvider;
+use Rocketeer\Services\Releases\ReleasesServiceProvider;
+use Rocketeer\Services\Storages\StorageServiceProvider;
+use Rocketeer\Services\Tasks\TasksServiceProvider;
+use Rocketeer\Strategies\StrategiesServiceProvider;
+
+// Define DS
+if (!defined('DS')) {
+    define('DS', DIRECTORY_SEPARATOR);
+}
 
 class Container extends \League\Container\Container
 {
     /**
      * {@inheritdoc}
      */
-    public function __construct($providers = null, $inflectors = null, $definitionFactory = null)
+    public function __construct()
     {
-        parent::__construct($providers, $inflectors, $definitionFactory);
+        parent::__construct();
 
         $this->delegate(new ReflectionContainer());
+        $this->add(self::class, $this);
+
+        // Bind service providers
+        $providers = [
+            BuilderServiceProvider::class,
+            ConfigurationServiceProvider::class,
+            ConnectionsServiceProvider::class,
+            ConsoleServiceProvider::class,
+            DisplayServiceProvider::class,
+            EnvironmentServiceProvider::class,
+            EventsServiceProvider::class,
+            FilesystemServiceProvider::class,
+            HistoryServiceProvider::class,
+            ReleasesServiceProvider::class,
+            StorageServiceProvider::class,
+            StrategiesServiceProvider::class,
+            TasksServiceProvider::class,
+            IgnitionServiceProvider::class,
+            RocketeerServiceProvider::class,
+        ];
+
+        foreach ($providers as $provider) {
+            $this->addServiceProvider($provider);
+        }
     }
 
     /**

@@ -240,7 +240,7 @@ trait Assertions
                 '{phpunit}' => $this->binaries['phpunit'],
                 '{repository}' => 'https://github.com/'.$this->repository,
                 '{server}' => $this->server,
-                '{storage}' => $this->app->get('path.storage'),
+                '{storage}' => $this->paths->getStoragePath(),
                 '{release}' => $release,
                 '{composer}' => $this->binaries['composer'],
             ]);

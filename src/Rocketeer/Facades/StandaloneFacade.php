@@ -12,7 +12,6 @@
 namespace Rocketeer\Facades;
 
 use Rocketeer\Container;
-use Rocketeer\RocketeerServiceProvider;
 
 /**
  * Facade for Rocketeer's CLI.
@@ -64,12 +63,7 @@ abstract class StandaloneFacade
     protected static function getFacadeAccessor()
     {
         if (!static::$container) {
-            $container = new Container();
-            $provider = new RocketeerServiceProvider();
-            $provider->setContainer($container);
-            $provider->register();
-
-            static::$container = $container;
+            static::$container = new Container();
         }
 
         return static::$accessor;

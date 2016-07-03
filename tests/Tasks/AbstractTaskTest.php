@@ -9,10 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Rocketeer\Abstracts;
+namespace Rocketeer\Tasks;
 
 use Rocketeer\Dummies\Tasks\MyCustomHaltingTask;
-use Rocketeer\Tasks\AbstractTask;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class AbstractTaskTest extends RocketeerTestCase

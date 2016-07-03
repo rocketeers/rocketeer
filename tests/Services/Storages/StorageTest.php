@@ -16,7 +16,6 @@ use League\Flysystem\Filesystem;
 use League\Flysystem\Sftp\SftpAdapter;
 use Rocketeer\Container;
 use Rocketeer\Services\Config\Configuration;
-use Rocketeer\Services\Environment\EnvironmentServiceProvider;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class StorageTest extends RocketeerTestCase
@@ -31,13 +30,10 @@ class StorageTest extends RocketeerTestCase
             ],
         ]));
 
-        $container->addServiceProvider(new EnvironmentServiceProvider());
-        $container->addServiceProvider(new StorageServiceProvider());
-
         /** @var Storage $storage */
         $storage = $container->get('storage.local');
 
-        $this->assertEquals('storages.json', $storage->getFilename());
+        $this->assertEquals('rocketeer.json', $storage->getFilename());
     }
 
     public function testCanNormalizeFilename()

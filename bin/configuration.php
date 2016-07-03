@@ -10,14 +10,9 @@
  */
 
 use Rocketeer\Container;
-use Rocketeer\RocketeerServiceProvider;
 
 require 'vendor/autoload.php';
 
 $container = new Container();
-$provider = new RocketeerServiceProvider();
-$provider->setContainer($container);
-$provider->register();
-
 $container->get('config.publisher')->publish(__DIR__.'/../src/config', 'php');
 exec('composer lint');

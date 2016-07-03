@@ -18,7 +18,6 @@ use PHPUnit_Framework_TestCase;
 use Rocketeer\Console\Commands\AbstractCommand;
 use Rocketeer\Container;
 use Rocketeer\Dummies\Tasks\MyCustomTask;
-use Rocketeer\RocketeerServiceProvider;
 use Rocketeer\Services\Connections\Connections\Connection;
 use Rocketeer\Services\Connections\ConnectionsFactory;
 use Rocketeer\TestCases\Modules\Assertions;
@@ -61,6 +60,11 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
     protected $deploymentsFile;
 
     /**
+     * @var string
+     */
+    protected $home;
+
+    /**
      * Override the trait constructor.
      */
     public function __construct()
@@ -75,13 +79,6 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
     {
         $this->app = new Container();
 
-        // Paths -------------------------------------------------------- /
-
-        $this->app->add('path.base', '/src');
-        $this->app->add('path', $this->app->get('path.base').'/app');
-        $this->app->add('path.public', $this->app->get('path.base').'/public');
-        $this->app->add('path.storage', $this->app->get('path').'/storage');
-
         // Create local paths
         $this->home = $_SERVER['HOME'];
         $this->server = realpath(__DIR__.'/../_server').'/foobar';
@@ -90,9 +87,14 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 
         // Rocketeer classes ------------------------------------------- /
 
-        $serviceProvider = new RocketeerServiceProvider();
-        $serviceProvider->setContainer($this->app);
-        $serviceProvider->register();
+        $this->app = new Container();
+
+        // Paths -------------------------------------------------------- /
+
+        $this->app->add('path.base', '/src');
+        $this->app->add('path', $this->app->get('path.base').'/app');
+        $this->app->add('path.public', $this->app->get('path.base').'/public');
+        $this->app->add('path.storage', $this->app->get('path').'/storage');
 
         // Replace some instances with mocks
         $this->app->add('artisan', $this->getArtisan());

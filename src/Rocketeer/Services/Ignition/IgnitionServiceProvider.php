@@ -29,13 +29,8 @@ class IgnitionServiceProvider extends AbstractServiceProvider implements Bootabl
      */
     public function register()
     {
-        $this->container->share('igniter', function () {
-            return new Configuration($this->container);
-        });
-
-        $this->container->share('igniter.tasks', function () {
-            return new Tasks($this->container);
-        });
+        $this->container->share('igniter', Configuration::class)->withArgument($this->container);
+        $this->container->share('igniter.tasks', Tasks::class)->withArgument($this->container);
     }
 
     /**

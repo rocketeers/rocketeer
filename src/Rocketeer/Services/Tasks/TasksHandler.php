@@ -366,10 +366,8 @@ class TasksHandler
         ];
 
         // Register configuration
-        $vendor = $plugin->getNamespace();
-        // $this->config->package('rocketeers/'.$vendor, $plugin->configurationFolder);
         if ($configuration) {
-            $this->config->set($vendor.'::config', $configuration);
+            $this->config->set($plugin->getNamespace().'::config', $configuration);
         }
 
         // Bind instances

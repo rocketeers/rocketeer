@@ -14,7 +14,7 @@ namespace Rocketeer\Tasks;
 use Mockery;
 use Mockery\MockInterface;
 use Rocketeer\Container;
-use Rocketeer\RocketeerServiceProvider;
+use Rocketeer\Services\Ignition\IgnitionServiceProvider;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class IgniteTest extends RocketeerTestCase
@@ -26,11 +26,8 @@ class IgniteTest extends RocketeerTestCase
         $container = new Container();
         $container->add('path.base', 'E:\workspace\test');
         $container->add('home', $this->home);
+        $container->addServiceProvider(new IgnitionServiceProvider());
         $this->app = $container;
-
-        $provider = new RocketeerServiceProvider();
-        $provider->setContainer($this->app);
-        $provider->register();
 
         $this->mockFiles(function (MockInterface $mock) {
             return $mock
@@ -44,7 +41,6 @@ class IgniteTest extends RocketeerTestCase
     public function testCanIgniteConfiguration()
     {
         $command = $this->getCommand(['ask' => 'foobar']);
-//        $this->swapConnections([]);
         $this->connections->disconnect();
         $this->localStorage->destroy();
 
