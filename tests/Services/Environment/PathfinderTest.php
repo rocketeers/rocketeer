@@ -50,8 +50,8 @@ class PathfinderTest extends RocketeerTestCase
 
     public function testCanReplacePlaceholdersOnWindows()
     {
-        $this->app->add('path.base', 'c:\xampp\htdocs\project');
-        $this->app->add('path.foobar', 'c:\xampp\htdocs\project\lol');
+        $this->container->add('path.base', 'c:\xampp\htdocs\project');
+        $this->container->add('path.foobar', 'c:\xampp\htdocs\project\lol');
 
         $this->assertEquals($this->server.'/lol', $this->paths->getFolder('{path.foobar}'));
     }
@@ -116,7 +116,7 @@ class PathfinderTest extends RocketeerTestCase
 
     public function testCanGetStoragePathWhenNoneBound()
     {
-        $this->app->remove('path.storage');
+        $this->container->remove('path.storage');
 
         $storage = $this->paths->getStoragePath();
         $this->assertEquals('.rocketeer', $storage);
@@ -124,8 +124,8 @@ class PathfinderTest extends RocketeerTestCase
 
     public function testCanGetStoragePathIfUnix()
     {
-        $this->app->add('path.base', '/app');
-        $this->app->add('path.storage', '/app/local/folder');
+        $this->container->add('path.base', '/app');
+        $this->container->add('path.storage', '/app/local/folder');
 
         $storage = $this->paths->getStoragePath();
         $this->assertEquals('local/folder', $storage);
@@ -133,8 +133,8 @@ class PathfinderTest extends RocketeerTestCase
 
     public function testCanGetStorageIfWindows()
     {
-        $this->app->add('path.base', 'C:\Sites\app');
-        $this->app->add('path.storage', 'C:\Sites\app\local\folder');
+        $this->container->add('path.base', 'C:\Sites\app');
+        $this->container->add('path.storage', 'C:\Sites\app\local\folder');
 
         $storage = $this->paths->getStoragePath();
         $this->assertEquals('local/folder', $storage);
@@ -142,8 +142,8 @@ class PathfinderTest extends RocketeerTestCase
 
     public function testCanGetStorageWhenBothForSomeReason()
     {
-        $this->app->add('path.base', 'C:\Sites\app');
-        $this->app->add('path.storage', 'C:/Sites/app/local/folder');
+        $this->container->add('path.base', 'C:\Sites\app');
+        $this->container->add('path.storage', 'C:/Sites/app/local/folder');
 
         $storage = $this->paths->getStoragePath();
         $this->assertEquals('local/folder', $storage);
@@ -159,7 +159,7 @@ class PathfinderTest extends RocketeerTestCase
 
     public function testCanConfigureApplicationPath()
     {
-        $this->assertEquals($this->app->get('path.base').DS, $this->paths->getApplicationPath());
+        $this->assertEquals($this->container->get('path.base').DS, $this->paths->getApplicationPath());
 
         $this->swapConfig([
             'paths.app' => __DIR__,

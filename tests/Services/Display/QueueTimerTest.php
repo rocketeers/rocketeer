@@ -41,7 +41,7 @@ class QueueTimerTest extends RocketeerTestCase
     public function testCanTimeCommands()
     {
         $command = new DeployCommand();
-        $command->setContainer($this->app);
+        $command->setContainer($this->container);
         $this->timer->time($command, function () {
             // ...
         });

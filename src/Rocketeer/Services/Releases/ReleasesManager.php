@@ -56,12 +56,12 @@ class ReleasesManager
     /**
      * Build a new ReleasesManager.
      *
-     * @param Container $app
+     * @param Container $container
      */
-    public function __construct(Container $app)
+    public function __construct(Container $container)
     {
-        $this->app = $app;
-        $this->storage = new ServerStorage($this->app);
+        $this->container = $container;
+        $this->storage = new ServerStorage($this->container);
         $this->state = $this->getValidationFile();
     }
 

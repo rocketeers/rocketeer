@@ -27,7 +27,7 @@ abstract class AbstractNotifier extends AbstractPlugin
     public function onQueue(TasksHandler $queue)
     {
         // Create the task instance
-        $notify = new Notify($this->app);
+        $notify = new Notify($this->container);
         $notify->setNotifier($this);
 
         $queue->addTaskListeners('deploy', 'before', [clone $notify], -10, true);

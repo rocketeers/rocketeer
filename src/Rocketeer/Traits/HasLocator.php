@@ -12,6 +12,7 @@
 namespace Rocketeer\Traits;
 
 use Illuminate\Support\Arr;
+use League\Container\ContainerAwareTrait;
 use Rocketeer\Bash;
 use Rocketeer\Binaries\Scm\ScmInterface;
 use Rocketeer\Console\Console;
@@ -66,37 +67,16 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 trait HasLocator
 {
-    /**
-     * The IoC Container.
-     *
-     * @var Container
-     */
-    protected $app;
+    use ContainerAwareTrait;
 
     /**
      * Build a new AbstractTask.
      *
-     * @param Container $app
+     * @param Container $container
      */
-    public function __construct(Container $app)
+    public function __construct(Container $container)
     {
-        $this->app = $app;
-    }
-
-    /**
-     * @param Container $app
-     */
-    public function setContainer(Container $app)
-    {
-        $this->app = $app;
-    }
-
-    /**
-     * @return Container
-     */
-    public function getContainer()
-    {
-        return $this->app;
+        $this->container = $container;
     }
 
     /**
@@ -110,7 +90,7 @@ trait HasLocator
     {
         $key = $this->getLocatorHandle($key);
 
-        return $this->app->get($key);
+        return $this->container->get($key);
     }
 
     /**
@@ -121,7 +101,7 @@ trait HasLocator
      */
     public function __set($key, $value)
     {
-        $this->app->add($key, $value);
+        $this->container->add($key, $value);
     }
 
     /**
@@ -174,7 +154,7 @@ trait HasLocator
      */
     protected function hasCommand()
     {
-        return $this->app->has('rocketeer.command');
+        return $this->container->has('rocketeer.command');
     }
 
     /**
@@ -218,6 +198,6 @@ trait HasLocator
      */
     public function getFramework()
     {
-        return $this->app->has(Builder::class) ? $this->builder->buildStrategy('Framework') : null;
+        return $this->container->has(Builder::class) ? $this->builder->buildStrategy('Framework') : null;
     }
 }

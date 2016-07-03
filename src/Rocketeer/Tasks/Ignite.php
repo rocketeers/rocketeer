@@ -35,7 +35,7 @@ class Ignite extends AbstractTask
 
         // Replace placeholders
         $parameters = $this->getConfigurationInformations();
-        $this->app->get('igniter')->updateConfiguration($path, $parameters);
+        $this->container->get('igniter')->updateConfiguration($path, $parameters);
 
         // Display info
         $folder = basename(dirname($path)).'/'.basename($path);
@@ -51,7 +51,7 @@ class Ignite extends AbstractTask
      */
     protected function createOutsideConfiguration()
     {
-        return $this->app->get('igniter')->exportConfiguration();
+        return $this->container->get('igniter')->exportConfiguration();
     }
 
     /**

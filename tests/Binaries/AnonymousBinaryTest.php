@@ -17,7 +17,7 @@ class AnonymousBinaryTest extends RocketeerTestCase
 {
     public function testCanCreateAnonymousBinaries()
     {
-        $anonymous = new AnonymousBinary($this->app);
+        $anonymous = new AnonymousBinary($this->container);
         $anonymous->setBinary('foobar');
 
         $this->assertEquals('foobar foo bar --lol', $anonymous->foo('bar', '--lol'));

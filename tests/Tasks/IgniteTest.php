@@ -27,7 +27,7 @@ class IgniteTest extends RocketeerTestCase
         $container->add('path.base', 'E:\workspace\test');
         $container->add('home', $this->home);
         $container->addServiceProvider(new IgnitionServiceProvider());
-        $this->app = $container;
+        $this->container = $container;
 
         $this->mockFiles(function (MockInterface $mock) {
             return $mock

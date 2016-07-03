@@ -44,7 +44,7 @@ class BinariesTest extends RocketeerTestCase
 
     public function testStoredPathsAreInvalidatedIfIncorrect()
     {
-        $this->app->add(ConnectionsFactory::class, function () {
+        $this->container->add(ConnectionsFactory::class, function () {
             $connection = Mockery::mock(Connection::class)
                 ->shouldReceive('connected')->andReturn(false)
                 ->shouldReceive('run')->with(['bash --login -c \'echo ROCKETEER\''], Mockery::any())->andReturn(null)
@@ -70,7 +70,7 @@ class BinariesTest extends RocketeerTestCase
 
     public function testPathsAreScopedToConnection()
     {
-        $this->app->add(ConnectionsFactory::class, function () {
+        $this->container->add(ConnectionsFactory::class, function () {
             $connection = Mockery::mock(Connection::class)
                 ->shouldReceive('connected')->andReturn(false)
                 ->shouldReceive('run')->with(['bash --login -c \'echo ROCKETEER\''], Mockery::any())->andReturn(null)

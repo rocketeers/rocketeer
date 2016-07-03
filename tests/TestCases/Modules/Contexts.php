@@ -144,7 +144,7 @@ trait Contexts
         if ($uses) {
             $this->tasks->plugin(LaravelPlugin::class);
         } else {
-            $this->app->remove('rocketeer.strategies.framework');
+            $this->container->remove('rocketeer.strategies.framework');
         }
     }
 

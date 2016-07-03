@@ -182,7 +182,7 @@ class TasksQueueTest extends RocketeerTestCase
     {
         $this->pretend();
 
-        $this->app->add(ConnectionsFactory::class, new ConnectionsFactory($this->app));
+        $this->container->add(ConnectionsFactory::class, new ConnectionsFactory($this->container));
         $this->swapConnections([
             'production' => [
                 'host' => 'foobar.com',

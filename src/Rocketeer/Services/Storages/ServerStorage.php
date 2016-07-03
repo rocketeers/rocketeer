@@ -18,11 +18,11 @@ class ServerStorage extends Storage
     /**
      * {@inheritdoc}
      */
-    public function __construct(Container $app)
+    public function __construct(Container $container)
     {
-        $this->app = $app;
+        $this->container = $container;
 
-        parent::__construct($app, 'remote', $this->paths->getFolder(), 'state');
+        parent::__construct($container, 'remote', $this->paths->getFolder(), 'state');
     }
 
     /**

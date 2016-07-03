@@ -18,8 +18,8 @@ class MetaTest extends RocketeerTestCase
 {
     public function testCanOverwriteTasksViaContainer()
     {
-        $this->app->add('rocketeer.tasks.cleanup', function () {
-            return new MyCustomTask($this->app);
+        $this->container->add('rocketeer.tasks.cleanup', function () {
+            return new MyCustomTask($this->container);
         });
 
         $this->queue->on('production', ['cleanup'], $this->getCommand());

@@ -27,7 +27,7 @@ class SvnTest extends RocketeerTestCase
     {
         parent::setUp();
 
-        $this->scm = new Svn($this->app);
+        $this->scm = new Svn($this->container);
     }
 
     ////////////////////////////////////////////////////////////////////

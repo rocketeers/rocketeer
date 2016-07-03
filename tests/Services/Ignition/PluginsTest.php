@@ -30,8 +30,8 @@ class PluginsTest extends RocketeerTestCase
     {
         parent::setUp();
 
-        $this->plugins = new Plugins($this->app);
-        $this->from = $this->app->get('path.base').'/vendor/anahkiasen/rocketeer-slack/config';
+        $this->plugins = new Plugins($this->container);
+        $this->from = $this->container->get('path.base').'/vendor/anahkiasen/rocketeer-slack/config';
     }
 
     public function testCanPublishClassicPluginConfiguration()
@@ -39,7 +39,7 @@ class PluginsTest extends RocketeerTestCase
         $this->usesLaravel(false);
 
         $this->mockFiles(function (MockInterface $mock) {
-            $destination = $this->app->get('path.rocketeer.config').'/plugins/rocketeers/rocketeer-slack';
+            $destination = $this->container->get('path.rocketeer.config').'/plugins/rocketeers/rocketeer-slack';
 
             return $mock
                 ->shouldReceive('has')->with($this->from)->andReturn(true)
@@ -69,7 +69,7 @@ class PluginsTest extends RocketeerTestCase
         $this->mock('artisan');
 
         $this->mockFiles(function (MockInterface $mock) {
-            $destination = $this->app->get('path').'/config/packages/rocketeers/rocketeer-slack';
+            $destination = $this->container->get('path').'/config/packages/rocketeers/rocketeer-slack';
 
             return $mock
                 ->shouldReceive('has')->with($this->from)->andReturn(true)
@@ -85,7 +85,7 @@ class PluginsTest extends RocketeerTestCase
     {
         $paths = $this->plugins->findPackageConfiguration('foo/bar');
 
-        $this->assertContains($this->app->get('path.base').'/vendor/foo/bar/src/config', $paths);
+        $this->assertContains($this->container->get('path.base').'/vendor/foo/bar/src/config', $paths);
         $this->assertContains($this->home.'/.composer/vendor/foo/bar/src/config', $paths);
         $this->assertContains($this->home.'/.rocketeer/vendor/foo/bar/src/config', $paths);
     }

@@ -59,13 +59,13 @@ abstract class AbstractPlugin
     /**
      * Bind additional classes to the Container.
      *
-     * @param Container $app
+     * @param Container $container
      *
      * @return Container
      */
-    public function register(Container $app)
+    public function register(Container $container)
     {
-        return $app;
+        return $container;
     }
 
     /**

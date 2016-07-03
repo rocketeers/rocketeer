@@ -27,7 +27,7 @@ class HgTest extends RocketeerTestCase
     {
         parent::setUp();
 
-        $this->scm = new Hg($this->app);
+        $this->scm = new Hg($this->container);
     }
 
     ////////////////////////////////////////////////////////////////////

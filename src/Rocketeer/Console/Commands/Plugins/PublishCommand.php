@@ -44,12 +44,12 @@ class PublishCommand extends AbstractCommand
      */
     public function fire()
     {
-        $this->app->add('rocketeer.command', $this);
+        $this->container->add('rocketeer.command', $this);
 
         /** @var string $package */
         $package = $this->argument('package');
 
-        $publisher = new Plugins($this->app);
+        $publisher = new Plugins($this->container);
         $publisher->publish($package);
     }
 

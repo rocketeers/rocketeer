@@ -58,11 +58,11 @@ class TasksHandler
     /**
      * Build a new TasksQueue Instance.
      *
-     * @param Container $app
+     * @param Container $container
      */
-    public function __construct(Container $app)
+    public function __construct(Container $container)
     {
-        $this->app = $app;
+        $this->container = $container;
     }
 
     /**
@@ -115,8 +115,8 @@ class TasksHandler
         $slug = 'rocketeer.tasks.'.$task->getSlug();
 
         // Add the task to Rocketeer
-        $this->app->add($slug, $task);
-        $bound = $this->console->add(new BaseTaskCommand($this->app->get($slug)));
+        $this->container->add($slug, $task);
+        $bound = $this->console->add(new BaseTaskCommand($this->container->get($slug)));
 
         // Bind to framework too
         if ($framework = $this->getFramework()) {
@@ -351,7 +351,7 @@ class TasksHandler
     {
         // Build plugin
         if (is_string($plugin)) {
-            $plugin = $this->app->get($plugin, [$this->app]);
+            $plugin = $this->container->get($plugin, [$this->container]);
         }
 
         // Store registration of plugin
@@ -371,9 +371,9 @@ class TasksHandler
         }
 
         // Bind instances
-        $this->app = $plugin->register($this->app);
-        $plugin->onConsole($this->app->get(Console::class));
-        $plugin->onBuilder($this->app->get(Builder::class));
+        $this->container = $plugin->register($this->container);
+        $plugin->onConsole($this->container->get(Console::class));
+        $plugin->onBuilder($this->container->get(Builder::class));
 
         // Add hooks to TasksHandler
         $plugin->onQueue($this);
@@ -398,7 +398,7 @@ class TasksHandler
         $object = $this->builder->$builder(...$object);
         $object->$method(...$parameters);
 
-        $this->app->add('rocketeer.'.$object->getIdentifier(), $object);
+        $this->container->add('rocketeer.'.$object->getIdentifier(), $object);
     }
 
     /**

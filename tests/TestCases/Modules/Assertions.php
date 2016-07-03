@@ -123,7 +123,7 @@ trait Assertions
     protected function assertTaskOutput($task, $output, $command = null)
     {
         if ($command) {
-            $this->app->add('rocketeer.command', $command);
+            $this->container->add('rocketeer.command', $command);
         }
 
         return $this->assertContains($output, $this->task($task)->execute());

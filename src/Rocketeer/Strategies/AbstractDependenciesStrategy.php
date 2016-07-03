@@ -42,11 +42,11 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
     protected $manager;
 
     /**
-     * @param Container $app
+     * @param Container $container
      */
-    public function __construct(Container $app)
+    public function __construct(Container $container)
     {
-        $this->app = $app;
+        $this->container = $container;
         $this->manager = $this->binary($this->binary);
     }
 

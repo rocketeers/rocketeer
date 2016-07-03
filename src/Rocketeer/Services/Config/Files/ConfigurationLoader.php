@@ -65,20 +65,20 @@ class ConfigurationLoader
     /**
      * ConfigurationLoader constructor.
      *
-     * @param Container               $app
+     * @param Container               $container
      * @param LoaderInterface         $loader
      * @param ConfigurationDefinition $definition
      * @param Processor               $processor
      * @param ConfigurationCache      $cache
      */
     public function __construct(
-        Container $app,
+        Container $container,
         LoaderInterface $loader,
         ConfigurationDefinition $definition,
         Processor $processor,
         ConfigurationCache $cache
     ) {
-        $this->app = $app;
+        $this->container = $container;
         $this->loader = $loader;
         $this->definition = $definition;
         $this->processor = $processor;

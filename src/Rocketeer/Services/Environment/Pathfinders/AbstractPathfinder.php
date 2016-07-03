@@ -36,7 +36,7 @@ abstract class AbstractPathfinder implements PathfinderInterface
      */
     public function getBasePath()
     {
-        $base = $this->app->get('path.base') ? $this->app->get('path.base').'/' : '';
+        $base = $this->container->get('path.base') ? $this->container->get('path.base').'/' : '';
         $base = $this->unifySlashes($base);
 
         return $base;
@@ -86,8 +86,8 @@ abstract class AbstractPathfinder implements PathfinderInterface
             $folder = substr($match[0], 1, -1);
 
             // Replace paths from the container
-            if ($this->app->has($folder)) {
-                $path = $this->app->get($folder);
+            if ($this->container->has($folder)) {
+                $path = $this->container->get($folder);
 
                 return str_replace($base, null, $this->unifySlashes($path));
             }

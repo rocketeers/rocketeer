@@ -47,7 +47,7 @@ class Composer extends AbstractPackageManager
 
         // Prepend PHP command if executing from archive
         if (strpos($this->getBinary(), 'composer.phar') !== false) {
-            $php = new Php($this->app);
+            $php = new Php($this->container);
             $this->setParent($php);
         }
     }

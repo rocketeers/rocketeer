@@ -34,7 +34,7 @@ class CoreTest extends RocketeerTestCase
             'make' => clone $this->getRemote()->shouldReceive('status')->andReturn(1)->mock(),
             'isConnected' => true,
         ]);
-        $this->app->add(ConnectionsFactory::class, $factory);
+        $this->container->add(ConnectionsFactory::class, $factory);
         $this->mockEchoingCommand();
 
         $status = $this->task('Deploy')->checkStatus('Oh noes', 'git clone');

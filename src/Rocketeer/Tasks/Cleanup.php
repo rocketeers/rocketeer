@@ -36,13 +36,13 @@ class Cleanup extends AbstractTask
     protected $serverStorage;
 
     /**
-     * @param Container $app
+     * @param Container $container
      */
-    public function __construct(Container $app)
+    public function __construct(Container $container)
     {
-        parent::__construct($app);
+        parent::__construct($container);
 
-        $this->serverStorage = new ServerStorage($app);
+        $this->serverStorage = new ServerStorage($container);
     }
 
     /**

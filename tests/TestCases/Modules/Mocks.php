@@ -47,11 +47,11 @@ trait Mocks
             $mockery = $expectations($mockery)->mock();
         }
 
-        if ($this->app->has($handle)) {
-            $this->app->get($handle);
+        if ($this->container->has($handle)) {
+            $this->container->get($handle);
         }
 
-        $this->app->add($handle, $mockery);
+        $this->container->add($handle, $mockery);
 
         return $mockery;
     }
@@ -89,7 +89,7 @@ trait Mocks
             'update' => false,
         ], $options);
 
-        $this->app->add('rocketeer.command', $this->getCommand($expectations, $options, $print));
+        $this->container->add('rocketeer.command', $this->getCommand($expectations, $options, $print));
     }
 
     /**
@@ -111,7 +111,7 @@ trait Mocks
      */
     protected function mockRemote($expectations = null)
     {
-        $this->app->add(ConnectionsFactory::class, $this->getConnectionsFactory($expectations));
+        $this->container->add(ConnectionsFactory::class, $this->getConnectionsFactory($expectations));
     }
 
     /**
@@ -130,7 +130,7 @@ trait Mocks
         $defaults = $this->getFactoryConfiguration();
         $defaults = array_merge($defaults, [
                 'remote.shell' => false,
-                'paths.app' => $this->app->get('path.base'),
+                'paths.app' => $this->container->get('path.base'),
             ]
         );
 

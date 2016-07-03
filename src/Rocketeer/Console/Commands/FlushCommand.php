@@ -39,7 +39,7 @@ class FlushCommand extends AbstractCommand
      */
     public function fire()
     {
-        $this->app->add('rocketeer.command', $this);
+        $this->container->add('rocketeer.command', $this);
 
         // Clear the cache of credentials
         $this->configurationLoader->flushCache();

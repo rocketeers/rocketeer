@@ -34,7 +34,7 @@ class AbstractNotifierTest extends RocketeerTestCase
         ]);
         $this->tasks->registerConfiguredEvents();
 
-        $this->notifier = new DummyNotifier($this->app);
+        $this->notifier = new DummyNotifier($this->container);
         $this->tasks->plugin($this->notifier);
     }
 

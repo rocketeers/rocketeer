@@ -99,7 +99,7 @@ class LogsHandler
         }
 
         // Save for reuse
-        $name = $this->app->get('path.rocketeer.logs').'/'.$name;
+        $name = $this->container->get('path.rocketeer.logs').'/'.$name;
         $this->name[$hash] = $name;
 
         return $name;

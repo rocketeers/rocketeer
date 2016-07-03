@@ -147,7 +147,7 @@ class AbstractTaskTest extends RocketeerTestCase
             [2, 10000000000000, '<fg=green>0999-11-30 00:00:00</fg=green>', '✓'],
         ];
 
-        $this->app->add('rocketeer.command', $this->getCommand()
+        $this->container->add('rocketeer.command', $this->getCommand()
                                                   ->shouldReceive('table')->with($headers, $releases)->andReturn(null)->once()
                                                   ->mock());
 

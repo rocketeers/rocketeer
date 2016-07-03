@@ -90,16 +90,16 @@ class StorageTest extends RocketeerTestCase
         $this->rocketeer->setLocal(true);
         $this->flysystem->mountFilesystem('remote', new Filesystem(new SftpAdapter([])));
 
-        $storage = new ServerStorage($this->app);
+        $storage = new ServerStorage($this->container);
         $this->assertInstanceOf(Local::class, $storage->getFilesystem()->getAdapter());
     }
 
     public function testAccessFilesClassDirectlyIfLocal()
     {
         $this->rocketeer->setLocal(true);
-        $this->app->remove('flysystem');
+        $this->container->remove('flysystem');
 
-        $storage = new ServerStorage($this->app);
+        $storage = new ServerStorage($this->container);
         $this->assertInstanceOf(Local::class, $storage->getFilesystem()->getAdapter());
     }
 }

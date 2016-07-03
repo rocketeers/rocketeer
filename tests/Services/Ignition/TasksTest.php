@@ -20,22 +20,22 @@ class TasksTest extends RocketeerTestCase
     public function testCustomTasksAreProperlyBoundToContainer()
     {
         $userTasks = (array) $this->config->get('hooks.custom');
-        $this->app->get('igniter.tasks')->registerTasksAndCommands($userTasks);
+        $this->container->get('igniter.tasks')->registerTasksAndCommands($userTasks);
 
-        $this->assertInstanceOf(MyCustomTask::class, $this->app->get('rocketeer.tasks.my-custom-task'));
+        $this->assertInstanceOf(MyCustomTask::class, $this->container->get('rocketeer.tasks.my-custom-task'));
     }
 
     public function testCanComputeSlugWithoutTask()
     {
-        $slug = $this->app->get('igniter.tasks')->getTaskHandle('foobar');
+        $slug = $this->container->get('igniter.tasks')->getTaskHandle('foobar');
 
         $this->assertEquals('foobar', $slug);
     }
 
     public function testCanComputeSlugWithClosureTask()
     {
-        $task = new Closure($this->app);
-        $slug = $this->app->get('igniter.tasks')->getTaskHandle('foobar', $task);
+        $task = new Closure($this->container);
+        $slug = $this->container->get('igniter.tasks')->getTaskHandle('foobar', $task);
 
         $this->assertEquals('foobar', $slug);
     }

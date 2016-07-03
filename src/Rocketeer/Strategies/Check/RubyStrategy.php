@@ -30,11 +30,11 @@ class RubyStrategy extends AbstractCheckStrategy implements CheckStrategyInterfa
     protected $language = 'Ruby';
 
     /**
-     * @param Container $app
+     * @param Container $container
      */
-    public function __construct(Container $app)
+    public function __construct(Container $container)
     {
-        $this->app = $app;
+        $this->container = $container;
         $this->manager = $this->binary('bundler');
     }
 

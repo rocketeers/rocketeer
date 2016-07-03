@@ -26,7 +26,7 @@ class BowerStrategyTest extends RocketeerTestCase
     {
         parent::setUp();
 
-        $bower = new Bower($this->app);
+        $bower = new Bower($this->container);
         $bower->setBinary('bower');
 
         $this->bower = $this->builder->buildStrategy('Dependencies', 'Bower');

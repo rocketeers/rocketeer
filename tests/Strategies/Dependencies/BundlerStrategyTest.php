@@ -22,7 +22,7 @@ class BundlerStrategyTest extends RocketeerTestCase
     {
         parent::setUp();
 
-        $bundler = new Bundler($this->app);
+        $bundler = new Bundler($this->container);
         $bundler->setBinary('bundle');
 
         $this->bundler = $this->builder->buildStrategy('Dependencies', 'Bundler');

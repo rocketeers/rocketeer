@@ -124,7 +124,7 @@ class DeployTest extends RocketeerTestCase
     public function testCanUseCopyStrategy()
     {
         $this->expectRepositoryConfig('https://github.com/'.$this->repository);
-        $this->app->add('rocketeer.strategies.deploy', new CopyStrategy($this->app));
+        $this->container->add('rocketeer.strategies.deploy', new CopyStrategy($this->container));
 
         $this->mockState([
             '10000000000000' => true,

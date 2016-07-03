@@ -18,7 +18,7 @@ class ComposerTest extends RocketeerTestCase
 {
     public function testCanWrapWithPhpIfArchive()
     {
-        $composer = new Composer($this->app);
+        $composer = new Composer($this->container);
         $composer->setBinary('composer.phar');
 
         $this->assertEquals($this->binaries['php'].' composer.phar install', $composer->install());

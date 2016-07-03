@@ -49,7 +49,7 @@ trait CommandsBuilder
         }
 
         $command = new $command($instance, $slug);
-        $command->setContainer($this->app);
+        $command->setContainer($this->container);
 
         return $command;
     }

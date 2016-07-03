@@ -33,7 +33,7 @@ class ContextualConfiguration
      */
     public function __construct(Container $container, Configuration $configuration)
     {
-        $this->app = $container;
+        $this->container = $container;
         $this->configuration = $configuration;
     }
 

@@ -150,7 +150,7 @@ class Configuration
     protected function mergeConfigurationFolders(array $folders, callable $computeHandle, $exclude = null)
     {
         // Cancel if not ignited yet
-        $configuration = $this->app->get('path.rocketeer.config');
+        $configuration = $this->container->get('path.rocketeer.config');
         if (!$this->files->isDirectory($configuration)) {
             return;
         }
@@ -192,11 +192,11 @@ class Configuration
      */
     protected function bindBase()
     {
-        if ($this->app->has('path.base')) {
+        if ($this->container->has('path.base')) {
             return;
         }
 
-        $this->app->add('path.base', getcwd());
+        $this->container->add('path.base', getcwd());
     }
 
     /**
@@ -229,7 +229,7 @@ class Configuration
                 $file = $realpath;
             }
 
-            $this->app->share('path.rocketeer.'.$key, $file);
+            $this->container->share('path.rocketeer.'.$key, $file);
         }
     }
 
@@ -250,7 +250,7 @@ class Configuration
         $handle = $file->getRealpath();
 
         // Format appropriately
-        $handle = str_replace($this->app->get('path.rocketeer.config').DS, null, $handle);
+        $handle = str_replace($this->container->get('path.rocketeer.config').DS, null, $handle);
         $handle = str_replace('.php', null, $handle);
         $handle = str_replace(DS, '.', $handle);
 
@@ -265,10 +265,10 @@ class Configuration
     protected function loadFileOrFolder($handle)
     {
         // Bind ourselves into the facade to avoid automatic resolution
-        Facades\Rocketeer::setContainer($this->app);
+        Facades\Rocketeer::setContainer($this->container);
 
         // If we have one unified tasks file, include it
-        $file = $this->app->get('path.rocketeer.'.$handle);
+        $file = $this->container->get('path.rocketeer.'.$handle);
         if (!$this->files->isDirectory($file) && $this->files->has($file) && $file !== 'strategies.php') {
             $this->files->include($file);
         }

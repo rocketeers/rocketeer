@@ -46,7 +46,7 @@ class TinkerCommand extends AbstractCommand
 
         $shell = new Shell();
         $shell->setScopeVariables([
-            'app' => new TinkerApplication($this->app),
+            'app' => new TinkerApplication($this->container),
             'ssh' => $this->bash,
         ]);
 

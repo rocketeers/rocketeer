@@ -98,7 +98,7 @@ trait TasksBuilder
 
         // If we passed a task handle, return it
         if ($handle = $this->getTaskHandle($task)) {
-            return $this->app->get($handle);
+            return $this->container->get($handle);
         }
 
         // If we passed a command, build a Closure Task
@@ -169,7 +169,7 @@ trait TasksBuilder
             throw new TaskCompositionException('Impossible to build task: '.$task);
         }
 
-        return new $class($this->app);
+        return new $class($this->container);
     }
 
     /**
@@ -181,11 +181,11 @@ trait TasksBuilder
      */
     protected function buildTaskFromCallable($callable)
     {
-        $task = new ClosureTask($this->app);
+        $task = new ClosureTask($this->container);
         $task->setClosure(function () use ($callable, $task) {
             list($class, $method) = is_array($callable) ? $callable : explode('::', $callable);
 
-            return $this->app->get($class)->$method($task);
+            return $this->container->get($class)->$method($task);
         });
 
         return $task;
@@ -227,7 +227,7 @@ trait TasksBuilder
 
         // Compute the handle and check it's bound
         $handle = 'rocketeer.tasks.'.Str::snake($task, '-');
-        $task = $this->app->has($handle) ? $handle : null;
+        $task = $this->container->has($handle) ? $handle : null;
 
         return $task;
     }
@@ -241,7 +241,7 @@ trait TasksBuilder
      */
     protected function isStringCommand($string)
     {
-        return is_string($string) && !$this->taskClassExists($string) && !$this->app->has('rocketeer.tasks.'.$string);
+        return is_string($string) && !$this->taskClassExists($string) && !$this->container->has('rocketeer.tasks.'.$string);
     }
 
     /**
@@ -255,7 +255,7 @@ trait TasksBuilder
     {
         // Check for container bindings
         if (is_array($task)) {
-            return count($task) === 2 && ($this->app->has($task[0]) || is_callable($task));
+            return count($task) === 2 && ($this->container->has($task[0]) || is_callable($task));
         }
 
         return is_callable($task) && !$task instanceof Closure;

@@ -89,7 +89,7 @@ class Plugins
         if ($framework = $this->getFramework()) {
             $destination = $framework->getPluginConfigurationPath($package);
         } else {
-            $destination = $this->app->get('path.rocketeer.config');
+            $destination = $this->container->get('path.rocketeer.config');
             $destination = $destination.'/plugins/rocketeers/'.$package;
         }
 

@@ -32,8 +32,8 @@ class ConfigurationTest extends RocketeerTestCase
     {
         parent::setUp();
 
-        $this->igniter = new Configuration($this->app);
-        $this->app->remove('path.base');
+        $this->igniter = new Configuration($this->container);
+        $this->container->remove('path.base');
         $this->usesLaravel(false);
     }
 
@@ -44,17 +44,17 @@ class ConfigurationTest extends RocketeerTestCase
     public function testDoesntRebindBasePath()
     {
         $base = 'src';
-        $this->app->add('path.base', $base);
+        $this->container->add('path.base', $base);
         $this->igniter->bindPaths();
 
-        $this->assertEquals($base, $this->app->get('path.base'));
+        $this->assertEquals($base, $this->container->get('path.base'));
     }
 
     public function testCanBindBasePath()
     {
         $this->igniter->bindPaths();
 
-        $this->assertEquals(realpath(__DIR__.'/../../..'), $this->app->get('path.base'));
+        $this->assertEquals(realpath(__DIR__.'/../../..'), $this->container->get('path.base'));
     }
 
     public function testCanBindConfigurationPaths()
@@ -62,7 +62,7 @@ class ConfigurationTest extends RocketeerTestCase
         $this->igniter->bindPaths();
 
         $root = realpath(__DIR__.'/../../..');
-        $this->assertEquals($root.'/.rocketeer', $this->app->get('path.rocketeer.config'));
+        $this->assertEquals($root.'/.rocketeer', $this->container->get('path.rocketeer.config'));
     }
 
     public function testCanBindTasksAndEventsPaths()
@@ -77,8 +77,8 @@ class ConfigurationTest extends RocketeerTestCase
 
         $this->igniter->bindPaths();
 
-        $this->assertEquals($root.'/tasks', $this->app->get('path.rocketeer.tasks'));
-        $this->assertEquals($root.'/events.php', $this->app->get('path.rocketeer.events'));
+        $this->assertEquals($root.'/tasks', $this->container->get('path.rocketeer.tasks'));
+        $this->assertEquals($root.'/events.php', $this->container->get('path.rocketeer.events'));
     }
 
     public function testCanExportConfiguration()
@@ -116,7 +116,7 @@ class ConfigurationTest extends RocketeerTestCase
     public function testCanLoadFilesOrFolder()
     {
         $config = $this->customConfig;
-        $this->app->add('path.base', dirname($config));
+        $this->container->add('path.base', dirname($config));
 
         $this->files->createDir($config.'/events');
         $this->files->put($config.'/tasks.php', '<?php Rocketeer\Facades\Rocketeer::task("DisplayFiles", ["ls", "ls"]);');
@@ -138,7 +138,7 @@ class ConfigurationTest extends RocketeerTestCase
     public function testCanLoadCustomStrategies()
     {
         $config = $this->customConfig;
-        $this->app->add('path.base', dirname($config));
+        $this->container->add('path.base', dirname($config));
 
         $this->files->createDir($config.'/strategies');
         $this->files->put($config.'/strategies/Foobar.php', '<?php namespace Lol; class Foobar extends \Rocketeer\Strategies\AbstractStrategy { public function fire() { $this->runForCurrentRelease("ls"); } }');
@@ -153,7 +153,7 @@ class ConfigurationTest extends RocketeerTestCase
 
     public function testCanUseFilesAndFoldersForContextualConfig()
     {
-        $this->app->add('path.rocketeer.config', $this->customConfig);
+        $this->container->add('path.rocketeer.config', $this->customConfig);
         $this->configurationLoader->addFolder($this->customConfig);
 
         $file = $this->customConfig.'/connections/production/scm.php';
@@ -167,7 +167,7 @@ class ConfigurationTest extends RocketeerTestCase
     public function testDoesntCrashIfNoSubfolder()
     {
         $this->files->createDir($this->customConfig);
-        $this->app->add('path.rocketeer.config', realpath($this->customConfig));
+        $this->container->add('path.rocketeer.config', realpath($this->customConfig));
 
         $this->igniter->mergeContextualConfigurations();
     }

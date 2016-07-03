@@ -37,17 +37,17 @@ trait StrategiesBuilder
 
         // If no found instance, create a new one
         $handle = 'rocketeer.strategies.'.$handle;
-        if (!$this->app->has($handle)) {
+        if (!$this->container->has($handle)) {
             $concrete = $concrete ?: $this->config->getContextually('strategies.'.strtolower($strategy));
             $strategy = $this->buildStrategyFromName($strategy, $concrete);
             if (!$strategy) {
                 return;
             }
 
-            $this->app->add($handle, $strategy);
+            $this->container->add($handle, $strategy);
         }
 
-        return $this->app->get($handle);
+        return $this->container->get($handle);
     }
 
     /**
@@ -66,6 +66,6 @@ trait StrategiesBuilder
             return false;
         }
 
-        return new $concrete($this->app);
+        return new $concrete($this->container);
     }
 }

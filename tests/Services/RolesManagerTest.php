@@ -30,7 +30,7 @@ class RolesManagerTest extends RocketeerTestCase
 
     public function testCanCheckIfConnectionCanExecuteTask()
     {
-        $remote = new ConnectionsFactory($this->app);
+        $remote = new ConnectionsFactory($this->container);
         $key = $this->credentials->createConnectionKey('production');
         $connection = $remote->make($key);
         $connection->setRoles(['foo', 'bar']);
@@ -69,7 +69,7 @@ class RolesManagerTest extends RocketeerTestCase
 
     public function testTasksWithoutRolesAreCompatibleWithAnyServer()
     {
-        $this->app->add(ConnectionsFactory::class, new ConnectionsFactory());
+        $this->container->add(ConnectionsFactory::class, new ConnectionsFactory());
         $this->swapConnections([
             'production' => [
                 'host' => 'foobar.com',

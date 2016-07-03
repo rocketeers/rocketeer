@@ -74,11 +74,11 @@ class Tasks
 
             // Bind task to container
             $slug = $this->getTaskHandle($slug, $task);
-            $this->app->add('rocketeer.tasks.'.$slug, $task);
+            $this->container->add('rocketeer.tasks.'.$slug, $task);
 
             // Remember handle of the command
             $commands[] = $command;
-            $this->app->share('commands.'.$slug, function () use ($command) {
+            $this->container->share('commands.'.$slug, function () use ($command) {
                 return $command;
             });
         }

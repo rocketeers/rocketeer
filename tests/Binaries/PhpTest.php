@@ -17,7 +17,7 @@ class PhpTest extends RocketeerTestCase
 {
     public function testCanCheckIfUsesHhvm()
     {
-        $php = new Php($this->app);
+        $php = new Php($this->container);
         $hhvm = $php->isHhvm();
         $defined = defined('HHVM_VERSION');
 

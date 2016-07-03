@@ -18,7 +18,7 @@ class FilesystemMounterTest extends RocketeerTestCase
 {
     public function testMountsLocalAndRemoteFilesystems()
     {
-        $mounter = new FilesystemsMounter($this->app);
+        $mounter = new FilesystemsMounter($this->container);
         $manager = $mounter->getMountManager();
 
         $local = $manager->getFilesystem('local');

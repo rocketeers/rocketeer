@@ -31,7 +31,7 @@ class FilesystemsMounter
     {
         $this->filesystems = ['local' => $this->files];
 
-        if ($this->app->has('connections') && $this->connections->hasCurrentConnection()) {
+        if ($this->container->has('connections') && $this->connections->hasCurrentConnection()) {
             $this->gatherRemoteFilesystems();
         }
 

@@ -31,11 +31,11 @@ class Console extends Application
     /**
      * Create a new Artisan console application.
      *
-     * @param Container $app
+     * @param Container $container
      */
-    public function __construct(Container $app)
+    public function __construct(Container $container)
     {
-        $this->app = $app;
+        $this->container = $container;
 
         parent::__construct('Rocketeer');
     }
@@ -46,7 +46,7 @@ class Console extends Application
     public function add(Command $command)
     {
         if ($command instanceof AbstractCommand) {
-            $command->setContainer($this->app);
+            $command->setContainer($this->container);
         }
 
         return parent::add($command);
@@ -110,12 +110,12 @@ class Console extends Application
     protected function getCurrentState()
     {
         return [
-            'application_name' => realpath($this->app->get('config')->get('application_name')),
-            'application' => realpath($this->app->get(Pathfinder::class)->getApplicationPath()),
-            'configuration' => realpath($this->app->get(Pathfinder::class)->getConfigurationPath()),
-            'tasks' => $this->app->get('path.rocketeer.tasks'),
-            'events' => $this->app->get('path.rocketeer.events'),
-            'logs' => $this->app->get('path.rocketeer.logs'),
+            'application_name' => realpath($this->container->get('config')->get('application_name')),
+            'application' => realpath($this->container->get(Pathfinder::class)->getApplicationPath()),
+            'configuration' => realpath($this->container->get(Pathfinder::class)->getConfigurationPath()),
+            'tasks' => $this->container->get('path.rocketeer.tasks'),
+            'events' => $this->container->get('path.rocketeer.events'),
+            'logs' => $this->container->get('path.rocketeer.logs'),
         ];
     }
 }

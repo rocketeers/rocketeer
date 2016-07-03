@@ -55,14 +55,14 @@ class Storage
     /**
      * Build a new ServerStorage.
      *
-     * @param Container $app
+     * @param Container $container
      * @param string    $filesystem
      * @param string    $folder
      * @param string    $filename
      */
-    public function __construct(Container $app, $filesystem, $folder, $filename)
+    public function __construct(Container $container, $filesystem, $folder, $filename)
     {
-        $this->app = $app;
+        $this->container = $container;
         $this->filesystem = $filesystem;
         $this->folder = $folder;
         $this->setFilename($filename);

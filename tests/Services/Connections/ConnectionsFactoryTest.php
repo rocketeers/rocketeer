@@ -25,7 +25,7 @@ class ConnectionsFactoryTest extends RocketeerTestCase
     {
         parent::setUp();
 
-        $this->factory = new ConnectionsFactory($this->app);
+        $this->factory = new ConnectionsFactory($this->container);
     }
 
     public function testCanCreateConnection()

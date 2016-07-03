@@ -30,7 +30,7 @@ class GitTest extends RocketeerTestCase
     {
         parent::setUp();
 
-        $this->scm = new Git($this->app);
+        $this->scm = new Git($this->container);
     }
 
     ////////////////////////////////////////////////////////////////////

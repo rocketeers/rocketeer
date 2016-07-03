@@ -206,7 +206,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
             return $this;
         }
 
-        return $this->app->get($key);
+        return $this->container->get($key);
     }
 
     /**
@@ -279,7 +279,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
         $this->input = $input;
         $this->output = new SymfonyStyle($input, $output);
 
-        return $this->app->call([$this, 'fire']);
+        return $this->container->call([$this, 'fire']);
     }
 
     /**
@@ -305,7 +305,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
         });
 
         // Remove command instance
-        $this->app->remove('rocketeer.command');
+        $this->container->remove('rocketeer.command');
 
         // Save history to logs
         $logs = $this->logs->write();
@@ -457,7 +457,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface
     protected function prepareEnvironment()
     {
         // Bind command to container
-        $this->app->add('rocketeer.command', $this);
+        $this->container->add('rocketeer.command', $this);
 
         // Check for credentials
         $this->credentialsGatherer->getServerCredentials();

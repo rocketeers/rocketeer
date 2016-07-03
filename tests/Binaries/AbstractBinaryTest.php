@@ -26,7 +26,7 @@ class AbstractBinaryTest extends RocketeerTestCase
             });
         });
 
-        $scm = new Git($this->app);
+        $scm = new Git($this->container);
         $command = $scm->run('checkout', $this->server);
         $expected = $this->replaceHistoryPlaceholders(['git clone "{repository}" "{server}" --branch="master" --depth="1"']);
 
@@ -35,7 +35,7 @@ class AbstractBinaryTest extends RocketeerTestCase
 
     public function testCanProperlyBuildMultivalueOptions()
     {
-        $binary = new Git($this->app);
+        $binary = new Git($this->container);
         $command = $binary->getCommand('foobar', [], ['--foo' => ['bar', 'baz']]);
 
         $this->assertEquals('git foobar --foo="bar" --foo="baz"', $command);
@@ -43,7 +43,7 @@ class AbstractBinaryTest extends RocketeerTestCase
 
     public function testCanBuildOptinsIfNoKeysSpecified()
     {
-        $binary = new Git($this->app);
+        $binary = new Git($this->container);
         $command = $binary->getCommand('foobar', [], ['--foo', '--bar']);
 
         $this->assertEquals('git foobar --foo --bar', $command);
@@ -51,7 +51,7 @@ class AbstractBinaryTest extends RocketeerTestCase
 
     public function testCanBuildOptinsIfNoValuesSpecified()
     {
-        $binary = new Git($this->app);
+        $binary = new Git($this->container);
         $command = $binary->getCommand('foobar', [], ['--foo' => 'lol', '--bar']);
 
         $this->assertEquals('git foobar --foo="lol" --bar', $command);

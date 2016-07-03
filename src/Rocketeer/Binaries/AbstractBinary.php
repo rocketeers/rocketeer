@@ -43,11 +43,11 @@ abstract class AbstractBinary
     protected $parent;
 
     /**
-     * @param Container $app
+     * @param Container $container
      */
-    public function __construct(Container $app)
+    public function __construct(Container $container)
     {
-        $this->app = $app;
+        $this->container = $container;
 
         // Assign default paths
         $paths = $this->getKnownPaths();

@@ -19,6 +19,6 @@ class AbstractPackageManagerTest extends RocketeerTestCase
     {
         $composer = $this->bash->composer();
 
-        $this->assertEquals($this->app->get('path.base').'/'.$composer->getManifest(), $composer->getManifestPath());
+        $this->assertEquals($this->container->get('path.base').'/'.$composer->getManifest(), $composer->getManifestPath());
     }
 }

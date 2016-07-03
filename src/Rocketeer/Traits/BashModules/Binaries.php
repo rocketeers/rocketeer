@@ -161,24 +161,6 @@ trait Binaries
     }
 
     /**
-     * Check the Laravel version.
-     *
-     * @param string $version  The version to check against
-     * @param string $operator The operator (default: '>=')
-     *
-     * @return bool
-     */
-    protected function versionCheck($version, $operator = '>=')
-    {
-        $app = $this->app;
-        if (is_a($app, 'Illuminate\Foundation\Application')) {
-            return version_compare($app::VERSION, $version, $operator);
-        }
-
-        return false;
-    }
-
-    /**
      * Get the path in which to store/retrieve a binary's path.
      *
      * @param string $binary

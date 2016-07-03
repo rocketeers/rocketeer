@@ -36,11 +36,11 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
     protected $extensions = [];
 
     /**
-     * @param Container $app
+     * @param Container $container
      */
-    public function __construct(Container $app)
+    public function __construct(Container $container)
     {
-        $this->app = $app;
+        $this->container = $container;
         $this->manager = $this->binary('composer');
     }
 
@@ -214,9 +214,9 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
     protected function getExtensions()
     {
         $extensions = [
-            'database' => ['checkDatabaseDriver', $this->app->get('config')->get('database.default')],
-            'cache' => ['checkCacheDriver', $this->app->get('config')->get('cache.driver')],
-            'session' => ['checkCacheDriver', $this->app->get('config')->get('session.driver')],
+            'database' => ['checkDatabaseDriver', $this->container->get('config')->get('database.default')],
+            'cache' => ['checkCacheDriver', $this->container->get('config')->get('cache.driver')],
+            'session' => ['checkCacheDriver', $this->container->get('config')->get('session.driver')],
         ];
 
         foreach ($this->getRequiredExtensionsFromComposer() as $extension) {

@@ -33,11 +33,11 @@ trait BinariesBuilder
 
         // If there is a class by that name
         if ($class) {
-            return new $class($this->app);
+            return new $class($this->container);
         }
 
         // Else wrap the command in an AnonymousBinary
-        $anonymous = new AnonymousBinary($this->app);
+        $anonymous = new AnonymousBinary($this->container);
         $anonymous->setBinary($binary);
 
         return $anonymous;

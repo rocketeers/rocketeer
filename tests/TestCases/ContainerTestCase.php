@@ -77,7 +77,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->app = new Container();
+        $this->container = new Container();
 
         // Create local paths
         $this->home = $_SERVER['HOME'];
@@ -87,21 +87,21 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 
         // Rocketeer classes ------------------------------------------- /
 
-        $this->app = new Container();
+        $this->container = new Container();
 
         // Paths -------------------------------------------------------- /
 
-        $this->app->add('path.base', '/src');
-        $this->app->add('path', $this->app->get('path.base').'/app');
-        $this->app->add('path.public', $this->app->get('path.base').'/public');
-        $this->app->add('path.storage', $this->app->get('path').'/storage');
+        $this->container->add('path.base', '/src');
+        $this->container->add('path', $this->container->get('path.base').'/app');
+        $this->container->add('path.public', $this->container->get('path.base').'/public');
+        $this->container->add('path.storage', $this->container->get('path').'/storage');
 
         // Replace some instances with mocks
-        $this->app->add('artisan', $this->getArtisan());
-        $this->app->add(ConnectionsFactory::class, $this->getConnectionsFactory());
-        $this->app->add('rocketeer.command', $this->getCommand());
+        $this->container->add('artisan', $this->getArtisan());
+        $this->container->add(ConnectionsFactory::class, $this->getConnectionsFactory());
+        $this->container->add('rocketeer.command', $this->getCommand());
 
-        $this->app->share('flysystem', function () {
+        $this->container->share('flysystem', function () {
             return new MountManager([
                 'local' => $this->files,
                 'remote' => $this->files,
