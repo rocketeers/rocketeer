@@ -1,11 +1,13 @@
 #!/usr/bin/env php
 <?php
+use Rocketeer\Console\Console;
+use Rocketeer\Container;
 use Rocketeer\Services\Environment\Pathfinders\LocalPathfinder;
 
-$vendors = array(
+$vendors = [
     __DIR__.'/../vendor',
-    __DIR__.'/../../..'
-);
+    __DIR__.'/../../..',
+];
 
 // Loop through the possible vendor folders and require the first
 // one available
@@ -25,4 +27,5 @@ if (file_exists($plugins)) {
 }
 
 // Then we launch the console application
-return Rocketeer\Facades\Console::run();
+$container = new Container();
+$container->get(Console::class)->run();
