@@ -15,6 +15,7 @@ use Mockery;
 use Mockery\MockInterface;
 use Rocketeer\Console\Commands\Plugins\InstallCommand;
 use Rocketeer\Dummies\DummyFailingCommand;
+use Rocketeer\Services\Connections\Credentials\CredentialsGatherer;
 use Rocketeer\Services\History\LogsHandler;
 use Rocketeer\TestCases\RocketeerTestCase;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -41,7 +42,7 @@ class AbstractCommandTest extends RocketeerTestCase
             return $mock->shouldReceive('write')->andReturn([]);
         });
 
-        $this->container->add('credentials.gatherer', Mockery::mock('CredentialsGatherer')->shouldIgnoreMissing());
+        $this->container->add(CredentialsGatherer::class, Mockery::mock(CredentialsGatherer::class)->shouldIgnoreMissing());
 
         $command = new DummyFailingCommand();
         $command->setContainer($this->container);

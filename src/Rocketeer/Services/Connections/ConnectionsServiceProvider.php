@@ -23,13 +23,13 @@ class ConnectionsServiceProvider extends AbstractServiceProvider
      * @var array
      */
     protected $provides = [
+        'remote.local',
         Bash::class,
         ConnectionsFactory::class,
-        'remote.local',
-        'connections',
-        'coordinator',
-        'credentials.handler',
-        'credentials.gatherer',
+        ConnectionsHandler::class,
+        Coordinator::class,
+        CredentialsGatherer::class,
+        CredentialsHandler::class,
     ];
 
     /**
@@ -37,12 +37,12 @@ class ConnectionsServiceProvider extends AbstractServiceProvider
      */
     public function register()
     {
+        $this->container->share('remote.local', LocalConnection::class)->withArgument($this->container);
         $this->container->share(Bash::class)->withArgument($this->container);
         $this->container->share(ConnectionsFactory::class);
-        $this->container->share('remote.local', LocalConnection::class)->withArgument($this->container);
-        $this->container->share('connections', ConnectionsHandler::class)->withArgument($this->container);
-        $this->container->share('coordinator', Coordinator::class)->withArgument($this->container);
-        $this->container->share('credentials.handler', CredentialsHandler::class)->withArgument($this->container);
-        $this->container->share('credentials.gatherer', CredentialsGatherer::class)->withArgument($this->container);
+        $this->container->share(ConnectionsHandler::class)->withArgument($this->container);
+        $this->container->share(Coordinator::class)->withArgument($this->container);
+        $this->container->share(CredentialsGatherer::class)->withArgument($this->container);
+        $this->container->share(CredentialsHandler::class)->withArgument($this->container);
     }
 }

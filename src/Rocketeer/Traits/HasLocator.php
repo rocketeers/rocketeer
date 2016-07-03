@@ -20,6 +20,10 @@ use Rocketeer\Container;
 use Rocketeer\Rocketeer;
 use Rocketeer\Services\Builders\Builder;
 use Rocketeer\Services\Connections\ConnectionsFactory;
+use Rocketeer\Services\Connections\ConnectionsHandler;
+use Rocketeer\Services\Connections\Coordinator;
+use Rocketeer\Services\Connections\Credentials\CredentialsGatherer;
+use Rocketeer\Services\Connections\Credentials\CredentialsHandler;
 use Rocketeer\Services\Environment\Environment;
 use Rocketeer\Services\Environment\Pathfinder;
 use Rocketeer\Services\History\History;
@@ -114,8 +118,8 @@ trait HasLocator
         $shortcuts = [
             'configurationLoader' => 'config.loader',
             'configurationPublisher' => 'config.publisher',
-            'credentials' => 'credentials.handler',
-            'credentialsGatherer' => 'credentials.gatherer',
+            'credentials' => CredentialsHandler::class,
+            'credentialsGatherer' => CredentialsGatherer::class,
             'localStorage' => 'storage.local',
             'remote' => ConnectionsFactory::class,
 
@@ -123,6 +127,8 @@ trait HasLocator
             'builder' => Builder::class,
             'command' => 'rocketeer.command',
             'console' => Console::class,
+            'connections' => ConnectionsHandler::class,
+            'coordinator' => Coordinator::class,
             'environment' => Environment::class,
             'history' => History::class,
             'logs' => LogsHandler::class,

@@ -13,6 +13,7 @@ namespace Rocketeer\Services\Filesystem;
 
 use League\Flysystem\Filesystem;
 use League\Flysystem\MountManager;
+use Rocketeer\Services\Connections\ConnectionsHandler;
 use Rocketeer\Traits\HasLocator;
 
 class FilesystemsMounter
@@ -31,7 +32,7 @@ class FilesystemsMounter
     {
         $this->filesystems = ['local' => $this->files];
 
-        if ($this->container->has('connections') && $this->connections->hasCurrentConnection()) {
+        if ($this->container->has(ConnectionsHandler::class) && $this->connections->hasCurrentConnection()) {
             $this->gatherRemoteFilesystems();
         }
 
