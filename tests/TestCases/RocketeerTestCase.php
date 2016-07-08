@@ -12,7 +12,6 @@
 
 namespace Rocketeer\TestCases;
 
-use League\Flysystem\Adapter\Local;
 use Rocketeer\Services\Storages\Storage;
 
 abstract class RocketeerTestCase extends ContainerTestCase
@@ -116,12 +115,26 @@ abstract class RocketeerTestCase extends ContainerTestCase
 
     protected function recreateVirtualServer()
     {
-        $commands = [
-            sprintf('rm -rf .rocketeer'),
-            sprintf('rm -rf %s', $this->server),
-            sprintf('cp -a %s %s', $this->server.'-stub', $this->server),
-        ];
+        $this->files->createDir($this->server);
+        $this->files->createDir($this->server.'/shared');
+        $this->files->createDir($this->server.'/releases/10000000000000');
+        $this->files->createDir($this->server.'/releases/15000000000000');
+        $this->files->createDir($this->server.'/releases/20000000000000');
+        $this->files->createDir($this->server.'/current');
 
-        array_walk($commands, 'exec');
+        $this->files->put($this->server.'/state.json', json_encode([
+            "10000000000000" => true,
+            "15000000000000" => false,
+            "20000000000000" => true,
+        ]));
+
+        $this->files->put($this->server.'/deployments.json', json_encode([
+            "foo" => "bar",
+            "directory_separator" => "\\/",
+            "is_setup" => true,
+            "webuser" => ["username" => "www-data", "group" => "www-data"],
+            "line_endings" => "\n",
+        ]));
+
     }
 }

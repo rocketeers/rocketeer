@@ -13,7 +13,9 @@
 namespace Rocketeer\TestCases;
 
 use Closure;
+use League\Flysystem\Filesystem;
 use League\Flysystem\MountManager;
+use League\Flysystem\Vfs\VfsAdapter;
 use Mockery;
 use Mockery\MockInterface;
 use PHPUnit_Framework_TestCase;
@@ -24,12 +26,17 @@ use Rocketeer\Dummies\Tasks\MyCustomTask;
 use Rocketeer\Services\Connections\Connections\Connection;
 use Rocketeer\Services\Connections\ConnectionsFactory;
 use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
+use Rocketeer\Services\Filesystem\Plugins\IncludePlugin;
+use Rocketeer\Services\Filesystem\Plugins\IsDirectoryPlugin;
+use Rocketeer\Services\Filesystem\Plugins\RequirePlugin;
+use Rocketeer\Services\Filesystem\Plugins\UpsertPlugin;
 use Rocketeer\TestCases\Modules\Assertions;
 use Rocketeer\TestCases\Modules\Building;
 use Rocketeer\TestCases\Modules\Contexts;
 use Rocketeer\TestCases\Modules\Mocks;
 use Rocketeer\Traits\ContainerAwareTrait;
 use Symfony\Component\Console\Output\OutputInterface;
+use VirtualFileSystem\FileSystem as Vfs;
 
 abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 {
@@ -85,7 +92,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 
         // Create local paths
         $this->home = $_SERVER['HOME'];
-        $this->server = realpath(__DIR__.'/../_server').'/foobar';
+        $this->server = realpath(__DIR__.'/../_server').'/foobar-stub';
         $this->customConfig = $this->server.'/.rocketeer';
         $this->deploymentsFile = $this->server.'/deployments.json';
 
@@ -105,10 +112,18 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         $this->container->add(ConnectionsFactory::class, $this->getConnectionsFactory());
         $this->container->add('rocketeer.command', $this->getCommand());
 
-        $this->container->share('flysystem', function () {
+        $filesystem = new Filesystem(new VfsAdapter(new Vfs()));
+        $filesystem->addPlugin(new IsDirectoryPlugin());
+        $filesystem->addPlugin(new UpsertPlugin());
+        $filesystem->addPlugin(new IncludePlugin());
+        $filesystem->addPlugin(new RequirePlugin());
+
+        $this->container->add('files', $filesystem);
+
+        $this->container->share('flysystem', function () use ($filesystem) {
             return new MountManager([
-                'local' => $this->files,
-                'remote' => $this->files,
+                'local' => $filesystem,
+                'remote' => $filesystem,
             ]);
         });
 

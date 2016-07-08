@@ -24,7 +24,6 @@ class StepsRunnerTest extends RocketeerTestCase
 
         $results = $task->runSteps();
 
-        $this->files->delete($copy);
         $this->assertTrue($results);
     }
 

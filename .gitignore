@@ -10,4 +10,3 @@ vendor
 humbuglog.txt
 phpunit.xml
 tests/_coverage/
-tests/_server/foobar

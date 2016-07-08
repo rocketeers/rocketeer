@@ -80,7 +80,6 @@ class ConnectionsHandler
     public function getConnections()
     {
         // Get default and available connections
-        $defaults = $this->getDefaultConnectionsHandles();
         $available = $this->getAvailableConnections();
 
         // Convert to ConnectionKey/Connection instances
@@ -100,12 +99,11 @@ class ConnectionsHandler
                         'servers' => $servers,
                     ]);
 
-                    $handle = $connectionKey->toHandle();
+                    // Create connection
                     $connection = $this->remote->make($connectionKey);
-                    $isActive = in_array($handle, $defaults, true) || in_array($connectionKey->name, $defaults, true) || $connection->isActive();
-                    $connection->setActive($isActive);
+                    $connection->setActive($this->isConnectionActive($connection));
 
-                    $connections[$handle] = $connection;
+                    $connections[$connectionKey->toHandle()] = $connection;
                 }
             }
 
@@ -114,10 +112,8 @@ class ConnectionsHandler
             $this->available = new Collection($connections);
         }
 
-        return $this->available->map(function (ConnectionInterface $connection) use ($defaults) {
-            $handle = $connection->getConnectionKey()->toHandle();
-            $isActive = in_array($handle, $defaults, true) || $connection->isActive();
-            $connection->setActive($isActive);
+        return $this->available->map(function (ConnectionInterface $connection) {
+            $connection->setActive($this->isConnectionActive($connection));
 
             return $connection;
         });
@@ -344,6 +340,23 @@ class ConnectionsHandler
     ////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////// HELPERS ////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * @param ConnectionInterface $connection
+     *
+     * @return bool
+     */
+    protected function isConnectionActive(ConnectionInterface $connection)
+    {
+        $connectionKey = $connection->getConnectionKey();
+        $defaults = $this->getDefaultConnectionsHandles();
+
+        return (
+            in_array($connectionKey->toHandle(), $defaults, true) ||
+            in_array($connectionKey->name, $defaults, true) ||
+            $connection->isActive()
+        );
+    }
 
     /**
      * Unify a connection's declaration into the servers form.

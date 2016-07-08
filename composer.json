@@ -28,6 +28,7 @@
     "league/event": "^2.1",
     "league/flysystem": "^1.0.8",
     "league/flysystem-sftp": "^1.0",
+    "league/flysystem-vfs": "^1.0",
     "patchwork/utf8": "^1.3",
     "psy/psysh": "^0.7.2",
     "symfony/config": "^2.8|^3.0",

@@ -137,7 +137,7 @@ class ReleasesManagerTest extends RocketeerTestCase
         ];
 
         foreach ($releases as $release => $state) {
-            @mkdir($this->server.'/releases/'.$release);
+            $this->files->createDir($this->server.'/releases/'.$release);
         }
 
         $this->mockState($releases);
