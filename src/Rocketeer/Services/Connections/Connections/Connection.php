@@ -7,21 +7,17 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace Rocketeer\Services\Connections\Connections;
 
 use Closure;
 use League\Flysystem\AdapterInterface;
-use League\Flysystem\Filesystem;
-use League\Flysystem\Sftp\SftpAdapter;
 use phpseclib\Net\SFTP;
 use Rocketeer\Exceptions\TimeOutException;
-use Rocketeer\Interfaces\HasRolesInterface;
 use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
 use Rocketeer\Services\Filesystem\ConnectionKeyAdapter;
-use Rocketeer\Traits\Properties\HasRoles;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Represents a connection to a server and stage.

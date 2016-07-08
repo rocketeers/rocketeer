@@ -7,6 +7,7 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace Rocketeer\Services\Connections\Connections;
@@ -23,22 +24,22 @@ interface ConnectionInterface extends FilesystemInterface
     public function isConnected();
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isActive();
 
     /**
-     * @param boolean $active
+     * @param bool $active
      */
     public function setActive($active);
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isCurrent();
 
     /**
-     * @param boolean $current
+     * @param bool $current
      */
     public function setCurrent($current);
 

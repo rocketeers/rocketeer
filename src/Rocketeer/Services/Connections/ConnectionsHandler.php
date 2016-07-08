@@ -7,6 +7,7 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace Rocketeer\Services\Connections;
@@ -101,7 +102,7 @@ class ConnectionsHandler
 
                     $handle = $connectionKey->toHandle();
                     $connection = $this->remote->make($connectionKey);
-                    $isActive = in_array($handle, $defaults) || in_array($connectionKey->name, $defaults) || $connection->isActive();
+                    $isActive = in_array($handle, $defaults, true) || in_array($connectionKey->name, $defaults, true) || $connection->isActive();
                     $connection->setActive($isActive);
 
                     $connections[$handle] = $connection;
@@ -115,7 +116,7 @@ class ConnectionsHandler
 
         return $this->available->map(function (ConnectionInterface $connection) use ($defaults) {
             $handle = $connection->getConnectionKey()->toHandle();
-            $isActive = in_array($handle, $defaults) || $connection->isActive();
+            $isActive = in_array($handle, $defaults, true) || $connection->isActive();
             $connection->setActive($isActive);
 
             return $connection;
@@ -126,8 +127,9 @@ class ConnectionsHandler
      * @param ConnectionKey|string $connection
      * @param int|null             $server
      *
-     * @return Connection
      * @throws ConnectionException
+     *
+     * @return Connection
      */
     public function getConnection($connection, $server = null)
     {
@@ -196,7 +198,7 @@ class ConnectionsHandler
             $connectionKey = $connection->getConnectionKey();
             $handle = $connectionKey->toHandle();
 
-            $connection->setActive(in_array($handle, $connections) || in_array($connectionKey->name, $connections));
+            $connection->setActive(in_array($handle, $connections, true) || in_array($connectionKey->name, $connections, true));
             $connection->setCurrent(false);
 
             return $connection;
@@ -270,7 +272,7 @@ class ConnectionsHandler
         }
 
         $this->current = $connectionKey->toHandle();
-        $this->available = $this->getConnections()->map(function(ConnectionInterface $connection) use ($connectionKey) {
+        $this->available = $this->getConnections()->map(function (ConnectionInterface $connection) use ($connectionKey) {
             $isCurrent = $connectionKey->is($connection->getConnectionKey());
             $connection->setCurrent($isCurrent);
 
@@ -326,11 +328,11 @@ class ConnectionsHandler
 
         $connectionKey->stage = $stage;
         $this->getConnections()->map(function (ConnectionInterface $connection) use ($connectionKey) {
-           if ($connection->isCurrent() || $connection->getConnectionKey()->is($connectionKey)) {
-               $connection->setConnectionKey($connectionKey);
-           }
+            if ($connection->isCurrent() || $connection->getConnectionKey()->is($connectionKey)) {
+                $connection->setConnectionKey($connectionKey);
+            }
 
-           return $connection;
+            return $connection;
         });
 
         // If we do have a stage, cleanup previous events

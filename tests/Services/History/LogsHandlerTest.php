@@ -7,12 +7,12 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace Rocketeer\Services\History;
 
 use League\Flysystem\Filesystem;
-use Mockery\MockInterface;
 use Rocketeer\Services\Connections\ConnectionsHandler;
 use Rocketeer\TestCases\RocketeerTestCase;
 

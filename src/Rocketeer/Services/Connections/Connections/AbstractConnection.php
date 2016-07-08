@@ -1,4 +1,15 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ */
+
 namespace Rocketeer\Services\Connections\Connections;
 
 use League\Flysystem\Filesystem;
@@ -26,7 +37,7 @@ abstract class AbstractConnection extends Filesystem implements ConnectionInterf
     protected $connectionKey;
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isActive()
     {
@@ -34,7 +45,7 @@ abstract class AbstractConnection extends Filesystem implements ConnectionInterf
     }
 
     /**
-     * @param boolean $active
+     * @param bool $active
      */
     public function setActive($active)
     {
@@ -42,7 +53,7 @@ abstract class AbstractConnection extends Filesystem implements ConnectionInterf
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isCurrent()
     {
@@ -50,7 +61,7 @@ abstract class AbstractConnection extends Filesystem implements ConnectionInterf
     }
 
     /**
-     * @param boolean $current
+     * @param bool $current
      */
     public function setCurrent($current)
     {
