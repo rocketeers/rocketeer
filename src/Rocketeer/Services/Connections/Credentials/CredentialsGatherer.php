@@ -80,19 +80,21 @@ class CredentialsGatherer
         $activeConnections = $this->connections->getActiveConnections();
 
         // If we didn't set any connection, ask for them
-        if (!$activeConnections && empty($availableConnections)) {
+        if (!$activeConnections->count() && empty($availableConnections)) {
             $connectionName = $this->ask('askWith', 'No connections have been set, please create one', 'production');
             $this->getConnectionCredentials($connectionName);
 
             return;
-        } elseif (!$activeConnections) {
+        } elseif (!$activeConnections->count()) {
             $available = array_keys($availableConnections);
             $connection = $this->ask('askWith', 'No default connection, pick one', head($available), $available);
             $this->connections->setActiveConnections($connection);
         }
 
         // Else loop through the connections and fill in credentials
-        foreach ($activeConnections as $connectionName) {
+        foreach ($activeConnections as $connection) {
+            $connectionName = $connection->getConnectionKey()->name;
+
             $servers = Arr::get($availableConnections, $connectionName.'.servers');
             $servers = array_keys($servers);
             foreach ($servers as $server) {

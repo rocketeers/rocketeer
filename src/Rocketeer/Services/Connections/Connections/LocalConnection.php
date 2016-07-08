@@ -13,9 +13,7 @@ namespace Rocketeer\Services\Connections\Connections;
 
 use Closure;
 use League\Flysystem\Adapter\Local;
-use League\Flysystem\Filesystem;
-use Rocketeer\Interfaces\HasRolesInterface;
-use Rocketeer\Traits\Properties\HasRoles;
+use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
 
 /**
  * Stub of local connections to make Rocketeer work
@@ -23,10 +21,8 @@ use Rocketeer\Traits\Properties\HasRoles;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class LocalConnection extends Filesystem implements ConnectionInterface, HasRolesInterface
+class LocalConnection extends AbstractConnection
 {
-    use HasRoles;
-
     /**
      * Return status of the last command.
      *
@@ -72,5 +68,24 @@ class LocalConnection extends Filesystem implements ConnectionInterface, HasRole
     public function status()
     {
         return $this->previousStatus;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isConnected()
+    {
+        return true;
+    }
+
+    /**
+     * @return ConnectionKey
+     */
+    public function getConnectionKey()
+    {
+        return new ConnectionKey([
+            'name' => 'local',
+            'server' => 0,
+        ]);
     }
 }

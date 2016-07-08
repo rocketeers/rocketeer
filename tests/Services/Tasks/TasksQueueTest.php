@@ -42,24 +42,42 @@ class TasksQueueTest extends RocketeerTestCase
         $this->swapConfig([
             'default' => ['staging', 'production'],
             'stages.stages' => ['first', 'second'],
+            'connections' => [
+                'production' => [
+                    'servers' => [
+                        ['host' => 'a.com'],
+                        ['host' => 'b.com'],
+                    ],
+                ],
+                'staging' => [
+                    'servers' => [
+                        ['host' => 'a.com'],
+                        ['host' => 'b.com'],
+                    ],
+                ],
+            ],
         ]);
 
         $output = [];
         $queue = [
             function (AbstractTask $task) use (&$output) {
-                $connection = $task->connections->getCurrentConnectionKey();
-                $output[] = $connection->name.' - '.$connection->stage;
+                $output[] = $task->connections->getCurrentConnectionKey()->toHandle();
             },
         ];
 
         $pipeline = $this->queue->run($queue);
 
+        $this->assertCount(8, $pipeline);
         $this->assertTrue($pipeline->succeeded());
         $this->assertEquals([
-            'staging - first',
-            'staging - second',
-            'production - first',
-            'production - second',
+            'production/a.com/first',
+            'production/a.com/second',
+            'production/b.com/first',
+            'production/b.com/second',
+            'staging/a.com/first',
+            'staging/a.com/second',
+            'staging/b.com/first',
+            'staging/b.com/second',
         ], $output);
     }
 
@@ -119,10 +137,10 @@ class TasksQueueTest extends RocketeerTestCase
         });
 
         $this->assertEquals([
-            'staging - first',
-            'staging - second',
             'production - first',
             'production - second',
+            'staging - first',
+            'staging - second',
         ], $this->history->getFlattenedOutput());
     }
 

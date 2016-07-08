@@ -132,6 +132,7 @@ trait Mocks
     protected function mockRemote($expectations = null)
     {
         $this->container->add(ConnectionsFactory::class, $this->getConnectionsFactory($expectations));
+        $this->connections->disconnect();
     }
 
     /**

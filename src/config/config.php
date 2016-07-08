@@ -31,7 +31,7 @@ return [
         },
 
         // The default remote connection(s) to execute tasks on
-        'default' => [],
+        'default' => ['production'],
 
         // You can leave all of this empty or remove it entirely if you don't want
         // to track files with credentials : Rocketeer will prompt you for your credentials

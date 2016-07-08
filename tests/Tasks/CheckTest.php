@@ -59,25 +59,33 @@ class CheckTest extends RocketeerTestCase
         ]);
     }
 
-    public function testCanExplicitelySayWhichManagerConditionFailed()
+    /**
+     * @param bool   $hasManifest
+     * @param string $expected
+     *
+     * @dataProvider providesManagerStatus
+     */
+    public function testCanExplicitelySayWhichManagerConditionFailed($hasManifest, $expected)
     {
         /** @var Composer $manager */
         $manager = $this->prophesize(Composer::class);
         $manager->getName()->willReturn('Composer');
         $manager->getManifestContents()->willReturn(null);
         $manager->isExecutable()->willReturn(false);
-        $manager->hasManifest()->willReturn(false);
+        $manager->hasManifest()->willReturn($hasManifest);
         $manager->getManifest()->willReturn('composer.json');
 
         $this->builder->buildStrategy('check')->setManager($manager->reveal());
         $this->task('Check')->fire();
-        $this->assertContains('[{username}@production] No manifest (composer.json) was found for Composer', $this->logs->getLogs());
+        $this->assertContains('[{username}@production] '.$expected, $this->logs->getLogs());
+    }
 
-        $manager->hasManifest()->willReturn(true);
-        $this->builder->buildStrategy('check')->setManager($manager->reveal());
-
-        $this->task('Check')->fire();
-        $this->assertContains('[{username}@production] The Composer package manager could not be found', $this->logs->getLogs());
+    public function providesManagerStatus()
+    {
+        return [
+            'Without manifest' => [false, 'No manifest (composer.json) was found for Composer'],
+            'With manifest' => [true, 'The Composer package manager could not be found'],
+        ];
     }
 
     public function testCanSkipStrategyChecks()

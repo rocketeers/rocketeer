@@ -12,6 +12,7 @@
 namespace Rocketeer\Services\Connections\Connections;
 
 use Closure;
+use League\Flysystem\AdapterInterface;
 use League\Flysystem\Filesystem;
 use League\Flysystem\Sftp\SftpAdapter;
 use phpseclib\Net\SFTP;
@@ -26,30 +27,13 @@ use Symfony\Component\Console\Output\OutputInterface;
  * Represents a connection to a server and stage.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
- * @author Taylor Otwell <taylorotwell@gmail.com>
  */
-class Connection extends Filesystem implements ConnectionInterface, HasRolesInterface
+class Connection extends AbstractConnection
 {
-    use HasRoles;
-
     /**
-     * @var SftpAdapter
+     * @var AdapterInterface
      */
     protected $adapter;
-
-    /**
-     * The connection key.
-     *
-     * @var ConnectionKey
-     */
-    protected $connectionKey;
-
-    /**
-     * The output implementation for the connection.
-     *
-     * @var OutputInterface
-     */
-    protected $output;
 
     /**
      * Create a new SSH connection instance.
@@ -58,8 +42,8 @@ class Connection extends Filesystem implements ConnectionInterface, HasRolesInte
      */
     public function __construct(ConnectionKey $connectionKey)
     {
-        $this->connectionKey = $connectionKey;
         $this->roles = (array) $connectionKey->roles;
+        $this->setConnectionKey($connectionKey);
 
         parent::__construct(new ConnectionKeyAdapter($connectionKey));
     }
@@ -67,6 +51,14 @@ class Connection extends Filesystem implements ConnectionInterface, HasRolesInte
     ////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////// GETTERS AND SETTERS //////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * @return bool
+     */
+    public function isConnected()
+    {
+        return $this->adapter->isConnected();
+    }
 
     /**
      * Get the SFTP connection.
@@ -79,11 +71,19 @@ class Connection extends Filesystem implements ConnectionInterface, HasRolesInte
     }
 
     /**
-     * @return ConnectionKey
+     * @param SFTP $gateway
      */
-    public function getConnectionKey()
+    public function setGateway($gateway)
     {
-        return $this->connectionKey;
+        $this->adapter->setNetSftpConnection($gateway);
+    }
+
+    /**
+     * @param AdapterInterface $adapter
+     */
+    public function setAdapter(AdapterInterface $adapter)
+    {
+        $this->adapter = $adapter;
     }
 
     /**

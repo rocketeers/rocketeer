@@ -14,26 +14,29 @@ namespace Rocketeer\TestCases;
 use Closure;
 use League\Flysystem\MountManager;
 use Mockery;
+use Mockery\MockInterface;
 use PHPUnit_Framework_TestCase;
+use Prophecy\Argument;
 use Rocketeer\Console\Commands\AbstractCommand;
 use Rocketeer\Container;
 use Rocketeer\Dummies\Tasks\MyCustomTask;
 use Rocketeer\Services\Connections\Connections\Connection;
 use Rocketeer\Services\Connections\ConnectionsFactory;
+use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
 use Rocketeer\TestCases\Modules\Assertions;
 use Rocketeer\TestCases\Modules\Building;
 use Rocketeer\TestCases\Modules\Contexts;
 use Rocketeer\TestCases\Modules\Mocks;
-use Rocketeer\Traits\HasLocator;
+use Rocketeer\Traits\ContainerAwareTrait;
 use Symfony\Component\Console\Output\OutputInterface;
 
 abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 {
-    use HasLocator;
     use Mocks;
     use Assertions;
     use Contexts;
     use Building;
+    use ContainerAwareTrait;
 
     /**
      * @var array
@@ -67,10 +70,10 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
     /**
      * Override the trait constructor.
      */
-    public function __construct()
-    {
-        parent::__construct();
-    }
+//    public function __construct()
+//    {
+//        parent::__construct();
+//    }
 
     /**
      * Set up the tests.
@@ -142,7 +145,8 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
             return $message;
         };
 
-        $verbose = array_get($options, 'verbose') ? OutputInterface::VERBOSITY_VERY_VERBOSE : OutputInterface::VERBOSITY_NORMAL;
+        $verbose = array_get($options,
+            'verbose') ? OutputInterface::VERBOSITY_VERY_VERBOSE : OutputInterface::VERBOSITY_NORMAL;
         $command = Mockery::mock(AbstractCommand::class)->shouldIgnoreMissing();
         $command->shouldReceive('getOutput')->andReturn($this->getCommandOutput($verbose));
         $command->shouldReceive('getVerbosity')->andReturn($verbose);
@@ -189,14 +193,25 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
     /**
      * @param string|array $expectations
      *
-     * @return Mockery\MockInterface
+     * @return MockInterface
      */
     protected function getConnectionsFactory($expectations = null)
     {
-        return Mockery::mock(ConnectionsFactory::class, [
-            'make' => $this->getRemote($expectations),
-            'isConnected' => false,
-        ]);
+        $me = $this;
+
+        /** @var ConnectionsFactory $factory */
+        $factory = $this->prophesize(ConnectionsFactory::class);
+        $factory->make(Argument::type(ConnectionKey::class))->will(function ($arguments) use ($me, $expectations) {
+            $connection = $expectations instanceof MockInterface ? $expectations : $me->getRemote($expectations);
+            $connection->setConnectionKey($arguments[0]);
+            if ($adapter = $me->files->getAdapter()) {
+                $connection->setAdapter($adapter);
+            }
+
+            return $connection;
+        });
+
+        return $factory->reveal();
     }
 
     /**
@@ -204,7 +219,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
      *
      * @param string|array|null $mockedOutput
      *
-     * @return Mockery
+     * @return Mockery|Connection
      */
     protected function getRemote($mockedOutput = null)
     {
@@ -227,36 +242,22 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
             return $output;
         };
 
-        $remote = Mockery::mock(Connection::class);
-        $remote->shouldReceive('connected')->andReturn(true);
-        $remote->shouldReceive('into')->andReturn(Mockery::self());
-        $remote->shouldReceive('status')->andReturn(0)->byDefault();
-        $remote->shouldReceive('runRaw')->andReturnUsing($run)->byDefault();
-        $remote->shouldReceive('connected')->andReturn(true);
-        $remote->shouldReceive('connection')->andReturnSelf();
-        $remote->shouldReceive('isCompatibleWith')->andReturn(true);
-        $remote->shouldReceive('getUsername')->andReturn('anahkiasen');
-        $remote->shouldReceive('listContents')->andReturnUsing(function ($folder) {
-            return $this->files->listContents($folder);
-        });
-        $remote->shouldReceive('has')->andReturnUsing(function ($file) {
-            return $this->files->has($file);
-        });
-        $remote->shouldReceive('display')->andReturnUsing(function ($line) {
-            echo $line.PHP_EOL;
-        });
+        $connection = Mockery::mock(Connection::class)->makePartial();
+        $connection->shouldReceive('isConnected')->andReturn(true)->byDefault();
+        $connection->shouldReceive('status')->andReturn(0)->byDefault();
 
         if (is_array($mockedOutput)) {
             $mockedOutput['bash --login -c \'echo ROCKETEER\''] = 'Inappropriate ioctl for device'.PHP_EOL.'ROCKETEER';
             foreach ($mockedOutput as $command => $output) {
-                $remote->shouldReceive('run')->with($command, Mockery::any())->andReturnUsing($mockedRun($output));
-                $remote->shouldReceive('run')->with([$command], Mockery::any())->andReturnUsing($mockedRun($output));
+                $connection->shouldReceive('run')->with($command, Mockery::any())->andReturnUsing($mockedRun($output));
+                $connection->shouldReceive('run')->with([$command],
+                    Mockery::any())->andReturnUsing($mockedRun($output));
             }
         } else {
-            $remote->shouldReceive('run')->andReturnUsing($run)->byDefault();
+            $connection->shouldReceive('run')->andReturnUsing($run)->byDefault();
         }
 
-        return $remote;
+        return $connection;
     }
 
     /**

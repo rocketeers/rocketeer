@@ -12,7 +12,11 @@
 namespace Rocketeer\Services\Connections;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Rocketeer\Exceptions\ConnectionException;
+use Rocketeer\Services\Connections\Connections\Connection;
+use Rocketeer\Services\Connections\Connections\ConnectionInterface;
+use Rocketeer\Services\Connections\Connections\LocalConnection;
 use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
 use Rocketeer\Traits\HasLocator;
 
@@ -27,32 +31,31 @@ class ConnectionsHandler
     use HasLocator;
 
     /**
-     * The current connection.
-     *
-     * @var ConnectionKey
+     * @var Collection<ConnectionInterface>
+     */
+    protected $available;
+
+    /**
+     * @var string
      */
     protected $current;
-
-    /**
-     * The active connections.
-     *
-     * @var array|null
-     */
-    protected $activeConnections;
-
-    /**
-     * @var array
-     */
-    protected $cached = [];
 
     ////////////////////////////////////////////////////////////////////
     //////////////////////// AVAILABLE CONNECTIONS /////////////////////
     ////////////////////////////////////////////////////////////////////
 
     /**
+     * @return string[]
+     */
+    public function getDefaultConnectionsHandles()
+    {
+        return (array) $this->config->get('default');
+    }
+
+    /**
      * Get the available connections.
      *
-     * @return string[][]|string[]
+     * @return array
      */
     public function getAvailableConnections()
     {
@@ -68,6 +71,75 @@ class ConnectionsHandler
         $connections = array_replace_recursive($configuration, $storage);
 
         return $connections;
+    }
+
+    /**
+     * @return Collection<Connection>
+     */
+    public function getConnections()
+    {
+        // Get default and available connections
+        $defaults = $this->getDefaultConnectionsHandles();
+        $available = $this->getAvailableConnections();
+
+        // Convert to ConnectionKey/Connection instances
+        if (!$this->available) {
+            $connections = [];
+            foreach ($available as $name => $connection) {
+                // Skip connections without any defined servers
+                $servers = $connection['servers'];
+                if (!$servers) {
+                    continue;
+                }
+
+                foreach ($servers as $key => $server) {
+                    $connectionKey = new ConnectionKey([
+                        'name' => $name,
+                        'server' => $key,
+                        'servers' => $servers,
+                    ]);
+
+                    $handle = $connectionKey->toHandle();
+                    $connection = $this->remote->make($connectionKey);
+                    $isActive = in_array($handle, $defaults) || in_array($connectionKey->name, $defaults) || $connection->isActive();
+                    $connection->setActive($isActive);
+
+                    $connections[$handle] = $connection;
+                }
+            }
+
+            // Add local connection
+            $connections['local'] = new LocalConnection();
+            $this->available = new Collection($connections);
+        }
+
+        return $this->available->map(function (ConnectionInterface $connection) use ($defaults) {
+            $handle = $connection->getConnectionKey()->toHandle();
+            $isActive = in_array($handle, $defaults) || $connection->isActive();
+            $connection->setActive($isActive);
+
+            return $connection;
+        });
+    }
+
+    /**
+     * @param ConnectionKey|string $connection
+     * @param int|null             $server
+     *
+     * @return Connection
+     * @throws ConnectionException
+     */
+    public function getConnection($connection, $server = null)
+    {
+        $connectionKey = $this->credentials->sanitizeConnection($connection, $server);
+        $handle = $connectionKey->toHandle();
+
+        $connections = $this->getConnections();
+        if (!$connections->has($handle)) {
+            throw new ConnectionException('Invalid connection: '.$handle);
+        }
+
+        return $connections[$handle];
     }
 
     /**
@@ -92,25 +164,13 @@ class ConnectionsHandler
     /**
      * Get the active connections for this session.
      *
-     * @return string[]
+     * @return Collection<Connection>
      */
     public function getActiveConnections()
     {
-        // Get cached resolved connections
-        if ($this->activeConnections) {
-            return $this->activeConnections;
-        }
-
-        // Get default connections and sanitize them
-        $connections = (array) $this->config->get('default');
-        $connections = array_filter($connections, [$this, 'isValidConnection']);
-
-        // Set current connection as default
-        if ($connections) {
-            $this->activeConnections = $connections;
-        }
-
-        return $connections;
+        return $this->getConnections()->filter(function (ConnectionInterface $connection) {
+            return $connection->isActive();
+        });
     }
 
     /**
@@ -132,8 +192,15 @@ class ConnectionsHandler
             throw new ConnectionException('Invalid connection(s): '.implode(', ', $connections));
         }
 
-        $this->activeConnections = $filtered;
-        $this->current = null;
+        $this->available = $this->getConnections()->map(function (ConnectionInterface $connection) use ($connections) {
+            $connectionKey = $connection->getConnectionKey();
+            $handle = $connectionKey->toHandle();
+
+            $connection->setActive(in_array($handle, $connections) || in_array($connectionKey->name, $connections));
+            $connection->setCurrent(false);
+
+            return $connection;
+        });
     }
 
     ////////////////////////////////////////////////////////////////////////////////
@@ -141,11 +208,40 @@ class ConnectionsHandler
     ////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * @return bool
+     * @return ConnectionInterface
      */
-    public function hasCurrentConnection()
+    public function getCurrentConnection()
     {
-        return (bool) $this->current && $this->current->name;
+        if ($this->rocketeer->isLocal()) {
+            return $this->getConnection('local');
+        }
+
+        $connections = $this->getConnections();
+        if ($this->current && $connections->has($this->current)) {
+            return $connections->get($this->current);
+        }
+
+        /** @var ConnectionInterface $connection */
+        $connection = $connections->first(function ($key, ConnectionInterface $connection) {
+            return $connection->isCurrent();
+        });
+
+        // If no connection is marked as current, get the first active one
+        if (!$connection) {
+            $connection = $this->getActiveConnections()->first();
+        }
+
+        // Fire connected event the first time
+        $handle = $connection ? $connection->getConnectionKey()->toHandle() : null;
+        if ($connection && !$connection->isConnected()) {
+            $event = 'connected.'.$handle;
+            $this->events->emit($event);
+        }
+
+        // Cache which connection is the first
+        $this->current = $handle;
+
+        return $connection;
     }
 
     /**
@@ -155,42 +251,9 @@ class ConnectionsHandler
      */
     public function getCurrentConnectionKey()
     {
-        // If we're in local, enforce the Local connection
-        if ($this->rocketeer->isLocal()) {
-            $connectionKey = $this->credentials->createConnectionKey('local');
-        }
+        $current = $this->getCurrentConnection();
 
-        // If we already have an active connection, return that
-        elseif ($this->hasCurrentConnection()) {
-            $connectionKey = $this->current;
-        }
-
-        // Else bind the default connection
-        else {
-            $this->current = $connectionKey = $this->credentials->createConnectionKey();
-        }
-
-        return $connectionKey;
-    }
-
-    /**
-     * @return Connections\Connection
-     */
-    public function getCurrentConnection()
-    {
-        $key = $this->getCurrentConnectionKey();
-        $isConnected = $this->remote->isConnected($key);
-
-        // Create and save to cache
-        $connection = $this->remote->make($key);
-
-        // Fire connected event the first time
-        if (!$isConnected) {
-            $event = 'connected.'.$key->toHandle();
-            $this->events->emit($event);
-        }
-
-        return $connection;
+        return $current ? $current->getConnectionKey() : $this->credentials->createConnectionKey();
     }
 
     /**
@@ -199,22 +262,31 @@ class ConnectionsHandler
      * @param ConnectionKey|string $connection
      * @param int|null             $server
      */
-    public function setCurrentConnection($connection, $server = null)
+    public function setCurrentConnection($connection = null, $server = null)
     {
-        $connection = $connection instanceof ConnectionKey ? $connection : $this->credentials->createConnectionKey($connection, $server);
-        if (!$this->isValidConnection($connection) || ($this->getCurrentConnectionKey()->is($connection, $server))) {
+        $connectionKey = $connection instanceof ConnectionKey ? $connection : $this->credentials->createConnectionKey($connection, $server);
+        if ($this->current === $connectionKey->toHandle()) {
             return;
         }
 
-        if ($server) {
-            $connection->server = $server;
-        }
+        $this->current = $connectionKey->toHandle();
+        $this->available = $this->getConnections()->map(function(ConnectionInterface $connection) use ($connectionKey) {
+            $isCurrent = $connectionKey->is($connection->getConnectionKey());
+            $connection->setCurrent($isCurrent);
 
-        // Set the connection
-        $this->current = $connection;
+            return $connection;
+        });
 
         // Update events
         $this->tasks->registerConfiguredEvents();
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasCurrentConnection()
+    {
+        return (bool) $this->getCurrentConnection();
     }
 
     /**
@@ -223,32 +295,12 @@ class ConnectionsHandler
     public function disconnect()
     {
         $this->current = null;
-        $this->activeConnections = null;
+        $this->available = [];
     }
 
     ////////////////////////////////////////////////////////////////////
     //////////////////////////////// STAGES ////////////////////////////
     ////////////////////////////////////////////////////////////////////
-
-    /**
-     * Set the stage on the current connection.
-     *
-     * @param string|null $stage
-     */
-    public function setStage($stage)
-    {
-        if ($stage === $this->getCurrentConnectionKey()->stage) {
-            return;
-        }
-
-        $this->current = clone $this->current;
-        $this->current->stage = $stage;
-
-        // If we do have a stage, cleanup previous events
-        if ($stage) {
-            $this->tasks->registerConfiguredEvents();
-        }
-    }
 
     /**
      * Get the various stages provided by the User.
@@ -258,6 +310,33 @@ class ConnectionsHandler
     public function getAvailableStages()
     {
         return (array) $this->config->getContextually('stages.stages');
+    }
+
+    /**
+     * Set the stage on the current connection.
+     *
+     * @param string|null $stage
+     */
+    public function setStage($stage)
+    {
+        $connectionKey = $this->getCurrentConnectionKey();
+        if ($stage === $connectionKey->stage) {
+            return;
+        }
+
+        $connectionKey->stage = $stage;
+        $this->getConnections()->map(function (ConnectionInterface $connection) use ($connectionKey) {
+           if ($connection->isCurrent() || $connection->getConnectionKey()->is($connectionKey)) {
+               $connection->setConnectionKey($connectionKey);
+           }
+
+           return $connection;
+        });
+
+        // If we do have a stage, cleanup previous events
+        if ($stage) {
+            $this->tasks->registerConfiguredEvents();
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////

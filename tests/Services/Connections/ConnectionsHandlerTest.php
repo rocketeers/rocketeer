@@ -11,8 +11,8 @@
 
 namespace Rocketeer\Services\Connections;
 
-use Mockery\MockInterface;
 use Rocketeer\Exceptions\ConnectionException;
+use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
 use Rocketeer\Services\Tasks\TasksHandler;
 use Rocketeer\TestCases\RocketeerTestCase;
 
@@ -41,7 +41,7 @@ class ConnectionsHandlerTest extends RocketeerTestCase
         $this->assertConnectionEquals('staging');
     }
 
-    public function testCanChangeConnection()
+    public function testCanChangeActiveConnection()
     {
         $this->assertConnectionEquals('production');
 
@@ -49,7 +49,7 @@ class ConnectionsHandlerTest extends RocketeerTestCase
         $this->assertConnectionEquals('staging');
 
         $this->connections->setActiveConnections('staging,production');
-        $this->assertEquals(['staging', 'production'], $this->connections->getActiveConnections());
+        $this->assertEquals(['production', 'staging'], $this->connections->getActiveConnections()->keys()->all());
     }
 
     public function testFillsConnectionCredentialsHoles()
@@ -73,37 +73,52 @@ class ConnectionsHandlerTest extends RocketeerTestCase
 
     public function testDoesntResetConnectionIfSameAsCurrent()
     {
-        $this->mock(TasksHandler::class, TasksHandler::class, function (MockInterface $mock) {
-            return $mock
-                ->shouldReceive('registerConfiguredEvents')->once();
-        }, false);
+        $prophecy = $this->bindProphecy(TasksHandler::class);
 
         $this->connections->setCurrentConnection('staging');
         $this->connections->setCurrentConnection('staging');
         $this->connections->setCurrentConnection('staging');
+
+        $prophecy->registerConfiguredEvents()->shouldHaveBeenCalledTimes(1);
     }
 
     public function testDoesntResetStageIfSameAsCurrent()
     {
-        $this->mock(TasksHandler::class, TasksHandler::class, function (MockInterface $mock) {
-            return $mock
-                ->shouldReceive('registerConfiguredEvents')->once();
-        }, false);
+        $prophecy = $this->bindProphecy(TasksHandler::class);
 
         $this->connections->setStage('foobar');
         $this->connections->setStage('foobar');
         $this->connections->setStage('foobar');
+
+        $prophecy->registerConfiguredEvents()->shouldHaveBeenCalledTimes(1);
     }
 
     public function testValidatesConnectionOnMultiset()
     {
         $this->connections->setActiveConnections(['production', 'bar']);
 
-        $this->assertEquals(['production'], $this->connections->getActiveConnections());
+        $this->assertEquals(['production'], $this->connections->getActiveConnections()->keys()->all());
     }
 
     public function testDoesntReuseConnectionIfDifferentServer()
     {
+        $this->swapConnections([
+            'staging' => [
+                'servers' => [
+                    [
+                        'host' => 'foobar.com',
+                        'username' => 'foobar',
+                        'password' => 'foobar',
+                    ],
+                    [
+                        'host' => 'barbaz.com',
+                        'username' => 'foobar',
+                        'password' => 'foobar',
+                    ],
+                ],
+            ],
+        ]);
+
         $this->connections->setCurrentConnection('staging', 0);
         $this->assertConnectionEquals('staging');
         $this->assertCurrentServerEquals(0);
@@ -124,6 +139,10 @@ class ConnectionsHandlerTest extends RocketeerTestCase
     {
         $this->expectOutputString('connected');
 
+        $this->mockRemote(
+            $this->getRemote()->shouldReceive('isConnected')->andReturn(false)->mock()
+        );
+
         $this->events->addListener('connected.production', function () {
             echo 'connected';
         });
@@ -137,5 +156,35 @@ class ConnectionsHandlerTest extends RocketeerTestCase
         ]);
 
         $this->connections->getCurrentConnection();
+    }
+
+    public function testCanSetConnectionThroughConnectionKey()
+    {
+
+        $this->swapConnections([
+            'staging' => [
+                'servers' => [
+                    [
+                        'host' => 'foobar.com',
+                        'username' => 'foobar',
+                        'password' => 'foobar',
+                    ],
+                    [
+                        'host' => 'barbaz.com',
+                        'username' => 'foobar',
+                        'password' => 'foobar',
+                    ],
+                ],
+            ],
+        ]);
+
+        $this->connections->setCurrentConnection(new ConnectionKey([
+            'name' => 'staging',
+            'server' => 1,
+        ]));
+
+        $connectionKey = $this->connections->getCurrentConnection()->getConnectionKey();
+        $this->assertEquals('barbaz.com', $connectionKey->host);
+        $this->assertEquals(1, $connectionKey->server);
     }
 }

@@ -12,6 +12,7 @@
 namespace Rocketeer\Services\Connections\Credentials\Keychains;
 
 use Illuminate\Support\Arr;
+use Rocketeer\Services\Connections\Connections\Connection;
 use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
 
 /**
@@ -73,13 +74,10 @@ trait ConnectionsKeychain
         // Get fallback connection
         $current = new ConnectionKey();
         $current->server = 0;
-        if ($this->connections->hasCurrentConnection() && !$this->rocketeer->isLocal()) {
-            $current = $this->connections->getCurrentConnectionKey();
-        }
 
         // Concatenate
         $handle = new ConnectionKey([
-            'name' => $connection ?: Arr::get($this->connections->getActiveConnections(), 0),
+            'name' => $connection,
             'server' => !is_null($server) ? $server : $current->server,
             'stage' => $stage ?: $current->stage,
         ]);

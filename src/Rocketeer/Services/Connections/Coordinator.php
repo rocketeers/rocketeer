@@ -11,6 +11,7 @@
 
 namespace Rocketeer\Services\Connections;
 
+use Rocketeer\Services\Connections\Connections\ConnectionInterface;
 use Rocketeer\Services\Tasks\Job;
 use Rocketeer\Traits\HasLocator;
 
@@ -142,12 +143,13 @@ class Coordinator
         $connection = $this->connections->getCurrentConnectionKey();
 
         $job = new Job([
-            'connection' => $connection,
+            'connectionKey' => $connection,
             'queue' => $this->builder->buildTasks([$listener]),
         ]);
 
-        $this->events->addListener($event, function () use ($job) {
+        $this->events->addListener($event, function () use ($event, $job) {
             $this->queue->executeJob($job);
+            $this->setStatus($event, static::DONE);
         }, microtime(true));
     }
 
@@ -159,15 +161,17 @@ class Coordinator
      */
     protected function computeNumberOfTargets()
     {
-        $targets = 0;
+        $targets = [];
 
+        /** @var ConnectionInterface[] $connections */
         $connections = $this->connections->getActiveConnections();
         foreach ($connections as $connection) {
             $stages = $this->connections->getAvailableStages();
-            $servers = $this->credentials->getConnectionServers($connection);
-            $targets += count($servers) * count($stages);
+            $connectionKey = $connection->getConnectionKey();
+
+            $targets[$connectionKey->name] = count($connectionKey->servers) * count($stages);
         }
 
-        return $targets;
+        return array_sum($targets);
     }
 }

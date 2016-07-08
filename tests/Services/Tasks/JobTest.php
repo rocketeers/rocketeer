@@ -19,17 +19,19 @@ class JobTest extends RocketeerTestCase
     {
         $this->swapConfig(['default' => ['production', 'staging']]);
 
+        /** @var Pipeline|Job[] $pipeline */
         $pipeline = $this->queue->buildPipeline(['ls']);
 
         $this->assertInstanceOf('Illuminate\Support\Collection', $pipeline);
         $this->assertCount(2, $pipeline);
+
         $this->assertInstanceOf(Job::class, $pipeline[0]);
         $this->assertInstanceOf(Job::class, $pipeline[1]);
 
         $this->assertEquals(['ls'], $pipeline[0]->queue);
         $this->assertEquals(['ls'], $pipeline[1]->queue);
 
-        $this->assertEquals('production', $pipeline[0]->connection);
-        $this->assertEquals('staging', $pipeline[1]->connection);
+        $this->assertEquals('production', $pipeline[0]->connectionKey);
+        $this->assertEquals('staging', $pipeline[1]->connectionKey);
     }
 }

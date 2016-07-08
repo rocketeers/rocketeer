@@ -11,6 +11,7 @@
 
 namespace Rocketeer\Services\History;
 
+use League\Flysystem\Filesystem;
 use Mockery\MockInterface;
 use Rocketeer\Services\Connections\ConnectionsHandler;
 use Rocketeer\TestCases\RocketeerTestCase;
@@ -110,9 +111,7 @@ class LogsHandlerTest extends RocketeerTestCase
 
     public function testDoesntCreateLogsIfInvalidFilename()
     {
-        $this->mockFiles(function (MockInterface $mock) {
-            return $mock->shouldReceive('put')->with(0)->never();
-        });
+        $prophecy = $this->bindProphecy(Filesystem::class, 'files');
 
         $this->swapConfig([
             'logs' => false,
@@ -121,6 +120,8 @@ class LogsHandlerTest extends RocketeerTestCase
         $this->assertFalse($this->logs->getCurrentLogsFile());
         $this->logs->log('foobar');
         $this->logs->write();
+
+        $prophecy->put()->shouldNotHaveBeenCalled();
     }
 
     public function testDoesntDuplicateConnectionHandle()

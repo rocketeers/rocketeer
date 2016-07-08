@@ -44,52 +44,23 @@ class BinariesTest extends RocketeerTestCase
 
     public function testStoredPathsAreInvalidatedIfIncorrect()
     {
-        $this->container->add(ConnectionsFactory::class, function () {
-            $connection = Mockery::mock(Connection::class)
-                ->shouldReceive('connected')->andReturn(false)
-                ->shouldReceive('run')->with(['bash --login -c \'echo ROCKETEER\''], Mockery::any())->andReturn(null)
-                ->shouldReceive('run')->with(['which composer'], Mockery::any())->andReturn(null)
-                ->shouldReceive('run')->with(['which'], Mockery::any())->andReturn(null)
-                ->shouldReceive('run')->with(['which foobar'], Mockery::any())->andReturn('foobar not found')
-                ->shouldReceive('run')->with(['which '.$this->binaries['composer']],
-                    Mockery::any())->andReturn($this->binaries['composer'])
-                ->shouldReceive('runRaw')->andReturn('false')
-                ->mock();
-
-            return Mockery::mock(ConnectionsFactory::class, [
-                'make' => $connection,
-                'isConnected' => false,
-            ]);
-        });
+        $this->mockRemote([
+            'which foobar' => null,
+            'which composer' => 'composer',
+        ]);
 
         $this->localStorage->set('paths.production.composer', 'foobar');
 
         $this->assertEquals('composer', $this->task->which('composer'));
-        $this->assertNull($this->localStorage->get('paths.production.composer'));
+        $this->assertEquals('composer', $this->localStorage->get('paths.production.composer'));
     }
 
     public function testPathsAreScopedToConnection()
     {
-        $this->container->add(ConnectionsFactory::class, function () {
-            $connection = Mockery::mock(Connection::class)
-                ->shouldReceive('connected')->andReturn(false)
-                ->shouldReceive('run')->with(['bash --login -c \'echo ROCKETEER\''], Mockery::any())->andReturn(null)
-                ->shouldReceive('run')->with(['which'], Mockery::any())->andReturn(null)
-                ->shouldReceive('run')->with(['which composer'], Mockery::any())->andReturn(null)
-                ->shouldReceive('run')->with(['which production'], Mockery::any())->andReturnUsing(function ($a, $b) {
-                    $b('production');
-                })
-                ->shouldReceive('run')->with(['which staging'], Mockery::any())->andReturnUsing(function ($a, $b) {
-                    $b('staging');
-                })
-                ->shouldReceive('runRaw')->andReturn('false')
-            ->mock();
-
-            return Mockery::mock(ConnectionsFactory::class, [
-                'make' => $connection,
-                'isConnected' => true,
-            ]);
-        });
+        $this->mockRemote([
+            'which production' => 'production',
+            'which staging' => 'staging',
+        ]);
 
         $this->localStorage->set('paths.production.composer', 'production');
         $this->localStorage->set('paths.staging.composer', 'staging');

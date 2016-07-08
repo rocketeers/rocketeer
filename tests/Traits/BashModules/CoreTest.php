@@ -31,11 +31,10 @@ class CoreTest extends RocketeerTestCase
     {
         $this->expectOutputRegex('/.+An error occured: "Oh noes", while running:\ngit clone.+/');
 
-        $prophecy = $this->bindProphecy(ConnectionsFactory::class);
-        $prophecy->make(Argument::type(ConnectionKey::class))->willReturn(clone $this->getRemote()->shouldReceive('status')->andReturn(1)->mock());
-        $prophecy->isConnected(Argument::type(ConnectionKey::class))->willReturn(true);
-
         $this->mockEchoingCommand();
+        $this->mockRemote(
+            $this->getRemote()->shouldReceive('status')->andReturn(1)->mock()
+        );
 
         $status = $this->task('Deploy')->checkStatus('Oh noes', 'git clone');
         $this->assertFalse($status);

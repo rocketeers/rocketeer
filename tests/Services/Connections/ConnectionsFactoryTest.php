@@ -149,7 +149,6 @@ class ConnectionsFactoryTest extends RocketeerTestCase
             ],
         ]);
 
-        $this->factory->disconnect();
         $key = $this->connections->getCurrentConnectionKey();
         $connection = $this->factory->make($key);
         $this->assertInstanceOf(Connection::class, $connection);

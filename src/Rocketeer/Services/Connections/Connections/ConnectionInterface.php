@@ -13,9 +13,45 @@ namespace Rocketeer\Services\Connections\Connections;
 
 use Closure;
 use League\Flysystem\FilesystemInterface;
+use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
 
 interface ConnectionInterface extends FilesystemInterface
 {
+    /**
+     * @return bool
+     */
+    public function isConnected();
+
+    /**
+     * @return boolean
+     */
+    public function isActive();
+
+    /**
+     * @param boolean $active
+     */
+    public function setActive($active);
+
+    /**
+     * @return boolean
+     */
+    public function isCurrent();
+
+    /**
+     * @param boolean $current
+     */
+    public function setCurrent($current);
+
+    /**
+     * @return ConnectionKey
+     */
+    public function getConnectionKey();
+
+    /**
+     * @param ConnectionKey $connectionKey
+     */
+    public function setConnectionKey(ConnectionKey $connectionKey);
+
     /**
      * Run a set of commands against the connection.
      *

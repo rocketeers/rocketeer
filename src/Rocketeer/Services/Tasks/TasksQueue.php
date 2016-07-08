@@ -15,7 +15,8 @@ use Closure;
 use Exception;
 use KzykHys\Parallel\Parallel;
 use LogicException;
-use Rocketeer\Connection;
+use Rocketeer\Services\Connections\Connections\Connection;
+use Rocketeer\Services\Connections\Connections\ConnectionInterface;
 use Rocketeer\Traits\HasLocator;
 use Rocketeer\Traits\Properties\HasHistory;
 
@@ -140,22 +141,20 @@ class TasksQueue
         $pipeline = new Pipeline();
 
         // Get the connections to execute the tasks on
-        $connections = (array) $this->connections->getActiveConnections();
+        /** @var ConnectionInterface[] $connections */
+        $connections = $this->connections->getActiveConnections();
         foreach ($connections as $connection) {
-            $connection = $this->credentials->createConnectionKey($connection);
-            $stages = $this->getStages($connection);
+            $connectionKey = $connection->getConnectionKey();
+            $stages = $this->getStages($connectionKey);
 
             // Add job to pipeline
-            foreach ($connection->servers as $server => $credentials) {
-                foreach ($stages as $stage) {
-                    $connection->server = $server;
-                    $connection->stage = $stage;
+            foreach ($stages as $stage) {
+                $connectionKey->stage = $stage;
 
-                    $pipeline[] = new Job([
-                        'connection' => clone $connection,
-                        'queue' => $queue,
-                    ]);
-                }
+                $pipeline[] = new Job([
+                    'connectionKey' => clone $connectionKey,
+                    'queue' => $queue,
+                ]);
             }
         }
 
@@ -172,12 +171,12 @@ class TasksQueue
     public function executeJob(Job $job)
     {
         // Set proper server
-        $connection = $job->connection;
-        $this->connections->setCurrentConnection($connection);
+        $connectionKey = $job->connectionKey;
+        $this->connections->setCurrentConnection($connectionKey);
 
         foreach ($job->queue as $key => $task) {
             if ($task->usesStages()) {
-                $stage = $task->usesStages() ? $connection->stage : null;
+                $stage = $task->usesStages() ? $connectionKey->stage : null;
                 $this->connections->setStage($stage);
             }
 

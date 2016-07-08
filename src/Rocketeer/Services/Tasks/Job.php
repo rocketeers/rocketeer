@@ -17,7 +17,7 @@ use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
 /**
  * A job storing where a task/multiple tasks need to be executed.
  *
- * @property ConnectionKey                   connection
+ * @property ConnectionKey                   $connectionKey
  * @property \Rocketeer\Tasks\AbstractTask[] queue
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
