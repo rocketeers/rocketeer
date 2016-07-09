@@ -1,36 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit backupGlobals="false"
-				 backupStaticAttributes="false"
-				 bootstrap="vendor/autoload.php"
-				 colors="true"
-				 convertErrorsToExceptions="true"
-				 convertNoticesToExceptions="true"
-				 convertWarningsToExceptions="true"
-				 processIsolation="false"
-				 stopOnFailure="false"
-				 syntaxCheck="false"
-	>
+         backupStaticAttributes="false"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="false"
+         syntaxCheck="false"
+>
 
-	<filter>
-		<whitelist>
-			<directory>src/Rocketeer</directory>
-			<exclude>
-				<file>src/Rocketeer/Console/Commands/AbstractCommand.php</file>
-				<file>src/Rocketeer/RocketeerServiceProvider.php</file>
-				<directory>src/Rocketeer/Console</directory>
-				<directory>src/Rocketeer/Interfaces</directory>
-				<directory>src/Rocketeer/Facades</directory>
-			</exclude>
-		</whitelist>
-	</filter>
+    <filter>
+        <whitelist>
+            <directory>src/Rocketeer</directory>
+            <exclude>
+                <file>src/Rocketeer/Console/Commands/AbstractCommand.php</file>
+                <file>src/Rocketeer/RocketeerServiceProvider.php</file>
+                <directory>src/Rocketeer/Console</directory>
+                <directory>src/Rocketeer/Interfaces</directory>
+                <directory>src/Rocketeer/Facades</directory>
+            </exclude>
+        </whitelist>
+    </filter>
 
-	<testsuites>
-		<testsuite name="Package Test Suite">
-			<directory suffix=".php">tests</directory>
-		</testsuite>
-	</testsuites>
+    <testsuites>
+        <testsuite name="Package Test Suite">
+            <directory suffix=".php">tests</directory>
+        </testsuite>
+    </testsuites>
 
     <listeners>
-        <listener class="JohnKary\PHPUnit\Listener\SpeedTrapListener" />
+        <listener class="JohnKary\PHPUnit\Listener\SpeedTrapListener">
+            <arguments>
+                <array>
+                    <element key="slowThreshold">
+                        <integer>200</integer>
+                    </element>
+                </array>
+            </arguments>
+        </listener>
     </listeners>
 </phpunit>
