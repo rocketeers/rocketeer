@@ -151,6 +151,11 @@ class BinariesTest extends RocketeerTestCase
 
     public function testCanRunBinariesMethodsViaMagicMethods()
     {
+        $this->mockRemote([
+            'which composer' => 'composer',
+            'composer --help' => 'Usage: foobar',
+        ]);
+
         $results = $this->bash->composer('--help');
 
         $this->assertContains('Usage:', $results);

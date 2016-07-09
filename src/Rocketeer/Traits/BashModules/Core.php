@@ -190,6 +190,11 @@ trait Core
      */
     public function runRaw($commands, $array = false, $trim = false)
     {
+        $pretend = $this->getOption('pretend');
+        if ($pretend) {
+            return $array ? [$commands] : 'true';
+        }
+
         $this->displayCommands($commands, OutputInterface::VERBOSITY_VERY_VERBOSE);
 
         // Run commands
