@@ -14,8 +14,7 @@ namespace Rocketeer;
 
 use League\Container\ServiceProvider\AbstractServiceProvider;
 use League\Container\ServiceProvider\BootableServiceProviderInterface;
-use Rocketeer\Services\Connections\Credentials\CredentialsHandler;
-use Rocketeer\Services\Tasks\TasksHandler;
+use Rocketeer\Traits\ContainerAwareTrait;
 
 /**
  * Bind the various Rocketeer classes to a Container.
@@ -24,6 +23,8 @@ use Rocketeer\Services\Tasks\TasksHandler;
  */
 class RocketeerServiceProvider extends AbstractServiceProvider implements BootableServiceProviderInterface
 {
+    use ContainerAwareTrait;
+
     /**
      * @var array
      */
@@ -46,7 +47,7 @@ class RocketeerServiceProvider extends AbstractServiceProvider implements Bootab
     public function boot()
     {
         // Load the user's events, tasks, plugins, and configurations
-        $this->container->get(CredentialsHandler::class)->syncConnectionCredentials();
-        $this->container->get(TasksHandler::class)->registerConfiguredEvents();
+        $this->credentials->syncConnectionCredentials();
+        $this->tasks->registerConfiguredEvents();
     }
 }

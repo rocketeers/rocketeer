@@ -12,7 +12,6 @@
 
 namespace Rocketeer\Console\Commands;
 
-use Rocketeer\Console\Commands\Plugins\InstallCommand;
 use Rocketeer\Dummies\DummyFailingCommand;
 use Rocketeer\Services\Connections\Credentials\CredentialsGatherer;
 use Rocketeer\TestCases\RocketeerTestCase;

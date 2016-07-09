@@ -15,10 +15,12 @@ namespace Rocketeer\TestCases\Modules;
 use Closure;
 use League\Flysystem\Filesystem;
 use Mockery;
-use Mockery\MockInterface;
+use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
+use Rocketeer\Console\Commands\AbstractCommand;
 use Rocketeer\Services\Connections\ConnectionsFactory;
 use Rocketeer\Services\Releases\ReleasesManager;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * @mixin \Rocketeer\TestCases\RocketeerTestCase
@@ -28,14 +30,14 @@ use Rocketeer\Services\Releases\ReleasesManager;
 trait Mocks
 {
     /**
-     * @param string      $class
-     * @param string|null $handle
+     * @param string|ObjectProphecy $class
+     * @param string|null           $handle
      *
      * @return ObjectProphecy
      */
     protected function bindProphecy($class, $handle = null)
     {
-        $prophecy = $this->prophesize($class);
+        $prophecy = $class instanceof ObjectProphecy ? $class : $this->prophesize($class);
         $handle = $handle ?: $class;
 
         if ($this->container->has($handle)) {
@@ -119,11 +121,13 @@ trait Mocks
      */
     protected function mockEchoingCommand()
     {
-        $this->mock('rocketeer.command', 'Command', function (MockInterface $mock) {
-            return $mock->shouldReceive('writeln')->andReturnUsing(function ($input) {
-                echo $input;
-            });
+        $prophecy = $this->prophesize(AbstractCommand::class)->willImplement(OutputInterface::class);
+        $prophecy->option(Argument::cetera())->willReturn();
+        $prophecy->writeln(Argument::any())->will(function ($arguments) {
+            echo $arguments[0];
         });
+
+        $this->bindProphecy($prophecy, 'rocketeer.command');
     }
 
     /**

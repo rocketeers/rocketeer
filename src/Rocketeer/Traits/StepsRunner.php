@@ -47,8 +47,7 @@ trait StepsRunner
     public function runSteps()
     {
         $steps = $this->steps()->pullSteps();
-        foreach ($steps as $step) {
-            list($method, $arguments) = $step;
+        foreach ($steps as list($method, $arguments)) {
             $callable = is_callable($method) ? $method : [$this, $method];
             $arguments = (array) $arguments;
 

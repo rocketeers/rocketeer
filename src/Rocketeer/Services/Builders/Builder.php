@@ -12,7 +12,6 @@
 
 namespace Rocketeer\Services\Builders;
 
-use Illuminate\Support\Arr;
 use Rocketeer\Traits\HasLocator;
 
 /**
@@ -65,7 +64,7 @@ class Builder
      */
     public function getLookups($type)
     {
-        return (array) Arr::get($this->lookups, $type);
+        return (array) isset($this->lookups[$type]) ? $this->lookups[$type] : [];
     }
 
     /**
@@ -113,13 +112,7 @@ class Builder
 
         // Create classes array
         $class = ucfirst($class);
-        $classes = [$class];
-        if ($namespace) {
-            $classes = [
-                ucfirst($namespace).'\\'.$class,
-                $class,
-            ];
-        }
+        $classes = $namespace ? [ucfirst($namespace).'\\'.$class, $class] : [$class];
 
         // Search for first existing class
         foreach ($classes as $class) {

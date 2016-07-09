@@ -17,6 +17,7 @@ use Rocketeer\Bash;
 use Rocketeer\Binaries\Php;
 use Rocketeer\Console\Commands\AbstractCommand;
 use Rocketeer\TestCases\RocketeerTestCase;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 class BinariesTest extends RocketeerTestCase
 {
@@ -113,7 +114,7 @@ class BinariesTest extends RocketeerTestCase
         $this->mock('rocketeer.command', AbstractCommand::class, function (MockInterface $mock) {
             return $mock
                 ->shouldIgnoreMissing()
-                ->shouldReceive('getOutput')->andReturn($this->getCommandOutput())
+                ->shouldReceive('getOutput')->andReturn(new ConsoleOutput())
                 ->shouldReceive('line')
                 ->shouldReceive('option')->andReturn([]);
         });
@@ -129,7 +130,7 @@ class BinariesTest extends RocketeerTestCase
         $this->mock('rocketeer.command', AbstractCommand::class, function (MockInterface $mock) {
             return $mock
                 ->shouldIgnoreMissing()
-                ->shouldReceive('getOutput')->andReturn($this->getCommandOutput())
+                ->shouldReceive('getOutput')->andReturn(new ConsoleOutput())
                 ->shouldReceive('line')
                 ->shouldReceive('option')->andReturn([]);
         });

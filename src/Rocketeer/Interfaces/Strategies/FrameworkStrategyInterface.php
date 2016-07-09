@@ -12,8 +12,6 @@
 
 namespace Rocketeer\Interfaces\Strategies;
 
-use Symfony\Component\Console\Command\Command;
-
 interface FrameworkStrategyInterface
 {
     /**

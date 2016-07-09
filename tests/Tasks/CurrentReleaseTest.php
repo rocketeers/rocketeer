@@ -12,7 +12,6 @@
 
 namespace Rocketeer\Tasks;
 
-use Mockery\MockInterface;
 use Rocketeer\Services\Releases\ReleasesManager;
 use Rocketeer\TestCases\RocketeerTestCase;
 

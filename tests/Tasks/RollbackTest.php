@@ -24,7 +24,7 @@ class RollbackTest extends RocketeerTestCase
 
         $this->assertTaskHistory('Rollback', [
             'rm -rf {server}/current',
-            'ln -s {server}/releases/10000000000000 {server}/current'
+            'ln -s {server}/releases/10000000000000 {server}/current',
         ]);
     }
 
@@ -38,7 +38,7 @@ class RollbackTest extends RocketeerTestCase
 
         $this->assertHistory([
             'rm -rf {server}/current',
-            'ln -s {server}/releases/15000000000000 {server}/current'
+            'ln -s {server}/releases/15000000000000 {server}/current',
         ]);
     }
 
@@ -53,7 +53,7 @@ class RollbackTest extends RocketeerTestCase
 
         $this->assertHistory([
             'rm -rf {server}/current',
-            'ln -s {server}/releases/15000000000000 {server}/current'
+            'ln -s {server}/releases/15000000000000 {server}/current',
         ]);
     }
 

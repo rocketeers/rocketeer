@@ -37,6 +37,7 @@
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "dev-master",
+    "johnkary/phpunit-speedtrap": "^1.0",
     "kherge/box": "^2.7",
     "mockery/mockery": "^0.9.5",
     "phpunit/phpunit": "^5.4",

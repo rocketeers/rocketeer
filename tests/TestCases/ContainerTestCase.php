@@ -89,10 +89,6 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         $this->customConfig = $this->server.'/.rocketeer';
         $this->deploymentsFile = $this->server.'/deployments.json';
 
-        // Rocketeer classes ------------------------------------------- /
-
-        $this->container = new Container();
-
         // Paths -------------------------------------------------------- /
 
         $this->container->add('path.base', '/src');
@@ -139,20 +135,11 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
      *
      * @param array $expectations
      * @param array $options
-     * @param bool  $print
      *
      * @return Mockery
      */
-    protected function getCommand(array $expectations = [], array $options = [], $print = false)
+    protected function getCommand(array $expectations = [], array $options = [])
     {
-        $message = function ($arguments) use ($print) {
-            if ($print) {
-                echo $arguments[0];
-            }
-
-            return $arguments[0];
-        };
-
         $verbose = array_get($options, 'verbose')
             ? OutputInterface::VERBOSITY_VERY_VERBOSE
             : OutputInterface::VERBOSITY_NORMAL;
@@ -162,14 +149,13 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
             ->willImplement(OutputInterface::class)
             ->willImplement(StyleInterface::class);
 
-        $command->getOutput()->willReturn($this->getCommandOutput($verbose));
         $command->getVerbosity()->willReturn($verbose);
 
         // Bind the output expectations
         $types = ['writeln', 'comment'];
         foreach ($types as $type) {
             if (!array_key_exists($type, $expectations)) {
-                $command->$type(Argument::any())->will($message);
+                $command->$type(Argument::any())->willReturnArgument(0);
             }
         }
 
@@ -187,7 +173,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         foreach ($expectations as $key => $value) {
             if ($key === 'option') {
                 $command->option(Argument::that(function ($argument) use ($options) {
-                    return is_null($argument) ? !$options : !in_array($argument, array_keys($options));
+                    return is_null($argument) ? !$options : !in_array($argument, array_keys($options), true);
                 }))->willReturn($value);
             } else {
                 $returnMethod = $value instanceof Closure ? 'will' : 'willReturn';
@@ -233,26 +219,27 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
     /**
      * Mock the Remote component.
      *
-     * @param string|array|null $mockedOutput
+     * @param string|array|null $expectations
      *
      * @return Mockery|Connection
      */
-    protected function getRemote($mockedOutput = null)
+    protected function getRemote($expectations = null)
     {
+        $lookup = 'bash --login -c \'echo ROCKETEER\'';
         $mockedRun = function ($output) {
             return function ($task, $callback) use ($output) {
                 $callback($output);
             };
         };
 
-        $run = function ($task, $callback) use ($mockedOutput) {
+        $run = function ($task, $callback) use ($expectations, $lookup) {
             if (is_array($task)) {
                 $task = implode(' && ', $task);
-            } elseif ($task === 'bash --login -c \'echo ROCKETEER\'') {
+            } elseif ($task === $lookup) {
                 $callback('Inappropriate ioctl for device'.PHP_EOL.'ROCKETEER');
             }
 
-            $output = $mockedOutput ? $mockedOutput : shell_exec($task);
+            $output = $expectations ? $expectations : shell_exec($task);
             $callback($output);
 
             return $output;
@@ -262,12 +249,11 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         $connection->shouldReceive('isConnected')->andReturn(true)->byDefault();
         $connection->shouldReceive('status')->andReturn(0)->byDefault();
 
-        if (is_array($mockedOutput)) {
-            $mockedOutput['bash --login -c \'echo ROCKETEER\''] = 'Inappropriate ioctl for device'.PHP_EOL.'ROCKETEER';
-            foreach ($mockedOutput as $command => $output) {
+        if (is_array($expectations)) {
+            $expectations[$lookup] = 'Inappropriate ioctl for device'.PHP_EOL.'ROCKETEER';
+            foreach ($expectations as $command => $output) {
                 $connection->shouldReceive('run')->with($command, Mockery::any())->andReturnUsing($mockedRun($output));
-                $connection->shouldReceive('run')->with([$command],
-                    Mockery::any())->andReturnUsing($mockedRun($output));
+                $connection->shouldReceive('run')->with([$command], Mockery::any())->andReturnUsing($mockedRun($output));
             }
         } else {
             $connection->shouldReceive('run')->andReturnUsing($run)->byDefault();
@@ -356,19 +342,5 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         $this->defaults = array_merge($defaults, $overrides);
 
         return $this->defaults;
-    }
-
-    /**
-     * @param int $verbosity
-     *
-     * @return Mockery\Mock
-     */
-    protected function getCommandOutput($verbosity = 0)
-    {
-        /** @var OutputInterface $output */
-        $output = $this->prophesize(OutputInterface::class);
-        $output->getVerbosity()->willReturn($verbosity);
-
-        return $output->reveal();
     }
 }

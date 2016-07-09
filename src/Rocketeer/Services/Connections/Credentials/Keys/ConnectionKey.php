@@ -149,7 +149,7 @@ class ConnectionKey extends AbstractKey
      */
     public function getHandleComponents()
     {
-        $server = Arr::get($this->servers, $this->server.'.host', $this->server);
+        $server = isset($this->servers[$this->server]['host']) ? $this->servers[$this->server]['host'] : $this->server;
         $components = !$this->isMultiserver() ? [$this->name, $this->stage] : [$this->name, $server, $this->stage];
         $components = array_filter($components, function ($value) {
             return $value !== null;

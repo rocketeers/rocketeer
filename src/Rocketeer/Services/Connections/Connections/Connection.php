@@ -14,7 +14,6 @@ namespace Rocketeer\Services\Connections\Connections;
 
 use Closure;
 use League\Flysystem\AdapterInterface;
-use League\Flysystem\Plugin\ForcedCopy;
 use phpseclib\Net\SFTP;
 use Rocketeer\Exceptions\TimeOutException;
 use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;

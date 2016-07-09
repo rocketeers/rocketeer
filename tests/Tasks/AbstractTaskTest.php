@@ -21,7 +21,9 @@ class AbstractTaskTest extends RocketeerTestCase
     {
         $this->expectOutputRegex('/tests/');
 
-        $this->mockCommand(['verbose' => true], [], true);
+        $this->mockEchoingCommand();
+        $this->command->getProphecy()->getVerbosity()->willReturn(999);
+//        $this->mockCommand(['verbose' => true], []);
         $task = $this->task('Check');
 
         $task->run('ls');
@@ -151,7 +153,6 @@ class AbstractTaskTest extends RocketeerTestCase
         $this->command->getProphecy()->table($headers, $releases)->shouldBeCalled()->willReturn(null);
 
         $this->task('CurrentRelease')->execute();
-
     }
 
     public function testCanGetOptionsViaCommandOrSetters()

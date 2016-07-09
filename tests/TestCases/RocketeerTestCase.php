@@ -123,18 +123,17 @@ abstract class RocketeerTestCase extends ContainerTestCase
         $this->files->createDir($this->server.'/current');
 
         $this->files->put($this->server.'/state.json', json_encode([
-            "10000000000000" => true,
-            "15000000000000" => false,
-            "20000000000000" => true,
+            '10000000000000' => true,
+            '15000000000000' => false,
+            '20000000000000' => true,
         ]));
 
         $this->files->put($this->server.'/deployments.json', json_encode([
-            "foo" => "bar",
-            "directory_separator" => "\\/",
-            "is_setup" => true,
-            "webuser" => ["username" => "www-data", "group" => "www-data"],
-            "line_endings" => "\n",
+            'foo' => 'bar',
+            'directory_separator' => '\\/',
+            'is_setup' => true,
+            'webuser' => ['username' => 'www-data', 'group' => 'www-data'],
+            'line_endings' => "\n",
         ]));
-
     }
 }

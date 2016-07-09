@@ -112,11 +112,7 @@ class ConnectionsHandler
             $this->available = new Collection($connections);
         }
 
-        return $this->available->map(function (ConnectionInterface $connection) {
-            $connection->setActive($this->isConnectionActive($connection));
-
-            return $connection;
-        });
+        return $this->available;
     }
 
     /**
@@ -167,7 +163,7 @@ class ConnectionsHandler
     public function getActiveConnections()
     {
         return $this->getConnections()->filter(function (ConnectionInterface $connection) {
-            return $connection->isActive();
+            return $this->isConnectionActive($connection);
         });
     }
 
@@ -351,11 +347,10 @@ class ConnectionsHandler
         $connectionKey = $connection->getConnectionKey();
         $defaults = $this->getDefaultConnectionsHandles();
 
-        return (
+        return
             in_array($connectionKey->toHandle(), $defaults, true) ||
             in_array($connectionKey->name, $defaults, true) ||
-            $connection->isActive()
-        );
+            $connection->isActive();
     }
 
     /**
