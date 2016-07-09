@@ -14,9 +14,12 @@ namespace Rocketeer\Services\Ignition;
 
 use League\Container\ServiceProvider\AbstractServiceProvider;
 use League\Container\ServiceProvider\BootableServiceProviderInterface;
+use Rocketeer\Traits\ContainerAwareTrait;
 
 class IgnitionServiceProvider extends AbstractServiceProvider implements BootableServiceProviderInterface
 {
+    use ContainerAwareTrait;
+
     /**
      * @var array
      */
@@ -41,10 +44,11 @@ class IgnitionServiceProvider extends AbstractServiceProvider implements Bootabl
     {
         $this->register();
 
-        /** @var Configuration $igniter */
-        $igniter = $this->container->get('igniter');
+        $this->igniter->bindPaths();
+        $this->igniter->loadUserConfiguration();
 
-        $igniter->bindPaths();
-        $igniter->loadUserConfiguration();
+        $tasksIgniter = $this->container->get('igniter.tasks');
+        $tasks = $tasksIgniter->getPredefinedTasks();
+        $commands = $tasksIgniter->registerTasksAndCommands($tasks);
     }
 }

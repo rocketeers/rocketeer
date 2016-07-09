@@ -61,6 +61,8 @@ class CoreTest extends RocketeerTestCase
 
     public function testCanLetFrameworkProcessCommands()
     {
+        $this->usesLaravel(true);
+
         $this->connections->setStage('staging');
         $commands = $this->pretendTask()->processCommands([
             'artisan something',

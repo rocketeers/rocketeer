@@ -71,6 +71,8 @@ class BinariesTest extends RocketeerTestCase
 
     public function testCanSetPathToPhpAndArtisan()
     {
+        $this->usesLaravel(true);
+
         $this->mockConfig([
             'paths.php' => static::$binaries['php'],
             'paths.artisan' => static::$binaries['php'],
@@ -93,6 +95,8 @@ class BinariesTest extends RocketeerTestCase
 
     public function testFetchesBinaryIfNotSpecifiedOrNull()
     {
+        $this->usesLaravel(true);
+
         $this->mockConfig([
             'paths.php' => static::$binaries['php'],
         ]);

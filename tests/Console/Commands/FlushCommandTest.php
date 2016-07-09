@@ -18,6 +18,8 @@ class FlushCommandTest extends RocketeerTestCase
 {
     public function testCanFlushLocalStorage()
     {
+        //        $this->usesLaravel(true);
+
         $this->localStorage->set('foo', 'bar');
 
         $this->assertEquals('bar', $this->localStorage->get('foo'));

@@ -68,7 +68,7 @@ class Update extends Deploy
         }
 
         // Clear cache
-        if (!$this->getOption('no-clear')) {
+        if (!$this->getOption('no-clear') && $this->getFramework()) {
             $this->getFramework()->clearCache();
         }
 

@@ -18,6 +18,7 @@ class UpdateTest extends RocketeerTestCase
 {
     public function testCanUpdateRepository()
     {
+        $this->usesLaravel(true);
         $task = $this->pretendTask('Update', [
             'migrate' => true,
             'seed' => true,

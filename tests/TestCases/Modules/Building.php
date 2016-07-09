@@ -93,8 +93,8 @@ trait Building
     {
         // Fetch command from Container if necessary
         if (!$command instanceof AbstractCommand) {
-            $command = $command ? '.'.$command : null;
-            $command = $this->container->get('commands'.$command);
+            $command = $command ? $command : null;
+            $command = $this->console->get($command);
         } elseif (!$command->getContainer()) {
             $command->setContainer($this->container);
             $command->setHelperSet(new HelperSet(['question' => new QuestionHelper()]));
