@@ -26,11 +26,6 @@ class ConsoleServiceProvider extends AbstractServiceProvider
     ];
 
     /**
-     * @var string[]
-     */
-    protected $commands;
-
-    /**
      * {@inheritdoc}
      */
     public function register()
