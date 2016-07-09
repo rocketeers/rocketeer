@@ -31,6 +31,12 @@ class PhpStrategyTest extends RocketeerTestCase
 
     public function testCanCheckPhpVersion()
     {
+        $this->mockRemote([
+            'which php' => 'php',
+            'php -r "print defined(\'HHVM_VERSION\');"' => false,
+            'php -r "print PHP_VERSION;"' => '5.6.0',
+        ]);
+
         $version = $this->bash->php()->run('version');
 
         $this->mockFiles(function (MockInterface $mock) use ($version) {
@@ -38,7 +44,7 @@ class PhpStrategyTest extends RocketeerTestCase
                 ->shouldReceive('put')
                 ->shouldReceive('glob')->andReturn([])
                 ->shouldReceive('has')->andReturn(true)
-                ->shouldReceive('read')->andReturn('{"require":{"php":">='.$version.'"}}');
+                ->shouldReceive('read')->andReturn('{"require":{"php":">=5.6.0"}}');
         });
         $this->assertTrue($this->strategy->language());
 
