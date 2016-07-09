@@ -76,14 +76,6 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
     protected $home;
 
     /**
-     * Override the trait constructor.
-     */
-//    public function __construct()
-//    {
-//        parent::__construct();
-//    }
-
-    /**
      * Set up the tests.
      */
     public function setUp()
@@ -92,7 +84,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 
         // Create local paths
         $this->home = $_SERVER['HOME'];
-        $this->server = realpath(__DIR__.'/../_server').'/foobar-stub';
+        $this->server = realpath(__DIR__.'/../_server').'/foobar';
         $this->customConfig = $this->server.'/.rocketeer';
         $this->deploymentsFile = $this->server.'/deployments.json';
 
