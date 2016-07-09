@@ -97,8 +97,13 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         $this->container->add('path.storage', $this->container->get('path').'/storage');
 
         // Replace some instances with mocks
-        $this->container->add(ConnectionsFactory::class, $this->getConnectionsFactory());
-        $this->container->add('rocketeer.command', $this->getCommand());
+        $this->container->share(ConnectionsFactory::class, function () {
+            return $this->getConnectionsFactory();
+        });
+
+        $this->container->share('rocketeer.command', function () {
+            return $this->getCommand();
+        });
 
         $filesystem = new Filesystem(new VfsAdapter(new Vfs()));
         $filesystem->addPlugin(new IsDirectoryPlugin());
