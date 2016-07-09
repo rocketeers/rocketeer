@@ -179,7 +179,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 
         // Bind expecations
         foreach ($expectations as $key => $value) {
-            if ($key === 'option') {
+            if ($key === 'option' || $key === 'argument') {
                 $command->shouldReceive($key)->andReturn($value)->byDefault();
             } else {
                 $returnMethod = $value instanceof Closure ? 'andReturnUsing' : 'andReturn';

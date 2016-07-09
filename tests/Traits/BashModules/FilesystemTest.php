@@ -81,6 +81,7 @@ class FilesystemTest extends RocketeerTestCase
 
         $this->assertTrue($this->files->isDirectory($folderCurrent));
         $this->assertTrue(is_link($folderCurrent));
+        @unlink($folderCurrent);
     }
 
     public function testCanListContentsOfAFolder()

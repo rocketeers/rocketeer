@@ -25,6 +25,7 @@ class StepsRunnerTest extends RocketeerTestCase
         $results = $task->runSteps();
 
         $this->assertTrue($results);
+        unlink($copy);
     }
 
     public function testStepsAreClearedOnceRun()

@@ -20,31 +20,40 @@ class RollbackTest extends RocketeerTestCase
     public function testCanRollbackRelease()
     {
         $this->mockOperatingSystem();
-        $this->task('Rollback')->execute();
 
-        $this->assertEquals(10000000000000, $this->releasesManager->getCurrentRelease());
+        $this->assertTaskHistory('Rollback', [
+            'rm -rf {server}/current',
+            'ln -s {server}/releases/10000000000000 {server}/current'
+        ]);
     }
 
     public function testCanRollbackToSpecificRelease()
     {
         $this->mockOperatingSystem();
-        $this->mockCommand([], ['argument' => 15000000000000]);
-        $this->command->shouldReceive('option')->andReturn([]);
+        $task = $this->pretendTask('Rollback');
 
-        $this->task('Rollback')->execute();
+        $this->command->shouldReceive('argument')->with('release')->andReturn(15000000000000);
+        $task->execute();
 
-        $this->assertEquals(15000000000000, $this->releasesManager->getCurrentRelease());
+        $this->assertHistory([
+            'rm -rf {server}/current',
+            'ln -s {server}/releases/15000000000000 {server}/current'
+        ]);
     }
 
     public function testCanGetShownAvailableReleases()
     {
         $this->mockOperatingSystem();
-        $this->command = $this->mockCommand(['list' => true]);
+        $task = $this->pretendTask('Rollback');
+
+        $this->command->shouldReceive('option')->with('list')->andReturn(true);
         $this->command->shouldReceive('askWith')->andReturn(1);
+        $task->execute();
 
-        $this->task('Rollback')->execute();
-
-        $this->assertEquals(15000000000000, $this->releasesManager->getCurrentRelease());
+        $this->assertHistory([
+            'rm -rf {server}/current',
+            'ln -s {server}/releases/15000000000000 {server}/current'
+        ]);
     }
 
     public function testCantRollbackIfNoPreviousRelease()
@@ -53,17 +62,17 @@ class RollbackTest extends RocketeerTestCase
             return $mock->shouldReceive('getPreviousRelease')->andReturn(null);
         });
 
-        $status = $this->task('Rollback')->execute();
+        $status = $this->pretendTask('Rollback')->execute();
         $this->assertContains('Rocketeer could not rollback as no releases have yet been deployed', $status);
     }
 
     public function testCantRollbackToUnexistingRelease()
     {
-        $this->mockCommand([], ['argument' => 'foobar']);
-        $this->command->shouldReceive('option')->andReturn([]);
+        $task = $this->pretendTask('Rollback');
+        $this->command->shouldReceive('argument')->with('release')->andReturn('foobar');
 
-        $this->task('Rollback')->execute();
+        $task->execute();
 
-        $this->assertEquals(20000000000000, $this->releasesManager->getCurrentRelease());
+        $this->assertHistory([]);
     }
 }
