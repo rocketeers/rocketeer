@@ -50,6 +50,9 @@ trait ConnectionsKeychain
         $credentials = array_replace_recursive($current, $credentials);
         $this->config->set($key, $credentials);
 
+        // Reset connections
+        $this->connections->disconnect();
+
         return $credentials;
     }
 

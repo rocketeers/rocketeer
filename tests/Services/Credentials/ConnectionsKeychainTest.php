@@ -76,6 +76,7 @@ class ConnectionsKeychainTest extends RocketeerTestCase
 
         $this->assertEquals('lol.com', $credentials['host']);
         $this->assertEquals(['foo', 'bar'], $credentials['roles']);
+        $this->assertEquals('lol.com', $this->connections->getCurrentConnectionKey()->host);
     }
 
     public function testCanHaveMultipleServerConnections()
