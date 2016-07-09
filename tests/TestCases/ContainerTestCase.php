@@ -20,11 +20,10 @@ use Mockery;
 use Mockery\MockInterface;
 use PHPUnit_Framework_TestCase;
 use Prophecy\Argument;
-use Prophecy\Prophecy\ObjectProphecy;
 use Rocketeer\Console\Commands\AbstractCommand;
+use Rocketeer\Console\StyleInterface;
 use Rocketeer\Container;
 use Rocketeer\Dummies\Tasks\MyCustomTask;
-use Rocketeer\Plugins\Laravel\Binaries\Artisan;
 use Rocketeer\Services\Connections\Connections\Connection;
 use Rocketeer\Services\Connections\ConnectionsFactory;
 use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
@@ -146,25 +145,31 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
      */
     protected function getCommand(array $expectations = [], array $options = [], $print = false)
     {
-        $message = function ($message) use ($print) {
+        $message = function ($arguments) use ($print) {
             if ($print) {
-                echo $message;
+                echo $arguments[0];
             }
 
-            return $message;
+            return $arguments[0];
         };
 
-        $verbose = array_get($options,
-            'verbose') ? OutputInterface::VERBOSITY_VERY_VERBOSE : OutputInterface::VERBOSITY_NORMAL;
-        $command = Mockery::mock(AbstractCommand::class)->shouldIgnoreMissing();
-        $command->shouldReceive('getOutput')->andReturn($this->getCommandOutput($verbose));
-        $command->shouldReceive('getVerbosity')->andReturn($verbose);
+        $verbose = array_get($options, 'verbose')
+            ? OutputInterface::VERBOSITY_VERY_VERBOSE
+            : OutputInterface::VERBOSITY_NORMAL;
+
+        /** @var AbstractCommand $command */
+        $command = $this->prophesize(AbstractCommand::class)
+            ->willImplement(OutputInterface::class)
+            ->willImplement(StyleInterface::class);
+
+        $command->getOutput()->willReturn($this->getCommandOutput($verbose));
+        $command->getVerbosity()->willReturn($verbose);
 
         // Bind the output expectations
-        $types = ['comment', 'error', 'line', 'info', 'writeln'];
+        $types = ['writeln', 'comment'];
         foreach ($types as $type) {
             if (!array_key_exists($type, $expectations)) {
-                $command->shouldReceive($type)->andReturnUsing($message);
+                $command->$type(Argument::any())->will($message);
             }
         }
 
@@ -172,31 +177,33 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         $expectations = array_merge([
             'argument' => '',
             'ask' => '',
-            'isInsideLaravel' => false,
+            'askWith' => '',
+            'table' => '',
             'confirm' => true,
-            'secret' => '',
             'option' => false,
         ], $expectations);
 
         // Bind expecations
         foreach ($expectations as $key => $value) {
-            if ($key === 'option' || $key === 'argument') {
-                $command->shouldReceive($key)->andReturn($value)->byDefault();
+            if ($key === 'option') {
+                $command->option(Argument::that(function ($argument) use ($options) {
+                    return is_null($argument) ? !$options : !in_array($argument, array_keys($options));
+                }))->willReturn($value);
             } else {
-                $returnMethod = $value instanceof Closure ? 'andReturnUsing' : 'andReturn';
-                $command->shouldReceive($key)->$returnMethod($value);
+                $returnMethod = $value instanceof Closure ? 'will' : 'willReturn';
+                $command->$key(Argument::cetera())->$returnMethod($value);
             }
         }
 
         // Bind options
         if ($options) {
-            $command->shouldReceive('option')->withNoArgs()->andReturn($options);
+            $command->option()->willReturn($options);
             foreach ($options as $key => $value) {
-                $command->shouldReceive('option')->with($key)->andReturn($value);
+                $command->option($key)->willReturn($value);
             }
         }
 
-        return $command;
+        return $command->reveal();
     }
 
     /**

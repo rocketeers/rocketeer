@@ -13,30 +13,31 @@
 namespace Rocketeer\Tasks;
 
 use Mockery\MockInterface;
+use Rocketeer\Services\Releases\ReleasesManager;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class CurrentReleaseTest extends RocketeerTestCase
 {
     public function testCanGetCurrentRelease()
     {
-        $this->mockReleases(function (MockInterface $mock) {
-            return $mock
-                ->shouldReceive('getValidationFile')->once()->andReturn([10000000000000 => true])
-                ->shouldReceive('getCurrentRelease')->once()->andReturn('20000000000000')
-                ->shouldReceive('getCurrentReleasePath')->once();
-        });
+        /** @var ReleasesManager $prophecy */
+        $prophecy = $this->bindProphecy(ReleasesManager::class);
+        $prophecy->getValidationFile()->willReturn([10000000000000 => true]);
+        $prophecy->getCurrentRelease()->willReturn('20000000000000');
+        $prophecy->getCurrentReleasePath()->shouldBeCalled();
 
-        $this->assertTaskOutput('CurrentRelease', '20000000000000');
+        $this->assertTaskOutput('CurrentRelease', '20000000000000', $this->getCommand([], [
+            'pretend' => false,
+        ]));
     }
 
     public function testPrintsMessageIfNoReleaseDeployed()
     {
-        $this->mockReleases(function (MockInterface $mock) {
-            return $mock
-                ->shouldReceive('getValidationFile')->never()
-                ->shouldReceive('getCurrentRelease')->once()->andReturn(null)
-                ->shouldReceive('getCurrentReleasePath')->never();
-        });
+        /** @var ReleasesManager $prophecy */
+        $prophecy = $this->bindProphecy(ReleasesManager::class);
+        $prophecy->getValidationFile()->shouldNotBeCalled();
+        $prophecy->getCurrentRelease()->willReturn();
+        $prophecy->getCurrentReleasePath()->shouldNotBeCalled();
 
         $this->assertTaskOutput('CurrentRelease', 'No release has yet been deployed');
     }

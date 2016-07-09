@@ -13,6 +13,8 @@
 namespace Rocketeer\Tasks;
 
 use Mockery\MockInterface;
+use Prophecy\Argument;
+use Rocketeer\Services\Releases\ReleasesManager;
 use Rocketeer\Services\Storages\ServerStorage;
 use Rocketeer\TestCases\RocketeerTestCase;
 
@@ -20,35 +22,29 @@ class CleanupTest extends RocketeerTestCase
 {
     public function testCanCleanupServer()
     {
-        $this->mockReleases(function (MockInterface $mock) {
-            return $mock
-                ->shouldReceive('getDeprecatedReleases')->once()->andReturn([1, 2])
-                ->shouldReceive('getPathToRelease')->times(2)->andReturnUsing(function ($release) {
-                    return $release;
-                });
-        });
+        /** @var ReleasesManager $releases */
+        $releases = $this->bindProphecy(ReleasesManager::class);
+        $releases->getDeprecatedReleases()->willReturn([1, 2]);
+        $releases->getPathToRelease(Argument::any())->shouldBeCalledTimes(2)->willReturnArgument(1);
 
         $this->assertTaskOutput('Cleanup', 'Removing <info>2 releases</info> from the server');
     }
 
     public function testCanPruneAllReleasesIfCleanAll()
     {
-        $this->mockReleases(function (MockInterface $mock) {
-            return $mock
-                ->shouldReceive('getDeprecatedReleases')->never()
-                ->shouldReceive('getNonCurrentReleases')->once()->andReturn([1, 2])
-                ->shouldReceive('markReleaseAsValid')->once()
-                ->shouldReceive('getPathToRelease')->times(2)->andReturnUsing(function ($release) {
-                    return $release;
-                });
-        });
+        /** @var ReleasesManager $releases */
+        $releases = $this->bindProphecy(ReleasesManager::class);
+        $releases->getDeprecatedReleases()->shouldNotBeCalled();
+        $releases->getNonCurrentReleases()->willReturn([1, 2]);
+        $releases->markReleaseAsValid()->shouldBeCalled();
+        $releases->getPathToRelease(Argument::any())->shouldBeCalledTimes(2)->willReturnArgument(1);
 
         ob_start();
 
         $this->assertTaskOutput('Cleanup', 'Removing <info>2 releases</info> from the server', $this->getCommand([], [
             'clean-all' => true,
             'verbose' => true,
-            'pretend' => false,
+            'pretend' => true,
         ]));
 
         ob_end_clean();

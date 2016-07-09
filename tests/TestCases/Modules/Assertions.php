@@ -123,11 +123,12 @@ trait Assertions
      */
     protected function assertTaskOutput($task, $output, $command = null)
     {
+        $task = $this->pretendTask($task);
         if ($command) {
             $this->container->add('rocketeer.command', $command);
         }
 
-        return $this->assertContains($output, $this->task($task)->execute());
+        return $this->assertContains($output, $task->execute());
     }
 
     /**

@@ -16,6 +16,7 @@ use Closure;
 use League\Flysystem\Filesystem;
 use Mockery;
 use Mockery\MockInterface;
+use Prophecy\Prophecy\ObjectProphecy;
 use Rocketeer\Services\Connections\ConnectionsFactory;
 use Rocketeer\Services\Releases\ReleasesManager;
 
@@ -30,7 +31,7 @@ trait Mocks
      * @param string      $class
      * @param string|null $handle
      *
-     * @return \Prophecy\Prophecy\ObjectProphecy
+     * @return ObjectProphecy
      */
     protected function bindProphecy($class, $handle = null)
     {

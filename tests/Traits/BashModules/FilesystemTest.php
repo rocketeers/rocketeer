@@ -67,6 +67,7 @@ class FilesystemTest extends RocketeerTestCase
 
     public function testCanOverwriteFolderWithSymlink()
     {
+        $this->pretend();
         $this->mockOperatingSystem();
 
         // Create dummy folders
@@ -79,9 +80,10 @@ class FilesystemTest extends RocketeerTestCase
 
         clearstatcache();
 
-        $this->assertTrue($this->files->isDirectory($folderCurrent));
-        $this->assertTrue(is_link($folderCurrent));
-        @unlink($folderCurrent);
+        $this->assertHistory([
+            'rm -rf {server}/dummy-current',
+            'ln -s {server}/dummy-release {server}/dummy-current',
+        ]);
     }
 
     public function testCanListContentsOfAFolder()

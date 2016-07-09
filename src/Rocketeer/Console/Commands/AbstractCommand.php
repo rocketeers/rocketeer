@@ -109,7 +109,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface, C
     }
 
     /**
-     * @return OutputInterface
+     * @return SymfonyStyle
      */
     public function getOutput()
     {

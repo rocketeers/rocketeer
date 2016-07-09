@@ -13,6 +13,7 @@
 namespace Rocketeer\Tasks;
 
 use Mockery\MockInterface;
+use Prophecy\Argument;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class RollbackTest extends RocketeerTestCase
@@ -32,7 +33,7 @@ class RollbackTest extends RocketeerTestCase
         $this->mockOperatingSystem();
         $task = $this->pretendTask('Rollback');
 
-        $this->command->shouldReceive('argument')->with('release')->andReturn(15000000000000);
+        $this->command->getProphecy()->argument('release')->willReturn(15000000000000);
         $task->execute();
 
         $this->assertHistory([
@@ -46,8 +47,8 @@ class RollbackTest extends RocketeerTestCase
         $this->mockOperatingSystem();
         $task = $this->pretendTask('Rollback');
 
-        $this->command->shouldReceive('option')->with('list')->andReturn(true);
-        $this->command->shouldReceive('askWith')->andReturn(1);
+        $this->command->getProphecy()->option('list')->willReturn(true);
+        $this->command->getProphecy()->askWith(Argument::cetera())->willReturn(1);
         $task->execute();
 
         $this->assertHistory([
@@ -69,7 +70,7 @@ class RollbackTest extends RocketeerTestCase
     public function testCantRollbackToUnexistingRelease()
     {
         $task = $this->pretendTask('Rollback');
-        $this->command->shouldReceive('argument')->with('release')->andReturn('foobar');
+        $this->command->getProphecy()->argument('release')->willReturn('foobar');
 
         $task->execute();
 

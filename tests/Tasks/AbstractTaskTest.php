@@ -148,11 +148,10 @@ class AbstractTaskTest extends RocketeerTestCase
             [2, 10000000000000, '<fg=green>0999-11-30 00:00:00</fg=green>', '✓'],
         ];
 
-        $this->container->add('rocketeer.command', $this->getCommand()
-                                                  ->shouldReceive('table')->with($headers, $releases)->andReturn(null)->once()
-                                                  ->mock());
+        $this->command->getProphecy()->table($headers, $releases)->shouldBeCalled()->willReturn(null);
 
         $this->task('CurrentRelease')->execute();
+
     }
 
     public function testCanGetOptionsViaCommandOrSetters()
