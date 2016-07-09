@@ -20,9 +20,11 @@ use Mockery;
 use Mockery\MockInterface;
 use PHPUnit_Framework_TestCase;
 use Prophecy\Argument;
+use Prophecy\Prophecy\ObjectProphecy;
 use Rocketeer\Console\Commands\AbstractCommand;
 use Rocketeer\Container;
 use Rocketeer\Dummies\Tasks\MyCustomTask;
+use Rocketeer\Plugins\Laravel\Binaries\Artisan;
 use Rocketeer\Services\Connections\Connections\Connection;
 use Rocketeer\Services\Connections\ConnectionsFactory;
 use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
@@ -100,7 +102,6 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         $this->container->add('path.storage', $this->container->get('path').'/storage');
 
         // Replace some instances with mocks
-        $this->container->add('artisan', $this->getArtisan());
         $this->container->add(ConnectionsFactory::class, $this->getConnectionsFactory());
         $this->container->add('rocketeer.command', $this->getCommand());
 
@@ -269,21 +270,6 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Mock Artisan.
-     *
-     * @return Mockery
-     */
-    protected function getArtisan()
-    {
-        $artisan = Mockery::mock('Artisan');
-        $artisan->shouldReceive('add')->andReturnUsing(function ($command) {
-            return $command;
-        });
-
-        return $artisan;
-    }
-
-    /**
      * @return array
      */
     protected function getFactoryConfiguration()
@@ -372,9 +358,10 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
      */
     protected function getCommandOutput($verbosity = 0)
     {
-        $output = Mockery::mock('Symfony\Component\Console\Output\OutputInterface')->shouldIgnoreMissing();
-        $output->shouldReceive('getVerbosity')->andReturn($verbosity);
+        /** @var OutputInterface $output */
+        $output = $this->prophesize(OutputInterface::class);
+        $output->getVerbosity()->willReturn($verbosity);
 
-        return $output;
+        return $output->reveal();
     }
 }

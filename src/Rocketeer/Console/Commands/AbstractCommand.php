@@ -236,25 +236,6 @@ abstract class AbstractCommand extends Command implements IdentifierInterface, C
     }
 
     /**
-     * Returns the command name.
-     *
-     * @return string The command name
-     */
-    public function getName()
-    {
-        // Return commands as is in Laravel
-        $framework = $this->getFramework();
-        if ($framework && $framework->isInsideApplication() && !$this instanceof RocketeerCommand) {
-            $name = str_replace(':', '-', $this->name);
-            $name = 'deploy:'.$name;
-
-            return $name;
-        }
-
-        return $this->name;
-    }
-
-    /**
      * Get a global identifier for this entity.
      *
      * @return string

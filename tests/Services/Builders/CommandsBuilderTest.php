@@ -18,14 +18,29 @@ use Rocketeer\TestCases\RocketeerTestCase;
 
 class CommandsBuilderTest extends RocketeerTestCase
 {
-    public function testCanCreateCommandOfTask()
+    /**
+     * @dataProvider providesCommands
+     *
+     * @param string $command
+     * @param string $name
+     * @param string $class
+     * @param string $slug
+     */
+    public function testCanCreateCommandOfTask($command, $name, $class, $slug)
     {
-        $command = $this->builder->buildCommand('Deploy', 'lol');
-        $this->assertInstanceOf(DeployCommand::class, $command);
-        $this->assertEquals('deploy:deploy', $command->getName());
+        $command = $this->builder->buildCommand($command, $name);
+        $this->assertInstanceOf($class, $command);
+        $this->assertEquals($slug, $command->getName());
+    }
 
-        $command = $this->builder->buildCommand('ls', 'ls');
-        $this->assertInstanceOf(BaseTaskCommand::class, $command);
-        $this->assertEquals('deploy:ls', $command->getName());
+    /**
+     * @return array
+     */
+    public function providesCommands()
+    {
+        return [
+            'Existing task' => ['Deploy', 'lol', DeployCommand::class, 'deploy'],
+            'Custom task' => ['ls', 'ls', BaseTaskCommand::class, 'ls'],
+        ];
     }
 }

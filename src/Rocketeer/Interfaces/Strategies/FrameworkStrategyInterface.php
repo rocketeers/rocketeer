@@ -69,15 +69,4 @@ interface FrameworkStrategyInterface
      * @return string
      */
     public function processCommand($command);
-
-    //////////////////////////////////////////////////////////////////////
-    ////////////////////////////// CONSOLE ///////////////////////////////
-    //////////////////////////////////////////////////////////////////////
-
-    /**
-     * Register a command with the application's CLI.
-     *
-     * @param Command $command
-     */
-    public function registerConsoleCommand(Command $command);
 }

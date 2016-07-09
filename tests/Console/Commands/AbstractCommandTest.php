@@ -21,19 +21,6 @@ use Symfony\Component\Console\Output\NullOutput;
 
 class AbstractCommandTest extends RocketeerTestCase
 {
-    public function testProperlyNamespacesCommands()
-    {
-        $this->usesLaravel(true);
-        $command = new InstallCommand();
-        $command->setContainer($this->container);
-        $this->assertEquals('deploy:plugin-install', $command->getName());
-
-        $this->usesLaravel(false);
-        $command = new InstallCommand();
-        $command->setContainer($this->container);
-        $this->assertEquals('plugin:install', $command->getName());
-    }
-
     public function testGetsProperStatusCodeFromPipelines()
     {
         $this->bindProphecy(CredentialsGatherer::class);

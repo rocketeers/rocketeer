@@ -119,12 +119,6 @@ class TasksHandler
         $this->container->add($slug, $task);
         $bound = $this->console->add(new BaseTaskCommand($this->container->get($slug)));
 
-        // Bind to framework too
-        if ($framework = $this->getFramework()) {
-            $command = $this->builder->buildCommand($task);
-            $framework->registerConsoleCommand($command);
-        }
-
         return $bound;
     }
 

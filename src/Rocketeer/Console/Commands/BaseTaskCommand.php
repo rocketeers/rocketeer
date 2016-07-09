@@ -41,7 +41,7 @@ class BaseTaskCommand extends AbstractCommand
 
         // Set name
         if ($this->name === 'custom' && $task) {
-            $this->name = $name ?: $task->getSlug();
+            $this->setName($name ?: $task->getSlug());
         }
     }
 
