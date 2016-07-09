@@ -79,12 +79,11 @@ class ConnectionsHandler
      */
     public function getConnections()
     {
-        // Get default and available connections
-        $available = $this->getAvailableConnections();
-
         // Convert to ConnectionKey/Connection instances
         if (!$this->available) {
             $connections = [];
+
+            $available = $this->getAvailableConnections();
             foreach ($available as $name => $connection) {
                 // Skip connections without any defined servers
                 $servers = $connection['servers'];
@@ -211,8 +210,8 @@ class ConnectionsHandler
         }
 
         $connections = $this->getConnections();
-        if ($this->current && $connections->has($this->current)) {
-            return $connections->get($this->current);
+        if ($this->current && $current = $connections->get($this->current)) {
+            return $current;
         }
 
         /** @var ConnectionInterface $connection */
