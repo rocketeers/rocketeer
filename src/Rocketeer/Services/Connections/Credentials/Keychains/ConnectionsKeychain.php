@@ -87,7 +87,7 @@ trait ConnectionsKeychain
         ]);
 
         // Populate credentials
-        $handle->servers = $this->getConnectionServers($handle);
+        $handle->servers = $this->getServersCredentials($handle);
 
         return $handle;
     }
@@ -120,7 +120,7 @@ trait ConnectionsKeychain
      *
      * @return string[][]
      */
-    public function getConnectionServers($connection = null)
+    public function getServersCredentials($connection = null)
     {
         $connection = $this->sanitizeConnection($connection);
         $available = $this->connections->getAvailableConnections();
@@ -143,10 +143,10 @@ trait ConnectionsKeychain
      *
      * @return array
      */
-    public function getConnectionServer($connection = null, $server = 0)
+    public function getServerCredentials($connection = null, $server = 0)
     {
         $connection = $this->sanitizeConnection($connection);
-        $servers = $this->getConnectionServers($connection);
+        $servers = $this->getServersCredentials($connection);
 
         return (array) Arr::get($servers, $server ?: $connection->server);
     }
@@ -166,7 +166,7 @@ trait ConnectionsKeychain
      */
     protected function filterUnsavableCredentials(ConnectionKey $connection, $credentials)
     {
-        $defined = $this->getConnectionServer($connection);
+        $defined = $this->getServerCredentials($connection);
         foreach ($credentials as $key => $value) {
             if (array_get($defined, $key) === true) {
                 unset($credentials[$key]);

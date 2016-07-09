@@ -37,7 +37,7 @@ class RolesManager
      */
     public function getConnectionRoles($connection = null, $server = null)
     {
-        $credentials = $this->credentials->getConnectionServer($connection, $server);
+        $credentials = $this->credentials->getServerCredentials($connection, $server);
 
         return Arr::get($credentials, 'roles', []);
     }

@@ -43,7 +43,7 @@ class BowerStrategy extends AbstractDependenciesStrategy implements Dependencies
     protected function getInstallationOptions($command)
     {
         $flags = (array) $this->getFlags($command);
-        $credentials = $this->credentials->getConnectionServer();
+        $credentials = $this->credentials->getServerCredentials();
         if (Arr::get($credentials, 'username') === 'root') {
             return array_merge($flags, ['--allow-root' => null]);
         }

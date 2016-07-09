@@ -68,7 +68,7 @@ class Ignite extends AbstractTask
 
         // Replace credentials
         $repository = $this->credentials->getCurrentRepository();
-        $credentials = $this->credentials->getConnectionServer();
+        $credentials = $this->credentials->getServerCredentials($this->connections->getCurrentConnectionKey());
         unset($credentials['config']);
 
         return array_merge(
