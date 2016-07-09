@@ -55,7 +55,7 @@ abstract class RocketeerTestCase extends ContainerTestCase
      *
      * @var array
      */
-    protected $binaries = [];
+    protected static $binaries = [];
 
     /**
      * Number of files an ls should yield.
@@ -94,7 +94,7 @@ abstract class RocketeerTestCase extends ContainerTestCase
         $this->mockOperatingSystem('Linux');
 
         // Cache paths
-        $this->binaries = $this->binaries ?: [
+        static::$binaries = static::$binaries ?: [
             'php' => exec('which php') ?: 'php',
             'bundle' => exec('which bundle') ?: 'bundle',
             'phpunit' => exec('which phpunit') ?: 'phpunit',

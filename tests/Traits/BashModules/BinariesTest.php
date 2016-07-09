@@ -71,11 +71,11 @@ class BinariesTest extends RocketeerTestCase
     public function testCanSetPathToPhpAndArtisan()
     {
         $this->mockConfig([
-            'paths.php' => $this->binaries['php'],
-            'paths.artisan' => $this->binaries['php'],
+            'paths.php' => static::$binaries['php'],
+            'paths.artisan' => static::$binaries['php'],
         ]);
 
-        $this->assertEquals($this->binaries['php'].' '.$this->binaries['php'].' migrate --force',
+        $this->assertEquals(static::$binaries['php'].' '.static::$binaries['php'].' migrate --force',
             $this->task->artisan()->migrate());
     }
 
@@ -93,10 +93,10 @@ class BinariesTest extends RocketeerTestCase
     public function testFetchesBinaryIfNotSpecifiedOrNull()
     {
         $this->mockConfig([
-            'paths.php' => $this->binaries['php'],
+            'paths.php' => static::$binaries['php'],
         ]);
 
-        $this->assertEquals($this->binaries['php'].' artisan migrate --force', $this->task->artisan()->migrate());
+        $this->assertEquals(static::$binaries['php'].' artisan migrate --force', $this->task->artisan()->migrate());
     }
 
     public function testCanGetBinary()

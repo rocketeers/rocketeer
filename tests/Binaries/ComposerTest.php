@@ -22,6 +22,6 @@ class ComposerTest extends RocketeerTestCase
         $composer = new Composer($this->container);
         $composer->setBinary('composer.phar');
 
-        $this->assertEquals($this->binaries['php'].' composer.phar install', $composer->install());
+        $this->assertEquals(static::$binaries['php'].' composer.phar install', $composer->install());
     }
 }

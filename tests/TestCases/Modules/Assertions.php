@@ -238,14 +238,14 @@ trait Assertions
             }
 
             $replaced[$key] = strtr($entries, [
-                '{php}' => $this->binaries['php'],
-                '{bundle}' => $this->binaries['bundle'],
-                '{phpunit}' => $this->binaries['phpunit'],
+                '{php}' => static::$binaries['php'],
+                '{bundle}' => static::$binaries['bundle'],
+                '{phpunit}' => static::$binaries['phpunit'],
                 '{repository}' => 'https://github.com/'.$this->repository,
                 '{server}' => $this->server,
                 '{storage}' => $this->paths->getStoragePath(),
                 '{release}' => $release,
-                '{composer}' => $this->binaries['composer'],
+                '{composer}' => static::$binaries['composer'],
                 '{time}' => $time,
             ]);
         }
