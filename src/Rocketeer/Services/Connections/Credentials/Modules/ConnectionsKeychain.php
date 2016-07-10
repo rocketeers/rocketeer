@@ -10,19 +10,18 @@
  *
  */
 
-namespace Rocketeer\Services\Connections\Credentials\Keychains;
+namespace Rocketeer\Services\Connections\Credentials\Modules;
 
 use Illuminate\Support\Arr;
 use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
+use Rocketeer\Services\Modules\AbstractModule;
 
 /**
  * Finds credentials and informations about connections.
  *
- * @mixin \Rocketeer\Services\Connections\Credentials\CredentialsHandler
- *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-trait ConnectionsKeychain
+class ConnectionsKeychain extends AbstractModule
 {
     /**
      * Persists connection credentials to cache.
@@ -173,5 +172,19 @@ trait ConnectionsKeychain
         }
 
         return $credentials;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getProvided()
+    {
+        return [
+            'createConnectionKey',
+            'getServerCredentials',
+            'getServersCredentials',
+            'sanitizeConnection',
+            'syncConnectionCredentials',
+        ];
     }
 }

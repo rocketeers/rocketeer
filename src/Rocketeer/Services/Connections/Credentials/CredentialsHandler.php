@@ -12,13 +12,19 @@
 
 namespace Rocketeer\Services\Connections\Credentials;
 
-use Rocketeer\Services\Connections\Credentials\Keychains\ConnectionsKeychain;
-use Rocketeer\Services\Connections\Credentials\Keychains\RepositoriesKeychain;
+use League\Container\ContainerAwareInterface;
+use Rocketeer\Services\Connections\Credentials\Modules\ConnectionsKeychain;
+use Rocketeer\Services\Connections\Credentials\Modules\RepositoriesKeychain;
+use Rocketeer\Services\Modules\ModulableInterface;
+use Rocketeer\Services\Modules\ModulableTrait;
 use Rocketeer\Traits\ContainerAwareTrait;
 
-class CredentialsHandler
+/**
+ * @mixin ConnectionsKeychain
+ * @mixin RepositoriesKeychain
+ */
+class CredentialsHandler implements ModulableInterface, ContainerAwareInterface
 {
+    use ModulableTrait;
     use ContainerAwareTrait;
-    use RepositoriesKeychain;
-    use ConnectionsKeychain;
 }

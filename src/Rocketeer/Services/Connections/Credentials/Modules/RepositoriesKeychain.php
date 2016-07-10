@@ -10,19 +10,18 @@
  *
  */
 
-namespace Rocketeer\Services\Connections\Credentials\Keychains;
+namespace Rocketeer\Services\Connections\Credentials\Modules;
 
 use Illuminate\Support\Arr;
 use Rocketeer\Services\Connections\Credentials\Keys\RepositoryKey;
+use Rocketeer\Services\Modules\AbstractModule;
 
 /**
  * Finds credentials and informations about repositories.
  *
- * @mixin \Rocketeer\Services\Connections\Credentials\CredentialsHandler
- *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-trait RepositoriesKeychain
+class RepositoriesKeychain extends AbstractModule
 {
     /**
      * Get the current repository in use.
@@ -106,5 +105,15 @@ trait RepositoriesKeychain
         }
 
         return $branch;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getProvided()
+    {
+        return [
+            'getCurrentRepository',
+        ];
     }
 }
