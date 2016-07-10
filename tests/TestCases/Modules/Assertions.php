@@ -225,14 +225,9 @@ trait Assertions
     {
         $release = $release ?: date('YmdHis');
         $time = $time ?: time();
-        $hhvm = defined('HHVM_VERSION');
 
         $replaced = [];
         foreach ($history as $key => $entries) {
-            if ($hhvm && $entries === '{php} -m') {
-                continue;
-            }
-
             if (is_array($entries)) {
                 $replaced[$key] = $this->replaceHistoryPlaceholders($entries, $release);
                 continue;

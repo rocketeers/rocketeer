@@ -16,12 +16,29 @@ use Rocketeer\TestCases\RocketeerTestCase;
 
 class PhpTest extends RocketeerTestCase
 {
-    public function testCanCheckIfUsesHhvm()
+    /**
+     * @dataProvider providesHhvmStatus
+     *
+     * @param int $defined
+     */
+    public function testCanCheckIfUsesHhvm($defined)
     {
-        $php = new Php($this->container);
-        $hhvm = $php->isHhvm();
-        $defined = defined('HHVM_VERSION');
+        $this->mockRemote([
+            'which php' => 'php',
+            'php -r "print defined(\'HHVM_VERSION\');"' => $defined,
+        ]);
 
-        $this->assertEquals($defined, $hhvm);
+        $this->assertEquals($defined, $this->bash->php()->isHhvm());
+    }
+
+    /**
+     * @return array
+     */
+    public function providesHhvmStatus()
+    {
+        return [
+            [1],
+            [0],
+        ];
     }
 }
