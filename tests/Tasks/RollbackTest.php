@@ -20,7 +20,6 @@ class RollbackTest extends RocketeerTestCase
 {
     public function testCanRollbackRelease()
     {
-
         $this->assertTaskHistory('Rollback', [[
             'ln -s {server}/releases/10000000000000 {server}/current-temp',
             'mv -Tf {server}/current-temp {server}/current',

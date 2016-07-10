@@ -11,4 +11,6 @@ humbuglog.txt
 phpunit.xml
 tests/_coverage/
 
+# Development
 TODO.md
+Vagrantfile
