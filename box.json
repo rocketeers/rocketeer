@@ -27,7 +27,9 @@
                 "phpunit",
                 "sebastian",
                 "tedivm",
+                "test",
                 "tests",
+                "Tests",
                 "webmozart"
             ],
             "in": "vendor"
