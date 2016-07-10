@@ -406,6 +406,8 @@ class ConnectionsHandler
 
         // Add credentials if possible
         if ($username || $password) {
+            $username = urlencode($username);
+            $password = urlencode($password);
 
             // Build credentials chain
             $credentials = $password ? $username.':'.$password : $username;

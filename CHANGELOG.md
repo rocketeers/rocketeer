@@ -2,6 +2,12 @@
 
 Rocketeer follows the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.html) spec.
 
+## [2.2.1] - Unreleased
+
+### Fixed
+- Rocketeer now uses the `composer.json` as source of truth for which extensions to check against
+- Fixed characters encoding in repository credentials
+
 ## [2.2.0] - 2015-04-04
 
 ### Added
