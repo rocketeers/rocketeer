@@ -20,41 +20,38 @@ class RollbackTest extends RocketeerTestCase
 {
     public function testCanRollbackRelease()
     {
-        $this->mockOperatingSystem();
 
-        $this->assertTaskHistory('Rollback', [
-            'rm -rf {server}/current',
-            'ln -s {server}/releases/10000000000000 {server}/current',
-        ]);
+        $this->assertTaskHistory('Rollback', [[
+            'ln -s {server}/releases/10000000000000 {server}/current-temp',
+            'mv -Tf {server}/current-temp {server}/current',
+        ]]);
     }
 
     public function testCanRollbackToSpecificRelease()
     {
-        $this->mockOperatingSystem();
         $task = $this->pretendTask('Rollback');
 
         $this->command->getProphecy()->argument('release')->willReturn(15000000000000);
         $task->execute();
 
-        $this->assertHistory([
-            'rm -rf {server}/current',
-            'ln -s {server}/releases/15000000000000 {server}/current',
-        ]);
+        $this->assertHistory([[
+            'ln -s {server}/releases/15000000000000 {server}/current-temp',
+            'mv -Tf {server}/current-temp {server}/current',
+        ]]);
     }
 
     public function testCanGetShownAvailableReleases()
     {
-        $this->mockOperatingSystem();
         $task = $this->pretendTask('Rollback');
 
         $this->command->getProphecy()->option('list')->willReturn(true);
         $this->command->getProphecy()->askWith(Argument::cetera())->willReturn(1);
         $task->execute();
 
-        $this->assertHistory([
-            'rm -rf {server}/current',
-            'ln -s {server}/releases/15000000000000 {server}/current',
-        ]);
+        $this->assertHistory([[
+            'ln -s {server}/releases/15000000000000 {server}/current-temp',
+            'mv -Tf {server}/current-temp {server}/current',
+        ]]);
     }
 
     public function testCantRollbackIfNoPreviousRelease()

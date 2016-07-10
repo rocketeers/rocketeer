@@ -13,7 +13,6 @@
 namespace Rocketeer\Traits;
 
 use Illuminate\Support\Arr;
-use League\Container\ContainerAwareTrait as LeagueContainerAwareTrait;
 use League\Event\Emitter;
 use Rocketeer\Bash;
 use Rocketeer\Binaries\Scm\ScmInterface;
