@@ -50,7 +50,7 @@ class ConfigurationServiceProvider extends AbstractServiceProvider
         });
 
         $this->container->share(ConfigurationCache::class, function () {
-            return new ConfigurationCache($this->container->get(Pathfinder::class)->getConfigurationCachePath(), false);
+            return new ConfigurationCache($this->container->get(Pathfinder::class)->getConfigurationCachePath(), true);
         });
 
         $this->container->share('config.loader', function () {
