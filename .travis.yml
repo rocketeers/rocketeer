@@ -36,13 +36,13 @@ before_install:
 
 install:
   - travis_retry composer update --no-interaction --prefer-dist $COMPOSER_FLAGS
-  - if [[ $COMPOSER_FLAGS ]]; then composer update kherge/box phpspec/prophecy php-vfs/php-vfs squizlabs/php_codesniffer; fi
+  - if [[ $COMPOSER_FLAGS ]]; then composer update phpspec/prophecy php-vfs/php-vfs squizlabs/php_codesniffer; fi
 
 script:
   - composer test
   - composer lint
-  - if [[ ! $IS_HHVM ]]; then composer build; fi
-  - if [[ ! $IS_HHVM ]]; then php bin/rocketeer.phar --version; fi
+  - if [ ! $IS_HHVM ] && [ ! $COMPOSER_FLAGS ]; then composer build; fi
+  - if [ ! $IS_HHVM ] && [ ! $COMPOSER_FLAGS ]; then php bin/rocketeer.phar --version; fi
 
 # Gitter notifications
 notifications:
