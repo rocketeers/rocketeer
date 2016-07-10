@@ -14,7 +14,6 @@ namespace Rocketeer\Traits;
 
 use Illuminate\Support\Arr;
 use League\Event\Emitter;
-use Rocketeer\Bash;
 use Rocketeer\Binaries\Scm\ScmInterface;
 use Rocketeer\Console\Console;
 use Rocketeer\Rocketeer;
@@ -26,6 +25,7 @@ use Rocketeer\Services\Connections\ConnectionsHandler;
 use Rocketeer\Services\Connections\Coordinator;
 use Rocketeer\Services\Connections\Credentials\CredentialsGatherer;
 use Rocketeer\Services\Connections\Credentials\CredentialsHandler;
+use Rocketeer\Services\Connections\Shell\Bash;
 use Rocketeer\Services\Display\QueueExplainer;
 use Rocketeer\Services\Display\QueueTimer;
 use Rocketeer\Services\Environment\Environment;
@@ -42,22 +42,22 @@ use Symfony\Component\Console\Output\OutputInterface;
  * A trait for Service Locator-based classes wich adds
  * a few shortcuts to Rocketeer classes.
  *
- * @property \Rocketeer\Services\Config\ContextualConfiguration                               config
- * @property \Rocketeer\Services\Config\Files\ConfigurationLoader                             configurationLoader
- * @property \Rocketeer\Services\Config\Files\ConfigurationPublisher                          configurationPublisher
- * @property \League\Event\Emitter                                                            events
- * @property \League\Flysystem\FilesystemInterface                                            files
- * @property \League\Flysystem\MountManager                                  flysystem
- * @property \Illuminate\Foundation\Artisan                                  artisan
- * @property \Illuminate\Log\Writer                                          log
- * @property \Rocketeer\Console\Commands\AbstractCommand                     command
- * @property \Rocketeer\Bash                                                 bash
- * @property \Rocketeer\Console\Console                                      console
- * @property \Rocketeer\Binaries\Scm\ScmInterface                            scm
- * @property \Rocketeer\Rocketeer                                            rocketeer
- * @property \Rocketeer\Services\Connections\ConnectionsHandler              connections
- * @property \Rocketeer\Services\Connections\Coordinator                     coordinator
- * @property \Rocketeer\Services\Connections\ConnectionsFactory              remote
+ * @property \Rocketeer\Services\Config\ContextualConfiguration      config
+ * @property \Rocketeer\Services\Config\Files\ConfigurationLoader    configurationLoader
+ * @property \Rocketeer\Services\Config\Files\ConfigurationPublisher configurationPublisher
+ * @property \League\Event\Emitter                                   events
+ * @property \League\Flysystem\FilesystemInterface                   files
+ * @property \League\Flysystem\MountManager                          flysystem
+ * @property \Illuminate\Foundation\Artisan                          artisan
+ * @property \Illuminate\Log\Writer                                  log
+ * @property \Rocketeer\Console\Commands\AbstractCommand             command
+ * @property \Rocketeer\Services\Connections\Shell\Bash              bash
+ * @property \Rocketeer\Console\Console                              console
+ * @property \Rocketeer\Binaries\Scm\ScmInterface                    scm
+ * @property \Rocketeer\Rocketeer                                    rocketeer
+ * @property \Rocketeer\Services\Connections\ConnectionsHandler      connections
+ * @property \Rocketeer\Services\Connections\Coordinator             coordinator
+ * @property \Rocketeer\Services\Connections\ConnectionsFactory      remote
  * @property \Rocketeer\Services\Connections\Credentials\CredentialsGatherer credentialsGatherer
  * @property \Rocketeer\Services\Connections\Credentials\CredentialsHandler  credentials
  * @property \Rocketeer\Services\Display\QueueExplainer                      explainer

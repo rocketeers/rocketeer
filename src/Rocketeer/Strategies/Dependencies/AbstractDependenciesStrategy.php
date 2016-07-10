@@ -10,9 +10,11 @@
  *
  */
 
-namespace Rocketeer\Strategies;
+namespace Rocketeer\Strategies\Dependencies;
 
 use Rocketeer\Container;
+use Rocketeer\Strategies\AbstractStrategy;
+use Rocketeer\Strategies\HasBinaryTrait;
 
 /**
  * Abstract class for Dependencies strategies.
@@ -21,12 +23,7 @@ use Rocketeer\Container;
  */
 abstract class AbstractDependenciesStrategy extends AbstractStrategy
 {
-    /**
-     * The name of the binary.
-     *
-     * @var string
-     */
-    protected $binary;
+    use HasBinaryTrait;
 
     /**
      * @var array
@@ -36,37 +33,11 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
     ];
 
     /**
-     * The package manager instance.
-     *
-     * @var \Rocketeer\Binaries\PackageManagers\AbstractPackageManager
-     */
-    protected $manager;
-
-    /**
      * @param Container $container
      */
     public function __construct(Container $container)
     {
         $this->container = $container;
-        $this->manager = $this->binary($this->binary);
-    }
-
-    /**
-     * @param \Rocketeer\Binaries\PackageManagers\AbstractPackageManager $manager
-     */
-    public function setManager($manager)
-    {
-        $this->manager = $manager;
-    }
-
-    /**
-     * Get an instance of the Binary.
-     *
-     * @return \Rocketeer\Binaries\PackageManagers\AbstractPackageManager
-     */
-    protected function getManager()
-    {
-        return $this->manager;
     }
 
     /**
@@ -76,7 +47,7 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
      */
     public function isExecutable()
     {
-        return $this->manager->isExecutable();
+        return $this->getBinary()->isExecutable();
     }
 
     //////////////////////////////////////////////////////////////////////
@@ -93,7 +64,7 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
         $this->shareDependenciesFolder();
 
         return $this->runWithBeforeAfterEvents(function () {
-            return $this->manager->runForApplication('install', [], $this->getInstallationOptions('install'));
+            return $this->getBinary()->runForApplication('install', [], $this->getInstallationOptions('install'));
         });
     }
 
@@ -105,7 +76,7 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
     public function update()
     {
         return $this->runWithBeforeAfterEvents(function () {
-            return $this->manager->runForApplication('update', [], $this->getInstallationOptions('update'));
+            return $this->getBinary()->runForApplication('update', [], $this->getInstallationOptions('update'));
         });
     }
 
@@ -118,7 +89,7 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
      */
     protected function shareDependenciesFolder()
     {
-        $folder = $this->manager->getDependenciesFolder();
+        $folder = $this->getBinary()->getDependenciesFolder();
         $sharedDependencies = $this->getOption('shared_dependencies', true);
         if (!$sharedDependencies || !$folder) {
             return;

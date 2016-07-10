@@ -12,21 +12,19 @@
 
 namespace Rocketeer\Strategies\Dependencies;
 
-use Rocketeer\Strategies\AbstractDependenciesStrategy;
-
 class NpmStrategy extends AbstractDependenciesStrategy implements DependenciesStrategyInterface
 {
-    /**
-     * @var string
-     */
-    protected $description = 'Installs dependencies with NPM';
-
     /**
      * The name of the binary.
      *
      * @var string
      */
     protected $binary = 'npm';
+
+    /**
+     * @var string
+     */
+    protected $description = 'Installs dependencies with NPM';
 
     /**
      * @var array

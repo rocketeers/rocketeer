@@ -13,16 +13,9 @@
 namespace Rocketeer\Strategies\Check;
 
 use Illuminate\Support\Arr;
-use Rocketeer\Container;
-use Rocketeer\Strategies\AbstractCheckStrategy;
 
 class RubyStrategy extends AbstractCheckStrategy implements CheckStrategyInterface
 {
-    /**
-     * @var string
-     */
-    protected $description = 'Checks if the server is ready to receive a Ruby application';
-
     /**
      * The language of the strategy.
      *
@@ -31,13 +24,19 @@ class RubyStrategy extends AbstractCheckStrategy implements CheckStrategyInterfa
     protected $language = 'Ruby';
 
     /**
-     * @param Container $container
+     * @var string
      */
-    public function __construct(Container $container)
-    {
-        $this->container = $container;
-        $this->manager = $this->binary('bundler');
-    }
+    protected $binary = 'ruby';
+
+    /**
+     * @var string
+     */
+    protected $manager = 'bundler';
+
+    /**
+     * @var string
+     */
+    protected $description = 'Checks if the server is ready to receive a Ruby application';
 
     //////////////////////////////////////////////////////////////////////
     /////////////////////////////// CHECKS ///////////////////////////////
@@ -65,7 +64,7 @@ class RubyStrategy extends AbstractCheckStrategy implements CheckStrategyInterfa
      */
     protected function getCurrentVersion()
     {
-        $version = $this->binary('ruby')->run('--version');
+        $version = $this->getBinary()->run('--version');
         $version = preg_replace('/ruby ([0-9\.]+)p?.+/', '$1', $version);
 
         return $version;

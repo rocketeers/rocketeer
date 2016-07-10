@@ -13,7 +13,7 @@
 namespace Rocketeer\Strategies;
 
 use Mockery\MockInterface;
-use Rocketeer\Bash;
+use Rocketeer\Services\Connections\Shell\Bash;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class AbstractDependenciesStrategyTest extends RocketeerTestCase

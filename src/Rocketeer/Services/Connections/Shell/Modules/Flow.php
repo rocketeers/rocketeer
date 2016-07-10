@@ -10,18 +10,14 @@
  *
  */
 
-namespace Rocketeer\Traits\BashModules;
+namespace Rocketeer\Services\Connections\Shell\Modules;
 
 /**
  * Handles the deployment flow (current/releases/shared).
  *
- * @mixin Core
- * @mixin Filesystem
- * @mixin Binaries
- *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-trait Flow
+class Flow extends AbstractBashModule
 {
     /**
      * Whether the task needs to be run on each stage or globally.
@@ -37,7 +33,7 @@ trait Flow
      */
     public function isSetup()
     {
-        return $this->fileExists($this->paths->getFolder('current'));
+        return $this->modulable->fileExists($this->paths->getFolder('current'));
     }
 
     /**
@@ -61,7 +57,7 @@ trait Flow
      */
     public function runForCurrentRelease($tasks)
     {
-        return $this->runInFolder($this->releasesManager->getCurrentReleasePath(), $tasks);
+        return $this->modulable->runInFolder($this->releasesManager->getCurrentReleasePath(), $tasks);
     }
 
     /**
@@ -76,7 +72,7 @@ trait Flow
         $folder = $this->config->getContextually('remote.subdirectory');
         $folder = $this->releasesManager->getCurrentReleasePath($folder);
 
-        return $this->runInFolder($folder, $tasks);
+        return $this->modulable->runInFolder($folder, $tasks);
     }
 
     ////////////////////////////////////////////////////////////////////
@@ -116,7 +112,7 @@ trait Flow
         $currentReleasePath = $this->releasesManager->getCurrentReleasePath();
         $currentFolder = $this->paths->getFolder('current');
 
-        return $this->symlink($currentReleasePath, $currentFolder);
+        return $this->modulable->symlink($currentReleasePath, $currentFolder);
     }
 
     /**
@@ -133,13 +129,13 @@ trait Flow
         $sharedFile = preg_replace('#releases/[0-9]+/#', 'shared/', $currentFile);
 
         // If no instance of the shared file exists, use current one
-        if (!$this->fileExists($sharedFile)) {
-            $this->move($currentFile, $sharedFile);
+        if (!$this->modulable->fileExists($sharedFile)) {
+            $this->modulable->move($currentFile, $sharedFile);
         }
 
         $this->explainer->line('Sharing file '.$currentFile);
 
-        return $this->symlink($sharedFile, $currentFile);
+        return $this->modulable->symlink($sharedFile, $currentFile);
     }
 
     /**
@@ -160,6 +156,22 @@ trait Flow
         $previous = $this->releasesManager->getPathToRelease($previous.'/'.$folder);
         $folder = $this->releasesManager->getCurrentReleasePath($folder);
 
-        return $this->copy($previous, $folder);
+        return $this->modulable->copy($previous, $folder);
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getProvided()
+    {
+        return [
+            'copyFromPreviousRelease',
+            'isSetup',
+            'runForApplication',
+            'runForCurrentRelease',
+            'share',
+            'updateSymlink',
+            'usesStages',
+        ];
     }
 }

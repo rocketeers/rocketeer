@@ -22,18 +22,18 @@ class PolyglotStrategy extends AbstractPolyglotStrategy implements DependenciesS
     protected $description = 'Runs all of the above package managers if necessary';
 
     /**
-     * The various strategies to call.
-     *
-     * @var array
-     */
-    protected $strategies = ['Bundler', 'Composer', 'Npm', 'Bower'];
-
-    /**
      * The type of the sub-strategies.
      *
      * @var string
      */
     protected $type = 'Dependencies';
+
+    /**
+     * The various strategies to call.
+     *
+     * @var array
+     */
+    protected $strategies = ['Bundler', 'Composer', 'Npm', 'Bower'];
 
     /**
      * Install the dependencies.

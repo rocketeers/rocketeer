@@ -13,7 +13,7 @@
 namespace Rocketeer\Traits\BashModules;
 
 use Mockery\MockInterface;
-use Rocketeer\Bash;
+use Rocketeer\Services\Connections\Shell\Bash;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class ScmTest extends RocketeerTestCase

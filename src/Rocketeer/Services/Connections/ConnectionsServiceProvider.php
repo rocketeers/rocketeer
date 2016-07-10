@@ -13,10 +13,14 @@
 namespace Rocketeer\Services\Connections;
 
 use League\Container\ServiceProvider\AbstractServiceProvider;
-use Rocketeer\Bash;
 use Rocketeer\Services\Connections\Connections\LocalConnection;
 use Rocketeer\Services\Connections\Credentials\CredentialsGatherer;
 use Rocketeer\Services\Connections\Credentials\CredentialsHandler;
+use Rocketeer\Services\Connections\Shell\Bash;
+use Rocketeer\Services\Connections\Shell\Modules\Binaries;
+use Rocketeer\Services\Connections\Shell\Modules\Core;
+use Rocketeer\Services\Connections\Shell\Modules\Filesystem;
+use Rocketeer\Services\Connections\Shell\Modules\Flow;
 
 class ConnectionsServiceProvider extends AbstractServiceProvider
 {
@@ -39,11 +43,20 @@ class ConnectionsServiceProvider extends AbstractServiceProvider
     public function register()
     {
         $this->container->share('remote.local', LocalConnection::class)->withArgument($this->container);
-        $this->container->share(Bash::class)->withArgument($this->container);
         $this->container->share(ConnectionsFactory::class);
         $this->container->share(ConnectionsHandler::class)->withArgument($this->container);
         $this->container->share(Coordinator::class)->withArgument($this->container);
         $this->container->share(CredentialsGatherer::class)->withArgument($this->container);
         $this->container->share(CredentialsHandler::class)->withArgument($this->container);
+
+        $this->container->share(Bash::class, function () {
+            $bash = new Bash($this->container);
+            $bash->register(new Binaries());
+            $bash->register(new Core());
+            $bash->register(new Filesystem());
+            $bash->register(new Flow());
+
+            return $bash;
+        });
     }
 }

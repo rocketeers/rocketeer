@@ -14,8 +14,8 @@ namespace Rocketeer\Binaries;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Rocketeer\Bash;
 use Rocketeer\Container;
+use Rocketeer\Services\Connections\Shell\Bash;
 use Rocketeer\Traits\ContainerAwareTrait;
 
 /**

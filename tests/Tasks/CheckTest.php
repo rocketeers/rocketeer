@@ -14,7 +14,7 @@ namespace Rocketeer\Tasks;
 
 use Mockery\MockInterface;
 use Rocketeer\Binaries\PackageManagers\Composer;
-use Rocketeer\Strategies\AbstractCheckStrategy;
+use Rocketeer\Strategies\Check\AbstractCheckStrategy;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class CheckTest extends RocketeerTestCase

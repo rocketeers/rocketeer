@@ -10,14 +10,10 @@
  *
  */
 
-namespace Rocketeer\Traits\BashModules;
+namespace Rocketeer\Services\Connections\Shell\Modules;
 
 /**
  * Handles finding and calling binaries.
- *
- * @mixin Core
- * @mixin Filesystem
- * @mixin Flow
  *
  * @method \Rocketeer\Binaries\PackageManagers\Bower bower()
  * @method \Rocketeer\Binaries\PackageManagers\Bundler bundler()
@@ -31,8 +27,13 @@ namespace Rocketeer\Traits\BashModules;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-trait Binaries
+class Binaries extends AbstractBashModule
 {
+    /**
+     * @var bool
+     */
+    protected $default = true;
+
     /**
      * Get a binary.
      *
@@ -64,7 +65,7 @@ trait Binaries
      */
     public function binary($binary)
     {
-        return $this->builder->buildBinary($binary);
+        return $this->modulable->builder->buildBinary($binary);
     }
 
     ////////////////////////////////////////////////////////////////////
@@ -133,7 +134,7 @@ trait Binaries
         }
 
         // Store found location or remove it if invalid
-        if (!$this->local) {
+        if (!$this->modulable->isLocal()) {
             if ($location) {
                 $this->localStorage->set($this->getBinaryStoragePath($binary), $location);
             } else {
@@ -153,7 +154,7 @@ trait Binaries
      */
     public function rawWhich($location)
     {
-        $location = $this->bash->runSilently('which '.$location);
+        $location = $this->modulable->runSilently('which '.$location);
         if (strpos($location, 'not found') !== false || strpos($location, 'in (') !== false) {
             return false;
         }
@@ -171,5 +172,17 @@ trait Binaries
     protected function getBinaryStoragePath($binary)
     {
         return 'paths.'.$this->connections->getCurrentConnectionKey()->name.'.'.$binary;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getProvided()
+    {
+        return [
+            'binary',
+            'rawWhich',
+            'which',
+        ];
     }
 }

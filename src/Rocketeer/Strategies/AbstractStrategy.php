@@ -13,8 +13,8 @@
 namespace Rocketeer\Strategies;
 
 use Illuminate\Support\Arr;
-use Rocketeer\Bash;
 use Rocketeer\Interfaces\IdentifierInterface;
+use Rocketeer\Services\Connections\Shell\Bash;
 use Rocketeer\Traits\Properties\ConfigurableTrait;
 use Rocketeer\Traits\Properties\HasEventsTrait;
 use Rocketeer\Traits\SluggableTrait;

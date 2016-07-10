@@ -12,19 +12,17 @@
 
 namespace Rocketeer\Strategies\Dependencies;
 
-use Rocketeer\Strategies\AbstractDependenciesStrategy;
-
 class BundlerStrategy extends AbstractDependenciesStrategy implements DependenciesStrategyInterface
 {
-    /**
-     * @var string
-     */
-    protected $description = 'Installs dependencies with Bundler';
-
     /**
      * The name of the binary.
      *
      * @var string
      */
     protected $binary = 'bundler';
+
+    /**
+     * @var string
+     */
+    protected $description = 'Installs dependencies with Bundler';
 }

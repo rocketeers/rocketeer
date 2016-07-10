@@ -19,7 +19,7 @@ use Rocketeer\TestCases\RocketeerTestCase;
 class BowerStrategyTest extends RocketeerTestCase
 {
     /**
-     * @var \Rocketeer\Strategies\Dependencies\BowerStrategy
+     * @var BowerStrategy
      */
     protected $bower;
 
@@ -31,7 +31,7 @@ class BowerStrategyTest extends RocketeerTestCase
         $bower->setBinary('bower');
 
         $this->bower = $this->builder->buildStrategy('Dependencies', 'Bower');
-        $this->bower->setManager($bower);
+        $this->bower->setBinary($bower);
     }
 
     public function testCanInstallDependencies()

@@ -33,6 +33,7 @@ class PhpStrategyTest extends RocketeerTestCase
     {
         $this->mockRemote([
             'which php' => 'php',
+            'which composer' => 'composer',
             'php -r "print defined(\'HHVM_VERSION\');"' => false,
             'php -r "print PHP_VERSION;"' => '5.6.0',
         ]);
@@ -62,6 +63,7 @@ class PhpStrategyTest extends RocketeerTestCase
     public function testCanCheckPhpExtensions()
     {
         $this->mockHhvm(false, [
+            'which composer' => 'composer',
             'php -m' => 'sqlite',
         ]);
 

@@ -13,9 +13,9 @@
 namespace Rocketeer\Traits\BashModules;
 
 use Mockery\MockInterface;
-use Rocketeer\Bash;
 use Rocketeer\Binaries\Php;
 use Rocketeer\Console\Commands\AbstractCommand;
+use Rocketeer\Services\Connections\Shell\Bash;
 use Rocketeer\TestCases\RocketeerTestCase;
 use Symfony\Component\Console\Output\ConsoleOutput;
 

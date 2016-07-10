@@ -12,16 +12,14 @@
 
 namespace Rocketeer\Strategies\Dependencies;
 
-use Rocketeer\Strategies\AbstractDependenciesStrategy;
-
 class ComposerStrategy extends AbstractDependenciesStrategy implements DependenciesStrategyInterface
 {
-    protected $options = [
-        'shared_dependencies' => false,
-        'flags' => [
-            'install' => ['--no-interaction' => null, '--no-dev' => null, '--prefer-dist' => null],
-        ],
-    ];
+    /**
+     * The name of the binary.
+     *
+     * @var string
+     */
+    protected $binary = 'composer';
 
     /**
      * @var string
@@ -29,9 +27,12 @@ class ComposerStrategy extends AbstractDependenciesStrategy implements Dependenc
     protected $description = 'Installs dependencies with Composer';
 
     /**
-     * The name of the binary.
-     *
-     * @var string
+     * @var array
      */
-    protected $binary = 'composer';
+    protected $options = [
+        'shared_dependencies' => false,
+        'flags' => [
+            'install' => ['--no-interaction' => null, '--no-dev' => null, '--prefer-dist' => null],
+        ],
+    ];
 }

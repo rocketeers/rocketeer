@@ -10,16 +10,16 @@
  *
  */
 
-namespace Rocketeer\Strategies;
+namespace Rocketeer\Strategies\Check;
 
 use Illuminate\Support\Arr;
+use Rocketeer\Binaries\PackageManagers\AbstractPackageManager;
+use Rocketeer\Strategies\AbstractStrategy;
+use Rocketeer\Strategies\HasBinaryTrait;
 
 abstract class AbstractCheckStrategy extends AbstractStrategy
 {
-    /**
-     * @var \Rocketeer\Binaries\PackageManagers\AbstractPackageManager
-     */
-    protected $manager;
+    use HasBinaryTrait;
 
     /**
      * The language of the strategy.
@@ -29,20 +29,9 @@ abstract class AbstractCheckStrategy extends AbstractStrategy
     protected $language;
 
     /**
-     * @return \Rocketeer\Binaries\PackageManagers\AbstractPackageManager
+     * @var string
      */
-    public function getManager()
-    {
-        return $this->manager;
-    }
-
-    /**
-     * @param \Rocketeer\Binaries\PackageManagers\AbstractPackageManager $manager
-     */
-    public function setManager($manager)
-    {
-        $this->manager = $manager;
-    }
+    protected $manager;
 
     /**
      * @return string
@@ -50,6 +39,26 @@ abstract class AbstractCheckStrategy extends AbstractStrategy
     public function getLanguage()
     {
         return $this->language;
+    }
+
+    /**
+     * @return AbstractPackageManager
+     */
+    public function getManager()
+    {
+        if (is_string($this->manager)) {
+            $this->manager = $this->binary($this->manager);
+        }
+
+        return $this->manager;
+    }
+
+    /**
+     * @param string|AbstractPackageManager $manager
+     */
+    public function setManager($manager)
+    {
+        $this->manager = $manager;
     }
 
     //////////////////////////////////////////////////////////////////////
@@ -64,7 +73,7 @@ abstract class AbstractCheckStrategy extends AbstractStrategy
      */
     public function manager()
     {
-        return $this->manager && $this->manager->isExecutable();
+        return $this->getManager() && $this->getManager()->isExecutable();
     }
 
     /**
@@ -78,7 +87,7 @@ abstract class AbstractCheckStrategy extends AbstractStrategy
         $required = null;
 
         // Get the minimum version of the application
-        if ($this->manager && $manifest = $this->manager->getManifestContents()) {
+        if ($this->getManager() && $manifest = $this->getManager()->getManifestContents()) {
             $required = $this->getLanguageConstraint($manifest);
         }
 

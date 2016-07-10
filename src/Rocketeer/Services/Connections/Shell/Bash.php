@@ -10,24 +10,71 @@
  *
  */
 
-namespace Rocketeer;
+namespace Rocketeer\Services\Connections\Shell;
 
-use Rocketeer\Traits\BashModules\Binaries;
-use Rocketeer\Traits\BashModules\Core;
-use Rocketeer\Traits\BashModules\Filesystem;
-use Rocketeer\Traits\BashModules\Flow;
+use League\Container\ContainerAwareInterface;
+use Rocketeer\Services\Modules\ModulableInterface;
+use Rocketeer\Services\Modules\ModulableTrait;
+use Rocketeer\Traits\ContainerAwareTrait;
+use Rocketeer\Traits\Properties\HasHistoryTrait;
 
 /**
  * An helper to execute low-level commands on the remote server.
  *
+ * @mixin Modules\Binaries
+ * @mixin Modules\Core
+ * @mixin Modules\Filesystem
+ * @mixin Modules\Flow
+ *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class Bash
+class Bash implements ModulableInterface, ContainerAwareInterface
 {
-    use Core;
-    use Binaries;
-    use Filesystem;
-    use Flow;
+    use ContainerAwareTrait;
+    use HasHistoryTrait;
+    use ModulableTrait;
+
+    /**
+     * Whether to run the commands locally
+     * or on the server.
+     *
+     * @var bool
+     */
+    protected $local = false;
+
+    /**
+     * @param bool $local
+     */
+    public function setLocal($local)
+    {
+        $this->local = $local;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isLocal()
+    {
+        return $this->local;
+    }
+
+    /**
+     * Run a series of commands in local.
+     *
+     * @param callable $callback
+     *
+     * @return bool
+     */
+    public function onLocal(callable $callback)
+    {
+        $current = $this->rocketeer->isLocal();
+
+        $this->rocketeer->setLocal(true);
+        $results = $callback($this);
+        $this->rocketeer->setLocal($current);
+
+        return $results;
+    }
 
     //////////////////////////////////////////////////////////////////////
     ////////////////////////////// RUNNERS ///////////////////////////////

@@ -18,7 +18,7 @@ class BashTest extends RocketeerTestCase
 {
     public function testBashIsCorrectlyComposed()
     {
-        $contents = $this->task->runRaw('ls', true, true);
+        $contents = $this->bash->runRaw('ls', true, true);
 
         $this->assertListDirectory($contents);
     }

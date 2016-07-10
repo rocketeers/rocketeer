@@ -14,7 +14,7 @@ namespace Rocketeer\Strategies\Dependencies;
 
 use Mockery;
 use Mockery\MockInterface;
-use Rocketeer\Bash;
+use Rocketeer\Services\Connections\Shell\Bash;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class PolyglotStrategyTest extends RocketeerTestCase

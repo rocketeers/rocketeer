@@ -10,36 +10,19 @@
  *
  */
 
-namespace Rocketeer\Traits\BashModules;
+namespace Rocketeer\Services\Connections\Shell\Modules;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Rocketeer\Traits\ContainerAwareTrait;
-use Rocketeer\Traits\Properties\HasHistoryTrait;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Core handling of running commands and returning output.
  *
- * @mixin Binaries
- * @mixin Filesystem
- * @mixin Flow
- *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-trait Core
+class Core extends AbstractBashModule
 {
-    use ContainerAwareTrait;
-    use HasHistoryTrait;
-
-    /**
-     * Whether to run the commands locally
-     * or on the server.
-     *
-     * @var bool
-     */
-    protected $local = false;
-
     /**
      * @var string
      */
@@ -50,14 +33,6 @@ trait Core
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * @param bool $local
-     */
-    public function setLocal($local)
-    {
-        $this->local = $local;
-    }
-
-    /**
      * Get which Connection to call commands with.
      *
      * @return \Rocketeer\Services\Connections\Connections\ConnectionInterface
@@ -65,29 +40,11 @@ trait Core
     public function getConnection()
     {
         // Return LocalConnection if in local mode
-        if ($this->local || $this->rocketeer->isLocal()) {
+        if ($this->modulable->isLocal() || $this->rocketeer->isLocal()) {
             return $this->connections->getConnection('local');
         }
 
         return $this->connections->getCurrentConnection();
-    }
-
-    /**
-     * Run a series of commands in local.
-     *
-     * @param callable $callback
-     *
-     * @return bool
-     */
-    public function onLocal(callable $callback)
-    {
-        $current = $this->rocketeer->isLocal();
-
-        $this->rocketeer->setLocal(true);
-        $results = $callback($this);
-        $this->rocketeer->setLocal($current);
-
-        return $results;
     }
 
     /**
@@ -99,7 +56,7 @@ trait Core
      */
     public function runLocally($commands)
     {
-        return $this->onLocal(function () use ($commands) {
+        return $this->modulable->onLocal(function () use ($commands) {
             return $this->run($commands);
         });
     }
@@ -131,12 +88,12 @@ trait Core
 
         // Log the commands
         if (!$silent) {
-            $this->toHistory($commands);
+            $this->modulable->toHistory($commands);
         }
 
         // Display for pretend mode
         if ($verbose || ($pretend && !$silent)) {
-            $this->toOutput($commands);
+            $this->modulable->toOutput($commands);
             $this->displayCommands($commands);
 
             if ($pretend) {
@@ -157,7 +114,7 @@ trait Core
 
         // Process and log the output and commands
         $output = $this->processOutput($output, $array, true);
-        $this->toOutput($output);
+        $this->modulable->toOutput($output);
 
         return $output;
     }
@@ -411,7 +368,7 @@ trait Core
      *
      * @return string
      */
-    protected function shellCommand($command)
+    public function shellCommand($command)
     {
         return "bash --login -c '".$command."'";
     }
@@ -460,5 +417,29 @@ trait Core
         }
 
         return $output;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getProvided()
+    {
+        return [
+            'checkStatus',
+            'getConnection',
+            'getExtraOutput',
+            'getProvided  ',
+            'getTimestamp',
+            'onLocal',
+            'processCommands',
+            'run',
+            'runInFolder',
+            'runLast',
+            'runLocally',
+            'runRaw',
+            'runSilently',
+            'shellCommand',
+            'status',
+        ];
     }
 }

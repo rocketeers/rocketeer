@@ -12,9 +12,6 @@
 
 namespace Rocketeer\Strategies\Check;
 
-use Rocketeer\Container;
-use Rocketeer\Strategies\AbstractCheckStrategy;
-
 /**
  * Strategy for Node projects.
  *
@@ -23,11 +20,6 @@ use Rocketeer\Strategies\AbstractCheckStrategy;
 class NodeStrategy extends AbstractCheckStrategy implements CheckStrategyInterface
 {
     /**
-     * @var string
-     */
-    protected $description = 'Checks if the server is ready to receive a Node application';
-
-    /**
      * The language of the strategy.
      *
      * @var string
@@ -35,13 +27,19 @@ class NodeStrategy extends AbstractCheckStrategy implements CheckStrategyInterfa
     protected $language = 'Node';
 
     /**
-     * @param Container $container
+     * @var string
      */
-    public function __construct(Container $container)
-    {
-        $this->container = $container;
-        $this->manager = $this->binary('npm');
-    }
+    protected $binary = 'node';
+
+    /**
+     * @var string
+     */
+    protected $manager = 'npm';
+
+    /**
+     * @var string
+     */
+    protected $description = 'Checks if the server is ready to receive a Node application';
 
     /**
      * Get the version constraint which should be checked against.
@@ -62,7 +60,7 @@ class NodeStrategy extends AbstractCheckStrategy implements CheckStrategyInterfa
      */
     protected function getCurrentVersion()
     {
-        $version = $this->binary('node')->run('--version');
+        $version = $this->getBinary()->run('--version');
         $version = str_replace('v', null, $version);
 
         return $version;

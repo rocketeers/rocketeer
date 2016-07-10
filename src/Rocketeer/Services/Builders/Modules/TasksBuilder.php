@@ -15,6 +15,10 @@ namespace Rocketeer\Services\Builders\Modules;
 use Closure;
 use Illuminate\Support\Str;
 use Rocketeer\Services\Builders\TaskCompositionException;
+use Rocketeer\Services\Connections\Shell\Modules\Binaries;
+use Rocketeer\Services\Connections\Shell\Modules\Core;
+use Rocketeer\Services\Connections\Shell\Modules\Filesystem;
+use Rocketeer\Services\Connections\Shell\Modules\Flow;
 use Rocketeer\Tasks\AbstractTask;
 use Rocketeer\Tasks\Closure as ClosureTask;
 
@@ -61,6 +65,12 @@ class TasksBuilder extends AbstractBuilderModule
         // Set task properties
         $task->setName($name);
         $task->setDescription($description);
+
+        // Register modules
+        $task->register(new Binaries());
+        $task->register(new Core());
+        $task->register(new Filesystem());
+        $task->register(new Flow());
 
         return $task;
     }

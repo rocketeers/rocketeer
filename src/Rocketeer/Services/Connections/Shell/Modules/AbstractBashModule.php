@@ -10,15 +10,15 @@
  *
  */
 
-namespace Rocketeer\Services\Builders\Modules;
+namespace Rocketeer\Services\Connections\Shell\Modules;
 
-use Rocketeer\Services\Builders\Builder;
+use Rocketeer\Services\Connections\Shell\Bash;
 use Rocketeer\Services\Modules\AbstractModule;
 
-abstract class AbstractBuilderModule extends AbstractModule
+abstract class AbstractBashModule extends AbstractModule
 {
     /**
-     * @var Builder
+     * @var Bash
      */
     protected $modulable;
 }

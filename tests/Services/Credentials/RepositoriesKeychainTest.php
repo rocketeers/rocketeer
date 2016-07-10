@@ -13,7 +13,7 @@
 namespace Rocketeer\Services\Connections\Credentials;
 
 use Prophecy\Argument;
-use Rocketeer\Bash;
+use Rocketeer\Services\Connections\Shell\Bash;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class RepositoriesKeychainTest extends RocketeerTestCase

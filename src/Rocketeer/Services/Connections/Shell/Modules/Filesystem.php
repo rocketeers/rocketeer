@@ -10,18 +10,14 @@
  *
  */
 
-namespace Rocketeer\Traits\BashModules;
+namespace Rocketeer\Services\Connections\Shell\Modules;
 
 /**
  * Files and folders handling.
  *
- * @mixin Core
- * @mixin Binaries
- * @mixin Flow
- *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-trait Filesystem
+class Filesystem extends AbstractBashModule
 {
     ////////////////////////////////////////////////////////////////////
     /////////////////////////////// COMMON /////////////////////////////
@@ -70,7 +66,7 @@ trait Filesystem
                     $this->removeFolder($symlink);
                 }
 
-                return $this->run([
+                return $this->modulable->run([
                     sprintf('ln -s %s %s', $folder, $symlink),
                 ]);
         }
@@ -93,7 +89,7 @@ trait Filesystem
         // Define name of temporary link
         $temporary = $symlink.'-temp';
 
-        return $this->run([
+        return $this->modulable->run([
             sprintf('ln -s %s %s', $folder, $temporary),
             sprintf('mv -Tf %s %s', $temporary, $symlink),
         ]);
@@ -138,7 +134,7 @@ trait Filesystem
      */
     public function listContents($directory)
     {
-        $files = $this->getConnection()->listContents($directory);
+        $files = $this->modulable->getConnection()->listContents($directory);
         $files = array_pluck($files, 'path');
         $files = array_map('basename', $files);
 
@@ -154,7 +150,7 @@ trait Filesystem
      */
     public function fileExists($file)
     {
-        return $this->getConnection()->has($file);
+        return $this->modulable->getConnection()->has($file);
     }
 
     /**
@@ -179,7 +175,7 @@ trait Filesystem
             return true;
         }
 
-        return $this->runForCurrentRelease($commands);
+        return $this->modulable->runForCurrentRelease($commands);
     }
 
     ////////////////////////////////////////////////////////////////////
@@ -195,7 +191,7 @@ trait Filesystem
      */
     public function getFile($file)
     {
-        return $this->getConnection()->getString($file);
+        return $this->modulable->getConnection()->getString($file);
     }
 
     /**
@@ -206,7 +202,7 @@ trait Filesystem
      */
     public function putFile($file, $contents)
     {
-        $this->getConnection()->putString($file, $contents);
+        $this->modulable->getConnection()->putString($file, $contents);
     }
 
     /**
@@ -224,7 +220,7 @@ trait Filesystem
         // Get contents and destination
         $destination = $destination ?: basename($file);
 
-        $this->getConnection()->put($file, $destination);
+        $this->modulable->getConnection()->put($file, $destination);
     }
 
     /**
@@ -240,7 +236,7 @@ trait Filesystem
         $continuous = $continuous ? ' -f' : null;
         $command = sprintf('tail %s %s', $file, $continuous);
 
-        return $this->run($command);
+        return $this->modulable->run($command);
     }
 
     ////////////////////////////////////////////////////////////////////
@@ -259,7 +255,7 @@ trait Filesystem
     {
         $recursive = $recursive ? '-p ' : null;
 
-        return $this->run('mkdir '.$recursive.$this->paths->getFolder($folder));
+        return $this->modulable->run('mkdir '.$recursive.$this->paths->getFolder($folder));
     }
 
     /**
@@ -275,7 +271,7 @@ trait Filesystem
         $folders = array_map([$this->paths, 'getFolder'], $folders);
         $folders = implode(' ', $folders);
 
-        return $this->run('rm -rf '.$folders);
+        return $this->modulable->run('rm -rf '.$folders);
     }
 
     ////////////////////////////////////////////////////////////////////
@@ -292,7 +288,7 @@ trait Filesystem
     protected function checkStatement($condition)
     {
         $condition = '[ '.$condition.' ] && echo "true"';
-        $condition = $this->runRaw($condition);
+        $condition = $this->modulable->runRaw($condition);
 
         return trim($condition) === 'true';
     }
@@ -313,6 +309,28 @@ trait Filesystem
             $this->createFolder($folder, true);
         }
 
-        return $this->run(sprintf('%s %s %s', $command, $from, $destination));
+        return $this->modulable->run(sprintf('%s %s %s', $command, $from, $destination));
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getProvided()
+    {
+        return [
+            'copy',
+            'createFolder',
+            'fileExists',
+            'getFile',
+            'isSymlink',
+            'listContents',
+            'move',
+            'putFile',
+            'removeFolder',
+            'setPermissions',
+            'symlink',
+            'tail',
+            'upload',
+        ];
     }
 }

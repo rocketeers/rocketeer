@@ -13,21 +13,20 @@
 namespace Rocketeer\Strategies\Dependencies;
 
 use Illuminate\Support\Arr;
-use Rocketeer\Strategies\AbstractDependenciesStrategy;
 
 class BowerStrategy extends AbstractDependenciesStrategy implements DependenciesStrategyInterface
 {
-    /**
-     * @var string
-     */
-    protected $description = 'Installs dependencies with Bower';
-
     /**
      * The name of the binary.
      *
      * @var string
      */
     protected $binary = 'bower';
+
+    /**
+     * @var string
+     */
+    protected $description = 'Installs dependencies with Bower';
 
     //////////////////////////////////////////////////////////////////////
     ////////////////////////////// HELPERS ///////////////////////////////

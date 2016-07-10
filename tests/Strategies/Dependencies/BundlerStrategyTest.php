@@ -17,6 +17,9 @@ use Rocketeer\TestCases\RocketeerTestCase;
 
 class BundlerStrategyTest extends RocketeerTestCase
 {
+    /**
+     * @var BundlerStrategy
+     */
     protected $bundler;
 
     public function setUp()
@@ -27,7 +30,7 @@ class BundlerStrategyTest extends RocketeerTestCase
         $bundler->setBinary('bundle');
 
         $this->bundler = $this->builder->buildStrategy('Dependencies', 'Bundler');
-        $this->bundler->setManager($bundler);
+        $this->bundler->setBinary($bundler);
     }
 
     public function testCanInstallDependencies()

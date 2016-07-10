@@ -12,17 +12,10 @@
 
 namespace Rocketeer\Strategies\Check;
 
-use Rocketeer\Container;
 use Rocketeer\Services\Config\ContextualConfiguration;
-use Rocketeer\Strategies\AbstractCheckStrategy;
 
 class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterface
 {
-    /**
-     * @var string
-     */
-    protected $description = 'Checks if the server is ready to receive a PHP application';
-
     /**
      * The language of the strategy.
      *
@@ -31,20 +24,26 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
     protected $language = 'PHP';
 
     /**
+     * @var string
+     */
+    protected $binary = 'php';
+
+    /**
+     * @var string
+     */
+    protected $manager = 'composer';
+
+    /**
+     * @var string
+     */
+    protected $description = 'Checks if the server is ready to receive a PHP application';
+
+    /**
      * The PHP extensions loaded on server.
      *
      * @var array
      */
     protected $extensions = [];
-
-    /**
-     * @param Container $container
-     */
-    public function __construct(Container $container)
-    {
-        $this->container = $container;
-        $this->manager = $this->binary('composer');
-    }
 
     //////////////////////////////////////////////////////////////////////
     /////////////////////////////// CHECKS ///////////////////////////////
@@ -69,7 +68,7 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
      */
     protected function getCurrentVersion()
     {
-        return $this->php()->runLast('version');
+        return $this->getBinary()->runLast('version');
     }
 
     /**
@@ -237,7 +236,7 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
     {
         $extensions = [];
 
-        if (!$manifest = $this->manager->getManifestContents()) {
+        if (!$manifest = $this->getManager()->getManifestContents()) {
             return $extensions;
         }
 

@@ -12,17 +12,22 @@
 
 namespace Rocketeer\Services\Modules;
 
-abstract class AbstractModule
+use League\Container\ContainerAwareInterface;
+use Rocketeer\Traits\ContainerAwareTrait;
+
+abstract class AbstractModule implements ContainerAwareInterface
 {
+    use ContainerAwareTrait;
+
     /**
      * @var ModulableInterface
      */
     protected $modulable;
 
     /**
-     * @return string[]
+     * @var bool
      */
-    abstract public function getProvided();
+    protected $default = false;
 
     /**
      * @return ModulableInterface
@@ -39,4 +44,17 @@ abstract class AbstractModule
     {
         $this->modulable = $modulable;
     }
+
+    /**
+     * @return bool
+     */
+    public function isDefault()
+    {
+        return $this->default;
+    }
+
+    /**
+     * @return string[]
+     */
+    abstract public function getProvided();
 }

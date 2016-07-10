@@ -12,6 +12,12 @@
 
 namespace Rocketeer\Services\Builders\Modules;
 
+use Rocketeer\Services\Connections\Shell\Modules\Binaries;
+use Rocketeer\Services\Connections\Shell\Modules\Core;
+use Rocketeer\Services\Connections\Shell\Modules\Filesystem;
+use Rocketeer\Services\Connections\Shell\Modules\Flow;
+use Rocketeer\Strategies\AbstractStrategy;
+
 /**
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
@@ -46,7 +52,17 @@ class StrategiesBuilder extends AbstractBuilderModule
             $this->container->add($handle, $strategy);
         }
 
-        return $this->container->get($handle);
+        // Get and register modules
+        /** @var AbstractStrategy $strategy */
+        $strategy = $this->container->get($handle);
+        if (!$strategy->getRegistered()) {
+            $strategy->register(new Binaries());
+            $strategy->register(new Core());
+            $strategy->register(new Filesystem());
+            $strategy->register(new Flow());
+        }
+
+        return $strategy;
     }
 
     /**

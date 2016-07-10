@@ -23,7 +23,7 @@ class InstallerTest extends RocketeerTestCase
             'package' => 'anahkiasen/rocketeer-slack',
         ]);
 
-        $this->assertTaskHistory('Plugins\Installer', [
+        $this->assertTaskHistory(Installer::class, [
             'bash --login -c \'{composer} require --working-dir="'.$this->paths->getRocketeerConfigFolder().'"\'',
         ]);
     }

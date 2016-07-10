@@ -13,8 +13,8 @@
 namespace Rocketeer\Binaries;
 
 use Mockery\MockInterface;
-use Rocketeer\Bash;
 use Rocketeer\Binaries\Scm\Git;
+use Rocketeer\Services\Connections\Shell\Bash;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class AbstractBinaryTest extends RocketeerTestCase

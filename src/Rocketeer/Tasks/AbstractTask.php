@@ -14,8 +14,8 @@ namespace Rocketeer\Tasks;
 
 use DateTime;
 use League\Event\ListenerInterface;
-use Rocketeer\Bash;
 use Rocketeer\Interfaces\IdentifierInterface;
+use Rocketeer\Services\Connections\Shell\Bash;
 use Rocketeer\Services\Roles\HasRolesInterface;
 use Rocketeer\Services\Roles\HasRolesTrait;
 use Rocketeer\Traits\Properties\ConfigurableTrait;

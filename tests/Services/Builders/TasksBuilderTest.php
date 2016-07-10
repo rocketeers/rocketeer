@@ -40,7 +40,7 @@ class TasksBuilderTest extends RocketeerTestCase
     {
         $string = 'echo "I love ducks"';
 
-        $string = $this->builder->buildTaskFromString($string);
+        $string = $this->builder->buildTask($string);
         $this->assertInstanceOf(Closure::class, $string);
 
         $closure = $string->getClosure();

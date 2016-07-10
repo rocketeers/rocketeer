@@ -12,15 +12,11 @@
 
 namespace Rocketeer\Services\Environment\Modules;
 
-use League\Container\ContainerAwareInterface;
 use Rocketeer\Services\Environment\Pathfinder;
 use Rocketeer\Services\Modules\AbstractModule;
-use Rocketeer\Traits\ContainerAwareTrait;
 
-abstract class AbstractPathfinderModule extends AbstractModule implements ContainerAwareInterface
+abstract class AbstractPathfinderModule extends AbstractModule
 {
-    use ContainerAwareTrait;
-
     /**
      * @var Pathfinder
      */
