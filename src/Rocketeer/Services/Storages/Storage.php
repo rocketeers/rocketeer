@@ -94,7 +94,7 @@ class Storage
             return $this->files;
         }
 
-        return $this->flysystem->getFilesystem($this->filesystem);
+        return $this->filesystems->getFilesystem($this->filesystem);
     }
 
     /**

@@ -146,7 +146,7 @@ trait Mocks
      */
     protected function mockFiles(Closure $expectations = null)
     {
-        $this->mock('files', Filesystem::class, $expectations);
+        $this->mock(Filesystem::class, Filesystem::class, $expectations);
     }
 
     /**

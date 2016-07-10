@@ -13,6 +13,7 @@
 namespace Rocketeer\Services\Config;
 
 use League\Container\ServiceProvider\AbstractServiceProvider;
+use League\Flysystem\Filesystem;
 use Rocketeer\Services\Config\Files\ConfigurationCache;
 use Rocketeer\Services\Config\Files\ConfigurationLoader;
 use Rocketeer\Services\Config\Files\ConfigurationPublisher;
@@ -64,7 +65,7 @@ class ConfigurationServiceProvider extends AbstractServiceProvider
         });
 
         $this->container->add(ConfigurationPublisher::class, function () {
-            return new ConfigurationPublisher(new ConfigurationDefinition(), $this->container->get('files'));
+            return new ConfigurationPublisher(new ConfigurationDefinition(), $this->container->get(Filesystem::class));
         });
 
         $this->container->share(ContextualConfiguration::class, function () {

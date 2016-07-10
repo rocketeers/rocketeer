@@ -110,7 +110,7 @@ class LogsHandlerTest extends RocketeerTestCase
 
     public function testDoesntCreateLogsIfInvalidFilename()
     {
-        $prophecy = $this->bindProphecy(Filesystem::class, 'files');
+        $prophecy = $this->bindProphecy(Filesystem::class);
 
         $this->swapConfig([
             'logs' => false,

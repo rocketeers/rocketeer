@@ -113,9 +113,8 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         $filesystem->addPlugin(new IncludePlugin());
         $filesystem->addPlugin(new RequirePlugin());
 
-        $this->container->add('files', $filesystem);
-
-        $this->container->share('flysystem', function () use ($filesystem) {
+        $this->container->add(Filesystem::class, $filesystem);
+        $this->container->share(MountManager::class, function () use ($filesystem) {
             return new MountManager([
                 'local' => $filesystem,
                 'remote' => $filesystem,
