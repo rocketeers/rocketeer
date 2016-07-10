@@ -12,8 +12,12 @@
 
 namespace Rocketeer\Strategies\Check;
 
+use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
+use Rocketeer\Container;
 use Rocketeer\Services\Builders\Builder;
+use Rocketeer\Services\Builders\Modules\AbstractBuilderModule;
+use Rocketeer\Services\Builders\Modules\StrategiesBuilder;
 use Rocketeer\Strategies\AbstractCheckStrategy;
 use Rocketeer\TestCases\RocketeerTestCase;
 
@@ -34,10 +38,12 @@ class PolyglotStrategyCheckTest extends RocketeerTestCase
     public function testCanCheckLanguage()
     {
         /** @var Builder $prophecy */
-        $prophecy = $this->bindProphecy(Builder::class);
+        $prophecy = $this->prophesizeBuilder(StrategiesBuilder::class);
+        $prophecy->getProvided()->willReturn(['buildStrategy']);
         $prophecy->buildStrategy('Check', 'Node')->willReturn($this->getDummyStrategy('Node', 'language', true));
         $prophecy->buildStrategy('Check', 'Ruby')->willReturn($this->getDummyStrategy('Ruby', 'language', true));
         $prophecy->buildStrategy('Check', 'Php')->willReturn($this->getDummyStrategy('Php', 'language', true));
+        $this->builder->register($prophecy->reveal());
 
         $this->strategy->language();
     }
@@ -45,10 +51,12 @@ class PolyglotStrategyCheckTest extends RocketeerTestCase
     public function testCanCheckMissingExtensions()
     {
         /** @var Builder $prophecy */
-        $prophecy = $this->bindProphecy(Builder::class);
+        $prophecy = $this->prophesizeBuilder(StrategiesBuilder::class);
+        $prophecy->getProvided()->willReturn(['buildStrategy']);
         $prophecy->buildStrategy('Check', 'Node')->willReturn($this->getDummyStrategy('Node', 'extensions', ['Node']));
         $prophecy->buildStrategy('Check', 'Ruby')->willReturn($this->getDummyStrategy('Ruby', 'extensions', ['Ruby']));
         $prophecy->buildStrategy('Check', 'Php')->willReturn($this->getDummyStrategy('Php', 'extensions', ['Php']));
+        $this->builder->register($prophecy->reveal());
 
         $extensions = $this->strategy->extensions();
         $this->assertEquals(['Node', 'Php', 'Ruby'], $extensions);
@@ -72,5 +80,16 @@ class PolyglotStrategyCheckTest extends RocketeerTestCase
         $prophecy->$method()->shouldBeCalled()->willReturn($result);
 
         return $prophecy->reveal();
+    }
+
+    protected function prophesizeBuilder($builder)
+    {
+        /** @var Builder $prophecy */
+        $prophecy = $this->prophesize($builder);
+        $prophecy->setContainer(Argument::type(Container::class))->willReturn();
+        $prophecy->setModulable(Argument::type(Builder::class))->willReturn();
+
+        return $prophecy;
+
     }
 }

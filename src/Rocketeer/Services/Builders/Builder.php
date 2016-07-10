@@ -12,19 +12,27 @@
 
 namespace Rocketeer\Services\Builders;
 
+use League\Container\ContainerAwareInterface;
+use Rocketeer\Services\Builders\Modules\BinariesBuilder;
+use Rocketeer\Services\Builders\Modules\CommandsBuilder;
+use Rocketeer\Services\Builders\Modules\StrategiesBuilder;
+use Rocketeer\Services\Builders\Modules\TasksBuilder;
+use Rocketeer\Services\Modules\ModulableInterface;
+use Rocketeer\Services\Modules\ModulableTrait;
 use Rocketeer\Traits\ContainerAwareTrait;
 
 /**
+ * @mixin BinariesBuilder
+ * @mixin CommandsBuilder
+ * @mixin StrategiesBuilder
+ * @mixin TasksBuilder
+ *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class Builder
+class Builder implements ModulableInterface, ContainerAwareInterface
 {
     use ContainerAwareTrait;
-
-    use TasksBuilder;
-    use StrategiesBuilder;
-    use BinariesBuilder;
-    use CommandsBuilder;
+    use ModulableTrait;
 
     /**
      * The possible locations of
@@ -96,6 +104,7 @@ class Builder
     ////////////////////////////// HELPERS ///////////////////////////////
     //////////////////////////////////////////////////////////////////////
 
+
     /**
      * Find a class in various predefined namespaces.
      *
@@ -105,7 +114,7 @@ class Builder
      *
      * @return false|string
      */
-    protected function findQualifiedName($class, $type, $namespace = null)
+    public function findQualifiedName($class, $type, $namespace = null)
     {
         $paths = $this->getLookups($type);
         $paths[] = '%s';

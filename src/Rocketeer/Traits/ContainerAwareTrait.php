@@ -21,11 +21,9 @@ trait ContainerAwareTrait
     use LeagueContainerAwareTrait;
 
     /**
-     * Build a new AbstractTask.
-     *
      * @param Container $container
      */
-    public function __construct(Container $container)
+    public function __construct(Container $container = null)
     {
         $this->container = $container;
     }

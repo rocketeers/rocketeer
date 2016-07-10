@@ -13,6 +13,10 @@
 namespace Rocketeer\Services\Builders;
 
 use League\Container\ServiceProvider\AbstractServiceProvider;
+use Rocketeer\Services\Builders\Modules\BinariesBuilder;
+use Rocketeer\Services\Builders\Modules\CommandsBuilder;
+use Rocketeer\Services\Builders\Modules\StrategiesBuilder;
+use Rocketeer\Services\Builders\Modules\TasksBuilder;
 
 class BuilderServiceProvider extends AbstractServiceProvider
 {
@@ -28,6 +32,14 @@ class BuilderServiceProvider extends AbstractServiceProvider
      */
     public function register()
     {
-        $this->container->share(Builder::class)->withArgument($this->container);
+        $this->container->share(Builder::class, function () {
+            $builder = new Builder($this->container);
+            $builder->register(new BinariesBuilder());
+            $builder->register(new CommandsBuilder());
+            $builder->register(new StrategiesBuilder());
+            $builder->register(new TasksBuilder());
+
+            return $builder;
+        });
     }
 }

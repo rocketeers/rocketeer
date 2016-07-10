@@ -14,7 +14,6 @@ namespace Rocketeer\Services\Connections;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Rocketeer\Exceptions\ConnectionException;
 use Rocketeer\Services\Connections\Connections\Connection;
 use Rocketeer\Services\Connections\Connections\ConnectionInterface;
 use Rocketeer\Services\Connections\Connections\LocalConnection;

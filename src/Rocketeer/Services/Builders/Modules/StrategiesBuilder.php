@@ -10,14 +10,12 @@
  *
  */
 
-namespace Rocketeer\Services\Builders;
+namespace Rocketeer\Services\Builders\Modules;
 
 /**
- * @mixin \Rocketeer\Services\Builders\Builder
- *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-trait StrategiesBuilder
+class StrategiesBuilder extends AbstractBuilderModule
 {
     /**
      * Build a strategy.
@@ -61,12 +59,22 @@ trait StrategiesBuilder
      */
     protected function buildStrategyFromName($strategy, $concrete)
     {
-        $concrete = $this->findQualifiedName($concrete, 'strategies', $strategy);
+        $concrete = $this->modulable->findQualifiedName($concrete, 'strategies', $strategy);
 
         if (!$concrete) {
             return false;
         }
 
         return new $concrete($this->container);
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getProvided()
+    {
+        return [
+            'buildStrategy',
+        ];
     }
 }

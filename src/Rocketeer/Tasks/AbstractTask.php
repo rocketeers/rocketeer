@@ -17,6 +17,7 @@ use League\Event\ListenerInterface;
 use Rocketeer\Bash;
 use Rocketeer\Interfaces\IdentifierInterface;
 use Rocketeer\Services\Roles\HasRolesInterface;
+use Rocketeer\Services\Roles\HasRolesTrait;
 use Rocketeer\Traits\Properties\ConfigurableTrait;
 use Rocketeer\Traits\Properties\HasEventsTrait;
 use Rocketeer\Traits\SluggableTrait;
@@ -31,7 +32,7 @@ abstract class AbstractTask extends Bash implements HasRolesInterface, Identifie
 {
     use ConfigurableTrait;
     use HasEventsTrait;
-    use Rocketeer\Services\Roles\HasRolesTrait;
+    use HasRolesTrait;
     use StepsRunnerTrait;
     use SluggableTrait;
 

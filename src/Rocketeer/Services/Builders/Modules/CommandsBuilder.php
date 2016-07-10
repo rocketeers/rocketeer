@@ -10,17 +10,16 @@
  *
  */
 
-namespace Rocketeer\Services\Builders;
+namespace Rocketeer\Services\Builders\Modules;
 
+use Rocketeer\Console\Commands\AbstractCommand;
 use Rocketeer\Console\Commands\BaseTaskCommand;
-use Rocketeer\Exceptions\TaskCompositionException;
+use Rocketeer\Services\Builders\TaskCompositionException;
 
 /**
- * @mixin \Rocketeer\Services\Builders\Builder
- *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-trait CommandsBuilder
+class CommandsBuilder extends AbstractBuilderModule
 {
     /**
      * Build the command bound to a task.
@@ -34,24 +33,35 @@ trait CommandsBuilder
     {
         // Build the task instance
         try {
-            $instance = $this->buildTask($task);
+            $instance = $this->modulable->buildTask($task);
         } catch (TaskCompositionException $exception) {
             $instance = null;
         }
 
         // Get the command name
         $name = $instance ? $instance->getName() : null;
-        $command = $this->findQualifiedName($name, 'commands');
+        $command = $this->modulable->findQualifiedName($name, 'commands');
 
         // If no command found, use BaseTaskCommand or task name
         if ($command === BaseTaskCommand::class) {
             $name = is_string($task) ? $task : $name;
-            $command = $this->findQualifiedName($name, 'commands');
+            $command = $this->modulable->findQualifiedName($name, 'commands');
         }
 
+        /** @var AbstractCommand $command */
         $command = new $command($instance, $slug);
         $command->setContainer($this->container);
 
         return $command;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getProvided()
+    {
+        return [
+            'buildCommand',
+        ];
     }
 }

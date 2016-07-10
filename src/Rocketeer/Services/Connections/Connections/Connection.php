@@ -15,8 +15,8 @@ namespace Rocketeer\Services\Connections\Connections;
 use Closure;
 use League\Flysystem\AdapterInterface;
 use phpseclib\Net\SFTP;
-use Rocketeer\Exceptions\TimeOutException;
 use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
+use Rocketeer\Services\Connections\TimeOutException;
 use Rocketeer\Services\Filesystem\ConnectionKeyAdapter;
 
 /**

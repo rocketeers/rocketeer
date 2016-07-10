@@ -19,7 +19,6 @@ use Rocketeer\Console\Console;
 use Rocketeer\Container;
 use Rocketeer\Interfaces\IdentifierInterface;
 use Rocketeer\Services\Builders\Builder;
-use Rocketeer\Tasks;
 use Rocketeer\Tasks\AbstractTask;
 use Rocketeer\Traits\ContainerAwareTrait;
 
@@ -258,7 +257,7 @@ class TasksHandler
      * @param int            $priority
      * @param bool           $register
      *
-     * @throws \Rocketeer\Exceptions\TaskCompositionException
+     * @throws \Rocketeer\Services\Builders\TaskCompositionException
      *
      * @return string|null
      */
@@ -385,7 +384,7 @@ class TasksHandler
      * @param array  $parameters
      * @param string $builder
      *
-     * @throws \Rocketeer\Exceptions\TaskCompositionException
+     * @throws \Rocketeer\Services\Builders\TaskCompositionException
      */
     protected function delegateAndRebind($method, array $parameters, $builder)
     {

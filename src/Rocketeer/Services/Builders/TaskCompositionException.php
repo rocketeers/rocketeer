@@ -10,7 +10,7 @@
  *
  */
 
-namespace Rocketeer\Exceptions;
+namespace Rocketeer\Services\Builders;
 
 use Exception;
 

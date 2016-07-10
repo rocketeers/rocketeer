@@ -10,22 +10,20 @@
  *
  */
 
-namespace Rocketeer\Services\Builders;
+namespace Rocketeer\Services\Builders\Modules;
 
 use Closure;
 use Illuminate\Support\Str;
-use Rocketeer\Exceptions\TaskCompositionException;
+use Rocketeer\Services\Builders\TaskCompositionException;
 use Rocketeer\Tasks\AbstractTask;
 use Rocketeer\Tasks\Closure as ClosureTask;
 
 /**
  * Handles creating tasks from strings, closures, AbstractTask children, etc.
  *
- * @mixin \Rocketeer\Services\Builders\Builder
- *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-trait TasksBuilder
+class TasksBuilder extends AbstractBuilderModule
 {
     /**
      * Build an array of tasks.
@@ -46,7 +44,7 @@ trait TasksBuilder
      * @param string|null                                  $name
      * @param string|null                                  $description
      *
-     * @throws \Rocketeer\Exceptions\TaskCompositionException
+     * @throws \Rocketeer\Services\Builders\TaskCompositionException
      *
      * @return AbstractTask
      */
@@ -76,7 +74,7 @@ trait TasksBuilder
      *
      * @param string|Closure|AbstractTask $task
      *
-     * @throws \Rocketeer\Exceptions\TaskCompositionException
+     * @throws \Rocketeer\Services\Builders\TaskCompositionException
      *
      * @return mixed|\Rocketeer\Tasks\AbstractTask
      */
@@ -205,7 +203,7 @@ trait TasksBuilder
      */
     protected function taskClassExists($task)
     {
-        return $this->findQualifiedName($task, 'tasks');
+        return $this->modulable->findQualifiedName($task, 'tasks');
     }
 
     ////////////////////////////////////////////////////////////////////
@@ -272,5 +270,21 @@ trait TasksBuilder
         return function (AbstractTask $task) use ($stringTask) {
             return $task->runForCurrentRelease($stringTask);
         };
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getProvided()
+    {
+        return [
+            'buildTask',
+            'buildTaskFromClass',
+            'buildTaskFromClosure',
+            'buildTaskFromString',
+            'buildTasks',
+            'isCallable',
+            'wrapStringTasks',
+        ];
     }
 }

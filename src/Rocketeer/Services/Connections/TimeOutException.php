@@ -10,10 +10,8 @@
  *
  */
 
-namespace Rocketeer\Exceptions;
+namespace Rocketeer\Services\Connections;
 
-use RuntimeException;
-
-class TimeOutException extends RuntimeException
+class TimeOutException extends ConnectionException
 {
 }

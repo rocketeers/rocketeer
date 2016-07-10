@@ -10,16 +10,14 @@
  *
  */
 
-namespace Rocketeer\Services\Builders;
+namespace Rocketeer\Services\Builders\Modules;
 
 use Rocketeer\Binaries\AnonymousBinary;
 
 /**
- * @mixin \Rocketeer\Services\Builders\Builder
- *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-trait BinariesBuilder
+class BinariesBuilder extends AbstractBuilderModule
 {
     /**
      * Build a binary.
@@ -30,7 +28,7 @@ trait BinariesBuilder
      */
     public function buildBinary($binary)
     {
-        $class = $this->findQualifiedName($binary, 'binaries');
+        $class = $this->modulable->findQualifiedName($binary, 'binaries');
 
         // If there is a class by that name
         if ($class) {
@@ -42,5 +40,15 @@ trait BinariesBuilder
         $anonymous->setBinary($binary);
 
         return $anonymous;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getProvided()
+    {
+        return [
+            'buildBinary',
+        ];
     }
 }

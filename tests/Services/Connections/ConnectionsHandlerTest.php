@@ -12,7 +12,6 @@
 
 namespace Rocketeer\Services\Connections;
 
-use Rocketeer\Exceptions\ConnectionException;
 use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
 use Rocketeer\Services\Tasks\TasksHandler;
 use Rocketeer\TestCases\RocketeerTestCase;
