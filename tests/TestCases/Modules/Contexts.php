@@ -36,6 +36,17 @@ trait Contexts
     }
 
     /**
+     * @param bool $usesHhvm
+     */
+    protected function mockHhvm($usesHhvm = true)
+    {
+        $this->mockRemote([
+            'which php' => 'php',
+            'php -r "print defined(\'HHVM_VERSION\');"' => (int) $usesHhvm,
+        ]);
+    }
+
+    /**
      * @param array $state
      */
     protected function mockState(array $state)

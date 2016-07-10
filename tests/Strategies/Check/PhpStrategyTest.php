@@ -61,6 +61,7 @@ class PhpStrategyTest extends RocketeerTestCase
 
     public function testCanCheckPhpExtensions()
     {
+        $this->mockHhvm(false);
         $this->swapConfig([
             'database.default' => 'sqlite',
             'cache.driver' => 'redis',
@@ -74,12 +75,7 @@ class PhpStrategyTest extends RocketeerTestCase
 
     public function testCanCheckForHhvmExtensions()
     {
-        $this->mockRemote([
-            'which php' => '/usr/bin/php',
-            'which /usr/bin/php' => '/usr/bin/php',
-            '/usr/bin/php -r "print defined(\'HHVM_VERSION\');"' => 1,
-        ]);
-
+        $this->mockHhvm();
         $exists = $this->strategy->checkPhpExtension('_hhvm');
 
         $this->assertTrue($exists);

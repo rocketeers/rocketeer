@@ -23,10 +23,7 @@ class PhpTest extends RocketeerTestCase
      */
     public function testCanCheckIfUsesHhvm($defined)
     {
-        $this->mockRemote([
-            'which php' => 'php',
-            'php -r "print defined(\'HHVM_VERSION\');"' => $defined,
-        ]);
+        $this->mockHhvm($defined);
 
         $this->assertEquals($defined, $this->bash->php()->isHhvm());
     }
@@ -37,8 +34,8 @@ class PhpTest extends RocketeerTestCase
     public function providesHhvmStatus()
     {
         return [
-            [1],
-            [0],
+            [true],
+            [false],
         ];
     }
 }
