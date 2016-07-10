@@ -17,7 +17,7 @@ use Rocketeer\Container;
 use Rocketeer\Services\Storages\Storage;
 use Rocketeer\TestCases\RocketeerTestCase;
 
-class StandaloneFacadeTest extends RocketeerTestCase
+class AbstractFacadeTest extends RocketeerTestCase
 {
     public function testCanWrapAppInFacade()
     {

@@ -15,9 +15,9 @@ namespace Rocketeer\Strategies;
 use Illuminate\Support\Arr;
 use Rocketeer\Bash;
 use Rocketeer\Interfaces\IdentifierInterface;
-use Rocketeer\Traits\Properties\Configurable;
-use Rocketeer\Traits\Properties\HasEvents;
-use Rocketeer\Traits\Sluggable;
+use Rocketeer\Traits\Properties\ConfigurableTrait;
+use Rocketeer\Traits\Properties\HasEventsTrait;
+use Rocketeer\Traits\SluggableTrait;
 
 /**
  * Core class for strategies.
@@ -26,9 +26,9 @@ use Rocketeer\Traits\Sluggable;
  */
 abstract class AbstractStrategy extends Bash implements IdentifierInterface
 {
-    use Configurable;
-    use Sluggable;
-    use HasEvents;
+    use ConfigurableTrait;
+    use SluggableTrait;
+    use HasEventsTrait;
 
     /**
      * @var array

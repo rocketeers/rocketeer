@@ -39,7 +39,7 @@ class ListCommand extends AbstractCommand
     protected $straight = true;
 
     /**
-     * Run the tasks.
+     * {@inheritdoc}
      */
     public function fire()
     {

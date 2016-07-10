@@ -63,6 +63,25 @@ class Notify extends AbstractTask
     ////////////////////////////////////////////////////////////////////
 
     /**
+     * {@inheritdoc}
+     */
+    public function prepareThenSend($message)
+    {
+        // Don't send a notification if pretending to deploy
+        if ($this->command->option('pretend')) {
+            return;
+        }
+
+        // Build message
+        $message = $this->notifier->getMessageFormat($message);
+        $message = preg_replace('#\{([0-9])\}#', '%$1\$s', $message);
+        $message = vsprintf($message, $this->getComponents());
+
+        // Send it
+        $this->notifier->send($message);
+    }
+
+    /**
      * Get the message's components.
      *
      * @return string[]
@@ -87,26 +106,5 @@ class Notify extends AbstractTask
             'host' => $connection->host,
             'repository' => $repository->getName(),
         ];
-    }
-
-    /**
-     * Prepare and send a message.
-     *
-     * @param string $message
-     */
-    public function prepareThenSend($message)
-    {
-        // Don't send a notification if pretending to deploy
-        if ($this->command->option('pretend')) {
-            return;
-        }
-
-        // Build message
-        $message = $this->notifier->getMessageFormat($message);
-        $message = preg_replace('#\{([0-9])\}#', '%$1\$s', $message);
-        $message = vsprintf($message, $this->getComponents());
-
-        // Send it
-        $this->notifier->send($message);
     }
 }

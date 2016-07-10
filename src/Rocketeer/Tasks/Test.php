@@ -27,9 +27,7 @@ class Test extends AbstractTask
     protected $description = 'Run the tests on the server and displays the output';
 
     /**
-     * Run the task.
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function execute()
     {

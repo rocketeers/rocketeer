@@ -41,7 +41,7 @@ class PublishCommand extends AbstractCommand
     protected $straight = true;
 
     /**
-     * Run the tasks.
+     * {@inheritdoc}
      */
     public function fire()
     {

@@ -15,7 +15,7 @@ namespace Rocketeer\Services;
 use Illuminate\Support\Arr;
 use Rocketeer\Services\Connections\Connections\Connection;
 use Rocketeer\Tasks\AbstractTask;
-use Rocketeer\Traits\ContainerAware;
+use Rocketeer\Traits\ContainerAwareTrait;
 
 /**
  * Manages roles and decides which servers
@@ -25,7 +25,7 @@ use Rocketeer\Traits\ContainerAware;
  */
 class RolesManager
 {
-    use ContainerAware;
+    use ContainerAwareTrait;
 
     /**
      * Get the roles of a server.

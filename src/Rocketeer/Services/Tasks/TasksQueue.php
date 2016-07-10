@@ -17,8 +17,8 @@ use Exception;
 use KzykHys\Parallel\Parallel;
 use LogicException;
 use Rocketeer\Services\Connections\Connections\ConnectionInterface;
-use Rocketeer\Traits\ContainerAware;
-use Rocketeer\Traits\Properties\HasHistory;
+use Rocketeer\Traits\ContainerAwareTrait;
+use Rocketeer\Traits\Properties\HasHistoryTrait;
 
 /**
  * Handles running an array of tasks sequentially
@@ -28,8 +28,8 @@ use Rocketeer\Traits\Properties\HasHistory;
  */
 class TasksQueue
 {
-    use ContainerAware;
-    use HasHistory;
+    use ContainerAwareTrait;
+    use HasHistoryTrait;
 
     /**
      * @var Parallel

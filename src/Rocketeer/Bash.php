@@ -29,29 +29,6 @@ class Bash
     use Filesystem;
     use Flow;
 
-    /**
-     * @param string $hook
-     * @param array  $arguments
-     *
-     * @return string|array|null
-     */
-    protected function getHookedTasks($hook, array $arguments)
-    {
-        $tasks = $this->config->getContextually('strategies.'.$hook);
-        if (!is_callable($tasks)) {
-            return;
-        }
-
-        // Cancel if no tasks to execute
-        $tasks = (array) $tasks(...$arguments);
-        if (empty($tasks)) {
-            return;
-        }
-
-        // Run commands
-        return $tasks;
-    }
-
     //////////////////////////////////////////////////////////////////////
     ////////////////////////////// RUNNERS ///////////////////////////////
     //////////////////////////////////////////////////////////////////////
@@ -98,5 +75,28 @@ class Bash
         });
 
         return $results;
+    }
+
+    /**
+     * @param string $hook
+     * @param array  $arguments
+     *
+     * @return string|array|null
+     */
+    protected function getHookedTasks($hook, array $arguments)
+    {
+        $tasks = $this->config->getContextually('strategies.'.$hook);
+        if (!is_callable($tasks)) {
+            return;
+        }
+
+        // Cancel if no tasks to execute
+        $tasks = (array) $tasks(...$arguments);
+        if (empty($tasks)) {
+            return;
+        }
+
+        // Run commands
+        return $tasks;
     }
 }

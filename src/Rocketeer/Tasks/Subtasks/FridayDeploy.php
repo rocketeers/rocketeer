@@ -29,7 +29,7 @@ class FridayDeploy extends AbstractTask
     protected $description = 'Wishes you good luck on friday';
 
     /**
-     * Run the task.
+     * {@inheritdoc}
      */
     public function execute()
     {

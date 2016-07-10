@@ -20,7 +20,7 @@ use Rocketeer\Services\StepsBuilder;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-trait StepsRunner
+trait StepsRunnerTrait
 {
     /**
      * @var StepsBuilder

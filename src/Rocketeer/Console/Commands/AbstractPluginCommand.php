@@ -32,9 +32,7 @@ class AbstractPluginCommand extends AbstractCommand
     protected $straight = true;
 
     /**
-     * Run the tasks.
-     *
-     * @return int
+     * {@inheritdoc}
      */
     public function fire()
     {

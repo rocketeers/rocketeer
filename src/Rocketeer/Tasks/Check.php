@@ -43,9 +43,7 @@ class Check extends AbstractTask
     protected $errors = [];
 
     /**
-     * Run the task.
-     *
-     * @return bool|null
+     * {@inheritdoc}
      */
     public function execute()
     {

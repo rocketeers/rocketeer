@@ -29,9 +29,7 @@ class Update extends Deploy
     protected $description = 'Update the remote server without doing a new release';
 
     /**
-     * Run the task.
-     *
-     * @return bool|null
+     * {@inheritdoc}
      */
     public function execute()
     {

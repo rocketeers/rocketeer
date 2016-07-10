@@ -16,7 +16,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Rocketeer\Bash;
 use Rocketeer\Container;
-use Rocketeer\Traits\ContainerAware;
+use Rocketeer\Traits\ContainerAwareTrait;
 
 /**
  * A generic class to represent a binary as a class.
@@ -27,7 +27,7 @@ use Rocketeer\Traits\ContainerAware;
  */
 abstract class AbstractBinary
 {
-    use ContainerAware;
+    use ContainerAwareTrait;
 
     /**
      * The core binary.

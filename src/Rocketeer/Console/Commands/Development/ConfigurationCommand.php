@@ -31,7 +31,7 @@ class ConfigurationCommand extends AbstractCommand
     protected $description = 'Dumps the current configuration parsed';
 
     /**
-     * Fire the command.
+     * {@inheritdoc}
      */
     public function fire()
     {

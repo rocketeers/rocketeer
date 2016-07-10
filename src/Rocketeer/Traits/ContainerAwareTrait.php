@@ -12,13 +12,13 @@
 
 namespace Rocketeer\Traits;
 
-use League\Container\ContainerAwareTrait;
+use League\Container\ContainerAwareTrait as LeagueContainerAwareTrait;
 use Rocketeer\Container;
 
-trait ContainerAware
+trait ContainerAwareTrait
 {
-    use HasLocator;
-    use ContainerAwareTrait;
+    use HasLocatorTrait;
+    use LeagueContainerAwareTrait;
 
     /**
      * Build a new AbstractTask.

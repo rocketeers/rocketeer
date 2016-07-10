@@ -27,7 +27,7 @@ class Ignite extends AbstractTask
     protected $description = "Creates Rocketeer's configuration";
 
     /**
-     * Execute ignite.
+     * {@inheritdoc}
      */
     public function execute()
     {

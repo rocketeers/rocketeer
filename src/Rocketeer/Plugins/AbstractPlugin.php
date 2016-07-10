@@ -17,7 +17,7 @@ use Rocketeer\Console\Console;
 use Rocketeer\Container;
 use Rocketeer\Services\Builders\Builder;
 use Rocketeer\Services\Tasks\TasksHandler;
-use Rocketeer\Traits\ContainerAware;
+use Rocketeer\Traits\ContainerAwareTrait;
 
 /**
  * A basic abstract class for Rocketeer plugins to extend.
@@ -26,7 +26,7 @@ use Rocketeer\Traits\ContainerAware;
  */
 abstract class AbstractPlugin
 {
-    use ContainerAware;
+    use ContainerAwareTrait;
 
     /**
      * The path to the configuration folder.

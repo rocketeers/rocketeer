@@ -16,8 +16,8 @@ use League\Container\ContainerAwareInterface;
 use Rocketeer\Interfaces\IdentifierInterface;
 use Rocketeer\Tasks\AbstractTask;
 use Rocketeer\Tasks\Closure;
-use Rocketeer\Traits\ContainerAware;
-use Rocketeer\Traits\Properties\HasEvents;
+use Rocketeer\Traits\ContainerAwareTrait;
+use Rocketeer\Traits\Properties\HasEventsTrait;
 use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -36,8 +36,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 abstract class AbstractCommand extends Command implements IdentifierInterface, ContainerAwareInterface
 {
-    use ContainerAware;
-    use HasEvents;
+    use ContainerAwareTrait;
+    use HasEventsTrait;
 
     /**
      * @var InputInterface
@@ -301,6 +301,8 @@ abstract class AbstractCommand extends Command implements IdentifierInterface, C
 
     /**
      * Run the tasks.
+     *
+     * @return mixed
      */
     abstract public function fire();
 

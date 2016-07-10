@@ -14,7 +14,7 @@ namespace Rocketeer\Services\Ignition;
 
 use Illuminate\Support\Arr;
 use Rocketeer\Facades\Rocketeer;
-use Rocketeer\Traits\ContainerAware;
+use Rocketeer\Traits\ContainerAwareTrait;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
@@ -26,7 +26,7 @@ use Symfony\Component\Finder\SplFileInfo;
  */
 class Configuration
 {
-    use ContainerAware;
+    use ContainerAwareTrait;
 
     /**
      * Bind paths to the container.
@@ -270,12 +270,13 @@ class Configuration
 
         // If we have one unified tasks file, include it
         $file = $this->container->get('path.rocketeer.'.$handle);
-        if (!$this->files->isDirectory($file) && $this->files->has($file) && $file !== 'strategies.php') {
-            $this->files->include($file);
-        }
+        $isDirectory = $this->files->isDirectory($file);
 
-        // Else include its contents
-        elseif ($this->files->isDirectory($file) && $this->files->has($file)) {
+        $fileExists = $this->files->has($file);
+        if (!$isDirectory && $fileExists && $file !== 'strategies.php') {
+            $this->files->include($file);
+        } elseif ($isDirectory && $fileExists) {
+            // Else include its contents
             $folder = $this->files->getAdapter()->applyPathPrefix($file);
             $files = (new Finder())->in($folder)->name('*.php')->files();
             foreach ($files as $file) {

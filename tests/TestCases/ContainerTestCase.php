@@ -36,7 +36,7 @@ use Rocketeer\TestCases\Modules\Assertions;
 use Rocketeer\TestCases\Modules\Building;
 use Rocketeer\TestCases\Modules\Contexts;
 use Rocketeer\TestCases\Modules\Mocks;
-use Rocketeer\Traits\HasLocator;
+use Rocketeer\Traits\HasLocatorTrait;
 use Symfony\Component\Console\Output\OutputInterface;
 use VirtualFileSystem\FileSystem as Vfs;
 
@@ -46,7 +46,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
     use Assertions;
     use Contexts;
     use Building;
-    use HasLocator;
+    use HasLocatorTrait;
     use ContainerAwareTrait;
 
     /**

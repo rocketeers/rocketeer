@@ -29,9 +29,7 @@ class DeployCommand extends BaseTaskCommand
     protected $name = 'deploy';
 
     /**
-     * Execute the tasks.
-     *
-     * @return int
+     * {@inheritdoc}
      */
     public function fire()
     {

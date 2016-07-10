@@ -29,9 +29,7 @@ class Dependencies extends AbstractTask
     ];
 
     /**
-     * Run the task.
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function execute()
     {

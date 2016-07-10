@@ -27,9 +27,7 @@ class Rollback extends AbstractTask
     protected $description = 'Rollback to the previous release, or to a specific one';
 
     /**
-     * Run the task.
-     *
-     * @return string|null
+     * {@inheritdoc}
      */
     public function execute()
     {

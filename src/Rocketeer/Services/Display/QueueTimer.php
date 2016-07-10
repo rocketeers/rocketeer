@@ -13,7 +13,7 @@
 namespace Rocketeer\Services\Display;
 
 use Rocketeer\Interfaces\IdentifierInterface;
-use Rocketeer\Traits\ContainerAware;
+use Rocketeer\Traits\ContainerAwareTrait;
 
 /**
  * Saves the execution time of tasks and
@@ -23,7 +23,7 @@ use Rocketeer\Traits\ContainerAware;
  */
 class QueueTimer
 {
-    use ContainerAware;
+    use ContainerAwareTrait;
 
     //////////////////////////////////////////////////////////////////////
     /////////////////////////////// TASKS ////////////////////////////////

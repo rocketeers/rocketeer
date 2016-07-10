@@ -12,7 +12,7 @@
 
 namespace Rocketeer;
 
-use Rocketeer\Traits\ContainerAware;
+use Rocketeer\Traits\ContainerAwareTrait;
 
 /**
  * Handles interaction between the User provided informations
@@ -22,7 +22,7 @@ use Rocketeer\Traits\ContainerAware;
  */
 class Rocketeer
 {
-    use ContainerAware;
+    use ContainerAwareTrait;
 
     /**
      * The specific commit built.

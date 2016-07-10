@@ -34,9 +34,7 @@ class FlushCommand extends AbstractCommand
     protected $description = "Flushes Rocketeer's cache of credentials";
 
     /**
-     * Execute the tasks.
-     *
-     * @return int
+     * {@inheritdoc}
      */
     public function fire()
     {

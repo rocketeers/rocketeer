@@ -21,7 +21,7 @@ use Illuminate\Support\Arr;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-trait HasHistory
+trait HasHistoryTrait
 {
     /**
      * Get the class's history.

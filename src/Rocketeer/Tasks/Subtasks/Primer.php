@@ -44,9 +44,7 @@ class Primer extends AbstractTask
     public $usesStages = false;
 
     /**
-     * Run the task.
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function execute()
     {

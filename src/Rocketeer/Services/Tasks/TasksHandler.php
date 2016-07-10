@@ -21,7 +21,7 @@ use Rocketeer\Interfaces\IdentifierInterface;
 use Rocketeer\Services\Builders\Builder;
 use Rocketeer\Tasks;
 use Rocketeer\Tasks\AbstractTask;
-use Rocketeer\Traits\ContainerAware;
+use Rocketeer\Traits\ContainerAwareTrait;
 
 /**
  * Handles the registering and firing of tasks and their events.
@@ -30,7 +30,7 @@ use Rocketeer\Traits\ContainerAware;
  */
 class TasksHandler
 {
-    use ContainerAware;
+    use ContainerAwareTrait;
 
     /**
      * The registered events.
@@ -89,7 +89,7 @@ class TasksHandler
     /**
      * Configure a strategy.
      *
-     * @param array $arguments
+     * @param array ...$arguments
      */
     public function configureStrategy(...$arguments)
     {

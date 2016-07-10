@@ -21,7 +21,7 @@ use Rocketeer\Services\Tasks\TasksHandler;
  *
  * @see    Rocketeer\TasksQueue
  */
-class Rocketeer extends StandaloneFacade
+class Rocketeer extends AbstractFacade
 {
     /**
      * The class to fetch from the container.

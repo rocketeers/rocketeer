@@ -34,7 +34,7 @@ class StrategiesCommand extends AbstractCommand
     protected $description = 'Lists the available options for each strategy';
 
     /**
-     * Run the tasks.
+     * {@inheritdoc}
      */
     public function fire()
     {

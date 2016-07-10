@@ -36,9 +36,7 @@ class CurrentRelease extends AbstractTask
     protected $description = 'Display what the current release is';
 
     /**
-     * Run the task.
-     *
-     * @return string|null
+     * {@inheritdoc}
      */
     public function execute()
     {
@@ -57,7 +55,9 @@ class CurrentRelease extends AbstractTask
         $state = $this->runForCurrentRelease($this->scm->currentState());
         $message = sprintf(
             'The current release'.$stage.' is <info>%s</info> (<comment>%s</comment> deployed at <comment>%s</comment>)',
-            $currentRelease, $state, $date
+            $currentRelease,
+            $state,
+            $date
         );
 
         // Display current and past releases

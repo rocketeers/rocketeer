@@ -17,11 +17,11 @@ use League\Event\ListenerInterface;
 use Rocketeer\Bash;
 use Rocketeer\Interfaces\HasRolesInterface;
 use Rocketeer\Interfaces\IdentifierInterface;
-use Rocketeer\Traits\Properties\Configurable;
-use Rocketeer\Traits\Properties\HasEvents;
-use Rocketeer\Traits\Properties\HasRoles;
-use Rocketeer\Traits\Sluggable;
-use Rocketeer\Traits\StepsRunner;
+use Rocketeer\Traits\Properties\ConfigurableTrait;
+use Rocketeer\Traits\Properties\HasEventsTrait;
+use Rocketeer\Traits\Properties\HasRolesTrait;
+use Rocketeer\Traits\SluggableTrait;
+use Rocketeer\Traits\StepsRunnerTrait;
 
 /**
  * An abstract AbstractTask with common helpers, from which all Tasks derive.
@@ -30,11 +30,11 @@ use Rocketeer\Traits\StepsRunner;
  */
 abstract class AbstractTask extends Bash implements HasRolesInterface, IdentifierInterface, ListenerInterface
 {
-    use Configurable;
-    use HasEvents;
-    use HasRoles;
-    use StepsRunner;
-    use Sluggable;
+    use ConfigurableTrait;
+    use HasEventsTrait;
+    use HasRolesTrait;
+    use StepsRunnerTrait;
+    use SluggableTrait;
 
     /**
      * The name of the task.
@@ -106,7 +106,7 @@ abstract class AbstractTask extends Bash implements HasRolesInterface, Identifie
     /**
      * Run the task.
      *
-     * @return string
+     * @return mixed
      */
     abstract public function execute();
 

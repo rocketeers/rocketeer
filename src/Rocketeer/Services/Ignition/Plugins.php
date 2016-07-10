@@ -13,7 +13,7 @@
 namespace Rocketeer\Services\Ignition;
 
 use Illuminate\Support\Arr;
-use Rocketeer\Traits\ContainerAware;
+use Rocketeer\Traits\ContainerAwareTrait;
 
 /**
  * Publishes the plugin's configurations in user-land.
@@ -22,7 +22,7 @@ use Rocketeer\Traits\ContainerAware;
  */
 class Plugins
 {
-    use ContainerAware;
+    use ContainerAwareTrait;
 
     /**
      * Publishes a package's configuration.

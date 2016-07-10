@@ -14,7 +14,7 @@ namespace Rocketeer\Traits\Properties;
 
 use Rocketeer\Interfaces\HasRolesInterface;
 
-trait HasRoles
+trait HasRolesTrait
 {
     /**
      * @var array

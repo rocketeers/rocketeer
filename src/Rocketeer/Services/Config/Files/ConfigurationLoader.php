@@ -15,7 +15,7 @@ namespace Rocketeer\Services\Config\Files;
 use Illuminate\Support\Arr;
 use Rocketeer\Container;
 use Rocketeer\Services\Config\ConfigurationDefinition;
-use Rocketeer\Traits\ContainerAware;
+use Rocketeer\Traits\ContainerAwareTrait;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Resource\DirectoryResource;
@@ -25,7 +25,7 @@ use Symfony\Component\Finder\SplFileInfo;
 
 class ConfigurationLoader
 {
-    use ContainerAware;
+    use ContainerAwareTrait;
 
     /**
      * The various found configurations.

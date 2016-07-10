@@ -12,7 +12,7 @@
 
 namespace Rocketeer\Services\Display;
 
-use Rocketeer\Traits\ContainerAware;
+use Rocketeer\Traits\ContainerAwareTrait;
 
 /**
  * Gives some insight into what task is executing,
@@ -22,7 +22,7 @@ use Rocketeer\Traits\ContainerAware;
  */
 class QueueExplainer
 {
-    use ContainerAware;
+    use ContainerAwareTrait;
 
     /**
      * The level at which to display statuses.

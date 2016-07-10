@@ -12,7 +12,7 @@
 
 namespace Rocketeer\Services\Environment;
 
-use Rocketeer\Traits\ContainerAware;
+use Rocketeer\Traits\ContainerAwareTrait;
 
 /**
  * Gives out various informations about the
@@ -22,7 +22,7 @@ use Rocketeer\Traits\ContainerAware;
  */
 class Environment
 {
-    use ContainerAware;
+    use ContainerAwareTrait;
 
     /**
      * Get the directory separators on the remove server.

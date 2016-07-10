@@ -29,9 +29,7 @@ class CreateRelease extends AbstractTask
     protected $description = 'Creates a new release on the server';
 
     /**
-     * Run the task.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function execute()
     {

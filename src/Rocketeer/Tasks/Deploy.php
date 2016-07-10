@@ -34,9 +34,7 @@ class Deploy extends AbstractTask
     ];
 
     /**
-     * Run the task.
-     *
-     * @return bool|null
+     * {@inheritdoc}
      */
     public function execute()
     {

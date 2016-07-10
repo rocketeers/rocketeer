@@ -19,7 +19,7 @@ use InvalidArgumentException;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-trait Configurable
+trait ConfigurableTrait
 {
     //////////////////////////////////////////////////////////////////////
     //////////////////////// SETTERS AND GETTERS /////////////////////////

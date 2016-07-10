@@ -14,11 +14,11 @@ namespace Rocketeer\Services\Ignition;
 
 use KevinGH\Amend\Command;
 use Rocketeer\Tasks\AbstractTask;
-use Rocketeer\Traits\ContainerAware;
+use Rocketeer\Traits\ContainerAwareTrait;
 
 class Tasks
 {
-    use ContainerAware;
+    use ContainerAwareTrait;
 
     /**
      * Get an array of all already defined tasks.

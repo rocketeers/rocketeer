@@ -14,8 +14,8 @@ namespace Rocketeer\Traits\BashModules;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Rocketeer\Traits\ContainerAware;
-use Rocketeer\Traits\Properties\HasHistory;
+use Rocketeer\Traits\ContainerAwareTrait;
+use Rocketeer\Traits\Properties\HasHistoryTrait;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -29,8 +29,8 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 trait Core
 {
-    use ContainerAware;
-    use HasHistory;
+    use ContainerAwareTrait;
+    use HasHistoryTrait;
 
     /**
      * Whether to run the commands locally

@@ -32,7 +32,7 @@ class Installer extends AbstractTask
     protected $local = true;
 
     /**
-     * Run the task.
+     * {@inheritdoc}
      */
     public function execute()
     {

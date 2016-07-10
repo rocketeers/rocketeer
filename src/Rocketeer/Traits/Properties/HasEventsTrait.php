@@ -13,6 +13,7 @@
 namespace Rocketeer\Traits\Properties;
 
 use League\Event\EventInterface;
+use Rocketeer\Interfaces\IdentifierInterface;
 
 /**
  * A class that can fire events.
@@ -22,7 +23,7 @@ use League\Event\EventInterface;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-trait HasEvents
+trait HasEventsTrait
 {
     /**
      * The event this task is answering to.
@@ -68,7 +69,7 @@ trait HasEvents
     }
 
     /**
-     * @param $listener
+     * @param IdentifierInterface $listener
      *
      * @return bool
      */

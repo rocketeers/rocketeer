@@ -12,11 +12,11 @@
 
 namespace Rocketeer\Services\Environment\Pathfinders;
 
-use Rocketeer\Traits\ContainerAware;
+use Rocketeer\Traits\ContainerAwareTrait;
 
 abstract class AbstractPathfinder implements PathfinderInterface
 {
-    use ContainerAware;
+    use ContainerAwareTrait;
 
     /**
      * Get a configured path.

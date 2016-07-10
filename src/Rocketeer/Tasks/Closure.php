@@ -141,7 +141,7 @@ class Closure extends AbstractTask
     }
 
     /**
-     * Run the task.
+     * {@inheritdoc}
      */
     public function execute()
     {

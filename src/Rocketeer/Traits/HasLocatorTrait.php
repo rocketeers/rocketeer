@@ -75,7 +75,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-trait HasLocator
+trait HasLocatorTrait
 {
     /**
      * Get an instance from the Container.

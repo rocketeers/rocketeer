@@ -47,7 +47,7 @@ class Cleanup extends AbstractTask
     }
 
     /**
-     * Run the task.
+     * {@inheritdoc}
      */
     public function execute()
     {

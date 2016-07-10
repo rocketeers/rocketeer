@@ -14,7 +14,7 @@ namespace Rocketeer\Traits;
 
 use Illuminate\Support\Str;
 
-trait Sluggable
+trait SluggableTrait
 {
     /**
      * Get the name of the entity.

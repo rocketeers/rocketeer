@@ -34,9 +34,7 @@ class Migrate extends AbstractTask
     protected $results = [];
 
     /**
-     * Run the task.
-     *
-     * @return bool|bool[]
+     * {@inheritdoc}
      */
     public function execute()
     {

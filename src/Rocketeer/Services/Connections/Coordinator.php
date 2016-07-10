@@ -14,14 +14,14 @@ namespace Rocketeer\Services\Connections;
 
 use Rocketeer\Services\Connections\Connections\ConnectionInterface;
 use Rocketeer\Services\Tasks\Job;
-use Rocketeer\Traits\ContainerAware;
+use Rocketeer\Traits\ContainerAwareTrait;
 
 /**
  * Coordinates tasks between multiple servers/stages.
  */
 class Coordinator
 {
-    use ContainerAware;
+    use ContainerAwareTrait;
 
     /**
      * The status of each server.
@@ -83,8 +83,8 @@ class Coordinator
     /**
      * Assert whether all servers are at a particular state.
      *
-     * @param     $event
-     * @param int $expected
+     * @param string $event
+     * @param int    $expected
      *
      * @return bool
      */

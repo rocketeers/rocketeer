@@ -25,9 +25,7 @@ class SwapSymlink extends AbstractTask
     protected $description = 'Swaps the symlink on the server';
 
     /**
-     * Run the task.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function execute()
     {

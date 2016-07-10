@@ -34,9 +34,7 @@ class Setup extends AbstractTask
     public $usesStages = false;
 
     /**
-     * Run the task.
-     *
-     * @return string|false|null
+     * {@inheritdoc}
      */
     public function execute()
     {

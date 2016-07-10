@@ -12,14 +12,14 @@
 
 namespace Rocketeer\Services\Builders;
 
-use Rocketeer\Traits\ContainerAware;
+use Rocketeer\Traits\ContainerAwareTrait;
 
 /**
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Builder
 {
-    use ContainerAware;
+    use ContainerAwareTrait;
 
     use TasksBuilder;
     use StrategiesBuilder;

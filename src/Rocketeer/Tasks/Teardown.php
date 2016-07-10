@@ -34,9 +34,7 @@ class Teardown extends AbstractTask
     public $usesStages = false;
 
     /**
-     * Run the task.
-     *
-     * @return string|null
+     * {@inheritdoc}
      */
     public function execute()
     {

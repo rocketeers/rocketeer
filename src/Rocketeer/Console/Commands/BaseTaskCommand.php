@@ -46,9 +46,7 @@ class BaseTaskCommand extends AbstractCommand
     }
 
     /**
-     * Fire the custom Task.
-     *
-     * @return int
+     * {@inheritdoc}
      */
     public function fire()
     {

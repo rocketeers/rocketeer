@@ -15,11 +15,11 @@ namespace Rocketeer\Facades;
 use Rocketeer\Container;
 
 /**
- * Facade for Rocketeer's CLI.
+ * Class for self-bootstrapping facades.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-abstract class StandaloneFacade
+abstract class AbstractFacade
 {
     /**
      * @var Container
