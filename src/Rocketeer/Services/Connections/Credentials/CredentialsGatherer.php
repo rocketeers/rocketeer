@@ -169,13 +169,13 @@ class CredentialsGatherer
     protected function gatherCredentials($rules, $current, $handle)
     {
         // Alter rules depending on connection type
-        $authCredentials = ['key', 'password', 'keyphrase'];
+        $authCredentials = ['key', 'password', 'keyphrase', 'agent'];
         $unprompted = $this->alterRules($rules, $current, $handle);
 
         // Loop through credentials and ask missing ones
         foreach ($rules as $type => $required) {
             $credential = $this->getCredential($current, $type);
-            $shouldPrompt = $this->shouldPromptFor($credential);
+            $shouldPrompt = $this->shouldPromptFor($type, $credential);
             $shouldPrompt = !in_array($type, $unprompted, true) && ($shouldPrompt || ($required && !$credential && $credential !== false));
             $$type = $credential;
 
@@ -204,6 +204,8 @@ class CredentialsGatherer
         $keyPath = $this->paths->getDefaultKeyPath();
 
         switch ($type) {
+            case 'agent':
+                return $this->ask('confirm', 'Use agent forwarding?');
             case 'keyphrase':
                 return $this->gatherCredential($handle, 'keyphrase', 'If a keyphrase is required, provide it');
             case 'key':
@@ -280,11 +282,12 @@ class CredentialsGatherer
     /**
      * Whether Rocketeer should prompt for a credential or not.
      *
+     * @param string           $type
      * @param string|bool|null $value
      *
      * @return bool
      */
-    protected function shouldPromptFor($value)
+    protected function shouldPromptFor($type, $value)
     {
         if (!$this->shouldPrompt()) {
             return;
@@ -293,7 +296,7 @@ class CredentialsGatherer
         if (is_string($value)) {
             return !$value;
         } elseif (is_bool($value) || $value === null) {
-            return (bool) $value;
+            return $type === 'agent' ? false : (bool) $value;
         }
 
         return false;
