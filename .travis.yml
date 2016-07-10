@@ -29,14 +29,12 @@ cache:
 
 # Dependencies
 before_install:
+  - phpenv config-rm xdebug.ini || return 0
   - travis_retry composer self-update
   - travis_retry composer global require hirak/prestissimo
 
 install:
   - travis_retry composer update --no-interaction --prefer-dist $COMPOSER_FLAGS
-
-before_script:
-  - phpenv config-rm xdebug.ini || return 0
 
 script:
   - composer test
