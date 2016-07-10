@@ -10,9 +10,7 @@
  *
  */
 
-namespace Rocketeer\Traits\Properties;
-
-use Rocketeer\Interfaces\HasRolesInterface;
+namespace Rocketeer\Services\Roles;
 
 trait HasRolesTrait
 {

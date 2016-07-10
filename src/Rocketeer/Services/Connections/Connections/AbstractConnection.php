@@ -13,13 +13,12 @@
 namespace Rocketeer\Services\Connections\Connections;
 
 use League\Flysystem\Filesystem;
-use Rocketeer\Interfaces\HasRolesInterface;
 use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
-use Rocketeer\Traits\Properties\HasRolesTrait;
+use Rocketeer\Services\Roles\HasRolesInterface;
 
 abstract class AbstractConnection extends Filesystem implements ConnectionInterface, HasRolesInterface
 {
-    use HasRolesTrait;
+    use Rocketeer\Services\Roles\HasRolesTrait;
 
     /**
      * @var bool

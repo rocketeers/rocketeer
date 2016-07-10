@@ -24,6 +24,7 @@ use Rocketeer\Services\Filesystem\FilesystemServiceProvider;
 use Rocketeer\Services\History\HistoryServiceProvider;
 use Rocketeer\Services\Ignition\IgnitionServiceProvider;
 use Rocketeer\Services\Releases\ReleasesServiceProvider;
+use Rocketeer\Services\Roles\RolesServiceProvider;
 use Rocketeer\Services\Storages\StorageServiceProvider;
 use Rocketeer\Services\Tasks\TasksServiceProvider;
 use Rocketeer\Strategies\StrategiesServiceProvider;
@@ -57,6 +58,7 @@ class Container extends \League\Container\Container
             FilesystemServiceProvider::class,
             HistoryServiceProvider::class,
             ReleasesServiceProvider::class,
+            RolesServiceProvider::class,
             StorageServiceProvider::class,
             StrategiesServiceProvider::class,
             TasksServiceProvider::class,

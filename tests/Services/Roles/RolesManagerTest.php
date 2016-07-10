@@ -10,7 +10,7 @@
  *
  */
 
-namespace Rocketeer\Services;
+namespace Rocketeer\Services\Roles;
 
 use Rocketeer\Services\Connections\ConnectionsFactory;
 use Rocketeer\TestCases\RocketeerTestCase;

@@ -10,7 +10,7 @@
  *
  */
 
-namespace Rocketeer\Interfaces;
+namespace Rocketeer\Services\Roles;
 
 interface HasRolesInterface
 {

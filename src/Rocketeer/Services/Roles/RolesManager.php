@@ -10,7 +10,7 @@
  *
  */
 
-namespace Rocketeer\Services;
+namespace Rocketeer\Services\Roles;
 
 use Illuminate\Support\Arr;
 use Rocketeer\Services\Connections\Connections\Connection;
