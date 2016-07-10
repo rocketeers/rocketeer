@@ -10,7 +10,7 @@
  *
  */
 
-namespace Rocketeer\Services\Builders;
+namespace Rocketeer\Services\Builders\Modules;
 
 use Rocketeer\Console\Commands\BaseTaskCommand;
 use Rocketeer\Console\Commands\DeployCommand;

@@ -10,7 +10,7 @@
  *
  */
 
-namespace Rocketeer\Traits\BashModules;
+namespace Rocketeer\Services\Connections\Shell\Modules;
 
 use Mockery\MockInterface;
 use Rocketeer\Services\Connections\Shell\Bash;

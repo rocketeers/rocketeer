@@ -10,7 +10,7 @@
  *
  */
 
-namespace Rocketeer\Services;
+namespace Rocketeer\Services\Tasks;
 
 use Rocketeer\Console\Commands\BaseTaskCommand;
 use Rocketeer\Dummies\DummyNotifier;

@@ -10,7 +10,7 @@
  *
  */
 
-namespace Rocketeer\Traits\BashModules;
+namespace Rocketeer\Services\Connections\Shell\Modules;
 
 use Rocketeer\TestCases\RocketeerTestCase;
 

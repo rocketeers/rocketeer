@@ -10,7 +10,7 @@
  *
  */
 
-namespace Rocketeer\Services\Builders;
+namespace Rocketeer\Services\Builders\Modules;
 
 use Rocketeer\Strategies\Check\PhpStrategy;
 use Rocketeer\TestCases\RocketeerTestCase;

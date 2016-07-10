@@ -10,7 +10,7 @@
  *
  */
 
-namespace Rocketeer\Services;
+namespace Rocketeer\Services\Connections\Credentials;
 
 use Mockery;
 use Mockery\MockInterface;

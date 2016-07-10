@@ -10,7 +10,7 @@
  *
  */
 
-namespace Rocketeer\Services\Builders;
+namespace Rocketeer\Services\Builders\Modules;
 
 use Rocketeer\Binaries\AnonymousBinary;
 use Rocketeer\Binaries\Scm\Git;

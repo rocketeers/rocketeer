@@ -10,7 +10,7 @@
  *
  */
 
-namespace Rocketeer;
+namespace Rocketeer\Services\Connections\Shell;
 
 use Rocketeer\TestCases\RocketeerTestCase;
 

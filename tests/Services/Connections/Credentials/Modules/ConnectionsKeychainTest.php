@@ -10,7 +10,7 @@
  *
  */
 
-namespace Rocketeer\Services\Connections;
+namespace Rocketeer\Services\Connections\Credentials\Modules;
 
 use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
 use Rocketeer\TestCases\RocketeerTestCase;
