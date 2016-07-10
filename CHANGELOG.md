@@ -2,7 +2,7 @@
 
 Rocketeer follows the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.html) spec.
 
-## [2.2.1] - Unreleased
+## [2.2.1] - 2016-07-10
 
 ### Fixed
 - Rocketeer now uses the `composer.json` as source of truth for which extensions to check against
@@ -394,6 +394,7 @@ Rocketeer follows the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.ht
 - Added config file
 - Added `deploy:setup` and `deploy:deploy` commands
 
+[2.2.1]: https://github.com/rocketeers/rocketeer/compare/2.2.0...2.2.1
 [2.2.0]: https://github.com/rocketeers/rocketeer/compare/2.1.3...2.2.0
 [2.1.3]: https://github.com/rocketeers/rocketeer/compare/2.1.2...2.1.3
 [2.1.2]: https://github.com/rocketeers/rocketeer/compare/2.1.1...2.1.2
