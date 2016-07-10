@@ -26,7 +26,7 @@
     "kzykhys/parallel": "^0.1.0",
     "league/container": "^2.2",
     "league/event": "^2.1",
-    "league/flysystem": "^1.0.8",
+    "league/flysystem": "^1.0.11",
     "league/flysystem-sftp": "^1.0",
     "league/flysystem-vfs": "^1.0.2",
     "psy/psysh": "^0.7.2",
