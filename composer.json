@@ -38,7 +38,7 @@
     "escapestudios/symfony2-coding-standard": "^2.9",
     "friendsofphp/php-cs-fixer": "dev-master",
     "johnkary/phpunit-speedtrap": "^1.0",
-    "kherge/box": "^2.7",
+    "kherge/box": "^2.7.3",
     "mockery/mockery": "^0.9.5",
     "phpunit/phpunit": "^5.4",
     "rocketeers/rocketeer-laravel": "1.0.x@dev"
