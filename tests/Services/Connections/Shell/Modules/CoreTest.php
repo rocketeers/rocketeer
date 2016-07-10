@@ -13,6 +13,7 @@
 namespace Rocketeer\Services\Connections\Shell\Modules;
 
 use Mockery\MockInterface;
+use Rocketeer\Dummies\Tasks\DummyShelledTask;
 use Rocketeer\Services\Connections\ConnectionsFactory;
 use Rocketeer\TestCases\RocketeerTestCase;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -189,5 +190,15 @@ class CoreTest extends RocketeerTestCase
         ]);
 
         $this->assertEquals(['sudo -u foobar cd foobar'], $this->task->processCommands('cd foobar'));
+    }
+
+    public function testCanShellAllCommandByDefault()
+    {
+        $this->assertTaskHistory(DummyShelledTask::class, [
+            [
+                'bash --login -c \'echo "foo"\'',
+                'bash --login -c \'echo "bar"\'',
+            ],
+        ]);
     }
 }

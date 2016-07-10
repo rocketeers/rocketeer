@@ -333,7 +333,8 @@ class Core extends AbstractBashModule
             }
 
             // Create shell if asked
-            if ($shell && Str::contains($command, $shelled)) {
+            $forceShell = $this->modulable->getOption('shelled', true);
+            if ($forceShell || $shell && Str::contains($command, $shelled)) {
                 $command = $this->shellCommand($command);
             }
 
