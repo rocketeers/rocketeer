@@ -36,14 +36,15 @@ trait Contexts
     }
 
     /**
-     * @param bool $usesHhvm
+     * @param bool  $usesHhvm
+     * @param array $additional
      */
-    protected function mockHhvm($usesHhvm = true)
+    protected function mockHhvm($usesHhvm = true, array $additional = [])
     {
-        $this->mockRemote([
+        $this->mockRemote(array_merge([
             'which php' => 'php',
             'php -r "print defined(\'HHVM_VERSION\');"' => (int) $usesHhvm,
-        ]);
+        ], $additional));
     }
 
     /**

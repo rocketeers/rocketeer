@@ -61,16 +61,13 @@ class PhpStrategyTest extends RocketeerTestCase
 
     public function testCanCheckPhpExtensions()
     {
-        $this->mockHhvm(false);
-        $this->swapConfig([
-            'database.default' => 'sqlite',
-            'cache.driver' => 'redis',
-            'session.driver' => 'apc',
+        $this->mockHhvm(false, [
+            'php -m' => 'sqlite',
         ]);
 
         $this->strategy->extensions();
 
-        $this->assertHistory(['{php} -m']);
+        $this->assertHistory(['php -m']);
     }
 
     public function testCanCheckForHhvmExtensions()

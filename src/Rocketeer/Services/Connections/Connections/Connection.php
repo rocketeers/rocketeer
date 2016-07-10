@@ -110,7 +110,6 @@ class Connection extends AbstractConnection
      */
     public function run($commands, Closure $callback = null)
     {
-        dump($commands);
         $gateway = $this->getGateway();
         $commands = is_array($commands) ? implode(' && ', $commands) : $commands;
 
