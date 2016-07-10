@@ -46,6 +46,19 @@ class ConfigurationLoaderTest extends RocketeerTestCase
         file_put_contents($filepath, $originalContents);
     }
 
+    public function testCanFilterOutInvalidConfigurationDirectories()
+    {
+        $this->files->createDir(__DIR__);
+        $this->configurationLoader->setFolders([
+           'foobar',
+            __DIR__,
+            __FILE__,
+        ]);
+
+        $folders = $this->configurationLoader->getConfigurationFolders();
+        $this->assertEquals([__DIR__], $folders);
+    }
+
     /**
      * Replicates the configuration onto the VFS.
      */

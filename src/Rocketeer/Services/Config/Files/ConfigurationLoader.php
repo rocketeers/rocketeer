@@ -100,6 +100,17 @@ class ConfigurationLoader
     }
 
     /**
+     * @return array
+     */
+    public function getConfigurationFolders()
+    {
+        $folders = array_filter($this->folders, [$this->files, 'isDirectory']);
+        $folders = array_filter($folders);
+
+        return array_values($folders);
+    }
+
+    /**
      * @param string $folder
      */
     public function addFolder($folder)
@@ -141,7 +152,7 @@ class ConfigurationLoader
         $this->configurations = [];
 
         // Get which files are present in the configurations
-        $folders = array_filter($this->folders, [$this->files, 'isDirectory']);
+        $folders = $this->getConfigurationFolders();
         if (!$folders) {
             return [];
         }
