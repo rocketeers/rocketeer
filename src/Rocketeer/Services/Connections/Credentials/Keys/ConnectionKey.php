@@ -69,10 +69,10 @@ class ConnectionKey extends AbstractKey
     public function __set($name, $value)
     {
         if (in_array($name, $this->informations, true)) {
-            return parent::__set($name, $value);
+            parent::__set($name, $value);
+        } else {
+            $this->attributes['servers'][$this->server][$name] = $value;
         }
-
-        $this->attributes['servers'][$this->server][$name] = $value;
     }
 
     //////////////////////////////////////////////////////////////////////

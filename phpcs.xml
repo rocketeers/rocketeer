@@ -4,6 +4,7 @@
     <arg name="colors"/>
     <arg value="p"/>
     <rule ref="vendor/escapestudios/symfony2-coding-standard/Symfony2">
+        <exclude name="Symfony2.Arrays.MultiLineArrayComma.Invalid" />
         <exclude name="Symfony2.Commenting.ClassComment.Missing" />
         <exclude name="Symfony2.Functions.ScopeOrder.Invalid" />
     </rule>

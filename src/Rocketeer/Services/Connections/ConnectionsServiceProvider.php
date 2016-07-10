@@ -50,7 +50,7 @@ class ConnectionsServiceProvider extends AbstractServiceProvider
         $this->container->share(Coordinator::class)->withArgument($this->container);
         $this->container->share(CredentialsGatherer::class)->withArgument($this->container);
 
-        $this->container->share(CredentialsHandler::class, function() {
+        $this->container->share(CredentialsHandler::class, function () {
             $handler = new CredentialsHandler($this->container);
             $handler->register(new ConnectionsKeychain());
             $handler->register(new RepositoriesKeychain());
