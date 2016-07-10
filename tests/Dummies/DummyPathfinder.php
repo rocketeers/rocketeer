@@ -12,9 +12,9 @@
 
 namespace Rocketeer\Dummies;
 
-use Rocketeer\Services\Environment\Pathfinders\PathfinderInterface;
+use Rocketeer\Services\Environment\Modules\AbstractPathfinderModule;
 
-class DummyPathfinder implements PathfinderInterface
+class DummyPathfinder extends AbstractPathfinderModule
 {
     /**
      * @param string $foo
@@ -31,7 +31,7 @@ class DummyPathfinder implements PathfinderInterface
      *
      * @return string[]
      */
-    public function provides()
+    public function getProvided()
     {
         return ['foobar'];
     }

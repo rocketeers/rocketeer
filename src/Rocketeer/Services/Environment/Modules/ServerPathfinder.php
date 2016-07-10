@@ -10,11 +10,11 @@
  *
  */
 
-namespace Rocketeer\Services\Environment\Pathfinders;
+namespace Rocketeer\Services\Environment\Modules;
 
 use Illuminate\Support\Str;
 
-class ServerPathfinder extends AbstractPathfinder
+class ServerPathfinder extends AbstractPathfinderModule
 {
     /**
      * @return string
@@ -49,7 +49,7 @@ class ServerPathfinder extends AbstractPathfinder
      */
     public function getFolder($folder = null)
     {
-        $folder = $this->replacePatterns($folder);
+        $folder = $this->modulable->replacePatterns($folder);
 
         $base = $this->getHomeFolder().'/';
         $stage = $this->connections->getCurrentConnectionKey()->stage;
@@ -66,12 +66,12 @@ class ServerPathfinder extends AbstractPathfinder
      *
      * @return string[]
      */
-    public function provides()
+    public function getProvided()
     {
         return [
-            'getRootDirectory',
-            'getHomeFolder',
             'getFolder',
+            'getHomeFolder',
+            'getRootDirectory',
         ];
     }
 }

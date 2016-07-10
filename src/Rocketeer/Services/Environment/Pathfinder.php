@@ -12,11 +12,12 @@
 
 namespace Rocketeer\Services\Environment;
 
-use InvalidArgumentException;
-use Rocketeer\Services\Environment\Pathfinders\AbstractPathfinder;
-use Rocketeer\Services\Environment\Pathfinders\LocalPathfinder;
-use Rocketeer\Services\Environment\Pathfinders\PathfinderInterface;
-use Rocketeer\Services\Environment\Pathfinders\ServerPathfinder;
+use League\Container\ContainerAwareInterface;
+use Rocketeer\Services\Environment\Modules\LocalPathfinder;
+use Rocketeer\Services\Environment\Modules\ServerPathfinder;
+use Rocketeer\Services\Modules\ModulableInterface;
+use Rocketeer\Services\Modules\ModulableTrait;
+use Rocketeer\Traits\ContainerAwareTrait;
 
 /**
  * Locates folders and paths on the server and locally.
@@ -26,75 +27,92 @@ use Rocketeer\Services\Environment\Pathfinders\ServerPathfinder;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class Pathfinder extends AbstractPathfinder
+class Pathfinder implements ModulableInterface, ContainerAwareInterface
 {
-    /**
-     * @var array
-     */
-    protected $lookups = [];
+    use ModulableTrait;
+    use ContainerAwareTrait;
 
     /**
-     * @var array
-     */
-    protected $pathfinders = [];
-
-    //////////////////////////////////////////////////////////////////////
-    ////////////////////////////// PROVIDERS /////////////////////////////
-    //////////////////////////////////////////////////////////////////////
-
-    /**
-     * Register a paths provider with the Pathfinder.
+     * Get a configured path.
      *
-     * @param string|PathfinderInterface $pathfinder
+     * @param string $path
+     *
+     * @return string
      */
-    public function registerPathfinder($pathfinder)
+    public function getPath($path)
     {
-        // Build pathfinder if necessary
-        if (is_string($pathfinder)) {
-            $pathfinder = $this->container->get($pathfinder);
-        }
-
-        // Check interfaces
-        if (!$pathfinder instanceof PathfinderInterface) {
-            throw new InvalidArgumentException('Pathfinder must implement PathfinderInterface');
-        }
-
-        // Register provided methods
-        $provided = $pathfinder->provides();
-        $classname = get_class($pathfinder);
-        foreach ($provided as $method) {
-            $this->lookups[$method] = $classname;
-        }
-
-        // Cache Pathfinder instance
-        $this->pathfinders[$classname] = $pathfinder;
+        return $this->config->getContextually('paths.'.$path);
     }
 
     /**
-     * Delegate calls to subpathfinders.
+     * Get the base path.
      *
-     * @param string $method
-     * @param array  $arguments
-     *
-     * @return mixed
+     * @return string
      */
-    public function __call($method, $arguments)
+    public function getBasePath()
     {
-        if (array_key_exists($method, $this->lookups)) {
-            $pathfinder = $this->lookups[$method];
-            $pathfinder = $this->pathfinders[$pathfinder];
+        $base = $this->container->get('path.base') ? $this->container->get('path.base').'/' : '';
+        $base = $this->unifySlashes($base);
 
-            return $pathfinder->$method(...$arguments);
-        }
+        return $base;
+    }
+
+    //////////////////////////////////////////////////////////////////////
+    ////////////////////////////// HELPERS ///////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+
+    /**
+     * Unify the slashes to the UNIX mode (forward slashes).
+     *
+     * @param string $path
+     *
+     * @return string
+     */
+    public function unifySlashes($path)
+    {
+        return str_replace('\\', '/', $path);
     }
 
     /**
-     * The methods this pathfinder provides.
+     * Unify paths to the local DS.
      *
-     * @return string[]
+     * @param string $path
+     *
+     * @return string
      */
-    public function provides()
+    public function unifyLocalSlashes($path)
     {
-        return [];
+        return preg_replace('#(/|\\\)#', DS, $path);
+    }
+
+    /**
+     * Replace patterns in a folder path.
+     *
+     * @param string $path
+     *
+     * @return string
+     */
+    public function replacePatterns($path)
+    {
+        $base = $this->getBasePath();
+
+        // Replace folder patterns
+        return preg_replace_callback('/\{[a-z\.]+\}/', function ($match) use ($base) {
+            $folder = substr($match[0], 1, -1);
+
+            // Replace paths from the container
+            if ($this->container->has($folder)) {
+                $path = $this->container->get($folder);
+
+                return str_replace($base, null, $this->unifySlashes($path));
+            }
+
+            // Replace paths from configuration
+            if ($custom = $this->getPath($folder)) {
+                return $custom;
+            }
+
+            return false;
+        }, $path);
     }
 }

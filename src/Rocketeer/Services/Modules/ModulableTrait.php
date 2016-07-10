@@ -1,4 +1,15 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ */
+
 namespace Rocketeer\Services\Modules;
 
 use League\Container\ContainerAwareInterface;
@@ -8,7 +19,7 @@ trait ModulableTrait
     /**
      * @var AbstractModule[]
      */
-    protected $registered;
+    protected $registered = [];
 
     /**
      * @param string $name
@@ -18,16 +29,14 @@ trait ModulableTrait
      */
     public function __call($name, $arguments)
     {
-        foreach ($this->registered as $method => $module) {
-            if ($method === $name) {
-                $module = $this->registered[$method];
-                $module->setModulable($this);
-                if ($module instanceof ContainerAwareInterface && $this instanceof ContainerAwareInterface) {
-                    $module->setContainer($this->getContainer());
-                }
-
-                return $module->$method(...$arguments);
+        if (array_key_exists($name, $this->registered)) {
+            $module = $this->registered[$name];
+            $module->setModulable($this);
+            if ($module instanceof ContainerAwareInterface && $this instanceof ContainerAwareInterface) {
+                $module->setContainer($this->getContainer());
             }
+
+            return $module->$name(...$arguments);
         }
 
         throw new ModuleNotFoundException($name, __CLASS__);

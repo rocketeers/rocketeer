@@ -10,19 +10,19 @@
  *
  */
 
-namespace Rocketeer\Services\Builders\Modules;
+namespace Rocketeer\Services\Environment\Modules;
 
 use League\Container\ContainerAwareInterface;
-use Rocketeer\Services\Builders\Builder;
+use Rocketeer\Services\Environment\Pathfinder;
 use Rocketeer\Services\Modules\AbstractModule;
 use Rocketeer\Traits\ContainerAwareTrait;
 
-abstract class AbstractBuilderModule extends AbstractModule implements ContainerAwareInterface
+abstract class AbstractPathfinderModule extends AbstractModule implements ContainerAwareInterface
 {
     use ContainerAwareTrait;
 
     /**
-     * @var Builder
+     * @var Pathfinder
      */
     protected $modulable;
 }

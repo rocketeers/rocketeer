@@ -10,12 +10,12 @@
  *
  */
 
-namespace Rocketeer\Services\Environment\Pathfinders;
+namespace Rocketeer\Services\Environment\Modules;
 
 use Exception;
 use Illuminate\Support\Str;
 
-class LocalPathfinder extends AbstractPathfinder
+class LocalPathfinder extends AbstractPathfinderModule
 {
     /**
      * Get the path to the users home folder.
@@ -75,8 +75,8 @@ class LocalPathfinder extends AbstractPathfinder
      */
     public function getApplicationPath()
     {
-        $applicationPath = $this->getPath('app').'/' ?: $this->getBasePath();
-        $applicationPath = $this->unifySlashes($applicationPath);
+        $applicationPath = $this->modulable->getPath('app').'/' ?: $this->modulable->getBasePath();
+        $applicationPath = $this->modulable->unifySlashes($applicationPath);
 
         return $applicationPath;
     }
@@ -91,7 +91,7 @@ class LocalPathfinder extends AbstractPathfinder
         // Get path to configuration
         $configuration = $this->container->get('path.rocketeer.config');
 
-        return $this->unifyLocalSlashes($configuration);
+        return $this->modulable->unifyLocalSlashes($configuration);
     }
 
     /**
@@ -108,18 +108,16 @@ class LocalPathfinder extends AbstractPathfinder
 
         // Unify slashes
         $storage = $this->container->get('path.storage');
-        $storage = $this->unifySlashes($storage);
-        $storage = str_replace($this->getBasePath(), null, $storage);
+        $storage = $this->modulable->unifySlashes($storage);
+        $storage = str_replace($this->modulable->getBasePath(), null, $storage);
 
         return $storage;
     }
 
     /**
-     * The methods this pathfinder provides.
-     *
      * @return string[]
      */
-    public function provides()
+    public function getProvided()
     {
         return [
             'getApplicationPath',

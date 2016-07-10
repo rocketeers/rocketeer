@@ -20,6 +20,7 @@ use Rocketeer\Container;
 use Rocketeer\Interfaces\IdentifierInterface;
 use Rocketeer\Services\Builders\Builder;
 use Rocketeer\Tasks\AbstractTask;
+use Rocketeer\Tasks\Closure as ClosureTask;
 use Rocketeer\Traits\ContainerAwareTrait;
 
 /**
@@ -313,7 +314,7 @@ class TasksHandler
 
         // Flatten the queue if requested
         foreach ($events as $key => $listener) {
-            if ($flatten && $listener instanceof Tasks\Closure && $stringTask = $listener->getStringTask()) {
+            if ($flatten && $listener instanceof ClosureTask && $stringTask = $listener->getStringTask()) {
                 $events[$key] = $stringTask;
             } elseif ($flatten && $listener instanceof AbstractTask) {
                 $events[$key] = $listener->getSlug();

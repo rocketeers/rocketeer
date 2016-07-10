@@ -2,7 +2,7 @@
 <?php
 use Rocketeer\Console\Console;
 use Rocketeer\Container;
-use Rocketeer\Services\Environment\Pathfinders\LocalPathfinder;
+use Rocketeer\Services\Environment\Modules\LocalPathfinder;
 
 $vendors = [
     __DIR__.'/../vendor',

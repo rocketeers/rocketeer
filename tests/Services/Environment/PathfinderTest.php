@@ -13,7 +13,7 @@
 namespace Rocketeer\Services\Environment;
 
 use Rocketeer\Dummies\DummyPathfinder;
-use Rocketeer\Services\Environment\Pathfinders\LocalPathfinder;
+use Rocketeer\Services\Environment\Modules\LocalPathfinder;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class PathfinderTest extends RocketeerTestCase
@@ -191,7 +191,7 @@ class PathfinderTest extends RocketeerTestCase
 
     public function testCanRegisterCustomPathfinder()
     {
-        $this->paths->registerPathfinder(new DummyPathfinder());
+        $this->paths->register(new DummyPathfinder());
         $this->assertEquals('foofoo', $this->paths->foobar('foo'));
     }
 }

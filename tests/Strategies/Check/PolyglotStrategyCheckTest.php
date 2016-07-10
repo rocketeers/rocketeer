@@ -16,7 +16,6 @@ use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use Rocketeer\Container;
 use Rocketeer\Services\Builders\Builder;
-use Rocketeer\Services\Builders\Modules\AbstractBuilderModule;
 use Rocketeer\Services\Builders\Modules\StrategiesBuilder;
 use Rocketeer\Strategies\AbstractCheckStrategy;
 use Rocketeer\TestCases\RocketeerTestCase;
@@ -90,6 +89,5 @@ class PolyglotStrategyCheckTest extends RocketeerTestCase
         $prophecy->setModulable(Argument::type(Builder::class))->willReturn();
 
         return $prophecy;
-
     }
 }

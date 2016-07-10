@@ -48,7 +48,8 @@ class IgnitionServiceProvider extends AbstractServiceProvider implements Bootabl
         $this->igniter->loadUserConfiguration();
 
         $tasksIgniter = $this->container->get('igniter.tasks');
+
         $tasks = $tasksIgniter->getPredefinedTasks();
-        $commands = $tasksIgniter->registerTasksAndCommands($tasks);
+        $tasksIgniter->registerTasksAndCommands($tasks);
     }
 }
