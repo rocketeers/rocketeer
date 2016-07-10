@@ -22,6 +22,7 @@ use Rocketeer\Container;
 use Rocketeer\Rocketeer;
 use Rocketeer\Services\Builders\Builder;
 use Rocketeer\Services\Config\ContextualConfiguration;
+use Rocketeer\Services\Config\Files\ConfigurationPublisher;
 use Rocketeer\Services\Connections\ConnectionsFactory;
 use Rocketeer\Services\Connections\ConnectionsHandler;
 use Rocketeer\Services\Connections\Coordinator;
@@ -118,7 +119,7 @@ trait ContainerAwareTrait
             'command' => 'rocketeer.command',
             'config' => ContextualConfiguration::class,
             'configurationLoader' => 'config.loader',
-            'configurationPublisher' => 'config.publisher',
+            'configurationPublisher' => ConfigurationPublisher::class,
             'connections' => ConnectionsHandler::class,
             'console' => Console::class,
             'coordinator' => Coordinator::class,

@@ -29,9 +29,9 @@ class ConfigurationServiceProvider extends AbstractServiceProvider
      * @var array
      */
     protected $provides = [
-        'config.loader',
-        'config.publisher',
         ConfigurationCache::class,
+        'config.loader',
+        ConfigurationPublisher::class,
         ContextualConfiguration::class,
         LoaderInterface::class,
     ];
@@ -63,7 +63,7 @@ class ConfigurationServiceProvider extends AbstractServiceProvider
             return $loader;
         });
 
-        $this->container->add('config.publisher', function () {
+        $this->container->add(ConfigurationPublisher::class, function () {
             return new ConfigurationPublisher(new ConfigurationDefinition(), $this->container->get('files'));
         });
 

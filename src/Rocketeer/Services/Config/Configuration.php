@@ -41,7 +41,7 @@ class Configuration extends Collection
      */
     public function get($key, $default = null)
     {
-        $key = $this->addAliases($key);
+        $key = $this->prefixKey($key);
         if ($value = Arr::get($this->items, $key, $default)) {
             return $value;
         }
@@ -55,7 +55,7 @@ class Configuration extends Collection
      */
     public function set($key, $value)
     {
-        $key = $this->addAliases($key);
+        $key = $this->prefixKey($key);
 
         Arr::set($this->items, $key, $value);
     }
@@ -75,7 +75,7 @@ class Configuration extends Collection
      *
      * @return string
      */
-    private function addAliases($key)
+    private function prefixKey($key)
     {
         return Str::startsWith($key, $this->rootNodes) ? 'config.'.$key : $key;
     }

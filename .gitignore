@@ -10,3 +10,5 @@ vendor
 humbuglog.txt
 phpunit.xml
 tests/_coverage/
+
+TODO.md
