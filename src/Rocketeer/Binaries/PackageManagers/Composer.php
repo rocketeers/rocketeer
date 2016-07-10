@@ -47,7 +47,7 @@ class Composer extends AbstractPackageManager
         parent::setBinary($binary);
 
         // Prepend PHP command if executing from archive
-        if (strpos($this->getBinary(), 'composer.phar') !== false) {
+        if (strpos($binary, 'composer.phar') !== false) {
             $php = new Php($this->container);
             $this->setParent($php);
         }

@@ -14,7 +14,6 @@ namespace Rocketeer\Binaries;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Rocketeer\Container;
 use Rocketeer\Services\Connections\Shell\Bash;
 use Rocketeer\Traits\ContainerAwareTrait;
 
@@ -37,31 +36,16 @@ abstract class AbstractBinary
     protected $binary;
 
     /**
+     * @var bool
+     */
+    protected $resolved = false;
+
+    /**
      * A parent binary to call this one with.
      *
      * @var AbstractBinary|string
      */
     protected $parent;
-
-    /**
-     * @param Container $container
-     */
-    public function __construct(Container $container)
-    {
-        $this->container = $container;
-
-        // Assign default paths
-        $paths = $this->getKnownPaths();
-        if ($this->connections->getCurrentConnectionKey() && $paths) {
-            $binary = Arr::get($paths, 0);
-            $fallback = Arr::get($paths, 1);
-            $binary = $this->bash->which($binary, $fallback, false);
-
-            $this->setBinary($binary);
-        } elseif ($paths) {
-            $this->setBinary($paths[0]);
-        }
-    }
 
     /**
      * Get an array of default paths to look for.
@@ -91,6 +75,7 @@ abstract class AbstractBinary
     public function setBinary($binary)
     {
         $this->binary = $binary;
+        $this->resolved = true;
     }
 
     /**
@@ -110,6 +95,18 @@ abstract class AbstractBinary
      */
     public function getBinary()
     {
+        // Resolve true path to binary
+        if (!$this->resolved) {
+            $paths = $this->getKnownPaths();
+            if ($this->connections->getCurrentConnectionKey() && $paths) {
+                $binary = Arr::get($paths, 0);
+                $fallback = Arr::get($paths, 1);
+                $this->setBinary($this->bash->which($binary, $fallback, false));
+            } elseif ($paths) {
+                $this->setBinary($paths[0]);
+            }
+        }
+
         return $this->binary;
     }
 
@@ -161,7 +158,7 @@ abstract class AbstractBinary
         $options = $this->buildOptions($flags);
 
         // Build command
-        $binary = $this->binary;
+        $binary = $this->getBinary();
         $components = [$command, $arguments, $options];
         foreach ($components as $component) {
             if ($component) {

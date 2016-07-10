@@ -12,6 +12,7 @@
 
 namespace Rocketeer\Services\Config;
 
+use Closure;
 use Rocketeer\Container;
 use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
 use Rocketeer\Traits\ContainerAwareTrait;
@@ -84,7 +85,7 @@ class ContextualConfiguration
      * @param string|array|null  $original
      * @param ConnectionKey|null $connectionKey
      *
-     * @return array|\Closure|string
+     * @return array|Closure|string
      */
     protected function getForContext($option, $type, $original = null, ConnectionKey $connectionKey = null)
     {

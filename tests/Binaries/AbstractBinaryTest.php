@@ -13,8 +13,10 @@
 namespace Rocketeer\Binaries;
 
 use Mockery\MockInterface;
+use Rocketeer\Binaries\PackageManagers\Composer;
 use Rocketeer\Binaries\Scm\Git;
 use Rocketeer\Services\Connections\Shell\Bash;
+use Rocketeer\Services\Releases\ReleasesManager;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class AbstractBinaryTest extends RocketeerTestCase
@@ -56,5 +58,29 @@ class AbstractBinaryTest extends RocketeerTestCase
         $command = $binary->getCommand('foobar', [], ['--foo' => 'lol', '--bar']);
 
         $this->assertEquals('git foobar --foo="lol" --bar', $command);
+    }
+
+    public function testPathResolvingIsDelayedUntilNeeded()
+    {
+        $this->pretend();
+        $prophecy = $this->bindProphecy(ReleasesManager::class);
+
+        $binary = new Composer($this->container);
+        $prophecy->getCurrentReleasePath()->shouldNotHaveBeenCalled();
+
+        $binary->run('--version');
+        $binary->run('--version');
+        $prophecy->getCurrentReleasePath()->shouldHaveBeenCalledTimes(1);
+    }
+
+    public function testSettingBinaryManuallyMarksItAsResolved()
+    {
+        $this->pretend();
+        $prophecy = $this->bindProphecy(ReleasesManager::class);
+
+        $binary = new Composer($this->container);
+        $binary->setBinary('foobar');
+        $binary->run('--version');
+        $prophecy->getCurrentReleasePath()->shouldNotHaveBeenCalled();
     }
 }
