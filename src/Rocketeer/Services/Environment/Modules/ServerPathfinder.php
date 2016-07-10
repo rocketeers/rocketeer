@@ -56,9 +56,12 @@ class ServerPathfinder extends AbstractPathfinderModule
         if ($folder && $stage) {
             $base .= $stage.'/';
         }
-        $folder = str_replace($base, null, $folder);
 
-        return $base.$folder;
+        // Replace base and cap it
+        $folder = preg_replace('#^'.$base.'#', null, $folder);
+        $folder = $base.$folder;
+
+        return $folder;
     }
 
     /**

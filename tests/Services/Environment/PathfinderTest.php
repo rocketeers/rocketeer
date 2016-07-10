@@ -194,4 +194,20 @@ class PathfinderTest extends RocketeerTestCase
         $this->paths->register(new DummyPathfinder());
         $this->assertEquals('foofoo', $this->paths->foobar('foo'));
     }
+
+    public function testDoesntReplaceFoldersBearingApplicationName()
+    {
+        $this->swapConfig([
+           'application_name' => 'foobar',
+        ]);
+
+        $this->swapConnections([
+            'production' => [
+                'root_directory' => '/',
+            ],
+        ]);
+
+        $folder = $this->paths->getFolder('foo/foobar/baz');
+        $this->assertEquals('/foobar/foo/foobar/baz', $folder);
+    }
 }
