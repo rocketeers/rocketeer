@@ -69,6 +69,18 @@ class SyncStrategyTest extends RocketeerTestCase
         $this->assertRsyncHistory(12345);
     }
 
+    public function testCanSpecifyExcludedDirectories()
+    {
+        $task = $this->pretendTask('Deploy');
+        $strategy = $task->getStrategy('Deploy', 'Sync');
+        $strategy->setOptions(['excluded' => ['foobar']]);
+        $strategy->update();
+
+        $this->assertHistory([
+            'rsync ./ foo@bar.com:{server}/releases/{release} --verbose --recursive --compress --rsh="ssh" --exclude="foobar"',
+        ]);
+    }
+
     public function testCanSpecifyKey()
     {
         $this->swapConnections([

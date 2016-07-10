@@ -78,14 +78,17 @@ class SyncStrategy extends AbstractStrategy implements DeployStrategyInterface
         $handle = $this->getSyncHandle();
 
         // Create options
-        $options = ['--verbose' => null, '--recursive' => null, '--compress' => null, '--rsh' => $this->getTransport()];
+        $options = [
+            '--verbose' => null,
+            '--recursive' => null,
+            '--compress' => null,
+            '--rsh' => $this->getTransport(),
+            '--exclude' => $this->getOption('excluded', true),
+        ];
 
         // Build arguments
         $arguments[] = $source;
         $arguments[] = $handle.':'.$destination;
-
-        // Set excluded files and folders
-        $options['--exclude'] = ['.git', 'vendor'];
 
         // Create binary and command
         $rsync = $this->binary('rsync');
