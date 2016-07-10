@@ -17,6 +17,7 @@
         {
             "name": "/\\.(php|json|exe)/",
             "exclude": [
+                "escapestudios",
                 "friendsofphp",
                 "johnkary",
                 "mockery",
@@ -26,6 +27,7 @@
                 "phpspec",
                 "phpunit",
                 "sebastian",
+                "squizlabs",
                 "tedivm",
                 "test",
                 "tests",
