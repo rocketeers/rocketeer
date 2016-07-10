@@ -29,7 +29,7 @@ class StrategiesBuilder extends AbstractBuilderModule
      * @param string      $strategy
      * @param string|null $concrete
      *
-     * @return \Rocketeer\Strategies\AbstractStrategy|\Rocketeer\Interfaces\Strategies\FrameworkStrategyInterface|false
+     * @return \Rocketeer\Strategies\AbstractStrategy|\Rocketeer\Strategies\Framework\FrameworkStrategyInterface|false
      */
     public function buildStrategy($strategy, $concrete = null)
     {

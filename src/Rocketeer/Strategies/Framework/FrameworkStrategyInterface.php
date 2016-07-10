@@ -10,7 +10,7 @@
  *
  */
 
-namespace Rocketeer\Interfaces\Strategies;
+namespace Rocketeer\Strategies\Framework;
 
 interface FrameworkStrategyInterface
 {

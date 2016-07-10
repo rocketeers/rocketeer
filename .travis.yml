@@ -38,7 +38,7 @@ install:
 
 script:
   - composer test
-  - composer lint -- --dry-run --diff
+  - composer lint
   - composer build
   - php bin/rocketeer.phar --version
 

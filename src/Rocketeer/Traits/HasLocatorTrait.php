@@ -199,7 +199,7 @@ trait HasLocatorTrait
     /**
      * Check if the class is executed inside a Laravel application.
      *
-     * @return \Rocketeer\Interfaces\Strategies\FrameworkStrategyInterface
+     * @return \Rocketeer\Strategies\Framework\FrameworkStrategyInterface
      */
     public function getFramework()
     {
