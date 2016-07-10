@@ -14,14 +14,14 @@ namespace Rocketeer\Services\Connections;
 
 use Rocketeer\Services\Connections\Connections\ConnectionInterface;
 use Rocketeer\Services\Tasks\Job;
-use Rocketeer\Traits\HasLocator;
+use Rocketeer\Traits\ContainerAware;
 
 /**
  * Coordinates tasks between multiple servers/stages.
  */
 class Coordinator
 {
-    use HasLocator;
+    use ContainerAware;
 
     /**
      * The status of each server.

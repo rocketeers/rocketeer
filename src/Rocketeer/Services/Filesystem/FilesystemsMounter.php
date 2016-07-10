@@ -15,11 +15,11 @@ namespace Rocketeer\Services\Filesystem;
 use League\Flysystem\Filesystem;
 use League\Flysystem\MountManager;
 use Rocketeer\Services\Connections\ConnectionsHandler;
-use Rocketeer\Traits\HasLocator;
+use Rocketeer\Traits\ContainerAware;
 
 class FilesystemsMounter
 {
-    use HasLocator;
+    use ContainerAware;
 
     /**
      * @var ConnectionKeyAdapter[]

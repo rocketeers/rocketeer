@@ -17,7 +17,7 @@ use Exception;
 use KzykHys\Parallel\Parallel;
 use LogicException;
 use Rocketeer\Services\Connections\Connections\ConnectionInterface;
-use Rocketeer\Traits\HasLocator;
+use Rocketeer\Traits\ContainerAware;
 use Rocketeer\Traits\Properties\HasHistory;
 
 /**
@@ -28,7 +28,7 @@ use Rocketeer\Traits\Properties\HasHistory;
  */
 class TasksQueue
 {
-    use HasLocator;
+    use ContainerAware;
     use HasHistory;
 
     /**

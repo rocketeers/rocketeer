@@ -14,14 +14,14 @@ namespace Rocketeer\Services\Config;
 
 use Rocketeer\Container;
 use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
-use Rocketeer\Traits\HasLocator;
+use Rocketeer\Traits\ContainerAware;
 
 /**
  * @mixin Configuration
  */
 class ContextualConfiguration
 {
-    use HasLocator;
+    use ContainerAware;
 
     /**
      * @var Configuration

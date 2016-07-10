@@ -15,7 +15,7 @@ namespace Rocketeer\Services;
 use Illuminate\Support\Arr;
 use Rocketeer\Services\Connections\Connections\Connection;
 use Rocketeer\Tasks\AbstractTask;
-use Rocketeer\Traits\HasLocator;
+use Rocketeer\Traits\ContainerAware;
 
 /**
  * Manages roles and decides which servers
@@ -25,7 +25,7 @@ use Rocketeer\Traits\HasLocator;
  */
 class RolesManager
 {
-    use HasLocator;
+    use ContainerAware;
 
     /**
      * Get the roles of a server.

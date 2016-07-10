@@ -13,7 +13,8 @@
 namespace Rocketeer\Services\Ignition;
 
 use Illuminate\Support\Arr;
-use Rocketeer\Traits\HasLocator;
+use Rocketeer\Facades\Rocketeer;
+use Rocketeer\Traits\ContainerAware;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
@@ -25,7 +26,7 @@ use Symfony\Component\Finder\SplFileInfo;
  */
 class Configuration
 {
-    use HasLocator;
+    use ContainerAware;
 
     /**
      * Bind paths to the container.
@@ -265,7 +266,7 @@ class Configuration
     protected function loadFileOrFolder($handle)
     {
         // Bind ourselves into the facade to avoid automatic resolution
-        Facades\Rocketeer::setContainer($this->container);
+        Rocketeer::setContainer($this->container);
 
         // If we have one unified tasks file, include it
         $file = $this->container->get('path.rocketeer.'.$handle);

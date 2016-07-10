@@ -12,7 +12,7 @@
 
 namespace Rocketeer;
 
-use Rocketeer\Traits\HasLocator;
+use Rocketeer\Traits\ContainerAware;
 
 /**
  * Handles interaction between the User provided informations
@@ -22,7 +22,7 @@ use Rocketeer\Traits\HasLocator;
  */
 class Rocketeer
 {
-    use HasLocator;
+    use ContainerAware;
 
     /**
      * The specific commit built.

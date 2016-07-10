@@ -12,9 +12,9 @@
 
 namespace Rocketeer\Console;
 
-use Rocketeer\Traits\HasLocator;
+use Rocketeer\Traits\ContainerAware;
 
 class TinkerApplication
 {
-    use HasLocator;
+    use ContainerAware;
 }

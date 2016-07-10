@@ -17,7 +17,7 @@ use Rocketeer\Console\Console;
 use Rocketeer\Container;
 use Rocketeer\Services\Builders\Builder;
 use Rocketeer\Services\Tasks\TasksHandler;
-use Rocketeer\Traits\HasLocator;
+use Rocketeer\Traits\ContainerAware;
 
 /**
  * A basic abstract class for Rocketeer plugins to extend.
@@ -26,7 +26,7 @@ use Rocketeer\Traits\HasLocator;
  */
 abstract class AbstractPlugin
 {
-    use HasLocator;
+    use ContainerAware;
 
     /**
      * The path to the configuration folder.

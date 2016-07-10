@@ -16,7 +16,7 @@ use Exception;
 use Illuminate\Support\Arr;
 use League\Flysystem\FilesystemInterface;
 use Rocketeer\Container;
-use Rocketeer\Traits\HasLocator;
+use Rocketeer\Traits\ContainerAware;
 
 /**
  * Provides and persists informations in the local filesystem.
@@ -25,7 +25,7 @@ use Rocketeer\Traits\HasLocator;
  */
 class Storage
 {
-    use HasLocator;
+    use ContainerAware;
 
     /**
      * @var string

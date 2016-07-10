@@ -13,7 +13,7 @@
 namespace Rocketeer\Services\Ignition;
 
 use Illuminate\Support\Arr;
-use Rocketeer\Traits\HasLocator;
+use Rocketeer\Traits\ContainerAware;
 
 /**
  * Publishes the plugin's configurations in user-land.
@@ -22,7 +22,7 @@ use Rocketeer\Traits\HasLocator;
  */
 class Plugins
 {
-    use HasLocator;
+    use ContainerAware;
 
     /**
      * Publishes a package's configuration.

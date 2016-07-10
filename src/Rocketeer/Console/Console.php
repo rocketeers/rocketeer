@@ -17,7 +17,7 @@ use Rocketeer\Container;
 use Rocketeer\Rocketeer;
 use Rocketeer\Services\Config\ContextualConfiguration;
 use Rocketeer\Services\Environment\Pathfinder;
-use Rocketeer\Traits\HasLocator;
+use Rocketeer\Traits\ContainerAware;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 
@@ -28,7 +28,7 @@ use Symfony\Component\Console\Command\Command;
  */
 class Console extends Application
 {
-    use HasLocator;
+    use ContainerAware;
 
     /**
      * Create a new Artisan console application.

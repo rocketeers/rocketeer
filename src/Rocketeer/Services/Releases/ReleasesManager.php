@@ -15,7 +15,7 @@ namespace Rocketeer\Services\Releases;
 use Illuminate\Support\Arr;
 use Rocketeer\Container;
 use Rocketeer\Services\Storages\ServerStorage;
-use Rocketeer\Traits\HasLocator;
+use Rocketeer\Traits\ContainerAware;
 
 /**
  * Provides informations and actions around releases.
@@ -24,7 +24,7 @@ use Rocketeer\Traits\HasLocator;
  */
 class ReleasesManager
 {
-    use HasLocator;
+    use ContainerAware;
 
     /**
      * Cache of the validation file.

@@ -13,14 +13,14 @@
 namespace Rocketeer\Services\History;
 
 use Illuminate\Support\Arr;
-use Rocketeer\Traits\HasLocator;
+use Rocketeer\Traits\ContainerAware;
 
 /**
  * Handles rotation of logs.
  */
 class LogsHandler
 {
-    use HasLocator;
+    use ContainerAware;
 
     /**
      * Cache of the logs file to be written.

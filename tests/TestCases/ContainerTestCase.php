@@ -13,6 +13,7 @@
 namespace Rocketeer\TestCases;
 
 use Closure;
+use League\Container\ContainerAwareTrait;
 use League\Flysystem\Filesystem;
 use League\Flysystem\MountManager;
 use League\Flysystem\Vfs\VfsAdapter;
@@ -35,7 +36,7 @@ use Rocketeer\TestCases\Modules\Assertions;
 use Rocketeer\TestCases\Modules\Building;
 use Rocketeer\TestCases\Modules\Contexts;
 use Rocketeer\TestCases\Modules\Mocks;
-use Rocketeer\Traits\ContainerAwareTrait;
+use Rocketeer\Traits\HasLocator;
 use Symfony\Component\Console\Output\OutputInterface;
 use VirtualFileSystem\FileSystem as Vfs;
 
@@ -45,6 +46,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
     use Assertions;
     use Contexts;
     use Building;
+    use HasLocator;
     use ContainerAwareTrait;
 
     /**

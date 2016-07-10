@@ -14,7 +14,7 @@ namespace Rocketeer;
 
 use League\Container\ServiceProvider\AbstractServiceProvider;
 use League\Container\ServiceProvider\BootableServiceProviderInterface;
-use Rocketeer\Traits\ContainerAwareTrait;
+use Rocketeer\Traits\HasLocator;
 
 /**
  * Bind the various Rocketeer classes to a Container.
@@ -23,7 +23,7 @@ use Rocketeer\Traits\ContainerAwareTrait;
  */
 class RocketeerServiceProvider extends AbstractServiceProvider implements BootableServiceProviderInterface
 {
-    use ContainerAwareTrait;
+    use HasLocator;
 
     /**
      * @var array

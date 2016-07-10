@@ -16,7 +16,7 @@ use League\Container\ContainerAwareInterface;
 use Rocketeer\Interfaces\IdentifierInterface;
 use Rocketeer\Tasks\AbstractTask;
 use Rocketeer\Tasks\Closure;
-use Rocketeer\Traits\HasLocator;
+use Rocketeer\Traits\ContainerAware;
 use Rocketeer\Traits\Properties\HasEvents;
 use RuntimeException;
 use Symfony\Component\Console\Command\Command;
@@ -36,7 +36,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 abstract class AbstractCommand extends Command implements IdentifierInterface, ContainerAwareInterface
 {
-    use HasLocator;
+    use ContainerAware;
     use HasEvents;
 
     /**

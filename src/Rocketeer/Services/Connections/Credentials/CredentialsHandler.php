@@ -14,11 +14,11 @@ namespace Rocketeer\Services\Connections\Credentials;
 
 use Rocketeer\Services\Connections\Credentials\Keychains\ConnectionsKeychain;
 use Rocketeer\Services\Connections\Credentials\Keychains\RepositoriesKeychain;
-use Rocketeer\Traits\HasLocator;
+use Rocketeer\Traits\ContainerAware;
 
 class CredentialsHandler
 {
-    use HasLocator;
+    use ContainerAware;
     use RepositoriesKeychain;
     use ConnectionsKeychain;
 }

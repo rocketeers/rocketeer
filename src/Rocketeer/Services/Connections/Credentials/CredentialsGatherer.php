@@ -13,11 +13,11 @@
 namespace Rocketeer\Services\Connections\Credentials;
 
 use Illuminate\Support\Arr;
-use Rocketeer\Traits\HasLocator;
+use Rocketeer\Traits\ContainerAware;
 
 class CredentialsGatherer
 {
-    use HasLocator;
+    use ContainerAware;
 
     /**
      * Rules for which credentials are

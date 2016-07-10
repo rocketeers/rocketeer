@@ -14,7 +14,7 @@ namespace Rocketeer\Traits\BashModules;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Rocketeer\Traits\HasLocator;
+use Rocketeer\Traits\ContainerAware;
 use Rocketeer\Traits\Properties\HasHistory;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -29,7 +29,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 trait Core
 {
-    use HasLocator;
+    use ContainerAware;
     use HasHistory;
 
     /**

@@ -21,7 +21,7 @@ use Rocketeer\Interfaces\IdentifierInterface;
 use Rocketeer\Services\Builders\Builder;
 use Rocketeer\Tasks;
 use Rocketeer\Tasks\AbstractTask;
-use Rocketeer\Traits\HasLocator;
+use Rocketeer\Traits\ContainerAware;
 
 /**
  * Handles the registering and firing of tasks and their events.
@@ -30,7 +30,7 @@ use Rocketeer\Traits\HasLocator;
  */
 class TasksHandler
 {
-    use HasLocator;
+    use ContainerAware;
 
     /**
      * The registered events.

@@ -19,7 +19,7 @@ use Rocketeer\Services\Connections\Connections\Connection;
 use Rocketeer\Services\Connections\Connections\ConnectionInterface;
 use Rocketeer\Services\Connections\Connections\LocalConnection;
 use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
-use Rocketeer\Traits\HasLocator;
+use Rocketeer\Traits\ContainerAware;
 
 /**
  * Handles, get and return, the various connections/stages
@@ -29,7 +29,7 @@ use Rocketeer\Traits\HasLocator;
  */
 class ConnectionsHandler
 {
-    use HasLocator;
+    use ContainerAware;
 
     /**
      * @var Collection<ConnectionInterface>

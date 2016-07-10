@@ -14,11 +14,11 @@ namespace Rocketeer\Services\Ignition;
 
 use League\Container\ServiceProvider\AbstractServiceProvider;
 use League\Container\ServiceProvider\BootableServiceProviderInterface;
-use Rocketeer\Traits\ContainerAwareTrait;
+use Rocketeer\Traits\HasLocator;
 
 class IgnitionServiceProvider extends AbstractServiceProvider implements BootableServiceProviderInterface
 {
-    use ContainerAwareTrait;
+    use HasLocator;
 
     /**
      * @var array
