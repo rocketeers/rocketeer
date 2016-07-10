@@ -13,7 +13,6 @@
 namespace Rocketeer\Services\Filesystem;
 
 use League\Flysystem\Sftp\SftpAdapter;
-use LogicException;
 use phpseclib\System\SSH\Agent;
 use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
 
@@ -47,11 +46,9 @@ class ConnectionKeyAdapter extends SftpAdapter
      */
     protected function login()
     {
-        $authentication = $this->getPassword();
-        if (!$this->connection->login($this->username, $authentication)) {
-            throw new LogicException('Could not login with username: '.$this->username.', host: '.$this->host);
-        }
+        parent::login();
 
+        $authentication = $this->getPassword();
         if ($authentication instanceof Agent) {
             $authentication->startSSHForwarding($this->connection);
         }
@@ -74,7 +71,7 @@ class ConnectionKeyAdapter extends SftpAdapter
      */
     public function getAgent()
     {
-        if ($this->agent) {
+        if ($this->agent === true) {
             $this->agent = new Agent();
         }
 
