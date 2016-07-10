@@ -50,7 +50,7 @@ class ConfigurationLoaderTest extends RocketeerTestCase
     {
         $this->files->createDir(__DIR__);
         $this->configurationLoader->setFolders([
-           'foobar',
+            'foobar',
             __DIR__,
             __FILE__,
         ]);

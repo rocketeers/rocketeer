@@ -105,7 +105,7 @@ class ConfigurationDefinitionTest extends RocketeerTestCase
 
     public function testCanProperlyMergePaths()
     {
-        $processed = $this->processor->processConfiguration(new ConfigurationDefinition(), [
+        $processed = $this->processConfiguration(
             [
                 'paths' => [
                     'php' => '/foo/php',
@@ -118,8 +118,8 @@ class ConfigurationDefinitionTest extends RocketeerTestCase
                     'php' => '/bar/php',
                     'bar' => '/bar/baz',
                 ],
-            ],
-        ]);
+            ]
+        );
 
         $this->assertEquals([
             'php' => '/bar/php',
@@ -129,13 +129,37 @@ class ConfigurationDefinitionTest extends RocketeerTestCase
         ], $processed['paths']);
     }
 
+    public function testCanConfigureEventInHooks()
+    {
+        $configuration = $this->processConfiguration([
+            'hooks' => [
+                'before' => [
+                    'deploy' => 'echo "foobar"',
+                    'foo' => ['bar'],
+                    'baz' => function ($task) {
+                        $task->run('qux');
+                    },
+                ],
+            ],
+        ]);
+
+        $this->assertArrayHasKey('deploy', $configuration['hooks']['before']);
+        $this->assertEquals('echo "foobar"', $configuration['hooks']['before']['deploy']);
+    }
+
     /**
-     * @param array $config
+     * @param array[] ...$config
      *
      * @return array
      */
-    protected function processConfiguration(array $config)
+    protected function processConfiguration(array ...$config)
     {
-        return $this->processor->processConfiguration(new ConfigurationDefinition(), [$config]);
+        array_unshift($config, [
+            'hooks' => [
+                'before' => [],
+            ],
+        ]);
+
+        return $this->processor->processConfiguration(new ConfigurationDefinition(), $config);
     }
 }
