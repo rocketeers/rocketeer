@@ -113,4 +113,32 @@ class FilesystemTest extends RocketeerTestCase
 
         $this->assertEquals($this->files->read($this->server.'/state.json'), $contents);
     }
+
+    public function testCanReadFile()
+    {
+        $contents = $this->bash->read($this->server.'/state.json');
+
+        $this->assertContains('20000000000000', $contents);
+    }
+
+    public function testCanPutFile()
+    {
+        $this->bash->put('foo.json', 'foobar');
+
+        $this->assertEquals('foobar', $this->files->read('foo.json'));
+    }
+
+    public function testCanUploadFile()
+    {
+        $this->bash->upload(__FILE__);
+
+        $this->assertContains(__FUNCTION__, $this->files->read(basename(__FILE__)));
+    }
+
+    public function testCanUploadFileToSpecificLocation()
+    {
+        $this->bash->upload(__FILE__, 'Foobar.php');
+
+        $this->assertContains(__FUNCTION__, $this->files->read('Foobar.php'));
+    }
 }

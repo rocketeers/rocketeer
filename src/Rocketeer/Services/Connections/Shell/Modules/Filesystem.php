@@ -189,9 +189,9 @@ class Filesystem extends AbstractBashModule
      *
      * @return string
      */
-    public function getFile($file)
+    public function read($file)
     {
-        return $this->modulable->getConnection()->getString($file);
+        return $this->modulable->getConnection()->read($file);
     }
 
     /**
@@ -200,9 +200,9 @@ class Filesystem extends AbstractBashModule
      * @param string $file
      * @param string $contents
      */
-    public function putFile($file, $contents)
+    public function put($file, $contents)
     {
-        $this->modulable->getConnection()->putString($file, $contents);
+        $this->modulable->getConnection()->put($file, $contents);
     }
 
     /**
@@ -220,7 +220,7 @@ class Filesystem extends AbstractBashModule
         // Get contents and destination
         $destination = $destination ?: basename($file);
 
-        $this->modulable->getConnection()->put($file, $destination);
+        $this->put($destination, file_get_contents($file));
     }
 
     /**
@@ -321,11 +321,11 @@ class Filesystem extends AbstractBashModule
             'copy',
             'createFolder',
             'fileExists',
-            'getFile',
             'isSymlink',
             'listContents',
             'move',
-            'putFile',
+            'put',
+            'read',
             'removeFolder',
             'setPermissions',
             'symlink',
