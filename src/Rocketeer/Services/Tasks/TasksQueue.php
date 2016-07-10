@@ -16,7 +16,6 @@ use Closure;
 use Exception;
 use KzykHys\Parallel\Parallel;
 use LogicException;
-use Rocketeer\Services\Connections\Connections\Connection;
 use Rocketeer\Services\Connections\Connections\ConnectionInterface;
 use Rocketeer\Traits\HasLocator;
 use Rocketeer\Traits\Properties\HasHistory;

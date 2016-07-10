@@ -13,7 +13,6 @@
 namespace Rocketeer\Services\Ignition;
 
 use Illuminate\Support\Arr;
-use Rocketeer\Facades;
 use Rocketeer\Traits\HasLocator;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;

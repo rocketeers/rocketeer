@@ -13,7 +13,6 @@
 namespace Rocketeer\Services\Connections\Credentials\Keychains;
 
 use Illuminate\Support\Arr;
-use Rocketeer\Services\Connections\Connections\Connection;
 use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
 
 /**

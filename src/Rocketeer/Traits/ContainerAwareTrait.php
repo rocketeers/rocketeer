@@ -18,7 +18,6 @@ use League\Event\Emitter;
 use Rocketeer\Bash;
 use Rocketeer\Binaries\Scm\ScmInterface;
 use Rocketeer\Console\Console;
-use Rocketeer\Container;
 use Rocketeer\Rocketeer;
 use Rocketeer\Services\Builders\Builder;
 use Rocketeer\Services\Config\ContextualConfiguration;

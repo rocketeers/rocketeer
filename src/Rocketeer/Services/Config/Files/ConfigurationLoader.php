@@ -193,7 +193,7 @@ class ConfigurationLoader
     {
         /** @var SplFileInfo[] $files */
         $files = $this->getFinder($folder)
-                      ->exclude(['connections', 'stages', 'plugins', 'tasks', 'events', 'strategies']);
+            ->exclude(['connections', 'stages', 'plugins', 'tasks', 'events', 'strategies']);
 
         // Load base files
         foreach ($files as $file) {
