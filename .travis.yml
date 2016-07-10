@@ -17,6 +17,11 @@ matrix:
   allow_failures:
     - hhvm
 
+env:
+  matrix:
+    - COMPOSER_FLAGS="--prefer-lowest"
+    - COMPOSER_FLAGS=""
+
 # Cache dependencies
 cache:
   directories:
@@ -29,7 +34,7 @@ before_install:
   - travis_retry composer global require hirak/prestissimo
 
 install:
-  - travis_retry composer update --no-interaction --prefer-dist
+  - travis_retry composer update --no-interaction --prefer-dist $COMPOSER_FLAGS
 
 script:
   - composer test
