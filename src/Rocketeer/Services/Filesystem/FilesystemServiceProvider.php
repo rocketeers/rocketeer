@@ -36,7 +36,7 @@ class FilesystemServiceProvider extends AbstractServiceProvider
     public function register()
     {
         $this->container->add('flysystem', function () {
-            return (new FilesystemsMounter($this->container))->getMountManager();
+            return (new MountManagerFactory($this->container))->getMountManager();
         });
 
         $this->container->share('files', function () {

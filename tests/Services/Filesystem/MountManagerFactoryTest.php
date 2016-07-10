@@ -15,11 +15,22 @@ namespace Rocketeer\Services\Filesystem;
 use League\Flysystem\Filesystem;
 use Rocketeer\TestCases\RocketeerTestCase;
 
-class FilesystemMounterTest extends RocketeerTestCase
+class MountManagerFactoryTest extends RocketeerTestCase
 {
+    public function testCanMountConnectionsAsFilesystems()
+    {
+        $mounter = new MountManagerFactory($this->container);
+        $manager = $mounter->getMountManager();
+
+        $production = $manager->getFilesystem('production');
+        $this->assertInstanceOf(Filesystem::class, $production);
+    }
+
     public function testMountsLocalAndRemoteFilesystems()
     {
-        $mounter = new FilesystemsMounter($this->container);
+        $this->connections->setCurrentConnection('production');
+
+        $mounter = new MountManagerFactory($this->container);
         $manager = $mounter->getMountManager();
 
         $local = $manager->getFilesystem('local');
