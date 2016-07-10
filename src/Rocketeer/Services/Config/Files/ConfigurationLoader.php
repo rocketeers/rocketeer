@@ -18,6 +18,7 @@ use Rocketeer\Services\Config\ConfigurationDefinition;
 use Rocketeer\Traits\HasLocator;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\Config\Resource\DirectoryResource;
 use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
@@ -112,6 +113,14 @@ class ConfigurationLoader
     public function setFolders($folders)
     {
         $this->folders = $folders;
+
+        // Create resources
+        $this->resources = [];
+        foreach ($folders as $folder) {
+            if ($this->files->has($folder)) {
+                $this->resources[] = new DirectoryResource($folder);
+            }
+        }
     }
 
     //////////////////////////////////////////////////////////////////////
@@ -130,7 +139,6 @@ class ConfigurationLoader
     public function getConfiguration(array $configurations = [])
     {
         $this->configurations = [];
-        $this->resources = [];
 
         // Get which files are present in the configurations
         $folders = array_filter($this->folders, [$this->files, 'isDirectory']);
@@ -196,9 +204,6 @@ class ConfigurationLoader
                 continue;
             }
 
-            // Add to cache
-            $this->resources[] = new FileResource($file->getPathname());
-
             $this->configurations[$folder] = array_merge($this->configurations[$folder], $contents);
         }
     }
@@ -217,9 +222,6 @@ class ConfigurationLoader
                 $key = str_replace($folder.DS, null, $file->getPathname());
                 $key = vsprintf('config.on.%s.%s', explode(DS, $key));
 
-                // Add to cache
-                $this->resources[] = new FileResource($file->getPathname());
-
                 // Load contents and merge
                 $contents = include $file->getPathname();
                 $contents = $this->autoWrap($file, $contents);
@@ -236,11 +238,11 @@ class ConfigurationLoader
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Flush the cache.
+     * @return ConfigurationCache
      */
-    public function flushCache()
+    public function getCache()
     {
-        $this->cache->flush();
+        return $this->cache;
     }
 
     /**

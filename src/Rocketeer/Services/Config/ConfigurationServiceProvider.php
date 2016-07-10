@@ -56,7 +56,7 @@ class ConfigurationServiceProvider extends AbstractServiceProvider
         $this->container->share('config.loader', function () {
             $loader = $this->container->get(ConfigurationLoader::class);
             $loader->setFolders([
-                __DIR__.'/../../../config',
+                realpath(__DIR__.'/../../../config'),
                 $this->container->get(Pathfinder::class)->getConfigurationPath(),
             ]);
 
