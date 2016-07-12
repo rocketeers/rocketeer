@@ -47,7 +47,7 @@ class IgnitionServiceProvider extends AbstractServiceProvider implements Bootabl
         'rocketeer.tasks.check',
         'rocketeer.tasks.cleanup',
         'rocketeer.tasks.create-release',
-        'rocketeer.tasks.current-release',
+        'rocketeer.tasks.current',
         'rocketeer.tasks.dependencies',
         'rocketeer.tasks.deploy',
         'rocketeer.tasks.friday-deploy',
