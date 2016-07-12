@@ -37,7 +37,7 @@ class BinariesBuilder extends AbstractBuilderModule
 
         // Else wrap the command in an AnonymousBinary
         $anonymous = new AnonymousBinary($this->container);
-        $anonymous->setBinary($binary);
+        $anonymous->setBinary($this->bash->which($binary));
 
         return $anonymous;
     }

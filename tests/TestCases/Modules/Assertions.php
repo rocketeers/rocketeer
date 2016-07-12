@@ -235,6 +235,7 @@ trait Assertions
 
             $replaced[$key] = strtr($entries, [
                 '{php}' => static::$binaries['php'],
+                '{rsync}' => static::$binaries['rsync'],
                 '{bundle}' => static::$binaries['bundle'],
                 '{phpunit}' => static::$binaries['phpunit'],
                 '{repository}' => 'https://github.com/'.$this->repository,

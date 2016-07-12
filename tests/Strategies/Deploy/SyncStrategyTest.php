@@ -77,7 +77,7 @@ class SyncStrategyTest extends RocketeerTestCase
         $strategy->update();
 
         $this->assertHistory([
-            'rsync ./ foo@bar.com:{server}/releases/{release} --verbose --recursive --compress --rsh="ssh" --exclude="foobar"',
+            '{rsync} ./ foo@bar.com:{server}/releases/{release} --verbose --recursive --compress --rsh="ssh" --exclude="foobar"',
         ]);
     }
 
@@ -103,7 +103,7 @@ class SyncStrategyTest extends RocketeerTestCase
         $key = $key ? ' -i "'.$key.'"' : null;
 
         $matcher = array_merge($prepend, [
-            'rsync ./ foo@bar.com:{server}/releases/{release} --verbose --recursive --compress --rsh="ssh'.$port.$key.'" --exclude=".git" --exclude="vendor"',
+            '{rsync} ./ foo@bar.com:{server}/releases/{release} --verbose --recursive --compress --rsh="ssh'.$port.$key.'" --exclude=".git" --exclude="vendor"',
         ]);
 
         $this->assertHistory($matcher);

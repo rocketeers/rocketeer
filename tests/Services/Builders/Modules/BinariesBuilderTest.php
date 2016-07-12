@@ -31,4 +31,14 @@ class BinariesBuilderTest extends RocketeerTestCase
 
         $this->assertInstanceOf(AnonymousBinary::class, $binary);
     }
+
+    public function testExecutesWhichOnAnonymousBinaries()
+    {
+        $this->localStorage->set('paths.production.foobar', static::$binaries['php']);
+
+        $binary = $this->builder->buildBinary('foobar');
+        $this->assertInstanceOf(AnonymousBinary::class, $binary);
+
+        $this->assertEquals(static::$binaries['php'], $binary->getBinary());
+    }
 }

@@ -96,7 +96,7 @@ class Binaries extends AbstractBashModule
 
         // Add command prompt if possible
         if ($this->hasCommand() && $prompt) {
-            $prompt = $binary.' could not be found, please enter the path to it';
+            $prompt = 'Binary "'.$binary.'" could not be found, please enter the path to it';
             $locations[] = [$this->command, 'ask', $prompt];
         }
 

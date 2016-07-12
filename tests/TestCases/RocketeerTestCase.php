@@ -94,10 +94,11 @@ abstract class RocketeerTestCase extends ContainerTestCase
 
         // Cache paths
         static::$binaries = static::$binaries ?: [
-            'php' => exec('which php') ?: 'php',
             'bundle' => exec('which bundle') ?: 'bundle',
-            'phpunit' => exec('which phpunit') ?: 'phpunit',
             'composer' => exec('which composer') ?: 'composer',
+            'php' => exec('which php') ?: 'php',
+            'phpunit' => exec('which phpunit') ?: 'phpunit',
+            'rsync' => exec('which rsync') ?: 'rsync',
         ];
     }
 
