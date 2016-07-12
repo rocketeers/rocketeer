@@ -16,7 +16,7 @@ matrix:
       group: edge
       env: IS_HHVM=1
   allow_failures:
-    - hhvm
+    - php: hhvm
 
 env:
   matrix:
