@@ -12,32 +12,12 @@
 
 namespace Rocketeer\Services\Ignition;
 
-use Rocketeer\Dummies\Tasks\MyCustomTask;
-use Rocketeer\Tasks\Closure;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class TasksTest extends RocketeerTestCase
 {
-    public function testCustomTasksAreProperlyBoundToContainer()
+    public function testBindsAllTasksOntoContainer()
     {
-        $userTasks = (array) $this->config->get('hooks.custom');
-        $this->container->get('igniter.tasks')->registerTasksAndCommands($userTasks);
-
-        $this->assertInstanceOf(MyCustomTask::class, $this->container->get('rocketeer.tasks.my-custom-task'));
-    }
-
-    public function testCanComputeSlugWithoutTask()
-    {
-        $slug = $this->container->get('igniter.tasks')->getTaskHandle('foobar');
-
-        $this->assertEquals('foobar', $slug);
-    }
-
-    public function testCanComputeSlugWithClosureTask()
-    {
-        $task = new Closure($this->container);
-        $slug = $this->container->get('igniter.tasks')->getTaskHandle('foobar', $task);
-
-        $this->assertEquals('foobar', $slug);
+        $this->assertTrue($this->container->has('rocketeer.tasks.create-release'));
     }
 }

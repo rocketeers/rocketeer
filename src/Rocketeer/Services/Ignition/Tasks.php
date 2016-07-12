@@ -12,8 +12,25 @@
 
 namespace Rocketeer\Services\Ignition;
 
-use KevinGH\Amend\Command;
-use Rocketeer\Tasks\AbstractTask;
+use Rocketeer\Tasks\Check;
+use Rocketeer\Tasks\Cleanup;
+use Rocketeer\Tasks\CurrentRelease;
+use Rocketeer\Tasks\Dependencies;
+use Rocketeer\Tasks\Deploy;
+use Rocketeer\Tasks\Ignite;
+use Rocketeer\Tasks\Migrate;
+use Rocketeer\Tasks\Plugins\Installer;
+use Rocketeer\Tasks\Plugins\Updater;
+use Rocketeer\Tasks\Rollback;
+use Rocketeer\Tasks\Setup;
+use Rocketeer\Tasks\Subtasks\CreateRelease;
+use Rocketeer\Tasks\Subtasks\FridayDeploy;
+use Rocketeer\Tasks\Subtasks\Notify;
+use Rocketeer\Tasks\Subtasks\Primer;
+use Rocketeer\Tasks\Subtasks\SwapSymlink;
+use Rocketeer\Tasks\Teardown;
+use Rocketeer\Tasks\Test;
+use Rocketeer\Tasks\Update;
 use Rocketeer\Traits\ContainerAwareTrait;
 
 class Tasks
@@ -21,89 +38,36 @@ class Tasks
     use ContainerAwareTrait;
 
     /**
-     * Get an array of all already defined tasks.
-     *
-     * @return array
+     * Register the existing tasks onto
+     * the internal container.
      */
-    public function getPredefinedTasks()
+    public function registerTasks()
     {
         $tasks = [
-            'check' => 'Check',
-            'cleanup' => 'Cleanup',
-            'current' => 'CurrentRelease',
-            'deploy' => 'Deploy',
-            'flush' => 'Flush',
-            'ignite' => 'Ignite',
-            'rollback' => 'Rollback',
-            'setup' => 'Setup',
-            'strategies' => 'Strategies',
-            'teardown' => 'Teardown',
-            'test' => 'Test',
-            'update' => 'Update',
-            'debug-tinker' => 'Development\Tinker',
-            'debug-config' => 'Development\Configuration',
-            'self-update' => 'Development\SelfUpdate',
-            'plugin-publish' => 'Plugins\Publish',
-            'plugin-list' => 'Plugins\List',
-            'plugin-install' => 'Plugins\Install',
-            'plugin-update' => 'Plugins\Update',
+            Check::class,
+            Cleanup::class,
+            CreateRelease::class,
+            CurrentRelease::class,
+            Dependencies::class,
+            Deploy::class,
+            FridayDeploy::class,
+            Ignite::class,
+            Installer::class,
+            Migrate::class,
+            Notify::class,
+            Primer::class,
+            Rollback::class,
+            Setup::class,
+            SwapSymlink::class,
+            Teardown::class,
+            Test::class,
+            Update::class,
+            Updater::class,
         ];
 
-        // Add user commands
-        $userTasks = (array) $this->config->get('hooks.custom');
-        $userTasks = array_filter($userTasks);
-        $tasks = array_merge($tasks, $userTasks);
-
-        return $tasks;
-    }
-
-    /**
-     * Register an array of tasks and their commands.
-     *
-     * @param array $tasks
-     *
-     * @return array The registered commands
-     */
-    public function registerTasksAndCommands(array $tasks)
-    {
-        $commands = [];
-
-        foreach ($tasks as $slug => $task) {
-            // Build the related command
-            $command = $this->builder->buildCommand($task, $slug);
-            $task = $command->getTask();
-
-            // Bind task to container
-            $slug = $this->getTaskHandle($slug, $task);
-            $this->container->add('rocketeer.tasks.'.$slug, $task);
-
-            // Remember handle of the command
-            $commands[] = $command;
+        foreach ($tasks as $task) {
+            $task = $this->builder->buildTask($task);
+            $this->container->add('rocketeer.tasks.'.$task->getSlug(), $task);
         }
-
-        // Add self update command
-        $selfUpdate = new Command('self-update');
-        $selfUpdate->setManifestUri('http://rocketeer.autopergamene.eu/versions/manifest.json');
-        $commands[] = $selfUpdate;
-
-        return $commands;
-    }
-
-    /**
-     * Get the handle matching a task.
-     *
-     * @param string            $slug
-     * @param AbstractTask|null $task
-     *
-     * @return string|null
-     */
-    public function getTaskHandle($slug, AbstractTask $task = null)
-    {
-        $slug = ($slug || !$task) ? $slug : $task->getSlug();
-        if ($slug === 'closure') {
-            return;
-        }
-
-        return $slug;
     }
 }
