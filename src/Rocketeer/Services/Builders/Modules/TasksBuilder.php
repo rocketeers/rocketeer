@@ -235,7 +235,7 @@ class TasksBuilder extends AbstractBuilderModule
         }
 
         // Compute the handle and check it's bound
-        $handle = 'rocketeer.tasks.'.Str::snake($task, '-');
+        $handle = 'rocketeer.tasks.'.Str::snake(class_basename($task), '-');
         $task = $this->container->has($handle) ? $handle : null;
 
         return $task;
