@@ -87,20 +87,20 @@ class SyncStrategyTest extends RocketeerTestCase
             'production' => [
                 'username' => 'foo',
                 'host' => 'bar.com:80',
-                'key' => '/foo/bar',
+                'key' => '/foo bar/baz',
             ],
         ]);
 
         $task = $this->pretendTask('Deploy');
         $task->getStrategy('Deploy', 'Sync', ['port' => 80])->update();
 
-        $this->assertRsyncHistory(80, '/foo/bar');
+        $this->assertRsyncHistory(80, '/foo bar/baz');
     }
 
     protected function assertRsyncHistory($port = null, $key = null, $prepend = [])
     {
         $port = $port ? ' -p '.$port : null;
-        $key = $key ? ' -i '.$key : null;
+        $key = $key ? ' -i "'.$key.'"' : null;
 
         $matcher = array_merge($prepend, [
             'rsync ./ foo@bar.com:{server}/releases/{release} --verbose --recursive --compress --rsh="ssh'.$port.$key.'" --exclude=".git" --exclude="vendor"',

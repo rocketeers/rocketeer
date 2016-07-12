@@ -140,7 +140,7 @@ class SyncStrategy extends AbstractStrategy implements DeployStrategyInterface
         $key = $this->credentials->getServerCredentials();
         $key = Arr::get($key, 'key');
         if ($key) {
-            $ssh .= ' -i '.$key;
+            $ssh .= ' -i "'.$key.'"';
         }
 
         return $ssh;
