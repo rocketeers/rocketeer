@@ -27,7 +27,7 @@ class ConnectionKeyAdapter extends SftpAdapter
             'username' => $connectionKey->username,
             'password' => $connectionKey->password,
             'privateKey' => $connectionKey->key,
-            'agent' => (bool) $connectionKey->agent,
+            'use_agent' => (bool) $connectionKey->agent,
             'root' => '/',
             'timeout' => 60 * 60,
         ]);

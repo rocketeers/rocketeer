@@ -39,7 +39,7 @@ class LocalCloneStrategyTest extends RocketeerTestCase
         $matcher = [
             'mkdir {server}/releases/{release}',
             'git clone "https://github.com/Anahkiasen/html-object.git" "{storage}/checkout/tmp/{time}/" --branch="master" --depth="1"',
-            'rsync {storage}/checkout/tmp/{time}/ foo@bar.com:{server}/releases/{release} --verbose --recursive --compress --rsh="ssh" --exclude=".git" --exclude="vendor"',
+            '{rsync} {storage}/checkout/tmp/{time}/ foo@bar.com:{server}/releases/{release} --verbose --recursive --compress --rsh="ssh" --exclude=".git" --exclude="vendor"',
         ];
 
         $this->assertHistory($matcher);
@@ -62,7 +62,7 @@ class LocalCloneStrategyTest extends RocketeerTestCase
         $matcher = [
             'mkdir {server}/releases/{release}',
             'git clone "https://github.com/Anahkiasen/html-object.git" "{storage}/checkout/tmp/{time}/" --branch="master" --depth="1"',
-            'rsync {storage}/checkout/tmp/{time}/ foo@bar.com:{server}/releases/{release} --verbose --recursive --compress --rsh="ssh -p 80 -i "/foo/bar"" --exclude=".git" --exclude="vendor"',
+            '{rsync} {storage}/checkout/tmp/{time}/ foo@bar.com:{server}/releases/{release} --verbose --recursive --compress --rsh="ssh -p 80 -i "/foo/bar"" --exclude=".git" --exclude="vendor"',
         ];
 
         $this->assertHistory($matcher);
