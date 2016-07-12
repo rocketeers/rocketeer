@@ -14,8 +14,6 @@ namespace Rocketeer\Services\Ignition;
 
 use League\Container\ServiceProvider\AbstractServiceProvider;
 use League\Container\ServiceProvider\BootableServiceProviderInterface;
-use Rocketeer\Traits\HasLocatorTrait;
-
 use Rocketeer\Tasks\Check;
 use Rocketeer\Tasks\Cleanup;
 use Rocketeer\Tasks\CurrentRelease;
@@ -35,6 +33,7 @@ use Rocketeer\Tasks\Subtasks\SwapSymlink;
 use Rocketeer\Tasks\Teardown;
 use Rocketeer\Tasks\Test;
 use Rocketeer\Tasks\Update;
+use Rocketeer\Traits\HasLocatorTrait;
 
 class IgnitionServiceProvider extends AbstractServiceProvider implements BootableServiceProviderInterface
 {

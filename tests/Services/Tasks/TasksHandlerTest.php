@@ -156,11 +156,11 @@ class TasksHandlerTest extends RocketeerTestCase
         ];
 
         $this->swapConfig([
-            'hooks' => ['after' => ['deploy' => $tasks]],
+            'hooks' => ['after' => ['create-release' => $tasks]],
         ]);
 
         $this->tasks->registerConfiguredEvents();
-        $listeners = $this->tasks->getTasksListeners('deploy', 'after', true);
+        $listeners = $this->tasks->getTasksListeners('CreateRelease', 'after', true);
 
         $this->assertEquals($tasks, $listeners);
     }
