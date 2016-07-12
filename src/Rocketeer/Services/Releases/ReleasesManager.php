@@ -97,6 +97,15 @@ class ReleasesManager
     }
 
     /**
+     * @param string|int $release
+     */
+    public function addRelease($release)
+    {
+        $connection = $this->connections->getCurrentConnectionKey()->name;
+        $this->releases[$connection][] = $release;
+    }
+
+    /**
      * Get an array of non-current releases.
      *
      * @return int[]
