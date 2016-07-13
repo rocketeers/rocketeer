@@ -116,7 +116,7 @@ class CredentialsGathererTest extends RocketeerTestCase
         )->andReturn('password');
         $this->command->shouldReceive('option')->andReturn(null);
 
-        $this->credentialsGatherer->getServerCredentials();
+        $this->credentialsGatherer->getConnectionsCredentials();
 
         $credentials = $this->credentials->getServerCredentials('production', 0);
         $this->assertEquals([
@@ -149,7 +149,7 @@ class CredentialsGathererTest extends RocketeerTestCase
             'password' => $this->password,
         ]);
 
-        $this->credentialsGatherer->getServerCredentials();
+        $this->credentialsGatherer->getConnectionsCredentials();
 
         $credentials = $this->credentials->getServerCredentials('production', 0);
         $this->assertEquals([
@@ -181,7 +181,7 @@ class CredentialsGathererTest extends RocketeerTestCase
             'key', ['key', 'password']
         )->andReturn('key');
 
-        $this->credentialsGatherer->getServerCredentials();
+        $this->credentialsGatherer->getConnectionsCredentials();
 
         $credentials = $this->credentials->getServerCredentials('staging', 0);
         $this->assertEquals([
@@ -213,7 +213,7 @@ class CredentialsGathererTest extends RocketeerTestCase
         $this->command->shouldReceive('askWith')->with('Please enter the full path to your key', Mockery::any())->once()->andReturn($this->key);
         $this->command->shouldReceive('askWith')->with('No password or SSH key is set for [production], which would you use?', Mockery::any(), Mockery::any())->once()->andReturn('key');
 
-        $this->credentialsGatherer->getServerCredentials();
+        $this->credentialsGatherer->getConnectionsCredentials();
 
         $credentials = $this->credentials->getServerCredentials('production', 0);
         $this->assertEquals([
@@ -252,7 +252,7 @@ class CredentialsGathererTest extends RocketeerTestCase
             'If a keyphrase is required, provide it' => 'keyphrase',
         ]);
 
-        $this->credentialsGatherer->getServerCredentials();
+        $this->credentialsGatherer->getConnectionsCredentials();
     }
 
     public function testPreservesCredentialsTypes()
@@ -264,7 +264,7 @@ class CredentialsGathererTest extends RocketeerTestCase
             'agent' => true,
         ]);
 
-        $this->credentialsGatherer->getServerCredentials();
+        $this->credentialsGatherer->getConnectionsCredentials();
         $credentials = $this->localStorage->get('connections.production.servers.0');
 
         $this->assertEquals($this->host, $credentials['host']);
@@ -302,7 +302,7 @@ class CredentialsGathererTest extends RocketeerTestCase
                 ->andReturn('production');
         });
 
-        $this->credentialsGatherer->getServerCredentials();
+        $this->credentialsGatherer->getConnectionsCredentials();
 
         $this->assertConnectionEquals('production');
     }

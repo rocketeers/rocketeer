@@ -444,8 +444,9 @@ abstract class AbstractCommand extends Command implements IdentifierInterface, C
         // Bind command to container
         $this->container->add('rocketeer.command', $this);
 
-        // Check for credentials
-        $this->credentialsGatherer->getServerCredentials();
-        $this->credentialsGatherer->getRepositoryCredentials();
+        // Set active connections from flag
+        if ($connections = $this->command->option('on')) {
+            $this->connections->setActiveConnections($connections);
+        }
     }
 }

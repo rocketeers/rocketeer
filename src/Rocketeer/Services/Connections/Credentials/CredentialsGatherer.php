@@ -12,7 +12,6 @@
 
 namespace Rocketeer\Services\Connections\Credentials;
 
-use Illuminate\Support\Arr;
 use Rocketeer\Traits\ContainerAwareTrait;
 
 class CredentialsGatherer
@@ -20,311 +19,105 @@ class CredentialsGatherer
     use ContainerAwareTrait;
 
     /**
-     * Rules for which credentials are
-     * strictly required or not.
-     *
      * @var array
      */
-    protected $rules = [
-        'server' => [
-            'host' => true,
-            'username' => true,
-            'password' => false,
-            'keyphrase' => false,
-            'key' => false,
-            'agent' => false,
-        ],
-        'repository' => [
-            'repository' => true,
-            'username' => false,
-            'password' => false,
-        ],
-    ];
+    protected $connections = [];
+
+    /**
+     * @return array
+     */
+    public function getCredentials()
+    {
+        $credentials = $this->getRepositoryCredentials();
+        $connections = $this->getConnectionsCredentials();
+        foreach ($connections as $connection) {
+            $credentials = array_merge($credentials, $connection);
+        }
+
+        return $credentials;
+    }
 
     /**
      * Get the Repository's credentials.
      */
     public function getRepositoryCredentials()
     {
-        // Check for repository credentials
-        $repository = $this->credentials->getCurrentRepository();
-        $repositoryCredentials = $repository->toArray();
+        $credentials = [
+            'SCM_REPOSITORY' => 'Where is you code located? <comment>(eg. git@github.com:rocketeers/website.git)</comment>',
+            'SCM_USERNAME' => 'What is the username for it?',
+            'SCM_PASSWORD' => 'And the password?',
+        ];
 
-        // If we didn't specify a login/password ask for both the first time
-        $rules = $this->rules['repository'];
-        if ($repository->needsCredentials()) {
-            // Else assume the repository is passwordless and only ask again for username
-            $rules += ['username' => true, 'password' => true];
-        }
+        foreach ($credentials as $credential => $question) {
+            $credentials[$credential] = $this->command->ask($question);
 
-        // Gather credentials
-        $credentials = $this->gatherCredentials($rules, $repositoryCredentials, 'repository');
-
-        // Save them to local storage and runtime configuration
-        $this->localStorage->set('credentials', $credentials);
-        foreach ($credentials as $key => $credential) {
-            $this->config->set('scm.'.$key, $credential);
-        }
-    }
-
-    /**
-     * Get the Storage's credentials.
-     */
-    public function getServerCredentials()
-    {
-        if ($connections = $this->command->option('on')) {
-            $this->connections->setActiveConnections($connections);
-        }
-
-        // Check for configured connections
-        $availableConnections = $this->connections->getAvailableConnections();
-        $activeConnections = $this->connections->getActiveConnections();
-
-        // If we didn't set any connection, ask for them
-        if (!$activeConnections->count() && empty($availableConnections)) {
-            $connectionName = $this->ask('askWith', 'No connections have been set, please create one', 'production');
-            $this->getConnectionCredentials($connectionName);
-
-            return;
-        } elseif (!$activeConnections->count()) {
-            $available = array_keys($availableConnections);
-            $connection = $this->ask('askWith', 'No default connection, pick one', head($available), $available);
-            $this->connections->setActiveConnections($connection);
-        }
-
-        // Else loop through the connections and fill in credentials
-        foreach ($activeConnections as $connection) {
-            $connectionName = $connection->getConnectionKey()->name;
-
-            $servers = Arr::get($availableConnections, $connectionName.'.servers');
-            $servers = array_keys($servers);
-            foreach ($servers as $server) {
-                $this->getConnectionCredentials($connectionName, $server);
+            // If the repository uses SSH, do not ask for username/password
+            if ($credential === 'SCM_REPOSITORY' && strpos($credentials[$credential], 'git@') !== false) {
+                break;
             }
         }
-    }
-
-    /**
-     * Verifies and stores credentials for the given connection name.
-     *
-     * @param string   $connectionName
-     * @param int|null $server
-     */
-    protected function getConnectionCredentials($connectionName, $server = null)
-    {
-        // Get the available connections
-        $connections = $this->connections->getAvailableConnections();
-
-        // Get the credentials for the asked connection
-        $connection = $connectionName.'.servers';
-        $connection = $server !== null ? $connection.'.'.$server : $connection;
-        $connection = Arr::get($connections, $connection, []);
-
-        // Update connection name
-        $handle = $this->credentials->createConnectionKey($connectionName, $server);
-
-        // Gather credentials
-        $credentials = $this->gatherCredentials($this->rules['server'], $connection, $handle);
-
-        // Save credentials
-        $this->credentials->syncConnectionCredentials($handle, $credentials);
-        $this->connections->setCurrentConnection($handle);
-    }
-
-    //////////////////////////////////////////////////////////////////////
-    ////////////////////////////// HELPERS ///////////////////////////////
-    //////////////////////////////////////////////////////////////////////
-
-    /**
-     * Whether SSH is used to connect to a server, or password.
-     *
-     * @param string $handle
-     * @param array  $credentials
-     *
-     * @return bool
-     */
-    protected function usesSsh($handle, array $credentials)
-    {
-        $password = $this->getCredential($credentials, 'password');
-        $key = $this->getCredential($credentials, 'key');
-        if ($password || $key) {
-            return (bool) $key;
-        }
-
-        $types = ['key', 'password'];
-        $type = $this->ask('askWith', 'No password or SSH key is set for ['.$handle.'], which would you use?', 'key', $types);
-
-        return $type === 'key';
-    }
-
-    /**
-     * Loop through credentials and store the missing ones.
-     *
-     * @param bool[]   $rules
-     * @param string[] $current
-     * @param string   $handle
-     *
-     * @return string[]
-     */
-    protected function gatherCredentials($rules, $current, $handle)
-    {
-        // Alter rules depending on connection type
-        $authCredentials = ['key', 'password', 'keyphrase', 'agent'];
-        $unprompted = $this->alterRules($rules, $current, $handle);
-
-        // Loop through credentials and ask missing ones
-        foreach ($rules as $type => $required) {
-            $credential = $this->getCredential($current, $type);
-            $shouldPrompt = $this->shouldPromptFor($type, $credential);
-            $shouldPrompt = !in_array($type, $unprompted, true) && ($shouldPrompt || ($required && !$credential && $credential !== false));
-            $$type = $credential;
-
-            if ($shouldPrompt) {
-                $method = in_array($type, $authCredentials, true) ? 'gatherAuthCredential' : 'gatherCredential';
-                $$type = $this->$method($handle, $type);
-            }
-        }
-
-        // Reform array
-        $credentials = compact(array_keys($rules));
 
         return $credentials;
     }
 
     /**
-     * Gather an auth-related credential.
+     * Get the credentials of all connections
      *
-     * @param string           $handle
-     * @param string|bool|null $type
-     *
-     * @return string|null
+     * @return array
      */
-    protected function gatherAuthCredential($handle, $type)
+    public function getConnectionsCredentials()
     {
-        $keyPath = $this->paths->getDefaultKeyPath();
-
-        switch ($type) {
-            case 'agent':
-                return $this->ask('confirm', 'Use agent forwarding?');
-            case 'keyphrase':
-                return $this->gatherCredential($handle, 'keyphrase', 'If a keyphrase is required, provide it');
-            case 'key':
-                return $this->command->option('key') ?: $this->ask('askWith', 'Please enter the full path to your key', $keyPath);
-            case 'password':
-                return $this->gatherCredential($handle, 'password');
+        $connectionName = null;
+        if ($this->connections) {
+            $this->command->writeln('Here are the current connections defined:');
+            $this->command->table(['Name', 'Server', 'Username', 'Password'], $this->connections);
+            if ($this->command->confirm('Do you want to add a connection to this?')) {
+                $connectionName = $this->command->ask('What do you want to name it?');
+            }
+        } else {
+            $connectionName = $this->command->ask('No connections have been set, let\'s create one, what do you want to name it?', 'production');
         }
+
+        // If the user does not want to add any more connection
+        // then we can quit
+        if (!$connectionName) {
+            return $this->connections;
+        }
+
+        $this->getConnectionCredentials($connectionName);
+
+        return $this->getConnectionsCredentials();
     }
 
     /**
-     * Look for a credential in the flags or ask for it.
+     * Get the credentials of a connection
      *
-     * @param string      $handle
-     * @param string      $type
-     * @param string|null $question
-     *
-     * @return string|null
+     * @param string $connectionName
      */
-    protected function gatherCredential($handle, $type, $question = null)
+    public function getConnectionCredentials($connectionName)
     {
-        $question = $question ?: 'No <fg=magenta>['.$type.']</fg=magenta> is set for <fg=magenta>['.$handle.']</fg=magenta>, please provide one';
-        $option = $this->getOption($type, true);
-        $method = in_array($type, ['password', 'keyphrase'], true) ? 'askSecretly' : 'askWith';
+        $uppercased = strtoupper($connectionName);
+        $privateKey = $this->command->confirm('Do you use an SSH key to connect to it?');
 
-        return $option ?: $this->ask($method, $question);
-    }
+        $credentials = $privateKey ? [
+            $uppercased.'_KEY' => ['Where can I find your key?', $this->paths->getUserHomeFolder().'/.ssh/id_rsa.pub'],
+            $uppercased.'_HOST' => 'Where is your server located?',
+            $uppercased.'_USERNAME' => 'What is the username for it?',
+            $uppercased.'_ROOT' => ['Where do you want your application deployed?', '/home/www/'],
+        ] : [
+            $uppercased.'_HOST' => 'Where is your server located?',
+            $uppercased.'_USERNAME' => 'What is the username for it?',
+            $uppercased.'_PASSWORD' => 'And password?',
+            $uppercased.'_ROOT' => ['Where do you want your application deployed?', '/home/www/'],
+        ];
 
-    /**
-     * Check if a credential needs to be filled.
-     *
-     * @param string[] $credentials
-     * @param string   $credential
-     *
-     * @return string|null
-     */
-    protected function getCredential($credentials, $credential)
-    {
-        $value = Arr::get($credentials, $credential);
-        if (substr($value, 0, 1) === '{') {
-            return;
+        foreach ($credentials as $credential => $question) {
+            $question = (array) $question;
+            $question[0] = '<fg=magenta>['.$connectionName.']</fg=magenta> '.$question[0];
+
+            $credentials[$credential] = $this->command->ask(...$question);
         }
 
-        return $value !== null ? $value : $this->command->option($credential);
-    }
-
-    /**
-     * Whether Rocketeer should prompt for things or not.
-     *
-     * @return bool
-     */
-    protected function shouldPrompt()
-    {
-        return !$this->rocketeer->isLocal();
-    }
-
-    /**
-     * Prompt a question via the command if possible.
-     *
-     * @param array $arguments
-     *
-     * @return mixed|void
-     */
-    protected function ask(...$arguments)
-    {
-        if (!$this->shouldPrompt()) {
-            return;
-        }
-
-        $method = array_shift($arguments);
-
-        return $this->command->$method(...$arguments);
-    }
-
-    /**
-     * Whether Rocketeer should prompt for a credential or not.
-     *
-     * @param string           $type
-     * @param string|bool|null $value
-     *
-     * @return bool
-     */
-    protected function shouldPromptFor($type, $value)
-    {
-        if (!$this->shouldPrompt()) {
-            return;
-        }
-
-        if (is_string($value)) {
-            return !$value;
-        } elseif (is_bool($value) || $value === null) {
-            return $type === 'agent' ? false : (bool) $value;
-        }
-
-        return false;
-    }
-
-    /**
-     * @param array  $rules
-     * @param array  $credentials
-     * @param string $handle
-     *
-     * @return string[]
-     */
-    protected function alterRules(array &$rules, array $credentials, $handle)
-    {
-        // Cancel if repository rules
-        if (array_key_exists('repository', $rules)) {
-            return [];
-        }
-
-        if ($this->usesSsh($handle, $credentials)) {
-            $rules['key'] = true;
-            $rules['keyphrase'] = true;
-
-            return ['password'];
-        }
-
-        $rules['password'] = true;
-
-        return ['key', 'keyphrase'];
+        $this->connections[$connectionName] = $credentials;
     }
 }

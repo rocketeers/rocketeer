@@ -31,55 +31,74 @@ class Ignite extends AbstractTask
      */
     public function execute()
     {
+        $this->command->writeln(<<<'TXT'
+                           *     .--.
+                                / /  `
+               +               | |
+                      '         \ \__,
+                  *          +   '--'  *
+                      +   /\
+         +              .'  '.   *
+                *      /======\      +
+                      ;:.  _   ;
+                      |:. (_)  |
+                      |:.  _   |
+            +         |:. (_)  |          *
+                      ;:.      ;
+                    .' \:.    / `.
+                   / .-'':._.'`-. \
+                   |/    /||\    \|
+                 _..--"""````"""--.._
+           _.-'``                    ``'-._
+         -'      WELCOME TO ROCKETEER      '-
+TXT
+);
+        // Get application name
+        $default = basename($this->localStorage->getFilename(), '.json');
+        $applicationName = $this->command->ask('What is your application\'s name ?', $default);
+
+        // Gather repository/connections credentials
+        $this->command->title('<info>[1/2]</info> Credentials gathering');
+        $this->command->write('Before we begin let\'s gather the credentials for your app');
+        $credentials = $this->credentialsGatherer->getCredentials();
+        $this->exportDotenv($credentials);
+
         // Export configuration
-        $path = $this->createOutsideConfiguration();
+        $this->command->title('<info>[2/2]</info> Configuration exporting');
+        $format = $this->command->choice('What format do you want your configuration in?', ['php', 'json', 'yaml', 'xml']);
+        $consolidated = $this->command->confirm('Do you want it consolidated (one file instead of many?', false);
+        $path = $this->igniter->exportConfiguration($format, $consolidated);
+
+        // Summary
+        $folder = basename(dirname($path)).'/'.basename($path);
+        $this->command->writeln('<info>Your configuration was exported at</info> <comment>' .$folder. '</comment>.');
+        $this->command->writeln('Go take a look at it now and update everything that needs updatin\'');
+
+        exit;
+
+        // Export configuration
 
         // Replace placeholders
         $parameters = $this->getConfigurationInformations();
         $this->container->get('igniter')->updateConfiguration($path, $parameters);
 
-        // Display info
-        $folder = basename(dirname($path)).'/'.basename($path);
-        $message = '<comment>The Rocketeer configuration was created at</comment> <info>'.$folder.'</info>';
-
-        return $this->explainer->success($message);
+        $this->command->writeln('Okay, you are ready to send your projects in the cloud. Fire away rocketeer!');
     }
 
     /**
-     * Get the configuration stub to use.
-     *
-     * @return string
+     * @param array $credentials
      */
-    protected function createOutsideConfiguration()
+    public function exportDotenv(array $credentials)
     {
-        return $this->container->get('igniter')->exportConfiguration();
-    }
+        // Build dotenv file
+        $dotenv = '';
+        foreach ($credentials as $credential => $value) {
+            $dotenv .= $credential.'='.$value.PHP_EOL;
+        }
 
-    /**
-     * Get the core informations to inject in the configuration created.
-     *
-     * @return array
-     */
-    protected function getConfigurationInformations()
-    {
-        // Get application name
-        $default = basename($this->localStorage->getFilename(), '.json');
-        $applicationName = $this->command->ask('What is your application\'s name ? ('.$default.')', $default);
-
-        // Replace credentials
-        $repository = $this->credentials->getCurrentRepository();
-        $credentials = $this->credentials->getServerCredentials($this->connections->getCurrentConnectionKey());
-        unset($credentials['config']);
-
-        return array_merge(
-            $credentials,
-            [
-                'connection' => preg_replace('/#[0-9]+/', null, $this->connections->getCurrentConnectionKey()),
-                'scm_repository' => $repository->endpoint,
-                'scm_username' => $repository->username,
-                'scm_password' => $repository->password,
-                'application_name' => $applicationName,
-            ]
-        );
+        // Write to disk
+        $this->files->put(getcwd().'/.env', $dotenv);
+        $this->command->writeln('<info>A <comment>.env</comment> file with your credentials has been created!</info>');
+        $this->command->writeln('Do not track this file in your repository, <error>it is meant to be private</error>');
     }
 }

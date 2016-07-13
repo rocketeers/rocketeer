@@ -86,12 +86,14 @@ class Configuration
     /**
      * Export the configuration files.
      *
+     * @param string $format
+     * @param bool   $consolidated
+     *
      * @return string
      */
-    public function exportConfiguration()
+    public function exportConfiguration($format = 'php', $consolidated = false)
     {
         $destination = $this->paths->getConfigurationPath();
-        $format = $this->getOption('format', true) ?: 'php';
 
         // Create directory
         if (!$this->files->isDirectory($destination)) {
@@ -99,7 +101,7 @@ class Configuration
         }
 
         // Consolidate or not configuration
-        if ($this->getOption('consolidated', true)) {
+        if ($consolidated) {
             $destination .= '/config.'.$format;
         }
 

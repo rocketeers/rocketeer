@@ -32,7 +32,8 @@
     "psy/psysh": "^0.7.2",
     "symfony/config": "^3.1",
     "symfony/console": "^3.1",
-    "symfony/var-dumper": "^3.1"
+    "symfony/var-dumper": "^3.1",
+    "vlucas/phpdotenv": "^2.3"
   },
   "require-dev": {
     "escapestudios/symfony2-coding-standard": "^2.9",
