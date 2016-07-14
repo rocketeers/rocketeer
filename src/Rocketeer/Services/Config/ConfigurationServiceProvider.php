@@ -64,9 +64,7 @@ class ConfigurationServiceProvider extends AbstractServiceProvider
             return $loader;
         });
 
-        $this->container->add(ConfigurationPublisher::class, function () {
-            return new ConfigurationPublisher(new ConfigurationDefinition(), $this->container->get(Filesystem::class));
-        });
+        $this->container->share(ConfigurationPublisher::class)->withArgument($this->container);
 
         $this->container->share(ContextualConfiguration::class, function () {
             $configuration = new Configuration($this->container->get('config.loader')->getConfiguration());

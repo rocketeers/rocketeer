@@ -21,6 +21,30 @@ use Symfony\Component\Config\Definition\TreeBuilder\NodeBuilder;
 class ConfigurationDefinition implements ConfigurationInterface
 {
     /**
+     * @var array
+     */
+    protected $values;
+
+    /**
+     * @param array $values
+     */
+    public function setValues($values)
+    {
+        $this->values = $values;
+    }
+
+    /**
+     * @param string     $key
+     * @param mixed|null $default
+     *
+     * @return mixed
+     */
+    protected function value($key, $default = null)
+    {
+        return Arr::get($this->values, $key, $default);
+    }
+
+    /**
      * Generates the configuration tree builder.
      *
      * @return \Symfony\Component\Config\Definition\Builder\TreeBuilder The tree builder
@@ -57,7 +81,7 @@ class ConfigurationDefinition implements ConfigurationInterface
             ->children()
             ->scalarNode('application_name')
             ->info("The name of the application to deploy\nThis will create a folder of the same name in the root directory")
-            ->defaultValue('{application_name}')
+            ->defaultValue($this->value('config.application_name', '{application_name}'))
             ->isRequired()
             ->cannotBeEmpty()
             ->end()
@@ -205,35 +229,35 @@ EOF
         return $node
             ->info('The configuration of your repository')
             ->children()
-            ->enumNode('scm')
-            ->info('The SCM used')
-            ->values(['git', 'svn', 'hg'])
-            ->isRequired()
-            ->defaultValue('git')
-            ->end()
-            ->scalarNode('repository')
-            ->info('The SSH/HTTPS address to your repository')
-            ->example('https://github.com/vendor/website.git')
-            ->defaultValue('{scm_repository}')
-            ->end()
-            ->scalarNode('username')
-            ->defaultValue('{scm_username}')
-            ->end()
-            ->scalarNode('password')
-            ->defaultValue('{scm_password}')
-            ->end()
-            ->scalarNode('branch')
-            ->info('The branch to deploy')
-            ->defaultValue('master')
-            ->end()
-            ->scalarNode('shallow')
-            ->info("Whether your SCM should do a \"shallow\" clone of the repository or not - this means a clone with just the latest state of your application (no history).\nIf you're having problems cloning, try setting this to false")
-            ->defaultTrue()
-            ->end()
-            ->scalarNode('submodules')
-            ->info("Recursively pull in submodules.\nWorks only with Git")
-            ->defaultTrue()
-            ->end()
+                ->enumNode('scm')
+                    ->info('The SCM used')
+                    ->values(['git', 'svn', 'hg'])
+                    ->isRequired()
+                    ->defaultValue('git')
+                ->end()
+                ->scalarNode('repository')
+                    ->info('The SSH/HTTPS address to your repository')
+                    ->example('https://github.com/vendor/website.git')
+                    ->defaultValue($this->value('scm.repository'))
+                ->end()
+                ->scalarNode('username')
+                    ->defaultValue($this->value('scm.username'))
+                ->end()
+                ->scalarNode('password')
+                    ->defaultValue($this->value('scm.password'))
+                ->end()
+                ->scalarNode('branch')
+                    ->info('The branch to deploy')
+                    ->defaultValue('master')
+                ->end()
+                ->scalarNode('shallow')
+                    ->info("Whether your SCM should do a \"shallow\" clone of the repository or not - this means a clone with just the latest state of your application (no history).\nIf you're having problems cloning, try setting this to false")
+                    ->defaultTrue()
+                ->end()
+                ->scalarNode('submodules')
+                    ->info("Recursively pull in submodules.\nWorks only with Git")
+                    ->defaultTrue()
+                ->end()
             ->end();
     }
 
@@ -420,21 +444,21 @@ EOF
         return $node
             ->info('Here you can customize Rocketeer by adding tasks, strategies, etc.')
             ->children()
-                ->arrayNode('before')
-                    ->useAttributeAsKey('name')
-                    ->prototype('variable')->end()
-                ->end()
-                ->arrayNode('after')
-                    ->useAttributeAsKey('name')
-                    ->prototype('variable')->end()
-                ->end()
-                ->arrayNode('custom')
-                    ->useAttributeAsKey('name')
-                    ->prototype('scalar')->end()
-                ->end()
-                ->arrayNode('roles')
-                    ->prototype('scalar')->end()
-                ->end()
+            ->arrayNode('before')
+            ->useAttributeAsKey('name')
+            ->prototype('variable')->end()
+            ->end()
+            ->arrayNode('after')
+            ->useAttributeAsKey('name')
+            ->prototype('variable')->end()
+            ->end()
+            ->arrayNode('custom')
+            ->useAttributeAsKey('name')
+            ->prototype('scalar')->end()
+            ->end()
+            ->arrayNode('roles')
+            ->prototype('scalar')->end()
+            ->end()
             ->end();
     }
 }

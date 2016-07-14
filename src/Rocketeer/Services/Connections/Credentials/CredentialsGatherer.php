@@ -57,11 +57,18 @@ class CredentialsGatherer
             }
         }
 
+        // Set on configuration
+        $this->config->set('scm', [
+            'repository' => '%%SCM_REPOSITORY%%',
+            'username' => '%%SCM_USERNAME%%',
+            'password' => '%%SCM_PASSWORD%%',
+        ]);
+
         return $credentials;
     }
 
     /**
-     * Get the credentials of all connections
+     * Get the credentials of all connections.
      *
      * @return array
      */
@@ -71,7 +78,7 @@ class CredentialsGatherer
         if ($this->connections) {
             $this->command->writeln('Here are the current connections defined:');
             $this->command->table(['Name', 'Server', 'Username', 'Password'], $this->connections);
-            if ($this->command->confirm('Do you want to add a connection to this?')) {
+            if ($this->command->confirm('Do you want to add a connection to this?', false)) {
                 $connectionName = $this->command->ask('What do you want to name it?');
             }
         } else {
@@ -90,7 +97,7 @@ class CredentialsGatherer
     }
 
     /**
-     * Get the credentials of a connection
+     * Get the credentials of a connection.
      *
      * @param string $connectionName
      */

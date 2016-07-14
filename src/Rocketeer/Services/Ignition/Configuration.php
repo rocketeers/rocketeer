@@ -116,34 +116,6 @@ class Configuration
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Replace placeholders in configuration.
-     *
-     * @param string   $folder
-     * @param string[] $values
-     */
-    public function updateConfiguration($folder, array $values = [])
-    {
-        // Replace stub values in files
-        $folder = strpos($folder, 'config.') !== false ? dirname($folder) : $folder;
-        $files = (array) $this->files->listContents($folder, true);
-        foreach ($files as $file) {
-            foreach ($values as $name => $value) {
-                $pattern = '{'.$name.'}';
-                $contents = $this->files->read($file['path']);
-
-                if (strpos($contents, $pattern) !== false) {
-                    $contents = str_replace($pattern, $value, $contents);
-                    $this->files->put($file['path'], $contents);
-                }
-            }
-        }
-
-        // Change repository in use
-        $application = Arr::get($values, 'application_name');
-        $this->localStorage->setFilename($application);
-    }
-
-    /**
      * Merge configuration files from userland.
      *
      * @param string[]    $folders
