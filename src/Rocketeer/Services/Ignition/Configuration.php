@@ -46,8 +46,11 @@ class Configuration
      */
     public function loadUserConfiguration()
     {
-        $dotenv = new Dotenv(getcwd());
-        $dotenv->load();
+        // Load .env file
+        if (file_exists(getcwd().'/.env')) {
+            $dotenv = new Dotenv(getcwd());
+            $dotenv->load();
+        }
 
         $this->loadFileOrFolder('tasks');
         $this->loadFileOrFolder('events');
