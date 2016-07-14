@@ -32,6 +32,22 @@ class Configuration extends Collection
     ];
 
     /**
+     * {@inheritdoc}
+     */
+    protected function getArrayableItems($items)
+    {
+        // Replace environment variables
+        $items = parent::getArrayableItems($items);
+        array_walk_recursive($items, function (&$value) {
+            if (is_string($value) && strpos($value, '%%') === 0) {
+                $value = getenv(substr($value, 2, -2));
+            }
+        });
+
+        return $items;
+    }
+
+    /**
      * Get an item from the collection by key.
      *
      * @param string $key
@@ -67,7 +83,7 @@ class Configuration extends Collection
      */
     public function replace(array $items)
     {
-        $this->items = $items;
+        $this->items = $this->getArrayableItems($items);
     }
 
     /**

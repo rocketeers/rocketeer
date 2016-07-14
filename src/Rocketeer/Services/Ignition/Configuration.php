@@ -12,7 +12,7 @@
 
 namespace Rocketeer\Services\Ignition;
 
-use Illuminate\Support\Arr;
+use Dotenv\Dotenv;
 use Rocketeer\Facades\Rocketeer;
 use Rocketeer\Traits\ContainerAwareTrait;
 use Symfony\Component\Finder\Finder;
@@ -46,6 +46,9 @@ class Configuration
      */
     public function loadUserConfiguration()
     {
+        $dotenv = new Dotenv(getcwd());
+        $dotenv->load();
+
         $this->loadFileOrFolder('tasks');
         $this->loadFileOrFolder('events');
         $this->loadFileOrFolder('strategies');

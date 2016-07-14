@@ -13,7 +13,6 @@
 namespace Rocketeer\Services\Config;
 
 use League\Container\ServiceProvider\AbstractServiceProvider;
-use League\Flysystem\Filesystem;
 use Rocketeer\Services\Config\Files\ConfigurationCache;
 use Rocketeer\Services\Config\Files\ConfigurationLoader;
 use Rocketeer\Services\Config\Files\ConfigurationPublisher;

@@ -92,7 +92,7 @@ TXT
     }
 
     /**
-     * Export the configuration to file
+     * Export the configuration to file.
      */
     public function exportConfiguration()
     {
