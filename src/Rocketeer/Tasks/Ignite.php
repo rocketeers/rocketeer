@@ -64,7 +64,7 @@ TXT
 
         // Gather repository/connections credentials
         $this->command->title('<info>[1/2]</info> Credentials gathering');
-        $this->command->write('Before we begin let\'s gather the credentials for your app');
+        $this->command->writeln('Before we begin let\'s gather the credentials for your app');
         $credentials = $this->credentialsGatherer->getCredentials();
         $this->exportDotenv($credentials);
 

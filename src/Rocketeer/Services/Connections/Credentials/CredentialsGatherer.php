@@ -45,17 +45,18 @@ class CredentialsGatherer
     public function getRepositoryCredentials()
     {
         $questions = [
-            'SCM_REPOSITORY' => 'Where is you code located? <comment>(eg. git@github.com:rocketeers/website.git)</comment>',
+            'SCM_REPOSITORY' => 'Where is your code located? <comment>(eg. git@github.com:rocketeers/website.git)</comment>',
             'SCM_USERNAME' => 'What is the username for it?',
             'SCM_PASSWORD' => 'And the password?',
         ];
 
         $credentials = [];
         foreach ($questions as $credential => $question) {
-            $credentials[$credential] = $this->command->ask($question);
+            $answer = $this->command->ask($question);
+            $credentials[$credential] = $answer;
 
             // If the repository uses SSH, do not ask for username/password
-            if ($credential === 'SCM_REPOSITORY' && strpos($credentials[$credential], 'git@') !== false) {
+            if ($credential === 'SCM_REPOSITORY' && strpos($answer, 'https://') === false) {
                 break;
             }
         }
