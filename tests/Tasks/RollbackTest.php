@@ -44,7 +44,7 @@ class RollbackTest extends RocketeerTestCase
         $task = $this->pretendTask('Rollback');
 
         $this->command->getProphecy()->option('list')->willReturn(true);
-        $this->command->getProphecy()->askWith(Argument::cetera())->willReturn(1);
+        $this->command->getProphecy()->ask(Argument::cetera())->willReturn(1);
         $task->execute();
 
         $this->assertHistory([[

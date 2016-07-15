@@ -119,14 +119,14 @@ EOF
                             ->prototype('array')
                                 ->children()
                                     ->scalarNode('host')->defaultValue($connection['host'])->end()
-                                    ->scalarNode('username')->defaultValue('{username}')->end()
-                                    ->scalarNode('password')->defaultValue('{password}')->end()
+                                    ->scalarNode('username')->defaultValue($connection['username'])->end()
+                                    ->scalarNode('password')->defaultValue($connection['password'])->end()
                                     ->scalarNode('key')->defaultValue($connection['key'])->end()
-                                    ->scalarNode('keyphrase')->defaultValue('{keyphrase}')->end()
+                                    ->scalarNode('keyphrase')->defaultValue($connection['keyphrase'])->end()
                                     ->booleanNode('agent')->defaultTrue()->end()
                                     ->scalarNode('root_directory')
                                         ->info("The root directory where your applications will be deployed.\nThis path needs to start at the root, ie. start with a /")
-                                        ->defaultValue('/home/www/')
+                                        ->defaultValue($connection['root'])
                                     ->end()
                                     ->arrayNode('roles')
                                         ->info('The roles this server has')
@@ -143,12 +143,11 @@ EOF
                                 ->end()
                             ->end()
                         ->end()
-                        ->end()
                     ->end()
                 ->end();
         }
 
-        return $node->end();
+        return $node->end()->end();
     }
 
     /**

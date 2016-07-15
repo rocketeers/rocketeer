@@ -169,7 +169,6 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         $expectations = array_merge([
             'argument' => '',
             'ask' => '',
-            'askWith' => '',
             'table' => '',
             'confirm' => true,
             'option' => false,

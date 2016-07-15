@@ -12,6 +12,8 @@
 
 namespace Rocketeer\Services\Connections\Credentials;
 
+use Closure;
+use Illuminate\Support\Str;
 use Rocketeer\Traits\ContainerAwareTrait;
 
 class CredentialsGatherer
@@ -109,7 +111,8 @@ class CredentialsGatherer
 
         $credentials = $privateKey ? [
             $uppercased.'_KEY' => ['Where can I find your key?', $this->paths->getUserHomeFolder().'/.ssh/id_rsa.pub'],
-            $uppercased.'_HOST' => 'Where is your server located?',
+            $uppercased.'_KEYPHRASE' => 'If it needs a passphrase enter it',
+            $uppercased.'_HOST' => 'Where is your server located? <comment>(eg. foobar.com)</comment>',
             $uppercased.'_USERNAME' => 'What is the username for it?',
             $uppercased.'_ROOT' => ['Where do you want your application deployed?', '/home/www/'],
         ] : [
@@ -123,13 +126,34 @@ class CredentialsGatherer
             $question = (array) $question;
             $question[0] = '<fg=magenta>['.$connectionName.']</fg=magenta> '.$question[0];
 
-            $credentials[$credential] = $this->command->ask(...$question);
+            if (Str::contains($credential, ['KEYPHRASE', 'PASSWORD'])) {
+                $question[] = $this->getCredentialsValidator();
+                $answer = $this->command->askHidden(...$question);
+            } else {
+                $answer = $this->command->ask(...$question);
+            }
+
+            $credentials[$credential] = $answer;
         }
 
         $this->connections[$connectionName] = $credentials;
         $this->config->set('connections.'.$connectionName, [
-            'key' => '%%'.$uppercased.'_KEY%%',
             'host' => '%%'.$uppercased.'_HOST%%',
+            'key' => '%%'.$uppercased.'_KEY%%',
+            'keyphrase' => '%%'.$uppercased.'_KEYPHRASE%%',
+            'password' => '%%'.$uppercased.'_PASSWORD%%',
+            'root' => '%%'.$uppercased.'_ROOT%%',
+            'username' => '%%'.$uppercased.'_USERNAME%%',
         ]);
+    }
+
+    /**
+     * @return Closure
+     */
+    protected function getCredentialsValidator()
+    {
+        return function () {
+            return true;
+        };
     }
 }

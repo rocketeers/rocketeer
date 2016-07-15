@@ -18,12 +18,10 @@ use Rocketeer\Tasks\AbstractTask;
 use Rocketeer\Tasks\Closure;
 use Rocketeer\Traits\ContainerAwareTrait;
 use Rocketeer\Traits\Properties\HasEventsTrait;
-use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
@@ -342,50 +340,6 @@ abstract class AbstractCommand extends Command implements IdentifierInterface, C
         return $this->input->getOption($key);
     }
 
-    /**
-     * Ask a question to the user, with default and/or multiple choices.
-     *
-     * @param string      $question
-     * @param string|null $default
-     * @param string[]    $choices
-     *
-     * @return string|null
-     */
-    public function askWith($question, $default = null, $choices = [])
-    {
-        if ($this->checkInteractivity($question)) {
-            return $default;
-        }
-
-        // If we provided choices, autocomplete
-        if ($choices) {
-            return $this->output->choice($question, $choices, $default);
-        }
-
-        return $this->output->ask($question, $default, $this->getCredentialsValidator());
-    }
-
-    /**
-     * Ask a question to the user, hiding the input.
-     *
-     * @param string      $question
-     * @param string|null $default
-     *
-     * @return string|null
-     */
-    public function askSecretly($question, $default = null)
-    {
-        if ($this->checkInteractivity($question)) {
-            return $default;
-        }
-
-        $question = new Question($question);
-        $question->setValidator($this->getCredentialsValidator());
-        $question->setHidden(true);
-
-        return $this->output->askQuestion($question) ?: $default;
-    }
-
     //////////////////////////////////////////////////////////////////////
     ////////////////////////////// HELPERS ///////////////////////////////
     //////////////////////////////////////////////////////////////////////
@@ -405,35 +359,6 @@ abstract class AbstractCommand extends Command implements IdentifierInterface, C
         $this->explainer->line('Execution time: <comment>'.$time.'s</comment>');
 
         return $results;
-    }
-
-    /**
-     * @return \Closure
-     */
-    protected function getCredentialsValidator()
-    {
-        return function ($value) {
-            if (!is_string($value) && !is_bool($value) && !is_null($value)) {
-                throw new RuntimeException('Invalid answer: '.$value);
-            }
-
-            return $value ?: true;
-        };
-    }
-
-    /**
-     * @param string $question
-     *
-     * @return bool
-     */
-    protected function checkInteractivity($question)
-    {
-        $nonInteractive = !$this->input->isInteractive();
-        if ($nonInteractive) {
-            $this->explainer->error('Running in non interactive mode, prompt was skipped: '.$question);
-        }
-
-        return $nonInteractive;
     }
 
     /**

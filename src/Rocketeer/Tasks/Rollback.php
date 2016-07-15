@@ -44,7 +44,7 @@ class Rollback extends AbstractTask
             $this->displayReleases();
 
             // Get actual release name from date
-            $rollbackRelease = $this->command->askWith('Which one do you want to go back to ?', 0);
+            $rollbackRelease = $this->command->ask('Which one do you want to go back to ?', 0);
             $rollbackRelease = $releases[$rollbackRelease];
         }
 

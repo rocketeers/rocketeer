@@ -24,6 +24,9 @@ use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 
 class ConfigurationDefinition extends AbstractDefinition
 {
+    /**
+     * @var array
+     */
     protected $definitions = [
         ConnectionsDefinition::class,
         HooksDefinition::class,
@@ -42,6 +45,7 @@ class ConfigurationDefinition extends AbstractDefinition
     public function getConfigTreeBuilder()
     {
         $builder = new TreeBuilder();
+
         $node = $builder->root('rocketeer')->children();
         foreach ($this->definitions as $definition) {
             /** @var AbstractDefinition $definition */
@@ -51,7 +55,6 @@ class ConfigurationDefinition extends AbstractDefinition
 
             $node = $node->append($definition);
         }
-
         $node = $node->end();
 
         return $builder;
