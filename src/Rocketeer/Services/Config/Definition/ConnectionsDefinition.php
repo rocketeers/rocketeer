@@ -12,6 +12,8 @@
 
 namespace Rocketeer\Services\Config\Definition;
 
+use Illuminate\Support\Arr;
+use Illuminate\Support\Fluent;
 use Symfony\Component\Config\Definition\TreeBuilder\NodeBuilder;
 
 class ConnectionsDefinition extends AbstractDefinition
@@ -107,6 +109,8 @@ EOF
         }
 
         foreach ($connections as $name => $connection) {
+            $connection = new Fluent($connection);
+
             $node = $node
                 ->arrayNode($name)
                     ->beforeNormalization()
@@ -118,11 +122,11 @@ EOF
                         ->arrayNode('servers')
                             ->prototype('array')
                                 ->children()
-                                    ->scalarNode('host')->defaultValue($connection['host'])->end()
-                                    ->scalarNode('username')->defaultValue($connection['username'])->end()
-                                    ->scalarNode('password')->defaultValue($connection['password'])->end()
-                                    ->scalarNode('key')->defaultValue($connection['key'])->end()
-                                    ->scalarNode('keyphrase')->defaultValue($connection['keyphrase'])->end()
+                                    ->scalarNode('host')->defaultValue($connection->host)->end()
+                                    ->scalarNode('username')->defaultValue($connection->username)->end()
+                                    ->scalarNode('password')->defaultValue($connection->password)->end()
+                                    ->scalarNode('key')->defaultValue($connection->key)->end()
+                                    ->scalarNode('keyphrase')->defaultValue($connection->keyphrase)->end()
                                     ->booleanNode('agent')->defaultTrue()->end()
                                     ->scalarNode('root_directory')
                                         ->info("The root directory where your applications will be deployed.\nThis path needs to start at the root, ie. start with a /")
