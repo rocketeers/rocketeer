@@ -158,7 +158,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         $command->getVerbosity()->willReturn($verbose);
 
         // Bind the output expectations
-        $types = ['writeln', 'comment'];
+        $types = ['writeln', 'write', 'comment'];
         foreach ($types as $type) {
             if (!array_key_exists($type, $expectations)) {
                 $command->$type(Argument::any())->willReturnArgument(0);
@@ -169,7 +169,10 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         $expectations = array_merge([
             'argument' => '',
             'ask' => '',
+            'askHidden' => '',
+            'choice' => 'php',
             'table' => '',
+            'title' => '',
             'confirm' => true,
             'option' => false,
         ], $expectations);

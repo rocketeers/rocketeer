@@ -70,7 +70,7 @@ class ConfigurationTest extends RocketeerTestCase
     public function testCanBindTasksAndEventsPaths()
     {
         $this->igniter->bindPaths();
-        $this->igniter->exportConfiguration();
+        $this->configurationPublisher->publish();
 
         // Create some fake files
         $root = realpath(__DIR__.'/../../../').'/.rocketeer';
@@ -86,33 +86,9 @@ class ConfigurationTest extends RocketeerTestCase
     public function testCanExportConfiguration()
     {
         $this->igniter->bindPaths();
-        $this->igniter->exportConfiguration();
+        $this->configurationPublisher->publish();
 
         $this->assertVirtualFileExists(__DIR__.'/../../../.rocketeer');
-    }
-
-    public function testCanReplaceStubsInConfigurationFile()
-    {
-        $this->igniter->bindPaths();
-        $path = $this->igniter->exportConfiguration();
-        $this->igniter->updateConfiguration($path, ['scm_username' => 'foobar']);
-
-        $this->assertVirtualFileExists(__DIR__.'/../../../.rocketeer');
-        $this->assertContains('foobar', $this->files->read(__DIR__.'/../../../.rocketeer/scm.php'));
-    }
-
-    public function testCanSetCurrentApplication()
-    {
-        $this->mock('storage.local', 'Storage', function (MockInterface $mock) {
-            return $mock->shouldReceive('setFilename')->once()->with('foobar');
-        });
-
-        $this->igniter->bindPaths();
-        $path = $this->igniter->exportConfiguration();
-        $this->igniter->updateConfiguration($path, ['application_name' => 'foobar', 'scm_username' => 'foobar']);
-
-        $this->assertVirtualFileExists(__DIR__.'/../../../.rocketeer');
-        $this->assertContains('foobar', $this->files->read(__DIR__.'/../../../.rocketeer/config.php'));
     }
 
     public function testCanLoadFilesOrFolder()
@@ -191,6 +167,6 @@ class ConfigurationTest extends RocketeerTestCase
             return $mock->shouldReceive('copyDirectory')->with($pharPath, 'config');
         });
 
-        $this->igniter->exportConfiguration();
+        $this->configurationPublisher->publish();
     }
 }

@@ -13,6 +13,7 @@
 namespace Rocketeer\Console\Commands;
 
 use Rocketeer\Dummies\DummyFailingCommand;
+use Rocketeer\Dummies\DummyPromptingCommand;
 use Rocketeer\Services\Connections\Credentials\CredentialsGatherer;
 use Rocketeer\TestCases\RocketeerTestCase;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -33,12 +34,10 @@ class AbstractCommandTest extends RocketeerTestCase
 
     public function testDisplaysWarningInNonInteractiveMode()
     {
-        $command = new DummyFailingCommand();
-        $command->setContainer($this->container);
-
+        $command = new DummyPromptingCommand();
         $tester = $this->executeCommand($command, [], ['interactive' => false]);
 
-        $this->assertContains('prompt was skipped: No password or SSH key', $tester->getDisplay());
+        $this->assertContains('prompt was skipped: Annie are you ok', $tester->getDisplay());
     }
 
     public function testCanFireEvents()

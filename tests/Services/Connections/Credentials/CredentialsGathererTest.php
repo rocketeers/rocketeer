@@ -14,87 +14,42 @@ namespace Rocketeer\Services\Connections\Credentials;
 
 use Mockery;
 use Mockery\MockInterface;
+use Prophecy\Argument;
+use Rocketeer\Console\Commands\AbstractCommand;
+use Rocketeer\Console\StyleInterface;
 use Rocketeer\TestCases\RocketeerTestCase;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class CredentialsGathererTest extends RocketeerTestCase
 {
-    public function testIgnoresPlaceholdersWhenFillingCredentials()
-    {
-        $this->mockAnswers([
-            'No repository is set for [repository]' => $this->repository,
-            'No username is set for [repository]' => $this->username,
-            'No password is set for [repository]' => $this->password,
-        ]);
-        $this->command->shouldReceive('option')->andReturn(null);
-
-        $this->swapRepositoryCredentials(['repository' => '{foobar}']);
-
-        $this->assertStoredCredentialsEquals([
-            'repository' => $this->repository,
-            'username' => $this->username,
-            'password' => $this->password,
-        ]);
-
-        $this->credentialsGatherer->getRepositoryCredentials();
-    }
-
     public function testCanGetRepositoryCredentials()
     {
-        $this->mockAnswers([
-            'No repository is set for [repository]' => $this->repository,
-            'No username is set for [repository]' => $this->username,
-            'No password is set for [repository]' => $this->password,
-        ]);
-        $this->command->shouldReceive('option')->andReturn(null);
-        $this->command->shouldReceive('askWith')->with(Mockery::any(), 'key', Mockery::any())->never();
-
         $this->swapRepositoryCredentials([]);
-
-        $this->assertStoredCredentialsEquals([
-            'repository' => $this->repository,
+        $this->mockAnswers([
+            'Where is your code' => 'https://'.$this->repository,
             'username' => $this->username,
             'password' => $this->password,
         ]);
 
-        $this->credentialsGatherer->getRepositoryCredentials();
+        $credentials = $this->credentialsGatherer->getRepositoryCredentials();
+        $this->assertEquals([
+            'SCM_REPOSITORY' => 'https://'.$this->repository,
+            'SCM_USERNAME' => $this->username,
+            'SCM_PASSWORD' => $this->password,
+        ], $credentials);
     }
 
     public function testDoesntAskForRepositoryCredentialsIfUneeded()
     {
-        $this->mockAnswers();
-        $this->command->shouldReceive('option')->andReturn(null);
-
-        $this->swapRepositoryCredentials([
-            'repository' => $this->repository,
-            'username' => null,
-            'password' => null,
-        ]);
-        $this->assertStoredCredentialsEquals([
-            'repository' => $this->repository,
-            'username' => null,
-            'password' => null,
-        ]);
-
-        $this->credentialsGatherer->getRepositoryCredentials();
-    }
-
-    public function testCanFillRepositoryCredentialsIfNeeded()
-    {
+        $this->swapRepositoryCredentials([]);
         $this->mockAnswers([
-            'No username is set for [repository]' => $this->username,
-            'No password is set for [repository]' => null,
-        ]);
-        $this->command->shouldReceive('option')->andReturn(null);
-
-        $this->swapRepositoryCredentials(['repository' => $this->repository]);
-
-        $this->assertStoredCredentialsEquals([
-            'repository' => $this->repository,
-            'username' => 'anahkiasen',
-            'password' => null,
+            'Where is' => $this->repository,
         ]);
 
-        $this->credentialsGatherer->getRepositoryCredentials();
+        $credentials = $this->credentialsGatherer->getRepositoryCredentials();
+        $this->assertEquals([
+            'SCM_REPOSITORY' => $this->repository,
+        ], $credentials);
     }
 
     public function testCanGetServerCredentialsIfNoneDefined()
@@ -162,151 +117,6 @@ class CredentialsGathererTest extends RocketeerTestCase
         ], $credentials);
     }
 
-    public function testCanGetCredentialsForSpecifiedConnection()
-    {
-        $key = $this->paths->getDefaultKeyPath();
-        $this->mockAnswers([
-            'No [host] is set for [staging]' => $this->host,
-            'No [username] is set for [staging]' => $this->username,
-            'If a keyphrase is required, provide it' => 'KEYPHRASE',
-        ]);
-
-        $this->command->shouldReceive('option')->with('on')->andReturn('staging');
-        $this->command->shouldReceive('option')->andReturn(null);
-        $this->command->shouldReceive('askWith')->with(
-            'Please enter the full path to your key', $key
-        )->andReturn($key);
-        $this->command->shouldReceive('askWith')->with(
-            'No password or SSH key is set for [staging], which would you use?',
-            'key', ['key', 'password']
-        )->andReturn('key');
-
-        $this->credentialsGatherer->getConnectionsCredentials();
-
-        $credentials = $this->credentials->getServerCredentials('staging', 0);
-        $this->assertEquals([
-            'host' => $this->host,
-            'username' => $this->username,
-            'password' => null,
-            'keyphrase' => 'KEYPHRASE',
-            'key' => $key,
-            'agent' => null,
-        ], $credentials);
-    }
-
-    public function testCanHaveMultipleTypesOfCredentials()
-    {
-        $this->swapConnections([
-            'production' => [
-                'host' => $this->host,
-                'username' => '',
-                'password' => false,
-                'key' => '',
-                'keyphrase' => true,
-            ],
-        ]);
-
-        $this->mockAnswers([
-            'No [username] is set for [production]' => $this->username,
-            'If a keyphrase is required, provide it' => 'keyphrase',
-        ]);
-        $this->command->shouldReceive('askWith')->with('Please enter the full path to your key', Mockery::any())->once()->andReturn($this->key);
-        $this->command->shouldReceive('askWith')->with('No password or SSH key is set for [production], which would you use?', Mockery::any(), Mockery::any())->once()->andReturn('key');
-
-        $this->credentialsGatherer->getConnectionsCredentials();
-
-        $credentials = $this->credentials->getServerCredentials('production', 0);
-        $this->assertEquals([
-            'host' => $this->host,
-            'username' => $this->username,
-            'password' => null,
-            'keyphrase' => 'keyphrase',
-            'key' => $this->key,
-            'agent' => null,
-        ], $credentials);
-
-        $stored = $this->localStorage->get('connections.production.servers.0');
-        $this->assertEquals([
-            'host' => $this->host,
-            'username' => $this->username,
-            'password' => null,
-            'key' => $this->key,
-            'agent' => null,
-        ], $stored);
-    }
-
-    public function testDoesntAskForKeyphraseOnlyOnce()
-    {
-        $this->swapConnections([
-            'production' => [
-                'host' => $this->host,
-                'username' => '',
-                'password' => false,
-                'key' => $this->key,
-                'keyphrase' => true,
-            ],
-        ]);
-
-        $this->mockAnswers([
-            'No [username] is set for [production]' => $this->username,
-            'If a keyphrase is required, provide it' => 'keyphrase',
-        ]);
-
-        $this->credentialsGatherer->getConnectionsCredentials();
-    }
-
-    public function testPreservesCredentialsTypes()
-    {
-        $this->localStorage->set('connections.production.servers.0', [
-            'host' => $this->host,
-            'username' => '',
-            'password' => false,
-            'agent' => true,
-        ]);
-
-        $this->credentialsGatherer->getConnectionsCredentials();
-        $credentials = $this->localStorage->get('connections.production.servers.0');
-
-        $this->assertEquals($this->host, $credentials['host']);
-        $this->assertEquals('', $credentials['username']);
-        $this->assertFalse($credentials['password']);
-        $this->assertArrayNotHasKey('agent', $credentials);
-    }
-
-    public function testAsksForDefaultConnectionIfNoneSet()
-    {
-        $this->swapConfig([
-            'default' => null,
-            'connections' => [
-                'production' => [
-                    'host' => $this->host,
-                    'username' => 'foobar',
-                    'password' => false,
-                    'key' => $this->key,
-                    'keyphrase' => true,
-                ],
-                'staging' => [
-                    'host' => $this->host,
-                    'username' => 'foobar',
-                    'password' => false,
-                    'key' => $this->key,
-                    'keyphrase' => true,
-                ],
-            ],
-        ]);
-
-        $this->mock('rocketeer.command', 'Command', function (MockInterface $mock) {
-            return $mock
-                ->shouldReceive('askWith')
-                ->with('No default connection, pick one', 'production', ['production', 'staging'])
-                ->andReturn('production');
-        });
-
-        $this->credentialsGatherer->getConnectionsCredentials();
-
-        $this->assertConnectionEquals('production');
-    }
-
     //////////////////////////////////////////////////////////////////////
     ////////////////////////////// HELPERS ///////////////////////////////
     //////////////////////////////////////////////////////////////////////
@@ -316,37 +126,20 @@ class CredentialsGathererTest extends RocketeerTestCase
      *
      * @param array $answers
      */
-    protected function mockAnswers($answers = [])
+    protected function mockAnswers(array $answers = [])
     {
-        $this->mock('rocketeer.command', 'Command', function (MockInterface $mock) use ($answers) {
-            if (!$answers) {
-                return $mock->shouldReceive('ask')->never();
-            }
+        $prophecy = $this->prophesize(AbstractCommand::class)
+            ->willImplement(StyleInterface::class)
+            ->willImplement(OutputInterface::class);
 
-            foreach ($answers as $question => $answer) {
-                $question = strpos($question, 'is set for') !== false ? $question.', please provide one' : $question;
-                $question = strtr($question, [
-                    '[' => '<fg=magenta>[',
-                    ']' => ']</fg=magenta>',
-                ]);
+        if (!$answers) {
+            $prophecy->ask(Argument::any())->shouldNotBeCaled();
+        }
 
-                $method = strpos($question, 'password') !== false || strpos($question, 'keyphrase') !== false ? 'askSecretly' : 'askWith';
-                $mock = $mock->shouldReceive($method)->with($question)->andReturn($answer);
-            }
+        foreach ($answers as $question => $answer) {
+            $prophecy->ask(Argument::containingString($question))->shouldBeCalledTimes(1)->willReturn($answer);
+        }
 
-            return $mock;
-        });
-    }
-
-    /**
-     * Assert a certain set of credentials are saved to storage.
-     *
-     * @param array $credentials
-     */
-    protected function assertStoredCredentialsEquals(array $credentials)
-    {
-        $this->mock('storage.local', 'Storage', function (MockInterface $mock) use ($credentials) {
-            return $mock->shouldReceive('set')->with('credentials', $credentials);
-        });
+        $this->container->add('rocketeer.command', $prophecy->reveal());
     }
 }

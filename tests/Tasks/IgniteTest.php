@@ -12,9 +12,13 @@
 
 namespace Rocketeer\Tasks;
 
+use League\Flysystem\Filesystem;
 use Mockery;
 use Mockery\MockInterface;
+use Prophecy\Argument;
 use Rocketeer\Container;
+use Rocketeer\Services\Filesystem\LocalFilesystemInterface;
+use Rocketeer\Services\Filesystem\Plugins\IsDirectoryPlugin;
 use Rocketeer\Services\Ignition\IgnitionServiceProvider;
 use Rocketeer\TestCases\RocketeerTestCase;
 
@@ -32,13 +36,11 @@ class IgniteTest extends RocketeerTestCase
         $container->add('path.base', 'E:\workspace\test');
         $container->add('path.rocketeer.config', 'E:\workspace\test\.rocketeer');
 
-        $this->mockFiles(function (MockInterface $mock) {
-            return $mock
-                ->shouldReceive('files')->andReturn([])
-                ->shouldReceive('put')->once()->with('E:/workspace/test/.rocketeer', Mockery::any());
-        });
+        $prophecy = $this->prophesize(LocalFilesystemInterface::class);
+        $this->container->add(Filesystem::class, $prophecy);
 
         $this->pretendTask('Ignite')->execute();
+        $prophecy->put('E:/workspace/test/.rocketeer', Argument::any())->shouldHaveBeenCalled();
     }
 
     public function testCanIgniteConfiguration()

@@ -89,34 +89,6 @@ class Configuration
         });
     }
 
-    /**
-     * Export the configuration files.
-     *
-     * @param string $format
-     * @param bool   $consolidated
-     *
-     * @return string
-     */
-    public function exportConfiguration($format = 'php', $consolidated = false)
-    {
-        $destination = $this->paths->getConfigurationPath();
-
-        // Create directory
-        if (!$this->files->isDirectory($destination)) {
-            $this->files->createDir($destination);
-        }
-
-        // Consolidate or not configuration
-        if ($consolidated) {
-            $destination .= '/config.'.$format;
-        }
-
-        // Unzip configuration files
-        $this->configurationPublisher->publish($destination, $format);
-
-        return $destination;
-    }
-
     ////////////////////////////////////////////////////////////////////
     ///////////////////////////// CONFIGURATION ////////////////////////
     ////////////////////////////////////////////////////////////////////
