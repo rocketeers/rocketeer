@@ -42,13 +42,14 @@ class CredentialsGatherer
      */
     public function getRepositoryCredentials()
     {
-        $credentials = [
+        $questions = [
             'SCM_REPOSITORY' => 'Where is you code located? <comment>(eg. git@github.com:rocketeers/website.git)</comment>',
             'SCM_USERNAME' => 'What is the username for it?',
             'SCM_PASSWORD' => 'And the password?',
         ];
 
-        foreach ($credentials as $credential => $question) {
+        $credentials = [];
+        foreach ($questions as $credential => $question) {
             $credentials[$credential] = $this->command->ask($question);
 
             // If the repository uses SSH, do not ask for username/password
@@ -126,5 +127,9 @@ class CredentialsGatherer
         }
 
         $this->connections[$connectionName] = $credentials;
+        $this->config->set('connections.'.$connectionName, [
+            'key' => '%%'.$uppercased.'_KEY%%',
+            'host' => '%%'.$uppercased.'_HOST%%',
+        ]);
     }
 }
