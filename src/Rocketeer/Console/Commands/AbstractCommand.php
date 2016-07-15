@@ -13,6 +13,7 @@
 namespace Rocketeer\Console\Commands;
 
 use League\Container\ContainerAwareInterface;
+use Rocketeer\Console\RocketeerStyle;
 use Rocketeer\Interfaces\IdentifierInterface;
 use Rocketeer\Tasks\AbstractTask;
 use Rocketeer\Tasks\Closure;
@@ -22,13 +23,12 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * An abstract command with various helpers for all
  * subcommands to inherit.
  *
- * @mixin SymfonyStyle
+ * @mixin RocketeerStyle
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
@@ -43,7 +43,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface, C
     protected $input;
 
     /**
-     * @var SymfonyStyle
+     * @var RocketeerStyle
      */
     protected $output;
 
@@ -107,7 +107,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface, C
     }
 
     /**
-     * @return SymfonyStyle
+     * @return RocketeerStyle
      */
     public function getOutput()
     {
@@ -258,7 +258,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface, C
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->input = $input;
-        $this->output = new SymfonyStyle($input, $output);
+        $this->output = new RocketeerStyle($input, $output);
 
         return $this->container->call([$this, 'fire']);
     }
