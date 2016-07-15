@@ -12,6 +12,7 @@
 
 namespace Rocketeer\Services\Config\Files;
 
+use Rocketeer\Container;
 use Rocketeer\Services\Config\ConfigurationDefinition;
 use Rocketeer\Traits\ContainerAwareTrait;
 use Symfony\Component\Config\Definition\ArrayNode;
@@ -38,6 +39,15 @@ class ConfigurationPublisher
      * @var ConfigurationDefinition
      */
     protected $definition;
+
+    /**
+     * @param Container $container
+     */
+    public function __construct(Container $container)
+    {
+        $this->container = $container;
+        $this->definition = new ConfigurationDefinition();
+    }
 
     /**
      * @param ConfigurationDefinition $definition
