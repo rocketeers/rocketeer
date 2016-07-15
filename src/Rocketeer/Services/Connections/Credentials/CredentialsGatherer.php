@@ -110,7 +110,7 @@ class CredentialsGatherer
         $privateKey = $this->command->confirm('Do you use an SSH key to connect to it?');
 
         $credentials = $privateKey ? [
-            $uppercased.'_KEY' => ['Where can I find your key?', $this->paths->getUserHomeFolder().'/.ssh/id_rsa.pub'],
+            $uppercased.'_KEY' => ['Where can I find your key?', $this->paths->getDefaultKeyPath()],
             $uppercased.'_KEYPHRASE' => 'If it needs a passphrase enter it',
             $uppercased.'_HOST' => 'Where is your server located? <comment>(eg. foobar.com)</comment>',
             $uppercased.'_USERNAME' => 'What is the username for it?',
