@@ -197,10 +197,9 @@ class ReleasesManagerTest extends RocketeerTestCase
 
     public function testCanReturnPreviousReleaseIfNoReleases()
     {
-        $this->mock(Bash::class, 'Bash', function (MockInterface $mock) {
-            return $mock
-                ->shouldReceive('listContents')->once()->with($this->server.'/releases')->andReturn([]);
-        });
+        /** @var Bash $prophecy */
+        $prophecy = $this->bindProphecy(Bash::class);
+        $prophecy->listContents($this->server.'/releases')->shouldBeCalled()->willReturn([]);
 
         $this->mockState([]);
 
@@ -217,10 +216,9 @@ class ReleasesManagerTest extends RocketeerTestCase
 
     public function testDoesntPingForReleasesAllTheFuckingTime()
     {
-        $this->mock(Bash::class, 'Bash', function (MockInterface $mock) {
-            return $mock
-                ->shouldReceive('listContents')->once()->with($this->server.'/releases')->andReturn([20000000000000]);
-        });
+        /** @var Bash $prophecy */
+        $prophecy = $this->bindProphecy(Bash::class);
+        $prophecy->listContents($this->server.'/releases')->shouldBeCalledTimes(1)->willReturn([20000000000000]);
 
         $this->releasesManager->getNonCurrentReleases();
         $this->releasesManager->getNonCurrentReleases();
@@ -230,10 +228,9 @@ class ReleasesManagerTest extends RocketeerTestCase
 
     public function testDoesntPingForReleasesIfNoReleases()
     {
-        $this->mock(Bash::class, 'Bash', function (MockInterface $mock) {
-            return $mock
-                ->shouldReceive('listContents')->once()->with($this->server.'/releases')->andReturn([]);
-        });
+        /** @var Bash $prophecy */
+        $prophecy = $this->bindProphecy(Bash::class);
+        $prophecy->listContents($this->server.'/releases')->shouldBeCalledTimes(1)->willReturn([]);
 
         $this->releasesManager->getNonCurrentReleases();
         $this->releasesManager->getNonCurrentReleases();
@@ -243,10 +240,9 @@ class ReleasesManagerTest extends RocketeerTestCase
 
     public function testIgnoresErrorsAndStuffWhenFetchingReleases()
     {
-        $this->mock(Bash::class, 'Bash', function (MockInterface $mock) {
-            return $mock
-                ->shouldReceive('listContents')->times(1)->with($this->server.'/releases')->andReturn(['IMPOSSIBLE BECAUSE NOPE FUCK YOU']);
-        });
+        /** @var Bash $prophecy */
+        $prophecy = $this->bindProphecy(Bash::class);
+        $prophecy->listContents($this->server.'/releases')->shouldBeCalledTimes(1)->willReturn(['IMPOSSIBLE BECAUSE NOPE FUCK YOU']);
 
         $releases = $this->releasesManager->getReleases();
 
@@ -255,10 +251,9 @@ class ReleasesManagerTest extends RocketeerTestCase
 
     public function testResetsReleasesCacheWhenSwitchingServer()
     {
-        $this->mock(Bash::class, 'Bash', function (MockInterface $mock) {
-            return $mock
-                ->shouldReceive('listContents')->twice()->with($this->server.'/releases')->andReturn([20000000000000]);
-        });
+        /** @var Bash $prophecy */
+        $prophecy = $this->bindProphecy(Bash::class);
+        $prophecy->listContents($this->server.'/releases')->shouldBeCalledTimes(2)->willReturn([20000000000000]);
 
         $releases = $this->releasesManager->getReleases();
         $this->assertEquals([20000000000000], $releases);

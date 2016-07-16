@@ -24,7 +24,7 @@ class AbstractFacadeTest extends RocketeerTestCase
         $container = \Rocketeer\Facades\Rocketeer::getContainer();
         $this->assertInstanceOf(Container::class, $container);
 
-        $storage = $container->get('storage.local');
+        $storage = $this->localStorage;
         $this->assertInstanceOf(Storage::class, $storage);
         $this->assertInstanceOf(Filesystem::class, $storage->getFilesystem());
     }

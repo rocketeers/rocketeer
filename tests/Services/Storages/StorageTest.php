@@ -24,18 +24,15 @@ class StorageTest extends RocketeerTestCase
 {
     public function testCanInferStorageName()
     {
-        $container = new Container();
-        $container->add('path.base', $this->server);
-        $container->add(ContextualConfiguration::class, new Configuration([
+        $this->container = new Container();
+        $this->container->add('path.base', $this->server);
+        $this->container->add(ContextualConfiguration::class, new Configuration([
             'config' => [
                 'application_name' => '{application_name}',
             ],
         ]));
 
-        /** @var Storage $storage */
-        $storage = $container->get('storage.local');
-
-        $this->assertEquals('rocketeer.json', $storage->getFilename());
+        $this->assertEquals('rocketeer.json', $this->localStorage->getFilename());
     }
 
     public function testCanNormalizeFilename()

@@ -20,35 +20,35 @@ class AbstractDependenciesStrategyTest extends RocketeerTestCase
 {
     public function testCanShareDependenciesFolder()
     {
+        $prophecy = $this->bindProphecy(Bash::class);
+
         $bower = $this->builder->buildStrategy('Dependencies', 'Bower');
 
         $this->mockFiles(function (MockInterface $mock) {
             return $mock->shouldReceive('has')->with($this->paths->getUserHomeFolder().'/.bowerrc')->andReturn(true);
-        });
-
-        $this->mock(Bash::class, 'Bash', function (MockInterface $mock) {
-            return $mock->shouldReceive('share')->once()->with('bower_components');
         });
 
         $this->pretend();
         $bower->configure(['shared_dependencies' => true]);
         $bower->install();
+
+        $prophecy->share('bower_components')->shouldHaveBeenCalled();
     }
 
     public function testCanCopyDependencies()
     {
+        $prophecy = $this->bindProphecy(Bash::class);
+
         $bower = $this->builder->buildStrategy('Dependencies', 'Bower');
 
         $this->mockFiles(function (MockInterface $mock) {
             return $mock->shouldReceive('has')->with($this->paths->getUserHomeFolder().'/.bowerrc')->andReturn(true);
         });
 
-        $this->mock(Bash::class, 'Bash', function (MockInterface $mock) {
-            return $mock->shouldReceive('copyFromPreviousRelease')->once()->with('bower_components');
-        });
-
         $this->pretend();
         $bower->configure(['shared_dependencies' => 'copy']);
         $bower->install();
+
+        $prophecy->copyFromPreviousRelease('bower_components')->shouldHaveBeenCalled();
     }
 }

@@ -15,7 +15,6 @@ namespace Rocketeer\Services\Connections\Shell\Modules;
 use Mockery\MockInterface;
 use Rocketeer\Binaries\Php;
 use Rocketeer\Console\Commands\AbstractCommand;
-use Rocketeer\Services\Connections\Shell\Bash;
 use Rocketeer\TestCases\RocketeerTestCase;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
@@ -31,11 +30,10 @@ class BinariesTest extends RocketeerTestCase
 
     public function testConsidersAllPossibleWhichOutputs()
     {
-        $this->mock(Bash::class, 'Bash', function ($mockery) {
-            return $mockery
-                ->shouldReceive('runSilently')->with('which foobar')->andReturn('foobar not found')
-                ->shouldReceive('runSilently')->with('which npm')->andReturn('which: no npm in (/usr/local/bin:/bin:/usr/bin)');
-        });
+        $this->mockRemote([
+            'which foobar' => 'foobar not found',
+            'which npm' => 'which: no npm in (/usr/local/bin:/bin:/usr/bin)',
+        ]);
 
         $this->assertEquals(false, $this->bash->rawWhich('foobar'));
         $this->assertEquals(false, $this->bash->rawWhich('npm'));

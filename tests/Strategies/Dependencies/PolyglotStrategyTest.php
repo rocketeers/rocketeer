@@ -12,8 +12,7 @@
 
 namespace Rocketeer\Strategies\Dependencies;
 
-use Mockery;
-use Mockery\MockInterface;
+use Prophecy\Argument;
 use Rocketeer\Services\Connections\Shell\Bash;
 use Rocketeer\TestCases\RocketeerTestCase;
 
@@ -44,18 +43,19 @@ class PolyglotStrategyTest extends RocketeerTestCase
     {
         $this->pretend();
 
-        $this->mock(Bash::class, 'Bash', function (MockInterface $mock) {
-            return $mock
-                ->shouldReceive('fileExists')->andReturn(true)
-                ->shouldReceive('which')->with('composer', Mockery::any(), false)->andReturn('composer')
-                ->shouldReceive('which')->with('bundle', Mockery::any(), false)->andReturn('bundle')
-                ->shouldReceive('runForCurrentRelease')->with('composer install')->andReturn('YUP')
-                ->shouldReceive('runForCurrentRelease')->with('bundle install')->andReturn('bash: bundler: command not found');
-        });
+        /** @var Bash $prophecy */
+        $prophecy = $this->bindProphecy(Bash::class);
+        $prophecy->fileExists()->willReturn(true);
+        $prophecy->which(Argument::cetera())->willReturnArgument(0);
+        $prophecy->runForApplication(Argument::cetera())->willReturn(true);
+        $prophecy->listContents(Argument::cetera())->willReturn();
+        $prophecy->fileExists(Argument::cetera())->willReturn(true);
+        $prophecy->runForApplication('bundle install')->willReturn('bash: bundler: command not found');
 
         $this->usesComposer();
         $this->usesBundler();
 
+        /** @var PolyglotStrategy $polyglot */
         $polyglot = $this->builder->buildStrategy('Dependencies', 'Polyglot');
         $results = $polyglot->install();
 

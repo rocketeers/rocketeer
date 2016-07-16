@@ -12,7 +12,7 @@
 
 namespace Rocketeer\Binaries;
 
-use Mockery\MockInterface;
+use Prophecy\Argument;
 use Rocketeer\Binaries\PackageManagers\Composer;
 use Rocketeer\Binaries\Scm\Git;
 use Rocketeer\Services\Connections\Shell\Bash;
@@ -23,17 +23,17 @@ class AbstractBinaryTest extends RocketeerTestCase
 {
     public function testCanExecuteMethod()
     {
-        $this->mock(Bash::class, 'Bash', function (MockInterface $mock) {
-            return $mock->shouldReceive('run')->once()->withAnyArgs()->andReturnUsing(function ($arguments) {
-                return $arguments;
-            });
+        /** @var Bash $prophecy */
+        $prophecy = $this->bindProphecy(Bash::class);
+        $prophecy->run(Argument::cetera())->shouldBeCalledTimes(1)->will(function ($arguments) {
+            return $arguments;
         });
 
         $scm = new Git($this->container);
         $command = $scm->run('checkout', $this->server);
         $expected = $this->replaceHistoryPlaceholders(['git clone "{repository}" "{server}" --branch="master" --depth="1"']);
 
-        $this->assertEquals($expected[0], $command);
+        $this->assertEquals($expected, $command);
     }
 
     public function testCanProperlyBuildMultivalueOptions()

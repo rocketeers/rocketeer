@@ -12,7 +12,7 @@
 
 namespace Rocketeer\Services\Connections\Shell\Modules;
 
-use Mockery\MockInterface;
+use Prophecy\Argument;
 use Rocketeer\Services\Connections\Shell\Bash;
 use Rocketeer\TestCases\RocketeerTestCase;
 
@@ -20,21 +20,19 @@ class ScmTest extends RocketeerTestCase
 {
     public function testCanForgetCredentialsIfInvalid()
     {
-        $this->container->get('storage.local')->set('credentials', [
+        $this->localStorage->set('credentials', [
             'repository' => 'https://bitbucket.org/Anahkiasen/registry.git',
             'username' => 'Anahkiasen',
             'password' => 'baz',
         ]);
 
-        $this->mock(Bash::class, 'Bash', function (MockInterface $mock) {
-            return $mock
-                ->shouldIgnoreMissing()
-                ->shouldReceive('checkStatus')->andReturn(false);
-        });
+        $prophecy = $this->bindProphecy(Bash::class);
+        $prophecy->run(Argument::cetera())->willReturn();
+        $prophecy->checkStatus(Argument::cetera())->willReturn(false);
 
         $task = $this->pretendTask();
 
         $task->getStrategy('Deploy')->deploy($this->server.'/test');
-        $this->assertNull($this->container->get('storage.local')->get('credentials'));
+        $this->assertNull($this->localStorage->get('credentials'));
     }
 }
