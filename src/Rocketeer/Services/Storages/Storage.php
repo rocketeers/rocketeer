@@ -12,103 +12,38 @@
 
 namespace Rocketeer\Services\Storages;
 
-use Exception;
-use Illuminate\Support\Arr;
+use Cache\Adapter\Common\CacheItem;
+use Cache\Adapter\Filesystem\FilesystemCachePool;
 use League\Flysystem\FilesystemInterface;
 use Rocketeer\Services\Container\Container;
 use Rocketeer\Traits\ContainerAwareTrait;
+use Psr\Cache\CacheItemPoolInterface;
 
 /**
- * Provides and persists informations in the local filesystem.
+ * Provides and persists informations in a filesystem.
+ *
+ * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Storage
 {
-    use ContainerAwareTrait;
-
     /**
      * @var string
      */
     protected $filesystem;
 
     /**
-     * The folder in which to store the storage file.
-     *
-     * @var string
+     * @var CacheItemPoolInterface
      */
-    protected $folder;
+    protected $cache;
 
     /**
-     * The name to use for the storage file.
-     *
-     * @var string
+     * @param FilesystemInterface|string $filesystem
+     * @param string                     $folder
      */
-    protected $filename = 'state';
-
-    /**
-     * A cache of the contents.
-     *
-     * @var array
-     */
-    protected $contents;
-
-    /**
-     * Build a new ServerStorage.
-     *
-     * @param Container $container
-     * @param string    $filesystem
-     * @param string    $folder
-     * @param string    $filename
-     */
-    public function __construct(Container $container, $filesystem, $folder, $filename)
+    public function __construct(FilesystemInterface $filesystem, $folder)
     {
-        $this->container = $container;
         $this->filesystem = $filesystem;
-        $this->folder = $folder;
-        $this->setFilename($filename);
-    }
-
-    /**
-     * @param string $folder
-     */
-    public function setFolder($folder)
-    {
-        $this->folder = $folder;
-    }
-
-    /**
-     * @param string $filename
-     */
-    public function setFilename($filename)
-    {
-        $this->filename = mb_strtolower(basename($filename, '.json'));
-    }
-
-    /**
-     * @return FilesystemInterface
-     */
-    public function getFilesystem()
-    {
-        if ($this->rocketeer->isLocal() || $this->filesystem === 'local') {
-            return $this->files;
-        }
-
-        return $this->filesystems->getFilesystem($this->filesystem);
-    }
-
-    /**
-     * @return string
-     */
-    public function getFilename()
-    {
-        return $this->filename.'.json';
-    }
-
-    /**
-     * @return string
-     */
-    public function getFilepath()
-    {
-        return $this->folder.DS.$this->getFilename();
+        $this->cache = new FilesystemCachePool($filesystem);
     }
 
     //////////////////////////////////////////////////////////////////////
@@ -118,16 +53,14 @@ class Storage
     /**
      * Get a value in storage.
      *
-     * @param string|null                $key
+     * @param string                     $key
      * @param array|string|callable|null $fallback
      *
-     * @return string|int|array
+     * @return mixed
      */
-    public function get($key = null, $fallback = null)
+    public function get($key, $fallback = null)
     {
-        $contents = $this->getContents();
-
-        return Arr::get($contents, $key, $fallback);
+        return $this->cache->getItem($key)->get() ?: $fallback;
     }
 
     /**
@@ -138,15 +71,19 @@ class Storage
      */
     public function set($key, $value = null)
     {
-        // Set the value on the contents
-        $contents = (array) $this->getContents();
+        // Recursive set
         if (is_array($key)) {
-            $contents = $key;
-        } else {
-            Arr::set($contents, $key, $value);
+            foreach ($key as $k => $v) {
+                $this->set($k, $v);
+            }
+
+            return;
         }
 
-        $this->saveContents($contents);
+        $item = new CacheItem($key);
+        $item->set($value);
+
+        $this->cache->save($item);
     }
 
     /**
@@ -156,47 +93,7 @@ class Storage
      */
     public function forget($key)
     {
-        $contents = $this->getContents();
-        Arr::forget($contents, $key);
-
-        $this->saveContents($contents);
-    }
-
-    /**
-     * Get the full contents of the storage file.
-     *
-     * @return array
-     */
-    protected function getContents()
-    {
-        // Cancel if the file doesn't exist
-        if (!$this->getFilesystem()->has($this->getFilepath())) {
-            return [];
-        }
-
-        // Get and parse file
-        if ($this->contents === null) {
-            $this->contents = $this->getFilesystem()->read($this->getFilepath());
-            $this->contents = json_decode($this->contents, true);
-        }
-
-        return (array) $this->contents;
-    }
-
-    /**
-     * Save the contents of the storage file.
-     *
-     * @param array $contents
-     */
-    protected function saveContents($contents)
-    {
-        $this->contents = $contents;
-
-        try {
-            $this->getFilesystem()->put($this->getFilepath(), json_encode($contents));
-        } catch (Exception $e) {
-            // ...
-        }
+        $this->cache->deleteItem($key);
     }
 
     /**
@@ -206,11 +103,8 @@ class Storage
      */
     public function destroy()
     {
-        $this->contents = [];
-        $filepath = $this->getFilepath();
-
-        if ($this->getFilesystem()->has($filepath)) {
-            return $this->getFilesystem()->delete($filepath);
+        if ($this->filesystem->has('cache')) {
+            return $this->cache->clear();
         }
     }
 }

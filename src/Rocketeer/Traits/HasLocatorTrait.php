@@ -138,6 +138,7 @@ trait HasLocatorTrait
             'history' => History::class,
             'igniter' => RocketeerIgniter::class,
             'localStorage' => 'storage.local',
+            'remoteStorage' => 'storage.remote',
             'logs' => LogsHandler::class,
             'paths' => Pathfinder::class,
             'queue' => TasksQueue::class,
