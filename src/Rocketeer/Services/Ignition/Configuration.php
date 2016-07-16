@@ -47,8 +47,8 @@ class Configuration
     public function loadUserConfiguration()
     {
         // Load .env file
-        if (file_exists(getcwd().'/.env')) {
-            $dotenv = new Dotenv(getcwd());
+        if (file_exists($this->paths->getDotenvPath())) {
+            $dotenv = new Dotenv($this->paths->getBasePath());
             $dotenv->load();
         }
 

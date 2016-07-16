@@ -95,6 +95,16 @@ class LocalPathfinder extends AbstractPathfinderModule
     }
 
     /**
+     * @return string
+     */
+    public function getDotenvPath()
+    {
+        $path = $this->modulable->getBasePath().'.env';
+
+        return $this->modulable->unifyLocalSlashes($path);
+    }
+
+    /**
      * Get path to the storage folder.
      *
      * @return string
@@ -124,6 +134,7 @@ class LocalPathfinder extends AbstractPathfinderModule
             'getConfigurationCachePath',
             'getConfigurationPath',
             'getDefaultKeyPath',
+            'getDotenvPath',
             'getRocketeerConfigFolder',
             'getStoragePath',
             'getUserHomeFolder',
