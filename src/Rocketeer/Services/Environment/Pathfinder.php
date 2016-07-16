@@ -25,6 +25,8 @@ use Rocketeer\Traits\ContainerAwareTrait;
  * @mixin LocalPathfinder
  * @mixin ServerPathfinder
  *
+ * @method string getConfigurationPath()
+ *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Pathfinder implements ModulableInterface, ContainerAwareInterface

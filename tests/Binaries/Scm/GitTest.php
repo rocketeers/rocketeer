@@ -12,10 +12,8 @@
 
 namespace Rocketeer\Scm;
 
-use Mockery\MockInterface;
 use Rocketeer\Binaries\Scm\Git;
 use Rocketeer\Rocketeer;
-use Rocketeer\Services\Config\ContextualConfiguration;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class GitTest extends RocketeerTestCase
@@ -61,9 +59,8 @@ class GitTest extends RocketeerTestCase
 
     public function testCanGetCheckout()
     {
-        $this->mock(ContextualConfiguration::class, ContextualConfiguration::class, function (MockInterface $mock) {
-            return $mock->shouldReceive('getContextually')->once()->with('scm.shallow')->andReturn(true);
-        });
+        $this->config->set('scm.shallow', true);
+
         $this->swapRepositoryCredentials([
             'endpoint' => 'http://github.com/my/repository',
             'branch' => 'develop',
@@ -76,9 +73,7 @@ class GitTest extends RocketeerTestCase
 
     public function testCanGetDeepClone()
     {
-        $this->mock(ContextualConfiguration::class, ContextualConfiguration::class, function (MockInterface $mock) {
-            return $mock->shouldReceive('getContextually')->once()->with('scm.shallow')->andReturn(false);
-        });
+        $this->config->set('scm.shallow', false);
 
         $this->swapRepositoryCredentials([
             'endpoint' => 'http://github.com/my/repository',

@@ -12,9 +12,8 @@
 
 namespace Rocketeer\Tasks;
 
-use Mockery\MockInterface;
 use Rocketeer\Binaries\PackageManagers\Composer;
-use Rocketeer\Strategies\Check\AbstractCheckStrategy;
+use Rocketeer\Strategies\Check\PhpStrategy;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class CheckTest extends RocketeerTestCase
@@ -44,15 +43,14 @@ class CheckTest extends RocketeerTestCase
 
     public function testStopsCheckingIfErrorOccured()
     {
-        $this->mock('rocketeer.strategies.check', AbstractCheckStrategy::class, function (
-            MockInterface $mock
-        ) {
-            return $mock
-                ->shouldReceive('isExecutable')->andReturn(true)
-                ->shouldReceive('displayStatus')->andReturnSelf()
-                ->shouldReceive('manager')->andReturn(true)
-                ->shouldReceive('language')->andReturn(false)
-                ->shouldReceive('extensions')->never();
+        /** @var PhpStrategy $prophecy */
+        $prophecy = $this->bindProphecy(PhpStrategy::class, 'rocketeer.strategies.check');
+        $prophecy->isExecutable()->willReturn(true);
+        $prophecy->manager()->willReturn(true);
+        $prophecy->language()->willReturn(false);
+        $prophecy->extensions()->shouldNotBeCalled();
+        $prophecy->displayStatus()->will(function () {
+            return $this;
         });
 
         $this->swapConfig([

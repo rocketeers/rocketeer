@@ -22,6 +22,8 @@ use Rocketeer\Traits\ContainerAwareTrait;
 /**
  * @mixin ConnectionsKeychain
  * @mixin RepositoriesKeychain
+ *
+ * @method RepositoryKey getCurrentRepository()
  */
 class CredentialsHandler implements ModulableInterface, ContainerAwareInterface
 {

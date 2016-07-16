@@ -12,7 +12,8 @@
 
 namespace Rocketeer\Strategies\Dependencies;
 
-use Mockery\MockInterface;
+use League\Flysystem\Filesystem;
+use Prophecy\Argument;
 use Rocketeer\Services\Connections\Shell\Bash;
 use Rocketeer\TestCases\RocketeerTestCase;
 
@@ -24,9 +25,11 @@ class AbstractDependenciesStrategyTest extends RocketeerTestCase
 
         $bower = $this->builder->buildStrategy('Dependencies', 'Bower');
 
-        $this->mockFiles(function (MockInterface $mock) {
-            return $mock->shouldReceive('has')->with($this->paths->getUserHomeFolder().'/.bowerrc')->andReturn(true);
-        });
+        /** @var Filesystem $files */
+        $files = $this->bindProphecy(Filesystem::class);
+        $files->read(Argument::any())->willReturn();
+        $files->has(Argument::any())->willReturn();
+        $files->has($this->paths->getUserHomeFolder().'/.bowerrc')->willReturn(true);
 
         $this->pretend();
         $bower->configure(['shared_dependencies' => true]);
@@ -41,9 +44,11 @@ class AbstractDependenciesStrategyTest extends RocketeerTestCase
 
         $bower = $this->builder->buildStrategy('Dependencies', 'Bower');
 
-        $this->mockFiles(function (MockInterface $mock) {
-            return $mock->shouldReceive('has')->with($this->paths->getUserHomeFolder().'/.bowerrc')->andReturn(true);
-        });
+        /** @var Filesystem $files */
+        $files = $this->bindProphecy(Filesystem::class);
+        $files->read(Argument::any())->willReturn();
+        $files->has(Argument::any())->willReturn();
+        $files->has($this->paths->getUserHomeFolder().'/.bowerrc')->willReturn(true);
 
         $this->pretend();
         $bower->configure(['shared_dependencies' => 'copy']);

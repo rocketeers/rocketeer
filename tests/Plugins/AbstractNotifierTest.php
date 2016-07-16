@@ -12,12 +12,13 @@
 
 namespace Rocketeer\Plugins;
 
-use Mockery\MockInterface;
+use Prophecy\Argument;
 use Rocketeer\Dummies\DummyNotifier;
 use Rocketeer\Services\Connections\ConnectionsHandler;
 use Rocketeer\Services\Connections\Credentials\CredentialsHandler;
 use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
 use Rocketeer\Services\Connections\Credentials\Keys\RepositoryKey;
+use Rocketeer\Services\Storages\Storage;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class AbstractNotifierTest extends RocketeerTestCase
@@ -47,28 +48,27 @@ class AbstractNotifierTest extends RocketeerTestCase
         $this->expectOutputString('foobar finished deploying rocketeers/rocketeer/master on "production/staging" (foo.bar.com)');
 
         $this->mockCommand([], ['ask' => 'foobar']);
-        $this->mock('storage.local', 'Storage', function (MockInterface $mock) {
-            return $mock
-                ->shouldIgnoreMissing()
-                ->shouldReceive('get')->with('connections')
-                ->shouldReceive('get')->with('notifier.name')->andReturn(null)
-                ->shouldReceive('set')->once()->with('notifier.name', 'foobar');
-        });
-        $this->mock(ConnectionsHandler::class, ConnectionsHandler::class, function (MockInterface $mock) {
-            $handle = new ConnectionKey(['name' => 'production', 'server' => 0, 'stage' => 'staging']);
-            $handle->servers = [['host' => 'foo.bar.com']];
 
-            return $mock
-                ->shouldReceive('getCurrentConnectionKey')->andReturn($handle);
-        });
+        /** @var Storage $prophecy */
+        $prophecy = $this->bindProphecy(Storage::class, 'storage.local');
+        $prophecy->get(Argument::cetera())->willReturn();
+        $prophecy->set(Argument::cetera())->willReturn();
+        $prophecy->set('notifier.name', 'foobar')->shouldBeCalled();
 
-        $this->mock(CredentialsHandler::class, CredentialsHandler::class, function (MockInterface $mock) {
-            return $mock
-                ->shouldReceive('getCurrentRepository')->andReturn(new RepositoryKey([
-                    'endpoint' => 'rocketeers/rocketeer',
-                    'branch' => 'master',
-                ]));
-        });
+        $handle = new ConnectionKey(['name' => 'production', 'server' => 0, 'stage' => 'staging']);
+        $handle->servers = [['host' => 'foo.bar.com']];
+
+        /** @var ConnectionsHandler $prophecy */
+        $prophecy = $this->bindProphecy(ConnectionsHandler::class);
+        $prophecy->getAvailableConnections()->willReturn();
+        $prophecy->getAvailableStages()->willReturn();
+        $prophecy->getCurrentConnectionKey()->willReturn($handle);
+
+        $prophecy = $this->bindProphecy(CredentialsHandler::class);
+        $prophecy->getCurrentRepository()->willReturn(new RepositoryKey([
+            'endpoint' => 'rocketeers/rocketeer',
+            'branch' => 'master',
+        ]));
 
         $this->task('deploy')->fireEvent('before');
     }

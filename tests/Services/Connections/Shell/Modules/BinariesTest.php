@@ -12,11 +12,8 @@
 
 namespace Rocketeer\Services\Connections\Shell\Modules;
 
-use Mockery\MockInterface;
 use Rocketeer\Binaries\Php;
-use Rocketeer\Console\Commands\AbstractCommand;
 use Rocketeer\TestCases\RocketeerTestCase;
-use Symfony\Component\Console\Output\ConsoleOutput;
 
 class BinariesTest extends RocketeerTestCase
 {
@@ -113,29 +110,15 @@ class BinariesTest extends RocketeerTestCase
     public function testCanRunComposer()
     {
         $this->usesComposer();
-        $this->mock('rocketeer.command', AbstractCommand::class, function (MockInterface $mock) {
-            return $mock
-                ->shouldIgnoreMissing()
-                ->shouldReceive('getOutput')->andReturn(new ConsoleOutput())
-                ->shouldReceive('line')
-                ->shouldReceive('option')->andReturn([]);
-        });
 
         $this->pretendTask('Dependencies')->execute();
 
-        $this->assertCount(2, $this->history->getFlattenedHistory()[0]);
+        $this->assertContains('composer install', $this->history->getFlattenedHistory()[0][1]);
     }
 
     public function testDoesntRunComposerIfNotNeeded()
     {
         $this->usesComposer(false);
-        $this->mock('rocketeer.command', AbstractCommand::class, function (MockInterface $mock) {
-            return $mock
-                ->shouldIgnoreMissing()
-                ->shouldReceive('getOutput')->andReturn(new ConsoleOutput())
-                ->shouldReceive('line')
-                ->shouldReceive('option')->andReturn([]);
-        });
 
         $this->pretendTask('Dependencies')->execute();
         $this->assertEmpty($this->history->getFlattenedHistory());

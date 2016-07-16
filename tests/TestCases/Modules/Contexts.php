@@ -12,7 +12,6 @@
 
 namespace Rocketeer\TestCases\Modules;
 
-use Mockery\MockInterface;
 use Rocketeer\Plugins\Laravel\LaravelPlugin;
 use Rocketeer\Services\Connections\Credentials\CredentialsHandler;
 use Rocketeer\Services\Connections\Credentials\Keys\RepositoryKey;
@@ -128,11 +127,9 @@ trait Contexts
      */
     protected function swapRepositoryCredentials(array $credentials)
     {
-        $this->mock(CredentialsHandler::class, CredentialsHandler::class, function (MockInterface $mock) use (
-            $credentials
-        ) {
-            return $mock->shouldReceive('getCurrentRepository')->andReturn(new RepositoryKey($credentials));
-        });
+        /** @var CredentialsHandler $prophecy */
+        $prophecy = $this->bindProphecy(CredentialsHandler::class);
+        $prophecy->getCurrentRepository()->willReturn(new RepositoryKey($credentials));
     }
 
     /**

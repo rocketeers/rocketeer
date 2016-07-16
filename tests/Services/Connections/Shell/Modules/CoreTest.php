@@ -14,7 +14,6 @@ namespace Rocketeer\Services\Connections\Shell\Modules;
 
 use Mockery\MockInterface;
 use Rocketeer\Dummies\Tasks\DummyShelledTask;
-use Rocketeer\Services\Connections\ConnectionsFactory;
 use Rocketeer\TestCases\RocketeerTestCase;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -82,18 +81,6 @@ class CoreTest extends RocketeerTestCase
 
         $result = $this->bash->run('npm --version');
         $this->assertEquals('1.2.3', $result);
-    }
-
-    public function testCanRunCommandsLocally()
-    {
-        $this->mock(ConnectionsFactory::class, ConnectionsFactory::class, function (MockInterface $mock) {
-            return $mock->shouldReceive('run')->never();
-        });
-
-        $this->task->setLocal(true);
-        $contents = $this->task->runRaw('ls', true, true);
-
-        $this->assertListDirectory($contents);
     }
 
     public function testCanConvertDirectorySeparators()

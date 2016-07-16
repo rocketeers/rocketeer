@@ -12,8 +12,8 @@
 
 namespace Rocketeer\Services;
 
-use Mockery\MockInterface;
 use Rocketeer\Services\Connections\Shell\Bash;
+use Rocketeer\Services\Storages\Storage;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class ReleasesManagerTest extends RocketeerTestCase
@@ -90,12 +90,6 @@ class ReleasesManagerTest extends RocketeerTestCase
 
     public function testCanGetCurrentReleaseFromServerIfUncached()
     {
-        $this->mock('storage.local', 'Storage', function (MockInterface $mock) {
-            return $mock
-                ->shouldReceive('getSeparator')->andReturn('/')
-                ->shouldReceive('getLineEndings')->andReturn(PHP_EOL);
-        });
-
         $currentRelease = $this->releasesManager->getCurrentRelease();
 
         $this->assertEquals(20000000000000, $currentRelease);
