@@ -22,42 +22,13 @@ use Rocketeer\TestCases\RocketeerTestCase;
 
 class StorageTest extends RocketeerTestCase
 {
-    public function testCanInferStorageName()
-    {
-        $container = new Container();
-        $container->add('path.base', $this->server);
-        $container->add(ContextualConfiguration::class, new Configuration([
-            'config' => [
-                'application_name' => '{application_name}',
-            ],
-        ]));
-
-        /** @var Storage $storage */
-        $storage = $container->get('storage.local');
-
-        $this->assertEquals('rocketeer.json', $storage->getFilename());
-    }
-
-    public function testCanNormalizeFilename()
-    {
-        $this->localStorage->setFilename('foo/Bar.json');
-
-        $this->assertEquals('bar.json', $this->localStorage->getFilename());
-    }
-
     public function testCanSwapContents()
     {
         $matcher = ['foo' => 'caca'];
         $this->localStorage->set($matcher);
-        $contents = $this->localStorage->get();
-        unset($contents['hash']);
+        $contents = $this->localStorage->get('foo');
 
-        $this->assertEquals($matcher, $contents);
-    }
-
-    public function testCanGetValue()
-    {
-        $this->assertEquals('bar', $this->localStorage->get('foo'));
+        $this->assertEquals('caca', $contents);
     }
 
     public function testCanSetValue()
@@ -69,9 +40,10 @@ class StorageTest extends RocketeerTestCase
 
     public function testCanDestroy()
     {
+        $this->localStorage->set('foo', 'bar');
         $this->localStorage->destroy();
 
-        $this->assertFalse($this->files->has($this->localStorage->getFilepath()));
+        $this->assertNull($this->localStorage->get('foo'));
     }
 
     public function testDoesntTryToDestroyTwice()

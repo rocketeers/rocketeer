@@ -13,16 +13,18 @@
 namespace Rocketeer\Services\Storages;
 
 use League\Container\ServiceProvider\AbstractServiceProvider;
-use Rocketeer\Services\Config\ContextualConfiguration;
-use Rocketeer\Services\Environment\Pathfinder;
+use Rocketeer\Traits\HasLocatorTrait;
 
 class StorageServiceProvider extends AbstractServiceProvider
 {
+    use HasLocatorTrait;
+
     /**
      * @var array
      */
     protected $provides = [
         'storage.local',
+        'storage.remote',
     ];
 
     /**
@@ -30,17 +32,16 @@ class StorageServiceProvider extends AbstractServiceProvider
      */
     public function register()
     {
-        $this->container->share('storage.local', function () {
-            /** @var Pathfinder $pathfinder */
-            $pathfinder = $this->container->get(Pathfinder::class);
+        $this->container->add('storage.remote', function () {
+            $filesystem = $this->rocketeer->isLocal()
+                ? $this->files
+                : $this->flysystem->get('remote');
 
-            // Get filename and folder
-            $folder = $pathfinder->getRocketeerConfigFolder();
-            $default = $pathfinder->getBasePath();
-            $filename = $this->container->get(ContextualConfiguration::class)->get('application_name');
-            $filename = $filename === '{application_name}' ? $default : $filename;
+            return new ServerStorage($this->container, $filesystem, $this->paths->getRocketeerConfigFolder());
+        });
 
-            return new Storage($this->container, 'local', $folder, $filename);
+        $this->container->add('storage.local', function () {
+            return new Storage($this->files, $this->paths->getRocketeerConfigFolder());
         });
     }
 }

@@ -48,13 +48,6 @@ class ReleasesManager
     protected $nextRelease;
 
     /**
-     * The storage.
-     *
-     * @var ServerStorage
-     */
-    protected $storage;
-
-    /**
      * Build a new ReleasesManager.
      *
      * @param Container $container
@@ -62,7 +55,6 @@ class ReleasesManager
     public function __construct(Container $container)
     {
         $this->container = $container;
-        $this->storage = new ServerStorage($this->container);
         $this->state = $this->getValidationFile();
     }
 
@@ -218,7 +210,7 @@ class ReleasesManager
      */
     public function getValidationFile()
     {
-        $file = $this->storage->get();
+        $file = $this->remoteStorage->get();
 
         // Fill the missing releases
         $releases = $this->getReleases();
@@ -248,7 +240,7 @@ class ReleasesManager
         // If the release is not null, mark it as valid
         if ($release) {
             $this->state[$release] = $state;
-            $this->storage->set($release, $state);
+            $this->remoteStorage->set($release, $state);
         }
     }
 

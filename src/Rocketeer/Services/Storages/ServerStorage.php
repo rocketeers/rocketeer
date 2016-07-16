@@ -13,34 +13,26 @@
 namespace Rocketeer\Services\Storages;
 
 use Rocketeer\Container;
+use Rocketeer\Traits\ContainerAwareTrait;
 
 class ServerStorage extends Storage
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function __construct(Container $container)
+    use ContainerAwareTrait;
+
+    public function __construct(Container $container, $filesystem, $folder)
     {
         $this->container = $container;
 
-        parent::__construct($container, 'remote', $this->paths->getFolder(), 'state');
+        parent::__construct($filesystem, $folder);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getFilepath()
-    {
-        return $this->paths->getFolder().DS.$this->getFilename();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function saveContents($contents)
+    public function set($key, $value = null)
     {
         if (!$this->getOption('pretend')) {
-            parent::saveContents($contents);
+            return parent::set($key, $value);
         }
     }
 }

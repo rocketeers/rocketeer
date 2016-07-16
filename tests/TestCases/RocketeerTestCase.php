@@ -82,13 +82,6 @@ abstract class RocketeerTestCase extends ContainerTestCase
 
         $this->recreateVirtualServer();
 
-        // Bind new Storage instance
-        $this->container->share('storage.local', function () {
-            $folder = dirname($this->deploymentsFile);
-
-            return new Storage($this->container, 'local', $folder, 'deployments');
-        });
-
         // Mock OS
         $this->mockOperatingSystem('Linux');
 

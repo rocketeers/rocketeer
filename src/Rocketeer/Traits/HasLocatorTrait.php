@@ -71,6 +71,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @property \Rocketeer\Services\Releases\ReleasesManager                    releasesManager
  * @property \Rocketeer\Services\Roles\RolesManager                          roles
  * @property \Rocketeer\Services\Storages\Storage                            localStorage
+ * @property \Rocketeer\Services\Storages\Storage                            remoteStorage
  * @property \Rocketeer\Services\Builders\Builder                            builder
  * @property \Rocketeer\Services\Tasks\TasksQueue                            queue
  * @property \Rocketeer\Services\Tasks\TasksHandler                          tasks
@@ -130,6 +131,7 @@ trait HasLocatorTrait
             'filesystems' => MountManager::class,
             'history' => History::class,
             'localStorage' => 'storage.local',
+            'remoteStorage' => 'storage.remote',
             'logs' => LogsHandler::class,
             'paths' => Pathfinder::class,
             'queue' => TasksQueue::class,

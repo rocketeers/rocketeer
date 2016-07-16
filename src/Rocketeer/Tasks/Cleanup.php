@@ -32,21 +32,6 @@ class Cleanup extends AbstractTask
     protected $description = 'Clean up old releases from the server';
 
     /**
-     * @var Storage
-     */
-    protected $serverStorage;
-
-    /**
-     * @param Container $container
-     */
-    public function __construct(Container $container)
-    {
-        parent::__construct($container);
-
-        $this->serverStorage = new ServerStorage($container);
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function execute()
@@ -69,7 +54,7 @@ class Cleanup extends AbstractTask
 
         // Delete state file
         if ($this->getOption('clean-all', true)) {
-            $this->serverStorage->destroy();
+            $this->remoteStorage->destroy();
             $this->releasesManager->markReleaseAsValid();
         }
 
@@ -96,7 +81,7 @@ class Cleanup extends AbstractTask
     protected function cleanStates(array $trash)
     {
         foreach ($trash as $release) {
-            $this->serverStorage->forget($release);
+            $this->remoteStorage->forget($release);
         }
     }
 }
