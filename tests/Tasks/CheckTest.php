@@ -82,7 +82,7 @@ class CheckTest extends RocketeerTestCase
         $this->task('Check')->fire();
 
         $logs = $this->logs->getLogs();
-        $this->assertContains('{username}@production:$ '.$expected, last($logs));
+        $this->assertContains('{username}@production: '.$expected, last($logs));
     }
 
     public function providesManagerStatus()

@@ -14,6 +14,7 @@ namespace Rocketeer\Services\History;
 
 use Illuminate\Support\Arr;
 use Monolog\Formatter\LineFormatter;
+use Monolog\Handler\DeduplicationHandler;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
@@ -77,7 +78,7 @@ class LogsHandler
         }
 
         // Set formatter and handler on Logger
-        $handler->setFormatter(new LineFormatter('[%datetime%] %channel%:$ %message%'));
+        $handler->setFormatter(new LineFormatter('[%datetime%] %channel%: %message%'.PHP_EOL));
         $logger->pushHandler($handler);
         $this->loggers[$channel] = $logger;
 

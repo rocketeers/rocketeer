@@ -44,10 +44,12 @@ class LogsHandlerTest extends RocketeerTestCase
     public function testCanLogInformations()
     {
         $this->logs->log('foobar');
+        $this->logs->log('bar');
         $realpath = $this->logs->getLogsRealpath();
         $logs = $this->files->read($realpath);
 
         $this->assertContains('foobar', $logs);
+        $this->assertCount(3, explode(PHP_EOL, $logs));
     }
 
     public function testCanCreateLogsFolderIfItDoesntExistAlready()
@@ -82,8 +84,8 @@ class LogsHandlerTest extends RocketeerTestCase
 
         $logs = $this->logs->getFlattenedLogs();
 
-        $this->assertContains('{username}@production:$ $ pwd', $logs);
-        $this->assertContains('{username}@production:$ Some path', $logs);
+        $this->assertContains('{username}@production: $ pwd', $logs);
+        $this->assertContains('{username}@production: Some path', $logs);
     }
 
     public function testLogsMessagesFromExplainerToo()
@@ -93,8 +95,8 @@ class LogsHandlerTest extends RocketeerTestCase
 
         $logs = $this->logs->getFlattenedLogs();
 
-        $this->assertContains('{username}@production:$ $ pwd', $logs);
-        $this->assertContains('{username}@production:$ Getting the current path', $logs);
+        $this->assertContains('{username}@production: $ pwd', $logs);
+        $this->assertContains('{username}@production: Getting the current path', $logs);
     }
 
     public function testCanHaveStaticFilenames()
@@ -125,6 +127,6 @@ class LogsHandlerTest extends RocketeerTestCase
         $this->explainer->server('foobar');
         $logs = $this->logs->getLogs();
 
-        $this->assertContains('{username}@production:$ foobar', $logs[0]);
+        $this->assertContains('{username}@production: foobar', $logs[0]);
     }
 }
