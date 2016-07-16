@@ -18,21 +18,21 @@ class EnvironmentTest extends RocketeerTestCase
 {
     public function testCanGetLineEndings()
     {
-        $this->localStorage->destroy();
+        $this->localStorage->clear();
 
         $this->assertEquals(PHP_EOL, $this->environment->getLineEndings());
     }
 
     public function testCanGetSeparators()
     {
-        $this->localStorage->destroy();
+        $this->localStorage->clear();
 
         $this->assertEquals(DIRECTORY_SEPARATOR, $this->environment->getSeparator());
     }
 
     public function testCanGetOperatingSystem()
     {
-        $this->localStorage->destroy();
+        $this->localStorage->clear();
 
         $this->assertEquals(PHP_OS, $this->environment->getOperatingSystem());
     }

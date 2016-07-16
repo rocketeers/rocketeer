@@ -14,7 +14,6 @@ namespace Rocketeer\Services\Releases;
 
 use Illuminate\Support\Arr;
 use Rocketeer\Container;
-use Rocketeer\Services\Storages\ServerStorage;
 use Rocketeer\Traits\ContainerAwareTrait;
 
 /**
@@ -74,6 +73,7 @@ class ReleasesManager
         if (!array_key_exists($connection, $this->releases)) {
             $releases = $this->getReleasesPath();
             $releases = (array) $this->bash->listContents($releases);
+            dump($releases);
 
             // Filter and sort releases
             $releases = array_filter($releases, function ($release) {
@@ -210,7 +210,7 @@ class ReleasesManager
      */
     public function getValidationFile()
     {
-        $file = $this->remoteStorage->get();
+        $file = (array) $this->remoteStorage->get('releases');
 
         // Fill the missing releases
         $releases = $this->getReleases();
@@ -240,7 +240,7 @@ class ReleasesManager
         // If the release is not null, mark it as valid
         if ($release) {
             $this->state[$release] = $state;
-            $this->remoteStorage->set($release, $state);
+            $this->remoteStorage->set('releases.'.$release, $state);
         }
     }
 

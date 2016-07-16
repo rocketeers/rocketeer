@@ -12,8 +12,6 @@
 
 namespace Rocketeer\TestCases;
 
-use Rocketeer\Services\Storages\Storage;
-
 abstract class RocketeerTestCase extends ContainerTestCase
 {
     /**
@@ -80,9 +78,8 @@ abstract class RocketeerTestCase extends ContainerTestCase
         // Bind dummy AbstractTask
         $this->task = $this->task('Cleanup');
 
-        $this->recreateVirtualServer();
-
         // Mock OS
+        $this->recreateVirtualServer();
         $this->mockOperatingSystem('Linux');
 
         // Cache paths
@@ -115,11 +112,11 @@ abstract class RocketeerTestCase extends ContainerTestCase
         $this->files->createDir($this->server.'/releases/20000000000000');
         $this->files->createDir($this->server.'/current');
 
-        $this->files->put($this->server.'/state.json', json_encode([
+        $this->mockState([
             '10000000000000' => true,
             '15000000000000' => false,
             '20000000000000' => true,
-        ]));
+        ]);
 
         $this->files->put($this->server.'/deployments.json', json_encode([
             'foo' => 'bar',

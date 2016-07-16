@@ -13,9 +13,6 @@
 namespace Rocketeer\Tasks;
 
 use Illuminate\Support\Str;
-use Rocketeer\Container;
-use Rocketeer\Services\Storages\ServerStorage;
-use Rocketeer\Services\Storages\Storage;
 
 /**
  * Clean up old releases from the server.
@@ -54,7 +51,7 @@ class Cleanup extends AbstractTask
 
         // Delete state file
         if ($this->getOption('clean-all', true)) {
-            $this->remoteStorage->destroy();
+            $this->remoteStorage->clear();
             $this->releasesManager->markReleaseAsValid();
         }
 

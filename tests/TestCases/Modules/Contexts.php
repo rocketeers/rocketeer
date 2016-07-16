@@ -62,10 +62,7 @@ trait Contexts
      */
     protected function mockState(array $state)
     {
-        $contents = json_encode($state);
-        $file = $this->server.'/state.json';
-
-        $this->files->upsert($file, $contents);
+        $this->remoteStorage->set('releases', $state);
     }
 
     /**
