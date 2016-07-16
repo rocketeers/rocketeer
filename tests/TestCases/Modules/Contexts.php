@@ -25,6 +25,16 @@ use Rocketeer\Services\Connections\Credentials\Keys\RepositoryKey;
 trait Contexts
 {
     /**
+     * @param string $path
+     * @param string $directorySeparator
+     */
+    protected function mockBasepath($path, $directorySeparator = DIRECTORY_SEPARATOR)
+    {
+        $this->container->add('path.base', $path);
+        $this->container->add('path.rocketeer.config', $path.$directorySeparator.'.rocketeer');
+    }
+
+    /**
      * @param string|null $system
      */
     protected function mockOperatingSystem($system = null)

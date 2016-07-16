@@ -70,7 +70,6 @@ TXT
 
         // Export configuration
         $this->exportConfiguration($applicationName);
-
         $this->command->writeln('Okay, you are ready to send your projects in the cloud. Fire away rocketeer!');
     }
 
@@ -86,7 +85,7 @@ TXT
         }
 
         // Write to disk
-        $this->files->put(getcwd().'/.env', $dotenv);
+        $this->files->put($this->paths->getBasePath().'.env', $dotenv);
         $this->command->writeln('<info>A <comment>.env</comment> file with your credentials has been created!</info>');
         $this->command->writeln('Do not track this file in your repository, <error>it is meant to be private</error>');
     }
@@ -110,6 +109,5 @@ TXT
         // Summary
         $folder = basename(dirname($path)).'/'.basename($path);
         $this->command->writeln('<info>Your configuration was exported at</info> <comment>'.$folder.'</comment>.');
-        $this->command->writeln('Go take a look at it now and update everything that needs updatin\'');
     }
 }

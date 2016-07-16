@@ -158,11 +158,11 @@ abstract class AbstractCommand extends Command implements IdentifierInterface, C
         // Additional credentials passed to Rocketeer
         $credentials = [
             ['host', null, InputOption::VALUE_REQUIRED, 'The host to use if asked'],
+            ['root', null, InputOption::VALUE_REQUIRED, 'The root directory to use if asked'],
             ['username', null, InputOption::VALUE_REQUIRED, 'The username to use if asked'],
             ['password', null, InputOption::VALUE_REQUIRED, 'The password to use if asked'],
             ['key', null, InputOption::VALUE_REQUIRED, 'The key to use if asked'],
             ['keyphrase', null, InputOption::VALUE_REQUIRED, 'The keyphrase to use if asked'],
-            ['agent', null, InputOption::VALUE_REQUIRED, 'The agent to use if asked'],
             ['repository', null, InputOption::VALUE_REQUIRED, 'The repository to use if asked'],
         ];
 

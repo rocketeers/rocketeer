@@ -13,9 +13,11 @@
 namespace Rocketeer\Services\Connections\Credentials;
 
 use Closure;
-use Illuminate\Support\Str;
 use Rocketeer\Traits\ContainerAwareTrait;
 
+/**
+ * Collects the needed credentials from the user
+ */
 class CredentialsGatherer
 {
     use ContainerAwareTrait;
@@ -110,31 +112,36 @@ class CredentialsGatherer
         $uppercased = strtoupper($connectionName);
         $privateKey = $this->command->confirm('Do you use an SSH key to connect to it?');
 
-        $credentials = $privateKey ? [
-            $uppercased.'_KEY' => ['Where can I find your key?', $this->paths->getDefaultKeyPath()],
-            $uppercased.'_KEYPHRASE' => 'If it needs a passphrase enter it',
-            $uppercased.'_HOST' => 'Where is your server located? <comment>(eg. foobar.com)</comment>',
-            $uppercased.'_USERNAME' => 'What is the username for it?',
-            $uppercased.'_ROOT' => ['Where do you want your application deployed?', '/home/www/'],
+        $questions = $privateKey ? [
+            'key' => ['Where can I find your key?', $this->paths->getDefaultKeyPath()],
+            'keyphrase' => 'If it needs a passphrase enter it',
+            'host' => 'Where is your server located? <comment>(eg. foobar.com)</comment>',
+            'username' => 'What is the username for it?',
+            'root' => ['Where do you want your application deployed?', '/home/www/'],
         ] : [
-            $uppercased.'_HOST' => 'Where is your server located?',
-            $uppercased.'_USERNAME' => 'What is the username for it?',
-            $uppercased.'_PASSWORD' => 'And password?',
-            $uppercased.'_ROOT' => ['Where do you want your application deployed?', '/home/www/'],
+            'host' => 'Where is your server located?',
+            'username' => 'What is the username for it?',
+            'password' => 'And password?',
+            'root' => ['Where do you want your application deployed?', '/home/www/'],
         ];
 
-        foreach ($credentials as $credential => $question) {
+        $credentials = [];
+        foreach ($questions as $credential => $question) {
+            // Prepend connection name to question
             $question = (array) $question;
             $question[0] = '<fg=magenta>['.$connectionName.']</fg=magenta> '.$question[0];
 
-            if (Str::contains($credential, ['KEYPHRASE', 'PASSWORD'])) {
+            // Get the credential, either through options or prompt
+            if ($option = $this->command->option($credential)) {
+                $answer = $option;
+            } elseif (in_array($credential, ['keyphrase', 'password'], true)) {
                 $question[] = $this->getCredentialsValidator();
                 $answer = $this->command->askHidden(...$question);
             } else {
                 $answer = $this->command->ask(...$question);
             }
 
-            $credentials[$credential] = $answer;
+            $credentials[strtoupper($uppercased.'_'.$credential)] = $answer;
         }
 
         $this->connections[$connectionName] = $credentials;

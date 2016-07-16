@@ -12,9 +12,8 @@
 
 namespace Rocketeer\Services\Connections\Credentials;
 
-use Mockery;
-use Mockery\MockInterface;
 use Prophecy\Argument;
+use Prophecy\Prophecy\ObjectProphecy;
 use Rocketeer\Console\Commands\AbstractCommand;
 use Rocketeer\Console\StyleInterface;
 use Rocketeer\TestCases\RocketeerTestCase;
@@ -54,66 +53,52 @@ class CredentialsGathererTest extends RocketeerTestCase
 
     public function testCanGetServerCredentialsIfNoneDefined()
     {
-        $this->swapConfig([
-            'connections' => [],
-        ]);
-
+        $this->swapConnections([]);
         $this->mockAnswers([
-            'No [host] is set for [production]' => $this->host,
-            'No [username] is set for [production]' => $this->username,
-            'No [password] is set for [production]' => $this->password,
-        ]);
-
-        $this->command->shouldReceive('askWith')->with('No connections have been set, please create one', 'production')->andReturn('production');
-        $this->command->shouldReceive('askWith')->with(
-            'No password or SSH key is set for [production], which would you use?',
-            'key', ['key', 'password']
-        )->andReturn('password');
-        $this->command->shouldReceive('option')->andReturn(null);
-
-        $this->credentialsGatherer->getConnectionsCredentials();
-
-        $credentials = $this->credentials->getServerCredentials('production', 0);
-        $this->assertEquals([
-            'host' => $this->host,
+            'create one' => 'foobar',
+            'SSH key' => false,
+            'located' => $this->host,
             'username' => $this->username,
             'password' => $this->password,
-            'keyphrase' => null,
-            'key' => null,
-            'agent' => null,
+            'deployed' => '/foo/bar',
+            'add a connection' => false,
+        ]);
+
+        $credentials = $this->credentialsGatherer->getConnectionsCredentials();
+        $this->assertEquals([
+            'foobar' => [
+                'FOOBAR_HOST' => 'some.host',
+                'FOOBAR_USERNAME' => 'anahkiasen',
+                'FOOBAR_PASSWORD' => 'foobar',
+                'FOOBAR_ROOT' => '/foo/bar',
+            ],
         ], $credentials);
     }
 
     public function testCanPassCredentialsAsFlags()
     {
-        $this->swapConfig([
-            'connections' => [],
+        $this->swapConnections([]);
+        $prophecy = $this->mockAnswers([
+            'create one' => 'foobar',
+            'SSH key' => true,
+            'deployed' => '/foo/bar',
+            'add a connection' => false,
         ]);
 
-        $this->mockAnswers([
-            'No [username] is set for [production]' => $this->username,
-        ]);
+        $prophecy->option('host')->willReturn($this->host);
+        $prophecy->option('username')->willReturn($this->username);
+        $prophecy->option('key')->willReturn('/.ssh/key');
+        $prophecy->option('keyphrase')->willReturn('foobar');
 
-        $this->command->shouldReceive('askWith')->with('No connections have been set, please create one', 'production')->andReturn('production');
-        $this->command->shouldReceive('askWith')->with(
-            'No password or SSH key is set for [production], which would you use?',
-            'key', ['key', 'password']
-        )->andReturn('password');
-        $this->command->shouldReceive('option')->withNoArgs()->andReturn([
-            'host' => $this->host,
-            'password' => $this->password,
-        ]);
-
-        $this->credentialsGatherer->getConnectionsCredentials();
-
-        $credentials = $this->credentials->getServerCredentials('production', 0);
+        $credentials = $this->credentialsGatherer->getConnectionsCredentials();
         $this->assertEquals([
-            'host' => $this->host,
-            'username' => $this->username,
-            'password' => $this->password,
-            'keyphrase' => null,
-            'key' => null,
-            'agent' => null,
+            'foobar' => [
+                'FOOBAR_HOST' => 'some.host',
+                'FOOBAR_USERNAME' => 'anahkiasen',
+                'FOOBAR_ROOT' => '/foo/bar',
+                'FOOBAR_KEY' => '/.ssh/key',
+                'FOOBAR_KEYPHRASE' => 'foobar',
+            ],
         ], $credentials);
     }
 
@@ -125,6 +110,8 @@ class CredentialsGathererTest extends RocketeerTestCase
      * Mock a set of question/answers.
      *
      * @param array $answers
+     *
+     * @return ObjectProphecy
      */
     protected function mockAnswers(array $answers = [])
     {
@@ -133,13 +120,23 @@ class CredentialsGathererTest extends RocketeerTestCase
             ->willImplement(OutputInterface::class);
 
         if (!$answers) {
-            $prophecy->ask(Argument::any())->shouldNotBeCaled();
+            $prophecy->ask(Argument::any())->shouldNotBeCalled();
         }
 
+        $prophecy->writeln(Argument::cetera())->willReturn();
+        $prophecy->table(Argument::cetera())->willReturn();
+        $prophecy->option(Argument::cetera())->willReturn();
+
         foreach ($answers as $question => $answer) {
-            $prophecy->ask(Argument::containingString($question))->shouldBeCalledTimes(1)->willReturn($answer);
+            $argument = Argument::containingString($question);
+
+            $prophecy->ask($argument, Argument::any())->willReturn($answer);
+            $prophecy->askHidden($argument, Argument::any())->willReturn($answer);
+            $prophecy->confirm($argument, Argument::any())->willReturn($answer);
         }
 
         $this->container->add('rocketeer.command', $prophecy->reveal());
+
+        return $prophecy;
     }
 }

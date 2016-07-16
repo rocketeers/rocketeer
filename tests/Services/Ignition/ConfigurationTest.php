@@ -12,7 +12,6 @@
 
 namespace Rocketeer\Services\Ignition;
 
-use League\Flysystem\Adapter\Local;
 use Mockery\MockInterface;
 use Rocketeer\Services\Environment\Pathfinder;
 use Rocketeer\Tasks\Closure;
