@@ -21,7 +21,6 @@ use Rocketeer\Console\Commands\AbstractCommand;
 use Rocketeer\Console\StyleInterface;
 use Rocketeer\Services\Connections\ConnectionsFactory;
 use Rocketeer\Services\Filesystem\FilesystemInterface;
-use Rocketeer\Services\Releases\ReleasesManager;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -91,18 +90,6 @@ trait Mocks
         $this->container->add($handle, $mockery);
 
         return $mockery;
-    }
-
-    /**
-     * Mock the ReleasesManager.
-     *
-     * @param Closure $expectations
-     *
-     * @return Mockery
-     */
-    protected function mockReleases(Closure $expectations)
-    {
-        return $this->mock(ReleasesManager::class, ReleasesManager::class, $expectations);
     }
 
     /**

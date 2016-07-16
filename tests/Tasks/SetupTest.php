@@ -12,7 +12,9 @@
 
 namespace Rocketeer\Tasks;
 
-use Mockery\MockInterface;
+use Illuminate\Support\Arr;
+use Prophecy\Argument;
+use Rocketeer\Services\Releases\ReleasesManager;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class SetupTest extends RocketeerTestCase
@@ -86,14 +88,15 @@ class SetupTest extends RocketeerTestCase
 
     protected function mockNoCurrentRelease($stage = null)
     {
-        $this->mockReleases(function (MockInterface $mock) use ($stage) {
-            return $mock
-                ->shouldReceive('getCurrentRelease')->andReturn(null)
-                ->shouldReceive('getCurrentReleasePath')->andReturnUsing(function ($path = null) use ($stage) {
-                    $stage = $stage ? $stage.'/' : null;
+        $server = $this->server;
 
-                    return $this->server.'/'.$stage.'releases/20000000000000/'.$path;
-                });
+        /** @var ReleasesManager $prophecy */
+        $prophecy = $this->bindProphecy(ReleasesManager::class);
+        $prophecy->getCurrentRelease()->willReturn();
+        $prophecy->getCurrentReleasePath(Argument::any())->will(function ($arguments) use ($server, $stage) {
+            $stage = $stage ? $stage.'/' : null;
+
+            return $server.'/'.$stage.'releases/20000000000000/'.Arr::get($arguments, 0);
         });
     }
 }

@@ -12,7 +12,8 @@
 
 namespace Rocketeer\Strategies\Deploy;
 
-use Mockery\MockInterface;
+use Prophecy\Argument;
+use Rocketeer\Services\Releases\ReleasesManager;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class CopyStrategyTest extends RocketeerTestCase
@@ -42,10 +43,10 @@ class CopyStrategyTest extends RocketeerTestCase
 
     public function testClonesIfNoPreviousRelease()
     {
-        $this->mockReleases(function (MockInterface $mock) {
-            return $mock->shouldReceive('getReleases')->andReturn([])
-                        ->shouldReceive('getCurrentReleasePath')->andReturn($this->server.'/releases/10000000000000');
-        });
+        /** @var ReleasesManager $prophecy */
+        $prophecy = $this->bindProphecy(ReleasesManager::class);
+        $prophecy->getReleases()->willReturn([]);
+        $prophecy->getCurrentReleasePath(Argument::any())->willReturn($this->server.'/releases/10000000000000');
 
         $this->builder->buildStrategy('Deploy', 'Copy')->deploy();
 
@@ -62,12 +63,12 @@ class CopyStrategyTest extends RocketeerTestCase
 
     public function testCanCloneIfPreviousReleaseIsInvalid()
     {
-        $this->mockReleases(function (MockInterface $mock) {
-            return $mock->shouldReceive('getReleases')->andReturn([10000000000000])
-                        ->shouldReceive('getPreviousRelease')->andReturn(null)
-                        ->shouldReceive('getPathToRelease')->andReturn(null)
-                        ->shouldReceive('getCurrentReleasePath')->andReturn($this->server.'/releases/10000000000000');
-        });
+        /** @var ReleasesManager $prophecy */
+        $prophecy = $this->bindProphecy(ReleasesManager::class);
+        $prophecy->getReleases()->willReturn([10000000000000]);
+        $prophecy->getPreviousRelease()->willReturn(null);
+        $prophecy->getPathToRelease(Argument::any())->willReturn(null);
+        $prophecy->getCurrentReleasePath()->willReturn($this->server.'/releases/10000000000000');
 
         $this->builder->buildStrategy('Deploy', 'Copy')->deploy();
 

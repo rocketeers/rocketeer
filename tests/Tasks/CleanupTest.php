@@ -12,7 +12,6 @@
 
 namespace Rocketeer\Tasks;
 
-use Mockery\MockInterface;
 use Prophecy\Argument;
 use Rocketeer\Services\Releases\ReleasesManager;
 use Rocketeer\Services\Storages\ServerStorage;
@@ -25,7 +24,7 @@ class CleanupTest extends RocketeerTestCase
         /** @var ReleasesManager $releases */
         $releases = $this->bindProphecy(ReleasesManager::class);
         $releases->getDeprecatedReleases()->willReturn([1, 2]);
-        $releases->getPathToRelease(Argument::any())->shouldBeCalledTimes(2)->willReturnArgument(1);
+        $releases->getPathToRelease(Argument::any())->shouldBeCalledTimes(2)->willReturnArgument(0);
 
         $this->assertTaskOutput('Cleanup', 'Removing <info>2 releases</info> from the server');
     }
@@ -52,14 +51,10 @@ class CleanupTest extends RocketeerTestCase
 
     public function testCanRemoveAllReleasesAtOnce()
     {
-        $this->mockReleases(function (MockInterface $mock) {
-            return $mock
-                ->shouldReceive('getDeprecatedReleases')->never()
-                ->shouldReceive('getDeprecatedReleases')->once()->andReturn([1, 2])
-                ->shouldReceive('getPathToRelease')->times(2)->andReturnUsing(function ($release) {
-                    return $release;
-                });
-        });
+        /** @var ReleasesManager $prophecy */
+        $prophecy = $this->bindProphecy(ReleasesManager::class);
+        $prophecy->getDeprecatedReleases()->shouldBeCalled()->willReturn([1, 2]);
+        $prophecy->getPathToRelease(Argument::any())->shouldBeCalledTimes(2)->willReturnArgument(0);
 
         $this->pretendTask('Cleanup')->execute();
 
@@ -70,9 +65,9 @@ class CleanupTest extends RocketeerTestCase
 
     public function testPrintsMessageIfNoCleanup()
     {
-        $this->mockReleases(function (MockInterface $mock) {
-            return $mock->shouldReceive('getDeprecatedReleases')->once()->andReturn([]);
-        });
+        /** @var ReleasesManager $prophecy */
+        $prophecy = $this->bindProphecy(ReleasesManager::class);
+        $prophecy->getDeprecatedReleases()->shouldBeCalled()->willReturn([]);
 
         $this->assertTaskOutput('Cleanup', 'No releases to prune from the server');
     }
@@ -85,13 +80,10 @@ class CleanupTest extends RocketeerTestCase
             2 => true,
         ]);
 
-        $this->mockReleases(function (MockInterface $mock) {
-            return $mock
-                ->shouldReceive('getDeprecatedReleases')->once()->andReturn([1, 2])
-                ->shouldReceive('getPathToRelease')->times(2)->andReturnUsing(function ($release) {
-                    return $release;
-                });
-        });
+        /** @var ReleasesManager $prophecy */
+        $prophecy = $this->bindProphecy(ReleasesManager::class);
+        $prophecy->getDeprecatedReleases()->shouldBeCalled()->willReturn([1, 2]);
+        $prophecy->getPathToRelease(Argument::any())->shouldBeCalledTimes(2)->willReturnArgument(0);
 
         $this->task('Cleanup')->execute();
 

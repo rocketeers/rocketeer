@@ -12,8 +12,8 @@
 
 namespace Rocketeer\Tasks;
 
-use Mockery\MockInterface;
 use Prophecy\Argument;
+use Rocketeer\Services\Releases\ReleasesManager;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class RollbackTest extends RocketeerTestCase
@@ -55,9 +55,7 @@ class RollbackTest extends RocketeerTestCase
 
     public function testCantRollbackIfNoPreviousRelease()
     {
-        $this->mockReleases(function (MockInterface $mock) {
-            return $mock->shouldReceive('getPreviousRelease')->andReturn(null);
-        });
+        $this->bindProphecy(ReleasesManager::class);
 
         $status = $this->pretendTask('Rollback')->execute();
         $this->assertContains('Rocketeer could not rollback as no releases have yet been deployed', $status);
