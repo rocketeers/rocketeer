@@ -152,7 +152,7 @@ class ConfigurationDefinitionTest extends RocketeerTestCase
      *
      * @return array
      */
-    protected function processConfiguration(array ...$config)
+    protected function processConfiguration(...$config)
     {
         array_unshift($config, [
             'hooks' => [
