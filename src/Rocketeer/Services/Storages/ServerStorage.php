@@ -13,6 +13,7 @@
 namespace Rocketeer\Services\Storages;
 
 use Rocketeer\Services\Container\Container;
+use League\Flysystem\FilesystemInterface;
 use Rocketeer\Traits\ContainerAwareTrait;
 
 /**
@@ -23,11 +24,15 @@ class ServerStorage extends Storage
 {
     use ContainerAwareTrait;
 
-    public function __construct(Container $container, $filesystem, $folder)
+    /**
+     * @param Container           $container
+     * @param FilesystemInterface $filesystem
+     */
+    public function __construct(Container $container, FilesystemInterface $filesystem)
     {
         $this->container = $container;
 
-        parent::__construct($filesystem, $folder);
+        parent::__construct($filesystem, $this->paths->getFolder());
     }
 
     /**

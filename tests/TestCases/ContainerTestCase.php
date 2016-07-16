@@ -67,11 +67,6 @@ abstract class ContainerTestCase extends BaseTestCase
         $this->container->add('path.base', '/src');
         $this->container->add('paths.app', $this->container->get('path.base').'/app');
 
-        // Bind new Storage instance
-        $this->container->share('storage.local', function () {
-            return new Storage($this->container, 'local', $this->server, 'deployments');
-        });
-
         $this->files->setAdapter(new VfsAdapter(new Vfs()));
         $this->container->share(MountManager::class, function () {
             return new MountManager([

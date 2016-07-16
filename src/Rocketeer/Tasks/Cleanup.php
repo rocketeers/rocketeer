@@ -49,7 +49,7 @@ class Cleanup extends AbstractTask
 
         // Delete state file
         if ($this->getOption('clean-all', true)) {
-            $this->remoteStorage->destroy();
+            $this->remoteStorage->clear();
             $this->releasesManager->markReleaseAsValid();
         }
 

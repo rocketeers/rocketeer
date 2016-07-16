@@ -42,7 +42,7 @@ class FlushCommand extends AbstractCommand
 
         // Clear the cache of credentials
         $this->container->get(ConfigurationCache::class)->flush();
-        $this->localStorage->destroy();
+        $this->localStorage->clear();
         $this->explainer->info("Rocketeer's cache has been properly flushed");
 
         return 0;

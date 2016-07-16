@@ -71,6 +71,7 @@ class ReleasesManager
         if (!array_key_exists($connection, $this->releases)) {
             $releases = $this->paths->getReleasesFolder();
             $releases = (array) $this->bash->listContents($releases);
+            dump($releases);
 
             // Filter and sort releases
             $releases = array_filter($releases, function ($release) {
@@ -199,7 +200,7 @@ class ReleasesManager
      */
     public function getValidationFile()
     {
-        $file = (array) $this->remoteStorage->get();
+        $file = (array) $this->remoteStorage->get('releases');
 
         // Fill the missing releases
         $releases = $this->getReleases();
@@ -229,8 +230,7 @@ class ReleasesManager
         // If the release is not null, mark it as valid
         if ($release) {
             $this->state[$release] = $state;
-            $this->remoteStorage->set($release, $state);
-            krsort($this->state);
+            $this->remoteStorage->set('releases.'.$release, $state);
         }
     }
 

@@ -35,9 +35,9 @@ class StorageServiceProvider extends AbstractServiceProvider
         $this->container->add('storage.remote', function () {
             $filesystem = $this->rocketeer->isLocal()
                 ? $this->files
-                : $this->flysystem->get('remote');
+                : $this->filesystems->getFilesystem('remote');
 
-            return new ServerStorage($this->container, $filesystem, $this->paths->getRocketeerConfigFolder());
+            return new ServerStorage($this->container, $filesystem);
         });
 
         $this->container->add('storage.local', function () {

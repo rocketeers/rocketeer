@@ -28,7 +28,7 @@ class TeardownTest extends RocketeerTestCase
             'rm -rf {server}/',
         ]);
 
-        $prophecy->destroy()->shouldHaveBeenCalled();
+        $prophecy->clear()->shouldHaveBeenCalled();
     }
 
     public function testCanAbortTeardown()
@@ -43,6 +43,6 @@ class TeardownTest extends RocketeerTestCase
 
         $message = $this->assertTaskHistory($task, []);
         $this->assertContains('Teardown aborted', $message);
-        $prophecy->destroy()->shouldNotHaveBeenCalled();
+        $prophecy->clear()->shouldNotHaveBeenCalled();
     }
 }

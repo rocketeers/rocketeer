@@ -12,8 +12,8 @@
 
 namespace Rocketeer\Services\Storages;
 
-use Cache\Adapter\Common\CacheItem;
 use Cache\Adapter\Filesystem\FilesystemCachePool;
+use Illuminate\Support\Arr;
 use League\Flysystem\FilesystemInterface;
 use Rocketeer\Services\Container\Container;
 use Rocketeer\Traits\ContainerAwareTrait;
@@ -24,17 +24,12 @@ use Psr\Cache\CacheItemPoolInterface;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class Storage
+class Storage extends FilesystemCachePool
 {
     /**
-     * @var string
+     * @var FilesystemInterface
      */
     protected $filesystem;
-
-    /**
-     * @var CacheItemPoolInterface
-     */
-    protected $cache;
 
     /**
      * @param FilesystemInterface|string $filesystem
@@ -42,8 +37,18 @@ class Storage
      */
     public function __construct(FilesystemInterface $filesystem, $folder)
     {
+        // Set folder as path prefix
         $this->filesystem = $filesystem;
-        $this->cache = new FilesystemCachePool($filesystem);
+
+        parent::__construct($filesystem, $folder);
+    }
+
+    /**
+     * @return FilesystemInterface
+     */
+    public function getFilesystem()
+    {
+        return $this->filesystem;
     }
 
     //////////////////////////////////////////////////////////////////////
@@ -60,7 +65,14 @@ class Storage
      */
     public function get($key, $fallback = null)
     {
-        return $this->cache->getItem($key)->get() ?: $fallback;
+        if (strpos($key, '.') === false) {
+            $value = $this->getItem($key)->get() ?: $fallback;
+        } else {
+            list ($item, $key) = $this->getRootItem($key);
+            $value = Arr::get($item->get(), $key);
+        }
+
+        return $value ?: $fallback;
     }
 
     /**
@@ -71,19 +83,19 @@ class Storage
      */
     public function set($key, $value = null)
     {
-        // Recursive set
-        if (is_array($key)) {
-            foreach ($key as $k => $v) {
-                $this->set($k, $v);
+        $values = is_array($key) ? $key : [$key => $value];
+        foreach ($values as $key => $value) {
+            list ($item, $newKey) = $this->getRootItem($key);
+            if (strpos($key, '.') === false) {
+                $this->save($item->set($value));
+                continue;
             }
 
-            return;
+            $current = (array) $item->get();
+
+            Arr::set($current, $newKey, $value);
+            $this->save($item->set($current));
         }
-
-        $item = new CacheItem($key);
-        $item->set($value);
-
-        $this->cache->save($item);
     }
 
     /**
@@ -93,18 +105,24 @@ class Storage
      */
     public function forget($key)
     {
-        $this->cache->deleteItem($key);
+        $this->deleteItem($key);
     }
 
+    ////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////// HELPERS ////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
+
     /**
-     * Destroy the storage file.
+     * @param string $key
      *
-     * @return bool
+     * @return array
      */
-    public function destroy()
+    protected function getRootItem($key)
     {
-        if ($this->filesystem->has('cache')) {
-            return $this->cache->clear();
-        }
+        $keys = explode('.', $key);
+        $root = $keys[0];
+        $item = $this->getItem($root);
+
+        return [$item, str_replace($item->getKey().'.', null, $key)];
     }
 }

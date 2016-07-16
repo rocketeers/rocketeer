@@ -41,20 +41,20 @@ class StorageTest extends RocketeerTestCase
     public function testCanDestroy()
     {
         $this->localStorage->set('foo', 'bar');
-        $this->localStorage->destroy();
+        $this->localStorage->clear();
 
         $this->assertNull($this->localStorage->get('foo'));
     }
 
     public function testDoesntTryToDestroyTwice()
     {
-        $this->localStorage->destroy();
-        $this->localStorage->destroy();
+        $this->localStorage->clear();
+        $this->localStorage->clear();
     }
 
     public function testCanFallbackIfFileDoesntExist()
     {
-        $this->localStorage->destroy();
+        $this->localStorage->clear();
 
         $this->assertEquals(null, $this->localStorage->get('foo'));
     }
@@ -64,15 +64,13 @@ class StorageTest extends RocketeerTestCase
         $this->rocketeer->setLocal(true);
         $this->filesystems->mountFilesystem('remote', new Filesystem(new SftpAdapter([])));
 
-        $storage = new ServerStorage($this->container);
-        $this->assertInstanceOf(Local::class, $storage->getFilesystem()->getAdapter());
+        $this->assertInstanceOf(Local::class, $this->remoteStorage->getFilesystem()->getAdapter());
     }
 
     public function testAccessFilesClassDirectlyIfLocal()
     {
         $this->rocketeer->setLocal(true);
 
-        $storage = new ServerStorage($this->container);
-        $this->assertInstanceOf(Local::class, $storage->getFilesystem()->getAdapter());
+        $this->assertInstanceOf(Local::class, $this->remoteStorage->getFilesystem()->getAdapter());
     }
 }
