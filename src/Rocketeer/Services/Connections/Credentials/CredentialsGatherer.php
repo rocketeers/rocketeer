@@ -43,6 +43,8 @@ class CredentialsGatherer
 
     /**
      * Get the Repository's credentials.
+     *
+     * @return array
      */
     public function getRepositoryCredentials()
     {
