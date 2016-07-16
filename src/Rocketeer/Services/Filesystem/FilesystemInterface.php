@@ -12,9 +12,7 @@
 
 namespace Rocketeer\Services\Filesystem;
 
-use League\Flysystem\FilesystemInterface;
-
-interface LocalFilesystemInterface extends FilesystemInterface
+interface FilesystemInterface extends \League\Flysystem\FilesystemInterface
 {
     /**
      * @param string $path
@@ -22,4 +20,12 @@ interface LocalFilesystemInterface extends FilesystemInterface
      * @return bool
      */
     public function isDirectory($path);
+
+    /**
+     * @param string $filepath
+     * @param string $appended
+     *
+     * @return bool
+     */
+    public function append($filepath, $appended);
 }

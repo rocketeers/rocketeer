@@ -16,6 +16,7 @@ use League\Container\ServiceProvider\AbstractServiceProvider;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
 use League\Flysystem\MountManager;
+use Rocketeer\Services\Filesystem\Plugins\AppendPlugin;
 use Rocketeer\Services\Filesystem\Plugins\IncludePlugin;
 use Rocketeer\Services\Filesystem\Plugins\IsDirectoryPlugin;
 use Rocketeer\Services\Filesystem\Plugins\RequirePlugin;
@@ -46,6 +47,7 @@ class FilesystemServiceProvider extends AbstractServiceProvider
             $local->addPlugin(new IsDirectoryPlugin());
             $local->addPlugin(new IncludePlugin());
             $local->addPlugin(new UpsertPlugin());
+            $local->addPlugin(new AppendPlugin());
 
             return $local;
         });

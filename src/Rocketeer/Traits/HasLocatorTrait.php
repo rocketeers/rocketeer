@@ -32,6 +32,7 @@ use Rocketeer\Services\Display\QueueExplainer;
 use Rocketeer\Services\Display\QueueTimer;
 use Rocketeer\Services\Environment\Environment;
 use Rocketeer\Services\Environment\Pathfinder;
+use Rocketeer\Services\Filesystem\FilesystemInterface;
 use Rocketeer\Services\History\History;
 use Rocketeer\Services\History\LogsHandler;
 use Rocketeer\Services\Releases\ReleasesManager;
@@ -48,7 +49,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @property \Rocketeer\Services\Config\Files\ConfigurationLoader            configurationLoader
  * @property \Rocketeer\Services\Config\Files\ConfigurationPublisher         configurationPublisher
  * @property \League\Event\Emitter                                           events
- * @property \League\Flysystem\FilesystemInterface                           files
+ * @property FilesystemInterface                                             files
  * @property \League\Flysystem\MountManager                                  flysystem
  * @property \Illuminate\Foundation\Artisan                                  artisan
  * @property \Illuminate\Log\Writer                                          log
