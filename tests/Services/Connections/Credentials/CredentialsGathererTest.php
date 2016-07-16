@@ -101,42 +101,4 @@ class CredentialsGathererTest extends RocketeerTestCase
             ],
         ], $credentials);
     }
-
-    //////////////////////////////////////////////////////////////////////
-    ////////////////////////////// HELPERS ///////////////////////////////
-    //////////////////////////////////////////////////////////////////////
-
-    /**
-     * Mock a set of question/answers.
-     *
-     * @param array $answers
-     *
-     * @return ObjectProphecy
-     */
-    protected function mockAnswers(array $answers = [])
-    {
-        $prophecy = $this->prophesize(AbstractCommand::class)
-            ->willImplement(StyleInterface::class)
-            ->willImplement(OutputInterface::class);
-
-        if (!$answers) {
-            $prophecy->ask(Argument::any())->shouldNotBeCalled();
-        }
-
-        $prophecy->writeln(Argument::cetera())->willReturn();
-        $prophecy->table(Argument::cetera())->willReturn();
-        $prophecy->option(Argument::cetera())->willReturn();
-
-        foreach ($answers as $question => $answer) {
-            $argument = Argument::containingString($question);
-
-            $prophecy->ask($argument, Argument::any())->willReturn($answer);
-            $prophecy->askHidden($argument, Argument::any())->willReturn($answer);
-            $prophecy->confirm($argument, Argument::any())->willReturn($answer);
-        }
-
-        $this->container->add('rocketeer.command', $prophecy->reveal());
-
-        return $prophecy;
-    }
 }

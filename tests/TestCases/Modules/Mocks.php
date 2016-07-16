@@ -18,8 +18,9 @@ use Mockery;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use Rocketeer\Console\Commands\AbstractCommand;
+use Rocketeer\Console\StyleInterface;
 use Rocketeer\Services\Connections\ConnectionsFactory;
-use Rocketeer\Services\Filesystem\LocalFilesystemInterface;
+use Rocketeer\Services\Filesystem\FilesystemInterface;
 use Rocketeer\Services\Releases\ReleasesManager;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -39,8 +40,15 @@ trait Mocks
     protected function bindProphecy($class, $handle = null)
     {
         $prophecy = $class instanceof ObjectProphecy ? $class : $this->prophesize($class);
-        if ($class === Filesystem::class) {
-            $prophecy->willImplement(LocalFilesystemInterface::class);
+        switch ($class) {
+            case Filesystem::class:
+                $prophecy->willImplement(FilesystemInterface::class);
+                break;
+            case AbstractCommand::class:
+                $prophecy
+                    ->willImplement(StyleInterface::class)
+                    ->willImplement(OutputInterface::class);
+                break;
         }
 
         $handle = $handle ?: $class;
@@ -126,13 +134,11 @@ trait Mocks
      */
     protected function mockEchoingCommand()
     {
-        $prophecy = $this->prophesize(AbstractCommand::class)->willImplement(OutputInterface::class);
+        $prophecy = $this->bindProphecy(AbstractCommand::class, 'rocketeer.command');
         $prophecy->option(Argument::cetera())->willReturn();
         $prophecy->writeln(Argument::any())->will(function ($arguments) {
             echo $arguments[0];
         });
-
-        $this->bindProphecy($prophecy, 'rocketeer.command');
     }
 
     /**
@@ -175,5 +181,42 @@ trait Mocks
         foreach ($expectations as $key => $value) {
             $this->config->set($key, $value);
         }
+    }
+
+    /**
+     * Mock a set of question/answers.
+     *
+     * @param array $answers
+     *
+     * @return ObjectProphecy
+     */
+    protected function mockAnswers(array $answers = [])
+    {
+        $prophecy = $this->bindProphecy(AbstractCommand::class, 'rocketeer.command');
+
+        if (!$answers) {
+            $prophecy->ask(Argument::any())->shouldNotBeCalled();
+        }
+
+        $prophecy->writeln(Argument::cetera())->willReturn();
+        $prophecy->table(Argument::cetera())->willReturn();
+        $prophecy->title(Argument::cetera())->willReturn();
+        $prophecy->option(Argument::cetera())->willReturn();
+        $prophecy->ask(Argument::cetera())->willReturn();
+        $prophecy->askHidden(Argument::cetera())->willReturn();
+        $prophecy->confirm(Argument::cetera())->willReturn();
+        $prophecy->choice(Argument::cetera())->willReturnArgument(2);
+
+        foreach ($answers as $question => $answer) {
+            $argument = Argument::containingString($question);
+
+            $prophecy->ask($argument, Argument::any())->willReturn($answer);
+            $prophecy->askHidden($argument, Argument::any())->willReturn($answer);
+            $prophecy->confirm($argument, Argument::any())->willReturn($answer);
+        }
+
+        $this->container->add('rocketeer.command', $prophecy->reveal());
+
+        return $prophecy;
     }
 }

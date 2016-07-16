@@ -85,7 +85,7 @@ TXT
         }
 
         // Write to disk
-        $this->files->put($this->paths->getBasePath().'.env', $dotenv);
+        $this->files->append($this->paths->getDotenvPath(), $dotenv);
         $this->command->writeln('<info>A <comment>.env</comment> file with your credentials has been created!</info>');
         $this->command->writeln('Do not track this file in your repository, <error>it is meant to be private</error>');
     }
