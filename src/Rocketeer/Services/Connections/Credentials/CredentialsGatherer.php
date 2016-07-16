@@ -13,10 +13,11 @@
 namespace Rocketeer\Services\Connections\Credentials;
 
 use Closure;
+use Rocketeer\Services\Connections\Credentials\Keys\RepositoryKey;
 use Rocketeer\Traits\ContainerAwareTrait;
 
 /**
- * Collects the needed credentials from the user
+ * Collects the needed credentials from the user.
  */
 class CredentialsGatherer
 {
@@ -48,31 +49,11 @@ class CredentialsGatherer
      */
     public function getRepositoryCredentials()
     {
-        $questions = [
-            'SCM_REPOSITORY' => 'Where is your code located? <comment>(eg. git@github.com:rocketeers/website.git)</comment>',
-            'SCM_USERNAME' => 'What is the username for it?',
-            'SCM_PASSWORD' => 'And the password?',
-        ];
-
-        $credentials = [];
-        foreach ($questions as $credential => $question) {
-            $answer = $this->command->ask($question);
-            $credentials[$credential] = $answer;
-
-            // If the repository uses SSH, do not ask for username/password
-            if ($credential === 'SCM_REPOSITORY' && strpos($answer, 'https://') === false) {
-                break;
-            }
-        }
-
-        // Set on configuration
-        $this->config->set('scm', [
-            'repository' => '%%SCM_REPOSITORY%%',
-            'username' => '%%SCM_USERNAME%%',
-            'password' => '%%SCM_PASSWORD%%',
+        return $this->askQuestions('scm', [
+            'repository' => 'Where is your code located? <comment>(eg. git@github.com:rocketeers/website.git)</comment>',
+            'username' => 'What is the username for it?',
+            'password' => 'And the password?',
         ]);
-
-        return $credentials;
     }
 
     /**
@@ -111,10 +92,8 @@ class CredentialsGatherer
      */
     public function getConnectionCredentials($connectionName)
     {
-        $uppercased = strtoupper($connectionName);
-        $privateKey = $this->command->confirm('Do you use an SSH key to connect to it?');
-
-        $questions = $privateKey ? [
+        $usesPrivateKey = $this->command->confirm('Do you use an SSH key to connect to it?');
+        $this->connections[$connectionName] = $this->askQuestions($connectionName, $usesPrivateKey ? [
             'key' => ['Where can I find your key?', $this->paths->getDefaultKeyPath()],
             'keyphrase' => 'If it needs a passphrase enter it',
             'host' => 'Where is your server located? <comment>(eg. foobar.com)</comment>',
@@ -125,36 +104,80 @@ class CredentialsGatherer
             'username' => 'What is the username for it?',
             'password' => 'And password?',
             'root' => ['Where do you want your application deployed?', '/home/www/'],
-        ];
+        ]);
+    }
 
+    ////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////// HELPERS ////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * @param string $for
+     * @param array  $questions
+     *
+     * @return array
+     */
+    protected function askQuestions($for, array $questions)
+    {
         $credentials = [];
+        $config = [];
         foreach ($questions as $credential => $question) {
-            // Prepend connection name to question
-            $question = (array) $question;
-            $question[0] = '<fg=magenta>['.$connectionName.']</fg=magenta> '.$question[0];
+            $answer = $this->askQuestion($for, $credential, $question);
 
-            // Get the credential, either through options or prompt
-            if ($option = $this->command->option($credential)) {
-                $answer = $option;
-            } elseif (in_array($credential, ['keyphrase', 'password'], true)) {
-                $question[] = $this->getCredentialsValidator();
-                $answer = $this->command->askHidden(...$question);
-            } else {
-                $answer = $this->command->ask(...$question);
+            // Store credential
+            $constant = $this->getCredentialConstant($for, $credential);
+            $credentials[$constant] = $answer;
+            $config[$credential] = '%%'.$constant.'%%';
+
+            // If the repository uses SSH, do not ask for username/password
+            $repositoryKey = new RepositoryKey(['endpoint' => $answer]);
+            if ($for === 'scm' && $credential === 'repository' && !$repositoryKey->needsCredentials()) {
+                break;
             }
-
-            $credentials[strtoupper($uppercased.'_'.$credential)] = $answer;
         }
 
-        $this->connections[$connectionName] = $credentials;
-        $this->config->set('connections.'.$connectionName, [
-            'host' => '%%'.$uppercased.'_HOST%%',
-            'key' => '%%'.$uppercased.'_KEY%%',
-            'keyphrase' => '%%'.$uppercased.'_KEYPHRASE%%',
-            'password' => '%%'.$uppercased.'_PASSWORD%%',
-            'root' => '%%'.$uppercased.'_ROOT%%',
-            'username' => '%%'.$uppercased.'_USERNAME%%',
-        ]);
+        // Set in current configuration
+        $configKey = $for === 'scm' ? 'scm' : 'connections.'.$for;
+        $this->config->set($configKey, $config);
+
+        return $credentials;
+    }
+
+    /**
+     * @param string $for
+     * @param string $credential
+     * @param string $question
+     *
+     * @return string
+     */
+    protected function askQuestion($for, $credential, $question)
+    {
+        $isPassword = in_array($credential, ['keyphrase', 'password'], true);
+
+        // Prepend who the question is for to name to question
+        $question = (array) $question;
+        $question[0] = '<fg=magenta>['.$for.']</fg=magenta> '.$question[0];
+        if ($isPassword) {
+            $question[] = $this->getCredentialsValidator();
+        }
+
+        // Get the credential, either through options or prompt
+        if ($for !== 'scm' && $option = $this->command->option($credential)) {
+            return $option;
+        }
+
+        return $isPassword ? $this->command->askHidden(...$question) : $this->command->ask(...$question);
+    }
+
+    /**
+     * @param string $prefix
+     * @param string $credential
+     *
+     * @return string
+     */
+    protected function getCredentialConstant($prefix, $credential)
+    {
+        return strtoupper($prefix.'_'.$credential);
     }
 
     /**
