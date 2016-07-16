@@ -14,7 +14,6 @@ namespace Rocketeer\Services\History;
 
 use Illuminate\Support\Arr;
 use Monolog\Formatter\LineFormatter;
-use Monolog\Handler\DeduplicationHandler;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;

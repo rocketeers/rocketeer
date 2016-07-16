@@ -84,7 +84,7 @@ class Flow extends AbstractBashModule
      *
      * @return bool
      */
-    protected function syncSharedFolders()
+    public function syncSharedFolders()
     {
         $shared = (array) $this->config->getContextually('remote.shared');
         foreach ($shared as &$file) {
@@ -170,6 +170,7 @@ class Flow extends AbstractBashModule
             'runForApplication',
             'runForCurrentRelease',
             'share',
+            'syncSharedFolders',
             'updateSymlink',
             'usesStages',
         ];
