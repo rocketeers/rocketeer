@@ -13,6 +13,11 @@
 namespace Rocketeer\Services\History;
 
 use Illuminate\Support\Arr;
+use Monolog\Formatter\LineFormatter;
+use Monolog\Handler\NullHandler;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
+use Psr\Log\LoggerInterface;
 use Rocketeer\Traits\ContainerAwareTrait;
 
 /**
@@ -23,75 +28,69 @@ class LogsHandler
     use ContainerAwareTrait;
 
     /**
-     * Cache of the logs file to be written.
-     *
-     * @var array
-     */
-    protected $logs = [];
-
-    /**
      * The name of the logs file.
      *
-     * @var string[]
+     * @var LoggerInterface[]
      */
-    protected $name = [];
+    protected $loggers = [];
 
     /**
      * Save something for the logs.
      *
-     * @param string|string[] $string
+     * @param string|string[] $message
      */
-    public function log($string)
+    public function log($message)
     {
-        // Create entry in the logs
-        $file = $this->getCurrentLogsFile();
-        if (!isset($this->logs[$file])) {
-            $this->logs[$file] = [];
+        $messages = (array) $message;
+        foreach ($messages as $message) {
+            $this->getLogger()->info($this->prependHandle($message));
         }
-
-        // Prepend currenth handle
-        $this->logs[$file][] = $this->prependHandle($string);
     }
+
+    ////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////// FACTORY ////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Write the stored logs.
-     *
-     * @return array
+     * @return LoggerInterface
      */
-    public function write()
+    protected function getLogger()
     {
-        foreach ($this->logs as $file => $entries) {
-            if (!$file) {
-                continue;
-            }
-
-            // Create the file if it doesn't exist
-            if (!$this->files->has($file)) {
-                $this->createLogsFile($file);
-            }
-
-            $this->files->put($file, $this->formatEntries($entries));
+        // Cache logger
+        $channel = $this->connections->getCurrentConnectionKey()->toLongHandle();
+        if (array_key_exists($channel, $this->loggers)) {
+            return $this->loggers[$channel];
         }
 
-        return array_keys($this->logs);
-    }
+        $logger = new Logger($channel);
 
-    //////////////////////////////////////////////////////////////////////
-    //////////////////////////// CURRENT LOGS ////////////////////////////
-    //////////////////////////////////////////////////////////////////////
+        // If the filename is invalid, log to null
+        if (!$realpath = $this->getLogsRealpath()) {
+            $handler = new NullHandler();
+        } else {
+            // Else create logs file and handler
+            $adapter = $this->files->getAdapter();
+            $prefixed = $adapter ? $adapter->applyPathPrefix($realpath) : $realpath;
+
+            $this->createLogsFile($realpath);
+            $handler = new StreamHandler($prefixed);
+        }
+
+        // Set formatter and handler on Logger
+        $handler->setFormatter(new LineFormatter('[%datetime%] %channel%:$ %message%'));
+        $logger->pushHandler($handler);
+        $this->loggers[$channel] = $logger;
+
+        return $logger;
+    }
 
     /**
      * Get the logs file being currently used.
      *
      * @return string|false
      */
-    public function getCurrentLogsFile()
+    public function getLogsRealpath()
     {
-        $hash = (string) $this->connections->getCurrentConnectionKey();
-        if (array_key_exists($hash, $this->name)) {
-            return $this->name[$hash];
-        }
-
         // Get the namer closure
         $namer = $this->config->get('logs');
         $name = is_callable($namer) ? $namer($this->connections) : $namer;
@@ -101,39 +100,9 @@ class LogsHandler
 
         // Save for reuse
         $name = $this->container->get('path.rocketeer.logs').'/'.$name;
-        $this->name[$hash] = $name;
 
         return $name;
     }
-
-    /**
-     * Get the current logs.
-     *
-     * @return array
-     */
-    public function getLogs()
-    {
-        $current = (string) $this->getCurrentLogsFile();
-        if (!$current) {
-            return $this->logs[0];
-        }
-
-        return array_get($this->logs, $current);
-    }
-
-    /**
-     * Get the current logs, flattened.
-     *
-     * @return string
-     */
-    public function getFlattenedLogs()
-    {
-        return $this->formatEntries($this->getLogs());
-    }
-
-    //////////////////////////////////////////////////////////////////////
-    ////////////////////////////// HELPERS ///////////////////////////////
-    //////////////////////////////////////////////////////////////////////
 
     /**
      * Create a logs file if it doesn't exist.
@@ -155,6 +124,42 @@ class LogsHandler
         }
     }
 
+    ////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////// RETRIEVAL ///////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Get the current logs.
+     *
+     * @return array
+     */
+    public function getLogs()
+    {
+        $realpath = (string) $this->getLogsRealpath();
+        if (!$realpath) {
+            return [];
+        }
+
+        $logs = trim($this->files->read($realpath));
+        $logs = explode(PHP_EOL, $logs);
+
+        return $logs;
+    }
+
+    /**
+     * Get the current logs, flattened.
+     *
+     * @return string
+     */
+    public function getFlattenedLogs()
+    {
+        return $this->formatEntries($this->getLogs());
+    }
+
+    //////////////////////////////////////////////////////////////////////
+    ////////////////////////////// HELPERS ///////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+
     /**
      * Format entries to a string.
      *
@@ -166,6 +171,7 @@ class LogsHandler
     {
         $entries = Arr::flatten($entries);
         $entries = implode(PHP_EOL, $entries);
+        $entries = trim($entries);
 
         return $entries;
     }
@@ -182,11 +188,8 @@ class LogsHandler
         $entries = (array) $entries;
         $handle = $this->connections->getCurrentConnectionKey()->toLongHandle();
 
-        foreach ($entries as $key => $entry) {
+        foreach ($entries as &$entry) {
             $entry = str_replace('<comment>['.$handle.']</comment> ', null, $entry);
-            $entry = sprintf('[%s] %s', $handle, $entry);
-
-            $entries[$key] = $entry;
         }
 
         return count($entries) === 1 ? $entries[0] : $entries;

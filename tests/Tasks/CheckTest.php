@@ -68,6 +68,8 @@ class CheckTest extends RocketeerTestCase
      */
     public function testCanExplicitelySayWhichManagerConditionFailed($hasManifest, $expected)
     {
+        $this->config->set('logs', 'foobar.logs');
+
         /** @var Composer $manager */
         $manager = $this->prophesize(Composer::class);
         $manager->getName()->willReturn('Composer');
@@ -78,7 +80,9 @@ class CheckTest extends RocketeerTestCase
 
         $this->builder->buildStrategy('check')->setManager($manager->reveal());
         $this->task('Check')->fire();
-        $this->assertContains('[{username}@production] '.$expected, $this->logs->getLogs());
+
+        $logs = $this->logs->getLogs();
+        $this->assertContains('{username}@production:$ '.$expected, last($logs));
     }
 
     public function providesManagerStatus()

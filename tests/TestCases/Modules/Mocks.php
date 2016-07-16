@@ -19,6 +19,7 @@ use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use Rocketeer\Console\Commands\AbstractCommand;
 use Rocketeer\Services\Connections\ConnectionsFactory;
+use Rocketeer\Services\Filesystem\LocalFilesystemInterface;
 use Rocketeer\Services\Releases\ReleasesManager;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -38,6 +39,10 @@ trait Mocks
     protected function bindProphecy($class, $handle = null)
     {
         $prophecy = $class instanceof ObjectProphecy ? $class : $this->prophesize($class);
+        if ($class === Filesystem::class) {
+            $prophecy->willImplement(LocalFilesystemInterface::class);
+        }
+
         $handle = $handle ?: $class;
 
         if ($this->container->has($handle)) {

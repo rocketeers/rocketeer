@@ -32,21 +32,20 @@ class LogsHandlerTest extends RocketeerTestCase
 
     public function testCanGetCurrentLogsFile()
     {
-        $logs = $this->logs->getCurrentLogsFile();
+        $logs = $this->logs->getLogsRealpath();
         $this->assertEquals($this->server.'/logs/production-.log', $logs);
 
         $this->connections->setCurrentConnection('staging');
         $this->connections->setStage('foobar');
-        $logs = $this->logs->getCurrentLogsFile();
+        $logs = $this->logs->getLogsRealpath();
         $this->assertEquals($this->server.'/logs/staging-foobar.log', $logs);
     }
 
     public function testCanLogInformations()
     {
         $this->logs->log('foobar');
-        $this->logs->write();
-        $logs = $this->logs->getCurrentLogsFile();
-        $logs = $this->files->read($logs);
+        $realpath = $this->logs->getLogsRealpath();
+        $logs = $this->files->read($realpath);
 
         $this->assertContains('foobar', $logs);
     }
@@ -55,8 +54,7 @@ class LogsHandlerTest extends RocketeerTestCase
     {
         $this->container->add('path.rocketeer.logs', $this->server.'/newlogs');
         $this->logs->log('foobar');
-        $this->logs->write();
-        $logs = $this->logs->getCurrentLogsFile();
+        $logs = $this->logs->getLogsRealpath();
 
         $this->assertVirtualFileExists($logs);
     }
@@ -73,8 +71,8 @@ class LogsHandlerTest extends RocketeerTestCase
             },
         ]);
 
-        $this->logs->getCurrentLogsFile();
-        $this->logs->getCurrentLogsFile();
+        $this->logs->log('foo');
+        $this->logs->log('foo');
     }
 
     public function testPrependsLogsWithConnectionHandles()
@@ -83,9 +81,9 @@ class LogsHandlerTest extends RocketeerTestCase
         $this->task()->toOutput('Some path');
 
         $logs = $this->logs->getFlattenedLogs();
-        $matcher = '[{username}@production] $ pwd'.PHP_EOL.'[{username}@production] Some path';
 
-        $this->assertEquals($matcher, $logs);
+        $this->assertContains('{username}@production:$ $ pwd', $logs);
+        $this->assertContains('{username}@production:$ Some path', $logs);
     }
 
     public function testLogsMessagesFromExplainerToo()
@@ -94,9 +92,9 @@ class LogsHandlerTest extends RocketeerTestCase
         $this->explainer->success('Getting the current path');
 
         $logs = $this->logs->getFlattenedLogs();
-        $matcher = '[{username}@production] $ pwd'.PHP_EOL.'[{username}@production] Getting the current path';
 
-        $this->assertEquals($matcher, $logs);
+        $this->assertContains('{username}@production:$ $ pwd', $logs);
+        $this->assertContains('{username}@production:$ Getting the current path', $logs);
     }
 
     public function testCanHaveStaticFilenames()
@@ -105,7 +103,7 @@ class LogsHandlerTest extends RocketeerTestCase
             'logs' => 'foobar.txt',
         ]);
 
-        $this->assertEquals($this->server.'/logs/foobar.txt', $this->logs->getCurrentLogsFile());
+        $this->assertEquals($this->server.'/logs/foobar.txt', $this->logs->getLogsRealpath());
     }
 
     public function testDoesntCreateLogsIfInvalidFilename()
@@ -116,9 +114,8 @@ class LogsHandlerTest extends RocketeerTestCase
             'logs' => false,
         ]);
 
-        $this->assertFalse($this->logs->getCurrentLogsFile());
+        $this->assertFalse($this->logs->getLogsRealpath());
         $this->logs->log('foobar');
-        $this->logs->write();
 
         $prophecy->put()->shouldNotHaveBeenCalled();
     }
@@ -126,7 +123,8 @@ class LogsHandlerTest extends RocketeerTestCase
     public function testDoesntDuplicateConnectionHandle()
     {
         $this->explainer->server('foobar');
+        $logs = $this->logs->getLogs();
 
-        $this->assertEquals(['[{username}@production] foobar'], $this->logs->getLogs());
+        $this->assertContains('{username}@production:$ foobar', $logs[0]);
     }
 }

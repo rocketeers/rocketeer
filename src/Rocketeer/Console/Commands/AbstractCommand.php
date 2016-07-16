@@ -289,10 +289,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface, C
         $this->container->remove('rocketeer.command');
 
         // Save history to logs
-        $logs = $this->logs->write();
-        foreach ($logs as $log) {
-            $this->explainer->info('Saved logs to '.$log);
-        }
+        $this->explainer->info('Saved logs to '.$this->logs->getLogsRealpath());
 
         return $status ? 0 : 1;
     }
