@@ -12,12 +12,7 @@
 
 namespace Rocketeer\Services\Connections\Credentials;
 
-use Prophecy\Argument;
-use Prophecy\Prophecy\ObjectProphecy;
-use Rocketeer\Console\Commands\AbstractCommand;
-use Rocketeer\Console\StyleInterface;
 use Rocketeer\TestCases\RocketeerTestCase;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class CredentialsGathererTest extends RocketeerTestCase
 {

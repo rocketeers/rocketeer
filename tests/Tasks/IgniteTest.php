@@ -47,7 +47,7 @@ class IgniteTest extends RocketeerTestCase
         $dotenv = $this->files->read($dotenvPath);
 
         $this->assertContains("'application_name' => 'foobar'", $config);
-        $this->assertContains("FOO=bar", $dotenv);
-        $this->assertContains("SCM_REPOSITORY=git@github.com/rocketeers/website.git", $dotenv);
+        $this->assertContains('FOO=bar', $dotenv);
+        $this->assertContains('SCM_REPOSITORY=git@github.com/rocketeers/website.git', $dotenv);
     }
 }
