@@ -93,7 +93,7 @@ class CredentialsGatherer
     public function getConnectionCredentials($connectionName)
     {
         $usesPrivateKey = $this->command->confirm('Do you use an SSH key to connect to it?');
-        $this->connections[$connectionName] = $this->askQuestions($connectionName, $usesPrivateKey ? [
+        $questions = $usesPrivateKey ? [
             'key' => ['Where can I find your key?', $this->paths->getDefaultKeyPath()],
             'keyphrase' => 'If it needs a passphrase enter it',
             'host' => 'Where is your server located? <comment>(eg. foobar.com)</comment>',
@@ -104,7 +104,9 @@ class CredentialsGatherer
             'username' => 'What is the username for it?',
             'password' => 'And password?',
             'root' => ['Where do you want your application deployed?', '/home/www/'],
-        ]);
+        ];
+
+        $this->connections[$connectionName] = $this->askQuestions($connectionName, $questions);
     }
 
     ////////////////////////////////////////////////////////////////////////////////
