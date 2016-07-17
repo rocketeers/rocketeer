@@ -19,15 +19,6 @@ class PathsBootstrapper extends AbstractBootstrapperModule
      */
     public function bootstrapPaths()
     {
-        $this->bindBase();
-//        $this->bindConfiguration();
-    }
-
-    /**
-     * Bind the base path to the Container.
-     */
-    protected function bindBase()
-    {
         if ($this->container->has('path.base')) {
             return;
         }
