@@ -57,7 +57,7 @@ class ConfigurationServiceProvider extends AbstractServiceProvider
             $loader = $this->container->get(ConfigurationLoader::class);
             $loader->setFolders([
                 realpath(__DIR__.'/../../../config'),
-                $this->container->get(Pathfinder::class)->getConfigurationPath().'/config',
+                $this->container->get(Pathfinder::class)->getConfigurationPath(),
             ]);
 
             return $loader;

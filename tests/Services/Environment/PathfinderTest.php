@@ -13,7 +13,7 @@
 namespace Rocketeer\Services\Environment;
 
 use Rocketeer\Dummies\DummyPathfinder;
-use Rocketeer\Services\Environment\Modules\LocalPathfinder;
+use Rocketeer\Services\Environment\Modules\ApplicationPathfinder;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class PathfinderTest extends RocketeerTestCase
@@ -82,7 +82,7 @@ class PathfinderTest extends RocketeerTestCase
 
         $_SERVER['HOMEDRIVE'] = 'C:';
         $_SERVER['HOMEPATH'] = '\Users\someuser';
-        $home = LocalPathfinder::getUserHomeFolder();
+        $home = ApplicationPathfinder::getUserHomeFolder();
 
         $this->assertEquals('C:\Users\someuser', $home);
     }

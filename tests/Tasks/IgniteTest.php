@@ -27,7 +27,7 @@ class IgniteTest extends RocketeerTestCase
         $this->pretendTask('Ignite')->execute();
 
         $prophecy->append('E:/workspace/test/.env', Argument::any())->shouldHaveBeenCalled();
-        $prophecy->createDir('E:/workspace/test/.rocketeer', Argument::any())->shouldHaveBeenCalled();
+        $prophecy->createDir('E:/workspace/test/.rocketeer/config', Argument::any())->shouldHaveBeenCalled();
     }
 
     public function testCanIgniteConfiguration()

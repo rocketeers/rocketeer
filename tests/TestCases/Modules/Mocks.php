@@ -186,6 +186,7 @@ trait Mocks
         }
 
         $prophecy->writeln(Argument::cetera())->willReturn();
+        $prophecy->text(Argument::cetera())->willReturn();
         $prophecy->table(Argument::cetera())->willReturn();
         $prophecy->title(Argument::cetera())->willReturn();
         $prophecy->option(Argument::cetera())->willReturn();

@@ -175,6 +175,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
             'choice' => 'php',
             'table' => '',
             'title' => '',
+            'text' => '',
             'confirm' => true,
             'option' => false,
         ], $expectations);

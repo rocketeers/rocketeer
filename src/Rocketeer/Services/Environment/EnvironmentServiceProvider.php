@@ -13,7 +13,8 @@
 namespace Rocketeer\Services\Environment;
 
 use League\Container\ServiceProvider\AbstractServiceProvider;
-use Rocketeer\Services\Environment\Modules\LocalPathfinder;
+use Rocketeer\Services\Environment\Modules\ApplicationPathfinder;
+use Rocketeer\Services\Environment\Modules\HomePathfinder;
 use Rocketeer\Services\Environment\Modules\ServerPathfinder;
 
 class EnvironmentServiceProvider extends AbstractServiceProvider
@@ -34,8 +35,9 @@ class EnvironmentServiceProvider extends AbstractServiceProvider
         $this->container->share(Environment::class)->withArgument($this->container);
         $this->container->share(Pathfinder::class, function () {
             $pathfinder = new Pathfinder($this->container);
-            $pathfinder->register(new LocalPathfinder());
+            $pathfinder->register(new ApplicationPathfinder());
             $pathfinder->register(new ServerPathfinder());
+            $pathfinder->register(new HomePathfinder());
 
             return $pathfinder;
         });
