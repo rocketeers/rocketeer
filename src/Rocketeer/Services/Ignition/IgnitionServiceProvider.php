@@ -75,13 +75,9 @@ class IgnitionServiceProvider extends AbstractServiceProvider implements Bootabl
     {
         $this->register();
 
-        // Set container onto facade
+        // Set container onto facade and setup alias
         Rocketeer::setContainer($this->container);
-
-        // Add facade alias
-        $manager = new Manager();
-        $manager->register();
-        $manager->alias('Rocketeer', Rocketeer::class);
+        class_alias(Rocketeer::class, 'Rocketeer');
 
         // Bootstrap Rocketeer
         $this->bootstrapper->bootstrapPaths();

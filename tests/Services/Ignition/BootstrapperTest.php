@@ -50,8 +50,8 @@ class BootstrapperTest extends RocketeerTestCase
     public function testCanLoadFilesOrFolder()
     {
         $this->files->createDir('/src/.rocketeer/events');
-        $this->files->put('/src/.rocketeer/tasks.php', '<?php Rocketeer\Facades\Rocketeer::task("DisplayFiles", ["ls", "ls"]);');
-        $this->files->put('/src/.rocketeer/events/some-event.php', '<?php Rocketeer\Facades\Rocketeer::before("DisplayFiles", "whoami");');
+        $this->files->put('/src/.rocketeer/tasks.php', '<?php Rocketeer::task("DisplayFiles", ["ls", "ls"]);');
+        $this->files->put('/src/.rocketeer/events/some-event.php', '<?php Rocketeer::before("DisplayFiles", "whoami");');
 
         $this->bootstrapper->bootstrapPaths();
         $this->bootstrapper->bootstrapUserCode();
