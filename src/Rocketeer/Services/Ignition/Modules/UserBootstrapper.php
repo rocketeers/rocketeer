@@ -67,19 +67,27 @@ class UserBootstrapper extends AbstractBootstrapperModule
     protected function bootstrapStandaloneFiles()
     {
         $folder = $this->paths->getRocketeerPath();
+        $appFolderPath = trim($this->paths->getAppFolderPath(), '/');
         $files = $this->files->listContents($folder, true);
 
         // Gather files to include in the correct order
         $queue = [];
         foreach ($files as $file) {
-            if ($file['type'] === 'dir' || $file['extension'] !== 'php') {
+            $path = $file['path'];
+
+            if (
+                $file['type'] === 'dir' ||
+                $file['extension'] !== 'php' ||
+                strpos($path, $appFolderPath) !== false
+            ) {
                 continue;
             }
 
-            if (strpos($file['path'], 'tasks') !== false) {
-                array_unshift($queue, $file['path']);
+            // Load tasks first
+            if (strpos($path, 'tasks') !== false) {
+                array_unshift($queue, $path);
             } else {
-                $queue[] = $file['path'];
+                $queue[] = $path;
             }
         }
 

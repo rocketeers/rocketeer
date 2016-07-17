@@ -13,28 +13,11 @@
 namespace Rocketeer\Services\Ignition;
 
 use Rocketeer\Tasks\Closure;
+use Rocketeer\Tasks\Ignite;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class BootstrapperTest extends RocketeerTestCase
 {
-    /**
-     * The igniter instance.
-     *
-     * @var Bootstrapper
-     */
-    protected $igniter;
-
-    /**
-     * Setup the tests.
-     */
-    public function setUp()
-    {
-        parent::setUp();
-
-        $this->container->remove('path.base');
-        $this->usesLaravel(false);
-    }
-
     ////////////////////////////////////////////////////////////////////
     //////////////////////////////// TESTS /////////////////////////////
     ////////////////////////////////////////////////////////////////////
@@ -50,17 +33,10 @@ class BootstrapperTest extends RocketeerTestCase
 
     public function testCanBindBasePath()
     {
+        $this->container->remove('path.base');
         $this->bootstrapper->bootstrapPaths();
 
         $this->assertEquals(realpath(__DIR__.'/../../..'), $this->container->get('path.base'));
-    }
-
-    public function testCanBindConfigurationPaths()
-    {
-        $this->bootstrapper->bootstrapPaths();
-
-        $root = realpath(__DIR__.'/../../..');
-        $this->assertEquals($root.'/.rocketeer', $this->paths->getRocketeerPath());
     }
 
     public function testCanExportConfiguration()
@@ -68,17 +44,14 @@ class BootstrapperTest extends RocketeerTestCase
         $this->bootstrapper->bootstrapPaths();
         $this->configurationPublisher->publish();
 
-        $this->assertVirtualFileExists(__DIR__.'/../../../.rocketeer');
+        $this->assertVirtualFileExists('src/.rocketeer');
     }
 
     public function testCanLoadFilesOrFolder()
     {
-        $config = $this->customConfig;
-        $this->container->add('path.base', dirname($config));
-
-        $this->files->createDir($config.'/events');
-        $this->files->put($config.'/tasks.php', '<?php Rocketeer\Facades\Rocketeer::task("DisplayFiles", ["ls", "ls"]);');
-        $this->files->put($config.'/events/some-event.php', '<?php Rocketeer\Facades\Rocketeer::before("DisplayFiles", "whoami");');
+        $this->files->createDir('/src/.rocketeer/events');
+        $this->files->put('/src/.rocketeer/tasks.php', '<?php Rocketeer\Facades\Rocketeer::task("DisplayFiles", ["ls", "ls"]);');
+        $this->files->put('/src/.rocketeer/events/some-event.php', '<?php Rocketeer\Facades\Rocketeer::before("DisplayFiles", "whoami");');
 
         $this->bootstrapper->bootstrapPaths();
         $this->bootstrapper->bootstrapUserCode();
@@ -92,6 +65,14 @@ class BootstrapperTest extends RocketeerTestCase
         $events = $this->tasks->getTasksListeners($task, 'before');
         $this->assertCount(1, $events);
         $this->assertEquals('whoami', $events[0]->getStringTask());
+    }
+
+    public function testDoesntLoadAppNamespaceFiles()
+    {
+        $this->expectOutputString('');
+
+        $this->files->put('/src/.rocketeer/Foobar/Tasks/Ignite.php', '<?php echo "foobar";');
+        $this->bootstrapper->bootstrapUserCode();
     }
 
     public function testCanLoadCustomStrategies()
