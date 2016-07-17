@@ -12,7 +12,7 @@
 
 namespace Rocketeer\Services\Ignition\Modules;
 
-class ConfigurationModule extends AbstractBootstrapperModule
+class ConfigurationBootstrapper extends AbstractBootstrapperModule
 {
     /**
      * Load the custom files (tasks, events, ...).

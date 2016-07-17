@@ -12,7 +12,7 @@
 
 namespace Rocketeer\Services\Ignition\Modules;
 
-class PathsModule extends AbstractBootstrapperModule
+class PathsBootstrapper extends AbstractBootstrapperModule
 {
     /**
      * Bind paths to the container.

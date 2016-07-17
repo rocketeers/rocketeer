@@ -14,9 +14,9 @@ namespace Rocketeer\Services\Ignition;
 
 use League\Container\ContainerAwareInterface;
 use Rocketeer\Facades\Rocketeer;
-use Rocketeer\Services\Ignition\Modules\ConfigurationModule;
-use Rocketeer\Services\Ignition\Modules\PathsModule;
-use Rocketeer\Services\Ignition\Modules\TasksModule;
+use Rocketeer\Services\Ignition\Modules\ConfigurationBootstrapper;
+use Rocketeer\Services\Ignition\Modules\PathsBootstrapper;
+use Rocketeer\Services\Ignition\Modules\TasksBootstrapper;
 use Rocketeer\Services\Modules\ModulableInterface;
 use Rocketeer\Services\Modules\ModulableTrait;
 use Rocketeer\Traits\ContainerAwareTrait;
@@ -25,9 +25,9 @@ use Rocketeer\Traits\ContainerAwareTrait;
  * Ignites Rocketeer's custom configuration, tasks, events and paths
  * depending on what Rocketeer is used on.
  *
- * @mixin ConfigurationModule
- * @mixin PathsModule
- * @mixin TasksModule
+ * @mixin ConfigurationBootstrapper
+ * @mixin PathsBootstrapper
+ * @mixin TasksBootstrapper
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */

@@ -15,9 +15,9 @@ namespace Rocketeer\Services\Ignition;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 use League\Container\ServiceProvider\BootableServiceProviderInterface;
 use Rocketeer\Facades\Rocketeer;
-use Rocketeer\Services\Ignition\Modules\ConfigurationModule;
-use Rocketeer\Services\Ignition\Modules\PathsModule;
-use Rocketeer\Services\Ignition\Modules\TasksModule;
+use Rocketeer\Services\Ignition\Modules\ConfigurationBootstrapper;
+use Rocketeer\Services\Ignition\Modules\PathsBootstrapper;
+use Rocketeer\Services\Ignition\Modules\TasksBootstrapper;
 use Rocketeer\Traits\HasLocatorTrait;
 
 class IgnitionServiceProvider extends AbstractServiceProvider implements BootableServiceProviderInterface
@@ -57,9 +57,9 @@ class IgnitionServiceProvider extends AbstractServiceProvider implements Bootabl
     {
         $this->container->share(Bootstrapper::class, function () {
             $bootstrapper = new Bootstrapper($this->container);
-            $bootstrapper->register(new ConfigurationModule());
-            $bootstrapper->register(new PathsModule());
-            $bootstrapper->register(new TasksModule());
+            $bootstrapper->register(new ConfigurationBootstrapper());
+            $bootstrapper->register(new PathsBootstrapper());
+            $bootstrapper->register(new TasksBootstrapper());
 
             return $bootstrapper;
         });

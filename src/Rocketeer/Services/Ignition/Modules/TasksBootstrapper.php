@@ -32,7 +32,7 @@ use Rocketeer\Tasks\Teardown;
 use Rocketeer\Tasks\Test;
 use Rocketeer\Tasks\Update;
 
-class TasksModule extends AbstractBootstrapperModule
+class TasksBootstrapper extends AbstractBootstrapperModule
 {
     /**
      * Bootstrap tasks registration.
