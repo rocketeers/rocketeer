@@ -16,7 +16,6 @@ use League\Container\ServiceProvider\AbstractServiceProvider;
 use Rocketeer\Services\Config\Files\ConfigurationCache;
 use Rocketeer\Services\Config\Files\ConfigurationLoader;
 use Rocketeer\Services\Config\Files\ConfigurationPublisher;
-use Rocketeer\Services\Environment\Pathfinder;
 use Rocketeer\Traits\HasLocatorTrait;
 use Symfony\Component\Config\Definition\Loaders\PhpLoader;
 use Symfony\Component\Config\FileLocator;

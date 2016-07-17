@@ -15,7 +15,6 @@ namespace Rocketeer\Services\Ignition;
 use Rocketeer\Tasks\Closure;
 use Rocketeer\Tasks\Ignite;
 use Rocketeer\TestCases\RocketeerTestCase;
-use Symfony\Component\Finder\Finder;
 
 class BootstrapperTest extends RocketeerTestCase
 {

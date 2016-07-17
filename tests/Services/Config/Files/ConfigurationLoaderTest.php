@@ -13,39 +13,9 @@
 namespace Rocketeer\Services\Config\Files;
 
 use Rocketeer\TestCases\RocketeerTestCase;
-use Symfony\Component\Finder\Finder;
 
 class ConfigurationLoaderTest extends RocketeerTestCase
 {
-    public function testCanCacheConfigurationAndInvalidateIt()
-    {
-        if (defined('HHVM_VERSION')) {
-            $this->markTestSkipped('It\'s ok I hate you too HHVM');
-        }
-
-        $folder = $this->replicateConfiguration();
-        $filepath = $folder.'/config.php';
-        $originalContents = file_get_contents($filepath);
-
-        // Check that we can cache configuration
-        $config = $this->configurationLoader->getConfiguration();
-        $this->assertEquals('{application_name}', $config['config']['application_name']);
-        touch($filepath, time() - 5);
-        $this->assertTrue($this->configurationLoader->getCache()->isFresh());
-
-        // Check that we can invalidate it
-        file_put_contents($filepath, str_replace('{application_name}', 'foobar', $originalContents));
-        $this->assertFalse($this->configurationLoader->getCache()->isFresh());
-
-        $config = $this->configurationLoader->getConfiguration();
-        touch($filepath, time() - 5);
-        $this->assertTrue($this->configurationLoader->getCache()->isFresh());
-        $this->assertEquals('foobar', $config['config']['application_name']);
-
-        // Revert changes
-        file_put_contents($filepath, $originalContents);
-    }
-
     public function testCanFilterOutInvalidConfigurationDirectories()
     {
         $this->files->createDir(__DIR__);
