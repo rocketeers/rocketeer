@@ -119,7 +119,7 @@ class ConnectionKey extends AbstractKey
     {
         if (is_string($connection)) {
             $name = $connection;
-            $server = $server ?: $this->server;
+            $server = is_null($server) ? $this->server : $server;
         } else {
             $name = $connection->name;
             $server = $connection->server;

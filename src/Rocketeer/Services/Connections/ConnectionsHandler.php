@@ -282,6 +282,17 @@ class ConnectionsHandler
     }
 
     /**
+     * @param string $name
+     * @param int|null    $server
+     *
+     * @return bool
+     */
+    public function is($name, $server = null)
+    {
+        return $this->getCurrentConnectionKey()->is($name, $server);
+    }
+
+    /**
      * Flush active connection(s).
      */
     public function disconnect()

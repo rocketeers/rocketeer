@@ -186,4 +186,31 @@ class ConnectionsHandlerTest extends RocketeerTestCase
         $this->assertEquals('barbaz.com', $connectionKey->host);
         $this->assertEquals(1, $connectionKey->server);
     }
+
+    public function testCanCheckWhatCurrentConnectionIs()
+    {
+        $this->swapConnections([
+            'production' => [
+                'servers' => [
+                    [
+                        'host' => 'foobar.com',
+                        'username' => 'foobar',
+                        'password' => 'foobar',
+                    ],
+                    [
+                        'host' => 'barbaz.com',
+                        'username' => 'foobar',
+                        'password' => 'foobar',
+                    ],
+                ],
+            ],
+        ]);
+
+        $this->connections->setCurrentConnection('production', 1);
+
+        $this->assertTrue($this->connections->is('production', 1));
+        $this->assertFalse($this->connections->is('production', 0));
+        $this->assertTrue($this->connections->is('production'));
+        $this->assertFalse($this->connections->is('staging'));
+    }
 }

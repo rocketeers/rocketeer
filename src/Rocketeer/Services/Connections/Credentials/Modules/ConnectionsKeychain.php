@@ -73,15 +73,11 @@ class ConnectionsKeychain extends AbstractModule
             return $connection;
         }
 
-        // Get fallback connection
-        $current = new ConnectionKey();
-        $current->server = 0;
-
         // Concatenate
         $handle = new ConnectionKey([
             'name' => $connection,
-            'server' => !is_null($server) ? $server : $current->server,
-            'stage' => $stage ?: $current->stage,
+            'server' => $server,
+            'stage' => $stage,
         ]);
 
         // Populate credentials
