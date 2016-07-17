@@ -15,6 +15,7 @@ namespace Rocketeer\TestCases\Modules;
 use Rocketeer\Plugins\Laravel\LaravelPlugin;
 use Rocketeer\Services\Connections\Credentials\CredentialsHandler;
 use Rocketeer\Services\Connections\Credentials\Keys\RepositoryKey;
+use Symfony\Component\Finder\Finder;
 
 /**
  * @mixin \Rocketeer\TestCases\RocketeerTestCase
@@ -78,6 +79,10 @@ trait Contexts
         $this->mockCommand($options, $expectations);
     }
 
+    ////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////// CONFIGURATION ////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
+
     /**
      * Swap the current config.
      *
@@ -114,6 +119,26 @@ trait Contexts
         $this->swapConfig([
             'hooks' => [],
         ]);
+    }
+
+    /**
+     * Replicates the configuration onto the VFS.
+     */
+    protected function replicateConfiguration()
+    {
+        $folder = $this->configurationLoader->getFolders()[0];
+        $this->files->createDir($folder);
+
+        $files = (new Finder())->in($folder)->files();
+        foreach ($files as $file) {
+            $contents = file_get_contents($file->getPathname());
+            $this->files->write($folder.'/'.$file->getBasename(), $contents);
+        }
+
+        $this->configurationLoader->setFolders([$folder]);
+        $this->configurationLoader->getCache()->flush();
+
+        return $folder;
     }
 
     //////////////////////////////////////////////////////////////////////

@@ -58,24 +58,4 @@ class ConfigurationLoaderTest extends RocketeerTestCase
         $folders = $this->configurationLoader->getConfigurationFolders();
         $this->assertEquals([__DIR__], $folders);
     }
-
-    /**
-     * Replicates the configuration onto the VFS.
-     */
-    protected function replicateConfiguration()
-    {
-        $folder = $this->configurationLoader->getFolders()[0];
-        $this->files->createDir($folder);
-
-        $files = (new Finder())->in($folder)->files();
-        foreach ($files as $file) {
-            $contents = file_get_contents($file->getPathname());
-            $this->files->write($folder.'/'.$file->getBasename(), $contents);
-        }
-
-        $this->configurationLoader->setFolders([$folder]);
-        $this->configurationLoader->getCache()->flush();
-
-        return $folder;
-    }
 }
