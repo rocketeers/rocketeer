@@ -47,7 +47,7 @@ class ApplicationPathfinder extends AbstractPathfinderModule
      */
     public function getConfigurationPath()
     {
-        return $this->getRocketeerPath().DS.'config';
+        return $this->modulable->unifyLocalSlashes($this->getRocketeerPath().'/config');
     }
 
     /**
@@ -55,7 +55,7 @@ class ApplicationPathfinder extends AbstractPathfinderModule
      */
     public function getLogsPath()
     {
-        return $this->getRocketeerPath().DS.'logs';
+        return $this->modulable->unifyLocalSlashes($this->getRocketeerPath().'/logs');
     }
 
     /**
@@ -67,7 +67,7 @@ class ApplicationPathfinder extends AbstractPathfinderModule
     {
         $namespace = ucfirst($this->config->get('application_name'));
 
-        return $this->getRocketeerPath().DS.$namespace;
+        return $this->modulable->unifyLocalSlashes($this->getRocketeerPath().'/'.$namespace);
     }
 
     /**
