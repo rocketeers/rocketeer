@@ -40,7 +40,7 @@ class PluginsTest extends RocketeerTestCase
         $this->usesLaravel(false);
 
         $this->mockFiles(function (MockInterface $mock) {
-            $destination = $this->container->get('path.rocketeer.config').'/plugins/rocketeers/rocketeer-slack';
+            $destination = $this->paths->getRocketeerPath().'/plugins/rocketeers/rocketeer-slack';
 
             return $mock
                 ->shouldReceive('has')->with($this->from)->andReturn(true)

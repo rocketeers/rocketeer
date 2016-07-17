@@ -72,7 +72,7 @@ class ConfigurationBootstrapper extends AbstractBootstrapperModule
     protected function mergeConfigurationFolders(array $folders, callable $computeHandle, $exclude = null)
     {
         // Cancel if not ignited yet
-        $configuration = $this->container->get('path.rocketeer.config');
+        $configuration = $this->paths->getConfigurationPath();
         if (!$this->files->isDirectory($configuration)) {
             return;
         }
@@ -112,7 +112,7 @@ class ConfigurationBootstrapper extends AbstractBootstrapperModule
     {
         return [
             'bootstrapConfiguration',
-            'bootstrapContextualConfigurations',
+            'bootstrapContextualConfiguration',
             'bootstrapPluginsConfiguration ',
         ];
     }

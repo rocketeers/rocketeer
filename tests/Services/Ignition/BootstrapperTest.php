@@ -60,23 +60,7 @@ class BootstrapperTest extends RocketeerTestCase
         $this->bootstrapper->bootstrapPaths();
 
         $root = realpath(__DIR__.'/../../..');
-        $this->assertEquals($root.'/.rocketeer', $this->container->get('path.rocketeer.config'));
-    }
-
-    public function testCanBindTasksAndEventsPaths()
-    {
-        $this->bootstrapper->bootstrapPaths();
-        $this->configurationPublisher->publish();
-
-        // Create some fake files
-        $root = realpath(__DIR__.'/../../../').'/.rocketeer';
-        $this->files->put($root.'/events.php', '');
-        $this->files->createDir($root.'/tasks');
-
-        $this->bootstrapper->bootstrapPaths();
-
-        $this->assertEquals($root.'/tasks', $this->container->get('path.rocketeer.tasks'));
-        $this->assertEquals($root.'/events.php', $this->container->get('path.rocketeer.events'));
+        $this->assertEquals($root.'/.rocketeer', $this->paths->getRocketeerPath());
     }
 
     public function testCanExportConfiguration()
@@ -130,7 +114,6 @@ class BootstrapperTest extends RocketeerTestCase
         $this->markTestSkipped('Until I find a solution to replicating Finder on a VFS');
 
         $this->files->createDir($this->customConfig);
-        $this->container->add('path.rocketeer.config', $this->customConfig);
         $this->configurationLoader->addFolder($this->customConfig);
 
         $file = $this->customConfig.'/connections/production/scm.php';
@@ -144,7 +127,6 @@ class BootstrapperTest extends RocketeerTestCase
     public function testDoesntCrashIfNoSubfolder()
     {
         $this->files->createDir($this->customConfig);
-        $this->container->add('path.rocketeer.config', realpath($this->customConfig));
 
         $this->bootstrapper->bootstrapContextualConfiguration();
     }

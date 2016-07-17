@@ -25,12 +25,10 @@ trait Contexts
 {
     /**
      * @param string $path
-     * @param string $directorySeparator
      */
-    protected function mockBasepath($path, $directorySeparator = DIRECTORY_SEPARATOR)
+    protected function mockBasepath($path)
     {
         $this->container->add('path.base', $path);
-        $this->container->add('path.rocketeer.config', $path.$directorySeparator.'.rocketeer');
     }
 
     /**

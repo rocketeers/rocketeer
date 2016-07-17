@@ -22,7 +22,6 @@ class LogsHandlerTest extends RocketeerTestCase
     {
         parent::setUp();
 
-        $this->container->add('path.rocketeer.logs', $this->server.'/logs');
         $this->swapConfig([
             'logs' => function (ConnectionsHandler $rocketeer) {
                 return sprintf('%s-%s.log', $rocketeer->getCurrentConnectionKey()->name, $rocketeer->getCurrentConnectionKey()->stage);
@@ -33,12 +32,12 @@ class LogsHandlerTest extends RocketeerTestCase
     public function testCanGetCurrentLogsFile()
     {
         $logs = $this->logs->getLogsRealpath();
-        $this->assertEquals($this->server.'/logs/production-.log', $logs);
+        $this->assertEquals('/src/.rocketeer/logs/production-.log', $logs);
 
         $this->connections->setCurrentConnection('staging');
         $this->connections->setStage('foobar');
         $logs = $this->logs->getLogsRealpath();
-        $this->assertEquals($this->server.'/logs/staging-foobar.log', $logs);
+        $this->assertEquals('/src/.rocketeer/logs/staging-foobar.log', $logs);
     }
 
     public function testCanLogInformations()
@@ -54,7 +53,7 @@ class LogsHandlerTest extends RocketeerTestCase
 
     public function testCanCreateLogsFolderIfItDoesntExistAlready()
     {
-        $this->container->add('path.rocketeer.logs', $this->server.'/newlogs');
+        $this->container->add('path.base', $this->server.'/newlogs');
         $this->logs->log('foobar');
         $logs = $this->logs->getLogsRealpath();
 
@@ -105,7 +104,7 @@ class LogsHandlerTest extends RocketeerTestCase
             'logs' => 'foobar.txt',
         ]);
 
-        $this->assertEquals($this->server.'/logs/foobar.txt', $this->logs->getLogsRealpath());
+        $this->assertEquals('/src/.rocketeer/logs/foobar.txt', $this->logs->getLogsRealpath());
     }
 
     public function testDoesntCreateLogsIfInvalidFilename()

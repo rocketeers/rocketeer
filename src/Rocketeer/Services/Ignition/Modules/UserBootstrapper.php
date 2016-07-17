@@ -1,6 +1,9 @@
 <?php
 namespace Rocketeer\Services\Ignition\Modules;
 
+use Symfony\Component\ClassLoader\Psr4ClassLoader;
+use Dotenv\Dotenv;
+
 class UserBootstrapper extends AbstractBootstrapperModule
 {
     /**
@@ -10,6 +13,7 @@ class UserBootstrapper extends AbstractBootstrapperModule
     {
         $this->bootstrapDotenv();
         $this->bootstrapApp();
+        $this->bootstrapStandaloneFiles();
     }
 
     /**
@@ -46,6 +50,15 @@ class UserBootstrapper extends AbstractBootstrapperModule
         $serviceProvider = $namespace.'\\'.$namespace.'ServiceProvider';
         if (class_exists($serviceProvider)) {
             $this->container->addServiceProvider($serviceProvider);
+        }
+    }
+
+    protected function bootstrapStandaloneFiles()
+    {
+        $folder = $this->paths->getRocketeerPath();
+        $files = $this->files->listContents($folder);
+        foreach ($files as $file) {
+            dump($file);
         }
     }
 

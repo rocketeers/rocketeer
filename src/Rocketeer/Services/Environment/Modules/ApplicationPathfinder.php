@@ -35,7 +35,7 @@ class ApplicationPathfinder extends AbstractPathfinderModule
     public function getRocketeerPath()
     {
         // Get path to configuration
-        $configuration = $this->container->get('path.rocketeer.config');
+        $configuration = $this->modulable->getBasePath().'.rocketeer';
 
         return $this->modulable->unifyLocalSlashes($configuration);
     }
@@ -48,6 +48,14 @@ class ApplicationPathfinder extends AbstractPathfinderModule
     public function getConfigurationPath()
     {
         return $this->getRocketeerPath().DS.'config';
+    }
+
+    /**
+     * @return string
+     */
+    public function getLogsPath()
+    {
+        return $this->getRocketeerPath().DS.'logs';
     }
 
     /**
@@ -102,6 +110,8 @@ class ApplicationPathfinder extends AbstractPathfinderModule
             'getApplicationPath',
             'getConfigurationPath',
             'getDotenvPath',
+            'getLogsPath',
+            'getRocketeerPath',
             'getStoragePath',
             'getUserHomeFolder',
         ];

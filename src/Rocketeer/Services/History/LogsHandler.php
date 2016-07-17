@@ -99,7 +99,7 @@ class LogsHandler
         }
 
         // Save for reuse
-        $name = $this->container->get('path.rocketeer.logs').'/'.$name;
+        $name = $this->paths->getLogsPath().DS.$name;
 
         return $name;
     }
