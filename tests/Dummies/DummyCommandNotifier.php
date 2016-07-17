@@ -20,15 +20,15 @@ class DummyCommandNotifier extends DummyBeforeAfterNotifier
     /**
      * Register Tasks with Rocketeer.
      *
-     * @param \Rocketeer\Services\Tasks\TasksHandler $queue
+     * @param \Rocketeer\Services\Tasks\TasksHandler $tasks
      */
-    public function onQueue(TasksHandler $queue)
+    public function onQueue(TasksHandler $tasks)
     {
         // Create the task instance
         $notify = new Notify($this->container);
         $notify->setNotifier($this);
 
-        $queue->listenTo('commands.deploy.before', [clone $notify], -10, true);
-        $queue->listenTo('commands.deploy.after', [clone $notify], -10, true);
+        $tasks->listenTo('commands.deploy.before', [clone $notify], -10, true);
+        $tasks->listenTo('commands.deploy.after', [clone $notify], -10, true);
     }
 }

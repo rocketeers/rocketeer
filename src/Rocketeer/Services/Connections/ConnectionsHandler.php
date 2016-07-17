@@ -282,8 +282,8 @@ class ConnectionsHandler
     }
 
     /**
-     * @param string $name
-     * @param int|null    $server
+     * @param string   $name
+     * @param int|null $server
      *
      * @return bool
      */
