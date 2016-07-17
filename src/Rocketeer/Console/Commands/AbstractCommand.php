@@ -18,6 +18,7 @@ use Rocketeer\Interfaces\IdentifierInterface;
 use Rocketeer\Tasks\AbstractTask;
 use Rocketeer\Tasks\Closure;
 use Rocketeer\Traits\ContainerAwareTrait;
+use Rocketeer\Traits\HasLocatorTrait;
 use Rocketeer\Traits\Properties\HasEventsTrait;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;

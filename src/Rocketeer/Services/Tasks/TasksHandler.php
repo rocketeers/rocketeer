@@ -184,13 +184,9 @@ class TasksHandler
         // Clean previously registered events
         $this->clearRegisteredEvents();
 
-        // Clean previously registered plugins
-        $plugins = $this->registeredPlugins;
-        $this->registeredPlugins = [];
-
-        // Register plugins again
-        foreach ($plugins as $plugin) {
-            $this->plugin($plugin['plugin'], $plugin['configuration']);
+        // Re-register plugins
+        foreach ($this->container->getPlugins() as $plugin) {
+            $this->container->addServiceProvider($plugin);
         }
 
         // Get the registered events
@@ -322,56 +318,6 @@ class TasksHandler
         }
 
         return $events;
-    }
-
-    ////////////////////////////////////////////////////////////////////
-    /////////////////////////////// PLUGINS ////////////////////////////
-    ////////////////////////////////////////////////////////////////////
-
-    /**
-     * @return array
-     */
-    public function getRegisteredPlugins()
-    {
-        return $this->registeredPlugins;
-    }
-
-    /**
-     * Register a Rocketeer plugin with Rocketeer.
-     *
-     * @param string $plugin
-     * @param array  $configuration
-     */
-    public function plugin($plugin, array $configuration = [])
-    {
-        // Build plugin
-        if (is_string($plugin)) {
-            $plugin = $this->container->get($plugin, [$this->container]);
-        }
-
-        // Store registration of plugin
-        $identifier = get_class($plugin);
-        if (isset($this->registeredPlugins[$identifier])) {
-            return;
-        }
-
-        $this->registeredPlugins[$identifier] = [
-            'plugin' => $plugin,
-            'configuration' => $configuration,
-        ];
-
-        // Register configuration
-        if ($configuration) {
-            $this->config->set($plugin->getNamespace().'::config', $configuration);
-        }
-
-        // Bind instances
-        $this->container = $plugin->register($this->container);
-        $plugin->onConsole($this->container->get(Console::class));
-        $plugin->onBuilder($this->container->get(Builder::class));
-
-        // Add hooks to TasksHandler
-        $plugin->onQueue($this);
     }
 
     //////////////////////////////////////////////////////////////////////

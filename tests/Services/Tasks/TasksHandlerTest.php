@@ -195,7 +195,7 @@ class TasksHandlerTest extends RocketeerTestCase
             'hooks' => ['before' => ['deploy' => 'ls']],
         ]);
 
-        $this->tasks->plugin(new DummyNotifier($this->container));
+        $this->container->addServiceProvider(new DummyNotifier($this->container));
 
         $listeners = $this->tasks->getTasksListeners('deploy', 'before', true);
         $this->assertEquals(['ls', 'notify'], $listeners);
@@ -210,9 +210,9 @@ class TasksHandlerTest extends RocketeerTestCase
     {
         $this->disableTestEvents();
 
-        $this->tasks->plugin(new DummyNotifier($this->container));
-        $this->tasks->plugin(new DummyNotifier($this->container));
-        $this->tasks->plugin(new DummyNotifier($this->container));
+        $this->container->addServiceProvider(new DummyNotifier($this->container));
+        $this->container->addServiceProvider(new DummyNotifier($this->container));
+        $this->container->addServiceProvider(new DummyNotifier($this->container));
 
         $listeners = $this->tasks->getTasksListeners('deploy', 'before', true);
         $this->assertEquals(['notify'], $listeners);
@@ -257,7 +257,7 @@ class TasksHandlerTest extends RocketeerTestCase
 
     public function testCanAddLookupsViaPlugins()
     {
-        $this->tasks->plugin(DummyBuilderPlugin::class);
+        $this->container->addServiceProvider(DummyBuilderPlugin::class);
 
         $task = $this->builder->buildTask('MyCustomTask');
 

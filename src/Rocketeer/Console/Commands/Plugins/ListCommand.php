@@ -13,6 +13,7 @@
 namespace Rocketeer\Console\Commands\Plugins;
 
 use Rocketeer\Console\Commands\AbstractCommand;
+use Rocketeer\Dummies\DummyNotifier;
 
 class ListCommand extends AbstractCommand
 {
@@ -44,8 +45,9 @@ class ListCommand extends AbstractCommand
     public function fire()
     {
         $rows = [];
-        $plugins = $this->tasks->getRegisteredPlugins();
-        foreach ($plugins as $plugin => $instance) {
+        $this->container->addServiceProvider(new DummyNotifier());
+        $plugins = $this->container->getPlugins();
+        foreach ($plugins as $plugin) {
             $rows[] = [$plugin];
         }
 

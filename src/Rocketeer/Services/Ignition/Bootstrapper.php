@@ -58,9 +58,12 @@ class Bootstrapper
         if ($this->files->has($folder)) {
             $namespace = ucfirst($this->config->get('application_name'));
 
+            // Load main namespace
             $classloader = new Psr4ClassLoader();
             $classloader->addPrefix($namespace.'\\', $folder);
             $classloader->register();
+
+            $classloader = new Classmap
 
             // Load service provider
             $serviceProvider = $namespace.'\\'.$namespace.'ServiceProvider';
@@ -73,7 +76,7 @@ class Bootstrapper
         $plugins = (array) $this->config->get('plugins');
         $plugins = array_filter($plugins, 'class_exists');
         foreach ($plugins as $plugin) {
-            $this->tasks->plugin($plugin);
+            $this->container->addServiceProvider($plugin);
         }
 
         // Merge contextual configurations

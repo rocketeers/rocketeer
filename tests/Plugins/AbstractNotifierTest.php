@@ -40,7 +40,7 @@ class AbstractNotifierTest extends RocketeerTestCase
         $this->tasks->registerConfiguredEvents();
 
         $this->notifier = new DummyNotifier($this->container);
-        $this->tasks->plugin($this->notifier);
+        $this->container->addServiceProvider($this->notifier);
     }
 
     public function testCanAskForNameIfNoneProvided()

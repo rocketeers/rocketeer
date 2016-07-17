@@ -21,7 +21,7 @@ class NotifyTest extends RocketeerTestCase
     public function testDoesntSendTheSameNotificationTwice()
     {
         $this->disableTestEvents();
-        $this->tasks->plugin(new DummyBeforeAfterNotifier($this->container));
+        $this->container->addServiceProvider(new DummyBeforeAfterNotifier($this->container));
 
         $this->expectOutputString('before_deployafter_deployafter_rollback');
         $this->localStorage->set('notifier.name', 'Jean Eude');
@@ -34,7 +34,7 @@ class NotifyTest extends RocketeerTestCase
     public function testCanProperlyComputeHandleFromCommandEvent()
     {
         $this->disableTestEvents();
-        $this->tasks->plugin(new DummyCommandNotifier($this->container));
+        $this->container->addServiceProvider(new DummyCommandNotifier($this->container));
 
         $this->expectOutputString('before_deployafter_deploy');
         $this->localStorage->set('notifier.name', 'Jean Eude');

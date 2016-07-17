@@ -163,7 +163,7 @@ trait Contexts
     protected function usesLaravel($uses = true)
     {
         if ($uses) {
-            $this->tasks->plugin(LaravelPlugin::class);
+            $this->container->addServiceProvider(LaravelPlugin::class);
         } else {
             $this->container->remove('rocketeer.strategies.framework');
         }

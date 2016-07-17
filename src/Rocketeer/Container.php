@@ -14,6 +14,7 @@ namespace Rocketeer;
 
 use League\Container\ReflectionContainer;
 use Rocketeer\Console\ConsoleServiceProvider;
+use Rocketeer\Plugins\AbstractPlugin;
 use Rocketeer\Services\Builders\BuilderServiceProvider;
 use Rocketeer\Services\Config\ConfigurationServiceProvider;
 use Rocketeer\Services\Connections\ConnectionsServiceProvider;
@@ -37,12 +38,18 @@ if (!defined('DS')) {
 class Container extends \League\Container\Container
 {
     /**
+     * @var ServiceProviderAggregate
+     */
+    protected $providers;
+
+    /**
      * {@inheritdoc}
      */
     public function __construct()
     {
-        parent::__construct();
+        parent::__construct(new ServiceProviderAggregate());
 
+        // Bind container onto itself
         $this->delegate(new ReflectionContainer());
         $this->add(self::class, $this);
 
@@ -70,6 +77,33 @@ class Container extends \League\Container\Container
             $this->addServiceProvider($provider);
         }
     }
+
+    ////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////// PROVIDERS ///////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * @return string[]
+     */
+    public function getPlugins()
+    {
+        // Get only plugins
+        $providers = $this->providers->getAdded();
+        $providers = array_map(function ($provider) {
+           return $provider instanceof AbstractPlugin ? get_class($provider) : false;
+        }, $providers);
+
+        // Return only a list of plugins classes
+        $providers = array_filter($providers);
+        $providers = array_unique($providers);
+        $providers = array_values($providers);
+
+        return $providers;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////// BINDINGS ///////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
 
     /**
      * @param string $key
