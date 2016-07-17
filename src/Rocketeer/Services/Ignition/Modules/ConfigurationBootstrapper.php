@@ -19,7 +19,10 @@ class ConfigurationBootstrapper extends AbstractBootstrapperModule
      */
     public function bootstrapConfiguration()
     {
-        $this->bootstrapContextualConfiguration();
+        // Reload configuration
+        $this->config->replace(
+            $this->configurationLoader->getConfiguration()
+        );
 
         $this->bootstrapPlugins();
         $this->bootstrapPluginsConfiguration();
@@ -35,14 +38,6 @@ class ConfigurationBootstrapper extends AbstractBootstrapperModule
         foreach ($plugins as $plugin) {
             $this->container->addServiceProvider($plugin);
         }
-    }
-
-    /**
-     * Merge the various contextual configurations defined in userland.
-     */
-    public function bootstrapContextualConfiguration()
-    {
-        $this->config->replace($this->configurationLoader->getConfiguration());
     }
 
     /**
@@ -112,7 +107,6 @@ class ConfigurationBootstrapper extends AbstractBootstrapperModule
     {
         return [
             'bootstrapConfiguration',
-            'bootstrapContextualConfiguration',
             'bootstrapPluginsConfiguration ',
         ];
     }
