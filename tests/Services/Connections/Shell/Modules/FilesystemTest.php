@@ -109,7 +109,7 @@ class FilesystemTest extends RocketeerTestCase
 
     public function testCanTailFile()
     {
-        $contents = $this->task()->tail($this->server.'/state.json', false);
+        $contents = $this->task->tail($this->server.'/state.json', false);
 
         $this->assertEquals($this->files->read($this->server.'/state.json'), $contents);
     }

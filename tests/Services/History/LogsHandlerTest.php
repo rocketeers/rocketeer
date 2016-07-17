@@ -78,8 +78,8 @@ class LogsHandlerTest extends RocketeerTestCase
 
     public function testPrependsLogsWithConnectionHandles()
     {
-        $this->task()->toHistory('pwd');
-        $this->task()->toOutput('Some path');
+        $this->task->toHistory('pwd');
+        $this->task->toOutput('Some path');
 
         $logs = $this->logs->getFlattenedLogs();
 
@@ -89,7 +89,7 @@ class LogsHandlerTest extends RocketeerTestCase
 
     public function testLogsMessagesFromExplainerToo()
     {
-        $this->task()->toHistory('pwd');
+        $this->task->toHistory('pwd');
         $this->explainer->success('Getting the current path');
 
         $logs = $this->logs->getFlattenedLogs();

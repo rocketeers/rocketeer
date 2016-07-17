@@ -65,18 +65,6 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
     /**
      * @var string
      */
-    protected $customConfig;
-
-    /**
-     * The path to the local deployments file.
-     *
-     * @var string
-     */
-    protected $deploymentsFile;
-
-    /**
-     * @var string
-     */
     protected $home;
 
     /**
@@ -89,8 +77,6 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         // Create local paths
         $this->home = $_SERVER['HOME'];
         $this->server = realpath(__DIR__.'/../_server').'/foobar';
-        $this->customConfig = $this->server.'/.rocketeer';
-        $this->deploymentsFile = $this->server.'/deployments.json';
 
         // Paths -------------------------------------------------------- /
 

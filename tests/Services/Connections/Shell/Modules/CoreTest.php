@@ -152,7 +152,7 @@ class CoreTest extends RocketeerTestCase
         $this->rocketeer->setLocal(true);
         $this->assertTrue($this->rocketeer->isLocal());
 
-        $this->task()->onLocal(function () {
+        $this->task->onLocal(function () {
             // ...
         });
 

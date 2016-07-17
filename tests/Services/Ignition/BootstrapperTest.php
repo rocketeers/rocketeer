@@ -77,11 +77,8 @@ class BootstrapperTest extends RocketeerTestCase
 
     public function testCanLoadCustomStrategies()
     {
-        $config = $this->customConfig;
-        $this->container->add('path.base', dirname($config));
-
-        $this->files->createDir($config.'/strategies');
-        $this->files->put($config.'/strategies/Foobar.php', '<?php namespace Lol; class Foobar extends \Rocketeer\Strategies\AbstractStrategy { public function fire() { $this->runForCurrentRelease("ls"); } }');
+        $this->files->createDir('/src/.rocketeer/config/strategies');
+        $this->files->put('/src/.rocketeer/config/strategies/Foobar.php', '<?php namespace Lol; class Foobar extends \Rocketeer\Strategies\AbstractStrategy { public function fire() { $this->runForCurrentRelease("ls"); } }');
 
         $this->bootstrapper->bootstrapPaths();
         $this->bootstrapper->bootstrapUserCode();
