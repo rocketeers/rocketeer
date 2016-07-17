@@ -38,6 +38,8 @@ class DummyNotifier extends AbstractNotifier
      * Send a given message.
      *
      * @param string $message
+     *
+     * @return string
      */
     public function send($message)
     {

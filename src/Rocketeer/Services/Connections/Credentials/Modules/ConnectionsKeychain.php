@@ -76,7 +76,7 @@ class ConnectionsKeychain extends AbstractModule
         // Concatenate
         $handle = new ConnectionKey([
             'name' => $connection,
-            'server' => $server,
+            'server' => (int) $server,
             'stage' => $stage,
         ]);
 

@@ -14,7 +14,6 @@ namespace Rocketeer;
 
 use League\Container\ReflectionContainer;
 use Rocketeer\Console\ConsoleServiceProvider;
-use Rocketeer\Plugins\AbstractPlugin;
 use Rocketeer\Services\Builders\BuilderServiceProvider;
 use Rocketeer\Services\Config\ConfigurationServiceProvider;
 use Rocketeer\Services\Connections\ConnectionsServiceProvider;

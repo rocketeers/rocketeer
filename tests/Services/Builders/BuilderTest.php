@@ -32,4 +32,17 @@ class BuilderTest extends RocketeerTestCase
 
         $this->assertInstanceOf(MyCustomTask::class, $task);
     }
+
+    public function testDoesntRegisterSameLookupTwice()
+    {
+        $this->builder->registerLookup('tasks', 'Rocketeer\Dummies\Tasks\%s');
+        $this->builder->registerLookup('tasks', 'Rocketeer\Dummies\Tasks\%s');
+
+        $this->assertEquals([
+            'Rocketeer\Tasks\%s',
+            'Rocketeer\Tasks\Subtasks\%s',
+            '{application_name}\Tasks\%s',
+            'Rocketeer\Dummies\Tasks\%s',
+        ], $this->builder->getLookups('tasks'));
+    }
 }

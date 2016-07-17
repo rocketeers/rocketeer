@@ -12,9 +12,6 @@
 
 namespace Rocketeer\Services\Environment\Modules;
 
-use Exception;
-use Illuminate\Support\Str;
-
 class ApplicationPathfinder extends AbstractPathfinderModule
 {
     /**
@@ -31,7 +28,7 @@ class ApplicationPathfinder extends AbstractPathfinderModule
     }
 
     /**
-     * Get the path to the .rocketeer folder
+     * Get the path to the .rocketeer folder.
      *
      * @return string
      */
@@ -54,7 +51,7 @@ class ApplicationPathfinder extends AbstractPathfinderModule
     }
 
     /**
-     * Get the path to the user's PSR4 folder
+     * Get the path to the user's PSR4 folder.
      *
      * @return string
      */

@@ -21,10 +21,10 @@ class AbstractFacadeTest extends RocketeerTestCase
 {
     public function testCanWrapAppInFacade()
     {
-        $container = \Rocketeer\Facades\Rocketeer::getContainer();
+        $container = Rocketeer::getContainer();
         $this->assertInstanceOf(Container::class, $container);
 
-        $storage = $this->localStorage;
+        $storage = $container->get('storage.local');
         $this->assertInstanceOf(Storage::class, $storage);
         $this->assertInstanceOf(Filesystem::class, $storage->getFilesystem());
     }

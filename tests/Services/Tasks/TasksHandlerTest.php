@@ -211,8 +211,8 @@ class TasksHandlerTest extends RocketeerTestCase
         $this->disableTestEvents();
 
         $this->container->addServiceProvider(new DummyNotifier($this->container));
-        $this->container->addServiceProvider(new DummyNotifier($this->container));
-        $this->container->addServiceProvider(new DummyNotifier($this->container));
+        $this->tasks->registerConfiguredEvents();
+        $this->tasks->registerConfiguredEvents();
 
         $listeners = $this->tasks->getTasksListeners('deploy', 'before', true);
         $this->assertEquals(['notify'], $listeners);

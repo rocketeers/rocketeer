@@ -1,4 +1,15 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ */
+
 namespace Rocketeer\Services\Ignition\Modules;
 
 use Rocketeer\Tasks\Check;
@@ -24,7 +35,7 @@ use Rocketeer\Tasks\Update;
 class TasksModule extends AbstractBootstrapperModule
 {
     /**
-     * Bootstrap tasks registration
+     * Bootstrap tasks registration.
      */
     public function bootstrapTasks()
     {

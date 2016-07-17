@@ -100,7 +100,7 @@ class Builder implements ModulableInterface, ContainerAwareInterface
     {
         $lookups = (array) $lookups;
 
-        $this->lookups[$type] = array_merge($this->lookups[$type], $lookups);
+        $this->lookups[$type] = array_unique(array_merge($this->lookups[$type], $lookups));
     }
 
     /**
