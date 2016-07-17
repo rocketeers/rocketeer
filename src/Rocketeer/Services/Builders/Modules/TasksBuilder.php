@@ -67,10 +67,12 @@ class TasksBuilder extends AbstractBuilderModule
         $task->setDescription($description);
 
         // Register modules
-        $task->register(new Binaries());
-        $task->register(new Core());
-        $task->register(new Filesystem());
-        $task->register(new Flow());
+        if (!$task->getRegistered()) {
+            $task->register(new Binaries());
+            $task->register(new Core());
+            $task->register(new Filesystem());
+            $task->register(new Flow());
+        }
 
         // Bind instance for later user
         if (!$task instanceof ClosureTask) {
