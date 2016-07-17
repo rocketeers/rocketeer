@@ -61,6 +61,11 @@ class Builder implements ModulableInterface, ContainerAwareInterface
     ];
 
     /**
+     * @var array
+     */
+    protected $lookedUp = [];
+
+    /**
      * @param Container $container
      */
     public function __construct(Container $container)
@@ -110,6 +115,7 @@ class Builder implements ModulableInterface, ContainerAwareInterface
      */
     public function registerLookups(array $lookups)
     {
+        $this->lookedUp = [];
         foreach ($lookups as $type => $lookup) {
             $this->registerLookup($type, $lookup);
         }
@@ -130,6 +136,11 @@ class Builder implements ModulableInterface, ContainerAwareInterface
      */
     public function findQualifiedName($class, $type, $namespace = null)
     {
+        // Check if we already resolved that name
+        if (array_key_exists($class, $this->lookedUp)) {
+            return $this->lookedUp[$type][$class];
+        }
+
         $paths = $this->getLookups($type);
         $paths[] = '%s';
 
@@ -138,15 +149,17 @@ class Builder implements ModulableInterface, ContainerAwareInterface
         $classes = $namespace ? [ucfirst($namespace).'\\'.$class, $class] : [$class];
 
         // Search for first existing class
+        $qualified = false;
         foreach ($classes as $class) {
             foreach ($paths as $path) {
                 $path = sprintf($path, $class);
                 if (class_exists($path)) {
-                    return $path;
+                    $qualified = $path;
+                    break 2;
                 }
             }
         }
 
-        return false;
+        return $this->lookedUp[$type][$class] = $qualified;
     }
 }
