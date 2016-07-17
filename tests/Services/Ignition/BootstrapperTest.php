@@ -15,6 +15,7 @@ namespace Rocketeer\Services\Ignition;
 use Rocketeer\Tasks\Closure;
 use Rocketeer\Tasks\Ignite;
 use Rocketeer\TestCases\RocketeerTestCase;
+use Symfony\Component\Finder\Finder;
 
 class BootstrapperTest extends RocketeerTestCase
 {
@@ -93,13 +94,9 @@ class BootstrapperTest extends RocketeerTestCase
 
     public function testCanUseFilesAndFoldersForContextualConfig()
     {
-        $this->markTestSkipped('Until I find a solution to replicating Finder on a VFS');
+        $folder = $this->replicateConfiguration();
 
-        $this->files->createDir($this->customConfig);
-        $this->configurationLoader->addFolder($this->customConfig);
-
-        $file = $this->customConfig.'/connections/production/scm.php';
-        $this->files->createDir(dirname($file));
+        $file = $folder.'/connections/production/scm.php';
         $this->files->write($file, '<?php return ["scm" => "svn"];');
 
         $this->bootstrapper->bootstrapContextualConfiguration();
@@ -108,7 +105,8 @@ class BootstrapperTest extends RocketeerTestCase
 
     public function testDoesntCrashIfNoSubfolder()
     {
-        $this->files->createDir($this->customConfig);
+        $this->container->add('path.base', '/foobar');
+        $this->files->createDir('/foobar');
 
         $this->bootstrapper->bootstrapContextualConfiguration();
     }

@@ -203,9 +203,10 @@ class ReleasesManagerTest extends RocketeerTestCase
 
     public function testCanGetFolderInRelease()
     {
+        $this->container->add('path.storage', 'storage');
         $folder = $this->releasesManager->getCurrentReleasePath('{path.storage}');
 
-        $this->assertEquals($this->server.'/releases/20000000000000/app/storage', $folder);
+        $this->assertEquals($this->server.'/releases/20000000000000/storage', $folder);
     }
 
     public function testDoesntPingForReleasesAllTheFuckingTime()

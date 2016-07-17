@@ -17,6 +17,7 @@ use Rocketeer\Services\Config\Files\ConfigurationCache;
 use Rocketeer\Services\Config\Files\ConfigurationLoader;
 use Rocketeer\Services\Config\Files\ConfigurationPublisher;
 use Rocketeer\Services\Environment\Pathfinder;
+use Rocketeer\Traits\HasLocatorTrait;
 use Symfony\Component\Config\Definition\Loaders\PhpLoader;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\DelegatingLoader;
@@ -25,6 +26,8 @@ use Symfony\Component\Config\Loader\LoaderResolver;
 
 class ConfigurationServiceProvider extends AbstractServiceProvider
 {
+    use HasLocatorTrait;
+
     /**
      * @var array
      */
@@ -50,14 +53,14 @@ class ConfigurationServiceProvider extends AbstractServiceProvider
         });
 
         $this->container->share(ConfigurationCache::class, function () {
-            return new ConfigurationCache($this->container->get(Pathfinder::class)->getConfigurationCachePath(), true);
+            return new ConfigurationCache($this->paths->getConfigurationCachePath(), true);
         });
 
         $this->container->share('config.loader', function () {
             $loader = $this->container->get(ConfigurationLoader::class);
             $loader->setFolders([
                 realpath(__DIR__.'/../../../config'),
-                $this->container->get(Pathfinder::class)->getConfigurationPath(),
+                $this->paths->getConfigurationPath(),
             ]);
 
             return $loader;
@@ -66,7 +69,8 @@ class ConfigurationServiceProvider extends AbstractServiceProvider
         $this->container->share(ConfigurationPublisher::class)->withArgument($this->container);
 
         $this->container->share(ContextualConfiguration::class, function () {
-            $configuration = new Configuration($this->container->get('config.loader')->getConfiguration());
+            $configuration = $this->configurationLoader->getConfiguration();
+            $configuration = new Configuration($configuration);
 
             return new ContextualConfiguration($this->container, $configuration);
         });

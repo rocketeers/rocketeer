@@ -203,8 +203,14 @@ class ConfigurationLoader
     protected function loadConfigurationFor($folder)
     {
         /** @var SplFileInfo[] $files */
-        $files = $this->getFinder($folder)
-            ->exclude(['connections', 'stages', 'plugins', 'tasks', 'events', 'strategies']);
+        $files = $this->getFinder($folder)->exclude([
+            'connections',
+            'stages',
+            'plugins',
+            'tasks',
+            'events',
+            'strategies',
+        ]);
 
         // Load base files
         foreach ($files as $file) {
@@ -224,13 +230,13 @@ class ConfigurationLoader
      */
     protected function loadContextualConfigurationsFor($folder)
     {
-        $contextual = (new Finder())->in($folder)->name('/(stages|connections)/')->directories();
+        $contextual = $this->getFinderForFolders($folder)->name('/(stages|connections)/')->directories();
         foreach ($contextual as $type) {
             /** @var SplFileInfo[] $files */
             $files = (new Finder())->in($type->getPathname())->files();
 
             foreach ($files as $file) {
-                $key = str_replace($folder.DS, null, $file->getPathname());
+                $key = preg_replace('#(.*)'.$folder.DS.'(.+)\.php#', '$2', $file->getPathname());
                 $key = vsprintf('config.on.%s.%s', explode(DS, $key));
 
                 // Load contents and merge
@@ -281,11 +287,22 @@ class ConfigurationLoader
      */
     protected function getFinder($folders)
     {
-        return (new Finder())
-            ->in($folders)
+        return $this->getFinderForFolders($folders)
             ->name('/[a-z]+\.php/')
             ->notName('/(events|tasks)\.php/')
             ->sortByName()
             ->files();
+    }
+
+    /**
+     * @param string[] $folders
+     *
+     * @return Finder
+     */
+    protected function getFinderForFolders($folders)
+    {
+        $folders = array_map([$this->files->getAdapter(), 'applyPathPrefix'], (array) $folders);
+
+        return (new Finder())->in($folders);
     }
 }

@@ -37,9 +37,10 @@ class PathfinderTest extends RocketeerTestCase
 
     public function testCanReplacePatternsInFolders()
     {
+        $this->container->add('path.storage', 'storage');
         $folder = $this->paths->getFolder('{path.storage}');
 
-        $this->assertEquals($this->server.'/app/storage', $folder);
+        $this->assertEquals($this->server.'/storage', $folder);
     }
 
     public function testCannotReplaceUnexistingPatternsInFolders()

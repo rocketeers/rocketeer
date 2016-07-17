@@ -95,9 +95,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         // Paths -------------------------------------------------------- /
 
         $this->container->add('path.base', '/src');
-        $this->container->add('path', $this->container->get('path.base').'/app');
-        $this->container->add('path.public', $this->container->get('path.base').'/public');
-        $this->container->add('path.storage', $this->container->get('path').'/storage');
+        $this->container->add('paths.app', $this->container->get('path.base').'/app');
 
         // Replace some instances with mocks
         $this->container->share(ConnectionsFactory::class, function () {

@@ -65,23 +65,6 @@ class PluginsTest extends RocketeerTestCase
         $this->plugins->publish('anahkiasen/rocketeer-slack');
     }
 
-    public function testCanPublishLaravelConfiguration()
-    {
-        $this->mock('artisan');
-
-        $this->mockFiles(function (MockInterface $mock) {
-            $destination = $this->container->get('path').'/config/packages/rocketeers/rocketeer-slack';
-
-            return $mock
-                ->shouldReceive('has')->with($this->from)->andReturn(true)
-                ->shouldReceive('has')->with($destination)->andReturn(false)
-                ->shouldReceive('createDir')->with($destination)->andReturn(true)
-                ->shouldReceive('copyDirectory')->with($this->from, $destination);
-        });
-
-        $this->plugins->publish('anahkiasen/rocketeer-slack');
-    }
-
     public function testCanProperlyFindPackageConfiguration()
     {
         $paths = $this->plugins->findPackageConfiguration('foo/bar');
