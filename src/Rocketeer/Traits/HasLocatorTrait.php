@@ -35,6 +35,7 @@ use Rocketeer\Services\Environment\Pathfinder;
 use Rocketeer\Services\Filesystem\FilesystemInterface;
 use Rocketeer\Services\History\History;
 use Rocketeer\Services\History\LogsHandler;
+use Rocketeer\Services\Ignition\Bootstrapper;
 use Rocketeer\Services\Releases\ReleasesManager;
 use Rocketeer\Services\Roles\RolesManager;
 use Rocketeer\Services\Tasks\TasksHandler;
@@ -45,36 +46,37 @@ use Symfony\Component\Console\Output\OutputInterface;
  * A trait for Service Locator-based classes wich adds
  * a few shortcuts to Rocketeer classes.
  *
+ * @property \Illuminate\Foundation\Artisan                                  artisan
+ * @property \Illuminate\Log\Writer                                          log
+ * @property \League\Event\Emitter                                           events
+ * @property \League\Flysystem\MountManager                                  flysystem
+ * @property \Rocketeer\Binaries\Scm\ScmInterface                            scm
+ * @property \Rocketeer\Console\Commands\AbstractCommand                     command
+ * @property \Rocketeer\Console\Console                                      console
+ * @property \Rocketeer\Rocketeer                                            rocketeer
+ * @property \Rocketeer\Services\Builders\Builder                            builder
  * @property \Rocketeer\Services\Config\ContextualConfiguration              config
  * @property \Rocketeer\Services\Config\Files\ConfigurationLoader            configurationLoader
  * @property \Rocketeer\Services\Config\Files\ConfigurationPublisher         configurationPublisher
- * @property \League\Event\Emitter                                           events
- * @property FilesystemInterface                                             files
- * @property \League\Flysystem\MountManager                                  flysystem
- * @property \Illuminate\Foundation\Artisan                                  artisan
- * @property \Illuminate\Log\Writer                                          log
- * @property \Rocketeer\Console\Commands\AbstractCommand                     command
- * @property \Rocketeer\Services\Connections\Shell\Bash                      bash
- * @property \Rocketeer\Console\Console                                      console
- * @property \Rocketeer\Binaries\Scm\ScmInterface                            scm
- * @property \Rocketeer\Rocketeer                                            rocketeer
+ * @property \Rocketeer\Services\Connections\ConnectionsFactory              remote
  * @property \Rocketeer\Services\Connections\ConnectionsHandler              connections
  * @property \Rocketeer\Services\Connections\Coordinator                     coordinator
- * @property \Rocketeer\Services\Connections\ConnectionsFactory              remote
  * @property \Rocketeer\Services\Connections\Credentials\CredentialsGatherer credentialsGatherer
  * @property \Rocketeer\Services\Connections\Credentials\CredentialsHandler  credentials
+ * @property \Rocketeer\Services\Connections\Shell\Bash                      bash
  * @property \Rocketeer\Services\Display\QueueExplainer                      explainer
  * @property \Rocketeer\Services\Display\QueueTimer                          timer
  * @property \Rocketeer\Services\Environment\Environment                     environment
+ * @property \Rocketeer\Services\Environment\Pathfinder                      paths
  * @property \Rocketeer\Services\History\History                             history
  * @property \Rocketeer\Services\History\LogsHandler                         logs
- * @property \Rocketeer\Services\Environment\Pathfinder                      paths
  * @property \Rocketeer\Services\Releases\ReleasesManager                    releasesManager
  * @property \Rocketeer\Services\Roles\RolesManager                          roles
  * @property \Rocketeer\Services\Storages\Storage                            localStorage
- * @property \Rocketeer\Services\Builders\Builder                            builder
- * @property \Rocketeer\Services\Tasks\TasksQueue                            queue
  * @property \Rocketeer\Services\Tasks\TasksHandler                          tasks
+ * @property \Rocketeer\Services\Tasks\TasksQueue                            queue
+ * @property Bootstrapper                                                    bootstrapper
+ * @property FilesystemInterface                                             files
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
@@ -114,6 +116,7 @@ trait HasLocatorTrait
     {
         $shortcuts = [
             'bash' => Bash::class,
+            'bootstrapper' => Bootstrapper::class,
             'builder' => Builder::class,
             'command' => 'rocketeer.command',
             'config' => ContextualConfiguration::class,

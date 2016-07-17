@@ -14,25 +14,9 @@ namespace Rocketeer\Services\Ignition;
 
 use League\Container\ServiceProvider\AbstractServiceProvider;
 use League\Container\ServiceProvider\BootableServiceProviderInterface;
-use Rocketeer\Tasks\Check;
-use Rocketeer\Tasks\Cleanup;
-use Rocketeer\Tasks\CurrentRelease;
-use Rocketeer\Tasks\Dependencies;
-use Rocketeer\Tasks\Deploy;
-use Rocketeer\Tasks\Ignite;
-use Rocketeer\Tasks\Migrate;
-use Rocketeer\Tasks\Plugins\Installer;
-use Rocketeer\Tasks\Plugins\Updater;
-use Rocketeer\Tasks\Rollback;
-use Rocketeer\Tasks\Setup;
-use Rocketeer\Tasks\Subtasks\CreateRelease;
-use Rocketeer\Tasks\Subtasks\FridayDeploy;
-use Rocketeer\Tasks\Subtasks\Notify;
-use Rocketeer\Tasks\Subtasks\Primer;
-use Rocketeer\Tasks\Subtasks\SwapSymlink;
-use Rocketeer\Tasks\Teardown;
-use Rocketeer\Tasks\Test;
-use Rocketeer\Tasks\Update;
+use Rocketeer\Services\Ignition\Modules\ConfigurationModule;
+use Rocketeer\Services\Ignition\Modules\PathsModule;
+use Rocketeer\Services\Ignition\Modules\TasksModule;
 use Rocketeer\Traits\HasLocatorTrait;
 
 class IgnitionServiceProvider extends AbstractServiceProvider implements BootableServiceProviderInterface
@@ -43,7 +27,7 @@ class IgnitionServiceProvider extends AbstractServiceProvider implements Bootabl
      * @var array
      */
     protected $provides = [
-        'igniter',
+        Bootstrapper::class,
         'rocketeer.tasks.check',
         'rocketeer.tasks.cleanup',
         'rocketeer.tasks.create-release',
@@ -70,7 +54,14 @@ class IgnitionServiceProvider extends AbstractServiceProvider implements Bootabl
      */
     public function register()
     {
-        $this->container->share('igniter', Bootstrapper::class)->withArgument($this->container);
+        $this->container->share(Bootstrapper::class, function() {
+            $bootstrapper = new Bootstrapper($this->container);
+            $bootstrapper->register(new ConfigurationModule());
+            $bootstrapper->register(new PathsModule());
+            $bootstrapper->register(new TasksModule());
+
+            return $bootstrapper;
+        });
     }
 
     /**
@@ -80,43 +71,8 @@ class IgnitionServiceProvider extends AbstractServiceProvider implements Bootabl
     {
         $this->register();
 
-        $this->igniter->bindPaths();
-        $this->igniter->loadUserConfiguration();
-
-        $this->registerTasks();
-    }
-
-    /**
-     * Register the existing tasks onto
-     * the internal container.
-     */
-    public function registerTasks()
-    {
-        $tasks = [
-            Check::class,
-            Cleanup::class,
-            CreateRelease::class,
-            CurrentRelease::class,
-            Dependencies::class,
-            Deploy::class,
-            FridayDeploy::class,
-            Ignite::class,
-            Installer::class,
-            Migrate::class,
-            Notify::class,
-            Primer::class,
-            Rollback::class,
-            Setup::class,
-            SwapSymlink::class,
-            Teardown::class,
-            Test::class,
-            Update::class,
-            Updater::class,
-        ];
-
-        foreach ($tasks as $task) {
-            $task = $this->builder->buildTask($task);
-            $this->container->add('rocketeer.tasks.'.$task->getSlug(), $task);
-        }
+        $this->bootstrapper->bootstrapPaths();
+        $this->bootstrapper->bootstrapConfiguration();
+        $this->bootstrapper->bootstrapTasks();
     }
 }
