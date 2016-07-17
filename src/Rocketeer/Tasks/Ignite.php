@@ -138,6 +138,10 @@ TXT
     protected function generateStubs($type, $destination, $namespace = null)
     {
         $source = __DIR__.'/../../stubs/'.$type;
+        if (!$this->files->has($source)) {
+            return;
+        }
+
         $this->files->createDir($destination);
 
         $files = (new Finder())->in($source)->files();
