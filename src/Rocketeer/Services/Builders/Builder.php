@@ -13,6 +13,7 @@
 namespace Rocketeer\Services\Builders;
 
 use League\Container\ContainerAwareInterface;
+use Rocketeer\Container;
 use Rocketeer\Services\Builders\Modules\BinariesBuilder;
 use Rocketeer\Services\Builders\Modules\CommandsBuilder;
 use Rocketeer\Services\Builders\Modules\StrategiesBuilder;
@@ -58,6 +59,20 @@ class Builder implements ModulableInterface, ContainerAwareInterface
             'Rocketeer\Strategies\%sStrategy',
         ],
     ];
+
+    /**
+     * @param Container $container
+     */
+    public function __construct(Container $container)
+    {
+        $this->container = $container;
+
+        $namespace = ucfirst($this->config->get('application_name'));
+        $this->registerLookups([
+            'tasks' => $namespace.'\Tasks\%s',
+            'strategies' => $namespace.'\Strategies\%s',
+        ]);
+    }
 
     //////////////////////////////////////////////////////////////////////
     ////////////////////////////// LOOKUPS ///////////////////////////////

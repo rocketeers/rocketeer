@@ -97,6 +97,16 @@ class LocalPathfinder extends AbstractPathfinderModule
     /**
      * @return string
      */
+    public function getAppFolderPath()
+    {
+        $namespace = ucfirst($this->config->get('application_name'));
+
+        return $this->getConfigurationPath().DS.$namespace;
+    }
+
+    /**
+     * @return string
+     */
     public function getDotenvPath()
     {
         $path = $this->modulable->getBasePath().'.env';
@@ -130,6 +140,7 @@ class LocalPathfinder extends AbstractPathfinderModule
     public function getProvided()
     {
         return [
+            'getAppFolderPath',
             'getApplicationPath',
             'getConfigurationCachePath',
             'getConfigurationPath',

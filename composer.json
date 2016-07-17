@@ -31,6 +31,7 @@
     "league/flysystem-vfs": "^1.0.2",
     "monolog/monolog": "^1.20",
     "psy/psysh": "^0.7.2",
+    "symfony/class-loader": "^3.1",
     "symfony/config": "^3.1",
     "symfony/console": "^3.1",
     "symfony/var-dumper": "^3.1",

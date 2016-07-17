@@ -65,7 +65,7 @@ class ConfigurationPublisher
      */
     public function publish($format = 'php', $consolidated = false)
     {
-        $destination = $this->paths->getConfigurationPath();
+        $destination = $this->paths->getConfigurationPath().'/config';
 
         // Create directory
         if (!$this->files->isDirectory($destination)) {

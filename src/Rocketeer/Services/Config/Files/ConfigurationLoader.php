@@ -283,7 +283,7 @@ class ConfigurationLoader
     {
         return (new Finder())
             ->in($folders)
-            ->name('*.php')
+            ->name('/[a-z]+\.php/')
             ->notName('/(events|tasks)\.php/')
             ->sortByName()
             ->files();

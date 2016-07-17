@@ -164,7 +164,7 @@ class CredentialsGatherer
         }
 
         // Get the credential, either through options or prompt
-        if ($for !== 'scm' && $option = $this->command->option($credential)) {
+        if (($for !== 'scm' || $credential === 'repository') && $option = $this->command->option($credential)) {
             return $option;
         }
 

@@ -15,12 +15,12 @@ namespace Rocketeer\Services\Ignition;
 use Rocketeer\Tasks\Closure;
 use Rocketeer\TestCases\RocketeerTestCase;
 
-class ConfigurationTest extends RocketeerTestCase
+class BootstrapperTest extends RocketeerTestCase
 {
     /**
      * The igniter instance.
      *
-     * @var Configuration
+     * @var Bootstrapper
      */
     protected $igniter;
 
@@ -31,7 +31,7 @@ class ConfigurationTest extends RocketeerTestCase
     {
         parent::setUp();
 
-        $this->igniter = new Configuration($this->container);
+        $this->igniter = new Bootstrapper($this->container);
         $this->container->remove('path.base');
         $this->usesLaravel(false);
     }

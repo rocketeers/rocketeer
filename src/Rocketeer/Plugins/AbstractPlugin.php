@@ -13,20 +13,21 @@
 namespace Rocketeer\Plugins;
 
 use Illuminate\Support\Str;
+use League\Container\ServiceProvider\AbstractServiceProvider;
+use League\Container\ServiceProvider\BootableServiceProviderInterface;
 use Rocketeer\Console\Console;
-use Rocketeer\Container;
 use Rocketeer\Services\Builders\Builder;
 use Rocketeer\Services\Tasks\TasksHandler;
-use Rocketeer\Traits\ContainerAwareTrait;
+use Rocketeer\Traits\HasLocatorTrait;
 
 /**
  * A basic abstract class for Rocketeer plugins to extend.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-abstract class AbstractPlugin
+abstract class AbstractPlugin extends AbstractServiceProvider implements BootableServiceProviderInterface
 {
-    use ContainerAwareTrait;
+    use HasLocatorTrait;
 
     /**
      * The path to the configuration folder.
@@ -58,15 +59,23 @@ abstract class AbstractPlugin
     }
 
     /**
-     * Bind additional classes to the Container.
-     *
-     * @param Container $container
-     *
-     * @return Container
+     * {@inheritdoc}
      */
-    public function register(Container $container)
+    public function register()
     {
-        return $container;
+        // ...
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function boot()
+    {
+        $this->register();
+
+        $this->onBuilder($this->builder);
+        $this->onConsole($this->console);
+        $this->onQueue($this->tasks);
     }
 
     /**

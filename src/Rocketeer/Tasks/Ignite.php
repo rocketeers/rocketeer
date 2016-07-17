@@ -14,6 +14,7 @@ namespace Rocketeer\Tasks;
 
 use Rocketeer\Services\Config\ConfigurationDefinition;
 use Rocketeer\Services\Config\Files\ConfigurationPublisher;
+use Symfony\Component\Finder\Finder;
 
 /**
  * A task to ignite Rocketeer.
@@ -69,14 +70,17 @@ TXT
         $this->exportDotenv($credentials);
 
         // Export configuration
-        $this->exportConfiguration($applicationName);
+        $this->command->title('<info>[2/2]</info> Configuration exporting');
+        $configuration = $this->exportConfiguration($applicationName);
+        $this->generateStubs($configuration, ucfirst($applicationName));
+
         $this->command->writeln('Okay, you are ready to send your projects in the cloud. Fire away rocketeer!');
     }
 
     /**
      * @param array $credentials
      */
-    public function exportDotenv(array $credentials)
+    protected function exportDotenv(array $credentials)
     {
         // Build dotenv file
         $dotenv = '';
@@ -92,10 +96,11 @@ TXT
 
     /**
      * Export the configuration to file.
+     *
+     * @return string
      */
-    public function exportConfiguration()
+    protected function exportConfiguration()
     {
-        $this->command->title('<info>[2/2]</info> Configuration exporting');
         $format = $this->command->choice('What format do you want your configuration in?', ConfigurationPublisher::$formats, 'php');
         $consolidated = $this->command->confirm('Do you want it consolidated (one file instead of many?', false);
 
@@ -105,9 +110,37 @@ TXT
 
         $this->configurationPublisher->setDefinition($definition);
         $path = $this->configurationPublisher->publish($format, $consolidated);
+        $path = realpath($path.'/..');
 
         // Summary
         $folder = basename(dirname($path)).'/'.basename($path);
         $this->command->writeln('<info>Your configuration was exported at</info> <comment>'.$folder.'</comment>.');
+
+        return $path;
+    }
+
+    /**
+     * @param string $folder
+     * @param string $namespace
+     */
+    protected function generateStubs($folder, $namespace)
+    {
+        $folder = $folder.DS.$namespace;
+
+        $stubs = __DIR__.'/../../stubs';
+        $files = (new Finder())->in($stubs)->files();
+
+        $this->files->createDir($folder);
+        foreach ($files as $file) {
+            $contents = $this->files->read($file->getRealPath());
+            $contents = str_replace('namespace App', 'namespace '.$namespace, $contents);
+            $contents = str_replace('AppServiceProvider', $namespace.'ServiceProvider', $contents);
+
+            $destination = strpos($file->getBasename(), 'ServiceProvider') === false
+                ? $folder.'/'.basename(dirname($file->getRealPath())).'/'.$file->getBasename()
+                : $folder.'/'.$namespace.'ServiceProvider.php';
+
+            $this->files->put($destination, $contents);
+        }
     }
 }

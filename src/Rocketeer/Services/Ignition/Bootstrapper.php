@@ -15,6 +15,7 @@ namespace Rocketeer\Services\Ignition;
 use Dotenv\Dotenv;
 use Rocketeer\Facades\Rocketeer;
 use Rocketeer\Traits\ContainerAwareTrait;
+use Symfony\Component\ClassLoader\Psr4ClassLoader;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
@@ -24,7 +25,7 @@ use Symfony\Component\Finder\SplFileInfo;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class Configuration
+class Bootstrapper
 {
     use ContainerAwareTrait;
 
@@ -52,9 +53,21 @@ class Configuration
             $dotenv->load();
         }
 
-        $this->loadFileOrFolder('tasks');
-        $this->loadFileOrFolder('events');
-        $this->loadFileOrFolder('strategies');
+        // Load user namespace and files
+        $folder = $this->paths->getAppFolderPath();
+        if ($this->files->has($folder)) {
+            $namespace = ucfirst($this->config->get('application_name'));
+
+            $classloader = new Psr4ClassLoader();
+            $classloader->addPrefix($namespace.'\\', $folder);
+            $classloader->register();
+
+            // Load service provider
+            $serviceProvider = $namespace.'\\'.$namespace.'ServiceProvider';
+            if (class_exists($serviceProvider)) {
+                $this->container->addServiceProvider($serviceProvider);
+            }
+        }
 
         // Load plugins
         $plugins = (array) $this->config->get('plugins');
@@ -183,57 +196,6 @@ class Configuration
             }
 
             $this->container->share('path.rocketeer.'.$key, $file);
-        }
-    }
-
-    ////////////////////////////////////////////////////////////////////
-    /////////////////////////////// HELPERS ////////////////////////////
-    ////////////////////////////////////////////////////////////////////
-
-    /**
-     * Computes which configuration handle a config file should bind to.
-     *
-     * @param SplFileInfo $file
-     *
-     * @return string
-     */
-    protected function computeHandleFromPath(SplFileInfo $file)
-    {
-        // Get realpath
-        $handle = $file->getRealpath();
-
-        // Format appropriately
-        $handle = str_replace($this->container->get('path.rocketeer.config').DS, null, $handle);
-        $handle = str_replace('.php', null, $handle);
-        $handle = str_replace(DS, '.', $handle);
-
-        return sprintf('on.%s', $handle);
-    }
-
-    /**
-     * Load a file or its contents if a folder.
-     *
-     * @param string $handle
-     */
-    protected function loadFileOrFolder($handle)
-    {
-        // Bind ourselves into the facade to avoid automatic resolution
-        Rocketeer::setContainer($this->container);
-
-        // If we have one unified tasks file, include it
-        $file = $this->container->get('path.rocketeer.'.$handle);
-        $isDirectory = $this->files->isDirectory($file);
-
-        $fileExists = $this->files->has($file);
-        if (!$isDirectory && $fileExists && $file !== 'strategies.php') {
-            $this->files->include($file);
-        } elseif ($isDirectory && $fileExists) {
-            // Else include its contents
-            $folder = $this->files->getAdapter()->applyPathPrefix($file);
-            $files = (new Finder())->in($folder)->name('*.php')->files();
-            foreach ($files as $file) {
-                $this->files->include($this->files->getAdapter()->removePathPrefix($file));
-            }
         }
     }
 }
