@@ -31,6 +31,11 @@ class Ignite extends AbstractTask
     protected $description = "Creates Rocketeer's configuration";
 
     /**
+     * @var string[]
+     */
+    const TYPES = ['classes', 'functions'];
+
+    /**
      * {@inheritdoc}
      */
     public function execute()
@@ -73,17 +78,12 @@ TXT
         $this->command->title('<info>[2/3]</info> Configuration exporting');
         $configuration = $this->exportConfiguration($applicationName);
 
-        // Namespace generation
-        $this->command->title('<info>[3/3]</info> Namespace generation');
-        $this->command->text(<<<'TXT'
-For advanced usage, Rocketeer can generate a PSR4 namespace in your application's name.
-It contains folders to create custom tasks, strategies, commands and such as well as a service provider to have access to Rocketeer's internals.
-TXT
-        );
+        // Userland generation
+        $this->command->title('<info>[3/3]</info> Userland');
+        $type = $this->command->choice('Do you prefer to write your tasks as classes or functions?', static::TYPES, static::TYPES[0]);
 
-        if ($this->command->confirm('Do you want to generate that folder?', true)) {
-            $this->generateStubs($configuration, ucfirst($applicationName));
-        }
+        $namespace = $type === static::TYPES[0] ? ucfirst($applicationName) : null;
+        $this->generateStubs($type, $configuration.DS.$namespace, $namespace);
 
         $this->command->writeln('Okay, you are ready to send your projects in the cloud. Fire away rocketeer!');
     }
@@ -131,27 +131,30 @@ TXT
     }
 
     /**
-     * @param string $folder
-     * @param string $namespace
+     * @param string      $type
+     * @param string      $destination
+     * @param string|null $namespace
      */
-    protected function generateStubs($folder, $namespace)
+    protected function generateStubs($type, $destination, $namespace = null)
     {
-        $folder = $folder.DS.$namespace;
+        $source = __DIR__.'/../../stubs/'.$type;
+        $this->files->createDir($destination);
 
-        $stubs = __DIR__.'/../../stubs';
-        $files = (new Finder())->in($stubs)->files();
-
-        $this->files->createDir($folder);
+        $files = (new Finder())->in($source)->files();
         foreach ($files as $file) {
             $contents = $this->files->read($file->getRealPath());
-            $contents = str_replace('namespace App', 'namespace '.$namespace, $contents);
-            $contents = str_replace('AppServiceProvider', $namespace.'ServiceProvider', $contents);
+            $basename = $file->getBasename();
+            $fileDestination = $destination.DS.$basename;
 
-            $destination = strpos($file->getBasename(), 'ServiceProvider') === false
-                ? $folder.'/'.basename(dirname($file->getRealPath())).'/'.$file->getBasename()
-                : $folder.'/'.$namespace.'ServiceProvider.php';
+            if ($namespace) {
+                $contents = str_replace('namespace class', 'namespace '.$namespace, $contents);
+                $contents = str_replace('AppServiceProvider', $namespace.'ServiceProvider', $contents);
+                $fileDestination = strpos($basename, 'ServiceProvider') === false
+                    ? $destination.DS.basename(dirname($file->getRealPath())).DS.$basename
+                    : $destination.DS.$namespace.'ServiceProvider.php';
+            }
 
-            $this->files->put($destination, $contents);
+            $this->files->put($fileDestination, $contents);
         }
     }
 }
