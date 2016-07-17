@@ -47,11 +47,7 @@ class UpdateTest extends RocketeerTestCase
 
     public function testCanDisableCacheClearing()
     {
-        $task = $this->pretendTask('Update', [
-            'migrate' => true,
-            'seed' => true,
-            'no-clear' => true,
-        ]);
+        $this->usesLaravel(true);
 
         $matcher = [
             [
@@ -67,6 +63,10 @@ class UpdateTest extends RocketeerTestCase
             ],
         ];
 
-        $this->assertTaskHistory($task, $matcher);
+        $this->assertTaskHistory('Update', $matcher, [
+            'migrate' => true,
+            'seed' => true,
+            'no-clear' => true,
+        ]);
     }
 }
