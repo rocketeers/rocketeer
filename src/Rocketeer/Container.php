@@ -87,18 +87,7 @@ class Container extends \League\Container\Container
      */
     public function getPlugins()
     {
-        // Get only plugins
-        $providers = $this->providers->getAdded();
-        $providers = array_map(function ($provider) {
-           return $provider instanceof AbstractPlugin ? get_class($provider) : false;
-        }, $providers);
-
-        // Return only a list of plugins classes
-        $providers = array_filter($providers);
-        $providers = array_unique($providers);
-        $providers = array_values($providers);
-
-        return $providers;
+        return array_keys($this->providers->getPlugins());
     }
 
     ////////////////////////////////////////////////////////////////////////////////
