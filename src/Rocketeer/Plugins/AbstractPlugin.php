@@ -72,6 +72,7 @@ abstract class AbstractPlugin extends AbstractServiceProvider implements Bootabl
     public function boot()
     {
         $this->register();
+        $this->builder->registerLookups($this->lookups);
 
         $this->onBuilder($this->builder);
         $this->onConsole($this->console);
@@ -91,9 +92,9 @@ abstract class AbstractPlugin extends AbstractServiceProvider implements Bootabl
     /**
      * Register Tasks with Rocketeer.
      *
-     * @param TasksHandler $queue
+     * @param TasksHandler $tasks
      */
-    public function onQueue(TasksHandler $queue)
+    public function onQueue(TasksHandler $tasks)
     {
         // ...
     }
@@ -105,6 +106,6 @@ abstract class AbstractPlugin extends AbstractServiceProvider implements Bootabl
      */
     public function onBuilder(Builder $builder)
     {
-        $builder->registerLookups($this->lookups);
+        // ...
     }
 }
