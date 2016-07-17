@@ -162,17 +162,6 @@ EOF
     protected function getOverridesNodes(NodeBuilder $node)
     {
         return $node
-            ->booleanNode('use_roles')
-                ->info(<<< 'EOF'
-In most multiserver scenarios, migrations must be run in an exclusive server.
-In the event of not having a separate database server (in which case it can
-be handled through connections), you can assign a 'db_role' => true to the
-server's configuration and it will only run the migrations in that specific
-server at the time of deployment.
-EOF
-                )
-                ->defaultFalse()
-            ->end()
             ->arrayNode('on')
                 ->info(<<< 'EOF'
 In this section you can fine-tune the above configuration according

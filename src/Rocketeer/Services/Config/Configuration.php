@@ -27,7 +27,6 @@ class Configuration extends Collection
         'logs',
         'default',
         'connections',
-        'use_roles',
         'on',
     ];
 
