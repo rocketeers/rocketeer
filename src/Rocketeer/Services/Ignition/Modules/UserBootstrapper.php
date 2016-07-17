@@ -1,13 +1,24 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ */
+
 namespace Rocketeer\Services\Ignition\Modules;
 
-use Symfony\Component\ClassLoader\Psr4ClassLoader;
 use Dotenv\Dotenv;
+use Symfony\Component\ClassLoader\Psr4ClassLoader;
 
 class UserBootstrapper extends AbstractBootstrapperModule
 {
     /**
-     * Bootstrap the user's code
+     * Bootstrap the user's code.
      */
     public function bootstrapUserCode()
     {
@@ -17,7 +28,7 @@ class UserBootstrapper extends AbstractBootstrapperModule
     }
 
     /**
-     * Load the .env file if necessary
+     * Load the .env file if necessary.
      */
     protected function bootstrapDotenv()
     {
@@ -30,7 +41,7 @@ class UserBootstrapper extends AbstractBootstrapperModule
     }
 
     /**
-     * Load the user's app folder
+     * Load the user's app folder.
      */
     protected function bootstrapApp()
     {
@@ -56,9 +67,25 @@ class UserBootstrapper extends AbstractBootstrapperModule
     protected function bootstrapStandaloneFiles()
     {
         $folder = $this->paths->getRocketeerPath();
-        $files = $this->files->listContents($folder);
+        $files = $this->files->listContents($folder, true);
+
+        // Gather files to include in the correct order
+        $queue = [];
         foreach ($files as $file) {
-            dump($file);
+            if ($file['type'] === 'dir' || $file['extension'] !== 'php') {
+                continue;
+            }
+
+            if (strpos($file['path'], 'tasks') !== false) {
+                array_unshift($queue, $file['path']);
+            } else {
+                $queue[] = $file['path'];
+            }
+        }
+
+        // Include files
+        foreach ($queue as $file) {
+            $this->files->includeFile($file);
         }
     }
 

@@ -26,7 +26,7 @@ class ConfigurationBootstrapper extends AbstractBootstrapperModule
     }
 
     /**
-     * Load any configured plugins
+     * Load any configured plugins.
      */
     protected function bootstrapPlugins()
     {

@@ -81,12 +81,13 @@ class BootstrapperTest extends RocketeerTestCase
         $this->files->put($config.'/events/some-event.php', '<?php Rocketeer\Facades\Rocketeer::before("DisplayFiles", "whoami");');
 
         $this->bootstrapper->bootstrapPaths();
-        $this->bootstrapper->bootstrapConfiguration();
+        $this->bootstrapper->bootstrapUserCode();
         $this->tasks->registerConfiguredEvents();
 
         $task = $this->task('DisplayFiles');
         $this->assertInstanceOf(Closure::class, $task);
         $this->assertEquals('DisplayFiles', $task->getName());
+        $this->assertEquals(['ls', 'ls'], $task->getStringTask());
 
         $events = $this->tasks->getTasksListeners($task, 'before');
         $this->assertCount(1, $events);
@@ -102,7 +103,7 @@ class BootstrapperTest extends RocketeerTestCase
         $this->files->put($config.'/strategies/Foobar.php', '<?php namespace Lol; class Foobar extends \Rocketeer\Strategies\AbstractStrategy { public function fire() { $this->runForCurrentRelease("ls"); } }');
 
         $this->bootstrapper->bootstrapPaths();
-        $this->bootstrapper->bootstrapConfiguration();
+        $this->bootstrapper->bootstrapUserCode();
         $this->tasks->registerConfiguredEvents();
 
         $strategy = $this->builder->buildStrategy('test', 'Lol\Foobar');

@@ -79,7 +79,8 @@ TXT
 For advanced usage, Rocketeer can generate a PSR4 namespace in your application's name.
 It contains folders to create custom tasks, strategies, commands and such as well as a service provider to have access to Rocketeer's internals.
 TXT
-);
+        );
+
         if ($this->command->confirm('Do you want to generate that folder?', true)) {
             $this->generateStubs($configuration, ucfirst($applicationName));
         }

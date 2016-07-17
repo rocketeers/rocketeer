@@ -14,7 +14,6 @@ namespace Rocketeer\Tasks;
 
 use League\Flysystem\Filesystem;
 use Prophecy\Argument;
-use Rocketeer\Services\Filesystem\FilesystemInterface;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class IgniteTest extends RocketeerTestCase
@@ -22,7 +21,7 @@ class IgniteTest extends RocketeerTestCase
     public function testCanIgniteConfigurationOnWindows()
     {
         $this->mockBasepath('E:\workspace\test');
-        $prophecy = $this->bindProphecy(FilesystemInterface::class, Filesystem::class);
+        $prophecy = $this->bindProphecy(Filesystem::class);
 
         $this->pretendTask('Ignite')->execute();
 

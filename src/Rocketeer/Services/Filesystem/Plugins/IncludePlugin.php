@@ -23,7 +23,7 @@ class IncludePlugin extends AbstractPlugin
      */
     public function getMethod()
     {
-        return 'include';
+        return 'includeFile';
     }
 
     /**

@@ -15,8 +15,6 @@ namespace Rocketeer\Console;
 use League\Container\ContainerAwareInterface;
 use Rocketeer\Container;
 use Rocketeer\Rocketeer;
-use Rocketeer\Services\Config\ContextualConfiguration;
-use Rocketeer\Services\Environment\Pathfinder;
 use Rocketeer\Traits\ContainerAwareTrait;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;

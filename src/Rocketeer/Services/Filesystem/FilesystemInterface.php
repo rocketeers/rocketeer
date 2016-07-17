@@ -28,4 +28,11 @@ interface FilesystemInterface extends \League\Flysystem\FilesystemInterface
      * @return bool
      */
     public function append($filepath, $appended);
+
+    /**
+     * @param string $path
+     *
+     * @return bool
+     */
+    public function includeFile($path);
 }
