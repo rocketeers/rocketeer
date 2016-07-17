@@ -75,7 +75,7 @@ class UserBootstrapper extends AbstractBootstrapperModule
         foreach ($files as $file) {
             $path = $file['path'];
             $isDir = $file['type'] === 'dir';
-            $isPhp = $file['extension'] === 'php';
+            $isPhp = !$isDir ? $file['extension'] === 'php' : false;
 
             if ($isDir || !$isPhp || strpos($path, $appFolderPath) !== false) {
                 continue;
