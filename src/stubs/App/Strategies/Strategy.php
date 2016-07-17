@@ -1,19 +1,13 @@
 <?php
 
-/*
- * This file is part of Rocketeer
- *
- * (c) Maxime Fabre <ehtnam6@gmail.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *
- */
-
 namespace App\Strategies;
 
 use Rocketeer\Strategies\AbstractStrategy;
 
+/**
+ * Base strategy class for you to extend.
+ */
 abstract class Strategy extends AbstractStrategy
 {
+    // ...
 }

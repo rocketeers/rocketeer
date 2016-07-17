@@ -64,15 +64,20 @@ TXT
         $this->config->set('application_name', $applicationName);
 
         // Gather repository/connections credentials
-        $this->command->title('<info>[1/2]</info> Credentials gathering');
+        $this->command->title('<info>[1/3]</info> Credentials gathering');
         $this->command->writeln('Before we begin let\'s gather the credentials for your app');
         $credentials = $this->credentialsGatherer->getCredentials();
         $this->exportDotenv($credentials);
 
         // Export configuration
-        $this->command->title('<info>[2/2]</info> Configuration exporting');
+        $this->command->title('<info>[2/3]</info> Configuration exporting');
         $configuration = $this->exportConfiguration($applicationName);
-        $this->generateStubs($configuration, ucfirst($applicationName));
+
+        // Namespace generation
+        $this->command->title('<info>[3/3]</info> Namespace generation');
+        if ($this->command->confirm('Do you want a namespace generated in which to put tasks/strategies/etc.?', true)) {
+            $this->generateStubs($configuration, ucfirst($applicationName));
+        }
 
         $this->command->writeln('Okay, you are ready to send your projects in the cloud. Fire away rocketeer!');
     }
