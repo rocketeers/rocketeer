@@ -10,11 +10,11 @@
  *
  */
 
-namespace Rocketeer\Services\Ignition;
+namespace Rocketeer\Services\Ignition\Modules;
 
 use Rocketeer\TestCases\RocketeerTestCase;
 
-class TasksTest extends RocketeerTestCase
+class TasksBootstrapperTest extends RocketeerTestCase
 {
     public function testBindsAllTasksOntoContainer()
     {
