@@ -18,6 +18,7 @@ use Rocketeer\Facades\Rocketeer;
 use Rocketeer\Services\Ignition\Modules\ConfigurationBootstrapper;
 use Rocketeer\Services\Ignition\Modules\PathsBootstrapper;
 use Rocketeer\Services\Ignition\Modules\TasksBootstrapper;
+use Rocketeer\Services\Ignition\Modules\UserBootstrapper;
 use Rocketeer\Traits\HasLocatorTrait;
 
 class IgnitionServiceProvider extends AbstractServiceProvider implements BootableServiceProviderInterface
@@ -60,6 +61,7 @@ class IgnitionServiceProvider extends AbstractServiceProvider implements Bootabl
             $bootstrapper->register(new ConfigurationBootstrapper());
             $bootstrapper->register(new PathsBootstrapper());
             $bootstrapper->register(new TasksBootstrapper());
+            $bootstrapper->register(new UserBootstrapper());
 
             return $bootstrapper;
         });
@@ -75,6 +77,7 @@ class IgnitionServiceProvider extends AbstractServiceProvider implements Bootabl
         $this->bootstrapper->bootstrapPaths();
         $this->bootstrapper->bootstrapConfiguration();
         $this->bootstrapper->bootstrapTasks();
+        $this->bootstrapper->bootstrapUserCode();
 
         // Set container onto facade
         Rocketeer::setContainer($this->container);

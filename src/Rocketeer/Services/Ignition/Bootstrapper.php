@@ -17,6 +17,7 @@ use Rocketeer\Facades\Rocketeer;
 use Rocketeer\Services\Ignition\Modules\ConfigurationBootstrapper;
 use Rocketeer\Services\Ignition\Modules\PathsBootstrapper;
 use Rocketeer\Services\Ignition\Modules\TasksBootstrapper;
+use Rocketeer\Services\Ignition\Modules\UserBootstrapper;
 use Rocketeer\Services\Modules\ModulableInterface;
 use Rocketeer\Services\Modules\ModulableTrait;
 use Rocketeer\Traits\ContainerAwareTrait;
@@ -28,6 +29,7 @@ use Rocketeer\Traits\ContainerAwareTrait;
  * @mixin ConfigurationBootstrapper
  * @mixin PathsBootstrapper
  * @mixin TasksBootstrapper
+ * @mixin UserBootstrapper
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */

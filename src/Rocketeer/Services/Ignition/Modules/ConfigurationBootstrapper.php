@@ -19,45 +19,28 @@ class ConfigurationBootstrapper extends AbstractBootstrapperModule
      */
     public function bootstrapConfiguration()
     {
-        // Load .env file
-        if (file_exists($this->paths->getDotenvPath())) {
-            $dotenv = new Dotenv($this->paths->getBasePath());
-            $dotenv->load();
-        }
+        $this->bootstrapContextualConfiguration();
 
-        // Load user namespace and files
-        $folder = $this->paths->getAppFolderPath();
-        if ($this->files->has($folder)) {
-            $namespace = ucfirst($this->config->get('application_name'));
+        $this->bootstrapPlugins();
+        $this->bootstrapPluginsConfiguration();
+    }
 
-            // Load main namespace
-            $classloader = new Psr4ClassLoader();
-            $classloader->addPrefix($namespace.'\\', $folder);
-            $classloader->register();
-
-            // Load service provider
-            $serviceProvider = $namespace.'\\'.$namespace.'ServiceProvider';
-            if (class_exists($serviceProvider)) {
-                $this->container->addServiceProvider($serviceProvider);
-            }
-        }
-
-        // Load plugins
+    /**
+     * Load any configured plugins
+     */
+    protected function bootstrapPlugins()
+    {
         $plugins = (array) $this->config->get('plugins');
         $plugins = array_filter($plugins, 'class_exists');
         foreach ($plugins as $plugin) {
             $this->container->addServiceProvider($plugin);
         }
-
-        // Merge contextual configurations
-        $this->mergeContextualConfigurations();
-        $this->mergePluginsConfiguration();
     }
 
     /**
      * Merge the various contextual configurations defined in userland.
      */
-    public function mergeContextualConfigurations()
+    public function bootstrapContextualConfiguration()
     {
         $this->config->replace($this->configurationLoader->getConfiguration());
     }
@@ -65,7 +48,7 @@ class ConfigurationBootstrapper extends AbstractBootstrapperModule
     /**
      * Merge the plugin configurations defined in userland.
      */
-    public function mergePluginsConfiguration()
+    public function bootstrapPluginsConfiguration()
     {
         $this->mergeConfigurationFolders(['plugins'], function (SplFileInfo $file) {
             $handle = basename(dirname($file->getPathname()));
@@ -129,8 +112,8 @@ class ConfigurationBootstrapper extends AbstractBootstrapperModule
     {
         return [
             'bootstrapConfiguration',
-            'mergeContextualConfigurations',
-            'mergePluginsConfiguration ',
+            'bootstrapContextualConfigurations',
+            'bootstrapPluginsConfiguration ',
         ];
     }
 }

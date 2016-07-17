@@ -137,7 +137,7 @@ class BootstrapperTest extends RocketeerTestCase
         $this->files->createDir(dirname($file));
         $this->files->write($file, '<?php return ["scm" => "svn"];');
 
-        $this->bootstrapper->mergeContextualConfigurations();
+        $this->bootstrapper->bootstrapContextualConfiguration();
         $this->assertEquals('svn', $this->config->getContextually('scm.scm'));
     }
 
@@ -146,6 +146,6 @@ class BootstrapperTest extends RocketeerTestCase
         $this->files->createDir($this->customConfig);
         $this->container->add('path.rocketeer.config', realpath($this->customConfig));
 
-        $this->bootstrapper->mergeContextualConfigurations();
+        $this->bootstrapper->bootstrapContextualConfiguration();
     }
 }
