@@ -33,7 +33,7 @@ class Ignite extends AbstractTask
     /**
      * @var string[]
      */
-    const TYPES = ['classes', 'functions'];
+    protected $types = ['classes', 'functions'];
 
     /**
      * {@inheritdoc}
@@ -80,9 +80,9 @@ TXT
 
         // Userland generation
         $this->command->title('<info>[3/3]</info> Userland');
-        $type = $this->command->choice('Do you prefer to write your tasks as classes or functions?', static::TYPES, static::TYPES[0]);
+        $type = $this->command->choice('Do you prefer to write your tasks as classes or functions?', $this->types, $this->types[0]);
 
-        $namespace = $type === static::TYPES[0] ? ucfirst($applicationName) : null;
+        $namespace = $type === $this->types[0] ? ucfirst($applicationName) : null;
         $this->generateStubs($type, $configuration.DS.$namespace, $namespace);
 
         $this->command->writeln('Okay, you are ready to send your projects in the cloud. Fire away rocketeer!');
