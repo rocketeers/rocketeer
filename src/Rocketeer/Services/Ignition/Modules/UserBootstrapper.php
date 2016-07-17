@@ -45,7 +45,7 @@ class UserBootstrapper extends AbstractBootstrapperModule
      */
     protected function bootstrapApp()
     {
-        $folder = $this->paths->getAppFolderPath();
+        $folder = $this->paths->getUserlandPath();
         if (!$this->files->has($folder)) {
             return;
         }
@@ -67,7 +67,7 @@ class UserBootstrapper extends AbstractBootstrapperModule
     protected function bootstrapStandaloneFiles()
     {
         $folder = $this->paths->getRocketeerPath();
-        $appFolderPath = trim($this->paths->getAppFolderPath(), '/');
+        $appFolderPath = trim($this->paths->getUserlandPath(), '/');
         $files = $this->files->listContents($folder, true);
 
         // Gather files to include in the correct order

@@ -63,7 +63,7 @@ class ApplicationPathfinder extends AbstractPathfinderModule
      *
      * @return string
      */
-    public function getAppFolderPath()
+    public function getUserlandPath()
     {
         $namespace = ucfirst($this->config->get('application_name'));
 
@@ -106,7 +106,7 @@ class ApplicationPathfinder extends AbstractPathfinderModule
     public function getProvided()
     {
         return [
-            'getAppFolderPath',
+            'getUserlandPath',
             'getApplicationPath',
             'getConfigurationPath',
             'getDotenvPath',
