@@ -62,8 +62,7 @@ class TasksBootstrapper extends AbstractBootstrapperModule
         ];
 
         foreach ($tasks as $task) {
-            $task = $this->builder->buildTask($task);
-            $this->container->add('rocketeer.tasks.'.$task->getSlug(), $task);
+            $this->builder->buildTask($task);
         }
     }
 

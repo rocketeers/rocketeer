@@ -72,6 +72,11 @@ class TasksBuilder extends AbstractBuilderModule
         $task->register(new Filesystem());
         $task->register(new Flow());
 
+        // Bind instance for later user
+        if (!$task instanceof ClosureTask) {
+            $this->container->add('rocketeer.'.$task->getIdentifier(), $task);
+        }
+
         return $task;
     }
 

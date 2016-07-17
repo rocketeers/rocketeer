@@ -14,6 +14,7 @@ namespace Rocketeer\Services\Builders\Modules;
 
 use ReflectionFunction;
 use Rocketeer\Dummies\Tasks\CallableTask;
+use Rocketeer\Dummies\Tasks\DummyCoordinatedTask;
 use Rocketeer\Services\Builders\TaskCompositionException;
 use Rocketeer\Tasks\AbstractTask;
 use Rocketeer\Tasks\Check;
@@ -103,5 +104,14 @@ class TasksBuilderTest extends RocketeerTestCase
 
         $task = $this->builder->buildTask(['foobar', 'someMethod']);
         $this->assertEquals(Closure::class, $task->fire());
+    }
+
+    public function testBindsTasksToContainer()
+    {
+        $task = $this->builder->buildTask(DummyCoordinatedTask::class);
+        $task->setOptions(['foo' => 'bar']);
+
+        $task = $this->builder->buildTask(DummyCoordinatedTask::class);
+        $this->assertEquals(['foo' => 'bar'], $task->getOptions());
     }
 }

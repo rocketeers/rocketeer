@@ -150,11 +150,7 @@ class TasksHandlerTest extends RocketeerTestCase
 
     public function testCanbuildTasksFromConfigHook()
     {
-        $tasks = [
-            'npm install',
-            'bower install',
-        ];
-
+        $tasks = ['ls'];
         $this->swapConfig([
             'hooks' => ['after' => ['create-release' => $tasks]],
         ]);
