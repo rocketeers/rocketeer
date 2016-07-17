@@ -106,14 +106,14 @@ class ApplicationPathfinder extends AbstractPathfinderModule
     public function getProvided()
     {
         return [
-            'getUserlandPath',
             'getApplicationPath',
             'getConfigurationPath',
             'getDotenvPath',
             'getLogsPath',
+            'getProvided',
             'getRocketeerPath',
             'getStoragePath',
-            'getUserHomeFolder',
+            'getUserlandPath',
         ];
     }
 }
