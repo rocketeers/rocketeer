@@ -12,7 +12,6 @@
 
 namespace Rocketeer\Services\Ignition;
 
-use Fuel\Alias\Manager;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 use League\Container\ServiceProvider\BootableServiceProviderInterface;
 use Rocketeer\Facades\Rocketeer;
@@ -77,7 +76,9 @@ class IgnitionServiceProvider extends AbstractServiceProvider implements Bootabl
 
         // Set container onto facade and setup alias
         Rocketeer::setContainer($this->container);
-        class_alias(Rocketeer::class, 'Rocketeer');
+        if (!class_exists('Rocketeer')) {
+            class_alias(Rocketeer::class, 'Rocketeer');
+        }
 
         // Bootstrap Rocketeer
         $this->bootstrapper->bootstrapPaths();

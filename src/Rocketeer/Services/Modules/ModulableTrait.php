@@ -39,6 +39,12 @@ trait ModulableTrait
             $provided[] = '__DEFAULT__';
         }
 
+        // Setup module
+        $module->setModulable($this);
+        if ($this instanceof ContainerAwareInterface) {
+            $module->setContainer($this->getContainer());
+        }
+
         foreach ($provided as $method) {
             $this->registered[$method] = $module;
         }
@@ -65,20 +71,11 @@ trait ModulableTrait
     public function onModule($name, $arguments)
     {
         // Look in registered modules
-        if (array_key_exists($name, $this->registered)) {
-            $module = $this->registered[$name];
-        } elseif (array_key_exists('__DEFAULT__', $this->registered)) {
-            $module = $this->registered['__DEFAULT__'];
-        }
+        $key = isset($this->registered[$name]) ? $name : '__DEFAULT__';
 
         // If we did find a module, run the method on it
-        if (isset($module)) {
-            $module->setModulable($this);
-            if ($this instanceof ContainerAwareInterface) {
-                $module->setContainer($this->getContainer());
-            }
-
-            return $module->$name(...$arguments);
+        if (isset($this->registered[$key])) {
+            return $this->registered[$key]->$name(...$arguments);
         }
 
         throw new ModuleNotFoundException($name, __CLASS__);
