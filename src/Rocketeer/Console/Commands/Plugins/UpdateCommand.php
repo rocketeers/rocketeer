@@ -13,13 +13,14 @@
 namespace Rocketeer\Console\Commands\Plugins;
 
 use Rocketeer\Console\Commands\AbstractPluginCommand;
+use Rocketeer\Tasks\Plugins\Updater;
 
 class UpdateCommand extends AbstractPluginCommand
 {
     /**
      * @var string
      */
-    protected $pluginTask = 'Updater';
+    protected $pluginTask = Updater::class;
 
     /**
      * The default name.

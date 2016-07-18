@@ -36,7 +36,7 @@ class AbstractPluginCommand extends AbstractCommand
      */
     public function fire()
     {
-        return $this->fireTasksQueue('Plugins\\'.$this->pluginTask);
+        return $this->fireTasksQueue($this->pluginTask);
     }
 
     /**

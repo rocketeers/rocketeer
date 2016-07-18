@@ -13,13 +13,14 @@
 namespace Rocketeer\Console\Commands\Plugins;
 
 use Rocketeer\Console\Commands\AbstractPluginCommand;
+use Rocketeer\Tasks\Plugins\Installer;
 
 class InstallCommand extends AbstractPluginCommand
 {
     /**
      * @var string
      */
-    protected $pluginTask = 'Installer';
+    protected $pluginTask = Installer::class;
 
     /**
      * The default name.
