@@ -40,6 +40,13 @@ class Installer extends AbstractTask
         $package = $this->command->argument('package');
         $folder = $this->paths->getRocketeerConfigFolder();
 
+        // Create composer manifest if it does not exist
+        $manifest = $folder.'/composer.json';
+        if (!$this->files->has($manifest)) {
+            $contents = json_encode(['minimum-stability' => 'dev', 'prefer-stable' => true], JSON_PRETTY_PRINT);
+            $this->files->put($manifest, $contents);
+        }
+
         $command = $this->composer()->require($package, [
             '--working-dir' => $folder,
         ]);
