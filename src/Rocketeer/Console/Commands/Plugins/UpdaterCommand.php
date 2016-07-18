@@ -15,7 +15,7 @@ namespace Rocketeer\Console\Commands\Plugins;
 use Rocketeer\Console\Commands\AbstractPluginCommand;
 use Rocketeer\Tasks\Plugins\Updater;
 
-class UpdateCommand extends AbstractPluginCommand
+class UpdaterCommand extends AbstractPluginCommand
 {
     /**
      * @var string

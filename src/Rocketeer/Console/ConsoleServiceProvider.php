@@ -87,7 +87,7 @@ class ConsoleServiceProvider extends AbstractServiceProvider
             'plugin-publish' => 'Plugins\Publish',
             'plugin-list' => 'Plugins\List',
             'plugin-install' => 'Plugins\Install',
-            'plugin-update' => 'Plugins\Update',
+            'plugin-update' => 'Plugins\Updater',
         ];
 
         // Add user commands
