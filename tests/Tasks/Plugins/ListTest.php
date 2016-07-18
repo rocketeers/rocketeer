@@ -19,6 +19,7 @@ class ListTest extends RocketeerTestCase
 {
     public function testCanListRegisterdPlugins()
     {
+        $this->container->addServiceProvider(new DummyNotifier());
         $tester = $this->executeCommand('plugin:list');
 
         $this->assertContains(DummyNotifier::class, $tester->getDisplay());

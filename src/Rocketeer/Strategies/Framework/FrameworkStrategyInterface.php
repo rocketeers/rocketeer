@@ -32,15 +32,6 @@ interface FrameworkStrategyInterface
      */
     public function getConfigurationPath();
 
-    /**
-     * Get the path to export the plugins configurations to.
-     *
-     * @param string $plugin
-     *
-     * @return string
-     */
-    public function getPluginConfigurationPath($plugin);
-
     //////////////////////////////////////////////////////////////////////
     ////////////////////////////// COMMANDS //////////////////////////////
     //////////////////////////////////////////////////////////////////////
