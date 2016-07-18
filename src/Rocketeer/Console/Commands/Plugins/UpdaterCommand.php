@@ -14,6 +14,7 @@ namespace Rocketeer\Console\Commands\Plugins;
 
 use Rocketeer\Console\Commands\AbstractPluginCommand;
 use Rocketeer\Tasks\Plugins\Updater;
+use Symfony\Component\Console\Input\InputArgument;
 
 class UpdaterCommand extends AbstractPluginCommand
 {
@@ -35,4 +36,16 @@ class UpdaterCommand extends AbstractPluginCommand
      * @var string
      */
     protected $description = 'Update one or all plugin(s)';
+
+    /**
+     * Get the console command arguments.
+     *
+     * @return string[][]
+     */
+    protected function getArguments()
+    {
+        return [
+            ['package', InputArgument::OPTIONAL, 'The package to update'],
+        ];
+    }
 }

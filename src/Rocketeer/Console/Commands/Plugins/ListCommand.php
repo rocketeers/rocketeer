@@ -13,7 +13,6 @@
 namespace Rocketeer\Console\Commands\Plugins;
 
 use Rocketeer\Console\Commands\AbstractCommand;
-use Rocketeer\Dummies\DummyNotifier;
 
 class ListCommand extends AbstractCommand
 {
