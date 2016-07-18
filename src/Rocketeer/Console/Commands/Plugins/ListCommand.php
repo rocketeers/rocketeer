@@ -45,8 +45,11 @@ class ListCommand extends AbstractCommand
     public function fire()
     {
         $rows = [];
-        $this->container->addServiceProvider(new DummyNotifier());
         $plugins = $this->container->getPlugins();
+        if (!$plugins) {
+            return $this->writeln('You currently have no installed plugins');
+        }
+
         foreach ($plugins as $plugin) {
             $rows[] = [$plugin];
         }
