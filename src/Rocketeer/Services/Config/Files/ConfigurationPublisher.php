@@ -93,7 +93,7 @@ class ConfigurationPublisher
     public function publishNode($path, $format = 'php', $node = null)
     {
         if ($this->files->isDirectory($path)) {
-            foreach (['config', 'hooks', 'paths', 'remote', 'scm', 'stages', 'strategies'] as $file) {
+            foreach (['config', 'hooks', 'paths', 'remote', 'scm', 'stages', 'strategies', 'plugins'] as $file) {
                 $this->publishNode($path.'/'.$file.'.'.$format, $format, $file);
             }
 

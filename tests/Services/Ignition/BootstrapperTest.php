@@ -99,6 +99,17 @@ class BootstrapperTest extends RocketeerTestCase
         $this->assertEquals('svn', $this->config->getContextually('scm.scm'));
     }
 
+    public function testCanUseFilesAndFoldersForPluginsConfig()
+    {
+        $folder = $this->replicateConfiguration();
+
+        $file = $folder.'/plugins/laravel.php';
+        $this->files->write($file, '<?php return ["foo" => "bar"];');
+
+        $this->bootstrapper->bootstrapConfiguration();
+        $this->assertEquals('bar', $this->config->get('plugins.laravel.foo'));
+    }
+
     public function testDoesntCrashIfNoSubfolder()
     {
         $this->container->add('path.base', '/foobar');

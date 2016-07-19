@@ -25,7 +25,6 @@ class ConfigurationBootstrapper extends AbstractBootstrapperModule
         );
 
         $this->bootstrapPlugins();
-        $this->bootstrapPluginsConfiguration();
     }
 
     /**
@@ -33,70 +32,10 @@ class ConfigurationBootstrapper extends AbstractBootstrapperModule
      */
     protected function bootstrapPlugins()
     {
-        $plugins = (array) $this->config->get('plugins');
+        $plugins = (array) $this->config->get('plugins.loaded');
         $plugins = array_filter($plugins, 'class_exists');
         foreach ($plugins as $plugin) {
             $this->container->addServiceProvider($plugin);
-        }
-    }
-
-    /**
-     * Merge the plugin configurations defined in userland.
-     */
-    public function bootstrapPluginsConfiguration()
-    {
-        $this->mergeConfigurationFolders(['plugins'], function (SplFileInfo $file) {
-            $handle = basename(dirname($file->getPathname()));
-            $handle .= '::'.$file->getBasename('.php');
-
-            return $handle;
-        });
-    }
-
-    ////////////////////////////////////////////////////////////////////
-    ///////////////////////////// CONFIGURATION ////////////////////////
-    ////////////////////////////////////////////////////////////////////
-
-    /**
-     * Merge configuration files from userland.
-     *
-     * @param string[]    $folders
-     * @param callable    $computeHandle
-     * @param string|null $exclude
-     */
-    protected function mergeConfigurationFolders(array $folders, callable $computeHandle, $exclude = null)
-    {
-        // Cancel if not ignited yet
-        $configuration = $this->paths->getConfigurationPath();
-        if (!$this->files->isDirectory($configuration)) {
-            return;
-        }
-
-        // Cancel if the subfolders don't exist
-        $existing = array_filter($folders, function ($path) use ($configuration) {
-            return $this->files->isDirectory($configuration.DS.$path);
-        });
-        if (!$existing) {
-            return;
-        }
-
-        // Get folders to glob
-        $folders = $this->paths->unifyLocalSlashes($configuration.'/{'.implode(',', $folders).'}/*');
-
-        // Gather custom files
-        $finder = new Finder();
-        $finder = $finder->in($folders);
-        if ($exclude) {
-            $finder = $finder->notName($exclude);
-        }
-
-        // Bind their contents to the "on" array
-        $files = $finder->files();
-        foreach ($files as $file) {
-            $contents = include $file->getPathname();
-            $handle = $computeHandle($file);
-
-            $this->config->set($handle, $contents);
         }
     }
 
@@ -107,7 +46,7 @@ class ConfigurationBootstrapper extends AbstractBootstrapperModule
     {
         return [
             'bootstrapConfiguration',
-            'bootstrapPluginsConfiguration ',
+            'bootstrapPluginsConfiguration',
         ];
     }
 }

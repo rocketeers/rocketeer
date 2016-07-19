@@ -176,6 +176,7 @@ class ConfigurationLoader
             $this->configurations[$folder] = [];
             $this->loadConfigurationFor($folder);
             $this->loadContextualConfigurationsFor($folder);
+            $this->loadPluginsConfigurationsFor($folder);
         }
 
         // Merge additional configurations
@@ -210,6 +211,7 @@ class ConfigurationLoader
             'tasks',
             'events',
             'strategies',
+            'plugins',
         ]);
 
         // Load base files
@@ -247,6 +249,27 @@ class ConfigurationLoader
 
                 Arr::set($this->configurations[$folder], $key, $contents);
             }
+        }
+    }
+
+    protected function loadPluginsConfigurationsFor($folder)
+    {
+        $plugins = $folder.'/plugins';
+        if (!$this->files->has($plugins)) {
+            return;
+        }
+
+        $files = $this->getFinderForFolders($plugins)->files();
+        foreach ($files as $file) {
+            $key = preg_replace('#(.*)'.$folder.DS.'(.+)\.php#', '$2', $file->getPathname());
+            $key = vsprintf('%s.%s', explode(DS, $key));
+
+            // Load contents and merge
+            $contents = include $file->getPathname();
+            $current = Arr::get($this->configurations[$folder], $key, []);
+            $contents = $current ? array_replace_recursive($current, $contents) : $contents;
+
+            Arr::set($this->configurations[$folder], $key, $contents);
         }
     }
 

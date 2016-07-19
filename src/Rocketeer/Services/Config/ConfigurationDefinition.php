@@ -16,6 +16,7 @@ use Rocketeer\Services\Config\Definition\AbstractDefinition;
 use Rocketeer\Services\Config\Definition\ConnectionsDefinition;
 use Rocketeer\Services\Config\Definition\HooksDefinition;
 use Rocketeer\Services\Config\Definition\PathsDefinition;
+use Rocketeer\Services\Config\Definition\PluginsDefinition;
 use Rocketeer\Services\Config\Definition\RemoteDefinition;
 use Rocketeer\Services\Config\Definition\ScmDefinition;
 use Rocketeer\Services\Config\Definition\StagesDefinition;
@@ -35,6 +36,7 @@ class ConfigurationDefinition extends AbstractDefinition
         ScmDefinition::class,
         StagesDefinition::class,
         StrategiesDefinition::class,
+        PluginsDefinition::class,
     ];
 
     /**
