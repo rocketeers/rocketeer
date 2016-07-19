@@ -374,7 +374,14 @@ class ConnectionsHandler
         $connection = (array) $connection;
         foreach ($connection as $key => $servers) {
             $servers = Arr::get($servers, 'servers', [$servers]);
-            $connection[$key] = ['servers' => array_values($servers)];
+            $servers = array_values($servers);
+            foreach ($servers as &$server) {
+                if (array_key_exists('key', $server)) {
+                    $server['key'] = str_replace('~/', $this->paths->getUserHomeFolder().'/', $server['key']);
+                }
+            }
+
+            $connection[$key] = ['servers' => $servers];
         }
 
         return $connection;

@@ -14,6 +14,7 @@ namespace Rocketeer\Services\Environment;
 
 use League\Container\ContainerAwareInterface;
 use Rocketeer\Services\Environment\Modules\ApplicationPathfinder;
+use Rocketeer\Services\Environment\Modules\HomePathfinder;
 use Rocketeer\Services\Environment\Modules\ServerPathfinder;
 use Rocketeer\Services\Modules\ModulableInterface;
 use Rocketeer\Services\Modules\ModulableTrait;
@@ -23,6 +24,7 @@ use Rocketeer\Traits\ContainerAwareTrait;
  * Locates folders and paths on the server and locally.
  *
  * @mixin ApplicationPathfinder
+ * @mixin HomePathfinder
  * @mixin ServerPathfinder
  *
  * @method string getConfigurationPath()

@@ -12,7 +12,6 @@
 
 namespace Rocketeer\Services\Ignition\Modules;
 
-use Dotenv\Dotenv;
 use Symfony\Component\ClassLoader\Psr4ClassLoader;
 
 class UserBootstrapper extends AbstractBootstrapperModule

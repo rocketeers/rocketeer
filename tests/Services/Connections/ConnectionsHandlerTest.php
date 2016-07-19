@@ -32,6 +32,18 @@ class ConnectionsHandlerTest extends RocketeerTestCase
         $this->assertEquals(['production', 'staging', 'custom'], array_keys($connections));
     }
 
+    public function testCanExpandPathsAtRuntime()
+    {
+        $this->swapConnections([
+            'production' => [
+                'host' => 'foo.com',
+                'key' => '~/.ssh/id_rsa',
+            ],
+        ]);
+
+        $this->assertEquals($this->paths->getUserHomeFolder().'/.ssh/id_rsa', $this->connections->getCurrentConnectionKey()->key);
+    }
+
     public function testCanGetCurrentConnection()
     {
         $this->swapConfig(['default' => 'production']);
