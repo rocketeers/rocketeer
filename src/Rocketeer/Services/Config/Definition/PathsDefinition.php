@@ -12,9 +12,6 @@
 
 namespace Rocketeer\Services\Config\Definition;
 
-use Symfony\Component\Config\Definition\Builder\TreeBuilder;
-use Symfony\Component\Config\Definition\TreeBuilder\NodeBuilder;
-
 class PathsDefinition extends AbstractDefinition
 {
     /**

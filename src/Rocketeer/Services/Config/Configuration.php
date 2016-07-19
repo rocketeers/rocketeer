@@ -23,7 +23,6 @@ class Configuration extends Collection
      */
     protected $rootNodes = [
         'application_name',
-        'plugins',
         'logs',
         'default',
         'connections',

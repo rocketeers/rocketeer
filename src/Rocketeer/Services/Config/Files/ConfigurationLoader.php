@@ -262,7 +262,7 @@ class ConfigurationLoader
         $files = $this->getFinderForFolders($plugins)->files();
         foreach ($files as $file) {
             $key = preg_replace('#(.*)'.$folder.DS.'(.+)\.php#', '$2', $file->getPathname());
-            $key = vsprintf('%s.%s', explode(DS, $key));
+            $key = vsprintf('%s.config.%s', explode(DS, $key));
 
             // Load contents and merge
             $contents = include $file->getPathname();

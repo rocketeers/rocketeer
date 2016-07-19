@@ -107,7 +107,7 @@ class BootstrapperTest extends RocketeerTestCase
         $this->files->write($file, '<?php return ["foo" => "bar"];');
 
         $this->bootstrapper->bootstrapConfiguration();
-        $this->assertEquals('bar', $this->config->get('plugins.laravel.foo'));
+        $this->assertEquals('bar', $this->config->get('plugins.config.laravel.foo'));
     }
 
     public function testDoesntCrashIfNoSubfolder()

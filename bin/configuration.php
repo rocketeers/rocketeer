@@ -21,6 +21,6 @@ $publisher = $container->get(ConfigurationPublisher::class);
 // Remove existing configuration
 exec('rm -rf src/config && mkdir -p src/config');
 
-/** @var ConfigurationPublisher $publisher */
+/* @var ConfigurationPublisher $publisher */
 $publisher->publishNode(__DIR__.'/../src/config', 'php');
 exec('php-cs-fixer fix src/config');

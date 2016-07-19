@@ -1,4 +1,15 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ */
+
 namespace Rocketeer\Services\Config\Definition;
 
 use Symfony\Component\Config\Definition\TreeBuilder\NodeBuilder;
@@ -30,5 +41,4 @@ class PluginsDefinition extends AbstractDefinition
                 ->prototype('variable')->end()
             ->end();
     }
-
 }
