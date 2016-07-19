@@ -34,6 +34,7 @@
     "symfony/class-loader": "^3.1",
     "symfony/config": "^3.1",
     "symfony/console": "^3.1",
+    "symfony/process": "^3.1",
     "symfony/var-dumper": "^3.1",
     "vlucas/phpdotenv": "^2.3"
   },

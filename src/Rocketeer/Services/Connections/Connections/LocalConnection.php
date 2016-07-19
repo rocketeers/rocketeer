@@ -15,6 +15,7 @@ namespace Rocketeer\Services\Connections\Connections;
 use Closure;
 use League\Flysystem\Adapter\Local;
 use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
+use Symfony\Component\Process\Process;
 
 /**
  * Stub of local connections to make Rocketeer work
@@ -48,17 +49,15 @@ class LocalConnection extends AbstractConnection
     public function run($commands, Closure $callback = null)
     {
         $commands = (array) $commands;
-        $command = implode(' && ', $commands);
+        $commands = implode(' && ', $commands);
 
-        exec($command, $output, $status);
+        $this->previousStatus = 0;
+        $process = new Process($commands);
+        $process->run(function ($type, $line) use ($callback) {
+            $callback($line);
+        });
 
-        $this->previousStatus = $status;
-        if ($callback) {
-            $output = (array) $output;
-            foreach ($output as $line) {
-                $callback($line.PHP_EOL);
-            }
-        }
+        $this->previousStatus = $process->getExitCode();
     }
 
     /**
