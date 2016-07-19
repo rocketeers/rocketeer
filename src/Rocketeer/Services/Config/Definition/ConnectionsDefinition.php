@@ -83,17 +83,6 @@ class ConnectionsDefinition extends AbstractDefinition
     protected function getConnectionsNodes(NodeBuilder $node)
     {
         $node = $node->arrayNode('connections')
-            ->info(<<< 'EOF'
-You can leave all of this empty or remove it entirely if you don't want
-to track files with credentials : Rocketeer will prompt you for your credentials
-and store them locally.
-There are four ways to define a credential:
-'foobar'   - value is required, will never be prompted for it
-''         - value is required, will be prompted for it once, then saved
-true       - value is required, will be prompted for it every time
-false|null - value is not required, will never be prompted for it
-EOF
-            )
             ->children();
 
         $connections = $this->value('config.connections');
