@@ -32,11 +32,7 @@ class PathsDefinition extends AbstractDefinition
      */
     public function getConfigTreeBuilder()
     {
-        $builder = new TreeBuilder();
-        $node = $builder->root($this->name, 'array', new NodeBuilder());
-        $node = $node->info($this->description);
-
-        return $node
+        return $this->getRootNode()
             ->defaultValue([
                 'app' => getcwd(),
                 'php' => null,

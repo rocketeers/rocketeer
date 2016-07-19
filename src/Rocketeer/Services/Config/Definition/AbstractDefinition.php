@@ -41,10 +41,7 @@ abstract class AbstractDefinition implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $builder = new TreeBuilder();
-        $node = $builder->root($this->name, 'array', new NodeBuilder());
-        $node = $node->info($this->description);
-
+        $node = $this->getRootNode();
         $node = $node->children();
         $node = $this->getChildren($node);
         $node = $node->end();
@@ -83,5 +80,17 @@ abstract class AbstractDefinition implements ConfigurationInterface
     protected function value($key, $default = null)
     {
         return Arr::get($this->values, $key, $default);
+    }
+
+    /**
+     * @return \Symfony\Component\Config\Definition\Builder\NodeDefinition
+     */
+    protected function getRootNode()
+    {
+        $builder = new TreeBuilder();
+        $node = $builder->root($this->name, 'array', new NodeBuilder());
+        $node = $node->info($this->description);
+
+        return $node;
     }
 }
