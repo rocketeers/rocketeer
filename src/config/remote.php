@@ -45,13 +45,10 @@ return [
         // Enable use of sudo for some commands
         // You can specify a sudo user by doing
         // 'sudo' => 'the_user'
-        'sudo' => false,
+        'sudo' => true,
 
         // An array of commands to run under sudo
         'sudoed' => [],
-
-        // Permissions
-        ////////////////////////////////////////////////////////////////////
 
         // If enabled will force a shell to be created which is required for some tools like RVM or NVM
         'shell' => true,

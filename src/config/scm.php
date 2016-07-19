@@ -17,15 +17,12 @@ return [
     'scm' => [
 
         // The SCM used
-        // One of "git", "svn", "hg", Required
-        'scm' => 'git',
+        'scm' => 'git', // One of "git", "svn", "hg", Required
 
         // The SSH/HTTPS address to your repository
-        'repository' => '{scm_repository}',
-
-        // Example: https://github.com/vendor/website.git
-        'username' => '{scm_username}',
-        'password' => '{scm_password}',
+        'repository' => null, // Example: https://github.com/vendor/website.git
+        'username' => null,
+        'password' => null,
 
         // The branch to deploy
         'branch' => 'master',
@@ -37,7 +34,6 @@ return [
         // Recursively pull in submodules.
         // Works only with Git
         'submodules' => true,
-
     ],
 
 ];

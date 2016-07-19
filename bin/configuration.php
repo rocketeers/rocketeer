@@ -11,9 +11,16 @@
  */
 
 use Rocketeer\Container;
+use Rocketeer\Services\Config\Files\ConfigurationPublisher;
 
 require 'vendor/autoload.php';
 
 $container = new Container();
-$container->get('config.publisher')->publish(__DIR__.'/../src/config', 'php');
-exec('composer lint');
+$publisher = $container->get(ConfigurationPublisher::class);
+
+// Remove existing configuration
+exec('rm -rf src/config && mkdir -p src/config');
+
+/** @var ConfigurationPublisher $publisher */
+$publisher->publishNode(__DIR__.'/../src/config', 'php');
+exec('php-cs-fixer fix src/config');
