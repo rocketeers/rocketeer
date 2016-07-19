@@ -47,31 +47,6 @@ class ConnectionsFactoryTest extends RocketeerTestCase
         $this->assertEquals('foobar', $connection->getUsername());
     }
 
-    public function testCachesConnections()
-    {
-        $this->swapConnections([
-            'production' => [
-                'host' => 'foobar.com',
-                'username' => 'foobar',
-                'password' => 'foobar',
-            ],
-        ]);
-
-        $key = $this->connections->getCurrentConnectionKey();
-        $connection = $this->factory->make($key);
-        $this->assertInstanceOf(Connection::class, $connection);
-        $this->assertEquals('production', $connection->getName());
-
-        $this->swapConnections([
-            'production' => [],
-        ]);
-
-        $key = $this->connections->getCurrentConnectionKey();
-        $connection = $this->factory->make($key);
-        $this->assertInstanceOf(Connection::class, $connection);
-        $this->assertEquals('production', $connection->getName());
-    }
-
     public function testDoesntReturnWrongCredentials()
     {
         $this->swapConnections([
@@ -124,36 +99,5 @@ class ConnectionsFactoryTest extends RocketeerTestCase
 
         $this->assertInstanceOf(Connection::class, $connection);
         $this->assertEquals(['foo', 'bar'], $connection->getRoles());
-    }
-
-    public function testCanPurgeCachedConnections()
-    {
-        $this->swapConnections([
-            'production' => [
-                'host' => 'foobar.com',
-                'username' => 'foobar',
-                'password' => 'foobar',
-            ],
-        ]);
-
-        $key = $this->connections->getCurrentConnectionKey();
-        $connection = $this->factory->make($key);
-        $this->assertInstanceOf(Connection::class, $connection);
-        $this->assertEquals('production', $connection->getName());
-        $this->assertEquals('foobar', $connection->getUsername());
-
-        $this->swapConnections([
-            'production' => [
-                'host' => 'barbaz.com',
-                'username' => 'barbaz',
-                'password' => 'barbaz',
-            ],
-        ]);
-
-        $key = $this->connections->getCurrentConnectionKey();
-        $connection = $this->factory->make($key);
-        $this->assertInstanceOf(Connection::class, $connection);
-        $this->assertEquals('production', $connection->getName());
-        $this->assertEquals('barbaz', $connection->getUsername());
     }
 }
