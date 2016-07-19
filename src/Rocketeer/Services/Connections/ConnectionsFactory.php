@@ -13,6 +13,7 @@
 namespace Rocketeer\Services\Connections;
 
 use Rocketeer\Services\Connections\Connections\Connection;
+use Rocketeer\Services\Connections\Connections\LocalConnection;
 use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
 
 /**
@@ -31,6 +32,8 @@ class ConnectionsFactory
      */
     public function make(ConnectionKey $connectionKey)
     {
-        return new Connection($connectionKey);
+        $type = $connectionKey->host === 'localhost' ? LocalConnection::class : Connection::class;
+
+        return new $type($connectionKey);
     }
 }

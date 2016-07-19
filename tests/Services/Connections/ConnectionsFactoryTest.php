@@ -13,6 +13,8 @@
 namespace Rocketeer\Services\Connections;
 
 use Rocketeer\Services\Connections\Connections\Connection;
+use Rocketeer\Services\Connections\Connections\LocalConnection;
+use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class ConnectionsFactoryTest extends RocketeerTestCase
@@ -99,5 +101,14 @@ class ConnectionsFactoryTest extends RocketeerTestCase
 
         $this->assertInstanceOf(Connection::class, $connection);
         $this->assertEquals(['foo', 'bar'], $connection->getRoles());
+    }
+
+    public function testReturnsLocalConnectionIfHostnameIsLocalhost()
+    {
+        $factory = new ConnectionsFactory();
+        $key = new ConnectionKey(['server' => 0, 'servers' => [['host' => 'localhost']]]);
+
+        $connection = $factory->make($key);
+        $this->assertInstanceOf(LocalConnection::class, $connection);
     }
 }

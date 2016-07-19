@@ -106,7 +106,12 @@ class ConnectionsHandler
             }
 
             // Add local connection
-            $connections['local'] = new LocalConnection();
+            $connections['local'] = new LocalConnection(new ConnectionKey([
+                'name' => 'local',
+                'server' => 0,
+                'servers' => [['host' => 'localhost']],
+            ]));
+
             $this->available = new Collection($connections);
         }
 

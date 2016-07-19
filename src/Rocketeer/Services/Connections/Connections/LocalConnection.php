@@ -33,10 +33,12 @@ class LocalConnection extends AbstractConnection
     protected $previousStatus;
 
     /**
-     * LocalConnection constructor.
+     * @param ConnectionKey $connectionKey
      */
-    public function __construct()
+    public function __construct(ConnectionKey $connectionKey)
     {
+        $this->setConnectionKey($connectionKey);
+
         parent::__construct(new Local('/', LOCK_EX, Local::SKIP_LINKS));
     }
 
@@ -53,6 +55,7 @@ class LocalConnection extends AbstractConnection
 
         $this->previousStatus = 0;
         $process = new Process($commands);
+        $process->setIdleTimeout(60 * 60);
         $process->run(function ($type, $line) use ($callback) {
             $callback($line);
         });
@@ -76,16 +79,5 @@ class LocalConnection extends AbstractConnection
     public function isConnected()
     {
         return true;
-    }
-
-    /**
-     * @return ConnectionKey
-     */
-    public function getConnectionKey()
-    {
-        return new ConnectionKey([
-            'name' => 'local',
-            'server' => 0,
-        ]);
     }
 }
