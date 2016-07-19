@@ -12,6 +12,8 @@
 
 namespace Rocketeer\Services\Ignition\Modules;
 
+use Dotenv\Dotenv;
+
 class ConfigurationBootstrapper extends AbstractBootstrapperModule
 {
     /**
@@ -19,12 +21,28 @@ class ConfigurationBootstrapper extends AbstractBootstrapperModule
      */
     public function bootstrapConfiguration()
     {
+        $this->bootstrapDotenv();
+
         // Reload configuration
         $this->config->replace(
             $this->configurationLoader->getConfiguration()
         );
 
         $this->bootstrapPlugins();
+    }
+
+    /**
+     * Load the .env file if necessary.
+     */
+    protected function bootstrapDotenv()
+    {
+        if (!$this->files->has($this->paths->getDotenvPath())) {
+            return;
+        }
+
+        $path = $this->files->getAdapter()->applyPathPrefix($this->paths->getBasePath());
+        $dotenv = new Dotenv($path);
+        $dotenv->load();
     }
 
     /**

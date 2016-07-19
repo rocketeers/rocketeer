@@ -22,22 +22,8 @@ class UserBootstrapper extends AbstractBootstrapperModule
      */
     public function bootstrapUserCode()
     {
-        $this->bootstrapDotenv();
         $this->bootstrapApp();
         $this->bootstrapStandaloneFiles();
-    }
-
-    /**
-     * Load the .env file if necessary.
-     */
-    protected function bootstrapDotenv()
-    {
-        if (!file_exists($this->paths->getDotenvPath())) {
-            return;
-        }
-
-        $dotenv = new Dotenv($this->paths->getBasePath());
-        $dotenv->load();
     }
 
     /**

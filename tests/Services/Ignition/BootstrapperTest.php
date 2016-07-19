@@ -117,4 +117,17 @@ class BootstrapperTest extends RocketeerTestCase
 
         $this->bootstrapper->bootstrapConfiguration();
     }
+
+    public function testCanLoadDotenvFiles()
+    {
+        $config = $this->replicateConfiguration();
+
+        $path = $this->paths->getDotenvPath();
+        $this->files->put($path, 'SCM_REPOSITORY=foobar');
+        $this->files->put($config.'/scm.php', '<?php return ["scm" => ["scm" => "git", "repository" => "%%SCM_REPOSITORY%%"]];');
+
+        $this->bootstrapper->bootstrapConfiguration();
+
+        $this->assertEquals('foobar', $this->config->get('scm.repository'));
+    }
 }
