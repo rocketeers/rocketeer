@@ -267,7 +267,7 @@ class Core extends AbstractBashModule
         $output = $this->runRaw([$this->shellCommand('echo ROCKETEER')]);
         $output = str_replace('ROCKETEER', null, $output);
         if ($output === "\n") {
-            return;
+            return $output;
         }
 
         return str_replace("\n\n", "\n", $output);
