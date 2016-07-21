@@ -38,18 +38,21 @@ abstract class AbstractNotifier extends AbstractPlugin
     }
 
     /**
-     * Send a given message.
-     *
-     * @param string $message
-     */
-    abstract public function send($message);
-
-    /**
-     * Get the default message format.
+     * Get the default message format
      *
      * @param string $message The message handle
      *
      * @return string
      */
-    abstract public function getMessageFormat($message);
+    public function getMessageFormat($message)
+    {
+        return $this->getPluginOption($message);
+    }
+
+    /**
+     * Send a given message.
+     *
+     * @param string $message
+     */
+    abstract public function send($message);
 }

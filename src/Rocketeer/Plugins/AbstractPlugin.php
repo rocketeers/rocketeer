@@ -29,12 +29,16 @@ abstract class AbstractPlugin extends AbstractServiceProvider implements Bootabl
     use HasLocatorTrait;
 
     /**
-     * Additional lookups to
-     * add to Rocketeer.
+     * Additional lookups to add to Rocketeer.
      *
      * @var array
      */
     protected $lookups = [];
+
+    /**
+     * @var string
+     */
+    protected $name;
 
     /**
      * {@inheritdoc}
@@ -56,6 +60,10 @@ abstract class AbstractPlugin extends AbstractServiceProvider implements Bootabl
         $this->onConsole($this->console);
         $this->onQueue($this->tasks);
     }
+
+    ////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////// HOOKS /////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
 
     /**
      * Register additional commands.
@@ -85,5 +93,19 @@ abstract class AbstractPlugin extends AbstractServiceProvider implements Bootabl
     public function onBuilder(Builder $builder)
     {
         // ...
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////// HELPERS ////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * @param string $option
+     *
+     * @return mixed
+     */
+    protected function getPluginOption($option)
+    {
+        return $this->config->getPluginOption($this->name, $option);
     }
 }
