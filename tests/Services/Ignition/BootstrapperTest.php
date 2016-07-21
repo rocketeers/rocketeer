@@ -13,7 +13,6 @@
 namespace Rocketeer\Services\Ignition;
 
 use Rocketeer\Tasks\Closure;
-use Rocketeer\Tasks\Ignite;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class BootstrapperTest extends RocketeerTestCase

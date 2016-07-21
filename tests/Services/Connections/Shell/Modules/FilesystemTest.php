@@ -79,10 +79,12 @@ class FilesystemTest extends RocketeerTestCase
 
         clearstatcache();
 
-        $this->assertHistory([[
-            'ln -s {server}/dummy-release {server}/dummy-current-temp',
-            'mv -Tf {server}/dummy-current-temp {server}/dummy-current',
-        ]]);
+        $this->assertHistory([
+            [
+                'ln -s {server}/dummy-release {server}/dummy-current-temp',
+                'mv -Tf {server}/dummy-current-temp {server}/dummy-current',
+            ],
+        ]);
     }
 
     public function testCanListContentsOfAFolder()

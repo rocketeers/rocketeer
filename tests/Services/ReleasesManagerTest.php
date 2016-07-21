@@ -13,7 +13,6 @@
 namespace Rocketeer\Services;
 
 use Rocketeer\Services\Connections\Shell\Bash;
-use Rocketeer\Services\Storages\Storage;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class ReleasesManagerTest extends RocketeerTestCase

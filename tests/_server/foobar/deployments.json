@@ -1,1 +1,10 @@
-{"foo":"bar","directory_separator":"\/","is_setup":true,"webuser":{"username":"www-data","group":"www-data"},"line_endings":"\n"}
+{
+    "foo": "bar",
+    "directory_separator": "\/",
+    "is_setup": true,
+    "webuser": {
+        "username": "www-data",
+        "group": "www-data"
+    },
+    "line_endings": "\n"
+}

@@ -217,8 +217,8 @@ class TasksHandlerTest extends RocketeerTestCase
     public function testCanBuildTasksFluently()
     {
         $this->tasks->task('phpunit')
-                    ->does('foobar')
-                    ->description('description');
+            ->does('foobar')
+            ->description('description');
 
         $task = $this->task('phpunit');
 

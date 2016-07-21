@@ -13,7 +13,6 @@
 namespace Rocketeer\Scm;
 
 use Rocketeer\Binaries\Scm\Git;
-use Rocketeer\Rocketeer;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class GitTest extends RocketeerTestCase
