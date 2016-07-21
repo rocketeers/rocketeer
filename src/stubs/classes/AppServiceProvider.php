@@ -50,7 +50,7 @@ class AppServiceProvider extends AbstractPlugin
      */
     public function onQueue(TasksHandler $tasks)
     {
-        // $queue->before('deploy', function (Task $task) {
+        // $tasks->before('deploy', function ($task) {
         //     $task->run('ls');
         // });
     }
