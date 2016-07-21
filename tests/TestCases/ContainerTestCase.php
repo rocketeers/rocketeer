@@ -17,10 +17,9 @@ use League\Container\ContainerAwareTrait;
 use League\Flysystem\Filesystem;
 use League\Flysystem\MountManager;
 use League\Flysystem\Vfs\VfsAdapter;
-use Mockery;
-use Mockery\MockInterface;
 use PHPUnit_Framework_TestCase;
 use Prophecy\Argument;
+use Prophecy\Prophecy\ObjectProphecy;
 use Rocketeer\Console\Commands\AbstractCommand;
 use Rocketeer\Console\StyleInterface;
 use Rocketeer\Container;
@@ -122,7 +121,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
      * @param array $expectations
      * @param array $options
      *
-     * @return Mockery
+     * @return ObjectProphecy
      */
     protected function getCommand(array $expectations = [], array $options = [])
     {
