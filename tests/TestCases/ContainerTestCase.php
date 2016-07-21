@@ -29,6 +29,7 @@ use Rocketeer\Services\Connections\Connections\Connection;
 use Rocketeer\Services\Connections\ConnectionsFactory;
 use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
 use Rocketeer\Services\Filesystem\Plugins\AppendPlugin;
+use Rocketeer\Services\Filesystem\Plugins\CopyDirectoryPlugin;
 use Rocketeer\Services\Filesystem\Plugins\IncludePlugin;
 use Rocketeer\Services\Filesystem\Plugins\IsDirectoryPlugin;
 use Rocketeer\Services\Filesystem\Plugins\RequirePlugin;
@@ -93,11 +94,12 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         });
 
         $filesystem = new Filesystem(new VfsAdapter(new Vfs()));
-        $filesystem->addPlugin(new IsDirectoryPlugin());
         $filesystem->addPlugin(new AppendPlugin());
-        $filesystem->addPlugin(new UpsertPlugin());
+        $filesystem->addPlugin(new CopyDirectoryPlugin());
         $filesystem->addPlugin(new IncludePlugin());
+        $filesystem->addPlugin(new IsDirectoryPlugin());
         $filesystem->addPlugin(new RequirePlugin());
+        $filesystem->addPlugin(new UpsertPlugin());
 
         $this->container->add(Filesystem::class, $filesystem);
         $this->container->share(MountManager::class, function () use ($filesystem) {

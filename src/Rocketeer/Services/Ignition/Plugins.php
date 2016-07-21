@@ -87,20 +87,13 @@ class Plugins
         $package = Arr::get($handle, 2);
 
         // Compute and create the destination foldser
-        if ($framework = $this->getFramework()) {
-            $destination = $framework->getPluginConfigurationPath($package);
-        } else {
-            $destination = $this->paths->getConfigurationPath();
-            $destination = $destination.'/plugins/rocketeers/'.$package;
-        }
-
+        $destination = $this->paths->getConfigurationPath().'/plugins/'.$package;
         if (!$this->files->has($destination)) {
             $this->files->createDir($destination);
         }
 
         // Display success
         $this->explainer->success('Publishing configuration from '.$path.' to '.$destination);
-
-        return $this->files->copyDirectory($path, $destination);
+        $this->files->copyDir($path, $destination);
     }
 }

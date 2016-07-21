@@ -35,4 +35,11 @@ interface FilesystemInterface extends \League\Flysystem\FilesystemInterface
      * @return bool
      */
     public function includeFile($path);
+
+    /**
+     * @param string $from
+     * @param string $to
+     * @param bool   $overwrite
+     */
+    public function copyDir($from, $to, $overwrite = false);
 }

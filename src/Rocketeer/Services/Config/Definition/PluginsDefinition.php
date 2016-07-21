@@ -38,6 +38,8 @@ class PluginsDefinition extends AbstractDefinition
                 ->prototype('scalar')->end()
             ->end()
             ->arrayNode('config')
+                ->useAttributeAsKey('name')
+                ->normalizeKeys(false)
                 ->prototype('variable')->end()
             ->end();
     }

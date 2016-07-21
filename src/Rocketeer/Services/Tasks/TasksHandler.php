@@ -40,13 +40,6 @@ class TasksHandler
     protected $registeredEvents = [];
 
     /**
-     * The registered plugins.
-     *
-     * @var array
-     */
-    protected $registeredPlugins = [];
-
-    /**
      * The core events.
      *
      * @var array

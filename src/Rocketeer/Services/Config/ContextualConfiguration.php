@@ -51,6 +51,17 @@ class ContextualConfiguration
     }
 
     /**
+     * @param string      $option
+     * @param string|null $plugin
+     *
+     * @return mixed
+     */
+    public function getPluginOption($plugin, $option)
+    {
+        return $this->config->get('plugins.config.'.$plugin.'.'.$option);
+    }
+
+    /**
      * Get an option from Rocketeer's config file.
      *
      * @param string             $option

@@ -30,33 +30,12 @@ abstract class AbstractPlugin extends AbstractServiceProvider implements Bootabl
     use HasLocatorTrait;
 
     /**
-     * The path to the configuration folder.
-     *
-     * @var string
-     */
-    public $configurationFolder;
-
-    /**
      * Additional lookups to
      * add to Rocketeer.
      *
      * @var array
      */
     protected $lookups = [];
-
-    /**
-     * Get the package namespace.
-     *
-     * @return string
-     */
-    public function getNamespace()
-    {
-        $namespace = str_replace('\\', '/', get_class($this));
-        $namespace = Str::snake(basename($namespace));
-        $namespace = str_replace('_', '-', $namespace);
-
-        return $namespace;
-    }
 
     /**
      * {@inheritdoc}
