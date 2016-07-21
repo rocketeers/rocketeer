@@ -49,9 +49,12 @@ class CredentialsGatherer
      */
     public function getRepositoryCredentials()
     {
+        $endpoint = $this->scm->runLocally('currentEndpoint');
+        $user = $this->bash->runLocally('whoami');
+
         return $this->askQuestions('scm', [
-            'repository' => 'Where is your code located? <comment>(eg. git@github.com:rocketeers/website.git)</comment>',
-            'username' => 'What is the username for it?',
+            'repository' => ['Where is your code located?', $endpoint],
+            'username' => ['What is the username for it?', $user],
             'password' => 'And the password?',
         ]);
     }
@@ -92,16 +95,18 @@ class CredentialsGatherer
      */
     public function getConnectionCredentials($connectionName)
     {
+        $user = $this->bash->runLocally('whoami');
+
         $usesPrivateKey = $this->command->confirm('Do you use an SSH key to connect to it?');
         $questions = $usesPrivateKey ? [
             'key' => ['Where can I find your key?', $this->paths->getDefaultKeyPath()],
             'keyphrase' => 'If it needs a passphrase enter it',
             'host' => 'Where is your server located? <comment>(eg. foobar.com)</comment>',
-            'username' => 'What is the username for it?',
+            'username' => ['What is the username for it?', $user],
             'root' => ['Where do you want your application deployed?', '/home/www/'],
         ] : [
             'host' => 'Where is your server located?',
-            'username' => 'What is the username for it?',
+            'username' => ['What is the username for it?', $user],
             'password' => 'And password?',
             'root' => ['Where do you want your application deployed?', '/home/www/'],
         ];
