@@ -85,5 +85,8 @@ class IgnitionServiceProvider extends AbstractServiceProvider implements Bootabl
         $this->bootstrapper->bootstrapConfiguration();
         $this->bootstrapper->bootstrapTasks();
         $this->bootstrapper->bootstrapUserCode();
+
+        // Load the user's events, tasks, plugins, and configurations
+        $this->tasks->registerConfiguredEvents();
     }
 }

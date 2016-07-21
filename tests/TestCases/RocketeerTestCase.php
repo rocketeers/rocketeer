@@ -113,7 +113,6 @@ abstract class RocketeerTestCase extends ContainerTestCase
 
     protected function recreateVirtualServer()
     {
-        $this->files->createDir($this->server);
         $this->files->createDir($this->server.'/shared');
         $this->files->createDir($this->server.'/releases/10000000000000');
         $this->files->createDir($this->server.'/releases/15000000000000');

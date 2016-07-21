@@ -181,6 +181,7 @@ class TasksHandler
 
         // Get the registered events
         $hooks = (array) $this->config->getContextually('hooks');
+        $roles = isset($hooks['roles']) ? (array) $hooks['roles'] : [];
         unset($hooks['custom'], $hooks['roles']);
 
         // Bind events
@@ -194,7 +195,6 @@ class TasksHandler
         $this->registerCoreEvents();
 
         // Assign roles
-        $roles = (array) $this->config->getContextually('hooks.roles');
         $this->roles->assignTasksRoles($roles);
     }
 

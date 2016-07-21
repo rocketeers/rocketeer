@@ -227,14 +227,14 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         $defaults = [];
         $files = ['config', 'hooks', 'paths', 'remote', 'scm', 'stages', 'strategies'];
         foreach ($files as $file) {
-            $defaults[$file] = $this->config->get(''.$file);
+            $defaults[$file] = $this->config->get($file);
         }
 
         // Build correct keys
         $defaults = array_dot($defaults);
         $keys = array_keys($defaults);
         $keys = array_map(function ($key) {
-            return ''.str_replace('config.', null, $key);
+            return str_replace('config.', null, $key);
         }, $keys);
         $defaults = array_combine($keys, array_values($defaults));
 

@@ -24,7 +24,6 @@ class AbstractTaskTest extends RocketeerTestCase
 
         $this->mockEchoingCommand();
         $this->command->getProphecy()->getVerbosity()->willReturn(999);
-//        $this->mockCommand(['verbose' => true], []);
         $task = $this->task('Check');
 
         $task->run('ls');

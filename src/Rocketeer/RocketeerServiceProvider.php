@@ -13,7 +13,6 @@
 namespace Rocketeer;
 
 use League\Container\ServiceProvider\AbstractServiceProvider;
-use League\Container\ServiceProvider\BootableServiceProviderInterface;
 use Rocketeer\Traits\HasLocatorTrait;
 
 /**
@@ -21,7 +20,7 @@ use Rocketeer\Traits\HasLocatorTrait;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class RocketeerServiceProvider extends AbstractServiceProvider implements BootableServiceProviderInterface
+class RocketeerServiceProvider extends AbstractServiceProvider
 {
     use HasLocatorTrait;
 
@@ -38,16 +37,5 @@ class RocketeerServiceProvider extends AbstractServiceProvider implements Bootab
     public function register()
     {
         $this->container->share(Rocketeer::class)->withArgument($this->container);
-    }
-
-    /**
-     * Method will be invoked on registration of a service provider implementing
-     * this interface. Provides ability for eager loading of Service Providers.
-     */
-    public function boot()
-    {
-        // Load the user's events, tasks, plugins, and configurations
-        $this->credentials->syncConnectionCredentials();
-        $this->tasks->registerConfiguredEvents();
     }
 }

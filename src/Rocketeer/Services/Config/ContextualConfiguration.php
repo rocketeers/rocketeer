@@ -76,17 +76,13 @@ class ContextualConfiguration
     public function getContextually($option, ConnectionKey $connectionKey = null)
     {
         $original = $this->configuration->get($option);
+        $connectionKey = $connectionKey ?: $this->connections->getCurrentConnectionKey();
 
-        if ($contextual = $this->getForContext($option, 'stages', $original, $connectionKey)) {
-            return $contextual;
-        }
-
-        if ($contextual = $this->getForContext($option, 'connections', $original, $connectionKey)) {
-            return $contextual;
-        }
-
-        if ($contextual = $this->getForContext($option, 'servers', $original)) {
-            return $contextual;
+        $contexts = ['stages', 'connections', 'servers'];
+        foreach ($contexts as $context) {
+            if ($contextual = $this->getForContext($option, $context, $original, $connectionKey)) {
+                return $contextual;
+            }
         }
 
         return $original;
@@ -96,16 +92,14 @@ class ContextualConfiguration
      * Get a contextual option.
      *
      * @param string             $option
-     * @param string             $type          [stage,connection]
+     * @param string             $type
      * @param string|array|null  $original
      * @param ConnectionKey|null $connectionKey
      *
      * @return array|Closure|string
      */
-    protected function getForContext($option, $type, $original = null, ConnectionKey $connectionKey = null)
+    protected function getForContext($option, $type, $original, ConnectionKey $connectionKey)
     {
-        $connectionKey = $connectionKey ?: $this->connections->getCurrentConnectionKey();
-
         // Switch context
         switch ($type) {
             case 'servers':
@@ -121,7 +115,7 @@ class ContextualConfiguration
                 break;
 
             default:
-                $contextual = sprintf('%s', $option);
+                $contextual = $option;
                 break;
         }
 

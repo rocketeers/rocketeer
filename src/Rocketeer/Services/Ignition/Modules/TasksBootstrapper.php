@@ -62,6 +62,9 @@ class TasksBootstrapper extends AbstractBootstrapperModule
         ];
 
         foreach ($tasks as $task) {
+            $task = new $task();
+            $task->setContainer($this->container);
+
             $this->builder->buildTask($task);
         }
     }
