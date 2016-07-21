@@ -52,7 +52,7 @@ trait StepsRunnerTrait
             $arguments = (array) $arguments;
 
             $results = $callable(...$arguments);
-            $results = is_bool($results) ? $results : $this->status();
+            $results = $this->checkResults($results);
             if (!$results) {
                 return false;
             }

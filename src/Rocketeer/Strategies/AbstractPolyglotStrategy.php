@@ -96,7 +96,7 @@ abstract class AbstractPolyglotStrategy extends AbstractStrategy
                 $instance = $this->getStrategy($this->type, $strategy, $this->options);
                 if ($instance) {
                     $this->results[$strategy] = $callback($instance);
-                    if (!$this->results[$strategy]) {
+                    if (!$this->checkResults($this->results[$strategy])) {
                         break;
                     }
                 } else {

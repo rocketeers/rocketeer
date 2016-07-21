@@ -28,10 +28,12 @@ class Statuses extends AbstractBashModule
      * Whether to consider the results of something valid or not.
      *
      * @param mixed $results
+     *
+     * @return bool
      */
     public function checkResults($results)
     {
-        return $results;
+        return $results = is_bool($results) ? $results : $this->status();
     }
 
     /**
@@ -46,7 +48,7 @@ class Statuses extends AbstractBashModule
     public function displayStatusMessage($error, $output = null, $success = null)
     {
         // If all went well
-        if ($this->status()) {
+        if ($this->checkResults($output)) {
             if ($success) {
                 $this->explainer->success($success);
             }
@@ -71,8 +73,9 @@ class Statuses extends AbstractBashModule
     public function getProvided()
     {
         return [
-            'status',
+            'checkResults',
             'displayStatusMessage',
+            'status',
         ];
     }
 }

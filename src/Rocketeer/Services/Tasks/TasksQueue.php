@@ -219,7 +219,7 @@ class TasksQueue
 
         /** @var Closure $task */
         foreach ($pipeline as $key => $task) {
-            $results[$key] = $task();
+            $results[$key] = $this->bash->checkResults($task());
             if (!$results[$key]) {
                 break;
             }
