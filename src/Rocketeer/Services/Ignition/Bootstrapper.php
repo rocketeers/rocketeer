@@ -13,7 +13,6 @@
 namespace Rocketeer\Services\Ignition;
 
 use League\Container\ContainerAwareInterface;
-use Rocketeer\Facades\Rocketeer;
 use Rocketeer\Services\Ignition\Modules\ConfigurationBootstrapper;
 use Rocketeer\Services\Ignition\Modules\PathsBootstrapper;
 use Rocketeer\Services\Ignition\Modules\TasksBootstrapper;
