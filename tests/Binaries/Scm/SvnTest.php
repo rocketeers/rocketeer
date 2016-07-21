@@ -61,7 +61,7 @@ class SvnTest extends RocketeerTestCase
         $this->swapRepositoryCredentials([
             'username' => 'foo',
             'password' => 'bar',
-            'endpoint' => 'http://github.com/my/repository',
+            'repository' => 'http://github.com/my/repository',
             'branch' => 'develop',
         ]);
 
@@ -75,7 +75,7 @@ class SvnTest extends RocketeerTestCase
         $this->swapRepositoryCredentials([
             'username' => 'foo',
             'password' => 'bar',
-            'endpoint' => 'http://github.com/my/repository',
+            'repository' => 'http://github.com/my/repository',
             'branch' => 'develop',
         ]);
 
@@ -89,7 +89,7 @@ class SvnTest extends RocketeerTestCase
         $this->swapRepositoryCredentials([
             'username' => 'foo',
             'password' => 'bar',
-            'endpoint' => 'http://foo:bar@github.com/my/repository',
+            'repository' => 'http://foo:bar@github.com/my/repository',
             'branch' => 'develop',
         ]);
 
@@ -100,7 +100,7 @@ class SvnTest extends RocketeerTestCase
         $this->swapRepositoryCredentials([
             'username' => 'foo',
             'password' => null,
-            'endpoint' => 'http://foo@github.com/my/repository',
+            'repository' => 'http://foo@github.com/my/repository',
             'branch' => 'develop',
         ]);
 
@@ -114,7 +114,7 @@ class SvnTest extends RocketeerTestCase
         $this->swapRepositoryCredentials([
             'username' => 'foo',
             'password' => 'bar',
-            'endpoint' => 'url://user:login@example.com/test',
+            'repository' => 'url://user:login@example.com/test',
             'branch' => 'trunk@1234',
         ]);
 

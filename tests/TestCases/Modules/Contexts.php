@@ -158,9 +158,10 @@ trait Contexts
      */
     protected function swapRepositoryCredentials(array $credentials)
     {
-        /** @var CredentialsHandler $prophecy */
-        $prophecy = $this->bindProphecy(CredentialsHandler::class);
-        $prophecy->getCurrentRepository()->willReturn(new RepositoryKey($credentials));
+        $scm = $this->config->get('scm');
+
+        $this->config->set('scm', array_merge($scm, $credentials));
+        $this->localStorage->destroy();
     }
 
     /**

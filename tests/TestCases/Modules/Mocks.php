@@ -164,6 +164,7 @@ trait Mocks
             $prophecy->ask(Argument::any())->shouldNotBeCalled();
         }
 
+        $prophecy->getVerbosity()->willReturn(OutputInterface::OUTPUT_NORMAL);
         $prophecy->writeln(Argument::cetera())->willReturn();
         $prophecy->text(Argument::cetera())->willReturn();
         $prophecy->table(Argument::cetera())->willReturn();

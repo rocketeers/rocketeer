@@ -61,7 +61,7 @@ class HgTest extends RocketeerTestCase
         $this->swapRepositoryCredentials([
             'username' => 'foo',
             'password' => 'bar',
-            'endpoint' => 'http://github.com/my/repository',
+            'repository' => 'http://github.com/my/repository',
             'branch' => 'develop',
         ]);
 
