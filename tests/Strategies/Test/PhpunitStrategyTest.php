@@ -31,7 +31,7 @@ class PhpunitStrategyTest extends RocketeerTestCase
 
     public function testCanRunTestsInSubfolder()
     {
-        $this->swapConfig(['remote.subdirectory' => 'laravel']);
+        $this->mockConfig(['remote.subdirectory' => 'laravel']);
 
         $this->pretendTask();
         $this->builder->buildStrategy('Test', 'Phpunit')->test();

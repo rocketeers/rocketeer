@@ -47,7 +47,7 @@ class AbstractNotifierTest extends RocketeerTestCase
     {
         $this->expectOutputString('foobar finished deploying rocketeers/rocketeer/master on "production/staging" (foo.bar.com)');
 
-        $this->mockCommand([], ['ask' => 'foobar']);
+        $this->mockCommand([]);
 
         /** @var Storage $prophecy */
         $prophecy = $this->bindProphecy(Storage::class, 'storage.local');

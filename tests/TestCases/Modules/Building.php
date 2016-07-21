@@ -50,13 +50,12 @@ trait Building
      *
      * @param string $task
      * @param array  $options
-     * @param array  $expectations
      *
      * @return \Rocketeer\Tasks\AbstractTask
      */
-    protected function pretendTask($task = 'Deploy', $options = [], array $expectations = [])
+    protected function pretendTask($task = 'Deploy', $options = [])
     {
-        $this->pretend($options, $expectations);
+        $this->pretend($options);
 
         return $this->task($task);
     }

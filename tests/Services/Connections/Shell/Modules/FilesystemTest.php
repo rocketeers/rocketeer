@@ -46,7 +46,7 @@ class FilesystemTest extends RocketeerTestCase
 
     public function testCanCreateRelativeSymlinks()
     {
-        $this->swapConfig(['remote.symlink' => 'relative']);
+        $this->mockConfig(['remote.symlink' => 'relative']);
 
         // Create dummy file
         $folder = $this->server.'/releases/20000000000000/src';

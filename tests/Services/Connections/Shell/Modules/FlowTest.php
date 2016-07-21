@@ -39,7 +39,7 @@ class FlowTest extends RocketeerTestCase
     {
         $this->pretend();
 
-        $this->swapConfig(['remote.subdirectory' => 'laravel']);
+        $this->mockConfig(['remote.subdirectory' => 'laravel']);
         $this->bash->runForApplication('ls');
         $this->assertHistoryContains([
             [
@@ -48,7 +48,7 @@ class FlowTest extends RocketeerTestCase
             ],
         ]);
 
-        $this->swapConfig(['remote.subdirectory' => null]);
+        $this->mockConfig(['remote.subdirectory' => null]);
         $this->bash->runForApplication('ls');
         $this->assertHistoryContains([
             [

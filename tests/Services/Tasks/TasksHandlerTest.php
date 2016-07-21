@@ -71,7 +71,7 @@ class TasksHandlerTest extends RocketeerTestCase
 
     public function testCanRegisterCustomTask()
     {
-        $this->swapConfig([
+        $this->mockConfig([
             'default' => 'production',
         ]);
 
@@ -87,7 +87,7 @@ class TasksHandlerTest extends RocketeerTestCase
 
     public function testCanRegisterCustomTaskViaArray()
     {
-        $this->swapConfig([
+        $this->mockConfig([
             'default' => 'production',
         ]);
 
@@ -136,7 +136,7 @@ class TasksHandlerTest extends RocketeerTestCase
 
     public function testCanExecuteContextualEvents()
     {
-        $this->swapConfig([
+        $this->mockConfig([
             'stages.stages' => ['hasEvent', 'noEvent'],
             'on.stages.hasEvent.hooks' => ['before' => ['check' => 'ls']],
         ]);
@@ -151,7 +151,7 @@ class TasksHandlerTest extends RocketeerTestCase
     public function testCanbuildTasksFromConfigHook()
     {
         $tasks = ['ls'];
-        $this->swapConfig([
+        $this->mockConfig([
             'hooks' => ['after' => ['create-release' => $tasks]],
         ]);
 
@@ -168,7 +168,7 @@ class TasksHandlerTest extends RocketeerTestCase
             'bower install',
         ];
 
-        $this->swapConfig([
+        $this->mockConfig([
             'default' => 'production',
             'hooks' => [],
             'on.connections.staging.hooks' => ['after' => ['deploy' => $tasks]],

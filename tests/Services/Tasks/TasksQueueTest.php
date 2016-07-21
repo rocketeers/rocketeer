@@ -26,7 +26,7 @@ class TasksQueueTest extends RocketeerTestCase
 {
     public function testCanRunQueue()
     {
-        $this->swapConfig([
+        $this->mockConfig([
             'default' => 'production',
         ]);
 
@@ -35,12 +35,12 @@ class TasksQueueTest extends RocketeerTestCase
             function () {
                 echo 'JOEY DOESNT SHARE FOOD';
             },
-        ], $this->getCommand());
+        ], $this->command);
     }
 
     public function testCanRunQueueOnDifferentConnectionsAndStages()
     {
-        $this->swapConfig([
+        $this->mockConfig([
             'default' => ['staging', 'production'],
             'stages.stages' => ['first', 'second'],
             'connections' => [
@@ -84,7 +84,7 @@ class TasksQueueTest extends RocketeerTestCase
 
     public function testDoesntSettingStageDefaultsToAll()
     {
-        $this->swapConfig([
+        $this->mockConfig([
             'stages.default' => [],
             'stages.stages' => ['first', 'second'],
         ]);
@@ -97,7 +97,7 @@ class TasksQueueTest extends RocketeerTestCase
         $this->mockCommand([
             'stage' => 'all',
         ]);
-        $this->swapConfig([
+        $this->mockConfig([
             'stages.stages' => ['first', 'second'],
         ]);
 
@@ -106,7 +106,7 @@ class TasksQueueTest extends RocketeerTestCase
 
     public function testCanRunQueueViaExecute()
     {
-        $this->swapConfig([
+        $this->mockConfig([
             'default' => 'production',
         ]);
 
@@ -127,7 +127,7 @@ class TasksQueueTest extends RocketeerTestCase
 
     public function testCanRunOnMultipleConnectionsViaOn()
     {
-        $this->swapConfig([
+        $this->mockConfig([
             'stages.stages' => ['first', 'second'],
         ]);
 
@@ -151,7 +151,7 @@ class TasksQueueTest extends RocketeerTestCase
         $parallel->isSupported()->willReturn(true);
         $parallel->values(Argument::type('array'))->shouldBeCalled();
 
-        $this->mockCommand(['parallel' => true]);
+        $this->mockCommand(['--parallel' => true]);
         $this->queue->setParallel($parallel->reveal());
 
         $task = function () {
@@ -186,7 +186,7 @@ class TasksQueueTest extends RocketeerTestCase
         $parallel->isSupported()->willReturn(true);
         $parallel->values(Argument::type('array'))->shouldBeCalled()->willThrow(LogicException::class);
 
-        $this->mockCommand(['parallel' => true]);
+        $this->mockCommand(['--parallel' => true]);
         $this->queue->setParallel($parallel->reveal());
 
         $this->queue->run(['ls']);

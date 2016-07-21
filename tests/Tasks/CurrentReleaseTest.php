@@ -25,9 +25,7 @@ class CurrentReleaseTest extends RocketeerTestCase
         $prophecy->getCurrentRelease()->willReturn('20000000000000');
         $prophecy->getCurrentReleasePath()->shouldBeCalled();
 
-        $this->assertTaskOutput('CurrentRelease', '20000000000000', $this->getCommand([], [
-            'pretend' => false,
-        ]));
+        $this->assertTaskOutput('CurrentRelease', '20000000000000', ['--pretend' => false]);
     }
 
     public function testPrintsMessageIfNoReleaseDeployed()

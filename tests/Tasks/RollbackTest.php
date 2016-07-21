@@ -12,7 +12,6 @@
 
 namespace Rocketeer\Tasks;
 
-use Prophecy\Argument;
 use Rocketeer\Services\Releases\ReleasesManager;
 use Rocketeer\TestCases\RocketeerTestCase;
 
@@ -30,32 +29,25 @@ class RollbackTest extends RocketeerTestCase
 
     public function testCanRollbackToSpecificRelease()
     {
-        $task = $this->pretendTask('Rollback');
-
-        $this->command->getProphecy()->argument('release')->willReturn(15000000000000);
-        $task->execute();
-
-        $this->assertHistory([
+        $this->assertTaskHistory('Rollback', [
             [
                 'ln -s {server}/releases/15000000000000 {server}/current-temp',
                 'mv -Tf {server}/current-temp {server}/current',
             ],
+        ], [
+            'release' => 15000000000000,
         ]);
     }
 
     public function testCanGetShownAvailableReleases()
     {
-        $task = $this->pretendTask('Rollback');
-
-        $this->command->getProphecy()->option('list')->willReturn(true);
-        $this->command->getProphecy()->ask(Argument::cetera())->willReturn(1);
-        $task->execute();
-
-        $this->assertHistory([
+        $this->assertTaskHistory('Rollback', [
             [
-                'ln -s {server}/releases/15000000000000 {server}/current-temp',
+                'ln -s {server}/releases/20000000000000 {server}/current-temp',
                 'mv -Tf {server}/current-temp {server}/current',
             ],
+        ], [
+            '--list' => true,
         ]);
     }
 
@@ -69,11 +61,8 @@ class RollbackTest extends RocketeerTestCase
 
     public function testCantRollbackToUnexistingRelease()
     {
-        $task = $this->pretendTask('Rollback');
-        $this->command->getProphecy()->argument('release')->willReturn('foobar');
-
-        $task->execute();
-
-        $this->assertHistory([]);
+        $this->assertTaskHistory('Rollback', [], [
+            'release' => 'foobar',
+        ]);
     }
 }

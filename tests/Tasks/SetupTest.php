@@ -22,8 +22,6 @@ class SetupTest extends RocketeerTestCase
     public function testCanSetupServer()
     {
         $this->usesComposer();
-        $this->pretend();
-
         $this->mockNoCurrentRelease();
 
         $this->assertTaskHistory('Setup', [
@@ -39,9 +37,8 @@ class SetupTest extends RocketeerTestCase
     public function testCanSetupStages()
     {
         $this->usesComposer();
-        $this->pretend();
         $this->mockNoCurrentRelease();
-        $this->swapConfig([
+        $this->mockConfig([
             'stages.stages' => ['staging', 'production'],
         ]);
 
@@ -61,9 +58,8 @@ class SetupTest extends RocketeerTestCase
     public function testRunningSetupKeepsCurrentConfiguredStage()
     {
         $this->usesComposer(true, 'staging');
-        $this->pretend();
         $this->mockNoCurrentRelease('staging');
-        $this->swapConfig([
+        $this->mockConfig([
             'stages.stages' => ['staging', 'production'],
         ]);
 

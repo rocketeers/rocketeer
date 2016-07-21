@@ -19,7 +19,7 @@ class AbstractStrategyTest extends RocketeerTestCase
     public function testCanCheckForManifestWithoutServer()
     {
         $this->container->add('path.base', $this->server);
-        $this->swapConfig([
+        $this->mockConfig([
             'paths.app' => $this->server,
         ]);
 

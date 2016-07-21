@@ -260,7 +260,7 @@ class ReleasesManagerTest extends RocketeerTestCase
     public function testCanManuallySetNameOfNextRelease()
     {
         $custom = '20110101010101';
-        $this->mockCommand(['release' => $custom]);
+        $this->mockCommand(['--release' => $custom]);
 
         $release = $this->releasesManager->getNextRelease();
         $this->assertEquals($custom, $release);

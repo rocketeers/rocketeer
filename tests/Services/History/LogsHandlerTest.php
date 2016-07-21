@@ -21,7 +21,7 @@ class LogsHandlerTest extends RocketeerTestCase
     {
         parent::setUp();
 
-        $this->swapConfig([
+        $this->mockConfig([
             'logs' => function (ConnectionsHandler $rocketeer) {
                 return sprintf('%s-%s.log', $rocketeer->getCurrentConnectionKey()->name, $rocketeer->getCurrentConnectionKey()->stage);
             },
@@ -63,7 +63,7 @@ class LogsHandlerTest extends RocketeerTestCase
     {
         $this->expectOutputString('test');
 
-        $this->swapConfig([
+        $this->mockConfig([
             'logs' => function () {
                 echo 'test';
 
@@ -99,7 +99,7 @@ class LogsHandlerTest extends RocketeerTestCase
 
     public function testCanHaveStaticFilenames()
     {
-        $this->swapConfig([
+        $this->mockConfig([
             'logs' => 'foobar.txt',
         ]);
 
@@ -110,7 +110,7 @@ class LogsHandlerTest extends RocketeerTestCase
     {
         $prophecy = $this->bindFilesystemProphecy();
 
-        $this->swapConfig([
+        $this->mockConfig([
             'logs' => false,
         ]);
 

@@ -66,7 +66,6 @@ class ConfigurationServiceProvider extends AbstractServiceProvider
         });
 
         $this->container->share(ConfigurationPublisher::class)->withArgument($this->container);
-
         $this->container->share(ContextualConfiguration::class, function () {
             $configuration = $this->configurationLoader->getConfiguration();
             $configuration = new Configuration($configuration);

@@ -19,7 +19,7 @@ class DeployTest extends RocketeerTestCase
 {
     public function testCanDeployToServer()
     {
-        $this->swapConfig([
+        $this->mockConfig([
             'scm.repository' => 'https://github.com/'.$this->repository,
             'scm.username' => '',
             'scm.password' => '',
@@ -49,15 +49,15 @@ class DeployTest extends RocketeerTestCase
         ];
 
         $this->assertTaskHistory('Deploy', $matcher, [
-            'tests' => true,
-            'seed' => true,
-            'migrate' => true,
+            '--tests' => true,
+            '--seed' => true,
+            '--migrate' => true,
         ]);
     }
 
     public function testStepsRunnerDoesntCancelWithPermissionsAndShared()
     {
-        $this->swapConfig([
+        $this->mockConfig([
             'remote.shared' => [],
             'remote.permissions.files' => [],
         ]);
@@ -80,15 +80,15 @@ class DeployTest extends RocketeerTestCase
         ];
 
         $this->assertTaskHistory('Deploy', $matcher, [
-            'tests' => true,
-            'seed' => true,
-            'migrate' => true,
+            '--tests' => true,
+            '--seed' => true,
+            '--migrate' => true,
         ]);
     }
 
     public function testCanDisableGitOptions()
     {
-        $this->swapConfig([
+        $this->mockConfig([
             'scm.shallow' => false,
             'scm.submodules' => false,
             'scm.repository' => 'https://github.com/'.$this->repository,
@@ -116,9 +116,9 @@ class DeployTest extends RocketeerTestCase
         ];
 
         $this->assertTaskHistory('Deploy', $matcher, [
-            'tests' => true,
-            'seed' => true,
-            'migrate' => true,
+            '--tests' => true,
+            '--seed' => true,
+            '--migrate' => true,
         ]);
     }
 
@@ -152,9 +152,9 @@ class DeployTest extends RocketeerTestCase
         ];
 
         $this->assertTaskHistory('Deploy', $matcher, [
-            'tests' => false,
-            'seed' => false,
-            'migrate' => false,
+            '--tests' => false,
+            '--seed' => false,
+            '--migrate' => false,
         ]);
     }
 
@@ -180,9 +180,9 @@ class DeployTest extends RocketeerTestCase
         ];
 
         $this->assertTaskHistory('Deploy', $matcher, [
-            'tests' => false,
-            'seed' => true,
-            'migrate' => false,
+            '--tests' => false,
+            '--seed' => true,
+            '--migrate' => false,
         ]);
     }
 
@@ -198,7 +198,7 @@ class DeployTest extends RocketeerTestCase
             ],
         ]);
 
-        $this->swapConfig([
+        $this->mockConfig([
             'scm.repository' => 'https://github.com/'.$this->repository,
             'scm.username' => '',
             'scm.password' => '',
@@ -228,9 +228,9 @@ class DeployTest extends RocketeerTestCase
         ];
 
         $this->assertTaskHistory('Deploy', $matcher, [
-            'tests' => true,
-            'seed' => true,
-            'migrate' => true,
+            '--tests' => true,
+            '--seed' => true,
+            '--migrate' => true,
         ]);
     }
 
@@ -246,7 +246,7 @@ class DeployTest extends RocketeerTestCase
             ],
         ]);
 
-        $this->swapConfig([
+        $this->mockConfig([
             'scm.repository' => 'https://github.com/'.$this->repository,
             'scm.username' => '',
             'scm.password' => '',
@@ -276,9 +276,9 @@ class DeployTest extends RocketeerTestCase
         ];
 
         $this->assertTaskHistory('Deploy', $matcher, [
-            'tests' => true,
-            'seed' => true,
-            'migrate' => true,
+            '--tests' => true,
+            '--seed' => true,
+            '--migrate' => true,
         ]);
     }
 }

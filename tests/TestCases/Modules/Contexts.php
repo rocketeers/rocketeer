@@ -68,13 +68,14 @@ trait Contexts
      * Set Rocketeer in pretend mode.
      *
      * @param array $options
-     * @param array $expectations
+     *
+     * @internal param array $expectations
      */
-    protected function pretend($options = [], $expectations = [])
+    protected function pretend($options = [])
     {
-        $options['pretend'] = true;
+        $options = array_merge(['--pretend' => true], (array) $options);
 
-        $this->mockCommand($options, $expectations);
+        $this->mockCommand($options);
     }
 
     ////////////////////////////////////////////////////////////////////////////////
@@ -88,7 +89,6 @@ trait Contexts
      */
     protected function swapConfig($config = [])
     {
-        $this->connections->disconnect();
         $this->mockConfig($config);
         $this->tasks->registerConfiguredEvents();
     }
@@ -102,7 +102,7 @@ trait Contexts
      */
     protected function expectRepositoryConfig($repository, $username = null, $password = null)
     {
-        $this->swapConfig([
+        $this->mockConfig([
             'scm.repository' => $repository,
             'scm.username' => $username,
             'scm.password' => $password,
@@ -157,8 +157,8 @@ trait Contexts
     protected function swapRepositoryCredentials(array $credentials)
     {
         $scm = $this->config->get('scm');
-
         $this->config->set('scm', array_merge($scm, $credentials));
+
         $this->localStorage->destroy();
     }
 
@@ -176,7 +176,7 @@ trait Contexts
             ], $connection);
         }
 
-        $this->swapConfig([
+        $this->mockConfig([
             'connections' => $connections,
         ]);
     }

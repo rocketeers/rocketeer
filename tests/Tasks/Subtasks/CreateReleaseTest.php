@@ -18,8 +18,7 @@ class CreateReleaseTest extends RocketeerTestCase
 {
     public function testAddsDeployedReleaseToList()
     {
-        $this->pretend();
-        $this->task('CreateRelease')->execute();
+        $this->pretendTask('CreateRelease')->execute();
 
         $this->assertCount(4, $this->releasesManager->getReleases());
     }

@@ -32,7 +32,7 @@ class CheckTest extends RocketeerTestCase
     {
         $this->usesComposer();
 
-        $this->swapConfig([
+        $this->mockConfig([
             'strategies.deploy' => 'sync',
         ]);
 
@@ -53,7 +53,7 @@ class CheckTest extends RocketeerTestCase
             return $this;
         });
 
-        $this->swapConfig([
+        $this->mockConfig([
             'strategies.check' => 'Php',
         ]);
     }
@@ -93,11 +93,10 @@ class CheckTest extends RocketeerTestCase
 
     public function testCanSkipStrategyChecks()
     {
-        $this->pretend();
         $this->usesComposer();
         $this->config->set('strategies.check', null);
 
-        $this->task('Check')->fire();
+        $this->pretendTask('Check')->fire();
         $this->assertHistoryNotContains('{php} -m');
     }
 }

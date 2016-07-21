@@ -58,7 +58,7 @@ class CoreTest extends RocketeerTestCase
 
     public function testCanLetFrameworkProcessCommands()
     {
-        $this->usesLaravel(true);
+        $this->usesLaravel();
 
         $this->connections->setStage('staging');
         $commands = $this->pretendTask()->processCommands([
@@ -148,7 +148,7 @@ class CoreTest extends RocketeerTestCase
 
     public function testCanExecuteCommandsAsSudo()
     {
-        $this->swapConfig([
+        $this->mockConfig([
             'remote.sudo' => true,
             'remote.sudoed' => ['cd'],
         ]);
@@ -158,7 +158,7 @@ class CoreTest extends RocketeerTestCase
 
     public function testCanExecuteCommandsAsSudoUser()
     {
-        $this->swapConfig([
+        $this->mockConfig([
             'remote.sudo' => 'foobar',
             'remote.sudoed' => ['cd'],
         ]);

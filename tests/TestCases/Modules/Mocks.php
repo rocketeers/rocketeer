@@ -17,8 +17,14 @@ use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use Rocketeer\Console\Commands\AbstractCommand;
 use Rocketeer\Console\StyleInterface;
+use Rocketeer\Dummies\Console\DummyCommand;
 use Rocketeer\Services\Connections\ConnectionsFactory;
 use Rocketeer\Services\Filesystem\FilesystemInterface;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputDefinition;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -62,25 +68,53 @@ trait Mocks
     /**
      * Mock a Command.
      *
-     * @param array $options
-     * @param array $expectations
-     * @param bool  $print
+     * @param array $input
      */
-    protected function mockCommand($options = [], $expectations = [], $print = false)
+    protected function mockCommand($input = [])
     {
         // Default options
-        $options = array_merge([
-            'pretend' => false,
-            'verbose' => false,
-            'tests' => false,
-            'migrate' => false,
-            'seed' => false,
-            'stage' => false,
-            'parallel' => false,
-            'update' => false,
-        ], $options);
+        $input = array_merge([
+            '--branch' => '',
+            '--host' => '',
+            '--key' => '',
+            '--keyphrase' => '',
+            '--list' => false,
+            '--migrate' => false,
+            '--no-clear' => false,
+            '--parallel' => false,
+            '--pretend' => false,
+            '--release' => '',
+            '--repository' => '',
+            '--root' => '',
+            '--seed' => false,
+            '--server' => '',
+            '--stage' => false,
+            '--tests' => false,
+            '--update' => false,
+            '--username' => '',
+            '--verbose' => false,
+            'package' => '',
+            'release' => '',
+        ], $input);
 
-        $this->container->add('rocketeer.command', $this->getCommand($expectations, $options, $print));
+        $definition = new InputDefinition();
+        foreach ($input as $key => $option) {
+            $isOption = strpos($key, '--') !== false;
+            if ($isOption) {
+                $definition->addOption(new InputOption(substr($key, 2)));
+            } else {
+                $definition->addArgument(new InputArgument($key));
+            }
+        }
+
+        $input = new ArrayInput($input, $definition);
+        $input->setInteractive(true);
+
+        $command = new DummyCommand();
+        $command->setInput($input);
+        $command->setOutput(new NullOutput());
+
+        $this->container->add('rocketeer.command', $command);
     }
 
     /**
@@ -131,6 +165,7 @@ trait Mocks
      */
     public function mockConfig(array $expectations)
     {
+        $this->connections->disconnect();
         $defaults = $this->getFactoryConfiguration();
         $defaults = array_merge($defaults, [
                 'remote.shell' => false,

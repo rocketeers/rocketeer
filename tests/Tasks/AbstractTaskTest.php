@@ -13,6 +13,7 @@
 namespace Rocketeer\Tasks;
 
 use Prophecy\Argument;
+use Rocketeer\Console\Commands\AbstractCommand;
 use Rocketeer\Dummies\Tasks\MyCustomHaltingTask;
 use Rocketeer\TestCases\RocketeerTestCase;
 
@@ -113,7 +114,7 @@ class AbstractTaskTest extends RocketeerTestCase
         $expected = count($this->history->getFlattenedHistory());
         $this->history->reset();
 
-        $this->swapConfig([
+        $this->mockConfig([
             'default' => ['staging', 'production'],
             'hooks' => [],
         ]);
@@ -165,14 +166,15 @@ class AbstractTaskTest extends RocketeerTestCase
             [2, 10000000000000, '<fg=green>0999-11-30 00:00:00</fg=green>', '✓'],
         ];
 
-        $this->command->getProphecy()->table($headers, $releases)->shouldBeCalled()->willReturn(null);
-
+        $prophecy = $this->bindProphecy(AbstractCommand::class, 'rocketeer.command');
         $this->task('CurrentRelease')->execute();
+
+        $prophecy->table($headers, $releases)->shouldHaveBeenCalled();
     }
 
     public function testCanGetOptionsViaCommandOrSetters()
     {
-        $this->mockCommand(['pretend' => true, 'foo' => 'bar']);
+        $this->mockCommand(['--pretend' => true, '--foo' => 'bar']);
 
         $task = $this->task('Deploy');
         $task->configure(['baz' => 'qux']);

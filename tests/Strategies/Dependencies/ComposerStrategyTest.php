@@ -19,7 +19,7 @@ class ComposerStrategyTest extends RocketeerTestCase
     public function testCanConfigureComposerCommands()
     {
         $this->expectRepositoryConfig('https://github.com/'.$this->repository);
-        $this->swapConfig([
+        $this->mockConfig([
             'strategies.composer.install' => function ($composer, $task) {
                 return [
                     $composer->selfUpdate(),

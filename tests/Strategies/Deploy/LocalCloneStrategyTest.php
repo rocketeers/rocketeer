@@ -33,7 +33,6 @@ class LocalCloneStrategyTest extends RocketeerTestCase
     public function testCanDeployRepository()
     {
         $this->pretend();
-
         $this->builder->buildStrategy('Deploy', 'LocalClone')->deploy();
 
         $matcher = [
@@ -48,7 +47,6 @@ class LocalCloneStrategyTest extends RocketeerTestCase
     public function testCanSpecifyKey()
     {
         $this->pretend();
-
         $this->swapConnections([
             'production' => [
                 'username' => 'foo',

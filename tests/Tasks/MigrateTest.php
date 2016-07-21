@@ -18,7 +18,7 @@ class MigrateTest extends RocketeerTestCase
 {
     public function testCanRunMigrations()
     {
-        $this->usesLaravel(true);
+        $this->usesLaravel();
         $this->config->set('strategies.migrate', 'Laravel');
 
         $this->assertTaskHistory(Migrate::class, [
@@ -31,8 +31,8 @@ class MigrateTest extends RocketeerTestCase
                 '{php} artisan db:seed --force',
             ],
         ], [
-            'migrate' => true,
-            'seed' => true,
+            '--migrate' => true,
+            '--seed' => true,
         ]);
     }
 }

@@ -48,8 +48,8 @@ class ConnectionsKeychainTest extends RocketeerTestCase
         ]);
 
         $this->mockCommand([
-            'on' => 'production',
-            'server' => '0,1',
+            '--on' => 'production',
+            '--server' => '0,1',
         ]);
 
         $this->assertArrayNotHasKey(2, $this->credentials->getServersCredentials('production'));
@@ -64,7 +64,7 @@ class ConnectionsKeychainTest extends RocketeerTestCase
 
     public function testDoesntOverrideExtraCredentials()
     {
-        $this->swapConfig([
+        $this->mockConfig([
             'connections.production.servers.0' => [
                 'host' => 'foo.com',
                 'roles' => ['foo', 'bar'],
@@ -88,7 +88,7 @@ class ConnectionsKeychainTest extends RocketeerTestCase
         ]);
 
         $this->mockCommand([
-            'on' => 'production-multiserver',
+            '--on' => 'production-multiserver',
         ]);
 
         $this->credentials->getServerCredentials();

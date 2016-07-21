@@ -18,10 +18,10 @@ class UpdateTest extends RocketeerTestCase
 {
     public function testCanUpdateRepository()
     {
-        $this->usesLaravel(true);
+        $this->usesLaravel();
         $task = $this->pretendTask('Update', [
-            'migrate' => true,
-            'seed' => true,
+            '--migrate' => true,
+            '--seed' => true,
         ]);
 
         $matcher = [
@@ -47,7 +47,7 @@ class UpdateTest extends RocketeerTestCase
 
     public function testCanDisableCacheClearing()
     {
-        $this->usesLaravel(true);
+        $this->usesLaravel();
 
         $matcher = [
             [
@@ -64,9 +64,9 @@ class UpdateTest extends RocketeerTestCase
         ];
 
         $this->assertTaskHistory('Update', $matcher, [
-            'migrate' => true,
-            'seed' => true,
-            'no-clear' => true,
+            '--migrate' => true,
+            '--seed' => true,
+            '--no-clear' => true,
         ]);
     }
 }

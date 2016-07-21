@@ -29,18 +29,16 @@ trait Assertions
 
     /**
      * @param string $filename
-     * @param string $message
      */
-    public function assertVirtualFileNotExists($filename, $message = '')
+    public function assertVirtualFileNotExists($filename)
     {
         $this->assertFalse($this->files->has($filename), 'Failed asserting that file '.$filename.' does not exist');
     }
 
     /**
      * @param string $filename
-     * @param string $message
      */
-    public function assertVirtualFileExists($filename, $message = '')
+    public function assertVirtualFileExists($filename)
     {
         $this->assertTrue($this->files->has($filename), 'Failed asserting that file '.$filename.' exists');
     }
@@ -117,16 +115,13 @@ trait Assertions
      *
      * @param string   $task
      * @param string   $output
-     * @param \Mockery $command
+     * @param \Mockery $options
      *
      * @return Assertion
      */
-    protected function assertTaskOutput($task, $output, $command = null)
+    protected function assertTaskOutput($task, $output, $options = null)
     {
-        $task = $this->pretendTask($task);
-        if ($command) {
-            $this->container->add('rocketeer.command', $command);
-        }
+        $task = $this->pretendTask($task, $options);
 
         return $this->assertContains($output, $task->execute());
     }

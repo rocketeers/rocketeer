@@ -12,6 +12,8 @@
 
 namespace Rocketeer\Tasks;
 
+use Prophecy\Argument;
+use Rocketeer\Console\Commands\AbstractCommand;
 use Rocketeer\Services\Storages\Storage;
 use Rocketeer\TestCases\RocketeerTestCase;
 
@@ -34,9 +36,12 @@ class TeardownTest extends RocketeerTestCase
         /** @var Storage $prophecy */
         $prophecy = $this->bindProphecy(Storage::class, 'storage.local');
 
-        $task = $this->pretendTask('Teardown', [], ['confirm' => false]);
-        $message = $this->assertTaskHistory($task, []);
+        $task = $this->pretendTask('Teardown');
+        $commandProphecy = $this->bindProphecy(AbstractCommand::class, 'rocketeer.command');
+        $commandProphecy->writeln(Argument::cetera())->willReturn();
+        $commandProphecy->confirm(Argument::any())->willReturn(false);
 
+        $message = $this->assertTaskHistory($task, []);
         $this->assertContains('Teardown aborted', $message);
         $prophecy->destroy()->shouldNotHaveBeenCalled();
     }

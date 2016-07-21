@@ -99,7 +99,7 @@ class RepositoriesKeychainTest extends RocketeerTestCase
 
     public function testCanPassRepositoryBranchAsFlag()
     {
-        $this->mockCommand(['branch' => '1.0']);
+        $this->mockCommand(['--branch' => '1.0']);
 
         $this->assertEquals('1.0', $this->credentials->getCurrentRepository()->branch);
     }
