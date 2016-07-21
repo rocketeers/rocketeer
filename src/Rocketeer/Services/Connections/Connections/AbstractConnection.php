@@ -38,6 +38,11 @@ abstract class AbstractConnection extends Filesystem implements ConnectionInterf
     protected $connectionKey;
 
     /**
+     * @var array
+     */
+    protected $roles = [];
+
+    /**
      * @return bool
      */
     public function isActive()

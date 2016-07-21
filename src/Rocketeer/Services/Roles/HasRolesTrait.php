@@ -15,11 +15,6 @@ namespace Rocketeer\Services\Roles;
 trait HasRolesTrait
 {
     /**
-     * @var array
-     */
-    protected $roles = [];
-
-    /**
      * @return array
      */
     public function getRoles()
@@ -52,7 +47,7 @@ trait HasRolesTrait
      */
     public function hasRole($role)
     {
-        return in_array($role, $this->roles, true);
+        return is_null($this->roles) || in_array($role, $this->roles, true);
     }
 
     /**
@@ -67,6 +62,6 @@ trait HasRolesTrait
         $roles = $hasRoles->getRoles();
         $filled = array_intersect($this->roles, $roles);
 
-        return count($filled) === count($roles);
+        return is_null($roles) || count($filled) === count($roles);
     }
 }

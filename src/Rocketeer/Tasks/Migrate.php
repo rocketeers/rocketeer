@@ -34,6 +34,11 @@ class Migrate extends AbstractTask
     protected $results = [];
 
     /**
+     * @var array
+     */
+    protected $roles = ['db'];
+
+    /**
      * {@inheritdoc}
      */
     public function execute()
@@ -63,14 +68,7 @@ class Migrate extends AbstractTask
      */
     protected function canRunMigrations()
     {
-        $connection = $this->connections->getCurrentConnectionKey();
-        $hasRole = $connection->getServerCredential('db_role');
-        $useRoles = $this->config->getContextually('uses_roles');
-
-        return
-            $this->strategy &&
-            ($this->getOption('migrate') || $this->getOption('seed')) &&
-            (!$useRoles || ($connection->isMultiserver() && $useRoles && $hasRole));
+        return $this->strategy && ($this->getOption('seed') || $this->getOption('migrate'));
     }
 
     /**

@@ -47,7 +47,9 @@ class HooksDefinition extends AbstractDefinition
                 ->prototype('scalar')->end()
             ->end()
             ->arrayNode('roles')
-                ->prototype('scalar')->end()
+                ->info('Define roles to assign to tasks'.PHP_EOL."eg. 'db' => ['Migrate']")
+                ->useAttributeAsKey('name')
+                ->prototype('variable')->end()
             ->end();
     }
 }
