@@ -12,7 +12,7 @@
 
 namespace Rocketeer\TestCases\Modules;
 
-use Rocketeer\Plugins\Laravel\LaravelPlugin;
+use Rocketeer\Plugins\Laravel\Laravel;
 use Rocketeer\Services\Connections\Credentials\CredentialsHandler;
 use Rocketeer\Services\Connections\Credentials\Keys\RepositoryKey;
 use Symfony\Component\Finder\Finder;
@@ -186,7 +186,7 @@ trait Contexts
     protected function usesLaravel($uses = true)
     {
         if ($uses) {
-            $this->container->addServiceProvider(LaravelPlugin::class);
+            $this->container->addServiceProvider(Laravel::class);
         } else {
             $this->container->remove('rocketeer.strategies.framework');
         }
