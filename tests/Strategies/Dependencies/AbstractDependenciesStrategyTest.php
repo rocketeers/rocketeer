@@ -26,7 +26,7 @@ class AbstractDependenciesStrategyTest extends RocketeerTestCase
         $bower = $this->builder->buildStrategy('Dependencies', 'Bower');
 
         /** @var Filesystem $files */
-        $files = $this->bindProphecy(Filesystem::class);
+        $files = $this->bindFilesystemProphecy();
         $files->read(Argument::any())->willReturn();
         $files->has(Argument::any())->willReturn();
         $files->has($this->paths->getUserHomeFolder().'/.bowerrc')->willReturn(true);
@@ -45,7 +45,7 @@ class AbstractDependenciesStrategyTest extends RocketeerTestCase
         $bower = $this->builder->buildStrategy('Dependencies', 'Bower');
 
         /** @var Filesystem $files */
-        $files = $this->bindProphecy(Filesystem::class);
+        $files = $this->bindFilesystemProphecy();
         $files->read(Argument::any())->willReturn();
         $files->has(Argument::any())->willReturn();
         $files->has($this->paths->getUserHomeFolder().'/.bowerrc')->willReturn(true);

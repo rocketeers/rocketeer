@@ -12,7 +12,9 @@
 
 namespace Rocketeer\Strategies\Dependencies;
 
+use League\Flysystem\Filesystem;
 use Mockery\MockInterface;
+use Prophecy\Argument;
 use Rocketeer\Binaries\PackageManagers\Bower;
 use Rocketeer\TestCases\RocketeerTestCase;
 
@@ -81,18 +83,15 @@ class BowerStrategyTest extends RocketeerTestCase
 
     public function testCanGetDependenciesFolder()
     {
-        $this->mockFiles(function (MockInterface $mock) {
-            return $mock
-                ->shouldReceive('has')->with($this->paths->getUserHomeFolder().'/.bowerrc')->andReturn(true)
-                ->shouldReceive('read')->once()->andReturn('{"directory": "components"}');
-        });
+        $prophecy = $this->bindFilesystemProphecy();
+        $prophecy->has(Argument::containingString('/.bowerrc'))->willReturn(true);
+        $prophecy->read(Argument::cetera())->shouldBeCalled()->willReturn('{"directory": "components"}');
 
         $bower = $this->builder->buildBinary('Bower');
         $this->assertEquals('components', $bower->getDependenciesFolder());
 
-        $this->mockFiles(function (MockInterface $mock) {
-            return $mock->shouldReceive('has')->andReturn(false);
-        });
+        $prophecy = $this->bindFilesystemProphecy();
+        $prophecy->has(Argument::containingString('/.bowerrc'))->willReturn(false);
 
         $bower = $this->builder->buildBinary('Bower');
         $this->assertEquals('bower_components', $bower->getDependenciesFolder());

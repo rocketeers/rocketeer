@@ -13,6 +13,7 @@
 namespace Rocketeer\Services\Connections\Shell\Modules;
 
 use Mockery\MockInterface;
+use Rocketeer\Console\Commands\AbstractCommand;
 use Rocketeer\Dummies\Tasks\DummyShelledTask;
 use Rocketeer\TestCases\RocketeerTestCase;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -111,13 +112,8 @@ class CoreTest extends RocketeerTestCase
     {
         $this->expectOutputString('<fg=magenta>$ ls</fg=magenta>');
 
-        $this->mock('rocketeer.command', 'Command', function (MockInterface $mock) {
-            return $mock
-                ->shouldReceive('getVerbosity')->andReturn(OutputInterface::VERBOSITY_VERY_VERBOSE)
-                ->shouldReceive('writeln')->andReturnUsing(function ($input) {
-                    echo $input;
-                });
-        });
+        $prophecy = $this->mockEchoingCommand();
+        $prophecy->getVerbosity()->willReturn(OutputInterface::VERBOSITY_VERY_VERBOSE);
 
         $this->bash->runRaw('ls');
     }
@@ -126,13 +122,8 @@ class CoreTest extends RocketeerTestCase
     {
         $this->expectOutputString('');
 
-        $this->mock('rocketeer.command', 'Command', function (MockInterface $mock) {
-            return $mock
-                ->shouldReceive('getVerbosity')->andReturn(OutputInterface::VERBOSITY_NORMAL)
-                ->shouldReceive('writeln')->andReturnUsing(function ($input) {
-                    echo $input;
-                });
-        });
+        $prophecy = $this->mockEchoingCommand();
+        $prophecy->getVerbosity()->willReturn(OutputInterface::VERBOSITY_NORMAL);
 
         $this->bash->runRaw('ls');
     }

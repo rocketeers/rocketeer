@@ -118,6 +118,8 @@ trait Mocks
 
     /**
      * Mock a command that echoes out its output.
+     *
+     * @return AbstractCommand
      */
     protected function mockEchoingCommand()
     {
@@ -126,6 +128,8 @@ trait Mocks
         $prophecy->writeln(Argument::any())->will(function ($arguments) {
             echo $arguments[0];
         });
+
+        return $prophecy;
     }
 
     /**
@@ -140,11 +144,19 @@ trait Mocks
     }
 
     /**
-     * @param Closure|null $expectations
+     * @param bool $withAdapter
+     *
+     * @return Filesystem
      */
-    protected function mockFiles(Closure $expectations = null)
+    protected function bindFilesystemProphecy($withAdapter = false)
     {
-        $this->mock(Filesystem::class, Filesystem::class, $expectations);
+        $adapter = $this->files->getAdapter();
+        $prophecy = $this->bindProphecy(Filesystem::class);
+        if ($withAdapter) {
+            $prophecy->getAdapter()->willReturn($adapter);
+        }
+
+        return $prophecy;
     }
 
     /**

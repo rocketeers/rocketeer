@@ -39,15 +39,12 @@ class PluginsTest extends RocketeerTestCase
     {
         $this->usesLaravel(false);
 
-        $this->mockFiles(function (MockInterface $mock) {
-            $destination = $this->paths->getRocketeerPath().'/plugins/rocketeers/rocketeer-slack';
-
-            return $mock
-                ->shouldReceive('has')->with($this->from)->andReturn(true)
-                ->shouldReceive('has')->with($destination)->andReturn(false)
-                ->shouldReceive('createDir')->with($destination)->andReturn(true)
-                ->shouldReceive('copyDirectory')->with($this->from, $destination);
-        });
+        $destination = $this->paths->getRocketeerPath().'/plugins/rocketeers/rocketeer-slack';
+        $prophecy = $this->bindFilesystemProphecy();
+        $prophecy->has($this->from)->willReturn(true);
+        $prophecy->has($destination)->willReturn(false);
+        $prophecy->isDirectory($this->from)->willReturn(true);
+        $prophecy->createDir($destination)->willReturn(true);
 
         $this->plugins->publish('anahkiasen/rocketeer-slack');
     }
@@ -56,13 +53,12 @@ class PluginsTest extends RocketeerTestCase
     {
         $this->usesLaravel(false);
 
-        $this->mockFiles(function (MockInterface $mock) {
-            return $mock
-                ->shouldReceive('has')->with($this->from)->andReturn(false)
-                ->shouldReceive('copyDirectory')->never();
-        });
+        $prophecy = $this->bindFilesystemProphecy();
+        $prophecy->has($this->from)->willReturn(false);
 
         $this->plugins->publish('anahkiasen/rocketeer-slack');
+        
+        $prophecy->createDir()->shouldNotHaveBeenBeCalled();
     }
 
     public function testCanProperlyFindPackageConfiguration()

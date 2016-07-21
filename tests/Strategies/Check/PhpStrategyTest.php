@@ -12,7 +12,9 @@
 
 namespace Rocketeer\Strategies\Check;
 
+use League\Flysystem\Filesystem;
 use Mockery\MockInterface;
+use Prophecy\Argument;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class PhpStrategyTest extends RocketeerTestCase
@@ -38,25 +40,19 @@ class PhpStrategyTest extends RocketeerTestCase
             'php -r "print PHP_VERSION;"' => '5.6.0',
         ]);
 
-        $version = $this->bash->php()->run('version');
+        $prophecy = $this->bindFilesystemProphecy();
+        $prophecy->put()->willReturn();
+        $prophecy->has(Argument::cetera())->willReturn(true);
+        $prophecy->read(Argument::cetera())->willReturn('{"require":{"php":">=5.6.0"}}');
 
-        $this->mockFiles(function (MockInterface $mock) use ($version) {
-            return $mock
-                ->shouldReceive('put')
-                ->shouldReceive('glob')->andReturn([])
-                ->shouldReceive('has')->andReturn(true)
-                ->shouldReceive('read')->andReturn('{"require":{"php":">=5.6.0"}}');
-        });
         $this->assertTrue($this->strategy->language());
 
         // This is is going to come bite me in the ass in 10 years
-        $this->mockFiles(function (MockInterface $mock) {
-            return $mock
-                ->shouldReceive('put')
-                ->shouldReceive('glob')->andReturn([])
-                ->shouldReceive('has')->andReturn(true)
-                ->shouldReceive('read')->andReturn('{"require":{"php":">=12.9.0"}}');
-        });
+        $prophecy = $this->bindFilesystemProphecy();
+        $prophecy->put()->willReturn();
+        $prophecy->has(Argument::cetera())->willReturn(true);
+        $prophecy->read(Argument::cetera())->willReturn('{"require":{"php":">=12.9.0"}}');
+
         $this->assertFalse($this->strategy->language());
     }
 

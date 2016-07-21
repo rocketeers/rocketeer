@@ -211,9 +211,7 @@ class AbstractTaskTest extends RocketeerTestCase
             'which phpunit' => 'phpunit',
         ]);
 
-        $adapter = $this->files->getAdapter();
-        $prophecy = $this->bindProphecy(Filesystem::class);
-        $prophecy->getAdapter()->willReturn($adapter);
+        $prophecy = $this->bindFilesystemProphecy();
         $prophecy->read(Argument::cetera())->willReturn();
         $prophecy->delete(Argument::cetera())->willReturn();
         $prophecy->has(Argument::any())->willReturn(true);

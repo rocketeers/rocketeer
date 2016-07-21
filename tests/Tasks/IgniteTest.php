@@ -21,7 +21,7 @@ class IgniteTest extends RocketeerTestCase
     public function testCanIgniteConfigurationOnWindows()
     {
         $this->mockBasepath('E:\workspace\test');
-        $prophecy = $this->bindProphecy(Filesystem::class);
+        $prophecy = $this->bindFilesystemProphecy();
 
         $this->pretendTask('Ignite')->execute();
 
