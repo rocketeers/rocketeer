@@ -2,6 +2,11 @@
 
 Rocketeer follows the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.html) spec.
 
+## [2.2.3] - 2016-07-21
+
+### Fixed
+- Fixed incorrect version constant
+
 ## [2.2.2] - 2016-07-21
 
 ### Fixed
