@@ -149,13 +149,16 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
             'argument' => '',
             'ask' => '',
             'askHidden' => '',
-            'choice' => 'php',
             'table' => '',
             'title' => '',
             'text' => '',
             'confirm' => true,
             'option' => false,
         ], $expectations);
+
+        $command->choice(Argument::cetera())->will(function ($arguments) {
+            return isset($arguments[2]) ? $arguments[2] : head($arguments[1]);
+        });
 
         // Bind expecations
         foreach ($expectations as $key => $value) {
