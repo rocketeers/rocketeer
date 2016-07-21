@@ -75,6 +75,8 @@
 			"dev-develop": "3.0-dev"
 		}
 	},
+	"minimum-stability": "dev",
+	"prefer-stable": true,
 	"config": {
 		"sort-packages": true
 	}
