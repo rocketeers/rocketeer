@@ -151,7 +151,7 @@ TXT
             $fileDestination = $destination.DS.$basename;
 
             if ($namespace) {
-                $contents = str_replace('namespace class', 'namespace '.$namespace, $contents);
+                $contents = str_replace('namespace App', 'namespace '.$namespace, $contents);
                 $contents = str_replace('AppServiceProvider', $namespace.'ServiceProvider', $contents);
                 $fileDestination = strpos($basename, 'ServiceProvider') === false
                     ? $destination.DS.basename(dirname($file->getRealPath())).DS.$basename
