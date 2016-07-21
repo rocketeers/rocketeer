@@ -129,6 +129,16 @@ class AbstractTaskTest extends RocketeerTestCase
         $this->pretendTask('Deploy')->fire();
     }
 
+    public function testHaltingEventBubblesUp()
+    {
+        $this->expectFiredEvent('deploy.halt');
+        $this->tasks->before('SwapSymlink', function($task) {
+            $task->halt();
+        });
+
+        $this->pretendTask('Deploy')->fire();
+    }
+
     public function testHaltingCancelsQueue()
     {
         $this->expectOutputString('');
@@ -211,7 +221,7 @@ class AbstractTaskTest extends RocketeerTestCase
             'which phpunit' => 'phpunit',
         ]);
 
-        $prophecy = $this->bindFilesystemProphecy();
+        $prophecy = $this->bindFilesystemProphecy(true);
         $prophecy->read(Argument::cetera())->willReturn();
         $prophecy->delete(Argument::cetera())->willReturn();
         $prophecy->has(Argument::any())->willReturn(true);

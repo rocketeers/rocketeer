@@ -73,15 +73,18 @@ class Deploy extends AbstractTask
 
         // Run the steps until one fails
         if (!$this->runSteps()) {
+            dump('lol');
             return $this->halt();
         }
 
         // Swap symlink
         if ($this->getOption('coordinated', true)) {
-            return $this->coordinator->whenAllServersReadyTo('symlink', 'SwapSymlink');
+            $swap = $this->coordinator->whenAllServersReadyTo('symlink', 'SwapSymlink');
+        } else {
+            $swap = $this->executeTask('SwapSymlink');
         }
 
-        return $this->executeTask('SwapSymlink');
+        return $swap ?: $this->halt();
     }
 
     ////////////////////////////////////////////////////////////////////
