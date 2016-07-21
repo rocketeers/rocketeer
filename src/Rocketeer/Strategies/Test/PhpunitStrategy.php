@@ -44,7 +44,7 @@ class PhpunitStrategy extends AbstractStrategy implements TestStrategyInterface
             $this->phpunit()->getCommand(null, [], $arguments),
         ]);
 
-        $status = $this->checkStatus('Tests failed', $output, 'Tests passed successfully');
+        $status = $this->displayStatusMessage('Tests failed', $output, 'Tests passed successfully');
         if (!$status) {
             $this->explainer->error('Tests failed');
         }

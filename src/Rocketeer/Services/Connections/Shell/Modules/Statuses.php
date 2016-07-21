@@ -23,7 +23,7 @@ class Statuses extends AbstractBashModule
      *
      * @return bool
      */
-    public function checkStatus($error, $output = null, $success = null)
+    public function displayStatusMessage($error, $output = null, $success = null)
     {
         // If all went well
         if ($this->status()) {
@@ -52,7 +52,7 @@ class Statuses extends AbstractBashModule
     {
         return [
             'status',
-            'checkStatus',
+            'displayStatusMessage',
         ];
     }
 }

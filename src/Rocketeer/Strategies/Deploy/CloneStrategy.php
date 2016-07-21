@@ -39,7 +39,7 @@ class CloneStrategy extends AbstractStrategy implements DeployStrategyInterface
         $output = $this->scm->run('checkout', $destination);
 
         // Cancel if failed and forget credentials
-        $success = $this->bash->checkStatus('Unable to clone the repository', $output) !== false;
+        $success = $this->bash->displayStatusMessage('Unable to clone the repository', $output) !== false;
         if (!$success) {
             $this->localStorage->forget('credentials');
 

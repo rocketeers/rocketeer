@@ -385,7 +385,6 @@ class Core extends AbstractBashModule
     public function getProvided()
     {
         return [
-            'checkStatus',
             'getConnection',
             'getExtraOutput',
             'getProvided  ',

@@ -32,13 +32,13 @@ class CoreTest extends RocketeerTestCase
         $this->mockEchoingCommand();
         $this->connections->getCurrentConnection()->setPreviousStatus(1);
 
-        $status = $this->task('Deploy')->checkStatus('Oh noes', 'git clone');
+        $status = $this->task('Deploy')->displayStatusMessage('Oh noes', 'git clone');
         $this->assertFalse($status);
     }
 
     public function testCheckStatusReturnsTrueSuccessful()
     {
-        $this->assertTrue($this->pretendTask()->checkStatus('Oh noes'));
+        $this->assertTrue($this->pretendTask()->displayStatusMessage('Oh noes'));
     }
 
     public function testCanGetTimestampOffServer()

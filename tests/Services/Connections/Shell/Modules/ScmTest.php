@@ -28,7 +28,7 @@ class ScmTest extends RocketeerTestCase
 
         $prophecy = $this->bindProphecy(Bash::class);
         $prophecy->run(Argument::cetera())->willReturn();
-        $prophecy->checkStatus(Argument::cetera())->willReturn(false);
+        $prophecy->displayStatusMessage(Argument::cetera())->willReturn(false);
 
         $task = $this->pretendTask();
 
