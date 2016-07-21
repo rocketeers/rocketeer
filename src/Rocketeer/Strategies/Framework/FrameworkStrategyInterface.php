@@ -15,33 +15,6 @@ namespace Rocketeer\Strategies\Framework;
 interface FrameworkStrategyInterface
 {
     /**
-     * Get the name of the framework.
-     *
-     * @return string
-     */
-    public function getName();
-
-    //////////////////////////////////////////////////////////////////////
-    //////////////////////////// CONFIGURATION ///////////////////////////
-    //////////////////////////////////////////////////////////////////////
-
-    /**
-     * Get the path to export the configuration to.
-     *
-     * @return string
-     */
-    public function getConfigurationPath();
-
-    //////////////////////////////////////////////////////////////////////
-    ////////////////////////////// COMMANDS //////////////////////////////
-    //////////////////////////////////////////////////////////////////////
-
-    /**
-     * Clear the application's cache.
-     */
-    public function clearCache();
-
-    /**
      * Apply modifiers to some commands before
      * they're executed.
      *
@@ -50,4 +23,9 @@ interface FrameworkStrategyInterface
      * @return string
      */
     public function processCommand($command);
+
+    /**
+     * Clear the application's cache.
+     */
+    public function clearCache();
 }
