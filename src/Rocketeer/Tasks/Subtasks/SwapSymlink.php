@@ -29,7 +29,6 @@ class SwapSymlink extends AbstractTask
      */
     public function execute()
     {
-        dump($this->getQualifiedEvent('before'));
         $this->updateSymlink();
         $status = $this->status();
 

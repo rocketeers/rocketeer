@@ -73,8 +73,6 @@ class Deploy extends AbstractTask
 
         // Run the steps until one fails
         if (!$this->runSteps()) {
-            dump('lol');
-
             return $this->halt();
         }
 
