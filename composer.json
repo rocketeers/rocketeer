@@ -1,80 +1,81 @@
 {
-  "name": "rocketeers/rocketeer",
-  "description": "Rocketeer is a fast and simple deployer for the PHP world",
-  "homepage": "http://rocketeer.autopergamene.eu",
-  "license": "MIT",
-  "keywords": [
-    "laravel",
-    "deploy",
-    "deployment",
-    "task",
-    "ssh"
-  ],
-  "authors": [
-    {
-      "name": "Maxime Fabre",
-      "email": "ehtnam6@gmail.com",
-      "homepage": "http://autopergamene.eu/en"
-    }
-  ],
-  "require": {
-    "php": ">=5.6.0",
-    "anahkiasen/php-reference-dumper": "^1.0.6",
-    "illuminate/support": "^5.2",
-    "jeremeamia/superclosure": "^2.2",
-    "kherge/amend": "dev-master",
-    "kzykhys/parallel": "^0.1.0",
-    "league/container": "^2.2",
-    "league/event": "^2.1",
-    "league/flysystem": "^1.0.11",
-    "league/flysystem-sftp": "^1.0",
-    "league/flysystem-vfs": "^1.0.2",
-    "monolog/monolog": "^1.20",
-    "psy/psysh": "^0.7.2",
-    "symfony/class-loader": "^3.1",
-    "symfony/config": "^3.1",
-    "symfony/console": "^3.1",
-    "symfony/process": "^3.1",
-    "symfony/var-dumper": "^3.1",
-    "vlucas/phpdotenv": "^2.3"
-  },
-  "require-dev": {
-    "escapestudios/symfony2-coding-standard": "^2.9",
-    "friendsofphp/php-cs-fixer": "dev-master",
-    "johnkary/phpunit-speedtrap": "^1.0",
-    "kherge/box": "^2.7.3",
-    "phpunit/phpunit": "^5.4",
-    "rocketeers/rocketeer-laravel": "1.0.x@dev"
-  },
-  "suggest": {
-    "anahkiasen/rocketeer-campfire": "Campfire plugin to create deployments notifications",
-    "anahkiasen/rocketeer-slack": "Slack plugin to create deployments notifications",
-    "ext-pcntl": "Allow parallel deployments"
-  },
-  "scripts": {
-    "test": "phpunit",
-    "lint": "phpcs",
-    "build": "box build --verbose"
-  },
-  "bin": [
-    "bin/rocketeer"
-  ],
-  "autoload": {
-    "psr-4": {
-      "Rocketeer\\": "src/Rocketeer"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Rocketeer\\": "tests"
-    }
-  },
-  "extra": {
-    "branch-alias": {
-      "dev-develop": "3.0-dev"
-    }
-  },
-  "config": {
-    "sort-packages": true
-  }
+	"name": "rocketeers/rocketeer",
+	"description": "Rocketeer is a fast and simple deployer for the PHP world",
+	"homepage": "http://rocketeer.autopergamene.eu",
+	"license": "MIT",
+	"keywords": [
+		"laravel",
+		"deploy",
+		"deployment",
+		"task",
+		"ssh"
+	],
+	"authors": [
+		{
+			"name": "Maxime Fabre",
+			"email": "ehtnam6@gmail.com",
+			"homepage": "http://autopergamene.eu/en"
+		}
+	],
+	"require": {
+		"php": ">=5.6.0",
+		"anahkiasen/php-reference-dumper": "^1.0.6",
+		"illuminate/support": "^5.2",
+		"jeremeamia/superclosure": "^2.2",
+		"kherge/amend": "dev-master",
+		"kzykhys/parallel": "^0.1.0",
+		"league/container": "^2.2",
+		"league/event": "^2.1",
+		"league/flysystem": "^1.0.11",
+		"league/flysystem-sftp": "^1.0",
+		"league/flysystem-vfs": "^1.0.2",
+		"monolog/monolog": "^1.20",
+		"psy/psysh": "^0.7.2",
+		"symfony/class-loader": "^3.1",
+		"symfony/config": "^3.1",
+		"symfony/console": "^3.1",
+		"symfony/process": "^3.1",
+		"symfony/var-dumper": "^3.1",
+		"vlucas/phpdotenv": "^2.3"
+	},
+	"require-dev": {
+		"escapestudios/symfony2-coding-standard": "^2.9",
+		"friendsofphp/php-cs-fixer": "dev-master",
+		"johnkary/phpunit-speedtrap": "^1.0",
+		"kherge/box": "^2.7.3",
+		"phpunit/phpunit": "^5.4",
+		"rocketeers/rocketeer-laravel": "1.0.x@dev"
+	},
+	"suggest": {
+		"anahkiasen/rocketeer-campfire": "Campfire plugin to create deployments notifications",
+		"anahkiasen/rocketeer-slack": "Slack plugin to create deployments notifications",
+		"ext-pcntl": "Allow parallel deployments"
+	},
+	"scripts": {
+		"test": "phpunit",
+		"test:coverage": "phpdbg -qrr vendor/bin/phpunit --coverage-html=tests/_coverage",
+		"lint": "phpcs",
+		"build": "box build --verbose"
+	},
+	"bin": [
+		"bin/rocketeer"
+	],
+	"autoload": {
+		"psr-4": {
+			"Rocketeer\\": "src/Rocketeer"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Rocketeer\\": "tests"
+		}
+	},
+	"extra": {
+		"branch-alias": {
+			"dev-develop": "3.0-dev"
+		}
+	},
+	"config": {
+		"sort-packages": true
+	}
 }
