@@ -12,7 +12,6 @@
 
 namespace Rocketeer\Services\Ignition;
 
-use Mockery\MockInterface;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class PluginsTest extends RocketeerTestCase
@@ -57,7 +56,7 @@ class PluginsTest extends RocketeerTestCase
         $prophecy->has($this->from)->willReturn(false);
 
         $this->plugins->publish('anahkiasen/rocketeer-slack');
-        
+
         $prophecy->createDir()->shouldNotHaveBeenBeCalled();
     }
 

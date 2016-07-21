@@ -12,7 +12,6 @@
 
 namespace Rocketeer\Tasks;
 
-use League\Flysystem\Filesystem;
 use Prophecy\Argument;
 use Rocketeer\TestCases\RocketeerTestCase;
 

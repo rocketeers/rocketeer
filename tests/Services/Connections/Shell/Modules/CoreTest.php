@@ -12,8 +12,6 @@
 
 namespace Rocketeer\Services\Connections\Shell\Modules;
 
-use Mockery\MockInterface;
-use Rocketeer\Console\Commands\AbstractCommand;
 use Rocketeer\Dummies\Tasks\DummyShelledTask;
 use Rocketeer\TestCases\RocketeerTestCase;
 use Symfony\Component\Console\Output\OutputInterface;

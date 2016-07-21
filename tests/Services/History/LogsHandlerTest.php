@@ -12,7 +12,6 @@
 
 namespace Rocketeer\Services\History;
 
-use League\Flysystem\Filesystem;
 use Rocketeer\Services\Connections\ConnectionsHandler;
 use Rocketeer\TestCases\RocketeerTestCase;
 

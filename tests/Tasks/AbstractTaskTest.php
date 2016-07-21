@@ -12,7 +12,6 @@
 
 namespace Rocketeer\Tasks;
 
-use League\Flysystem\Filesystem;
 use Prophecy\Argument;
 use Rocketeer\Dummies\Tasks\MyCustomHaltingTask;
 use Rocketeer\TestCases\RocketeerTestCase;
@@ -132,7 +131,7 @@ class AbstractTaskTest extends RocketeerTestCase
     public function testHaltingEventBubblesUp()
     {
         $this->expectFiredEvent('deploy.halt');
-        $this->tasks->before('SwapSymlink', function($task) {
+        $this->tasks->before('SwapSymlink', function ($task) {
             $task->halt();
         });
 

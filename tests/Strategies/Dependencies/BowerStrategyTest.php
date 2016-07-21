@@ -12,8 +12,6 @@
 
 namespace Rocketeer\Strategies\Dependencies;
 
-use League\Flysystem\Filesystem;
-use Mockery\MockInterface;
 use Prophecy\Argument;
 use Rocketeer\Binaries\PackageManagers\Bower;
 use Rocketeer\TestCases\RocketeerTestCase;

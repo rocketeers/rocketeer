@@ -12,8 +12,6 @@
 
 namespace Rocketeer\Strategies\Check;
 
-use League\Flysystem\Filesystem;
-use Mockery\MockInterface;
 use Prophecy\Argument;
 use Rocketeer\TestCases\RocketeerTestCase;
 

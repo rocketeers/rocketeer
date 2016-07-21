@@ -12,7 +12,6 @@
 
 namespace Rocketeer\Plugins;
 
-use Illuminate\Support\Str;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 use League\Container\ServiceProvider\BootableServiceProviderInterface;
 use Rocketeer\Console\Console;
