@@ -67,6 +67,10 @@ class ServerStorage extends AbstractStorage implements StorageInterface
      */
     protected function saveContents($contents)
     {
+        if ($this->getOption('pretend')) {
+            return;
+        }
+
         $file = $this->getFilepath();
         $this->bash->putFile($file, json_encode($contents));
     }

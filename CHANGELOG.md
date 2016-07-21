@@ -2,6 +2,11 @@
 
 Rocketeer follows the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.html) spec.
 
+## [2.2.2] - 2016-07-21
+
+### Fixed
+- Fixed remote storage being written to in pretend mode
+
 ## [2.2.1] - 2016-07-10
 
 ### Fixed

@@ -11,3 +11,6 @@ tests/_server/foobar
 # Dependencies
 vendor
 
+TODO.md
+Vagrantfile
+tests/_coverage
