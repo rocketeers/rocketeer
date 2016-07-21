@@ -160,7 +160,14 @@ class Pathfinder implements ModulableInterface, ContainerAwareInterface
     {
         $path = $this->unifySlashes($path);
         $path = str_replace('//', '/', $path);
-        $path = preg_replace('#/(.+)/\.\.#', '', $path);
+
+        // Resolve ../ calls
+        $parent = '#/?([^\/]+)/\.\.#';
+        while (preg_match($parent, $path)) {
+            $path = preg_replace($parent, '', $path);
+            $path = trim($path, '/');
+        }
+
         $path = explode('/', $path);
         $path = array_filter($path, function ($component) {
             return !in_array($component, ['.'], true);
