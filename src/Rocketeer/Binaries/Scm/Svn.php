@@ -54,6 +54,14 @@ class Svn extends AbstractBinary implements ScmInterface
     }
 
     /**
+     * @return string
+     */
+    public function currentEndpoint()
+    {
+        return $this->getCommand("info | grep '^URL' | awk '{print \$NF}'");
+    }
+
+    /**
      * Get the current branch.
      *
      * @return string

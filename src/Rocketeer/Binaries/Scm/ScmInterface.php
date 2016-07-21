@@ -48,6 +48,11 @@ interface ScmInterface
     public function currentBranch();
 
     /**
+     * @return string
+     */
+    public function currentEndpoint();
+
+    /**
      * Clone a repository.
      *
      * @param string $destination

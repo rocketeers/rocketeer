@@ -62,6 +62,14 @@ class Git extends AbstractBinary implements ScmInterface
         return $this->revParse('--abbrev-ref HEAD');
     }
 
+    /**
+     * @return string
+     */
+    public function currentEndpoint()
+    {
+        return $this->getCommand('remote get-url origin');
+    }
+
     ////////////////////////////////////////////////////////////////////
     /////////////////////////////// ACTIONS ////////////////////////////
     ////////////////////////////////////////////////////////////////////

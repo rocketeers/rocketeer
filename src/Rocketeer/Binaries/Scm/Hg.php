@@ -59,6 +59,14 @@ class Hg extends AbstractBinary implements ScmInterface
     }
 
     /**
+     * @return string
+     */
+    public function currentEndpoint()
+    {
+        return $this->getCommand('paths default');
+    }
+
+    /**
      * Clone a repository.
      *
      * @param string $destination
