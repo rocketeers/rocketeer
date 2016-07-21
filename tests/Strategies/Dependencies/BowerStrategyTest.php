@@ -81,14 +81,14 @@ class BowerStrategyTest extends RocketeerTestCase
 
     public function testCanGetDependenciesFolder()
     {
-        $prophecy = $this->bindFilesystemProphecy();
+        $prophecy = $this->bindFilesystemProphecy(true);
         $prophecy->has(Argument::containingString('/.bowerrc'))->willReturn(true);
         $prophecy->read(Argument::cetera())->shouldBeCalled()->willReturn('{"directory": "components"}');
 
         $bower = $this->builder->buildBinary('Bower');
         $this->assertEquals('components', $bower->getDependenciesFolder());
 
-        $prophecy = $this->bindFilesystemProphecy();
+        $prophecy = $this->bindFilesystemProphecy(true);
         $prophecy->has(Argument::containingString('/.bowerrc'))->willReturn(false);
 
         $bower = $this->builder->buildBinary('Bower');

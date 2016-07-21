@@ -110,14 +110,19 @@ class AbstractTaskTest extends RocketeerTestCase
 
     public function testDoesntDuplicateQueuesOnSubtasks()
     {
+        $this->pretendTask('Deploy')->execute();
+        $expected = count($this->history->getFlattenedHistory());
+        $this->history->reset();
+
         $this->swapConfig([
             'default' => ['staging', 'production'],
+            'hooks' => [],
         ]);
 
         $this->pretend();
         $this->queue->run('Deploy');
 
-        $this->assertCount(14, $this->history->getFlattenedHistory());
+        $this->assertCount($expected * 2, $this->history->getFlattenedHistory());
     }
 
     public function testCanHookIntoHaltingEvent()

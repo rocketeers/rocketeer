@@ -38,7 +38,7 @@ class PhpStrategyTest extends RocketeerTestCase
             'php -r "print PHP_VERSION;"' => '5.6.0',
         ]);
 
-        $prophecy = $this->bindFilesystemProphecy();
+        $prophecy = $this->bindFilesystemProphecy(true);
         $prophecy->put()->willReturn();
         $prophecy->has(Argument::cetera())->willReturn(true);
         $prophecy->read(Argument::cetera())->willReturn('{"require":{"php":">=5.6.0"}}');
@@ -46,7 +46,7 @@ class PhpStrategyTest extends RocketeerTestCase
         $this->assertTrue($this->strategy->language());
 
         // This is is going to come bite me in the ass in 10 years
-        $prophecy = $this->bindFilesystemProphecy();
+        $prophecy = $this->bindFilesystemProphecy(true);
         $prophecy->put()->willReturn();
         $prophecy->has(Argument::cetera())->willReturn(true);
         $prophecy->read(Argument::cetera())->willReturn('{"require":{"php":">=12.9.0"}}');

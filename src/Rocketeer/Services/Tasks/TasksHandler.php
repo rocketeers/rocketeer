@@ -46,7 +46,6 @@ class TasksHandler
      */
     protected $coreEvents = [
         'commands.deploy.before' => 'Primer',
-        'deploy.symlink.before' => [['coordinator', 'beforeSymlink']],
     ];
 
     /**
@@ -208,8 +207,7 @@ class TasksHandler
     {
         foreach ($this->coreEvents as $event => $listeners) {
             $this->registeredEvents[] = 'rocketeer.'.$event;
-            $priority = $event === 'deploy.symlink.before' ? -50 : 0;
-            $this->listenTo($event, $listeners, $priority);
+            $this->listenTo($event, $listeners, 0);
         }
     }
 

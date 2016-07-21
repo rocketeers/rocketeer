@@ -54,6 +54,8 @@ class Coordinator
      *
      * @param string   $event
      * @param callable $listener
+     *
+     * @return bool
      */
     public function whenAllServersReadyTo($event, callable $listener)
     {
