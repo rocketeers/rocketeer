@@ -76,6 +76,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @property RolesManager                   roles
  * @property ScmInterface                   scm
  * @property Storage                        localStorage
+ * @property Storage                        remoteStorage
  * @property TasksHandler                   tasks
  * @property TasksQueue                     queue
  *
@@ -140,6 +141,7 @@ trait HasLocatorTrait
             'queue' => TasksQueue::class,
             'releasesManager' => ReleasesManager::class,
             'remote' => ConnectionsFactory::class,
+            'remoteStorage' => 'storage.remote',
             'rocketeer' => Rocketeer::class,
             'roles' => RolesManager::class,
             'scm' => ScmInterface::class,

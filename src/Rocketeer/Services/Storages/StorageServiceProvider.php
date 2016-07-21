@@ -23,6 +23,7 @@ class StorageServiceProvider extends AbstractServiceProvider
      */
     protected $provides = [
         'storage.local',
+        'storage.remote',
     ];
 
     /**
@@ -30,6 +31,10 @@ class StorageServiceProvider extends AbstractServiceProvider
      */
     public function register()
     {
+        $this->container->share('storage.remote', function () {
+            return new ServerStorage($this->container);
+        });
+
         $this->container->share('storage.local', function () {
             /** @var Pathfinder $pathfinder */
             $pathfinder = $this->container->get(Pathfinder::class);

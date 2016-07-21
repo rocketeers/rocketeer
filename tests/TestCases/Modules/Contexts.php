@@ -13,8 +13,6 @@
 namespace Rocketeer\TestCases\Modules;
 
 use Rocketeer\Plugins\Laravel\Laravel;
-use Rocketeer\Services\Connections\Credentials\CredentialsHandler;
-use Rocketeer\Services\Connections\Credentials\Keys\RepositoryKey;
 use Symfony\Component\Finder\Finder;
 
 /**
