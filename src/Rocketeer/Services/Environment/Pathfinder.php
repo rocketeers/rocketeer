@@ -159,6 +159,7 @@ class Pathfinder implements ModulableInterface, ContainerAwareInterface
     protected function explodePath($path)
     {
         $path = str_replace(DS.DS, DS, $path);
+        $path = preg_replace('#'.DS.'(.+)'.DS.'\.\.#', '', $path);
         $path = explode(DS, $path);
         $path = array_filter($path, function ($component) {
             return !in_array($component, ['.'], true);

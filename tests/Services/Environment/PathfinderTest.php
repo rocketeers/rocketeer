@@ -233,6 +233,7 @@ class PathfinderTest extends RocketeerTestCase
             ['foo.txt', './bar.txt', 'bar.txt'],
             ['../foo.txt', '../bar/bar.txt', 'bar/bar.txt'],
             ['foo/foo.txt', 'bar/bar.txt', '../bar/bar.txt'],
+            ['foo/bar/../baz.txt', 'foo/baz/baz.txt', 'baz/baz.txt'],
             ['foo/bar/bar.txt', 'foo/baz/baz.txt', '../baz/baz.txt'],
             ['foo//foo/foo.txt', 'bar//bar/bar.txt', '../../bar/bar/bar.txt'],
         ];
