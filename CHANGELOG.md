@@ -401,6 +401,7 @@ Rocketeer follows the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.ht
 - Added config file
 - Added `deploy:setup` and `deploy:deploy` commands
 
+[2.2.2]: https://github.com/rocketeers/rocketeer/compare/2.2.1...2.2.2
 [2.2.1]: https://github.com/rocketeers/rocketeer/compare/2.2.0...2.2.1
 [2.2.0]: https://github.com/rocketeers/rocketeer/compare/2.1.3...2.2.0
 [2.1.3]: https://github.com/rocketeers/rocketeer/compare/2.1.2...2.1.3
