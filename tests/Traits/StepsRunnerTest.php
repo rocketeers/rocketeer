@@ -40,4 +40,20 @@ class StepsRunnerTest extends RocketeerTestCase
             ['run', ['php --version']],
         ], $task->steps()->getSteps());
     }
+
+    public function testStopsOnStrictFalse()
+    {
+        $this->expectOutputString('');
+
+        $this->task('Deploy')->steps()->addStep(function () {
+            return false;
+        });
+
+        $this->task('Deploy')->steps()->addStep(function () {
+            echo 'foobar';
+            return true;
+        });
+
+        $this->task('Deploy')->runSteps();
+    }
 }
