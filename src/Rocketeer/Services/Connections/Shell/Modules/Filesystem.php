@@ -55,7 +55,7 @@ class Filesystem extends AbstractBashModule
 
         // Switch to relative if required
         if ($this->config->getContextually('remote.symlink') === 'relative') {
-            $folder = $this->getRelativePath($symlink, $folder);
+            $folder = $this->paths->computeRelativePathBetween($symlink, $folder);
         }
 
         switch ($this->environment->getOperatingSystem()) {
@@ -332,89 +332,5 @@ class Filesystem extends AbstractBashModule
             'tail',
             'upload',
         ];
-    }
-
-    /**
-     * Get a relative path from one file or directory to another.
-     *
-     * If $from is a path to a file (i.e. does not end with a "/"), the
-     * returned path will be relative to its parent directory.
-     *
-     * @param string $from
-     * @param string $to
-     *
-     * @return string
-     */
-    protected function getRelativePath($from, $to)
-    {
-        $from = $this->explodePath($from);
-        $to   = $this->explodePath($to);
-
-        $result = [];
-        $i      = 0;
-
-        // Skip the common path prefix
-        while ($i < count($from) && $i < count($to) && $from[$i] === $to[$i]) {
-            $i++;
-        }
-
-        // Add ".." for each directory left in $from
-        $from_length = count($from) - 1; // Path length without the filename
-        if ($i > 0 && $i < $from_length) {
-            $result = array_fill(0, $from_length - $i, '..');
-        }
-
-        // Add the remaining $to path
-        $result = array_merge($result, array_slice($to, $i));
-
-        return implode('/', $result);
-    }
-
-    /**
-     * Explode the given path into components, resolving any
-     * ".." components and ignoring "." and double separators.
-     *
-     * If the path starts at root directory, the first component
-     * will be empty.
-     *
-     * @param string $path
-     * @param string $separator Path separator to use, defaults to /.
-     *
-     * @return array
-     */
-    protected function explodePath($path, $separator = '/')
-    {
-        $result = [];
-
-        if (strpos($path, $separator) === 0) {
-            // Add empty component if the path starts at root directory
-            $result[] = '';
-        }
-
-        foreach (explode($separator, $path) as $component) {
-            switch ($component) {
-                case '..':
-                    // ".." removes the preceding component
-                    if (empty($result) || $result[count($result) - 1] === '..') {
-                        // Unless the path contains only ".." so far (then keep the "..")
-                        $result[] = '..';
-                        break;
-                    }
-                    if (count($result) === 1 && $result[0] === '') {
-                        // Or the path is already at root (then just ignore it)
-                        break;
-                    }
-                    array_pop($result);
-                    break;
-                case '.':
-                case '':
-                    // Ignore double separators and "."
-                    break;
-                default:
-                    $result[] = $component;
-            }
-        }
-
-        return $result;
     }
 }

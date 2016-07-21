@@ -119,4 +119,51 @@ class Pathfinder implements ModulableInterface, ContainerAwareInterface
             return false;
         }, $path);
     }
+
+    /**
+     * Get a relative path from one file or directory to another.
+     *
+     * If $from is a path to a file (i.e. does not end with a "/"), the
+     * returned path will be relative to its parent directory.
+     *
+     * @param string $from
+     * @param string $to
+     *
+     * @return string
+     */
+    public function computeRelativePathBetween($from, $to)
+    {
+        $from = $this->explodePath($from);
+        $to = $this->explodePath($to);
+
+        // Skip the common path prefix
+        foreach ($from as $key => $component) {
+            if (isset($to[$key]) && $to[$key] === $component) {
+                unset($from[$key], $to[$key]);
+            }
+        }
+
+        // Compute new realpath
+        $relativePath = implode('/', $to);
+        $relativePath = str_repeat('../', count($from) - 1).$relativePath;
+        $relativePath = trim($relativePath, '/');
+
+        return $relativePath;
+    }
+
+    /**
+     * @param string $path
+     *
+     * @return array
+     */
+    protected function explodePath($path)
+    {
+        $path = str_replace(DS.DS, DS, $path);
+        $path = explode(DS, $path);
+        $path = array_filter($path, function ($component) {
+            return !in_array($component, ['.'], true);
+        });
+
+        return $path;
+    }
 }

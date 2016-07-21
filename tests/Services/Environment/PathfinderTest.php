@@ -199,7 +199,7 @@ class PathfinderTest extends RocketeerTestCase
     public function testDoesntReplaceFoldersBearingApplicationName()
     {
         $this->swapConfig([
-           'application_name' => 'foobar',
+            'application_name' => 'foobar',
         ]);
 
         $this->swapConnections([
@@ -210,5 +210,31 @@ class PathfinderTest extends RocketeerTestCase
 
         $folder = $this->paths->getFolder('foo/foobar/baz');
         $this->assertEquals('/foobar/foo/foobar/baz', $folder);
+    }
+
+    /**
+     * @dataProvider providePaths
+     *
+     * @param string $from
+     * @param string $to
+     * @param string $expected
+     */
+    public function testCanComputeRelativePathBetweenTwoFiles($from, $to, $expected)
+    {
+        $result = $this->paths->computeRelativePathBetween($from, $to);
+        $this->assertEquals($expected, $result);
+    }
+
+    public function providePaths()
+    {
+        return [
+            ['foo.txt', 'bar.txt', 'bar.txt'],
+            ['foo/', 'bar/bar.txt', '../bar/bar.txt'],
+            ['foo.txt', './bar.txt', 'bar.txt'],
+            ['../foo.txt', '../bar/bar.txt', 'bar/bar.txt'],
+            ['foo/foo.txt', 'bar/bar.txt', '../bar/bar.txt'],
+            ['foo/bar/bar.txt', 'foo/baz/baz.txt', '../baz/baz.txt'],
+            ['foo//foo/foo.txt', 'bar//bar/bar.txt', '../../bar/bar/bar.txt'],
+        ];
     }
 }
