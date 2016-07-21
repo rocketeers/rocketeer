@@ -48,8 +48,8 @@ class Migrate extends AbstractTask
         $this->results = [];
 
         // Cancel if nothing to run
-        if (!$this->canRunMigrations()) {
-            $this->explainer->line('No outstanding migrations or server not assigned db role');
+        if (!$this->strategy) {
+            $this->explainer->line('No strategy configured to run migrations');
 
             return true;
         }
@@ -59,16 +59,6 @@ class Migrate extends AbstractTask
         $this->runStrategyCommand('seed', 'Seeding database');
 
         return $this->results;
-    }
-
-    /**
-     * Check if the command can be run.
-     *
-     * @return bool
-     */
-    protected function canRunMigrations()
-    {
-        return $this->strategy && ($this->getOption('seed') || $this->getOption('migrate'));
     }
 
     /**

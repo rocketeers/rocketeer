@@ -160,11 +160,11 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         });
 
         $command->ask(Argument::cetera())->will(function ($arguments) use ($expectations) {
-           if(isset($expectations['ask'])) {
-               return $expectations['ask'];
-           }
+            if (isset($expectations['ask'])) {
+                return $expectations['ask'];
+            }
 
-           return isset($arguments[1]) ? $arguments[1] : '';
+            return isset($arguments[1]) ? $arguments[1] : '';
         });
 
         // Bind expecations

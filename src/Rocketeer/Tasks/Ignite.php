@@ -14,7 +14,6 @@ namespace Rocketeer\Tasks;
 
 use Rocketeer\Services\Config\ConfigurationDefinition;
 use Rocketeer\Services\Config\Files\ConfigurationPublisher;
-use Symfony\Component\Finder\Finder;
 
 /**
  * A task to ignite Rocketeer.
