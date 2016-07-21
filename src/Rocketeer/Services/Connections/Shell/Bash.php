@@ -27,6 +27,15 @@ use Rocketeer\Traits\Properties\HasHistoryTrait;
  * @mixin Modules\Statuses
  * @mixin Modules\Flow
  *
+ * @method bool displayStatusMessage($error, $output = null, $success = null)
+ * @method string copyFromPreviousRelease($folder)
+ * @method string fileExists($file)
+ * @method string listContents($directory)
+ * @method string run($commands, $silent = false, $array = false)
+ * @method string runForApplication($tasks)
+ * @method string share($file)
+ * @method string which($binary, $fallback = null, $prompt = true)
+ *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Bash implements ModulableInterface, ContainerAwareInterface

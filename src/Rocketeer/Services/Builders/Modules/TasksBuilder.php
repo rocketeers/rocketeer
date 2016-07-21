@@ -15,11 +15,6 @@ namespace Rocketeer\Services\Builders\Modules;
 use Closure;
 use Illuminate\Support\Str;
 use Rocketeer\Services\Builders\TaskCompositionException;
-use Rocketeer\Services\Connections\Shell\Modules\Binaries;
-use Rocketeer\Services\Connections\Shell\Modules\Core;
-use Rocketeer\Services\Connections\Shell\Modules\Filesystem;
-use Rocketeer\Services\Connections\Shell\Modules\Flow;
-use Rocketeer\Services\Connections\Shell\Modules\Statuses;
 use Rocketeer\Tasks\AbstractTask;
 use Rocketeer\Tasks\Closure as ClosureTask;
 

@@ -38,7 +38,7 @@ abstract class AbstractNotifier extends AbstractPlugin
     }
 
     /**
-     * Get the default message format
+     * Get the default message format.
      *
      * @param string $message The message handle
      *

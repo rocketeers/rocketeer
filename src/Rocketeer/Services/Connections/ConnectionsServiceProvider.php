@@ -19,11 +19,6 @@ use Rocketeer\Services\Connections\Credentials\CredentialsHandler;
 use Rocketeer\Services\Connections\Credentials\Modules\ConnectionsKeychain;
 use Rocketeer\Services\Connections\Credentials\Modules\RepositoriesKeychain;
 use Rocketeer\Services\Connections\Shell\Bash;
-use Rocketeer\Services\Connections\Shell\Modules\Binaries;
-use Rocketeer\Services\Connections\Shell\Modules\Core;
-use Rocketeer\Services\Connections\Shell\Modules\Filesystem;
-use Rocketeer\Services\Connections\Shell\Modules\Flow;
-use Rocketeer\Services\Connections\Shell\Modules\Statuses;
 use Rocketeer\Traits\HasLocatorTrait;
 
 class ConnectionsServiceProvider extends AbstractServiceProvider

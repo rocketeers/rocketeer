@@ -1,9 +1,19 @@
 <?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ */
+
 namespace Rocketeer\Services\Connections\Shell\Modules;
 
 class Statuses extends AbstractBashModule
 {
-
     /**
      * Check the status of the last command.
      *
@@ -11,7 +21,17 @@ class Statuses extends AbstractBashModule
      */
     public function status()
     {
-        return $this->getOption('pretend') ? true : $this->getConnection()->status() === 0;
+        return $this->getOption('pretend') ? true : $this->modulable->getConnection()->status() === 0;
+    }
+
+    /**
+     * Whether to consider the results of something valid or not.
+     *
+     * @param mixed $results
+     */
+    public function checkResults($results)
+    {
+        return $results;
     }
 
     /**
