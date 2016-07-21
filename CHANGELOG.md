@@ -7,6 +7,7 @@ Rocketeer follows the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.ht
 ### Fixed
 - Fixed remote storage being written to in pretend mode
 - Fixed `StepsRunner` not halting the running of steps upon encountering a strict false
+- Fixed some tasks having their `after` event not firing
 
 ## [2.2.1] - 2016-07-10
 

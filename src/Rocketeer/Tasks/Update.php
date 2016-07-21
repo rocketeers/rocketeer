@@ -65,6 +65,6 @@ class Update extends Deploy
             $this->artisan()->runForCurrentRelease('clearCache');
         }
 
-        $this->command->info('Successfully updated application');
+        return $this->command->info('Successfully updated application');
     }
 }

@@ -83,7 +83,7 @@ class Check extends AbstractTask
         }
 
         // Display confirmation message
-        $this->explainer->line('Your server is ready to deploy');
+        return $this->explainer->line('Your server is ready to deploy');
     }
 
     ////////////////////////////////////////////////////////////////////
