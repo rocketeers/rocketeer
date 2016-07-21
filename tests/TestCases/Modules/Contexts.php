@@ -127,18 +127,26 @@ trait Contexts
     protected function replicateConfiguration()
     {
         $folder = $this->configurationLoader->getFolders()[0];
-        $this->files->createDir($folder);
 
-        $files = (new Finder())->in($folder)->files();
-        foreach ($files as $file) {
-            $contents = file_get_contents($file->getPathname());
-            $this->files->write($folder.'/'.$file->getBasename(), $contents);
-        }
+        $this->files->createDir($folder);
+        $this->replicateFolder(__DIR__.'/../../../src/stubs');
 
         $this->configurationLoader->setFolders([$folder]);
         $this->configurationLoader->getCache()->flush();
 
         return $folder;
+    }
+
+    protected function replicateFolder($folder)
+    {
+        $folder = realpath($folder);
+
+        $this->files->createDir($folder);
+        $files = (new Finder())->in($folder)->files();
+        foreach ($files as $file) {
+            $contents = file_get_contents($file->getPathname());
+            $this->files->write($file->getPathname(), $contents);
+        }
     }
 
     //////////////////////////////////////////////////////////////////////
