@@ -17,6 +17,13 @@ use Rocketeer\Plugins\AbstractPlugin;
 
 class DummyConsolePlugin extends AbstractPlugin
 {
+    protected $name = 'foobar';
+
+    public function getFooOption()
+    {
+        return $this->getPluginOption('foo');
+    }
+
     public function onConsole(Console $console)
     {
         $console->addCommands([
