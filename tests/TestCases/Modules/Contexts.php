@@ -128,7 +128,7 @@ trait Contexts
     {
         $folder = $this->configurationLoader->getFolders()[0];
 
-        $this->files->createDir($folder);
+        $this->replicateFolder($folder);
         $this->replicateFolder(__DIR__.'/../../../src/stubs');
 
         $this->configurationLoader->setFolders([$folder]);

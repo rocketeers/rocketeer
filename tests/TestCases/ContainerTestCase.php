@@ -147,7 +147,6 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         // Merge defaults
         $expectations = array_merge([
             'argument' => '',
-            'ask' => '',
             'askHidden' => '',
             'table' => '',
             'title' => '',
@@ -158,6 +157,14 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 
         $command->choice(Argument::cetera())->will(function ($arguments) {
             return isset($arguments[2]) ? $arguments[2] : head($arguments[1]);
+        });
+
+        $command->ask(Argument::cetera())->will(function ($arguments) use ($expectations) {
+           if(isset($expectations['ask'])) {
+               return $expectations['ask'];
+           }
+
+           return isset($arguments[1]) ? $arguments[1] : '';
         });
 
         // Bind expecations

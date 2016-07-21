@@ -120,8 +120,8 @@ TXT
         $definition->setValues($this->config->all());
 
         $this->configurationPublisher->setDefinition($definition);
-        $path = $this->configurationPublisher->publish($format, $consolidated);
-        $path = realpath($path.'/..');
+        $this->configurationPublisher->publish($format, $consolidated);
+        $path = $this->paths->getRocketeerPath();
 
         // Summary
         $folder = basename(dirname($path)).'/'.basename($path);
@@ -137,24 +137,28 @@ TXT
      */
     protected function generateStubs($type, $destination, $namespace = null)
     {
+        // If we have no stubs for this type, cancel
         $source = __DIR__.'/../../stubs/'.$type;
         if (!$this->files->has($source)) {
             return;
         }
 
         $this->files->createDir($destination);
-
-        $files = (new Finder())->in($source)->files();
+        $files = $this->files->listContents($source, true);
         foreach ($files as $file) {
-            $contents = $this->files->read($file->getRealPath());
-            $basename = $file->getBasename();
+            if ($file['type'] === 'dir') {
+                continue;
+            }
+
+            $contents = $this->files->read($file['path']);
+            $basename = $file['basename'];
             $fileDestination = $destination.DS.$basename;
 
             if ($namespace) {
                 $contents = str_replace('namespace App', 'namespace '.$namespace, $contents);
                 $contents = str_replace('AppServiceProvider', $namespace.'ServiceProvider', $contents);
                 $fileDestination = strpos($basename, 'ServiceProvider') === false
-                    ? $destination.DS.basename(dirname($file->getRealPath())).DS.$basename
+                    ? $destination.DS.basename(dirname($file['path'])).DS.$basename
                     : $destination.DS.$namespace.'ServiceProvider.php';
             }
 

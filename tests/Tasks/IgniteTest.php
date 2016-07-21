@@ -48,4 +48,16 @@ class IgniteTest extends RocketeerTestCase
         $this->assertContains('FOO=bar', $dotenv);
         $this->assertContains('SCM_REPOSITORY=git@github.com/rocketeers/website.git', $dotenv);
     }
+
+    public function testCanIgniteStubs()
+    {
+        $this->replicateConfiguration();
+
+        $this->task('Ignite')->fire();
+        $path = $this->paths->getUserlandPath();
+
+        $serviceProviderContents = $this->files->read($path.'/DeploymentsServiceProvider.php');
+        $this->assertContains('namespace Deployments', $serviceProviderContents);
+        $this->assertContains('class DeploymentsServiceProvider', $serviceProviderContents);
+    }
 }
