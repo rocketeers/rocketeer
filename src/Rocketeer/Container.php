@@ -64,12 +64,12 @@ class Container extends \League\Container\Container
             FilesystemServiceProvider::class,
             HistoryServiceProvider::class,
             ReleasesServiceProvider::class,
+            RocketeerServiceProvider::class,
             RolesServiceProvider::class,
             StorageServiceProvider::class,
             StrategiesServiceProvider::class,
             TasksServiceProvider::class,
             IgnitionServiceProvider::class,
-            RocketeerServiceProvider::class,
         ];
 
         foreach ($providers as $provider) {
