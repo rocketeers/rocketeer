@@ -12,9 +12,7 @@
 
 namespace Rocketeer\TestCases\Modules;
 
-use Closure;
 use League\Flysystem\Filesystem;
-use Mockery;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use Rocketeer\Console\Commands\AbstractCommand;
@@ -59,37 +57,6 @@ trait Mocks
         $this->container->add($handle, $prophecy->reveal());
 
         return $prophecy;
-    }
-
-    /**
-     * Bind a mocked instance in the Container.
-     *
-     * @param string  $handle
-     * @param string  $class
-     * @param Closure $expectations
-     * @param bool    $partial
-     *
-     * @return Mockery
-     */
-    protected function mock($handle, $class = null, Closure $expectations = null, $partial = true)
-    {
-        $class = $class ?: $handle;
-        $mockery = Mockery::mock($class);
-        if ($partial) {
-            $mockery = $mockery->shouldIgnoreMissing();
-        }
-
-        if ($expectations) {
-            $mockery = $expectations($mockery)->mock();
-        }
-
-        if ($this->container->has($handle)) {
-            $this->container->get($handle);
-        }
-
-        $this->container->add($handle, $mockery);
-
-        return $mockery;
     }
 
     /**

@@ -24,8 +24,8 @@ use Prophecy\Argument;
 use Rocketeer\Console\Commands\AbstractCommand;
 use Rocketeer\Console\StyleInterface;
 use Rocketeer\Container;
+use Rocketeer\Dummies\Connections\DummyConnection;
 use Rocketeer\Dummies\Tasks\MyCustomTask;
-use Rocketeer\Services\Connections\Connections\Connection;
 use Rocketeer\Services\Connections\ConnectionsFactory;
 use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
 use Rocketeer\Services\Filesystem\Plugins\AppendPlugin;
@@ -112,14 +112,6 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         $this->swapConfig();
     }
 
-    /**
-     * Tears down the tests.
-     */
-    public function tearDown()
-    {
-        Mockery::close();
-    }
-
     ////////////////////////////////////////////////////////////////////
     ///////////////////////// MOCKED INSTANCES /////////////////////////
     ////////////////////////////////////////////////////////////////////
@@ -201,8 +193,8 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         /** @var ConnectionsFactory $factory */
         $factory = $this->prophesize(ConnectionsFactory::class);
         $factory->make(Argument::type(ConnectionKey::class))->will(function ($arguments) use ($me, $expectations) {
-            $connection = $expectations instanceof MockInterface ? $expectations : $me->getRemote($expectations);
-            $connection->setConnectionKey($arguments[0]);
+            $connection = new DummyConnection($arguments[0]);
+            $connection->setExpectations($expectations);
             if ($adapter = $me->files->getAdapter()) {
                 $connection->setAdapter($adapter);
             }
@@ -211,52 +203,6 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         });
 
         return $factory->reveal();
-    }
-
-    /**
-     * Mock the Remote component.
-     *
-     * @param string|array|null $expectations
-     *
-     * @return Mockery|Connection
-     */
-    protected function getRemote($expectations = null)
-    {
-        $lookup = 'bash --login -c \'echo ROCKETEER\'';
-        $mockedRun = function ($output) {
-            return function ($task, $callback) use ($output) {
-                $callback($output);
-            };
-        };
-
-        $run = function ($task, $callback) use ($expectations, $lookup) {
-            if (is_array($task)) {
-                $task = implode(' && ', $task);
-            } elseif ($task === $lookup) {
-                $callback('Inappropriate ioctl for device'.PHP_EOL.'ROCKETEER');
-            }
-
-            $output = $expectations ? $expectations : shell_exec($task);
-            $callback($output);
-
-            return $output;
-        };
-
-        $connection = Mockery::mock(Connection::class)->makePartial();
-        $connection->shouldReceive('isConnected')->andReturn(true)->byDefault();
-        $connection->shouldReceive('status')->andReturn(0)->byDefault();
-
-        if (is_array($expectations)) {
-            $expectations[$lookup] = 'Inappropriate ioctl for device'.PHP_EOL.'ROCKETEER';
-            foreach ($expectations as $command => $output) {
-                $connection->shouldReceive('run')->with($command, Mockery::any())->andReturnUsing($mockedRun($output));
-                $connection->shouldReceive('run')->with([$command], Mockery::any())->andReturnUsing($mockedRun($output));
-            }
-        } else {
-            $connection->shouldReceive('run')->andReturnUsing($run)->byDefault();
-        }
-
-        return $connection;
     }
 
     /**

@@ -151,9 +151,7 @@ class ConnectionsHandlerTest extends RocketeerTestCase
     {
         $this->expectOutputString('connected');
 
-        $this->mockRemote(
-            $this->getRemote()->shouldReceive('isConnected')->andReturn(false)->mock()
-        );
+        $this->connections->getCurrentConnection()->setConnected(false);
 
         $this->events->addListener('connected.production', function () {
             echo 'connected';

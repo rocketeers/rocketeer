@@ -12,6 +12,7 @@
 
 namespace Rocketeer\Services\Connections\Connections;
 
+use League\Flysystem\AdapterInterface;
 use League\Flysystem\Filesystem;
 use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
 use Rocketeer\Services\Roles\HasRolesInterface;
@@ -82,5 +83,13 @@ abstract class AbstractConnection extends Filesystem implements ConnectionInterf
     public function setConnectionKey(ConnectionKey $connectionKey)
     {
         $this->connectionKey = $connectionKey;
+    }
+
+    /**
+     * @param AdapterInterface $adapter
+     */
+    public function setAdapter(AdapterInterface $adapter)
+    {
+        $this->adapter = $adapter;
     }
 }

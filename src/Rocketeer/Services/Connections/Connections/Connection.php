@@ -75,14 +75,6 @@ class Connection extends AbstractConnection
     }
 
     /**
-     * @param AdapterInterface $adapter
-     */
-    public function setAdapter(AdapterInterface $adapter)
-    {
-        $this->adapter = $adapter;
-    }
-
-    /**
      * @return string
      */
     public function getName()
