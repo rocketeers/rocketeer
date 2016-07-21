@@ -78,10 +78,10 @@ class Deploy extends AbstractTask
 
         // Swap symlink
         if ($this->getOption('coordinated', true)) {
-            $this->coordinator->whenAllServersReadyTo('symlink', 'SwapSymlink');
-        } else {
-            $this->executeTask('SwapSymlink');
+            return $this->coordinator->whenAllServersReadyTo('symlink', 'SwapSymlink');
         }
+
+        return $this->executeTask('SwapSymlink');
     }
 
     ////////////////////////////////////////////////////////////////////

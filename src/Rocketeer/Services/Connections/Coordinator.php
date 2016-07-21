@@ -74,6 +74,8 @@ class Coordinator
         if ($this->allServerAre($event, static::WAITING)) {
             $this->events->emit($event);
         }
+
+        return true;
     }
 
     //////////////////////////////////////////////////////////////////////

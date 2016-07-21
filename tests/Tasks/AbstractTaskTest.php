@@ -12,6 +12,8 @@
 
 namespace Rocketeer\Tasks;
 
+use League\Flysystem\Filesystem;
+use Prophecy\Argument;
 use Rocketeer\Dummies\Tasks\MyCustomHaltingTask;
 use Rocketeer\TestCases\RocketeerTestCase;
 
@@ -190,5 +192,47 @@ class AbstractTaskTest extends RocketeerTestCase
         });
 
         $task->fire();
+    }
+
+    /**
+     * @dataProvider provideTasks
+     *
+     * @param string $taskName
+     */
+    public function testAllTasksCanFireAfterEvent($taskName)
+    {
+        $this->tasks->clearRegisteredEvents();
+        $this->expectFiredEvent('rocketeer.tasks.'.$taskName.'.after');
+
+        $this->mockRemote([
+            'php -m' => 'mysql',
+            'which composer' => 'composer',
+            'which php' => 'php',
+            'which phpunit' => 'phpunit',
+        ]);
+
+        $adapter = $this->files->getAdapter();
+        $prophecy = $this->bindProphecy(Filesystem::class);
+        $prophecy->getAdapter()->willReturn($adapter);
+        $prophecy->read(Argument::cetera())->willReturn();
+        $prophecy->delete(Argument::cetera())->willReturn();
+        $prophecy->has(Argument::any())->willReturn(true);
+
+        $task = $this->pretendTask($taskName);
+        $task->fire();
+    }
+
+    public function provideTasks()
+    {
+        return [
+            ['cleanup'],
+            ['dependencies'],
+            ['deploy'],
+            ['migrate'],
+            ['rollback'],
+            ['teardown'],
+            ['test'],
+            ['update'],
+        ];
     }
 }

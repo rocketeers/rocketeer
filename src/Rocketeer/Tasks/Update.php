@@ -70,6 +70,6 @@ class Update extends Deploy
             $this->getFramework()->clearCache();
         }
 
-        $this->explainer->success('Successfully updated application');
+        return $this->explainer->success('Successfully updated application');
     }
 }
