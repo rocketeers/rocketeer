@@ -51,14 +51,18 @@ class ContextualConfiguration
     }
 
     /**
-     * @param string $plugin
-     * @param string $option
+     * Get an option for a plugin
+     *
+     * @param string      $plugin
+     * @param string|null $option
      *
      * @return mixed
      */
-    public function getPluginOption($plugin, $option)
+    public function getPluginOption($plugin, $option = null)
     {
-        return $this->config->get('plugins.config.'.$plugin.'.'.$option);
+        $option = $option ? '.'.$option : '';
+
+        return $this->config->get('plugins.config.'.$plugin.$option);
     }
 
     /**
@@ -92,7 +96,7 @@ class ContextualConfiguration
      * Get a contextual option.
      *
      * @param string             $option
-     * @param string             $type          [stage,connection]
+     * @param string             $type [stage,connection]
      * @param string|array|null  $original
      * @param ConnectionKey|null $connectionKey
      *

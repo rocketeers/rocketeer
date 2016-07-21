@@ -100,11 +100,11 @@ abstract class AbstractPlugin extends AbstractServiceProvider implements Bootabl
     ////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * @param string $option
+     * @param string|null $option
      *
      * @return mixed
      */
-    protected function getPluginOption($option)
+    protected function getPluginOption($option = null)
     {
         return $this->config->getPluginOption($this->name, $option);
     }
