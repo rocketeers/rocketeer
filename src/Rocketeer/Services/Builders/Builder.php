@@ -18,6 +18,11 @@ use Rocketeer\Services\Builders\Modules\BinariesBuilder;
 use Rocketeer\Services\Builders\Modules\CommandsBuilder;
 use Rocketeer\Services\Builders\Modules\StrategiesBuilder;
 use Rocketeer\Services\Builders\Modules\TasksBuilder;
+use Rocketeer\Services\Connections\Shell\Modules\Binaries;
+use Rocketeer\Services\Connections\Shell\Modules\Core;
+use Rocketeer\Services\Connections\Shell\Modules\Filesystem;
+use Rocketeer\Services\Connections\Shell\Modules\Flow;
+use Rocketeer\Services\Connections\Shell\Modules\Statuses;
 use Rocketeer\Services\Modules\ModulableInterface;
 use Rocketeer\Services\Modules\ModulableTrait;
 use Rocketeer\Traits\ContainerAwareTrait;
@@ -79,9 +84,31 @@ class Builder implements ModulableInterface, ContainerAwareInterface
         ]);
     }
 
-    //////////////////////////////////////////////////////////////////////
-    ////////////////////////////// LOOKUPS ///////////////////////////////
-    //////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////// MODULES ////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * @param ModulableInterface $modulable
+     *
+     * @return ModulableInterface
+     */
+    public function registerBashModulesOn(ModulableInterface $modulable)
+    {
+        if (!$modulable->getRegistered()) {
+            $modulable->register(new Binaries());
+            $modulable->register(new Core());
+            $modulable->register(new Filesystem());
+            $modulable->register(new Flow());
+            $modulable->register(new Statuses());
+        }
+
+        return $modulable;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////// LOOKUPS ////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
 
     /**
      * Get the lookups for a type.

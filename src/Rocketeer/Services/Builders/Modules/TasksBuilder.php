@@ -19,6 +19,7 @@ use Rocketeer\Services\Connections\Shell\Modules\Binaries;
 use Rocketeer\Services\Connections\Shell\Modules\Core;
 use Rocketeer\Services\Connections\Shell\Modules\Filesystem;
 use Rocketeer\Services\Connections\Shell\Modules\Flow;
+use Rocketeer\Services\Connections\Shell\Modules\Statuses;
 use Rocketeer\Tasks\AbstractTask;
 use Rocketeer\Tasks\Closure as ClosureTask;
 
@@ -65,14 +66,7 @@ class TasksBuilder extends AbstractBuilderModule
         // Set task properties
         $task->setName($name);
         $task->setDescription($description);
-
-        // Register modules
-        if (!$task->getRegistered()) {
-            $task->register(new Binaries());
-            $task->register(new Core());
-            $task->register(new Filesystem());
-            $task->register(new Flow());
-        }
+        $task = $this->modulable->registerBashModulesOn($task);
 
         // Bind instance for later user
         if (!$task instanceof ClosureTask) {

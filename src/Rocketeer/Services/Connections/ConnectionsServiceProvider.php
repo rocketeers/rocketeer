@@ -23,9 +23,13 @@ use Rocketeer\Services\Connections\Shell\Modules\Binaries;
 use Rocketeer\Services\Connections\Shell\Modules\Core;
 use Rocketeer\Services\Connections\Shell\Modules\Filesystem;
 use Rocketeer\Services\Connections\Shell\Modules\Flow;
+use Rocketeer\Services\Connections\Shell\Modules\Statuses;
+use Rocketeer\Traits\HasLocatorTrait;
 
 class ConnectionsServiceProvider extends AbstractServiceProvider
 {
+    use HasLocatorTrait;
+
     /**
      * @var array
      */
@@ -60,10 +64,7 @@ class ConnectionsServiceProvider extends AbstractServiceProvider
 
         $this->container->share(Bash::class, function () {
             $bash = new Bash($this->container);
-            $bash->register(new Binaries());
-            $bash->register(new Core());
-            $bash->register(new Filesystem());
-            $bash->register(new Flow());
+            $bash = $this->builder->registerBashModulesOn($bash);
 
             return $bash;
         });

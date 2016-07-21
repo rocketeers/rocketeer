@@ -16,6 +16,7 @@ use Rocketeer\Services\Connections\Shell\Modules\Binaries;
 use Rocketeer\Services\Connections\Shell\Modules\Core;
 use Rocketeer\Services\Connections\Shell\Modules\Filesystem;
 use Rocketeer\Services\Connections\Shell\Modules\Flow;
+use Rocketeer\Services\Connections\Shell\Modules\Statuses;
 use Rocketeer\Strategies\AbstractStrategy;
 
 /**
@@ -55,12 +56,7 @@ class StrategiesBuilder extends AbstractBuilderModule
         // Get and register modules
         /** @var AbstractStrategy $strategy */
         $strategy = $this->container->get($handle);
-        if (!$strategy->getRegistered()) {
-            $strategy->register(new Binaries());
-            $strategy->register(new Core());
-            $strategy->register(new Filesystem());
-            $strategy->register(new Flow());
-        }
+        $strategy = $this->modulable->registerBashModulesOn($strategy);
 
         return $strategy;
     }
