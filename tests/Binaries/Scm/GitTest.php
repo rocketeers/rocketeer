@@ -96,7 +96,7 @@ class GitTest extends RocketeerTestCase
     {
         $command = $this->scm->update();
 
-        $this->assertEquals('git pull', $command);
+        $this->assertEquals('git pull --recurse-submodules', $command);
     }
 
     public function testCanGetSubmodules()

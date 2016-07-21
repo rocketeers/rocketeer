@@ -43,7 +43,7 @@ class CloneStrategyTest extends RocketeerTestCase
             [
                 "cd $this->server/releases/20000000000000",
                 'git reset --hard',
-                'git pull',
+                'git pull --recurse-submodules',
             ],
         ];
 

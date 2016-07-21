@@ -34,7 +34,7 @@ class CopyStrategyTest extends RocketeerTestCase
             [
                 'cd {server}/releases/{release}',
                 'git reset --hard',
-                'git pull',
+                'git pull --recurse-submodules',
             ],
         ];
 

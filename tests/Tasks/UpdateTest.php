@@ -28,7 +28,7 @@ class UpdateTest extends RocketeerTestCase
             [
                 'cd {server}/releases/20000000000000',
                 'git reset --hard',
-                'git pull',
+                'git pull --recurse-submodules',
             ],
             [
                 'cd {server}/releases/20000000000000',
@@ -53,7 +53,7 @@ class UpdateTest extends RocketeerTestCase
             [
                 'cd {server}/releases/20000000000000',
                 'git reset --hard',
-                'git pull',
+                'git pull --recurse-submodules',
             ],
             [
                 'cd {server}/releases/20000000000000',

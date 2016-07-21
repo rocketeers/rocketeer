@@ -107,7 +107,7 @@ class Git extends AbstractBinary implements ScmInterface
      */
     public function update()
     {
-        return $this->pull();
+        return $this->pull(null, ['--recurse-submodules']);
     }
 
     /**
