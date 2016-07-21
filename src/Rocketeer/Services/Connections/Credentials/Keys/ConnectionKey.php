@@ -13,7 +13,6 @@
 namespace Rocketeer\Services\Connections\Credentials\Keys;
 
 use Illuminate\Support\Arr;
-use Rocketeer\Services\Connections\roles;
 
 /**
  * Represents a connection's identity and its credential.

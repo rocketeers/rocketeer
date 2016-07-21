@@ -113,7 +113,7 @@ class Bash implements ModulableInterface, ContainerAwareInterface
             $strategy->setOptions($options);
         }
 
-        return $this->explainer->displayBelow(function () use ($strategy, $options) {
+        return $this->explainer->displayBelow(function () use ($strategy) {
             return $strategy->displayStatus();
         });
     }
