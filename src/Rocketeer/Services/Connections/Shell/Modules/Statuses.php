@@ -33,7 +33,7 @@ class Statuses extends AbstractBashModule
      */
     public function checkResults($results)
     {
-        return $results = is_bool($results) ? $results : $this->status();
+        return is_bool($results) ? $results : $this->status();
     }
 
     /**

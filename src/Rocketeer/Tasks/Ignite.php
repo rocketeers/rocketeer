@@ -75,7 +75,7 @@ TXT
 
         // Export configuration
         $this->command->title('<info>[2/3]</info> Configuration exporting');
-        $configuration = $this->exportConfiguration($applicationName);
+        $configuration = $this->exportConfiguration();
 
         // Userland generation
         $this->command->title('<info>[3/3]</info> Userland');
