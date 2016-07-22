@@ -87,9 +87,6 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
             return new Storage($this->container, 'local', $this->server, 'deployments');
         });
 
-        $this->bindDummyConnection();
-        $this->bindDummyCommand();
-
         $this->files->setAdapter(new VfsAdapter(new Vfs()));
         $this->container->share(MountManager::class, function () {
             return new MountManager([
@@ -97,6 +94,9 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
                 'remote' => $this->files,
             ]);
         });
+
+        $this->bindDummyConnection();
+        $this->bindDummyCommand();
     }
 
     /**
