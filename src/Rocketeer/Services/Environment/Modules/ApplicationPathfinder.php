@@ -87,17 +87,9 @@ class ApplicationPathfinder extends AbstractPathfinderModule
      */
     public function getStoragePath()
     {
-        // If no path is bound, default to the Rocketeer folder
-        if (!$this->container->has('path.storage')) {
-            return '.rocketeer';
-        }
+        $path = $this->getRocketeerPath().'/storage';
 
-        // Unify slashes
-        $storage = $this->container->get('path.storage');
-        $storage = $this->modulable->unifySlashes($storage);
-        $storage = str_replace($this->modulable->getBasePath(), null, $storage);
-
-        return $storage;
+        return $this->modulable->unifySlashes($path);
     }
 
     /**

@@ -246,13 +246,16 @@ class Filesystem extends AbstractBashModule
     /**
      * Create a folder in the application's folder.
      *
-     * @param string|null $folder The folder to create
+     * @param string|null $folder    The folder to create
+     * @param bool        $recursive
      *
      * @return string The task
      */
-    public function createFolder($folder = null)
+    public function createFolder($folder = null, $recursive = false)
     {
-        return $this->modulable->getConnection()->createDir($this->paths->getFolder($folder));
+        $recursive = $recursive ? '-p ' : null;
+
+        return $this->modulable->run('mkdir '.$recursive.$this->paths->getFolder($folder));
     }
 
     /**

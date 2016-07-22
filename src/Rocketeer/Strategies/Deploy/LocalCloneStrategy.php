@@ -82,6 +82,6 @@ class LocalCloneStrategy extends SyncStrategy
      */
     protected function getCloneDirectory()
     {
-        return sprintf('%s/checkout/tmp/%s/', $this->paths->getRocketeerConfigFolder(), time());
+        return sprintf('%s/checkout/tmp/%s/', $this->paths->getStoragePath(), time());
     }
 }

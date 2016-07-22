@@ -116,39 +116,28 @@ class PathfinderTest extends RocketeerTestCase
         $this->assertEquals('/bin/php', $path);
     }
 
-    public function testCanGetStoragePathWhenNoneBound()
-    {
-        $this->container->remove('path.storage');
-
-        $storage = $this->paths->getStoragePath();
-        $this->assertEquals('.rocketeer', $storage);
-    }
-
     public function testCanGetStoragePathIfUnix()
     {
         $this->container->add('path.base', '/app');
-        $this->container->add('path.storage', '/app/local/folder');
 
         $storage = $this->paths->getStoragePath();
-        $this->assertEquals('local/folder', $storage);
+        $this->assertEquals('/app/.rocketeer/storage', $storage);
     }
 
     public function testCanGetStorageIfWindows()
     {
         $this->container->add('path.base', 'C:\Sites\app');
-        $this->container->add('path.storage', 'C:\Sites\app\local\folder');
 
         $storage = $this->paths->getStoragePath();
-        $this->assertEquals('local/folder', $storage);
+        $this->assertEquals('C:/Sites/app/.rocketeer/storage', $storage);
     }
 
     public function testCanGetStorageWhenBothForSomeReason()
     {
         $this->container->add('path.base', 'C:\Sites\app');
-        $this->container->add('path.storage', 'C:/Sites/app/local/folder');
 
         $storage = $this->paths->getStoragePath();
-        $this->assertEquals('local/folder', $storage);
+        $this->assertEquals('C:/Sites/app/.rocketeer/storage', $storage);
     }
 
     public function testCanReplacePatternsWithPathsFile()
