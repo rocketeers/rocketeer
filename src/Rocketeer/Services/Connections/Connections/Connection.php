@@ -17,8 +17,7 @@ use League\Flysystem\AdapterInterface;
 use phpseclib\Net\SFTP;
 use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
 use Rocketeer\Services\Connections\TimeOutException;
-use Rocketeer\Services\Filesystem\ConnectionKeyAdapter;
-use Rocketeer\Services\Filesystem\FtpAdapter;
+use Rocketeer\Services\Filesystem\ConnectionKeyAdapterFactory;
 
 /**
  * Represents a connection to a server and stage.
@@ -42,9 +41,10 @@ class Connection extends AbstractConnection
         $this->roles = (array) $connectionKey->roles;
         $this->setConnectionKey($connectionKey);
 
-        $adapter = $connectionKey->isFtp() ? FtpAdapter::class : ConnectionKeyAdapter::class;
-
-        parent::__construct(new $adapter($connectionKey));
+        $adapter = new ConnectionKeyAdapterFactory();
+        $adapter = $adapter->getAdapter($connectionKey);
+        
+        parent::__construct($adapter);
     }
 
     ////////////////////////////////////////////////////////////////////////////////

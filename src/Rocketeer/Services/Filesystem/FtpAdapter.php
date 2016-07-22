@@ -17,6 +17,9 @@ use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
 
 class FtpAdapter extends Ftp
 {
+    /**
+     * @param ConnectionKey $connectionKey
+     */
     public function __construct(ConnectionKey $connectionKey)
     {
         parent::__construct([
