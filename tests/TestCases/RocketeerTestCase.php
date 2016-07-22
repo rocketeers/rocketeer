@@ -70,17 +70,17 @@ abstract class RocketeerTestCase extends ContainerTestCase
         parent::setUp();
 
         // Compute ls results
-        $files = preg_grep('/^([^.0])/', scandir(__DIR__.'/../..'));
-        sort($files);
-
-        static::$currentFiles = array_values($files);
+        if (!static::$currentFiles) {
+            $files = preg_grep('/^([^.0])/', scandir(__DIR__.'/../..'));
+            sort($files);
+            static::$currentFiles = array_values($files);
+        }
 
         // Bind dummy AbstractTask
         $this->task = $this->task('Cleanup');
 
-        $this->recreateVirtualServer();
-
-        // Mock OS
+        // Mock current environment
+        $this->replicateFolder($this->server);
         $this->mockOperatingSystem('Linux');
 
         // Cache paths
