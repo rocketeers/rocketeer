@@ -43,7 +43,7 @@ class Connection extends AbstractConnection
 
         $adapter = new ConnectionKeyAdapterFactory();
         $adapter = $adapter->getAdapter($connectionKey);
-        
+
         parent::__construct($adapter);
     }
 

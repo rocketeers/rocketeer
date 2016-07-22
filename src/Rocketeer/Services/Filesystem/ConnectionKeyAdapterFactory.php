@@ -12,6 +12,7 @@
 
 namespace Rocketeer\Services\Filesystem;
 
+use League\Flysystem\Adapter\Ftp;
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\Sftp\SftpAdapter;
 use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
@@ -25,7 +26,7 @@ class ConnectionKeyAdapterFactory
      */
     public function getAdapter(ConnectionKey $connectionKey)
     {
-        $adapter = $connectionKey->isFtp() ? FtpAdapter::class : SftpAdapter::class;
+        $adapter = $connectionKey->isFtp() ? Ftp::class : SftpAdapter::class;
 
         return new $adapter([
             'host' => $connectionKey->host,
