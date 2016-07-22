@@ -26,7 +26,7 @@ class TasksQueueTest extends RocketeerTestCase
 {
     public function testCanRunQueue()
     {
-        $this->mockConfig([
+        $this->swapConfig([
             'default' => 'production',
         ]);
 
@@ -40,7 +40,7 @@ class TasksQueueTest extends RocketeerTestCase
 
     public function testCanRunQueueOnDifferentConnectionsAndStages()
     {
-        $this->mockConfig([
+        $this->swapConfig([
             'default' => ['staging', 'production'],
             'stages.stages' => ['first', 'second'],
             'connections' => [
@@ -84,7 +84,7 @@ class TasksQueueTest extends RocketeerTestCase
 
     public function testDoesntSettingStageDefaultsToAll()
     {
-        $this->mockConfig([
+        $this->swapConfig([
             'stages.default' => [],
             'stages.stages' => ['first', 'second'],
         ]);
@@ -97,7 +97,7 @@ class TasksQueueTest extends RocketeerTestCase
         $this->mockCommand([
             'stage' => 'all',
         ]);
-        $this->mockConfig([
+        $this->swapConfig([
             'stages.stages' => ['first', 'second'],
         ]);
 
@@ -106,7 +106,7 @@ class TasksQueueTest extends RocketeerTestCase
 
     public function testCanRunQueueViaExecute()
     {
-        $this->mockConfig([
+        $this->swapConfig([
             'default' => 'production',
         ]);
 
@@ -127,7 +127,7 @@ class TasksQueueTest extends RocketeerTestCase
 
     public function testCanRunOnMultipleConnectionsViaOn()
     {
-        $this->mockConfig([
+        $this->swapConfig([
             'stages.stages' => ['first', 'second'],
         ]);
 

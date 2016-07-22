@@ -58,7 +58,7 @@ class GitTest extends RocketeerTestCase
 
     public function testCanGetCheckout()
     {
-        $this->swapRepositoryCredentials([
+        $this->swapScmConfiguration([
             'shallow' => true,
             'repository' => 'http://github.com/my/repository',
             'branch' => 'develop',
@@ -73,7 +73,7 @@ class GitTest extends RocketeerTestCase
     {
         $this->config->set('scm.shallow', false);
 
-        $this->swapRepositoryCredentials([
+        $this->swapScmConfiguration([
             'repository' => 'http://github.com/my/repository',
             'branch' => 'develop',
         ]);

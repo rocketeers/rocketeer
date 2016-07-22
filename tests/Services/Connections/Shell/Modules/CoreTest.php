@@ -82,7 +82,7 @@ class CoreTest extends RocketeerTestCase
 
     public function testCanConvertDirectorySeparators()
     {
-        $this->mockConfig([
+        $this->swapConfig([
             'remote.variables.directory_separator' => '\\',
         ]);
 
@@ -94,7 +94,7 @@ class CoreTest extends RocketeerTestCase
 
     public function testDoesntConvertSlashesThatArentDirectorySeparators()
     {
-        $this->mockConfig([
+        $this->swapConfig([
             'remote.variables.directory_separator' => '\\',
         ]);
 
@@ -148,7 +148,7 @@ class CoreTest extends RocketeerTestCase
 
     public function testCanExecuteCommandsAsSudo()
     {
-        $this->mockConfig([
+        $this->swapConfig([
             'remote.sudo' => true,
             'remote.sudoed' => ['cd'],
         ]);
@@ -158,7 +158,7 @@ class CoreTest extends RocketeerTestCase
 
     public function testCanExecuteCommandsAsSudoUser()
     {
-        $this->mockConfig([
+        $this->swapConfig([
             'remote.sudo' => 'foobar',
             'remote.sudoed' => ['cd'],
         ]);

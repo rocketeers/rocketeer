@@ -58,7 +58,7 @@ class RolesManagerTest extends RocketeerTestCase
 
     public function testCanAssignRolesFromConfiguration()
     {
-        $this->swapConfig([
+        $this->swapConfigWithEvents([
             'hooks.roles' => [
                 'web' => 'Deploy',
                 'assets' => 'Deploy',

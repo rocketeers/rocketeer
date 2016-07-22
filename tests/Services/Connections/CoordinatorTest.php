@@ -50,7 +50,7 @@ class CoordinatorTest extends RocketeerTestCase
             '#'
         );
 
-        $this->mockConfig([
+        $this->swapConfig([
             'stages.stages' => ['develop', 'master'],
             'stages.default' => ['develop', 'master'],
             'default' => ['production', 'staging'],

@@ -20,7 +20,7 @@ class BinariesTest extends RocketeerTestCase
     public function testCanSetCustomPathsForBinaries()
     {
         $binary = __DIR__.'/../../../bin/rocketeer';
-        $this->mockConfig(['paths.composer' => $binary]);
+        $this->swapConfig(['paths.composer' => $binary]);
 
         $this->assertEquals($binary, $this->task->which('composer'));
     }
@@ -67,7 +67,7 @@ class BinariesTest extends RocketeerTestCase
     public function testCanSetPathToPhpAndArtisan()
     {
         $this->usesLaravel();
-        $this->mockConfig([
+        $this->swapConfig([
             'paths.php' => static::$binaries['php'],
             'paths.artisan' => static::$binaries['php'],
         ]);
@@ -78,7 +78,7 @@ class BinariesTest extends RocketeerTestCase
 
     public function testAlwaysRespectsCustomPath()
     {
-        $this->mockConfig([
+        $this->swapConfig([
             'paths.php' => 'foo',
             'paths.composer' => 'php /some/composer.phar',
         ]);
@@ -90,7 +90,7 @@ class BinariesTest extends RocketeerTestCase
     public function testFetchesBinaryIfNotSpecifiedOrNull()
     {
         $this->usesLaravel();
-        $this->mockConfig([
+        $this->swapConfig([
             'paths.php' => static::$binaries['php'],
         ]);
 

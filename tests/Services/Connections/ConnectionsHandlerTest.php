@@ -46,10 +46,10 @@ class ConnectionsHandlerTest extends RocketeerTestCase
 
     public function testCanGetCurrentConnection()
     {
-        $this->mockConfig(['default' => 'production']);
+        $this->swapConfig(['default' => 'production']);
         $this->assertConnectionEquals('production');
 
-        $this->mockConfig(['default' => 'staging']);
+        $this->swapConfig(['default' => 'staging']);
         $this->assertConnectionEquals('staging');
     }
 

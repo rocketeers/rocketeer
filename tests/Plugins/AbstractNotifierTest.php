@@ -27,7 +27,7 @@ class AbstractNotifierTest extends RocketeerTestCase
     {
         parent::setUp();
 
-        $this->swapConfig([
+        $this->swapConfigWithEvents([
             'stages.stages' => ['staging', 'production'],
             'hooks' => [],
             'connections' => [

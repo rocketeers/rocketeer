@@ -20,7 +20,6 @@ use PHPUnit_Framework_TestCase;
 use Prophecy\Argument;
 use Rocketeer\Container;
 use Rocketeer\Dummies\Connections\DummyConnection;
-use Rocketeer\Dummies\Tasks\MyCustomTask;
 use Rocketeer\Services\Connections\ConnectionsFactory;
 use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
 use Rocketeer\Services\Filesystem\Plugins\AppendPlugin;
@@ -31,6 +30,7 @@ use Rocketeer\Services\Filesystem\Plugins\RequirePlugin;
 use Rocketeer\Services\Filesystem\Plugins\UpsertPlugin;
 use Rocketeer\TestCases\Modules\Assertions;
 use Rocketeer\TestCases\Modules\Building;
+use Rocketeer\TestCases\Modules\Configuration;
 use Rocketeer\TestCases\Modules\Contexts;
 use Rocketeer\TestCases\Modules\Mocks;
 use Rocketeer\Traits\HasLocatorTrait;
@@ -41,14 +41,10 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
     use Mocks;
     use Assertions;
     use Contexts;
+    use Configuration;
     use Building;
     use HasLocatorTrait;
     use ContainerAwareTrait;
-
-    /**
-     * @var array
-     */
-    protected $defaults;
 
     /**
      * The path to the local fake server.
@@ -101,7 +97,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
             ]);
         });
 
-        $this->swapConfig();
+        $this->swapConfigWithEvents();
     }
 
     ////////////////////////////////////////////////////////////////////
@@ -130,87 +126,5 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         });
 
         return $factory->reveal();
-    }
-
-    /**
-     * @return array
-     */
-    protected function getFactoryConfiguration()
-    {
-        if ($this->defaults) {
-            return $this->defaults;
-        }
-
-        // Base the mocked configuration off the factory values
-        $defaults = [];
-        $files = ['config', 'hooks', 'paths', 'remote', 'scm', 'stages', 'strategies'];
-        foreach ($files as $file) {
-            $defaults[$file] = $this->config->get($file);
-        }
-
-        // Build correct keys
-        $defaults = array_dot($defaults);
-        $keys = array_keys($defaults);
-        $keys = array_map(function ($key) {
-            return str_replace('config.', null, $key);
-        }, $keys);
-        $defaults = array_combine($keys, array_values($defaults));
-
-        $overrides = [
-            'cache.driver' => 'file',
-            'database.default' => 'mysql',
-            'default' => 'production',
-            'session.driver' => 'file',
-            'connections' => [
-                'production' => [
-                    'host' => '{host}',
-                    'username' => '{username}',
-                    'password' => '{password}',
-                    'root_directory' => dirname($this->server),
-                ],
-                'staging' => [
-                    'host' => '{host}',
-                    'username' => '{username}',
-                    'password' => '{password}',
-                    'root_directory' => dirname($this->server),
-                ],
-            ],
-            'application_name' => 'foobar',
-            'logs' => null,
-            'remote.permissions.files' => ['tests'],
-            'remote.shared' => ['tests/Elements'],
-            'remote.keep_releases' => 1,
-            'scm' => [
-                'scm' => 'git',
-                'branch' => 'master',
-                'repository' => 'https://github.com/'.$this->repository,
-                'shallow' => true,
-                'submodules' => true,
-            ],
-            'strategies.dependencies' => 'Composer',
-            'hooks' => [
-                'custom' => [MyCustomTask::class],
-                'before' => [
-                    'deploy' => [
-                        'before',
-                        'foobar',
-                    ],
-                ],
-                'after' => [
-                    'check' => [
-                        MyCustomTask::class,
-                    ],
-                    'deploy' => [
-                        'after',
-                        'foobar',
-                    ],
-                ],
-            ],
-        ];
-
-        // Assign options to expectations
-        $this->defaults = array_merge($defaults, $overrides);
-
-        return $this->defaults;
     }
 }

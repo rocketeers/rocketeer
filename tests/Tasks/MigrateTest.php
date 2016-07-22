@@ -19,7 +19,6 @@ class MigrateTest extends RocketeerTestCase
     public function testCanRunMigrations()
     {
         $this->usesLaravel();
-        $this->config->set('strategies.migrate', 'Laravel');
 
         $this->assertTaskHistory(Migrate::class, [
             [

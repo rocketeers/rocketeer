@@ -18,7 +18,7 @@ class RocketeerTest extends RocketeerTestCase
 {
     public function testCanUseRecursiveStageConfiguration()
     {
-        $this->mockConfig([
+        $this->swapConfig([
             'scm.branch' => 'master',
             'on.stages.staging.scm.branch' => 'staging',
         ]);
@@ -30,14 +30,14 @@ class RocketeerTest extends RocketeerTestCase
 
     public function testCanUseRecursiveConnectionConfiguration()
     {
-        $this->mockConfig([
+        $this->swapConfig([
             'default' => 'production',
             'scm.branch' => 'master',
             'on.connections.staging.scm.branch' => 'staging',
         ]);
         $this->assertOptionValueEquals('master', 'scm.branch');
 
-        $this->mockConfig([
+        $this->swapConfig([
             'default' => 'staging',
             'scm.branch' => 'master',
             'on.connections.staging.scm.branch' => 'staging',

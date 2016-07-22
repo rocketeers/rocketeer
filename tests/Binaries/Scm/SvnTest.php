@@ -58,7 +58,7 @@ class SvnTest extends RocketeerTestCase
 
     public function testCanGetCheckout()
     {
-        $this->swapRepositoryCredentials([
+        $this->swapScmConfiguration([
             'username' => 'foo',
             'password' => 'bar',
             'repository' => 'http://github.com/my/repository',
@@ -72,7 +72,7 @@ class SvnTest extends RocketeerTestCase
 
     public function testCanGetDeepClone()
     {
-        $this->swapRepositoryCredentials([
+        $this->swapScmConfiguration([
             'username' => 'foo',
             'password' => 'bar',
             'repository' => 'http://github.com/my/repository',
@@ -86,7 +86,7 @@ class SvnTest extends RocketeerTestCase
 
     public function testDoesntDuplicateCredentials()
     {
-        $this->swapRepositoryCredentials([
+        $this->swapScmConfiguration([
             'username' => 'foo',
             'password' => 'bar',
             'repository' => 'http://foo:bar@github.com/my/repository',
@@ -97,7 +97,7 @@ class SvnTest extends RocketeerTestCase
 
         $this->assertEquals('svn co http://github.com/my/repository/develop '.$this->server.' --non-interactive --username="foo" --password="bar"', $command);
 
-        $this->swapRepositoryCredentials([
+        $this->swapScmConfiguration([
             'username' => 'foo',
             'password' => null,
             'repository' => 'http://foo@github.com/my/repository',
@@ -111,7 +111,7 @@ class SvnTest extends RocketeerTestCase
 
     public function testDoesntStripRevisionFromUrl()
     {
-        $this->swapRepositoryCredentials([
+        $this->swapScmConfiguration([
             'username' => 'foo',
             'password' => 'bar',
             'repository' => 'url://user:login@example.com/test',

@@ -71,7 +71,7 @@ class TasksHandlerTest extends RocketeerTestCase
 
     public function testCanRegisterCustomTask()
     {
-        $this->mockConfig([
+        $this->swapConfig([
             'default' => 'production',
         ]);
 
@@ -87,7 +87,7 @@ class TasksHandlerTest extends RocketeerTestCase
 
     public function testCanRegisterCustomTaskViaArray()
     {
-        $this->mockConfig([
+        $this->swapConfig([
             'default' => 'production',
         ]);
 
@@ -136,7 +136,7 @@ class TasksHandlerTest extends RocketeerTestCase
 
     public function testCanExecuteContextualEvents()
     {
-        $this->mockConfig([
+        $this->swapConfig([
             'stages.stages' => ['hasEvent', 'noEvent'],
             'on.stages.hasEvent.hooks' => ['before' => ['check' => 'ls']],
         ]);
@@ -151,7 +151,7 @@ class TasksHandlerTest extends RocketeerTestCase
     public function testCanbuildTasksFromConfigHook()
     {
         $tasks = ['ls'];
-        $this->mockConfig([
+        $this->swapConfig([
             'hooks' => ['after' => ['create-release' => $tasks]],
         ]);
 
@@ -168,7 +168,7 @@ class TasksHandlerTest extends RocketeerTestCase
             'bower install',
         ];
 
-        $this->mockConfig([
+        $this->swapConfig([
             'default' => 'production',
             'hooks' => [],
             'on.connections.staging.hooks' => ['after' => ['deploy' => $tasks]],
@@ -187,7 +187,7 @@ class TasksHandlerTest extends RocketeerTestCase
 
     public function testPluginsArentDeregisteredWhenSwitchingConnection()
     {
-        $this->swapConfig([
+        $this->swapConfigWithEvents([
             'hooks' => ['before' => ['deploy' => 'ls']],
         ]);
 

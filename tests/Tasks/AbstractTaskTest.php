@@ -114,7 +114,7 @@ class AbstractTaskTest extends RocketeerTestCase
         $expected = count($this->history->getFlattenedHistory());
         $this->history->reset();
 
-        $this->mockConfig([
+        $this->swapConfig([
             'default' => ['staging', 'production'],
             'hooks' => [],
         ]);

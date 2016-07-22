@@ -58,7 +58,7 @@ class HgTest extends RocketeerTestCase
 
     public function testCanGetCheckout()
     {
-        $this->swapRepositoryCredentials([
+        $this->swapScmConfiguration([
             'username' => 'foo',
             'password' => 'bar',
             'repository' => 'http://github.com/my/repository',

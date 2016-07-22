@@ -19,12 +19,6 @@ class DeployTest extends RocketeerTestCase
 {
     public function testCanDeployToServer()
     {
-        $this->mockConfig([
-            'scm.repository' => 'https://github.com/'.$this->repository,
-            'scm.username' => '',
-            'scm.password' => '',
-        ]);
-
         $matcher = [
             'git clone "{repository}" "{server}/releases/{release}" --branch="master" --depth="1"',
             [
@@ -57,7 +51,7 @@ class DeployTest extends RocketeerTestCase
 
     public function testStepsRunnerDoesntCancelWithPermissionsAndShared()
     {
-        $this->mockConfig([
+        $this->swapConfig([
             'remote.shared' => [],
             'remote.permissions.files' => [],
         ]);
@@ -88,12 +82,9 @@ class DeployTest extends RocketeerTestCase
 
     public function testCanDisableGitOptions()
     {
-        $this->mockConfig([
-            'scm.shallow' => false,
-            'scm.submodules' => false,
-            'scm.repository' => 'https://github.com/'.$this->repository,
-            'scm.username' => '',
-            'scm.password' => '',
+        $this->swapScmConfiguration([
+            'shallow' => false,
+            'submodules' => false,
         ]);
 
         $matcher = [
@@ -124,9 +115,7 @@ class DeployTest extends RocketeerTestCase
 
     public function testCanUseCopyStrategy()
     {
-        $this->expectRepositoryConfig('https://github.com/'.$this->repository);
         $this->container->add('rocketeer.strategies.deploy', new CopyStrategy($this->container));
-
         $this->mockState([
             '10000000000000' => true,
         ]);
@@ -160,6 +149,8 @@ class DeployTest extends RocketeerTestCase
 
     public function testCanRunDeployWithSeed()
     {
+        $this->usesLaravel();
+
         $matcher = [
             'git clone "{repository}" "{server}/releases/{release}" --branch="master" --depth="1"',
             [
@@ -171,6 +162,10 @@ class DeployTest extends RocketeerTestCase
                 'chmod -R 755 {server}/releases/{release}/tests',
                 'chmod -R g+s {server}/releases/{release}/tests',
                 'chown -R www-data:www-data {server}/releases/{release}/tests',
+            ],
+            [
+                'cd {server}/releases/{release}',
+                '{php} artisan db:seed --force',
             ],
             'mv {server}/current {server}/releases/{release}',
             [
@@ -183,102 +178,6 @@ class DeployTest extends RocketeerTestCase
             '--tests' => false,
             '--seed' => true,
             '--migrate' => false,
-        ]);
-    }
-
-    public function testNoDbRoleNoMigrationsNorSeedsAreRun()
-    {
-        $this->swapConnections([
-            'production' => [
-                'servers' => [
-                    [
-                        'db_role' => false,
-                    ],
-                ],
-            ],
-        ]);
-
-        $this->mockConfig([
-            'scm.repository' => 'https://github.com/'.$this->repository,
-            'scm.username' => '',
-            'scm.password' => '',
-        ]);
-
-        $matcher = [
-            'git clone "{repository}" "{server}/releases/{release}" --branch="master" --depth="1"',
-            [
-                'cd {server}/releases/{release}',
-                'git submodule update --init --recursive',
-            ],
-            [
-                'cd {server}/releases/{release}',
-                '{phpunit} --stop-on-failure',
-            ],
-            [
-                'cd {server}/releases/{release}',
-                'chmod -R 755 {server}/releases/{release}/tests',
-                'chmod -R g+s {server}/releases/{release}/tests',
-                'chown -R www-data:www-data {server}/releases/{release}/tests',
-            ],
-            'mv {server}/current {server}/releases/{release}',
-            [
-                'ln -s {server}/releases/{release} {server}/current-temp',
-                'mv -Tf {server}/current-temp {server}/current',
-            ],
-        ];
-
-        $this->assertTaskHistory('Deploy', $matcher, [
-            '--tests' => true,
-            '--seed' => true,
-            '--migrate' => true,
-        ]);
-    }
-
-    public function testDbRoleMigrationsAndSeedsAreRun()
-    {
-        $this->swapConnections([
-            'production' => [
-                'servers' => [
-                    [
-                        'db_role' => true,
-                    ],
-                ],
-            ],
-        ]);
-
-        $this->mockConfig([
-            'scm.repository' => 'https://github.com/'.$this->repository,
-            'scm.username' => '',
-            'scm.password' => '',
-        ]);
-
-        $matcher = [
-            'git clone "{repository}" "{server}/releases/{release}" --branch="master" --depth="1"',
-            [
-                'cd {server}/releases/{release}',
-                'git submodule update --init --recursive',
-            ],
-            [
-                'cd {server}/releases/{release}',
-                '{phpunit} --stop-on-failure',
-            ],
-            [
-                'cd {server}/releases/{release}',
-                'chmod -R 755 {server}/releases/{release}/tests',
-                'chmod -R g+s {server}/releases/{release}/tests',
-                'chown -R www-data:www-data {server}/releases/{release}/tests',
-            ],
-            'mv {server}/current {server}/releases/{release}',
-            [
-                'ln -s {server}/releases/{release} {server}/current-temp',
-                'mv -Tf {server}/current-temp {server}/current',
-            ],
-        ];
-
-        $this->assertTaskHistory('Deploy', $matcher, [
-            '--tests' => true,
-            '--seed' => true,
-            '--migrate' => true,
         ]);
     }
 }

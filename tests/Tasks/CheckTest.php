@@ -32,7 +32,7 @@ class CheckTest extends RocketeerTestCase
     {
         $this->usesComposer();
 
-        $this->mockConfig([
+        $this->swapConfig([
             'strategies.deploy' => 'sync',
         ]);
 
@@ -53,7 +53,7 @@ class CheckTest extends RocketeerTestCase
             return $this;
         });
 
-        $this->mockConfig([
+        $this->swapConfig([
             'strategies.check' => 'Php',
         ]);
     }

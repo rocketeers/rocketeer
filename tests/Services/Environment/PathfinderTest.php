@@ -108,7 +108,7 @@ class PathfinderTest extends RocketeerTestCase
 
     public function testCanGetBoundPath()
     {
-        $this->mockConfig([
+        $this->swapConfig([
             'paths.php' => '/bin/php',
         ]);
         $path = $this->paths->getPath('php');
@@ -153,7 +153,7 @@ class PathfinderTest extends RocketeerTestCase
 
     public function testCanReplacePatternsWithPathsFile()
     {
-        $this->mockConfig(['paths.foo' => 'bar']);
+        $this->swapConfig(['paths.foo' => 'bar']);
         $replaced = $this->paths->replacePatterns('{foo}');
 
         $this->assertEquals('bar', $replaced);
@@ -163,7 +163,7 @@ class PathfinderTest extends RocketeerTestCase
     {
         $this->assertEquals($this->container->get('path.base').DS, $this->paths->getApplicationPath());
 
-        $this->mockConfig([
+        $this->swapConfig([
             'paths.app' => __DIR__,
         ]);
 
@@ -198,7 +198,7 @@ class PathfinderTest extends RocketeerTestCase
 
     public function testDoesntReplaceFoldersBearingApplicationName()
     {
-        $this->mockConfig([
+        $this->swapConfig([
             'application_name' => 'foobar',
         ]);
 

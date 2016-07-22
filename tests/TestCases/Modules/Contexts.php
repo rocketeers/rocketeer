@@ -83,43 +83,6 @@ trait Contexts
     ////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Swap the current config.
-     *
-     * @param array $config
-     */
-    protected function swapConfig($config = [])
-    {
-        $this->mockConfig($config);
-        $this->tasks->registerConfiguredEvents();
-    }
-
-    /**
-     * Make the config return specific SCM config.
-     *
-     * @param string      $repository
-     * @param string|null $username
-     * @param string|null $password
-     */
-    protected function expectRepositoryConfig($repository, $username = null, $password = null)
-    {
-        $this->mockConfig([
-            'scm.repository' => $repository,
-            'scm.username' => $username,
-            'scm.password' => $password,
-        ]);
-    }
-
-    /**
-     * Disable the test events.
-     */
-    protected function disableTestEvents()
-    {
-        $this->swapConfig([
-            'hooks' => [],
-        ]);
-    }
-
-    /**
      * Replicates the configuration onto the VFS.
      */
     protected function replicateConfiguration()
@@ -148,40 +111,6 @@ trait Contexts
     }
 
     //////////////////////////////////////////////////////////////////////
-    ///////////////////////////// CREDENTIALS ////////////////////////////
-    //////////////////////////////////////////////////////////////////////
-
-    /**
-     * @param array $credentials
-     */
-    protected function swapRepositoryCredentials(array $credentials)
-    {
-        $scm = $this->config->get('scm');
-        $this->config->set('scm', array_merge($scm, $credentials));
-
-        $this->localStorage->destroy();
-    }
-
-    /**
-     * Swap the configured connections.
-     *
-     * @param array $connections
-     */
-    protected function swapConnections(array $connections)
-    {
-        // Merge defaults to connections
-        foreach ($connections as $key => $connection) {
-            $connections[$key] = array_merge([
-                'root_directory' => dirname($this->server),
-            ], $connection);
-        }
-
-        $this->mockConfig([
-            'connections' => $connections,
-        ]);
-    }
-
-    //////////////////////////////////////////////////////////////////////
     ////////////////////////// PACKAGE MANAGERS //////////////////////////
     //////////////////////////////////////////////////////////////////////
 
@@ -194,6 +123,7 @@ trait Contexts
     {
         if ($uses) {
             $this->container->addServiceProvider(Laravel::class);
+            $this->config->set('strategies.migrate', 'Laravel');
         } else {
             $this->container->remove('rocketeer.strategies.framework');
         }

@@ -64,7 +64,7 @@ class ConnectionsKeychainTest extends RocketeerTestCase
 
     public function testDoesntOverrideExtraCredentials()
     {
-        $this->mockConfig([
+        $this->swapConfig([
             'connections.production.servers.0' => [
                 'host' => 'foo.com',
                 'roles' => ['foo', 'bar'],

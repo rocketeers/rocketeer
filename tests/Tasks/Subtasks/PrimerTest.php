@@ -18,7 +18,7 @@ class PrimerTest extends RocketeerTestCase
 {
     public function testCanExecutePrimerTasks()
     {
-        $this->mockConfig([
+        $this->swapConfig([
             'default' => 'production',
             'strategies.primer' => function () {
                 return 'ls';
@@ -33,7 +33,7 @@ class PrimerTest extends RocketeerTestCase
         $this->rocketeer->setLocal(true);
         $this->expectOutputString('FIRED');
 
-        $this->mockConfig([
+        $this->swapConfig([
             'strategies.primer' => function () {
                 echo 'FIRED';
             },

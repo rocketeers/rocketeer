@@ -26,18 +26,26 @@ class UpdateTest extends RocketeerTestCase
 
         $matcher = [
             [
-                'cd {server}/releases/20000000000000',
+                'cd {server}/releases/{release}',
                 'git reset --hard',
                 'git pull --recurse-submodules',
             ],
             [
-                'cd {server}/releases/20000000000000',
-                'chmod -R 755 {server}/releases/20000000000000/tests',
-                'chmod -R g+s {server}/releases/20000000000000/tests',
-                'chown -R www-data:www-data {server}/releases/20000000000000/tests',
+                'cd {server}/releases/{release}',
+                'chmod -R 755 {server}/releases/{release}/tests',
+                'chmod -R g+s {server}/releases/{release}/tests',
+                'chown -R www-data:www-data {server}/releases/{release}/tests',
             ],
             [
-                'cd {server}/releases/20000000000000',
+                'cd {server}/releases/{release}',
+                '{php} artisan migrate --force',
+            ],
+            [
+                'cd {server}/releases/{release}',
+                '{php} artisan db:seed --force',
+            ],
+            [
+                'cd {server}/releases/{release}',
                 '{php} artisan cache:clear',
             ],
         ];
@@ -51,15 +59,23 @@ class UpdateTest extends RocketeerTestCase
 
         $matcher = [
             [
-                'cd {server}/releases/20000000000000',
+                'cd {server}/releases/{release}',
                 'git reset --hard',
                 'git pull --recurse-submodules',
             ],
             [
-                'cd {server}/releases/20000000000000',
-                'chmod -R 755 {server}/releases/20000000000000/tests',
-                'chmod -R g+s {server}/releases/20000000000000/tests',
-                'chown -R www-data:www-data {server}/releases/20000000000000/tests',
+                'cd {server}/releases/{release}',
+                'chmod -R 755 {server}/releases/{release}/tests',
+                'chmod -R g+s {server}/releases/{release}/tests',
+                'chown -R www-data:www-data {server}/releases/{release}/tests',
+            ],
+            [
+                'cd {server}/releases/{release}',
+                '{php} artisan migrate --force',
+            ],
+            [
+                'cd {server}/releases/{release}',
+                '{php} artisan db:seed --force',
             ],
         ];
 

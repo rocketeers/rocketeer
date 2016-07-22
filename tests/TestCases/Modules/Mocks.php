@@ -161,30 +161,6 @@ trait Mocks
     }
 
     /**
-     * @param array $expectations
-     */
-    public function mockConfig(array $expectations)
-    {
-        $this->connections->disconnect();
-        $defaults = $this->getFactoryConfiguration();
-        $defaults = array_merge($defaults, [
-                'remote.shell' => false,
-                'paths.app' => $this->container->get('path.base'),
-            ]
-        );
-
-        // Set core expectations
-        foreach ($defaults as $key => $value) {
-            $this->config->set($key, $value);
-        }
-
-        // Set additional expectations
-        foreach ($expectations as $key => $value) {
-            $this->config->set($key, $value);
-        }
-    }
-
-    /**
      * Mock a set of question/answers.
      *
      * @param array $answers

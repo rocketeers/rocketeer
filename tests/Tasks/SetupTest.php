@@ -38,7 +38,7 @@ class SetupTest extends RocketeerTestCase
     {
         $this->usesComposer();
         $this->mockNoCurrentRelease();
-        $this->mockConfig([
+        $this->swapConfig([
             'stages.stages' => ['staging', 'production'],
         ]);
 
@@ -59,7 +59,7 @@ class SetupTest extends RocketeerTestCase
     {
         $this->usesComposer(true, 'staging');
         $this->mockNoCurrentRelease('staging');
-        $this->mockConfig([
+        $this->swapConfig([
             'stages.stages' => ['staging', 'production'],
         ]);
 
