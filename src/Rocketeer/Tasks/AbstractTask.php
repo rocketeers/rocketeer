@@ -113,7 +113,10 @@ abstract class AbstractTask extends Bash implements HasRolesInterface, Identifie
      *
      * @return mixed
      */
-    abstract public function execute();
+    public function execute()
+    {
+        // ...
+    }
 
     /**
      * Fire the command.
