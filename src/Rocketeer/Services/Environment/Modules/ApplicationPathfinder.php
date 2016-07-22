@@ -74,6 +74,7 @@ class ApplicationPathfinder extends AbstractPathfinderModule
      */
     public function getStoragePath()
     {
+        return '/tmp/rocketeer';
         $path = $this->getRocketeerPath().'/storage';
 
         return $this->modulable->unifySlashes($path);
