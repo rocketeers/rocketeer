@@ -111,7 +111,7 @@ class Console extends Application
     {
         return [
             'application_name' => $this->config->get('application_name'),
-            'application' => realpath($this->paths->getApplicationPath()),
+            'application' => realpath($this->paths->getBasePath()),
             'configuration' => realpath($this->paths->getConfigurationPath()),
             'logs' => $this->paths->getLogsPath(),
         ];

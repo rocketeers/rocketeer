@@ -56,8 +56,8 @@ class Plugins
     public function findPackageConfiguration($package)
     {
         $paths = [
-            $this->paths->getApplicationPath().'vendor/%s/src/config',
-            $this->paths->getApplicationPath().'vendor/%s/config',
+            $this->paths->getBasePath().'vendor/%s/src/config',
+            $this->paths->getBasePath().'vendor/%s/config',
             $this->paths->getUserHomeFolder().'/.rocketeer/vendor/%s/src/config',
             $this->paths->getUserHomeFolder().'/.rocketeer/vendor/%s/config',
             $this->paths->getUserHomeFolder().'/.composer/vendor/%s/src/config',

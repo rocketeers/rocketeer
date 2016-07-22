@@ -79,7 +79,7 @@ abstract class AbstractPackageManager extends AbstractBinary
      */
     public function getManifestPath()
     {
-        return $this->paths->getApplicationPath().$this->manifest;
+        return $this->paths->getBasePath().$this->manifest;
     }
 
     /**

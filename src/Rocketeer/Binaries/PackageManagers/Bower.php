@@ -43,7 +43,7 @@ class Bower extends AbstractPackageManager
     {
         // Look for a configuration file
         $paths = array_filter([
-            $this->paths->getApplicationPath().'.bowerrc',
+            $this->paths->getBasePath().'.bowerrc',
             $this->paths->getUserHomeFolder().'/.bowerrc',
         ], [$this->files, 'has']);
 

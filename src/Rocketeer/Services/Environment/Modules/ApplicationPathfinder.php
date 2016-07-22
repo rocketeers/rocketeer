@@ -15,19 +15,6 @@ namespace Rocketeer\Services\Environment\Modules;
 class ApplicationPathfinder extends AbstractPathfinderModule
 {
     /**
-     * Get the path to the application.
-     *
-     * @return string
-     */
-    public function getApplicationPath()
-    {
-        $applicationPath = $this->modulable->getPath('app').'/' ?: $this->modulable->getBasePath();
-        $applicationPath = $this->modulable->unifySlashes($applicationPath);
-
-        return $applicationPath;
-    }
-
-    /**
      * Get the path to the .rocketeer folder.
      *
      * @return string
@@ -98,7 +85,6 @@ class ApplicationPathfinder extends AbstractPathfinderModule
     public function getProvided()
     {
         return [
-            'getApplicationPath',
             'getConfigurationPath',
             'getDotenvPath',
             'getLogsPath',

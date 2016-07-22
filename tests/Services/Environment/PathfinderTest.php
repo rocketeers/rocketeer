@@ -150,13 +150,13 @@ class PathfinderTest extends RocketeerTestCase
 
     public function testCanConfigureApplicationPath()
     {
-        $this->assertEquals($this->container->get('path.base').DS, $this->paths->getApplicationPath());
+        $this->assertEquals($this->container->get('path.base').DS, $this->paths->getBasePath());
 
         $this->swapConfig([
             'paths.app' => __DIR__,
         ]);
 
-        $this->assertEquals(__DIR__.DS, $this->paths->getApplicationPath());
+        $this->assertEquals(__DIR__.DS, $this->paths->getBasePath());
     }
 
     public function testCanHaveDifferentRootDirectoryPerConnection()
