@@ -14,7 +14,6 @@ namespace Rocketeer\Services\Filesystem;
 
 use League\Container\ServiceProvider\AbstractServiceProvider;
 use League\Flysystem\Adapter\Local;
-use League\Flysystem\MountManager;
 use Rocketeer\Services\Filesystem\Plugins\AppendPlugin;
 use Rocketeer\Services\Filesystem\Plugins\CopyDirectoryPlugin;
 use Rocketeer\Services\Filesystem\Plugins\IncludePlugin;
@@ -37,10 +36,7 @@ class FilesystemServiceProvider extends AbstractServiceProvider
      */
     public function register()
     {
-        $this->container->add(MountManager::class, function () {
-            return (new MountManagerFactory($this->container))->getMountManager();
-        });
-
+        $this->container->share(MountManager::class)->withArgument($this->container);
         $this->container->share(Filesystem::class, function () {
             $local = new Filesystem(new Local('/', LOCK_EX, Local::SKIP_LINKS));
             $local->addPlugin(new AppendPlugin());
