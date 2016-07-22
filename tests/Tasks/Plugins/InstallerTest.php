@@ -18,7 +18,7 @@ class InstallerTest extends RocketeerTestCase
 {
     public function testCanInstallPlugin()
     {
-        $this->mockCommand([
+        $this->bindDummyCommand([
             'package' => 'anahkiasen/rocketeer-slack',
             '--pretend' => true,
         ]);

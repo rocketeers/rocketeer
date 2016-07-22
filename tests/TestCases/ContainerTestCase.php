@@ -17,24 +17,27 @@ use League\Flysystem\Filesystem;
 use League\Flysystem\MountManager;
 use League\Flysystem\Vfs\VfsAdapter;
 use PHPUnit_Framework_TestCase;
-use Prophecy\Argument;
+use Prophecy\Prophecy\ObjectProphecy;
+use Rocketeer\Console\Commands\AbstractCommand;
+use Rocketeer\Console\StyleInterface;
 use Rocketeer\Container;
-use Rocketeer\Dummies\Connections\DummyConnection;
 use Rocketeer\Services\Connections\ConnectionsFactory;
-use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
+use Rocketeer\Services\Filesystem\FilesystemInterface;
 use Rocketeer\Services\Filesystem\Plugins\AppendPlugin;
 use Rocketeer\Services\Filesystem\Plugins\CopyDirectoryPlugin;
 use Rocketeer\Services\Filesystem\Plugins\IncludePlugin;
 use Rocketeer\Services\Filesystem\Plugins\IsDirectoryPlugin;
 use Rocketeer\Services\Filesystem\Plugins\RequirePlugin;
 use Rocketeer\Services\Filesystem\Plugins\UpsertPlugin;
+use Rocketeer\Services\Storages\Storage;
 use Rocketeer\TestCases\Modules\Assertions;
 use Rocketeer\TestCases\Modules\Building;
-use Rocketeer\TestCases\Modules\Configuration;
-use Rocketeer\TestCases\Modules\Console;
 use Rocketeer\TestCases\Modules\Contexts;
-use Rocketeer\TestCases\Modules\Mocks;
+use Rocketeer\TestCases\Modules\Mocks\Configuration;
+use Rocketeer\TestCases\Modules\Mocks\Connections;
+use Rocketeer\TestCases\Modules\Mocks\Console;
 use Rocketeer\Traits\HasLocatorTrait;
+use Symfony\Component\Console\Output\OutputInterface;
 use VirtualFileSystem\FileSystem as Vfs;
 
 abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
@@ -43,8 +46,9 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
     use Building;
     use Configuration;
     use Console;
+    use Connections;
+    use \Rocketeer\TestCases\Modules\Mocks\Filesystem;
     use Contexts;
-    use Mocks;
 
     use HasLocatorTrait;
     use ContainerAwareTrait;
@@ -72,8 +76,15 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         $this->home = $_SERVER['HOME'];
         $this->server = realpath(__DIR__.'/../_server').'/foobar';
 
-        // Paths -------------------------------------------------------- /
+        $this->setupContainer();
+        $this->swapConfigWithEvents();
+    }
 
+    /**
+     * Setup the container with anything needed for tests.
+     */
+    protected function setupContainer()
+    {
         $this->container->add('path.base', '/src');
         $this->container->add('paths.app', $this->container->get('path.base').'/app');
 
@@ -82,7 +93,12 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
             return $this->getConnectionsFactory();
         });
 
-        $this->mockCommand();
+        // Bind new Storage instance
+        $this->container->share('storage.local', function () {
+            return new Storage($this->container, 'local', $this->server, 'deployments');
+        });
+
+        $this->bindDummyCommand();
 
         $filesystem = new Filesystem(new VfsAdapter(new Vfs()));
         $filesystem->addPlugin(new AppendPlugin());
@@ -99,35 +115,36 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
                 'remote' => $filesystem,
             ]);
         });
-
-        $this->swapConfigWithEvents();
     }
 
-    ////////////////////////////////////////////////////////////////////
-    ///////////////////////// MOCKED INSTANCES /////////////////////////
-    ////////////////////////////////////////////////////////////////////
-
     /**
-     * @param string|array $expectations
+     * @param string|ObjectProphecy $class
+     * @param string|null           $handle
      *
-     * @return MockInterface
+     * @return ObjectProphecy
      */
-    protected function getConnectionsFactory($expectations = null)
+    protected function bindProphecy($class, $handle = null)
     {
-        $me = $this;
+        $prophecy = $class instanceof ObjectProphecy ? $class : $this->prophesize($class);
+        switch ($class) {
+            case Filesystem::class:
+                $prophecy->willImplement(FilesystemInterface::class);
+                break;
+            case AbstractCommand::class:
+                $prophecy
+                    ->willImplement(StyleInterface::class)
+                    ->willImplement(OutputInterface::class);
+                break;
+        }
 
-        /** @var ConnectionsFactory $factory */
-        $factory = $this->prophesize(ConnectionsFactory::class);
-        $factory->make(Argument::type(ConnectionKey::class))->will(function ($arguments) use ($me, $expectations) {
-            $connection = new DummyConnection($arguments[0]);
-            $connection->setExpectations($expectations);
-            if ($adapter = $me->files->getAdapter()) {
-                $connection->setAdapter($adapter);
-            }
+        $handle = $handle ?: $class;
 
-            return $connection;
-        });
+        if ($this->container->has($handle)) {
+            $this->container->get($handle);
+        }
 
-        return $factory->reveal();
+        $this->container->add($handle, $prophecy->reveal());
+
+        return $prophecy;
     }
 }

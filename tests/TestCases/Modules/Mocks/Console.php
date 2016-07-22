@@ -10,11 +10,13 @@
  *
  */
 
-namespace Rocketeer\TestCases\Modules;
+namespace Rocketeer\TestCases\Modules\Mocks;
 
 use Prophecy\Argument;
 use Rocketeer\Console\Commands\AbstractCommand;
 use Rocketeer\Dummies\Console\DummyCommand;
+use Rocketeer\TestCases\Modules\Command;
+use Rocketeer\TestCases\Modules\ObjectProphecy;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -58,7 +60,7 @@ trait Console
     {
         $options = array_merge(['--pretend' => true], (array) $options);
 
-        $this->mockCommand($options);
+        $this->bindDummyCommand($options);
     }
 
     /**
@@ -89,7 +91,7 @@ trait Console
      *
      * @param array $input
      */
-    protected function mockCommand($input = [])
+    protected function bindDummyCommand($input = [])
     {
         // Default options
         $input = array_merge([

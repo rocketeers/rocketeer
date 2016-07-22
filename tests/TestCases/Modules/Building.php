@@ -45,7 +45,7 @@ trait Building
     protected function task($task = null, $options = [])
     {
         if ($options) {
-            $this->mockCommand($options);
+            $this->bindDummyCommand($options);
         }
 
         if (!$task) {

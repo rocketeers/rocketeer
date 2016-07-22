@@ -260,7 +260,7 @@ class ReleasesManagerTest extends RocketeerTestCase
     public function testCanManuallySetNameOfNextRelease()
     {
         $custom = '20110101010101';
-        $this->mockCommand(['--release' => $custom]);
+        $this->bindDummyCommand(['--release' => $custom]);
 
         $release = $this->releasesManager->getNextRelease();
         $this->assertEquals($custom, $release);
@@ -269,7 +269,7 @@ class ReleasesManagerTest extends RocketeerTestCase
     public function testDoesntAllowInvalidCustomReleases()
     {
         $custom = 'foobar';
-        $this->mockCommand(['release' => $custom]);
+        $this->bindDummyCommand(['release' => $custom]);
 
         $release = $this->releasesManager->getNextRelease();
         $this->assertNotEquals($custom, $release);

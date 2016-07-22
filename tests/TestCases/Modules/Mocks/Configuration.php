@@ -10,7 +10,7 @@
  *
  */
 
-namespace Rocketeer\TestCases\Modules;
+namespace Rocketeer\TestCases\Modules\Mocks;
 
 use Rocketeer\Dummies\Tasks\MyCustomTask;
 

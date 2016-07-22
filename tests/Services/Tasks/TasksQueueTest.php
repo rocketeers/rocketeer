@@ -94,7 +94,7 @@ class TasksQueueTest extends RocketeerTestCase
 
     public function testCanRunTaskOnAllStages()
     {
-        $this->mockCommand([
+        $this->bindDummyCommand([
             'stage' => 'all',
         ]);
         $this->swapConfig([
@@ -151,7 +151,7 @@ class TasksQueueTest extends RocketeerTestCase
         $parallel->isSupported()->willReturn(true);
         $parallel->values(Argument::type('array'))->shouldBeCalled();
 
-        $this->mockCommand(['--parallel' => true]);
+        $this->bindDummyCommand(['--parallel' => true]);
         $this->queue->setParallel($parallel->reveal());
 
         $task = function () {
@@ -186,7 +186,7 @@ class TasksQueueTest extends RocketeerTestCase
         $parallel->isSupported()->willReturn(true);
         $parallel->values(Argument::type('array'))->shouldBeCalled()->willThrow(LogicException::class);
 
-        $this->mockCommand(['--parallel' => true]);
+        $this->bindDummyCommand(['--parallel' => true]);
         $this->queue->setParallel($parallel->reveal());
 
         $this->queue->run(['ls']);

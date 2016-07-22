@@ -13,7 +13,6 @@
 namespace Rocketeer\TestCases\Modules;
 
 use Rocketeer\Plugins\Laravel\Laravel;
-use Symfony\Component\Finder\Finder;
 
 /**
  * @mixin \Rocketeer\TestCases\RocketeerTestCase
@@ -62,38 +61,6 @@ trait Contexts
         $file = $this->server.'/state.json';
 
         $this->files->upsert($file, $contents);
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////
-    ///////////////////////////////// CONFIGURATION ////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * Replicates the configuration onto the VFS.
-     */
-    protected function replicateConfiguration()
-    {
-        $folder = $this->configurationLoader->getFolders()[0];
-
-        $this->replicateFolder($folder);
-        $this->replicateFolder(__DIR__.'/../../../src/stubs');
-
-        $this->configurationLoader->setFolders([$folder]);
-        $this->configurationLoader->getCache()->flush();
-
-        return $folder;
-    }
-
-    protected function replicateFolder($folder)
-    {
-        $folder = realpath($folder);
-
-        $this->files->createDir($folder);
-        $files = (new Finder())->in($folder)->files();
-        foreach ($files as $file) {
-            $contents = file_get_contents($file->getPathname());
-            $this->files->write($file->getPathname(), $contents);
-        }
     }
 
     //////////////////////////////////////////////////////////////////////

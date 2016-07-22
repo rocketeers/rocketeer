@@ -12,8 +12,6 @@
 
 namespace Rocketeer\TestCases;
 
-use Rocketeer\Services\Storages\Storage;
-
 abstract class RocketeerTestCase extends ContainerTestCase
 {
     /**
@@ -82,11 +80,6 @@ abstract class RocketeerTestCase extends ContainerTestCase
 
         $this->recreateVirtualServer();
 
-        // Bind new Storage instance
-        $this->container->share('storage.local', function () {
-            return new Storage($this->container, 'local', $this->server, 'deployments');
-        });
-
         // Mock OS
         $this->mockOperatingSystem('Linux');
 
@@ -109,28 +102,5 @@ abstract class RocketeerTestCase extends ContainerTestCase
 
         // Restore superglobals
         $_SERVER['HOME'] = $this->home;
-    }
-
-    protected function recreateVirtualServer()
-    {
-        $this->files->createDir($this->server.'/shared');
-        $this->files->createDir($this->server.'/releases/10000000000000');
-        $this->files->createDir($this->server.'/releases/15000000000000');
-        $this->files->createDir($this->server.'/releases/20000000000000');
-        $this->files->createDir($this->server.'/current');
-
-        $this->files->put($this->server.'/state.json', json_encode([
-            '10000000000000' => true,
-            '15000000000000' => false,
-            '20000000000000' => true,
-        ]));
-
-        $this->files->put($this->server.'/deployments.json', json_encode([
-            'foo' => 'bar',
-            'directory_separator' => '\\/',
-            'is_setup' => true,
-            'webuser' => ['username' => 'www-data', 'group' => 'www-data'],
-            'line_endings' => "\n",
-        ]));
     }
 }

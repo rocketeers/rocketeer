@@ -47,7 +47,7 @@ class ConnectionsKeychainTest extends RocketeerTestCase
             ],
         ]);
 
-        $this->mockCommand([
+        $this->bindDummyCommand([
             '--on' => 'production',
             '--server' => '0,1',
         ]);
@@ -87,7 +87,7 @@ class ConnectionsKeychainTest extends RocketeerTestCase
             ],
         ]);
 
-        $this->mockCommand([
+        $this->bindDummyCommand([
             '--on' => 'production-multiserver',
         ]);
 

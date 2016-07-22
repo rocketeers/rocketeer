@@ -174,7 +174,7 @@ class AbstractTaskTest extends RocketeerTestCase
 
     public function testCanGetOptionsViaCommandOrSetters()
     {
-        $this->mockCommand(['--pretend' => true, '--foo' => 'bar']);
+        $this->bindDummyCommand(['--pretend' => true, '--foo' => 'bar']);
 
         $task = $this->task('Deploy');
         $task->configure(['baz' => 'qux']);
