@@ -31,38 +31,44 @@ class LocalUploadStrategy extends LocalCloneStrategy
     public function deploy($destination = null)
     {
         if (!$destination) {
-            $destination = $this->releasesManager->getCurrentReleasePath();
+            $destination = $this->paths->getFolder();
         }
 
-        // Create receiveing folder
-        $this->createFolder($destination);
-
         // Clone application locally
-        $tmpDirectoryPath = $this->getCloneDirectory();
-        $this->createCloneDirectory($tmpDirectoryPath);
-        $this->cloneLocally($tmpDirectoryPath);
+        $localPath = '';
+        $this->on('dummy', function() use (&$localPath) {
+            /** @var CloneStrategy $strategy */
+            $strategy = $this->getStrategy('Deploy', 'Clone');
+            $strategy->deploy();
 
-        return $this->uploadTo($destination, $tmpDirectoryPath);
+//            $this->executeTask('Dependencies');
+            $this->executeTask('SwapSymlink');
+
+            $localPath = $this->releasesManager->getCurrentReleasePath();
+        });
+
+        return $this->uploadTo($localPath, $destination);
     }
 
     /**
-     * @param string $destination
-     * @param string $tmpDirectoryPath
+     * @param string $from
+     * @param string $to
      */
-    protected function uploadTo($destination, $tmpDirectoryPath)
+    protected function uploadTo($from, $to)
     {
         $this->explainer->comment('Uploading files to server');
-
-        $files = (new Finder())->in($tmpDirectoryPath)->exclude(['.git']);
+        $files = (new Finder())->in($from)->exclude(['.git']);
         $this->command->progressStart(iterator_count($files));
         foreach ($files as $file) {
             $path = $file->getPathname();
-            $path = str_replace($tmpDirectoryPath, null, $path);
-            $path = $destination.DS.$path;
+            $path = str_replace($from, null, $path);
+            $path = $to.DS.$path;
 
             if ($file->isDir()) {
                 $this->createFolder($path);
-            } else {
+            } elseif (!$this->getConnection()->has($path)) {
+                $this->put($path, $file->getContents());
+            } elseif($file->getMTime() >= $this->getConnection()->getTimestamp($path)) {
                 $this->put($path, $file->getContents());
             }
 
