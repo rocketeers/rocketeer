@@ -13,12 +13,11 @@
 namespace Rocketeer\Services\Filesystem;
 
 use League\Flysystem\Adapter\Local;
-use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemInterface;
 use Rocketeer\Container;
 use Rocketeer\TestCases\RocketeerTestCase;
 
-class MountManagerFactoryTest extends RocketeerTestCase
+class MountManagerTest extends RocketeerTestCase
 {
     public function setUp()
     {
