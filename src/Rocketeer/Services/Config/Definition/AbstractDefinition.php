@@ -89,7 +89,7 @@ abstract class AbstractDefinition implements ConfigurationInterface
     {
         $builder = new TreeBuilder();
         $node = $builder->root($this->name, 'array', new NodeBuilder());
-        $node = $node->info($this->description);
+        $node = $node->info($this->description)->normalizeKeys(false);
 
         return $node;
     }

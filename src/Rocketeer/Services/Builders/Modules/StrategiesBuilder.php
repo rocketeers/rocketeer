@@ -12,6 +12,7 @@
 
 namespace Rocketeer\Services\Builders\Modules;
 
+use Illuminate\Support\Str;
 use Rocketeer\Strategies\AbstractStrategy;
 
 /**
@@ -39,7 +40,8 @@ class StrategiesBuilder extends AbstractBuilderModule
         // If no found instance, create a new one
         $handle = 'rocketeer.strategies.'.$handle;
         if (!$this->container->has($handle)) {
-            $concrete = $concrete ?: $this->config->getContextually('strategies.'.strtolower($strategy));
+            $option = Str::snake($strategy, '-');
+            $concrete = $concrete ?: $this->config->getContextually('strategies.'.$option);
             $strategy = $this->buildStrategyFromName($strategy, $concrete);
             if (!$strategy) {
                 return;

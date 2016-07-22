@@ -12,42 +12,27 @@
 
 namespace Rocketeer\Strategies\Deploy;
 
+use Rocketeer\Strategies\AbstractStrategy;
 use Symfony\Component\Finder\Finder;
 
-class LocalUploadStrategy extends LocalCloneStrategy
+class UploadStrategy extends AbstractStrategy implements DeployStrategyInterface
 {
     /**
-     * @var string
+     * Prepare a release and mark it as deployed.
      */
-    protected $description = 'Uses FTP to upload a release from a locally cloned repository';
-
-    /**
-     * Deploy a new clean copy of the application.
-     *
-     * @param string|null $destination
-     *
-     * @return bool
-     */
-    public function deploy($destination = null)
+    public function deploy()
     {
-        if (!$destination) {
-            $destination = $this->paths->getFolder();
-        }
+        $localPath = $this->on('dummy', function () {
+            $this->executeTask('CreateRelease');
 
-        // Clone application locally
-        $localPath = '';
-        $this->on('dummy', function() use (&$localPath) {
-            /** @var CloneStrategy $strategy */
-            $strategy = $this->getStrategy('Deploy', 'Clone');
-            $strategy->deploy();
+            // $this->executeTask('Dependencies');
 
-//            $this->executeTask('Dependencies');
-            $this->executeTask('SwapSymlink');
-
-            $localPath = $this->releasesManager->getCurrentReleasePath();
+            return $this->releasesManager->getCurrentReleasePath();
         });
 
-        return $this->uploadTo($localPath, $destination);
+        dump($localPath, $this->paths->getFolder());
+
+        return $this->uploadTo($localPath, $this->paths->getFolder());
     }
 
     /**
@@ -68,7 +53,7 @@ class LocalUploadStrategy extends LocalCloneStrategy
                 $this->createFolder($path);
             } elseif (!$this->getConnection()->has($path)) {
                 $this->put($path, $file->getContents());
-            } elseif($file->getMTime() >= $this->getConnection()->getTimestamp($path)) {
+            } elseif ($file->getMTime() >= $this->getConnection()->getTimestamp($path)) {
                 $this->put($path, $file->getContents());
             }
 

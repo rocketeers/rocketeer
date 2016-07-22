@@ -12,7 +12,7 @@
 
 namespace Rocketeer\Tasks;
 
-use Rocketeer\Strategies\Deploy\CopyStrategy;
+use Rocketeer\Strategies\CreateRelease\CopyStrategy;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class DeployTest extends RocketeerTestCase

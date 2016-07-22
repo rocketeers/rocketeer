@@ -10,7 +10,7 @@
  *
  */
 
-namespace Rocketeer\Strategies\Deploy;
+namespace Rocketeer\Strategies\CreateRelease;
 
 use Rocketeer\Binaries\Scm\ScmInterface;
 use Rocketeer\Binaries\Scm\Svn;
@@ -21,7 +21,7 @@ class CloneStrategyTest extends RocketeerTestCase
     public function testCanDeployRepository()
     {
         $task = $this->pretendTask('Deploy');
-        $task->getStrategy('Deploy')->deploy();
+        $task->getStrategy('CreateRelease')->deploy();
 
         $matcher = [
             'git clone "{repository}" "{server}/releases/{release}" --branch="master" --depth="1"',
@@ -37,7 +37,7 @@ class CloneStrategyTest extends RocketeerTestCase
     public function testCanUpdateRepository()
     {
         $task = $this->pretendTask('Deploy');
-        $task->getStrategy('Deploy')->update();
+        $task->getStrategy('CreateRelease')->update();
 
         $matcher = [
             [
@@ -55,7 +55,7 @@ class CloneStrategyTest extends RocketeerTestCase
         $this->container->add(ScmInterface::class, new Svn($this->container));
 
         $task = $this->pretendTask('Deploy');
-        $task->getStrategy('Deploy')->deploy();
+        $task->getStrategy('CreateRelease')->deploy();
 
         $matcher = [
             'svn co {repository}/master {server}/releases/{release} --non-interactive',

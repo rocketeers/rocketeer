@@ -191,7 +191,7 @@ class AbstractTaskTest extends RocketeerTestCase
             return $task->getConnection()->getConnectionKey()->toLongHandle();
         });
 
-        $results = $task->on('local', function($task) {
+        $results = $task->on('local', function ($task) {
             return $task->fire();
         });
 

@@ -10,9 +10,9 @@
  *
  */
 
-namespace Rocketeer\Strategies\Deploy;
+namespace Rocketeer\Strategies\CreateRelease;
 
-class CopyStrategy extends CloneStrategy implements DeployStrategyInterface
+class CopyStrategy extends CloneStrategy implements CreateReleaseStrategyInterface
 {
     /**
      * @var string

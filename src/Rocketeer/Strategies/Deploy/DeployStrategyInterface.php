@@ -12,28 +12,10 @@
 
 namespace Rocketeer\Strategies\Deploy;
 
-/**
- * Interface for the various deployment strategies.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
- */
 interface DeployStrategyInterface
 {
     /**
-     * Deploy a new clean copy of the application.
-     *
-     * @param string|null $destination
-     *
-     * @return bool
+     * Prepare a release and mark it as deployed.
      */
-    public function deploy($destination = null);
-
-    /**
-     * Update the latest version of the application.
-     *
-     * @param bool $reset
-     *
-     * @return bool
-     */
-    public function update($reset = true);
+    public function deploy();
 }

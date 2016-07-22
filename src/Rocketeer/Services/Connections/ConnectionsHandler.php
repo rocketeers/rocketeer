@@ -17,7 +17,6 @@ use Illuminate\Support\Collection;
 use Rocketeer\Services\Connections\Connections\AbstractConnection;
 use Rocketeer\Services\Connections\Connections\Connection;
 use Rocketeer\Services\Connections\Connections\ConnectionInterface;
-use Rocketeer\Services\Connections\Connections\LocalConnection;
 use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
 use Rocketeer\Traits\ContainerAwareTrait;
 
@@ -118,7 +117,7 @@ class ConnectionsHandler
                 'server' => 0,
                 'servers' => [[
                     'host' => 'localhost',
-                    'root_directory' => '/tmp/rocketeer'
+                    'root_directory' => '/tmp/rocketeer',
                 ]],
             ]));
 

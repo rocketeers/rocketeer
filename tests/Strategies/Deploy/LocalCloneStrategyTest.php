@@ -10,7 +10,7 @@
  *
  */
 
-namespace Rocketeer\Strategies\Deploy;
+namespace Rocketeer\Strategies\CreateRelease;
 
 use Rocketeer\TestCases\RocketeerTestCase;
 

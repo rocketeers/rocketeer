@@ -32,7 +32,7 @@ class ScmTest extends RocketeerTestCase
 
         $task = $this->pretendTask();
 
-        $task->getStrategy('Deploy')->deploy($this->server.'/test');
+        $task->getStrategy('CreateRelease')->deploy($this->server.'/test');
         $this->assertNull($this->localStorage->get('credentials'));
     }
 }

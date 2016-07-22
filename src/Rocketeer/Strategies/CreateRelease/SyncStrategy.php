@@ -10,12 +10,12 @@
  *
  */
 
-namespace Rocketeer\Strategies\Deploy;
+namespace Rocketeer\Strategies\CreateRelease;
 
 use Illuminate\Support\Arr;
 use Rocketeer\Strategies\AbstractStrategy;
 
-class SyncStrategy extends AbstractStrategy implements DeployStrategyInterface
+class SyncStrategy extends AbstractStrategy implements CreateReleaseStrategyInterface
 {
     /**
      * @var string
