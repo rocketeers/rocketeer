@@ -38,12 +38,6 @@ class Deploy extends AbstractTask
      */
     public function execute()
     {
-        // Check if server is ready for deployment
-        if (!$this->isSetup()) {
-            $this->explainer->error('Server is not ready, running Setup task');
-            $this->executeTask('Setup');
-        }
-
         // If it's friday, display a motivational message
         if (date('N') === '5') {
             $this->executeTask('FridayDeploy');

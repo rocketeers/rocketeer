@@ -23,14 +23,13 @@ class UploadStrategy extends AbstractStrategy implements DeployStrategyInterface
     public function deploy()
     {
         $localPath = $this->on('dummy', function () {
+            $this->setupIfNecessary();
             $this->executeTask('CreateRelease');
 
             // $this->executeTask('Dependencies');
 
             return $this->releasesManager->getCurrentReleasePath();
         });
-
-        dump($localPath, $this->paths->getFolder());
 
         return $this->uploadTo($localPath, $this->paths->getFolder());
     }
@@ -41,25 +40,21 @@ class UploadStrategy extends AbstractStrategy implements DeployStrategyInterface
      */
     protected function uploadTo($from, $to)
     {
-        $this->explainer->comment('Uploading files to server');
+        $this->explainer->comment(sprintf('Uploading files from %s to %s', $from, $to));
+
         $files = (new Finder())->in($from)->exclude(['.git']);
         $this->command->progressStart(iterator_count($files));
         foreach ($files as $file) {
-            $path = $file->getPathname();
-            $path = str_replace($from, null, $path);
-            $path = $to.DS.$path;
+            $this->command->progressAdvance();
+            $path = $to.DS.str_replace($from, null, $file->getPathname());
 
             if ($file->isDir()) {
                 $this->createFolder($path);
-            } elseif (!$this->getConnection()->has($path)) {
-                $this->put($path, $file->getContents());
-            } elseif ($file->getMTime() >= $this->getConnection()->getTimestamp($path)) {
+            } else {
                 $this->put($path, $file->getContents());
             }
-
-            $this->command->progressAdvance();
         }
 
-        $this->command->progressAdvance();
+        $this->command->progressFinish();
     }
 }

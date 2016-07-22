@@ -37,6 +37,17 @@ class Flow extends AbstractBashModule
     }
 
     /**
+     * Setup the server if necessary.
+     */
+    public function setupIfNecessary()
+    {
+        if (!$this->isSetup()) {
+            $this->explainer->error('Server is not ready, running Setup task');
+            $this->modulable->executeTask('Setup');
+        }
+    }
+
+    /**
      * Check if the task uses stages.
      *
      * @return bool
@@ -169,6 +180,7 @@ class Flow extends AbstractBashModule
             'isSetup',
             'runForApplication',
             'runForCurrentRelease',
+            'setupIfNecessary',
             'share',
             'syncSharedFolders',
             'updateSymlink',
