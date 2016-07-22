@@ -128,6 +128,14 @@ class ConnectionKey extends AbstractKey
     }
 
     /**
+     * @return bool
+     */
+    public function isFtp()
+    {
+        return strpos($this->host, 'ftp') !== false;
+    }
+
+    /**
      * Check if a connection is multiserver or not.
      *
      * @return bool

@@ -18,6 +18,7 @@ use phpseclib\Net\SFTP;
 use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
 use Rocketeer\Services\Connections\TimeOutException;
 use Rocketeer\Services\Filesystem\ConnectionKeyAdapter;
+use Rocketeer\Services\Filesystem\FtpAdapter;
 
 /**
  * Represents a connection to a server and stage.
@@ -41,7 +42,9 @@ class Connection extends AbstractConnection
         $this->roles = (array) $connectionKey->roles;
         $this->setConnectionKey($connectionKey);
 
-        parent::__construct(new ConnectionKeyAdapter($connectionKey));
+        $adapter = $connectionKey->isFtp() ? FtpAdapter::class : ConnectionKeyAdapter::class;
+
+        parent::__construct(new $adapter($connectionKey));
     }
 
     ////////////////////////////////////////////////////////////////////////////////
@@ -104,6 +107,9 @@ class Connection extends AbstractConnection
     {
         $gateway = $this->getGateway();
         $commands = is_array($commands) ? implode(' && ', $commands) : $commands;
+        if ($this->connectionKey->isFtp()) {
+            return;
+        }
 
         $gateway->exec($commands, $callback);
         if ($gateway->isTimeout()) {
@@ -119,6 +125,6 @@ class Connection extends AbstractConnection
      */
     public function status()
     {
-        return $this->getGateway()->getExitStatus();
+        return $this->connectionKey->isFtp() ? 0 : $this->getGateway()->getExitStatus();
     }
 }
