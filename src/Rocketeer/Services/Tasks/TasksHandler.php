@@ -38,13 +38,6 @@ class TasksHandler
     protected $registeredEvents = [];
 
     /**
-     * The core events.
-     *
-     * @var array
-     */
-    protected $coreEvents = [];
-
-    /**
      * Build a new TasksQueue Instance.
      *
      * @param Container $container
@@ -172,7 +165,7 @@ class TasksHandler
         // Clean previously registered events
         $this->clearRegisteredEvents();
 
-        // Re-register plugins
+        // Re-register events
         foreach ($this->container->getPlugins() as $plugin) {
             $this->container->addServiceProvider($plugin);
         }
@@ -189,22 +182,8 @@ class TasksHandler
             }
         }
 
-        // Bind core events
-        $this->registerCoreEvents();
-
         // Assign roles
         $this->roles->assignTasksRoles($roles);
-    }
-
-    /**
-     * Bind the core events.
-     */
-    public function registerCoreEvents()
-    {
-        foreach ($this->coreEvents as $event => $listeners) {
-            $this->registeredEvents[] = 'rocketeer.'.$event;
-            $this->listenTo($event, $listeners, 0);
-        }
     }
 
     /**
