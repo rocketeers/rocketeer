@@ -175,4 +175,15 @@ class CoreTest extends RocketeerTestCase
             ],
         ]);
     }
+
+    public function testCanExecuteCommandsOnSpecificConnection()
+    {
+        $this->assertEquals('production', $this->connections->getCurrentConnectionKey()->name);
+        
+        $this->bash->on('staging', function () {
+            $this->assertEquals('staging', $this->connections->getCurrentConnectionKey()->name);
+        });
+
+        $this->assertEquals('production', $this->connections->getCurrentConnectionKey()->name);
+    }
 }

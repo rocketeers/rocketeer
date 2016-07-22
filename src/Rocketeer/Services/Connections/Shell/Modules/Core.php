@@ -39,11 +39,6 @@ class Core extends AbstractBashModule
      */
     public function getConnection()
     {
-        // Return LocalConnection if in local mode
-        if ($this->modulable->isLocal() || $this->rocketeer->isLocal()) {
-            return $this->connections->getConnection('local');
-        }
-
         return $this->connections->getCurrentConnection();
     }
 

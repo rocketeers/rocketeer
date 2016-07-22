@@ -77,11 +77,22 @@ class Bash implements ModulableInterface, ContainerAwareInterface
      */
     public function onLocal(callable $callback)
     {
-        $current = $this->rocketeer->isLocal();
+        return $this->on('local', $callback);
+    }
 
-        $this->rocketeer->setLocal(true);
+    /**
+     * @param string   $connection
+     * @param callable $callback
+     *
+     * @return bool
+     */
+    public function on($connection, callable $callback)
+    {
+        $current = $this->connections->getCurrentConnectionKey();
+
+        $this->connections->setCurrentConnection($connection);
         $results = $callback($this);
-        $this->rocketeer->setLocal($current);
+        $this->connections->setCurrentConnection($current);
 
         return $results;
     }
