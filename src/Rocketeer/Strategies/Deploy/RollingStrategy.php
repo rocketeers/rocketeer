@@ -22,7 +22,7 @@ class RollingStrategy extends AbstractStrategy implements DeployStrategyInterfac
     public function deploy()
     {
         if ($this->connections->getCurrentConnectionKey()->isFtp()) {
-            return $this->explainer->error('Rolling strategy is not compatible with FTP connections, use "Upload" instead');
+            return $this->explainer->error('Rolling strategy is not compatible with FTP connections, use "Upload/Sync" instead');
         }
 
         // Check if server is ready for deployment

@@ -37,18 +37,26 @@ trait ConfigurableTrait
      * Configure the task.
      *
      * @param array $options
+     *
+     * @return $this
      */
     public function configure(array $options)
     {
         $this->options = array_merge($this->options, $options);
+
+        return $this;
     }
 
     /**
      * @param array $options
+     *
+     * @return $this
      */
     public function setOptions(array $options)
     {
         $this->options = $options;
+
+        return $this;
     }
 
     //////////////////////////////////////////////////////////////////////

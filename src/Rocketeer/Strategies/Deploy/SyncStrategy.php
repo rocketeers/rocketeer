@@ -10,18 +10,12 @@
  *
  */
 
-namespace Rocketeer\Strategies\CreateRelease;
+namespace Rocketeer\Strategies\Deploy;
 
 use Illuminate\Support\Arr;
-use Rocketeer\Strategies\AbstractStrategy;
 
-class SyncStrategy extends AbstractStrategy implements CreateReleaseStrategyInterface
+class SyncStrategy extends AbstractLocalDeployStrategy
 {
-    /**
-     * @var string
-     */
-    protected $description = 'Uses rsync to create a release from the current folder';
-
     /**
      * @var array
      */
@@ -31,47 +25,12 @@ class SyncStrategy extends AbstractStrategy implements CreateReleaseStrategyInte
     ];
 
     /**
-     * Deploy a new clean copy of the application.
+     * @param string $from
+     * @param string $to
      *
-     * @param string|null $destination
-     *
-     * @return bool
+     * @return mixed
      */
-    public function deploy($destination = null)
-    {
-        if (!$destination) {
-            $destination = $this->releasesManager->getCurrentReleasePath();
-        }
-
-        // Create receiveing folder
-        $this->createFolder($destination);
-
-        return $this->rsyncTo($destination);
-    }
-
-    /**
-     * Update the latest version of the application.
-     *
-     * @param bool $reset
-     *
-     * @return bool
-     */
-    public function update($reset = true)
-    {
-        $release = $this->releasesManager->getCurrentReleasePath();
-
-        return $this->rsyncTo($release);
-    }
-
-    /**
-     * Rsyncs the local folder to a remote one.
-     *
-     * @param string $destination
-     * @param string $source
-     *
-     * @return bool
-     */
-    protected function rsyncTo($destination, $source = './')
+    protected function onReleaseReady($from, $to)
     {
         // Build host handle
         $arguments = [];
@@ -87,8 +46,8 @@ class SyncStrategy extends AbstractStrategy implements CreateReleaseStrategyInte
         ];
 
         // Build arguments
-        $arguments[] = $source;
-        $arguments[] = $handle.':'.$destination;
+        $arguments[] = $from;
+        $arguments[] = $handle.':'.$to;
 
         // Create binary and command
         $rsync = $this->binary('rsync');

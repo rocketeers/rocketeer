@@ -12,36 +12,17 @@
 
 namespace Rocketeer\Strategies\Deploy;
 
-use Rocketeer\Strategies\AbstractStrategy;
 use Symfony\Component\Finder\Finder;
 
-class UploadStrategy extends AbstractStrategy implements DeployStrategyInterface
+class UploadStrategy extends AbstractLocalDeployStrategy
 {
-    /**
-     * Prepare a release and mark it as deployed.
-     *
-     * @return bool
-     */
-    public function deploy()
-    {
-        $localPath = $this->on('dummy', function () {
-            $this->setupIfNecessary();
-            $this->executeTask('CreateRelease');
-            $this->executeTask('Dependencies');
-
-            return $this->releasesManager->getCurrentReleasePath();
-        });
-
-        $this->uploadTo($localPath, $this->paths->getFolder());
-
-        return true;
-    }
-
     /**
      * @param string $from
      * @param string $to
+     *
+     * @return mixed
      */
-    protected function uploadTo($from, $to)
+    protected function onReleaseReady($from, $to)
     {
         $this->explainer->comment(sprintf('Uploading files from %s to %s', $from, $to));
 
@@ -59,5 +40,7 @@ class UploadStrategy extends AbstractStrategy implements DeployStrategyInterface
         }
 
         $this->command->progressFinish();
+
+        return true;
     }
 }

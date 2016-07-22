@@ -97,9 +97,9 @@ class Bash implements ModulableInterface, ContainerAwareInterface
         }
 
         // Configure strategy
-        if ($options) {
-            $options = array_replace_recursive((array) $options, $strategy->getOptions());
-            $strategy->setOptions($options);
+        if ($options || $this->options) {
+            $options = array_replace((array) $options, $strategy->getOptions(), $this->options);
+            $strategy = $strategy->setOptions($options);
         }
 
         return $this->explainer->displayBelow(function () use ($strategy) {
