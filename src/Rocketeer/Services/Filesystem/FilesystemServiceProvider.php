@@ -14,7 +14,6 @@ namespace Rocketeer\Services\Filesystem;
 
 use League\Container\ServiceProvider\AbstractServiceProvider;
 use League\Flysystem\Adapter\Local;
-use League\Flysystem\Filesystem;
 use League\Flysystem\MountManager;
 use Rocketeer\Services\Filesystem\Plugins\AppendPlugin;
 use Rocketeer\Services\Filesystem\Plugins\CopyDirectoryPlugin;

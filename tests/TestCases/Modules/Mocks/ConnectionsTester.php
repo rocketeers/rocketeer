@@ -17,25 +17,12 @@ use Rocketeer\Dummies\Connections\DummyConnection;
 use Rocketeer\Services\Connections\ConnectionsFactory;
 use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
 
-trait Connections
+trait ConnectionsTester
 {
     /**
-     * Mock the RemoteHandler.
-     *
      * @param string|array|null $expectations
      */
-    protected function mockRemote($expectations = null)
-    {
-        $this->container->add(ConnectionsFactory::class, $this->getConnectionsFactory($expectations));
-        $this->connections->disconnect();
-    }
-
-    /**
-     * @param string|array $expectations
-     *
-     * @return ConnectionsFactory
-     */
-    protected function getConnectionsFactory($expectations = null)
+    protected function bindDummyConnection($expectations = null)
     {
         $me = $this;
 
@@ -51,6 +38,7 @@ trait Connections
             return $connection;
         });
 
-        return $factory->reveal();
+        $this->container->add(ConnectionsFactory::class, $factory->reveal());
+        $this->connections->disconnect();
     }
 }

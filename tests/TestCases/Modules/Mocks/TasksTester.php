@@ -10,14 +10,9 @@
  *
  */
 
-namespace Rocketeer\TestCases\Modules;
+namespace Rocketeer\TestCases\Modules\Mocks;
 
-/**
- * @mixin \Rocketeer\TestCases\RocketeerTestCase
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
- */
-trait Building
+trait TasksTester
 {
     /**
      * Get a pretend AbstractTask to run bogus commands.

@@ -32,16 +32,6 @@ abstract class RocketeerTestCase extends ContainerTestCase
     protected $password = 'foobar';
 
     /**
-     * @var string
-     */
-    protected $host = 'some.host';
-
-    /**
-     * @var string
-     */
-    protected $key = '/.ssh/id_rsa';
-
-    /**
      * A dummy AbstractTask to use for helpers tests.
      *
      * @var \Rocketeer\Tasks\AbstractTask

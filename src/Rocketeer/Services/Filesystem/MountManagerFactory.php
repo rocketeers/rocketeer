@@ -12,7 +12,6 @@
 
 namespace Rocketeer\Services\Filesystem;
 
-use League\Flysystem\Filesystem;
 use League\Flysystem\MountManager;
 use Rocketeer\Traits\ContainerAwareTrait;
 

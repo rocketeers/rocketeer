@@ -13,7 +13,6 @@
 namespace Rocketeer\TestCases;
 
 use League\Container\ContainerAwareTrait;
-use League\Flysystem\Filesystem;
 use League\Flysystem\MountManager;
 use League\Flysystem\Vfs\VfsAdapter;
 use PHPUnit_Framework_TestCase;
@@ -21,21 +20,16 @@ use Prophecy\Prophecy\ObjectProphecy;
 use Rocketeer\Console\Commands\AbstractCommand;
 use Rocketeer\Console\StyleInterface;
 use Rocketeer\Container;
-use Rocketeer\Services\Connections\ConnectionsFactory;
+use Rocketeer\Services\Filesystem\Filesystem;
 use Rocketeer\Services\Filesystem\FilesystemInterface;
-use Rocketeer\Services\Filesystem\Plugins\AppendPlugin;
-use Rocketeer\Services\Filesystem\Plugins\CopyDirectoryPlugin;
-use Rocketeer\Services\Filesystem\Plugins\IncludePlugin;
-use Rocketeer\Services\Filesystem\Plugins\IsDirectoryPlugin;
-use Rocketeer\Services\Filesystem\Plugins\RequirePlugin;
-use Rocketeer\Services\Filesystem\Plugins\UpsertPlugin;
 use Rocketeer\Services\Storages\Storage;
 use Rocketeer\TestCases\Modules\Assertions;
-use Rocketeer\TestCases\Modules\Building;
 use Rocketeer\TestCases\Modules\Contexts;
-use Rocketeer\TestCases\Modules\Mocks\Configuration;
-use Rocketeer\TestCases\Modules\Mocks\Connections;
-use Rocketeer\TestCases\Modules\Mocks\Console;
+use Rocketeer\TestCases\Modules\Mocks\ConfigurationTester;
+use Rocketeer\TestCases\Modules\Mocks\ConnectionsTester;
+use Rocketeer\TestCases\Modules\Mocks\ConsoleTester;
+use Rocketeer\TestCases\Modules\Mocks\FilesystemTester;
+use Rocketeer\TestCases\Modules\Mocks\TasksTester;
 use Rocketeer\Traits\HasLocatorTrait;
 use Symfony\Component\Console\Output\OutputInterface;
 use VirtualFileSystem\FileSystem as Vfs;
@@ -43,12 +37,12 @@ use VirtualFileSystem\FileSystem as Vfs;
 abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 {
     use Assertions;
-    use Building;
-    use Configuration;
-    use Console;
-    use Connections;
-    use \Rocketeer\TestCases\Modules\Mocks\Filesystem;
+    use ConfigurationTester;
+    use ConnectionsTester;
+    use ConsoleTester;
     use Contexts;
+    use FilesystemTester;
+    use TasksTester;
 
     use HasLocatorTrait;
     use ContainerAwareTrait;
@@ -88,31 +82,19 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         $this->container->add('path.base', '/src');
         $this->container->add('paths.app', $this->container->get('path.base').'/app');
 
-        // Replace some instances with mocks
-        $this->container->share(ConnectionsFactory::class, function () {
-            return $this->getConnectionsFactory();
-        });
-
         // Bind new Storage instance
         $this->container->share('storage.local', function () {
             return new Storage($this->container, 'local', $this->server, 'deployments');
         });
 
+        $this->bindDummyConnection();
         $this->bindDummyCommand();
 
-        $filesystem = new Filesystem(new VfsAdapter(new Vfs()));
-        $filesystem->addPlugin(new AppendPlugin());
-        $filesystem->addPlugin(new CopyDirectoryPlugin());
-        $filesystem->addPlugin(new IncludePlugin());
-        $filesystem->addPlugin(new IsDirectoryPlugin());
-        $filesystem->addPlugin(new RequirePlugin());
-        $filesystem->addPlugin(new UpsertPlugin());
-
-        $this->container->add(Filesystem::class, $filesystem);
-        $this->container->share(MountManager::class, function () use ($filesystem) {
+        $this->files->setAdapter(new VfsAdapter(new Vfs()));
+        $this->container->share(MountManager::class, function () {
             return new MountManager([
-                'local' => $filesystem,
-                'remote' => $filesystem,
+                'local' => $this->files,
+                'remote' => $this->files,
             ]);
         });
     }

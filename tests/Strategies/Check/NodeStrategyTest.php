@@ -37,10 +37,10 @@ class NodeStrategyTest extends RocketeerTestCase
         $manager->getManifestContents()->willReturn(json_encode(['engines' => ['node' => '0.10.30']]));
         $this->strategy->setManager($manager->reveal());
 
-        $this->mockRemote('0.8.0');
+        $this->bindDummyConnection('0.8.0');
         $this->assertFalse($this->strategy->language());
 
-        $this->mockRemote('0.11.0');
+        $this->bindDummyConnection('0.11.0');
         $this->assertTrue($this->strategy->language());
     }
 }

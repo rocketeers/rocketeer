@@ -209,7 +209,7 @@ class ReleasesManager
      */
     public function getValidationFile()
     {
-        $file = $this->remoteStorage->get();
+        $file = (array) $this->remoteStorage->get();
 
         // Fill the missing releases
         $releases = $this->getReleases();

@@ -12,20 +12,20 @@
 
 namespace Rocketeer\TestCases\Modules\Mocks;
 
-use League\Flysystem\Filesystem as LeagueFilesystem;
+use Rocketeer\Services\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
-trait Filesystem
+trait FilesystemTester
 {
     /**
      * @param bool $withAdapter
      *
-     * @return Filesystem
+     * @return FilesystemTester
      */
     protected function bindFilesystemProphecy($withAdapter = false)
     {
         $adapter = $this->files->getAdapter();
-        $prophecy = $this->bindProphecy(LeagueFilesystem::class);
+        $prophecy = $this->bindProphecy(Filesystem::class);
         if ($withAdapter) {
             $prophecy->getAdapter()->willReturn($adapter);
         }

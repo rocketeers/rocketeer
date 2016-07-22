@@ -14,7 +14,7 @@ namespace Rocketeer\TestCases\Modules\Mocks;
 
 use Rocketeer\Dummies\Tasks\MyCustomTask;
 
-trait Configuration
+trait ConfigurationTester
 {
     /**
      * @var array

@@ -12,7 +12,6 @@
 
 namespace Rocketeer\Services\Filesystem;
 
-use League\Flysystem\Filesystem;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class MountManagerFactoryTest extends RocketeerTestCase

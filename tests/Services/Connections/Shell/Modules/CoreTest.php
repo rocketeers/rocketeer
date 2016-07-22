@@ -50,7 +50,7 @@ class CoreTest extends RocketeerTestCase
 
     public function testCanGetLocalTimestampIfError()
     {
-        $this->mockRemote('NOPE');
+        $this->bindDummyConnection('NOPE');
         $timestamp = $this->task->getTimestamp();
 
         $this->assertEquals(date('YmdHis'), $timestamp);
@@ -74,7 +74,7 @@ class CoreTest extends RocketeerTestCase
 
     public function testCanRemoveCommonPollutingOutput()
     {
-        $this->mockRemote(['npm --version' => 'Inappropriate ioctl for device'.PHP_EOL.'1.2.3']);
+        $this->bindDummyConnection(['npm --version' => 'Inappropriate ioctl for device'.PHP_EOL.'1.2.3']);
 
         $result = $this->bash->run('npm --version');
         $this->assertEquals('1.2.3', $result);

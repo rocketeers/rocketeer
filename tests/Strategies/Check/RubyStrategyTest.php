@@ -37,10 +37,10 @@ class RubyStrategyTest extends RocketeerTestCase
         $manager->getManifestContents()->willReturn('# Some comments'.PHP_EOL."ruby '2.0.0'");
         $this->strategy->setManager($manager->reveal());
 
-        $this->mockRemote('1.9.3');
+        $this->bindDummyConnection('1.9.3');
         $this->assertFalse($this->strategy->language());
 
-        $this->mockRemote('5.0.0');
+        $this->bindDummyConnection('5.0.0');
         $this->assertTrue($this->strategy->language());
     }
 }

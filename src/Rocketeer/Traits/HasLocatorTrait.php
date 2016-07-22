@@ -14,7 +14,6 @@ namespace Rocketeer\Traits;
 
 use Illuminate\Support\Arr;
 use League\Event\Emitter;
-use League\Flysystem\Filesystem;
 use League\Flysystem\MountManager;
 use Rocketeer\Binaries\Scm\ScmInterface;
 use Rocketeer\Console\Commands\AbstractCommand;
@@ -34,6 +33,7 @@ use Rocketeer\Services\Display\QueueExplainer;
 use Rocketeer\Services\Display\QueueTimer;
 use Rocketeer\Services\Environment\Environment;
 use Rocketeer\Services\Environment\Pathfinder;
+use Rocketeer\Services\Filesystem\Filesystem;
 use Rocketeer\Services\History\History;
 use Rocketeer\Services\History\LogsHandler;
 use Rocketeer\Services\Ignition\Bootstrapper;

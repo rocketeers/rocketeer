@@ -46,7 +46,7 @@ trait Contexts
      */
     protected function mockHhvm($usesHhvm = true, array $additional = [])
     {
-        $this->mockRemote(array_merge([
+        $this->bindDummyConnection(array_merge([
             'which php' => 'php',
             'php -r "print defined(\'HHVM_VERSION\');"' => (int) $usesHhvm,
         ], $additional));

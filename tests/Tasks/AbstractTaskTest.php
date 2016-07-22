@@ -219,7 +219,7 @@ class AbstractTaskTest extends RocketeerTestCase
         $this->tasks->clearRegisteredEvents();
         $this->expectFiredEvent('rocketeer.tasks.'.$taskName.'.after');
 
-        $this->mockRemote([
+        $this->bindDummyConnection([
             'php -m' => 'mysql',
             'which composer' => 'composer',
             'which php' => 'php',

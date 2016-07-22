@@ -27,7 +27,7 @@ class BinariesTest extends RocketeerTestCase
 
     public function testConsidersAllPossibleWhichOutputs()
     {
-        $this->mockRemote([
+        $this->bindDummyConnection([
             'which foobar' => 'foobar not found',
             'which npm' => 'which: no npm in (/usr/local/bin:/bin:/usr/bin)',
         ]);
@@ -38,7 +38,7 @@ class BinariesTest extends RocketeerTestCase
 
     public function testStoredPathsAreInvalidatedIfIncorrect()
     {
-        $this->mockRemote([
+        $this->bindDummyConnection([
             'which foobar' => null,
             'which composer' => 'composer',
         ]);
@@ -51,7 +51,7 @@ class BinariesTest extends RocketeerTestCase
 
     public function testPathsAreScopedToConnection()
     {
-        $this->mockRemote([
+        $this->bindDummyConnection([
             'which production' => 'production',
             'which staging' => 'staging',
         ]);
@@ -130,7 +130,7 @@ class BinariesTest extends RocketeerTestCase
 
     public function testCanRunBinariesMethodsViaMagicMethods()
     {
-        $this->mockRemote([
+        $this->bindDummyConnection([
             'which composer' => 'composer',
             'composer --help' => 'Usage: foobar',
         ]);

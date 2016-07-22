@@ -12,9 +12,9 @@
 
 namespace Rocketeer\Strategies\Dependencies;
 
-use League\Flysystem\Filesystem;
 use Prophecy\Argument;
 use Rocketeer\Services\Connections\Shell\Bash;
+use Rocketeer\Services\Filesystem\Filesystem;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class AbstractDependenciesStrategyTest extends RocketeerTestCase

@@ -12,8 +12,8 @@
 
 namespace Rocketeer\Facades;
 
-use League\Flysystem\Filesystem;
 use Rocketeer\Container;
+use Rocketeer\Services\Filesystem\Filesystem;
 use Rocketeer\Services\Storages\Storage;
 use Rocketeer\TestCases\RocketeerTestCase;
 

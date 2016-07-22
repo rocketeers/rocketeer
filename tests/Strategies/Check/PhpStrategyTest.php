@@ -31,7 +31,7 @@ class PhpStrategyTest extends RocketeerTestCase
 
     public function testCanCheckPhpVersion()
     {
-        $this->mockRemote([
+        $this->bindDummyConnection([
             'which php' => 'php',
             'which composer' => 'composer',
             'php -r "print defined(\'HHVM_VERSION\');"' => false,

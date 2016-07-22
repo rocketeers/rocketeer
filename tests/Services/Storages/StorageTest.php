@@ -13,11 +13,11 @@
 namespace Rocketeer\Services\Storages;
 
 use League\Flysystem\Adapter\Local;
-use League\Flysystem\Filesystem;
 use League\Flysystem\Sftp\SftpAdapter;
 use Rocketeer\Container;
 use Rocketeer\Services\Config\Configuration;
 use Rocketeer\Services\Config\ContextualConfiguration;
+use Rocketeer\Services\Filesystem\Filesystem;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class StorageTest extends RocketeerTestCase

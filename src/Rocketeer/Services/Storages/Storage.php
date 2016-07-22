@@ -182,7 +182,7 @@ class Storage
             $this->contents = json_decode($this->contents, true);
         }
 
-        return $this->contents;
+        return (array) $this->contents;
     }
 
     /**

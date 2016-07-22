@@ -52,7 +52,7 @@ class CredentialsGathererTest extends RocketeerTestCase
         $this->mockAnswers([
             'create one' => 'foobar',
             'SSH key' => false,
-            'located' => $this->host,
+            'located' => 'some.host',
             'username' => $this->username,
             'password' => $this->password,
             'deployed' => '/foo/bar',
@@ -80,7 +80,7 @@ class CredentialsGathererTest extends RocketeerTestCase
             'add a connection' => false,
         ]);
 
-        $prophecy->option('host')->willReturn($this->host);
+        $prophecy->option('host')->willReturn('some.host');
         $prophecy->option('username')->willReturn($this->username);
         $prophecy->option('key')->willReturn('/.ssh/key');
         $prophecy->option('keyphrase')->willReturn('foobar');
