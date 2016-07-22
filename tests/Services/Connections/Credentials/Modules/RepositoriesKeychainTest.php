@@ -82,7 +82,7 @@ class RepositoriesKeychainTest extends RocketeerTestCase
         $this->config->set('scm.branch', null);
 
         $prophecy = $this->bindProphecy(Bash::class);
-        $prophecy->onLocal(Argument::any())->willReturn('   foobar   ');
+        $prophecy->on('local', Argument::any())->willReturn('   foobar   ');
 
         $this->assertEquals('foobar', $this->credentials->getCurrentRepository()->branch);
     }
@@ -92,7 +92,7 @@ class RepositoriesKeychainTest extends RocketeerTestCase
         $this->config->set('scm.branch', null);
 
         $prophecy = $this->bindProphecy(Bash::class);
-        $prophecy->onLocal(Argument::any())->willReturn(null);
+        $prophecy->on('local', Argument::any())->willReturn(null);
 
         $this->assertEquals('master', $this->credentials->getCurrentRepository()->branch);
     }
@@ -116,6 +116,6 @@ class RepositoriesKeychainTest extends RocketeerTestCase
         $prophecy = $this->prophesize(Bash::class);
 
         $this->credentials->getCurrentRepository();
-        $prophecy->onLocal()->shouldNotHaveBeenCalled();
+        $prophecy->on('local', Argument::any())->shouldNotHaveBeenCalled();
     }
 }

@@ -13,6 +13,7 @@
 namespace Rocketeer\Services\Connections\Shell;
 
 use League\Container\ContainerAwareInterface;
+use Rocketeer\Services\Connections\Connections\Connection;
 use Rocketeer\Services\Modules\ModulableInterface;
 use Rocketeer\Services\Modules\ModulableTrait;
 use Rocketeer\Traits\ContainerAwareTrait;
@@ -45,39 +46,24 @@ class Bash implements ModulableInterface, ContainerAwareInterface
     use ModulableTrait;
 
     /**
-     * Whether to run the commands locally
-     * or on the server.
-     *
-     * @var bool
+     * @var Connection
      */
-    protected $local = false;
+    protected $on;
 
     /**
-     * @param bool $local
-     */
-    public function setLocal($local)
-    {
-        $this->local = $local;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isLocal()
-    {
-        return $this->local;
-    }
-
-    /**
-     * Run a series of commands in local.
+     * Get which Connection to call commands with.
      *
-     * @param callable $callback
-     *
-     * @return bool
+     * @return \Rocketeer\Services\Connections\Connections\ConnectionInterface
      */
-    public function onLocal(callable $callback)
+    public function getConnection()
     {
-        return $this->on('local', $callback);
+        if ($this->rocketeer->isLocal()) {
+            return $this->connections->getConnection('local');
+        } elseif ($this->on) {
+            return $this->on;
+        }
+
+        return $this->connections->getCurrentConnection();
     }
 
     /**
@@ -88,11 +74,9 @@ class Bash implements ModulableInterface, ContainerAwareInterface
      */
     public function on($connection, callable $callback)
     {
-        $current = $this->connections->getCurrentConnectionKey();
-
-        $this->connections->setCurrentConnection($connection);
+        $this->on = $this->connections->getConnection($connection);
         $results = $callback($this);
-        $this->connections->setCurrentConnection($current);
+        $this->on = null;
 
         return $results;
     }

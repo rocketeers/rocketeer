@@ -33,16 +33,6 @@ class Core extends AbstractBashModule
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Get which Connection to call commands with.
-     *
-     * @return \Rocketeer\Services\Connections\Connections\ConnectionInterface
-     */
-    public function getConnection()
-    {
-        return $this->connections->getCurrentConnection();
-    }
-
-    /**
      * Rune actions locally.
      *
      * @param string|array $commands
@@ -51,7 +41,7 @@ class Core extends AbstractBashModule
      */
     public function runLocally($commands)
     {
-        return $this->modulable->onLocal(function () use ($commands) {
+        return $this->modulable->on('local', function () use ($commands) {
             return $this->run($commands);
         });
     }
@@ -98,7 +88,7 @@ class Core extends AbstractBashModule
 
         // Run commands
         $output = null;
-        $this->getConnection()->run($commands, function ($results) use (&$output, $verbose) {
+        $this->modulable->getConnection()->run($commands, function ($results) use (&$output, $verbose) {
             $output .= $results;
 
             if ($verbose) {
@@ -151,7 +141,7 @@ class Core extends AbstractBashModule
 
         // Run commands
         $output = null;
-        $this->getConnection()->run($commands, function ($results) use (&$output) {
+        $this->modulable->getConnection()->run($commands, function ($results) use (&$output) {
             $output .= $results;
         });
 
@@ -380,11 +370,9 @@ class Core extends AbstractBashModule
     public function getProvided()
     {
         return [
-            'getConnection',
             'getExtraOutput',
             'getProvided  ',
             'getTimestamp',
-            'onLocal',
             'processCommands',
             'run',
             'runInFolder',

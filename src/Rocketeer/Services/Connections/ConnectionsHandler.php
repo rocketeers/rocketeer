@@ -107,7 +107,7 @@ class ConnectionsHandler
             }
 
             // Add local connection
-            $connections['local'] = new LocalConnection(new ConnectionKey([
+            $connections['local'] = $this->remote->make(new ConnectionKey([
                 'name' => 'local',
                 'server' => 0,
                 'servers' => [['host' => 'localhost']],

@@ -139,7 +139,7 @@ class CoreTest extends RocketeerTestCase
         $this->rocketeer->setLocal(true);
         $this->assertTrue($this->rocketeer->isLocal());
 
-        $this->task->onLocal(function () {
+        $this->task->on('local', function () {
             // ...
         });
 
@@ -178,12 +178,12 @@ class CoreTest extends RocketeerTestCase
 
     public function testCanExecuteCommandsOnSpecificConnection()
     {
-        $this->assertEquals('production', $this->connections->getCurrentConnectionKey()->name);
-        
-        $this->bash->on('staging', function () {
-            $this->assertEquals('staging', $this->connections->getCurrentConnectionKey()->name);
+        $this->assertEquals('production', $this->task->getConnection()->getConnectionKey()->name);
+
+        $this->bash->on('staging', function ($task) {
+            $this->assertEquals('staging', $task->getConnection()->getConnectionKey()->name);
         });
 
-        $this->assertEquals('production', $this->connections->getCurrentConnectionKey()->name);
+        $this->assertEquals('production', $this->task->getConnection()->getConnectionKey()->name);
     }
 }

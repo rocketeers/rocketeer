@@ -62,6 +62,11 @@ abstract class AbstractTask extends Bash implements HasRolesInterface, Identifie
      */
     protected $roles = [];
 
+    /**
+     * @var bool
+     */
+    protected $local = false;
+
     ////////////////////////////////////////////////////////////////////
     ////////////////////////////// REFLECTION //////////////////////////
     ////////////////////////////////////////////////////////////////////
@@ -131,7 +136,7 @@ abstract class AbstractTask extends Bash implements HasRolesInterface, Identifie
         };
 
         return $this->runWithBeforeAfterEvents(function () use ($callback) {
-            return $this->local ? $this->onLocal($callback) : $callback();
+            return $this->local ? $this->on('local', $callback) : $callback();
         });
     }
 

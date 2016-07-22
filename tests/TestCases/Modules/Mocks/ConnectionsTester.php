@@ -24,6 +24,7 @@ trait ConnectionsTester
     {
         $factory = new DummyConnectionsFactory($expectations, $this->files->getAdapter());
         $this->container->add(ConnectionsFactory::class, $factory);
+
         $this->connections->disconnect();
     }
 }

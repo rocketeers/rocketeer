@@ -111,7 +111,6 @@ trait ConfigurationTester
     public function swapConfig(array $expectations)
     {
         $this->connections->disconnect();
-//        $this->localStorage->destroy();
 
         $defaults = $this->getFactoryConfiguration();
         $defaults = array_merge($defaults, [

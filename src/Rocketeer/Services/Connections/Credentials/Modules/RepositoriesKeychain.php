@@ -96,7 +96,7 @@ class RepositoriesKeychain extends AbstractModule
         // Get branch from config, else compute the fallback
         $branch = $this->config->getContextually('scm.branch');
         if (!$branch) {
-            $fallback = $this->bash->onLocal(function () {
+            $fallback = $this->bash->on('local', function () {
                 return $this->scm->runSilently('currentBranch');
             });
 

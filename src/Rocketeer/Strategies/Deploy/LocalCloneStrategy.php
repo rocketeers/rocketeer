@@ -70,7 +70,7 @@ class LocalCloneStrategy extends SyncStrategy
      */
     protected function cloneLocally($directory)
     {
-        return $this->bash->onLocal(function () use ($directory) {
+        return $this->bash->on('local', function () use ($directory) {
             return $this->scm->run('checkout', $directory);
         });
     }

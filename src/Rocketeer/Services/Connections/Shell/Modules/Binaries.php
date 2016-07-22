@@ -134,7 +134,7 @@ class Binaries extends AbstractBashModule
         }
 
         // Store found location or remove it if invalid
-        if (!$this->modulable->isLocal()) {
+        if (!$this->modulable->connections->is('local')) {
             if ($location) {
                 $this->localStorage->set($this->getBinaryStoragePath($binary), $location);
             } else {
