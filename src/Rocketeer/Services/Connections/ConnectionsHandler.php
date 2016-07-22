@@ -106,11 +106,20 @@ class ConnectionsHandler
                 }
             }
 
-            // Add local connection
+            // Add local and dummy connections
             $connections['local'] = $this->remote->make(new ConnectionKey([
                 'name' => 'local',
                 'server' => 0,
                 'servers' => [['host' => 'localhost']],
+            ]));
+
+            $connections['dummy'] = $this->remote->make(new ConnectionKey([
+                'name' => 'dummy',
+                'server' => 0,
+                'servers' => [[
+                    'host' => 'localhost',
+                    'root_directory' => '/tmp/rocketeer'
+                ]],
             ]));
 
             $this->available = new Collection($connections);

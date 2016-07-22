@@ -46,11 +46,6 @@ class Bash implements ModulableInterface, ContainerAwareInterface
     use ModulableTrait;
 
     /**
-     * @var Connection
-     */
-    protected $on;
-
-    /**
      * Get which Connection to call commands with.
      *
      * @return \Rocketeer\Services\Connections\Connections\ConnectionInterface
@@ -59,8 +54,6 @@ class Bash implements ModulableInterface, ContainerAwareInterface
     {
         if ($this->rocketeer->isLocal()) {
             return $this->connections->getConnection('local');
-        } elseif ($this->on) {
-            return $this->on;
         }
 
         return $this->connections->getCurrentConnection();
@@ -74,9 +67,11 @@ class Bash implements ModulableInterface, ContainerAwareInterface
      */
     public function on($connection, callable $callback)
     {
-        $this->on = $this->connections->getConnection($connection);
+        $current = $this->connections->getCurrentConnectionKey()->name;
+
+        $this->connections->setCurrentConnection($connection);
         $results = $callback($this);
-        $this->on = null;
+        $this->connections->setCurrentConnection($current);
 
         return $results;
     }

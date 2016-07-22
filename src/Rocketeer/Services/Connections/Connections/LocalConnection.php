@@ -39,7 +39,7 @@ class LocalConnection extends AbstractConnection
     {
         $this->setConnectionKey($connectionKey);
 
-        parent::__construct(new Local('/', LOCK_EX, Local::SKIP_LINKS));
+        parent::__construct(new Local($connectionKey->root_directory ?: '/', LOCK_EX, Local::SKIP_LINKS));
     }
 
     /**
