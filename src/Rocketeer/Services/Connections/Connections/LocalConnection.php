@@ -38,8 +38,9 @@ class LocalConnection extends AbstractConnection
     public function __construct(ConnectionKey $connectionKey)
     {
         $this->setConnectionKey($connectionKey);
+        $root = $connectionKey->root_directory ?: '/';
 
-        parent::__construct(new Local($connectionKey->root_directory ?: '/', LOCK_EX, Local::SKIP_LINKS));
+        parent::__construct(new Local($root, LOCK_EX, Local::SKIP_LINKS));
     }
 
     /**

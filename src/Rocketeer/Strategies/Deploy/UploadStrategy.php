@@ -19,19 +19,22 @@ class UploadStrategy extends AbstractStrategy implements DeployStrategyInterface
 {
     /**
      * Prepare a release and mark it as deployed.
+     *
+     * @return bool
      */
     public function deploy()
     {
         $localPath = $this->on('dummy', function () {
             $this->setupIfNecessary();
             $this->executeTask('CreateRelease');
-
-            // $this->executeTask('Dependencies');
+            $this->executeTask('Dependencies');
 
             return $this->releasesManager->getCurrentReleasePath();
         });
 
-        return $this->uploadTo($localPath, $this->paths->getFolder());
+        $this->uploadTo($localPath, $this->paths->getFolder());
+
+        return true;
     }
 
     /**

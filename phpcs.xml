@@ -7,5 +7,6 @@
         <exclude name="Symfony2.Arrays.MultiLineArrayComma.Invalid" />
         <exclude name="Symfony2.Commenting.ClassComment.Missing" />
         <exclude name="Symfony2.Functions.ScopeOrder.Invalid" />
+        <exclude name="Zend.NamingConventions.ValidVariableName.NotCamelCaps" />
     </rule>
 </ruleset>

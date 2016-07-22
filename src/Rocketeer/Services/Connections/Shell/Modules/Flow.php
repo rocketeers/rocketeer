@@ -38,6 +38,8 @@ class Flow extends AbstractBashModule
 
     /**
      * Setup the server if necessary.
+     *
+     * @return bool
      */
     public function setupIfNecessary()
     {
@@ -48,7 +50,8 @@ class Flow extends AbstractBashModule
 
         if (!$this->isSetup()) {
             $this->explainer->error('Server is not ready, running Setup task');
-            $this->modulable->executeTask('Setup');
+
+            return $this->modulable->executeTask('Setup');
         }
     }
 
