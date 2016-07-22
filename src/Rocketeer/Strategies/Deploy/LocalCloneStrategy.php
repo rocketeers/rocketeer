@@ -19,7 +19,7 @@ class LocalCloneStrategy extends SyncStrategy
     /**
      * @var string
      */
-    protected $description = 'Uses rsync to create or update a release from local temporary cloned repository';
+    protected $description = 'Uses rsync to update/create a release from a locally cloned repository';
 
     /**
      * Deploy a new clean copy of the application.
@@ -82,6 +82,6 @@ class LocalCloneStrategy extends SyncStrategy
      */
     protected function getCloneDirectory()
     {
-        return sprintf('%s/checkout/tmp/%s/', $this->paths->getStoragePath(), time());
+        return sprintf('%s/checkout/tmp/%s/', $this->paths->getRocketeerConfigFolder(), time());
     }
 }

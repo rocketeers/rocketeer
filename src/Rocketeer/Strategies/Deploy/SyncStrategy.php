@@ -20,7 +20,7 @@ class SyncStrategy extends AbstractStrategy implements DeployStrategyInterface
     /**
      * @var string
      */
-    protected $description = 'Uses rsync to create or update a release from the local files';
+    protected $description = 'Uses rsync to create a release from the current folder';
 
     /**
      * @var array
