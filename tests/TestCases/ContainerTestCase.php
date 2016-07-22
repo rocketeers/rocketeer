@@ -31,6 +31,7 @@ use Rocketeer\Services\Filesystem\Plugins\UpsertPlugin;
 use Rocketeer\TestCases\Modules\Assertions;
 use Rocketeer\TestCases\Modules\Building;
 use Rocketeer\TestCases\Modules\Configuration;
+use Rocketeer\TestCases\Modules\Console;
 use Rocketeer\TestCases\Modules\Contexts;
 use Rocketeer\TestCases\Modules\Mocks;
 use Rocketeer\Traits\HasLocatorTrait;
@@ -38,11 +39,13 @@ use VirtualFileSystem\FileSystem as Vfs;
 
 abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 {
-    use Mocks;
     use Assertions;
-    use Contexts;
-    use Configuration;
     use Building;
+    use Configuration;
+    use Console;
+    use Contexts;
+    use Mocks;
+
     use HasLocatorTrait;
     use ContainerAwareTrait;
 

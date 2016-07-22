@@ -12,12 +12,6 @@
 
 namespace Rocketeer\TestCases\Modules;
 
-use Rocketeer\Console\Commands\AbstractCommand;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\HelperSet;
-use Symfony\Component\Console\Helper\QuestionHelper;
-use Symfony\Component\Console\Tester\CommandTester;
-
 /**
  * @mixin \Rocketeer\TestCases\RocketeerTestCase
  *
@@ -25,26 +19,6 @@ use Symfony\Component\Console\Tester\CommandTester;
  */
 trait Building
 {
-    /**
-     * Get and execute a command.
-     *
-     * @param Command|string|null $command
-     * @param array               $arguments
-     * @param array               $options
-     *
-     * @return CommandTester
-     */
-    protected function executeCommand($command = null, $arguments = [], $options = [])
-    {
-        $command = $this->command($command);
-
-        // Execute
-        $tester = new CommandTester($command);
-        $tester->execute($arguments, $options + ['interactive' => false]);
-
-        return $tester;
-    }
-
     /**
      * Get a pretend AbstractTask to run bogus commands.
      *
@@ -79,26 +53,5 @@ trait Building
         }
 
         return $this->builder->buildTask($task);
-    }
-
-    /**
-     * Get a command instance.
-     *
-     * @param string|Command $command
-     *
-     * @return Command
-     */
-    protected function command($command)
-    {
-        // Fetch command from Container if necessary
-        if (!$command instanceof AbstractCommand) {
-            $command = $command ? $command : null;
-            $command = $this->console->get($command);
-        } elseif (!$command->getContainer()) {
-            $command->setContainer($this->container);
-            $command->setHelperSet(new HelperSet(['question' => new QuestionHelper()]));
-        }
-
-        return $command;
     }
 }

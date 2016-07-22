@@ -13,18 +13,11 @@
 namespace Rocketeer\TestCases\Modules;
 
 use League\Flysystem\Filesystem;
-use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use Rocketeer\Console\Commands\AbstractCommand;
 use Rocketeer\Console\StyleInterface;
-use Rocketeer\Dummies\Console\DummyCommand;
 use Rocketeer\Services\Connections\ConnectionsFactory;
 use Rocketeer\Services\Filesystem\FilesystemInterface;
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputDefinition;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -66,74 +59,6 @@ trait Mocks
     }
 
     /**
-     * Mock a Command.
-     *
-     * @param array $input
-     */
-    protected function mockCommand($input = [])
-    {
-        // Default options
-        $input = array_merge([
-            '--branch' => '',
-            '--host' => '',
-            '--key' => '',
-            '--keyphrase' => '',
-            '--list' => false,
-            '--migrate' => false,
-            '--no-clear' => false,
-            '--parallel' => false,
-            '--pretend' => false,
-            '--release' => '',
-            '--repository' => '',
-            '--root' => '',
-            '--seed' => false,
-            '--server' => '',
-            '--stage' => false,
-            '--tests' => false,
-            '--update' => false,
-            '--username' => '',
-            '--verbose' => false,
-            'package' => '',
-            'release' => '',
-        ], $input);
-
-        $definition = new InputDefinition();
-        foreach ($input as $key => $option) {
-            $isOption = strpos($key, '--') !== false;
-            if ($isOption) {
-                $definition->addOption(new InputOption(substr($key, 2)));
-            } else {
-                $definition->addArgument(new InputArgument($key));
-            }
-        }
-
-        $input = new ArrayInput($input, $definition);
-        $input->setInteractive(true);
-
-        $command = new DummyCommand();
-        $command->setInput($input);
-        $command->setOutput(new NullOutput());
-
-        $this->container->add('rocketeer.command', $command);
-    }
-
-    /**
-     * Mock a command that echoes out its output.
-     *
-     * @return AbstractCommand
-     */
-    protected function mockEchoingCommand()
-    {
-        $prophecy = $this->bindProphecy(AbstractCommand::class, 'rocketeer.command');
-        $prophecy->option(Argument::cetera())->willReturn();
-        $prophecy->writeln(Argument::any())->will(function ($arguments) {
-            echo $arguments[0];
-        });
-
-        return $prophecy;
-    }
-
-    /**
      * Mock the RemoteHandler.
      *
      * @param string|array|null $expectations
@@ -156,45 +81,6 @@ trait Mocks
         if ($withAdapter) {
             $prophecy->getAdapter()->willReturn($adapter);
         }
-
-        return $prophecy;
-    }
-
-    /**
-     * Mock a set of question/answers.
-     *
-     * @param array $answers
-     *
-     * @return ObjectProphecy
-     */
-    protected function mockAnswers(array $answers = [])
-    {
-        $prophecy = $this->bindProphecy(AbstractCommand::class, 'rocketeer.command');
-
-        if (!$answers) {
-            $prophecy->ask(Argument::any())->shouldNotBeCalled();
-        }
-
-        $prophecy->getVerbosity()->willReturn(OutputInterface::OUTPUT_NORMAL);
-        $prophecy->writeln(Argument::cetera())->willReturn();
-        $prophecy->text(Argument::cetera())->willReturn();
-        $prophecy->table(Argument::cetera())->willReturn();
-        $prophecy->title(Argument::cetera())->willReturn();
-        $prophecy->option(Argument::cetera())->willReturn();
-        $prophecy->ask(Argument::cetera())->willReturn();
-        $prophecy->askHidden(Argument::cetera())->willReturn();
-        $prophecy->confirm(Argument::cetera())->willReturn();
-        $prophecy->choice(Argument::cetera())->willReturnArgument(2);
-
-        foreach ($answers as $question => $answer) {
-            $argument = Argument::containingString($question);
-
-            $prophecy->ask($argument, Argument::any())->willReturn($answer);
-            $prophecy->askHidden($argument, Argument::any())->willReturn($answer);
-            $prophecy->confirm($argument, Argument::any())->willReturn($answer);
-        }
-
-        $this->container->add('rocketeer.command', $prophecy->reveal());
 
         return $prophecy;
     }

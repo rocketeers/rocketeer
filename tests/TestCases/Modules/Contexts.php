@@ -64,20 +64,6 @@ trait Contexts
         $this->files->upsert($file, $contents);
     }
 
-    /**
-     * Set Rocketeer in pretend mode.
-     *
-     * @param array $options
-     *
-     * @internal param array $expectations
-     */
-    protected function pretend($options = [])
-    {
-        $options = array_merge(['--pretend' => true], (array) $options);
-
-        $this->mockCommand($options);
-    }
-
     ////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////// CONFIGURATION ////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////
