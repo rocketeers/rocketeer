@@ -12,24 +12,16 @@
 
 namespace Rocketeer\Services\Connections;
 
-use Rocketeer\Tasks\AbstractTask;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class LocalConnectionTest extends RocketeerTestCase
 {
-    public function testCanGetPreviousStatus()
+    public function testCanRunLocalCommands()
     {
-        $this->task->runLocally('ls');
+        $results = $this->task->runLocally('ls');
+        $results = explode(PHP_EOL, $results);
 
+        $this->assertListDirectory($results);
         $this->assertTrue($this->task->status());
-    }
-
-    public function testCanExecuteCommandInDirectory()
-    {
-        $results = $this->task->on('local', function (AbstractTask $task) {
-            return $task->runForCurrentRelease('pwd');
-        });
-
-        $this->assertEquals(realpath($this->server.'/releases/20000000000000'), $results);
     }
 }

@@ -115,7 +115,7 @@ class DeployTest extends RocketeerTestCase
 
     public function testCanUseCopyStrategy()
     {
-        $this->container->add('rocketeer.strategies.deploy', new CopyStrategy($this->container));
+        $this->container->add('rocketeer.strategies.create-release', new CopyStrategy($this->container));
         $this->mockState([
             '10000000000000' => true,
         ]);

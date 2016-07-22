@@ -19,8 +19,11 @@ return [
         // Which strategy to use to check the server
         'check' => 'Php',
 
-        // Which strategy to use to create a new release
-        'deploy' => 'Clone',
+        // Which strategy to use to create a new release and prepare its dependencies
+        'create-release' => 'Clone',
+
+        // Which strategy to use to send a release online
+        'deploy' => 'Rolling',
 
         // Which strategy to use to test your application
         'test' => 'Phpunit',

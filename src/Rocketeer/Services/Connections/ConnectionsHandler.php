@@ -115,10 +115,12 @@ class ConnectionsHandler
             $connections['dummy'] = $this->remote->make(new ConnectionKey([
                 'name' => 'dummy',
                 'server' => 0,
-                'servers' => [[
-                    'host' => 'localhost',
-                    'root_directory' => '/tmp/rocketeer',
-                ]],
+                'servers' => [
+                    [
+                        'host' => 'localhost',
+                        'root_directory' => '/tmp/rocketeer',
+                    ],
+                ],
             ]));
 
             $this->available = new Collection($connections);

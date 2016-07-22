@@ -24,7 +24,12 @@ return [
         'custom' => [
             // 'name' => null,
         ],
-        'roles' => [],
+
+        // Define roles to assign to tasks
+        // eg. 'db' => ['Migrate']
+        'roles' => [
+            // 'name' => null,
+        ],
     ],
 
 ];

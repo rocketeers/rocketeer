@@ -18,6 +18,7 @@ use Rocketeer\Services\Connections\Shell\Bash;
 use Rocketeer\Traits\Properties\ConfigurableTrait;
 use Rocketeer\Traits\Properties\HasEventsTrait;
 use Rocketeer\Traits\SluggableTrait;
+use Rocketeer\Traits\StepsRunnerTrait;
 
 /**
  * Core class for strategies.
@@ -29,6 +30,7 @@ abstract class AbstractStrategy extends Bash implements IdentifierInterface
     use ConfigurableTrait;
     use SluggableTrait;
     use HasEventsTrait;
+    use StepsRunnerTrait;
 
     /**
      * @var array

@@ -41,6 +41,11 @@ class Flow extends AbstractBashModule
      */
     public function setupIfNecessary()
     {
+        // Check if local is ready for deployment
+        if (!$this->modulable->executeTask('Primer')) {
+            return $this->halt('Project is not ready for deploy. You were almost fired.');
+        }
+
         if (!$this->isSetup()) {
             $this->explainer->error('Server is not ready, running Setup task');
             $this->modulable->executeTask('Setup');
@@ -84,6 +89,25 @@ class Flow extends AbstractBashModule
         $folder = $this->releasesManager->getCurrentReleasePath($folder);
 
         return $this->modulable->runInFolder($folder, $tasks);
+    }
+
+    /////////////////////////////////////////////////////////////////////
+    /////////////////////////// PERMISSIONS /////////////////////////////
+    /////////////////////////////////////////////////////////////////////
+
+    /**
+     * Set permissions for the folders used by the application.
+     *
+     * @return bool
+     */
+    public function setApplicationPermissions()
+    {
+        $files = (array) $this->config->getContextually('remote.permissions.files');
+        foreach ($files as &$file) {
+            $this->modulable->setPermissions($file);
+        }
+
+        return true;
     }
 
     ////////////////////////////////////////////////////////////////////
@@ -180,6 +204,7 @@ class Flow extends AbstractBashModule
             'isSetup',
             'runForApplication',
             'runForCurrentRelease',
+            'setApplicationPermissions',
             'setupIfNecessary',
             'share',
             'syncSharedFolders',

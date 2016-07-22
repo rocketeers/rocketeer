@@ -252,7 +252,10 @@ class Filesystem extends AbstractBashModule
      */
     public function createFolder($folder = null)
     {
-        return $this->modulable->getConnection()->createDir($this->paths->getFolder($folder));
+        $folder = $this->paths->getFolder($folder);
+        $this->modulable->toHistory('mkdir '.$folder);
+
+        return $this->modulable->getConnection()->createDir($folder);
     }
 
     /**
@@ -303,7 +306,7 @@ class Filesystem extends AbstractBashModule
     {
         $folder = dirname($destination);
         if (!$this->fileExists($folder)) {
-            $this->createFolder($folder, true);
+            $this->createFolder($folder);
         }
 
         return $this->modulable->run(sprintf('%s %s %s', $command, $from, $destination));

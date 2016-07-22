@@ -28,9 +28,9 @@ class SetupTest extends RocketeerTestCase
             'git --version',
             '{php} -m',
             'mkdir {server}/',
-            'mkdir -p {server}/releases',
-            'mkdir -p {server}/current',
-            'mkdir -p {server}/shared',
+            'mkdir {server}/releases',
+            'mkdir {server}/current',
+            'mkdir {server}/shared',
         ]);
     }
 
@@ -46,12 +46,12 @@ class SetupTest extends RocketeerTestCase
             'git --version',
             '{php} -m',
             'mkdir {server}/',
-            'mkdir -p {server}/staging/releases',
-            'mkdir -p {server}/staging/current',
-            'mkdir -p {server}/staging/shared',
-            'mkdir -p {server}/production/releases',
-            'mkdir -p {server}/production/current',
-            'mkdir -p {server}/production/shared',
+            'mkdir {server}/staging/releases',
+            'mkdir {server}/staging/current',
+            'mkdir {server}/staging/shared',
+            'mkdir {server}/production/releases',
+            'mkdir {server}/production/current',
+            'mkdir {server}/production/shared',
         ]);
     }
 
@@ -69,12 +69,12 @@ class SetupTest extends RocketeerTestCase
             'git --version',
             '{php} -m',
             'mkdir {server}/',
-            'mkdir -p {server}/staging/releases',
-            'mkdir -p {server}/staging/current',
-            'mkdir -p {server}/staging/shared',
-            'mkdir -p {server}/production/releases',
-            'mkdir -p {server}/production/current',
-            'mkdir -p {server}/production/shared',
+            'mkdir {server}/staging/releases',
+            'mkdir {server}/staging/current',
+            'mkdir {server}/staging/shared',
+            'mkdir {server}/production/releases',
+            'mkdir {server}/production/current',
+            'mkdir {server}/production/shared',
         ], [
             'stage' => 'staging',
         ]);

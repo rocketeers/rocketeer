@@ -42,9 +42,7 @@ class TasksHandler
      *
      * @var array
      */
-    protected $coreEvents = [
-        'commands.deploy.before' => 'Primer',
-    ];
+    protected $coreEvents = [];
 
     /**
      * Build a new TasksQueue Instance.

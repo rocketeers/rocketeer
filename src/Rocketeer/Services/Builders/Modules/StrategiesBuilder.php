@@ -32,9 +32,9 @@ class StrategiesBuilder extends AbstractBuilderModule
     {
         // If we passed a concrete implementation
         // look for it specifically
-        $handle = strtolower($strategy);
+        $handle = Str::snake($strategy, '-');
         if ($concrete) {
-            $handle .= '.'.strtolower($concrete);
+            $handle .= '.'.Str::snake($concrete, '-');
         }
 
         // If no found instance, create a new one

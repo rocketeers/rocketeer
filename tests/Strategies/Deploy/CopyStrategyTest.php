@@ -27,7 +27,7 @@ class CopyStrategyTest extends RocketeerTestCase
 
     public function testCanCopyPreviousRelease()
     {
-        $this->builder->buildStrategy('Deploy', 'Copy')->deploy();
+        $this->builder->buildStrategy('CreateRelease', 'Copy')->deploy();
 
         $matcher = [
             'cp -a {server}/releases/10000000000000 {server}/releases/20000000000000',
@@ -48,7 +48,7 @@ class CopyStrategyTest extends RocketeerTestCase
         $prophecy->getReleases()->willReturn([]);
         $prophecy->getCurrentReleasePath(Argument::any())->willReturn($this->server.'/releases/10000000000000');
 
-        $this->builder->buildStrategy('Deploy', 'Copy')->deploy();
+        $this->builder->buildStrategy('CreateRelease', 'Copy')->deploy();
 
         $matcher = [
             'git clone "{repository}" "{server}/releases/{release}" --branch="master" --depth="1"',
@@ -70,7 +70,7 @@ class CopyStrategyTest extends RocketeerTestCase
         $prophecy->getPathToRelease(Argument::any())->willReturn(null);
         $prophecy->getCurrentReleasePath()->willReturn($this->server.'/releases/10000000000000');
 
-        $this->builder->buildStrategy('Deploy', 'Copy')->deploy();
+        $this->builder->buildStrategy('CreateRelease', 'Copy')->deploy();
 
         $matcher = [
             'git clone "{repository}" "{server}/releases/{release}" --branch="master" --depth="1"',

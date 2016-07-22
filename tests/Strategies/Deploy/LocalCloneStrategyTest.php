@@ -33,7 +33,7 @@ class LocalCloneStrategyTest extends RocketeerTestCase
     public function testCanDeployRepository()
     {
         $this->pretend();
-        $this->builder->buildStrategy('Deploy', 'LocalClone')->deploy();
+        $this->builder->buildStrategy('CreateRelease', 'LocalClone')->deploy();
 
         $matcher = [
             'mkdir {server}/releases/{release}',
@@ -55,7 +55,7 @@ class LocalCloneStrategyTest extends RocketeerTestCase
             ],
         ]);
 
-        $this->builder->buildStrategy('Deploy', 'LocalClone')->deploy();
+        $this->builder->buildStrategy('CreateRelease', 'LocalClone')->deploy();
 
         $matcher = [
             'mkdir {server}/releases/{release}',

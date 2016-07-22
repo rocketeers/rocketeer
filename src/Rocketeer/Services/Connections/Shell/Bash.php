@@ -13,7 +13,6 @@
 namespace Rocketeer\Services\Connections\Shell;
 
 use League\Container\ContainerAwareInterface;
-use Rocketeer\Services\Connections\Connections\Connection;
 use Rocketeer\Services\Modules\ModulableInterface;
 use Rocketeer\Services\Modules\ModulableTrait;
 use Rocketeer\Traits\ContainerAwareTrait;

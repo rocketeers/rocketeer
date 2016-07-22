@@ -21,7 +21,9 @@ return [
             // Example:
             // 'Rocketeer\\Plugins\\Slack\\RocketeerSlack',
         ],
-        'config' => [],
+        'config' => [
+            // 'name' => null,
+        ],
     ],
 
 ];

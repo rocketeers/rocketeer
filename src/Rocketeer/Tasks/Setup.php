@@ -82,9 +82,9 @@ class Setup extends AbstractTask
         // Create folders
         foreach ($availableStages as $stage) {
             $this->connections->setStage($stage);
-            $this->createFolder('releases', true);
-            $this->createFolder('current', true);
-            $this->createFolder('shared', true);
+            $this->createFolder('releases');
+            $this->createFolder('current');
+            $this->createFolder('shared');
         }
 
         if ($originalStage) {

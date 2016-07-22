@@ -32,10 +32,10 @@ class AbstractStrategyTest extends RocketeerTestCase
 
     public function testCanDisplayStatus()
     {
-        $this->expectOutputRegex('#<fg=cyan>\w+</fg=cyan> \| <info>Deploy/Clone</info> <comment>\(.+\)</comment>#');
+        $this->expectOutputRegex('#<fg=cyan>\w+</fg=cyan> \| <info>CreateRelease/Clone</info> <comment>\(.+\)</comment>#');
         $this->mockEchoingCommand();
 
-        $strategy = $this->builder->buildStrategy('Deploy', 'Clone');
+        $strategy = $this->builder->buildStrategy('CreateRelease', 'Clone');
         $strategy->displayStatus();
     }
 

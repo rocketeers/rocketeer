@@ -26,7 +26,7 @@ class RollingStrategy extends AbstractStrategy implements DeployStrategyInterfac
         }
 
         // Check if server is ready for deployment
-        $this->steps()->setupIfNecessary();
+        $this->setupIfNecessary();
         $this->steps()->executeTask('CreateRelease');
         $this->steps()->executeTask('Dependencies');
 
@@ -58,24 +58,5 @@ class RollingStrategy extends AbstractStrategy implements DeployStrategyInterfac
         }
 
         return $swap ?: $this->halt();
-    }
-
-    ////////////////////////////////////////////////////////////////////
-    /////////////////////////////// HELPERS ////////////////////////////
-    ////////////////////////////////////////////////////////////////////
-
-    /**
-     * Set permissions for the folders used by the application.
-     *
-     * @return bool
-     */
-    protected function setApplicationPermissions()
-    {
-        $files = (array) $this->config->getContextually('remote.permissions.files');
-        foreach ($files as &$file) {
-            $this->setPermissions($file);
-        }
-
-        return true;
     }
 }

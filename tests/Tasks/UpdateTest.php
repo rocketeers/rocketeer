@@ -19,10 +19,6 @@ class UpdateTest extends RocketeerTestCase
     public function testCanUpdateRepository()
     {
         $this->usesLaravel();
-        $task = $this->pretendTask('Update', [
-            '--migrate' => true,
-            '--seed' => true,
-        ]);
 
         $matcher = [
             [
@@ -50,7 +46,10 @@ class UpdateTest extends RocketeerTestCase
             ],
         ];
 
-        $this->assertTaskHistory($task, $matcher);
+        $this->assertTaskHistory('Update', $matcher, [
+            '--migrate' => true,
+            '--seed' => true,
+        ]);
     }
 
     public function testCanDisableCacheClearing()

@@ -121,7 +121,7 @@ class PathfinderTest extends RocketeerTestCase
         $this->container->add('path.base', '/app');
 
         $storage = $this->paths->getStoragePath();
-        $this->assertEquals('/app/.rocketeer/storage', $storage);
+        $this->assertEquals('/tmp/rocketeer', $storage);
     }
 
     public function testCanGetStorageIfWindows()
@@ -129,7 +129,7 @@ class PathfinderTest extends RocketeerTestCase
         $this->container->add('path.base', 'C:\Sites\app');
 
         $storage = $this->paths->getStoragePath();
-        $this->assertEquals('C:/Sites/app/.rocketeer/storage', $storage);
+        $this->assertEquals('/tmp/rocketeer', $storage);
     }
 
     public function testCanGetStorageWhenBothForSomeReason()
@@ -137,7 +137,7 @@ class PathfinderTest extends RocketeerTestCase
         $this->container->add('path.base', 'C:\Sites\app');
 
         $storage = $this->paths->getStoragePath();
-        $this->assertEquals('C:/Sites/app/.rocketeer/storage', $storage);
+        $this->assertEquals('/tmp/rocketeer', $storage);
     }
 
     public function testCanReplacePatternsWithPathsFile()
@@ -148,35 +148,24 @@ class PathfinderTest extends RocketeerTestCase
         $this->assertEquals('bar', $replaced);
     }
 
-    public function testCanConfigureApplicationPath()
-    {
-        $this->assertEquals($this->container->get('path.base').DS, $this->paths->getBasePath());
-
-        $this->swapConfig([
-            'paths.app' => __DIR__,
-        ]);
-
-        $this->assertEquals(__DIR__.DS, $this->paths->getBasePath());
-    }
-
     public function testCanHaveDifferentRootDirectoryPerConnection()
     {
         $this->swapConnections([
             'production' => [
-                'root_directory' => '/foo',
+                'root_directory' => $this->server,
             ],
             'staging' => [
-                'root_directory' => '/bar',
+                'root_directory' => __DIR__,
             ],
         ]);
 
         $this->connections->setCurrentConnection('production');
         $path = $this->paths->getHomeFolder();
-        $this->assertEquals('/foo/foobar', $path);
+        $this->assertEquals($this->server.'/foobar', $path);
 
         $this->connections->setCurrentConnection('staging');
         $path = $this->paths->getHomeFolder();
-        $this->assertEquals('/bar/foobar', $path);
+        $this->assertEquals(__DIR__.'/foobar', $path);
     }
 
     public function testCanRegisterCustomPathfinder()

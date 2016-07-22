@@ -218,7 +218,7 @@ class AbstractTaskTest extends RocketeerTestCase
      */
     public function testAllTasksCanFireAfterEvent($taskName)
     {
-        $this->tasks->clearRegisteredEvents();
+        $this->disableTestEvents();
         $this->expectFiredEvent('rocketeer.tasks.'.$taskName.'.after');
 
         $this->bindDummyConnection([

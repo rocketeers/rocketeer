@@ -31,7 +31,7 @@ class SyncStrategyTest extends RocketeerTestCase
     public function testCanDeployRepository()
     {
         $task = $this->pretendTask('Deploy');
-        $task->getStrategy('Deploy', 'Sync')->deploy();
+        $task->getStrategy('CreateRelease', 'Sync')->deploy();
 
         $this->assertRsyncHistory(null, null, [
             'mkdir {server}/releases/{release}',
@@ -41,7 +41,7 @@ class SyncStrategyTest extends RocketeerTestCase
     public function testCanUpdateRepository()
     {
         $task = $this->pretendTask('Deploy');
-        $task->getStrategy('Deploy', 'Sync')->update();
+        $task->getStrategy('CreateRelease', 'Sync')->update();
 
         $this->assertRsyncHistory();
     }
@@ -56,7 +56,7 @@ class SyncStrategyTest extends RocketeerTestCase
         ]);
 
         $task = $this->pretendTask('Deploy');
-        $task->getStrategy('Deploy', 'Sync')->update();
+        $task->getStrategy('CreateRelease', 'Sync')->update();
 
         $this->assertRsyncHistory(12345);
     }
@@ -64,7 +64,7 @@ class SyncStrategyTest extends RocketeerTestCase
     public function testCanSpecifyPortViaOptions()
     {
         $task = $this->pretendTask('Deploy');
-        $task->getStrategy('Deploy', 'Sync', ['port' => 12345])->update();
+        $task->getStrategy('CreateRelease', 'Sync', ['port' => 12345])->update();
 
         $this->assertRsyncHistory(12345);
     }
@@ -72,7 +72,7 @@ class SyncStrategyTest extends RocketeerTestCase
     public function testCanSpecifyExcludedDirectories()
     {
         $task = $this->pretendTask('Deploy');
-        $strategy = $task->getStrategy('Deploy', 'Sync');
+        $strategy = $task->getStrategy('CreateRelease', 'Sync');
         $strategy->setOptions(['excluded' => ['foobar']]);
         $strategy->update();
 
@@ -92,7 +92,7 @@ class SyncStrategyTest extends RocketeerTestCase
         ]);
 
         $task = $this->pretendTask('Deploy');
-        $task->getStrategy('Deploy', 'Sync', ['port' => 80])->update();
+        $task->getStrategy('CreateRelease', 'Sync', ['port' => 80])->update();
 
         $this->assertRsyncHistory(80, '/foo bar/baz');
     }
