@@ -111,7 +111,7 @@ class AbstractTaskTest extends RocketeerTestCase
     public function testDoesntDuplicateQueuesOnSubtasks()
     {
         $this->pretendTask('Deploy')->execute();
-        $expected = count($this->history->getFlattenedHistory());
+        $expected = count($this->history->getFlattenedHistory()) - 2;
         $this->history->reset();
 
         $this->swapConfig([

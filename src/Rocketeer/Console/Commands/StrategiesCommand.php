@@ -40,7 +40,8 @@ class StrategiesCommand extends AbstractCommand
     {
         $strategies = [
             'check' => ['Php', 'Ruby', 'Node', 'Polyglot'],
-            'deploy' => ['Clone', 'Copy', 'Sync'],
+            'create-release' => ['Clone', 'Copy'],
+            'deploy' => ['Rolling', 'Sync', 'Upload'],
             'test' => ['Phpunit'],
             'migrate' => ['Artisan'],
             'dependencies' => ['Composer', 'Bundler', 'Npm', 'Bower', 'Polyglot'],
@@ -50,7 +51,9 @@ class StrategiesCommand extends AbstractCommand
         foreach ($strategies as $strategy => $implementations) {
             foreach ($implementations as $implementation) {
                 $instance = $this->builder->buildStrategy($strategy, $implementation);
-                $rows[] = [$strategy, $implementation, $instance->getDescription()];
+                if ($instance) {
+                    $rows[] = [$strategy, $implementation, $instance->getDescription()];
+                }
             }
         }
 

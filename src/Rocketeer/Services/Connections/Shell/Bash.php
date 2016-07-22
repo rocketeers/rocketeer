@@ -116,11 +116,27 @@ class Bash implements ModulableInterface, ContainerAwareInterface
      */
     public function executeTask($tasks)
     {
-        $results = $this->explainer->displayBelow(function () use ($tasks) {
+        return $this->explainer->displayBelow(function () use ($tasks) {
             return $this->builder->buildTask($tasks)->fire();
         });
+    }
 
-        return $results;
+    /**
+     * @param string $strategy
+     * @param string $method
+     *
+     * @return mixed
+     */
+    public function executeStrategyMethod($strategy, $method)
+    {
+        $strategy = $this->getStrategy($strategy);
+        if (!$strategy) {
+            return true;
+        }
+
+        return $this->explainer->displayBelow(function () use ($strategy, $method) {
+            return $strategy->$method();
+        });
     }
 
     /**

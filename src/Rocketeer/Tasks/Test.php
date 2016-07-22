@@ -31,12 +31,6 @@ class Test extends AbstractTask
      */
     public function execute()
     {
-        /** @var \Rocketeer\Strategies\Test\TestStrategyInterface $tester */
-        $tester = $this->getStrategy('Test');
-        if (!$tester) {
-            return true;
-        }
-
-        return $tester->test();
+        return $this->executeStrategyMethod('Test', 'test');
     }
 }

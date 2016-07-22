@@ -17,6 +17,11 @@ use Illuminate\Support\Arr;
 class SyncStrategy extends AbstractLocalDeployStrategy
 {
     /**
+     * @var string
+     */
+    protected $description = 'Deploys in local then rsyncs the files on the server';
+
+    /**
      * @var array
      */
     protected $options = [

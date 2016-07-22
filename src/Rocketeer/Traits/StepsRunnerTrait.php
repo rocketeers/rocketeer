@@ -28,7 +28,7 @@ trait StepsRunnerTrait
     protected $steps;
 
     /**
-     * @return StepsBuilder
+     * @return $this
      */
     public function steps()
     {

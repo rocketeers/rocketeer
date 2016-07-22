@@ -33,9 +33,7 @@ class CreateRelease extends AbstractTask
      */
     public function execute()
     {
-        /** @var \Rocketeer\Strategies\CreateRelease\CreateReleaseStrategyInterface $strategy */
-        $strategy = $this->getStrategy('CreateRelease');
-        $status = $strategy->deploy();
+        $status = $this->executeStrategyMethod('CreateRelease', 'deploy');
 
         // Append newly created release to list of existing ones
         $release = $this->releasesManager->getCurrentRelease();

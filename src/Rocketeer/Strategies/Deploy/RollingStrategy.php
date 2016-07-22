@@ -17,6 +17,11 @@ use Rocketeer\Strategies\AbstractStrategy;
 class RollingStrategy extends AbstractStrategy implements DeployStrategyInterface
 {
     /**
+     * @var string
+     */
+    protected $description = 'Uses a system of folders current/releases/shared to roll releases';
+
+    /**
      * {@inheritdoc}
      */
     public function deploy()
@@ -28,35 +33,8 @@ class RollingStrategy extends AbstractStrategy implements DeployStrategyInterfac
         // Check if server is ready for deployment
         $this->setupIfNecessary();
         $this->steps()->executeTask('CreateRelease');
-        $this->steps()->executeTask('Dependencies');
+        $this->steps()->executeTask('PrepareRelease');
 
-        if ($this->getOption('tests')) {
-            $this->steps()->executeTask('Test');
-        }
-
-        // Create release and set permissions
-        $this->steps()->setApplicationPermissions();
-
-        // Run migrations
-        if ($this->getOption('migrate') || $this->getOption('seed')) {
-            $this->steps()->executeTask('Migrate');
-        }
-
-        // Synchronize shared folders and files
-        $this->steps()->syncSharedFolders();
-
-        // Run the steps until one fails
-        if (!$this->runSteps()) {
-            return $this->halt();
-        }
-
-        // Swap symlink
-        if ($this->getOption('coordinated', true)) {
-            $swap = $this->coordinator->whenAllServersReadyTo('symlink', 'SwapSymlink');
-        } else {
-            $swap = $this->executeTask('SwapSymlink');
-        }
-
-        return $swap ?: $this->halt();
+        return $this->runSteps();
     }
 }

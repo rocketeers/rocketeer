@@ -262,7 +262,7 @@ class ReleasesManager
      */
     public function checkReleaseState($release)
     {
-        return Arr::get($this->state, $release, true);
+        return Arr::get($this->state, $release, false);
     }
 
     ////////////////////////////////////////////////////////////////////

@@ -12,8 +12,6 @@
 
 namespace Rocketeer\Tasks;
 
-use Rocketeer\Strategies\CreateRelease\CreateReleaseStrategyInterface;
-
 /**
  * Update the remote server without doing a new release.
  *
@@ -33,27 +31,8 @@ class Update extends Deploy
      */
     public function execute()
     {
-        /** @var CreateReleaseStrategyInterface $strategy */
-        $strategy = $this->getStrategy('CreateRelease');
-
-        // Update repository
-        if (!$strategy->update()) {
-            return $this->halt();
-        }
-
-        // Recreate symlinks if necessary
-        $this->steps()->syncSharedFolders();
-
-        // Recompile dependencies and stuff
-        $this->steps()->executeTask('Dependencies');
-
-        // Set permissions
-        $this->steps()->setApplicationPermissions();
-
-        // Run migrations
-        if ($this->getOption('migrate') || $this->getOption('seed')) {
-            $this->steps()->executeTask('Migrate');
-        }
+        $this->steps()->executeStrategyMethod('CreateRelease', 'update');
+        $this->steps()->executeTask('PrepareRelease');
 
         // Run the steps
         if (!$this->runSteps()) {

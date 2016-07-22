@@ -23,15 +23,17 @@ abstract class AbstractLocalDeployStrategy extends AbstractStrategy implements D
      */
     public function deploy()
     {
+        $isFtp = $this->connections->getCurrentConnectionKey()->isFtp();
+
         $from = $this->on('dummy', function () {
             $this->setupIfNecessary();
             $this->executeTask('CreateRelease');
-            $this->executeTask('Dependencies');
+            $this->executeTask('PrepareRelease');
 
             return $this->releasesManager->getCurrentReleasePath();
         });
 
-        $to = $this->connections->getCurrentConnectionKey()->isFtp()
+        $to = $isFtp
             ? $this->paths->getFolder()
             : $this->releasesManager->getCurrentReleasePath();
 

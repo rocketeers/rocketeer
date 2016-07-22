@@ -45,8 +45,7 @@ class Deploy extends AbstractTask
 
         // Setup the new release
         $this->releasesManager->getNextRelease();
-        $deployed = $this->getStrategy('Deploy')->deploy() ?: $this->halt();
 
-        return $deployed;
+        return $this->executeStrategyMethod('Deploy', 'deploy') ?: $this->halt();
     }
 }

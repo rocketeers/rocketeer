@@ -17,6 +17,11 @@ use Symfony\Component\Finder\Finder;
 class UploadStrategy extends AbstractLocalDeployStrategy
 {
     /**
+     * @var string
+     */
+    protected $description = 'Deploys locally and uploads the files through FTP';
+
+    /**
      * @param string $from
      * @param string $to
      *
