@@ -84,8 +84,8 @@ class Binaries extends AbstractBashModule
     public function which($binary, $fallback = null, $prompt = true)
     {
         $locations = [
-            $this->localStorage->get($this->getBinaryStoragePath($binary)),
             $this->paths->getPath($binary),
+            $this->localStorage->get($this->getBinaryStoragePath($binary)),
             $binary,
         ];
 
