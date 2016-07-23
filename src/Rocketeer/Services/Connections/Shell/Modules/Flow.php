@@ -44,9 +44,11 @@ class Flow extends AbstractBashModule
     public function setupIfNecessary()
     {
         // Check if local is ready for deployment
-        if (!$this->modulable->executeTask('Primer')) {
-            return $this->modulable->halt('Project is not ready for deploy. You were almost fired.');
-        }
+        return $this->modulable->on('local', function () {
+            if (!$this->modulable->executeTask('Primer')) {
+                return $this->modulable->halt('Project is not ready for deploy. You were almost fired.');
+            }
+        });
 
         if (!$this->isSetup()) {
             $this->explainer->error('Server is not ready, running Setup task');
