@@ -62,7 +62,7 @@ abstract class AbstractPolyglotStrategy extends AbstractStrategy
     {
         $this->executeStrategiesMethod($method);
 
-        return $this->checkStrategiesResults($this->results);
+        return $this->passed();
     }
 
     /**
@@ -72,22 +72,20 @@ abstract class AbstractPolyglotStrategy extends AbstractStrategy
      */
     protected function onStrategies(callable $callback)
     {
-        return $this->explainer->displayBelow(function () use ($callback) {
-            $this->results = [];
-            foreach ($this->strategies as $strategy) {
-                $instance = $this->getStrategy($this->type, $strategy, $this->options);
-                if ($instance) {
-                    $this->results[$strategy] = $callback($instance);
-                    if (!$this->checkResults($this->results[$strategy])) {
-                        break;
-                    }
-                } else {
-                    $this->results[$strategy] = true;
+        $this->results = [];
+        foreach ($this->strategies as $strategy) {
+            $instance = $this->getStrategy($this->type, $strategy, $this->options);
+            if ($instance) {
+                $this->results[$strategy] = $callback($instance);
+                if (!$this->checkResults($this->results[$strategy])) {
+                    break;
                 }
+            } else {
+                $this->results[$strategy] = true;
             }
+        }
 
-            return $this->results;
-        });
+        return $this->results;
     }
 
     //////////////////////////////////////////////////////////////////////

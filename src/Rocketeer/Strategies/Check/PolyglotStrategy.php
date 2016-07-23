@@ -36,10 +36,7 @@ class PolyglotStrategy extends AbstractPolyglotStrategy implements CheckStrategy
     protected $strategies = ['Node', 'Php', 'Ruby'];
 
     /**
-     * Check that the PM that'll install
-     * the app's dependencies is present.
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function manager()
     {
@@ -47,10 +44,7 @@ class PolyglotStrategy extends AbstractPolyglotStrategy implements CheckStrategy
     }
 
     /**
-     * Check that the language used by the
-     * application is at the required version.
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function language()
     {
@@ -58,9 +52,7 @@ class PolyglotStrategy extends AbstractPolyglotStrategy implements CheckStrategy
     }
 
     /**
-     * Check for the required extensions.
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function extensions()
     {
