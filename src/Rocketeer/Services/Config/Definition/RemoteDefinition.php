@@ -47,7 +47,7 @@ class RemoteDefinition extends AbstractDefinition
                 ->defaultValue(4)
             ->end()
             ->scalarNode('app_directory')
-                ->info("The folder the application will be cloned in.\nLeave empty to use `application_name` as your folder name")
+                ->info("The folder the application will be deployed in.\nLeave empty to use `application_name` as your folder name")
             ->end()
             ->scalarNode('subdirectory')
                 ->info("If the core of your application (ie. where dependencies/migrations/etc need to be run is in a subdirectory, specify it there (per example 'my_subdirectory')")
@@ -89,7 +89,7 @@ class RemoteDefinition extends AbstractDefinition
                         ->prototype('scalar')->end()
                     ->end()
                     ->closureNode('callback')
-                        ->info('what actions will be executed to set permissions on the folder above')
+                        ->info('What actions will be executed to set permissions on the folder above')
                         ->defaultValue(function ($task, $file) {
                             return [
                                 sprintf('chmod -R 755 %s', $file),

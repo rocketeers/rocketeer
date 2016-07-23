@@ -32,6 +32,7 @@ class PrepareRelease extends AbstractTask
         }
 
         // Create release and set permissions
+        $this->explainer->line('Setting correct permissions on the files');
         $this->steps()->setApplicationPermissions();
 
         // Run migrations
@@ -40,6 +41,7 @@ class PrepareRelease extends AbstractTask
         }
 
         // Synchronize shared folders and files
+        $this->explainer->line('Synchronizing shared folders');
         $this->steps()->syncSharedFolders();
 
         // Swap symlink if that wasn't already done
