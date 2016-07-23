@@ -15,12 +15,13 @@ use Rocketeer\Services\Config\Files\ConfigurationPublisher;
 
 require 'vendor/autoload.php';
 
+// Remove existing configuration
+$path = realpath(__DIR__.'/../src/config');
+exec('rm -rf '.$path.' && mkdir -p '.$path);
+
 $container = new Container();
 $publisher = $container->get(ConfigurationPublisher::class);
 
-// Remove existing configuration
-exec('rm -rf src/config && mkdir -p src/config');
-
 /* @var ConfigurationPublisher $publisher */
-$publisher->publishNode(__DIR__.'/../src/config', 'php');
+$publisher->publishNode($path, 'php');
 exec('php-cs-fixer fix src/config');
