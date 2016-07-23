@@ -13,6 +13,7 @@
 namespace Rocketeer\Services\Connections\Credentials;
 
 use Closure;
+use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
 use Rocketeer\Services\Connections\Credentials\Keys\RepositoryKey;
 use Rocketeer\Traits\ContainerAwareTrait;
 
@@ -136,10 +137,11 @@ class CredentialsGatherer
             $credentials[$constant] = $answer;
             $config[$credential] = '%%'.$constant.'%%';
 
-            // If the repository uses SSH, do not ask for username/password
-            $repositoryKey = new RepositoryKey(['endpoint' => $answer]);
-            if ($for === 'scm' && $credential === 'repository' && !$repositoryKey->needsCredentials()) {
+            // Special cases
+            if ($credential === 'repository' && !(new RepositoryKey(['endpoint' => $answer]))->needsCredentials()) {
                 break;
+            } elseif ($credential === 'host' && strpos($answer, 'ftp') !== false) {
+                $this->command->writeln(' Oh damn is that an FTP host? Good luck buddy 👌');
             }
         }
 
