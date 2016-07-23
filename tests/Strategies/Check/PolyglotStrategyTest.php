@@ -18,7 +18,7 @@ use Rocketeer\Container;
 use Rocketeer\Services\Builders\Builder;
 use Rocketeer\TestCases\RocketeerTestCase;
 
-class PolyglotStrategyCheckTest extends RocketeerTestCase
+class PolyglotStrategyTest extends RocketeerTestCase
 {
     /**
      * @var \Rocketeer\Strategies\Check\PolyglotStrategy
@@ -40,6 +40,7 @@ class PolyglotStrategyCheckTest extends RocketeerTestCase
         $this->bindDummyConnection([
             'node --version' => '6.1.1',
             'ruby --version' => '2.1.1',
+            'which php' => 'php',
             'php -r "print PHP_VERSION;"' => '7.1.1',
             'php -m' => 'sqlite',
         ]);
@@ -54,7 +55,7 @@ class PolyglotStrategyCheckTest extends RocketeerTestCase
 
     public function testCanCheckMissingExtensions()
     {
-        $this->assertTrue($this->strategy->language());
+        $this->assertTrue($this->strategy->extensions());
     }
 
     /**
