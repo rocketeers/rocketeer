@@ -110,7 +110,7 @@ class ConnectionsDefinition extends AbstractDefinition
      */
     protected function getConnectionNode($node, Fluent $connection)
     {
-         return $node
+        return $node
             ->beforeNormalization()
                 ->always(function ($servers) {
                     return $this->unifyServerDeclarations($servers);
