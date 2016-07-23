@@ -24,7 +24,6 @@ class CheckTest extends RocketeerTestCase
 
         $this->assertTaskHistory('Check', [
             'git --version',
-            '{php} -m',
         ]);
     }
 
@@ -33,12 +32,10 @@ class CheckTest extends RocketeerTestCase
         $this->usesComposer();
 
         $this->swapConfig([
-            'strategies.deploy' => 'sync',
+            'strategies.create-release' => 'Sync',
         ]);
 
-        $this->assertTaskHistory('Check', [
-            '{php} -m',
-        ]);
+        $this->assertTaskHistory('Check', []);
     }
 
     public function testStopsCheckingIfErrorOccured()
@@ -58,37 +55,29 @@ class CheckTest extends RocketeerTestCase
         ]);
     }
 
-    /**
-     * @param bool   $hasManifest
-     * @param string $expected
-     *
-     * @dataProvider providesManagerStatus
-     */
-    public function testCanExplicitelySayWhichManagerConditionFailed($hasManifest, $expected)
+    public function testCanCheckPackageManagerPresence()
     {
-        $this->config->set('logs', 'foobar.logs');
-
         /** @var Composer $manager */
         $manager = $this->prophesize(Composer::class);
-        $manager->getName()->willReturn('Composer');
-        $manager->getManifestContents()->willReturn(null);
         $manager->isExecutable()->willReturn(false);
-        $manager->hasManifest()->willReturn($hasManifest);
-        $manager->getManifest()->willReturn('composer.json');
+        $manager->hasManifest()->willReturn(true);
+        $manager->getName()->willReturn('Composer');
+        $manager->getManifestContents()->willReturn('{}');
 
-        $this->builder->buildStrategy('check')->setManager($manager->reveal());
+        $strategy = $this->builder->buildStrategy('Check', 'Php');
+        $strategy->setManager($manager->reveal());
+        $this->container->add('rocketeer.strategies.check', $strategy);
+
+        $this->config->set('logs', 'foobar.logs');
+        $this->usesComposer();
+        $this->bindDummyConnection([
+            'which composer' => false,
+        ]);
+
         $this->task('Check')->fire();
 
         $logs = $this->logs->getLogs();
-        $this->assertContains('{username}@production: '.$expected, last($logs));
-    }
-
-    public function providesManagerStatus()
-    {
-        return [
-            'Without manifest' => [false, 'No manifest (composer.json) was found for Composer'],
-            'With manifest' => [true, 'The Composer package manager could not be found'],
-        ];
+        $this->assertContains('Composer is not present (or executable)', $logs[6]);
     }
 
     public function testCanSkipStrategyChecks()

@@ -36,11 +36,4 @@ interface CheckStrategyInterface
      * @return array
      */
     public function extensions();
-
-    /**
-     * Check for the required drivers.
-     *
-     * @return array
-     */
-    public function drivers();
 }

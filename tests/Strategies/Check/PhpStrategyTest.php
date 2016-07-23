@@ -12,7 +12,6 @@
 
 namespace Rocketeer\Strategies\Check;
 
-use Prophecy\Argument;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class PhpStrategyTest extends RocketeerTestCase
@@ -31,45 +30,35 @@ class PhpStrategyTest extends RocketeerTestCase
 
     public function testCanCheckPhpVersion()
     {
-        $this->bindDummyConnection([
-            'which php' => 'php',
-            'which composer' => 'composer',
-            'php -r "print defined(\'HHVM_VERSION\');"' => false,
-            'php -r "print PHP_VERSION;"' => '5.6.0',
+        $this->usesComposer(true, null, [
+            'require' => ['php' => '>=5.6.0'],
         ]);
 
-        $prophecy = $this->bindFilesystemProphecy(true);
-        $prophecy->put()->willReturn();
-        $prophecy->has(Argument::cetera())->willReturn(true);
-        $prophecy->read(Argument::cetera())->willReturn('{"require":{"php":">=5.6.0"}}');
-
+        $this->bindDummyConnection('7.0.0');
         $this->assertTrue($this->strategy->language());
 
-        // This is is going to come bite me in the ass in 10 years
-        $prophecy = $this->bindFilesystemProphecy(true);
-        $prophecy->put()->willReturn();
-        $prophecy->has(Argument::cetera())->willReturn(true);
-        $prophecy->read(Argument::cetera())->willReturn('{"require":{"php":">=12.9.0"}}');
-
+        $this->bindDummyConnection('3.4');
         $this->assertFalse($this->strategy->language());
     }
 
     public function testCanCheckPhpExtensions()
     {
+        $this->usesComposer(true, null, [
+           'required' => ['ext-sqlite' => '*'],
+        ]);
+
         $this->mockHhvm(false, [
             'which composer' => 'composer',
             'php -m' => 'sqlite',
         ]);
 
-        $this->strategy->extensions();
-
-        $this->assertHistory(['php -m']);
+        $this->assertTrue($this->strategy->extensions());
     }
 
     public function testCanCheckForHhvmExtensions()
     {
         $this->mockHhvm();
-        $exists = $this->strategy->checkPhpExtension('_hhvm');
+        $exists = $this->strategy->checkExtension('_hhvm');
 
         $this->assertTrue($exists);
     }

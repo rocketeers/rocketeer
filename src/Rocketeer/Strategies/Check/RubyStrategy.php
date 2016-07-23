@@ -69,24 +69,4 @@ class RubyStrategy extends AbstractCheckStrategy implements CheckStrategyInterfa
 
         return $version;
     }
-
-    /**
-     * Check for the required extensions.
-     *
-     * @return array
-     */
-    public function extensions()
-    {
-        return [];
-    }
-
-    /**
-     * Check for the required drivers.
-     *
-     * @return array
-     */
-    public function drivers()
-    {
-        return [];
-    }
 }

@@ -87,10 +87,11 @@ trait Contexts
      *
      * @param bool        $uses
      * @param string|null $stage
+     * @param array       $contents
      */
-    protected function usesComposer($uses = true, $stage = null)
+    protected function usesComposer($uses = true, $stage = null, $contents = [])
     {
-        $this->mockPackageManagerUsage($uses, 'composer.json', $stage, '{}');
+        $this->mockPackageManagerUsage($uses, 'composer.json', $stage, json_encode($contents));
     }
 
     /**
@@ -98,10 +99,21 @@ trait Contexts
      *
      * @param bool        $uses
      * @param string|null $stage
+     * @param string      $contents
      */
-    protected function usesBundler($uses = true, $stage = null)
+    protected function usesBundler($uses = true, $stage = null, $contents = '')
     {
-        $this->mockPackageManagerUsage($uses, 'Gemfile', $stage);
+        $this->mockPackageManagerUsage($uses, 'Gemfile', $stage, $contents);
+    }
+
+    /**
+     * @param bool   $uses
+     * @param null   $stage
+     * @param string $contents
+     */
+    protected function usesNpm($uses, $stage, $contents)
+    {
+        $this->mockPackageManagerUsage($uses, 'package.json', $stage, json_encode($contents));
     }
 
     /**
@@ -114,20 +126,22 @@ trait Contexts
      */
     protected function mockPackageManagerUsage($uses, $filename, $stage = null, $contents = null)
     {
-        $manifest = $this->server.'/';
-        $manifest .= $stage ? $stage.'/' : null;
-        $manifest .= 'releases/20000000000000/'.$filename;
+        $serverPath = $this->server.'/';
+        $serverPath .= $stage ? $stage.'/' : null;
+        $serverPath .= 'releases/20000000000000/'.$filename;
+        $localPath = $this->paths->getBasePath().'/'.$filename;
 
         // Create directory if necessary
-        $folder = dirname($manifest);
+        $folder = dirname($serverPath);
         if (!$this->files->isDirectory($folder)) {
             $this->files->createDir($folder);
         }
 
         if ($uses) {
-            $this->files->put($manifest, $contents);
-        } elseif ($this->files->has($manifest)) {
-            $this->files->delete($manifest);
+            $this->files->put($localPath, $contents);
+            $this->files->put($serverPath, $contents);
+        } elseif ($this->files->has($serverPath)) {
+            $this->files->delete($serverPath);
         }
     }
 }

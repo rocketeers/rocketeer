@@ -12,7 +12,6 @@
 
 namespace Rocketeer\Strategies\Check;
 
-use Rocketeer\Binaries\PackageManagers\Bundler;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class RubyStrategyTest extends RocketeerTestCase
@@ -31,11 +30,7 @@ class RubyStrategyTest extends RocketeerTestCase
 
     public function testCanParseLanguageConstraint()
     {
-        /** @var Bundler $manager */
-        $manager = $this->prophesize(Bundler::class);
-        $manager->getBinary()->willReturn('bundle');
-        $manager->getManifestContents()->willReturn('# Some comments'.PHP_EOL."ruby '2.0.0'");
-        $this->strategy->setManager($manager->reveal());
+        $this->usesBundler(true, null, '# Some comments'.PHP_EOL."ruby '2.0.0'");
 
         $this->bindDummyConnection('1.9.3');
         $this->assertFalse($this->strategy->language());

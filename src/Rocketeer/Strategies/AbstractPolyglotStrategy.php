@@ -66,24 +66,6 @@ abstract class AbstractPolyglotStrategy extends AbstractStrategy
     }
 
     /**
-     * Gather the missing X from a method.
-     *
-     * @param string $method
-     *
-     * @return string[]
-     */
-    protected function gatherMissingFromMethod($method)
-    {
-        $missing = [];
-        $this->executeStrategiesMethod($method);
-        foreach ($this->results as $value) {
-            $missing = array_merge($missing, $value);
-        }
-
-        return $missing;
-    }
-
-    /**
      * @param callable $callback
      *
      * @return array

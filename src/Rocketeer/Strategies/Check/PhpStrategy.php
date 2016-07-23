@@ -12,8 +12,6 @@
 
 namespace Rocketeer\Strategies\Check;
 
-use Rocketeer\Services\Config\ContextualConfiguration;
-
 class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterface
 {
     /**
@@ -71,79 +69,31 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
         return $this->getBinary()->runLast('version');
     }
 
+    //////////////////////////////////////////////////////////////////////
+    ///////////////////////////// EXTENSIONS /////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+
     /**
      * Check for the required extensions.
      *
-     * @return array
+     * @return string[]
      */
-    public function extensions()
+    public function getRequiredExtensions()
     {
-        $extensions = $this->getExtensions();
+        $extensions = [];
+        if (!$manifest = $this->getManager()->getManifestContents()) {
+            return $extensions;
+        }
 
-        // Check PHP extensions
-        $errors = [];
-        foreach ($extensions as $check) {
-            list($method, $extension) = $check;
-
-            if (!$this->$method($extension)) {
-                $errors[] = $extension;
+        $data = json_decode($manifest, true);
+        $require = (array) array_get($data, 'require');
+        foreach ($require as $package => $version) {
+            if (substr($package, 0, 4) === 'ext-') {
+                $extensions[] = substr($package, 4);
             }
         }
 
-        return $errors;
-    }
-
-    /**
-     * Check for the required drivers.
-     *
-     * @return array
-     */
-    public function drivers()
-    {
-        return [];
-    }
-
-    //////////////////////////////////////////////////////////////////////
-    ////////////////////////////// HELPERS ///////////////////////////////
-    //////////////////////////////////////////////////////////////////////
-
-    /**
-     * Check the presence of the correct database PHP extension.
-     *
-     * @param string $database
-     *
-     * @return bool
-     */
-    public function checkDatabaseDriver($database)
-    {
-        switch ($database) {
-            case 'sqlite':
-                return $this->checkPhpExtension('pdo_sqlite');
-            case 'mysql':
-                return $this->checkPhpExtension('mysql') && $this->checkPhpExtension('pdo_mysql');
-            default:
-                return true;
-        }
-    }
-
-    /**
-     * Check the presence of the correct cache PHP extension.
-     *
-     * @param string $cache
-     *
-     * @return bool|string
-     */
-    public function checkCacheDriver($cache)
-    {
-        switch ($cache) {
-            case 'memcached':
-            case 'apc':
-                return $this->checkPhpExtension($cache);
-            case 'redis':
-                return $this->which('redis-server');
-            default:
-                return true;
-        }
+        return $extensions;
     }
 
     /**
@@ -153,7 +103,7 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
      *
      * @return bool
      */
-    public function checkPhpExtension($extension)
+    public function checkExtension($extension)
     {
         // Check for HHVM and built-in extensions
         if ($this->php()->isHhvm()) {
@@ -205,49 +155,5 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
         }
 
         return in_array($extension, $this->extensions, true);
-    }
-
-    /**
-     * Get the required extensions.
-     *
-     * @return array
-     */
-    protected function getExtensions()
-    {
-        $extensions = [
-            'database' => ['checkDatabaseDriver', $this->container->get(ContextualConfiguration::class)->get('database.default')],
-            'cache' => ['checkCacheDriver', $this->container->get(ContextualConfiguration::class)->get('cache.driver')],
-            'session' => ['checkCacheDriver', $this->container->get(ContextualConfiguration::class)->get('session.driver')],
-        ];
-
-        foreach ($this->getRequiredExtensionsFromComposer() as $extension) {
-            $extensions[$extension] = ['checkPhpExtension', $extension];
-        }
-
-        return $extensions;
-    }
-
-    /**
-     * Get a list of extensions specified in the composer.json file.
-     *
-     * @return string[]
-     */
-    private function getRequiredExtensionsFromComposer()
-    {
-        $extensions = [];
-
-        if (!$manifest = $this->getManager()->getManifestContents()) {
-            return $extensions;
-        }
-
-        $data = json_decode($manifest, true);
-        $require = (array) array_get($data, 'require');
-        foreach ($require as $package => $version) {
-            if (substr($package, 0, 4) === 'ext-') {
-                $extensions[] = substr($package, 4);
-            }
-        }
-
-        return $extensions;
     }
 }

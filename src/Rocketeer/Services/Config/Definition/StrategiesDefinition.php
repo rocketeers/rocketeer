@@ -36,7 +36,7 @@ class StrategiesDefinition extends AbstractDefinition
         return $node
             ->scalarNode('check')
                 ->info('Which strategy to use to check the server')
-                ->defaultValue('Php')
+                ->defaultValue('Polyglot')
             ->end()
             ->scalarNode('create-release')
                 ->info('Which strategy to use to create a new release and prepare its dependencies')

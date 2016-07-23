@@ -73,7 +73,26 @@ abstract class AbstractCheckStrategy extends AbstractStrategy
      */
     public function manager()
     {
-        return $this->getManager() && $this->getManager()->isExecutable();
+        $manager = $this->getManager();
+        if (!$manager) {
+            return true;
+        }
+
+        // Check if we have a manifest to go from
+        // Else assume we're not using it on this project
+        $managerName = $manager->getName();
+        $hasManifest = $manager->hasManifest();
+        if (!$hasManifest) {
+            return true;
+        }
+
+        // Check if the server has the package manager
+        $hasManager = $manager->isExecutable();
+        if (!$hasManager) {
+            $this->explainer->error($managerName.' is not present (or executable)');
+        }
+
+        return $hasManager && $hasManifest;
     }
 
     /**
@@ -97,8 +116,31 @@ abstract class AbstractCheckStrategy extends AbstractStrategy
         }
 
         $version = $this->getCurrentVersion();
+        $hasRequiredVersion = version_compare($version, $required, '>=');
+        if (!$hasRequiredVersion) {
+            $this->explainer->error(sprintf('%s is not at required version: %s instead of %s', $this->getLanguage(), $version, $required));
+        }
 
-        return version_compare($version, $required, '>=');
+        return $hasRequiredVersion;
+    }
+
+    /**
+     * Check for required extensions on the server.
+     *
+     * @return bool
+     */
+    public function extensions()
+    {
+        $extensions = $this->getRequiredExtensions();
+        $missing = array_filter($extensions, function ($extension) {
+            return !$this->checkExtension($extension);
+        });
+
+        if ($missing) {
+            $this->explainer->error('Extensions mission from server: '.implode(', ', $missing));
+        }
+
+        return count($missing) === 0;
     }
 
     //////////////////////////////////////////////////////////////////////
@@ -120,6 +162,28 @@ abstract class AbstractCheckStrategy extends AbstractStrategy
      * @return string
      */
     abstract protected function getCurrentVersion();
+
+    ////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////// EXTENSIONS //////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * @return string[]
+     */
+    protected function getRequiredExtensions()
+    {
+        return [];
+    }
+
+    /**
+     * @param string $extension
+     *
+     * @return bool
+     */
+    protected function checkExtension($extension)
+    {
+        return $extension;
+    }
 
     //////////////////////////////////////////////////////////////////////
     ////////////////////////////// HELPERS ///////////////////////////////

@@ -12,7 +12,6 @@
 
 namespace Rocketeer\Strategies\Check;
 
-use Rocketeer\Binaries\PackageManagers\Npm;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class NodeStrategyTest extends RocketeerTestCase
@@ -31,11 +30,10 @@ class NodeStrategyTest extends RocketeerTestCase
 
     public function testCanParseLanguageConstraint()
     {
-        /** @var Npm $manager */
-        $manager = $this->prophesize(Npm::class);
-        $manager->getBinary()->willReturn('npm');
-        $manager->getManifestContents()->willReturn(json_encode(['engines' => ['node' => '0.10.30']]));
-        $this->strategy->setManager($manager->reveal());
+        $this->config->set('strategies.check', 'Npm');
+        $this->usesNpm(true, null, [
+            'engines' => ['node' => '0.10.30'],
+        ]);
 
         $this->bindDummyConnection('0.8.0');
         $this->assertFalse($this->strategy->language());

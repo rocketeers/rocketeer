@@ -16,7 +16,6 @@ use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use Rocketeer\Container;
 use Rocketeer\Services\Builders\Builder;
-use Rocketeer\Services\Builders\Modules\StrategiesBuilder;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class PolyglotStrategyCheckTest extends RocketeerTestCase
@@ -30,34 +29,32 @@ class PolyglotStrategyCheckTest extends RocketeerTestCase
     {
         parent::setUp();
 
+        $this->usesBundler(true, null, "ruby '2.0.0'");
+        $this->usesNpm(true, null, [
+            'engines' => ['node' => '0.10.30'],
+        ]);
+        $this->usesComposer(true, null, [
+            'require' => ['php' => '>=5.6.0', 'ext-sqlite' => '*'],
+        ]);
+
+        $this->bindDummyConnection([
+            'node --version' => '6.1.1',
+            'ruby --version' => '2.1.1',
+            'php -r "print PHP_VERSION;"' => '7.1.1',
+            'php -m' => 'sqlite',
+        ]);
+
         $this->strategy = $this->builder->buildStrategy('Check', 'Polyglot');
     }
 
     public function testCanCheckLanguage()
     {
-        /** @var Builder $prophecy */
-        $prophecy = $this->prophesizeBuilder(StrategiesBuilder::class);
-        $prophecy->getProvided()->willReturn(['buildStrategy']);
-        $prophecy->buildStrategy('Check', 'Node')->willReturn($this->getDummyStrategy('Node', 'language', true));
-        $prophecy->buildStrategy('Check', 'Ruby')->willReturn($this->getDummyStrategy('Ruby', 'language', true));
-        $prophecy->buildStrategy('Check', 'Php')->willReturn($this->getDummyStrategy('Php', 'language', true));
-        $this->builder->register($prophecy->reveal());
-
-        $this->strategy->language();
+        $this->assertTrue($this->strategy->language());
     }
 
     public function testCanCheckMissingExtensions()
     {
-        /** @var Builder $prophecy */
-        $prophecy = $this->prophesizeBuilder(StrategiesBuilder::class);
-        $prophecy->getProvided()->willReturn(['buildStrategy']);
-        $prophecy->buildStrategy('Check', 'Node')->willReturn($this->getDummyStrategy('Node', 'extensions', ['Node']));
-        $prophecy->buildStrategy('Check', 'Ruby')->willReturn($this->getDummyStrategy('Ruby', 'extensions', ['Ruby']));
-        $prophecy->buildStrategy('Check', 'Php')->willReturn($this->getDummyStrategy('Php', 'extensions', ['Php']));
-        $this->builder->register($prophecy->reveal());
-
-        $extensions = $this->strategy->extensions();
-        $this->assertEquals(['Node', 'Php', 'Ruby'], $extensions);
+        $this->assertTrue($this->strategy->language());
     }
 
     /**

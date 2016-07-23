@@ -17,18 +17,23 @@ use Rocketeer\Strategies\AbstractPolyglotStrategy;
 class PolyglotStrategy extends AbstractPolyglotStrategy implements CheckStrategyInterface
 {
     /**
-     * The various strategies to call.
-     *
-     * @var array
-     */
-    protected $strategies = ['Node', 'Php', 'Ruby'];
-
-    /**
      * The type of the sub-strategies.
      *
      * @var string
      */
     protected $type = 'Check';
+
+    /**
+     * @var string
+     */
+    protected $description = 'Checks if the server is ready to receive an application of any language';
+
+    /**
+     * The various strategies to call.
+     *
+     * @var array
+     */
+    protected $strategies = ['Node', 'Php', 'Ruby'];
 
     /**
      * Check that the PM that'll install
@@ -38,9 +43,7 @@ class PolyglotStrategy extends AbstractPolyglotStrategy implements CheckStrategy
      */
     public function manager()
     {
-        $this->executeStrategiesMethod('manager');
-
-        return $this->passed();
+        return $this->checkStrategiesMethod('manager');
     }
 
     /**
@@ -51,9 +54,7 @@ class PolyglotStrategy extends AbstractPolyglotStrategy implements CheckStrategy
      */
     public function language()
     {
-        $this->executeStrategiesMethod('language');
-
-        return $this->passed();
+        return $this->checkStrategiesMethod('language');
     }
 
     /**
@@ -63,16 +64,6 @@ class PolyglotStrategy extends AbstractPolyglotStrategy implements CheckStrategy
      */
     public function extensions()
     {
-        return $this->gatherMissingFromMethod('extensions');
-    }
-
-    /**
-     * Check for the required drivers.
-     *
-     * @return array
-     */
-    public function drivers()
-    {
-        return $this->gatherMissingFromMethod('drivers');
+        return $this->checkStrategiesMethod('extensions');
     }
 }

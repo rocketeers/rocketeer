@@ -17,16 +17,16 @@ use Rocketeer\Strategies\AbstractPolyglotStrategy;
 class PolyglotStrategy extends AbstractPolyglotStrategy implements DependenciesStrategyInterface
 {
     /**
-     * @var string
-     */
-    protected $description = 'Runs all of the above package managers if necessary';
-
-    /**
      * The type of the sub-strategies.
      *
      * @var string
      */
     protected $type = 'Dependencies';
+
+    /**
+     * @var string
+     */
+    protected $description = 'Runs all of the above package managers if necessary';
 
     /**
      * The various strategies to call.

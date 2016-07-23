@@ -12,8 +12,6 @@
 
 namespace Rocketeer\Tasks;
 
-use Rocketeer\Strategies\Check\AbstractCheckStrategy;
-
 /**
  * Check if the server is ready to receive the application.
  *
@@ -36,37 +34,20 @@ class Check extends AbstractTask
     public $usesStages = false;
 
     /**
-     * The checks that failed.
-     *
-     * @var array
-     */
-    protected $errors = [];
-
-    /**
      * {@inheritdoc}
      */
     public function execute()
     {
-        $this->errors = [];
         $this->steps()->checkScm();
-
-        // Execute strategy checks
-        /** @var AbstractCheckStrategy $check */
-        $check = $this->getStrategy('Check');
-        if ($check) {
-            $this->steps()->checkLanguages($check);
-            $this->steps()->checkPackageManagers($check);
-            $this->steps()->checkExtensions($check, 'extensions');
-            $this->steps()->checkExtensions($check, 'drivers');
-        }
-
-        // Return false if any error
+        $this->steps()->checkManagerMethod('language', 'Checking presence of language');
+        $this->steps()->checkManagerMethod('manager', 'Checking presence of package manager');
+        $this->steps()->checkManagerMethod('extensions', 'Checking presence of required extensions');
         if (!$this->runSteps()) {
-            return $this->halt(implode(PHP_EOL, $this->errors));
+            return $this->halt('Server is not ready to receive application');
         }
 
         // Display confirmation message
-        return $this->explainer->line('Your server is ready to deploy');
+        return $this->explainer->success('Your server is ready to deploy');
     }
 
     ////////////////////////////////////////////////////////////////////
@@ -81,7 +62,7 @@ class Check extends AbstractTask
     public function checkScm()
     {
         // Cancel if not using any SCM
-        if ($this->config->getContextually('strategies.deploy') === 'sync') {
+        if (strtolower($this->config->getContextually('strategies.create-release')) !== 'clone') {
             return true;
         }
 
@@ -89,84 +70,24 @@ class Check extends AbstractTask
         $results = $this->scm->run('check');
         $this->toOutput($results);
 
-        return $this->executeCheck(
-            $this->getConnection()->status() === 0,
-            $this->scm->getBinary().' could not be found'
-        );
-    }
-
-    /**
-     * @param AbstractCheckStrategy $check
-     *
-     * @return bool
-     */
-    protected function checkPackageManagers(AbstractCheckStrategy $check)
-    {
-        $manager = $check->getManager();
-        $managerName = str_replace('Strategy', null, $manager->getName());
-        $this->explainer->line('Checking presence of '.$managerName);
-
-        $message = $manager->hasManifest()
-            ? sprintf('The %s package manager could not be found', $managerName)
-            : sprintf('No manifest (%s) was found for %s', $manager->getManifest(), $managerName);
-
-        return $this->executeCheck(
-            $check->manager(),
-            $message
-        );
-    }
-
-    /**
-     * @param AbstractCheckStrategy $check
-     *
-     * @return bool
-     */
-    protected function checkLanguages(AbstractCheckStrategy $check)
-    {
-        $language = $check->getLanguage();
-        $this->explainer->line('Checking '.$language.' version');
-
-        return $this->executeCheck(
-            $check->language(),
-            $language.' is not at the required version'
-        );
-    }
-
-    /**
-     * @param AbstractCheckStrategy $check
-     * @param string                $type
-     *
-     * @return bool
-     */
-    protected function checkExtensions(AbstractCheckStrategy $check, $type)
-    {
-        $this->explainer->line('Checking presence of required '.$type);
-        $entries = $check->$type();
-
-        return $this->executeCheck(
-            empty($entries),
-            'The following '.$type.' could not be found: '.implode(', ', $entries)
-        );
-    }
-
-    //////////////////////////////////////////////////////////////////////
-    /////////////////////////////// HEPERS ///////////////////////////////
-    //////////////////////////////////////////////////////////////////////
-
-    /**
-     * Execute a check and log the error if not.
-     *
-     * @param bool   $condition
-     * @param string $error
-     *
-     * @return bool
-     */
-    protected function executeCheck($condition, $error)
-    {
-        if (!$condition) {
-            $this->errors[] = $error;
+        $isPresent = $this->status();
+        if (!$isPresent) {
+            $this->explainer->error($this->scm->getBinary().' could not be found');
         }
 
-        return (bool) $condition;
+        return $isPresent;
+    }
+
+    /**
+     * @param string $method
+     * @param string $message
+     *
+     * @return bool
+     */
+    protected function checkManagerMethod($method, $message)
+    {
+        $this->explainer->line($message);
+
+        return $this->executeStrategyMethod('Check', $method);
     }
 }
