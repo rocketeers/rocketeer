@@ -12,6 +12,8 @@
 
 namespace Rocketeer\Console\Commands;
 
+use Symfony\Component\Console\Input\InputArgument;
+
 /**
  * Lists the available options for each strategy.
  *
@@ -47,6 +49,12 @@ class StrategiesCommand extends AbstractCommand
             'dependencies' => ['Composer', 'Bundler', 'Npm', 'Bower', 'Polyglot'],
         ];
 
+        // Return a single task if needed
+        $task = strtolower($this->argument('task'));
+        if ($task && isset($strategies[$task])) {
+            $strategies = [$task => $strategies[$task]];
+        }
+
         $rows = [];
         foreach ($strategies as $strategy => $implementations) {
             foreach ($implementations as $implementation) {
@@ -58,5 +66,15 @@ class StrategiesCommand extends AbstractCommand
         }
 
         $this->table(['Strategy', 'Implementation', 'Description'], $rows);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getArguments()
+    {
+        return array_merge(parent::getArguments(), [
+            ['task', InputArgument::OPTIONAL, 'The task to check strategies for'],
+        ]);
     }
 }
