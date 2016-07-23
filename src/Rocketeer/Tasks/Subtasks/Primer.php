@@ -48,17 +48,6 @@ class Primer extends AbstractTask
      */
     public function execute()
     {
-        $tasks = $this->getHookedTasks('primer', [$this]);
-        if (!$tasks) {
-            return true;
-        }
-
-        $this->run($tasks);
-        $status = $this->status();
-        if (!$status) {
-            $this->explainer->error('Project is not ready for deploy. You were almost fired.');
-        }
-
-        return $status;
+        return true;
     }
 }

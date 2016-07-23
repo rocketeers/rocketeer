@@ -31,7 +31,7 @@ class RollingStrategy extends AbstractStrategy implements DeployStrategyInterfac
         }
 
         // Check if server is ready for deployment
-        $this->setupIfNecessary();
+        $this->steps()->setupIfNecessary();
         $this->steps()->executeTask('CreateRelease');
         $this->steps()->executeTask('PrepareRelease');
 
