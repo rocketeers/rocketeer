@@ -142,7 +142,7 @@ class QueueExplainer
     {
         $message = sprintf('<comment>[%s]</comment> %s', $this->connections->getCurrentConnectionKey()->toLongHandle(), $message);
 
-        return $this->line($message, null, false);
+        return $this->line($message, null);
     }
 
     /**
