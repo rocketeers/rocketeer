@@ -31,7 +31,7 @@ class RepositoriesKeychain extends AbstractModule
     public function getCurrentRepository()
     {
         $credentials = $this->getRepositoryCredentials();
-        $credentials['endpoint'] = $this->getRepositoryEndpoint();
+        $credentials['repository'] = $this->getRepositoryEndpoint();
         $credentials['branch'] = $this->getRepositoryBranch();
 
         return new RepositoryKey($credentials);

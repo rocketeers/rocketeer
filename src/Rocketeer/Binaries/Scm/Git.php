@@ -85,7 +85,7 @@ class Git extends AbstractBinary implements ScmInterface
     {
         $repository = $this->credentials->getCurrentRepository();
         $arguments = array_map([$this, 'quote'], [
-            $repository->endpoint,
+            $repository->repository,
             $destination,
         ]);
 

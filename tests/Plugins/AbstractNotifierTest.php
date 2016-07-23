@@ -66,7 +66,7 @@ class AbstractNotifierTest extends RocketeerTestCase
 
         $prophecy = $this->bindProphecy(CredentialsHandler::class);
         $prophecy->getCurrentRepository()->willReturn(new RepositoryKey([
-            'endpoint' => 'rocketeers/rocketeer',
+            'repository' => 'rocketeers/rocketeer',
             'branch' => 'master',
         ]));
 

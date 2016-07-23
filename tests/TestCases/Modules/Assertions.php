@@ -96,7 +96,7 @@ trait Assertions
      */
     protected function assertRepositoryEquals($repository)
     {
-        $this->assertEquals($repository, $this->credentials->getCurrentRepository()->endpoint);
+        $this->assertEquals($repository, $this->credentials->getCurrentRepository()->repository);
     }
 
     /**

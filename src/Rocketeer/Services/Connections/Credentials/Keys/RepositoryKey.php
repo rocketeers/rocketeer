@@ -33,7 +33,7 @@ class RepositoryKey extends AbstractKey
      */
     public function needsCredentials()
     {
-        return Str::contains($this->endpoint, 'https://');
+        return Str::contains($this->repository, 'https://');
     }
 
     /**
@@ -43,7 +43,7 @@ class RepositoryKey extends AbstractKey
      */
     public function getName()
     {
-        $repository = $this->endpoint;
+        $repository = $this->repository;
         $repository = preg_replace('#https?://(.+)\.com/(.+)/([^.]+)(\..+)?#', '$2/$3', $repository);
 
         return $repository;

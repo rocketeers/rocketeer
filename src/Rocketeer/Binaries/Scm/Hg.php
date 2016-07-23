@@ -78,7 +78,7 @@ class Hg extends AbstractBinary implements ScmInterface
         $repository = $this->credentials->getCurrentRepository();
 
         $arguments = [
-            $this->quote($repository->endpoint),
+            $this->quote($repository->repository),
             '-b '.$repository->branch,
             $this->quote($destination),
         ];
