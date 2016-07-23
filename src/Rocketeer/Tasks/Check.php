@@ -39,9 +39,12 @@ class Check extends AbstractTask
     public function execute()
     {
         $this->steps()->checkScm();
-        $this->steps()->checkManagerMethod('language', 'Checking presence of language');
-        $this->steps()->checkManagerMethod('manager', 'Checking presence of package manager');
-        $this->steps()->checkManagerMethod('extensions', 'Checking presence of required extensions');
+        if ($this->getStrategy('Check')) {
+            $this->steps()->checkManagerMethod('language', 'Checking presence of language');
+            $this->steps()->checkManagerMethod('manager', 'Checking presence of package manager');
+            $this->steps()->checkManagerMethod('extensions', 'Checking presence of required extensions');
+        }
+
         if (!$this->runSteps()) {
             return $this->halt('Server is not ready to receive application');
         }
