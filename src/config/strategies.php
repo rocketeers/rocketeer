@@ -17,7 +17,7 @@ return [
     'strategies' => [
 
         // Which strategy to use to check the server
-        'check' => 'Php',
+        'check' => 'Polyglot',
 
         // Which strategy to use to create a new release and prepare its dependencies
         'create-release' => 'Clone',
@@ -33,14 +33,6 @@ return [
 
         // Which strategy to use to install your application's dependencies
         'dependencies' => 'Polyglot',
-
-        // Here you can configure the Primer tasks which will run a set of commands on the local machine, determining whether the deploy can proceed or not
-        'primer' => function (\Rocketeer\Tasks\Subtasks\Primer $task) {
-            return [
-                // $task->executeTask('Test'),
-                // $task->binary('grunt')->execute('lint'),
-            ];
-        },
     ],
 
 ];

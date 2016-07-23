@@ -15,13 +15,23 @@ return [
     //////////////////////////////////////////////////////////////////////
 
     'hooks' => [
-        'before' => [
-            // 'name' => null,
+        'events' => [
+            'before' => [
+                // Here you can configure the Primer tasks which will run a set of commands on the local machine, determining whether the deploy can proceed or not
+                'primer' => function (\Rocketeer\Tasks\Subtasks\Primer $task) {
+                    return [
+                // $task->executeTask('Test'),
+                // $task->binary('grunt')->execute('lint'),
+            ];
+                },
+            ],
+            'after' => [
+                // 'name' => null,
+            ],
         ],
-        'after' => [
-            // 'name' => null,
-        ],
-        'custom' => [
+
+        // Here you can quickly add custom tasks to Rocketeer, as well as to its CLI
+        'tasks' => [
             // 'name' => null,
         ],
 
