@@ -17,6 +17,7 @@ use Illuminate\Support\Str;
 use Rocketeer\Services\Builders\TaskCompositionException;
 use Rocketeer\Tasks\AbstractTask;
 use Rocketeer\Tasks\Closure as ClosureTask;
+use SuperClosure\SerializableClosure;
 
 /**
  * Handles creating tasks from strings, closures, AbstractTask children, etc.
@@ -97,7 +98,7 @@ class TasksBuilder extends AbstractBuilderModule
         }
 
         // If we provided a Closure, build a Closure Task
-        if ($task instanceof Closure) {
+        if ($task instanceof Closure || $task instanceof SerializableClosure) {
             return $this->buildTaskFromClosure($task);
         }
 
@@ -134,12 +135,12 @@ class TasksBuilder extends AbstractBuilderModule
     /**
      * Build a task from a Closure or a string command.
      *
-     * @param Closure     $callback
-     * @param string|null $stringTask
+     * @param SerializableClosure|Closure $callback
+     * @param string|null                 $stringTask
      *
      * @return \Rocketeer\Tasks\AbstractTask
      */
-    public function buildTaskFromClosure(Closure $callback, $stringTask = null)
+    public function buildTaskFromClosure($callback, $stringTask = null)
     {
         /** @var ClosureTask $task */
         $task = $this->buildTaskFromClass(ClosureTask::class);
@@ -263,7 +264,7 @@ class TasksBuilder extends AbstractBuilderModule
             return count($task) === 2 && ($this->container->has($task[0]) || is_callable($task));
         }
 
-        return is_callable($task) && !$task instanceof Closure;
+        return is_callable($task) && !$task instanceof Closure && !$task instanceof SerializableClosure;
     }
 
     /**

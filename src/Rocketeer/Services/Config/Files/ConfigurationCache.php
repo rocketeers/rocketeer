@@ -12,6 +12,8 @@
 
 namespace Rocketeer\Services\Config\Files;
 
+use Closure;
+use SuperClosure\SerializableClosure;
 use Symfony\Component\Config\ConfigCache;
 use Symfony\Component\Config\Resource\ResourceInterface;
 
@@ -27,6 +29,12 @@ class ConfigurationCache extends ConfigCache
      */
     public function write($content, array $metadata = null)
     {
+        array_walk_recursive($content, function (&$value) {
+            if ($value instanceof Closure) {
+                $value = new SerializableClosure($value);
+            }
+        });
+
         parent::write(serialize($content), $metadata);
     }
 
