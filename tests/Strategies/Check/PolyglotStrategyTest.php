@@ -38,9 +38,11 @@ class PolyglotStrategyTest extends RocketeerTestCase
         ]);
 
         $this->bindDummyConnection([
+            'which php' => 'php',
+            'which ruby' => 'ruby',
+            'which node' => 'node',
             'node --version' => '6.1.1',
             'ruby --version' => '2.1.1',
-            'which php' => 'php',
             'php -r "print defined(\'HHVM_VERSION\');"' => false,
             'php -r "print PHP_VERSION;"' => '7.1.1',
             'php -m' => 'sqlite',
