@@ -82,60 +82,70 @@ class ConnectionsDefinition extends AbstractDefinition
      */
     protected function getConnectionsNodes(NodeBuilder $node)
     {
-        $node = $node->arrayNode('connections')
-            ->children();
+        $node = $node->arrayNode('connections');
 
-        $connections = $this->value('config.connections');
+        $connections = (array) $this->value('config.connections');
         if (!$connections) {
-            $connections = [
-                'production' => [],
-            ];
+            $node = $node->useAttributeAsKey('name')->prototype('array');
+            $node = $this->getConnectionNode($node, new Fluent());
+            $node = $node->end();
+        } else {
+            $node = $node->children();
+            foreach ($connections as $name => $connection) {
+                $node = $node->arrayNode($name);
+                $node = $this->getConnectionNode($node, new Fluent($connection));
+                $node = $node->end();
+            }
+            $node = $node->end();
         }
 
-        foreach ($connections as $name => $connection) {
-            $connection = new Fluent($connection);
+        return $node->end();
+    }
 
-            $node = $node
-                ->arrayNode($name)
-                    ->beforeNormalization()
-                        ->always(function ($servers) {
-                            return $this->unifyServerDeclarations($servers);
-                        })
-                    ->end()
-                    ->children()
-                        ->arrayNode('servers')
-                            ->prototype('array')
-                                ->children()
-                                    ->scalarNode('host')->defaultValue($connection->host)->end()
-                                    ->scalarNode('username')->defaultValue($connection->username)->end()
-                                    ->scalarNode('password')->defaultValue($connection->password)->end()
-                                    ->scalarNode('key')->defaultValue($connection->key)->end()
-                                    ->scalarNode('keyphrase')->defaultValue($connection->keyphrase)->end()
-                                    ->booleanNode('agent')->defaultTrue()->end()
-                                    ->scalarNode('root_directory')
-                                        ->info("The root directory where your applications will be deployed.\nThis path needs to start at the root, ie. start with a /")
-                                        ->defaultValue($connection['root'])
-                                    ->end()
-                                    ->arrayNode('roles')
-                                        ->info('The roles this server has, set to null if you do not use roles on your project')
-                                        ->defaultValue(['web', 'db'])
-                                        ->prototype('scalar')->end()
-                                    ->end()
-                                    ->arrayNode('config')
-                                        ->info('Options overrides for this server')
-                                        ->useAttributeAsKey('name')
-                                        ->prototype('array')
-                                            ->prototype('variable')->end()
-                                        ->end()
-                                    ->end()
+    /**
+     * @param             $node
+     * @param Fluent|null $connection
+     *
+     * @return mixed
+     */
+    protected function getConnectionNode($node, Fluent $connection)
+    {
+         return $node
+            ->beforeNormalization()
+                ->always(function ($servers) {
+                    return $this->unifyServerDeclarations($servers);
+                })
+            ->end()
+            ->children()
+                ->arrayNode('servers')
+                    ->prototype('array')
+                        ->children()
+                            ->scalarNode('host')->defaultValue($connection->host)->end()
+                            ->scalarNode('username')->defaultValue($connection->username)->end()
+                            ->scalarNode('password')->defaultValue($connection->password)->end()
+                            ->scalarNode('key')->defaultValue($connection->key)->end()
+                            ->scalarNode('keyphrase')->defaultValue($connection->keyphrase)->end()
+                            ->booleanNode('agent')->defaultTrue()->end()
+                            ->scalarNode('root_directory')
+                                ->info("The root directory where your applications will be deployed.\nThis path needs to start at the root, ie. start with a /")
+                                ->defaultValue($connection['root'])
+                            ->end()
+                            ->arrayNode('roles')
+                                ->info('The roles this server has, set to null if you do not use roles on your project')
+                                ->defaultValue(['web', 'db'])
+                                ->prototype('scalar')->end()
+                            ->end()
+                            ->arrayNode('config')
+                                ->info('Options overrides for this server')
+                                ->useAttributeAsKey('name')
+                                ->prototype('array')
+                                    ->prototype('variable')->end()
                                 ->end()
                             ->end()
                         ->end()
                     ->end()
-                ->end();
-        }
-
-        return $node->end()->end();
+                ->end()
+            ->end();
     }
 
     /**
