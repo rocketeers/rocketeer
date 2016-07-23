@@ -51,7 +51,8 @@ class ServerPathfinder extends AbstractPathfinderModule
     {
         $folder = $this->modulable->replacePatterns($folder);
 
-        $base = $this->getHomeFolder().'/';
+        $base = $this->connections->is('local') ? getcwd() : $this->getHomeFolder();
+        $base = $base.'/';
         $stage = $this->connections->getCurrentConnectionKey()->stage;
         if ($folder && $stage) {
             $base .= $stage.'/';
