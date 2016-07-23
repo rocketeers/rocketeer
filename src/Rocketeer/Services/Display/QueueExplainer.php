@@ -32,6 +32,11 @@ class QueueExplainer
     public $level = 0;
 
     /**
+     * @var int
+     */
+    protected $padding = 2;
+
+    /**
      * Length of the longest handle to display.
      *
      * @var int
@@ -77,7 +82,7 @@ class QueueExplainer
         }
 
         // Build handle
-        $comment = $this->getTree();
+        $comment = $this->getTree().$this->getFork();
 
         // Add details
         if ($info) {
@@ -117,7 +122,7 @@ class QueueExplainer
 
         // Format the message
         $formatted = $this->colorize($message, $color);
-        $formatted = $withTree ? $this->getTree('==').'=> '.$formatted : $formatted;
+        $formatted = $withTree ? $this->getTree().'|'.str_repeat(' ', $this->padding).$this->getFork().' '.$formatted : $formatted;
 
         // Pass to command and log
         $this->command->writeln($formatted);
@@ -220,9 +225,10 @@ class QueueExplainer
      *
      * @return string
      */
-    protected function getTree($dashes = '--')
+    protected function getTree($dashes = null)
     {
         // Build handle
+        $dashes = $dashes ?: '│'.str_repeat(' ', $this->padding);
         $numberConnections = count($this->connections->getAvailableConnections());
         $numberStages = count($this->connections->getAvailableStages());
         $numberServers = count($this->connections->getCurrentConnectionKey()->servers);
@@ -240,9 +246,17 @@ class QueueExplainer
 
         // Add tree
         $dashes = $this->level ? str_repeat($dashes, $this->level) : null;
-        $tree .= '|'.$dashes;
+        $tree .= $dashes;
 
         return $tree;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getFork()
+    {
+        return '├'.str_repeat('─', $this->padding - 1);
     }
 
     /**

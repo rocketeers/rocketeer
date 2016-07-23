@@ -29,7 +29,7 @@ class QueueExplainerTest extends RocketeerTestCase
             'production' => [],
         ]);
 
-        $this->expectOutputString('|=> foobar');
+        $this->expectOutputString('|  ├─ foobar');
 
         $this->explainer->line('foobar');
     }
@@ -41,7 +41,7 @@ class QueueExplainerTest extends RocketeerTestCase
         ]);
         $this->config->set('stages.stages', ['staging']);
 
-        $this->expectOutputString('|=> foobar');
+        $this->expectOutputString('|  ├─ foobar');
 
         $this->explainer->line('foobar');
     }
@@ -53,7 +53,7 @@ class QueueExplainerTest extends RocketeerTestCase
         ]);
         $this->config->set('stages.stages', ['staging', 'production']);
 
-        $this->expectOutputString('<fg=cyan>production</fg=cyan>             |=> foobar');
+        $this->expectOutputString('<fg=cyan>production</fg=cyan>             |  ├─ foobar');
 
         $this->explainer->line('foobar');
     }
@@ -69,28 +69,28 @@ class QueueExplainerTest extends RocketeerTestCase
             ],
         ]);
 
-        $this->expectOutputString('<fg=cyan>production/foo.com</fg=cyan> |=> foobar');
+        $this->expectOutputString('<fg=cyan>production/foo.com</fg=cyan> |  ├─ foobar');
 
         $this->explainer->line('foobar');
     }
 
     public function testCanDisplayBasicMessage()
     {
-        $this->expectOutputString('<fg=cyan>production</fg=cyan> |=> foobar');
+        $this->expectOutputString('<fg=cyan>production</fg=cyan> |  ├─ foobar');
 
         $this->explainer->line('foobar');
     }
 
     public function testCanDisplaySuccessMessage()
     {
-        $this->expectOutputString('<fg=cyan>production</fg=cyan> |=> <fg=green>foobar</fg=green>');
+        $this->expectOutputString('<fg=cyan>production</fg=cyan> |  ├─ <fg=green>foobar</fg=green>');
 
         $this->explainer->success('foobar');
     }
 
     public function testCanDisplayErrors()
     {
-        $this->expectOutputString('<fg=cyan>production</fg=cyan> |=> <error>foobar</error>');
+        $this->expectOutputString('<fg=cyan>production</fg=cyan> |  ├─ <error>foobar</error>');
 
         $this->explainer->error('foobar');
     }
@@ -98,9 +98,9 @@ class QueueExplainerTest extends RocketeerTestCase
     public function testCanDisplayThingsInSubsection()
     {
         $this->expectOutputString(
-            '<fg=cyan>production</fg=cyan> |=> foo'.
-            '<fg=cyan>production</fg=cyan> |===> bar'.
-            '<fg=cyan>production</fg=cyan> |=> foo'
+            '<fg=cyan>production</fg=cyan> |  ├─ foo'.
+            '<fg=cyan>production</fg=cyan> │  |  ├─ bar'.
+            '<fg=cyan>production</fg=cyan> |  ├─ foo'
         );
 
         $this->explainer->line('foo');
@@ -113,7 +113,7 @@ class QueueExplainerTest extends RocketeerTestCase
     public function testCanDisplayStatus()
     {
         $this->expectOutputString(
-            '<fg=cyan>production</fg=cyan> | '.
+            '<fg=cyan>production</fg=cyan> ├─ '.
             '<info>foobar</info> <comment>(Foobar)</comment> fired by <info>Foo</info> [~0.5s]'
         );
 
@@ -125,8 +125,8 @@ class QueueExplainerTest extends RocketeerTestCase
         $this->config->set('stages.stages', ['foo', 'foobarbaz']);
 
         $this->expectOutputString(
-            '<fg=cyan>production/foo</fg=cyan>        |=> foobar'.
-            '<fg=cyan>production/foobarbaz</fg=cyan>  |=> foobar'
+            '<fg=cyan>production/foo</fg=cyan>        |  ├─ foobar'.
+            '<fg=cyan>production/foobarbaz</fg=cyan>  |  ├─ foobar'
         );
 
         $this->connections->setStage('foo');
