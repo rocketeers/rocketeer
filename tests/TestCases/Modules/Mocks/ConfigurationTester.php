@@ -80,20 +80,22 @@ trait ConfigurationTester
             ],
             'strategies.dependencies' => 'Composer',
             'hooks' => [
-                'custom' => [MyCustomTask::class],
-                'before' => [
-                    'deploy' => [
-                        'before',
-                        'foobar',
+                'tasks' => [MyCustomTask::class],
+                'events' => [
+                    'before' => [
+                        'deploy' => [
+                            'before',
+                            'foobar',
+                        ],
                     ],
-                ],
-                'after' => [
-                    'check' => [
-                        MyCustomTask::class,
-                    ],
-                    'deploy' => [
-                        'after',
-                        'foobar',
+                    'after' => [
+                        'check' => [
+                            MyCustomTask::class,
+                        ],
+                        'deploy' => [
+                            'after',
+                            'foobar',
+                        ],
                     ],
                 ],
             ],

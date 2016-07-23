@@ -12,6 +12,7 @@
 
 namespace Rocketeer\Services\Config;
 
+use Rocketeer\Services\Config\Files\ConfigurationCache;
 use Rocketeer\TestCases\RocketeerTestCase;
 use Symfony\Component\Config\Definition\Processor;
 
@@ -133,18 +134,20 @@ class ConfigurationDefinitionTest extends RocketeerTestCase
     {
         $configuration = $this->processConfiguration([
             'hooks' => [
-                'before' => [
-                    'deploy' => 'echo "foobar"',
-                    'foo' => ['bar'],
-                    'baz' => function ($task) {
-                        $task->run('qux');
-                    },
+                'events' => [
+                    'before' => [
+                        'deploy' => 'echo "foobar"',
+                        'foo' => ['bar'],
+                        'baz' => function ($task) {
+                            $task->run('qux');
+                        },
+                    ],
                 ],
             ],
         ]);
 
-        $this->assertArrayHasKey('deploy', $configuration['hooks']['before']);
-        $this->assertEquals('echo "foobar"', $configuration['hooks']['before']['deploy']);
+        $this->assertArrayHasKey('deploy', $configuration['hooks']['events']['before']);
+        $this->assertEquals('echo "foobar"', $configuration['hooks']['events']['before']['deploy']);
     }
 
     /**
@@ -156,10 +159,18 @@ class ConfigurationDefinitionTest extends RocketeerTestCase
     {
         array_unshift($config, [
             'hooks' => [
-                'before' => [],
+                'events' => [
+                    'before' => [],
+                ],
             ],
         ]);
 
-        return $this->processor->processConfiguration(new ConfigurationDefinition(), $config);
+        $processed = $this->processor->processConfiguration(new ConfigurationDefinition(), $config);
+
+        /** @var ConfigurationCache $cache */
+        $cache = $this->container->get(ConfigurationCache::class);
+        $cache->write($processed);
+
+        return $processed;
     }
 }

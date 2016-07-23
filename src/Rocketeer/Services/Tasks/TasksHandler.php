@@ -174,7 +174,7 @@ class TasksHandler
         $hooks = (array) $this->config->getContextually('hooks');
         $tasks = isset($hooks['tasks']) ? (array) $hooks['tasks'] : [];
         $roles = isset($hooks['roles']) ? (array) $hooks['roles'] : [];
-        unset($hooks['tasks'], $hooks['roles']);
+        $events = isset($hooks['events']) ? (array) $hooks['events'] : [];
 
         // Bind tasks
         foreach ($tasks as $name => $task) {
@@ -182,7 +182,7 @@ class TasksHandler
         }
 
         // Bind events
-        foreach ($hooks as $event => $tasks) {
+        foreach ($events as $event => $tasks) {
             foreach ($tasks as $task => $listeners) {
                 $this->addTaskListeners($task, $event, $listeners, 0, true);
             }

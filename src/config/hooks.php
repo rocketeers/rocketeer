@@ -17,13 +17,7 @@ return [
     'hooks' => [
         'events' => [
             'before' => [
-                // Here you can configure the Primer tasks which will run a set of commands on the local machine, determining whether the deploy can proceed or not
-                'primer' => function (\Rocketeer\Tasks\Subtasks\Primer $task) {
-                    return [
-                // $task->executeTask('Test'),
-                // $task->binary('grunt')->execute('lint'),
-            ];
-                },
+                // 'name' => null,
             ],
             'after' => [
                 // 'name' => null,

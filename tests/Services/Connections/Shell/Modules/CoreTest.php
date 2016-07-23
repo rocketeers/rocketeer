@@ -106,7 +106,7 @@ class CoreTest extends RocketeerTestCase
 
     public function testShowsRawCommandsIfVerboseEnough()
     {
-        $this->expectOutputString('<fg=magenta>$ ls</fg=magenta>');
+        $this->expectOutputRegex('/<fg=magenta>\$ ls<\/fg=magenta>/');
 
         $prophecy = $this->mockEchoingCommand();
         $prophecy->getVerbosity()->willReturn(OutputInterface::VERBOSITY_VERY_VERBOSE);

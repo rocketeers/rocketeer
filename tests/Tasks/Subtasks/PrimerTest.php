@@ -18,10 +18,10 @@ class PrimerTest extends RocketeerTestCase
 {
     public function testCanExecutePrimerTasks()
     {
-        $this->swapConfig([
+        $this->swapConfigWithEvents([
             'default' => 'production',
-            'strategies.primer' => function () {
-                return 'ls';
+            'hooks.tasks.primer' => function ($task) {
+                return $task->run('ls');
             },
         ]);
 
@@ -33,8 +33,8 @@ class PrimerTest extends RocketeerTestCase
         $this->rocketeer->setLocal(true);
         $this->expectOutputString('FIRED');
 
-        $this->swapConfig([
-            'strategies.primer' => function () {
+        $this->swapConfigWithEvents([
+            'hooks.tasks.primer' => function () {
                 echo 'FIRED';
             },
         ]);

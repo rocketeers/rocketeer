@@ -12,7 +12,7 @@
 
 namespace Rocketeer\Services\Builders\Modules;
 
-use Rocketeer\Strategies\Check\PhpStrategy;
+use Rocketeer\Strategies\Check\PolyglotStrategy;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class StrategiesBuilderTest extends RocketeerTestCase
@@ -20,7 +20,7 @@ class StrategiesBuilderTest extends RocketeerTestCase
     public function testReturnsNullOnUnbuildableStrategy()
     {
         $built = $this->builder->buildStrategy('Check', '');
-        $this->assertInstanceOf(PhpStrategy::class, $built);
+        $this->assertInstanceOf(PolyglotStrategy::class, $built);
 
         $built = $this->builder->buildStrategy('sdffs', '');
         $this->assertNull($built);

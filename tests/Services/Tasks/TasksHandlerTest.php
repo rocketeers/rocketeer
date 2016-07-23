@@ -17,7 +17,7 @@ use Rocketeer\Dummies\DummyNotifier;
 use Rocketeer\Dummies\Plugins\DummyBuilderPlugin;
 use Rocketeer\Dummies\Tasks\CallableTask;
 use Rocketeer\Dummies\Tasks\MyCustomTask;
-use Rocketeer\Strategies\Check\PhpStrategy;
+use Rocketeer\Strategies\Check\PolyglotStrategy;
 use Rocketeer\Strategies\Check\RubyStrategy;
 use Rocketeer\Tasks\AbstractTask;
 use Rocketeer\Tasks\Check;
@@ -138,7 +138,7 @@ class TasksHandlerTest extends RocketeerTestCase
     {
         $this->swapConfig([
             'stages.stages' => ['hasEvent', 'noEvent'],
-            'on.stages.hasEvent.hooks' => ['before' => ['check' => 'ls']],
+            'on.stages.hasEvent.hooks.events' => ['before' => ['check' => 'ls']],
         ]);
 
         $this->connections->setStage('hasEvent');
@@ -152,7 +152,7 @@ class TasksHandlerTest extends RocketeerTestCase
     {
         $tasks = ['ls'];
         $this->swapConfig([
-            'hooks' => ['after' => ['create-release' => $tasks]],
+            'hooks.events' => ['after' => ['create-release' => $tasks]],
         ]);
 
         $this->tasks->registerConfiguredEvents();
@@ -170,8 +170,8 @@ class TasksHandlerTest extends RocketeerTestCase
 
         $this->swapConfig([
             'default' => 'production',
-            'hooks' => [],
-            'on.connections.staging.hooks' => ['after' => ['deploy' => $tasks]],
+            'hooks.events' => [],
+            'on.connections.staging.hooks.events' => ['after' => ['deploy' => $tasks]],
         ]);
         $this->tasks->registerConfiguredEvents();
 
@@ -188,7 +188,7 @@ class TasksHandlerTest extends RocketeerTestCase
     public function testPluginsArentDeregisteredWhenSwitchingConnection()
     {
         $this->swapConfigWithEvents([
-            'hooks' => ['before' => ['deploy' => 'ls']],
+            'hooks.events' => ['before' => ['deploy' => 'ls']],
         ]);
 
         $this->container->addServiceProvider(new DummyNotifier($this->container));
@@ -241,10 +241,10 @@ class TasksHandlerTest extends RocketeerTestCase
         $this->tasks->configureStrategy('Check', ['foo' => 'bar']);
         $this->tasks->configureStrategy(['Check', 'Ruby'], ['baz' => 'qux']);
 
-        $php = $this->builder->buildStrategy('Check', 'Php');
+        $php = $this->builder->buildStrategy('Check', 'Polyglot');
         $ruby = $this->builder->buildStrategy('Check', 'Ruby');
 
-        $this->assertInstanceOf(PhpStrategy::class, $php);
+        $this->assertInstanceOf(PolyglotStrategy::class, $php);
         $this->assertInstanceOf(RubyStrategy::class, $ruby);
 
         $this->assertEquals(['foo' => 'bar'], $php->getOptions());
