@@ -132,7 +132,7 @@ class ConnectionKey extends AbstractKey
      */
     public function isFtp()
     {
-        return strpos($this->host, 'ftp') !== false;
+        return strpos($this->host, 'ftp.') === 0;
     }
 
     /**

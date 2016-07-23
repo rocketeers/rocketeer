@@ -127,10 +127,13 @@ class CredentialsGatherer
      */
     protected function askQuestions($for, array $questions)
     {
+        $key = $for === 'scm' ? new RepositoryKey() : new ConnectionKey(['server' => 0]);
         $credentials = [];
         $config = [];
+
         foreach ($questions as $credential => $question) {
             $answer = $this->askQuestion($for, $credential, $question);
+            $key->$credential = $answer;
 
             // Store credential
             $constant = $this->getCredentialConstant($for, $credential);
@@ -138,9 +141,9 @@ class CredentialsGatherer
             $config[$credential] = '%%'.$constant.'%%';
 
             // Special cases
-            if ($credential === 'repository' && !(new RepositoryKey(['endpoint' => $answer]))->needsCredentials()) {
+            if ($credential === 'repository' && !$key->needsCredentials()) {
                 break;
-            } elseif ($credential === 'host' && strpos($answer, 'ftp') !== false) {
+            } elseif ($credential === 'host' && $key->isFtp()) {
                 $this->command->writeln(' Oh damn is that an FTP host? Good luck buddy 👌');
             }
         }
