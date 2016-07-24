@@ -149,6 +149,6 @@ class Closure extends AbstractTask
     {
         $closure = $this->closure->bindTo($this);
 
-        return $closure();
+        return $closure($this);
     }
 }

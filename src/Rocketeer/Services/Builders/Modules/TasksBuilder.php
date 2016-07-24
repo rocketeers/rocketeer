@@ -187,11 +187,12 @@ class TasksBuilder extends AbstractBuilderModule
      */
     protected function buildTaskFromCallable($callable)
     {
-        $task = new ClosureTask($this->container);
+        $task = new ClosureTask();
+        $task->setContainer($this->container);
         $task->setClosure(function () use ($callable, $task) {
             list($class, $method) = is_array($callable) ? $callable : explode('::', $callable);
 
-            return $this->container->get($class)->$method($task);
+            return $this->getContainer()->get($class)->$method($task);
         });
 
         return $task;
