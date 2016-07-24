@@ -129,4 +129,30 @@ class BootstrapperTest extends RocketeerTestCase
 
         $this->assertEquals('foobar', $this->config->get('scm.repository'));
     }
+
+    public function testDoesntLoadUserProviderTwice()
+    {
+        $this->disableTestEvents();
+        $this->replicateConfiguration();
+
+        $path = $this->paths->getUserlandPath();
+        $this->files->put($path.'/FoobarServiceProvider.php', <<<'PHP'
+<?php
+namespace Foobar;
+class FoobarServiceProvider extends \Rocketeer\Plugins\AbstractPlugin
+{
+    function onQueue(\Rocketeer\Services\Tasks\TasksHandler $tasks)
+    {
+        $tasks->before('deploy', 'ls');
+    }
+}
+PHP
+);
+
+        $this->bootstrapper->bootstrapUserCode();
+        $this->tasks->registerConfiguredEvents();
+
+        $events = $this->tasks->getTasksListeners($this->task('Deploy'), 'before', true);
+        $this->assertCount(1, $events);
+    }
 }

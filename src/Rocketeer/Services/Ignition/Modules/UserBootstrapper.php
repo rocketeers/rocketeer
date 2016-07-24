@@ -26,6 +26,14 @@ class UserBootstrapper extends AbstractBootstrapperModule
     }
 
     /**
+     * @return string
+     */
+    public function getUserNamespace()
+    {
+        return ucfirst($this->config->get('application_name'));
+    }
+
+    /**
      * Load the user's app folder.
      */
     protected function bootstrapApp()
@@ -35,11 +43,11 @@ class UserBootstrapper extends AbstractBootstrapperModule
             return;
         }
 
-        $namespace = ucfirst($this->config->get('application_name'));
+        $namespace = $this->getUserNamespace();
 
         // Load main namespace
         $classloader = new Psr4ClassLoader();
-        $classloader->addPrefix($namespace.'\\', $folder);
+        $classloader->addPrefix($namespace.'\\', $this->files->getAdapter()->applyPathPrefix($folder));
         $classloader->register();
 
         // Load service provider
@@ -87,6 +95,7 @@ class UserBootstrapper extends AbstractBootstrapperModule
     {
         return [
             'bootstrapUserCode',
+            'getUserNamespace',
         ];
     }
 }

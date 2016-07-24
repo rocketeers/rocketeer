@@ -82,11 +82,11 @@ class IgnitionServiceProvider extends AbstractServiceProvider implements Bootabl
 
         // Bootstrap Rocketeer
         $this->bootstrapper->bootstrapPaths();
-        $this->bootstrapper->bootstrapConfiguration();
         $this->bootstrapper->bootstrapTasks();
+        $this->bootstrapper->bootstrapConfiguration();
 
         // Load the user's events, tasks, plugins, and configurations
-        $this->tasks->registerConfiguredEvents();
         $this->bootstrapper->bootstrapUserCode();
+        $this->tasks->registerConfiguredEvents();
     }
 }

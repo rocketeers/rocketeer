@@ -167,7 +167,9 @@ class TasksHandler
 
         // Re-register events
         foreach ($this->container->getPlugins() as $plugin) {
-            $this->container->addServiceProvider($plugin);
+            if (strpos($plugin, $this->bootstrapper->getUserNamespace().'ServiceProvider') === false) {
+                $this->container->addServiceProvider($plugin);
+            }
         }
 
         // Get the registered events
