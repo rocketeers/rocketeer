@@ -125,6 +125,6 @@ class LogsHandlerTest extends RocketeerTestCase
         $this->explainer->server('foobar');
         $logs = $this->logs->getLogs();
 
-        $this->assertContains('{username}@production: foobar', $logs[0]);
+        $this->assertNotContains('[{username}@production]', $logs[0]);
     }
 }

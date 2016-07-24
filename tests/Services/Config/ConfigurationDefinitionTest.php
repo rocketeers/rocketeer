@@ -136,18 +136,18 @@ class ConfigurationDefinitionTest extends RocketeerTestCase
             'hooks' => [
                 'events' => [
                     'before' => [
-                        'deploy' => 'echo "foobar"',
+                        'deploy' => ['echo "foobar"'],
                         'foo' => ['bar'],
-                        'baz' => function ($task) {
+                        'baz' => [function ($task) {
                             $task->run('qux');
-                        },
+                        }],
                     ],
                 ],
             ],
         ]);
 
         $this->assertArrayHasKey('deploy', $configuration['hooks']['events']['before']);
-        $this->assertEquals('echo "foobar"', $configuration['hooks']['events']['before']['deploy']);
+        $this->assertEquals(['echo "foobar"'], $configuration['hooks']['events']['before']['deploy']);
     }
 
     /**

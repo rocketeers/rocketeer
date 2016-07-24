@@ -27,7 +27,7 @@ class CoreTest extends RocketeerTestCase
 
     public function testCanCheckStatusOfACommand()
     {
-        $this->expectOutputRegex('/.+An error occured: "Oh noes", while running:\ngit clone.+/');
+        $this->expectOutputRegex('/An error occured: "Oh noes", while running:.+\n.+git clone/');
 
         $this->mockEchoingCommand();
         $this->connections->getCurrentConnection()->setPreviousStatus(1);

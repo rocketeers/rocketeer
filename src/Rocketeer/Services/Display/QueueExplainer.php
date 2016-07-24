@@ -108,9 +108,9 @@ class QueueExplainer
     /**
      * Format and send a message by the command.
      *
-     * @param string|string[]      $message
-     * @param string|null $color
-     * @param bool        $withTree
+     * @param string|string[] $message
+     * @param string|null     $color
+     * @param bool            $withTree
      *
      * @return string|null
      */

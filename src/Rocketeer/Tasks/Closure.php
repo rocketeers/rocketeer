@@ -12,8 +12,6 @@
 
 namespace Rocketeer\Tasks;
 
-use Closure as CoreClosure;
-
 /**
  * A task that wraps around a closure and execute it.
  *
