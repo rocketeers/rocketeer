@@ -98,7 +98,8 @@ class TasksHandler
 
         // Add the task to Rocketeer
         $this->container->add($slug, $task);
-        $bound = $this->console->add(new BaseTaskCommand($this->container->get($slug)));
+        $name = $this->config->get('application_name');
+        $bound = $this->console->add(new BaseTaskCommand($task, $name.':'.$task->getSlug()));
 
         return $bound;
     }

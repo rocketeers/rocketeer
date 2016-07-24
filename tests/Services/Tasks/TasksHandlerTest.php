@@ -24,6 +24,7 @@ use Rocketeer\Tasks\Check;
 use Rocketeer\Tasks\Closure;
 use Rocketeer\Tasks\Deploy;
 use Rocketeer\TestCases\RocketeerTestCase;
+use Symfony\Component\Console\Command\Command;
 
 class TasksHandlerTest extends RocketeerTestCase
 {
@@ -267,5 +268,12 @@ class TasksHandlerTest extends RocketeerTestCase
 
         $this->tasks->listenTo('deploy.before', [CallableTask::class, 'fire']);
         $this->task('Deploy')->fireEvent('before');
+    }
+
+    public function testUserCommandsAreNamespaced()
+    {
+        $this->tasks->add('ls', 'ls');
+
+        $this->assertInstanceOf(Command::class, $this->console->get('foobar:ls'));
     }
 }
