@@ -19,7 +19,6 @@ use Rocketeer\Interfaces\IdentifierInterface;
  * A class that can fire events.
  *
  * @mixin \Rocketeer\Tasks\AbstractTask
- * @mixin \Rocketeer\Console\Commands\AbstractCommand
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
