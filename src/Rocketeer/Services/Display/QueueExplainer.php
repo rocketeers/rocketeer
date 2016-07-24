@@ -108,7 +108,7 @@ class QueueExplainer
     /**
      * Format and send a message by the command.
      *
-     * @param string      $message
+     * @param string|string[]      $message
      * @param string|null $color
      * @param bool        $withTree
      *
@@ -116,13 +116,21 @@ class QueueExplainer
      */
     public function line($message, $color = null, $withTree = true)
     {
+        $message = $this->toLines($message);
         if (!$this->hasCommand()) {
             return;
         }
 
         // Format the message
-        $formatted = $this->colorize($message, $color);
-        $formatted = $withTree ? $this->getTree().'|'.str_repeat(' ', $this->padding).$this->getFork().' '.$formatted : $formatted;
+        $formatted = $message;
+        foreach ($formatted as &$line) {
+            $line = $this->colorize($line, $color);
+            $line = $withTree ? $this->getTree().'|'.str_repeat(' ', $this->padding).$this->getFork().' '.$line : $line;
+        }
+
+        // Rejoin strings
+        $formatted = implode(PHP_EOL, $formatted);
+        $message = implode(PHP_EOL, $message);
 
         // Pass to command and log
         $this->command->writeln($formatted);
@@ -134,19 +142,22 @@ class QueueExplainer
     /**
      * Display a server-related message.
      *
-     * @param string $message
+     * @param string|string[] $message
      *
      * @return string|null
      */
     public function server($message)
     {
-        $message = sprintf('<comment>[%s]</comment> %s', $this->connections->getCurrentConnectionKey()->toLongHandle(), $message);
+        $message = $this->toLines($message);
+        foreach ($message as &$line) {
+            $line = sprintf('<comment>[%s]</comment> %s', $this->connections->getCurrentConnectionKey()->toLongHandle(), $line);
+        }
 
         return $this->line($message, null);
     }
 
     /**
-     * @param string $message
+     * @param string|string[] $message
      *
      * @return string|null
      */
@@ -156,7 +167,7 @@ class QueueExplainer
     }
 
     /**
-     * @param string $message
+     * @param string|string[] $message
      *
      * @return string|null
      */
@@ -166,7 +177,7 @@ class QueueExplainer
     }
 
     /**
-     * @param string $message
+     * @param string|string[] $message
      *
      * @return string|null
      */
@@ -176,7 +187,7 @@ class QueueExplainer
     }
 
     /**
-     * @param string $message
+     * @param string|string[] $message
      *
      * @return string|null
      */
@@ -277,5 +288,15 @@ class QueueExplainer
         $tag = in_array($color, ['error', 'comment', 'info'], true) ? $color : 'fg='.$color;
 
         return sprintf('<%s>%s</%s>', $tag, $message, $tag);
+    }
+
+    /**
+     * @param string|string[] $message
+     *
+     * @return array
+     */
+    protected function toLines($message)
+    {
+        return is_array($message) ? $message : explode(PHP_EOL, $message);
     }
 }

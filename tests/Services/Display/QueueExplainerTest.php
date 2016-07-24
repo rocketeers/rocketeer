@@ -135,4 +135,17 @@ class QueueExplainerTest extends RocketeerTestCase
         $this->connections->setStage('foobarbaz');
         $this->explainer->line('foobar');
     }
+
+    public function testProperlyIndentsAllLines()
+    {
+        $this->expectOutputString(
+            '<fg=cyan>production</fg=cyan> |  ├─ <comment>[{username}@production]</comment> foo'.PHP_EOL.
+            '<fg=cyan>production</fg=cyan> |  ├─ <comment>[{username}@production]</comment> bar'
+        );
+
+        $this->explainer->server([
+            'foo',
+            'bar',
+        ]);
+    }
 }
