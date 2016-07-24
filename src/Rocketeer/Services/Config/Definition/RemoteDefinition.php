@@ -90,11 +90,11 @@ class RemoteDefinition extends AbstractDefinition
                     ->end()
                     ->closureNode('callback')
                         ->info('What actions will be executed to set permissions on the folder above')
-                        ->defaultValue(function ($task, $file) {
+                        ->defaultValue(function ($file) {
                             return [
-                                sprintf('chmod -R 755 %s', $file),
-                                sprintf('chmod -R g+s %s', $file),
-                                sprintf('chown -R www-data:www-data %s', $file),
+                                'chmod -R 755 %s'.$file,
+                                'chmod -R g+s %s'.$file,
+                                'chown -R www-data:www-data %s'.$file,
                             ];
                         })
                     ->end()

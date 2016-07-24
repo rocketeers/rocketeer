@@ -168,7 +168,7 @@ class Filesystem extends AbstractBashModule
 
         // Get permissions options
         $callback = $this->config->getContextually('remote.permissions.callback');
-        $commands = (array) $callback($this, $folder);
+        $commands = (array) $callback($folder, $this);
 
         // Cancel if setting of permissions is not configured
         if (empty($commands)) {
