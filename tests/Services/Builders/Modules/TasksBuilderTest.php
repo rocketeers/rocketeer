@@ -57,7 +57,7 @@ class TasksBuilderTest extends RocketeerTestCase
     public function testCanBuildTaskFromClosure()
     {
         $originalClosure = function ($task) {
-            return $task->explaienr->info('echo "I love ducks"');
+            return $task->explainer->info('echo "I love ducks"');
         };
 
         $closure = $this->builder->buildTaskFromClosure($originalClosure);

@@ -12,6 +12,8 @@
 
 namespace Rocketeer\Tasks;
 
+use Closure as CoreClosure;
+
 /**
  * A task that wraps around a closure and execute it.
  *
@@ -145,8 +147,8 @@ class Closure extends AbstractTask
      */
     public function execute()
     {
-        $closure = $this->closure;
+        $closure = $this->closure->bindTo($this);
 
-        return $closure($this);
+        return $closure();
     }
 }
