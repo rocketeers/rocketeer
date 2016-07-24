@@ -75,7 +75,7 @@ return [
             ],
 
             // what actions will be executed to set permissions on the folder above
-            'callback' => function ($task, $file) {
+            'callback' => function ($file) {
                 return [
                     sprintf('chmod -R 755 %s', $file),
                     sprintf('chmod -R g+s %s', $file),

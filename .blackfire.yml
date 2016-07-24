@@ -2,4 +2,4 @@ tests:
     "Tests should run in a reasonable time":
         command: "phpunit"
         assertions:
-            - "main.wall_time < 30s"
+            - "main.wall_time < 25s"
