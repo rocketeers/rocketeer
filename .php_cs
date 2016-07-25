@@ -7,7 +7,6 @@ require 'vendor/autoload.php';
 $header = file_get_contents(__DIR__.'/bin/banner.txt');
 $finder = Finder::create()->in([
     'bin',
-    'src/config',
     'src/Rocketeer',
     'tests',
 ]);
@@ -20,6 +19,7 @@ return Config::create()
         'align_equals' => false,
         'combine_consecutive_unsets' => true,
         'concat_with_spaces' => false,
+        'declare_strict_types' => false,
         'dir_constant' => true,
         'echo_to_print' => false,
         'ereg_to_preg' => true,
@@ -48,6 +48,7 @@ return Config::create()
         'psr0' => true,
         'psr4' => true,
         'random_api_migration' => true,
+        'semicolon_after_instruction' => true,
         'short_array_syntax' => true,
         'simplified_null_return' => true,
         'strict_comparison' => true,
