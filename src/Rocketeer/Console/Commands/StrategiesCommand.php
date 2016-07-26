@@ -40,7 +40,6 @@ class StrategiesCommand extends AbstractCommand
      */
     public function fire()
     {
-
         $strategies = [
             'Check' => ['Node', 'Php', 'Ruby', 'Polyglot'],
             'CreateRelease' => ['Clone', 'Copy'],

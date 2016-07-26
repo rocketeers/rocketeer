@@ -213,11 +213,16 @@ class QueueExplainer
 
         // Build possible handles
         $strings = [];
-        $connections = (array) $this->connections->getAvailableConnections();
-        $stages = (array) $this->connections->getAvailableStages();
-        foreach ($connections as $connection => $servers) {
+        $connections = $this->connections->getActiveConnections();
+        $stages = (array) $this->connections->getAvailableStages() ?: [''];
+        foreach ($connections as $handle => $connection) {
+            $servers = $connection->getConnectionKey()->servers;
+            if (count($servers) > 1) {
+                $handle .= '/'.count($servers);
+            }
+
             foreach ($stages as $stage) {
-                $strings[] = $connection.'/'.count($servers).'/'.$stage;
+                $strings[] = trim($handle.'/'.$stage, '/');
             }
         }
 
@@ -240,19 +245,21 @@ class QueueExplainer
     {
         // Build handle
         $dashes = $dashes ?: '│'.str_repeat(' ', $this->padding);
-        $numberConnections = count($this->connections->getAvailableConnections());
+        $numberConnections = count($this->connections->getActiveConnections());
         $numberStages = count($this->connections->getAvailableStages());
         $numberServers = count($this->connections->getCurrentConnectionKey()->servers);
 
         $tree = null;
         if ($numberConnections > 1 || $numberStages > 1 || $numberServers > 1) {
             $handle = $this->connections->getCurrentConnectionKey()->toHandle();
-            $spacing = $this->getLongestSize() - strlen($handle);
+            $spacing = $this->getLongestSize() - strlen($handle) + 2;
             $spacing = max(1, $spacing);
             $spacing = str_repeat(' ', $spacing);
 
             // Build tree and command
-            $tree .= sprintf('<fg=cyan>%s</fg=cyan>%s', $handle, $spacing);
+            $handle = $handle === 'dummy' ? 'local' : $handle;
+            $spacing = substr($spacing, strlen($spacing) / 2);
+            $tree .= sprintf('<bg=magenta;options=bold>%s%s%s</bg=magenta;options=bold> ', $spacing, $handle, $spacing);
         }
 
         // Add tree
