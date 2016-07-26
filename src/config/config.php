@@ -26,11 +26,7 @@ return [
         },
 
         // The default remote connection(s) to execute tasks on
-        'default' => [
-            // Default:
-            'production',
-        ],
-
+        'default' => [],
         'connections' => [],
 
         // In this section you can fine-tune the above configuration according

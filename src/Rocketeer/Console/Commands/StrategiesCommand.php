@@ -40,13 +40,14 @@ class StrategiesCommand extends AbstractCommand
      */
     public function fire()
     {
+
         $strategies = [
-            'check' => ['Php', 'Ruby', 'Node', 'Polyglot'],
-            'create-release' => ['Clone', 'Copy'],
-            'deploy' => ['Rolling', 'Sync', 'Upload'],
-            'test' => ['Phpunit'],
+            'Check' => ['Node', 'Php', 'Ruby', 'Polyglot'],
+            'CreateRelease' => ['Clone', 'Copy'],
+            'Dependencies' => ['Bower', 'Bundler', 'Composer', 'Npm', 'Polyglot'],
+            'Deploy' => ['Rolling', 'Sync', 'Upload'],
             'migrate' => ['Artisan'],
-            'dependencies' => ['Composer', 'Bundler', 'Npm', 'Bower', 'Polyglot'],
+            'Test' => ['Phpunit'],
         ];
 
         // Return a single task if needed
