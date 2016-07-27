@@ -13,8 +13,10 @@
 namespace Rocketeer\Services\Builders\Modules;
 
 use ReflectionFunction;
+use Rocketeer\Console\Commands\FlushCommand;
 use Rocketeer\Dummies\Tasks\CallableTask;
 use Rocketeer\Dummies\Tasks\DummyCoordinatedTask;
+use Rocketeer\Dummies\Tasks\DummyShelledTask;
 use Rocketeer\Services\Builders\TaskCompositionException;
 use Rocketeer\Tasks\AbstractTask;
 use Rocketeer\Tasks\Check;
@@ -124,5 +126,10 @@ class TasksBuilderTest extends RocketeerTestCase
         $task = $this->builder->buildTask(DummyShelledTask::class, 'foo', 'bar');
         $this->assertEquals('Foo', $task->getName());
         $this->assertContains('bar', $task->getDescription());
+    }
+
+    public function testDoesntTryToNewNonTaskClasses()
+    {
+        $this->builder->buildTask(FlushCommand::class);
     }
 }

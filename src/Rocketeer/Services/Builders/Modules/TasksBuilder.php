@@ -14,6 +14,7 @@ namespace Rocketeer\Services\Builders\Modules;
 
 use Closure;
 use Illuminate\Support\Str;
+use League\Container\ContainerAwareInterface;
 use Rocketeer\Services\Builders\TaskCompositionException;
 use Rocketeer\Tasks\AbstractTask;
 use Rocketeer\Tasks\Closure as ClosureTask;
@@ -175,7 +176,13 @@ class TasksBuilder extends AbstractBuilderModule
             throw new TaskCompositionException('Impossible to build task: '.$task);
         }
 
-        return new $class($this->container);
+        // Build class
+        $class = new $class();
+        if ($class instanceof ContainerAwareInterface) {
+            $class->setContainer($this->container);
+        }
+
+        return $class;
     }
 
     /**

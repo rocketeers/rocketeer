@@ -14,9 +14,11 @@ namespace Rocketeer\Services\Tasks;
 
 use Closure;
 use Illuminate\Support\Str;
+use Rocketeer\Console\Commands\AbstractCommand;
 use Rocketeer\Console\Commands\BaseTaskCommand;
 use Rocketeer\Container;
 use Rocketeer\Interfaces\IdentifierInterface;
+use Rocketeer\Services\Builders\TaskCompositionException;
 use Rocketeer\Tasks\AbstractTask;
 use Rocketeer\Tasks\Closure as ClosureTask;
 use Rocketeer\Traits\ContainerAwareTrait;
@@ -82,7 +84,7 @@ class TasksHandler
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Register a custom task with Rocketeer.
+     * Register a custom task or command with Rocketeer.
      *
      * @param string|Closure|AbstractTask $task
      * @param string|null                 $name
@@ -94,12 +96,10 @@ class TasksHandler
     {
         // Build task if necessary
         $task = $this->builder->buildTask($task, $name, $description);
-        $slug = 'rocketeer.tasks.'.$task->getSlug();
+        $this->container->add('rocketeer.'.$task->getIdentifier(), $task);
 
-        // Add the task to Rocketeer
-        $this->container->add($slug, $task);
-        $name = $this->config->get('application_name');
-        $bound = $this->console->add(new BaseTaskCommand($task, $name.':'.$task->getSlug()));
+        // Add related command
+        $bound = $this->command($task->getSlug(), new BaseTaskCommand($task));
 
         return $bound;
     }
@@ -116,6 +116,28 @@ class TasksHandler
     public function task($name, $task = null, $description = null)
     {
         return $this->add($task, $name, $description)->getTask();
+    }
+
+    /**
+     * @param string $name
+     * @param string $command
+     *
+     * @return AbstractCommand
+     */
+    public function command($name, $command)
+    {
+        /** @var AbstractCommand $command */
+        $command = is_string($command) ? new $command() : $command;
+        $command->setContainer($this->container);
+
+        // Set name
+        $namespace = $this->config->get('application_name');
+        $name = $name ?: $command->getName();
+        $command->setName($namespace.':'.$name);
+
+        $this->console->add($command);
+
+        return $command;
     }
 
     ////////////////////////////////////////////////////////////////////
@@ -179,9 +201,13 @@ class TasksHandler
         $roles = isset($hooks['roles']) ? (array) $hooks['roles'] : [];
         $events = isset($hooks['events']) ? (array) $hooks['events'] : [];
 
-        // Bind tasks
+        // Bind tasks and commands
         foreach ($tasks as $name => $task) {
-            $this->task($name, $task);
+            try {
+                $this->task($name, $task);
+            } catch (TaskCompositionException $exception) {
+                $this->command($name, $task);
+            }
         }
 
         // Bind events
