@@ -114,4 +114,15 @@ class TasksBuilderTest extends RocketeerTestCase
         $task = $this->builder->buildTask(DummyCoordinatedTask::class);
         $this->assertEquals(['foo' => 'bar'], $task->getOptions());
     }
+
+    public function testDoesntOverwriteNameAndDescription()
+    {
+        $task = $this->builder->buildTask(DummyShelledTask::class, 1, null);
+        $this->assertEquals('Shelly', $task->getName());
+        $this->assertContains('shells', $task->getDescription());
+
+        $task = $this->builder->buildTask(DummyShelledTask::class, 'foo', 'bar');
+        $this->assertEquals('Foo', $task->getName());
+        $this->assertContains('bar', $task->getDescription());
+    }
 }

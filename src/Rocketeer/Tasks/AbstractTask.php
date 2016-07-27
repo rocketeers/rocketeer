@@ -98,7 +98,7 @@ abstract class AbstractTask extends Bash implements HasRolesInterface, Identifie
      */
     public function setName($name)
     {
-        $this->name = ucfirst($name) ?: $this->name;
+        $this->name = is_string($name) ? ucfirst($name) : $this->name;
     }
 
     /**

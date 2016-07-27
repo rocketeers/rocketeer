@@ -16,6 +16,9 @@ use Rocketeer\Tasks\AbstractTask;
 
 class DummyShelledTask extends AbstractTask
 {
+    protected $name = 'Shelly';
+    protected $description = 'It shells sea shells';
+
     /**
      * @var array
      */
