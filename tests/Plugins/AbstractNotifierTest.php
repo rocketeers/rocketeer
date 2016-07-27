@@ -60,7 +60,7 @@ class AbstractNotifierTest extends RocketeerTestCase
 
         /** @var ConnectionsHandler $prophecy */
         $prophecy = $this->bindProphecy(ConnectionsHandler::class);
-        $prophecy->getAvailableConnections()->willReturn();
+        $prophecy->getActiveConnections()->willReturn();
         $prophecy->getAvailableStages()->willReturn();
         $prophecy->getCurrentConnectionKey()->willReturn($handle);
 

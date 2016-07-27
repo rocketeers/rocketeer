@@ -48,10 +48,8 @@ class QueueExplainerTest extends RocketeerTestCase
 
     public function testDisplayHandleIfMultipleStages()
     {
-        $this->config->set('connections', [
-            'production' => [],
-        ]);
         $this->config->set('stages.stages', ['staging', 'production']);
+        $this->config->set('connections', ['production' => []]);
 
         $this->expectExplainerOutput('**       production       ** |  ├─ foobar');
 
