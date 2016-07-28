@@ -12,6 +12,7 @@
 
 namespace Rocketeer\Traits;
 
+use InvalidArgumentException;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class ConfigurableTest extends RocketeerTestCase
@@ -59,10 +60,11 @@ class ConfigurableTest extends RocketeerTestCase
         $this->assertEquals($expected, $flags);
     }
 
+    /**
+     * @expectedException InvalidArgumentException
+     */
     public function testDoesntAllowStringFlags()
     {
-        $this->setExpectedException('InvalidArgumentException');
-
         $task = $this->task('Dependencies');
         $task->setFlags(['install' => 'foobar']);
     }

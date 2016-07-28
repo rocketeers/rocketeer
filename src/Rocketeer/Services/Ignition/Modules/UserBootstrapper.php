@@ -12,6 +12,7 @@
 
 namespace Rocketeer\Services\Ignition\Modules;
 
+use Illuminate\Support\Str;
 use Symfony\Component\ClassLoader\Psr4ClassLoader;
 
 class UserBootstrapper extends AbstractBootstrapperModule
@@ -30,7 +31,10 @@ class UserBootstrapper extends AbstractBootstrapperModule
      */
     public function getUserNamespace()
     {
-        return ucfirst($this->config->get('application_name'));
+        $name = $this->config->get('application_name');
+        $name = Str::studly($name);
+
+        return $name;
     }
 
     /**

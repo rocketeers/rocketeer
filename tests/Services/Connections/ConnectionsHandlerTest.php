@@ -140,10 +140,12 @@ class ConnectionsHandlerTest extends RocketeerTestCase
         $this->assertCurrentServerEquals(1);
     }
 
+    /**
+     * @expectedException \Rocketeer\Services\Connections\ConnectionException
+     * @expectedExceptionMessage Invalid connection(s): foo, bar
+     */
     public function testThrowsExceptionWhenTryingToSetInvalidConnection()
     {
-        $this->setExpectedException(ConnectionException::class, 'Invalid connection(s): foo, bar');
-
         $this->connections->setActiveConnections('foo,bar');
     }
 

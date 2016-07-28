@@ -17,7 +17,6 @@ use Rocketeer\Console\Commands\FlushCommand;
 use Rocketeer\Dummies\Tasks\CallableTask;
 use Rocketeer\Dummies\Tasks\DummyCoordinatedTask;
 use Rocketeer\Dummies\Tasks\DummyShelledTask;
-use Rocketeer\Services\Builders\TaskCompositionException;
 use Rocketeer\Tasks\AbstractTask;
 use Rocketeer\Tasks\Check;
 use Rocketeer\Tasks\Closure;
@@ -84,10 +83,11 @@ class TasksBuilderTest extends RocketeerTestCase
         $this->assertInstanceOf(Deploy::class, $queue[2]);
     }
 
+    /**
+     * @expectedException \Rocketeer\Services\Builders\TaskCompositionException
+     */
     public function testThrowsExceptionOnUnbuildableTask()
     {
-        $this->setExpectedException(TaskCompositionException::class);
-
         $this->builder->buildTaskFromClass('Nope');
     }
 
@@ -128,6 +128,9 @@ class TasksBuilderTest extends RocketeerTestCase
         $this->assertContains('bar', $task->getDescription());
     }
 
+    /**
+     * @expectedException \Rocketeer\Services\Builders\TaskCompositionException
+     */
     public function testDoesntTryToNewNonTaskClasses()
     {
         $this->builder->buildTask(FlushCommand::class);

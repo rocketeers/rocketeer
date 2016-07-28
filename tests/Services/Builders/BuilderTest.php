@@ -41,7 +41,7 @@ class BuilderTest extends RocketeerTestCase
         $this->assertEquals([
             'Rocketeer\Tasks\%s',
             'Rocketeer\Tasks\Subtasks\%s',
-            '{application_name}\Tasks\%s',
+            '{applicationName}\Tasks\%s',
             'Rocketeer\Dummies\Tasks\%s',
         ], $this->builder->getLookups('tasks'));
     }

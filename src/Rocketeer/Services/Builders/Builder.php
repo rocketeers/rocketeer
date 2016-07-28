@@ -76,8 +76,8 @@ class Builder implements ModulableInterface, ContainerAwareInterface
     public function __construct(Container $container)
     {
         $this->container = $container;
+        $namespace = $this->bootstrapper->getUserNamespace();
 
-        $namespace = ucfirst($this->config->get('application_name'));
         $this->registerLookups([
             'tasks' => $namespace.'\Tasks\%s',
             'strategies' => $namespace.'\Strategies\%s',

@@ -88,10 +88,11 @@ class PathfinderTest extends RocketeerTestCase
         $this->assertEquals('C:\Users\someuser', $home);
     }
 
+    /**
+     * @expectedException \Exception
+     */
     public function testCancelsIfNoHomeFolder()
     {
-        $this->setExpectedException('Exception');
-
         $_SERVER['HOME'] = null;
         $_SERVER['HOMEDRIVE'] = 'C:';
         $_SERVER['HOMEPATH'] = null;
