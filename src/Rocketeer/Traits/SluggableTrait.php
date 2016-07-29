@@ -17,6 +17,13 @@ use Illuminate\Support\Str;
 trait SluggableTrait
 {
     /**
+     * A cache of generated slugs
+     *
+     * @var array
+     */
+    protected $slugs = [];
+
+    /**
      * Get the name of the entity.
      *
      * @return string
@@ -33,9 +40,12 @@ trait SluggableTrait
      */
     public function getSlug()
     {
-        $slug = Str::snake($this->getName(), '-');
-        $slug = Str::slug($slug);
+        $name = $this->getName();
+        if (!isset($this->slugs[$name])) {
+            $slug = Str::snake($name, '-');
+            $this->slugs[$name] = Str::slug($slug);
+        }
 
-        return $slug;
+        return $this->slugs[$name];
     }
 }
