@@ -311,7 +311,7 @@ class ConfigurationLoader
     protected function getFinder($folders)
     {
         return $this->getFinderForFolders($folders)
-            ->name('/[a-z]+\.php/')
+            ->name('/[a-z]+/')
             ->notName('/(events|tasks)\.php/')
             ->sortByName()
             ->files();

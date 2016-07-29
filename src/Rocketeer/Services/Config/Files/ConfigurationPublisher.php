@@ -65,6 +65,7 @@ class ConfigurationPublisher
      */
     public function publish($format = 'php', $consolidated = false)
     {
+        $format = $this->sanitizeFormat($format);
         $destination = $this->paths->getConfigurationPath();
 
         // Create directory
@@ -144,5 +145,18 @@ class ConfigurationPublisher
         }
 
         return $dumper->dumpNode($definition);
+    }
+
+    /**
+     * @param string $format
+     *
+     * @return string
+     */
+    protected function sanitizeFormat($format)
+    {
+        $format = strtolower($format);
+        $format = $format === 'yaml' ? 'yml' : $format;
+
+        return $format;
     }
 }

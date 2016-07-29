@@ -28,4 +28,30 @@ class ConfigurationLoaderTest extends RocketeerTestCase
         $folders = $this->configurationLoader->getConfigurationFolders();
         $this->assertEquals([__DIR__], $folders);
     }
+
+    /**
+     * @dataProvider provideFormats
+     *
+     * @param string $format
+     * @param string $contents
+     */
+    public function testCanLoadFilesOfVariousFormats($format, $contents)
+    {
+        $this->files->createDir(__DIR__);
+        $this->files->put(__DIR__.'/config.'.$format, $contents);
+
+        $this->configurationLoader->setFolders([__DIR__]);
+        $config = $this->configurationLoader->getConfiguration();
+
+        $this->assertEquals($format, $config['config']['application_name']);
+    }
+
+    public function provideFormats()
+    {
+        return [
+            ['php', '<?php return ["application_name" => "php"];'],
+            ['yml', 'application_name: yml'],
+            ['json', '{"application_name": "json"}'],
+        ];
+    }
 }

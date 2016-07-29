@@ -16,8 +16,10 @@ use League\Container\ServiceProvider\AbstractServiceProvider;
 use Rocketeer\Services\Config\Files\ConfigurationCache;
 use Rocketeer\Services\Config\Files\ConfigurationLoader;
 use Rocketeer\Services\Config\Files\ConfigurationPublisher;
+use Rocketeer\Services\Config\Loaders\JsonLoader;
+use Rocketeer\Services\Config\Loaders\PhpLoader;
+use Rocketeer\Services\Config\Loaders\YamlLoader;
 use Rocketeer\Traits\HasLocatorTrait;
-use Symfony\Component\Config\Definition\Loaders\PhpLoader;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\DelegatingLoader;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -45,8 +47,13 @@ class ConfigurationServiceProvider extends AbstractServiceProvider
     {
         $this->container->add(LoaderInterface::class, function () {
             $locator = new FileLocator();
-            $loader = new LoaderResolver([new PhpLoader($locator)]);
-            $loader = new DelegatingLoader($loader);
+            $resolver = new LoaderResolver([
+                new PhpLoader($locator),
+                new JsonLoader($locator),
+                new YamlLoader($locator),
+            ]);
+
+            $loader = new DelegatingLoader($resolver);
 
             return $loader;
         });
