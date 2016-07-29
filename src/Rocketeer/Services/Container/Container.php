@@ -95,19 +95,6 @@ class Container extends \League\Container\Container
     ////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Alias a container entry.
-     *
-     * @param string $to
-     * @param string $from
-     */
-    public function alias($to, $from)
-    {
-        $this->add($to, function () use ($from) {
-            return $this->get($from);
-        });
-    }
-
-    /**
      * @param string $key
      */
     public function remove($key)
