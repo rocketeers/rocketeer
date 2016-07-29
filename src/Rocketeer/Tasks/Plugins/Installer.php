@@ -38,7 +38,7 @@ class Installer extends AbstractTask
     {
         // Get package and destination folder
         $package = $this->command->argument('package');
-        $folder = $this->paths->getRocketeerConfigFolder();
+        $folder = $this->paths->getRocketeerPath();
 
         // Create composer manifest if it does not exist
         $manifest = $folder.'/composer.json';
