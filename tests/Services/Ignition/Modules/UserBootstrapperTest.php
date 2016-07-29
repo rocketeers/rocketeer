@@ -41,7 +41,7 @@ class UserBootstrapperTest extends RocketeerTestCase
     {
         $this->expectOutputString('');
 
-        $this->files->put('/src/.rocketeer/Foobar/Tasks/Ignite.php', '<?php echo "foobar";');
+        $this->files->put('/src/.rocketeer/app/Tasks/Ignite.php', '<?php echo "foobar";');
         $this->bootstrapper->bootstrapUserCode();
     }
 

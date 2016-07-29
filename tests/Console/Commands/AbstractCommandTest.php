@@ -13,7 +13,6 @@
 namespace Rocketeer\Console\Commands;
 
 use Rocketeer\Dummies\DummyFailingCommand;
-use Rocketeer\Dummies\DummyPromptingCommand;
 use Rocketeer\Services\Connections\Credentials\CredentialsGatherer;
 use Rocketeer\TestCases\RocketeerTestCase;
 use Symfony\Component\Console\Input\ArrayInput;

@@ -18,13 +18,10 @@ class InstallerTest extends RocketeerTestCase
 {
     public function testCanInstallPlugin()
     {
-        $this->bindDummyCommand([
-            'package' => 'anahkiasen/rocketeer-slack',
-            '--pretend' => true,
-        ]);
-
         $this->assertTaskHistory(Installer::class, [
-            'bash --login -c \'{composer} require --working-dir="'.$this->paths->getRocketeerConfigFolder().'"\'',
+            'bash --login -c \'{composer} require anahkiasen/rocketeer-slack --working-dir="'.$this->paths->getRocketeerPath().'"\'',
+        ], [
+            'package' => 'anahkiasen/rocketeer-slack',
         ]);
     }
 }
