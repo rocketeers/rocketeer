@@ -69,8 +69,7 @@ class CredentialsGatherer
     {
         $connectionName = null;
         if ($this->connections) {
-            $this->command->writeln('Here are the current connections defined:');
-            $this->command->table(['Name', 'Server', 'Username', 'Password'], $this->connections);
+            $this->presentConnections($this->connections);
             if ($this->command->confirm('Do you want to add a connection to this?', false)) {
                 $connectionName = $this->command->ask('What do you want to name it?');
             }
@@ -197,8 +196,42 @@ class CredentialsGatherer
      */
     protected function getCredentialsValidator()
     {
-        return function () {
-            return true;
+        return function ($answer) {
+            return $answer ?: true;
         };
+    }
+
+    /**
+     * Present the connections in a table-like manner
+     *
+     * @param array $connections
+     */
+    protected function presentConnections($connections)
+    {
+        $headers = [
+            'name' => 'Name',
+            'host' => 'Host',
+            'username' => 'Username',
+            'password' => 'Password',
+            'key' => 'Key',
+            'keyphrase' => 'Keyphrase',
+            'root' => 'Root',
+        ];
+
+        $rows = [];
+        foreach ($connections as $name => $connection) {
+            $connection['PRODUCTION_NAME'] = $name;
+
+            $row = [];
+            foreach ($headers as $key => $value) {
+                $key = strtoupper($name.'_'.$key);
+                $row[] = isset($connection[$key]) ? $connection[$key] : '';
+            }
+
+            $rows[] = $row;
+        }
+
+        $this->command->writeln('Here are the current connections defined:');
+        $this->command->table(array_values($headers), $rows);
     }
 }
