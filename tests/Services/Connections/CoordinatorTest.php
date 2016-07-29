@@ -19,7 +19,7 @@ class CoordinatorTest extends RocketeerTestCase
 {
     public function testCanCoordinateTasks()
     {
-        $pattern = '(staging|production)/[ab]\.com/(master|develop)'.PHP_EOL;
+        $pattern = '(staging|production)(/[ab]\.com)?/(master|develop)'.PHP_EOL;
 
         $this->expectOutputRegex(
             '#'.
@@ -29,18 +29,12 @@ class CoordinatorTest extends RocketeerTestCase
             'A:'.$pattern.
             'A:'.$pattern.
             'A:'.$pattern.
-            'A:'.$pattern.
-            'A:'.$pattern.
             'B:'.$pattern.
             'B:'.$pattern.
             'B:'.$pattern.
             'B:'.$pattern.
             'B:'.$pattern.
             'B:'.$pattern.
-            'B:'.$pattern.
-            'B:'.$pattern.
-            'C:'.$pattern.
-            'C:'.$pattern.
             'C:'.$pattern.
             'C:'.$pattern.
             'C:'.$pattern.
@@ -64,7 +58,6 @@ class CoordinatorTest extends RocketeerTestCase
                 'staging' => [
                     'servers' => [
                         ['host' => 'a.com'],
-                        ['host' => 'b.com'],
                     ],
                 ],
             ],

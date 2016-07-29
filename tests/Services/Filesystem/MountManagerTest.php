@@ -14,23 +14,10 @@ namespace Rocketeer\Services\Filesystem;
 
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\FilesystemInterface;
-use Rocketeer\Services\Container\Container;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class MountManagerTest extends RocketeerTestCase
 {
-    public function setUp()
-    {
-        parent::setUp();
-
-        $this->container = new Container();
-        $this->swapConnections([
-            'production' => [
-                'host' => 'foo.com',
-            ],
-        ]);
-    }
-
     public function testCanMountConnectionsAsFilesystems()
     {
         $production = $this->filesystems->getFilesystem('production');
@@ -63,7 +50,6 @@ class MountManagerTest extends RocketeerTestCase
 
     public function testCanBindAdditionalInstancesOnMountManager()
     {
-        $this->container = new Container();
         $this->filesystems->mountFilesystem('dropbox', new Filesystem(new Local('/')));
 
         $this->assertInstanceOf(FilesystemInterface::class, $this->filesystems->getFilesystem('dropbox'));

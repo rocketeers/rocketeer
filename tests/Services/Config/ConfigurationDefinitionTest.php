@@ -12,11 +12,10 @@
 
 namespace Rocketeer\Services\Config;
 
-use Rocketeer\Services\Config\Files\ConfigurationCache;
-use Rocketeer\TestCases\RocketeerTestCase;
+use Rocketeer\TestCases\BaseTestCase;
 use Symfony\Component\Config\Definition\Processor;
 
-class ConfigurationDefinitionTest extends RocketeerTestCase
+class ConfigurationDefinitionTest extends BaseTestCase
 {
     /**
      * @var Processor
@@ -168,10 +167,6 @@ class ConfigurationDefinitionTest extends RocketeerTestCase
         ]);
 
         $processed = $this->processor->processConfiguration(new ConfigurationDefinition(), $config);
-
-        /** @var ConfigurationCache $cache */
-        $cache = $this->container->get(ConfigurationCache::class);
-        $cache->write($processed);
 
         return $processed;
     }

@@ -12,17 +12,32 @@
 
 namespace Rocketeer\Traits;
 
-use Rocketeer\TestCases\RocketeerTestCase;
+use Rocketeer\Dummies\DummyWithSteps;
+use Rocketeer\TestCases\BaseTestCase;
 
-class StepsRunnerTest extends RocketeerTestCase
+class StepsRunnerTest extends BaseTestCase
 {
+    /**
+     * @var DummyWithSteps
+     */
+    protected $dummy;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->dummy = new DummyWithSteps();
+    }
+
     public function testCanRunStepsOnSilentCommands()
     {
-        $task = $this->task;
         $copy = $this->server.'/state2.json';
-        $task->steps()->copy($this->server.'/state.json', $copy);
+        $this->dummy->steps()->copy($this->server.'/state.json', $copy);
 
-        $results = $task->runSteps();
+        $results = $this->dummy->runSteps();
 
         $this->assertTrue($results);
         unlink($copy);
@@ -30,54 +45,52 @@ class StepsRunnerTest extends RocketeerTestCase
 
     public function testStepsAreClearedOnceRun()
     {
-        $task = $this->task;
-        $task->steps()->run('ls');
+        $this->dummy->steps()->run('ls');
 
         $this->assertEquals([
             ['run', ['ls']],
-        ], $task->steps()->getSteps());
-        $task->runSteps();
-        $task->steps()->run('php --version');
+        ], $this->dummy->steps()->getSteps());
+        $this->dummy->runSteps();
+        $this->dummy->steps()->run('php --version');
         $this->assertEquals([
             ['run', ['php --version']],
-        ], $task->steps()->getSteps());
+        ], $this->dummy->steps()->getSteps());
     }
 
     public function testCanRunClosures()
     {
         $this->expectOutputString('foobar');
 
-        $this->task->steps()->addStep(function ($argument) {
+        $this->dummy->steps()->addStep(function ($argument) {
             echo $argument;
         }, 'foobar');
 
-        $this->task->runSteps();
+        $this->dummy->runSteps();
     }
 
     public function testStopsOnStrictFalse()
     {
         $this->expectOutputString('');
 
-        $this->task->steps()->addStep(function () {
+        $this->dummy->steps()->addStep(function () {
             return false;
         });
-        $this->task->steps()->addStep(function () {
+        $this->dummy->steps()->addStep(function () {
             echo 'foobar';
 
             return true;
         });
 
-        $this->task->runSteps();
+        $this->dummy->runSteps();
     }
 
     public function testCanFireEventAroundStep()
     {
-        $this->expectFiredEvent('tasks.cleanup.foobar.before');
-        $this->expectFiredEvent('tasks.cleanup.foobar.after');
+        $this->expectOutputString('foobar.beforefoobar.after');
 
-        $this->task->steps()->addStepWithEvents('foobar', function () {
+        $this->dummy->steps()->addStepWithEvents('foobar', function () {
         });
 
-        $this->task->runSteps();
+        $this->dummy->runSteps();
     }
 }

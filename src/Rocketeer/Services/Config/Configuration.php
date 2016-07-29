@@ -14,7 +14,6 @@ namespace Rocketeer\Services\Config;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 
 class Configuration extends Collection
 {

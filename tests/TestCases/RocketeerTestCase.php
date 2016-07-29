@@ -39,13 +39,6 @@ abstract class RocketeerTestCase extends ContainerTestCase
     protected $task;
 
     /**
-     * Cache of the paths to binaries.
-     *
-     * @var array
-     */
-    protected static $binaries = [];
-
-    /**
      * Number of files an ls should yield.
      *
      * @var int
@@ -72,25 +65,5 @@ abstract class RocketeerTestCase extends ContainerTestCase
         // Mock current environment
         $this->replicateFolder($this->server);
         $this->mockOperatingSystem('Linux');
-
-        // Cache paths
-        static::$binaries = static::$binaries ?: [
-            'bundle' => exec('which bundle') ?: 'bundle',
-            'composer' => exec('which composer') ?: 'composer',
-            'php' => exec('which php') ?: 'php',
-            'phpunit' => exec('which phpunit') ?: 'phpunit',
-            'rsync' => exec('which rsync') ?: 'rsync',
-        ];
-    }
-
-    /**
-     * Cleanup tests.
-     */
-    public function tearDown()
-    {
-        parent::tearDown();
-
-        // Restore superglobals
-        $_SERVER['HOME'] = $this->home;
     }
 }

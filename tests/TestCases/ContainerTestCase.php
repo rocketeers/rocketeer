@@ -15,7 +15,6 @@ namespace Rocketeer\TestCases;
 use League\Container\ContainerAwareTrait;
 use League\Flysystem\MountManager;
 use League\Flysystem\Vfs\VfsAdapter;
-use PHPUnit_Framework_TestCase;
 use Prophecy\Prophecy\ObjectProphecy;
 use Rocketeer\Console\Commands\AbstractCommand;
 use Rocketeer\Console\StyleInterface;
@@ -34,7 +33,7 @@ use Rocketeer\Traits\HasLocatorTrait;
 use Symfony\Component\Console\Output\OutputInterface;
 use VirtualFileSystem\FileSystem as Vfs;
 
-abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
+abstract class ContainerTestCase extends BaseTestCase
 {
     use Assertions;
     use ConfigurationTester;
@@ -48,27 +47,13 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
     use ContainerAwareTrait;
 
     /**
-     * The path to the local fake server.
-     *
-     * @var string
-     */
-    protected $server;
-
-    /**
-     * @var string
-     */
-    protected $home;
-
-    /**
      * Set up the tests.
      */
     public function setUp()
     {
-        $this->container = new Container();
+        parent::setUp();
 
-        // Create local paths
-        $this->home = $_SERVER['HOME'];
-        $this->server = realpath(__DIR__.'/../_server').'/foobar';
+        $this->container = new Container();
 
         $this->setupContainer();
         $this->swapConfig();

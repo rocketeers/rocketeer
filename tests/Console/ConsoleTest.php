@@ -12,15 +12,14 @@
 
 namespace Rocketeer\Console;
 
-use Rocketeer\TestCases\RocketeerTestCase;
+use Rocketeer\TestCases\BaseTestCase;
 
-class ConsoleTest extends RocketeerTestCase
+class ConsoleTest extends BaseTestCase
 {
     public function testCanRunStandaloneConsole()
     {
         $console = exec(static::$binaries['php'].' bin/rocketeer --version --no-ansi');
-        $version = strip_tags($this->console->getLongVersion());
 
-        $this->assertContains($version, $console);
+        $this->assertContains('Rocketeer', $console);
     }
 }
