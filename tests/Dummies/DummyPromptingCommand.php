@@ -29,5 +29,6 @@ class DummyPromptingCommand extends AbstractCommand
     public function fire()
     {
         $this->command->confirm('Annie are you okay?');
+        $this->command->writeln($this->command->choice('Foobar?', ['foo', 'bar']));
     }
 }

@@ -14,6 +14,7 @@ namespace Rocketeer\Console;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -40,7 +41,10 @@ class RocketeerStyle extends SymfonyStyle
     public function askQuestion(Question $question)
     {
         if (!$this->input->isInteractive()) {
-            return $this->writeln('<error>Non-interactive mode, prompt was skipped:</error> '.$question->getQuestion());
+            $this->writeln('<error>Non-interactive mode, prompt was skipped:</error> '.$question->getQuestion());
+            $default = $question instanceof ChoiceQuestion ? head($question->getChoices()) : $question->getDefault();
+
+            return $default;
         }
 
         return parent::askQuestion($question);
