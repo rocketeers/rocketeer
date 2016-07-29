@@ -47,6 +47,7 @@ class BootstrapperTest extends RocketeerTestCase
 
     public function testCanUseFilesAndFoldersForContextualConfig()
     {
+        $this->swapConfigWithEvents();
         $folder = $this->replicateConfiguration();
 
         $file = $folder.'/connections/production/scm.php';

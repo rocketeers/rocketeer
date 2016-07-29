@@ -110,7 +110,7 @@ trait ConfigurationTester
     /**
      * @param array $expectations
      */
-    public function swapConfig(array $expectations)
+    public function swapConfig(array $expectations = [])
     {
         $this->connections->disconnect();
 

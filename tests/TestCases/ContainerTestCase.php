@@ -19,7 +19,7 @@ use PHPUnit_Framework_TestCase;
 use Prophecy\Prophecy\ObjectProphecy;
 use Rocketeer\Console\Commands\AbstractCommand;
 use Rocketeer\Console\StyleInterface;
-use Rocketeer\Container;
+use Rocketeer\Services\Container\Container;
 use Rocketeer\Services\Filesystem\Filesystem;
 use Rocketeer\Services\Filesystem\FilesystemInterface;
 use Rocketeer\Services\Storages\Storage;
@@ -71,7 +71,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         $this->server = realpath(__DIR__.'/../_server').'/foobar';
 
         $this->setupContainer();
-        $this->swapConfigWithEvents();
+        $this->swapConfig();
     }
 
     /**

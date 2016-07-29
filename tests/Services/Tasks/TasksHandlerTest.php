@@ -37,6 +37,7 @@ class TasksHandlerTest extends RocketeerTestCase
 
     public function testCanGetTasksBeforeOrAfterAnotherTask()
     {
+        $this->swapConfigWithEvents();
         $task = $this->task('Deploy');
         $before = $this->tasks->getTasksListeners($task, 'before', true);
 
@@ -119,6 +120,7 @@ class TasksHandlerTest extends RocketeerTestCase
 
     public function testCangetTasksListenersOrAfterAnotherTaskBySlug()
     {
+        $this->swapConfigWithEvents();
         $after = $this->tasks->getTasksListeners('deploy', 'after', true);
 
         $this->assertEquals(['after', 'foobar'], $after);
