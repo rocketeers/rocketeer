@@ -82,7 +82,7 @@ TXT
         $type = $this->command->choice('Do you prefer to write your tasks as classes or functions?', $this->types, $this->types[0]);
 
         $namespace = $type === $this->types[0] ? $this->bootstrapper->getUserNamespace() : null;
-        $this->generateStubs($type, $configuration.DS.$namespace, $namespace);
+        $this->generateStubs($type, $configuration.DS.'app', $namespace);
 
         $this->command->writeln('Okay, you are ready to send your projects in the cloud. Fire away rocketeer!');
     }

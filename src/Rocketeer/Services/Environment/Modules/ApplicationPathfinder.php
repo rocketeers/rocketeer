@@ -52,10 +52,7 @@ class ApplicationPathfinder extends AbstractPathfinderModule
      */
     public function getUserlandPath()
     {
-        $namespace = $this->bootstrapper->getUserNamespace();
-        $path = $this->getRocketeerPath().'/'.$namespace;
-
-        return $this->modulable->unifyLocalSlashes($path);
+        return $this->modulable->unifyLocalSlashes($this->getRocketeerPath().'/app');
     }
 
     /**
