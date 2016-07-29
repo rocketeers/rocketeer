@@ -138,9 +138,11 @@ class ConfigurationDefinitionTest extends RocketeerTestCase
                     'before' => [
                         'deploy' => ['echo "foobar"'],
                         'foo' => ['bar'],
-                        'baz' => [function ($task) {
-                            $task->run('qux');
-                        }],
+                        'baz' => [
+                            function ($task) {
+                                $task->run('qux');
+                            },
+                        ],
                     ],
                 ],
             ],

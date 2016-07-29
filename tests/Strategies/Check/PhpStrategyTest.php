@@ -44,7 +44,7 @@ class PhpStrategyTest extends RocketeerTestCase
     public function testCanCheckPhpExtensions()
     {
         $this->usesComposer(true, null, [
-           'required' => ['ext-sqlite' => '*'],
+            'required' => ['ext-sqlite' => '*'],
         ]);
 
         $this->mockHhvm(false, [
