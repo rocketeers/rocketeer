@@ -16,6 +16,7 @@ use Illuminate\Support\Arr;
 use Rocketeer\Container;
 use Rocketeer\Services\Config\ConfigurationDefinition;
 use Rocketeer\Services\Config\Files\Finders\AbstractConfigurationFinder;
+use Rocketeer\Services\Config\Files\Finders\ConsolidatedConfigurationFinder;
 use Rocketeer\Services\Config\Files\Finders\ContextualConfigurationFinder;
 use Rocketeer\Services\Config\Files\Finders\MainConfigurationFinder;
 use Rocketeer\Services\Config\Files\Finders\PluginsConfigurationFinder;
@@ -142,6 +143,10 @@ class ConfigurationLoader implements ConfigurationLoaderInterface
             }
         }
 
+        // Load consolidated configuration
+        $consolidated = new ConsolidatedConfigurationFinder($this->files, $this->paths->getRocketeerPath());
+        $files = array_merge($files, $consolidated->getFiles());
+
         return $files;
     }
 
@@ -165,6 +170,13 @@ class ConfigurationLoader implements ConfigurationLoaderInterface
             return $configuration;
         }
 
+        // Since non-PHP files don't support closures
+        // unset them to pass configuration validation
+        if ($file->getExtension() !== 'php') {
+            unset($contents['config']['logs'], $contents['remote']['permissions']['callback']);
+        }
+
+        // Append configuration to the queue
         $configuration[$pathname] = [];
         Arr::set($configuration[$pathname], $key, $contents);
 
