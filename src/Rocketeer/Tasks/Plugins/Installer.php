@@ -47,7 +47,8 @@ class Installer extends AbstractTask
             $this->files->put($manifest, $contents);
         }
 
-        $command = $this->composer()->require($package, [
+        $method = $package ? 'require' : 'install';
+        $command = $this->composer()->$method($package, [
             '--working-dir' => $folder,
         ]);
 

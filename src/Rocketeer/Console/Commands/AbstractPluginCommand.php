@@ -47,7 +47,7 @@ class AbstractPluginCommand extends AbstractCommand
     protected function getArguments()
     {
         return [
-            ['package', InputArgument::REQUIRED, 'The package to publish the configuration for'],
+            ['package', InputArgument::OPTIONAL, 'The package to publish the configuration for'],
         ];
     }
 }
