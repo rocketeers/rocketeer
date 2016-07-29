@@ -42,7 +42,9 @@ class ApplicationPathfinder extends AbstractPathfinderModule
      */
     public function getLogsPath()
     {
-        return $this->modulable->unifyLocalSlashes($this->getRocketeerPath().'/logs');
+        $folder = $this->config->get('logs_path', 'logs');
+
+        return $this->modulable->unifyLocalSlashes($this->getRocketeerPath().'/'.$folder);
     }
 
     /**

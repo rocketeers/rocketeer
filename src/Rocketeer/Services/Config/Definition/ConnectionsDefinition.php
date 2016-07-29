@@ -62,6 +62,10 @@ class ConnectionsDefinition extends AbstractDefinition
                     return sprintf('%s-%s.log', $connections->getCurrentConnectionKey(), date('Ymd'));
                 })
             ->end()
+            ->scalarNode('logs_path')
+                ->info('Where to store the logs in (relative to the .rocketeer folder)')
+                ->defaultValue('logs')
+            ->end()
             ->arrayNode('default')
                 ->info('The default remote connection(s) to execute tasks on')
                 ->beforeNormalization()

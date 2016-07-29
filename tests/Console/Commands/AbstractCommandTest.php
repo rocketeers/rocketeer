@@ -32,14 +32,6 @@ class AbstractCommandTest extends RocketeerTestCase
         $this->assertEquals(1, $code);
     }
 
-    public function testDisplaysWarningInNonInteractiveMode()
-    {
-        $command = new DummyPromptingCommand();
-        $tester = $this->executeCommand($command, [], ['interactive' => false]);
-
-        $this->assertContains('prompt was skipped: Annie are you ok', $tester->getDisplay());
-    }
-
     public function testCanFireEvents()
     {
         $this->rocketeer->setLocal(true);

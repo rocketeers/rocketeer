@@ -191,6 +191,12 @@ class PathfinderTest extends RocketeerTestCase
         $this->assertEquals('/foobar/foo/foobar/baz', $folder);
     }
 
+    public function testCanChangeLogsPath()
+    {
+        $this->config->set('logs_path', '../../storage/logs');
+        $this->assertEquals('/src/.rocketeer/../../storage/logs', $this->paths->getLogsPath());
+    }
+
     /**
      * @dataProvider providePaths
      *

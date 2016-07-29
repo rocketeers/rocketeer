@@ -24,6 +24,7 @@ class Configuration extends Collection
     protected $rootNodes = [
         'application_name',
         'logs',
+        'logs_path',
         'default',
         'connections',
         'on',
