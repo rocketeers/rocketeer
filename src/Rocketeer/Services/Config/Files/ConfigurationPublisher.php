@@ -75,7 +75,7 @@ class ConfigurationPublisher
 
         // Consolidate or not configuration
         if ($consolidated) {
-            $destination .= '/config.'.$format;
+            $destination .= '/rocketeer.'.$format;
         }
 
         // Unzip configuration files

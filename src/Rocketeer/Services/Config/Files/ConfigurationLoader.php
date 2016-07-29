@@ -121,7 +121,7 @@ class ConfigurationLoader
     /**
      * @param string[] $folders
      */
-    public function setFolders($folders)
+    public function setFolders(array $folders)
     {
         $this->folders = $folders;
 
@@ -298,6 +298,8 @@ class ConfigurationLoader
         $key = $file->getBasename('.'.$file->getExtension());
         if (array_keys($contents) !== [$key] || !is_array($contents[$key])) {
             return [$key => $contents];
+        } elseif (array_keys($contents) === ['rocketeer']) {
+            return $contents['rocketeer'];
         }
 
         return $contents;
