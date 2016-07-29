@@ -202,7 +202,7 @@ class CredentialsGatherer
     }
 
     /**
-     * Present the connections in a table-like manner
+     * Present the connections in a table-like manner.
      *
      * @param array $connections
      */

@@ -20,8 +20,9 @@ use Rocketeer\Console\Console;
 use Rocketeer\Rocketeer;
 use Rocketeer\Services\Builders\Builder;
 use Rocketeer\Services\Config\ContextualConfiguration;
-use Rocketeer\Services\Config\Files\ConfigurationLoader;
 use Rocketeer\Services\Config\Files\ConfigurationPublisher;
+use Rocketeer\Services\Config\Files\Loaders\ConfigurationLoader;
+use Rocketeer\Services\Config\Files\Loaders\ConfigurationLoaderInterface;
 use Rocketeer\Services\Connections\ConnectionsFactory;
 use Rocketeer\Services\Connections\ConnectionsHandler;
 use Rocketeer\Services\Connections\Coordinator;
@@ -122,7 +123,7 @@ trait HasLocatorTrait
             'builder' => Builder::class,
             'command' => 'rocketeer.command',
             'config' => ContextualConfiguration::class,
-            'configurationLoader' => 'config.loader',
+            'configurationLoader' => ConfigurationLoaderInterface::class,
             'configurationPublisher' => ConfigurationPublisher::class,
             'connections' => ConnectionsHandler::class,
             'console' => Console::class,

@@ -25,7 +25,7 @@ class ConfigurationLoaderTest extends RocketeerTestCase
             __FILE__,
         ]);
 
-        $folders = $this->configurationLoader->getConfigurationFolders();
+        $folders = $this->configurationLoader->getFolders();
         $this->assertEquals([__DIR__], $folders);
     }
 

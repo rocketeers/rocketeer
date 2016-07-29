@@ -12,6 +12,8 @@
 
 namespace Rocketeer\Console\Commands;
 
+use Rocketeer\Services\Config\Files\ConfigurationCache;
+
 /**
  * Flushes any custom storage Rocketeer has created.
  *
@@ -41,7 +43,7 @@ class FlushCommand extends AbstractCommand
         $this->container->add('rocketeer.command', $this);
 
         // Clear the cache of credentials
-        $this->configurationLoader->getCache()->flush();
+        $this->container->get(ConfigurationCache::class)->flush();
         $this->localStorage->destroy();
         $this->explainer->info("Rocketeer's cache has been properly flushed");
 

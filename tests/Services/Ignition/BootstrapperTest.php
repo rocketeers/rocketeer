@@ -62,6 +62,7 @@ class BootstrapperTest extends RocketeerTestCase
 
         $file = $folder.'/plugins/laravel.php';
         $this->files->write($file, '<?php return ["foo" => "bar"];');
+        $this->files->write($folder.'/plugins/foobar.php', '<?php return ["bar" => "baz"];');
 
         $this->bootstrapper->bootstrapConfiguration();
         $this->assertEquals('bar', $this->config->get('plugins.config.laravel.foo'));

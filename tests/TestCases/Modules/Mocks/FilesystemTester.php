@@ -12,6 +12,7 @@
 
 namespace Rocketeer\TestCases\Modules\Mocks;
 
+use Rocketeer\Services\Config\Files\ConfigurationCache;
 use Rocketeer\Services\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
@@ -38,13 +39,13 @@ trait FilesystemTester
      */
     protected function replicateConfiguration()
     {
-        $folder = $this->configurationLoader->getFolders()[0];
+        $folder = realpath(__DIR__.'/../../../../src/config');
 
         $this->replicateFolder($folder);
         $this->replicateFolder($folder.'/../stubs');
 
         $this->configurationLoader->setFolders([$folder]);
-        $this->configurationLoader->getCache()->flush();
+        $this->container->get(ConfigurationCache::class)->flush();
 
         return $folder;
     }

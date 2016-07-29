@@ -14,8 +14,10 @@ namespace Rocketeer\Services\Config;
 
 use League\Container\ServiceProvider\AbstractServiceProvider;
 use Rocketeer\Services\Config\Files\ConfigurationCache;
-use Rocketeer\Services\Config\Files\ConfigurationLoader;
 use Rocketeer\Services\Config\Files\ConfigurationPublisher;
+use Rocketeer\Services\Config\Files\Loaders\CachedConfigurationLoader;
+use Rocketeer\Services\Config\Files\Loaders\ConfigurationLoader;
+use Rocketeer\Services\Config\Files\Loaders\ConfigurationLoaderInterface;
 use Rocketeer\Services\Config\Loaders\JsonLoader;
 use Rocketeer\Services\Config\Loaders\PhpLoader;
 use Rocketeer\Services\Config\Loaders\YamlLoader;
@@ -34,7 +36,7 @@ class ConfigurationServiceProvider extends AbstractServiceProvider
      */
     protected $provides = [
         ConfigurationCache::class,
-        'config.loader',
+        ConfigurationLoaderInterface::class,
         ConfigurationPublisher::class,
         ContextualConfiguration::class,
         LoaderInterface::class,
@@ -62,14 +64,15 @@ class ConfigurationServiceProvider extends AbstractServiceProvider
             return new ConfigurationCache($this->paths->getConfigurationCachePath(), true);
         });
 
-        $this->container->share('config.loader', function () {
+        $this->container->share(ConfigurationLoaderInterface::class, function () {
+            $cache = $this->container->get(ConfigurationCache::class);
             $loader = $this->container->get(ConfigurationLoader::class);
             $loader->setFolders([
                 realpath(__DIR__.'/../../../config'),
                 $this->paths->getConfigurationPath(),
             ]);
 
-            return $loader;
+            return new CachedConfigurationLoader($cache, $loader);
         });
 
         $this->container->share(ConfigurationPublisher::class)->withArgument($this->container);

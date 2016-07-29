@@ -69,13 +69,13 @@ class ConfigurationPublisher
         $destination = $this->paths->getConfigurationPath();
 
         // Create directory
-        if (!$this->files->isDirectory($destination)) {
+        if (!$this->files->isDirectory($destination) && !$consolidated) {
             $this->files->createDir($destination);
         }
 
         // Consolidate or not configuration
         if ($consolidated) {
-            $destination .= '/rocketeer.'.$format;
+            $destination = $this->paths->getRocketeerPath().'/rocketeer.'.$format;
         }
 
         // Unzip configuration files
