@@ -166,7 +166,7 @@ class AbstractTaskTest extends RocketeerTestCase
             [2, 10000000000000, '<fg=green>0999-11-30 00:00:00</fg=green>', '✓'],
         ];
 
-        $prophecy = $this->bindProphecy(AbstractCommand::class, 'rocketeer.command');
+        $prophecy = $this->bindProphecy(AbstractCommand::class);
         $this->task('CurrentRelease')->execute();
 
         $prophecy->table($headers, $releases)->shouldHaveBeenCalled();

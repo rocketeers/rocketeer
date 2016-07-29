@@ -135,7 +135,7 @@ trait ConsoleTester
         $command->setInput($input);
         $command->setOutput(new NullOutput());
 
-        $this->container->add('rocketeer.command', $command);
+        $this->container->add('command', $command);
     }
 
     /**
@@ -145,7 +145,7 @@ trait ConsoleTester
      */
     protected function mockEchoingCommand()
     {
-        $prophecy = $this->bindProphecy(AbstractCommand::class, 'rocketeer.command');
+        $prophecy = $this->bindProphecy(AbstractCommand::class);
         $prophecy->option(Argument::cetera())->willReturn();
         $prophecy->writeln(Argument::any())->will(function ($arguments) {
             echo $arguments[0];
@@ -163,7 +163,7 @@ trait ConsoleTester
      */
     protected function mockAnswers(array $answers = [])
     {
-        $prophecy = $this->bindProphecy(AbstractCommand::class, 'rocketeer.command');
+        $prophecy = $this->bindProphecy(AbstractCommand::class);
 
         if (!$answers) {
             $prophecy->ask(Argument::any())->shouldNotBeCalled();
@@ -188,7 +188,7 @@ trait ConsoleTester
             $prophecy->confirm($argument, Argument::any())->willReturn($answer);
         }
 
-        $this->container->add('rocketeer.command', $prophecy->reveal());
+        $this->container->add('command', $prophecy->reveal());
 
         return $prophecy;
     }

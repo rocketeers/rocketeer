@@ -37,7 +37,7 @@ class TeardownTest extends RocketeerTestCase
         $prophecy = $this->bindProphecy(Storage::class, 'storage.local');
 
         $task = $this->pretendTask('Teardown');
-        $commandProphecy = $this->bindProphecy(AbstractCommand::class, 'rocketeer.command');
+        $commandProphecy = $this->bindProphecy(AbstractCommand::class, 'command');
         $commandProphecy->writeln(Argument::cetera())->willReturn();
         $commandProphecy->confirm(Argument::any())->willReturn(false);
 

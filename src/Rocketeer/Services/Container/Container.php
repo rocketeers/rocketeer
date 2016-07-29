@@ -23,7 +23,7 @@ use Rocketeer\Services\Environment\EnvironmentServiceProvider;
 use Rocketeer\Services\Events\EventsServiceProvider;
 use Rocketeer\Services\Filesystem\FilesystemServiceProvider;
 use Rocketeer\Services\History\HistoryServiceProvider;
-use Rocketeer\Services\Ignition\IgnitionServiceProvider;
+use Rocketeer\Services\Ignition\BootstrapperServiceProvider;
 use Rocketeer\Services\Releases\ReleasesServiceProvider;
 use Rocketeer\Services\Roles\RolesServiceProvider;
 use Rocketeer\Services\Storages\StorageServiceProvider;
@@ -70,7 +70,7 @@ class Container extends \League\Container\Container
             StorageServiceProvider::class,
             StrategiesServiceProvider::class,
             TasksServiceProvider::class,
-            IgnitionServiceProvider::class,
+            BootstrapperServiceProvider::class,
         ];
 
         foreach ($providers as $provider) {
@@ -95,7 +95,7 @@ class Container extends \League\Container\Container
     ////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Alias a container entry
+     * Alias a container entry.
      *
      * @param string $to
      * @param string $from

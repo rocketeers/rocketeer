@@ -113,6 +113,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
                 $prophecy->willImplement(FilesystemInterface::class);
                 break;
             case AbstractCommand::class:
+                $handle = 'command';
                 $prophecy
                     ->willImplement(StyleInterface::class)
                     ->willImplement(OutputInterface::class);

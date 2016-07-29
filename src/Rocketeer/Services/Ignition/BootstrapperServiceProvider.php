@@ -21,7 +21,7 @@ use Rocketeer\Services\Ignition\Modules\TasksBootstrapper;
 use Rocketeer\Services\Ignition\Modules\UserBootstrapper;
 use Rocketeer\Traits\HasLocatorTrait;
 
-class IgnitionServiceProvider extends AbstractServiceProvider implements BootableServiceProviderInterface
+class BootstrapperServiceProvider extends AbstractServiceProvider implements BootableServiceProviderInterface
 {
     use HasLocatorTrait;
 

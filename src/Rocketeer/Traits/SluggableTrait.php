@@ -17,7 +17,7 @@ use Illuminate\Support\Str;
 trait SluggableTrait
 {
     /**
-     * A cache of generated slugs
+     * A cache of generated slugs.
      *
      * @var array
      */

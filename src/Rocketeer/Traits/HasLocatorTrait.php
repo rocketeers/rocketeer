@@ -121,7 +121,6 @@ trait HasLocatorTrait
             'bash' => Bash::class,
             'bootstrapper' => Bootstrapper::class,
             'builder' => Builder::class,
-            'command' => 'rocketeer.command',
             'config' => ContextualConfiguration::class,
             'configurationLoader' => ConfigurationLoaderInterface::class,
             'configurationPublisher' => ConfigurationPublisher::class,
@@ -171,7 +170,7 @@ trait HasLocatorTrait
      */
     protected function hasCommand()
     {
-        return $this->container->has('rocketeer.command');
+        return $this->container->has('command');
     }
 
     /**

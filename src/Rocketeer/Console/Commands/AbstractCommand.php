@@ -90,7 +90,6 @@ abstract class AbstractCommand extends Command implements IdentifierInterface, C
         // to the command
         if ($task) {
             $this->task = $task;
-            $this->task->command = $this;
 
             if (!$this->description && $description = $task->getDescription()) {
                 $this->setDescription($description);
@@ -202,7 +201,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface, C
     public function __get($key)
     {
         $key = $this->getLocatorHandle($key);
-        if ($key === 'rocketeer.command') {
+        if ($key === 'command') {
             return $this;
         }
 
@@ -286,7 +285,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface, C
         });
 
         // Remove command instance
-        $this->container->remove('rocketeer.command');
+        $this->container->remove('command');
 
         // Save history to logs
         $this->explainer->info('Saved logs to '.$this->logs->getLogsRealpath());
@@ -364,7 +363,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface, C
     protected function prepareEnvironment()
     {
         // Bind command to container
-        $this->container->add('rocketeer.command', $this);
+        $this->container->add('command', $this);
 
         // Set active connections from flag
         if ($connections = $this->command->option('on')) {
