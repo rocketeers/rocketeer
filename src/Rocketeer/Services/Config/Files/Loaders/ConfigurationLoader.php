@@ -144,8 +144,11 @@ class ConfigurationLoader implements ConfigurationLoaderInterface
         }
 
         // Load consolidated configuration
-        $consolidated = new ConsolidatedConfigurationFinder($this->files, $this->paths->getRocketeerPath());
-        $files = array_merge($files, $consolidated->getFiles());
+        $folder = $this->paths->getRocketeerPath();
+        if ($this->files->has($folder)) {
+            $consolidated = new ConsolidatedConfigurationFinder($this->files, $folder);
+            $files = array_merge($files, $consolidated->getFiles());
+        }
 
         return $files;
     }
