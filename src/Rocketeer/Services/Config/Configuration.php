@@ -92,6 +92,9 @@ class Configuration extends Collection
      */
     private function prefixKey($key)
     {
-        return Str::startsWith($key, $this->rootNodes) ? 'config.'.$key : $key;
+        $first = explode('.', $key)[0];
+        $isRootNode = in_array($first, $this->rootNodes, true);
+
+        return $isRootNode ? 'config.'.$key : $key;
     }
 }
