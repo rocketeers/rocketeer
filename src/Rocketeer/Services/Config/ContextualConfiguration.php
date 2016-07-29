@@ -13,8 +13,8 @@
 namespace Rocketeer\Services\Config;
 
 use Closure;
-use Rocketeer\Container;
 use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
+use Rocketeer\Services\Container\Container;
 use Rocketeer\Traits\ContainerAwareTrait;
 
 /**

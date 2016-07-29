@@ -13,7 +13,7 @@
 namespace Rocketeer\Traits;
 
 use League\Container\ContainerAwareTrait as LeagueContainerAwareTrait;
-use Rocketeer\Container;
+use Rocketeer\Services\Container\Container;
 
 trait ContainerAwareTrait
 {

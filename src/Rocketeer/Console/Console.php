@@ -13,8 +13,8 @@
 namespace Rocketeer\Console;
 
 use League\Container\ContainerAwareInterface;
-use Rocketeer\Container;
 use Rocketeer\Rocketeer;
+use Rocketeer\Services\Container\Container;
 use Rocketeer\Traits\ContainerAwareTrait;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;

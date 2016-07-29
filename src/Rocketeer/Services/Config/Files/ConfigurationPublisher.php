@@ -12,8 +12,8 @@
 
 namespace Rocketeer\Services\Config\Files;
 
-use Rocketeer\Container;
 use Rocketeer\Services\Config\ConfigurationDefinition;
+use Rocketeer\Services\Container\Container;
 use Rocketeer\Traits\ContainerAwareTrait;
 use Symfony\Component\Config\Definition\ArrayNode;
 use Symfony\Component\Config\Definition\Dumper\XmlReferenceDumper;

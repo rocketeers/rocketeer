@@ -13,13 +13,13 @@
 namespace Rocketeer\Services\Config\Files\Loaders;
 
 use Illuminate\Support\Arr;
-use Rocketeer\Container;
 use Rocketeer\Services\Config\ConfigurationDefinition;
 use Rocketeer\Services\Config\Files\Finders\AbstractConfigurationFinder;
 use Rocketeer\Services\Config\Files\Finders\ConsolidatedConfigurationFinder;
 use Rocketeer\Services\Config\Files\Finders\ContextualConfigurationFinder;
 use Rocketeer\Services\Config\Files\Finders\MainConfigurationFinder;
 use Rocketeer\Services\Config\Files\Finders\PluginsConfigurationFinder;
+use Rocketeer\Services\Container\Container;
 use Rocketeer\Traits\ContainerAwareTrait;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\Loader\LoaderInterface;

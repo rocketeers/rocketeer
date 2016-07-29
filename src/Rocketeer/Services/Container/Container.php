@@ -10,10 +10,11 @@
  *
  */
 
-namespace Rocketeer;
+namespace Rocketeer\Services\Container;
 
 use League\Container\ReflectionContainer;
 use Rocketeer\Console\ConsoleServiceProvider;
+use Rocketeer\RocketeerServiceProvider;
 use Rocketeer\Services\Builders\BuilderServiceProvider;
 use Rocketeer\Services\Config\ConfigurationServiceProvider;
 use Rocketeer\Services\Connections\ConnectionsServiceProvider;
@@ -92,6 +93,19 @@ class Container extends \League\Container\Container
     ////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////// BINDINGS ///////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Alias a container entry
+     *
+     * @param string $to
+     * @param string $from
+     */
+    public function alias($to, $from)
+    {
+        $this->add($to, function () use ($from) {
+            return $this->get($from);
+        });
+    }
 
     /**
      * @param string $key

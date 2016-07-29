@@ -12,7 +12,7 @@
 
 namespace Rocketeer\Strategies\Dependencies;
 
-use Rocketeer\Container;
+use Rocketeer\Services\Container\Container;
 use Rocketeer\Strategies\AbstractStrategy;
 use Rocketeer\Strategies\HasBinaryTrait;
 

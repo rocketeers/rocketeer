@@ -10,8 +10,8 @@
  *
  */
 
-use Rocketeer\Container;
 use Rocketeer\Services\Config\Files\ConfigurationPublisher;
+use Rocketeer\Services\Container\Container;
 
 require 'vendor/autoload.php';
 

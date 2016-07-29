@@ -12,7 +12,7 @@
 
 namespace Rocketeer\Facades;
 
-use Rocketeer\Container;
+use Rocketeer\Services\Container\Container;
 
 /**
  * Class for self-bootstrapping facades.

@@ -13,7 +13,7 @@
 namespace Rocketeer\Services\Releases;
 
 use Illuminate\Support\Arr;
-use Rocketeer\Container;
+use Rocketeer\Services\Container\Container;
 use Rocketeer\Traits\ContainerAwareTrait;
 
 /**

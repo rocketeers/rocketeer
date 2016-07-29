@@ -14,7 +14,7 @@ namespace Rocketeer\Services\Filesystem;
 
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\FilesystemInterface;
-use Rocketeer\Container;
+use Rocketeer\Services\Container\Container;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class MountManagerTest extends RocketeerTestCase

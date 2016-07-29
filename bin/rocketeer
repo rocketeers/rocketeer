@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 use Rocketeer\Console\Console;
-use Rocketeer\Container;
+use Rocketeer\Services\Container\Container;
 use Rocketeer\Services\Environment\Modules\HomePathfinder;
 
 $vendors = [

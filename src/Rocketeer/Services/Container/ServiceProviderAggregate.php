@@ -10,7 +10,7 @@
  *
  */
 
-namespace Rocketeer;
+namespace Rocketeer\Services\Container;
 
 use Rocketeer\Plugins\AbstractPlugin;
 

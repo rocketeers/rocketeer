@@ -14,8 +14,8 @@ namespace Rocketeer\Strategies\Check;
 
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
-use Rocketeer\Container;
 use Rocketeer\Services\Builders\Builder;
+use Rocketeer\Services\Container\Container;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class PolyglotStrategyTest extends RocketeerTestCase
