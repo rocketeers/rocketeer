@@ -81,12 +81,8 @@ class RocketeerIgniter
         }
 
         $this->files->createDir($destination);
-        $files = $this->files->listContents($source, true);
+        $files = $this->files->listFiles($source, true);
         foreach ($files as $file) {
-            if ($file['type'] === 'dir') {
-                continue;
-            }
-
             $contents = $this->files->read($file['path']);
             $basename = $file['basename'];
             $fileDestination = $destination.DS.$basename;
