@@ -10,7 +10,7 @@
  *
  */
 
-namespace Rocketeer\Services\Bootstrapper;
+namespace Rocketeer\Services\Ignition;
 
 use Illuminate\Support\Arr;
 use Rocketeer\Traits\ContainerAwareTrait;
@@ -20,7 +20,7 @@ use Rocketeer\Traits\ContainerAwareTrait;
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
-class Plugins
+class PluginsIgniter
 {
     use ContainerAwareTrait;
 

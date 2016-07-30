@@ -10,12 +10,12 @@
  *
  */
 
-namespace Rocketeer\Services\Bootstrapper;
+namespace Rocketeer\Services\Ignition;
 
 use Prophecy\Argument;
 use Rocketeer\TestCases\RocketeerTestCase;
 
-class PluginsTest extends RocketeerTestCase
+class PluginsIgniterTest extends RocketeerTestCase
 {
     /**
      * @var string
@@ -23,7 +23,7 @@ class PluginsTest extends RocketeerTestCase
     protected $from;
 
     /**
-     * @var Plugins
+     * @var PluginsIgniter
      */
     protected $plugins;
 
@@ -31,7 +31,7 @@ class PluginsTest extends RocketeerTestCase
     {
         parent::setUp();
 
-        $this->plugins = new Plugins($this->container);
+        $this->plugins = new PluginsIgniter($this->container);
         $this->from = $this->container->get('path.base').'/vendor/anahkiasen/rocketeer-slack/src/config';
     }
 

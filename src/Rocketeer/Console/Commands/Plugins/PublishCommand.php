@@ -13,7 +13,7 @@
 namespace Rocketeer\Console\Commands\Plugins;
 
 use Rocketeer\Console\Commands\AbstractCommand;
-use Rocketeer\Services\Bootstrapper\Plugins;
+use Rocketeer\Services\Ignition\PluginsIgniter;
 use Symfony\Component\Console\Input\InputArgument;
 
 class PublishCommand extends AbstractCommand
@@ -50,7 +50,7 @@ class PublishCommand extends AbstractCommand
         /** @var string $package */
         $package = $this->argument('package');
 
-        $publisher = new Plugins($this->container);
+        $publisher = new PluginsIgniter($this->container);
         $publisher->publish($package);
     }
 

@@ -64,6 +64,7 @@ abstract class RocketeerTestCase extends ContainerTestCase
 
         // Mock current environment
         $this->replicateFolder($this->server);
+        $this->files->put(__DIR__.'/../../bin/intro.txt', 'INTRO');
         $this->mockOperatingSystem('Linux');
     }
 }

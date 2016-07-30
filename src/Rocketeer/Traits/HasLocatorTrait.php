@@ -38,6 +38,7 @@ use Rocketeer\Services\Filesystem\Filesystem;
 use Rocketeer\Services\Filesystem\MountManager;
 use Rocketeer\Services\History\History;
 use Rocketeer\Services\History\LogsHandler;
+use Rocketeer\Services\Ignition\RocketeerIgniter;
 use Rocketeer\Services\Releases\ReleasesManager;
 use Rocketeer\Services\Roles\RolesManager;
 use Rocketeer\Services\Storages\Storage;
@@ -74,6 +75,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @property QueueTimer                     timer
  * @property ReleasesManager                releasesManager
  * @property Rocketeer                      rocketeer
+ * @property RocketeerIgniter               igniter
  * @property RolesManager                   roles
  * @property ScmInterface                   scm
  * @property Storage                        localStorage
@@ -135,6 +137,7 @@ trait HasLocatorTrait
             'files' => Filesystem::class,
             'filesystems' => MountManager::class,
             'history' => History::class,
+            'igniter' => RocketeerIgniter::class,
             'localStorage' => 'storage.local',
             'logs' => LogsHandler::class,
             'paths' => Pathfinder::class,
