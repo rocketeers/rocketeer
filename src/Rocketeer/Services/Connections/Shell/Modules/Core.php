@@ -76,7 +76,7 @@ class Core extends AbstractBashModule
             $this->modulable->toHistory($commands);
         }
 
-        // Display for pretend mode
+        // Display the commands if necessary
         if ($verbose || ($pretend && !$silent)) {
             $this->modulable->toOutput($commands);
             $this->displayCommands($commands);

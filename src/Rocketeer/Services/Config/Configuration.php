@@ -19,7 +19,7 @@ use Illuminate\Support\Collection;
  * An Arrayable containing the current configuration and easing
  * the access to the main configuration nodes.
  */
-class Configuration extends Collection
+class Configuration extends Collection implements ConfigurationInterface
 {
     /**
      * @var array
@@ -50,12 +50,7 @@ class Configuration extends Collection
     }
 
     /**
-     * Get an item from the collection by key.
-     *
-     * @param string $key
-     * @param mixed  $default
-     *
-     * @return mixed
+     * {@inheritdoc}
      */
     public function get($key, $default = null)
     {
@@ -68,8 +63,7 @@ class Configuration extends Collection
     }
 
     /**
-     * @param string $key
-     * @param mixed  $value
+     * {@inheritdoc}
      */
     public function set($key, $value)
     {
@@ -79,9 +73,7 @@ class Configuration extends Collection
     }
 
     /**
-     * Replace the current configuration.
-     *
-     * @param array $items
+     * {@inheritdoc}
      */
     public function replace(array $items)
     {

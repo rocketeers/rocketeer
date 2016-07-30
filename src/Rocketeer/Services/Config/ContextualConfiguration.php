@@ -18,9 +18,11 @@ use Rocketeer\Services\Container\Container;
 use Rocketeer\Traits\ContainerAwareTrait;
 
 /**
+ * Gets configuration relative to the current connection/plugin.
+ *
  * @mixin Configuration
  */
-class ContextualConfiguration
+class ContextualConfiguration implements ConfigurationInterface
 {
     use ContainerAwareTrait;
 
@@ -39,16 +41,45 @@ class ContextualConfiguration
         $this->configuration = $configuration;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////// BASE CONFIGURATION //////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
+
     /**
-     * @param string $name
-     * @param array  $arguments
-     *
-     * @return mixed
+     * {@inheritdoc}
      */
-    public function __call($name, $arguments)
+    public function get($key, $default = null)
     {
-        return $this->configuration->$name(...$arguments);
+        return $this->configuration->get($key, $default);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function set($key, $value)
+    {
+        return $this->configuration->set($key, $value);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function replace(array $items)
+    {
+        return $this->configuration->replace($items);
+    }
+
+    /**
+     * @return array
+     */
+    public function all()
+    {
+        return $this->configuration->all();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////// CONTEXTUAL CONFIGURATION //////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
 
     /**
      * Get an option for a plugin.

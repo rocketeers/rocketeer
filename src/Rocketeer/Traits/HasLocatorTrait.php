@@ -20,6 +20,7 @@ use Rocketeer\Console\Console;
 use Rocketeer\Rocketeer;
 use Rocketeer\Services\Bootstrapper\Bootstrapper;
 use Rocketeer\Services\Builders\Builder;
+use Rocketeer\Services\Config\ConfigurationInterface;
 use Rocketeer\Services\Config\ContextualConfiguration;
 use Rocketeer\Services\Config\Files\ConfigurationPublisher;
 use Rocketeer\Services\Config\Files\Loaders\ConfigurationLoader;
@@ -60,7 +61,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @property ConnectionsFactory             remote
  * @property ConnectionsHandler             connections
  * @property Console                        console
- * @property ContextualConfiguration        config
+ * @property ConfigurationInterface         config
  * @property Coordinator                    coordinator
  * @property CredentialsGatherer            credentialsGatherer
  * @property CredentialsHandler             credentials
