@@ -12,6 +12,7 @@
 
 namespace Rocketeer\Services\Bootstrapper\Modules;
 
+use Rocketeer\Dummies\Console\DummyCommand;
 use Rocketeer\Dummies\DummyNotifier;
 use Rocketeer\Tasks\Closure;
 use Rocketeer\TestCases\RocketeerTestCase;
@@ -102,5 +103,11 @@ PHP
 
         $listeners = $this->tasks->getTasksListeners('deploy', 'before', true);
         $this->assertEquals(['notify'], $listeners);
+    }
+
+    public function testCanRegisterCommands()
+    {
+        $this->config->set('hooks.tasks', DummyCommand::class);
+        $this->bootstrapper->bootstrapUserCode();
     }
 }
