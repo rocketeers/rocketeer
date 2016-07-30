@@ -73,11 +73,11 @@ trait ModulableTrait
         // Look in registered modules
         $key = isset($this->registered[$name]) ? $name : '__DEFAULT__';
 
-        // If we did find a module, run the method on it
-        if (isset($this->registered[$key])) {
-            return $this->registered[$key]->$name(...$arguments);
+        if (!isset($this->registered[$key])) {
+            throw new ModuleNotFoundException($name, __CLASS__);
+
         }
 
-        throw new ModuleNotFoundException($name, __CLASS__);
+        return $this->registered[$key]->$name(...$arguments);
     }
 }
