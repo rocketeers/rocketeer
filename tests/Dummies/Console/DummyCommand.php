@@ -13,7 +13,7 @@
 namespace Rocketeer\Dummies\Console;
 
 use Rocketeer\Console\Commands\AbstractCommand;
-use Rocketeer\Console\RocketeerStyle;
+use Rocketeer\Console\Style\RocketeerStyle;
 use Symfony\Component\Console\Input\InputInterface;
 
 class DummyCommand extends AbstractCommand

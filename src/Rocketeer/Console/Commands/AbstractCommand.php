@@ -13,7 +13,7 @@
 namespace Rocketeer\Console\Commands;
 
 use League\Container\ContainerAwareInterface;
-use Rocketeer\Console\RocketeerStyle;
+use Rocketeer\Console\Style\RocketeerStyle;
 use Rocketeer\Interfaces\IdentifierInterface;
 use Rocketeer\Tasks\AbstractTask;
 use Rocketeer\Tasks\Closure;

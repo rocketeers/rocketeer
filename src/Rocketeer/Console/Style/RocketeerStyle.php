@@ -10,7 +10,7 @@
  *
  */
 
-namespace Rocketeer\Console;
+namespace Rocketeer\Console\Style;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

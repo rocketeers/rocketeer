@@ -17,7 +17,7 @@ use League\Flysystem\MountManager;
 use League\Flysystem\Vfs\VfsAdapter;
 use Prophecy\Prophecy\ObjectProphecy;
 use Rocketeer\Console\Commands\AbstractCommand;
-use Rocketeer\Console\StyleInterface;
+use Rocketeer\Console\Style\StyleInterface;
 use Rocketeer\Services\Container\Container;
 use Rocketeer\Services\Filesystem\Filesystem;
 use Rocketeer\Services\Filesystem\FilesystemInterface;
