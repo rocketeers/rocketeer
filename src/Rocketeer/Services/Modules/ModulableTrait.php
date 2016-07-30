@@ -75,7 +75,6 @@ trait ModulableTrait
 
         if (!isset($this->registered[$key])) {
             throw new ModuleNotFoundException($name, __CLASS__);
-
         }
 
         return $this->registered[$key]->$name(...$arguments);

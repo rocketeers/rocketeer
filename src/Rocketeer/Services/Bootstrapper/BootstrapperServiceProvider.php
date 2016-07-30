@@ -12,6 +12,7 @@
 
 namespace Rocketeer\Services\Bootstrapper;
 
+use ErrorException;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 use League\Container\ServiceProvider\BootableServiceProviderInterface;
 use Rocketeer\Facades\Rocketeer;
@@ -73,6 +74,13 @@ class BootstrapperServiceProvider extends AbstractServiceProvider implements Boo
     public function boot()
     {
         $this->register();
+
+        // Handle errors as exceptions
+        set_error_handler(function ($level, $message, $file, $line) {
+            if (error_reporting() & $level) {
+                throw new ErrorException($message, 0, $level, $file, $line);
+            }
+        });
 
         // Set container onto facade and setup alias
         Rocketeer::setContainer($this->container);
