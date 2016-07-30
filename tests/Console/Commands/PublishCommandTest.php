@@ -20,7 +20,7 @@ class PublishCommandTest extends RocketeerTestCase
     {
         $this->usesLaravel(false);
 
-        $tester = $this->executeCommand('plugin:config', ['package' => 'foo/bar']);
+        $tester = $this->executeCommand('plugins:config', ['package' => 'foo/bar']);
         $this->assertContains('No configuration found', $tester->getDisplay());
     }
 }

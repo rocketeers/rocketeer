@@ -31,7 +31,7 @@ class UpdaterCommand extends AbstractPluginCommand
      *
      * @var string
      */
-    protected $name = 'plugin:update';
+    protected $name = 'plugins:update';
 
     /**
      * The console command description.

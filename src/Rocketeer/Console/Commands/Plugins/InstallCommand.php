@@ -30,7 +30,7 @@ class InstallCommand extends AbstractPluginCommand
      *
      * @var string
      */
-    protected $name = 'plugin:install';
+    protected $name = 'plugins:install';
 
     /**
      * The console command description.
