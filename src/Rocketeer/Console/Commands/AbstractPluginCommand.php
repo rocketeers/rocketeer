@@ -13,6 +13,7 @@
 namespace Rocketeer\Console\Commands;
 
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * An abstract from commands related to plugins.
@@ -39,6 +40,8 @@ class AbstractPluginCommand extends AbstractCommand
      */
     public function fire()
     {
+        $this->setVerbosity(OutputInterface::VERBOSITY_VERBOSE);
+
         return $this->fireTasksQueue($this->pluginTask);
     }
 
