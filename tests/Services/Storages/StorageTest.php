@@ -32,7 +32,8 @@ class StorageTest extends RocketeerTestCase
             ],
         ]));
 
-        $this->assertEquals('rocketeer.json', $this->localStorage->getFilename());
+        $name = basename(realpath(__DIR__.'/../../../'));
+        $this->assertEquals($name.'.json', $this->localStorage->getFilename());
     }
 
     public function testCanNormalizeFilename()
