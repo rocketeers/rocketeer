@@ -24,7 +24,7 @@ class ConsolidatedConfigurationFinder extends AbstractConfigurationFinder
      */
     public function getFiles()
     {
-        $files = $this->getFinder($this->folder)->name('/^rocketeer/')->files();
+        $files = $this->getFinder($this->folder)->name('/^rocketeer\./')->files();
         $files = iterator_to_array($files);
         if (!$files) {
             return [];

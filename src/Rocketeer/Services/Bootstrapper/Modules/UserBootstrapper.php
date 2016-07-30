@@ -82,7 +82,13 @@ class UserBootstrapper extends AbstractBootstrapperModule
             $isDir = $file['type'] === 'dir';
             $isPhp = !$isDir && isset($file['extension']) ? $file['extension'] === 'php' : false;
 
+            // If it's not a loadable file, proceed
             if ($isDir || !$isPhp || strpos($path, $appFolderPath) !== false) {
+                continue;
+            }
+
+            // If it's a Composer file, proceed as well
+            if (strpos($path, 'vendor/') !== false) {
                 continue;
             }
 
