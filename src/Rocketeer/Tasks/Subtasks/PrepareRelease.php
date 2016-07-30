@@ -14,6 +14,9 @@ namespace Rocketeer\Tasks\Subtasks;
 
 use Rocketeer\Tasks\AbstractTask;
 
+/**
+ * Prepares the release for use.
+ */
 class PrepareRelease extends AbstractTask
 {
     /**

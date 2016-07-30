@@ -14,6 +14,9 @@ namespace Rocketeer\Services\Filesystem\Plugins;
 
 use League\Flysystem\Plugin\AbstractPlugin;
 
+/**
+ * Copy a directory somewhere.
+ */
 class CopyDirectoryPlugin extends AbstractPlugin
 {
     /**

@@ -17,6 +17,9 @@ use Rocketeer\Services\Filesystem\Filesystem;
 use Rocketeer\Services\Roles\HasRolesInterface;
 use Rocketeer\Services\Roles\HasRolesTrait;
 
+/**
+ * Abstract class for all connections to extend.
+ */
 abstract class AbstractConnection extends Filesystem implements ConnectionInterface, HasRolesInterface
 {
     use HasRolesTrait;

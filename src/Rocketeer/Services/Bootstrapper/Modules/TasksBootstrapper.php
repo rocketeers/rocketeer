@@ -32,6 +32,10 @@ use Rocketeer\Tasks\Teardown;
 use Rocketeer\Tasks\Test;
 use Rocketeer\Tasks\Update;
 
+/**
+ * Register the core tasks with Rocketeer and bind
+ * them and their CLI commands to the container.
+ */
 class TasksBootstrapper extends AbstractBootstrapperModule
 {
     /**

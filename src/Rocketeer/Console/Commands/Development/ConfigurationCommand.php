@@ -16,6 +16,9 @@ use Illuminate\Support\Arr;
 use Rocketeer\Console\Commands\AbstractCommand;
 use Symfony\Component\Console\Input\InputArgument;
 
+/**
+ * Easily dump one or more nodes from the configuration.
+ */
 class ConfigurationCommand extends AbstractCommand
 {
     /**

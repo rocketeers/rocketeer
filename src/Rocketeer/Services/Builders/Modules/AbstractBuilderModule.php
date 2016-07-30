@@ -15,6 +15,9 @@ namespace Rocketeer\Services\Builders\Modules;
 use Rocketeer\Services\Builders\Builder;
 use Rocketeer\Services\Modules\AbstractModule;
 
+/**
+ * Abstract for modules of the Builder class.
+ */
 abstract class AbstractBuilderModule extends AbstractModule
 {
     /**

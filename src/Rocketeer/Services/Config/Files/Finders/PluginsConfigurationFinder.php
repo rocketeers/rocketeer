@@ -14,6 +14,9 @@ namespace Rocketeer\Services\Config\Files\Finders;
 
 use Symfony\Component\Finder\SplFileInfo;
 
+/**
+ * Finds configuration related to plugins.
+ */
 class PluginsConfigurationFinder extends AbstractConfigurationFinder
 {
     /**

@@ -15,6 +15,9 @@ namespace Rocketeer\Services\Environment\Modules;
 use Rocketeer\Services\Environment\Pathfinder;
 use Rocketeer\Services\Modules\AbstractModule;
 
+/**
+ * Abstract class for Pathfinder modules.
+ */
 abstract class AbstractPathfinderModule extends AbstractModule
 {
     /**

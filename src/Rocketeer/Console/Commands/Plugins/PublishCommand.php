@@ -16,6 +16,9 @@ use Rocketeer\Console\Commands\AbstractCommand;
 use Rocketeer\Services\Ignition\PluginsIgniter;
 use Symfony\Component\Console\Input\InputArgument;
 
+/**
+ * Publishes the configuration of a plugin.
+ */
 class PublishCommand extends AbstractCommand
 {
     /**

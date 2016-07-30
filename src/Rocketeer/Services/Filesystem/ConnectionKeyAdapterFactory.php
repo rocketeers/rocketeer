@@ -17,6 +17,10 @@ use League\Flysystem\AdapterInterface;
 use League\Flysystem\Sftp\SftpAdapter;
 use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
 
+/**
+ * Creates the correct Flysystem adapter according
+ * to a ConnectionKey instance.
+ */
 class ConnectionKeyAdapterFactory
 {
     /**

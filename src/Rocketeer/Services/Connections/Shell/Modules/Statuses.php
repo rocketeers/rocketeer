@@ -12,6 +12,10 @@
 
 namespace Rocketeer\Services\Connections\Shell\Modules;
 
+/**
+ * Bash module for methods related to checking a command's
+ * exit status and successful state.
+ */
 class Statuses extends AbstractBashModule
 {
     /**

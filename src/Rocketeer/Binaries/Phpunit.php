@@ -12,6 +12,9 @@
 
 namespace Rocketeer\Binaries;
 
+/**
+ * Represents the "phpunit" binary.
+ */
 class Phpunit extends AbstractBinary
 {
     /**

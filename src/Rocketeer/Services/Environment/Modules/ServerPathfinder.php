@@ -14,6 +14,9 @@ namespace Rocketeer\Services\Environment\Modules;
 
 use Illuminate\Support\Str;
 
+/**
+ * Get paths on the current server.
+ */
 class ServerPathfinder extends AbstractPathfinderModule
 {
     /**

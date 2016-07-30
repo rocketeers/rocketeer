@@ -14,6 +14,10 @@ namespace Rocketeer\Services\Filesystem\Plugins;
 
 use League\Flysystem\Plugin\AbstractPlugin;
 
+/**
+ * Creates a file with some content or append to it
+ * if it exists.
+ */
 class AppendPlugin extends AbstractPlugin
 {
     /**

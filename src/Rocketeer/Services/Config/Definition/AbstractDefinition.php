@@ -17,6 +17,9 @@ use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\TreeBuilder\NodeBuilder;
 
+/**
+ * Abstract for definitions of the root nodes of the configuration.
+ */
 abstract class AbstractDefinition implements ConfigurationInterface
 {
     /**

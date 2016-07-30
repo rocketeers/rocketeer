@@ -14,6 +14,9 @@ namespace Rocketeer\Console;
 
 use Symfony\Component\Console\Style\StyleInterface as SymfonyStyleInterface;
 
+/**
+ * Interface for Rocketeer's CLI style.
+ */
 interface StyleInterface extends SymfonyStyleInterface
 {
     /**

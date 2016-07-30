@@ -18,7 +18,6 @@ use Rocketeer\Services\Filesystem\Plugins\AppendPlugin;
 use Rocketeer\Services\Filesystem\Plugins\CopyDirectoryPlugin;
 use Rocketeer\Services\Filesystem\Plugins\IncludePlugin;
 use Rocketeer\Services\Filesystem\Plugins\IsDirectoryPlugin;
-use Rocketeer\Services\Filesystem\Plugins\RequirePlugin;
 use Rocketeer\Services\Filesystem\Plugins\UpsertPlugin;
 
 class FilesystemServiceProvider extends AbstractServiceProvider

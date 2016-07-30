@@ -15,6 +15,9 @@ namespace Rocketeer\Services\Config\Loaders;
 use InvalidArgumentException;
 use Symfony\Component\Config\Loader\Loader;
 
+/**
+ * Abstract class for file loaders.
+ */
 abstract class AbstractLoader extends Loader
 {
     /**

@@ -16,6 +16,9 @@ use League\Flysystem\FilesystemInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
+/**
+ * An abstract for classes responsible for finding configuration files.
+ */
 abstract class AbstractConfigurationFinder
 {
     /**

@@ -15,6 +15,10 @@ namespace Rocketeer\Services\Bootstrapper\Modules;
 use Illuminate\Support\Str;
 use Symfony\Component\ClassLoader\Psr4ClassLoader;
 
+/**
+ * Loads the user's .rocketeer folder and registers
+ * his/her custom code.
+ */
 class UserBootstrapper extends AbstractBootstrapperModule
 {
     /**

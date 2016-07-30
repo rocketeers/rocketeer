@@ -36,6 +36,10 @@ if (!defined('DS')) {
     define('DS', DIRECTORY_SEPARATOR);
 }
 
+/**
+ * A fork of the container class that autoloads
+ * Rocketeer's service providers on creation.
+ */
 class Container extends \League\Container\Container
 {
     /**

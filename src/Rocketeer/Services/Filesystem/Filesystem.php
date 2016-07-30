@@ -14,6 +14,10 @@ namespace Rocketeer\Services\Filesystem;
 
 use League\Flysystem\AdapterInterface;
 
+/**
+ * A fork of the Filesystem class that allows you to
+ * switch its adapter.
+ */
 class Filesystem extends \League\Flysystem\Filesystem
 {
     /**

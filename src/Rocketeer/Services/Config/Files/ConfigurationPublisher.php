@@ -16,11 +16,15 @@ use Rocketeer\Services\Config\ConfigurationDefinition;
 use Rocketeer\Services\Container\Container;
 use Rocketeer\Traits\ContainerAwareTrait;
 use Symfony\Component\Config\Definition\ArrayNode;
+use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Dumper\XmlReferenceDumper;
 use Symfony\Component\Config\Definition\Dumper\YamlReferenceDumper;
 use Symfony\Component\Config\Definition\Dumpers\JsonReferenceDumper;
 use Symfony\Component\Config\Definition\Dumpers\PhpReferenceDumper;
 
+/**
+ * Publishes a ConfigurationDefinition to a folder in a specific format.
+ */
 class ConfigurationPublisher
 {
     use ContainerAwareTrait;
@@ -36,7 +40,7 @@ class ConfigurationPublisher
     ];
 
     /**
-     * @var ConfigurationDefinition
+     * @var ConfigurationInterface
      */
     protected $definition;
 
@@ -50,9 +54,9 @@ class ConfigurationPublisher
     }
 
     /**
-     * @param ConfigurationDefinition $definition
+     * @param ConfigurationInterface $definition
      */
-    public function setDefinition($definition)
+    public function setDefinition(ConfigurationInterface $definition)
     {
         $this->definition = $definition;
     }

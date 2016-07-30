@@ -14,7 +14,7 @@ namespace Rocketeer\Services\Roles;
 
 /**
  * A class that can have roles and compare
- * them with a require list
+ * them with a require list.
  */
 interface HasRolesInterface
 {

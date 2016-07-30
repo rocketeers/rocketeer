@@ -16,6 +16,9 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Fluent;
 use Symfony\Component\Config\Definition\TreeBuilder\NodeBuilder;
 
+/**
+ * Configuration schema for the main configuration file.
+ */
 class ConnectionsDefinition extends AbstractDefinition
 {
     /**

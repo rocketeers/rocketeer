@@ -15,7 +15,7 @@ namespace Rocketeer\Services\Filesystem\Plugins;
 use League\Flysystem\Plugin\AbstractPlugin;
 
 /**
- * Puts contents into a file if it exists, if not create it
+ * Puts contents into a file if it exists, if not create it.
  */
 class UpsertPlugin extends AbstractPlugin
 {

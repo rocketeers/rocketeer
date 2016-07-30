@@ -15,6 +15,9 @@ namespace Rocketeer\Tasks\Subtasks;
 use Rocketeer\Services\Connections\Coordinator;
 use Rocketeer\Tasks\AbstractTask;
 
+/**
+ * Swaps the symlink on the server.
+ */
 class SwapSymlink extends AbstractTask
 {
     /**

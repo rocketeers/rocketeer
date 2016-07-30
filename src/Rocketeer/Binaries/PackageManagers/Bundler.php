@@ -12,6 +12,9 @@
 
 namespace Rocketeer\Binaries\PackageManagers;
 
+/**
+ * Provides methods to manage a Bundler application.
+ */
 class Bundler extends AbstractPackageManager
 {
     /**

@@ -14,6 +14,9 @@ namespace Rocketeer\Binaries\PackageManagers;
 
 use Rocketeer\Binaries\AbstractBinary;
 
+/**
+ * An abstract for classes representing a package manager.
+ */
 abstract class AbstractPackageManager extends AbstractBinary
 {
     /**

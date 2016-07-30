@@ -12,6 +12,9 @@
 
 namespace Rocketeer\Strategies\Check;
 
+/**
+ * Checks if the server is ready to receive a PHP application.
+ */
 class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterface
 {
     /**

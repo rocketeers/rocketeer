@@ -15,6 +15,10 @@ namespace Rocketeer\Services\Config;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
+/**
+ * An Arrayable containing the current configuration and easing
+ * the access to the main configuration nodes.
+ */
 class Configuration extends Collection
 {
     /**

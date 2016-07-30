@@ -12,6 +12,9 @@
 
 namespace Rocketeer\Binaries\PackageManagers;
 
+/**
+ * Represents the "npm" binary.
+ */
 class Npm extends AbstractPackageManager
 {
     /**

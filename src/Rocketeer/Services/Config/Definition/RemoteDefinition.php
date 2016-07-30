@@ -14,6 +14,9 @@ namespace Rocketeer\Services\Config\Definition;
 
 use Symfony\Component\Config\Definition\TreeBuilder\NodeBuilder;
 
+/**
+ * Configuration schema for the remote node.
+ */
 class RemoteDefinition extends AbstractDefinition
 {
     /**

@@ -12,6 +12,9 @@
 
 namespace Rocketeer\Services\Bootstrapper\Modules;
 
+/**
+ * Register the core paths with Rocketeer.
+ */
 class PathsBootstrapper extends AbstractBootstrapperModule
 {
     /**

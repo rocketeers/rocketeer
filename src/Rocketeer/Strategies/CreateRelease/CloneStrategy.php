@@ -14,6 +14,9 @@ namespace Rocketeer\Strategies\CreateRelease;
 
 use Rocketeer\Strategies\AbstractStrategy;
 
+/**
+ * Clones a fresh instance of the repository by SCM.
+ */
 class CloneStrategy extends AbstractStrategy implements CreateReleaseStrategyInterface
 {
     /**

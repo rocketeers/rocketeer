@@ -14,6 +14,9 @@ namespace Rocketeer\Strategies\Dependencies;
 
 use Rocketeer\Strategies\AbstractPolyglotStrategy;
 
+/**
+ * Runs all of the above package managers if necessary.
+ */
 class PolyglotStrategy extends AbstractPolyglotStrategy implements DependenciesStrategyInterface
 {
     /**

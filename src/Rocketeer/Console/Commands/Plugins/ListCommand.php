@@ -14,6 +14,9 @@ namespace Rocketeer\Console\Commands\Plugins;
 
 use Rocketeer\Console\Commands\AbstractCommand;
 
+/**
+ * Lists the currently enabled plugins.
+ */
 class ListCommand extends AbstractCommand
 {
     /**

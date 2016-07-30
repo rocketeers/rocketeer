@@ -14,6 +14,9 @@ namespace Rocketeer\Console\Commands;
 
 use Symfony\Component\Console\Input\InputArgument;
 
+/**
+ * An abstract from commands related to plugins.
+ */
 class AbstractPluginCommand extends AbstractCommand
 {
     /**

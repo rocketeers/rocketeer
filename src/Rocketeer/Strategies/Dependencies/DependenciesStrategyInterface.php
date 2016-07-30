@@ -12,6 +12,9 @@
 
 namespace Rocketeer\Strategies\Dependencies;
 
+/**
+ * A strategy for how to install/update an application's dependencies.
+ */
 interface DependenciesStrategyInterface
 {
     /**

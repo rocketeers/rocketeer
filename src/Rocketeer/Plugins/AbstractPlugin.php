@@ -21,8 +21,6 @@ use Rocketeer\Traits\HasLocatorTrait;
 
 /**
  * A basic abstract class for Rocketeer plugins to extend.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 abstract class AbstractPlugin extends AbstractServiceProvider implements BootableServiceProviderInterface
 {

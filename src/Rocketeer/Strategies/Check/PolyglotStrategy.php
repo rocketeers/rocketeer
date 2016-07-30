@@ -14,6 +14,9 @@ namespace Rocketeer\Strategies\Check;
 
 use Rocketeer\Strategies\AbstractPolyglotStrategy;
 
+/**
+ * Checks if the server is ready to receive an application of any language.
+ */
 class PolyglotStrategy extends AbstractPolyglotStrategy implements CheckStrategyInterface
 {
     /**

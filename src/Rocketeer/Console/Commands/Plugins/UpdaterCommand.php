@@ -16,6 +16,9 @@ use Rocketeer\Console\Commands\AbstractPluginCommand;
 use Rocketeer\Tasks\Plugins\Updater;
 use Symfony\Component\Console\Input\InputArgument;
 
+/**
+ * Updates one or more plugins.
+ */
 class UpdaterCommand extends AbstractPluginCommand
 {
     /**

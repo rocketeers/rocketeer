@@ -12,6 +12,10 @@
 
 namespace Rocketeer\Strategies\Check;
 
+/**
+ * An interface to check if the server is ready to
+ * be deployed to.
+ */
 interface CheckStrategyInterface
 {
     /**

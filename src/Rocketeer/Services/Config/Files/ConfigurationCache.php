@@ -17,6 +17,10 @@ use SuperClosure\SerializableClosure;
 use Symfony\Component\Config\ConfigCache;
 use Symfony\Component\Config\Resource\ResourceInterface;
 
+/**
+ * A fork of Symfony's ConfigCache that can serialize/unserialize PHP
+ * contents such as Closures.
+ */
 class ConfigurationCache extends ConfigCache
 {
     /**

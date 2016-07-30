@@ -15,6 +15,9 @@ namespace Rocketeer\Services\Bootstrapper\Modules;
 use Rocketeer\Services\Bootstrapper\Bootstrapper;
 use Rocketeer\Services\Modules\AbstractModule;
 
+/**
+ * Abstract for modules of the Bootstrapper class.
+ */
 abstract class AbstractBootstrapperModule extends AbstractModule
 {
     /**

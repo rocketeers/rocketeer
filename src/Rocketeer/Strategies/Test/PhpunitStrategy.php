@@ -15,7 +15,7 @@ namespace Rocketeer\Strategies\Test;
 use Rocketeer\Strategies\AbstractStrategy;
 
 /**
- * Test an application with PHPUnit
+ * Test an application with PHPUnit.
  */
 class PhpunitStrategy extends AbstractStrategy implements TestStrategyInterface
 {

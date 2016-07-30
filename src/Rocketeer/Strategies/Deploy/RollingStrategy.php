@@ -14,6 +14,9 @@ namespace Rocketeer\Strategies\Deploy;
 
 use Rocketeer\Strategies\AbstractStrategy;
 
+/**
+ * Uses a system of folders current/releases/shared to roll releases.
+ */
 class RollingStrategy extends AbstractStrategy implements DeployStrategyInterface
 {
     /**

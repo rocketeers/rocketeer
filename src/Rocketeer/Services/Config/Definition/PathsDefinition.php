@@ -12,6 +12,9 @@
 
 namespace Rocketeer\Services\Config\Definition;
 
+/**
+ * Configuration schema for the paths node.
+ */
 class PathsDefinition extends AbstractDefinition
 {
     /**

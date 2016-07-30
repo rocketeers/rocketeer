@@ -12,6 +12,10 @@
 
 namespace Rocketeer\Console\Commands;
 
+/**
+ * Ignites the .rocketeer folder onto the
+ * user's application.
+ */
 class IgniteCommand extends BaseTaskCommand
 {
     /**

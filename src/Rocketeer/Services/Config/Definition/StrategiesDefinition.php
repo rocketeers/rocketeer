@@ -14,6 +14,9 @@ namespace Rocketeer\Services\Config\Definition;
 
 use Symfony\Component\Config\Definition\TreeBuilder\NodeBuilder;
 
+/**
+ * Configuration schema for the strategies node.
+ */
 class StrategiesDefinition extends AbstractDefinition
 {
     /**

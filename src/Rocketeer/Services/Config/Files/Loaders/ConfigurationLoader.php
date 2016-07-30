@@ -25,6 +25,10 @@ use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Finder\SplFileInfo;
 
+/**
+ * Standard implementation for the loading of configuration
+ * from a set of folders.
+ */
 class ConfigurationLoader implements ConfigurationLoaderInterface
 {
     use ContainerAwareTrait;

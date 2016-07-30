@@ -12,6 +12,9 @@
 
 namespace Rocketeer\Binaries\PackageManagers;
 
+/**
+ * Provides methods to manage a Bower application.
+ */
 class Bower extends AbstractPackageManager
 {
     /**

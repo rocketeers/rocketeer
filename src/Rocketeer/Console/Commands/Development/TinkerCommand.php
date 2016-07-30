@@ -16,6 +16,9 @@ use Psy\Shell;
 use Rocketeer\Console\Commands\AbstractCommand;
 use Rocketeer\Console\TinkerApplication;
 
+/**
+ * Debug Rocketeer's environment.
+ */
 class TinkerCommand extends AbstractCommand
 {
     /**

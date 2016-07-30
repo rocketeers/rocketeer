@@ -15,6 +15,9 @@ namespace Rocketeer\Services\Config\Files\Finders;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
+/**
+ * Finds contextual configuration.
+ */
 class ContextualConfigurationFinder extends AbstractConfigurationFinder
 {
     /**

@@ -12,6 +12,9 @@
 
 namespace Rocketeer\Binaries;
 
+/**
+ * Represents the "php" binary.
+ */
 class Php extends AbstractBinary
 {
     /**

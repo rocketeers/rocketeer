@@ -14,6 +14,10 @@ namespace Rocketeer\Services\Bootstrapper\Modules;
 
 use Dotenv\Dotenv;
 
+/**
+ * Loads the user's configuration and register
+ * any defined plugins.
+ */
 class ConfigurationBootstrapper extends AbstractBootstrapperModule
 {
     /**

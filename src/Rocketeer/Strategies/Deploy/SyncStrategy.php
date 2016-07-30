@@ -14,6 +14,9 @@ namespace Rocketeer\Strategies\Deploy;
 
 use Illuminate\Support\Arr;
 
+/**
+ * Deploys in local then rsyncs the files on the server.
+ */
 class SyncStrategy extends AbstractLocalDeployStrategy
 {
     /**

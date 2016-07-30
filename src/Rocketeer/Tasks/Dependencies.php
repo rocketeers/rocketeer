@@ -12,6 +12,9 @@
 
 namespace Rocketeer\Tasks;
 
+/**
+ * Installs or update the dependencies on server.
+ */
 class Dependencies extends AbstractTask
 {
     /**

@@ -14,6 +14,10 @@ namespace Rocketeer\Console;
 
 use Rocketeer\Traits\ContainerAwareTrait;
 
+/**
+ * A class exposing Rocketeer's classes as public
+ * for use within a REPL.
+ */
 class TinkerApplication
 {
     use ContainerAwareTrait;

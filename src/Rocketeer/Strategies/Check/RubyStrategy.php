@@ -14,6 +14,9 @@ namespace Rocketeer\Strategies\Check;
 
 use Illuminate\Support\Arr;
 
+/**
+ * Checks if the server is ready to receive a Ruby application.
+ */
 class RubyStrategy extends AbstractCheckStrategy implements CheckStrategyInterface
 {
     /**

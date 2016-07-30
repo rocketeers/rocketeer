@@ -12,6 +12,9 @@
 
 namespace Rocketeer\Strategies\CreateRelease;
 
+/**
+ * Copies the previously cloned instance of the repository and update it.
+ */
 class CopyStrategy extends CloneStrategy implements CreateReleaseStrategyInterface
 {
     /**

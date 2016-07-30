@@ -12,6 +12,10 @@
 
 namespace Rocketeer\Services\Filesystem;
 
+/**
+ * Interface for a standard Filesystem with the Rocketeer plugins
+ * registered on it.
+ */
 interface FilesystemInterface extends \League\Flysystem\FilesystemInterface
 {
     /**

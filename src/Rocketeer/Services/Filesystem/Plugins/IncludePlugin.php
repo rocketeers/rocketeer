@@ -14,6 +14,9 @@ namespace Rocketeer\Services\Filesystem\Plugins;
 
 use League\Flysystem\Plugin\AbstractPlugin;
 
+/**
+ * Includes a PHP file from the filesystem.
+ */
 class IncludePlugin extends AbstractPlugin
 {
     /**
@@ -33,8 +36,6 @@ class IncludePlugin extends AbstractPlugin
      */
     public function handle($path)
     {
-        $path = $this->filesystem->getAdapter()->applyPathPrefix($path);
-
-        return include $path;
+        return include $this->filesystem->getAdapter()->applyPathPrefix($path);
     }
 }

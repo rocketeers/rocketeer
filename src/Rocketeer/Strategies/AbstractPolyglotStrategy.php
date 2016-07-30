@@ -12,6 +12,9 @@
 
 namespace Rocketeer\Strategies;
 
+/**
+ * A strategy running other strategies.
+ */
 abstract class AbstractPolyglotStrategy extends AbstractStrategy
 {
     /**

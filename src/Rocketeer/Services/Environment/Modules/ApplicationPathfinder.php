@@ -12,6 +12,9 @@
 
 namespace Rocketeer\Services\Environment\Modules;
 
+/**
+ * Get paths related to the user's current application.
+ */
 class ApplicationPathfinder extends AbstractPathfinderModule
 {
     /**

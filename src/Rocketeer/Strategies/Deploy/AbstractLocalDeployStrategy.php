@@ -14,6 +14,9 @@ namespace Rocketeer\Strategies\Deploy;
 
 use Rocketeer\Strategies\AbstractStrategy;
 
+/**
+ * Base class for Deploy strategies preparing the application in local.
+ */
 abstract class AbstractLocalDeployStrategy extends AbstractStrategy implements DeployStrategyInterface
 {
     /**

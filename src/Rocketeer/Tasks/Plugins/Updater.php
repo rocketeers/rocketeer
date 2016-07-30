@@ -14,6 +14,9 @@ namespace Rocketeer\Tasks\Plugins;
 
 use Rocketeer\Tasks\AbstractTask;
 
+/**
+ * Updates one or more plugins.
+ */
 class Updater extends AbstractTask
 {
     /**
@@ -21,7 +24,7 @@ class Updater extends AbstractTask
      *
      * @var string
      */
-    protected $description = 'Updates plugins';
+    protected $description = 'Updates one or more plugins';
 
     /**
      * Whether to run the commands locally

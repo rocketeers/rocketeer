@@ -12,6 +12,9 @@
 
 namespace Rocketeer\Strategies\Deploy;
 
+/**
+ * Describes how an application should be deployed on a server.
+ */
 interface DeployStrategyInterface
 {
     /**

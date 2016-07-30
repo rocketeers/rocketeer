@@ -12,6 +12,9 @@
 
 namespace Rocketeer\Strategies\Framework;
 
+/**
+ * Interface for Rocketeer to integrate with a framework.
+ */
 interface FrameworkStrategyInterface
 {
     /**

@@ -14,6 +14,9 @@ namespace Rocketeer\Services\Config\Loaders;
 
 use Symfony\Component\Yaml\Yaml;
 
+/**
+ * Parses and load a YAML file.
+ */
 class YamlLoader extends AbstractLoader
 {
     /**

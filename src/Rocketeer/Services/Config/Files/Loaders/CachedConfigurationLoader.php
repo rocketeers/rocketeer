@@ -19,6 +19,10 @@ use Symfony\Component\Config\Resource\DirectoryResource;
 use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\Finder\SplFileInfo;
 
+/**
+ * Decorator around a ConfigurationLoader that caches its contents
+ * and checks for freshness.
+ */
 class CachedConfigurationLoader implements ConfigurationLoaderInterface
 {
     use ContainerAwareTrait;
@@ -29,7 +33,7 @@ class CachedConfigurationLoader implements ConfigurationLoaderInterface
     protected $cache;
 
     /**
-     * @var ConfigurationLoader
+     * @var ConfigurationLoaderInterface
      */
     protected $loader;
 
@@ -39,12 +43,10 @@ class CachedConfigurationLoader implements ConfigurationLoaderInterface
     protected $resources = [];
 
     /**
-     * CachedConfigurationLoader constructor.
-     *
-     * @param ConfigurationCache  $cache
-     * @param ConfigurationLoader $loader
+     * @param ConfigurationCache           $cache
+     * @param ConfigurationLoaderInterface $loader
      */
-    public function __construct(ConfigurationCache $cache, ConfigurationLoader $loader)
+    public function __construct(ConfigurationCache $cache, ConfigurationLoaderInterface $loader)
     {
         $this->cache = $cache;
         $this->loader = $loader;

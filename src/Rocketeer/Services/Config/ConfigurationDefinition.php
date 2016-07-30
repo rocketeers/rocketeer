@@ -23,6 +23,9 @@ use Rocketeer\Services\Config\Definition\StagesDefinition;
 use Rocketeer\Services\Config\Definition\StrategiesDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 
+/**
+ * Schema validating Rocketeer's configuration format.
+ */
 class ConfigurationDefinition extends AbstractDefinition
 {
     /**

@@ -14,6 +14,10 @@ namespace Rocketeer\Services\Filesystem;
 
 use Rocketeer\Traits\ContainerAwareTrait;
 
+/**
+ * A fork of the MountManager that mounts the existing
+ * connections as filesystems onto itself.
+ */
 class MountManager extends \League\Flysystem\MountManager
 {
     use ContainerAwareTrait;

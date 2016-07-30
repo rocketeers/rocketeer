@@ -12,6 +12,9 @@
 
 namespace Rocketeer\Services\Config\Loaders;
 
+/**
+ * Parses and load a JSON file.
+ */
 class JsonLoader extends AbstractLoader
 {
     /**

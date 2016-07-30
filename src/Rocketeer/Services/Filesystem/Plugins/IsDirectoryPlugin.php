@@ -14,6 +14,9 @@ namespace Rocketeer\Services\Filesystem\Plugins;
 
 use League\Flysystem\Plugin\AbstractPlugin;
 
+/**
+ * Checks if a file is a directory or not.
+ */
 class IsDirectoryPlugin extends AbstractPlugin
 {
     /**
@@ -33,8 +36,10 @@ class IsDirectoryPlugin extends AbstractPlugin
      */
     public function handle($path = null)
     {
-        $path = $this->filesystem->getAdapter()->applyPathPrefix($path);
+        if (!$this->filesystem->has($path)) {
+            return false;
+        }
 
-        return is_dir($path);
+        return $this->filesystem->getMetadata($path)['type'] === 'dir';
     }
 }

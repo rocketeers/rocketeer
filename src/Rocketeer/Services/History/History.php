@@ -16,7 +16,7 @@ use Illuminate\Support\Collection;
 
 /**
  * Keeps a memory of everything that was outputed/ran
- * and on which connections/stages
+ * and on which connections/stages.
  */
 class History extends Collection
 {

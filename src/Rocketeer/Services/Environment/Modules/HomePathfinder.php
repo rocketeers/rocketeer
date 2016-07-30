@@ -15,6 +15,9 @@ namespace Rocketeer\Services\Environment\Modules;
 use Exception;
 use Illuminate\Support\Str;
 
+/**
+ * Get paths related to the user's home folder.
+ */
 class HomePathfinder extends AbstractPathfinderModule
 {
     /**

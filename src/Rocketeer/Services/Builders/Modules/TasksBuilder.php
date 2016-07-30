@@ -57,7 +57,7 @@ class TasksBuilder extends AbstractBuilderModule
 
         // If the built class is invalid, cancel
         if (!$task instanceof AbstractTask) {
-            throw new TaskCompositionException('Class '.get_class($task).' is not a valid task');
+            throw new TaskCompositionException($task);
         }
 
         // Set task properties
@@ -173,7 +173,7 @@ class TasksBuilder extends AbstractBuilderModule
 
         // Cancel if class doesn't exist
         if (!$class = $this->taskClassExists($task)) {
-            throw new TaskCompositionException('Impossible to build task: '.$task);
+            throw new TaskCompositionException($task);
         }
 
         // Build class

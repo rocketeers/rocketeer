@@ -16,6 +16,9 @@ use Closure;
 use League\Flysystem\FilesystemInterface;
 use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
 
+/**
+ * Interface for connections instances.
+ */
 interface ConnectionInterface extends FilesystemInterface
 {
     /**

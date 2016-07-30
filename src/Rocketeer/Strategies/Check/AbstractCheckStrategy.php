@@ -17,6 +17,10 @@ use Rocketeer\Binaries\PackageManagers\AbstractPackageManager;
 use Rocketeer\Strategies\AbstractStrategy;
 use Rocketeer\Strategies\HasBinaryTrait;
 
+/**
+ * An abstract for check strategies leveraging
+ * a package manager.
+ */
 abstract class AbstractCheckStrategy extends AbstractStrategy
 {
     use HasBinaryTrait;

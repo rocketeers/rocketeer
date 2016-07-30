@@ -14,6 +14,9 @@ namespace Rocketeer\Strategies\Deploy;
 
 use Symfony\Component\Finder\Finder;
 
+/**
+ * Deploys locally and uploads the files through FTP.
+ */
 class UploadStrategy extends AbstractLocalDeployStrategy
 {
     /**

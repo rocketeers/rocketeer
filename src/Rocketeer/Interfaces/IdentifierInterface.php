@@ -12,6 +12,10 @@
 
 namespace Rocketeer\Interfaces;
 
+/**
+ * Interface for a class that can be identifier
+ * through an unique string.
+ */
 interface IdentifierInterface
 {
     /**

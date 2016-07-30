@@ -14,6 +14,9 @@ namespace Rocketeer\Tasks;
 
 use Rocketeer\Strategies\Migrate\MigrateStrategyInterface;
 
+/**
+ * Migrates and/or seed the database.
+ */
 class Migrate extends AbstractTask
 {
     /**

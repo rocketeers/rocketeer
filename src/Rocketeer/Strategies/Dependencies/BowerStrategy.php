@@ -14,6 +14,9 @@ namespace Rocketeer\Strategies\Dependencies;
 
 use Illuminate\Support\Arr;
 
+/**
+ * Installs dependencies with Bower.
+ */
 class BowerStrategy extends AbstractDependenciesStrategy implements DependenciesStrategyInterface
 {
     /**

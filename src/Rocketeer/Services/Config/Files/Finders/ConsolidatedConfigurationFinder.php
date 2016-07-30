@@ -14,6 +14,9 @@ namespace Rocketeer\Services\Config\Files\Finders;
 
 use Symfony\Component\Finder\SplFileInfo;
 
+/**
+ * Finds a consolidated configuration file (rocketeer.xxx).
+ */
 class ConsolidatedConfigurationFinder extends AbstractConfigurationFinder
 {
     /**

@@ -14,6 +14,9 @@ namespace Rocketeer\Services\Config\Files\Finders;
 
 use Symfony\Component\Finder\SplFileInfo;
 
+/**
+ * Find the main configuration files if not consolidated.
+ */
 class MainConfigurationFinder extends AbstractConfigurationFinder
 {
     /**

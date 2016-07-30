@@ -113,8 +113,7 @@ class Connection extends AbstractConnection
 
         $gateway->exec($commands, $callback);
         if ($gateway->isTimeout()) {
-            $message = sprintf('Connection timeout of %ds exceeded', $gateway->timeout);
-            throw new TimeOutException($message);
+            throw new TimeOutException($gateway->timeout);
         }
     }
 

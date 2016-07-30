@@ -12,6 +12,9 @@
 
 namespace Rocketeer\Strategies\Dependencies;
 
+/**
+ * Installs dependencies with Composer.
+ */
 class ComposerStrategy extends AbstractDependenciesStrategy implements DependenciesStrategyInterface
 {
     /**

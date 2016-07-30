@@ -14,6 +14,9 @@ namespace Rocketeer\Tasks\Plugins;
 
 use Rocketeer\Tasks\AbstractTask;
 
+/**
+ * Installs one or more plugins.
+ */
 class Installer extends AbstractTask
 {
     /**
@@ -21,7 +24,7 @@ class Installer extends AbstractTask
      *
      * @var string
      */
-    protected $description = 'Installs plugins';
+    protected $description = 'Installs one or more plugins';
 
     /**
      * Whether to run the commands locally

@@ -12,6 +12,9 @@
 
 namespace Rocketeer\Strategies\Dependencies;
 
+/**
+ * Installs dependencies with NPM.
+ */
 class NpmStrategy extends AbstractDependenciesStrategy implements DependenciesStrategyInterface
 {
     /**

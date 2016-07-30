@@ -15,6 +15,9 @@ namespace Rocketeer\Services\Connections\Shell\Modules;
 use Rocketeer\Services\Connections\Shell\Bash;
 use Rocketeer\Services\Modules\AbstractModule;
 
+/**
+ * Abstract class for Bash modules.
+ */
 abstract class AbstractBashModule extends AbstractModule
 {
     /**

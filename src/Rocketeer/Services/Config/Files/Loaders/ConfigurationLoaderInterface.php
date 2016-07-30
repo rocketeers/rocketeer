@@ -14,6 +14,10 @@ namespace Rocketeer\Services\Config\Files\Loaders;
 
 use Symfony\Component\Finder\SplFileInfo;
 
+/**
+ * Interface for a class that can load the configuration
+ * from a specified set of folders.
+ */
 interface ConfigurationLoaderInterface
 {
     /**

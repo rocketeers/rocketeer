@@ -14,6 +14,9 @@ namespace Rocketeer\Services\Config\Definition;
 
 use Symfony\Component\Config\Definition\TreeBuilder\NodeBuilder;
 
+/**
+ * Configuration schema for the hooks node.
+ */
 class HooksDefinition extends AbstractDefinition
 {
     /**

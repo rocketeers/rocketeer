@@ -15,6 +15,9 @@ namespace Rocketeer\Console\Commands\Plugins;
 use Rocketeer\Console\Commands\AbstractPluginCommand;
 use Rocketeer\Tasks\Plugins\Installer;
 
+/**
+ * Install a plugin.
+ */
 class InstallCommand extends AbstractPluginCommand
 {
     /**

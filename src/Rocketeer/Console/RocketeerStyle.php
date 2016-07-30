@@ -18,6 +18,9 @@ use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+/**
+ * Defines Rocketeer's CLI output style.
+ */
 class RocketeerStyle extends SymfonyStyle
 {
     /**

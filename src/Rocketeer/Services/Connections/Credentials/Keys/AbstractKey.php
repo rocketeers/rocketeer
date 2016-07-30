@@ -14,6 +14,10 @@ namespace Rocketeer\Services\Connections\Credentials\Keys;
 
 use Illuminate\Support\Fluent;
 
+/**
+ * Represents the credentials to something in
+ * a way that can be easily serialized.
+ */
 abstract class AbstractKey extends Fluent
 {
     //////////////////////////////////////////////////////////////////////

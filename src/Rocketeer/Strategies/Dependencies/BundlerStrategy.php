@@ -12,6 +12,9 @@
 
 namespace Rocketeer\Strategies\Dependencies;
 
+/**
+ * Installs dependencies with Bundler.
+ */
 class BundlerStrategy extends AbstractDependenciesStrategy implements DependenciesStrategyInterface
 {
     /**
