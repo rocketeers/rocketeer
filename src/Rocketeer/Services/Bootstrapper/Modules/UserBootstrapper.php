@@ -69,8 +69,20 @@ class UserBootstrapper extends AbstractBootstrapperModule
     protected function bootstrapStandaloneFiles()
     {
         $files = $this->files->listFiles($this->paths->getUserlandPath(), true);
+
+        // Build queue, placing tasks first, events after
+        $queue = [];
         foreach ($files as $file) {
             $path = $this->files->getAdapter()->applyPathPrefix($file['path']);
+            if (strpos($path, 'tasks') !== false) {
+                array_unshift($queue, $path);
+            } else {
+                $queue[] = $path;
+            }
+        }
+
+        // Include files
+        foreach ($queue as $path) {
             include $path;
         }
     }
