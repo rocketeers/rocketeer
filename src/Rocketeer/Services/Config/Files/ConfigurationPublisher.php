@@ -17,7 +17,6 @@ use Rocketeer\Services\Container\Container;
 use Rocketeer\Traits\ContainerAwareTrait;
 use Symfony\Component\Config\Definition\ArrayNode;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
-use Symfony\Component\Config\Definition\Dumper\XmlReferenceDumper;
 use Symfony\Component\Config\Definition\Dumper\YamlReferenceDumper;
 use Symfony\Component\Config\Definition\Dumpers\JsonReferenceDumper;
 use Symfony\Component\Config\Definition\Dumpers\PhpReferenceDumper;
@@ -36,7 +35,6 @@ class ConfigurationPublisher
         'php',
         'json',
         'yaml',
-        'xml',
     ];
 
     /**
@@ -125,10 +123,6 @@ class ConfigurationPublisher
         switch (strtolower($format)) {
             case 'json':
                 $dumper = new JsonReferenceDumper();
-                break;
-
-            case 'xml':
-                $dumper = new XmlReferenceDumper();
                 break;
 
             case 'yml':

@@ -14,7 +14,6 @@ namespace Rocketeer\Services\Bootstrapper\Modules;
 
 use Illuminate\Support\Str;
 use Rocketeer\Services\Builders\TaskCompositionException;
-use Symfony\Component\ClassLoader\Psr4ClassLoader;
 
 /**
  * Loads the user's .rocketeer folder and registers
