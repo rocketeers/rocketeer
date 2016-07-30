@@ -28,7 +28,7 @@ class UserBootstrapper extends AbstractBootstrapperModule
     public function bootstrapUserFiles()
     {
         $this->bootstrapApp();
-        $this->bootstrapStandaloneFiles();
+        $this->bootstrapUserCode();
     }
 
     /**
@@ -47,62 +47,12 @@ class UserBootstrapper extends AbstractBootstrapperModule
      */
     protected function bootstrapApp()
     {
-        $folder = $this->paths->getUserlandPath();
-        if (!$this->files->has($folder)) {
-            return;
-        }
-
         $namespace = $this->getUserNamespace();
-
-        // Load main namespace
-        $classloader = new Psr4ClassLoader();
-        $classloader->addPrefix($namespace.'\\', $this->files->getAdapter()->applyPathPrefix($folder));
-        $classloader->register();
 
         // Load service provider
         $serviceProvider = $namespace.'\\'.$namespace.'ServiceProvider';
         if (class_exists($serviceProvider)) {
             $this->container->addServiceProvider($serviceProvider);
-        }
-    }
-
-    /**
-     * Bootstrap standalone files in the user's directory.
-     */
-    protected function bootstrapStandaloneFiles()
-    {
-        $folder = $this->paths->getRocketeerPath();
-        $appFolderPath = trim($this->paths->getUserlandPath(), '/');
-        $files = $this->files->listContents($folder, true);
-
-        // Gather files to include in the correct order
-        $queue = [];
-        foreach ($files as $file) {
-            $path = $file['path'];
-            $isDir = $file['type'] === 'dir';
-            $isPhp = !$isDir && isset($file['extension']) ? $file['extension'] === 'php' : false;
-
-            // If it's not a loadable file, proceed
-            if ($isDir || !$isPhp || strpos($path, $appFolderPath) !== false) {
-                continue;
-            }
-
-            // If it's a Composer file, proceed as well
-            if (strpos($path, 'vendor/') !== false) {
-                continue;
-            }
-
-            // Load tasks first
-            if (strpos($path, 'tasks') !== false) {
-                array_unshift($queue, $path);
-            } else {
-                $queue[] = $path;
-            }
-        }
-
-        // Include files
-        foreach ($queue as $file) {
-            $this->files->includeFile($file);
         }
     }
 

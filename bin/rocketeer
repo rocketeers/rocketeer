@@ -9,7 +9,7 @@ $vendors = [
     __DIR__.'/../../..',
 ];
 
-// Load plugins
+// Load user files
 $plugins = getcwd().'/.rocketeer/vendor/autoload.php';
 if (file_exists($plugins)) {
     require_once $plugins;
