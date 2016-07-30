@@ -14,12 +14,15 @@ namespace Rocketeer\Strategies\Test;
 
 use Rocketeer\Strategies\AbstractStrategy;
 
+/**
+ * Test an application with PHPUnit
+ */
 class PhpunitStrategy extends AbstractStrategy implements TestStrategyInterface
 {
     /**
      * @var string
      */
-    protected $description = 'Run the tests with PHPUnit';
+    protected $description = 'Test an application with PHPUnit';
 
     /**
      * Whether this particular strategy is runnable or not.

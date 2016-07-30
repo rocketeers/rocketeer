@@ -15,6 +15,9 @@ namespace Rocketeer\Services\Modules;
 use League\Container\ContainerAwareInterface;
 use Rocketeer\Traits\ContainerAwareTrait;
 
+/**
+ * A class for modules to be registered with a modulable
+ */
 abstract class AbstractModule implements ContainerAwareInterface
 {
     use ContainerAwareTrait;

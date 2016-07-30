@@ -14,6 +14,10 @@ namespace Rocketeer\Services\Modules;
 
 use RuntimeException;
 
+/**
+ * Exception for when calling a method on a modulable
+ * and no matching module is found
+ */
 class ModuleNotFoundException extends RuntimeException
 {
     /**

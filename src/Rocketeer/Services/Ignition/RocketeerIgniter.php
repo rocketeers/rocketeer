@@ -15,6 +15,10 @@ namespace Rocketeer\Services\Ignition;
 use Rocketeer\Services\Config\ConfigurationDefinition;
 use Rocketeer\Traits\ContainerAwareTrait;
 
+/**
+ * Creates files related to the .rocketeer folder
+ * Configuration, stubs, etc.
+ */
 class RocketeerIgniter
 {
     use ContainerAwareTrait;

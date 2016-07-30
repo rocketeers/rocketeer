@@ -12,6 +12,9 @@
 
 namespace Rocketeer\Services\Modules;
 
+/**
+ * A class onto which you can register various modules
+ */
 interface ModulableInterface
 {
     /**

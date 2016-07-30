@@ -12,6 +12,9 @@
 
 namespace Rocketeer\Strategies\Test;
 
+/**
+ * An strategy for testing an application
+ */
 interface TestStrategyInterface
 {
     /**

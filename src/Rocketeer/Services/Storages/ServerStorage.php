@@ -14,6 +14,10 @@ namespace Rocketeer\Services\Storages;
 
 use Rocketeer\Services\Container\Container;
 
+/**
+ * Stores information about the current state of the application
+ * on a specific server
+ */
 class ServerStorage extends Storage
 {
     /**
