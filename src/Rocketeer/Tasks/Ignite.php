@@ -62,9 +62,12 @@ class Ignite extends AbstractTask
         $this->igniter->exportStubs($type, $configuration.DS.'app', $namespace);
 
         // Install configured plugins
-        $this->command->writeln('<info>Setting up autoloading</info>');
-        $this->igniter->exportComposerFile($namespace);
+        if ($namespace) {
+            $this->command->writeln('<info>Setting up autoloading</info>');
+            $this->igniter->exportComposerFile($namespace);
+        }
 
+        $this->files->deleteDir($this->paths->getLogsPath());
         $this->command->writeln('Okay, you are ready to send your projects in the cloud. Fire away rocketeer!');
     }
 

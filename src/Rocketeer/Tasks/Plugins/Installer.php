@@ -42,6 +42,10 @@ class Installer extends AbstractTask
         // Get package and destination folder
         $package = $this->command->argument('package');
 
+        if (!$this->files->has($this->paths->getRocketeerPath().'/composer.json')) {
+            $this->igniter->exportComposerFile();
+        }
+
         $method = $package ? 'require' : 'install';
         $noDev = $method === 'install' ? '--no-dev' : '--update-no-dev';
         $command = $this->composer()->$method($package, [
