@@ -108,17 +108,18 @@ class RocketeerIgniter
      */
     public function exportComposerFile($namespace = null)
     {
-        $autoload = $namespace
-            ? ['psr4' => [$namespace.'\\' => 'app']]
-            : ['files' => ['app']];
-
         // Compose manifest contents
         $manifestPath = $this->paths->getRocketeerPath().'/composer.json';
         $manifest = [
-            'autoload' => $autoload,
             'minimum-stability' => 'dev',
             'prefer-stable' => true,
         ];
+
+        if ($namespace) {
+            $manifest['autoload'] = [
+                'psr4' => [$namespace.'\\' => 'app']
+            ];
+        }
 
         // Create manifest
         $contents = json_encode($manifest, JSON_PRETTY_PRINT);

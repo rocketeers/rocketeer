@@ -26,7 +26,10 @@ class UserBootstrapper extends AbstractBootstrapperModule
      */
     public function bootstrapUserFiles()
     {
-        $this->bootstrapApp();
+        if (!$this->bootstrapApp()) {
+            $this->bootstrapStandaloneFiles();
+        }
+
         $this->bootstrapUserCode();
     }
 
@@ -43,6 +46,8 @@ class UserBootstrapper extends AbstractBootstrapperModule
 
     /**
      * Bootstrap a PSR4 folder in the user's directory.
+     *
+     * @return bool
      */
     protected function bootstrapApp()
     {
@@ -50,8 +55,23 @@ class UserBootstrapper extends AbstractBootstrapperModule
 
         // Load service provider
         $serviceProvider = $namespace.'\\'.$namespace.'ServiceProvider';
-        if (class_exists($serviceProvider)) {
+        $hasServiceProvider = class_exists($serviceProvider);
+        if ($hasServiceProvider) {
             $this->container->addServiceProvider($serviceProvider);
+        }
+
+        return $hasServiceProvider;
+    }
+
+    /**
+     * Bootstrap the user's standalone files
+     */
+    protected function bootstrapStandaloneFiles()
+    {
+        $files = $this->files->listFiles($this->paths->getUserlandPath(), true);
+        foreach ($files as $file) {
+            $path = $this->files->getAdapter()->applyPathPrefix($file['path']);
+            include $path;
         }
     }
 

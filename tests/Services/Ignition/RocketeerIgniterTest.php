@@ -24,11 +24,6 @@ class RocketeerIgniterTest extends RocketeerTestCase
         $contents = $this->files->read($path);
         $this->assertEquals(<<<'JSON'
 {
-    "autoload": {
-        "files": [
-            "app"
-        ]
-    },
     "minimum-stability": "dev",
     "prefer-stable": true
 }
@@ -44,13 +39,13 @@ JSON
         $contents = $this->files->read($path);
         $this->assertEquals(<<<'JSON'
 {
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr4": {
             "Foobar\\": "app"
         }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    }
 }
 JSON
             , $contents);
