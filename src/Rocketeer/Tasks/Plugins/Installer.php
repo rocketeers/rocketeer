@@ -41,18 +41,12 @@ class Installer extends AbstractTask
     {
         // Get package and destination folder
         $package = $this->command->argument('package');
-        $folder = $this->paths->getRocketeerPath();
-
-        // Create composer manifest if it does not exist
-        $manifest = $folder.'/composer.json';
-        if (!$this->files->has($manifest)) {
-            $contents = json_encode(['minimum-stability' => 'dev', 'prefer-stable' => true], JSON_PRETTY_PRINT);
-            $this->files->put($manifest, $contents);
-        }
 
         $method = $package ? 'require' : 'install';
+        $noDev = $method === 'install' ? '--no-dev' : '--update-no-dev';
         $command = $this->composer()->$method($package, [
-            '--working-dir' => $folder,
+            $noDev => '',
+            '--working-dir' => $this->paths->getRocketeerPath(),
         ]);
 
         // Install plugin

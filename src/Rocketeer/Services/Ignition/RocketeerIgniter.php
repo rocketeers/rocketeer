@@ -13,6 +13,7 @@
 namespace Rocketeer\Services\Ignition;
 
 use Rocketeer\Services\Config\ConfigurationDefinition;
+use Rocketeer\Services\Connections\Shell\Bash;
 use Rocketeer\Traits\ContainerAwareTrait;
 
 /**
@@ -100,5 +101,34 @@ class RocketeerIgniter
 
             $this->files->put($fileDestination, $contents);
         }
+    }
+
+    /**
+     * @param string|null $namespace
+     */
+    public function exportComposerFile($namespace = null)
+    {
+        $autoload = $namespace
+            ? ['psr4' => [$namespace.'\\' => 'app']]
+            : ['files' => ['app']];
+
+        // Compose manifest contents
+        $manifestPath = $this->paths->getRocketeerPath().'/composer.json';
+        $manifest = [
+            'autoload' => $autoload,
+            'minimum-stability' => 'dev',
+            'prefer-stable' => true,
+        ];
+
+        // Create manifest
+        $contents = json_encode($manifest, JSON_PRETTY_PRINT);
+        $this->files->put($manifestPath, $contents);
+
+        // Run composer install
+        $this->bash->on('local', function (Bash $bash) {
+            return $bash->composer()->run('install', null, [
+                '--working-dir' => $this->paths->getRocketeerPath(),
+            ]);
+        });
     }
 }

@@ -61,6 +61,10 @@ class Ignite extends AbstractTask
         $namespace = $type === $this->types[0] ? $this->bootstrapper->getUserNamespace() : null;
         $this->igniter->exportStubs($type, $configuration.DS.'app', $namespace);
 
+        // Install configured plugins
+        $this->command->writeln('<info>Setting up autoloading</info>');
+        $this->igniter->exportComposerFile($namespace);
+
         $this->command->writeln('Okay, you are ready to send your projects in the cloud. Fire away rocketeer!');
     }
 

@@ -41,11 +41,10 @@ class Updater extends AbstractTask
     {
         // Get package and destination folder
         $package = $this->command->argument('package');
-        $folder = $this->paths->getRocketeerPath();
 
         $arguments = $package ? [$package] : null;
         $command = $this->composer()->update($arguments, [
-            '--working-dir' => $folder,
+            '--working-dir' => $this->paths->getRocketeerPath(),
         ]);
 
         $this->run($this->shellCommand($command));
