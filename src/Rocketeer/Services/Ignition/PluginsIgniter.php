@@ -17,8 +17,6 @@ use Rocketeer\Traits\ContainerAwareTrait;
 
 /**
  * Publishes the plugin's configurations in user-land.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class PluginsIgniter
 {

@@ -18,8 +18,6 @@ use Rocketeer\Traits\ContainerAwareTrait;
 
 /**
  * Provides informations and actions around releases.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class ReleasesManager
 {

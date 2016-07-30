@@ -16,8 +16,6 @@ use Rocketeer\Binaries\AbstractBinary;
 
 /**
  * The Mercury implementation of the ScmInterface.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Hg extends AbstractBinary implements ScmInterface
 {

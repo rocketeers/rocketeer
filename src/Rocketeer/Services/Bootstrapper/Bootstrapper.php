@@ -29,8 +29,6 @@ use Rocketeer\Traits\ContainerAwareTrait;
  * @mixin PathsBootstrapper
  * @mixin TasksBootstrapper
  * @mixin UserBootstrapper
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Bootstrapper implements ModulableInterface, ContainerAwareInterface
 {

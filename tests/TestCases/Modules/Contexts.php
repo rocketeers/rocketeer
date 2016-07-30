@@ -16,8 +16,6 @@ use Rocketeer\Plugins\Laravel\Laravel;
 
 /**
  * @mixin \Rocketeer\TestCases\RocketeerTestCase
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait Contexts
 {

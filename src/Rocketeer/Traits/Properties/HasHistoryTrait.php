@@ -18,8 +18,6 @@ use Illuminate\Support\Arr;
  * A class that maintains an history of results/commands.
  *
  * @property \Rocketeer\Services\History\History history
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait HasHistoryTrait
 {

@@ -20,8 +20,6 @@ use Rocketeer\Traits\ContainerAwareTrait;
 
 /**
  * Provides and persists informations in the local filesystem.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Storage
 {

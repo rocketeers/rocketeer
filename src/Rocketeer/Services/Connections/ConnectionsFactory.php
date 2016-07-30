@@ -18,8 +18,6 @@ use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
 
 /**
  * Handle creation and caching of connections.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class ConnectionsFactory
 {

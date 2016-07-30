@@ -14,8 +14,6 @@ namespace Rocketeer\Tasks;
 
 /**
  * Run the tests on the server and displays the output.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Test extends AbstractTask
 {

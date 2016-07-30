@@ -14,8 +14,6 @@ namespace Rocketeer\Binaries\Scm;
 
 /**
  * The interface for all SCM implementations.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 interface ScmInterface
 {

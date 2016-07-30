@@ -22,8 +22,6 @@ use SuperClosure\SerializableClosure;
 
 /**
  * Handles creating tasks from strings, closures, AbstractTask children, etc.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class TasksBuilder extends AbstractBuilderModule
 {

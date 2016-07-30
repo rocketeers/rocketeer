@@ -20,8 +20,6 @@ use Rocketeer\Traits\ContainerAwareTrait;
 /**
  * Manages roles and decides which servers
  * can execute which tasks.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class RolesManager
 {

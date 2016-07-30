@@ -32,8 +32,6 @@ use Rocketeer\Traits\ContainerAwareTrait;
  * @mixin CommandsBuilder
  * @mixin StrategiesBuilder
  * @mixin TasksBuilder
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Builder implements ModulableInterface, ContainerAwareInterface
 {

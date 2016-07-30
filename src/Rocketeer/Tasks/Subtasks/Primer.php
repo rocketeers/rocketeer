@@ -16,8 +16,6 @@ use Rocketeer\Tasks\AbstractTask;
 
 /**
  * Executes some sanity-check commands before deploy.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Primer extends AbstractTask
 {

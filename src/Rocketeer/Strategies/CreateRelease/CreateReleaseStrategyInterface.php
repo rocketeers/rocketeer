@@ -14,8 +14,6 @@ namespace Rocketeer\Strategies\CreateRelease;
 
 /**
  * Interface for how to create a release.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 interface CreateReleaseStrategyInterface
 {

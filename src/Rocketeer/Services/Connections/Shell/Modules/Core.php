@@ -18,8 +18,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Core handling of running commands and returning output.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Core extends AbstractBashModule
 {

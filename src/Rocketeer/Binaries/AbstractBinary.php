@@ -21,8 +21,6 @@ use Rocketeer\Traits\ContainerAwareTrait;
  * A generic class to represent a binary as a class.
  *
  * @mixin Bash
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 abstract class AbstractBinary
 {

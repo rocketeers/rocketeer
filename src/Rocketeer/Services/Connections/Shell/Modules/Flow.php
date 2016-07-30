@@ -14,8 +14,6 @@ namespace Rocketeer\Services\Connections\Shell\Modules;
 
 /**
  * Handles the deployment flow (current/releases/shared).
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Flow extends AbstractBashModule
 {

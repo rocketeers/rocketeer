@@ -17,8 +17,6 @@ use Herrera\Box\Compactor\Php;
 /**
  * Strips out whitespace in the Rocketeer file
  * before the PHAR compilation.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class WhitespaceCompactor extends Php
 {

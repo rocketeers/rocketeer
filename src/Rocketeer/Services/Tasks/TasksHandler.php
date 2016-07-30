@@ -24,8 +24,6 @@ use Rocketeer\Traits\ContainerAwareTrait;
 
 /**
  * Handles the registering and firing of tasks and their events.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class TasksHandler
 {

@@ -14,8 +14,6 @@ namespace Rocketeer\Strategies\Check;
 
 /**
  * Strategy for Node projects.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class NodeStrategy extends AbstractCheckStrategy implements CheckStrategyInterface
 {

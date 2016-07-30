@@ -24,8 +24,6 @@ namespace Rocketeer\Services\Connections\Shell\Modules;
  * @method \Rocketeer\Binaries\Scm\Git git()
  * @method \Rocketeer\Binaries\Scm\Hg hg()
  * @method \Rocketeer\Binaries\Scm\Svn svn()
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Binaries extends AbstractBashModule
 {

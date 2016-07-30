@@ -14,8 +14,6 @@ namespace Rocketeer\Tasks;
 
 /**
  * Rollback to the previous release, or to a specific one.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Rollback extends AbstractTask
 {

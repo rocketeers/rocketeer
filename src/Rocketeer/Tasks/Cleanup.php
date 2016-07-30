@@ -16,8 +16,6 @@ use Illuminate\Support\Str;
 
 /**
  * Clean up old releases from the server.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Cleanup extends AbstractTask
 {

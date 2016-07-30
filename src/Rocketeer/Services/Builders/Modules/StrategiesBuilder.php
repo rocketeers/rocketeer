@@ -15,9 +15,6 @@ namespace Rocketeer\Services\Builders\Modules;
 use Illuminate\Support\Str;
 use Rocketeer\Strategies\AbstractStrategy;
 
-/**
- * @author Maxime Fabre <ehtnam6@gmail.com>
- */
 class StrategiesBuilder extends AbstractBuilderModule
 {
     /**

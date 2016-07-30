@@ -16,8 +16,6 @@ use InvalidArgumentException;
 
 /**
  * A class that can be configured via a set of options.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait ConfigurableTrait
 {

@@ -20,8 +20,6 @@ use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
  *
  * @property ConnectionKey                   $connectionKey
  * @property \Rocketeer\Tasks\AbstractTask[] queue
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Job extends Fluent
 {

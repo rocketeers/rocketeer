@@ -21,8 +21,6 @@ use Symfony\Component\Console\Command\Command;
 
 /**
  * A standalone Rocketeer CLI.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Console extends Application
 {

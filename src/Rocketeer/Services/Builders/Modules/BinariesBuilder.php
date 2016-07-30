@@ -14,9 +14,6 @@ namespace Rocketeer\Services\Builders\Modules;
 
 use Rocketeer\Binaries\AnonymousBinary;
 
-/**
- * @author Maxime Fabre <ehtnam6@gmail.com>
- */
 class BinariesBuilder extends AbstractBuilderModule
 {
     /**

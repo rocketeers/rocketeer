@@ -14,8 +14,6 @@ namespace Rocketeer\Tasks;
 
 /**
  * Set up the remote server for deployment.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Setup extends AbstractTask
 {

@@ -14,8 +14,6 @@ namespace Rocketeer\Tasks;
 
 /**
  * A task that wraps around a closure and execute it.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Closure extends AbstractTask
 {

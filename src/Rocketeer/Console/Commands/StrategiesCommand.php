@@ -16,8 +16,6 @@ use Symfony\Component\Console\Input\InputArgument;
 
 /**
  * Lists the available options for each strategy.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class StrategiesCommand extends AbstractCommand
 {

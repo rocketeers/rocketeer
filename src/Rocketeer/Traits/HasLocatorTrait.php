@@ -83,8 +83,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @property Storage                        remoteStorage
  * @property TasksHandler                   tasks
  * @property TasksQueue                     queue
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait HasLocatorTrait
 {

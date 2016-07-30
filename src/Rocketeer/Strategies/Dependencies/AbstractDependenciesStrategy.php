@@ -18,8 +18,6 @@ use Rocketeer\Strategies\HasBinaryTrait;
 
 /**
  * Abstract class for Dependencies strategies.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 abstract class AbstractDependenciesStrategy extends AbstractStrategy
 {

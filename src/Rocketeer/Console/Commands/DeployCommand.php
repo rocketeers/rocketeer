@@ -16,8 +16,6 @@ use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Runs the Deploy task and then cleans up deprecated releases.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class DeployCommand extends BaseTaskCommand
 {

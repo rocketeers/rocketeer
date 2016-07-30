@@ -17,8 +17,6 @@ use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Rollback to the previous release, or to a specific one.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class RollbackCommand extends BaseTaskCommand
 {

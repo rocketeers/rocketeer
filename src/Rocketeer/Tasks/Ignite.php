@@ -16,8 +16,6 @@ use Rocketeer\Services\Config\Files\ConfigurationPublisher;
 
 /**
  * A task to ignite Rocketeer.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Ignite extends AbstractTask
 {

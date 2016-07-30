@@ -14,8 +14,6 @@ namespace Rocketeer\Services\Connections\Shell\Modules;
 
 /**
  * Files and folders handling.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Filesystem extends AbstractBashModule
 {

@@ -14,8 +14,6 @@ namespace Rocketeer\Tasks;
 
 /**
  * Remove the remote applications and existing caches.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Teardown extends AbstractTask
 {

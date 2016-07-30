@@ -17,8 +17,6 @@ use Rocketeer\Traits\ContainerAwareTrait;
 /**
  * Handles interaction between the User provided informations
  * and the various Rocketeer components.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Rocketeer
 {

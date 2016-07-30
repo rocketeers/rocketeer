@@ -16,8 +16,6 @@ use Rocketeer\Binaries\AbstractBinary;
 
 /**
  * The Git implementation of the ScmInterface.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Git extends AbstractBinary implements ScmInterface
 {

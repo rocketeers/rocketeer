@@ -17,8 +17,6 @@ use Rocketeer\Traits\HasLocatorTrait;
 
 /**
  * Bind the various Rocketeer classes to a Container.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class RocketeerServiceProvider extends AbstractServiceProvider
 {

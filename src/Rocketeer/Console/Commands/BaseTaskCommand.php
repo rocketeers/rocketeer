@@ -17,8 +17,6 @@ use Rocketeer\Tasks\AbstractTask;
 /**
  * A command that wraps around a task class and runs
  * its execute method on fire.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class BaseTaskCommand extends AbstractCommand
 {

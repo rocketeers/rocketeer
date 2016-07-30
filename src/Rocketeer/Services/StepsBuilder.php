@@ -15,8 +15,6 @@ namespace Rocketeer\Services;
 /**
  * Saves in an array methods the call signatures
  * of the methods called on it.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class StepsBuilder
 {

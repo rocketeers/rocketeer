@@ -23,8 +23,6 @@ use Rocketeer\Traits\Properties\HasHistoryTrait;
 /**
  * Handles running an array of tasks sequentially
  * or in parallel.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class TasksQueue
 {

@@ -18,8 +18,6 @@ use Rocketeer\Services\Modules\AbstractModule;
 
 /**
  * Finds credentials and informations about repositories.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class RepositoriesKeychain extends AbstractModule
 {

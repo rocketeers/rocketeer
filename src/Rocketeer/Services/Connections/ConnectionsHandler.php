@@ -23,8 +23,6 @@ use Rocketeer\Traits\ContainerAwareTrait;
 /**
  * Handles, get and return, the various connections/stages
  * and their credentials.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class ConnectionsHandler
 {

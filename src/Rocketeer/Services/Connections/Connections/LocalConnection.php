@@ -20,8 +20,6 @@ use Symfony\Component\Process\Process;
 /**
  * Stub of local connections to make Rocketeer work
  * locally when necessary.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class LocalConnection extends AbstractConnection
 {

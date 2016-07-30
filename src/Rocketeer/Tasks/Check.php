@@ -14,8 +14,6 @@ namespace Rocketeer\Tasks;
 
 /**
  * Check if the server is ready to receive the application.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Check extends AbstractTask
 {

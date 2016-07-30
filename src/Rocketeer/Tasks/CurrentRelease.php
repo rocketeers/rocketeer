@@ -16,8 +16,6 @@ use DateTime;
 
 /**
  * Display what the current release is.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class CurrentRelease extends AbstractTask
 {

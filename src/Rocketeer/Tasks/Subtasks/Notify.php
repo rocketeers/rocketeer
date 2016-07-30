@@ -17,8 +17,6 @@ use Rocketeer\Tasks\AbstractTask;
 
 /**
  * Notify a third-party service.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Notify extends AbstractTask
 {

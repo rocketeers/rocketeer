@@ -14,8 +14,6 @@ namespace Rocketeer\Strategies\Migrate;
 
 /**
  * Interface for the various migration strategies.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 interface MigrateStrategyInterface
 {

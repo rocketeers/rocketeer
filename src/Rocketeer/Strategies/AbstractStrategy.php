@@ -22,8 +22,6 @@ use Rocketeer\Traits\StepsRunnerTrait;
 
 /**
  * Core class for strategies.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 abstract class AbstractStrategy extends Bash implements IdentifierInterface
 {

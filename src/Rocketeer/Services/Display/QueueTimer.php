@@ -18,8 +18,6 @@ use Rocketeer\Traits\ContainerAwareTrait;
 /**
  * Saves the execution time of tasks and
  * predicts their future ones.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class QueueTimer
 {

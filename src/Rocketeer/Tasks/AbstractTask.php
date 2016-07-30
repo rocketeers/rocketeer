@@ -25,8 +25,6 @@ use Rocketeer\Traits\StepsRunnerTrait;
 
 /**
  * An abstract AbstractTask with common helpers, from which all Tasks derive.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 abstract class AbstractTask extends Bash implements HasRolesInterface, IdentifierInterface, ListenerInterface
 {

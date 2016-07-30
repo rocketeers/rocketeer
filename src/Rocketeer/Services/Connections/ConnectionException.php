@@ -16,8 +16,6 @@ use RuntimeException;
 
 /**
  * Exception when Rocketeer can't connect to a server.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class ConnectionException extends RuntimeException
 {

@@ -17,8 +17,6 @@ use Rocketeer\Traits\ContainerAwareTrait;
 /**
  * Gives out various informations about the
  * current server's environment.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Environment
 {

@@ -16,8 +16,6 @@ use Rocketeer\Tasks\AbstractTask;
 
 /**
  * Creates a new release on the server.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class CreateRelease extends AbstractTask
 {

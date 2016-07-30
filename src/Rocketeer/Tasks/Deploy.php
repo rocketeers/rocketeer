@@ -14,8 +14,6 @@ namespace Rocketeer\Tasks;
 
 /**
  * Deploy the website.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Deploy extends AbstractTask
 {

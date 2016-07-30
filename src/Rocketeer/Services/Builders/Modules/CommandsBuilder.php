@@ -16,9 +16,6 @@ use Rocketeer\Console\Commands\AbstractCommand;
 use Rocketeer\Console\Commands\BaseTaskCommand;
 use Rocketeer\Services\Builders\TaskCompositionException;
 
-/**
- * @author Maxime Fabre <ehtnam6@gmail.com>
- */
 class CommandsBuilder extends AbstractBuilderModule
 {
     /**

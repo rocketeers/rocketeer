@@ -17,8 +17,6 @@ use Illuminate\Support\Collection;
 /**
  * A class representing a pipeline of jobs
  * to be executed.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Pipeline extends Collection
 {

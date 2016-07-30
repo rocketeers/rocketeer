@@ -21,8 +21,6 @@ use Rocketeer\Services\Filesystem\ConnectionKeyAdapterFactory;
 
 /**
  * Represents a connection to a server and stage.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Connection extends AbstractConnection
 {

@@ -17,7 +17,7 @@ use Rocketeer\Binaries\AbstractBinary;
 /**
  * The Svn implementation of the ScmInterface.
  *
- * @author Maxime Fabre <ehtnam6@gmail.com>
+ *
  * @author Gasillo
  */
 class Svn extends AbstractBinary implements ScmInterface

@@ -29,8 +29,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  * subcommands to inherit.
  *
  * @mixin RocketeerStyle
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 abstract class AbstractCommand extends Command implements IdentifierInterface, ContainerAwareInterface
 {

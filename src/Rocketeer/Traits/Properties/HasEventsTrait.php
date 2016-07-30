@@ -17,8 +17,6 @@ use Rocketeer\Interfaces\IdentifierInterface;
 
 /**
  * A class that can fire events.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait HasEventsTrait
 {

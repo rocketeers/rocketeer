@@ -35,8 +35,6 @@ use Rocketeer\Traits\Properties\HasHistoryTrait;
  * @method string runForApplication($tasks)
  * @method string share($file)
  * @method string which($binary, $fallback = null, $prompt = true)
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class Bash implements ModulableInterface, ContainerAwareInterface
 {

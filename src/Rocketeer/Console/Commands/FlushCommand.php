@@ -16,8 +16,6 @@ use Rocketeer\Services\Config\Files\ConfigurationCache;
 
 /**
  * Flushes any custom storage Rocketeer has created.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class FlushCommand extends AbstractCommand
 {

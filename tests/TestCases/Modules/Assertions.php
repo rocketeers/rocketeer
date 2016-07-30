@@ -18,8 +18,6 @@ use Rocketeer\TestCases\Assertion;
 
 /**
  * @mixin \Rocketeer\TestCases\RocketeerTestCase
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 trait Assertions
 {

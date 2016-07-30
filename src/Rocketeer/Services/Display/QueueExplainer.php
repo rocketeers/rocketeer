@@ -17,8 +17,6 @@ use Rocketeer\Traits\ContainerAwareTrait;
 /**
  * Gives some insight into what task is executing,
  * what it's doing, what its parent is, etc.
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class QueueExplainer
 {
