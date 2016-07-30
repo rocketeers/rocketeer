@@ -286,7 +286,7 @@ class ConnectionsHandler
         });
 
         // Update events
-        $this->tasks->registerConfiguredEvents();
+        $this->bootstrapper->bootstrapUserCode();
     }
 
     /**
@@ -354,7 +354,7 @@ class ConnectionsHandler
 
         // If we do have a stage, cleanup previous events
         if ($stage) {
-            $this->tasks->registerConfiguredEvents();
+            $this->bootstrapper->bootstrapUserCode();
         }
     }
 

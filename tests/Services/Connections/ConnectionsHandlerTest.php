@@ -12,8 +12,9 @@
 
 namespace Rocketeer\Services\Connections;
 
+use Rocketeer\Services\Bootstrapper\Bootstrapper;
+use Rocketeer\Services\Bootstrapper\Modules\UserBootstrapper;
 use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
-use Rocketeer\Services\Tasks\TasksHandler;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class ConnectionsHandlerTest extends RocketeerTestCase
@@ -85,24 +86,26 @@ class ConnectionsHandlerTest extends RocketeerTestCase
 
     public function testDoesntResetConnectionIfSameAsCurrent()
     {
-        $prophecy = $this->bindProphecy(TasksHandler::class);
+        /** @var UserBootstrapper $prophecy */
+        $prophecy = $this->bindProphecy(UserBootstrapper::class, Bootstrapper::class);
 
         $this->connections->setCurrentConnection('staging');
         $this->connections->setCurrentConnection('staging');
         $this->connections->setCurrentConnection('staging');
 
-        $prophecy->registerConfiguredEvents()->shouldHaveBeenCalledTimes(1);
+        $prophecy->bootstrapUserCode()->shouldHaveBeenCalledTimes(1);
     }
 
     public function testDoesntResetStageIfSameAsCurrent()
     {
-        $prophecy = $this->bindProphecy(TasksHandler::class);
+        /** @var UserBootstrapper $prophecy */
+        $prophecy = $this->bindProphecy(UserBootstrapper::class, Bootstrapper::class);
 
         $this->connections->setStage('foobar');
         $this->connections->setStage('foobar');
         $this->connections->setStage('foobar');
 
-        $prophecy->registerConfiguredEvents()->shouldHaveBeenCalledTimes(1);
+        $prophecy->bootstrapUserCode()->shouldHaveBeenCalledTimes(1);
     }
 
     public function testValidatesConnectionOnMultiset()

@@ -140,7 +140,7 @@ trait ConfigurationTester
     protected function swapConfigWithEvents($config = [])
     {
         $this->swapConfig($config);
-        $this->tasks->registerConfiguredEvents();
+        $this->bootstrapper->bootstrapUserCode();
     }
 
     ////////////////////////////////////////////////////////////////////////////////

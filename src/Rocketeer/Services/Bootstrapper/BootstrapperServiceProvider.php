@@ -86,7 +86,7 @@ class BootstrapperServiceProvider extends AbstractServiceProvider implements Boo
         $this->bootstrapper->bootstrapConfiguration();
 
         // Load the user's events, tasks, plugins, and configurations
+        $this->bootstrapper->bootstrapUserFiles();
         $this->bootstrapper->bootstrapUserCode();
-        $this->tasks->registerConfiguredEvents();
     }
 }

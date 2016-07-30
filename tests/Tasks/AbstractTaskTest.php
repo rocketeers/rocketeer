@@ -60,7 +60,7 @@ class AbstractTaskTest extends RocketeerTestCase
         $this->expectOutputString('abc');
         $this->disableTestEvents();
 
-        $this->tasks->registerConfiguredEvents();
+        $this->bootstrapper->bootstrapUserCode();
         $this->tasks->listenTo('deploy.before', [
             function () {
                 echo 'a';

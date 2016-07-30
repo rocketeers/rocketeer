@@ -20,7 +20,7 @@ class UserBootstrapper extends AbstractBootstrapperModule
     /**
      * Bootstrap the user's code.
      */
-    public function bootstrapUserCode()
+    public function bootstrapUserFiles()
     {
         $this->bootstrapApp();
         $this->bootstrapStandaloneFiles();
@@ -38,7 +38,7 @@ class UserBootstrapper extends AbstractBootstrapperModule
     }
 
     /**
-     * Load the user's app folder.
+     * Bootstrap a PSR4 folder in the user's directory.
      */
     protected function bootstrapApp()
     {
@@ -61,6 +61,9 @@ class UserBootstrapper extends AbstractBootstrapperModule
         }
     }
 
+    /**
+     * Bootstrap standalone files in the user's directory.
+     */
     protected function bootstrapStandaloneFiles()
     {
         $folder = $this->paths->getRocketeerPath();
@@ -93,11 +96,53 @@ class UserBootstrapper extends AbstractBootstrapperModule
     }
 
     /**
+     * Register the user's tasks, events and roles.
+     */
+    public function bootstrapUserCode()
+    {
+        // Clean previously registered events
+        $this->tasks->clearRegisteredEvents();
+
+        // Re-register events
+        foreach ($this->container->getPlugins() as $plugin) {
+            if (strpos($plugin, $this->getUserNamespace().'ServiceProvider') === false) {
+                $this->container->addServiceProvider($plugin);
+            }
+        }
+
+        // Get the registered events
+        $hooks = (array) $this->config->getContextually('hooks');
+        $tasks = isset($hooks['tasks']) ? (array) $hooks['tasks'] : [];
+        $roles = isset($hooks['roles']) ? (array) $hooks['roles'] : [];
+        $events = isset($hooks['events']) ? (array) $hooks['events'] : [];
+
+        // Bind tasks and commands
+        foreach ($tasks as $name => $task) {
+            try {
+                $this->tasks->task($name, $task);
+            } catch (TaskCompositionException $exception) {
+                $this->tasks->command($name, $task);
+            }
+        }
+
+        // Bind events
+        foreach ($events as $event => $tasks) {
+            foreach ($tasks as $task => $listeners) {
+                $this->tasks->addTaskListeners($task, $event, $listeners, 0, true);
+            }
+        }
+
+        // Assign roles
+        $this->roles->assignTasksRoles($roles);
+    }
+
+    /**
      * @return string[]
      */
     public function getProvided()
     {
         return [
+            'bootstrapUserFiles',
             'bootstrapUserCode',
             'getUserNamespace',
         ];

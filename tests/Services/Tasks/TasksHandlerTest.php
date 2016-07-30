@@ -151,14 +151,14 @@ class TasksHandlerTest extends RocketeerTestCase
         $this->assertEquals([], $this->tasks->getTasksListeners('check', 'before', true));
     }
 
-    public function testCanbuildTasksFromConfigHook()
+    public function testCanBuildTasksFromConfigHook()
     {
         $tasks = ['ls'];
         $this->swapConfig([
             'hooks.events' => ['after' => ['create-release' => $tasks]],
         ]);
 
-        $this->tasks->registerConfiguredEvents();
+        $this->bootstrapper->bootstrapUserCode();
         $listeners = $this->tasks->getTasksListeners('CreateRelease', 'after', true);
 
         $this->assertEquals($tasks, $listeners);
@@ -176,7 +176,7 @@ class TasksHandlerTest extends RocketeerTestCase
             'hooks.events' => [],
             'on.connections.staging.hooks.events' => ['after' => ['deploy' => $tasks]],
         ]);
-        $this->tasks->registerConfiguredEvents();
+        $this->bootstrapper->bootstrapUserCode();
 
         $this->connections->setCurrentConnection('production');
         $events = $this->tasks->getTasksListeners('deploy', 'after', true);
@@ -203,18 +203,6 @@ class TasksHandlerTest extends RocketeerTestCase
 
         $listeners = $this->tasks->getTasksListeners('deploy', 'before', true);
         $this->assertEquals(['ls', 'notify'], $listeners);
-    }
-
-    public function testDoesntRegisterPluginsTwice()
-    {
-        $this->disableTestEvents();
-
-        $this->container->addServiceProvider(new DummyNotifier($this->container));
-        $this->tasks->registerConfiguredEvents();
-        $this->tasks->registerConfiguredEvents();
-
-        $listeners = $this->tasks->getTasksListeners('deploy', 'before', true);
-        $this->assertEquals(['notify'], $listeners);
     }
 
     public function testCanBuildTasksFluently()

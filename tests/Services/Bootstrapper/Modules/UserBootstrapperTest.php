@@ -12,6 +12,7 @@
 
 namespace Rocketeer\Services\Bootstrapper\Modules;
 
+use Rocketeer\Dummies\DummyNotifier;
 use Rocketeer\Tasks\Closure;
 use Rocketeer\TestCases\RocketeerTestCase;
 
@@ -24,8 +25,8 @@ class UserBootstrapperTest extends RocketeerTestCase
         $this->files->put('/src/.rocketeer/events/some-event.php', '<?php Rocketeer::before("DisplayFiles", "whoami");');
 
         $this->bootstrapper->bootstrapPaths();
+        $this->bootstrapper->bootstrapUserFiles();
         $this->bootstrapper->bootstrapUserCode();
-        $this->tasks->registerConfiguredEvents();
 
         $task = $this->task('DisplayFiles');
         $this->assertInstanceOf(Closure::class, $task);
@@ -42,7 +43,7 @@ class UserBootstrapperTest extends RocketeerTestCase
         $this->expectOutputString('');
 
         $this->files->put('/src/.rocketeer/app/Tasks/Ignite.php', '<?php echo "foobar";');
-        $this->bootstrapper->bootstrapUserCode();
+        $this->bootstrapper->bootstrapUserFiles();
     }
 
     public function testCanLoadCustomStrategies()
@@ -51,8 +52,8 @@ class UserBootstrapperTest extends RocketeerTestCase
         $this->files->put('/src/.rocketeer/config/strategies/Foobar.php', '<?php namespace Lol; class Foobar extends \Rocketeer\Strategies\AbstractStrategy { public function fire() { $this->runForCurrentRelease("ls"); } }');
 
         $this->bootstrapper->bootstrapPaths();
+        $this->bootstrapper->bootstrapUserFiles();
         $this->bootstrapper->bootstrapUserCode();
-        $this->tasks->registerConfiguredEvents();
 
         $strategy = $this->builder->buildStrategy('test', 'Lol\Foobar');
         $this->assertInstanceOf('Lol\Foobar', $strategy);
@@ -77,8 +78,8 @@ class FoobarServiceProvider extends \Rocketeer\Plugins\AbstractPlugin
 PHP
         );
 
+        $this->bootstrapper->bootstrapUserFiles();
         $this->bootstrapper->bootstrapUserCode();
-        $this->tasks->registerConfiguredEvents();
 
         $events = $this->tasks->getTasksListeners($this->task('Deploy'), 'before', true);
         $this->assertCount(1, $events);
@@ -89,5 +90,17 @@ PHP
         $this->config->set('application_name', 'foo-bar');
 
         $this->assertEquals('FooBar', $this->bootstrapper->getUserNamespace());
+    }
+
+    public function testDoesntRegisterPluginsTwice()
+    {
+        $this->disableTestEvents();
+
+        $this->container->addServiceProvider(new DummyNotifier($this->container));
+        $this->bootstrapper->bootstrapUserCode();
+        $this->bootstrapper->bootstrapUserCode();
+
+        $listeners = $this->tasks->getTasksListeners('deploy', 'before', true);
+        $this->assertEquals(['notify'], $listeners);
     }
 }

@@ -17,7 +17,6 @@ use Illuminate\Support\Str;
 use Rocketeer\Console\Commands\AbstractCommand;
 use Rocketeer\Console\Commands\BaseTaskCommand;
 use Rocketeer\Interfaces\IdentifierInterface;
-use Rocketeer\Services\Builders\TaskCompositionException;
 use Rocketeer\Services\Container\Container;
 use Rocketeer\Tasks\AbstractTask;
 use Rocketeer\Tasks\Closure as ClosureTask;
@@ -38,16 +37,6 @@ class TasksHandler
      * @var array
      */
     protected $registeredEvents = [];
-
-    /**
-     * Build a new TasksQueue Instance.
-     *
-     * @param Container $container
-     */
-    public function __construct(Container $container)
-    {
-        $this->container = $container;
-    }
 
     /**
      * Delegate methods to TasksQueue for now to
@@ -178,47 +167,6 @@ class TasksHandler
         }
 
         $this->registeredEvents = [];
-    }
-
-    /**
-     * Register with the Dispatcher the events in the configuration.
-     */
-    public function registerConfiguredEvents()
-    {
-        // Clean previously registered events
-        $this->clearRegisteredEvents();
-
-        // Re-register events
-        foreach ($this->container->getPlugins() as $plugin) {
-            if (strpos($plugin, $this->bootstrapper->getUserNamespace().'ServiceProvider') === false) {
-                $this->container->addServiceProvider($plugin);
-            }
-        }
-
-        // Get the registered events
-        $hooks = (array) $this->config->getContextually('hooks');
-        $tasks = isset($hooks['tasks']) ? (array) $hooks['tasks'] : [];
-        $roles = isset($hooks['roles']) ? (array) $hooks['roles'] : [];
-        $events = isset($hooks['events']) ? (array) $hooks['events'] : [];
-
-        // Bind tasks and commands
-        foreach ($tasks as $name => $task) {
-            try {
-                $this->task($name, $task);
-            } catch (TaskCompositionException $exception) {
-                $this->command($name, $task);
-            }
-        }
-
-        // Bind events
-        foreach ($events as $event => $tasks) {
-            foreach ($tasks as $task => $listeners) {
-                $this->addTaskListeners($task, $event, $listeners, 0, true);
-            }
-        }
-
-        // Assign roles
-        $this->roles->assignTasksRoles($roles);
     }
 
     /**
