@@ -75,6 +75,7 @@ class ConsoleServiceProvider extends AbstractServiceProvider
             'deploy' => 'Deploy',
             'flush' => 'Flush',
             'ignite' => 'Ignite',
+            'ignite-stubs' => 'Ignite\Stubs',
             'rollback' => 'Rollback',
             'setup' => 'Setup',
             'strategies' => 'Strategies',

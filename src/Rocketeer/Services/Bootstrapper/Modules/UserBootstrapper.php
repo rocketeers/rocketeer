@@ -64,7 +64,7 @@ class UserBootstrapper extends AbstractBootstrapperModule
     }
 
     /**
-     * Bootstrap the user's standalone files
+     * Bootstrap the user's standalone files.
      */
     protected function bootstrapStandaloneFiles()
     {

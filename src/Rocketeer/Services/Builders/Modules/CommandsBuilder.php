@@ -16,6 +16,9 @@ use Rocketeer\Console\Commands\AbstractCommand;
 use Rocketeer\Console\Commands\BaseTaskCommand;
 use Rocketeer\Services\Builders\TaskCompositionException;
 
+/**
+ * Builds Symfony console commands
+ */
 class CommandsBuilder extends AbstractBuilderModule
 {
     /**

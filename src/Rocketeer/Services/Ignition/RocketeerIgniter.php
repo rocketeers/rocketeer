@@ -113,7 +113,7 @@ class RocketeerIgniter
 
         if ($namespace) {
             $manifest['autoload'] = [
-                'psr4' => [$namespace.'\\' => 'app']
+                'psr4' => [$namespace.'\\' => 'app'],
             ];
         }
 
