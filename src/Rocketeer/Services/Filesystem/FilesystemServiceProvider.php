@@ -43,7 +43,6 @@ class FilesystemServiceProvider extends AbstractServiceProvider
             $local->addPlugin(new CopyDirectoryPlugin());
             $local->addPlugin(new IncludePlugin());
             $local->addPlugin(new IsDirectoryPlugin());
-            $local->addPlugin(new RequirePlugin());
             $local->addPlugin(new UpsertPlugin());
 
             return $local;
