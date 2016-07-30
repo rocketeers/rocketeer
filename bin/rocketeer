@@ -9,6 +9,12 @@ $vendors = [
     __DIR__.'/../../..',
 ];
 
+// Load plugins
+$plugins = getcwd().'/.rocketeer/vendor/autoload.php';
+if (file_exists($plugins)) {
+    require_once $plugins;
+}
+
 // Loop through the possible vendor folders and require the first
 // one available
 foreach ($vendors as $vendor) {
@@ -18,12 +24,6 @@ foreach ($vendors as $vendor) {
         require_once $vendor;
         break;
     }
-}
-
-// Load plugins
-$plugins = getcwd().'/.rocketeer/vendor/autoload.php';
-if (file_exists($plugins)) {
-    require_once $plugins;
 }
 
 // Then we launch the console application
