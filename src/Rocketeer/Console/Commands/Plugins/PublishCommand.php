@@ -13,7 +13,7 @@
 namespace Rocketeer\Console\Commands\Plugins;
 
 use Rocketeer\Console\Commands\AbstractCommand;
-use Rocketeer\Services\Ignition\Plugins;
+use Rocketeer\Services\Bootstrapper\Plugins;
 use Symfony\Component\Console\Input\InputArgument;
 
 class PublishCommand extends AbstractCommand

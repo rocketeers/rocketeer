@@ -10,7 +10,7 @@
  *
  */
 
-namespace Rocketeer\Services\Ignition;
+namespace Rocketeer\Services\Bootstrapper;
 
 use Rocketeer\TestCases\RocketeerTestCase;
 

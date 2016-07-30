@@ -10,9 +10,9 @@
  *
  */
 
-namespace Rocketeer\Services\Ignition\Modules;
+namespace Rocketeer\Services\Bootstrapper\Modules;
 
-use Rocketeer\Services\Ignition\Bootstrapper;
+use Rocketeer\Services\Bootstrapper\Bootstrapper;
 use Rocketeer\Services\Modules\AbstractModule;
 
 abstract class AbstractBootstrapperModule extends AbstractModule

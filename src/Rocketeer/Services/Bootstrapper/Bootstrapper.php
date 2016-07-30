@@ -10,13 +10,13 @@
  *
  */
 
-namespace Rocketeer\Services\Ignition;
+namespace Rocketeer\Services\Bootstrapper;
 
 use League\Container\ContainerAwareInterface;
-use Rocketeer\Services\Ignition\Modules\ConfigurationBootstrapper;
-use Rocketeer\Services\Ignition\Modules\PathsBootstrapper;
-use Rocketeer\Services\Ignition\Modules\TasksBootstrapper;
-use Rocketeer\Services\Ignition\Modules\UserBootstrapper;
+use Rocketeer\Services\Bootstrapper\Modules\ConfigurationBootstrapper;
+use Rocketeer\Services\Bootstrapper\Modules\PathsBootstrapper;
+use Rocketeer\Services\Bootstrapper\Modules\TasksBootstrapper;
+use Rocketeer\Services\Bootstrapper\Modules\UserBootstrapper;
 use Rocketeer\Services\Modules\ModulableInterface;
 use Rocketeer\Services\Modules\ModulableTrait;
 use Rocketeer\Traits\ContainerAwareTrait;

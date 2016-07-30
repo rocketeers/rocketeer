@@ -10,7 +10,7 @@
  *
  */
 
-namespace Rocketeer\Services\Ignition\Modules;
+namespace Rocketeer\Services\Bootstrapper\Modules;
 
 use Dotenv\Dotenv;
 

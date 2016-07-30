@@ -10,15 +10,15 @@
  *
  */
 
-namespace Rocketeer\Services\Ignition;
+namespace Rocketeer\Services\Bootstrapper;
 
 use League\Container\ServiceProvider\AbstractServiceProvider;
 use League\Container\ServiceProvider\BootableServiceProviderInterface;
 use Rocketeer\Facades\Rocketeer;
-use Rocketeer\Services\Ignition\Modules\ConfigurationBootstrapper;
-use Rocketeer\Services\Ignition\Modules\PathsBootstrapper;
-use Rocketeer\Services\Ignition\Modules\TasksBootstrapper;
-use Rocketeer\Services\Ignition\Modules\UserBootstrapper;
+use Rocketeer\Services\Bootstrapper\Modules\ConfigurationBootstrapper;
+use Rocketeer\Services\Bootstrapper\Modules\PathsBootstrapper;
+use Rocketeer\Services\Bootstrapper\Modules\TasksBootstrapper;
+use Rocketeer\Services\Bootstrapper\Modules\UserBootstrapper;
 use Rocketeer\Traits\HasLocatorTrait;
 
 class BootstrapperServiceProvider extends AbstractServiceProvider implements BootableServiceProviderInterface

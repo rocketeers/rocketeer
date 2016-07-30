@@ -15,7 +15,7 @@ namespace Rocketeer\Console;
 use KevinGH\Amend\Command;
 use KevinGH\Amend\Helper;
 use League\Container\ServiceProvider\AbstractServiceProvider;
-use Rocketeer\Services\Ignition\Tasks;
+use Rocketeer\Services\Bootstrapper\Tasks;
 use Rocketeer\Traits\HasLocatorTrait;
 
 class ConsoleServiceProvider extends AbstractServiceProvider
