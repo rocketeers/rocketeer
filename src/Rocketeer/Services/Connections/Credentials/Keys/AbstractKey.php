@@ -12,14 +12,44 @@
 
 namespace Rocketeer\Services\Connections\Credentials\Keys;
 
-use Illuminate\Support\Fluent;
+use Illuminate\Contracts\Support\Arrayable;
 
 /**
  * Represents the credentials to something in
  * a way that can be easily serialized.
  */
-abstract class AbstractKey extends Fluent
+abstract class AbstractKey implements Arrayable
 {
+    /**
+     * @var string[]
+     */
+    protected $arrayable = [];
+
+    /**
+     * @param array $attributes
+     */
+    public function __construct(array $attributes = [])
+    {
+        foreach ($attributes as $key => $value) {
+            $this->$key = $value;
+        }
+    }
+
+    /**
+     * Get the components to compute the handle from.
+     *
+     * @return string[]
+     */
+    protected function getAttributes()
+    {
+        $components = [];
+        foreach ($this->arrayable as $attribute) {
+            $components[] = $this->$attribute;
+        }
+
+        return $components;
+    }
+
     //////////////////////////////////////////////////////////////////////
     ////////////////////////////// HANDLES ///////////////////////////////
     //////////////////////////////////////////////////////////////////////
@@ -31,17 +61,7 @@ abstract class AbstractKey extends Fluent
      */
     public function toHandle()
     {
-        return $this->computeHandle($this->getHandleComponents());
-    }
-
-    /**
-     * Get the components to compute the handle from.
-     *
-     * @return string[]
-     */
-    protected function getHandleComponents()
-    {
-        return $this->attributes;
+        return $this->computeHandle($this->getAttributes());
     }
 
     /**
@@ -56,11 +76,23 @@ abstract class AbstractKey extends Fluent
         return implode('/', $components);
     }
 
+    ////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////// SERIALIZATION /////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
+
     /**
      * @return string
      */
     public function __toString()
     {
         return $this->toHandle();
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return $this->getAttributes();
     }
 }

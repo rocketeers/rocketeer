@@ -12,39 +12,42 @@
 
 namespace Rocketeer\Services\Connections\Credentials\Keys;
 
-use Illuminate\Support\Arr;
-
 /**
  * Represents a connection's identity and its credential.
  *
- * @property string   name
- * @property int      server
- * @property string   stage
- * @property array    servers
- * @property string   host
- * @property string   username
- * @property string   password
- * @property string   key
- * @property string   keyphrase
- * @property string   agent
- * @property string   root_directory
- * @property string[] roles
- * @property bool     db_role
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
+ * @property string   $host
+ * @property string   $username
+ * @property string   $password
+ * @property string   $key
+ * @property string   $keyphrase
+ * @property bool     $agent
+ * @property string   $root_directory
+ * @property string[] $roles
  */
 class ConnectionKey extends AbstractKey
 {
     /**
-     * The global informations
-     * about the connection.
-     *
-     * @var string[]
+     * @var string
      */
-    protected $informations = ['name', 'server', 'stage', 'servers'];
+    public $name;
 
     /**
-     * Get attributes from the credentials.
+     * @var int
+     */
+    public $server;
+
+    /**
+     * @var string
+     */
+    public $stage;
+
+    /**
+     * @var array
+     */
+    public $servers;
+
+    /**
+     * Get a server credential.
      *
      * @param string $name
      *
@@ -52,26 +55,18 @@ class ConnectionKey extends AbstractKey
      */
     public function __get($name)
     {
-        if (in_array($name, $this->informations, true)) {
-            return $this->get($name);
-        }
-
         return $this->getServerCredential($name);
     }
 
     /**
-     * Chane a server credential.
+     * Change a server credential.
      *
      * @param string $name
      * @param mixed  $value
      */
     public function __set($name, $value)
     {
-        if (in_array($name, $this->informations, true)) {
-            parent::__set($name, $value);
-        } else {
-            $this->attributes['servers'][$this->server][$name] = $value;
-        }
+        $this->servers[$this->server][$name] = $value;
     }
 
     //////////////////////////////////////////////////////////////////////
@@ -89,7 +84,7 @@ class ConnectionKey extends AbstractKey
             return [];
         }
 
-        return Arr::get($this->servers, $this->server) ?: [];
+        return isset($this->servers[$this->server]) ? $this->servers[$this->server] : [];
     }
 
     /**
@@ -101,7 +96,9 @@ class ConnectionKey extends AbstractKey
      */
     public function getServerCredential($credential)
     {
-        return Arr::get($this->getServerCredentials(), $credential);
+        $credentials = $this->getServerCredentials();
+
+        return isset($credentials[$credential]) ? $credentials[$credential] : null;
     }
 
     //////////////////////////////////////////////////////////////////////
@@ -154,7 +151,7 @@ class ConnectionKey extends AbstractKey
      *
      * @return string[]
      */
-    public function getHandleComponents()
+    public function getAttributes()
     {
         $server = isset($this->servers[$this->server]['host']) ? $this->servers[$this->server]['host'] : $this->server;
         $components = !$this->isMultiserver() ? [$this->name, $this->stage] : [$this->name, $server, $this->stage];
@@ -175,14 +172,8 @@ class ConnectionKey extends AbstractKey
         return $this->username.'@'.$this->toHandle();
     }
 
-    //////////////////////////////////////////////////////////////////////
-    //////////////////////////// SERIALIZATION ///////////////////////////
-    //////////////////////////////////////////////////////////////////////
-
     /**
-     * Get the instance as an array.
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function toArray()
     {

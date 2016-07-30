@@ -16,16 +16,29 @@ use Illuminate\Support\Str;
 
 /**
  * Represents a repository's identity and its credentials.
- *
- * @property string endpoint
- * @property string branch
- * @property string username
- * @property string password
- *
- * @author Maxime Fabre <ehtnam6@gmail.com>
  */
 class RepositoryKey extends AbstractKey
 {
+    /**
+     * @var string
+     */
+    public $endpoint;
+
+    /**
+     * @var string
+     */
+    public $branch;
+
+    /**
+     * @var string
+     */
+    public $username;
+
+    /**
+     * @var string
+     */
+    public $password;
+
     /**
      * Whether the repository is public or needs credentials.
      *
@@ -52,7 +65,7 @@ class RepositoryKey extends AbstractKey
     /**
      * @return array
      */
-    protected function getHandleComponents()
+    protected function getAttributes()
     {
         return [$this->username, $this->getName()];
     }
