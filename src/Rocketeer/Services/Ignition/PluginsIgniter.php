@@ -90,10 +90,12 @@ class PluginsIgniter
             return $this->explainer->error('Aborted configuration publishing');
         }
 
+        // Export configuration
+        $this->files->copyDir($path, $destination);
+
         // Display success
         $path = str_replace($this->paths->getBasePath(), null, $path);
         $destination = str_replace($this->paths->getBasePath(), null, $destination);
-        $this->files->copyDir($path, $destination);
         $this->command->writeln('Published configuration from <comment>'.$path.'</comment> to <comment>'.$destination.'</comment>');
     }
 }

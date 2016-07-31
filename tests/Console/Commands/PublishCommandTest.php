@@ -30,6 +30,7 @@ class PublishCommandTest extends RocketeerTestCase
         $this->files->put($path.'/foo.php', '<?php return ["foo" => "bar"]');
 
         $tester = $this->executeCommand('plugins:config', ['package' => 'anahkiasen/rocketeer-slack']);
-        $this->assertContains('Publishing configuration from', $tester->getDisplay());
+        $this->assertContains('Published configuration from', $tester->getDisplay());
+        $this->assertVirtualFileExists($this->paths->getRocketeerPath().'/config/plugins/rocketeer-slack/foo.php');
     }
 }
