@@ -16,7 +16,7 @@ use Illuminate\Support\Str;
 use Rocketeer\Strategies\AbstractStrategy;
 
 /**
- * Builds strategies, using the default or a specific concrete
+ * Builds strategies, using the default or a specific concrete.
  */
 class StrategiesBuilder extends AbstractBuilderModule
 {

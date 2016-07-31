@@ -15,7 +15,7 @@ namespace Rocketeer\Services\Builders\Modules;
 use Rocketeer\Binaries\AnonymousBinary;
 
 /**
- * Builds binaries and package managers
+ * Builds binaries and package managers.
  */
 class BinariesBuilder extends AbstractBuilderModule
 {
