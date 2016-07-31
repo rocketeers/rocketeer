@@ -10,25 +10,25 @@
  *
  */
 
-namespace Rocketeer\Scm;
+namespace Rocketeer\Vcs;
 
-use Rocketeer\Binaries\Scm\Hg;
+use Rocketeer\Binaries\Vcs\Hg;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class HgTest extends RocketeerTestCase
 {
     /**
-     * The current SCM instance.
+     * The current VCS instance.
      *
      * @var Hg
      */
-    protected $scm;
+    protected $vcs;
 
     public function setUp()
     {
         parent::setUp();
 
-        $this->scm = new Hg($this->container);
+        $this->vcs = new Hg($this->container);
     }
 
     ////////////////////////////////////////////////////////////////////
@@ -37,56 +37,56 @@ class HgTest extends RocketeerTestCase
 
     public function testCanGetCheck()
     {
-        $command = $this->scm->check();
+        $command = $this->vcs->check();
 
         $this->assertEquals('hg --version', $command);
     }
 
     public function testCanGetCurrentState()
     {
-        $command = $this->scm->currentState();
+        $command = $this->vcs->currentState();
 
         $this->assertEquals('hg identify -i', $command);
     }
 
     public function testCanGetCurrentBranch()
     {
-        $command = $this->scm->currentBranch();
+        $command = $this->vcs->currentBranch();
 
         $this->assertEquals('hg branch', $command);
     }
 
     public function testCanGetCheckout()
     {
-        $this->swapScmConfiguration([
+        $this->swapVcsConfiguration([
             'username' => 'foo',
             'password' => 'bar',
             'repository' => 'http://github.com/my/repository',
             'branch' => 'develop',
         ]);
 
-        $command = $this->scm->checkout($this->server);
+        $command = $this->vcs->checkout($this->server);
 
         $this->assertEquals('hg clone "http://github.com/my/repository" -b develop "'.$this->server.'" --config ui.interactive="no" --config auth.x.prefix="http://" --config auth.x.username="foo" --config auth.x.password="bar"', $command);
     }
 
     public function testCanGetReset()
     {
-        $command = $this->scm->reset();
+        $command = $this->vcs->reset();
 
         $this->assertEquals('hg update --clean', $command);
     }
 
     public function testCanGetUpdate()
     {
-        $command = $this->scm->update();
+        $command = $this->vcs->update();
 
         $this->assertEquals('hg pull', $command);
     }
 
     public function testCanGetSubmodules()
     {
-        $command = $this->scm->submodules();
+        $command = $this->vcs->submodules();
 
         $this->assertEmpty($command);
     }

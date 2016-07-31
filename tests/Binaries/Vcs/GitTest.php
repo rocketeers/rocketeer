@@ -10,25 +10,25 @@
  *
  */
 
-namespace Rocketeer\Scm;
+namespace Rocketeer\Vcs;
 
-use Rocketeer\Binaries\Scm\Git;
+use Rocketeer\Binaries\Vcs\Git;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class GitTest extends RocketeerTestCase
 {
     /**
-     * The current SCM instance.
+     * The current VCS instance.
      *
      * @var Git
      */
-    protected $scm;
+    protected $vcs;
 
     public function setUp()
     {
         parent::setUp();
 
-        $this->scm = new Git($this->container);
+        $this->vcs = new Git($this->container);
     }
 
     ////////////////////////////////////////////////////////////////////
@@ -37,69 +37,68 @@ class GitTest extends RocketeerTestCase
 
     public function testCanGetCheck()
     {
-        $command = $this->scm->check();
+        $command = $this->vcs->check();
 
         $this->assertEquals('git --version', $command);
     }
 
     public function testCanGetCurrentState()
     {
-        $command = $this->scm->currentState();
+        $command = $this->vcs->currentState();
 
         $this->assertEquals('git rev-parse HEAD', $command);
     }
 
     public function testCanGetCurrentBranch()
     {
-        $command = $this->scm->currentBranch();
+        $command = $this->vcs->currentBranch();
 
         $this->assertEquals('git rev-parse --abbrev-ref HEAD', $command);
     }
 
     public function testCanGetCheckout()
     {
-        $this->swapScmConfiguration([
+        $this->swapVcsConfiguration([
             'shallow' => true,
             'repository' => 'http://github.com/my/repository',
             'branch' => 'develop',
         ]);
 
-        $command = $this->scm->checkout($this->server);
+        $command = $this->vcs->checkout($this->server);
 
         $this->assertEquals('git clone "http://github.com/my/repository" "'.$this->server.'" --branch="develop" --depth="1"', $command);
     }
 
     public function testCanGetDeepClone()
     {
-        $this->config->set('scm.shallow', false);
-
-        $this->swapScmConfiguration([
+        $this->config->set('vcs.shallow', false);
+        $this->swapVcsConfiguration([
             'repository' => 'http://github.com/my/repository',
             'branch' => 'develop',
         ]);
 
-        $command = $this->scm->checkout($this->server);
+        $command = $this->vcs->checkout($this->server);
 
         $this->assertEquals('git clone "http://github.com/my/repository" "'.$this->server.'" --branch="develop"', $command);
     }
 
     public function testCanGetReset()
     {
-        $command = $this->scm->reset();
+        $command = $this->vcs->reset();
 
         $this->assertEquals('git reset --hard', $command);
     }
 
     public function testCanGetUpdate()
     {
-        $command = $this->scm->update();
+        $command = $this->vcs->update();
 
         $this->assertEquals('git pull --recurse-submodules', $command);
     }
 
     public function testCanGetSubmodules()
     {
-        $command = $this->scm->submodules();
+        $command = $this->vcs->submodules();
 
         $this->assertEquals('git submodule update --init --recursive', $command);
     }

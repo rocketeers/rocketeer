@@ -10,12 +10,12 @@
  *
  */
 
-namespace Rocketeer\Binaries\Scm;
+namespace Rocketeer\Binaries\Vcs;
 
 /**
- * The interface for all SCM implementations.
+ * The interface for all VCS implementations.
  */
-interface ScmInterface
+interface VcsInterface
 {
     /**
      * Get the current binary name.
@@ -25,7 +25,7 @@ interface ScmInterface
     public function getBinary();
 
     /**
-     * Check if the SCM is available.
+     * Check if the VCS is available.
      *
      * @return string
      */

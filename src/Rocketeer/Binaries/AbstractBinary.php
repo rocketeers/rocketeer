@@ -141,7 +141,7 @@ abstract class AbstractBinary
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Returns a command with the SCM's binary.
+     * Returns a command with the VCS's binary.
      *
      * @param string|null     $command
      * @param string|string[] $arguments

@@ -47,7 +47,7 @@ class Builder implements ModulableInterface, ContainerAwareInterface
     protected $lookups = [
         'binaries' => [
             'Rocketeer\Binaries\PackageManagers\%s',
-            'Rocketeer\Binaries\Scm\%s',
+            'Rocketeer\Binaries\Vcs\%s',
             'Rocketeer\Binaries\%s',
         ],
         'tasks' => [

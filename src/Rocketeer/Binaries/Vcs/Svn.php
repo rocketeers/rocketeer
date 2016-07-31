@@ -10,17 +10,17 @@
  *
  */
 
-namespace Rocketeer\Binaries\Scm;
+namespace Rocketeer\Binaries\Vcs;
 
 use Rocketeer\Binaries\AbstractBinary;
 
 /**
- * The Svn implementation of the ScmInterface.
+ * The Svn implementation of the VcsInterface.
  *
  *
  * @author Gasillo
  */
-class Svn extends AbstractBinary implements ScmInterface
+class Svn extends AbstractBinary implements VcsInterface
 {
     /**
      * The core binary.
@@ -34,7 +34,7 @@ class Svn extends AbstractBinary implements ScmInterface
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Check if the SCM is available.
+     * Check if the VCS is available.
      *
      * @return string
      */

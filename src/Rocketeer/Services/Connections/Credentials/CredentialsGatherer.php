@@ -50,10 +50,10 @@ class CredentialsGatherer
      */
     public function getRepositoryCredentials()
     {
-        $endpoint = $this->scm->runLocally('currentEndpoint');
+        $endpoint = $this->vcs->runLocally('currentEndpoint');
         $user = $this->bash->runLocally('whoami');
 
-        return $this->askQuestions('scm', [
+        return $this->askQuestions('vcs', [
             'repository' => ['Where is your code located?', $endpoint],
             'username' => ['What is the username for it?', $user],
             'password' => 'And the password?',
@@ -126,7 +126,7 @@ class CredentialsGatherer
      */
     protected function askQuestions($for, array $questions)
     {
-        $key = $for === 'scm' ? new RepositoryKey() : new ConnectionKey(['server' => 0]);
+        $key = $for === 'vcs' ? new RepositoryKey() : new ConnectionKey(['server' => 0]);
         $credentials = [];
         $config = [];
 
@@ -148,7 +148,7 @@ class CredentialsGatherer
         }
 
         // Set in current configuration
-        $configKey = $for === 'scm' ? 'scm' : 'connections.'.$for;
+        $configKey = $for === 'vcs' ? 'vcs' : 'connections.'.$for;
         $this->config->set($configKey, $config);
 
         return $credentials;
@@ -173,7 +173,7 @@ class CredentialsGatherer
         }
 
         // Get the credential, either through options or prompt
-        if (($for !== 'scm' || $credential === 'repository') && $option = $this->command->option($credential)) {
+        if (($for !== 'vcs' || $credential === 'repository') && $option = $this->command->option($credential)) {
             return $option;
         }
 

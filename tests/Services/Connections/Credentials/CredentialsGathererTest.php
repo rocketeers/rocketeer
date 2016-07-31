@@ -18,7 +18,7 @@ class CredentialsGathererTest extends RocketeerTestCase
 {
     public function testCanGetRepositoryCredentials()
     {
-        $this->swapScmConfiguration([]);
+        $this->swapVcsConfiguration([]);
         $this->mockAnswers([
             'Where is your code' => 'https://'.$this->repository,
             'username' => $this->username,
@@ -27,22 +27,22 @@ class CredentialsGathererTest extends RocketeerTestCase
 
         $credentials = $this->credentialsGatherer->getRepositoryCredentials();
         $this->assertEquals([
-            'SCM_REPOSITORY' => 'https://'.$this->repository,
-            'SCM_USERNAME' => $this->username,
-            'SCM_PASSWORD' => $this->password,
+            'VCS_REPOSITORY' => 'https://'.$this->repository,
+            'VCS_USERNAME' => $this->username,
+            'VCS_PASSWORD' => $this->password,
         ], $credentials);
     }
 
     public function testDoesntAskForRepositoryCredentialsIfUneeded()
     {
-        $this->swapScmConfiguration([]);
+        $this->swapVcsConfiguration([]);
         $this->mockAnswers([
             'Where is' => $this->repository,
         ]);
 
         $credentials = $this->credentialsGatherer->getRepositoryCredentials();
         $this->assertEquals([
-            'SCM_REPOSITORY' => $this->repository,
+            'VCS_REPOSITORY' => $this->repository,
         ], $credentials);
     }
 

@@ -18,9 +18,9 @@ use Rocketeer\Services\Config\Definition\HooksDefinition;
 use Rocketeer\Services\Config\Definition\PathsDefinition;
 use Rocketeer\Services\Config\Definition\PluginsDefinition;
 use Rocketeer\Services\Config\Definition\RemoteDefinition;
-use Rocketeer\Services\Config\Definition\ScmDefinition;
 use Rocketeer\Services\Config\Definition\StagesDefinition;
 use Rocketeer\Services\Config\Definition\StrategiesDefinition;
+use Rocketeer\Services\Config\Definition\VcsDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 
 /**
@@ -36,7 +36,7 @@ class ConfigurationDefinition extends AbstractDefinition
         HooksDefinition::class,
         PathsDefinition::class,
         RemoteDefinition::class,
-        ScmDefinition::class,
+        VcsDefinition::class,
         StagesDefinition::class,
         StrategiesDefinition::class,
         PluginsDefinition::class,

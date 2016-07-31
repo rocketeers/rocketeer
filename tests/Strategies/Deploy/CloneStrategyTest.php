@@ -12,8 +12,8 @@
 
 namespace Rocketeer\Strategies\CreateRelease;
 
-use Rocketeer\Binaries\Scm\ScmInterface;
-use Rocketeer\Binaries\Scm\Svn;
+use Rocketeer\Binaries\Vcs\Svn;
+use Rocketeer\Binaries\Vcs\VcsInterface;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class CloneStrategyTest extends RocketeerTestCase
@@ -52,7 +52,7 @@ class CloneStrategyTest extends RocketeerTestCase
 
     public function testDoesntRunSubmodulesCheckoutForSvn()
     {
-        $this->container->add(ScmInterface::class, new Svn($this->container));
+        $this->container->add(VcsInterface::class, new Svn($this->container));
 
         $task = $this->pretendTask('Deploy');
         $task->getStrategy('CreateRelease')->deploy();

@@ -13,7 +13,7 @@
 namespace Rocketeer\Services\Builders\Modules;
 
 use Rocketeer\Binaries\AnonymousBinary;
-use Rocketeer\Binaries\Scm\Git;
+use Rocketeer\Binaries\Vcs\Git;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class BinariesBuilderTest extends RocketeerTestCase

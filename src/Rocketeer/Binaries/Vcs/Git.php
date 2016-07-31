@@ -10,14 +10,14 @@
  *
  */
 
-namespace Rocketeer\Binaries\Scm;
+namespace Rocketeer\Binaries\Vcs;
 
 use Rocketeer\Binaries\AbstractBinary;
 
 /**
- * The Git implementation of the ScmInterface.
+ * The Git implementation of the VcsInterface.
  */
-class Git extends AbstractBinary implements ScmInterface
+class Git extends AbstractBinary implements VcsInterface
 {
     /**
      * The core binary.
@@ -31,7 +31,7 @@ class Git extends AbstractBinary implements ScmInterface
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Check if the SCM is available.
+     * Check if the VCS is available.
      *
      * @return string
      */
@@ -89,7 +89,7 @@ class Git extends AbstractBinary implements ScmInterface
 
         // Build flags
         $flags = ['--branch' => $repository->branch];
-        if ($this->config->getContextually('scm.shallow')) {
+        if ($this->config->getContextually('vcs.shallow')) {
             $flags['--depth'] = 1;
         }
 

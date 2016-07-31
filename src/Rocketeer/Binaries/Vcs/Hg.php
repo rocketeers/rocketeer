@@ -10,14 +10,14 @@
  *
  */
 
-namespace Rocketeer\Binaries\Scm;
+namespace Rocketeer\Binaries\Vcs;
 
 use Rocketeer\Binaries\AbstractBinary;
 
 /**
- * The Mercury implementation of the ScmInterface.
+ * The Mercury implementation of the VcsInterface.
  */
-class Hg extends AbstractBinary implements ScmInterface
+class Hg extends AbstractBinary implements VcsInterface
 {
     /**
      * The core binary.
@@ -27,7 +27,7 @@ class Hg extends AbstractBinary implements ScmInterface
     protected $binary = 'hg';
 
     /**
-     * Check if the SCM is available.
+     * Check if the VCS is available.
      *
      * @return string
      */

@@ -50,7 +50,7 @@ class CurrentRelease extends AbstractTask
 
         // Create state message
         $date = DateTime::createFromFormat('YmdHis', $currentRelease)->format('Y-m-d H:i:s');
-        $state = $this->runForCurrentRelease($this->scm->currentState());
+        $state = $this->runForCurrentRelease($this->vcs->currentState());
         $message = sprintf(
             'The current release'.$stage.' is <info>%s</info> (<comment>%s</comment> deployed at <comment>%s</comment>)',
             $currentRelease,

@@ -14,10 +14,10 @@ return [
     // The configuration of your repository
     //////////////////////////////////////////////////////////////////////
 
-    'scm' => [
+    'vcs' => [
 
-        // The SCM used
-        'scm' => 'git', // One of "git", "svn", "hg", Required
+        // The VCS used
+        'vcs' => 'git', // One of "git", "svn", "hg", Required
 
         // The SSH/HTTPS address to your repository
         'repository' => null, // Example: https://github.com/vendor/website.git
@@ -27,7 +27,7 @@ return [
         // The branch to deploy
         'branch' => 'master',
 
-        // Whether your SCM should do a "shallow" clone of the repository or not - this means a clone with just the latest state of your application (no history).
+        // Whether your VCS should do a "shallow" clone of the repository or not - this means a clone with just the latest state of your application (no history).
         // If you're having problems cloning, try setting this to false
         'shallow' => true,
 

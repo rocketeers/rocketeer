@@ -21,9 +21,9 @@ namespace Rocketeer\Services\Connections\Shell\Modules;
  * @method \Rocketeer\Binaries\PackageManagers\Npm npm()
  * @method \Rocketeer\Binaries\Php php()
  * @method \Rocketeer\Binaries\Phpunit phpunit()
- * @method \Rocketeer\Binaries\Scm\Git git()
- * @method \Rocketeer\Binaries\Scm\Hg hg()
- * @method \Rocketeer\Binaries\Scm\Svn svn()
+ * @method \Rocketeer\Binaries\Vcs\Git git()
+ * @method \Rocketeer\Binaries\Vcs\Hg hg()
+ * @method \Rocketeer\Binaries\Vcs\Svn svn()
  */
 class Binaries extends AbstractBashModule
 {

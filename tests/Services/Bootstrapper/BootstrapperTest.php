@@ -50,11 +50,11 @@ class BootstrapperTest extends RocketeerTestCase
         $this->swapConfigWithEvents();
         $folder = $this->replicateConfiguration();
 
-        $file = $folder.'/connections/production/scm.php';
-        $this->files->write($file, '<?php return ["scm" => "svn"];');
+        $file = $folder.'/connections/production/vcs.php';
+        $this->files->write($file, '<?php return ["vcs" => "svn"];');
 
         $this->bootstrapper->bootstrapConfiguration();
-        $this->assertEquals('svn', $this->config->getContextually('scm.scm'));
+        $this->assertEquals('svn', $this->config->getContextually('vcs.vcs'));
     }
 
     public function testCanUseFilesAndFoldersForPluginsConfig()
@@ -82,11 +82,11 @@ class BootstrapperTest extends RocketeerTestCase
         $config = $this->replicateConfiguration();
 
         $path = $this->paths->getDotenvPath();
-        $this->files->put($path, 'SCM_REPOSITORY=foobar');
-        $this->files->put($config.'/scm.php', '<?php return ["scm" => ["scm" => "git", "repository" => "%%SCM_REPOSITORY%%"]];');
+        $this->files->put($path, 'VCS_REPOSITORY=foobar');
+        $this->files->put($config.'/vcs.php', '<?php return ["vcs" => ["vcs" => "git", "repository" => "%%VCS_REPOSITORY%%"]];');
 
         $this->bootstrapper->bootstrapConfiguration();
 
-        $this->assertEquals('foobar', $this->config->get('scm.repository'));
+        $this->assertEquals('foobar', $this->config->get('vcs.repository'));
     }
 }

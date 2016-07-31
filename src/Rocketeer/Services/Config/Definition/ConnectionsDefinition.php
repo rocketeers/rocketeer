@@ -170,10 +170,10 @@ to the stage or connection currently in use.
 Per example :
 'stages' => [
     'staging' => [
-        'scm' => ['branch' => 'staging'],
+        'vcs' => ['branch' => 'staging'],
     ],
      'production' => [
-       'scm' => ['branch' => 'master'],
+       'vcs' => ['branch' => 'master'],
      ],
 ],
 EOF

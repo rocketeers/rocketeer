@@ -23,7 +23,7 @@ class SyncStrategyTest extends RocketeerTestCase
 
         $this->swapConfigWithEvents([
             'hooks' => [],
-            'scm.submodules' => false,
+            'vcs.submodules' => false,
             'strategies.deploy' => 'Sync',
             'connections' => [
                 'production' => [

@@ -18,7 +18,7 @@ use Rocketeer\TestCases\RocketeerTestCase;
 
 class CheckTest extends RocketeerTestCase
 {
-    public function testCanCheckScmVersionIfRequired()
+    public function testCanCheckVcsVersionIfRequired()
     {
         $this->usesComposer();
 
@@ -27,7 +27,7 @@ class CheckTest extends RocketeerTestCase
         ]);
     }
 
-    public function testSkipsScmCheckIfNotRequired()
+    public function testSkipsVcsCheckIfNotRequired()
     {
         $this->usesComposer();
 

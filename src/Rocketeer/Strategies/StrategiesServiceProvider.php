@@ -13,7 +13,7 @@
 namespace Rocketeer\Strategies;
 
 use League\Container\ServiceProvider\AbstractServiceProvider;
-use Rocketeer\Binaries\Scm\ScmInterface;
+use Rocketeer\Binaries\Vcs\VcsInterface;
 use Rocketeer\Services\Builders\Builder;
 use Rocketeer\Services\Config\ContextualConfiguration;
 
@@ -23,7 +23,7 @@ class StrategiesServiceProvider extends AbstractServiceProvider
      * @var array
      */
     protected $provides = [
-        ScmInterface::class,
+        VcsInterface::class,
     ];
 
     /**
@@ -34,10 +34,10 @@ class StrategiesServiceProvider extends AbstractServiceProvider
         /** @var ContextualConfiguration $config */
         $config = $this->container->get(ContextualConfiguration::class);
 
-        // Bind SCM class
-        $scm = $config->getContextually('scm.scm');
-        $this->container->add(ScmInterface::class, function () use ($scm) {
-            return $this->container->get(Builder::class)->buildBinary($scm);
+        // Bind VCS class
+        $vcs = $config->getContextually('vcs.vcs');
+        $this->container->add(VcsInterface::class, function () use ($vcs) {
+            return $this->container->get(Builder::class)->buildBinary($vcs);
         });
     }
 }

@@ -79,7 +79,7 @@ class RepositoriesKeychainTest extends RocketeerTestCase
 
     public function testCanExtractCurrentBranchIfNoneSpecified()
     {
-        $this->config->set('scm.branch', null);
+        $this->config->set('vcs.branch', null);
 
         $prophecy = $this->bindProphecy(Bash::class);
         $prophecy->on('local', Argument::any())->willReturn('   foobar   ');
@@ -89,7 +89,7 @@ class RepositoriesKeychainTest extends RocketeerTestCase
 
     public function testCanDefaultToMasterIfNoBranchFound()
     {
-        $this->config->set('scm.branch', null);
+        $this->config->set('vcs.branch', null);
 
         $prophecy = $this->bindProphecy(Bash::class);
         $prophecy->on('local', Argument::any())->willReturn(null);

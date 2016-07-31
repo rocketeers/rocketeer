@@ -34,10 +34,10 @@ return [
         // Per example :
         // 'stages' => [
         //     'staging' => [
-        //         'scm' => ['branch' => 'staging'],
+        //         'vcs' => ['branch' => 'staging'],
         //     ],
         //      'production' => [
-        //        'scm' => ['branch' => 'master'],
+        //        'vcs' => ['branch' => 'master'],
         //      ],
         // ],
         'on' => [

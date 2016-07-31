@@ -36,7 +36,7 @@ class Check extends AbstractTask
      */
     public function execute()
     {
-        $this->steps()->checkScm();
+        $this->steps()->checkVcs();
         if ($this->getStrategy('Check')) {
             $this->steps()->checkManagerMethod('language', 'Checking presence of language');
             $this->steps()->checkManagerMethod('manager', 'Checking presence of package manager');
@@ -56,24 +56,24 @@ class Check extends AbstractTask
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Check the presence of an SCM on the server.
+     * Check the presence of an VCS on the server.
      *
      * @return bool
      */
-    public function checkScm()
+    public function checkVcs()
     {
-        // Cancel if not using any SCM
+        // Cancel if not using any VCS
         if (strtolower($this->config->getContextually('strategies.create-release')) !== 'clone') {
             return true;
         }
 
-        $this->explainer->line('Checking presence of '.$this->scm->getBinary());
-        $results = $this->scm->run('check');
+        $this->explainer->line('Checking presence of '.$this->vcs->getBinary());
+        $results = $this->vcs->run('check');
         $this->toOutput($results);
 
         $isPresent = $this->status();
         if (!$isPresent) {
-            $this->explainer->error($this->scm->getBinary().' could not be found');
+            $this->explainer->error($this->vcs->getBinary().' could not be found');
         }
 
         return $isPresent;

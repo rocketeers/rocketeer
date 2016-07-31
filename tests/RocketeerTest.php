@@ -19,30 +19,30 @@ class RocketeerTest extends RocketeerTestCase
     public function testCanUseRecursiveStageConfiguration()
     {
         $this->swapConfig([
-            'scm.branch' => 'master',
-            'on.stages.staging.scm.branch' => 'staging',
+            'vcs.branch' => 'master',
+            'on.stages.staging.vcs.branch' => 'staging',
         ]);
 
-        $this->assertOptionValueEquals('master', 'scm.branch');
+        $this->assertOptionValueEquals('master', 'vcs.branch');
         $this->connections->setStage('staging');
-        $this->assertOptionValueEquals('staging', 'scm.branch');
+        $this->assertOptionValueEquals('staging', 'vcs.branch');
     }
 
     public function testCanUseRecursiveConnectionConfiguration()
     {
         $this->swapConfig([
             'default' => 'production',
-            'scm.branch' => 'master',
-            'on.connections.staging.scm.branch' => 'staging',
+            'vcs.branch' => 'master',
+            'on.connections.staging.vcs.branch' => 'staging',
         ]);
-        $this->assertOptionValueEquals('master', 'scm.branch');
+        $this->assertOptionValueEquals('master', 'vcs.branch');
 
         $this->swapConfig([
             'default' => 'staging',
-            'scm.branch' => 'master',
-            'on.connections.staging.scm.branch' => 'staging',
+            'vcs.branch' => 'master',
+            'on.connections.staging.vcs.branch' => 'staging',
         ]);
-        $this->assertOptionValueEquals('staging', 'scm.branch');
+        $this->assertOptionValueEquals('staging', 'vcs.branch');
     }
 
     public function testRocketeerCanGuessWhichStageHesIn()

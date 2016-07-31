@@ -15,14 +15,14 @@ namespace Rocketeer\Services\Config\Definition;
 use Symfony\Component\Config\Definition\TreeBuilder\NodeBuilder;
 
 /**
- * Configuration schema for the SCM node.
+ * Configuration schema for the VCS node.
  */
-class ScmDefinition extends AbstractDefinition
+class VcsDefinition extends AbstractDefinition
 {
     /**
      * @var string
      */
-    protected $name = 'scm';
+    protected $name = 'vcs';
 
     /**
      * @var string
@@ -50,8 +50,8 @@ class ScmDefinition extends AbstractDefinition
     protected function getCredentialsNodes(NodeBuilder $node)
     {
         return $node
-            ->enumNode('scm')
-                ->info('The SCM used')
+            ->enumNode('vcs')
+                ->info('The VCS used')
                 ->values(['git', 'svn', 'hg'])
                 ->isRequired()
                 ->defaultValue('git')
@@ -59,13 +59,13 @@ class ScmDefinition extends AbstractDefinition
             ->scalarNode('repository')
                 ->info('The SSH/HTTPS address to your repository')
                 ->example('https://github.com/vendor/website.git')
-                ->defaultValue($this->value('scm.repository'))
+                ->defaultValue($this->value('vcs.repository'))
             ->end()
             ->scalarNode('username')
-                ->defaultValue($this->value('scm.username'))
+                ->defaultValue($this->value('vcs.username'))
             ->end()
             ->scalarNode('password')
-                ->defaultValue($this->value('scm.password'))
+                ->defaultValue($this->value('vcs.password'))
             ->end();
     }
 
@@ -82,7 +82,7 @@ class ScmDefinition extends AbstractDefinition
                 ->defaultValue('master')
             ->end()
             ->scalarNode('shallow')
-                ->info("Whether your SCM should do a \"shallow\" clone of the repository or not - this means a clone with just the latest state of your application (no history).\nIf you're having problems cloning, try setting this to false")
+                ->info("Whether your VCS should do a \"shallow\" clone of the repository or not - this means a clone with just the latest state of your application (no history).\nIf you're having problems cloning, try setting this to false")
                 ->defaultTrue()
             ->end()
             ->scalarNode('submodules')

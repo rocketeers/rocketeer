@@ -16,7 +16,7 @@ use Prophecy\Argument;
 use Rocketeer\Services\Connections\Shell\Bash;
 use Rocketeer\TestCases\RocketeerTestCase;
 
-class ScmTest extends RocketeerTestCase
+class VcsTest extends RocketeerTestCase
 {
     public function testCanForgetCredentialsIfInvalid()
     {

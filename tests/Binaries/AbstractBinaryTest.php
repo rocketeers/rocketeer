@@ -14,7 +14,7 @@ namespace Rocketeer\Binaries;
 
 use Prophecy\Argument;
 use Rocketeer\Binaries\PackageManagers\Composer;
-use Rocketeer\Binaries\Scm\Git;
+use Rocketeer\Binaries\Vcs\Git;
 use Rocketeer\Services\Connections\Shell\Bash;
 use Rocketeer\Services\Releases\ReleasesManager;
 use Rocketeer\TestCases\RocketeerTestCase;
@@ -29,8 +29,8 @@ class AbstractBinaryTest extends RocketeerTestCase
             return $arguments;
         });
 
-        $scm = new Git($this->container);
-        $command = $scm->run('checkout', $this->server);
+        $vcs = new Git($this->container);
+        $command = $vcs->run('checkout', $this->server);
         $expected = $this->replaceHistoryPlaceholders(['git clone "{repository}" "{server}" --branch="master" --depth="1"']);
 
         $this->assertEquals($expected, $command);

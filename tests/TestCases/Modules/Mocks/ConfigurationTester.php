@@ -32,7 +32,7 @@ trait ConfigurationTester
 
         // Base the mocked configuration off the factory values
         $defaults = [];
-        $files = ['config', 'hooks', 'paths', 'remote', 'scm', 'stages', 'strategies'];
+        $files = ['config', 'hooks', 'paths', 'remote', 'vcs', 'stages', 'strategies'];
         foreach ($files as $file) {
             $defaults[$file] = $this->config->get($file);
         }
@@ -71,8 +71,8 @@ trait ConfigurationTester
             'remote.permissions.files' => ['tests'],
             'remote.shared' => ['tests/Elements'],
             'remote.keep_releases' => 1,
-            'scm' => [
-                'scm' => 'git',
+            'vcs' => [
+                'vcs' => 'git',
                 'branch' => 'master',
                 'repository' => 'https://github.com/'.$this->repository,
                 'shallow' => true,
@@ -169,16 +169,16 @@ trait ConfigurationTester
     /**
      * @param array $credentials
      */
-    protected function swapScmConfiguration(array $credentials)
+    protected function swapVcsConfiguration(array $credentials)
     {
-        $scm = $this->config->get('scm');
-        $scm = array_merge($scm, $credentials);
+        $vcs = $this->config->get('vcs');
+        $vcs = array_merge($vcs, $credentials);
 
-        $this->config->set('scm', $scm);
+        $this->config->set('vcs', $vcs);
     }
 
     /**
-     * Make the config return specific SCM config.
+     * Make the config return specific VCS config.
      *
      * @param string      $repository
      * @param string|null $username
@@ -186,7 +186,7 @@ trait ConfigurationTester
      */
     protected function swapRepositoryConfiguration($repository, $username = null, $password = null)
     {
-        $this->swapScmConfiguration([
+        $this->swapVcsConfiguration([
             'repository' => $repository,
             'username' => $username,
             'password' => $password,

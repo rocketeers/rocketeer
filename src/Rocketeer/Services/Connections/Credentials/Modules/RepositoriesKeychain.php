@@ -42,7 +42,7 @@ class RepositoriesKeychain extends AbstractModule
      */
     protected function getRepositoryCredentials()
     {
-        $config = (array) $this->config->getContextually('scm');
+        $config = (array) $this->config->getContextually('vcs');
         $credentials = (array) $this->localStorage->get('credentials');
 
         return array_merge($config, $credentials);
@@ -92,10 +92,10 @@ class RepositoriesKeychain extends AbstractModule
         }
 
         // Get branch from config, else compute the fallback
-        $branch = $this->config->getContextually('scm.branch');
+        $branch = $this->config->getContextually('vcs.branch');
         if (!$branch) {
             $fallback = $this->bash->on('local', function () {
-                return $this->scm->runSilently('currentBranch');
+                return $this->vcs->runSilently('currentBranch');
             });
 
             $fallback = $fallback ?: 'master';

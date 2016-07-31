@@ -14,7 +14,7 @@ namespace Rocketeer\Traits;
 
 use Illuminate\Support\Arr;
 use League\Event\Emitter;
-use Rocketeer\Binaries\Scm\ScmInterface;
+use Rocketeer\Binaries\Vcs\VcsInterface;
 use Rocketeer\Console\Commands\AbstractCommand;
 use Rocketeer\Console\Console;
 use Rocketeer\Rocketeer;
@@ -78,7 +78,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @property Rocketeer                      rocketeer
  * @property RocketeerIgniter               igniter
  * @property RolesManager                   roles
- * @property ScmInterface                   scm
+ * @property VcsInterface                   vcs
  * @property Storage                        localStorage
  * @property Storage                        remoteStorage
  * @property TasksHandler                   tasks
@@ -146,9 +146,9 @@ trait HasLocatorTrait
             'remoteStorage' => 'storage.remote',
             'rocketeer' => Rocketeer::class,
             'roles' => RolesManager::class,
-            'scm' => ScmInterface::class,
             'tasks' => TasksHandler::class,
             'timer' => QueueTimer::class,
+            'vcs' => VcsInterface::class,
         ];
 
         // Replace shortcuts

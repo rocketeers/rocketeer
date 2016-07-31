@@ -82,7 +82,7 @@ class DeployTest extends RocketeerTestCase
 
     public function testCanDisableGitOptions()
     {
-        $this->swapScmConfiguration([
+        $this->swapVcsConfiguration([
             'shallow' => false,
             'submodules' => false,
         ]);

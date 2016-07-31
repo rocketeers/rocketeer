@@ -10,25 +10,25 @@
  *
  */
 
-namespace Rocketeer\Scm;
+namespace Rocketeer\Vcs;
 
-use Rocketeer\Binaries\Scm\Svn;
+use Rocketeer\Binaries\Vcs\Svn;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class SvnTest extends RocketeerTestCase
 {
     /**
-     * The current SCM instance.
+     * The current VCS instance.
      *
      * @var Svn
      */
-    protected $scm;
+    protected $vcs;
 
     public function setUp()
     {
         parent::setUp();
 
-        $this->scm = new Svn($this->container);
+        $this->vcs = new Svn($this->container);
     }
 
     ////////////////////////////////////////////////////////////////////
@@ -37,109 +37,109 @@ class SvnTest extends RocketeerTestCase
 
     public function testCanGetCheck()
     {
-        $command = $this->scm->check();
+        $command = $this->vcs->check();
 
         $this->assertEquals('svn --version', $command);
     }
 
     public function testCanGetCurrentState()
     {
-        $command = $this->scm->currentState();
+        $command = $this->vcs->currentState();
 
         $this->assertEquals('svn info | grep "Revision"', $command);
     }
 
     public function testCanGetCurrentBranch()
     {
-        $command = $this->scm->currentBranch();
+        $command = $this->vcs->currentBranch();
 
         $this->assertEquals('echo trunk', $command);
     }
 
     public function testCanGetCheckout()
     {
-        $this->swapScmConfiguration([
+        $this->swapVcsConfiguration([
             'username' => 'foo',
             'password' => 'bar',
             'repository' => 'http://github.com/my/repository',
             'branch' => 'develop',
         ]);
 
-        $command = $this->scm->checkout($this->server);
+        $command = $this->vcs->checkout($this->server);
 
         $this->assertEquals('svn co http://github.com/my/repository/develop '.$this->server.' --non-interactive --username="foo" --password="bar"', $command);
     }
 
     public function testCanGetDeepClone()
     {
-        $this->swapScmConfiguration([
+        $this->swapVcsConfiguration([
             'username' => 'foo',
             'password' => 'bar',
             'repository' => 'http://github.com/my/repository',
             'branch' => 'develop',
         ]);
 
-        $command = $this->scm->checkout($this->server);
+        $command = $this->vcs->checkout($this->server);
 
         $this->assertEquals('svn co http://github.com/my/repository/develop '.$this->server.' --non-interactive --username="foo" --password="bar"', $command);
     }
 
     public function testDoesntDuplicateCredentials()
     {
-        $this->swapScmConfiguration([
+        $this->swapVcsConfiguration([
             'username' => 'foo',
             'password' => 'bar',
             'repository' => 'http://foo:bar@github.com/my/repository',
             'branch' => 'develop',
         ]);
 
-        $command = $this->scm->checkout($this->server);
+        $command = $this->vcs->checkout($this->server);
 
         $this->assertEquals('svn co http://github.com/my/repository/develop '.$this->server.' --non-interactive --username="foo" --password="bar"', $command);
 
-        $this->swapScmConfiguration([
+        $this->swapVcsConfiguration([
             'username' => 'foo',
             'password' => null,
             'repository' => 'http://foo@github.com/my/repository',
             'branch' => 'develop',
         ]);
 
-        $command = $this->scm->checkout($this->server);
+        $command = $this->vcs->checkout($this->server);
 
         $this->assertEquals('svn co http://github.com/my/repository/develop '.$this->server.' --non-interactive --username="foo"', $command);
     }
 
     public function testDoesntStripRevisionFromUrl()
     {
-        $this->swapScmConfiguration([
+        $this->swapVcsConfiguration([
             'username' => 'foo',
             'password' => 'bar',
             'repository' => 'url://user:login@example.com/test',
             'branch' => 'trunk@1234',
         ]);
 
-        $command = $this->scm->checkout($this->server);
+        $command = $this->vcs->checkout($this->server);
 
         $this->assertEquals('svn co url://example.com/test/trunk@1234 '.$this->server.' --non-interactive --username="foo" --password="bar"', $command);
     }
 
     public function testCanGetReset()
     {
-        $command = $this->scm->reset();
+        $command = $this->vcs->reset();
 
         $this->assertEquals("svn status -q | grep -v '^[~XI ]' | awk '{print $2;}' | xargs --no-run-if-empty svn revert", $command);
     }
 
     public function testCanGetUpdate()
     {
-        $command = $this->scm->update();
+        $command = $this->vcs->update();
 
         $this->assertEquals('svn up --non-interactive', $command);
     }
 
     public function testCanGetSubmodules()
     {
-        $command = $this->scm->submodules();
+        $command = $this->vcs->submodules();
 
         $this->assertEmpty($command);
     }
