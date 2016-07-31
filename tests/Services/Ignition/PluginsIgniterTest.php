@@ -35,7 +35,7 @@ class PluginsIgniterTest extends RocketeerTestCase
         $this->from = $this->container->get('path.base').'/vendor/anahkiasen/rocketeer-slack/src/config';
     }
 
-    public function testCanPublishClassicPluginConfiguration()
+    public function testCanPublishPluginConfiguration()
     {
         $this->usesLaravel(false);
 
@@ -44,7 +44,6 @@ class PluginsIgniterTest extends RocketeerTestCase
         $prophecy->has(Argument::cetera())->willReturn(true);
         $prophecy->has($destination)->willReturn(false);
         $prophecy->isDirectory(Argument::cetera())->shouldBeCalled()->willReturn(true);
-        $prophecy->createDir($destination)->shouldBeCalled()->willReturn(true);
         $prophecy->copyDir($this->from, $destination)->shouldBeCalled()->willReturn(true);
 
         $this->plugins->publish('anahkiasen/rocketeer-slack');
@@ -68,6 +67,6 @@ class PluginsIgniterTest extends RocketeerTestCase
 
         $this->assertContains($this->container->get('path.base').'/vendor/foo/bar/src/config', $paths);
         $this->assertContains($this->home.'/.composer/vendor/foo/bar/src/config', $paths);
-        $this->assertContains($this->home.'/.rocketeer/vendor/foo/bar/src/config', $paths);
+        $this->assertContains($this->paths->getRocketeerPath().'/vendor/foo/bar/src/config', $paths);
     }
 }
