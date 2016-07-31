@@ -86,12 +86,14 @@ class PluginsIgniter
 
         // Compute and create the destination foldser
         $destination = $this->paths->getConfigurationPath().'/plugins/'.$package;
-        if (!$this->files->has($destination)) {
-            $this->files->createDir($destination);
+        if ($this->files->has($destination) && !$this->command->confirm('Configuration already published, replace?')) {
+            return $this->explainer->error('Aborted configuration publishing');
         }
 
         // Display success
-        $this->explainer->success('Publishing configuration from '.$path.' to '.$destination);
+        $path = str_replace($this->paths->getBasePath(), null, $path);
+        $destination = str_replace($this->paths->getBasePath(), null, $destination);
         $this->files->copyDir($path, $destination);
+        $this->command->writeln('Published configuration from <comment>'.$path.'</comment> to <comment>'.$destination.'</comment>');
     }
 }
