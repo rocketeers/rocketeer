@@ -23,4 +23,13 @@ class PublishCommandTest extends RocketeerTestCase
         $tester = $this->executeCommand('plugins:config', ['package' => 'foo/bar']);
         $this->assertContains('No configuration found', $tester->getDisplay());
     }
+
+    public function testCanExportConfiguration()
+    {
+        $path = $this->paths->getRocketeerPath().'/vendor/anahkiasen/rocketeer-slack/config';
+        $this->files->put($path.'/foo.php', '<?php return ["foo" => "bar"]');
+
+        $tester = $this->executeCommand('plugins:config', ['package' => 'anahkiasen/rocketeer-slack']);
+        $this->assertContains('Publishing configuration from', $tester->getDisplay());
+    }
 }

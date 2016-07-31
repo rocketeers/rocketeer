@@ -56,8 +56,8 @@ class PluginsIgniter
         $paths = [
             $this->paths->getBasePath().'vendor/%s/src/config',
             $this->paths->getBasePath().'vendor/%s/config',
-            $this->paths->getUserHomeFolder().'/.rocketeer/vendor/%s/src/config',
-            $this->paths->getUserHomeFolder().'/.rocketeer/vendor/%s/config',
+            $this->paths->getRocketeerPath().'/vendor/%s/src/config',
+            $this->paths->getRocketeerPath().'/vendor/%s/config',
             $this->paths->getUserHomeFolder().'/.composer/vendor/%s/src/config',
             $this->paths->getUserHomeFolder().'/.composer/vendor/%s/config',
         ];
