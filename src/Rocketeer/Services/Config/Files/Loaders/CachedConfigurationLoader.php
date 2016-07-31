@@ -15,7 +15,6 @@ namespace Rocketeer\Services\Config\Files\Loaders;
 use Illuminate\Support\Arr;
 use Rocketeer\Services\Config\Files\ConfigurationCache;
 use Rocketeer\Traits\ContainerAwareTrait;
-use Symfony\Component\Config\Resource\DirectoryResource;
 use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\Finder\SplFileInfo;
 
@@ -58,12 +57,6 @@ class CachedConfigurationLoader implements ConfigurationLoaderInterface
     public function setFolders(array $folders)
     {
         $this->loader->setFolders($folders);
-
-        // Create resources
-        $this->resources = [];
-        foreach ($this->loader->getFolders() as $folder) {
-            $this->resources[] = new DirectoryResource($folder);
-        }
     }
 
     /**
@@ -93,8 +86,13 @@ class CachedConfigurationLoader implements ConfigurationLoaderInterface
             $file = $file->getPathname();
         }
 
-        // Check for cached version
+        // Create resources
+        $this->resources = [];
         $filePaths = array_values($files);
+        foreach ($filePaths as $path) {
+            $this->resources[] = new FileResource($path);
+        }
+
         if ($cached = $this->getCachedConfiguration($filePaths)) {
             return $cached;
         }
