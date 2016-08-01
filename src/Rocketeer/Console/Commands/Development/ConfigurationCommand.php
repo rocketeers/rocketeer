@@ -15,6 +15,8 @@ namespace Rocketeer\Console\Commands\Development;
 use Illuminate\Support\Arr;
 use Rocketeer\Console\Commands\AbstractCommand;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\VarDumper\Cloner\VarCloner;
+use Symfony\Component\VarDumper\Dumper\CliDumper;
 
 /**
  * Easily dump one or more nodes from the configuration.
@@ -39,13 +41,21 @@ class ConfigurationCommand extends AbstractCommand
     public function fire()
     {
         $this->prepareEnvironment();
-
         $key = $this->argument('key');
 
-        $configuration = $this->config->toArray();
+        $configuration = $this->config->all();
         $configuration = $key ? Arr::get($configuration, $key) : $configuration;
 
-        dump($configuration);
+        $dumper = new CliDumper();
+        $dumper->setColors(true);
+
+        $cloner = new VarCloner();
+
+        $dumper->dump($cloner->cloneVar($configuration), function ($line, $depth) {
+            if ($depth !== -1) {
+                $this->output->writeln(str_repeat('  ', $depth).$line);
+            }
+        });
     }
 
     /**

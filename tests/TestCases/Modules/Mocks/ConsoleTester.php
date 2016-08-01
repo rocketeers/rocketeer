@@ -50,6 +50,18 @@ trait ConsoleTester
     }
 
     /**
+     * @param string $expected
+     * @param string $command
+     * @param array  $arguments
+     */
+    protected function assertCommandOutputContains($expected, $command, $arguments = [])
+    {
+        $tester = $this->executeCommand($command, $arguments);
+
+        $this->assertContains($expected, $tester->getDisplay());
+    }
+
+    /**
      * Set Rocketeer in pretend mode.
      *
      * @param array $options
