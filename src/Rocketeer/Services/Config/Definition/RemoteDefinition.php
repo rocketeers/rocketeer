@@ -77,9 +77,9 @@ class RemoteDefinition extends AbstractDefinition
                         ->info('What actions will be executed to set permissions on the folder above')
                         ->defaultValue(function ($file) {
                             return [
-                                'chmod -R 755 %s'.$file,
-                                'chmod -R g+s %s'.$file,
-                                'chown -R www-data:www-data %s'.$file,
+                                'chmod -R 755 '.$file,
+                                'chmod -R g+s '.$file,
+                                'chown -R www-data:www-data '.$file,
                             ];
                         })
                     ->end()
