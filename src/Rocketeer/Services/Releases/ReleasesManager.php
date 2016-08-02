@@ -92,7 +92,7 @@ class ReleasesManager
     {
         $connection = $this->connections->getCurrentConnectionKey()->name;
 
-        $this->releases[$connection][] =  $release;
+        $this->releases[$connection][] = $release;
         krsort($this->releases[$connection]);
     }
 

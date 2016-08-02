@@ -34,6 +34,10 @@ class PrepareRelease extends AbstractTask
             $this->steps()->executeTask('Test');
         }
 
+        // Synchronize shared folders and files
+        $this->explainer->line('Synchronizing shared folders');
+        $this->steps()->syncSharedFolders();
+
         // Create release and set permissions
         $this->explainer->line('Setting correct permissions on the files');
         $this->steps()->setApplicationPermissions();
@@ -42,10 +46,6 @@ class PrepareRelease extends AbstractTask
         if ($this->getOption('migrate') || $this->getOption('seed')) {
             $this->steps()->executeTask('Migrate');
         }
-
-        // Synchronize shared folders and files
-        $this->explainer->line('Synchronizing shared folders');
-        $this->steps()->syncSharedFolders();
 
         // Swap symlink if that wasn't already done
         $release = $this->releasesManager->getCurrentRelease();
