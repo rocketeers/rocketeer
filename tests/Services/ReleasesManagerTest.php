@@ -281,4 +281,14 @@ class ReleasesManagerTest extends RocketeerTestCase
 
         $this->assertInternalType('string', $releases[0]);
     }
+
+    public function testCanAddReleaseManually()
+    {
+        $release = '30000000000000';
+        $this->releasesManager->addRelease($release);
+        $this->releasesManager->markReleaseAsValid($release);
+
+        $this->assertContains($release, $this->releasesManager->getReleases());
+        $this->assertNotContains($release, $this->releasesManager->getDeprecatedReleases());
+    }
 }

@@ -91,7 +91,9 @@ class ReleasesManager
     public function addRelease($release)
     {
         $connection = $this->connections->getCurrentConnectionKey()->name;
-        $this->releases[$connection][] = $release;
+
+        $this->releases[$connection][] =  $release;
+        krsort($this->releases[$connection]);
     }
 
     /**
@@ -238,6 +240,7 @@ class ReleasesManager
         if ($release) {
             $this->state[$release] = $state;
             $this->remoteStorage->set($release, $state);
+            krsort($this->state);
         }
     }
 
