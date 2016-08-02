@@ -34,9 +34,9 @@ class CreateRelease extends AbstractTask
         $status = $this->executeStrategyMethod('CreateRelease', 'deploy');
 
         // Append newly created release to list of existing ones
-        $release = $this->releasesManager->getCurrentRelease();
-        $this->releasesManager->addRelease($release);
-        $this->releasesManager->markReleaseAsValid($release);
+        $this->releasesManager->addRelease(
+            $this->releasesManager->getCurrentRelease()
+        );
 
         return $status;
     }
