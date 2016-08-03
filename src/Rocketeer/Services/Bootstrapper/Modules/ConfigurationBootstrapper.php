@@ -52,7 +52,7 @@ class ConfigurationBootstrapper extends AbstractBootstrapperModule
     /**
      * Load any configured plugins.
      */
-    protected function bootstrapPlugins()
+    public function bootstrapPlugins()
     {
         $plugins = (array) $this->config->get('plugins.loaded');
         $plugins = array_filter($plugins, 'class_exists');
@@ -68,7 +68,7 @@ class ConfigurationBootstrapper extends AbstractBootstrapperModule
     {
         return [
             'bootstrapConfiguration',
-            'bootstrapPluginsConfiguration',
+            'bootstrapPlugins',
         ];
     }
 }

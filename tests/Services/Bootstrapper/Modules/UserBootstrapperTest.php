@@ -61,9 +61,9 @@ class UserBootstrapperTest extends RocketeerTestCase
     public function testDoesntRegisterPluginsTwice()
     {
         $this->disableTestEvents();
+        $this->config->set('plugins.loaded', [DummyNotifier::class]);
 
-        $this->container->addServiceProvider(new DummyNotifier($this->container));
-        $this->bootstrapper->bootstrapUserCode();
+        $this->bootstrapper->bootstrapPlugins();
         $this->bootstrapper->bootstrapUserCode();
 
         $listeners = $this->tasks->getTasksListeners('deploy', 'before', true);
