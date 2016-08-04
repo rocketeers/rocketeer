@@ -55,6 +55,9 @@ class Deploy extends AbstractTask
             $this->steps()->executeTask('Test');
         }
 
+        // Synchronize shared folders and files
+        $this->steps()->syncSharedFolders();
+
         // Create release and set permissions
         $this->steps()->setApplicationPermissions();
 
@@ -62,9 +65,6 @@ class Deploy extends AbstractTask
         if ($this->getOption('migrate') || $this->getOption('seed')) {
             $this->steps()->executeTask('Migrate');
         }
-
-        // Synchronize shared folders and files
-        $this->steps()->syncSharedFolders();
 
         // Run before-symlink events
         $this->steps()->fireEvent('before-symlink');
