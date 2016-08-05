@@ -12,6 +12,7 @@
 
 namespace Rocketeer\Services\Events;
 
+use Closure;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class TaggableEmitterTest extends RocketeerTestCase
@@ -23,14 +24,10 @@ class TaggableEmitterTest extends RocketeerTestCase
         $emitter = new TaggableEmitter();
 
         $emitter->setTag('foo');
-        $emitter->addListener('foo', function () {
-            echo 'foo';
-        });
+        $emitter->addListener('foo', $this->echoingListener('foo'));
 
         $emitter->setTag('bar');
-        $emitter->addListener('foo', function () {
-            echo 'bar';
-        });
+        $emitter->addListener('foo', $this->echoingListener('bar'));
 
         $emitter->emit('foo');
     }
@@ -42,14 +39,10 @@ class TaggableEmitterTest extends RocketeerTestCase
         $emitter = new TaggableEmitter();
 
         $emitter->setTag('foo');
-        $emitter->addListener('foo', function () {
-            echo 'foo';
-        });
+        $emitter->addListener('foo', $this->echoingListener('foo'));
 
         $emitter->onTag('bar', function () use ($emitter) {
-            $emitter->addListener('foo', function () {
-                echo 'bar';
-            });
+            $emitter->addListener('foo', $this->echoingListener('bar'));
         });
 
         $emitter->emit('foo');
@@ -61,17 +54,37 @@ class TaggableEmitterTest extends RocketeerTestCase
         $this->expectOutputString('foobar');
 
         $emitter = new TaggableEmitter();
-
-        $emitter->addListener('foo', function () {
-            echo 'foo';
-        });
+        $emitter->addListener('foo', $this->echoingListener('foo'));
 
         $emitter->onTag('bar', function () use ($emitter) {
-            $emitter->addListener('foo', function () {
-                echo 'bar';
-            });
-
+            $emitter->addListener('foo', $this->echoingListener('bar'));
             $emitter->emit('foo');
         });
+    }
+
+    public function testCanClearEventsWithParticularTag()
+    {
+        $this->expectOutputString('foo');
+
+        $emitter = new TaggableEmitter();
+        $emitter->addListener('foo', $this->echoingListener('foo'));
+        $emitter->onTag('foo', function () use ($emitter) {
+            $emitter->addListener('foo', $this->echoingListener('bar'));
+
+            $emitter->removeListenersWithTag('foo');
+            $emitter->emit('foo');
+        });
+    }
+
+    /**
+     * @param string $echo
+     *
+     * @return Closure
+     */
+    protected function echoingListener($echo)
+    {
+        return function () use ($echo) {
+            echo $echo;
+        };
     }
 }

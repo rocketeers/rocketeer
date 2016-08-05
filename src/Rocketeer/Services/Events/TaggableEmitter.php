@@ -59,6 +59,24 @@ class TaggableEmitter extends Emitter
         $this->setTag($previous);
     }
 
+    /**
+     * @param string $tag
+     *
+     * @return $this
+     */
+    public function removeListenersWithTag($tag)
+    {
+        foreach ($this->listeners as $event => $priorities) {
+            foreach ($priorities as $priority => $listeners) {
+                $this->listeners[$event][$priority] = array_filter($listeners, function (TaggedListener $listener) use ($tag) {
+                    return $listener->getTag() !== $tag;
+                });
+            }
+        }
+
+        return $this;
+    }
+
     ////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////// OVERRIDES ///////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////
