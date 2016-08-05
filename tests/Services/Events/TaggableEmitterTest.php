@@ -55,4 +55,23 @@ class TaggableEmitterTest extends RocketeerTestCase
         $emitter->emit('foo');
         $this->assertEquals('foo', $emitter->getTag());
     }
+
+    public function testStillFiresGlobalEvents()
+    {
+        $this->expectOutputString('foobar');
+
+        $emitter = new TaggableEmitter();
+
+        $emitter->addListener('foo', function () {
+            echo 'foo';
+        });
+
+        $emitter->onTag('bar', function () use ($emitter) {
+            $emitter->addListener('foo', function () {
+                echo 'bar';
+            });
+
+            $emitter->emit('foo');
+        });
+    }
 }

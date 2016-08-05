@@ -25,7 +25,7 @@ class TaggableEmitter extends Emitter
      *
      * @var string
      */
-    protected $tag = 'global';
+    protected $tag = '*';
 
     ////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////// TAGS //////////////////////////////////////
@@ -70,7 +70,7 @@ class TaggableEmitter extends Emitter
     {
         $listeners = parent::getSortedListeners($event);
         $listeners = array_filter($listeners, function (TaggedListener $listener) {
-            return $listener->getTag() === $this->tag;
+            return $listener->getTag() === $this->tag || $listener->getTag() === '*';
         });
 
         return $listeners;
