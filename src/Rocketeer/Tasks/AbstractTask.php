@@ -13,9 +13,10 @@
 namespace Rocketeer\Tasks;
 
 use DateTime;
-use League\Event\ListenerInterface;
 use Rocketeer\Interfaces\IdentifierInterface;
 use Rocketeer\Services\Connections\Shell\Bash;
+use Rocketeer\Services\Events\Listeners\TaggableListenerInterface;
+use Rocketeer\Services\Events\Listeners\TaggableListenerTrait;
 use Rocketeer\Services\Roles\HasRolesInterface;
 use Rocketeer\Services\Roles\HasRolesTrait;
 use Rocketeer\Traits\Properties\ConfigurableTrait;
@@ -26,13 +27,14 @@ use Rocketeer\Traits\StepsRunnerTrait;
 /**
  * An abstract AbstractTask with common helpers, from which all Tasks derive.
  */
-abstract class AbstractTask extends Bash implements HasRolesInterface, IdentifierInterface, ListenerInterface
+abstract class AbstractTask extends Bash implements HasRolesInterface, IdentifierInterface, TaggableListenerInterface
 {
     use ConfigurableTrait;
     use HasEventsTrait;
     use HasRolesTrait;
     use StepsRunnerTrait;
     use SluggableTrait;
+    use TaggableListenerTrait;
 
     /**
      * The name of the task.

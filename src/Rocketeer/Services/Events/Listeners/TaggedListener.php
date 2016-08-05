@@ -10,7 +10,7 @@
  *
  */
 
-namespace Rocketeer\Services\Events;
+namespace Rocketeer\Services\Events\Listeners;
 
 use League\Event\EventInterface;
 use League\Event\ListenerInterface;
@@ -19,17 +19,14 @@ use League\Event\ListenerInterface;
  * A listener that can be assigned
  * a particular tag.
  */
-class TaggedListener implements ListenerInterface
+class TaggedListener implements TaggableListenerInterface
 {
+    use TaggableListenerTrait;
+
     /**
      * @var ListenerInterface
      */
     protected $listener;
-
-    /**
-     * @var string
-     */
-    protected $tag;
 
     /**
      * @param ListenerInterface $listener
@@ -37,22 +34,6 @@ class TaggedListener implements ListenerInterface
     public function __construct(ListenerInterface $listener)
     {
         $this->listener = $listener;
-    }
-
-    /**
-     * @param string $tag
-     */
-    public function setTag($tag)
-    {
-        $this->tag = $tag;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTag()
-    {
-        return $this->tag;
     }
 
     /**

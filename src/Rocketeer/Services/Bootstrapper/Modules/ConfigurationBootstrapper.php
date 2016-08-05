@@ -26,13 +26,9 @@ class ConfigurationBootstrapper extends AbstractBootstrapperModule
     public function bootstrapConfiguration()
     {
         $this->bootstrapDotenv();
-
-        // Reload configuration
         $this->config->replace(
             $this->configurationLoader->getConfiguration()
         );
-
-        $this->bootstrapPlugins();
     }
 
     /**
@@ -50,25 +46,12 @@ class ConfigurationBootstrapper extends AbstractBootstrapperModule
     }
 
     /**
-     * Load any configured plugins.
-     */
-    public function bootstrapPlugins()
-    {
-        $plugins = (array) $this->config->get('plugins.loaded');
-        $plugins = array_filter($plugins, 'class_exists');
-        foreach ($plugins as $plugin) {
-            $this->container->addServiceProvider($plugin);
-        }
-    }
-
-    /**
      * @return string[]
      */
     public function getProvided()
     {
         return [
             'bootstrapConfiguration',
-            'bootstrapPlugins',
         ];
     }
 }

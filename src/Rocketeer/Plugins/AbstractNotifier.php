@@ -31,10 +31,10 @@ abstract class AbstractNotifier extends AbstractPlugin
         $notify = new Notify($this->container);
         $notify->setNotifier($this);
 
-        $tasks->addTaskListeners('deploy', 'before', [clone $notify], -10, true);
-        $tasks->addTaskListeners('deploy', 'after', [clone $notify], -10, true);
-        $tasks->addTaskListeners('deploy', 'halt', [clone $notify], -10, true);
-        $tasks->addTaskListeners('rollback', 'after', [clone $notify], -10, true);
+        $tasks->addTaskListeners('deploy', 'before', [clone $notify], -10);
+        $tasks->addTaskListeners('deploy', 'after', [clone $notify], -10);
+        $tasks->addTaskListeners('deploy', 'halt', [clone $notify], -10);
+        $tasks->addTaskListeners('rollback', 'after', [clone $notify], -10);
     }
 
     /**

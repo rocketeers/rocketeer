@@ -13,7 +13,6 @@
 namespace Rocketeer\Services\Events;
 
 use League\Container\ServiceProvider\AbstractServiceProvider;
-use League\Event\Emitter;
 
 class EventsServiceProvider extends AbstractServiceProvider
 {
@@ -21,7 +20,7 @@ class EventsServiceProvider extends AbstractServiceProvider
      * @var array
      */
     protected $provides = [
-        Emitter::class,
+        TaggableEmitter::class,
     ];
 
     /**
@@ -29,6 +28,6 @@ class EventsServiceProvider extends AbstractServiceProvider
      */
     public function register()
     {
-        $this->container->share(Emitter::class);
+        $this->container->share(TaggableEmitter::class);
     }
 }

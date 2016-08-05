@@ -13,6 +13,8 @@
 namespace Rocketeer\Services\Events;
 
 use League\Event\Emitter;
+use Rocketeer\Services\Events\Listeners\TaggableListenerInterface;
+use Rocketeer\Services\Events\Listeners\TaggedListener;
 
 /**
  * Assigns tags to listeners to allow
@@ -67,8 +69,9 @@ class TaggableEmitter extends Emitter
     public function removeListenersWithTag($tag)
     {
         foreach ($this->listeners as $event => $priorities) {
+            $this->clearSortedListeners($event);
             foreach ($priorities as $priority => $listeners) {
-                $this->listeners[$event][$priority] = array_filter($listeners, function (TaggedListener $listener) use ($tag) {
+                $this->listeners[$event][$priority] = array_filter($listeners, function (TaggableListenerInterface $listener) use ($tag) {
                     return $listener->getTag() !== $tag;
                 });
             }
@@ -87,7 +90,7 @@ class TaggableEmitter extends Emitter
     protected function getSortedListeners($event)
     {
         $listeners = parent::getSortedListeners($event);
-        $listeners = array_filter($listeners, function (TaggedListener $listener) {
+        $listeners = array_filter($listeners, function (TaggableListenerInterface $listener) {
             return $listener->getTag() === $this->tag || $listener->getTag() === '*' || $this->tag === '*';
         });
 
@@ -100,7 +103,10 @@ class TaggableEmitter extends Emitter
     protected function ensureListener($listener)
     {
         $listener = parent::ensureListener($listener);
-        $listener = new TaggedListener($listener);
+        if (!$listener instanceof TaggableListenerInterface) {
+            $listener = new TaggedListener($listener);
+        }
+
         $listener->setTag($this->tag);
 
         return $listener;

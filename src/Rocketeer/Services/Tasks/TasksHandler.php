@@ -30,13 +30,6 @@ class TasksHandler
     use ContainerAwareTrait;
 
     /**
-     * The registered events.
-     *
-     * @var array
-     */
-    protected $registeredEvents = [];
-
-    /**
      * Delegate methods to TasksQueue for now to
      * keep public API intact.
      *
@@ -160,11 +153,8 @@ class TasksHandler
      */
     public function clearRegisteredEvents()
     {
-        foreach ($this->registeredEvents as $event) {
-            $this->events->removeAllListeners($event);
-        }
-
-        $this->registeredEvents = [];
+        $this->events->removeListenersWithTag('plugins');
+        $this->events->removeListenersWithTag('hooks');
     }
 
     /**
@@ -199,18 +189,17 @@ class TasksHandler
      * @param string         $event
      * @param array|callable $listeners
      * @param int            $priority
-     * @param bool           $register
      *
      * @throws \Rocketeer\Services\Builders\TaskCompositionException
      *
      * @return string|null
      */
-    public function addTaskListeners($task, $event, $listeners, $priority = 0, $register = false)
+    public function addTaskListeners($task, $event, $listeners, $priority = 0)
     {
         // Recursive call
         if (is_array($task)) {
             foreach ($task as $t) {
-                $this->addTaskListeners($t, $event, $listeners, $priority, $register);
+                $this->addTaskListeners($t, $event, $listeners, $priority);
             }
 
             return;
@@ -230,11 +219,6 @@ class TasksHandler
         // Get event name and register listeners
         $event = $this->getEventHandle($task, $event);
         $event = $this->listenTo($event, $listeners, $priority);
-
-        // Store registered event
-        if ($register) {
-            $this->registeredEvents[] = $event;
-        }
 
         return $event;
     }

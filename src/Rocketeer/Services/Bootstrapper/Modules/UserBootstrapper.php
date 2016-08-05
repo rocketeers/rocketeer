@@ -34,6 +34,21 @@ class UserBootstrapper extends AbstractBootstrapperModule
     }
 
     /**
+     * Load any configured plugins.
+     */
+    public function bootstrapPlugins()
+    {
+        $plugins = (array) $this->config->get('plugins.loaded');
+        $plugins = array_filter($plugins, 'class_exists');
+
+        $this->events->onTag('plugins', function () use ($plugins) {
+            foreach ($plugins as $plugin) {
+                $this->container->addServiceProvider($plugin);
+            }
+        });
+    }
+
+    /**
      * @return string
      */
     public function getUserNamespace()
@@ -57,7 +72,9 @@ class UserBootstrapper extends AbstractBootstrapperModule
         $serviceProvider = $namespace.'\\'.$namespace.'ServiceProvider';
         $hasServiceProvider = class_exists($serviceProvider);
         if ($hasServiceProvider) {
-            $this->container->addServiceProvider($serviceProvider);
+            $plugins = (array) $this->config->get('plugins.loaded');
+            $plugins[] = $serviceProvider;
+            $this->config->set('plugins.loaded', $plugins);
         }
 
         return $hasServiceProvider;
@@ -94,13 +111,7 @@ class UserBootstrapper extends AbstractBootstrapperModule
     {
         // Clean previously registered events
         $this->tasks->clearRegisteredEvents();
-
-        // Re-register events
-        foreach ($this->container->getPlugins() as $plugin) {
-            if (strpos($plugin, $this->getUserNamespace().'ServiceProvider') === false) {
-                $this->container->addServiceProvider($plugin);
-            }
-        }
+        $this->bootstrapPlugins();
 
         // Get the registered events
         $hooks = (array) $this->config->getContextually('hooks');
@@ -118,11 +129,13 @@ class UserBootstrapper extends AbstractBootstrapperModule
         }
 
         // Bind events
-        foreach ($events as $event => $tasks) {
-            foreach ($tasks as $task => $listeners) {
-                $this->tasks->addTaskListeners($task, $event, $listeners, 0, true);
+        $this->events->onTag('hooks', function () use ($events) {
+            foreach ($events as $event => $tasks) {
+                foreach ($tasks as $task => $listeners) {
+                    $this->tasks->addTaskListeners($task, $event, $listeners, 0);
+                }
             }
-        }
+        });
 
         // Assign roles
         $this->roles->assignTasksRoles($roles);
@@ -135,6 +148,7 @@ class UserBootstrapper extends AbstractBootstrapperModule
     {
         return [
             'bootstrapUserFiles',
+            'bootstrapPlugins',
             'bootstrapUserCode',
             'getUserNamespace',
         ];

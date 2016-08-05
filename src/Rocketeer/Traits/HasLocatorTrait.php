@@ -13,7 +13,6 @@
 namespace Rocketeer\Traits;
 
 use Illuminate\Support\Arr;
-use League\Event\Emitter;
 use Rocketeer\Binaries\Vcs\VcsInterface;
 use Rocketeer\Console\Commands\AbstractCommand;
 use Rocketeer\Console\Console;
@@ -35,6 +34,7 @@ use Rocketeer\Services\Display\QueueExplainer;
 use Rocketeer\Services\Display\QueueTimer;
 use Rocketeer\Services\Environment\Environment;
 use Rocketeer\Services\Environment\Pathfinder;
+use Rocketeer\Services\Events\TaggableEmitter;
 use Rocketeer\Services\Filesystem\Filesystem;
 use Rocketeer\Services\Filesystem\MountManager;
 use Rocketeer\Services\History\History;
@@ -65,7 +65,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @property Coordinator                    coordinator
  * @property CredentialsGatherer            credentialsGatherer
  * @property CredentialsHandler             credentials
- * @property Emitter                        events
+ * @property TaggableEmitter                events
  * @property Environment                    environment
  * @property Filesystem                     files
  * @property History                        history
@@ -131,7 +131,7 @@ trait HasLocatorTrait
             'credentials' => CredentialsHandler::class,
             'credentialsGatherer' => CredentialsGatherer::class,
             'environment' => Environment::class,
-            'events' => Emitter::class,
+            'events' => TaggableEmitter::class,
             'explainer' => QueueExplainer::class,
             'files' => Filesystem::class,
             'filesystems' => MountManager::class,
