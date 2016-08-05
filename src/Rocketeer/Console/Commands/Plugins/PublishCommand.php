@@ -15,6 +15,7 @@ namespace Rocketeer\Console\Commands\Plugins;
 use Rocketeer\Console\Commands\AbstractCommand;
 use Rocketeer\Services\Ignition\PluginsIgniter;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Publishes the configuration of a plugin.
@@ -50,11 +51,9 @@ class PublishCommand extends AbstractCommand
     {
         $this->container->add('command', $this);
 
-        /** @var string $package */
-        $package = $this->argument('package');
-
         $publisher = new PluginsIgniter($this->container);
-        $publisher->publish($package);
+        $publisher->setForce($this->option('force'));
+        $publisher->publish($this->argument('package'));
     }
 
     /**
@@ -65,7 +64,17 @@ class PublishCommand extends AbstractCommand
     protected function getArguments()
     {
         return [
-            ['package', InputArgument::REQUIRED, 'The package to publish the configuration for'],
+            ['package', InputArgument::IS_ARRAY, 'The package to publish the configuration for'],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    protected function getOptions()
+    {
+        return [
+            ['force', 'F', InputOption::VALUE_NONE, 'Force overwriting already published configurations'],
         ];
     }
 }

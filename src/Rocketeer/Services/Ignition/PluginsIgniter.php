@@ -12,6 +12,7 @@
 
 namespace Rocketeer\Services\Ignition;
 
+use ReflectionClass;
 use Rocketeer\Traits\ContainerAwareTrait;
 
 /**
@@ -22,26 +23,76 @@ class PluginsIgniter
     use ContainerAwareTrait;
 
     /**
+     * @var bool
+     */
+    protected $force = false;
+
+    /**
+     * @param bool $force
+     */
+    public function setForce($force)
+    {
+        $this->force = $force;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////// PUBLISHING //////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
+
+    /**
      * Publishes a package's configuration.
      *
-     * @param string $package
+     * @param string|string[] $plugins
      *
      * @return bool|string|null
      */
-    public function publish($package)
+    public function publish($plugins = null)
     {
-        // Find the plugin's configuration
-        $paths = $this->findPackageConfiguration($package);
+        $plugins = $this->gatherLoadedPackagesHandles($plugins);
+        foreach ($plugins as $plugin) {
+            // Find the plugin's configuration
+            $paths = $this->findPackageConfiguration($plugin);
 
-        // Cancel if no valid paths
-        $paths = array_filter($paths, [$this->files, 'isDirectory']);
-        $paths = array_values($paths);
-        if (empty($paths)) {
-            return $this->explainer->error('No configuration found for '.$package);
+            // Cancel if no valid paths
+            $paths = array_filter($paths, [$this->files, 'isDirectory']);
+            $paths = array_values($paths);
+            if (empty($paths)) {
+                $this->explainer->comment('No configuration found for '.$plugin);
+                continue;
+            }
+
+            $this->publishConfiguration($paths[0]);
         }
-
-        return $this->publishConfiguration($paths[0]);
     }
+
+    /**
+     * Publishes a configuration within a classic application.
+     *
+     * @param string $path
+     *
+     * @return bool
+     */
+    protected function publishConfiguration($path)
+    {
+        // Compute and create the destination folder
+        $destination = $this->paths->getConfigurationPath().'/plugins';
+
+        // Export configuration
+        $files = $this->files->listFiles($path, true);
+        foreach ($files as $file) {
+            $fileDestination = $destination.DS.$file['basename'];
+            if ($this->files->has($destination) && !$this->force) {
+                continue;
+            }
+
+            $this->files->forceCopy($file['path'], $fileDestination);
+            $this->explainer->success('Published <comment>'.str_replace($this->paths->getBasePath(), null, $fileDestination).'</comment>');
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////// HELPERS ////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
 
     /**
      * Find all the possible locations for a package's configuration.
@@ -70,27 +121,29 @@ class PluginsIgniter
     }
 
     /**
-     * Publishes a configuration within a classic application.
+     * Infer the name of the loaded packages
+     * from their service provider.
      *
-     * @param string $path
+     * @param string|string[] $packages
      *
-     * @return bool
+     * @return string[]
      */
-    protected function publishConfiguration($path)
+    protected function gatherLoadedPackagesHandles($packages)
     {
-        // Compute and create the destination folder
-        $destination = $this->paths->getConfigurationPath().'/plugins';
+        $packages = (array) $packages;
+        if (!$packages) {
+            $plugins = $this->container->getPlugins();
+            foreach ($plugins as $plugin) {
+                $path = (new ReflectionClass($plugin))->getFileName();
+                preg_match('/vendor\/([^\/]+)\/([^\/]+)/', $path, $handle);
+                if (count($handle) !== 3) {
+                    continue;
+                }
 
-        // Export configuration
-        $files = $this->files->listFiles($path, true);
-        foreach ($files as $file) {
-            $fileDestination = $destination.DS.$file['basename'];
-            if ($this->files->has($destination) && !$this->command->confirm('File '.$file['basename'].' already exists, replace?')) {
-                continue;
+                $packages[] = $handle[1].'/'.$handle[2];
             }
-
-            $this->files->forceCopy($file['path'], $fileDestination);
-            $this->command->writeln('Published <comment>' .str_replace($this->paths->getBasePath(), null, $fileDestination). '</comment>');
         }
+
+        return $packages;
     }
 }

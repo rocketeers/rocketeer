@@ -230,7 +230,7 @@ abstract class AbstractBinary
     {
         $variables = '';
         foreach ($env as $key => $value) {
-            $variables .= $key.'='.$value. ' ';
+            $variables .= $key.'='.$value.' ';
         }
 
         return trim($variables);

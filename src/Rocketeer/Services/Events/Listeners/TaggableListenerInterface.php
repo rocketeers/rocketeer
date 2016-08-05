@@ -15,7 +15,7 @@ namespace Rocketeer\Services\Events\Listeners;
 use League\Event\ListenerInterface;
 
 /**
- * Interface for listeners that can be assigned a tag
+ * Interface for listeners that can be assigned a tag.
  */
 interface TaggableListenerInterface extends ListenerInterface
 {

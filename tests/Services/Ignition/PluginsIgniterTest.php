@@ -35,20 +35,6 @@ class PluginsIgniterTest extends RocketeerTestCase
         $this->from = $this->container->get('path.base').'/vendor/anahkiasen/rocketeer-slack/src/config';
     }
 
-    public function testCanPublishPluginConfiguration()
-    {
-        $this->usesLaravel(false);
-
-        $destination = $this->paths->getConfigurationPath().'/plugins/rocketeer-slack';
-        $prophecy = $this->bindFilesystemProphecy();
-        $prophecy->has(Argument::cetera())->willReturn(true);
-        $prophecy->has($destination)->willReturn(false);
-        $prophecy->isDirectory(Argument::cetera())->shouldBeCalled()->willReturn(true);
-        $prophecy->copyDir($this->from, $destination)->shouldBeCalled()->willReturn(true);
-
-        $this->plugins->publish('anahkiasen/rocketeer-slack');
-    }
-
     public function testCancelsIfNoValidConfigurationPath()
     {
         $this->usesLaravel(false);
@@ -56,7 +42,7 @@ class PluginsIgniterTest extends RocketeerTestCase
         $prophecy = $this->bindFilesystemProphecy();
         $prophecy->isDirectory(Argument::cetera())->willReturn(false);
         $prophecy->has(Argument::cetera())->willReturn(false);
-        $prophecy->createDir(Argument::any())->shouldNotBeCalled();
+        $prophecy->forceCopy(Argument::any())->shouldNotBeCalled();
 
         $this->plugins->publish('anahkiasen/rocketeer-slack');
     }

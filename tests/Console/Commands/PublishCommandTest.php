@@ -27,10 +27,10 @@ class PublishCommandTest extends RocketeerTestCase
     public function testCanExportConfiguration()
     {
         $path = $this->paths->getRocketeerPath().'/vendor/anahkiasen/rocketeer-slack/config';
-        $this->files->put($path.'/foo.php', '<?php return ["foo" => "bar"]');
+        $this->files->put($path.'/rocketeer-slack.php', '<?php return ["foo" => "bar"]');
 
         $tester = $this->executeCommand('plugins:config', ['package' => 'anahkiasen/rocketeer-slack']);
-        $this->assertContains('Published configuration from', $tester->getDisplay());
-        $this->assertVirtualFileExists($this->paths->getRocketeerPath().'/config/plugins/rocketeer-slack/foo.php');
+        $this->assertContains('Published', $tester->getDisplay());
+        $this->assertVirtualFileExists($this->paths->getRocketeerPath().'/config/plugins/rocketeer-slack.php');
     }
 }
