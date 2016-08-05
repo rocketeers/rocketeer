@@ -12,7 +12,6 @@
 
 namespace Rocketeer\Services\Ignition;
 
-use Illuminate\Support\Arr;
 use Rocketeer\Traits\ContainerAwareTrait;
 
 /**
@@ -79,23 +78,19 @@ class PluginsIgniter
      */
     protected function publishConfiguration($path)
     {
-        // Get the vendor and package
-        preg_match('/vendor\/([^\/]+)\/([^\/]+)/', $path, $handle);
-        $handle = (array) $handle;
-        $package = Arr::get($handle, 2);
-
-        // Compute and create the destination foldser
-        $destination = $this->paths->getConfigurationPath().'/plugins/'.$package;
-        if ($this->files->has($destination) && !$this->command->confirm('Configuration already published, replace?')) {
-            return $this->explainer->error('Aborted configuration publishing');
-        }
+        // Compute and create the destination folder
+        $destination = $this->paths->getConfigurationPath().'/plugins';
 
         // Export configuration
-        $this->files->copyDir($path, $destination);
+        $files = $this->files->listFiles($path, true);
+        foreach ($files as $file) {
+            $fileDestination = $destination.DS.$file['basename'];
+            if ($this->files->has($destination) && !$this->command->confirm('File '.$file['basename'].' already exists, replace?')) {
+                continue;
+            }
 
-        // Display success
-        $path = str_replace($this->paths->getBasePath(), null, $path);
-        $destination = str_replace($this->paths->getBasePath(), null, $destination);
-        $this->command->writeln('Published configuration from <comment>'.$path.'</comment> to <comment>'.$destination.'</comment>');
+            $this->files->forceCopy($file['path'], $fileDestination);
+            $this->command->writeln('Published <comment>' .str_replace($this->paths->getBasePath(), null, $fileDestination). '</comment>');
+        }
     }
 }

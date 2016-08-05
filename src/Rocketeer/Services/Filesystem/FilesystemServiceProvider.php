@@ -14,6 +14,7 @@ namespace Rocketeer\Services\Filesystem;
 
 use League\Container\ServiceProvider\AbstractServiceProvider;
 use League\Flysystem\Adapter\Local;
+use League\Flysystem\Plugin\ForcedCopy;
 use League\Flysystem\Plugin\ListFiles;
 use Rocketeer\Services\Filesystem\Plugins\AppendPlugin;
 use Rocketeer\Services\Filesystem\Plugins\CopyDirectoryPlugin;
@@ -41,6 +42,7 @@ class FilesystemServiceProvider extends AbstractServiceProvider
             $local = new Filesystem(new Local('/', LOCK_EX, Local::SKIP_LINKS));
             $local->addPlugin(new AppendPlugin());
             $local->addPlugin(new CopyDirectoryPlugin());
+            $local->addPlugin(new ForcedCopy());
             $local->addPlugin(new IncludePlugin());
             $local->addPlugin(new IsDirectoryPlugin());
             $local->addPlugin(new ListFiles());
