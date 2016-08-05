@@ -220,7 +220,7 @@ class CredentialsGatherer
 
         $rows = [];
         foreach ($connections as $name => $connection) {
-            $connection['PRODUCTION_NAME'] = $name;
+            $connection[strtoupper($name.'_NAME')] = $name;
 
             $row = [];
             foreach ($headers as $key => $value) {
