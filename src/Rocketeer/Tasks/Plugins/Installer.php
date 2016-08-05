@@ -48,15 +48,12 @@ class Installer extends AbstractTask
 
         $method = $package ? 'require' : 'install';
         $noDev = $method === 'install' ? '--no-dev' : '--update-no-dev';
-        $command = $this->composer()->$method($package, [
-            $noDev => '',
-            '--working-dir' => $this->paths->getRocketeerPath(),
-        ], [
-            'COMPOSER_DISCARD_CHANGES' => 1,
-        ]);
+        $options = [$noDev => '', '--working-dir' => $this->paths->getRocketeerPath()];
+        $env = ['COMPOSER_DISCARD_CHANGES' => 1];
 
         // Install plugin
         $this->explainer->line('Installing '.$package);
+        $command = $this->composer()->$method($package, $options, $env);
         $this->run($this->shellCommand($command));
     }
 }
