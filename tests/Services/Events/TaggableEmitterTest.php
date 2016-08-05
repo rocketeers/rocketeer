@@ -34,7 +34,7 @@ class TaggableEmitterTest extends RocketeerTestCase
 
     public function testTaggedEventsAreFiredInGlobalMode()
     {
-        $this->expectOutputString('foobar');
+        $this->expectOutputRegex('/(foo|bar)(foo|bar)/');
 
         $emitter = new TaggableEmitter();
 
@@ -48,7 +48,7 @@ class TaggableEmitterTest extends RocketeerTestCase
 
     public function testStillFiresGlobalEvents()
     {
-        $this->expectOutputString('foobar');
+        $this->expectOutputRegex('/(foo|bar)(foo|bar)/');
 
         $emitter = new TaggableEmitter();
         $emitter->addListener('foo', $this->echoingListener('foo'));
