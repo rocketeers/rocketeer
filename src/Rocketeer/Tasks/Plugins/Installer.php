@@ -51,6 +51,8 @@ class Installer extends AbstractTask
         $command = $this->composer()->$method($package, [
             $noDev => '',
             '--working-dir' => $this->paths->getRocketeerPath(),
+        ], [
+            'COMPOSER_DISCARD_CHANGES' => 1,
         ]);
 
         // Install plugin

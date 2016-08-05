@@ -146,14 +146,16 @@ abstract class AbstractBinary
      * @param string|null     $command
      * @param string|string[] $arguments
      * @param string|string[] $flags
+     * @param array           $environmentVariables
      *
      * @return string
      */
-    public function getCommand($command = null, $arguments = [], $flags = [])
+    public function getCommand($command = null, $arguments = [], $flags = [], $environmentVariables = [])
     {
         // Format arguments
         $arguments = $this->buildArguments($arguments);
         $options = $this->buildOptions($flags);
+        $environmentVariables = $this->buildEnvironmentVariables($environmentVariables);
 
         // Build command
         $binary = $this->getBinary();
@@ -166,7 +168,7 @@ abstract class AbstractBinary
 
         // If the binary has a parent, wrap the call with it
         $parent = $this->parent instanceof self ? $this->parent->getBinary() : $this->parent;
-        $command = $parent.' '.$binary;
+        $command = $environmentVariables.$parent.' '.$binary;
 
         return trim($command);
     }
@@ -217,6 +219,21 @@ abstract class AbstractBinary
         }
 
         return $arguments;
+    }
+
+    /**
+     * @param array $env
+     *
+     * @return string
+     */
+    protected function buildEnvironmentVariables($env)
+    {
+        $variables = '';
+        foreach ($env as $key => $value) {
+            $variables .= $key.'='.$value. ' ';
+        }
+
+        return trim($variables);
     }
 
     /**

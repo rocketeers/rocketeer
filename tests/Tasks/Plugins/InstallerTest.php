@@ -20,7 +20,7 @@ class InstallerTest extends RocketeerTestCase
     {
         $this->assertTaskHistory(Installer::class, [
             '{composer} install --working-dir="'.$this->paths->getRocketeerPath().'"',
-            'bash --login -c \'{composer} require anahkiasen/rocketeer-slack --update-no-dev --working-dir="'.$this->paths->getRocketeerPath().'"\'',
+            'bash --login -c \'COMPOSER_DISCARD_CHANGES=1 {composer} require anahkiasen/rocketeer-slack --update-no-dev --working-dir="'.$this->paths->getRocketeerPath().'"\'',
         ], [
             'package' => 'anahkiasen/rocketeer-slack',
         ]);

@@ -45,6 +45,8 @@ class Updater extends AbstractTask
         $arguments = $package ? [$package] : null;
         $command = $this->composer()->update($arguments, [
             '--working-dir' => $this->paths->getRocketeerPath(),
+        ], [
+            'COMPOSER_DISCARD_CHANGES' => 1,
         ]);
 
         $this->run($this->shellCommand($command));
