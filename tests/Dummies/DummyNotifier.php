@@ -41,7 +41,7 @@ class DummyNotifier extends AbstractNotifier
      *
      * @return string
      */
-    public function send($message)
+    public function send($message, $type)
     {
         echo $message;
 

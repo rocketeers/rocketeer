@@ -33,7 +33,7 @@ class NpmStrategy extends AbstractDependenciesStrategy implements DependenciesSt
      * @var array
      */
     protected $options = [
-        'shared_dependencies' => 'copy',
+        'shared_dependencies' => false,
         'flags.install' => '--no-progress',
     ];
 }

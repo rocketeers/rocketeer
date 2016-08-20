@@ -21,7 +21,7 @@ class DummyBeforeAfterNotifier extends AbstractNotifier
      *
      * @param string $message
      */
-    public function send($message)
+    public function send($message, $type)
     {
         echo $message;
 
