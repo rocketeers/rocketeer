@@ -37,7 +37,7 @@ class ConnectionKeyAdapterFactory
             'username' => $connectionKey->username,
             'password' => $connectionKey->password,
             'privateKey' => $connectionKey->key,
-            'use_agent' => (bool) $connectionKey->agent,
+            'useAgent' => (bool) $connectionKey->agent,
             'root' => '/',
             'timeout' => 60 * 60,
         ]);
