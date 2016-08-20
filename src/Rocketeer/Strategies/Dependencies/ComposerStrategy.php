@@ -33,7 +33,7 @@ class ComposerStrategy extends AbstractDependenciesStrategy implements Dependenc
      * @var array
      */
     protected $options = [
-        'shared_dependencies' => false,
+        'shared_dependencies' => 'copy',
         'flags' => [
             'install' => ['--no-interaction' => null, '--no-dev' => null, '--prefer-dist' => null],
         ],
