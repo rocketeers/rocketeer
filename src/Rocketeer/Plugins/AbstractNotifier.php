@@ -53,6 +53,7 @@ abstract class AbstractNotifier extends AbstractPlugin
      * Send a given message.
      *
      * @param string $message
+     * @param string $type
      */
-    abstract public function send($message);
+    abstract public function send($message, $type);
 }

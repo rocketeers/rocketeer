@@ -61,9 +61,9 @@ class Notify extends AbstractTask
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * {@inheritdoc}
+     * @param string $type
      */
-    public function prepareThenSend($message)
+    public function prepareThenSend($type)
     {
         // Don't send a notification if pretending to deploy
         if ($this->command->option('pretend')) {
@@ -71,12 +71,12 @@ class Notify extends AbstractTask
         }
 
         // Build message
-        $message = $this->notifier->getMessageFormat($message);
+        $message = $this->notifier->getMessageFormat($type);
         $message = preg_replace('#\{([0-9])\}#', '%$1\$s', $message);
         $message = vsprintf($message, $this->getComponents());
 
         // Send it
-        $this->notifier->send($message);
+        $this->notifier->send($message, $type);
     }
 
     /**
