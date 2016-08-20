@@ -13,7 +13,6 @@
 namespace Rocketeer\Services\Ignition;
 
 use Rocketeer\Services\Config\ConfigurationDefinition;
-use Rocketeer\Services\Connections\Shell\Bash;
 use Rocketeer\Traits\ContainerAwareTrait;
 
 /**

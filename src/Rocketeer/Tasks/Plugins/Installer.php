@@ -40,7 +40,7 @@ class Installer extends AbstractTask
     public function execute()
     {
         // Get package and destination folder
-        $package = key_exists('package', $this->command->getInput()->getArguments())
+        $package = array_key_exists('package', $this->command->getInput()->getArguments())
             ? $this->command->argument('package')
             : null;
 
