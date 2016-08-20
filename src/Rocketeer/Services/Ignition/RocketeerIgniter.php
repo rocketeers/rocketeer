@@ -120,12 +120,5 @@ class RocketeerIgniter
         // Create manifest
         $contents = json_encode($manifest, JSON_PRETTY_PRINT);
         $this->files->put($manifestPath, $contents);
-
-        // Run composer install
-        $this->bash->on('local', function (Bash $bash) {
-            return $bash->composer()->run('install', null, [
-                '--working-dir' => $this->paths->getRocketeerPath(),
-            ]);
-        });
     }
 }

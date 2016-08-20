@@ -65,6 +65,7 @@ class Ignite extends AbstractTask
         if ($namespace) {
             $this->command->writeln('<info>Setting up autoloading</info>');
             $this->igniter->exportComposerFile($namespace);
+            $this->executeTask('Installer');
         }
 
         $this->files->deleteDir($this->paths->getLogsPath());

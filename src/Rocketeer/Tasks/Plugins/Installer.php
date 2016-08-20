@@ -40,7 +40,9 @@ class Installer extends AbstractTask
     public function execute()
     {
         // Get package and destination folder
-        $package = $this->command->argument('package');
+        $package = key_exists('package', $this->command->getInput()->getArguments())
+            ? $this->command->argument('package')
+            : null;
 
         if (!$this->files->has($this->paths->getRocketeerPath().'/composer.json')) {
             $this->igniter->exportComposerFile();
@@ -52,7 +54,7 @@ class Installer extends AbstractTask
         $env = ['COMPOSER_DISCARD_CHANGES' => 1];
 
         // Install plugin
-        $this->explainer->line('Installing '.$package);
+        $this->explainer->line($package ? 'Installing '.$package : 'Setting up Composer');
         $command = $this->composer()->$method($package, $options, $env);
         $this->run($this->shellCommand($command));
     }
