@@ -27,7 +27,7 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
      * @var array
      */
     protected $options = [
-        'shared_dependencies' => false,
+        'shared_dependencies' => 'copy',
     ];
 
     /**
