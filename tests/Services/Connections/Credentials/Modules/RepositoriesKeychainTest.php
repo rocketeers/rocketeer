@@ -18,11 +18,6 @@ use Rocketeer\TestCases\RocketeerTestCase;
 
 class RepositoriesKeychainTest extends RocketeerTestCase
 {
-    public function testCanGetRepositoryName()
-    {
-        $this->assertEquals('Anahkiasen/html-object', $this->credentials->getCurrentRepository()->getName());
-    }
-
     public function testCanUseSshRepository()
     {
         $repository = 'git@github.com:'.$this->repository;

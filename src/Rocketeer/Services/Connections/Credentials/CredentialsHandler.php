@@ -13,6 +13,7 @@
 namespace Rocketeer\Services\Connections\Credentials;
 
 use League\Container\ContainerAwareInterface;
+use Rocketeer\Services\Connections\Credentials\Keys\RepositoryKey;
 use Rocketeer\Services\Connections\Credentials\Modules\ConnectionsKeychain;
 use Rocketeer\Services\Connections\Credentials\Modules\RepositoriesKeychain;
 use Rocketeer\Services\Modules\ModulableInterface;

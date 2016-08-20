@@ -56,10 +56,7 @@ class RepositoryKey extends AbstractKey
      */
     public function getName()
     {
-        $repository = $this->repository;
-        $repository = preg_replace('#https?://(.+)\.com/(.+)/([^.]+)(\..+)?#', '$2/$3', $repository);
-
-        return $repository;
+        return preg_replace('#(git@|https?:\/\/)(.+)\.com[:\/](.+)\/([^.]+)(\..+)?#', '$3/$4', $this->repository);
     }
 
     /**
