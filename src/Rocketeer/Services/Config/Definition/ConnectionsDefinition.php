@@ -132,7 +132,7 @@ class ConnectionsDefinition extends AbstractDefinition
                             ->scalarNode('password')->defaultValue($connection->password)->end()
                             ->scalarNode('key')->defaultValue($connection->key)->end()
                             ->scalarNode('keyphrase')->defaultValue($connection->keyphrase)->end()
-                            ->booleanNode('agent')->defaultTrue()->end()
+                            ->scalar('agent')->defaultTrue()->end()
                             ->scalarNode('root_directory')
                                 ->info("The root directory where your applications will be deployed.\nThis path needs to start at the root, ie. start with a /")
                                 ->defaultValue($connection['root'])
