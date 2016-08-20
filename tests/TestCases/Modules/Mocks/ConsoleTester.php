@@ -182,6 +182,7 @@ trait ConsoleTester
         }
 
         $prophecy->getVerbosity()->willReturn(OutputInterface::OUTPUT_NORMAL);
+        $prophecy->getInput()->willReturn(new ArrayInput([]));
         $prophecy->writeln(Argument::cetera())->willReturn();
         $prophecy->text(Argument::cetera())->willReturn();
         $prophecy->table(Argument::cetera())->willReturn();
