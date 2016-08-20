@@ -34,4 +34,21 @@ class ConnectionKeyAdapterFactoryTest extends RocketeerTestCase
         $adapter = (new ConnectionKeyAdapterFactory())->getAdapter($connectionKey);
         $this->assertInstanceOf(Agent::class, $adapter->getAuthentication());
     }
+
+    public function testCanDisableAgentIfNotPossible()
+    {
+        unset($_SERVER['SSH_AUTH_SOCK']);
+        $connectionKey = new ConnectionKey([
+            'server' => 0,
+            'servers' => [[
+                'host' => 'foo.com',
+                'username' => 'foo',
+                'agent' => true,
+            ]],
+        ]);
+
+        /** @var SftpAdapter $adapter */
+        $adapter = (new ConnectionKeyAdapterFactory())->getAdapter($connectionKey);
+        $this->assertNull($adapter->getAuthentication());
+    }
 }

@@ -37,7 +37,7 @@ class ConnectionKeyAdapterFactory
             'username' => $connectionKey->username,
             'password' => $connectionKey->password,
             'privateKey' => $connectionKey->key,
-            'useAgent' => (bool) $connectionKey->agent,
+            'useAgent' => (bool) $connectionKey->agent && isset($_SERVER['SSH_AUTH_SOCK']),
             'root' => '/',
             'timeout' => 60 * 60,
         ]);
