@@ -21,6 +21,10 @@ class ConnectionKeyAdapterFactoryTest extends RocketeerTestCase
 {
     public function testCanProperlyEnableAgentForwarding()
     {
+        if (!isset($_SERVER['SSH_AUTH_SOCK'])) {
+            $this->markTestSkipped('No agent forwarding on this platform');
+        }
+
         $connectionKey = new ConnectionKey([
             'server' => 0,
             'servers' => [[

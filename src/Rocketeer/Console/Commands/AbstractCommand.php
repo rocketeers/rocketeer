@@ -18,7 +18,6 @@ use Rocketeer\Interfaces\IdentifierInterface;
 use Rocketeer\Tasks\AbstractTask;
 use Rocketeer\Tasks\Closure;
 use Rocketeer\Tasks\Plugins\Installer;
-use Rocketeer\Tasks\Plugins\Updater;
 use Rocketeer\Traits\ContainerAwareTrait;
 use Rocketeer\Traits\Properties\HasEventsTrait;
 use Symfony\Component\Console\Command\Command;
