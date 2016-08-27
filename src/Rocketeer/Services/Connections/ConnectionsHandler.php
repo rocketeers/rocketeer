@@ -228,7 +228,7 @@ class ConnectionsHandler
         }
 
         /** @var ConnectionInterface $connection */
-        $connection = $connections->first(function ($key, ConnectionInterface $connection) {
+        $connection = $connections->first(function (ConnectionInterface $connection) {
             return $connection->isCurrent();
         });
 
