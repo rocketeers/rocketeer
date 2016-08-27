@@ -41,6 +41,7 @@ class Installer extends AbstractTask
     {
         // Get package and destination folder
         $package = $this->getPackage();
+        $method = $package ? 'require' : 'install';
 
         if (!$this->files->has($this->paths->getRocketeerPath().'/composer.json')) {
             $this->igniter->exportComposerFile();
@@ -48,7 +49,7 @@ class Installer extends AbstractTask
 
         // Install plugin
         $this->explainer->line($package ? 'Installing '.$package : 'Setting up Composer');
-        $this->runComposerMethod($this->getPackage(), $package);
+        $this->runComposerMethod($method, $package);
     }
 
     /**

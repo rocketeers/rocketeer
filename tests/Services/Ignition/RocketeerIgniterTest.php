@@ -25,7 +25,11 @@ class RocketeerIgniterTest extends RocketeerTestCase
         $this->assertEquals(<<<'JSON'
 {
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true
+    }
 }
 JSON
 , $contents);
@@ -41,6 +45,10 @@ JSON
 {
     "minimum-stability": "dev",
     "prefer-stable": true,
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
     "autoload": {
         "psr4": {
             "Foobar\\": "app"
