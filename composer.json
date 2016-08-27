@@ -27,7 +27,7 @@
 		"league/container": "^2.2",
 		"league/event": "^2.1.2",
 		"league/flysystem": "^1.0.26",
-		"league/flysystem-sftp": "^1.0",
+		"league/flysystem-sftp": "^1.0.10",
 		"league/flysystem-vfs": "^1.0.2",
 		"monolog/monolog": "^1.20",
 		"psy/psysh": "^0.7.2",
