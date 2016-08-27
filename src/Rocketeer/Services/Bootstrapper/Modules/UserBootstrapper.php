@@ -34,6 +34,17 @@ class UserBootstrapper extends AbstractBootstrapperModule
     }
 
     /**
+     * Bootstrap Rocketeer's dependencies.
+     */
+    public function bootstrapRocketeerDependencies()
+    {
+        $plugins = $this->paths->getRocketeerPath().DS.'vendor/autoload.php';
+        if (file_exists($plugins)) {
+            require_once $plugins;
+        }
+    }
+
+    /**
      * Load any configured plugins.
      */
     public function bootstrapPlugins()
@@ -147,9 +158,10 @@ class UserBootstrapper extends AbstractBootstrapperModule
     public function getProvided()
     {
         return [
-            'bootstrapUserFiles',
             'bootstrapPlugins',
+            'bootstrapRocketeerDependencies',
             'bootstrapUserCode',
+            'bootstrapUserFiles',
             'getUserNamespace',
         ];
     }

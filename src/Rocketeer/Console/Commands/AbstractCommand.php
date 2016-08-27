@@ -369,10 +369,11 @@ abstract class AbstractCommand extends Command implements IdentifierInterface, C
             $this->connections->setActiveConnections($connections);
         }
 
-        // Setup plugins if not setup already
+        // Install and load plugins if not setup already
         $vendor = $this->paths->getRocketeerPath().DS.'vendor';
         if (!$this->files->has($vendor)) {
             $this->queue->execute(Installer::class);
+            $this->bootstrapper->bootstrapRocketeerDependencies();
             $this->bootstrapper->bootstrapUserCode();
         }
     }
