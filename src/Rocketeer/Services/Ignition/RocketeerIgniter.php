@@ -108,6 +108,10 @@ class RocketeerIgniter
         $manifest = [
             'minimum-stability' => 'dev',
             'prefer-stable' => true,
+            'config' => [
+                'preferred-install' => 'dist',
+                'sort-packages' => true,
+            ],
         ];
 
         if ($namespace) {
