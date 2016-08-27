@@ -373,6 +373,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface, C
         $vendor = $this->paths->getRocketeerPath().DS.'vendor';
         if (!$this->files->has($vendor)) {
             $this->queue->execute(Installer::class);
+            $this->bootstrapper->bootstrapUserCode();
         }
     }
 }

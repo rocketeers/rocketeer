@@ -89,7 +89,7 @@ class Notify extends AbstractTask
         // Get user name
         $user = $this->localStorage->get('notifier.name');
         if (!$user) {
-            $user = $this->command->ask('Who is deploying ?');
+            $user = $this->command->ask('Who is deploying ?') ?: 'Someone';
             $this->localStorage->set('notifier.name', $user);
         }
 
