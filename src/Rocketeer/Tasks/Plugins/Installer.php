@@ -40,22 +40,39 @@ class Installer extends AbstractTask
     public function execute()
     {
         // Get package and destination folder
-        $package = array_key_exists('package', $this->command->getInput()->getArguments())
-            ? $this->command->argument('package')
-            : null;
+        $package = $this->getPackage();
 
         if (!$this->files->has($this->paths->getRocketeerPath().'/composer.json')) {
             $this->igniter->exportComposerFile();
         }
 
-        $method = $package ? 'require' : 'install';
+        // Install plugin
+        $this->explainer->line($package ? 'Installing '.$package : 'Setting up Composer');
+        $this->runComposerMethod($this->getPackage(), $package);
+    }
+
+    /**
+     * @param string          $method
+     * @param string|string[] $arguments
+     */
+    protected function runComposerMethod($method, $arguments)
+    {
         $noDev = $method === 'install' ? '--no-dev' : '--update-no-dev';
         $options = [$noDev => '', '--working-dir' => $this->paths->getRocketeerPath()];
         $env = ['COMPOSER_DISCARD_CHANGES' => 1];
 
         // Install plugin
-        $this->explainer->line($package ? 'Installing '.$package : 'Setting up Composer');
-        $command = $this->composer()->$method($package, $options, $env);
+        $command = $this->composer()->$method($arguments, $options, $env);
         $this->run($this->shellCommand($command));
+    }
+
+    /**
+     * @return array|null|string
+     */
+    protected function getPackage()
+    {
+        return array_key_exists('package', $this->command->getInput()->getArguments())
+            ? $this->command->argument('package')
+            : null;
     }
 }
