@@ -45,6 +45,7 @@ class CopyStrategyTest extends RocketeerTestCase
     {
         /** @var ReleasesManager $prophecy */
         $prophecy = $this->bindProphecy(ReleasesManager::class);
+        $prophecy->resetReleases()->willReturn(ReleasesManager::class);
         $prophecy->getReleases()->willReturn([]);
         $prophecy->getCurrentReleasePath(Argument::any())->willReturn($this->server.'/releases/10000000000000');
 
@@ -65,6 +66,7 @@ class CopyStrategyTest extends RocketeerTestCase
     {
         /** @var ReleasesManager $prophecy */
         $prophecy = $this->bindProphecy(ReleasesManager::class);
+        $prophecy->resetReleases()->willReturn(ReleasesManager::class);
         $prophecy->getReleases()->willReturn([10000000000000]);
         $prophecy->getPreviousRelease()->willReturn(null);
         $prophecy->getPathToRelease(Argument::any())->willReturn(null);
