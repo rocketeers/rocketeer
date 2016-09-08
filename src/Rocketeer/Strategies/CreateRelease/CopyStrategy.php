@@ -32,6 +32,7 @@ class CopyStrategy extends CloneStrategy implements CreateReleaseStrategyInterfa
     public function deploy($destination = null)
     {
         // Get the previous release, if none clone from scratch
+        $this->releasesManager->resetReleases();
         $previous = $this->releasesManager->getReleases();
         if (!$previous) {
             return parent::deploy($destination);
