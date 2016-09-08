@@ -92,7 +92,7 @@ class ReleasesManager
      */
     public function resetReleases()
     {
-        $this->releases = null;
+        $this->releases = [];
         return $this;
     }
 
