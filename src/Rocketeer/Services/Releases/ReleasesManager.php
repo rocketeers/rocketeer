@@ -93,6 +93,7 @@ class ReleasesManager
     public function resetReleases()
     {
         $this->releases = [];
+
         return $this;
     }
 
