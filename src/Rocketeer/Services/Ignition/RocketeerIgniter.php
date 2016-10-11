@@ -41,7 +41,8 @@ class RocketeerIgniter
         // Build dotenv file
         $dotenv = '';
         foreach ($credentials as $credential => $value) {
-            $dotenv .= $credential.'='.$value.PHP_EOL;
+            $value = str_replace("\"", "\\\"", $value);
+            $dotenv .= sprintf('%s="%s"' . PHP_EOL, $credential, $value);
         }
 
         // Write to disk
