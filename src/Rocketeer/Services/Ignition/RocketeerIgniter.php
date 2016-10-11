@@ -42,7 +42,8 @@ class RocketeerIgniter
         $dotenv = '';
         foreach ($credentials as $credential => $value) {
             $value = str_replace("\"", "\\\"", $value);
-            $dotenv .= sprintf('%s="%s"' . PHP_EOL, $credential, $value);
+            $dotenv .= sprintf('%s="%s"', $credential, $value);
+            $dotenv .= PHP_EOL;
         }
 
         // Write to disk
