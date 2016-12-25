@@ -32,6 +32,7 @@ class Npm extends AbstractPackageManager
     protected function getKnownPaths()
     {
         return [
+            'yarn',
             'npm',
         ];
     }
