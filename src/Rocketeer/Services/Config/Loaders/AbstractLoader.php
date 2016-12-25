@@ -43,7 +43,7 @@ abstract class AbstractLoader extends Loader
 
         $parsed = $this->parse($resource);
         if (!is_array($parsed)) {
-            throw new InvalidArgumentException(sprintf('Could not parse %s of file "%s"', strtoupper($this->extension), $resource));
+            throw new InvalidArgumentException(sprintf('Could not parse %s of file "%s"', mb_strtoupper($this->extension), $resource));
         }
 
         return $parsed;

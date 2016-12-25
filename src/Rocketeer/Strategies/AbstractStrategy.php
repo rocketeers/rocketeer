@@ -71,7 +71,7 @@ abstract class AbstractStrategy extends Bash implements IdentifierInterface
      */
     public function getIdentifier()
     {
-        return 'strategies.'.strtolower($this->getType()).'.'.$this->getSlug();
+        return 'strategies.'.mb_strtolower($this->getType()).'.'.$this->getSlug();
     }
 
     /**

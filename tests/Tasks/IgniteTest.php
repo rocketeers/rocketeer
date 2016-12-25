@@ -37,7 +37,7 @@ class IgniteTest extends RocketeerTestCase
         ]);
 
         $dotenvPath = $this->paths->getDotenvPath();
-        $this->files->put($dotenvPath, 'FOO="bar"' . PHP_EOL);
+        $this->files->put($dotenvPath, 'FOO="bar"'.PHP_EOL);
 
         $this->task('Ignite')->execute();
 

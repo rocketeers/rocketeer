@@ -250,13 +250,13 @@ class QueueExplainer
         $tree = null;
         if ($numberConnections > 1 || $numberStages > 1 || $numberServers > 1) {
             $handle = $this->connections->getCurrentConnectionKey()->toHandle();
-            $spacing = $this->getLongestSize() - strlen($handle) + 2;
+            $spacing = $this->getLongestSize() - mb_strlen($handle) + 2;
             $spacing = max(1, $spacing);
             $spacing = str_repeat(' ', $spacing);
 
             // Build tree and command
             $handle = $handle === 'dummy' ? 'local' : $handle;
-            $spacing = substr($spacing, strlen($spacing) / 2);
+            $spacing = mb_substr($spacing, mb_strlen($spacing) / 2);
             $tree .= sprintf('<bg=magenta;options=bold>%s%s%s</bg=magenta;options=bold> ', $spacing, $handle, $spacing);
         }
 

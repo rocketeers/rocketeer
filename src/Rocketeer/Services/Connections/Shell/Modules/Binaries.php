@@ -153,7 +153,7 @@ class Binaries extends AbstractBashModule
     public function rawWhich($location)
     {
         $location = $this->modulable->runSilently('which '.$location);
-        if (strpos($location, 'not found') !== false || strpos($location, 'in (') !== false) {
+        if (mb_strpos($location, 'not found') !== false || mb_strpos($location, 'in (') !== false) {
             return false;
         }
 

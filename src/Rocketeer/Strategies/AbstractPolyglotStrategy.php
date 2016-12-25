@@ -115,7 +115,7 @@ abstract class AbstractPolyglotStrategy extends AbstractStrategy
     protected function checkStrategiesResults($results)
     {
         $results = array_filter($results, function ($value) {
-            return $value !== false && (!is_string($value) || strpos($value, 'not found') === false);
+            return $value !== false && (!is_string($value) || mb_strpos($value, 'not found') === false);
         });
 
         return count($results) === count($this->strategies);
