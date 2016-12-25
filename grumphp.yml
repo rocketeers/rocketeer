@@ -3,6 +3,8 @@ parameters:
     bin_dir: vendor/bin
     stop_on_failure: true
     tasks:
+        phpversion: ~
+        git_conflict: ~
         composer: ~
         phpcs:
             standard: "phpcs.xml"
