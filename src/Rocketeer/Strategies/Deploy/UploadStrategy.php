@@ -34,7 +34,13 @@ class UploadStrategy extends AbstractLocalDeployStrategy
     {
         $this->explainer->comment(sprintf('Uploading files from %s to %s', $from, $to));
 
-        $files = (new Finder())->in($from)->exclude(['.git']);
+        // Only gather files from existing folders (for pretend mode)
+        $folders = array_filter([$from], 'is_dir');
+        if (!$folders) {
+            return true;
+        }
+
+        $files = (new Finder())->in($folders)->exclude(['.git']);
         $this->command->progressStart(iterator_count($files));
         foreach ($files as $file) {
             $this->command->progressAdvance();

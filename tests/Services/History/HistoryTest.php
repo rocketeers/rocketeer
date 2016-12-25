@@ -19,7 +19,7 @@ class HistoryTest extends RocketeerTestCase
     /**
      * @var int
      */
-    protected $sleep = 5;
+    protected $sleep = 10;
 
     public function testCanGetFlattenedHistory()
     {
