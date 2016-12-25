@@ -49,18 +49,19 @@ class QueueExplainer
      * Execute a task in a level below.
      *
      * @param callable $callback
+     * @param int      $offset
      *
      * @return mixed
      */
-    public function displayBelow(callable $callback)
+    public function displayBelow(callable $callback, $offset = 1)
     {
         if (!$this->hasCommand()) {
             return $callback();
         }
 
-        ++$this->level;
+        $this->level += $offset;
         $results = $callback();
-        --$this->level;
+        $this->level -= $offset;
 
         return $results;
     }
@@ -135,6 +136,26 @@ class QueueExplainer
         $this->logs->log($message);
 
         return $formatted;
+    }
+
+    /**
+     * Get the format for a progress bar
+     * embedded within the tree.
+     *
+     * @param string $format
+     *
+     * @return string
+     */
+    public function getProgressBarFormat($format)
+    {
+        return $this->displayBelow(function () use (&$format) {
+            $tree = $this->getTree().$this->getFork();
+
+            $format = explode(PHP_EOL, $format);
+            $format = $tree.implode(PHP_EOL.$tree.' ', $format);
+
+            return $format;
+        }, 2);
     }
 
     /**
