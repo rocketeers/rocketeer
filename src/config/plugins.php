@@ -24,6 +24,6 @@ return [
         'config' => [
             // 'name' => null,
         ],
-    ],
 
+    ],
 ];

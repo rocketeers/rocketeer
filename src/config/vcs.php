@@ -34,6 +34,6 @@ return [
         // Recursively pull in submodules.
         // Works only with Git
         'submodules' => true,
-    ],
 
+    ],
 ];

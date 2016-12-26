@@ -22,15 +22,31 @@ return [
             'line_endings' => "\n",
         ],
 
+        // Paths/names of folders to use on server.
+        // Full path of current release will be at {root_directory}/{app_directory}/{current}/{subdirectory}
+        'directories' => [
+            // The folder the application will be deployed in.
+            // Leave empty to use `application_name` as your folder name
+            'app_directory' => null,
+
+            // If the core of your application (ie. where dependencies/migrations/etc.) need to be run is in a subdirectory, specify it there (per example 'my_subdirectory')
+            'subdirectory' => null,
+
+            // The name of the folder containing the current release
+            'current' => 'current',
+
+            // The name of the folder containing all past and current releases
+            'releases' => 'releases',
+
+            // The name of the folder containing files shared between releases
+            'shared' => 'shared',
+        ],
+
+        // The way symlinks are created
+        'symlink' => 'absolute', // One of "absolute", "relative"
+
         // The number of releases to keep on server at all times
         'keep_releases' => 4,
-
-        // The folder the application will be cloned in.
-        // Leave empty to use `application_name` as your folder name
-        'app_directory' => null,
-
-        // If the core of your application (ie. where dependencies/migrations/etc need to be run is in a subdirectory, specify it there (per example 'my_subdirectory')
-        'subdirectory' => null,
 
         // A list of folders/file to be shared between releases
         'shared' => [
@@ -39,8 +55,24 @@ return [
             // 'public/uploads',
         ],
 
-        // The way symlinks are created
-        'symlink' => 'absolute', // One of "absolute", "relative"
+        // Files permissions related settings
+        'permissions' => [
+            // The folders and files to set as web writable
+            'files' => [
+                // Examples:
+                // 'storage',
+                // 'public',
+            ],
+
+            // What actions will be executed to set permissions on the folder above
+            'callback' => function ($file) {
+                return [
+                'chmod -R 755 '.$file,
+                'chmod -R g+s '.$file,
+                'chown -R www-data:www-data '.$file,
+            ];
+            },
+        ],
 
         // Enable use of sudo for some commands
         // You can specify a sudo user by doing
@@ -64,25 +96,5 @@ return [
             'grunt',
         ],
 
-        // Files permissions related settings
-        'permissions' => [
-
-            // The folders and files to set as web writable
-            'files' => [
-                // Examples:
-                // 'storage',
-                // 'public',
-            ],
-
-            // what actions will be executed to set permissions on the folder above
-            'callback' => function ($file) {
-                return [
-                    sprintf('chmod -R 755 %s', $file),
-                    sprintf('chmod -R g+s %s', $file),
-                    sprintf('chown -R www-data:www-data %s', $file),
-                ];
-            },
-        ],
     ],
-
 ];
