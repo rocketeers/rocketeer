@@ -155,6 +155,17 @@ class ReleasesManagerTest extends RocketeerTestCase
         $this->assertEquals(20000000000000, $this->releasesManager->getPreviousRelease());
     }
 
+    public function testReturnsLastValidRelease()
+    {
+        $this->mockState([
+            '10000000000000' => false,
+            '15000000000000' => true,
+            '20000000000000' => false,
+        ]);
+
+        $this->assertEquals(15000000000000, $this->releasesManager->getCurrentRelease());
+    }
+
     public function testReturnsCurrentReleaseIfOnlyRelease()
     {
         $this->mockState([
