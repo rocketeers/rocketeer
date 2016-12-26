@@ -88,7 +88,7 @@ class Flow extends AbstractBashModule
      */
     public function runForApplication($tasks)
     {
-        $folder = $this->config->getContextually('remote.subdirectory');
+        $folder = $this->config->getContextually('remote.directories.subdirectory');
         $folder = $this->releasesManager->getCurrentReleasePath($folder);
 
         return $this->modulable->runInFolder($folder, $tasks);

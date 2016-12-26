@@ -62,8 +62,8 @@ class RocketeerTest extends RocketeerTestCase
 
     public function testCanUserServerContextualConfiguration()
     {
-        $this->config->set('connections.production.servers.0.config.remote.app_directory', '/foo/bar');
+        $this->config->set('connections.production.servers.0.config.remote.directories.app_directory', '/foo/bar');
 
-        $this->assertEquals('/foo/bar', $this->config->getContextually('remote.app_directory'));
+        $this->assertEquals('/foo/bar', $this->config->getContextually('remote.directories.app_directory'));
     }
 }
