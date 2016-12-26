@@ -31,7 +31,10 @@ class Flow extends AbstractBashModule
      */
     public function isSetup()
     {
-        return $this->modulable->fileExists($this->paths->getFolder('current'));
+
+        return $this->modulable->fileExists(
+            $this->paths->getCurrentFolder()
+        );
     }
 
     /**
@@ -148,7 +151,7 @@ class Flow extends AbstractBashModule
 
         // Get path to current/ folder and latest release
         $currentReleasePath = $this->releasesManager->getCurrentReleasePath();
-        $currentFolder = $this->paths->getFolder('current');
+        $currentFolder = $this->paths->getCurrentFolder();
 
         return $this->modulable->symlink($currentReleasePath, $currentFolder);
     }
@@ -162,9 +165,11 @@ class Flow extends AbstractBashModule
      */
     public function share($file)
     {
+        $mapping = $this->config->get('remote.directories');
+
         // Get path to current file and shared file
         $currentFile = $this->releasesManager->getCurrentReleasePath($file);
-        $sharedFile = preg_replace('#releases/[0-9]+/#', 'shared/', $currentFile);
+        $sharedFile = preg_replace('#' .$mapping['releases']. '/[0-9]+/#', $mapping['shared'].'/', $currentFile);
 
         // If no instance of the shared file exists, use current one
         if (!$this->modulable->fileExists($sharedFile)) {

@@ -44,14 +44,35 @@ class ServerPathfinder extends AbstractPathfinderModule
     }
 
     /**
-     * Get the path to a folder, taking into account application name and stage.
-     *
-     * @param string|null $folder
+     * @param string[] ...$folder
      *
      * @return string
      */
-    public function getFolder($folder = null)
+    public function getCurrentFolder(...$folder)
     {
+        return $this->getFolder($this->config->get('remote.directories.current'), ...$folder);
+    }
+
+    /**
+     * @param string[] ...$folder
+     *
+     * @return string
+     */
+    public function getReleasesFolder(...$folder)
+    {
+        return $this->getFolder($this->config->get('remote.directories.releases'), ...$folder);
+    }
+
+    /**
+     * Get the path to a folder, taking into account application name and stage.
+     *
+     * @param string|null[] $folder
+     *
+     * @return string
+     */
+    public function getFolder(...$folder)
+    {
+        $folder = implode('/', $folder);
         $folder = $this->modulable->replacePatterns($folder);
 
         $base = $this->connections->is('local') ? getcwd() : $this->getHomeFolder();
@@ -78,6 +99,8 @@ class ServerPathfinder extends AbstractPathfinderModule
         return [
             'getFolder',
             'getHomeFolder',
+            'getCurrentFolder',
+            'getReleasesFolder',
             'getRootDirectory',
         ];
     }
