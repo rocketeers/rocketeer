@@ -45,7 +45,7 @@ class Rocketeer
     public static function getDetectedStage($application = 'application', $path = null)
     {
         $folderRegex = '[a-zA-Z0-9_-]+';
-        
+
         $current = $path ?: realpath(__DIR__);
         $pattern = sprintf('/%s\/(%s)\/%s\/([0-9]{14})/', $application, $folderRegex, $folderRegex);
         preg_match($pattern, $current, $matches);

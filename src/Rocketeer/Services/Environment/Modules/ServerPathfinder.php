@@ -66,7 +66,7 @@ class ServerPathfinder extends AbstractPathfinderModule
     /**
      * Get the path to a folder, taking into account application name and stage.
      *
-     * @param string|null[] $folder
+     * @param string|null ...$folder
      *
      * @return string
      */
