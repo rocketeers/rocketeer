@@ -14,9 +14,6 @@ namespace Rocketeer\Services\Storages;
 
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Sftp\SftpAdapter;
-use Rocketeer\Services\Config\Configuration;
-use Rocketeer\Services\Config\ContextualConfiguration;
-use Rocketeer\Services\Container\Container;
 use Rocketeer\Services\Filesystem\Filesystem;
 use Rocketeer\TestCases\RocketeerTestCase;
 

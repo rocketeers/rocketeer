@@ -12,8 +12,8 @@
 
 namespace Rocketeer\Services\Storages;
 
-use Rocketeer\Services\Container\Container;
 use League\Flysystem\FilesystemInterface;
+use Rocketeer\Services\Container\Container;
 use Rocketeer\Traits\ContainerAwareTrait;
 
 /**

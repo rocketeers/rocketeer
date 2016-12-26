@@ -21,7 +21,6 @@ use Rocketeer\Console\Style\StyleInterface;
 use Rocketeer\Services\Container\Container;
 use Rocketeer\Services\Filesystem\Filesystem;
 use Rocketeer\Services\Filesystem\FilesystemInterface;
-use Rocketeer\Services\Storages\Storage;
 use Rocketeer\TestCases\Modules\Assertions;
 use Rocketeer\TestCases\Modules\Contexts;
 use Rocketeer\TestCases\Modules\Mocks\ConfigurationTester;

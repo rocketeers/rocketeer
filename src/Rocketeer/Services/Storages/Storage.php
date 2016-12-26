@@ -15,9 +15,6 @@ namespace Rocketeer\Services\Storages;
 use Cache\Adapter\Filesystem\FilesystemCachePool;
 use Illuminate\Support\Arr;
 use League\Flysystem\FilesystemInterface;
-use Rocketeer\Services\Container\Container;
-use Rocketeer\Traits\ContainerAwareTrait;
-use Psr\Cache\CacheItemPoolInterface;
 
 /**
  * Provides and persists informations in a filesystem.
@@ -65,10 +62,10 @@ class Storage extends FilesystemCachePool
      */
     public function get($key, $fallback = null)
     {
-        if (strpos($key, '.') === false) {
+        if (mb_strpos($key, '.') === false) {
             $value = $this->getItem($key)->get() ?: $fallback;
         } else {
-            list ($item, $key) = $this->getRootItem($key);
+            list($item, $key) = $this->getRootItem($key);
             $value = Arr::get($item->get(), $key);
         }
 
@@ -85,8 +82,8 @@ class Storage extends FilesystemCachePool
     {
         $values = is_array($key) ? $key : [$key => $value];
         foreach ($values as $key => $value) {
-            list ($item, $newKey) = $this->getRootItem($key);
-            if (strpos($key, '.') === false) {
+            list($item, $newKey) = $this->getRootItem($key);
+            if (mb_strpos($key, '.') === false) {
                 $this->save($item->set($value));
                 continue;
             }
