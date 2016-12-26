@@ -44,8 +44,11 @@ class Rocketeer
      */
     public static function getDetectedStage($application = 'application', $path = null)
     {
+        $folderRegex = '[a-zA-Z0-9_-]+';
+        
         $current = $path ?: realpath(__DIR__);
-        preg_match('/'.$application.'\/([a-zA-Z0-9_-]+)\/releases\/([0-9]{14})/', $current, $matches);
+        $pattern = sprintf('/%s\/(%s)\/%s\/([0-9]{14})/', $application, $folderRegex, $folderRegex);
+        preg_match($pattern, $current, $matches);
 
         return isset($matches[1]) ? $matches[1] : false;
     }

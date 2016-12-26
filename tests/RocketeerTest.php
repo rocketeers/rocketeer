@@ -55,6 +55,10 @@ class RocketeerTest extends RocketeerTestCase
         $stage = Rocketeer::getDetectedStage('foobar', $path);
         $this->assertEquals('staging', $stage);
 
+        $path = '/home/www/foobar/staging/RILIZ/12345678901234/app';
+        $stage = Rocketeer::getDetectedStage('foobar', $path);
+        $this->assertEquals('staging', $stage);
+
         $path = '/home/www/foobar/releases/12345678901234/app';
         $stage = Rocketeer::getDetectedStage('foobar', $path);
         $this->assertEquals(false, $stage);
