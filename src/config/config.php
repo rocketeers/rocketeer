@@ -25,6 +25,9 @@ return [
             return sprintf('%s-%s.log', $connections->getCurrentConnectionKey(), date('Ymd'));
         },
 
+        // Where to store the logs in (relative to the .rocketeer folder)
+        'logs_path' => 'logs',
+
         // The default remote connection(s) to execute tasks on
         'default' => [],
         'connections' => [],
@@ -48,6 +51,6 @@ return [
                 // 'name' => [],
             ],
         ],
-    ],
 
+    ],
 ];

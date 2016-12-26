@@ -33,6 +33,27 @@ class SetupTest extends RocketeerTestCase
         ]);
     }
 
+    public function testCanSetupServerWithCustomMapping()
+    {
+        $this->usesComposer();
+        $this->mockNoCurrentRelease();
+        $this->swapConfig([
+            'remote.directories' => [
+                'current' => 'KORANT',
+                'releases' => 'RILIZ',
+                'shared' => 'CHER',
+            ],
+        ]);
+
+        $this->assertTaskHistory('Setup', [
+            'git --version',
+            'mkdir {server}/',
+            'mkdir {server}/RILIZ',
+            'mkdir {server}/KORANT',
+            'mkdir {server}/CHER',
+        ]);
+    }
+
     public function testCanSetupStages()
     {
         $this->usesComposer();

@@ -94,13 +94,6 @@ class ReleasesManagerTest extends RocketeerTestCase
         $this->assertEquals(20000000000000, $currentRelease);
     }
 
-    public function testCanGetReleasesPath()
-    {
-        $releasePath = $this->releasesManager->getReleasesPath();
-
-        $this->assertEquals($this->server.'/releases', $releasePath);
-    }
-
     public function testCanGetCurrentReleaseFolder()
     {
         $currentReleasePath = $this->releasesManager->getCurrentReleasePath();

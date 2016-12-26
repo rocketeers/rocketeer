@@ -27,12 +27,12 @@ class PathfinderTest extends RocketeerTestCase
     {
         $this->connections->setStage('test');
 
-        $this->assertEquals($this->server.'/test/current', $this->paths->getFolder('current'));
+        $this->assertEquals($this->server.'/test/current', $this->paths->getCurrentFolder());
     }
 
     public function testCanGetAnyFolder()
     {
-        $this->assertEquals($this->server.'/current', $this->paths->getFolder('current'));
+        $this->assertEquals($this->server.'/current', $this->paths->getCurrentFolder());
     }
 
     public function testCanReplacePatternsInFolders()

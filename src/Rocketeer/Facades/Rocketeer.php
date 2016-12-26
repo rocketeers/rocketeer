@@ -19,7 +19,7 @@ use Rocketeer\Services\Tasks\TasksHandler;
 /**
  * Facade for Rocketeer's CLI.
  *
- * @see Rocketeer\TasksHandler
+ * @mixin TasksHandler
  */
 class Rocketeer
 {

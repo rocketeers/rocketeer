@@ -35,7 +35,7 @@ class SyncStrategyTest extends RocketeerTestCase
         ]);
 
         $this->bash->on('dummy', function (Bash $task) {
-            $task->createFolder($task->paths->getFolder('current'));
+            $task->createFolder($task->paths->getCurrentFolder());
         });
     }
 

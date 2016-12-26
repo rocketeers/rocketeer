@@ -78,11 +78,12 @@ class Setup extends AbstractTask
         }
 
         // Create folders
+        $mapping = $this->config->get('remote.directories');
         foreach ($availableStages as $stage) {
             $this->connections->setStage($stage);
-            $this->createFolder('releases');
-            $this->createFolder('current');
-            $this->createFolder('shared');
+            $this->createFolder($mapping['releases']);
+            $this->createFolder($mapping['current']);
+            $this->createFolder($mapping['shared']);
         }
 
         if ($originalStage) {
