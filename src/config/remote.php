@@ -67,10 +67,10 @@ return [
             // What actions will be executed to set permissions on the folder above
             'callback' => function ($file) {
                 return [
-                'chmod -R 755 '.$file,
-                'chmod -R g+s '.$file,
-                'chown -R www-data:www-data '.$file,
-            ];
+                    'chmod -R 755 '.$file,
+                    'chmod -R g+s '.$file,
+                    'chown -R www-data:www-data '.$file,
+                ];
             },
         ],
 
