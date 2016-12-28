@@ -34,20 +34,41 @@ class UploadStrategy extends AbstractLocalDeployStrategy
     {
         $this->explainer->comment(sprintf('Uploading files from %s to %s', $from, $to));
 
-        $files = (new Finder())->in($from)->exclude(['.git']);
-        $this->command->progressStart(iterator_count($files));
+        // Only gather files from existing folders (for pretend mode)
+        $folders = array_filter([$from], 'is_dir');
+        if (!$folders) {
+            return true;
+        }
+
+        $files = (new Finder())->in($folders)->exclude(['.git']);
+        $format = $this->explainer->getProgressBarFormat(
+            '%current%/%max% [%bar%] %percent:3s%% %elapsed:6s%/%estimated:-6s%'.PHP_EOL.
+            '%message%'
+        );
+
+        // Create progress bar
+        $progress = $this->command->createProgressBar(iterator_count($files));
+        $progress->setFormat($format);
+        $progress->start();
+
         foreach ($files as $file) {
-            $this->command->progressAdvance();
+            $origin = str_replace($from, null, $file->getPathname());
             $path = $to.DS.str_replace($from, null, $file->getPathname());
+            $progress->setMessage(
+                dirname($origin).DS.
+                '<info>'.basename($origin).'</info>'
+            );
 
             if ($file->isDir()) {
                 $this->createFolder($path);
             } else {
                 $this->put($path, $file->getContents());
             }
+
+            $progress->advance();
         }
 
-        $this->command->progressFinish();
+        $progress->finish();
 
         return true;
     }

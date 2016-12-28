@@ -48,7 +48,7 @@ class StrategiesCommand extends AbstractCommand
         ];
 
         // Return a single task if needed
-        $task = strtolower($this->argument('task'));
+        $task = mb_strtolower($this->argument('task'));
         if ($task && isset($strategies[$task])) {
             $strategies = [$task => $strategies[$task]];
         }

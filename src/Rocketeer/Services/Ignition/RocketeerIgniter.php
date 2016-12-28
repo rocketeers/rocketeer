@@ -41,7 +41,9 @@ class RocketeerIgniter
         // Build dotenv file
         $dotenv = '';
         foreach ($credentials as $credential => $value) {
-            $dotenv .= $credential.'='.$value.PHP_EOL;
+            $value = str_replace('"', '\\"', $value);
+            $dotenv .= sprintf('%s="%s"', $credential, $value);
+            $dotenv .= PHP_EOL;
         }
 
         // Write to disk
@@ -87,9 +89,10 @@ class RocketeerIgniter
             $fileDestination = $destination.DS.$basename;
 
             if ($namespace) {
+                $namespace = preg_replace("/[^\w]/", '', $namespace); // only words allowed
                 $contents = str_replace('namespace App', 'namespace '.$namespace, $contents);
                 $contents = str_replace('AppServiceProvider', $namespace.'ServiceProvider', $contents);
-                $fileDestination = strpos($basename, 'ServiceProvider') === false
+                $fileDestination = mb_strpos($basename, 'ServiceProvider') === false
                     ? $destination.DS.basename(dirname($file['path'])).DS.$basename
                     : $destination.DS.$namespace.'ServiceProvider.php';
             }

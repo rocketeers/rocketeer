@@ -12,7 +12,6 @@
 
 namespace Rocketeer\Traits;
 
-use InvalidArgumentException;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class ConfigurableTest extends RocketeerTestCase
@@ -61,7 +60,7 @@ class ConfigurableTest extends RocketeerTestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testDoesntAllowStringFlags()
     {

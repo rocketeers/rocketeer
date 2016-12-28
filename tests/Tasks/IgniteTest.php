@@ -37,7 +37,7 @@ class IgniteTest extends RocketeerTestCase
         ]);
 
         $dotenvPath = $this->paths->getDotenvPath();
-        $this->files->put($dotenvPath, 'FOO=bar');
+        $this->files->put($dotenvPath, 'FOO="bar"'.PHP_EOL);
 
         $this->task('Ignite')->execute();
 
@@ -45,8 +45,8 @@ class IgniteTest extends RocketeerTestCase
         $dotenv = $this->files->read($dotenvPath);
 
         $this->assertContains("'application_name' => 'foobar'", $config);
-        $this->assertContains('FOO=bar', $dotenv);
-        $this->assertContains('VCS_REPOSITORY=git@github.com/rocketeers/website.git', $dotenv);
+        $this->assertContains('FOO="bar"', $dotenv);
+        $this->assertContains('VCS_REPOSITORY="git@github.com/rocketeers/website.git"', $dotenv);
     }
 
     public function testCanIgniteStubs()

@@ -102,7 +102,7 @@ class UserBootstrapper extends AbstractBootstrapperModule
         $queue = [];
         foreach ($files as $file) {
             $path = $this->files->getAdapter()->applyPathPrefix($file['path']);
-            if (strpos($path, 'tasks') !== false) {
+            if (mb_strpos($path, 'tasks') !== false) {
                 array_unshift($queue, $path);
             } else {
                 $queue[] = $path;

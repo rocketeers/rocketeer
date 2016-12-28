@@ -55,6 +55,10 @@ class RocketeerTest extends RocketeerTestCase
         $stage = Rocketeer::getDetectedStage('foobar', $path);
         $this->assertEquals('staging', $stage);
 
+        $path = '/home/www/foobar/staging/RILIZ/12345678901234/app';
+        $stage = Rocketeer::getDetectedStage('foobar', $path);
+        $this->assertEquals('staging', $stage);
+
         $path = '/home/www/foobar/releases/12345678901234/app';
         $stage = Rocketeer::getDetectedStage('foobar', $path);
         $this->assertEquals(false, $stage);
@@ -62,8 +66,8 @@ class RocketeerTest extends RocketeerTestCase
 
     public function testCanUserServerContextualConfiguration()
     {
-        $this->config->set('connections.production.servers.0.config.remote.app_directory', '/foo/bar');
+        $this->config->set('connections.production.servers.0.config.remote.directories.app_directory', '/foo/bar');
 
-        $this->assertEquals('/foo/bar', $this->config->getContextually('remote.app_directory'));
+        $this->assertEquals('/foo/bar', $this->config->getContextually('remote.directories.app_directory'));
     }
 }

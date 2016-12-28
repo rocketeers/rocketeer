@@ -120,7 +120,7 @@ class ConfigurationPublisher
      */
     public function getDefinition($format = 'yml', $node = null)
     {
-        switch (strtolower($format)) {
+        switch (mb_strtolower($format)) {
             case 'json':
                 $dumper = new JsonReferenceDumper();
                 break;
@@ -152,7 +152,7 @@ class ConfigurationPublisher
      */
     protected function sanitizeFormat($format)
     {
-        $format = strtolower($format);
+        $format = mb_strtolower($format);
         $format = $format === 'yaml' ? 'yml' : $format;
 
         return $format;

@@ -172,7 +172,7 @@ class ConfigurationLoader implements ConfigurationLoaderInterface
     {
         $pathname = $file->getPathname();
         $contents = $this->loader->load($pathname);
-        $contents = strpos($key, 'plugins') === false ? $this->wrapConfigurationContents($file, $contents) : $contents;
+        $contents = mb_strpos($key, 'plugins') === false ? $this->wrapConfigurationContents($file, $contents) : $contents;
         if (!is_array($contents)) {
             return $configuration;
         }

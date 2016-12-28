@@ -49,18 +49,19 @@ class QueueExplainer
      * Execute a task in a level below.
      *
      * @param callable $callback
+     * @param int      $offset
      *
      * @return mixed
      */
-    public function displayBelow(callable $callback)
+    public function displayBelow(callable $callback, $offset = 1)
     {
         if (!$this->hasCommand()) {
             return $callback();
         }
 
-        ++$this->level;
+        $this->level += $offset;
         $results = $callback();
-        --$this->level;
+        $this->level -= $offset;
 
         return $results;
     }
@@ -135,6 +136,26 @@ class QueueExplainer
         $this->logs->log($message);
 
         return $formatted;
+    }
+
+    /**
+     * Get the format for a progress bar
+     * embedded within the tree.
+     *
+     * @param string $format
+     *
+     * @return string
+     */
+    public function getProgressBarFormat($format)
+    {
+        return $this->displayBelow(function () use (&$format) {
+            $tree = $this->getTree().$this->getFork();
+
+            $format = explode(PHP_EOL, $format);
+            $format = $tree.implode(PHP_EOL.$tree.' ', $format);
+
+            return $format;
+        }, 2);
     }
 
     /**
@@ -250,13 +271,13 @@ class QueueExplainer
         $tree = null;
         if ($numberConnections > 1 || $numberStages > 1 || $numberServers > 1) {
             $handle = $this->connections->getCurrentConnectionKey()->toHandle();
-            $spacing = $this->getLongestSize() - strlen($handle) + 2;
+            $spacing = $this->getLongestSize() - mb_strlen($handle) + 2;
             $spacing = max(1, $spacing);
             $spacing = str_repeat(' ', $spacing);
 
             // Build tree and command
             $handle = $handle === 'dummy' ? 'local' : $handle;
-            $spacing = substr($spacing, strlen($spacing) / 2);
+            $spacing = mb_substr($spacing, mb_strlen($spacing) / 2);
             $tree .= sprintf('<bg=magenta;options=bold>%s%s%s</bg=magenta;options=bold> ', $spacing, $handle, $spacing);
         }
 

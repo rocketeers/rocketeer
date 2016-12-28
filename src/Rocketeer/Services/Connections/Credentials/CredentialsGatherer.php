@@ -188,7 +188,7 @@ class CredentialsGatherer
      */
     protected function getCredentialConstant($prefix, $credential)
     {
-        return strtoupper($prefix.'_'.$credential);
+        return mb_strtoupper($prefix.'_'.$credential);
     }
 
     /**
@@ -220,11 +220,11 @@ class CredentialsGatherer
 
         $rows = [];
         foreach ($connections as $name => $connection) {
-            $connection[strtoupper($name.'_NAME')] = $name;
+            $connection[mb_strtoupper($name.'_NAME')] = $name;
 
             $row = [];
             foreach ($headers as $key => $value) {
-                $key = strtoupper($name.'_'.$key);
+                $key = mb_strtoupper($name.'_'.$key);
                 $row[] = isset($connection[$key]) ? $connection[$key] : '';
             }
 

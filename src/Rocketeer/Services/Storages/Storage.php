@@ -80,7 +80,7 @@ class Storage
      */
     public function setFilename($filename)
     {
-        $this->filename = strtolower(basename($filename, '.json'));
+        $this->filename = mb_strtolower(basename($filename, '.json'));
     }
 
     /**

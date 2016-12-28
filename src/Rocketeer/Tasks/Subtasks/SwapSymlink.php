@@ -42,7 +42,9 @@ class SwapSymlink extends AbstractTask
             $this->releasesManager->markReleaseAsValid($release);
             $this->explainer->line('Successfully deployed release '.$release);
         } else {
-            $this->explainer->error('Unable to set symlink on current/ folder');
+            $current = $this->config->get('remote.directories.current');
+
+            $this->explainer->error('Unable to set symlink on '.$current.'/ folder');
         }
 
         return $status;

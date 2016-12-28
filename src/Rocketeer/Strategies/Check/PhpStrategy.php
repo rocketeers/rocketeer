@@ -91,8 +91,8 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
         $data = json_decode($manifest, true);
         $require = (array) array_get($data, 'require');
         foreach ($require as $package => $version) {
-            if (substr($package, 0, 4) === 'ext-') {
-                $extensions[] = substr($package, 4);
+            if (mb_substr($package, 0, 4) === 'ext-') {
+                $extensions[] = mb_substr($package, 4);
             }
         }
 

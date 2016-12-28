@@ -100,7 +100,7 @@ class Pathfinder implements ModulableInterface, ContainerAwareInterface
 
         // Replace folder patterns
         return preg_replace_callback('/\{[a-z\.]+\}/', function ($match) use ($base) {
-            $folder = substr($match[0], 1, -1);
+            $folder = mb_substr($match[0], 1, -1);
 
             // Replace paths from the container
             if ($this->container->has($folder)) {

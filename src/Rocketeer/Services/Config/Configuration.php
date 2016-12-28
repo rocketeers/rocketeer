@@ -41,8 +41,8 @@ class Configuration extends Collection implements ConfigurationInterface
         // Replace environment variables
         $items = parent::getArrayableItems($items);
         array_walk_recursive($items, function (&$value) {
-            if (is_string($value) && strpos($value, '%%') === 0) {
-                $value = getenv(substr($value, 2, -2));
+            if (is_string($value) && mb_strpos($value, '%%') === 0) {
+                $value = getenv(mb_substr($value, 2, -2));
             }
         });
 

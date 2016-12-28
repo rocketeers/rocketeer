@@ -132,9 +132,9 @@ trait ConsoleTester
 
         $definition = new InputDefinition();
         foreach ($input as $key => $option) {
-            $isOption = strpos($key, '--') !== false;
+            $isOption = mb_strpos($key, '--') !== false;
             if ($isOption) {
-                $definition->addOption(new InputOption(substr($key, 2)));
+                $definition->addOption(new InputOption(mb_substr($key, 2)));
             } else {
                 $definition->addArgument(new InputArgument($key));
             }

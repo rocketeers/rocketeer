@@ -94,13 +94,6 @@ class ReleasesManagerTest extends RocketeerTestCase
         $this->assertEquals(20000000000000, $currentRelease);
     }
 
-    public function testCanGetReleasesPath()
-    {
-        $releasePath = $this->releasesManager->getReleasesPath();
-
-        $this->assertEquals($this->server.'/releases', $releasePath);
-    }
-
     public function testCanGetCurrentReleaseFolder()
     {
         $currentReleasePath = $this->releasesManager->getCurrentReleasePath();
@@ -148,9 +141,7 @@ class ReleasesManagerTest extends RocketeerTestCase
 
     public function testCanGetPreviousValidRelease()
     {
-        $currentRelease = $this->releasesManager->getPreviousRelease();
-
-        $this->assertEquals(10000000000000, $currentRelease);
+        $this->assertEquals(10000000000000, $this->releasesManager->getPreviousRelease());
     }
 
     public function testReturnsCurrentReleaseIfNoPreviousValidRelease()
@@ -161,9 +152,18 @@ class ReleasesManagerTest extends RocketeerTestCase
             '20000000000000' => true,
         ]);
 
-        $currentRelease = $this->releasesManager->getPreviousRelease();
+        $this->assertEquals(20000000000000, $this->releasesManager->getPreviousRelease());
+    }
 
-        $this->assertEquals(20000000000000, $currentRelease);
+    public function testReturnsLastValidRelease()
+    {
+        $this->mockState([
+            '10000000000000' => false,
+            '15000000000000' => true,
+            '20000000000000' => false,
+        ]);
+
+        $this->assertEquals(15000000000000, $this->releasesManager->getCurrentRelease());
     }
 
     public function testReturnsCurrentReleaseIfOnlyRelease()
@@ -172,9 +172,7 @@ class ReleasesManagerTest extends RocketeerTestCase
             '20000000000000' => true,
         ]);
 
-        $currentRelease = $this->releasesManager->getPreviousRelease();
-
-        $this->assertEquals(20000000000000, $currentRelease);
+        $this->assertEquals(20000000000000, $this->releasesManager->getPreviousRelease());
     }
 
     public function testReturnsCorrectPreviousReleaseIfUpdatedBeforehand()
@@ -183,9 +181,7 @@ class ReleasesManagerTest extends RocketeerTestCase
             '20000000000000' => true,
         ]);
 
-        $previous = $this->releasesManager->getPreviousRelease();
-
-        $this->assertEquals(20000000000000, $previous);
+        $this->assertEquals(20000000000000, $this->releasesManager->getPreviousRelease());
     }
 
     public function testCanReturnPreviousReleaseIfNoReleases()

@@ -69,7 +69,7 @@ class ReleasesManager
         // Get releases on server
         $connection = $this->connections->getCurrentConnectionKey()->name;
         if (!array_key_exists($connection, $this->releases)) {
-            $releases = $this->getReleasesPath();
+            $releases = $this->paths->getReleasesFolder();
             $releases = (array) $this->bash->listContents($releases);
 
             // Filter and sort releases
@@ -173,16 +173,6 @@ class ReleasesManager
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Get the path to the releases folder.
-     *
-     * @return string
-     */
-    public function getReleasesPath()
-    {
-        return $this->paths->getFolder('releases');
-    }
-
-    /**
      * Get the path to a release.
      *
      * @param string $release
@@ -191,7 +181,7 @@ class ReleasesManager
      */
     public function getPathToRelease($release)
     {
-        return $this->paths->getFolder('releases/'.$release);
+        return $this->paths->getReleasesFolder($release);
     }
 
     /**
@@ -289,7 +279,7 @@ class ReleasesManager
      */
     public function getCurrentRelease()
     {
-        $current = Arr::get($this->getReleases(), 0);
+        $current = Arr::get($this->getValidReleases(), 0);
         $current = $this->sanitizeRelease($current);
 
         return $this->nextRelease ?: $current;
@@ -356,11 +346,11 @@ class ReleasesManager
      *
      * @param string|int $release
      *
-     * @return string|int|null
+     * @return string|null
      */
     protected function sanitizeRelease($release)
     {
-        return $this->isRelease($release) ? $release : null;
+        return $this->isRelease($release) ? (string) $release : null;
     }
 
     /**

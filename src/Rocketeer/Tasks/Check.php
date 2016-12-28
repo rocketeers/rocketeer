@@ -63,7 +63,7 @@ class Check extends AbstractTask
     public function checkVcs()
     {
         // Cancel if not using any VCS
-        if (strtolower($this->config->getContextually('strategies.create-release')) !== 'clone') {
+        if (mb_strtolower($this->config->getContextually('strategies.create-release')) !== 'clone') {
             return true;
         }
 
