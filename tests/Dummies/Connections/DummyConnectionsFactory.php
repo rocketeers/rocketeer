@@ -49,6 +49,7 @@ class DummyConnectionsFactory
         $connection = new DummyConnection($connectionKey);
         $connection->setExpectations($this->expectations);
         $connection->setAdapter($this->adapter);
+        $connection->setRoles((array) $connectionKey->roles);
 
         return $connection;
     }

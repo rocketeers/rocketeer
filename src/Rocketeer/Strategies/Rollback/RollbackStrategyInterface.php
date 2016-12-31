@@ -13,7 +13,7 @@
 namespace Rocketeer\Strategies\Rollback;
 
 /**
- * Interface for Rollback strategies
+ * Interface for Rollback strategies.
  */
 interface RollbackStrategyInterface
 {
