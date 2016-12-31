@@ -25,6 +25,9 @@ return [
         // Which strategy to use to send a release online
         'deploy' => 'Rolling',
 
+        // Which strategy to use to rollback to a previous release
+        'rollback' => 'Rolling',
+
         // Which strategy to use to test your application
         'test' => 'Phpunit',
 
