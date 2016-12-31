@@ -12,7 +12,6 @@
 
 namespace Rocketeer\Services\Connections\Shell;
 
-use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class BashTest extends RocketeerTestCase
@@ -36,8 +35,7 @@ class BashTest extends RocketeerTestCase
         ]);
 
         $this->connections->setCurrentConnection('production', 1);
-        $this->bash->on('local', function() {
-
+        $this->bash->on('local', function () {
         });
 
         $this->assertEquals(1, $this->connections->getCurrentConnectionKey()->server);
