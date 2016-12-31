@@ -196,8 +196,16 @@ class ConnectionsHandler
 
         // Unify multiservers
         foreach ($connections as $key => $servers) {
-            $servers           = Arr::get($servers, 'servers', [$servers]);
-            $connections[$key] = ['servers' => array_values($servers)];
+            $servers = Arr::get($servers, 'servers', [$servers]);
+            $servers = array_values($servers);
+
+            foreach ($servers as $serverKey => $server) {
+                if ($server && array_key_exists('key', $server)) {
+                    $servers[$serverKey]['key'] = str_replace('~/', $this->paths->getUserHomeFolder().'/', $server['key']);
+                }
+            }
+
+            $connections[$key] = ['servers' => $servers];
         }
 
         return $connections;

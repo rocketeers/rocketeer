@@ -283,6 +283,20 @@ class ConnectionsHandlerTest extends RocketeerTestCase
         $this->assertEquals('production-multiserver/2', $this->connections->getHandle('production-multiserver', 2));
     }
 
+    public function testCanExpandPathsAtRuntime()
+    {
+        $this->swapConfig([
+            'rocketeer::connections' => [
+                'production' => [
+                    'host' => 'foo.com',
+                    'key' => '~/.ssh/id_rsa',
+                ],
+            ],
+        ]);
+
+        $this->assertEquals($this->paths->getUserHomeFolder().'/.ssh/id_rsa', $this->connections->getServerCredentials()['key']);
+    }
+
     ////////////////////////////////////////////////////////////////////
     //////////////////////////////// HELPERS ///////////////////////////
     ////////////////////////////////////////////////////////////////////
