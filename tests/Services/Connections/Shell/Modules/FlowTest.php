@@ -57,4 +57,9 @@ class FlowTest extends RocketeerTestCase
             ],
         ]);
     }
+
+    public function testDoesntFailIfPrimerSucceedsSilently()
+    {
+        $this->assertTrue($this->bash->setupIfNecessary());
+    }
 }

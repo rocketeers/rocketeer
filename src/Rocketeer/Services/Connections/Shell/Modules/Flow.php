@@ -45,9 +45,9 @@ class Flow extends AbstractBashModule
     {
         // Check if local is ready for deployment
         return $this->modulable->on('local', function () {
-            if (!$this->modulable->executeTask('Primer')) {
-                return $this->modulable->halt('Project is not ready for deploy. You were almost fired.');
-            }
+            $primer = $this->modulable->executeTask('Primer');
+
+            return $primer ?: $this->modulable->halt('Project is not ready for deploy. You were almost fired.');
         });
 
         if (!$this->isSetup()) {
