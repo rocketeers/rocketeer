@@ -82,4 +82,29 @@ class CopyStrategyTest extends RocketeerTestCase
 
         $this->assertHistory($matcher);
     }
+
+    public function testCanProperlyCopyOnMultipleServers()
+    {
+        $root = str_replace('foobar', null, $this->server);
+        $this->swapConfigWithEvents([
+            'hooks' => [],
+            'connections' => [
+                'production' => [
+                    'servers' => [
+                        ['host' => 'foo.com', 'root_directory' => $root],
+                        ['host' => 'bar.com', 'root_directory' => $root.'foobar'],
+                    ],
+                ],
+            ],
+            'vcs.submodules' => false,
+            'remote.permissions.files' => [],
+            'strategies.create-release' => 'Copy',
+            'strategies.dependencies' => null,
+        ]);
+
+        $this->queue->run('deploy');
+
+        $this->assertHistoryContains('cp -a {server}/releases/20000000000000 {server}/releases/{release}');
+        $this->assertHistoryContains('git clone "{repository}" "{server}/foobar/releases/{release}" --branch="master" --depth="1"');
+    }
 }

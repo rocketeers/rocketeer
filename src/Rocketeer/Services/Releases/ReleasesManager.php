@@ -67,7 +67,7 @@ class ReleasesManager
     public function getReleases()
     {
         // Get releases on server
-        $connection = $this->connections->getCurrentConnectionKey()->name;
+        $connection = $this->connections->getCurrentConnectionKey()->toHandle();
         if (!array_key_exists($connection, $this->releases)) {
             $releases = $this->paths->getReleasesFolder();
             $releases = (array) $this->bash->listContents($releases);
