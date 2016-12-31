@@ -176,7 +176,7 @@ trait Assertions
     /**
      * Assert the history contains a particular entry.
      *
-     * @param array $expected
+     * @param string|string[] $expected
      */
     public function assertHistoryContains($expected)
     {
@@ -255,7 +255,7 @@ trait Assertions
         $flattened = implode(Arr::flatten($obtained));
         preg_match_all('/[0-9]{14}/', $flattened, $releases);
         $release = Arr::get($releases, '0.0', date('YmdHis'));
-        if ($release === '10000000000000') {
+        if (substr($release, -5) === '00000') {
             $release = Arr::get($releases, '0.1', date('YmdHis'));
         }
 
