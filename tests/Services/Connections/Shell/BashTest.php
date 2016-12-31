@@ -12,6 +12,7 @@
 
 namespace Rocketeer\Services\Connections\Shell;
 
+use Rocketeer\Services\Connections\Credentials\Keys\ConnectionKey;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class BashTest extends RocketeerTestCase
@@ -21,5 +22,24 @@ class BashTest extends RocketeerTestCase
         $contents = $this->bash->runRaw('ls', true, true);
 
         $this->assertListDirectory($contents);
+    }
+
+    public function testCanSwitchBackToCorrectServer()
+    {
+        $this->swapConnections([
+            'production' => [
+                'servers' => [
+                    ['host' => 'foo.com'],
+                    ['host' => 'bar.com'],
+                ],
+            ],
+        ]);
+
+        $this->connections->setCurrentConnection('production', 1);
+        $this->bash->on('local', function() {
+
+        });
+
+        $this->assertEquals(1, $this->connections->getCurrentConnectionKey()->server);
     }
 }
