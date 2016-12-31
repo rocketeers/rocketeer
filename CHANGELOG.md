@@ -2,6 +2,12 @@
 
 Rocketeer follows the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.html) spec.
 
+## [2.2.4] - 2016-12-31
+
+### Fixed
+- Fixed `~` not being expanded in key paths
+- Fixed folder permissions being applied before sharing folders
+
 ## [2.2.3] - 2016-07-21
 
 ### Fixed
@@ -406,6 +412,8 @@ Rocketeer follows the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.ht
 - Added config file
 - Added `deploy:setup` and `deploy:deploy` commands
 
+[2.2.4]: https://github.com/rocketeers/rocketeer/compare/2.2.3...2.2.4
+[2.2.3]: https://github.com/rocketeers/rocketeer/compare/2.2.2...2.2.3
 [2.2.2]: https://github.com/rocketeers/rocketeer/compare/2.2.1...2.2.2
 [2.2.1]: https://github.com/rocketeers/rocketeer/compare/2.2.0...2.2.1
 [2.2.0]: https://github.com/rocketeers/rocketeer/compare/2.1.3...2.2.0
