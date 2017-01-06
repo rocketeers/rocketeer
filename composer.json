@@ -22,7 +22,7 @@
 		"anahkiasen/php-reference-dumper": "^1.0.6",
 		"illuminate/support": "^5.3",
 		"jeremeamia/superclosure": "^2.3",
-		"kherge/amend": "dev-master",
+		"kherge/amend": "^3.0.5",
 		"kzykhys/parallel": "^0.1.0",
 		"league/container": "^2.2",
 		"league/event": "^2.1.2",
