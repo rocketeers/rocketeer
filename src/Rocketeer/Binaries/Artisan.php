@@ -49,12 +49,7 @@ class Artisan extends AbstractBinary
      */
     public function migrate()
     {
-        $flags = [];
-        if ($this->bash->versionCheck('4.2.0')) {
-            $flags = ['--force' => null];
-        }
-
-        return $this->getCommand('migrate', null, $flags);
+        return $this->getCommand('migrate', null, ['--force' => null]);
     }
 
     /**
@@ -64,12 +59,7 @@ class Artisan extends AbstractBinary
      */
     public function seed()
     {
-        $flags = [];
-        if ($this->bash->versionCheck('4.2.0')) {
-            $flags = ['--force' => null];
-        }
-
-        return $this->getCommand('db:seed', null, $flags);
+        return $this->getCommand('db:seed', null, ['--force' => null]);
     }
 
     /**

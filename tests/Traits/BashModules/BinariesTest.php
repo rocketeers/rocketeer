@@ -84,7 +84,7 @@ class BinariesTest extends RocketeerTestCase
             'rocketeer::paths.artisan' => $this->binaries['php'],
         ]);
 
-        $this->assertEquals($this->binaries['php'].' '.$this->binaries['php'].' migrate', $this->task->artisan()->migrate());
+        $this->assertEquals($this->binaries['php'].' '.$this->binaries['php'].' migrate --force', $this->task->artisan()->migrate());
     }
 
     public function testAlwaysRespectsCustomPath()
@@ -104,7 +104,7 @@ class BinariesTest extends RocketeerTestCase
             'rocketeer::paths.php' => $this->binaries['php'],
         ]);
 
-        $this->assertEquals($this->binaries['php'].' artisan migrate', $this->task->artisan()->migrate());
+        $this->assertEquals($this->binaries['php'].' artisan migrate --force', $this->task->artisan()->migrate());
     }
 
     public function testCanGetBinary()

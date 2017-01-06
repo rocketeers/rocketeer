@@ -43,11 +43,11 @@ class DeployTest extends RocketeerTestCase
             ],
             [
                 'cd {server}/releases/{release}',
-                '{php} artisan migrate',
+                '{php} artisan migrate --force',
             ],
             [
                 'cd {server}/releases/{release}',
-                '{php} artisan db:seed',
+                '{php} artisan db:seed --force',
             ],
             'mv {server}/current {server}/releases/{release}',
             [
@@ -82,11 +82,11 @@ class DeployTest extends RocketeerTestCase
             ],
             [
                 'cd {server}/releases/{release}',
-                '{php} artisan migrate',
+                '{php} artisan migrate --force',
             ],
             [
                 'cd {server}/releases/{release}',
-                '{php} artisan db:seed',
+                '{php} artisan db:seed --force',
             ],
             'mv {server}/current {server}/releases/{release}',
             [
@@ -128,11 +128,11 @@ class DeployTest extends RocketeerTestCase
             ],
             [
                 'cd {server}/releases/{release}',
-                '{php} artisan migrate',
+                '{php} artisan migrate --force',
             ],
             [
                 'cd {server}/releases/{release}',
-                '{php} artisan db:seed',
+                '{php} artisan db:seed --force',
             ],
             'mv {server}/current {server}/releases/{release}',
             [
@@ -207,7 +207,7 @@ class DeployTest extends RocketeerTestCase
             ],
             [
                 'cd {server}/releases/{release}',
-                '{php} artisan db:seed',
+                '{php} artisan db:seed --force',
             ],
             'mv {server}/current {server}/releases/{release}',
             [

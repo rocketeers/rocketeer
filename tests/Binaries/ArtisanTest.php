@@ -22,6 +22,6 @@ class ArtisanTest extends RocketeerTestCase
         $artisan = new Artisan($this->app);
 
         $commands = $artisan->migrate();
-        $this->assertEquals($php.' artisan migrate', $commands);
+        $this->assertEquals($php.' artisan migrate --force', $commands);
     }
 }

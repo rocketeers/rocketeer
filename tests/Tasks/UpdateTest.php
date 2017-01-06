@@ -37,11 +37,11 @@ class UpdateTest extends RocketeerTestCase
             ],
             [
                 'cd {server}/releases/{release}',
-                '{php} artisan migrate',
+                '{php} artisan migrate --force',
             ],
             [
                 'cd {server}/releases/{release}',
-                '{php} artisan db:seed',
+                '{php} artisan db:seed --force',
             ],
             [
                 'cd {server}/releases/20000000000000',
@@ -74,11 +74,11 @@ class UpdateTest extends RocketeerTestCase
             ],
             [
                 'cd {server}/releases/{release}',
-                '{php} artisan migrate',
+                '{php} artisan migrate --force',
             ],
             [
                 'cd {server}/releases/{release}',
-                '{php} artisan db:seed',
+                '{php} artisan db:seed --force',
             ],
         ];
 
