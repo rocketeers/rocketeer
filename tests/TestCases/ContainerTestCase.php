@@ -145,7 +145,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
             'isInsideLaravel' => false,
             'confirm' => true,
             'secret' => '',
-            'option' => false,
+            'option' => null,
         ], $expectations);
 
         // Bind expecations

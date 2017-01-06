@@ -351,7 +351,14 @@ class ConnectionsHandler
         $connection = $this->getConnectionCredentials($connection);
         $server = !is_null($server) ? $server : $this->currentServer;
 
-        return Arr::get($connection, $server, []);
+        // Merge with runtime options
+        $credentials = Arr::get($connection, $server, []);
+        foreach ($credentials as $key => $value) {
+            $option = $this->hasCommand() ? $this->command->option($key) : null;
+            $credentials[$key] = !is_null($option) ? $option : $value;
+        }
+
+        return $credentials;
     }
 
     /**

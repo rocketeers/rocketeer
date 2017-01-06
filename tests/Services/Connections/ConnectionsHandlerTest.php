@@ -299,6 +299,24 @@ class ConnectionsHandlerTest extends RocketeerTestCase
         $this->assertEquals($this->paths->getUserHomeFolder().'/.ssh/id_rsa', $this->connections->getServerCredentials()['key']);
     }
 
+    public function testCanUseRuntimeOptions()
+    {
+        $this->mockCommand([
+            'key' => 'foobar',
+        ]);
+
+        $this->swapConfig([
+            'rocketeer::connections' => [
+                'production' => [
+                    'host' => 'foo.com',
+                    'key' => '~/.ssh/id_rsa',
+                ],
+            ],
+        ]);
+
+        $this->assertEquals('foobar', $this->connections->getServerCredentials()['key']);
+    }
+
     ////////////////////////////////////////////////////////////////////
     //////////////////////////////// HELPERS ///////////////////////////
     ////////////////////////////////////////////////////////////////////
