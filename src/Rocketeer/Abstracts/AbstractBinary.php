@@ -48,7 +48,8 @@ abstract class AbstractBinary
         $this->app = $app;
 
         // Assign default paths
-        $paths = $this->getKnownPaths();
+        $default = $this->binary;
+        $paths = $this->getKnownPaths() ?: [$default];
         if ($this->connections->getConnection() && $paths) {
             $binary = Arr::get($paths, 0);
             $fallback = Arr::get($paths, 1);
@@ -58,6 +59,8 @@ abstract class AbstractBinary
         } elseif ($paths) {
             $this->setBinary($paths[0]);
         }
+
+        $this->binary = $this->binary ?: $default;
     }
 
     /**

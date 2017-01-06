@@ -31,4 +31,12 @@ class AbstractBinaryTest extends RocketeerTestCase
 
         $this->assertEquals($expected[0], $command);
     }
+
+    public function testCanUseCustomPathWithScmBinaries()
+    {
+        $this->swapConfig(['rocketeer::paths.git' => '/foo/bar/git']);
+
+        $git = new Git($this->app);
+        $this->assertEquals('/foo/bar/git', $git->getBinary());
+    }
 }
