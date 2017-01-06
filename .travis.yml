@@ -37,6 +37,7 @@ before_install:
   - travis_retry composer self-update
   - travis_retry composer global require hirak/prestissimo
   - travis_retry composer global require kherge/box
+  - export PATH="$HOME/.composer/vendor/bin:$PATH"
 
 install:
   - travis_retry composer update --no-interaction --prefer-dist $COMPOSER_FLAGS
