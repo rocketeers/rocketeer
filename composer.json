@@ -34,10 +34,10 @@
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^2.0",
-    "phpunit/phpunit": "~4.0",
+    "johnkary/phpunit-speedtrap": "^1.0",
     "mockery/mockery": "^0.9.1",
     "phpseclib/phpseclib": "~0.3.5",
-    "johnkary/phpunit-speedtrap": "dev-master",
+    "phpunit/phpunit": "^5.7",
     "symfony/var-dumper": "~2.6"
   },
   "suggest": {
@@ -67,5 +67,10 @@
     "branch-alias": {
       "dev-develop": "2.0-dev"
     }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "config": {
+    "sort-packages": true
   }
 }

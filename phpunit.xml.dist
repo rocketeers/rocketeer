@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit backupGlobals="false"
-				 backupStaticAttributes="false"
-				 bootstrap="vendor/autoload.php"
-				 colors="true"
-				 convertErrorsToExceptions="true"
-				 convertNoticesToExceptions="true"
-				 convertWarningsToExceptions="true"
-				 processIsolation="false"
-				 stopOnFailure="false"
-				 syntaxCheck="false"
-	>
+		 backupStaticAttributes="false"
+		 bootstrap="vendor/autoload.php"
+		 colors="true"
+		 convertErrorsToExceptions="true"
+		 convertNoticesToExceptions="true"
+		 convertWarningsToExceptions="true"
+		 processIsolation="false"
+		 stopOnFailure="false"
+		 syntaxCheck="false"
+>
 
 	<filter>
 		<whitelist>
@@ -24,24 +24,21 @@
 		</whitelist>
 	</filter>
 
-	<listeners>
-		<listener class="JohnKary\PHPUnit\Listener\SpeedTrapListener">
-			<arguments>
-				<array>
-					<element key="slowThreshold">
-						<integer>500</integer>
-					</element>
-					<element key="reportLength">
-						<integer>10</integer>
-					</element>
-				</array>
-			</arguments>
-		</listener>
-	</listeners>
-
 	<testsuites>
 		<testsuite name="Package Test Suite">
 			<directory suffix=".php">tests</directory>
 		</testsuite>
 	</testsuites>
+
+	<listeners>
+		<listener class="JohnKary\PHPUnit\Listener\SpeedTrapListener">
+			<arguments>
+				<array>
+					<element key="slowThreshold">
+						<integer>200</integer>
+					</element>
+				</array>
+			</arguments>
+		</listener>
+	</listeners>
 </phpunit>
