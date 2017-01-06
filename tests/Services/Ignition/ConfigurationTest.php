@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Services\Ignition;
 
 use Rocketeer\TestCases\RocketeerTestCase;
@@ -17,7 +19,7 @@ class ConfigurationTest extends RocketeerTestCase
     /**
      * The igniter instance.
      *
-     * @type Configuration
+     * @var Configuration
      */
     protected $igniter;
 
@@ -29,8 +31,7 @@ class ConfigurationTest extends RocketeerTestCase
         parent::setUp();
 
         $this->igniter = new Configuration($this->app);
-        unset($this->app['path.base']);
-        unset($this->app['path']);
+        unset($this->app['path.base'], $this->app['path']);
     }
 
     ////////////////////////////////////////////////////////////////////
@@ -111,7 +112,7 @@ class ConfigurationTest extends RocketeerTestCase
 
     public function testCanLoadFilesOrFolder()
     {
-        $config                 = $this->customConfig;
+        $config = $this->customConfig;
         $this->app['path.base'] = dirname($config);
 
         $this->files->makeDirectory($config.'/events', 0755, true);
@@ -133,7 +134,7 @@ class ConfigurationTest extends RocketeerTestCase
 
     public function testCanLoadCustomStrategies()
     {
-        $config                 = $this->customConfig;
+        $config = $this->customConfig;
         $this->app['path.base'] = dirname($config);
 
         $this->files->makeDirectory($config.'/strategies', 0755, true);

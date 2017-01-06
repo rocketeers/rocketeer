@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Strategies\Deploy;
 
 use Illuminate\Support\Arr;
@@ -18,12 +20,12 @@ use Rocketeer\Interfaces\Strategies\DeployStrategyInterface;
 class SyncStrategy extends AbstractStrategy implements DeployStrategyInterface
 {
     /**
-     * @type string
+     * @var string
      */
     protected $description = 'Uses rsync to create or update a release from the local files';
 
     /**
-     * @type int
+     * @var int
      */
     protected $port;
 
@@ -71,7 +73,7 @@ class SyncStrategy extends AbstractStrategy implements DeployStrategyInterface
     {
         // Build host handle
         $arguments = [];
-        $handle    = $this->getSyncHandle();
+        $handle = $this->getSyncHandle();
 
         // Create options
         $options = ['--verbose' => null, '--recursive' => null, '--rsh' => 'ssh', '--compress' => null];
@@ -87,7 +89,7 @@ class SyncStrategy extends AbstractStrategy implements DeployStrategyInterface
         $options['--exclude'] = ['.git', 'vendor'];
 
         // Create binary and command
-        $rsync   = $this->binary('rsync');
+        $rsync = $this->binary('rsync');
         $command = $rsync->getCommand(null, $arguments, $options);
 
         return $this->bash->onLocal(function (Bash $bash) use ($command) {
@@ -102,14 +104,14 @@ class SyncStrategy extends AbstractStrategy implements DeployStrategyInterface
      */
     protected function getSyncHandle()
     {
-        $credentials    = $this->connections->getServerCredentials();
-        $handle         = array_get($credentials, 'host');
+        $credentials = $this->connections->getServerCredentials();
+        $handle = array_get($credentials, 'host');
         $explodedHandle = explode(':', $handle);
 
         // Extract port
         if (count($explodedHandle) === 2) {
             $this->port = $explodedHandle[1];
-            $handle     = $explodedHandle[0];
+            $handle = $explodedHandle[0];
         }
 
         // Add username

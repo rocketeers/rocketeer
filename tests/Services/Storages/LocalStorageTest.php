@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Services\Storages;
 
 use Rocketeer\TestCases\RocketeerTestCase;
@@ -34,7 +36,7 @@ class LocalStorageTest extends RocketeerTestCase
         new LocalStorage($this->app);
 
         $storage = $this->paths->getRocketeerConfigFolder();
-        $exists  = file_exists($storage);
+        $exists = file_exists($storage);
         $this->files->deleteDirectory($storage);
         $this->assertTrue($exists);
     }
@@ -51,7 +53,7 @@ class LocalStorageTest extends RocketeerTestCase
         });
 
         $storage = new LocalStorage($this->app, 'deployments', $this->server);
-        $hash    = $storage->getHash();
+        $hash = $storage->getHash();
 
         $this->assertEquals(md5('["foo"]["bar"]'), $hash);
     }

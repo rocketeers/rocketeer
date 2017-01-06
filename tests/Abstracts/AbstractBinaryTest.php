@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Abstracts;
 
 use Rocketeer\Scm\Git;
@@ -23,8 +25,8 @@ class AbstractBinaryTest extends RocketeerTestCase
             });
         });
 
-        $scm      = new Git($this->app);
-        $command  = $scm->run('checkout', $this->server);
+        $scm = new Git($this->app);
+        $command = $scm->run('checkout', $this->server);
         $expected = $this->replaceHistoryPlaceholders(['git clone "{repository}" "{server}" --branch="master" --depth="1"']);
 
         $this->assertEquals($expected[0], $command);

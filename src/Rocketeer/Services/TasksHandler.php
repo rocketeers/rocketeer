@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Services;
 
 use Closure;
@@ -29,14 +31,14 @@ class TasksHandler
     /**
      * The registered events.
      *
-     * @type array
+     * @var array
      */
     protected $registeredEvents = [];
 
     /**
      * The registered plugins.
      *
-     * @type array
+     * @var array
      */
     protected $registeredPlugins = [];
 
@@ -149,7 +151,7 @@ class TasksHandler
         }
 
         // Clean previously registered plugins
-        $plugins                 = $this->registeredPlugins;
+        $plugins = $this->registeredPlugins;
         $this->registeredPlugins = [];
 
         // Register plugins again
@@ -180,7 +182,7 @@ class TasksHandler
      */
     public function listenTo($event, $listeners, $priority = 0)
     {
-        /** @type AbstractTask[] $listeners */
+        /** @var AbstractTask[] $listeners */
         $listeners = $this->builder->buildTasks((array) $listeners);
 
         // Register events
@@ -246,7 +248,7 @@ class TasksHandler
     public function getTasksListeners($task, $event, $flatten = false)
     {
         // Get events
-        $task   = $this->builder->buildTaskFromClass($task)->getSlug();
+        $task = $this->builder->buildTaskFromClass($task)->getSlug();
         $events = $this->events->getListeners('rocketeer.'.$task.'.'.$event);
 
         // Flatten the queue if requested
@@ -294,7 +296,7 @@ class TasksHandler
         }
 
         $this->registeredPlugins[$identifier] = [
-            'plugin'        => $plugin,
+            'plugin' => $plugin,
             'configuration' => $configuration,
         ];
 

@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Abstracts\Strategies;
 
 use Illuminate\Support\Arr;
@@ -15,14 +17,14 @@ use Illuminate\Support\Arr;
 abstract class AbstractCheckStrategy extends AbstractStrategy
 {
     /**
-     * @type \Rocketeer\Abstracts\AbstractPackageManager
+     * @var \Rocketeer\Abstracts\AbstractPackageManager
      */
     protected $manager;
 
     /**
      * The language of the strategy.
      *
-     * @type string
+     * @var string
      */
     protected $language;
 
@@ -122,7 +124,7 @@ abstract class AbstractCheckStrategy extends AbstractStrategy
      */
     protected function getLanguageConstraintFromJson($manifest, $handle)
     {
-        $manifest   = json_decode($manifest, true);
+        $manifest = json_decode($manifest, true);
         $constraint = (string) Arr::get($manifest, $handle);
         $constraint = preg_replace('/[~>= ]+ ?(.+)/', '$1', $constraint);
 

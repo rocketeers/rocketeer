@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Tasks;
 
 use Rocketeer\Abstracts\AbstractTask;
@@ -22,7 +24,7 @@ class Test extends AbstractTask
     /**
      * A description of what the task does.
      *
-     * @type string
+     * @var string
      */
     protected $description = 'Run the tests on the server and displays the output';
 

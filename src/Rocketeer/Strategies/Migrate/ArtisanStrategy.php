@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Strategies\Migrate;
 
 use Rocketeer\Abstracts\Strategies\AbstractStrategy;
@@ -16,7 +18,7 @@ use Rocketeer\Interfaces\Strategies\MigrateStrategyInterface;
 class ArtisanStrategy extends AbstractStrategy implements MigrateStrategyInterface
 {
     /**
-     * @type string
+     * @var string
      */
     protected $description = 'Migrates your database with Laravel\'s Artisan CLI';
 

@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Services\Ignition;
 
 use Closure;
@@ -101,8 +103,8 @@ class Configuration
      */
     public function exportConfiguration()
     {
-        $source      = $this->paths->unifyLocalSlashes(__DIR__.'/../../../config');
-        $source      = Str::contains($source, 'phar://') ? $source : realpath($source);
+        $source = $this->paths->unifyLocalSlashes(__DIR__.'/../../../config');
+        $source = Str::contains($source, 'phar://') ? $source : realpath($source);
         $destination = $this->paths->getConfigurationPath();
 
         // Unzip configuration files
@@ -174,7 +176,7 @@ class Configuration
         $files = $finder->files();
         foreach ($files as $file) {
             $contents = include $file->getPathname();
-            $handle   = $computeHandle($file);
+            $handle = $computeHandle($file);
 
             $this->config->set($handle, $contents);
         }
@@ -203,7 +205,7 @@ class Configuration
     {
         // Bind path to the configuration directory
         if ($this->isInsideLaravel()) {
-            $path    = $this->paths->getConfigurationPath();
+            $path = $this->paths->getConfigurationPath();
             $storage = $this->paths->getStoragePath();
         } else {
             $path = $this->paths->getBasePath().'.rocketeer';
@@ -213,16 +215,15 @@ class Configuration
 
         // Build paths
         $paths = [
-            'config'     => $path.'',
-            'events'     => $path.DS.'events',
-            'plugins'    => $path.DS.'plugins',
+            'config' => $path.'',
+            'events' => $path.DS.'events',
+            'plugins' => $path.DS.'plugins',
             'strategies' => $path.DS.'strategies',
-            'tasks'      => $path.DS.'tasks',
-            'logs'       => $storage.DS.'logs',
+            'tasks' => $path.DS.'tasks',
+            'logs' => $storage.DS.'logs',
         ];
 
         foreach ($paths as $key => $file) {
-
             // Check whether we provided a file or folder
             if (!is_dir($file) && file_exists($file.'.php')) {
                 $file .= '.php';

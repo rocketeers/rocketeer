@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Tasks;
 
 use Rocketeer\Abstracts\AbstractTask;
@@ -22,14 +24,14 @@ class Setup extends AbstractTask
     /**
      * A description of what the task does.
      *
-     * @type string
+     * @var string
      */
     protected $description = 'Set up the remote server for deployment';
 
     /**
      * Whether the task needs to be run on each stage or globally.
      *
-     * @type bool
+     * @var bool
      */
     public $usesStages = false;
 
@@ -59,8 +61,8 @@ class Setup extends AbstractTask
 
         // Create confirmation message
         $application = $this->rocketeer->getApplicationName();
-        $homeFolder  = $this->paths->getHomeFolder();
-        $message     = sprintf('Successfully setup "%s" at "%s"', $application, $homeFolder);
+        $homeFolder = $this->paths->getHomeFolder();
+        $message = sprintf('Successfully setup "%s" at "%s"', $application, $homeFolder);
 
         return $this->explainer->success($message);
     }
@@ -76,7 +78,7 @@ class Setup extends AbstractTask
     {
         // Get stages
         $availableStages = $this->connections->getStages();
-        $originalStage   = $this->connections->getStage();
+        $originalStage = $this->connections->getStage();
         if (empty($availableStages)) {
             $availableStages = [null];
         }

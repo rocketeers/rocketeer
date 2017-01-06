@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Strategies\Check;
 
 use Illuminate\Container\Container;
@@ -17,21 +19,21 @@ use Rocketeer\Interfaces\Strategies\CheckStrategyInterface;
 class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterface
 {
     /**
-     * @type string
+     * @var string
      */
     protected $description = 'Checks if the server is ready to receive a PHP application';
 
     /**
      * The language of the strategy.
      *
-     * @type string
+     * @var string
      */
     protected $language = 'PHP';
 
     /**
      * The PHP extensions loaded on server.
      *
-     * @type array
+     * @var array
      */
     protected $extensions = [];
 
@@ -40,7 +42,7 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
      */
     public function __construct(Container $app)
     {
-        $this->app     = $app;
+        $this->app = $app;
         $this->manager = $this->binary('composer');
     }
 
@@ -79,8 +81,8 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
     {
         $extensions = [
             'database' => ['checkDatabaseDriver', $this->app['config']->get('database.default')],
-            'cache'    => ['checkCacheDriver', $this->app['config']->get('cache.driver')],
-            'session'  => ['checkCacheDriver', $this->app['config']->get('session.driver')],
+            'cache' => ['checkCacheDriver', $this->app['config']->get('cache.driver')],
+            'session' => ['checkCacheDriver', $this->app['config']->get('session.driver')],
         ];
 
         foreach ($this->getRequiredExtensionsFromComposer() as $extension) {
@@ -118,8 +120,8 @@ class PhpStrategy extends AbstractCheckStrategy implements CheckStrategyInterfac
         }
 
         foreach ($data['require'] as $package => $version) {
-            if ('ext-' === substr($package, 0, 4)) {
-                $extensions[] = substr($package, 4);
+            if ('ext-' === mb_substr($package, 0, 4)) {
+                $extensions[] = mb_substr($package, 4);
             }
         }
 

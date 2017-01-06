@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Strategies\Deploy;
 
 use Carbon\Carbon;
@@ -22,7 +24,7 @@ class LocalCloneStrategyTest extends RocketeerTestCase
         $this->swapConfig([
             'rocketeer::connections' => [
                 'production' => [
-                    'host'     => 'bar.com',
+                    'host' => 'bar.com',
                     'username' => 'foo',
                 ],
             ],
@@ -53,8 +55,8 @@ class LocalCloneStrategyTest extends RocketeerTestCase
             'rocketeer::connections' => [
                 'production' => [
                     'username' => 'foo',
-                    'host'     => 'bar.com:80',
-                    'key'      => '/foo/bar',
+                    'host' => 'bar.com:80',
+                    'key' => '/foo/bar',
                 ],
             ],
         ]);
@@ -72,7 +74,7 @@ class LocalCloneStrategyTest extends RocketeerTestCase
     }
 
     /**
-     * Mock the current time
+     * Mock the current time.
      *
      * @return int
      */

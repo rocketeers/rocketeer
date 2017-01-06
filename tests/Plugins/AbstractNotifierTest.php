@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Plugins;
 
 use Rocketeer\Dummies\DummyNotifier;
@@ -21,8 +23,8 @@ class AbstractNotifierTest extends RocketeerTestCase
 
         $this->swapConfig([
             'rocketeer::stages.stages' => ['staging', 'production'],
-            'rocketeer::hooks'         => [],
-            'rocketeer::connections'   => [
+            'rocketeer::hooks' => [],
+            'rocketeer::connections' => [
                 'production' => [
                     'host' => 'foo.bar.com',
                 ],

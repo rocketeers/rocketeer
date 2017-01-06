@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Abstracts\Strategies;
 
 use Illuminate\Support\Arr;
@@ -21,7 +23,7 @@ use Rocketeer\Bash;
 abstract class AbstractStrategy extends Bash
 {
     /**
-     * @type string
+     * @var string
      */
     protected $description;
 
@@ -59,12 +61,12 @@ abstract class AbstractStrategy extends Bash
         $components = get_class($this);
         $components = explode('\\', $components);
 
-        $name     = Arr::get($components, count($components) - 1);
+        $name = Arr::get($components, count($components) - 1);
         $strategy = Arr::get($components, count($components) - 2);
 
-        $parent   = ucfirst($strategy);
+        $parent = ucfirst($strategy);
         $concrete = str_replace('Strategy', null, $name);
-        $details  = $this->getDescription();
+        $details = $this->getDescription();
 
         $this->explainer->display($parent.'/'.$concrete, $details);
 

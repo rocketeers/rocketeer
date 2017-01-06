@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Tasks;
 
 use Illuminate\Container\Container;
@@ -25,12 +27,12 @@ class Cleanup extends AbstractTask
     /**
      * A description of what the task does.
      *
-     * @type string
+     * @var string
      */
     protected $description = 'Clean up old releases from the server';
 
     /**
-     * @type ServerStorage
+     * @var ServerStorage
      */
     protected $serverStorage;
 
@@ -62,7 +64,7 @@ class Cleanup extends AbstractTask
         $this->cleanStates($trash);
 
         // Create final message
-        $trash   = count($trash);
+        $trash = count($trash);
         $message = sprintf('Removing <info>%d %s</info> from the server', $trash, Str::plural('release', $trash));
 
         // Delete state file
@@ -77,7 +79,7 @@ class Cleanup extends AbstractTask
     /**
      * Get an array of releases to prune.
      *
-     * @return integer[]
+     * @return int[]
      */
     protected function getReleasesToCleanup()
     {

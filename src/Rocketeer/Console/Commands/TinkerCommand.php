@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Console\Commands;
 
 use Boris\Boris;
@@ -18,12 +20,12 @@ class TinkerCommand extends AbstractCommand
     /**
      * The console command name.
      *
-     * @type string
+     * @var string
      */
     protected $name = 'tinker';
 
     /**
-     * @type string
+     * @var string
      */
     protected $description = "Debug Rocketeer's environment";
 
@@ -35,7 +37,7 @@ class TinkerCommand extends AbstractCommand
         $boris = new Boris('rocketeer> ');
         $boris->setLocal([
             'rocketeer' => $this->laravel,
-            'ssh'       => $this->laravel['rocketeer.bash'],
+            'ssh' => $this->laravel['rocketeer.bash'],
         ]);
 
         $boris->start();

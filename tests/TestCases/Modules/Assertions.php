@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\TestCases\Modules;
 
 use Illuminate\Support\Arr;
@@ -105,10 +107,10 @@ trait Assertions
 
         // Execute task and get history
         if (is_array($task)) {
-            $results     = '';
+            $results = '';
             $taskHistory = $task;
         } else {
-            $results     = $task->execute();
+            $results = $task->execute();
             $taskHistory = $task->history->getFlattenedHistory();
         }
 
@@ -160,7 +162,7 @@ trait Assertions
     protected function replaceHistoryPlaceholders($history, $release = null)
     {
         $release = $release ?: date('YmdHis');
-        $hhvm    = defined('HHVM_VERSION');
+        $hhvm = defined('HHVM_VERSION');
 
         $replaced = [];
         foreach ($history as $key => $entries) {
@@ -174,13 +176,13 @@ trait Assertions
             }
 
             $replaced[$key] = strtr($entries, [
-                '{php}'        => $this->binaries['php'],
-                '{bundle}'     => $this->binaries['bundle'],
-                '{phpunit}'    => $this->binaries['phpunit'],
+                '{php}' => $this->binaries['php'],
+                '{bundle}' => $this->binaries['bundle'],
+                '{phpunit}' => $this->binaries['phpunit'],
                 '{repository}' => 'https://github.com/'.$this->repository,
-                '{server}'     => $this->server,
-                '{release}'    => $release,
-                '{composer}'   => $this->binaries['composer'],
+                '{server}' => $this->server,
+                '{release}' => $release,
+                '{composer}' => $this->binaries['composer'],
             ]);
         }
 

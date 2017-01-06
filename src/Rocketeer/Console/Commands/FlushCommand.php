@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Console\Commands;
 
 use Rocketeer\Abstracts\AbstractCommand;
@@ -22,14 +24,14 @@ class FlushCommand extends AbstractCommand
     /**
      * The console command name.
      *
-     * @type string
+     * @var string
      */
     protected $name = 'deploy:flush';
 
     /**
      * The console command description.
      *
-     * @type string
+     * @var string
      */
     protected $description = "Flushes Rocketeer's cache of credentials";
 

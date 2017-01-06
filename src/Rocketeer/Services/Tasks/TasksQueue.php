@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Services\Tasks;
 
 use Closure;
@@ -30,21 +32,21 @@ class TasksQueue
     use HasHistory;
 
     /**
-     * @type Parallel
+     * @var Parallel
      */
     protected $parallel;
 
     /**
      * A list of Tasks to execute.
      *
-     * @type array
+     * @var array
      */
     protected $tasks;
 
     /**
      * The Remote connection.
      *
-     * @type Connection
+     * @var Connection
      */
     protected $remote;
 
@@ -112,8 +114,8 @@ class TasksQueue
      */
     public function run($tasks)
     {
-        $tasks    = (array) $tasks;
-        $queue    = $this->builder->buildTasks($tasks);
+        $tasks = (array) $tasks;
+        $queue = $this->builder->buildTasks($tasks);
         $pipeline = $this->buildPipeline($queue);
 
         // Wrap job in closure pipeline
@@ -149,16 +151,16 @@ class TasksQueue
         $connections = (array) $this->connections->getConnections();
         foreach ($connections as $connection) {
             $servers = $this->connections->getConnectionCredentials($connection);
-            $stages  = $this->getStages($connection);
+            $stages = $this->getStages($connection);
 
             // Add job to pipeline
             foreach ($servers as $server => $credentials) {
                 foreach ($stages as $stage) {
                     $pipeline[] = new Job([
                         'connection' => $connection,
-                        'server'     => $server,
-                        'stage'      => $stage,
-                        'queue'      => $queue,
+                        'server' => $server,
+                        'stage' => $stage,
+                        'queue' => $queue,
                     ]);
                 }
             }
@@ -217,7 +219,7 @@ class TasksQueue
     {
         $results = [];
 
-        /** @type Closure $task */
+        /** @var Closure $task */
         foreach ($pipeline as $key => $task) {
             $results[$key] = $task();
             if (!$results[$key]) {
@@ -251,7 +253,7 @@ class TasksQueue
 
         try {
             $this->parallel = $this->parallel ?: new Parallel();
-            $results        = $this->parallel->values($pipeline->all());
+            $results = $this->parallel->values($pipeline->all());
             $pipeline->setResults($results);
         } catch (LogicException $exception) {
             return $this->runSynchronously($pipeline);

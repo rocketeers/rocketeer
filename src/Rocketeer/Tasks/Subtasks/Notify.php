@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Tasks\Subtasks;
 
 use Illuminate\Support\Arr;
@@ -24,14 +26,14 @@ class Notify extends AbstractTask
     /**
      * The message format.
      *
-     * @type AbstractNotifier
+     * @var AbstractNotifier
      */
     protected $notifier;
 
     /**
      * A description of what the task does.
      *
-     * @type string
+     * @var string
      */
     protected $description = 'Notify a third-party service';
 
@@ -74,14 +76,14 @@ class Notify extends AbstractTask
         }
 
         // Get what was deployed
-        $branch     = $this->connections->getRepositoryBranch();
-        $stage      = $this->connections->getStage();
+        $branch = $this->connections->getRepositoryBranch();
+        $stage = $this->connections->getStage();
         $connection = $this->connections->getConnection();
-        $server     = $this->connections->getServer();
+        $server = $this->connections->getServer();
 
         // Get hostname
         $credentials = $this->connections->getServerCredentials($connection, $server);
-        $host        = Arr::get($credentials, 'host');
+        $host = Arr::get($credentials, 'host');
         if ($stage) {
             $connection = $stage.'@'.$connection;
         }

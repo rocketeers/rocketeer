@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Tasks;
 
 use Rocketeer\Abstracts\AbstractTask;
@@ -22,14 +24,14 @@ class Check extends AbstractTask
     /**
      * A description of what the task does.
      *
-     * @type string
+     * @var string
      */
     protected $description = 'Check if the server is ready to receive the application';
 
     /**
      * Whether the task needs to be run on each stage or globally.
      *
-     * @type bool
+     * @var bool
      */
     public $usesStages = false;
 
@@ -40,7 +42,7 @@ class Check extends AbstractTask
      */
     public function execute()
     {
-        $check  = $this->getStrategy('Check');
+        $check = $this->getStrategy('Check');
         $errors = [];
 
         // Check the depoy strategy

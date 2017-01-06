@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Tasks;
 
 use Rocketeer\RocketeerServiceProvider;
@@ -36,7 +38,7 @@ class IgniteTest extends RocketeerTestCase
     public function testCanIgniteConfigurationOnWindowsInLaravel()
     {
         $this->app['path.base'] = 'E:\workspace\test';
-        $this->app['path']      = 'E:\workspace\test\app';
+        $this->app['path'] = 'E:\workspace\test\app';
 
         $provider = new RocketeerServiceProvider($this->app);
         $provider->bindPaths();
@@ -61,10 +63,10 @@ class IgniteTest extends RocketeerTestCase
             return $mock
                 ->shouldReceive('exportConfiguration')->once()->andReturn($server)
                 ->shouldReceive('updateConfiguration')->once()->with($server, [
-                    'connection'       => 'production',
-                    'scm_repository'   => 'https://github.com/'.$this->repository,
-                    'scm_username'     => '',
-                    'scm_password'     => '',
+                    'connection' => 'production',
+                    'scm_repository' => 'https://github.com/'.$this->repository,
+                    'scm_username' => '',
+                    'scm_password' => '',
                     'application_name' => 'foobar',
                 ]);
         });
@@ -82,10 +84,10 @@ class IgniteTest extends RocketeerTestCase
             return $mock
                 ->shouldReceive('exportConfiguration')->never()
                 ->shouldReceive('updateConfiguration')->once()->with($path, [
-                    'connection'       => 'production',
-                    'scm_repository'   => 'https://github.com/'.$this->repository,
-                    'scm_username'     => '',
-                    'scm_password'     => '',
+                    'connection' => 'production',
+                    'scm_repository' => 'https://github.com/'.$this->repository,
+                    'scm_username' => '',
+                    'scm_password' => '',
                     'application_name' => '',
                 ]);
         });

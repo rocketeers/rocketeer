@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Scm;
 
 use Rocketeer\TestCases\RocketeerTestCase;
@@ -17,7 +19,7 @@ class SvnTest extends RocketeerTestCase
     /**
      * The current SCM instance.
      *
-     * @type Git
+     * @var Git
      */
     protected $scm;
 

@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Tasks;
 
 use Illuminate\Support\Arr;
@@ -23,7 +25,7 @@ class Ignite extends AbstractTask
     /**
      * A description of what the task does.
      *
-     * @type string
+     * @var string
      */
     protected $description = "Creates Rocketeer's configuration";
 
@@ -42,7 +44,7 @@ class Ignite extends AbstractTask
         $this->app['rocketeer.igniter']->updateConfiguration($path, $parameters);
 
         // Display info
-        $folder  = basename(dirname($path)).'/'.basename($path);
+        $folder = basename(dirname($path)).'/'.basename($path);
         $message = '<comment>The Rocketeer configuration was created at</comment> <info>'.$folder.'</info>';
 
         return $this->command->line($message);
@@ -79,15 +81,15 @@ class Ignite extends AbstractTask
     {
         // Replace credentials
         $repositoryCredentials = $this->connections->getRepositoryCredentials();
-        $name                  = basename($this->app['path.base']);
+        $name = basename($this->app['path.base']);
 
         return array_merge(
             $this->connections->getServerCredentials(),
             [
-                'connection'       => preg_replace('/#[0-9]+/', null, $this->connections->getConnection()),
-                'scm_repository'   => Arr::get($repositoryCredentials, 'repository'),
-                'scm_username'     => Arr::get($repositoryCredentials, 'username'),
-                'scm_password'     => Arr::get($repositoryCredentials, 'password'),
+                'connection' => preg_replace('/#[0-9]+/', null, $this->connections->getConnection()),
+                'scm_repository' => Arr::get($repositoryCredentials, 'repository'),
+                'scm_username' => Arr::get($repositoryCredentials, 'username'),
+                'scm_password' => Arr::get($repositoryCredentials, 'password'),
                 'application_name' => $this->command->ask('What is your application\'s name ? ('.$name.')', $name),
             ]
         );

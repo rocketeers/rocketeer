@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Tasks\Plugins;
 
 use Rocketeer\Abstracts\AbstractTask;
@@ -17,7 +19,7 @@ class Installer extends AbstractTask
     /**
      * The console command description.
      *
-     * @type string
+     * @var string
      */
     protected $description = 'Installs plugins';
 
@@ -25,7 +27,7 @@ class Installer extends AbstractTask
      * Whether to run the commands locally
      * or on the server.
      *
-     * @type bool
+     * @var bool
      */
     protected $local = true;
 
@@ -36,7 +38,7 @@ class Installer extends AbstractTask
     {
         // Get package and destination folder
         $package = $this->command->argument('package');
-        $folder  = $this->paths->getRocketeerConfigFolder();
+        $folder = $this->paths->getRocketeerConfigFolder();
 
         $command = $this->composer()->require($package, [
             '--working-dir' => $folder,

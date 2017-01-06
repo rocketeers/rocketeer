@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Abstracts\Strategies;
 
 use Closure;
@@ -17,14 +19,14 @@ abstract class AbstractPolyglotStrategy extends AbstractStrategy
     /**
      * The various strategies to call.
      *
-     * @type array
+     * @var array
      */
     protected $strategies = [];
 
     /**
      * Results of the last operation that was run.
      *
-     * @type array
+     * @var array
      */
     protected $results;
 
@@ -33,7 +35,7 @@ abstract class AbstractPolyglotStrategy extends AbstractStrategy
      *
      * @param string $method
      *
-     * @return boolean[]
+     * @return bool[]
      */
     protected function executeStrategiesMethod($method)
     {
@@ -86,7 +88,7 @@ abstract class AbstractPolyglotStrategy extends AbstractStrategy
     /**
      * Assert that the results of a command are all true.
      *
-     * @param boolean[] $results
+     * @param bool[] $results
      *
      * @return bool
      */

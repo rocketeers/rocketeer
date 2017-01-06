@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Traits;
 
 use Rocketeer\TestCases\RocketeerTestCase;
@@ -51,6 +53,7 @@ class StepsRunnerTest extends RocketeerTestCase
 
         $this->task('Deploy')->steps()->addStep(function () {
             echo 'foobar';
+
             return true;
         });
 

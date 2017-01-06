@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Services\Connections;
 
 use Exception;
@@ -30,7 +32,7 @@ class RemoteHandler
     /**
      * A storage of active connections.
      *
-     * @type Connection[]
+     * @var Connection[]
      */
     protected $active = [];
 
@@ -62,7 +64,7 @@ class RemoteHandler
      */
     public function connection($connection = null, $server = 0)
     {
-        $name   = $connection ?: $this->connections->getConnection();
+        $name = $connection ?: $this->connections->getConnection();
         $server = $server ?: $this->connections->getServer();
         $handle = $this->connections->getHandle($name, $server);
 
@@ -73,7 +75,7 @@ class RemoteHandler
 
         // Create connection
         $credentials = $this->connections->getServerCredentials($connection, $server);
-        $connection  = $this->makeConnection($name, $credentials);
+        $connection = $this->makeConnection($name, $credentials);
 
         // Save to cache
         $this->active[$handle] = $connection;

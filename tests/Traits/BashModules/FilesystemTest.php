@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Traits\BashModules;
 
 use Rocketeer\TestCases\RocketeerTestCase;
@@ -16,9 +18,9 @@ class FilesystemTest extends RocketeerTestCase
 {
     public function testCancelsSymlinkForUnexistingFolders()
     {
-        $task   = $this->pretendTask();
+        $task = $this->pretendTask();
         $folder = '{path.storage}/logs';
-        $share  = $task->share($folder);
+        $share = $task->share($folder);
 
         $this->assertFalse($share);
     }
@@ -30,11 +32,11 @@ class FilesystemTest extends RocketeerTestCase
         mkdir($folder);
         file_put_contents($folder.'/foobar.txt', 'test');
 
-        $task     = $this->pretendTask();
-        $folder   = '{path.base}/foobar.txt';
-        $share    = $task->share($folder);
+        $task = $this->pretendTask();
+        $folder = '{path.base}/foobar.txt';
+        $share = $task->share($folder);
         $tempLink = $this->server.'/releases/20000000000000//src/foobar.txt-temp';
-        $matcher  = [
+        $matcher = [
             sprintf('ln -s %s %s', $this->server.'/shared//src/foobar.txt', $tempLink, $tempLink),
             sprintf('mv -Tf %s %s', $tempLink, $this->server.'/releases/20000000000000//src/foobar.txt'),
         ];

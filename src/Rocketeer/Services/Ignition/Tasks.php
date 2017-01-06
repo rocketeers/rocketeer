@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Services\Ignition;
 
 use Rocketeer\Abstracts\AbstractTask;
@@ -25,28 +27,28 @@ class Tasks
     public function getPredefinedTasks()
     {
         $tasks = [
-            ''               => 'Rocketeer',
-            'check'          => 'Check',
-            'cleanup'        => 'Cleanup',
-            'current'        => 'CurrentRelease',
-            'deploy'         => 'Deploy',
-            'flush'          => 'Flush',
-            'ignite'         => 'Ignite',
-            'rollback'       => 'Rollback',
-            'setup'          => 'Setup',
-            'strategies'     => 'Strategies',
-            'teardown'       => 'Teardown',
-            'tinker'         => 'Tinker',
-            'test'           => 'Test',
-            'update'         => 'Update',
+            '' => 'Rocketeer',
+            'check' => 'Check',
+            'cleanup' => 'Cleanup',
+            'current' => 'CurrentRelease',
+            'deploy' => 'Deploy',
+            'flush' => 'Flush',
+            'ignite' => 'Ignite',
+            'rollback' => 'Rollback',
+            'setup' => 'Setup',
+            'strategies' => 'Strategies',
+            'teardown' => 'Teardown',
+            'tinker' => 'Tinker',
+            'test' => 'Test',
+            'update' => 'Update',
             'plugin-publish' => 'Plugins\Publish',
-            'plugin-list'    => 'Plugins\List',
+            'plugin-list' => 'Plugins\List',
             'plugin-install' => 'Plugins\Install',
         ];
 
         // Add user commands
         $userTasks = (array) $this->config->get('rocketeer::hooks.custom');
-        $tasks     = array_merge($tasks, $userTasks);
+        $tasks = array_merge($tasks, $userTasks);
 
         return $tasks;
     }
@@ -63,13 +65,12 @@ class Tasks
         $commands = [];
 
         foreach ($tasks as $slug => $task) {
-
             // Build the related command
             $command = $this->builder->buildCommand($task, $slug);
-            $task    = $command->getTask();
+            $task = $command->getTask();
 
             // Bind task to container
-            $slug   = $this->getTaskHandle($slug, $task);
+            $slug = $this->getTaskHandle($slug, $task);
             $handle = 'rocketeer.tasks.'.$slug;
             $this->app->bind($handle, function () use ($task) {
                 return $task;
@@ -77,7 +78,7 @@ class Tasks
 
             // Remember handle of the command
             $commandHandle = trim('rocketeer.commands.'.$slug, '.');
-            $commands[]    = $commandHandle;
+            $commands[] = $commandHandle;
 
             // Register command with the container
             $this->app->singleton($commandHandle, function () use ($command) {

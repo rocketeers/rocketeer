@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Services\Display;
 
 use Closure;
@@ -26,14 +28,14 @@ class QueueExplainer
     /**
      * The level at which to display statuses.
      *
-     * @type int
+     * @var int
      */
     public $level = 0;
 
     /**
      * Length of the longest handle to display.
      *
-     * @type int
+     * @var int
      */
     protected $longest;
 
@@ -54,9 +56,9 @@ class QueueExplainer
             return $callback();
         }
 
-        $this->level++;
+        ++$this->level;
         $results = $callback();
-        $this->level--;
+        --$this->level;
 
         return $results;
     }
@@ -157,9 +159,9 @@ class QueueExplainer
         }
 
         // Build possible handles
-        $strings     = [];
+        $strings = [];
         $connections = (array) $this->connections->getAvailableConnections();
-        $stages      = (array) $this->connections->getStages();
+        $stages = (array) $this->connections->getStages();
         foreach ($connections as $connection => $servers) {
             foreach ($stages as $stage) {
                 $strings[] = $connection.'/'.count($servers).'/'.$stage;
@@ -185,12 +187,12 @@ class QueueExplainer
     {
         // Build handle
         $numberConnections = count($this->connections->getAvailableConnections());
-        $numberStages      = count($this->connections->getStages());
+        $numberStages = count($this->connections->getStages());
 
         $tree = null;
         if ($numberConnections > 1 || $numberStages > 1) {
-            $handle  = $this->connections->getHandle();
-            $spacing = $this->getLongestSize() - strlen($handle);
+            $handle = $this->connections->getHandle();
+            $spacing = $this->getLongestSize() - mb_strlen($handle);
             $spacing = $spacing < 1 ? 1 : $spacing;
             $spacing = str_repeat(' ', $spacing);
 

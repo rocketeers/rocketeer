@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Console\Commands;
 
 use Rocketeer\Rocketeer;
@@ -22,7 +24,7 @@ class RocketeerCommand extends DeployCommand
     /**
      * The console command name.
      *
-     * @type string
+     * @var string
      */
     protected $name = 'deploy';
 

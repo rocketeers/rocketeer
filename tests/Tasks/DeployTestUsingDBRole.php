@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Tasks;
 
 use Rocketeer\TestCases\RocketeerTestCase;
@@ -121,13 +123,13 @@ class DeployTestUsingDBRole extends RocketeerTestCase
 
         $this->app['config']->shouldReceive('get')->with('rocketeer::scm')->andReturn([
             'repository' => 'https://github.com/'.$this->repository,
-            'username'   => '',
-            'password'   => '',
+            'username' => '',
+            'password' => '',
         ]);
 
         $this->assertTaskHistory('Deploy', $this->no_db_matcher, [
-            'tests'   => true,
-            'seed'    => true,
+            'tests' => true,
+            'seed' => true,
             'migrate' => true,
         ]);
     }
@@ -138,13 +140,13 @@ class DeployTestUsingDBRole extends RocketeerTestCase
 
         $this->app['config']->shouldReceive('get')->with('rocketeer::scm')->andReturn([
             'repository' => 'https://github.com/'.$this->repository,
-            'username'   => '',
-            'password'   => '',
+            'username' => '',
+            'password' => '',
         ]);
 
         $this->assertTaskHistory('Deploy', $this->db_matcher, [
-            'tests'   => true,
-            'seed'    => true,
+            'tests' => true,
+            'seed' => true,
             'migrate' => true,
         ]);
     }

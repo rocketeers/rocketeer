@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Strategies\Check;
 
 use Rocketeer\Abstracts\Strategies\AbstractPolyglotStrategy;
@@ -48,7 +50,7 @@ class PolyglotStrategy extends AbstractPolyglotStrategy implements CheckStrategy
      */
     public function extensions()
     {
-        $missing    = [];
+        $missing = [];
         $extensions = $this->executeStrategiesMethod('extensions');
         foreach ($extensions as $extension) {
             $missing = array_merge($missing, $extension);

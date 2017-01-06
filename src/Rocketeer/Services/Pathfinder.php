@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Services;
 
 use Exception;
@@ -48,7 +50,7 @@ class Pathfinder
     {
         $rootDirectory = $this->rocketeer->getOption('remote.root_directory');
         $rootDirectory = Str::finish($rootDirectory, '/');
-        $appDirectory  = $this->rocketeer->getOption('remote.app_directory') ?: $this->rocketeer->getApplicationName();
+        $appDirectory = $this->rocketeer->getOption('remote.app_directory') ?: $this->rocketeer->getApplicationName();
 
         return $rootDirectory.$appDirectory;
     }
@@ -90,9 +92,8 @@ class Pathfinder
             // Else use the home drive (Windows)
         } elseif (!empty($_SERVER['HOMEDRIVE']) && !empty($_SERVER['HOMEPATH'])) {
             return $_SERVER['HOMEDRIVE'].$_SERVER['HOMEPATH'];
-        } else {
-            throw new Exception('Cannot determine user home directory.');
         }
+        throw new Exception('Cannot determine user home directory.');
     }
 
     /**
@@ -160,7 +161,7 @@ class Pathfinder
     {
         $folder = $this->replacePatterns($folder);
 
-        $base  = $this->getHomeFolder().'/';
+        $base = $this->getHomeFolder().'/';
         $stage = $this->connections->getStage();
         if ($folder && $stage) {
             $base .= $stage.'/';
@@ -211,7 +212,7 @@ class Pathfinder
 
         // Replace folder patterns
         return preg_replace_callback('/\{[a-z\.]+\}/', function ($match) use ($base) {
-            $folder = substr($match[0], 1, -1);
+            $folder = mb_substr($match[0], 1, -1);
 
             // Replace paths from the container
             if ($this->app->bound($folder)) {

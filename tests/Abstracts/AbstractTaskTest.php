@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Abstracts;
 
 use Rocketeer\TestCases\RocketeerTestCase;
@@ -29,7 +31,7 @@ class AbstractTaskTest extends RocketeerTestCase
 
     public function testCanPretendToRunTasks()
     {
-        $task     = $this->pretendTask();
+        $task = $this->pretendTask();
         $commands = $task->run('ls');
 
         $this->assertEquals('ls', $commands);
@@ -134,7 +136,7 @@ class AbstractTaskTest extends RocketeerTestCase
 
     public function testCanDisplayReleasesTable()
     {
-        $headers  = ['#', 'Path', 'Deployed at', 'Status'];
+        $headers = ['#', 'Path', 'Deployed at', 'Status'];
         $releases = [
             [0, 20000000000000, '<fg=green>1999-11-30 00:00:00</fg=green>', '✓'],
             [1, 15000000000000, '<fg=red>1499-11-30 00:00:00</fg=red>', '✘'],
@@ -156,7 +158,7 @@ class AbstractTaskTest extends RocketeerTestCase
         $task = $this->builder->buildTask($task);
 
         $this->tasks->after($task, function () {
-           echo 'fired';
+            echo 'fired';
         });
 
         $task->fire();

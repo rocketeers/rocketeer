@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Strategies\Check;
 
 use Illuminate\Container\Container;
@@ -18,14 +20,14 @@ use Rocketeer\Interfaces\Strategies\CheckStrategyInterface;
 class RubyStrategy extends AbstractCheckStrategy implements CheckStrategyInterface
 {
     /**
-     * @type string
+     * @var string
      */
     protected $description = 'Checks if the server is ready to receive a Ruby application';
 
     /**
      * The language of the strategy.
      *
-     * @type string
+     * @var string
      */
     protected $language = 'Ruby';
 
@@ -34,7 +36,7 @@ class RubyStrategy extends AbstractCheckStrategy implements CheckStrategyInterfa
      */
     public function __construct(Container $app)
     {
-        $this->app     = $app;
+        $this->app = $app;
         $this->manager = $this->binary('bundler');
     }
 

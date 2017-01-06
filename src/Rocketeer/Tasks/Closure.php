@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Tasks;
 
 use Closure as AnonymousFunction;
@@ -23,14 +25,14 @@ class Closure extends AbstractTask
     /**
      * A Closure to execute at runtime.
      *
-     * @type AnonymousFunction
+     * @var AnonymousFunction
      */
     protected $closure;
 
     /**
      * A string task to execute in the Closure.
      *
-     * @type string
+     * @var string
      */
     protected $stringTask;
 

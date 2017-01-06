@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Strategies\Deploy;
 
 use Rocketeer\TestCases\RocketeerTestCase;
@@ -21,7 +23,7 @@ class SyncStrategyTest extends RocketeerTestCase
         $this->swapConfig([
             'rocketeer::connections' => [
                 'production' => [
-                    'host'     => 'bar.com',
+                    'host' => 'bar.com',
                     'username' => 'foo',
                 ],
             ],
@@ -59,8 +61,8 @@ class SyncStrategyTest extends RocketeerTestCase
             'rocketeer::connections' => [
                 'production' => [
                     'username' => 'foo',
-                    'host'     => 'bar.com:80',
-                    'key'      => '/foo/bar',
+                    'host' => 'bar.com:80',
+                    'key' => '/foo/bar',
                 ],
             ],
         ]);

@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Abstracts;
 
 use Closure;
@@ -26,14 +28,14 @@ abstract class AbstractCommand extends Command
      * Whether the command's task should be built
      * into a pipeline or run straight.
      *
-     * @type bool
+     * @var bool
      */
     protected $straight = false;
 
     /**
      * the task to execute on fire.
      *
-     * @type AbstractTask
+     * @var AbstractTask
      */
     protected $task;
 
@@ -47,7 +49,7 @@ abstract class AbstractCommand extends Command
         // If we passed a Task, bind its properties
         // to the command
         if ($task) {
-            $this->task          = $task;
+            $this->task = $task;
             $this->task->command = $this;
 
             if (!$this->description && $description = $task->getDescription()) {
@@ -267,8 +269,8 @@ abstract class AbstractCommand extends Command
     {
         // Start timer, execute callback, close timer
         $timerStart = microtime(true);
-        $results    = $callback();
-        $time       = round(microtime(true) - $timerStart, 4);
+        $results = $callback();
+        $time = round(microtime(true) - $timerStart, 4);
 
         $this->line('Execution time: <comment>'.$time.'s</comment>');
 

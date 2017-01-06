@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Services\Display;
 
 use Closure;
@@ -56,7 +58,7 @@ class QueueTimer
         }
 
         // Append the new time to past ones
-        $past   = $this->getTaskTimes($task);
+        $past = $this->getTaskTimes($task);
         $past[] = $time;
 
         $this->saveTaskTimes($task, $past);
@@ -95,14 +97,14 @@ class QueueTimer
     protected function getTaskTimes(AbstractTask $task)
     {
         $handle = sprintf('times.%s', $task->getSlug());
-        $past   = $this->localStorage->get($handle, []);
+        $past = $this->localStorage->get($handle, []);
 
         return $past;
     }
 
     /**
      * @param AbstractTask $task
-     * @param double[]     $past
+     * @param float[]      $past
      */
     protected function saveTaskTimes(AbstractTask $task, array $past)
     {

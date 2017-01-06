@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Traits;
 
 use Illuminate\Container\Container;
@@ -49,7 +51,7 @@ trait HasLocator
     /**
      * The IoC Container.
      *
-     * @type Container
+     * @var Container
      */
     protected $app;
 
@@ -73,25 +75,25 @@ trait HasLocator
     public function __get($key)
     {
         $shortcuts = [
-            'bash'            => 'rocketeer.bash',
-            'builder'         => 'rocketeer.builder',
-            'command'         => 'rocketeer.command',
-            'connections'     => 'rocketeer.connections',
-            'console'         => 'rocketeer.console',
-            'credentials'     => 'rocketeer.credentials',
-            'environment'     => 'rocketeer.environment',
-            'explainer'       => 'rocketeer.explainer',
-            'history'         => 'rocketeer.history',
-            'localStorage'    => 'rocketeer.storage.local',
-            'logs'            => 'rocketeer.logs',
-            'paths'           => 'rocketeer.paths',
-            'queue'           => 'rocketeer.queue',
+            'bash' => 'rocketeer.bash',
+            'builder' => 'rocketeer.builder',
+            'command' => 'rocketeer.command',
+            'connections' => 'rocketeer.connections',
+            'console' => 'rocketeer.console',
+            'credentials' => 'rocketeer.credentials',
+            'environment' => 'rocketeer.environment',
+            'explainer' => 'rocketeer.explainer',
+            'history' => 'rocketeer.history',
+            'localStorage' => 'rocketeer.storage.local',
+            'logs' => 'rocketeer.logs',
+            'paths' => 'rocketeer.paths',
+            'queue' => 'rocketeer.queue',
             'releasesManager' => 'rocketeer.releases',
-            'remote'          => 'rocketeer.remote',
-            'rocketeer'       => 'rocketeer.rocketeer',
-            'scm'             => 'rocketeer.scm',
-            'tasks'           => 'rocketeer.tasks',
-            'timer'           => 'rocketeer.timer',
+            'remote' => 'rocketeer.remote',
+            'rocketeer' => 'rocketeer.rocketeer',
+            'scm' => 'rocketeer.scm',
+            'tasks' => 'rocketeer.tasks',
+            'timer' => 'rocketeer.timer',
         ];
 
         // Replace shortcuts

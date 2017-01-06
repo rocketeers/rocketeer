@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Abstracts;
 
 use Closure;
@@ -27,7 +29,7 @@ abstract class AbstractStorage
     /**
      * The file to act on.
      *
-     * @type string
+     * @var string
      */
     protected $file;
 
@@ -39,7 +41,7 @@ abstract class AbstractStorage
      */
     public function __construct(Container $app, $file)
     {
-        $this->app  = $app;
+        $this->app = $app;
         $this->file = $file;
     }
 

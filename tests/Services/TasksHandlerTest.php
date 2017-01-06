@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Services;
 
 use Rocketeer\Dummies\DummyNotifier;
@@ -24,7 +26,7 @@ class TasksHandlerTest extends RocketeerTestCase
 
     public function testCanGetTasksBeforeOrAfterAnotherTask()
     {
-        $task   = $this->task('Deploy');
+        $task = $this->task('Deploy');
         $before = $this->tasks->getTasksListeners($task, 'before', true);
 
         $this->assertEquals(['before', 'foobar'], $before);
@@ -32,7 +34,7 @@ class TasksHandlerTest extends RocketeerTestCase
 
     public function testCanAddTasksViaFacade()
     {
-        $task   = $this->task('Deploy');
+        $task = $this->task('Deploy');
         $before = $this->tasks->getTasksListeners($task, 'before', true);
 
         $this->tasks->before('deploy', 'composer install');
@@ -43,7 +45,7 @@ class TasksHandlerTest extends RocketeerTestCase
 
     public function testCanAddMultipleTasksViaFacade()
     {
-        $task  = $this->task('Deploy');
+        $task = $this->task('Deploy');
         $after = $this->tasks->getTasksListeners($task, 'after', true);
         $this->tasks->after('deploy', [
             'composer install',
@@ -120,7 +122,7 @@ class TasksHandlerTest extends RocketeerTestCase
     public function testCanExecuteContextualEvents()
     {
         $this->swapConfig([
-            'rocketeer::stages.stages'            => ['hasEvent', 'noEvent'],
+            'rocketeer::stages.stages' => ['hasEvent', 'noEvent'],
             'rocketeer::on.stages.hasEvent.hooks' => ['before' => ['check' => 'ls']],
         ]);
 
@@ -156,8 +158,8 @@ class TasksHandlerTest extends RocketeerTestCase
         ];
 
         $this->swapConfig([
-            'rocketeer::default'                      => 'production',
-            'rocketeer::hooks'                        => [],
+            'rocketeer::default' => 'production',
+            'rocketeer::hooks' => [],
             'rocketeer::on.connections.staging.hooks' => ['after' => ['deploy' => $tasks]],
         ]);
         $this->tasks->registerConfiguredEvents();

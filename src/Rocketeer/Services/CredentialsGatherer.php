@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Services;
 
 use Illuminate\Support\Arr;
@@ -29,8 +31,8 @@ class CredentialsGatherer
         // null values are considered non required
         $credentials = [
             'repository' => true,
-            'username'   => !is_null(Arr::get($repositoryCredentials, 'username', '')),
-            'password'   => !is_null(Arr::get($repositoryCredentials, 'password', '')),
+            'username' => !is_null(Arr::get($repositoryCredentials, 'username', '')),
+            'password' => !is_null(Arr::get($repositoryCredentials, 'password', '')),
         ];
 
         // If we didn't specify a login/password ask for both the first time
@@ -60,7 +62,7 @@ class CredentialsGatherer
 
         // Check for configured connections
         $availableConnections = $this->connections->getAvailableConnections();
-        $activeConnections    = $this->connections->getConnections();
+        $activeConnections = $this->connections->getConnections();
 
         // If we didn't set any connection, ask for them
         if (!$activeConnections || empty($availableConnections)) {
@@ -101,12 +103,12 @@ class CredentialsGatherer
 
         // Gather common credentials
         $credentials = $this->gatherCredentials([
-            'host'      => true,
-            'username'  => true,
-            'password'  => false,
+            'host' => true,
+            'username' => true,
+            'password' => false,
             'keyphrase' => null,
-            'key'       => false,
-            'agent'     => false,
+            'key' => false,
+            'agent' => false,
         ], $connection, $handle);
 
         // Get password or key
@@ -137,14 +139,14 @@ class CredentialsGatherer
         }
 
         // Get which type of authentication to use
-        $types   = ['key', 'password'];
+        $types = ['key', 'password'];
         $keyPath = $this->paths->getDefaultKeyPath();
-        $type    = $this->command->askWith('No password or SSH key is set for ['.$handle.'], which would you use?', 'key', $types);
+        $type = $this->command->askWith('No password or SSH key is set for ['.$handle.'], which would you use?', 'key', $types);
 
         // Gather the credentials for each
         switch ($type) {
             case 'key':
-                $credentials['key']       = $this->command->option('key') ?: $this->command->askWith('Please enter the full path to your key', $keyPath);
+                $credentials['key'] = $this->command->option('key') ?: $this->command->askWith('Please enter the full path to your key', $keyPath);
                 $credentials['keyphrase'] = $this->gatherCredential($handle, 'keyphrase', 'If a keyphrase is required, provide it');
                 break;
 
@@ -159,9 +161,9 @@ class CredentialsGatherer
     /**
      * Loop through credentials and store the missing ones.
      *
-     * @param boolean[] $credentials
-     * @param string[]  $current
-     * @param string    $handle
+     * @param bool[]   $credentials
+     * @param string[] $current
+     * @param string   $handle
      *
      * @return string[]
      */
@@ -193,8 +195,8 @@ class CredentialsGatherer
     protected function gatherCredential($handle, $credential, $question = null)
     {
         $question = $question ?: 'No '.$credential.' is set for ['.$handle.'], please provide one:';
-        $option   = $this->command->option($credential);
-        $method   = in_array($credential, ['password', 'keyphrase'], true) ? 'askSecretly' : 'askWith';
+        $option = $this->command->option($credential);
+        $method = in_array($credential, ['password', 'keyphrase'], true) ? 'askSecretly' : 'askWith';
 
         return $option ?: $this->command->$method($question);
     }
@@ -210,7 +212,7 @@ class CredentialsGatherer
     protected function getCredential($credentials, $credential)
     {
         $value = Arr::get($credentials, $credential);
-        if (substr($value, 0, 1) === '{') {
+        if (mb_substr($value, 0, 1) === '{') {
             return;
         }
 

@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Strategies\Deploy;
 
 use Rocketeer\Abstracts\Strategies\AbstractStrategy;
@@ -16,7 +18,7 @@ use Rocketeer\Interfaces\Strategies\DeployStrategyInterface;
 class CloneStrategy extends AbstractStrategy implements DeployStrategyInterface
 {
     /**
-     * @type string
+     * @var string
      */
     protected $description = 'Clones a fresh instance of the repository by SCM';
 

@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\TestCases;
 
 use Rocketeer\Services\Storages\LocalStorage;
@@ -23,40 +25,40 @@ abstract class RocketeerTestCase extends ContainerTestCase
     /**
      * The path to the local fake server.
      *
-     * @type string
+     * @var string
      */
     protected $server;
 
     /**
-     * @type string
+     * @var string
      */
     protected $customConfig;
 
     /**
      * The path to the local deployments file.
      *
-     * @type string
+     * @var string
      */
     protected $deploymentsFile;
 
     /**
      * A dummy AbstractTask to use for helpers tests.
      *
-     * @type \Rocketeer\Abstracts\AbstractTask
+     * @var \Rocketeer\Abstracts\AbstractTask
      */
     protected $task;
 
     /**
      * Cache of the paths to binaries.
      *
-     * @type array
+     * @var array
      */
     protected $binaries = [];
 
     /**
      * Number of files an ls should yield.
      *
-     * @type int
+     * @var int
      */
     protected static $currentFiles;
 
@@ -74,8 +76,8 @@ abstract class RocketeerTestCase extends ContainerTestCase
         static::$currentFiles = array_values($files);
 
         // Setup local server
-        $this->server          = __DIR__.'/../_server/foobar';
-        $this->customConfig    = $this->server.'/../.rocketeer';
+        $this->server = __DIR__.'/../_server/foobar';
+        $this->customConfig = $this->server.'/../.rocketeer';
         $this->deploymentsFile = $this->server.'/deployments.json';
 
         // Bind dummy AbstractTask
@@ -95,9 +97,9 @@ abstract class RocketeerTestCase extends ContainerTestCase
 
         // Cache paths
         $this->binaries = [
-            'php'      => exec('which php') ?: 'php',
-            'bundle'   => exec('which bundle') ?: 'bundle',
-            'phpunit'  => exec('which phpunit') ?: 'phpunit',
+            'php' => exec('which php') ?: 'php',
+            'bundle' => exec('which bundle') ?: 'bundle',
+            'phpunit' => exec('which phpunit') ?: 'phpunit',
             'composer' => exec('which composer') ?: 'composer',
         ];
     }

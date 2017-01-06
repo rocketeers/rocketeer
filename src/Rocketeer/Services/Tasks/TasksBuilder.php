@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Services\Tasks;
 
 use Closure;
@@ -75,14 +77,14 @@ class TasksBuilder
         }
 
         // Get the command name
-        $name    = $instance ? $instance->getName() : null;
+        $name = $instance ? $instance->getName() : null;
         $command = $this->findQualifiedName($name, [
             'Rocketeer\Console\Commands\%sCommand',
         ]);
 
         // If no command found, use BaseTaskCommand or task name
         if (!$command || $command === 'Closure') {
-            $name    = is_string($task) ? $task : $name;
+            $name = is_string($task) ? $task : $name;
             $command = $this->findQualifiedName($name, [
                 'Rocketeer\Console\Commands\%sCommand',
                 'Rocketeer\Console\Commands\BaseTaskCommand',
@@ -111,11 +113,11 @@ class TasksBuilder
     {
         // If we passed a concrete implementation
         // build it, otherwise get the bound one
-        $handle = strtolower($strategy);
+        $handle = mb_strtolower($strategy);
         if ($concrete) {
-            $path       = 'Rocketeer\Strategies\\'.ucfirst($strategy).'\%sStrategy';
-            $class      = sprintf($path, $concrete);
-            $concrete   = $this->findQualifiedName($concrete, [$path]);
+            $path = 'Rocketeer\Strategies\\'.ucfirst($strategy).'\%sStrategy';
+            $class = sprintf($path, $concrete);
+            $concrete = $this->findQualifiedName($concrete, [$path]);
 
             if (!$concrete) {
                 throw new RuntimeException(
@@ -242,7 +244,7 @@ class TasksBuilder
      */
     public function buildTaskFromClosure(Closure $callback, $stringTask = null)
     {
-        /** @type \Rocketeer\Tasks\Closure $task */
+        /** @var \Rocketeer\Tasks\Closure $task */
         $task = $this->buildTaskFromClass('Rocketeer\Tasks\Closure');
         $task->setClosure($callback);
 
@@ -298,7 +300,7 @@ class TasksBuilder
 
         // Compute the handle and check it's bound
         $handle = 'rocketeer.tasks.'.Str::snake($task, '-');
-        $task   = $this->app->bound($handle) ? $handle : null;
+        $task = $this->app->bound($handle) ? $handle : null;
 
         return $task;
     }

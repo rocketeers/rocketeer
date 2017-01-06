@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Tasks;
 
 use Rocketeer\Abstracts\AbstractTask;
@@ -17,22 +19,22 @@ class Migrate extends AbstractTask
     /**
      * The console command description.
      *
-     * @type string
+     * @var string
      */
     protected $description = 'Migrates and/or seed the database';
 
     /**
      * Run the task.
      *
-     * @return bool|boolean[]
+     * @return bool|bool[]
      */
     public function execute()
     {
         $results = [];
 
         // Get strategy and options
-        $migrate  = $this->getOption('migrate');
-        $seed     = $this->getOption('seed');
+        $migrate = $this->getOption('migrate');
+        $seed = $this->getOption('seed');
         $strategy = $this->getStrategy('Migrate');
 
         /*
@@ -43,9 +45,9 @@ class Migrate extends AbstractTask
          */
 
         $serverCredentials = $this->connections->getServerCredentials();
-        $multiserver       = $this->connections->isMultiserver($this->connections->getConnection());
-        $hasRole           = (isset($serverCredentials['db_role']) && $serverCredentials['db_role']);
-        $useRoles          = $this->config->get('rocketeer::use_roles');
+        $multiserver = $this->connections->isMultiserver($this->connections->getConnection());
+        $hasRole = (isset($serverCredentials['db_role']) && $serverCredentials['db_role']);
+        $useRoles = $this->config->get('rocketeer::use_roles');
 
         // Cancel if nothing to run
         if ($strategy === false || ($migrate === false && $seed === false) || ($useRoles === true && $multiserver === true && $hasRole === false)) {

@@ -1,39 +1,52 @@
 <?php
-use Symfony\CS\Config\Config;
-use Symfony\CS\Finder\DefaultFinder;
-use Symfony\CS\Fixer\Contrib\HeaderCommentFixer;
-use Symfony\CS\FixerInterface;
+use PhpCsFixer\Config;
+use PhpCsFixer\Finder;
 
-$finder = DefaultFinder::create()->in(['bin', 'src', 'tests']);
-$header = <<< EOF
-This file is part of Rocketeer
+require 'vendor/autoload.php';
 
-(c) Maxime Fabre <ehtnam6@gmail.com>
-
-For the full copyright and license information, please view the LICENSE
-file that was distributed with this source code.
-EOF;
-
-HeaderCommentFixer::setHeader($header);
+$header = file_get_contents(__DIR__.'/bin/banner.txt');
+$finder = Finder::create()->in([
+    'bin',
+    'src/Rocketeer',
+    'tests',
+]);
 
 return Config::create()
-             ->level(FixerInterface::SYMFONY_LEVEL)
-             ->fixers([
-                 '-yoda_conditions',
-                 'align_double_arrow',
-                 'align_equals',
-                 // 'concat_with_spaces',
-                 'ereg_to_preg',
-                 'header_comment',
-                 'multiline_spaces_before_semicolon',
-                 'no_blank_lines_before_namespace',
-                 'ordered_use',
-                 // 'php4_constructor',
-                 'phpdoc_order',
-                 'phpdoc_var_to_type',
-                 'short_array_syntax',
-                 'strict',
-                 'strict_param',
-             ])
-             ->setUsingCache(true)
-             ->finder($finder);
+    ->setRiskyAllowed(true)
+    ->setRules([
+        '@Symfony' => true,
+        'array_syntax' => ['syntax' => 'short'],
+        'class_keyword_remove' => false,
+        'combine_consecutive_unsets' => true,
+        'declare_strict_types' => false,
+        'dir_constant' => true,
+        'echo_to_print' => false,
+        'ereg_to_preg' => true,
+        'general_phpdoc_annotation_remove' => false,
+        'header_comment' => ['header' => $header],
+        'linebreak_after_opening_tag' => true,
+        'mb_str_functions' => true,
+        'modernize_types_casting' => true,
+        'no_blank_lines_before_namespace' => false,
+        'no_multiline_whitespace_before_semicolons' => true,
+        'no_php4_constructor' => true,
+        'no_short_echo_tag' => true,
+        'no_useless_else' => true,
+        'no_useless_return' => true,
+        'not_operator_with_space' => false,
+        'not_operator_with_successor_space' => false,
+        'ordered_class_elements' => false,
+        'ordered_imports' => true,
+        'php_unit_strict' => false,
+        'phpdoc_order' => true,
+        'pow_to_exponentiation' => false,
+        'protected_to_private' => false,
+        'psr0' => true,
+        'psr4' => true,
+        'random_api_migration' => false,
+        'semicolon_after_instruction' => true,
+        'simplified_null_return' => true,
+        'strict_comparison' => true,
+        'strict_param' => true,
+    ])
+    ->setFinder($finder);

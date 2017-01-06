@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Abstracts;
 
 use Rocketeer\TestCases\RocketeerTestCase;
@@ -18,7 +20,7 @@ class AbstractPolyglotStrategyTest extends RocketeerTestCase
     {
         $this->expectOutputString('executable');
 
-        /** @type \Rocketeer\Abstracts\Strategies\AbstractPolyglotStrategy $strategy */
+        /** @var \Rocketeer\Abstracts\Strategies\AbstractPolyglotStrategy $strategy */
         $strategy = $this->builder->buildStrategy('executables', 'Rocketeer\Dummies\ExecutablesPolyglotStrategy');
         $strategy->fire();
 
@@ -29,9 +31,9 @@ class AbstractPolyglotStrategyTest extends RocketeerTestCase
     {
         $this->expectOutputString('');
 
-        /** @type \Rocketeer\Abstracts\Strategies\AbstractPolyglotStrategy $strategy */
+        /** @var \Rocketeer\Abstracts\Strategies\AbstractPolyglotStrategy $strategy */
         $strategy = $this->builder->buildStrategy('failing', 'Rocketeer\Dummies\FailingPolyglotStrategy');
-        $result   = $strategy->fire();
+        $result = $strategy->fire();
 
         $this->assertFalse($result);
         $this->assertFalse($strategy->passed());

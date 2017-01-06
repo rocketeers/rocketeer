@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Tasks\Subtasks;
 
 use Rocketeer\Abstracts\AbstractTask;
@@ -22,7 +24,7 @@ class CreateRelease extends AbstractTask
     /**
      * A description of what the task does.
      *
-     * @type string
+     * @var string
      */
     protected $description = 'Creates a new release on the server';
 

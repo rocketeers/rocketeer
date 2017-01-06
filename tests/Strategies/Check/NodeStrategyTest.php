@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Strategies\Check;
 
 use Mockery;
@@ -16,7 +18,7 @@ use Rocketeer\TestCases\RocketeerTestCase;
 class NodeStrategyTest extends RocketeerTestCase
 {
     /**
-     * @type \Rocketeer\Strategies\Check\PhpStrategy
+     * @var \Rocketeer\Strategies\Check\PhpStrategy
      */
     protected $strategy;
 
@@ -30,7 +32,7 @@ class NodeStrategyTest extends RocketeerTestCase
     public function testCanParseLanguageConstraint()
     {
         $manager = Mockery::mock('Npm', [
-            'getBinary'           => 'npm',
+            'getBinary' => 'npm',
             'getManifestContents' => json_encode(['engines' => ['node' => '0.10.30']]),
         ]);
         $this->strategy->setManager($manager);

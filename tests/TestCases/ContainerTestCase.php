@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\TestCases;
 
 use Closure;
@@ -23,7 +25,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
     use HasLocator;
 
     /**
-     * @type arra
+     * @var arra
      */
     protected $defaults;
 
@@ -38,7 +40,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
     /**
      * The test repository.
      *
-     * @type string
+     * @var string
      */
     protected $repository = 'Anahkiasen/html-object.git';
 
@@ -56,9 +58,9 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         $this->app->instance('path.public', '/src/public');
         $this->app->instance('path.storage', '/src/app/storage');
 
-        $this->app['files']             = new Filesystem();
-        $this->app['artisan']           = $this->getArtisan();
-        $this->app['rocketeer.remote']  = $this->getRemote();
+        $this->app['files'] = new Filesystem();
+        $this->app['artisan'] = $this->getArtisan();
+        $this->app['rocketeer.remote'] = $this->getRemote();
         $this->app['rocketeer.command'] = $this->getCommand();
 
         // Rocketeer classes ------------------------------------------- /
@@ -95,7 +97,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
      */
     protected function mock($handle, $class = null, Closure $expectations = null, $partial = true)
     {
-        $class   = $class ?: $handle;
+        $class = $class ?: $handle;
         $mockery = Mockery::mock($class);
         if ($partial) {
             $mockery = $mockery->shouldIgnoreMissing();
@@ -138,12 +140,12 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 
         // Merge defaults
         $expectations = array_merge([
-            'argument'        => '',
-            'ask'             => '',
+            'argument' => '',
+            'ask' => '',
             'isInsideLaravel' => false,
-            'confirm'         => true,
-            'secret'          => '',
-            'option'          => false,
+            'confirm' => true,
+            'secret' => '',
+            'option' => false,
         ], $expectations);
 
         // Bind expecations
@@ -178,7 +180,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         $config = Mockery::mock('Illuminate\Config\Repository');
         $config->shouldIgnoreMissing();
 
-        $defaults     = $this->getFactoryConfiguration();
+        $defaults = $this->getFactoryConfiguration();
         $expectations = array_merge($defaults, $expectations);
         foreach ($expectations as $key => $value) {
             $config->shouldReceive('get')->with($key)->andReturn($value);
@@ -229,7 +231,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
             return file_put_contents($file, $contents);
         });
         $remote->shouldReceive('display')->andReturnUsing(function ($line) {
-            print $line.PHP_EOL;
+            echo $line.PHP_EOL;
         });
 
         if (is_array($mockedOutput)) {
@@ -269,52 +271,52 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 
         // Base the mocked configuration off the factory values
         $defaults = [];
-        $files    = ['config', 'hooks', 'paths', 'remote', 'scm', 'stages', 'strategies'];
+        $files = ['config', 'hooks', 'paths', 'remote', 'scm', 'stages', 'strategies'];
         foreach ($files as $file) {
             $defaults[$file] = $this->config->get('rocketeer::'.$file);
         }
 
         // Build correct keys
         $defaults = array_dot($defaults);
-        $keys     = array_keys($defaults);
-        $keys     = array_map(function ($key) {
+        $keys = array_keys($defaults);
+        $keys = array_map(function ($key) {
             return 'rocketeer::'.str_replace('config.', null, $key);
         }, $keys);
         $defaults = array_combine($keys, array_values($defaults));
 
         $overrides = [
-            'cache.driver'                        => 'file',
-            'database.default'                    => 'mysql',
-            'remote.default'                      => 'production',
-            'session.driver'                      => 'file',
-            'remote.connections'                  => [
+            'cache.driver' => 'file',
+            'database.default' => 'mysql',
+            'remote.default' => 'production',
+            'session.driver' => 'file',
+            'remote.connections' => [
                 'production' => [],
-                'staging'    => [],
+                'staging' => [],
             ],
-            'rocketeer::application_name'         => 'foobar',
-            'rocketeer::logs'                     => null,
+            'rocketeer::application_name' => 'foobar',
+            'rocketeer::logs' => null,
             'rocketeer::remote.permissions.files' => ['tests'],
-            'rocketeer::remote.shared'            => ['tests/Elements'],
-            'rocketeer::remote.keep_releases'     => 1,
-            'rocketeer::remote.root_directory'    => __DIR__.'/../_server/',
-            'rocketeer::scm'                      => [
-                'branch'     => 'master',
+            'rocketeer::remote.shared' => ['tests/Elements'],
+            'rocketeer::remote.keep_releases' => 1,
+            'rocketeer::remote.root_directory' => __DIR__.'/../_server/',
+            'rocketeer::scm' => [
+                'branch' => 'master',
                 'repository' => 'https://github.com/'.$this->repository,
-                'scm'        => 'git',
-                'shallow'    => true,
+                'scm' => 'git',
+                'shallow' => true,
                 'submodules' => true,
             ],
-            'rocketeer::strategies.dependencies'  => 'Composer',
-            'rocketeer::hooks.custom'             => ['Rocketeer\Dummies\Tasks\MyCustomTask'],
-            'rocketeer::hooks'                    => [
+            'rocketeer::strategies.dependencies' => 'Composer',
+            'rocketeer::hooks.custom' => ['Rocketeer\Dummies\Tasks\MyCustomTask'],
+            'rocketeer::hooks' => [
                 'before' => [
                     'deploy' => [
                         'before',
                         'foobar',
                     ],
                 ],
-                'after'  => [
-                    'check'  => [
+                'after' => [
+                    'check' => [
                         'Rocketeer\Dummies\Tasks\MyCustomTask',
                     ],
                     'deploy' => [

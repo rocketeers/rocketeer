@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Services\Tasks;
 
 use Illuminate\Support\Collection;
@@ -23,7 +25,7 @@ class Pipeline extends Collection
     /**
      * The stored results of each task.
      *
-     * @type array
+     * @var array
      */
     protected $results = [];
 

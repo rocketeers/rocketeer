@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Services\Storages;
 
 use Illuminate\Container\Container;
@@ -24,14 +26,14 @@ class LocalStorage extends AbstractStorage implements StorageInterface
     /**
      * The current hash in use.
      *
-     * @type string
+     * @var string
      */
     protected $hash;
 
     /**
      * The folder where the file resides.
      *
-     * @type string
+     * @var string
      */
     protected $folder;
 
@@ -95,13 +97,13 @@ class LocalStorage extends AbstractStorage implements StorageInterface
         }
 
         // Get the contents of the configuration folder
-        $salt   = '';
+        $salt = '';
         $folder = $this->paths->getConfigurationPath();
-        $files  = (array) $this->files->glob($folder.'/*.php');
+        $files = (array) $this->files->glob($folder.'/*.php');
 
         // Remove custom files and folders
         foreach (['events', 'tasks'] as $handle) {
-            $path  = $this->app['path.rocketeer.'.$handle];
+            $path = $this->app['path.rocketeer.'.$handle];
             $index = array_search($path, $files, true);
             if ($index !== false) {
                 unset($files[$index]);

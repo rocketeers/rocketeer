@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Abstracts\Strategies;
 
 use Illuminate\Container\Container;
@@ -23,14 +25,14 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
     /**
      * The name of the binary.
      *
-     * @type string
+     * @var string
      */
     protected $binary;
 
     /**
      * The package manager instance.
      *
-     * @type AbstractPackageManager
+     * @var AbstractPackageManager
      */
     protected $manager;
 
@@ -39,7 +41,7 @@ abstract class AbstractDependenciesStrategy extends AbstractStrategy
      */
     public function __construct(Container $app)
     {
-        $this->app     = $app;
+        $this->app = $app;
         $this->manager = $this->binary($this->binary);
     }
 

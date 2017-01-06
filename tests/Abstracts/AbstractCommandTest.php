@@ -7,12 +7,13 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Abstracts;
 
 use Mockery;
 use Mockery\MockInterface;
-use Rocketeer\Console\Commands\Plugins\InstallCommand;
 use Rocketeer\Dummies\DummyFailingCommand;
 use Rocketeer\TestCases\RocketeerTestCase;
 use Symfony\Component\Console\Input\ArrayInput;

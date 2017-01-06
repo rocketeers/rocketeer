@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Traits\BashModules;
 
 use Closure;
@@ -29,7 +31,7 @@ trait Core
      * Whether to run the commands locally
      * or on the server.
      *
-     * @type bool
+     * @var bool
      */
     protected $local = false;
 
@@ -61,7 +63,7 @@ trait Core
     public function onLocal(Closure $callback)
     {
         $this->local = true;
-        $results     = $callback($this);
+        $results = $callback($this);
         $this->local = false;
 
         return $results;
@@ -83,8 +85,8 @@ trait Core
     public function run($commands, $silent = false, $array = false)
     {
         $commands = $this->processCommands($commands);
-        $verbose  = $this->getOption('verbose') && !$silent;
-        $pretend  = $this->getOption('pretend');
+        $verbose = $this->getOption('verbose') && !$silent;
+        $pretend = $this->getOption('pretend');
 
         // Log the commands
         if (!$silent) {
@@ -140,8 +142,8 @@ trait Core
      * get its output as a string or array.
      *
      * @param string $commands
-     * @param bool   $array Whether the output should be returned as an array
-     * @param bool   $trim  Whether the output should be trimmed
+     * @param bool   $array    Whether the output should be returned as an array
+     * @param bool   $trim     Whether the output should be trimmed
      *
      * @return string|string[]
      */
@@ -285,15 +287,15 @@ trait Core
      */
     public function processCommands($commands)
     {
-        $stage     = $this->connections->getStage();
+        $stage = $this->connections->getStage();
         $separator = $this->environment->getSeparator();
-        $shell     = $this->rocketeer->getOption('remote.shell');
-        $shelled   = $this->rocketeer->getOption('remote.shelled');
-        $sudo      = $this->rocketeer->getOption('remote.sudo');
-        $sudoed    = $this->rocketeer->getOption('remote.sudoed');
+        $shell = $this->rocketeer->getOption('remote.shell');
+        $shelled = $this->rocketeer->getOption('remote.shelled');
+        $sudo = $this->rocketeer->getOption('remote.sudo');
+        $sudoed = $this->rocketeer->getOption('remote.sudoed');
 
         // Prepare paths replacer
-        $pattern     = sprintf('#\%s([\w\d\s])#', DS);
+        $pattern = sprintf('#\%s([\w\d\s])#', DS);
         $replacement = sprintf('\%s$1', $separator);
 
         // Cast commands to array
@@ -303,7 +305,6 @@ trait Core
 
         // Process commands
         foreach ($commands as &$command) {
-
             // Replace directory separators
             if (DS !== $separator) {
                 $command = preg_replace($pattern, $replacement, $command);
@@ -354,7 +355,7 @@ trait Core
     }
 
     /**
-     * Execute a command as a sudo user
+     * Execute a command as a sudo user.
      *
      * @param string|bool $sudo
      * @param strign      $command
@@ -363,7 +364,7 @@ trait Core
      */
     protected function sudoCommand($sudo, $command)
     {
-        $sudo    = is_bool($sudo) ? 'sudo' : 'sudo -u '.$sudo;
+        $sudo = is_bool($sudo) ? 'sudo' : 'sudo -u '.$sudo;
         $command = $sudo.' '.$command;
 
         return $command;
@@ -373,8 +374,8 @@ trait Core
      * Process the output of a command.
      *
      * @param string $output
-     * @param bool   $array Whether to return an array or a string
-     * @param bool   $trim  Whether to trim the output or not
+     * @param bool   $array  Whether to return an array or a string
+     * @param bool   $trim   Whether to trim the output or not
      *
      * @return string|array
      */
@@ -386,7 +387,7 @@ trait Core
         // Explode output if necessary
         if ($array) {
             $delimiter = $this->environment->getLineEndings() ?: PHP_EOL;
-            $output    = explode($delimiter, $output);
+            $output = explode($delimiter, $output);
         }
 
         // Trim output

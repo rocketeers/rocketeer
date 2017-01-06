@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Console;
 
 use Illuminate\Console\Application;
@@ -27,9 +29,9 @@ class Console extends Application
      */
     public function getHelp()
     {
-        $help  = str_replace($this->getLongVersion(), null, parent::getHelp());
+        $help = str_replace($this->getLongVersion(), null, parent::getHelp());
         $state = $this->buildBlock('Current state', $this->getCurrentState());
-        $help  = sprintf('%s'.PHP_EOL.PHP_EOL.'%s%s', $this->getLongVersion(), $state, $help);
+        $help = sprintf('%s'.PHP_EOL.PHP_EOL.'%s%s', $this->getLongVersion(), $state, $help);
 
         return $help;
     }
@@ -74,11 +76,11 @@ class Console extends Application
     protected function getCurrentState()
     {
         return [
-            'application'   => $this->laravel['rocketeer.rocketeer']->getApplicationName(),
+            'application' => $this->laravel['rocketeer.rocketeer']->getApplicationName(),
             'configuration' => $this->laravel['path.rocketeer.config'],
-            'tasks'         => $this->laravel['path.rocketeer.tasks'],
-            'events'        => $this->laravel['path.rocketeer.events'],
-            'logs'          => $this->laravel['path.rocketeer.logs'],
+            'tasks' => $this->laravel['path.rocketeer.tasks'],
+            'events' => $this->laravel['path.rocketeer.events'],
+            'logs' => $this->laravel['path.rocketeer.logs'],
         ];
     }
 }

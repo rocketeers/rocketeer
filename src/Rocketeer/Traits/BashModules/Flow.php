@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Traits\BashModules;
 
 /**
@@ -20,7 +22,7 @@ trait Flow
     /**
      * Whether the task needs to be run on each stage or globally.
      *
-     * @type bool
+     * @var bool
      */
     public $usesStages = true;
 
@@ -93,7 +95,7 @@ trait Flow
 
         // Get path to current/ folder and latest release
         $currentReleasePath = $this->releasesManager->getCurrentReleasePath();
-        $currentFolder      = $this->paths->getFolder('current');
+        $currentFolder = $this->paths->getFolder('current');
 
         return $this->symlink($currentReleasePath, $currentFolder);
     }
@@ -109,7 +111,7 @@ trait Flow
     {
         // Get path to current file and shared file
         $currentFile = $this->releasesManager->getCurrentReleasePath($file);
-        $sharedFile  = preg_replace('#releases/[0-9]+/#', 'shared/', $currentFile);
+        $sharedFile = preg_replace('#releases/[0-9]+/#', 'shared/', $currentFile);
 
         // If no instance of the shared file exists, use current one
         if (!$this->fileExists($sharedFile)) {

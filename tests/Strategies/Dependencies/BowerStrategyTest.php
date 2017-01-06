@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Strategies\Dependencies;
 
 use Rocketeer\Binaries\PackageManagers\Bower;
@@ -16,7 +18,7 @@ use Rocketeer\TestCases\RocketeerTestCase;
 class BowerStrategyTest extends RocketeerTestCase
 {
     /**
-     * @type \Rocketeer\Strategies\Dependencies\BowerStrategy
+     * @var \Rocketeer\Strategies\Dependencies\BowerStrategy
      */
     protected $bower;
 

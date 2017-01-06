@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Services\Ignition;
 
 use Illuminate\Support\Arr;
@@ -87,7 +89,7 @@ class Plugins
         $this->artisan->call('config:publish', ['package' => $package]);
 
         // Move under Rocketeer namespace
-        $path        = $this->app['path'].'/config/packages/'.$package;
+        $path = $this->app['path'].'/config/packages/'.$package;
         $destination = preg_replace('/packages\/([^\/]+)/', 'packages/rocketeers', $path);
 
         return $this->files->move($path, $destination);
@@ -104,7 +106,7 @@ class Plugins
     {
         // Get the vendor and package
         preg_match('/vendor\/([^\/]+)\/([^\/]+)/', $path, $handle);
-        $handle  = (array) $handle;
+        $handle = (array) $handle;
         $package = Arr::get($handle, 2);
 
         // Compute and create the destination foldser

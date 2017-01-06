@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Strategies\Check;
 
 use Rocketeer\TestCases\RocketeerTestCase;
@@ -15,7 +17,7 @@ use Rocketeer\TestCases\RocketeerTestCase;
 class PhpStrategyTest extends RocketeerTestCase
 {
     /**
-     * @type \Rocketeer\Strategies\Check\PhpStrategy
+     * @var \Rocketeer\Strategies\Check\PhpStrategy
      */
     protected $strategy;
 
@@ -56,8 +58,8 @@ class PhpStrategyTest extends RocketeerTestCase
     {
         $this->swapConfig([
             'database.default' => 'sqlite',
-            'cache.driver'     => 'redis',
-            'session.driver'   => 'apc',
+            'cache.driver' => 'redis',
+            'session.driver' => 'apc',
         ]);
 
         $this->strategy->extensions();

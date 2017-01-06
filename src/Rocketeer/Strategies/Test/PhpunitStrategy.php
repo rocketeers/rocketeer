@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Strategies\Test;
 
 use Rocketeer\Abstracts\Strategies\AbstractStrategy;
@@ -16,7 +18,7 @@ use Rocketeer\Interfaces\Strategies\TestStrategyInterface;
 class PhpunitStrategy extends AbstractStrategy implements TestStrategyInterface
 {
     /**
-     * @type string
+     * @var string
      */
     protected $description = 'Run the tests with PHPUnit';
 
@@ -39,7 +41,7 @@ class PhpunitStrategy extends AbstractStrategy implements TestStrategyInterface
     {
         // Run PHPUnit
         $arguments = ['--stop-on-failure' => null];
-        $output    = $this->runForCurrentRelease([
+        $output = $this->runForCurrentRelease([
             $this->phpunit()->getCommand(null, [], $arguments),
         ]);
 

@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Dummies;
 
 use Rocketeer\Plugins\AbstractNotifier;
@@ -33,7 +35,7 @@ class DummyNotifier extends AbstractNotifier
      */
     public function send($message)
     {
-        print $message;
+        echo $message;
 
         return $message;
     }

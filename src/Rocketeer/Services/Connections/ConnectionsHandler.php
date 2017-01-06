@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Services\Connections;
 
 use Illuminate\Support\Arr;
@@ -28,35 +30,35 @@ class ConnectionsHandler
     /**
      * The current handle.
      *
-     * @type string
+     * @var string
      */
     protected $handle;
 
     /**
      * The current stage.
      *
-     * @type string
+     * @var string
      */
     protected $stage;
 
     /**
      * The current server.
      *
-     * @type int
+     * @var int
      */
     protected $currentServer = 0;
 
     /**
      * The connections to use.
      *
-     * @type array|null
+     * @var array|null
      */
     protected $connections;
 
     /**
      * The current connection.
      *
-     * @type string|null
+     * @var string|null
      */
     protected $connection;
 
@@ -73,8 +75,8 @@ class ConnectionsHandler
     {
         // Get identifiers
         $connection = $connection ?: $this->getConnection();
-        $server     = $server ?: $this->getServer();
-        $stage      = $stage ?: $this->getStage();
+        $server = $server ?: $this->getServer();
+        $stage = $stage ?: $this->getStage();
 
         // Filter values
         $handle = [$connection, $server, $stage];
@@ -87,7 +89,7 @@ class ConnectionsHandler
         }
 
         // Concatenate
-        $handle       = implode('/', $handle);
+        $handle = implode('/', $handle);
         $this->handle = $handle;
 
         return $handle;
@@ -142,7 +144,7 @@ class ConnectionsHandler
             return;
         }
 
-        $this->stage  = $stage;
+        $this->stage = $stage;
         $this->handle = null;
 
         // If we do have a stage, cleanup previous events
@@ -239,10 +241,10 @@ class ConnectionsHandler
 
         // Get all and defaults
         $connections = (array) $this->config->get('rocketeer::default');
-        $default     = $this->config->get('remote.default');
+        $default = $this->config->get('remote.default');
 
         // Remove invalid connections
-        $instance    = $this;
+        $instance = $this;
         $connections = array_filter($connections, function ($value) use ($instance) {
             return $instance->isValidConnection($value);
         });
@@ -278,7 +280,7 @@ class ConnectionsHandler
         }
 
         $this->connections = $filtered;
-        $this->handle      = null;
+        $this->handle = null;
     }
 
     /**
@@ -293,7 +295,7 @@ class ConnectionsHandler
             return $this->connection;
         }
 
-        $connection       = Arr::get($this->getConnections(), 0);
+        $connection = Arr::get($this->getConnections(), 0);
         $this->connection = $connection;
 
         return $this->connection;
@@ -312,9 +314,9 @@ class ConnectionsHandler
         }
 
         // Set the connection
-        $this->handle        = null;
-        $this->connection    = $connection;
-        $this->localStorage  = $server;
+        $this->handle = null;
+        $this->connection = $connection;
+        $this->localStorage = $server;
         $this->currentServer = $server;
 
         // Update events
@@ -331,7 +333,7 @@ class ConnectionsHandler
     public function getConnectionCredentials($connection = null)
     {
         $connection = $connection ?: $this->getConnection();
-        $available  = $this->getAvailableConnections();
+        $available = $this->getAvailableConnections();
 
         return Arr::get($available, $connection.'.servers');
     }
@@ -347,7 +349,7 @@ class ConnectionsHandler
     public function getServerCredentials($connection = null, $server = null)
     {
         $connection = $this->getConnectionCredentials($connection);
-        $server     = !is_null($server) ? $server : $this->currentServer;
+        $server = !is_null($server) ? $server : $this->currentServer;
 
         return Arr::get($connection, $server, []);
     }
@@ -367,7 +369,7 @@ class ConnectionsHandler
         }
 
         // Get connection
-        $connection  = $connection ?: $this->getConnection();
+        $connection = $connection ?: $this->getConnection();
         $credentials = $this->getConnectionCredentials($connection);
 
         $this->config->set('remote.connections.'.$connection, $credentials);
@@ -378,7 +380,7 @@ class ConnectionsHandler
      */
     public function disconnect()
     {
-        $this->connection  = null;
+        $this->connection = null;
         $this->connections = null;
     }
 
@@ -393,7 +395,7 @@ class ConnectionsHandler
      */
     public function getRepositoryCredentials()
     {
-        $config      = (array) $this->rocketeer->getOption('scm');
+        $config = (array) $this->rocketeer->getOption('scm');
         $credentials = (array) $this->localStorage->get('credentials');
 
         return array_merge($config, $credentials);
@@ -408,8 +410,8 @@ class ConnectionsHandler
     {
         // Get credentials
         $repository = $this->getRepositoryCredentials();
-        $username   = Arr::get($repository, 'username');
-        $password   = Arr::get($repository, 'password');
+        $username = Arr::get($repository, 'username');
+        $password = Arr::get($repository, 'password');
         $repository = Arr::get($repository, 'repository');
 
         // Add credentials if possible
@@ -445,7 +447,7 @@ class ConnectionsHandler
         exec($this->scm->currentBranch(), $fallback);
         $fallback = Arr::get($fallback, 0, 'master');
         $fallback = trim($fallback);
-        $branch   = $this->rocketeer->getOption('scm.branch') ?: $fallback;
+        $branch = $this->rocketeer->getOption('scm.branch') ?: $fallback;
 
         return $branch;
     }

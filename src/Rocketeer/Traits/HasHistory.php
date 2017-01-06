@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Traits;
 
 use Illuminate\Support\Arr;
@@ -30,7 +32,7 @@ trait HasHistory
      */
     public function getHistory($type = null)
     {
-        $handle  = $this->getHistoryHandle();
+        $handle = $this->getHistoryHandle();
         $history = $this->history[$handle];
         $history = Arr::get($history, $type);
 
@@ -70,7 +72,7 @@ trait HasHistory
         if (!isset($this->history[$handle])) {
             $this->history[$handle] = [
                 'history' => [],
-                'output'  => [],
+                'output' => [],
             ];
         }
 
@@ -86,8 +88,8 @@ trait HasHistory
     protected function appendTo($type, $command)
     {
         // Flatten one-liners
-        $command   = (array) $command;
-        $command   = array_values($command);
+        $command = (array) $command;
+        $command = array_values($command);
         $flattened = count($command) === 1 ? $command[0] : $command;
 
         // Save to logs
@@ -100,8 +102,8 @@ trait HasHistory
         $this->logs->log($command);
 
         // Get the various handles
-        $handle    = $this->getHistoryHandle();
-        $history   = $this->getHistory();
+        $handle = $this->getHistoryHandle();
+        $history = $this->getHistory();
         $timestamp = (string) microtime(true);
 
         // Set new history on correct handle

@@ -7,7 +7,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
+
 namespace Rocketeer\Services\Tasks;
 
 use Mockery;
@@ -24,7 +26,7 @@ class TasksQueueTest extends RocketeerTestCase
         $this->expectOutputString('JOEY DOESNT SHARE FOOD');
         $this->queue->run([
             function () {
-                print 'JOEY DOESNT SHARE FOOD';
+                echo 'JOEY DOESNT SHARE FOOD';
             },
         ], $this->getCommand());
     }
@@ -32,12 +34,12 @@ class TasksQueueTest extends RocketeerTestCase
     public function testCanRunQueueOnDifferentConnectionsAndStages()
     {
         $this->swapConfig([
-            'rocketeer::default'       => ['staging', 'production'],
+            'rocketeer::default' => ['staging', 'production'],
             'rocketeer::stages.stages' => ['first', 'second'],
         ]);
 
         $output = [];
-        $queue  = [
+        $queue = [
             function ($task) use (&$output) {
                 $output[] = $task->connections->getConnection().' - '.$task->connections->getStage();
             },
