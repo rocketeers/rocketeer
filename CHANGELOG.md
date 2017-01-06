@@ -2,6 +2,13 @@
 
 Rocketeer follows the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.html) spec.
 
+## [2.2.5] - 2017-01-06
+
+### Fixed
+- Fixed `--key` option not being used when connection to servers
+- Fixed paths specified in `paths.php` not being used by SCM classes (Git, Svn, etc.)
+- Fixed `--force` flag not being appended to artisan migration/seeding commands
+
 ## [2.2.4] - 2016-12-31
 
 ### Fixed
@@ -412,6 +419,7 @@ Rocketeer follows the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.ht
 - Added config file
 - Added `deploy:setup` and `deploy:deploy` commands
 
+[2.2.5]: https://github.com/rocketeers/rocketeer/compare/2.2.4...2.2.5
 [2.2.4]: https://github.com/rocketeers/rocketeer/compare/2.2.3...2.2.4
 [2.2.3]: https://github.com/rocketeers/rocketeer/compare/2.2.2...2.2.3
 [2.2.2]: https://github.com/rocketeers/rocketeer/compare/2.2.1...2.2.2
