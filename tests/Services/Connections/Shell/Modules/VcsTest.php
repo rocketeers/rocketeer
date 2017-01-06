@@ -28,6 +28,7 @@ class VcsTest extends RocketeerTestCase
 
         $prophecy = $this->bindProphecy(Bash::class);
         $prophecy->run(Argument::cetera())->willReturn();
+        $prophecy->which(Argument::cetera())->willReturn('git');
         $prophecy->displayStatusMessage(Argument::cetera())->willReturn(false);
 
         $task = $this->pretendTask();

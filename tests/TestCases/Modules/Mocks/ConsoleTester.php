@@ -107,24 +107,24 @@ trait ConsoleTester
     {
         // Default options
         $input = array_merge([
-            '--branch' => '',
-            '--host' => '',
-            '--key' => '',
-            '--keyphrase' => '',
+            '--branch' => null,
+            '--host' => null,
+            '--key' => null,
+            '--keyphrase' => null,
             '--list' => false,
             '--migrate' => false,
             '--no-clear' => false,
             '--parallel' => false,
             '--pretend' => false,
-            '--release' => '',
-            '--repository' => '',
-            '--root' => '',
+            '--release' => null,
+            '--repository' => null,
+            '--root_directory' => null,
             '--seed' => false,
-            '--server' => '',
+            '--server' => null,
             '--stage' => false,
             '--tests' => false,
             '--update' => false,
-            '--username' => '',
+            '--username' => null,
             '--verbose' => false,
             'package' => '',
             'release' => '',
@@ -134,11 +134,19 @@ trait ConsoleTester
         foreach ($input as $key => $option) {
             $isOption = mb_strpos($key, '--') !== false;
             if ($isOption) {
-                $definition->addOption(new InputOption(mb_substr($key, 2)));
+                $definition->addOption(new InputOption(
+                    mb_substr($key, 2),
+                    null,
+                    InputOption::VALUE_OPTIONAL
+                ));
             } else {
                 $definition->addArgument(new InputArgument($key));
             }
         }
+
+        $input = array_filter($input, function ($value) {
+            return $value !== null;
+        });
 
         $input = new ArrayInput($input, $definition);
         $input->setInteractive(true);

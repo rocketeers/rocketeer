@@ -40,6 +40,7 @@ class TeardownTest extends RocketeerTestCase
         $commandProphecy = $this->bindProphecy(AbstractCommand::class, 'command');
         $commandProphecy->writeln(Argument::cetera())->willReturn();
         $commandProphecy->confirm(Argument::any())->willReturn(false);
+        $commandProphecy->option()->willReturn([]);
 
         $message = $this->assertTaskHistory($task, []);
         $this->assertContains('Teardown aborted', $message);

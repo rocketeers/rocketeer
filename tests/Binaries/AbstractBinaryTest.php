@@ -25,6 +25,7 @@ class AbstractBinaryTest extends RocketeerTestCase
     {
         /** @var Bash $prophecy */
         $prophecy = $this->bindProphecy(Bash::class);
+        $prophecy->which(Argument::cetera())->willReturn('git');
         $prophecy->run(Argument::cetera())->shouldBeCalledTimes(1)->will(function ($arguments) {
             return $arguments;
         });
@@ -82,5 +83,13 @@ class AbstractBinaryTest extends RocketeerTestCase
         $binary->setBinary('foobar');
         $binary->run('--version');
         $prophecy->getCurrentReleasePath()->shouldNotHaveBeenCalled();
+    }
+
+    public function testCanUseCustomPathWithScmBinaries()
+    {
+        $this->config->set('paths.git', '/foo/bar/git');
+
+        $git = new Git($this->container);
+        $this->assertEquals('/foo/bar/git', $git->getBinary());
     }
 }

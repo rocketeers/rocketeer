@@ -65,7 +65,7 @@ class CredentialsGathererTest extends RocketeerTestCase
                 'FOOBAR_HOST' => 'some.host',
                 'FOOBAR_USERNAME' => 'anahkiasen',
                 'FOOBAR_PASSWORD' => 'foobar',
-                'FOOBAR_ROOT' => '/foo/bar',
+                'FOOBAR_ROOT_DIRECTORY' => '/foo/bar',
             ],
         ], $credentials);
     }
@@ -90,7 +90,7 @@ class CredentialsGathererTest extends RocketeerTestCase
             'foobar' => [
                 'FOOBAR_HOST' => 'some.host',
                 'FOOBAR_USERNAME' => 'anahkiasen',
-                'FOOBAR_ROOT' => '/foo/bar',
+                'FOOBAR_ROOT_DIRECTORY' => '/foo/bar',
                 'FOOBAR_KEY' => '/.ssh/key',
                 'FOOBAR_KEYPHRASE' => 'foobar',
             ],
