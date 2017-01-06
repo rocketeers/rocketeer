@@ -94,7 +94,7 @@ class CleanupTest extends RocketeerTestCase
                 });
         });
 
-        $this->pretendTask('Cleanup')->execute();
+        $this->task('Cleanup')->execute();
 
         $storage = new ServerStorage($this->app, 'state');
         $this->assertEquals([true], $storage->get());
