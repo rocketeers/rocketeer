@@ -293,6 +293,8 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
                 'production' => [],
                 'staging' => [],
             ],
+            'rocketeer::paths.git' => 'git',
+            'rocketeer::paths.svn' => 'svn',
             'rocketeer::application_name' => 'foobar',
             'rocketeer::logs' => null,
             'rocketeer::remote.permissions.files' => ['tests'],
