@@ -7,31 +7,44 @@ php:
   - 5.4
   - 5.5
   - 5.6
-  - hhvm
+  - 7.0
+  - 7.1
 
 matrix:
-    allow_failures:
-        - hhvm
+  fast_finish: true
+  include:
+    - php: hhvm
+      sudo: required
+      dist: trusty
+      group: edge
+      env: IS_HHVM=1
+  allow_failures:
+    - php: hhvm
 
 env:
   matrix:
-    - PREFER_LOWEST="--prefer-lowest"
-    - PREFER_LOWEST=""
-
-# Dependencies
-before_install:
-  - composer self-update
-
-install:
-  - travis_retry composer update --no-interaction --prefer-source --dev $PREFER_LOWEST
-
-script: phpunit
+    - COMPOSER_FLAGS="--prefer-lowest"
+    - COMPOSER_FLAGS=""
 
 # Cache dependencies
 cache:
   directories:
-    - vendor
     - $HOME/.composer/cache
+
+# Dependencies
+before_install:
+  - phpenv config-rm xdebug.ini || return 0
+  - travis_retry composer self-update
+  - travis_retry composer global require hirak/prestissimo
+
+install:
+  - travis_retry composer update --no-interaction --prefer-dist $COMPOSER_FLAGS
+
+script:
+  - composer test
+  - composer lint
+  - if [ ! $IS_HHVM ] && [ ! $COMPOSER_FLAGS ]; then composer build; fi
+  - if [ ! $IS_HHVM ] && [ ! $COMPOSER_FLAGS ]; then php bin/rocketeer.phar --version; fi
 
 # Gitter notifications
 notifications:
