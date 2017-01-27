@@ -46,7 +46,14 @@ class SvnTest extends RocketeerTestCase
     {
         $command = $this->vcs->currentState();
 
-        $this->assertEquals('svn info | grep "Revision"', $command);
+        $this->assertEquals('svn info --show-item revision', $command);
+    }
+
+    public function testCanGetCurrentEndpoint()
+    {
+        $command = $this->vcs->currentEndpoint();
+
+        $this->assertEquals('svn info --show-item url', $command);
     }
 
     public function testCanGetCurrentBranch()
