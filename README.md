@@ -1,3 +1,5 @@
+fixed version of rocketeer
+
 # Rocketeer
 
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/rocketeers/rocketeer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
