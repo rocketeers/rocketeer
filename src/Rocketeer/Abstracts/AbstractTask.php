@@ -144,7 +144,7 @@ abstract class AbstractTask extends Bash
             $this->timer->time($this, function () use (&$results) {
                 $results = $this->execute();
             });
-            if ($results && !$this->wasHalted()) {
+            if ($results !== false && !$this->wasHalted()) {
                 $this->fireEvent('after');
             }
         }
