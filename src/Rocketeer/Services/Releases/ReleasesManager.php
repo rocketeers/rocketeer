@@ -52,7 +52,7 @@ class ReleasesManager
     public function __construct(Container $container)
     {
         $this->container = $container;
-        $this->state = $this->getValidationFile();
+        $this->refreshValidationCache();
     }
 
     ////////////////////////////////////////////////////////////////////
@@ -214,6 +214,14 @@ class ReleasesManager
         krsort($releases);
 
         return $releases;
+    }
+
+    /**
+     * Refreshes the state cache of the validation file.
+     */
+    public function refreshValidationCache()
+    {
+        $this->state = $this->getValidationFile();
     }
 
     /**

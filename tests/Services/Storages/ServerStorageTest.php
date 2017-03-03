@@ -20,7 +20,7 @@ class ServerStorageTest extends RocketeerTestCase
     {
         $this->pretend();
 
-        $server = new ServerStorage($this->container);
+        $server = new ServerStorage($this->container, $this->filesystems->get('remote'));
         $server->set('foo', 'bar');
 
         $this->assertNull($server->get('foo'));

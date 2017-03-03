@@ -56,6 +56,7 @@ trait Contexts
     protected function mockState(array $state)
     {
         $this->remoteStorage->set('releases', $state);
+        $this->releasesManager->refreshValidationCache();
     }
 
     //////////////////////////////////////////////////////////////////////
