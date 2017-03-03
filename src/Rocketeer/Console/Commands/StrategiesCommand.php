@@ -43,7 +43,8 @@ class StrategiesCommand extends AbstractCommand
             'CreateRelease' => ['Clone', 'Copy'],
             'Dependencies' => ['Bower', 'Bundler', 'Composer', 'Npm', 'Polyglot'],
             'Deploy' => ['Rolling', 'Sync', 'Upload'],
-            'migrate' => ['Artisan'],
+            'Rollback' => ['Rolling'],
+            'Migrate' => ['Artisan'],
             'Test' => ['Phpunit'],
         ];
 

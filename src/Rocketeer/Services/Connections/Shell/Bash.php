@@ -64,7 +64,7 @@ class Bash implements ModulableInterface, ContainerAwareInterface
      */
     public function on($connection, callable $callback)
     {
-        $current = $this->connections->getCurrentConnectionKey()->name;
+        $current = $this->connections->getCurrentConnectionKey();
 
         $this->connections->setCurrentConnection($connection);
         $results = $callback($this);

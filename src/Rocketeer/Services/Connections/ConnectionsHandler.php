@@ -88,7 +88,12 @@ class ConnectionsHandler
                     continue;
                 }
 
-                foreach ($servers as $key => $server) {
+                foreach ($servers as $key => &$server) {
+                    foreach ($server as $subkey => &$value) {
+                        $option = $this->getOption($subkey, true);
+                        $value = !is_null($option) ? $option : $value;
+                    }
+
                     $connectionKey = new ConnectionKey([
                         'name' => $name,
                         'server' => $key,

@@ -12,9 +12,9 @@
 
 namespace Rocketeer\TestCases;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-abstract class BaseTestCase extends PHPUnit_Framework_TestCase
+abstract class BaseTestCase extends TestCase
 {
     /**
      * The path to the local fake server.

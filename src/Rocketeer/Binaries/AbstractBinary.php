@@ -93,9 +93,11 @@ abstract class AbstractBinary
      */
     public function getBinary()
     {
+        $default = $this->binary;
+
         // Resolve true path to binary
         if (!$this->resolved) {
-            $paths = $this->getKnownPaths();
+            $paths = $this->getKnownPaths() ?: [$default];
             if ($this->connections->getCurrentConnectionKey() && $paths) {
                 $binary = Arr::get($paths, 0);
                 $fallback = Arr::get($paths, 1);
@@ -105,7 +107,7 @@ abstract class AbstractBinary
             }
         }
 
-        return $this->binary;
+        return $this->binary ?: $default;
     }
 
     /**

@@ -103,12 +103,12 @@ class CredentialsGatherer
             'keyphrase' => 'If it needs a passphrase enter it',
             'host' => 'Where is your server located? <comment>(eg. foobar.com)</comment>',
             'username' => ['What is the username for it?', $user],
-            'root' => ['Where do you want your application deployed?', '/home/www/'],
+            'root_directory' => ['Where do you want your application deployed?', '/home/www/'],
         ] : [
             'host' => 'Where is your server located?',
             'username' => ['What is the username for it?', $user],
             'password' => 'And password?',
-            'root' => ['Where do you want your application deployed?', '/home/www/'],
+            'root_directory' => ['Where do you want your application deployed?', '/home/www/'],
         ];
 
         $this->connections[$connectionName] = $this->askQuestions($connectionName, $questions);
@@ -215,7 +215,7 @@ class CredentialsGatherer
             'password' => 'Password',
             'key' => 'Key',
             'keyphrase' => 'Keyphrase',
-            'root' => 'Root',
+            'root_directory' => 'Root directory',
         ];
 
         $rows = [];

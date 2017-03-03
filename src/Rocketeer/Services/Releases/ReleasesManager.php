@@ -67,7 +67,7 @@ class ReleasesManager
     public function getReleases()
     {
         // Get releases on server
-        $connection = $this->connections->getCurrentConnectionKey()->name;
+        $connection = $this->connections->getCurrentConnectionKey()->toHandle();
         if (!array_key_exists($connection, $this->releases)) {
             $releases = $this->paths->getReleasesFolder();
             $releases = (array) $this->bash->listContents($releases);
@@ -267,7 +267,7 @@ class ReleasesManager
      */
     public function getCurrentRelease()
     {
-        $current = Arr::get($this->getReleases(), 0);
+        $current = Arr::get($this->getValidReleases(), 0);
         $current = $this->sanitizeRelease($current);
 
         return $this->nextRelease ?: $current;
@@ -334,11 +334,11 @@ class ReleasesManager
      *
      * @param string|int $release
      *
-     * @return string|int|null
+     * @return string|null
      */
     protected function sanitizeRelease($release)
     {
-        return $this->isRelease($release) ? $release : null;
+        return $this->isRelease($release) ? (string) $release : null;
     }
 
     /**

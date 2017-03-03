@@ -79,6 +79,10 @@ trait ConfigurationTester
                 'submodules' => true,
             ],
             'strategies.dependencies' => 'Composer',
+            'paths' => [
+                'git' => 'git',
+                'svn' => 'svn',
+            ],
             'hooks' => [
                 'tasks' => [MyCustomTask::class],
                 'events' => [

@@ -12,6 +12,7 @@
 
 namespace Rocketeer\Services\Roles;
 
+use Rocketeer\Dummies\Tasks\DummyWithRoleTask;
 use Rocketeer\Services\Connections\ConnectionsFactory;
 use Rocketeer\TestCases\RocketeerTestCase;
 
@@ -82,5 +83,21 @@ class RolesManagerTest extends RocketeerTestCase
 
         $compatible = $this->roles->canExecuteTask($this->connections->getCurrentConnection(), $this->task('Deploy'));
         $this->assertTrue($compatible);
+    }
+
+    public function testCanExecuteOnlyOnCorrectServers()
+    {
+        $this->expectOutputString('production/foo.com');
+
+        $this->swapConnections([
+            'production' => [
+                'servers' => [
+                    ['host' => 'foo.com', 'roles' => ['web']],
+                    ['host' => 'bar.com', 'roles' => ['db']],
+                ],
+            ],
+        ]);
+
+        $this->queue->execute(DummyWithRoleTask::class);
     }
 }

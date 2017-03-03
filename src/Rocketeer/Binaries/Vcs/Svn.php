@@ -50,7 +50,7 @@ class Svn extends AbstractBinary implements VcsInterface
      */
     public function currentState()
     {
-        return $this->getCommand('info | grep "Revision"');
+        return $this->getInformationAttribute('revision');
     }
 
     /**
@@ -58,7 +58,7 @@ class Svn extends AbstractBinary implements VcsInterface
      */
     public function currentEndpoint()
     {
-        return $this->getCommand("info | grep '^URL' | awk '{print \$NF}'");
+        return $this->getInformationAttribute('url');
     }
 
     /**
@@ -143,5 +143,19 @@ class Svn extends AbstractBinary implements VcsInterface
      */
     public function submodules()
     {
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////// HELPERS ////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * @param string $attribute
+     *
+     * @return string
+     */
+    protected function getInformationAttribute($attribute)
+    {
+        return $this->getCommand('info --show-item '.$attribute);
     }
 }

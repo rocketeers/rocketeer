@@ -224,4 +224,20 @@ class ConnectionsHandlerTest extends RocketeerTestCase
         $this->assertTrue($this->connections->is('production'));
         $this->assertFalse($this->connections->is('staging'));
     }
+
+    public function testCanUseRuntimeOptions()
+    {
+        $this->bindDummyCommand([
+            '--key' => 'foobar',
+        ]);
+
+        $this->swapConnections([
+            'production' => [
+                'host' => 'foo.com',
+                'key' => '~/.ssh/id_rsa',
+            ],
+        ]);
+
+        $this->assertEquals('foobar', $this->connections->getCurrentConnectionKey()->key);
+    }
 }

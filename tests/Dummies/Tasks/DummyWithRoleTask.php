@@ -1,0 +1,31 @@
+<?php
+
+/*
+ * This file is part of Rocketeer
+ *
+ * (c) Maxime Fabre <ehtnam6@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ */
+
+namespace Rocketeer\Dummies\Tasks;
+
+use Rocketeer\Tasks\AbstractTask;
+
+class DummyWithRoleTask extends AbstractTask
+{
+    /**
+     * @var array
+     */
+    protected $roles = ['web'];
+
+    /**
+     * {@inheritdoc}
+     */
+    public function execute()
+    {
+        echo $this->connections->getCurrentConnectionKey()->toHandle();
+    }
+}
