@@ -20,6 +20,7 @@ class DummyBeforeAfterNotifier extends AbstractNotifier
      * Send a given message.
      *
      * @param string $message
+     * @param mixed  $type
      */
     public function send($message, $type)
     {
