@@ -12,6 +12,7 @@
 
 namespace Rocketeer\Services\Storages;
 
+use Cache\Adapter\Common\Exception\CachePoolException;
 use Cache\Adapter\Filesystem\FilesystemCachePool;
 use Illuminate\Support\Arr;
 use League\Flysystem\FilesystemInterface;
@@ -29,12 +30,11 @@ class Storage extends FilesystemCachePool
     protected $filesystem;
 
     /**
-     * @param FilesystemInterface|string $filesystem
-     * @param string                     $folder
+     * @param FilesystemInterface $filesystem
+     * @param string              $folder
      */
     public function __construct(FilesystemInterface $filesystem, $folder)
     {
-        // Set folder as path prefix
         $this->filesystem = $filesystem;
 
         parent::__construct($filesystem, $folder);

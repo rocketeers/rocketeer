@@ -66,5 +66,9 @@ abstract class RocketeerTestCase extends ContainerTestCase
         $this->replicateFolder($this->server);
         $this->files->put(__DIR__.'/../../bin/intro.txt', 'INTRO');
         $this->mockOperatingSystem('Linux');
+
+        // Mark valid releases
+        $this->releasesManager->markReleaseAsValid(10000000000000);
+        $this->releasesManager->markReleaseAsValid(20000000000000);
     }
 }

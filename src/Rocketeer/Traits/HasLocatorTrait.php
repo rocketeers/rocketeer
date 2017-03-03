@@ -42,6 +42,7 @@ use Rocketeer\Services\History\LogsHandler;
 use Rocketeer\Services\Ignition\RocketeerIgniter;
 use Rocketeer\Services\Releases\ReleasesManager;
 use Rocketeer\Services\Roles\RolesManager;
+use Rocketeer\Services\Storages\ServerStorage;
 use Rocketeer\Services\Storages\Storage;
 use Rocketeer\Services\Tasks\TasksHandler;
 use Rocketeer\Services\Tasks\TasksQueue;
@@ -80,7 +81,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @property RolesManager                   roles
  * @property VcsInterface                   vcs
  * @property Storage                        localStorage
- * @property Storage                        remoteStorage
+ * @property ServerStorage                  remoteStorage
  * @property TasksHandler                   tasks
  * @property TasksQueue                     queue
  */
