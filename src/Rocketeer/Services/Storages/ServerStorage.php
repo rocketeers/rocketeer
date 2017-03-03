@@ -32,7 +32,7 @@ class ServerStorage extends Storage
     {
         $this->container = $container;
 
-        parent::__construct($filesystem, $this->paths->getFolder());
+        parent::__construct($filesystem, $this->paths->getFolder('cache'));
     }
 
     /**
