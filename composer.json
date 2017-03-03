@@ -30,7 +30,7 @@
 		"league/flysystem-sftp": "^1.0.10",
 		"league/flysystem-vfs": "^1.0.2",
 		"monolog/monolog": "^1.22",
-		"psy/psysh": "^0.7.2",
+		"psy/psysh": "^0.8.2",
 		"symfony/class-loader": "^3.2",
 		"symfony/config": "^3.2",
 		"symfony/console": "^3.2",
@@ -43,10 +43,10 @@
 	"require-dev": {
 		"escapestudios/symfony2-coding-standard": "^2.9",
 		"friendsofphp/php-cs-fixer": "^2.0",
-		"johnkary/phpunit-speedtrap": "^1.0",
+		"johnkary/phpunit-speedtrap": "^2.0",
 		"kherge/box": "^2.7",
 		"phpro/grumphp": "^0.11.0",
-		"phpunit/phpunit": "^5.7",
+		"phpunit/phpunit": "^6.0",
 		"rocketeers/rocketeer-laravel": "1.0.x@dev",
 		"sensiolabs/security-checker": "^4.0"
 	},
