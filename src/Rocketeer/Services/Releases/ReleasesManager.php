@@ -71,7 +71,6 @@ class ReleasesManager
         if (!array_key_exists($connection, $this->releases)) {
             $releases = $this->paths->getReleasesFolder();
             $releases = (array) $this->bash->listContents($releases);
-            dump($releases);
 
             // Filter and sort releases
             $releases = array_filter($releases, function ($release) {

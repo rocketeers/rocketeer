@@ -29,7 +29,7 @@
 		"league/event": "^2.1.2",
 		"league/flysystem": "^1.0.26",
 		"league/flysystem-sftp": "^1.0.10",
-		"league/flysystem-vfs": "^1.0.2",
+		"league/flysystem-vfs": "^1.0.3",
 		"monolog/monolog": "^1.22",
 		"psy/psysh": "^0.8.2",
 		"symfony/class-loader": "^3.2",
