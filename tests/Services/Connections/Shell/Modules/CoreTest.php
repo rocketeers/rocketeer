@@ -92,7 +92,7 @@ class CoreTest extends RocketeerTestCase
         $this->assertEquals(['cd C:\_bar?\12baz'], $processed);
     }
 
-    public function testDoesntConvertSlashesThatArentDirectorySeparators()
+    public function testDoesNotConvertSlashesThatAreNotDirectorySeparators()
     {
         $this->swapConfig([
             'remote.variables.directory_separator' => '\\',
@@ -114,7 +114,7 @@ class CoreTest extends RocketeerTestCase
         $this->bash->runRaw('ls');
     }
 
-    public function testDoesntShowRawCommandsIfVerbosityNotHighEnough()
+    public function testDoesNotShowRawCommandsIfVerbosityNotHighEnough()
     {
         $this->expectOutputString('');
 
@@ -134,7 +134,7 @@ class CoreTest extends RocketeerTestCase
         $this->assertEquals(['foo', 'bar', 'baz'], $commands);
     }
 
-    public function testDoesntAffectGlobalLocalStateWhenUsingOnLocal()
+    public function testDoesNotAffectGlobalLocalStateWhenUsingOnLocal()
     {
         $this->rocketeer->setLocal(true);
         $this->assertTrue($this->rocketeer->isLocal());

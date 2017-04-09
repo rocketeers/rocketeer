@@ -23,7 +23,7 @@ class ConnectionHandleTest extends RocketeerTestCase
         $this->assertEquals('foo/staging', $handle);
     }
 
-    public function testDoesntDisplayServerNumberIfNotMultiserver()
+    public function testDoesNotDisplayServerNumberIfNotMultiServer()
     {
         $handle = $this->credentials->createConnectionKey('foo', 0, 'staging');
 

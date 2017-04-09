@@ -62,7 +62,7 @@ class ConnectionsKeychainTest extends RocketeerTestCase
         $this->assertEquals([], $key->getServerCredentials());
     }
 
-    public function testDoesntOverrideExtraCredentials()
+    public function testDoesNotOverrideExtraCredentials()
     {
         $this->swapConfig([
             'connections.production.servers.0' => [
@@ -83,7 +83,7 @@ class ConnectionsKeychainTest extends RocketeerTestCase
     {
         $this->swapConnections([
             'production-multiserver' => [
-                'servers' => $this->mockRuntimeMultiserverConnection(),
+                'servers' => $this->mockRuntimeMultiServerConnection(),
             ],
         ]);
 
@@ -135,7 +135,7 @@ class ConnectionsKeychainTest extends RocketeerTestCase
     /**
      * Mock a set of runtime injected credentials.
      */
-    protected function mockRuntimeMultiserverConnection()
+    protected function mockRuntimeMultiServerConnection()
     {
         return array_map(
             function ($ip) {

@@ -49,7 +49,7 @@ class DeployTest extends RocketeerTestCase
         ]);
     }
 
-    public function testStepsRunnerDoesntCancelWithPermissionsAndShared()
+    public function testStepsRunnerDoesNotCancelWithPermissionsAndShared()
     {
         $this->swapConfig([
             'remote.shared' => [],

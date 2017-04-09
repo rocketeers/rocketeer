@@ -18,7 +18,7 @@ use Rocketeer\TestCases\RocketeerTestCase;
 
 class AbstractPolyglotStrategyTest extends RocketeerTestCase
 {
-    public function testDoesntFailPolyglotStrategiesIfOneIsntExecutable()
+    public function testDoesNotFailPolyglotStrategiesIfOneIsNotExecutable()
     {
         $this->expectOutputString('executable-bar');
 

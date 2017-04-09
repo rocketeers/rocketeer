@@ -272,7 +272,7 @@ abstract class AbstractCommand extends Command implements IdentifierInterface, C
     {
         $this->prepareEnvironment();
 
-        // Fire tasks and events arround them
+        // Fire tasks and events around them
         $status = $this->runWithBeforeAfterEvents(function () use ($tasks) {
             if ($this->straight) {
                 return $this->builder->buildTask($tasks)->fire();

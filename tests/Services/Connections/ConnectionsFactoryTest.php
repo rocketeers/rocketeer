@@ -49,7 +49,7 @@ class ConnectionsFactoryTest extends RocketeerTestCase
         $this->assertEquals('foobar', $connection->getUsername());
     }
 
-    public function testDoesntReturnWrongCredentials()
+    public function testDoesNotReturnWrongCredentials()
     {
         $this->swapConnections([
             'production' => [

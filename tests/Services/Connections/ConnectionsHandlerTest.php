@@ -80,7 +80,7 @@ class ConnectionsHandlerTest extends RocketeerTestCase
         $this->assertArrayHasKey('production', $connections);
     }
 
-    public function testDoesntResetConnectionIfSameAsCurrent()
+    public function testDoesNotResetConnectionIfSameAsCurrent()
     {
         /** @var UserBootstrapper $prophecy */
         $prophecy = $this->bindProphecy(UserBootstrapper::class, Bootstrapper::class);
@@ -92,7 +92,7 @@ class ConnectionsHandlerTest extends RocketeerTestCase
         $prophecy->bootstrapUserCode()->shouldHaveBeenCalledTimes(1);
     }
 
-    public function testDoesntResetStageIfSameAsCurrent()
+    public function testDoesNotResetStageIfSameAsCurrent()
     {
         /** @var UserBootstrapper $prophecy */
         $prophecy = $this->bindProphecy(UserBootstrapper::class, Bootstrapper::class);
@@ -111,7 +111,7 @@ class ConnectionsHandlerTest extends RocketeerTestCase
         $this->assertEquals(['production'], $this->connections->getActiveConnections()->keys()->all());
     }
 
-    public function testDoesntReuseConnectionIfDifferentServer()
+    public function testDoesNotReuseConnectionIfDifferentServer()
     {
         $this->swapConnections([
             'staging' => [

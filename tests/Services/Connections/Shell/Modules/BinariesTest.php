@@ -114,7 +114,7 @@ class BinariesTest extends RocketeerTestCase
         $this->assertContains('composer install', $this->history->getFlattenedHistory()[0][1]);
     }
 
-    public function testDoesntRunComposerIfNotNeeded()
+    public function testDoesNotRunComposerIfNotNeeded()
     {
         $this->usesComposer(false);
 

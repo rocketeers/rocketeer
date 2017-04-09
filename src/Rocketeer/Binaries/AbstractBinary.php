@@ -182,7 +182,7 @@ abstract class AbstractBinary
      */
     protected function buildOptions($flags)
     {
-        // Return if already builts
+        // Return if already built
         if (is_string($flags)) {
             return $flags;
         }

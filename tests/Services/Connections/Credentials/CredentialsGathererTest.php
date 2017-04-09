@@ -33,7 +33,7 @@ class CredentialsGathererTest extends RocketeerTestCase
         ], $credentials);
     }
 
-    public function testDoesntAskForRepositoryCredentialsIfUneeded()
+    public function testDoesNotAskForRepositoryCredentialsIfUnneeded()
     {
         $this->swapVcsConfiguration([]);
         $this->mockAnswers([

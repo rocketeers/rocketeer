@@ -20,7 +20,7 @@ class BootstrapperTest extends RocketeerTestCase
     //////////////////////////////// TESTS /////////////////////////////
     ////////////////////////////////////////////////////////////////////
 
-    public function testDoesntRebindBasePath()
+    public function testDoesNotRebindBasePath()
     {
         $base = 'src';
         $this->container->add('path.base', $base);
@@ -69,7 +69,7 @@ class BootstrapperTest extends RocketeerTestCase
         $this->assertEquals('bar', $this->config->get('plugins.config.laravel.foo'));
     }
 
-    public function testDoesntCrashIfNoSubfolder()
+    public function testDoesNotCrashIfNoSubFolder()
     {
         $this->container->add('path.base', '/foobar');
         $this->files->createDir('/foobar');
@@ -77,7 +77,7 @@ class BootstrapperTest extends RocketeerTestCase
         $this->bootstrapper->bootstrapConfiguration();
     }
 
-    public function testCanLoadDotenvFiles()
+    public function testCanLoadDotEnvFiles()
     {
         $config = $this->replicateConfiguration();
 
