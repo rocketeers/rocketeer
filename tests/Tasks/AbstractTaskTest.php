@@ -88,7 +88,7 @@ class AbstractTaskTest extends RocketeerTestCase
         $this->assertFalse($results);
     }
 
-    public function testCanListenToSubtasks()
+    public function testCanListenToSubTasks()
     {
         $this->disableTestEvents();
         $this->tasks->listenTo('dependencies.before', ['ls']);
@@ -108,7 +108,7 @@ class AbstractTaskTest extends RocketeerTestCase
         ], $entry);
     }
 
-    public function testDoesntDuplicateQueuesOnSubtasks()
+    public function testDoesNotDuplicateQueuesOnSubTasks()
     {
         $this->pretendTask('Deploy')->execute();
         $expected = count($this->history->getFlattenedHistory()) - 2;
@@ -198,7 +198,7 @@ class AbstractTaskTest extends RocketeerTestCase
         $this->assertEquals('@local', $results);
     }
 
-    public function testDoesntRunAfterEventIfTaskFailed()
+    public function testDoesNotRunAfterEventIfTaskFailed()
     {
         $this->expectOutputString('');
 

@@ -17,7 +17,7 @@ use Rocketeer\TestCases\RocketeerTestCase;
 
 class ListTest extends RocketeerTestCase
 {
-    public function testCanListRegisterdPlugins()
+    public function testCanListRegisteredPlugins()
     {
         $this->container->addServiceProvider(new DummyNotifier());
         $tester = $this->executeCommand('plugins:list');

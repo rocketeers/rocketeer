@@ -50,7 +50,7 @@ class CloneStrategyTest extends RocketeerTestCase
         $this->assertHistory($matcher);
     }
 
-    public function testDoesntRunSubmodulesCheckoutForSvn()
+    public function testDoesNotRunSubmodulesCheckoutForSvn()
     {
         $this->container->add(VcsInterface::class, new Svn($this->container));
 

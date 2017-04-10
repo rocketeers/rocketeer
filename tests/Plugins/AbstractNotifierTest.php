@@ -99,7 +99,7 @@ class AbstractNotifierTest extends RocketeerTestCase
         $this->task('Rollback')->fireEvent('after');
     }
 
-    public function testDoesntSendNotificationsInPretendMode()
+    public function testDoesNotSendNotificationsInPretendMode()
     {
         $this->expectOutputString('');
         $this->localStorage->set('notifier.name', 'Jean Eude');

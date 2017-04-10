@@ -37,7 +37,7 @@ class AbstractBinaryTest extends RocketeerTestCase
         $this->assertEquals($expected, $command);
     }
 
-    public function testCanProperlyBuildMultivalueOptions()
+    public function testCanProperlyBuildMultiValueOptions()
     {
         $binary = new Git($this->container);
         $command = $binary->getCommand('foobar', [], ['--foo' => ['bar', 'baz']]);
@@ -45,7 +45,7 @@ class AbstractBinaryTest extends RocketeerTestCase
         $this->assertEquals('git foobar --foo="bar" --foo="baz"', $command);
     }
 
-    public function testCanBuildOptinsIfNoKeysSpecified()
+    public function testCanBuildOptionsIfNoKeysSpecified()
     {
         $binary = new Git($this->container);
         $command = $binary->getCommand('foobar', [], ['--foo', '--bar']);
@@ -53,7 +53,7 @@ class AbstractBinaryTest extends RocketeerTestCase
         $this->assertEquals('git foobar --foo --bar', $command);
     }
 
-    public function testCanBuildOptinsIfNoValuesSpecified()
+    public function testCanBuildOptionsIfNoValuesSpecified()
     {
         $binary = new Git($this->container);
         $command = $binary->getCommand('foobar', [], ['--foo' => 'lol', '--bar']);

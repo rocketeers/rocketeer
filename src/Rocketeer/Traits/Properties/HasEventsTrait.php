@@ -116,7 +116,7 @@ trait HasEventsTrait
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Run a callable and fire a before/after event arround it.
+     * Run a callable and fire a before/after event around it.
      *
      * @param callable $callable
      *

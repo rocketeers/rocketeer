@@ -48,7 +48,7 @@ use Rocketeer\Services\Tasks\TasksQueue;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * A trait for Service Locator-based classes wich adds
+ * A trait for Service Locator-based classes which adds
  * a few shortcuts to Rocketeer classes.
  *
  * @property \Illuminate\Foundation\Artisan artisan
