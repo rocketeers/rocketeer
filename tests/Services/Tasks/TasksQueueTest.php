@@ -82,7 +82,7 @@ class TasksQueueTest extends RocketeerTestCase
         ], $output);
     }
 
-    public function testDoesntSettingStageDefaultsToAll()
+    public function testDoesNotSettingStageDefaultsToAll()
     {
         $this->swapConfig([
             'stages.default' => [],
@@ -179,7 +179,7 @@ class TasksQueueTest extends RocketeerTestCase
         $prophecy->error('The tasks queue was canceled by task "MyCustomHaltingTask"')->shouldHaveBeenCalled();
     }
 
-    public function testFallbacksToSynchonousIfErrorWhenRunningParallels()
+    public function testFallBacksToSynchronousIfErrorWhenRunningParallels()
     {
         /** @var Parallel $parallel */
         $parallel = $this->prophesize(Parallel::class);
@@ -192,7 +192,7 @@ class TasksQueueTest extends RocketeerTestCase
         $this->queue->run(['ls']);
     }
 
-    public function testSkipsTasksThatArentFitForConnection()
+    public function testSkipsTasksThatAreNotFitForConnection()
     {
         $this->pretend();
 

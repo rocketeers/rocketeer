@@ -38,7 +38,7 @@ class CheckTest extends RocketeerTestCase
         $this->assertTaskHistory('Check', []);
     }
 
-    public function testStopsCheckingIfErrorOccured()
+    public function testStopsCheckingIfErrorOccurred()
     {
         /** @var PhpStrategy $prophecy */
         $prophecy = $this->bindProphecy(PhpStrategy::class, 'rocketeer.strategies.check');

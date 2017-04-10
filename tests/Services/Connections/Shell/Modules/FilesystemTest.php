@@ -16,7 +16,7 @@ use Rocketeer\TestCases\RocketeerTestCase;
 
 class FilesystemTest extends RocketeerTestCase
 {
-    public function testCancelsSymlinkForUnexistingFolders()
+    public function testCancelsSymlinkForUnExistingFolders()
     {
         $task = $this->pretendTask();
         $folder = '{path.storage}/logs';
@@ -102,7 +102,7 @@ class FilesystemTest extends RocketeerTestCase
         $this->assertFalse($this->task->fileExists($this->server.'/nope'));
     }
 
-    public function testDoesNotTryToMoveUnexistingFolders()
+    public function testDoesNotTryToMoveUnExistingFolders()
     {
         $this->pretendTask()->move('foobar', 'bazqux');
 

@@ -58,7 +58,7 @@ class UserBootstrapperTest extends RocketeerTestCase
         $this->assertEquals('FooBar', $this->bootstrapper->getUserNamespace());
     }
 
-    public function testDoesntRegisterPluginsTwice()
+    public function testDoesNotRegisterPluginsTwice()
     {
         $this->disableTestEvents();
         $this->config->set('plugins.loaded', [DummyNotifier::class]);

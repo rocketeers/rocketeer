@@ -16,7 +16,7 @@ use Rocketeer\TestCases\RocketeerTestCase;
 
 class UploadStrategyTest extends RocketeerTestCase
 {
-    public function testDoesntTryToUploadToInexistantFolders()
+    public function testDoesNotTryToUploadToInExistentFolders()
     {
         $this->swapConfigWithEvents(['strategies.deploy' => 'Upload']);
         $this->pretendTask('Deploy')->fire();

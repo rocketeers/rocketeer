@@ -117,7 +117,7 @@ class TasksBuilderTest extends RocketeerTestCase
         $this->assertEquals(['foo' => 'bar'], $task->getOptions());
     }
 
-    public function testDoesntOverwriteNameAndDescription()
+    public function testDoesNotOverwriteNameAndDescription()
     {
         $task = $this->builder->buildTask(DummyShelledTask::class, 1, null);
         $this->assertEquals('Shelly', $task->getName());
@@ -131,7 +131,7 @@ class TasksBuilderTest extends RocketeerTestCase
     /**
      * @expectedException \Rocketeer\Services\Builders\TaskCompositionException
      */
-    public function testDoesntTryToNewNonTaskClasses()
+    public function testDoesNotTryToNewNonTaskClasses()
     {
         $this->builder->buildTask(FlushCommand::class);
     }

@@ -133,7 +133,7 @@ class ConnectionKey extends AbstractKey
     }
 
     /**
-     * Check if a connection is multiserver or not.
+     * Check if a connection is multiServer or not.
      *
      * @return bool
      */

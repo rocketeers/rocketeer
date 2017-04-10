@@ -23,7 +23,7 @@ class QueueExplainerTest extends RocketeerTestCase
         $this->mockEchoingCommand();
     }
 
-    public function testDoesntDisplayHandleIfOnlyOneConnection()
+    public function testDoesNotDisplayHandleIfOnlyOneConnection()
     {
         $this->config->set('connections', [
             'production' => [],
@@ -34,7 +34,7 @@ class QueueExplainerTest extends RocketeerTestCase
         $this->explainer->line('foobar');
     }
 
-    public function testDoesntDisplayHandleIfOnlyOneStage()
+    public function testDoesNotDisplayHandleIfOnlyOneStage()
     {
         $this->config->set('connections', [
             'production' => [],

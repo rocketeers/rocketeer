@@ -91,7 +91,7 @@ class SvnTest extends RocketeerTestCase
         $this->assertEquals('svn co http://github.com/my/repository/develop '.$this->server.' --non-interactive --username="foo" --password="bar"', $command);
     }
 
-    public function testDoesntDuplicateCredentials()
+    public function testDoesNotDuplicateCredentials()
     {
         $this->swapVcsConfiguration([
             'username' => 'foo',
@@ -116,7 +116,7 @@ class SvnTest extends RocketeerTestCase
         $this->assertEquals('svn co http://github.com/my/repository/develop '.$this->server.' --non-interactive --username="foo"', $command);
     }
 
-    public function testDoesntStripRevisionFromUrl()
+    public function testDoesNotStripRevisionFromUrl()
     {
         $this->swapVcsConfiguration([
             'username' => 'foo',

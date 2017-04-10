@@ -118,7 +118,7 @@ class TasksHandlerTest extends RocketeerTestCase
         $this->assertEquals($after, $this->tasks->getTasksListeners('cleanup', 'after', true));
     }
 
-    public function testCangetTasksListenersOrAfterAnotherTaskBySlug()
+    public function testCanGetTasksListenersOrAfterAnotherTaskBySlug()
     {
         $this->swapConfigWithEvents();
         $after = $this->tasks->getTasksListeners('deploy', 'after', true);
@@ -188,7 +188,7 @@ class TasksHandlerTest extends RocketeerTestCase
         $this->assertEquals($tasks, $events);
     }
 
-    public function testPluginsArentDeregisteredWhenSwitchingConnection()
+    public function testPluginsAreNotDeRegisteredWhenSwitchingConnection()
     {
         $this->swapConfigWithEvents([
             'hooks.events' => ['before' => ['deploy' => 'ls']],

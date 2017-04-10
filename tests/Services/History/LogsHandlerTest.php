@@ -50,7 +50,7 @@ class LogsHandlerTest extends RocketeerTestCase
         $this->assertCount(3, explode(PHP_EOL, $logs));
     }
 
-    public function testCanCreateLogsFolderIfItDoesntExistAlready()
+    public function testCanCreateLogsFolderIfItDoesNotExistAlready()
     {
         $this->container->add('path.base', $this->server.'/newlogs');
         $this->logs->log('foobar');
@@ -59,7 +59,7 @@ class LogsHandlerTest extends RocketeerTestCase
         $this->assertVirtualFileExists($logs);
     }
 
-    public function testDoesntRecomputeTheLogsFilenameEveryTime()
+    public function testDoesNotRecomputeTheLogsFilenameEveryTime()
     {
         $this->expectOutputString('test');
 
@@ -97,7 +97,7 @@ class LogsHandlerTest extends RocketeerTestCase
         $this->assertContains('{username}@production: Getting the current path', $logs);
     }
 
-    public function testCanHaveStaticFilenames()
+    public function testCanHaveStaticFileNames()
     {
         $this->swapConfig([
             'logs' => 'foobar.txt',
@@ -106,7 +106,7 @@ class LogsHandlerTest extends RocketeerTestCase
         $this->assertEquals('/src/.rocketeer/logs/foobar.txt', $this->logs->getLogsRealpath());
     }
 
-    public function testDoesntCreateLogsIfInvalidFilename()
+    public function testDoesNotCreateLogsIfInvalidFilename()
     {
         $prophecy = $this->bindFilesystemProphecy();
 
@@ -120,7 +120,7 @@ class LogsHandlerTest extends RocketeerTestCase
         $prophecy->put()->shouldNotHaveBeenCalled();
     }
 
-    public function testDoesntDuplicateConnectionHandle()
+    public function testDoesNotDuplicateConnectionHandle()
     {
         $this->explainer->server('foobar');
         $logs = $this->logs->getLogs();

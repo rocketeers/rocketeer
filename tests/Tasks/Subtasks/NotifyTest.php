@@ -18,7 +18,7 @@ use Rocketeer\TestCases\RocketeerTestCase;
 
 class NotifyTest extends RocketeerTestCase
 {
-    public function testDoesntSendTheSameNotificationTwice()
+    public function testDoesNotSendTheSameNotificationTwice()
     {
         $this->disableTestEvents();
         $this->container->addServiceProvider(new DummyBeforeAfterNotifier($this->container));
