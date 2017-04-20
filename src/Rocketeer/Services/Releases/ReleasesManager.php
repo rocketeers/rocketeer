@@ -86,6 +86,18 @@ class ReleasesManager
     }
 
     /**
+     * Reset the cached releases.
+     *
+     * @return $this
+     */
+    public function resetReleases()
+    {
+        $this->releases = [];
+
+        return $this;
+    }
+
+    /**
      * @param string|int $release
      */
     public function addRelease($release)
