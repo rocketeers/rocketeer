@@ -29,7 +29,7 @@ class PhpunitStrategyTest extends RocketeerTestCase
         ]);
     }
 
-    public function testCanRunTestsInSubfolder()
+    public function testCanRunTestsInSubFolder()
     {
         $this->swapConfig(['remote.directories.subdirectory' => 'laravel']);
 

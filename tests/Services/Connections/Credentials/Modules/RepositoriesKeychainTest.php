@@ -67,7 +67,7 @@ class RepositoriesKeychainTest extends RocketeerTestCase
         $this->assertTrue($this->credentials->getCurrentRepository()->needsCredentials());
     }
 
-    public function testCangetRepositoryBranch()
+    public function testCanGetRepositoryBranch()
     {
         $this->assertEquals('master', $this->credentials->getCurrentRepository()->branch);
     }

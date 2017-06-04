@@ -17,7 +17,7 @@ use Rocketeer\TestCases\RocketeerTestCase;
 
 class StrategiesBuilderTest extends RocketeerTestCase
 {
-    public function testReturnsNullOnUnbuildableStrategy()
+    public function testReturnsNullOnUnBuildableStrategy()
     {
         $built = $this->builder->buildStrategy('Check', '');
         $this->assertInstanceOf(PolyglotStrategy::class, $built);

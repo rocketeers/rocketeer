@@ -51,7 +51,7 @@ class ConfigurationDefinitionTest extends BaseTestCase
         $this->assertEquals('foo.com', $connection['servers'][0]['host']);
     }
 
-    public function testCanUnifyUnkeyedServerDeclaration()
+    public function testCanUnifyUnKeyedServerDeclaration()
     {
         $processed = $this->processConfiguration([
             'config' => [

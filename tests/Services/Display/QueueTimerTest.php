@@ -28,7 +28,7 @@ class QueueTimerTest extends RocketeerTestCase
         $this->assertTime($time);
     }
 
-    public function testDoesntSaveTimeOfPretendTasks()
+    public function testDoesNotSaveTimeOfPretendTasks()
     {
         $task = $this->pretendTask();
         $this->timer->time($task, function () use ($task) {

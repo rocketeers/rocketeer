@@ -16,7 +16,7 @@ use Rocketeer\TestCases\RocketeerTestCase;
 
 class ServerStorageTest extends RocketeerTestCase
 {
-    public function testDoesntWriteInPretendMode()
+    public function testDoesNotWriteInPretendMode()
     {
         $this->pretend();
 

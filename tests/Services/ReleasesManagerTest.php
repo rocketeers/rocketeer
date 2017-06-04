@@ -204,7 +204,7 @@ class ReleasesManagerTest extends RocketeerTestCase
         $this->assertEquals($this->server.'/releases/20000000000000/storage', $folder);
     }
 
-    public function testDoesntPingForReleasesAllTheFuckingTime()
+    public function testDoesNotPingForReleasesAllTheFuckingTime()
     {
         /** @var Bash $prophecy */
         $prophecy = $this->bindProphecy(Bash::class);
@@ -216,7 +216,7 @@ class ReleasesManagerTest extends RocketeerTestCase
         $this->releasesManager->getNonCurrentReleases();
     }
 
-    public function testDoesntPingForReleasesIfNoReleases()
+    public function testDoesNotPingForReleasesIfNoReleases()
     {
         /** @var Bash $prophecy */
         $prophecy = $this->bindProphecy(Bash::class);
@@ -262,7 +262,7 @@ class ReleasesManagerTest extends RocketeerTestCase
         $this->assertEquals($custom, $release);
     }
 
-    public function testDoesntAllowInvalidCustomReleases()
+    public function testDoesNotAllowInvalidCustomReleases()
     {
         $custom = 'foobar';
         $this->bindDummyCommand(['release' => $custom]);
@@ -271,7 +271,7 @@ class ReleasesManagerTest extends RocketeerTestCase
         $this->assertNotEquals($custom, $release);
     }
 
-    public function testReleasesArentCastToInteger()
+    public function testReleasesAreNotCastToInteger()
     {
         $releases = $this->releasesManager->getReleases();
 
