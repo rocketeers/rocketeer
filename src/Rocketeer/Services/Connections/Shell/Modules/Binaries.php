@@ -92,6 +92,8 @@ class Binaries extends AbstractBashModule
             $locations[] = $fallback;
         }
 
+        $locations = array_diff($locations, array(null));
+
         // Add command prompt if possible
         if ($this->hasCommand() && $prompt) {
             $prompt = 'Binary "'.$binary.'" could not be found, please enter the path to it';
