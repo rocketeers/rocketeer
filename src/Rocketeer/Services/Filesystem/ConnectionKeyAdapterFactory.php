@@ -34,6 +34,7 @@ class ConnectionKeyAdapterFactory
 
         return new $adapter([
             'host' => $connectionKey->host,
+            'port' => $connectionKey->port,
             'username' => $connectionKey->username,
             'password' => $connectionKey->password,
             'privateKey' => $connectionKey->key,
