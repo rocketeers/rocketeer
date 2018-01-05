@@ -181,10 +181,11 @@ trait Core
      *
      * @param string|null  $folder
      * @param string|array $tasks
+     * @param boolean $silent
      *
      * @return string|null
      */
-    public function runInFolder($folder = null, $tasks = [])
+    public function runInFolder($folder = null, $tasks = [], $silent = false)
     {
         // Convert to array
         if (!is_array($tasks)) {
@@ -194,7 +195,7 @@ trait Core
         // Prepend folder
         array_unshift($tasks, 'cd '.$this->paths->getFolder($folder));
 
-        return $this->run($tasks);
+        return $this->run($tasks, $silent);
     }
 
     /**

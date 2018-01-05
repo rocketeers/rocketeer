@@ -52,12 +52,13 @@ trait Flow
      * Run actions in the current release's folder.
      *
      * @param string|array $tasks One or more tasks
+     * @param boolean $silent
      *
      * @return string
      */
-    public function runForCurrentRelease($tasks)
+    public function runForCurrentRelease($tasks, $silent = false)
     {
-        return $this->runInFolder($this->releasesManager->getCurrentReleasePath(), $tasks);
+        return $this->runInFolder($this->releasesManager->getCurrentReleasePath(), $tasks, $silent);
     }
 
     ////////////////////////////////////////////////////////////////////
