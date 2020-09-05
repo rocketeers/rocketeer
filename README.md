@@ -1,3 +1,9 @@
+# Rocketeer is unfortunately not maintained anymore and this repository is archived
+## I recommend to pivot to [Deployer](https://deployer.org/) and/or CD pipelines
+
+The Gitter chat will stay open for discussions and helping each other if you're locked into Rocketeer.
+You can also send me the occasional mail but keep in mind I haven't worked on this project in years and probably won't be able to solve your issue
+
 # Rocketeer
 
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/rocketeers/rocketeer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
