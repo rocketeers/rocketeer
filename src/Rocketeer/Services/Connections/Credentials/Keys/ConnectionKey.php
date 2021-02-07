@@ -16,6 +16,7 @@ namespace Rocketeer\Services\Connections\Credentials\Keys;
  * Represents a connection's identity and its credential.
  *
  * @property string   $host
+ * @property string   $port
  * @property string   $username
  * @property string   $password
  * @property string   $key

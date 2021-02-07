@@ -179,9 +179,16 @@ class ConnectionsHandler
      */
     public function getActiveConnections()
     {
-        return $this->getConnections()->filter(function (ConnectionInterface $connection) {
+        $connections = $this->getConnections()->filter(function (ConnectionInterface $connection) {
             return $this->isConnectionActive($connection);
         });
+        // activate default connection if nothing was selected
+        if ($connections->count() == 0) {
+            $connections = $this->getConnections()->filter(function (ConnectionInterface $connection) {
+                return $this->isConnectionDefault($connection);
+            });
+        }
+        return $connections;
     }
 
     /**
@@ -212,6 +219,11 @@ class ConnectionsHandler
 
             return $connection;
         });
+//        $this->available = $this->available->filter(function (ConnectionInterface $connection){
+//            if ($connection->isActive()) {
+//                return $connection;
+//            }
+//        });
     }
 
     ////////////////////////////////////////////////////////////////////////////////
@@ -372,13 +384,22 @@ class ConnectionsHandler
      */
     protected function isConnectionActive(ConnectionInterface $connection)
     {
+        return $connection->isActive();
+    }
+
+    /**
+     * @param ConnectionInterface $connection
+     *
+     * @return bool
+     */
+    protected function isConnectionDefault(ConnectionInterface $connection)
+    {
         $connectionKey = $connection->getConnectionKey();
         $defaults = $this->getDefaultConnectionsHandles();
 
         return
             in_array($connectionKey->toHandle(), $defaults, true) ||
-            in_array($connectionKey->name, $defaults, true) ||
-            $connection->isActive();
+            in_array($connectionKey->name, $defaults, true);
     }
 
     /**

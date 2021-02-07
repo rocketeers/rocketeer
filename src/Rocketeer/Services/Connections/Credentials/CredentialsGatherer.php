@@ -50,6 +50,8 @@ class CredentialsGatherer
      */
     public function getRepositoryCredentials()
     {
+        $this->rocketeer->setLocal(true);
+
         $endpoint = $this->vcs->runLocally('currentEndpoint');
         $user = $this->bash->runLocally('whoami');
 

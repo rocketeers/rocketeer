@@ -109,18 +109,18 @@ class ReleasesManager
     /**
      * Get an array of deprecated releases.
      *
-     * @param int|null $treshold
+     * @param int|null $threshold
      *
      * @return int[]
      */
-    public function getDeprecatedReleases($treshold = null)
+    public function getDeprecatedReleases($threshold = null)
     {
         $releases = $this->getReleases();
-        $treshold = $treshold ?: $this->config->get('remote.keep_releases');
+        $threshold = $threshold ?: $this->config->get('remote.keep_releases');
 
         // Get first X valid releases
         $keep = $this->getValidReleases();
-        $keep = array_slice($keep, 0, $treshold);
+        $keep = array_slice($keep, 0, $threshold);
 
         // Compute diff
         $deprecated = array_diff($releases, $keep);
@@ -136,6 +136,19 @@ class ReleasesManager
      */
     public function getValidReleases()
     {
+        $threshold = $this->config->get('remote.keep_releases');
+        if ($threshold) {
+            $keepRelease = 0;
+            foreach ($this->state as &$state) {
+                $state = true;
+                $keepRelease++;
+                if ($keepRelease >= $threshold) {
+                    break;
+                }
+            }
+            unset($state);
+        }
+
         $valid = array_filter($this->state);
         $valid = array_keys($valid);
 
