@@ -128,6 +128,7 @@ class ConnectionsDefinition extends AbstractDefinition
                     ->prototype('array')
                         ->children()
                             ->scalarNode('host')->defaultValue($connection->host)->end()
+                            ->scalarNode('port')->defaultValue($connection->port)->end()
                             ->scalarNode('username')->defaultValue($connection->username)->end()
                             ->scalarNode('password')->defaultValue($connection->password)->end()
                             ->scalarNode('key')->defaultValue($connection->key)->end()
